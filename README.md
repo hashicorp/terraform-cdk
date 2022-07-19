@@ -11,7 +11,7 @@ Cloud Development Kit for Terraform (CDKTF) allows you to use familiar
 programming languages to define cloud infrastructure and provision it through
 HashiCorp Terraform. This gives you access to the entire Terraform ecosystem without learning HashiCorp Configuration Language (HCL) and lets you leverage the power of your existing toolchain for testing, dependency management, etc.
 
-We currently support TypeScript, Python, Java, C#, and Go (experimental).
+We currently support TypeScript, Python, Java, C#, and Go.
 
 ![terraform platform](./docs/terraform-platform.png)
 
@@ -19,8 +19,6 @@ CDKTF includes two packages:
 
 - [cdktf-cli](./packages/cdktf-cli) - A CLI that allows users to run commands to initialize, import, and synthesize CDK for Terraform applications.
 - [cdktf](./packages/cdktf) - A library for defining Terraform resources using programming constructs.
-
-> **Note:** CDK for Terraform is under active development, and we are still iterating on key workflows and best practices. [Learn more about the project's maturity below](#maturity).
 
 ## Get Started
 
@@ -45,16 +43,6 @@ Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.htm
 - [Unit Tests](https://www.terraform.io/docs/cdktf/test/unit-tests.html): Learn how to test your application in Typescript with jest.
 
 - [Examples](https://www.terraform.io/docs/cdktf/examples.html): Reference example projects in every supported language and review explanatory videos and other resources.
-
-<a name="maturity"></a>
-
-## Project Maturity
-
-CDK for Terraform is under active development; we’re still working out key workflows and best practices. We’re iterating fast and are likely to introduce breaking changes to existing APIs to improve the overall user experience of the product. Like other HashiCorp pre-1.0 tools, some early-adopter users are already using CDK for Terraform in production, and we are working with those users to validate and improve workflows.
-
-Early adopters of CDK for Terraform should expect to encounter and work around bugs occasionally, may need to refactor their codebase with each major release, and will intermittently need to use HCL and understand how JSON Terraform configurations are generated, for example to use [overrides](https://www.terraform.io/cdktf/concepts/providers-and-resources#escape-hatch) to use Terraform functionality that cannot currently be expressed using CDK for Terraform. Our goal is to provide a user experience where this is an exceptional edge case. If you’re comfortable with this level of troubleshooting, we’re very interested in your feedback and practical experience.
-
-These caveats apply to CDK for Terraform itself, which generates Terraform configurations. Generated Terraform configurations are applied using Terraform Core, a well established / mature tool to provision infrastructure.
 
 ## Community
 
