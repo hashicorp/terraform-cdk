@@ -1,4 +1,3 @@
-import { TerraformStack } from ".";
 import {
   AnyMap,
   AnyMapList,
@@ -176,12 +175,12 @@ export abstract class TerraformIterator implements ITerraformIterator {
         produce: (context) => {
           switch (context.iteratorContext) {
             case "DYNAMIC_BLOCK":
-              return ref("each.value", TerraformStack.of(context.scope));
+              return ref("each.value");
             case "FOR_EXPRESSION":
               return FOR_EXPRESSION_VALUE;
             default:
               // same as dynamic block, as this is the case when a iterator is passed to the root level of e.g. a resource
-              return ref("each.value", TerraformStack.of(context.scope));
+              return ref("each.value");
           }
         },
       },
@@ -199,12 +198,12 @@ export abstract class TerraformIterator implements ITerraformIterator {
         produce: (context) => {
           switch (context.iteratorContext) {
             case "DYNAMIC_BLOCK":
-              return ref("each.key", TerraformStack.of(context.scope));
+              return ref("each.key");
             case "FOR_EXPRESSION":
               return FOR_EXPRESSION_KEY;
             default:
               // same as dynamic block, as this is the case when a iterator is passed to the root level of e.g. a resource
-              return ref("each.key", TerraformStack.of(context.scope));
+              return ref("each.key");
           }
         },
       },
