@@ -32,6 +32,7 @@ export class TestIterators extends TerraformStack {
     });
 
     // TODO: we don't support using .dynamic for simple mapping (i.e. to a string instead of to an object) yet
+    // tracking issue: https://github.com/hashicorp/terraform-cdk/issues/1940
     new ArchiveProvider.DataArchiveFile(this, "dir", {
       type: "zip",
       outputPath: "${path.module}/out1.zip",
