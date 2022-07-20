@@ -10,7 +10,7 @@ export class TerraformDynamicBlock implements IResolvable {
   public readonly forEach: ITerraformIterator;
   public readonly iterator = "each"; // name of temporary variable used in iteration, needed in the future when allowing nesting iterators
   public readonly content: { [key: string]: any };
-  // labels: TODO: support labels, but they seem to be quite rare (see https://discuss.hashicorp.com/t/labels-in-dynamic-block/21461/5)
+  // labels: TODO: support labels, but they seem to be quite rare (issue: https://github.com/hashicorp/terraform-cdk/issues/1939)
 
   private constructor(args: {
     forEach: ITerraformIterator;
