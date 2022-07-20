@@ -21,7 +21,7 @@ export interface TestDataSourceConfig extends TerraformMetaArguments {
 export class TestDataSource extends TerraformDataSource {
   public static readonly tfResourceType: string = "test_data_source";
   public name: string;
-  public listBlock?: IResolvable; // TODO: add special type as well?
+  public listBlock?: IResolvable; // real life bindings also allow an interface here, but we don't use that in our tests using this
 
   constructor(scope: Construct, id: string, config: TestDataSourceConfig) {
     super(scope, id, {

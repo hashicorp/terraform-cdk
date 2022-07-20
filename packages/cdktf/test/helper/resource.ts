@@ -23,7 +23,7 @@ export class TestResource extends TerraformResource {
   public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
-  public listBlock?: IResolvable; // TODO: add special type?
+  public listBlock?: IResolvable; // real life bindings also allow an interface here, but we don't use that in our tests using this
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {

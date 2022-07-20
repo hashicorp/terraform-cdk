@@ -45,6 +45,8 @@ export function listMapper(
 
     // replace dynamic expressions for block types so they can be detected and replaced properly by processDynamicAttributes()
     // which also relocates them to dynamic.attributeName (something we can't do when resolving a value, put it somewhere else)
+    // if isBlockType is false, the TerraformDynamicExpression that is present will be resolved (it implements IResolvable) to a
+    // for expression directly (which can be used e.g. within Terraform functions or for attributes that are not of a block type)
     if (
       TerraformDynamicExpression.isTerraformDynamicExpression(x) &&
       isBlockType
