@@ -60,21 +60,53 @@ For development, you'd likely want to run:
 $ yarn watch
 ```
 
-This will watch for changes for the packages `cdktf` and `cdktf-cli`.
+This will watch for changes in all packages.
+
+### CLI changes
+
+If your changes target only CLI and packages used by the CLI, running `yarn watch` will be sufficient. Although it's technically a bit different from what we ship you should be able to use a direct path to our binary entry point to execute commands. You can put this in a shell alias like this:
+
+```shell
+alias cdktfl='/path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf' # For running cdktf locally
+alias cdktfld='node --inspect-brk /path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf.js' # For running cdktf locally with debugging
+
+$ cdktfl get
+```
+
+### Library changes
+
+If you make changes to the library you need to run `yarn build && yarn package` to run tests against the new version. You should be able to use the typescript examples by just running `yarn watch`.
 
 ## Tests
 
 If you just want to run the tests:
 
 ```shell
-$ yarn test
+$ yarn test # to run all tests at once
+$ yarn test:watch # to run all tests in watch mode
 ```
 
 To run integration tests, package and run integration tests.
 
 ```shell
 $ yarn package
-$ yarn integration
+$ yarn integration # For all integration tests
+$ yarn integration:single -- typescript/synth-app # For a single integration test
+```
+
+````
+
+If you need to update the snapshot tests, please run this for the unit tests:
+
+```shell
+$ yarn test:update
+````
+
+To update the integration tests, please run this:
+
+```shell
+$ yarn integration:update # For all integration tests
+$ yarn integration:single -- -u typescript/synth-app # For a single integration test
 ```
 
 ## Local Usage
@@ -207,7 +239,7 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 
 ## Debugging
 
-We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `verbose`.
+We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `debug`.
 
 ## Releasing
 

@@ -20,6 +20,7 @@
     "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
     "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",
     "integration:update": "cd test && yarn && yarn edge:install && NODE_OPTIONS='--max-old-space-size=7168' ./run-against-dist npx jest -u --runInBand",
+    "integration:single": "cd test && ./run-against-dist npx jest --runInBand",
     "integration:typescript": "cd test && ./run-against-dist npx jest --runInBand typescript",
     "integration:python": "cd test && ./run-against-dist npx jest --runInBand python",
     "integration:csharp": "cd test && ./run-against-dist npx jest --runInBand csharp",
@@ -38,7 +39,8 @@
     "prepare": "husky install",
     "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
     "prepare-release": "tools/prepare-release.sh",
-    "release": "standard-version"
+    "release": "standard-version",
+    "generate-docs": "cd tools/documentation-generation && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx"
   },
   "workspaces": {
     "packages": [
@@ -78,6 +80,7 @@
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
+    "packages/cdktf": "yarn docs",
     "**/*.{ts,tsx,js,css,md}": "prettier --write"
   },
   "eslintConfig": {

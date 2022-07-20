@@ -108,6 +108,35 @@
     ]
   },
   {
+    "title": "API Reference",
+    "routes": [
+      {
+        "title": "Overview",
+        "path": "api-reference/overview"
+      },
+      {
+        "title": "Typescript",
+        "path": "api-reference/typescript"
+      },
+      {
+        "title": "Python",
+        "path": "api-reference/python"
+      },
+      {
+        "title": "Java",
+        "path": "api-reference/java"
+      },
+      {
+        "title": "C#",
+        "path": "api-reference/csharp"
+      },
+      {
+        "title": "Go",
+        "path": "api-reference/go"
+      }
+    ]
+  },
+  {
     "title": "Release",
     "routes": [
       {
