@@ -87,7 +87,7 @@ app.synth();
 from constructs import Construct
 from cdktf import App, TerraformStack
 import cdktf_cdktf_provider_kubernetes as kubernetes
-import path as path
+import os as os
 
 from jsii_workbench.core import KubernetesWebAppDeployment
 
@@ -96,7 +96,7 @@ class MyStack(TerraformStack):
         super().__init__(scope, name)
 
         kubernetes.KubernetesProvider(self, "kind",
-            config_path=path.join(__dirname, "../kubeconfig.yaml")
+            config_path=os.path.join(os.path.dirname(__file__), '..', 'kubeconfig.yaml')
         )
 
         KubernetesWebAppDeployment(self, "deployment", {
@@ -117,7 +117,7 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.providers.kubernetes.*;
-import path.*;
+import java.nio.file.Paths;
 
 import workbench.jsii.danielmschmidt.com.KubernetesWebAppDeployment;
 
@@ -126,7 +126,7 @@ public class MyStack extends TerraformStack {
         super(scope, name);
 
         KubernetesProvider.Builder.create(this, "kind")
-                .configPath(join(__dirname, "../kubeconfig.yaml"))
+                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
 
         new KubernetesWebAppDeployment(this, "deployment", Map.of(
@@ -157,7 +157,7 @@ class MyStack : TerraformStack
     {
 
         new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
-            ConfigPath = Join(__dirname, "../kubeconfig.yaml")
+            ConfigPath = Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
         });
 
         new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
@@ -179,9 +179,8 @@ app.Synth();
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 import kubernetes "github.com/hashicorp/cdktf-provider-kubernetes-go/kubernetes"
-import path "github.com/aws-samples/dummy/path"
-
 import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "path"
 
 type myStack struct {
 	terraformStack
@@ -191,8 +190,13 @@ func newMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, name)
 
+  cwd, err := os.Getwd()
+  if err != nil {
+      log.Println(err)
+  }
+
 	kubernetes.NewKubernetesProvider(this, jsii.String("kind"), &kubernetesProviderConfig{
-		configPath: path.join(__dirname, jsii.String("../kubeconfig.yaml")),
+		configPath: jsii.String(path.Join(cwd, "../kubeconfig.yaml")),
 	})
 
 	jsiiworkbench.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
