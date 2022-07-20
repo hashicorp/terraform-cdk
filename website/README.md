@@ -7,13 +7,19 @@ The files in this directory are intended to be used in conjunction with
 different documentation sources together and contains the scripts for testing and building the site as
 a whole.
 
-## Modifying Sidebar Navigation
+## Updating Sidebar Navigation
 
-Updates to the sidebar navigation of Terraform docs can be made in the [nav-data][nav-data] file. For details on structuring of sidebar navigation, see https://github.com/hashicorp/terraform-website#editing-navigation-sidebars
+You must update the sidebar navigation for the `terraform-plugin-mux` documentation any time that you add or delete a documentation page. The website builds the sidebar navigation menu from the [nav-data] JSON file. For more details about how to update this file, refer to https://github.com/hashicorp/terraform-website#editing-navigation-sidebars.
+
+## Adding Redirects
+
+You must add a redirect when you move, rename, or delete documentation pages. Refer to https://github.com/hashicorp/terraform-website#redirects for details.
 
 ## Previewing Changes
 
-You should preview all of your changes locally before creating a pull request. The build includes content from this repository and the [`terraform-website`](https://github.com/hashicorp/terraform-website/) repository, allowing you to preview the entire Terraform documentation site.
+You should preview your changes locally to ensure that the content is rendering properly before you create a pull request. The build includes content from this repository and the [`terraform-website`](https://github.com/hashicorp/terraform-website/) repository, allowing you to preview the entire Terraform documentation site.
+
+To preview your content, complete the following steps:
 
 **Set Up Local Environment**
 
