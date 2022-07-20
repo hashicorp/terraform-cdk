@@ -396,12 +396,10 @@ class ForExpression extends TFExpression {
     const value = this.resolveArg(context, FOR_EXPRESSION_VALUE);
     const input = this.resolveArg(context, this.input);
     const valueExpr = this.resolveArg(context, this.valueExpression);
-    const keyExpr = this.keyExpression
-      ? this.resolveArg(context, this.keyExpression)
-      : undefined;
 
     let expr: string;
-    if (keyExpr) {
+    if (this.keyExpression) {
+      const keyExpr = this.resolveArg(context, this.keyExpression);
       expr = `{ for ${key}, ${value} in ${input}: ${keyExpr} => ${valueExpr} }`;
     } else {
       expr = `[ for ${key}, ${value} in ${input}: ${valueExpr}]`;
