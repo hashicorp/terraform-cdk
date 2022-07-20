@@ -5,7 +5,7 @@
         "docs": "node ./generate-documentation.js"
     },
     "dependencies": {
-        "cdktf": "0.0.0",
+        "cdktf": "file:../../packages/cdktf",
         "constructs": "10.1.45"
     },
     "devDependencies": {
