@@ -486,8 +486,8 @@ app.synth();
 from constructs import Construct
 from cdktf import App, TerraformStack
 from cdktf_cdktf_provider_aws import AwsProvider
-from jsii_workbench.core import MyAwsVpc
-from jsii_workbench.core import DockerBackend
+from my_constructs import MyAwsVpc
+from my_constructs import DockerBackend
 
 class VPCStack(TerraformStack):
     def __init__(self, scope, id, region=None):
@@ -529,8 +529,8 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.providers.aws.AwsProvider;
-import workbench.jsii.danielmschmidt.com.MyAwsVpc;
-import workbench.jsii.danielmschmidt.com.DockerBackend;
+import com.mycompany.app.MyAwsVpc;
+import com.mycompany.app.DockerBackend;
 
 public class VPCStack extends TerraformStack {
     public MyAwsVpc vpc;
@@ -606,7 +606,7 @@ app.synth();
 using Constructs;
 using HashiCorp.Cdktf;
 using HashiCorp.Cdktf.Providers.Aws;
-using jsii.workbench;
+using MyConstructs;
 
 class VPCStack : TerraformStack
 {
@@ -661,8 +661,7 @@ app.Synth();
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 import "github.com/hashicorp/cdktf-provider-aws-go/aws"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/myconstructs"
 
 type vPCStack struct {
 	terraformStack
@@ -679,7 +678,7 @@ func newVPCStack(scope construct, id *string, region ) *vPCStack {
 		region: jsii.String(region),
 	})
 
-	this.vpc = jsiiworkbench.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
+	this.vpc = myconstructs.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
 	})
 	return this
 }
@@ -703,7 +702,7 @@ func newBackendStack(scope construct, id *string, config backendStackConfig) *ba
 		region: jsii.String(region),
 	})
 
-	jsiiworkbench.NewDockerBackend(this, jsii.String("docker-backend"), map[string]*string{
+	myconstructs.NewDockerBackend(this, jsii.String("docker-backend"), map[string]*string{
 		"vpcId": jsii.String(vpcId),
 		"dockerImage": jsii.String(dockerImage),
 	})

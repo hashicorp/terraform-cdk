@@ -86,10 +86,10 @@ app.synth();
 ```python
 from constructs import Construct
 from cdktf import App, TerraformStack
-import cdktf_cdktf_provider_kubernetes as kubernetes
+import imports.kubernetes as kubernetes
 import os as os
 
-from jsii_workbench.core import KubernetesWebAppDeployment
+from my_constructs import KubernetesWebAppDeployment
 
 class MyStack(TerraformStack):
     def __init__(self, scope, name):
@@ -113,13 +113,15 @@ app.synth()
 ```
 
 ```java
+package com.mycompany.app;
+
 import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.providers.kubernetes.*;
+import imports.kubernetes.*;
 import java.nio.file.Paths;
 
-import workbench.jsii.danielmschmidt.com.KubernetesWebAppDeployment;
+import com.mycompany.app.KubernetesWebAppDeployment;
 
 public class MyStack extends TerraformStack {
     public MyStack(Construct scope, String name) {
@@ -146,10 +148,10 @@ app.synth();
 ```csharp
 using Constructs;
 using HashiCorp.Cdktf;
-using HashiCorp.Cdktf.Providers.Kubernetes;
+using kubernetes;
 using Path;
 
-using jsii.workbench;
+using MyConstructs;
 
 class MyStack : TerraformStack
 {
@@ -178,8 +180,8 @@ app.Synth();
 ```go
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
-import kubernetes "github.com/hashicorp/cdktf-provider-kubernetes-go/kubernetes"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/generated/hashicorp/kubernetes"
+import "github.com/myorg/myproject/myconstructs"
 import "path"
 
 type myStack struct {
@@ -199,7 +201,7 @@ func newMyStack(scope construct, name *string) *myStack {
 		configPath: jsii.String(path.Join(cwd, "../kubeconfig.yaml")),
 	})
 
-	jsiiworkbench.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
+	myconstructs.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
 		"image": jsii.String("nginx:latest"),
 		"replicas": jsii.Number(2),
 		"app": jsii.String("myapp"),
@@ -263,6 +265,8 @@ export class MyStack extends TerraformStack {
 from constructs import Construct
 from cdktf import TerraformStack
 
+from my_constructs import S3Bucket
+
 class PublicS3Bucket(Construct):
     def __init__(self, scope, name):
         super().__init__(scope, name) # This creates a new scope since we extend from resource
@@ -291,6 +295,7 @@ class MyStack(TerraformStack):
 ```java
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
+import com.mycompany.app.S3Bucket;
 
 public class PublicS3Bucket extends Construct {
     public S3Bucket bucket;
@@ -324,6 +329,7 @@ public class MyStack extends TerraformStack {
 ```csharp
 using Constructs;
 using HashiCorp.Cdktf;
+using MyConstructs;
 
 class PublicS3Bucket : Construct
 {
@@ -361,6 +367,7 @@ class MyStack : TerraformStack
 ```go
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/myorg/myproject/myconstructs"
 
 type publicS3Bucket struct {
 	construct
@@ -372,7 +379,7 @@ func newPublicS3Bucket(scope construct, name *string) *publicS3Bucket {
 
 	// This bucket is in a different scope than the buckets
 	// defined in `MyStack` below. Therefore, it does not need a unique name.
-	this.bucket = jsiiworkbench.NewS3Bucket(this, jsii.String("bucket"), map[string]interface{}{
+	this.bucket = myconstructs.NewS3Bucket(this, jsii.String("bucket"), map[string]interface{}{
 		"bucketPrefix": name,
 		"website": []map[string]*string{
 			map[string]*string{

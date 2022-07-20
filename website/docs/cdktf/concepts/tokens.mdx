@@ -67,8 +67,8 @@ app.synth();
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformVariable, Token
 from cdktf_cdktf_provider_aws import AwsProvider
-from jsii_workbench.core import MyAwsVpc
-from jsii_workbench.core import EksCluster
+from my_constructs import MyAwsVpc
+from my_constructs import EksCluster
 
 class MyStack(TerraformStack):
     def __init__(self, scope, id):
@@ -102,8 +102,8 @@ import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformVariable;
 import com.hashicorp.cdktf.Token;
 import com.hashicorp.cdktf.providers.aws.AwsProvider;
-import workbench.jsii.danielmschmidt.com.MyAwsVpc;
-import workbench.jsii.danielmschmidt.com.EksCluster;
+import com.mycompany.app.MyAwsVpc;
+import com.mycompany.app.EksCluster;
 
 public class MyStack extends TerraformStack {
     public MyStack(Construct scope, String id) {
@@ -135,7 +135,7 @@ app.synth();
 using Constructs;
 using HashiCorp.Cdktf;
 using HashiCorp.Cdktf.Providers.Aws;
-using jsii.workbench;
+using MyConstructs;
 
 class MyStack : TerraformStack
 {
@@ -169,8 +169,7 @@ app.Synth();
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 import "github.com/hashicorp/cdktf-provider-aws-go/aws"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/myconstructs"
 
 type myStack struct {
 	terraformStack
@@ -185,7 +184,7 @@ func newMyStack(scope construct, id *string) *myStack {
 		type: jsii.String("number"),
 	})
 
-	vpc := jsiiworkbench.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
+	vpc := myconstructs.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
 		"name": jsii.String("vpcName"),
 		"publicSubnets": []*string{
 			jsii.String("10.0.1.0/24"),
@@ -193,7 +192,7 @@ func newMyStack(scope construct, id *string) *myStack {
 		},
 	})
 
-	jsiiworkbench.NewEksCluster(this, jsii.String("EksModule"), &eksProps{
+	myconstructs.NewEksCluster(this, jsii.String("EksModule"), &eksProps{
 		clusterName: jsii.String("my-kubernetes-cluster"),
 		subnets: cdktf.Token.asList(vpc.publicSubnetsOutput),
 		clusterLogRetentionInDays: logRetention.numberValue,

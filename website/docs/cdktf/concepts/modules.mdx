@@ -52,18 +52,18 @@ app.synth();
 ```python
 from constructs import Construct
 from cdktf import App, TerraformStack
-from cdktf_cdktf_provider_aws import AwsProvider
-from jsii_workbench.core import VpcModule
+import imports.aws as aws
+from imports.terraform_aws_modules.aws import Vpc
 
 class MyStack(TerraformStack):
     def __init__(self, scope, id):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.AwsProvider(self, "aws",
             region="us-east-1"
         )
 
-        VpcModule(self, "MyVpc",
+        Vpc(self, "MyVpc",
             name="my-vpc",
             cidr="10.0.0.0/16",
             azs=["us-west-2a", "us-west-2b", "us-west-2c"],
@@ -81,8 +81,8 @@ app.synth()
 import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.providers.aws.AwsProvider;
-import workbench.jsii.danielmschmidt.com.VpcModule;
+import imports.aws.AwsProvider;
+import imports.terraform_aws_modules.aws;
 
 public class MyStack extends TerraformStack {
     public MyStack(Construct scope, String id) {
@@ -112,6 +112,7 @@ app.synth();
 using Constructs;
 using HashiCorp.Cdktf;
 using HashiCorp.Cdktf.Providers.Aws;
+using terraform_aws_modules.aws;
 
 class MyStack : TerraformStack
 {
@@ -142,7 +143,7 @@ app.Synth();
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 import "github.com/hashicorp/cdktf-provider-aws-go/aws"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import awsVpc "github.com/myorg/myproject/generated/terraoform_aws_modules/aws"
 
 type myStack struct {
 	terraformStack
@@ -156,7 +157,7 @@ func newMyStack(scope construct, id *string) *myStack {
 		region: jsii.String("us-east-1"),
 	})
 
-	jsiiworkbench.NewVpcModule(this, jsii.String("MyVpc"), &vpcProps{
+	awsVpc.NewVpcModule(this, jsii.String("MyVpc"), &vpcProps{
 		name: jsii.String("my-vpc"),
 		cidr: jsii.String("10.0.0.0/16"),
 		azs: []*string{
@@ -270,8 +271,7 @@ export class MyStack extends TerraformStack {
 from constructs import Construct
 from cdktf import TerraformStack, TerraformOutput
 # This module can come from a registry or through a local / remote reference
-// TOOD: fix this import
-from jsii_workbench.core import MyLocalModule
+from my_constructs import MyLocalModule
 
 class MyStack(TerraformStack):
     def __init__(self, scope, id):
@@ -291,8 +291,7 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformOutput;
 // This module can come from a registry or through a local / remote reference
-// TOOD: fix this import
-import workbench.jsii.danielmschmidt.com.MyLocalModule;
+import com.mycompany.app.MyLocalModule;
 
 public class MyStack extends TerraformStack {
     public MyStack(Construct scope, String id) {
@@ -312,8 +311,7 @@ public class MyStack extends TerraformStack {
 using Constructs;
 using HashiCorp.Cdktf;
 // This module can come from a registry or through a local / remote reference
-// TOOD: fix this import
-using jsii.workbench;
+using MyConstructs;
 
 class MyStack : TerraformStack
 {
@@ -335,8 +333,7 @@ class MyStack : TerraformStack
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 // This module can come from a registry or through a local / remote reference
-// TOOD: fix this import
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/myconstructs"
 
 type MyStack struct {
 	terraformStack
@@ -346,7 +343,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
 	newTerraformStack_Override(this, scope, id)
 
-	localModule := jsiiworkbench.NewMyLocalModule(this, jsii.String("local-module"), map[string]*string{
+	localModule := myconstructs.NewMyLocalModule(this, jsii.String("local-module"), map[string]*string{
 		"ipAddress": jsii.String("127.0.0.1"),
 	})
 

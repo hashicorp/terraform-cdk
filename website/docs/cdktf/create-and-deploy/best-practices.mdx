@@ -44,7 +44,7 @@ app.synth();
 ```python
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformVariable
-from jsii_workbench.core import MyResource
+from my_constructs import MyResource
 
 class MyStack(TerraformStack):
     def __init__(self, scope, name):
@@ -70,7 +70,7 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformVariable;
-import workbench.jsii.danielmschmidt.com.MyResource;
+import com.mycompany.app.MyResource;
 
 public class MyStack extends TerraformStack {
     public MyStack(Construct scope, String name) {
@@ -96,7 +96,7 @@ app.synth();
 ```csharp
 using Constructs;
 using HashiCorp.Cdktf;
-using jsii.workbench;
+using MyConstructs;
 
 class MyStack : TerraformStack
 {
@@ -123,7 +123,7 @@ app.Synth();
 ```go
 import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/myconstructs"
 
 type myStack struct {
 	terraformStack
@@ -139,7 +139,7 @@ func newMyStack(scope construct, name *string) *myStack {
 		sensitive: jsii.Boolean(true),
 	})
 
-	jsiiworkbench.NewMyResource(this, jsii.String("hello"), &myResourceProps{
+	myconstructs.NewMyResource(this, jsii.String("hello"), &myResourceProps{
 		adminPassword: adminPassword.value,
 	})
 	return this
@@ -233,7 +233,7 @@ app.synth();
 
 ```python
 from cdktf import App
-from jsii_workbench.core import NetworkingStack, Ecommerce, Blog
+from my_constructs import NetworkingStack, Ecommerce, Blog
 
 app = App()
 dev_networking = NetworkingStack(app, "networking-development", {})
@@ -274,9 +274,9 @@ app.synth()
 
 ```java
 import com.hashicorp.cdktf.App;
-import workbench.jsii.danielmschmidt.com.NetworkingStack;
-import workbench.jsii.danielmschmidt.com.Ecommerce;
-import workbench.jsii.danielmschmidt.com.Blog;
+import com.mycompany.app.NetworkingStack;
+import com.mycompany.app.Ecommerce;
+import com.mycompany.app.Blog;
 
 App app = new App();
 NetworkingStack devNetworking = new NetworkingStack(app, "networking-development", Map.of());
@@ -318,13 +318,12 @@ app.synth();
 
 ```csharp
 using HashiCorp.Cdktf;
-using jsii.workbench;
+using MyConstructs;
 
 App app = new App();
 NetworkingStack devNetworking = new NetworkingStack(app, "networking-development", new Dictionary<string, object> { });
 
-// A single region is enough to create a development environment for each product.
-// A single region is enough to create a development environment for each product.
+// A single region is enough to create a development environment for each product.evelopment environment for each product.
 new Ecommerce(app, "ecommerce-development", new EcommerceProps {
     VpcId = devNetworking.VpcId,
     Subnets = devNetworking.Subnets,
@@ -360,20 +359,19 @@ app.Synth();
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
-import "github.com/DanielMSchmidt/jsii-workbench/jsiiworkbench"
+import "github.com/myorg/myproject/myconstructs"
 
 app := cdktf.NewApp()
-devNetworking := jsiiworkbench.NewNetworkingStack(app, jsii.String("networking-development"), map[string]interface{}{
+devNetworking := myconstructs.NewNetworkingStack(app, jsii.String("networking-development"), map[string]interface{}{
 })
 
 // A single region is enough to create a development environment for each product.
-// A single region is enough to create a development environment for each product.
-jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-development"), &ecommerceProps{
+myconstructs.NewEcommerce(app, jsii.String("ecommerce-development"), &ecommerceProps{
 	vpcId: devNetworking.vpcId,
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-jsiiworkbench.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
+myconstructs.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
 	vpcId: devNetworking.vpcId,
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
@@ -381,20 +379,20 @@ jsiiworkbench.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
 
 // Staging environments require two ecommerce stacks in different regions
 // to test the high availability features of the infrastructure.
-stageNetworking := jsiiworkbench.NewNetworkingStack(app, jsii.String("networking-staging"), map[string]interface{}{
+stageNetworking := myconstructs.NewNetworkingStack(app, jsii.String("networking-staging"), map[string]interface{}{
 })
-ecommerceStaging := jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-staging-us"), &ecommerceProps{
+ecommerceStaging := myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-us"), &ecommerceProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-jsiiworkbench.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &ecommerceProps{
+myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &ecommerceProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("eu-central-1"),
 	databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
 })
-jsiiworkbench.NewBlog(app, jsii.String("ecommerce-staging"), &blogProps{
+myconstructs.NewBlog(app, jsii.String("ecommerce-staging"), &blogProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),
