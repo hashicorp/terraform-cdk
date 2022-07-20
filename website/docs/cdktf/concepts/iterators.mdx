@@ -1,20 +1,25 @@
 ---
 page_title: Iterators
 description: >-
-  Iterators allow you to iterate over a collection of values that are only available at runtime.
+  Iterators let you loop over a collection of values that are only available at runtime.
 ---
 
 # Iterators
 
-When you need to create multiple resources of the same type, you can usually use loops in your target language to do this.
-However there are certain situations where the number of resources to create is not known at synth time.
-In this case, you can use iterators.
 
-## Using iterators
+Iterators let you loop over a collection of values. You can use them to create multiple resources of the same type that are based on dynamic data that is only known at runtime.
 
-To create an iterator, import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` static method.
-Pass the iterator to the resource, data source, or module that you want to use it in using using `forEach` property.
-You can now use the iterator in attributes of that resource, data source, or module (see `name` below).
+## When to Use Iterators
+
+Use iterators when you need to reference dynamic data that is not known until after Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
+
+When data is static or you know the values before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using loops in your preferred programming language.
+
+## Define Iterators
+
+Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` static method. Then use the `forEach` property to pass the iterator to the resource, data source, or module that must use it. This lets you use the iterator in attributes.
+
+The example below uses an iterator to create a unique name for each new S3 bucket.
 
 ```ts
 import { s3 } from "@cdktf/provider-aws";
@@ -32,11 +37,11 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 });
 ```
 
-Please note that it is not possible to access the index of items when iterating over lists. This is because Terraform requires sets for iteration and CDKTF implicitly converts lists to sets when iterating over them. This behaviour is on purpose and helps avoiding accidental deletion and recreation of resources when their indices change. If you need an index, you can use `count` and an [escape hatch](/cdktf/concepts/providers-and-resources#escape-hatch) using the [`count.index` property](/language/meta-arguments/count).
+You cannot access the index of items when iterating over lists. This is because Terraform requires sets for iteration and CDKTF implicitly converts lists to sets when iterating over them. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use `count` and an [escape hatch](/cdktf/concepts/providers-and-resources#escape-hatch) using the [`count.index` property](/language/meta-arguments/count).
 
-## Using iterators on complex types
+## Using Iterators on Complex Types
 
-The iterator also exposes methods to access nested attributes of e.g. records you might be iterating over.
+The iterator also exposes methods to access nested attributes. The example below uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
 ```ts
 const iterator = TerraformIterator.fromList([
