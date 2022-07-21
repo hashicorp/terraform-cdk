@@ -20,11 +20,9 @@ Terraform Enterprise lets you set up a self-hosted distribution of Terraform Clo
 
 ## When to use Terraform Cloud or Terraform Enterprise?
 
-You can use both Terraform Cloud and Terraform Enterprise with CDKTF to run Terraform remotely, [manage variables and secrets](#manage-variables-and-secrets) enforce [policies for sets of infrastructure](#policy-enforcement), and with a [continuous integration workflow](#continuous-integration).
+Terraform uses persisted state data to keep track of the real-world resources it manages. By default, Terraform writes state to a local file. We recommend integrating with Terraform Cloud to store state remotely. This prevents accidental loss of locally stored state and lets multiple people access the state data so they can work together on that collection of infrastructure resources.
 
-However, one major use case is secure remote stage storage. Terraform uses persisted state data to keep track of the real-world resources it manages. By default, Terraform writes state to a local file.
-
-We recommend integrating with Terraform Cloud to store state remotely. This prevents accidental loss of locally stored state and lets multiple people access the state data so they can work together on that collection of infrastructure resources.
+Other benefits of Terraform Cloud and Terraform Enterprise include the ability to run Terraform remotely, [manage variables and secrets](#manage-variables-and-secrets), and enforce [policies for sets of infrastructure](#policy-enforcement). 
 
 ## Set up CDKTF with Terraform Cloud
 
