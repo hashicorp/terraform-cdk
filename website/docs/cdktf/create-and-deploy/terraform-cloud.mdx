@@ -96,7 +96,7 @@ Check your synthesized code into version control and connect your Terraform Clou
 
 Terraform Cloud [variables](/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider. 
 
-To be able to use variables you have to enable [remote operations](/cloud-docs/run/remote-operations) for your Terraform Cloud workspace, this means that not a local Terraform CLI but Terraform Cloud is used to execute the run.
+To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud. 
 
 To declare variables you can use the `TerraformVariable` construct which renders an [Input Variable](/language/values/variables):
 
