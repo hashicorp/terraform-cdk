@@ -146,6 +146,10 @@
       {
         "title": "Go",
         "path": "api-reference/go"
+      },
+      {
+        "title": "Provider API References",
+        "path": "api-reference/provider"
       }
     ]
   },
