@@ -132,6 +132,8 @@ To run Terraform Cloud in a CI workflow you can either use [Terraform Clouds VCS
 
 ## Policy Enforcement
 
-Terraform Cloud lets you define [Sentinel Policies](/cloud-docs/sentinel) that can be applied across one or multiple Terraform Cloud workspaces to ensure the provisioned infrastructure follows company-wide security standards / best practices. You can use them with CDKTF if Terraform Cloud is configured as a backend.
+-> **Note:** Sentinel policies and run tasks are available as part of the Terraform Cloud **Team & Governance** upgrade package. Refer to [Terraform Cloud pricing](https://www.hashicorp.com/products/terraform/pricing) for details.
 
-You can use [Run Tasks](/cloud-docs/workspaces/settings/run-tasks) to integrate any pre-apply-checks or post-apply-notifications to your CI workflow via a webhook interface.
+You can define [Sentinel policies](/cloud-docs/sentinel) for one or multiple Terraform Cloud workspaces to ensure that your infrastructure follows company-wide security standards and best practices. You can use Sentinel policies with CDKTF if Terraform Cloud is configured as a backend.
+
+You can also use [Run Tasks](/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the Terraform Cloud run lifecycle. Terraform Cloud uses the status response from the third-party tool to determine if a run should proceed. 
