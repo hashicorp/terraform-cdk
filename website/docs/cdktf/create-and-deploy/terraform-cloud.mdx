@@ -58,7 +58,7 @@ class MyStack extends TerraformStack {
     super(scope, name);
     // Remote Backend - /docs/backends/types/remote.html
     new RemoteBackend(this, {
-      // You can omit this if you are not using a self-hosted Terraform enterprise instance
+      // You can omit this if you are not using a self-hosted Terraform enterprise instance.
       hostname: "app.terraform.io",
       organization: "company",
 
