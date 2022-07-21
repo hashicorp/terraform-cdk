@@ -73,7 +73,7 @@ class MyStack extends TerraformStack {
 
 const app = new App();
 const myStack = new MyStack(app, "my-stack");
-// Instead of defining the backend within the stack you can do it also on the outside like this:
+// You can also define the backend outside of the stack.
 // new RemoteBackend(myStack, {
 //     hostname: "app.terraform.io",
 //     organization: "company",
