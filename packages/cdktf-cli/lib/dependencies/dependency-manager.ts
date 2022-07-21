@@ -240,26 +240,18 @@ export class DependencyManager {
    * Converts an NPM package name of a pre-built provider package to the name in the target language
    */
   private convertPackageName(name: string): string {
+    const providerName = name.replace("@cdktf/provider-", "");
     switch (this.targetLanguage) {
       case Language.GO: // e.g. github.com/hashicorp/cdktf-provider-opentelekomcloud-go
-        return `github.com/hashicorp/cdktf-provider-${name.replace(
-          "@cdktf/provider-",
-          ""
-        )}-go`;
+        return `github.com/hashicorp/cdktf-provider-${providerName}-go/${providerName}`;
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
-        return (
-          `HashiCorp.Cdktf.Providers.` +
-          toPascalCase(name.replace("@cdktf/provider-", ""))
-        );
+        return `HashiCorp.Cdktf.Providers.` + toPascalCase(providerName);
       case Language.JAVA: // e.g. com.hashicorp.opentelekomcloud
-        return `com.hashicorp.cdktf-provider-${name.replace(
-          "@cdktf/provider-",
-          ""
-        )}`;
+        return `com.hashicorp.cdktf-provider-${providerName}`;
       case Language.PYTHON: // e.g. cdktf-cdktf-provider-opentelekomcloud
-        return `cdktf-cdktf-provider-${name.replace("@cdktf/provider-", "")}`;
+        return `cdktf-cdktf-provider-${providerName}`;
       default:
         throw new Error(
           `converting package name for language ${this.targetLanguage} not implemented yet`
