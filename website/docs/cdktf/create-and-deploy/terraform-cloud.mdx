@@ -94,7 +94,7 @@ Check your synthesized code into version control and connect your Terraform Clou
 
 ## Managing Variables and Secrets through Terraform Cloud
 
-You can use [Variables](/cloud-docs/workspaces/variables) to define variables and secrets to use during the execution of a plan / apply / destroy operation in Terraform Cloud. You can manage multiple secrets across multiple workspaces by using [variable sets](/cloud-docs/workspaces/variables/managing-variables#variable-sets).
+Terraform Cloud [variables](/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider. 
 
 To be able to use variables you have to enable [remote operations](/cloud-docs/run/remote-operations) for your Terraform Cloud workspace, this means that not a local Terraform CLI but Terraform Cloud is used to execute the run.
 
