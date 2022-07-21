@@ -301,6 +301,9 @@ function isConstruct(x: any): boolean {
   return x._children !== undefined && x._metadata !== undefined;
 }
 
+/**
+ * Resolves a number token
+ */
 function resolveNumberToken(x: number, context: IResolveContext): any {
   const token = TokenMap.instance().lookupNumberToken(x);
   if (token === undefined) {
