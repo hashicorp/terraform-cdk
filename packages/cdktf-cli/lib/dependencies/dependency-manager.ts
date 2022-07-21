@@ -132,7 +132,6 @@ export class DependencyManager {
       targetLanguage,
       this.projectDirectory
     );
-    undefined;
   }
 
   async addProvider(
