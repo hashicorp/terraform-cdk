@@ -98,7 +98,7 @@ Terraform Cloud [variables](/cloud-docs/workspaces/variables) let you define the
 
 To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud. 
 
-To declare variables you can use the `TerraformVariable` construct which renders an [Input Variable](/language/values/variables):
+Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`. 
 
 ```ts
 import { Construct } from "constructs";
