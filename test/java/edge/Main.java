@@ -255,6 +255,16 @@ class IteratorStack extends TerraformStack {
                 .forEach(stringMapIterator)
                 .str(Token.asString(stringMapIterator.getValue()))
                 .build();
+
+        // passing an iterator to a block property
+        HashMap<String, Object> content = new HashMap<String, Object>();
+        content.put("reqbool", complexListIterator.getBoolean("reqbool"));
+        content.put("reqstr", complexListIterator.getString("reqstr"));
+        content.put("reqnum", complexListIterator.getNumber("reqnum"));
+        ListBlockResource.Builder.create(this, "list_attribute")
+                .req(complexListIterator.dynamic(content))
+                .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(0).reqstr("a").build())
+                .build();
     }
 }
 
