@@ -740,8 +740,9 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
-````typescript
+```typescript
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
+```
 
 The CLI will error if you deploy your application without first deploying the dependencies. It will also error if you try to destroy infrastructure without destroying the dependent stacks first. To remove these safeguards, add the `--ignore-missing-stack-dependencies` to the `deploy` and `destroy` commands.
 
@@ -764,7 +765,7 @@ stack.addOverride("terraform.backend", {
     },
   },
 });
-````
+```
 
 The example above synthesizes a Terraform configuration with the remote backend included in the `terraform` block.
 
