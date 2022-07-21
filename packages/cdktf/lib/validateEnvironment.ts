@@ -1,10 +1,16 @@
 import { Construct } from "constructs";
 
-// fails early if the environment contains e.g. invalid version combinations
+/**
+ * fails early if the environment contains e.g. invalid version combinations
+ */
 export function validateEnvironment() {
   validateConstructsIsV10();
 }
 
+/**
+ * fails early if the environment contains e.g. invalid version combinations
+ * for constructs
+ */
 function validateConstructsIsV10() {
   const construct = new Construct(null as any, "test");
   // construct.node was added in v10
