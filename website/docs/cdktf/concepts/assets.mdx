@@ -182,24 +182,24 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, name *string) *myStack {
+func NewMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, name)
+	NewTerraformStack_Override(this, scope, name)
 
 	aws.NewAwsProvider(this, jsii.String("provider"), &awsProviderConfig{
 		region: jsii.String("us-west-2"),
 	})
 
-	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &aws.s3.s3BucketConfig{
+	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &aws.s3.S3BucketConfig{
 		bucket: jsii.String("demo"),
 	})
 
-	asset := cdktf.NewTerraformAsset(this, jsii.String("lambda-asset"), &terraformAssetConfig{
+	asset := cdktf.NewTerraformAsset(this, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
 		path: path.resolve(__dirname, jsii.String("../lambda")),
 		type: cdktf.AssetType_ARCHIVE,
 	})
 
-	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &aws.s3.s3BucketObjectConfig{
+	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &aws.s3.S3BucketObjectConfig{
 		bucket: bucket.bucket,
 		key: asset.fileName,
 		source: asset.path,
@@ -209,7 +209,7 @@ func newMyStack(scope construct, name *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("demo"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>

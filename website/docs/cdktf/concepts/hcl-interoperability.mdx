@@ -158,13 +158,13 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, name *string) *myStack {
+func NewMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, name)
+	NewTerraformStack_Override(this, scope, name)
 
 	random.NewRandomProvider(this, jsii.String("default"), &random.randomProviderConfig{
 	})
-	petNameLength := cdktf.NewTerraformVariable(this, jsii.String("petNameLength"), &cdktf.terraformVariableConfig{
+	petNameLength := cdktf.NewTerraformVariable(this, jsii.String("petNameLength"), &cdktf.TerraformVariableConfig{
 		type: jsii.String("number"),
 		default: jsii.Number(2),
 		description: jsii.String("Pet name length"),
@@ -174,7 +174,7 @@ func newMyStack(scope construct, name *string) *myStack {
 		length: petNameLength.value,
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("name"), &cdktf.terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("name"), &cdktf.TerraformOutputConfig{
 		value: myPet.id,
 	})
 	return this
@@ -182,7 +182,7 @@ func newMyStack(scope construct, name *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("random-pet-module"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>

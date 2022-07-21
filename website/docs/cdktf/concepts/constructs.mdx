@@ -188,9 +188,9 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, name *string) *myStack {
+func NewMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, name)
+	NewTerraformStack_Override(this, scope, name)
 
   cwd, err := os.Getwd()
   if err != nil {
@@ -213,7 +213,7 @@ func newMyStack(scope construct, name *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("app"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -373,7 +373,7 @@ type publicS3Bucket struct {
 	construct
 	bucket s3Bucket
 }
-func newPublicS3Bucket(scope construct, name *string) *publicS3Bucket {
+func NewPublicS3Bucket(scope construct, name *string) *publicS3Bucket {
 	this := &publicS3Bucket{}
 	newConstruct_Override(this, scope, name) // This creates a new scope since we extend from construct
 
@@ -397,7 +397,7 @@ type MyStack struct {
 
 func NewMyStack(scope construct, name *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, name)
+	NewTerraformStack_Override(this, scope, name)
 
 	// Both buckets are inside of the same stack, meaning they share
 	// the same scope. Therefore, their names must be unique.

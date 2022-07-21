@@ -143,9 +143,9 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
-	cdktf.NewRemoteBackend(this, &cdktf.remoteBackendProps{
+	cdktf.NewRemoteBackend(this, &cdktf.RemoteBackendProps{
 		hostname: jsii.String("app.terraform.io"),
 		organization: jsii.String("company"),
 		workspaces: map[string]*string{
@@ -153,7 +153,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 		},
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &cdktf.terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &cdktf.TerraformOutputConfig{
 		value: jsii.String("hello-world"),
 	})
 	return this
@@ -321,13 +321,13 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 	return this
 }
 
 app := cdktf.NewApp()
 stack := NewMyStack(app, jsii.String("hello-terraform"))
-cdktf.NewRemoteBackend(stack, &cdktf.remoteBackendProps{
+cdktf.NewRemoteBackend(stack, &cdktf.RemoteBackendProps{
 	hostname: jsii.String("app.terraform.io"),
 	organization: jsii.String("company"),
 	workspaces: map[string]*string{
@@ -335,7 +335,7 @@ cdktf.NewRemoteBackend(stack, &cdktf.remoteBackendProps{
 	},
 })
 
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>

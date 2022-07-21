@@ -102,7 +102,7 @@ type HelloTerraform struct {
 
 func NewHelloTerraform(scope construct, id *string) *HelloTerraform {
 	this := &HelloTerraform{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	region := aws.Datasources.NewDataAwsRegion(this, jsii.String("region"))
 	cdktf.NewTerraformOutput(this, jsii.String("region"), &terraformOutputConfig{
@@ -225,16 +225,16 @@ type HelloTerraform struct {
 
 func NewHelloTerraform(scope construct, id *string) *HelloTerraform {
 	this := &HelloTerraform{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
-	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote_state"), &cdktf.dataTerraformRemoteStateRemoteConfig{
+	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote_state"), &cdktf.DataTerraformRemoteStateRemoteConfig{
 		organization: jsii.String("hashicorp"),
 		workspaces: map[string]*string{
 			"name": jsii.String("vpc-prod"),
 		},
 	})
 
-	aws.ec2.NewInstance(this, jsii.String("foo"), &aws.Ec2.instanceConfig{
+	aws.ec2.NewInstance(this, jsii.String("foo"), &aws.Ec2.InstanceConfig{
 		subnetId: cdktf.Token.asString(remoteState.get(jsii.String("subnet_id"))),
 	})
 	return this

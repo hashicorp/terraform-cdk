@@ -149,9 +149,9 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, id *string) *myStack {
+func NewMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
@@ -182,7 +182,7 @@ func newMyStack(scope construct, id *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("hello-terraform"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -341,13 +341,13 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	localModule := myconstructs.NewMyLocalModule(this, jsii.String("local-module"), map[string]*string{
 		"ipAddress": jsii.String("127.0.0.1"),
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &cdktf.terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("dns-server"), &cdktf.TerraformOutputConfig{
 		value: localModule.dnsServerOutput,
 	})
 	return this
@@ -550,13 +550,13 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
-	provider := aws.NewAwsProvider(this, jsii.String("provider"), &aws.awsProviderConfig{
+	provider := aws.NewAwsProvider(this, jsii.String("provider"), &aws.AwsProviderConfig{
 		region: jsii.String("us-east-1"),
 	})
 
-	module := cdktf.NewTerraformHclModule(this, jsii.String("Vpc"), &cdktf.terraformHclModuleOptions{
+	module := cdktf.NewTerraformHclModule(this, jsii.String("Vpc"), &cdktf.TerraformHclModuleOptions{
 		source: jsii.String("terraform-aws-modules/vpc/aws"),
 		// variables takes any input - please consult the docs of the module
 		// to ensure the arguments are correct
@@ -585,11 +585,11 @@ func NewMyStack(scope construct, id *string) *MyStack {
 		},
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("vpc_id"), &cdktf.terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("vpc_id"), &cdktf.TerraformOutputConfig{
 		value: module.get(jsii.String("vpc_id")),
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("public_subnets_cidr_blocks"), &cdktf.terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("public_subnets_cidr_blocks"), &cdktf.TerraformOutputConfig{
 		value: module.getList(jsii.String("public_subnets_cidr_blocks")),
 	})
 	return this

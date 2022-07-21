@@ -140,9 +140,9 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, id *string) *myStack {
+func NewMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
@@ -157,7 +157,7 @@ func newMyStack(scope construct, id *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("hello-terraform"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -469,7 +469,7 @@ type HelloTerra struct {
 
 func NewHelloTerra(scope construct, id *string) *HelloTerra {
 	this := &HelloTerra{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("eu-central-1"),
@@ -707,7 +707,7 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	kubernetes.NewKubernetesProvider(this, jsii.String("kubernetes"))
 
@@ -890,7 +890,7 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
 
@@ -1040,7 +1040,7 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
 
@@ -1252,10 +1252,10 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
-	ports := cdktf.NewTerraformVariable(this, jsii.String("ports"), &cdktf.terraformVariableConfig{
+	ports := cdktf.NewTerraformVariable(this, jsii.String("ports"), &cdktf.TerraformVariableConfig{
 		type: jsii.String("list"),
 		default: []interface{}{
 			jsii.Number(22),
@@ -1265,7 +1265,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 		},
 	})
 
-	sg := aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &aws.Vpc.securityGroupConfig{
+	sg := aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &aws.Vpc.SecurityGroupConfig{
 		name: jsii.String("security1"),
 		vpcId: jsii.String("vpcs"),
 		egress: []interface{}{
@@ -1452,7 +1452,7 @@ type MyStack struct {
 
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
 	ports := []*f64{

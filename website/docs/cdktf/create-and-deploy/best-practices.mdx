@@ -129,17 +129,17 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, name *string) *myStack {
+func NewMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, name)
+	NewTerraformStack_Override(this, scope, name)
 
-	adminPassword := cdktf.NewTerraformVariable(this, jsii.String("adminPassword"), &cdktf.terraformVariableConfig{
+	adminPassword := cdktf.NewTerraformVariable(this, jsii.String("adminPassword"), &cdktf.TerraformVariableConfig{
 		type: jsii.String("string"),
 		description: jsii.String("Admin password for the instance"),
 		sensitive: jsii.Boolean(true),
 	})
 
-	myconstructs.NewMyResource(this, jsii.String("hello"), &myconstructs.myResourceProps{
+	myconstructs.NewMyResource(this, jsii.String("hello"), &myconstructs.MyResourceProps{
 		adminPassword: adminPassword.value,
 	})
 	return this
@@ -147,7 +147,7 @@ func newMyStack(scope construct, name *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("my-stack"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -397,7 +397,7 @@ myconstructs.NewBlog(app, jsii.String("blog-staging"), &myconstructs.blogProps{
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>

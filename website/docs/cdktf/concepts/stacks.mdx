@@ -134,9 +134,9 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, id *string) *myStack {
+func NewMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
@@ -151,7 +151,7 @@ func newMyStack(scope construct, id *string) *myStack {
 
 app := cdktf.NewApp()
 NewMyStack(app, jsii.String("a-single-stack"))
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -367,9 +367,9 @@ type myStack struct {
 	terraformStack
 }
 
-func newMyStack(scope construct, id *string, config myStackConfig) *myStack {
+func NewMyStack(scope construct, id *string, config myStackConfig) *myStack {
 	this := &myStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	{ region = "us-east-1" } := *config
 
@@ -402,7 +402,7 @@ NewMyStack(app, jsii.String("multiple-stacks-production-eu"), &myStackConfig{
 	environment: jsii.String("production"),
 	region: jsii.String("eu-central-1"),
 })
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
@@ -667,12 +667,12 @@ type vpcStack struct {
 	terraformStack
 	vpc myAwsVpc
 }
-func newVPCStack(scope construct, id *string, region ) *vpcStack {
+func NewVPCStack(scope construct, id *string, region ) *vpcStack {
 	if region == nil {
 		region = jsii.String("us-east-1")
 	}
 	this := &vpcStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String(region),
@@ -692,9 +692,9 @@ type backendStack struct {
 	terraformStack
 }
 
-func newBackendStack(scope construct, id *string, config backendStackConfig) *backendStack {
+func NewBackendStack(scope construct, id *string, config backendStackConfig) *backendStack {
 	this := &backendStack{}
-	newTerraformStack_Override(this, scope, id)
+	NewTerraformStack_Override(this, scope, id)
 
 	{ region, vpcId, dockerImage } := *config
 
@@ -711,13 +711,13 @@ func newBackendStack(scope construct, id *string, config backendStackConfig) *ba
 
 app := cdktf.NewApp()
 origin := NewVPCStack(app, jsii.String("origin-stack"))
-NewBackendStack(app, jsii.String("target-stack"), &cdktf.backendStackConfig{
+NewBackendStack(app, jsii.String("target-stack"), &cdktf.BackendStackConfig{
 	region: origin.region,
 	vpcId: origin.vpc.id,
 	dockerImage: jsii.String("org/my-image:latest"),
 })
 
-app.synth()
+app.Synth()
 ```
 
 </CodeTabs>
