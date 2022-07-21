@@ -1,0 +1,226 @@
+---
+page_title: Resources
+description: >-
+  Providers allow Terraform to communicate with external APIs. Learn to define
+  resources in a CDK for Terraform application.
+---
+
+## Resources
+
+Resources are the most important element when defining infrastructure in CDKTF applications. Each resource describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records.
+
+To get resources to use you need to [install or generate a provider](/cdktf/providers).
+
+### Define Resources
+
+Resource definitions and properties vary depending on the type of resource and the provider. Consult your provider's documentation for a full list of available resources and their configuration options.
+
+The TypeScript example below defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
+
+```typescript
+export class HelloTerra extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "eu-central-1",
+    });
+
+    const region = new DataAwsRegion(this, "region");
+
+    new aws.DynamoDB.DynamodbTable(this, "Hello", {
+      name: `my-first-table-${region.name}`,
+      hashKey: "temp",
+      attribute: [{ name: "id", type: "S" }],
+      billingMode: "PAY_PER_REQUEST",
+    });
+  }
+}
+```
+
+The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
+
+### Scope
+
+You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
+
+Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
+
+### References
+
+You can reference resource properties throughout your configuration. For example, you may want to use the name of a parent resource when assigning names to related child resources. Refer to your provider's documentation for a full list of available properties for each resource type.
+
+To create references, call `myResource.<propertyName>` on the resource instance. For example, you could use `myResource.name` to retrieve the `name` property from `myResource`. Terraform does not support passing an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source, so you must create a reference for each individual property.
+
+References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The TypeScript example below uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
+
+```ts
+
+const exampleNamespace = new Namespace(this, "tf-cdk-example", {
+  metadata: {
+    name: "tf-cdk-example",
+  },
+});
+
+new Deployment(this, "nginx-deployment", {
+  metadata: {
+    name: "nginx",
+    namespace: exampleNamespace.metadata.name, // Reference the namespace name propery
+    labels: {
+      app,
+    },
+  });
+```
+
+### Provisioners
+
+Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](https://www.terraform.io/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
+
+If you need to use the special [`self` object](https://www.terraform.io/language/resources/provisioners/syntax#the-self-object) that can only be used in `provisioner` and `connection` blocks to refer to the parent resource you can use the `TerraformSelf` class like this: `TerraformSelf.getString("public_ip")`.
+
+### Escape Hatch
+
+Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
+
+The TypeScript example below defines a provisioner for a resource using the `addOverride` method.
+
+```typescript
+const tableName = "my-table";
+
+const table = new aws.DynamoDB.DynamodbTable(this, "Hello", {
+  name: tableName,
+  hashKey: "id",
+  attribute: [{ name: "id", type: "S" }],
+});
+
+table.addOverride("provisioner", [
+  {
+    "local-exec": {
+      command: `aws dynamodb create-backup --table-name ${tableName} --backup-name ${tableName}-backup`,
+    },
+  },
+]);
+```
+
+When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
+
+```json
+{
+  "resource": {
+    "aws_dynamodb_table": {
+      "helloterraHello69872235": {
+        "hash_key": "temp",
+        "name": "my-table",
+        "attribute": [
+          {
+            "name": "id",
+            "type": "S"
+          }
+        ],
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "aws dynamodb create-backup --table-name my-table --backup-name my-table-backup"
+            }
+          }
+        ]
+      }
+    }
+  }
+}
+```
+
+To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
+
+```typescript
+const topic = new SnsTopic(this, "Topic", {
+  displayName: "will-be-overwritten",
+});
+topic.addOverride("display_name", "my-topic");
+```
+
+When you run `cdktf synth`, CDKTF generates a Terraform configuration with the value overwritten.
+
+```json
+{
+  "resource": {
+    "aws_sns_topic": {
+      "helloterraTopic6609C1D4": {
+        "display_name": "my-topic"
+      }
+    }
+  }
+}
+```
+
+Use a dot notation to access elements in arrays: `resource.addOverride("configurations.0.https", true)`.
+
+#### Escape Hatch for Dynamic Blocks
+
+Terraform configurations sometimes use [`dynamic` blocks](/language/expressions/dynamic-blocks) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
+
+In CDKTF applications, you must use an escape hatch when you want to loop through a dynamic value like a `TerraformVariable` or a resource output.
+
+To use an escape hatch to loop over dynamic data, you must:
+
+- Set the first argument of `addOverride` to be `dynamic.<attribute_name>`.
+- Create a `for_each` value for the second argument and set it to the list you want to iterate over.
+- Take the attribute as base for the reference when you reference values from the list. For example, use `"${<attribute_name>.value.nested_value}"`.
+
+The TypeScript example below adds ingress values by looping through the ports passed as `TerraformVariable`.
+
+```ts
+const ports = new TerraformVariable(this, "ports", {
+  type: "list",
+  default: [22, 80, 443, 5432],
+});
+
+const sg = new SecurityGroup(this, "sec1grp", {
+  name: "security1",
+  vpcId: "vpcs",
+  egress: [
+    {
+      fromPort: 0,
+      toPort: 0,
+      cidrBlocks: ["0.0.0.0/0"],
+      protocol: "-1",
+    },
+  ],
+});
+sg.addOverride("dynamic.ingress", {
+  for_each: ports.listValue,
+  content: {
+    fromPort: "${ingress.value}",
+    toPort: "${ingress.value}",
+    cidrBlocks: ["0.0.0.0/0"],
+    protocol: "-1",
+  },
+});
+```
+
+You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
+
+The TypeScript example below loops through the ports without using an escape hatch.
+
+```ts
+const ports = [22, 80, 443, 5432];
+
+new SecurityGroup(this, "sec1grp", {
+  name: "security1",
+  vpcId: "vpcs",
+  egress: [
+    {
+      fromPort: 0,
+      toPort: 0,
+      cidrBlocks: ["0.0.0.0/0"],
+      protocol: "-1",
+    },
+  ],
+  ingress: ports.map((port) => ({
+    fromPort: port,
+    toPort: port,
+    cidrBlocks: ["0.0.0.0/0"],
+    protocol: "-1",
+  })),
+});
+```
