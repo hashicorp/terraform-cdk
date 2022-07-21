@@ -234,6 +234,20 @@ export class IteratorStack extends TerraformStack {
       forEach: stringMapIterator,
       str: stringMapIterator.value,
     });
+
+    // passing an iterator to a block property
+    new edge.ListBlockResource(this, "list_attribute", {
+      req: complexListIterator.dynamic({
+        reqbool: complexListIterator.getBoolean("reqbool"),
+        reqstr: complexListIterator.getString("reqstr"),
+        reqnum: complexListIterator.getNumber("reqnum"),
+      }),
+      singlereq: {
+        reqbool: true,
+        reqnum: 0,
+        reqstr: "a",
+      },
+    });
   }
 }
 
