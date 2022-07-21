@@ -28,7 +28,7 @@ Other benefits of Terraform Cloud and Terraform Enterprise include the ability t
 
 After you sign up for a [Terraform Cloud Account](https://app.terraform.io/public/signup/account), you must connect your CDKTF project to one or more [Terraform Cloud workspaces](/cloud-docs/workspaces).
 
-[Workspaces](/cloud-docs/workspaces) function like working directories for distinct Terraform configurations. The workspace is associated with a Terraform configuration and its associated state file. It can also contain variables that you can use for credential management. By default, workspaces are created in [Remote Execution Mode](/cloud-docs/run/remote-operations), which enables Terraform Cloud to store Terraform state and run Terraform operations remotely.
+[Workspaces](/cloud-docs/workspaces) function like working directories for distinct Terraform configurations and are associated with a Terraform configuration and its state file. Workspaces can also contain variables that you can use for credential management. By default, workspaces are created in [Remote Execution Mode](/cloud-docs/run/remote-operations), which enables Terraform Cloud to store Terraform state and run Terraform operations remotely.
 
 When you create a new workspace you can choose between CLI-Mode (for running `cdktf` directly), VCS-Mode (for letting TFC run in CI mode), and API-Mode (for advanced use-cases).
 
