@@ -11,6 +11,7 @@ import {
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
+import * as semver from "semver";
 
 // ref: https://www.terraform.io/language/providers/requirements#source-addresses
 const DEFAULT_HOSTNAME = "registry.terraform.io";
@@ -120,17 +121,18 @@ export class ProviderConstraint {
  * manages dependencies of a CDKTF project (e.g. terraform providers)
  */
 export class DependencyManager {
-  private packageManager?: PackageManager;
+  private packageManager: PackageManager;
 
   constructor(
     private readonly targetLanguage: Language,
     private cdktfVersion: string,
     private readonly projectDirectory: string
   ) {
-    this.packageManager =
-      targetLanguage !== Language.GO
-        ? PackageManager.forLanguage(targetLanguage, this.projectDirectory)
-        : undefined;
+    this.packageManager = PackageManager.forLanguage(
+      targetLanguage,
+      this.projectDirectory
+    );
+    undefined;
   }
 
   async addProvider(
@@ -157,9 +159,12 @@ export class DependencyManager {
   cdktf   : ${this.cdktfVersion}
 `);
 
-    if (this.targetLanguage === Language.GO) {
+    if (
+      this.targetLanguage === Language.GO &&
+      semver.lt(this.cdktfVersion, "0.12.0")
+    ) {
       console.log(
-        `There are no pre-built providers published for Go at the moment. See https://github.com/hashicorp/terraform-cdk/issues/723`
+        `Before CDKTF 0.12.0 there were no pre-built providers published for Go.`
       );
       return false;
     }
@@ -182,18 +187,6 @@ export class DependencyManager {
     logger.debug(
       `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`
     );
-
-    if (this.targetLanguage === Language.GO) {
-      throw Errors.Usage(
-        "There are no pre-built providers published for Go at the moment. See https://github.com/hashicorp/terraform-cdk/issues/723"
-      );
-    }
-
-    if (!this.packageManager) {
-      throw Errors.Internal(
-        "Package manager not initialized. Please report this issue."
-      );
-    }
 
     const npmPackageName = await getNpmPackageName(constraint);
 
@@ -249,10 +242,11 @@ export class DependencyManager {
    */
   private convertPackageName(name: string): string {
     switch (this.targetLanguage) {
-      case Language.GO:
-        throw Errors.Internal(
-          "pre-built providers are not supported for Go yet"
-        );
+      case Language.GO: // e.g. github.com/hashicorp/cdktf-provider-opentelekomcloud-go
+        return `github.com/hashicorp/cdktf-provider-${name.replace(
+          "@cdktf/provider-",
+          ""
+        )}-go`;
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
