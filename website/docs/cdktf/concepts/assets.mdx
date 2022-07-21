@@ -190,7 +190,7 @@ func newMyStack(scope construct, name *string) *myStack {
 		region: jsii.String("us-west-2"),
 	})
 
-	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &s3BucketConfig{
+	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &aws.s3.s3BucketConfig{
 		bucket: jsii.String("demo"),
 	})
 
@@ -199,7 +199,7 @@ func newMyStack(scope construct, name *string) *myStack {
 		type: cdktf.AssetType_ARCHIVE,
 	})
 
-	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &s3BucketObjectConfig{
+	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &aws.s3.s3BucketObjectConfig{
 		bucket: bucket.bucket,
 		key: asset.fileName,
 		source: asset.path,

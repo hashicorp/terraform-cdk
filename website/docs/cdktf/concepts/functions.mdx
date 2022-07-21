@@ -112,7 +112,7 @@ type MyStack struct {
 func NewMyStack(scope construct, id *string) *MyStack {
 	this := &MyStack{}
 	newTerraformStack_Override(this, scope, id)
-	zones := #error#.NewDataAwsAvailabilityZones(this, jsii.String("zones"), &dataAwsAvailabilityZonesConfig{
+	zones := aws.Datasources.NewDataAwsAvailabilityZones(this, jsii.String("zones"), &aws.Datasources.dataAwsAvailabilityZonesConfig{
 		state: jsii.String("available"),
 	})
 

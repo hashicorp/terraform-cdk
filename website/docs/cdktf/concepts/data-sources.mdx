@@ -227,14 +227,14 @@ func NewHelloTerraform(scope construct, id *string) *HelloTerraform {
 	this := &HelloTerraform{}
 	newTerraformStack_Override(this, scope, id)
 
-	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote_state"), &dataTerraformRemoteStateRemoteConfig{
+	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote_state"), &cdktf.dataTerraformRemoteStateRemoteConfig{
 		organization: jsii.String("hashicorp"),
 		workspaces: map[string]*string{
 			"name": jsii.String("vpc-prod"),
 		},
 	})
 
-	#error#.NewInstance(this, jsii.String("foo"), &instanceConfig{
+	aws.ec2.NewInstance(this, jsii.String("foo"), &aws.Ec2.instanceConfig{
 		subnetId: cdktf.Token.asString(remoteState.get(jsii.String("subnet_id"))),
 	})
 	return this

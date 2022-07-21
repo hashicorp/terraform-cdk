@@ -180,19 +180,16 @@ func newMyStack(scope construct, id *string) *myStack {
 	newTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
-	logRetention := cdktf.NewTerraformVariable(this, jsii.String("logRetentionInDays"), &terraformVariableConfig{
+	logRetention := cdktf.NewTerraformVariable(this, jsii.String("logRetentionInDays"), &cdktf.terraformVariableConfig{
 		type: jsii.String("number"),
 	})
 
-	vpc := myconstructs.NewMyAwsVpc(this, jsii.String("vpc"), map[string]interface{}{
-		"name": jsii.String("vpcName"),
-		"publicSubnets": []*string{
-			jsii.String("10.0.1.0/24"),
-			jsii.String("10.0.2.0/24"),
-		},
+	vpc := myconstructs.NewMyAwsVpc(this, jsii.String("vpc"), &myconstructs.awsVpcProps{
+		name: jsii.String("vpcName"),
+		publicSubnets: [jsii.String("10.0.1.0/24"), jsii.String("10.0.2.0/24")]
 	})
 
-	myconstructs.NewEksCluster(this, jsii.String("EksModule"), &eksProps{
+	myconstructs.NewEksCluster(this, jsii.String("EksModule"), &myconstructs.eksProps{
 		clusterName: jsii.String("my-kubernetes-cluster"),
 		subnets: cdktf.Token.asList(vpc.publicSubnetsOutput),
 		clusterLogRetentionInDays: logRetention.numberValue,

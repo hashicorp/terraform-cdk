@@ -165,12 +165,12 @@ func newMyStack(scope construct, id *string) *myStack {
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
 
-	imageId := cdktf.NewTerraformVariable(this, jsii.String("imageId"), &terraformVariableConfig{
+	imageId := cdktf.NewTerraformVariable(this, jsii.String("imageId"), &cdktf.terraformVariableConfig{
 		type: jsii.String("string"),
 		default: jsii.String("ami-abcde123"),
 		description: jsii.String("What AMI to use to create an instance"),
 	})
-	aws.Ec2.NewInstance(this, jsii.String("hello"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("hello"), &aws.Ec2.instanceConfig{
 		ami: imageId.value,
 		instanceType: jsii.String("t2.micro"),
 	})
@@ -330,7 +330,7 @@ func newMyStack(scope construct, id *string) *myStack {
 		"Owner": jsii.String("owner"),
 	})
 
-	aws.Ec2.NewInstance(this, jsii.String("example"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("example"), &aws.Ec2.instanceConfig{
 		tags: commonTags.expression,
 	})
 	return this
@@ -507,7 +507,7 @@ func newMyStack(scope construct, name *string, props myStackProps) *myStack {
 
 	{ myDomain } := *props
 
-	cdktf.NewTerraformOutput(this, jsii.String("my-domain"), &terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("my-domain"), &cdktf.terraformOutputConfig{
 		value: myDomain,
 	})
 	return this
@@ -643,12 +643,12 @@ func newMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, name)
 
-	random.NewRandomProvider(this, jsii.String("random"), &randomProviderConfig{
+	random.NewRandomProvider(this, jsii.String("random"), &random.randomProviderConfig{
 	})
-	pet := random.NewPet(this, jsii.String("pet"), &petConfig{
+	pet := random.NewPet(this, jsii.String("pet"), &random.petConfig{
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &cdktf.terraformOutputConfig{
 		value: pet.id,
 	})
 	return this
@@ -932,19 +932,19 @@ func newProducer(scope construct, name *string) *producer {
 	this := &producer{}
 	newTerraformStack_Override(this, scope, name)
 
-	cdktf.NewRemoteBackend(this, &remoteBackendProps{
+	cdktf.NewRemoteBackend(this, &cdktf.remoteBackendProps{
 		organization: jsii.String("hashicorp"),
 		workspaces: map[string]*string{
 			"name": jsii.String("producer"),
 		},
 	})
 
-	random.NewRandomProvider(this, jsii.String("random"), &randomProviderConfig{
+	random.NewRandomProvider(this, jsii.String("random"), &random.randomProviderConfig{
 	})
-	pet := random.NewPet(this, jsii.String("pet"), &petConfig{
+	pet := random.NewPet(this, jsii.String("pet"), &random.petConfig{
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("random-pet"), &cdktf.terraformOutputConfig{
 		value: pet.id,
 	})
 	return this
@@ -958,21 +958,21 @@ func newConsumer(scope construct, name *string) *consumer {
 	this := &consumer{}
 	newTerraformStack_Override(this, scope, name)
 
-	cdktf.NewRemoteBackend(this, &remoteBackendProps{
+	cdktf.NewRemoteBackend(this, &cdktf.remoteBackendProps{
 		organization: jsii.String("hashicorp"),
 		workspaces: map[string]*string{
 			"name": jsii.String("consumer"),
 		},
 	})
 
-	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote-pet"), &dataTerraformRemoteStateRemoteConfig{
+	remoteState := cdktf.NewDataTerraformRemoteState(this, jsii.String("remote-pet"), &cdktf.dataTerraformRemoteStateRemoteConfig{
 		organization: jsii.String("hashicorp"),
 		workspaces: map[string]*string{
 			"name": jsii.String("producer"),
 		},
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("random-remote-pet"), &terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("random-remote-pet"), &cdktf.terraformOutputConfig{
 		value: remoteState.getString(jsii.String("random-pet")),
 	})
 	return this

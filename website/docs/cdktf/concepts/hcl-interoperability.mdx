@@ -162,19 +162,19 @@ func newMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, name)
 
-	random.NewRandomProvider(this, jsii.String("default"), &randomProviderConfig{
+	random.NewRandomProvider(this, jsii.String("default"), &random.randomProviderConfig{
 	})
-	petNameLength := cdktf.NewTerraformVariable(this, jsii.String("petNameLength"), &terraformVariableConfig{
+	petNameLength := cdktf.NewTerraformVariable(this, jsii.String("petNameLength"), &cdktf.terraformVariableConfig{
 		type: jsii.String("number"),
 		default: jsii.Number(2),
 		description: jsii.String("Pet name length"),
 	})
 
-	myPet := random.NewPet(this, jsii.String("example"), &petConfig{
+	myPet := random.NewPet(this, jsii.String("example"), &random.petConfig{
 		length: petNameLength.value,
 	})
 
-	cdktf.NewTerraformOutput(this, jsii.String("name"), &terraformOutputConfig{
+	cdktf.NewTerraformOutput(this, jsii.String("name"), &cdktf.terraformOutputConfig{
 		value: myPet.id,
 	})
 	return this

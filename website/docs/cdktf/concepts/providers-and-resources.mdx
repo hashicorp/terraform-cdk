@@ -144,11 +144,11 @@ func newMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, id)
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
 	})
 
-	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &aws.Ec2.instanceConfig{
 		ami: jsii.String("ami-2757f631"),
 		instanceType: jsii.String("t2.micro"),
 	})
@@ -471,13 +471,13 @@ func NewHelloTerra(scope construct, id *string) *HelloTerra {
 	this := &HelloTerra{}
 	newTerraformStack_Override(this, scope, id)
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("eu-central-1"),
 	})
 
 	region := aws.Datasources.NewDataAwsRegion(this, jsii.String("region"))
 
-	aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &dynamodbTableConfig{
+	aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &aws.Dynamodb.dynamodbTableConfig{
 		name: fmt.Sprintf("my-first-table-%v", region.name),
 		hashKey: jsii.String("temp"),
 		attribute: []interface{}{
@@ -712,14 +712,14 @@ func NewMyStack(scope construct, id *string) *MyStack {
 	kubernetes.NewKubernetesProvider(this, jsii.String("kubernetes"))
 
 	app := "my-app"
-	exampleNamespace := kubernetes.NewNamespace(this, jsii.String("tf-cdk-example"), &namespaceConfig{
+	exampleNamespace := kubernetes.NewNamespace(this, jsii.String("tf-cdk-example"), &kubernetes.namespaceConfig{
 		metadata: &namespaceMetadata{
 			name: jsii.String("tf-cdk-example"),
 		},
 	})
 
-	kubernetes.NewDeployment(this, jsii.String("nginx-deployment"), &deploymentConfig{
-		metadata: &deploymentMetadata{
+	kubernetes.NewDeployment(this, jsii.String("nginx-deployment"), &kubernetes.deploymentConfig{
+		metadata: &kubernetes.deploymentMetadata{
 			name: jsii.String("nginx"),
 			namespace: exampleNamespace.metadata.name,
 			 // Reference the namespace name propery
@@ -727,16 +727,16 @@ func NewMyStack(scope construct, id *string) *MyStack {
 				"app": jsii.String(app),
 			},
 		},
-		spec: &deploymentSpec{
-			template: &deploymentSpecTemplate{
-				metadata: &deploymentSpecTemplateMetadata{
+		spec: &kubernetes.deploymentSpec{
+			template: &kubernetes.deploymentSpecTemplate{
+				metadata: &kubernetes.deploymentSpecTemplateMetadata{
 					labels: map[string]*string{
 						"app": jsii.String(app),
 					},
 				},
-				spec: &deploymentSpecTemplateSpec{
-					container: []interface{}{
-						&deploymentSpecTemplateSpecContainer{
+				spec: &kubernetes.deploymentSpecTemplateSpec{
+					container: []&kubernetes.deploymentSpecTemplateSpecContainer{
+						{
 							name: jsii.String("nginx"),
 							image: jsii.String("nginx"),
 						},
@@ -896,7 +896,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 
 	tableName := "my-table"
 
-	table := aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &dynamodbTableConfig{
+	table := aws.Dynamodb.NewDynamodbTable(this, jsii.String("Hello"), &aws.Dynamodb.dynamodbTableConfig{
 		name: tableName,
 		hashKey: jsii.String("id"),
 		attribute: []interface{}{
@@ -1044,7 +1044,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
 
-	topic := aws.Sns.NewSnsTopic(this, jsii.String("Topic"), &snsTopicConfig{
+	topic := aws.Sns.NewSnsTopic(this, jsii.String("Topic"), &aws.Sns.snsTopicConfig{
 		displayName: jsii.String("will-be-overwritten"),
 	})
 	topic.addOverride(jsii.String("display_name"), jsii.String("my-topic"))
@@ -1255,7 +1255,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 	newTerraformStack_Override(this, scope, id)
 
 	aws.NewAwsProvider(this, jsii.String("aws"))
-	ports := cdktf.NewTerraformVariable(this, jsii.String("ports"), &terraformVariableConfig{
+	ports := cdktf.NewTerraformVariable(this, jsii.String("ports"), &cdktf.terraformVariableConfig{
 		type: jsii.String("list"),
 		default: []interface{}{
 			jsii.Number(22),
@@ -1265,7 +1265,7 @@ func NewMyStack(scope construct, id *string) *MyStack {
 		},
 	})
 
-	sg := aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &securityGroupConfig{
+	sg := aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &aws.Vpc.securityGroupConfig{
 		name: jsii.String("security1"),
 		vpcId: jsii.String("vpcs"),
 		egress: []interface{}{
@@ -1358,12 +1358,13 @@ class MyStack(TerraformStack):
                 protocol="-1"
             )
             ],
-            ingress=ports.map((port) => ({
-                        fromPort: port,
-                        toPort: port,
-                        cidrBlocks: ["0.0.0.0/0"],
-                        protocol: "-1",
-                      }))
+            ingress=ports.map(lambda port: => vpc.SecurityGroupIngress(
+                from_port=port,
+                to_port=port,
+                cidr_blocks=["0.0.0.0/0"],
+                protocol="-1"
+              )
+            )
         )
 ```
 
@@ -1389,12 +1390,18 @@ public class MyStack extends TerraformStack {
                         .cidrBlocks(List.of("0.0.0.0/0"))
                         .protocol("-1")
                         .build()))
-                .ingress(ports.map((port) => ({
-                        fromPort: port,
-                        toPort: port,
-                        cidrBlocks: ["0.0.0.0/0"],
-                        protocol: "-1",
-                      })))
+                .ingress(List.of(
+                  ports
+                    .stream()
+                    .map((port) -> SecurityGroupIngress.builder()
+                        .fromPort(port)
+                        .toPort(port)
+                        .cidrBlocks(List.of("0.0.0.0/0"))
+                        .protocol("-1")
+                      .build()
+                    )
+                    .collect(Collectors.toList())
+                  ))
                 .build();
     }
 }
@@ -1423,7 +1430,7 @@ class MyStack : TerraformStack
                 CidrBlocks = new [] { "0.0.0.0/0" },
                 Protocol = "-1"
             } },
-            Ingress = ports.Map((port) => ({
+            Ingress = ports.Select((port) => ({
                     fromPort: port,
                     toPort: port,
                     cidrBlocks: ["0.0.0.0/0"],
@@ -1455,25 +1462,28 @@ func NewMyStack(scope construct, id *string) *MyStack {
 		5432,
 	}
 
-	aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &securityGroupConfig{
+  var ingress []&aws.Vpc.securityGroupIngress;
+  for _, port := range ports {
+    ingress = append(ingress, &aws.Vpc.securityGroupIngress{
+      fromPort: jsii.Number(port),
+      toPort: jsii.Number(port),
+      cidrBlocks: [jsii.String("0.0.0.0/0")],
+			protocol: jsii.String("-1"),
+    })
+  }
+
+	aws.Vpc.NewSecurityGroup(this, jsii.String("sec1grp"), &aws.Vpc.securityGroupConfig{
 		name: jsii.String("security1"),
 		vpcId: jsii.String("vpcs"),
-		egress: []interface{}{
-			&securityGroupEgress{
+		egress: []&aws.Vpc.securityGroupEgress{
+			{
 				fromPort: jsii.Number(0),
 				toPort: jsii.Number(0),
-				cidrBlocks: []*string{
-					jsii.String("0.0.0.0/0"),
-				},
+				cidrBlocks: [jsii.String("0.0.0.0/0")],
 				protocol: jsii.String("-1"),
 			},
 		},
-		ingress: ports.map((port) => ({
-		        fromPort: port,
-		        toPort: port,
-		        cidrBlocks: ["0.0.0.0/0"],
-		        protocol: "-1",
-		      })),
+		ingress: ingress
 	})
 	return this
 }

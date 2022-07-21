@@ -255,11 +255,11 @@ func newMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, id)
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
 	})
 
-	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &aws.Ec2.instanceConfig{
 		ami: jsii.String("ami-2757f631"),
 		instanceType: jsii.String("t2.micro"),
 		tags: map[string]*string{
@@ -457,9 +457,9 @@ func newMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, name)
 
-	random.NewRandomProvider(this, jsii.String("random"), &randomProviderConfig{
+	random.NewRandomProvider(this, jsii.String("random"), &random.randomProviderConfig{
 	})
-	random.NewPet(this, jsii.String("server"), &petConfig{
+	random.NewPet(this, jsii.String("server"), &random.petConfig{
 	})
 	return this
 }

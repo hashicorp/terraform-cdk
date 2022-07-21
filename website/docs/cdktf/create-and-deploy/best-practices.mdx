@@ -133,13 +133,13 @@ func newMyStack(scope construct, name *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, name)
 
-	adminPassword := cdktf.NewTerraformVariable(this, jsii.String("adminPassword"), &terraformVariableConfig{
+	adminPassword := cdktf.NewTerraformVariable(this, jsii.String("adminPassword"), &cdktf.terraformVariableConfig{
 		type: jsii.String("string"),
 		description: jsii.String("Admin password for the instance"),
 		sensitive: jsii.Boolean(true),
 	})
 
-	myconstructs.NewMyResource(this, jsii.String("hello"), &myResourceProps{
+	myconstructs.NewMyResource(this, jsii.String("hello"), &myconstructs.myResourceProps{
 		adminPassword: adminPassword.value,
 	})
 	return this
@@ -366,12 +366,12 @@ devNetworking := myconstructs.NewNetworkingStack(app, jsii.String("networking-de
 })
 
 // A single region is enough to create a development environment for each product.
-myconstructs.NewEcommerce(app, jsii.String("ecommerce-development"), &ecommerceProps{
+myconstructs.NewEcommerce(app, jsii.String("ecommerce-development"), &myconstructs.ecommerceProps{
 	vpcId: devNetworking.vpcId,
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-myconstructs.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
+myconstructs.NewBlog(app, jsii.String("ecommerce-development"), &myconstructs.blogProps{
 	vpcId: devNetworking.vpcId,
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
@@ -381,18 +381,18 @@ myconstructs.NewBlog(app, jsii.String("ecommerce-development"), &blogProps{
 // to test the high availability features of the infrastructure.
 stageNetworking := myconstructs.NewNetworkingStack(app, jsii.String("networking-staging"), map[string]interface{}{
 })
-ecommerceStaging := myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-us"), &ecommerceProps{
+ecommerceStaging := myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-us"), &myconstructs.ecommerceProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &ecommerceProps{
+myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &myconstructs.ecommerceProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("eu-central-1"),
 	databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
 })
-myconstructs.NewBlog(app, jsii.String("ecommerce-staging"), &blogProps{
+myconstructs.NewBlog(app, jsii.String("ecommerce-staging"), &myconstructs.blogProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),
@@ -537,14 +537,12 @@ type MyS3Bucket struct {
 func NewMyS3Bucket(scope construct, id *string, s3Options s3BucketConfig) *MyS3Bucket {
 	this := &MyS3Bucket{}
 	newConstruct_Override(this, scope, id)
-	aws.S3.NewS3Bucket(this, jsii.String("MyBucket"), &s3BucketConfig{
-		(SpreadAssignment ...s3Options
-				*s3Options),
-		bucket: this.getBucketName(),
-		versioning: &s3BucketVersioning{
+  config := s3Options
+  config.bucket = this.getBucketName()
+  config.versioning = &s3BucketVersioning{
 			enabled: jsii.Boolean(true),
 		},
-	})
+	aws.S3.NewS3Bucket(this, jsii.String("MyBucket"), &config)
 	return this
 }
 

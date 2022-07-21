@@ -138,11 +138,11 @@ func newMyStack(scope construct, id *string) *myStack {
 	this := &myStack{}
 	newTerraformStack_Override(this, scope, id)
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String("us-east-1"),
 	})
 
-	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &aws.Ec2.instanceConfig{
 		ami: jsii.String("ami-2757f631"),
 		instanceType: jsii.String("t2.micro"),
 	})
@@ -373,11 +373,11 @@ func newMyStack(scope construct, id *string, config myStackConfig) *myStack {
 
 	{ region = "us-east-1" } := *config
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String(region),
 	})
 
-	aws.Ec2.NewInstance(this, jsii.String("Hello"), &instanceConfig{
+	aws.Ec2.NewInstance(this, jsii.String("Hello"), &aws.Ec2.instanceConfig{
 		ami: jsii.String("ami-2757f631"),
 		instanceType: jsii.String("t2.micro"),
 		tags: map[string]*string{
@@ -663,18 +663,18 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 import "github.com/hashicorp/cdktf-provider-aws-go/aws"
 import "github.com/myorg/myproject/myconstructs"
 
-type vPCStack struct {
+type vpcStack struct {
 	terraformStack
 	vpc myAwsVpc
 }
-func newVPCStack(scope construct, id *string, region ) *vPCStack {
+func newVPCStack(scope construct, id *string, region ) *vpcStack {
 	if region == nil {
 		region = jsii.String("us-east-1")
 	}
-	this := &vPCStack{}
+	this := &vpcStack{}
 	newTerraformStack_Override(this, scope, id)
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String(region),
 	})
 
@@ -698,7 +698,7 @@ func newBackendStack(scope construct, id *string, config backendStackConfig) *ba
 
 	{ region, vpcId, dockerImage } := *config
 
-	aws.NewAwsProvider(this, jsii.String("aws"), &awsProviderConfig{
+	aws.NewAwsProvider(this, jsii.String("aws"), &aws.awsProviderConfig{
 		region: jsii.String(region),
 	})
 
@@ -711,7 +711,7 @@ func newBackendStack(scope construct, id *string, config backendStackConfig) *ba
 
 app := cdktf.NewApp()
 origin := NewVPCStack(app, jsii.String("origin-stack"))
-NewBackendStack(app, jsii.String("target-stack"), &backendStackConfig{
+NewBackendStack(app, jsii.String("target-stack"), &cdktf.backendStackConfig{
 	region: origin.region,
 	vpcId: origin.vpc.id,
 	dockerImage: jsii.String("org/my-image:latest"),
