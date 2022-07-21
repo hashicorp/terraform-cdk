@@ -120,8 +120,13 @@ class MyStack extends TerraformStack {
   }
 }
 ```
+After you declare a variable in your CDKTF application, you must [add it to your Terraform Cloud workspace](/cloud-docs/workspaces/variables/managing-variables#add-a-variable) so that Terraform can access the value during plan, apply, and destroy operations.
 
-Please bear in mind that the return value is an object with various token representations of the value as attributes. You can pass it as a string via `value.stringValue`, as a number via `value.numberValue`, or as a list via `value.listValue`. This means during synthesization there is no real value in the field, only a [Token](/cdktf/concepts/tokens). Tokens can not be used in dynamic checks during the runtime, e.g. `if (value.listValue.length > 42) {` will always return `false` as tokenized lists have a static length of one item.
+### Variable Return Values
+
+The return value for `TerraformVariable` is an object with various token representations of the value as attributes. You can pass this object as a string with `value.stringValue`, as a number with `value.numberValue`, or as a list with `value.listValue`. 
+
+This means that there is no actual value in the variable field when CDKTF synthesizes your application. Instead, CDKTF uses a [Token](/cdktf/concepts/tokens), which represents a value that is unknown until Terraform applies your configuration. You cannot use tokens in dynamic checks during the runtime. For example, `if (value.listValue.length > 42) {` always returns `false` because tokenized lists have a static length of one item.
 
 ## Continuous Integration
 
