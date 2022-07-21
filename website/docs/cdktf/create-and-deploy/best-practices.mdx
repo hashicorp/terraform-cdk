@@ -201,7 +201,7 @@ new Ecommerce(app, "ecommerce-development", {
   subnets: devNetworking.subnets,
   region: "us-west-1",
 });
-new Blog(app, "ecommerce-development", {
+new Blog(app, "blog-development", {
   vpcId: devNetworking.vpcId,
   subnets: devNetworking.subnets,
   region: "us-west-1",
@@ -223,7 +223,7 @@ new Ecommerce(app, "ecommerce-staging-eu", {
   region: "eu-central-1",
   databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
 });
-new Blog(app, "ecommerce-staging", {
+new Blog(app, "blog-staging", {
   vpcId: stageNetworking.vpcId,
   subnets: stageNetworking.subnets,
   region: "us-west-1",
@@ -244,7 +244,7 @@ Ecommerce(app, "ecommerce-development",
     subnets=dev_networking.subnets,
     region="us-west-1"
 )
-Blog(app, "ecommerce-development",
+Blog(app, "blog-development",
     vpc_id=dev_networking.vpc_id,
     subnets=dev_networking.subnets,
     region="us-west-1"
@@ -264,7 +264,7 @@ Ecommerce(app, "ecommerce-staging-eu",
     region="eu-central-1",
     database_replication_master=ecommerce_staging.database_replication_master
 )
-Blog(app, "ecommerce-staging",
+Blog(app, "blog-staging",
     vpc_id=stage_networking.vpc_id,
     subnets=stage_networking.subnets,
     region="us-west-1"
@@ -288,7 +288,7 @@ Ecommerce.Builder.create(app, "ecommerce-development")
         .subnets(devNetworking.getSubnets())
         .region("us-west-1")
         .build();
-Blog.Builder.create(app, "ecommerce-development")
+Blog.Builder.create(app, "blog-development")
         .vpcId(devNetworking.getVpcId())
         .subnets(devNetworking.getSubnets())
         .region("us-west-1")
@@ -308,7 +308,7 @@ Ecommerce.Builder.create(app, "ecommerce-staging-eu")
         .region("eu-central-1")
         .databaseReplicationMaster(ecommerceStaging.getDatabaseReplicationMaster())
         .build();
-Blog.Builder.create(app, "ecommerce-staging")
+Blog.Builder.create(app, "blog-staging")
         .vpcId(stageNetworking.getVpcId())
         .subnets(stageNetworking.getSubnets())
         .region("us-west-1")
@@ -329,7 +329,7 @@ new Ecommerce(app, "ecommerce-development", new EcommerceProps {
     Subnets = devNetworking.Subnets,
     Region = "us-west-1"
 });
-new Blog(app, "ecommerce-development", new BlogProps {
+new Blog(app, "blog-development", new BlogProps {
     VpcId = devNetworking.VpcId,
     Subnets = devNetworking.Subnets,
     Region = "us-west-1"
@@ -349,7 +349,7 @@ new Ecommerce(app, "ecommerce-staging-eu", new EcommerceProps {
     Region = "eu-central-1",
     DatabaseReplicationMaster = ecommerceStaging.DatabaseReplicationMaster
 });
-new Blog(app, "ecommerce-staging", new BlogProps {
+new Blog(app, "blog-staging", new BlogProps {
     VpcId = stageNetworking.VpcId,
     Subnets = stageNetworking.Subnets,
     Region = "us-west-1"
@@ -371,7 +371,7 @@ myconstructs.NewEcommerce(app, jsii.String("ecommerce-development"), &myconstruc
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
 })
-myconstructs.NewBlog(app, jsii.String("ecommerce-development"), &myconstructs.blogProps{
+myconstructs.NewBlog(app, jsii.String("blog-development"), &myconstructs.blogProps{
 	vpcId: devNetworking.vpcId,
 	subnets: devNetworking.subnets,
 	region: jsii.String("us-west-1"),
@@ -392,7 +392,7 @@ myconstructs.NewEcommerce(app, jsii.String("ecommerce-staging-eu"), &myconstruct
 	region: jsii.String("eu-central-1"),
 	databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
 })
-myconstructs.NewBlog(app, jsii.String("ecommerce-staging"), &myconstructs.blogProps{
+myconstructs.NewBlog(app, jsii.String("blog-staging"), &myconstructs.blogProps{
 	vpcId: stageNetworking.vpcId,
 	subnets: stageNetworking.subnets,
 	region: jsii.String("us-west-1"),

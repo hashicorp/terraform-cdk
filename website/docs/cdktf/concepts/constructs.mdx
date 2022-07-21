@@ -233,7 +233,7 @@ import { TerraformStack } from "cdktf";
 class PublicS3Bucket extends Construct {
   public bucket: S3Bucket;
   constructor(scope: Construct, name: string) {
-    super(scope, name); // This creates a new scope since we extend from resource
+    super(scope, name); // This creates a new scope since we extend from construct
 
     // This bucket is in a different scope than the buckets
     // defined in `MyStack` below. Therefore, it does not need a unique name.
@@ -300,7 +300,7 @@ import com.mycompany.app.S3Bucket;
 public class PublicS3Bucket extends Construct {
     public S3Bucket bucket;
     public PublicS3Bucket(Construct scope, String name) {
-        super(scope, name); // This creates a new scope since we extend from resource
+        super(scope, name); // This creates a new scope since we extend from construct
 
         // This bucket is in a different scope than the buckets
         // defined in `MyStack` below. Therefore, it does not need a unique name.
@@ -335,7 +335,7 @@ class PublicS3Bucket : Construct
 {
     public S3Bucket Bucket { get; set; }
     public PublicS3Bucket(Construct scope, string name) : base(scope, name)
-    { // This creates a new scope since we extend from resource
+    { // This creates a new scope since we extend from construct
 
         // This bucket is in a different scope than the buckets
         // defined in `MyStack` below. Therefore, it does not need a unique name.
@@ -375,7 +375,7 @@ type publicS3Bucket struct {
 }
 func newPublicS3Bucket(scope construct, name *string) *publicS3Bucket {
 	this := &publicS3Bucket{}
-	newConstruct_Override(this, scope, name) // This creates a new scope since we extend from resource
+	newConstruct_Override(this, scope, name) // This creates a new scope since we extend from construct
 
 	// This bucket is in a different scope than the buckets
 	// defined in `MyStack` below. Therefore, it does not need a unique name.
@@ -426,7 +426,3 @@ You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.
 If you want to distribute construct libraries, we recommend writing the constructs in TypeScript and using `jsii` to generate native packages for all desired language targets. We recommend that open source projects aim to support all generally available languages.
 
 You can use the [package generator projen](https://github.com/projen/projen#getting-started) to scaffold a Github project with the necessary Github Actions workflows to build and publish your construct in multiple programming languages.
-
-```
-
-```
