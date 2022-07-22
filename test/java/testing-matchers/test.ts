@@ -16,6 +16,8 @@ describe("java testing assertions", () => {
   }, 6000000);
 
   test("run java testing suite", async () => {
-    const res = await driver.exec('mvn test -Dtest="JunitTesting"');
+    expect(
+      async () => await driver.exec('mvn test -Dtest="JunitTesting"')
+    ).not.toThrow();
   }, 6000000);
 });

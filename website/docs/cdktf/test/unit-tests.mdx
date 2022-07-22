@@ -5,23 +5,31 @@ description: Write assertions and snapshot tests for your CDK for Terraform appl
 
 # Unit Tests
 
-Testing your application can give you faster feedback cycles and guard you against unwanted changes. Currently, testing is only supported in Typescript with jest.
+Testing your application can give you faster feedback cycles and guard you against unwanted changes. Testing is currently supported in Typescript with jest and compatible with any testing framework that supports assertions for all other languages.
 
-We generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+For Typescript we generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing Typescript project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
 ```js
 const cdktf = require("cdktf");
 cdktf.Testing.setupJest();
 ```
 
+For all other supported languages the CDKTF specific assertions can be found in the cdktf package under `Testing`.
+
 ### Write Assertions
 
-The example below uses `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then it uses custom matchers to verify the code acts as intended.
+The Typescript example below uses `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then it uses custom matchers to verify the code acts as intended.
+
+The other examples use `Testing.synth` to test a part of the application. Given the desired scope to test, a JSON string representing the synthesized HCL-JSON is returned. Then the custom assertions under `Testing` in the cdktf package can be used to verify the code acts as intended.
+
+Examples in
 
 - `toHaveResource`: Checks if a certain resource exists
 - `toHaveResourceWithProperties`: Checks if a certain resource exists with all properties passed
 - `toHaveDataSource`: Checks if a certain data source exists
 - `toHaveDataSourceWithProperties`: Checks if a certain data source exists with all properties passed
+
+<CodeTabs>
 
 ```ts
 import { Testing } from "cdktf";
@@ -47,9 +55,127 @@ describe("Unit testing using assertions", () => {
 });
 ```
 
+```python
+import pytest
+from cdktf import Testing
+from imports.docker import Image, Container
+from app import MyApplicationsAbstraction # Could be a class extending from cdktf.Resource
+
+class TestApplication:
+
+    stack = TerraformStack(Testing.app(), "stack")
+    app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
+    synthesized = Testing.synth(stack)
+
+  def test_should_contain_container(self):
+    assert Testing.to_have_resource(self.synthesized, Container.TF_RESOURCE_TYPE).pass_
+
+  def test_should_use_an_ubuntu_image(self):
+    assert Testing.to_have_resource_with_properties(self.synthesized, Image.TF_RESOURCE_TYPE, {
+            "name": "ubuntu:latest",
+    }).pass_
+```
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.hashicorp.cdktf.Testing;
+import imports.docker.Container;
+import imports.docker.Image;
+import com.hashicorp.cdktf.MyApplicationsAbstraction; // Could be a class extending from cdktf.Resource
+
+public class TestApplication {
+
+  private final TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+  private final MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "resource");
+  private final String synthesized = Testing.synth(stack);
+
+  @Test
+  void shouldContainContainer() {
+    assertTrue(Testing.toHaveResource(synthesized, Container.TF_RESOURCE_TYPE).getPass());
+  }
+
+  @Test
+  void shouldUseUbuntuImage() {
+    assertTrue(Testing.toHaveResourceWithProperties(synthesized, Image.TF_RESOURCE_TYPE, new HashMap<String, Object>() {
+                {
+                    put("name", "ubuntu:latest");
+                }
+    }).getPass());
+  }
+}
+```
+
+```csharp
+using Xunit;
+using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from cdktf.Resource
+using MyCompany.MyApp;
+using System;
+using System.Collections.Generic;
+using docker;
+
+namespace MyCompany.MyApp{
+  public class TestApplication{
+
+    private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+    private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "resource");
+    private static string synthesized = Testing.synth(stack);
+
+    [Fact]
+    public void shouldContainContainer(){
+      Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType).Pass);
+    }
+
+    [Fact]
+    public void shouldUseUbuntuImage(){
+      Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Image.TfResourceType, new Dictionary<String, Object>() {
+              {"name", "ubuntu:latest"}
+      }).Pass);
+    }
+  }
+}
+```
+
+```go
+package main
+
+import (
+	"testing"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/aws/jsii-runtime-go"
+)
+
+var stack = NewMyApplicationsAbstraction(cdktf.Assertions_App(nil), "stack")
+var synth = cdktf.Assertions_Synth(stack)
+
+func TestShouldContainContainer(t *testing.T){
+	assertion := cdktf.Assertions_ToHaveResource(synth, docker.Container_TfResourceType())
+
+	if !*assertion.Pass() {
+		t.Fail()
+		t.Error(assertion.Message())
+	}
+}
+
+func TestShouldUseUbuntuImage(t *testing.T){
+	properties := map[string]interface{}{
+		"name": "ubuntu:latest",
+	}
+	assertion := cdktf.Assertions_ToHaveResourceWithProperties(synth, docker.Image_TfResourceType(), &properties)
+
+	if !*assertion.Pass() {
+		t.Fail()
+		t.Error(assertion.Message())
+	}
+}
+```
+
+</CodeTabs>
+
 ### Snapshot Testing
 
-Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
+Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is currently only supported in Typescript with jest You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
 
 ```ts
 import { Testing } from "cdktf";
@@ -73,6 +199,10 @@ describe("Unit testing using snapshots", () => {
 You can produce invalid Terraform configuration if you are using escape hatches in your CDK for Terraform application. You may use an escape hatch when setting up a [remote backend](/cdktf/concepts/remote-backends) or when [overriding resource attributes](/cdktf/concepts/providers-and-resources#escape-hatch)
 
 To test this, you can assert that [`terraform validate`](/cli/commands/validate) or [`terraform plan`](/cli/commands/plan) run successfully on all or part of your application before running `cdktf plan` or `cdktf deploy`.
+
+Currently only Typescript is capable of testing for successful plans, while all languages are capable of testing for validity of the Terraform produced.
+
+<CodeTabs>
 
 ```ts
 import { Testing } from "cdktf";
@@ -101,6 +231,76 @@ describe("Checking validity", () => {
   });
 });
 ```
+
+```python
+import pytest
+from cdktf import Testing
+
+class TestApplication:
+
+  stack = new TerraformStack(Testing.app(), "test")
+
+  def test_check_validity(self):
+    assert Testing.to_be_valid_terraform(Testing.full_synth(stack)).pass_
+```
+
+```java
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.hashicorp.cdktf.Testing;
+
+public class TestApplication {
+
+  private final TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+
+  @Test
+  void checkValidity() {
+    assertTrue(Testing.toBeValidTerraform(Testing.fullSynth(stack)).getPass());
+  }
+}
+```
+
+```csharp
+using Xunit;
+using HashiCorp.Cdktf;
+using MyCompany.MyApp;
+using System;
+
+namespace MyCompany.MyApp{
+  public class TestApplication{
+
+    private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+
+    [Fact]
+    public void checkValidity(){
+      Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
+    }
+  }
+}
+```
+
+```go
+package main
+
+import (
+	"testing"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/aws/jsii-runtime-go"
+)
+
+var stack = cdktf.NewTerraformStack(cdktf.Testing_App(nil), "stack")
+
+func TestCheckValidity(t *testing.T){
+	assertion := cdktf.Testing_ToBeValidTerraform(cdktf.Testing_FullSynth(stack))
+
+	if !*assertion.Pass() {
+		t.Fail()
+		t.Error(assertion.Message())
+	}
+}
+```
+
+</CodeTabs>
 
 ## Integration Testing
 

@@ -20,6 +20,6 @@ describe("csharp testing assertions", () => {
   }, 6000000);
 
   test("run csharp testing suite", async () => {
-    await driver.exec("dotnet test");
+    expect(async () => await driver.exec("dotnet test")).not.toThrow();
   }, 6000000);
 });
