@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: ❓ Question
+    url: https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47
+    about: 🙋 For usage questions that may not require a core maintainer to answer, post in our community forum
+  - name: Terraform Cloud/Enterprise Troubleshooting
+    url: https://support.hashicorp.com/hc/en-us/requests/new
+    about: For issues related to the Terraform Cloud/Enterprise platform, please submit a HashiCorp support request or email tf-cloud@hashicorp.support
