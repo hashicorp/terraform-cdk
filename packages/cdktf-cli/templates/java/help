@@ -21,4 +21,15 @@
 
   Learn more about using modules and providers https://cdk.tf/modules-and-providers
 
+Use Providers:
+
+  You can add prebuilt providers (if available) or locally generated ones using the add command:
+  
+  cdktf provider add "aws@~>3.0" null kreuzwerker/docker
+
+  All prebuilt providers are available on Maven Central: https://mvnrepository.com/artifact/com.hashicorp
+  You can also add these providers directly to your pom.xml file.
+
+  You can also build any module or provider locally. Learn more: https://cdk.tf/modules-and-providers
+
 ========================================================================================================

@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
+      version: ${{ steps.get_version.outputs.version }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -28,9 +29,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0 # gives sentry access to all previous commits
-      - name: installing dependencies
-        run: |
-          yarn install
       - name: version
         id: get_version
         run: |
@@ -48,12 +46,12 @@ jobs:
         run: sentry-cli releases new cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-      - name: compile
+      - name: create bundle
         run: |
+          yarn install
           tools/align-version.sh
           yarn build
-        env:
-          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          yarn package
       - name: Add sourcemap and commit info to sentry
         if: steps.get_release_status.outputs.release == 'unreleased'
         run: |
@@ -61,11 +59,6 @@ jobs:
           sentry-cli releases set-commits --auto cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-      - name: create bundle
-        run: yarn package
-      - name: test
-        run: |
-          yarn test:ci
       - name: Upload artifact
         uses: actions/upload-artifact@v1
         with:
@@ -73,54 +66,34 @@ jobs:
           path: dist
       - name: Upload edge-provider bindings
         uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
           path: packages/@cdktf/provider-generator/edge-provider-bindings
-      - name: installing test dependencies
-        run: |
-          cd test && yarn install
-      - id: build-test-matrix
-        run: |
-          ./tools/build-test-matrix.sh
 
-  integration-tests:
-    needs: prepare-release
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-release.outputs.tests)}}
-    container:
-      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
-    env:
-      CHECKPOINT_DISABLE: "1"
-      TERRAFORM_VERSION: ${{ matrix.terraform }}
-    steps:
-      - uses: actions/checkout@v2
-      - name: Download dist
-        uses: actions/download-artifact@v2
-        with:
-          name: dist
-          path: dist
-      - name: Download edge-provider bindings
-        uses: actions/download-artifact@v2
-        with:
-          name: edge-provider-bindings
-          path: test/edge-provider-bindings
-      - name: install test dependencies
-        run: cd test && yarn
-      - name: integration tests
-        run: cd test && ./run-against-dist npx jest --ci ${TEST_TARGET}
-        env:
-          TEST_TARGET: ${{ matrix.target }}
-          TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          NODE_OPTIONS: "--max-old-space-size=7168"
+  integration_test:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/integration.yml
+    with:
+      skip_setup: true
+      concurrency_group_prefix: release
+    secrets: inherit
+
+  unit_test:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/unit.yml
+    with:
+      concurrency_group_prefix: release
+    secrets: inherit
 
   release_github:
     name: Release to Github
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -142,7 +115,8 @@ jobs:
     name: Release to Github Packages NPM regitry
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -160,7 +134,8 @@ jobs:
     name: Release to PyPi
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -179,7 +154,8 @@ jobs:
     name: Release to Maven
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -203,7 +179,8 @@ jobs:
     name: Release to NuGet
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -222,7 +199,8 @@ jobs:
     name: Release Go to Github Repo
     needs:
       - prepare-release
-      - integration-tests
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
@@ -243,12 +221,8 @@ jobs:
     name: Finalize the sentry release
     needs:
       - prepare-release
-      - integration-tests
-      - release_golang
-      - release_nuget
-      - release_maven
-      - release_pypi
-      - release_npm
+      - integration_test
+      - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform

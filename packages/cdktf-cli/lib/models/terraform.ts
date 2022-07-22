@@ -113,8 +113,8 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
 
 export interface Terraform {
   init: () => Promise<void>;
-  plan: (destroy: boolean) => Promise<TerraformPlan>;
-  deploy(planFile: string): Promise<void>;
+  plan: (destroy: boolean, refreshOnly?: boolean) => Promise<TerraformPlan>;
+  deploy(planFile: string, refreshOnly?: boolean): Promise<void>;
   destroy(): Promise<void>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;

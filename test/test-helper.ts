@@ -273,7 +273,7 @@ export class TestDriver {
   }) => {
     this.switchToTempDir();
     await this.init("csharp", options?.init?.additionalOptions);
-    this.copyFiles("Main.cs", "cdktf.json");
+    this.copyFiles("Program.cs", "cdktf.json");
     await this.get();
     execSyncLogErrors(
       "dotnet add reference .gen/Providers.Null/Providers.Null.csproj",

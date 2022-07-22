@@ -21,4 +21,15 @@
 
   Learn more about using modules and providers https://cdk.tf/modules-and-providers
 
+Use Providers:
+
+  Use the add command to add both prebuilt providers (if available) or locally generated providers:
+  
+  cdktf provider add "aws@~>3.0" null kreuzwerker/docker
+
+  You can find all prebuilt providers on PyPI: https://pypi.org/user/cdktf-team/
+  You can also add these providers directly to your requirements.txt file.
+
+  You can also build any module or provider locally. Learn more: https://cdk.tf/modules-and-providers
+
 ========================================================================================================

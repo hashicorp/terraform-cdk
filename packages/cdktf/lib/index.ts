@@ -30,3 +30,5 @@ export * from "./aspect";
 export * from "./terraform-functions";
 export * from "./tfExpression";
 export * from "./terraform-addressable";
+export * from "./terraform-iterator";
+export * from "./terraform-provisioner";

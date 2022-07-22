@@ -3,6 +3,9 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import * as Sentry from "@sentry/node";
 
+import { setLogger as setProviderGeneratorLogger } from "@cdktf/provider-generator";
+import { setLogger as setHclLogger } from "@cdktf/hcl2cdk";
+
 const cliLogger = getLogger();
 const logger = {
   trace(message: any, ...args: any[]) {
@@ -79,5 +82,9 @@ const processLoggerDebug = (chunk: Buffer | string | Uint8Array) => {
 const processLoggerError = (chunk: Buffer | string | Uint8Array) => {
   logger.error(chunk.toString());
 };
+
+// We have this mechanism to allow loggers from sub-packages to hook into this logging mechanism
+setHclLogger(logger as any);
+setProviderGeneratorLogger(logger as any);
 
 export { logger, processLoggerDebug, processLoggerError, logFileName };

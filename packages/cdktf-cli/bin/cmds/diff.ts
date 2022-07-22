@@ -30,6 +30,12 @@ class Command extends BaseCommand {
         desc: "Output directory for the synthesized Terraform config",
         alias: "o",
       })
+      .option("refresh-only", {
+        default: false,
+        required: false,
+        boolean: true,
+        desc: 'Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.',
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

@@ -234,23 +234,23 @@ export class CdktfStack {
     this.currentWorkPromise = undefined;
   }
 
-  public async diff() {
+  public async diff({ refreshOnly }: { refreshOnly?: boolean }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-      const plan = await terraform.plan(false);
+      const plan = await terraform.plan(false, refreshOnly);
       this.currentPlan = plan;
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
     });
   }
 
-  public async deploy() {
+  public async deploy(refreshOnly?: boolean) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-      const plan = await terraform.plan(false);
+      const plan = await terraform.plan(false, refreshOnly);
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
       const approved = this.options.autoApprove
@@ -264,7 +264,7 @@ export class CdktfStack {
 
       this.updateState({ type: "deploying", stackName: this.stack.name });
       if (plan.needsApply) {
-        await terraform.deploy(plan.planFile);
+        await terraform.deploy(plan.planFile, refreshOnly);
       }
 
       const outputs = await terraform.output();

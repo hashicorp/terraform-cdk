@@ -1,5 +1,10 @@
 import { parse } from "@cdktf/hcl2json";
-import { isRegistryModule, ProviderSchema } from "@cdktf/provider-generator";
+import {
+  isRegistryModule,
+  ProviderSchema,
+  TerraformProviderGenerator,
+  CodeMaker,
+} from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -32,13 +37,20 @@ import {
   resourceStats,
 } from "./iteration";
 import { getProviderRequirements } from "./provider";
+import { logger } from "./utils";
+
+export { setLogger } from "./utils";
+
+export const CODE_MARKER = "// define resources here";
 
 export async function getParsedHcl(hcl: string) {
+  logger.debug(`Parsing HCL: ${hcl}`);
   // Get the JSON representation of the HCL
   let json: Record<string, unknown>;
   try {
     json = await parse("terraform.tf", hcl);
   } catch (err) {
+    logger.error(`Failed to parse HCL: ${err}`);
     throw new Error(
       `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://cdk.tf/bugs/new/convert`
     );
@@ -58,6 +70,7 @@ ${JSON.stringify((err as z.ZodError).errors)}`);
 }
 
 export async function parseProviderRequirements(hcl: string) {
+  logger.debug("Parsing provider requirements");
   const plan = await getParsedHcl(hcl);
   return getProviderRequirements(plan);
 }
@@ -66,20 +79,42 @@ export async function convertToTypescript(
   hcl: string,
   providerSchema: ProviderSchema
 ) {
+  logger.debug("Converting to typescript");
   const plan = await getParsedHcl(hcl);
+
+  logger.debug(`Parsed HCL: ${JSON.stringify(plan, null, 2)}`);
 
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
   const scope: Scope = {
     providerSchema,
+    providerGenerator: Object.keys(
+      providerSchema.provider_schemas || {}
+    ).reduce((carry, fqpn) => {
+      const providerGenerator = new TerraformProviderGenerator(
+        new CodeMaker(),
+        providerSchema
+      );
+      providerGenerator.buildResourceModels(fqpn);
+      return { ...carry, [fqpn]: providerGenerator };
+    }, {}),
     constructs: new Set<string>(),
     variables: {},
   };
 
+  const graph = new DirectedGraph<{
+    code: (
+      g: DirectedGraph<any>
+    ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
+  }>();
+
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
-  const nodeMap = {
+  const nodeMap: Record<
+    string,
+    (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
+  > = {
     ...forEachProvider(scope, plan.provider, provider),
     ...forEachGlobal(scope, "var", plan.variable, variable),
     // locals are a special case
@@ -97,16 +132,16 @@ export async function convertToTypescript(
     ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
 
-  const graph = new DirectedGraph();
   // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
-  Object.entries(nodeMap).forEach(([key, value]) =>
-    graph.addNode(key, { code: value })
-  );
+  Object.entries(nodeMap).forEach(([key, value]) => {
+    logger.debug(`Adding node '${key}' to graph`);
+    graph.addNode(key, { code: value });
+  });
 
   // Finding references becomes easier of the to be referenced ids are already known
   const nodeIds = Object.keys(nodeMap);
-  function addEdges(id: string, value: TerraformResourceBlock) {
-    findUsedReferences(nodeIds, value).forEach((ref) => {
+  async function addEdges(id: string, value: TerraformResourceBlock) {
+    (await findUsedReferences(nodeIds, value)).forEach((ref) => {
       if (
         !graph.hasDirectedEdge(ref.referencee.id, id) &&
         graph.hasNode(ref.referencee.id) // in case the referencee is a dynamic variable
@@ -119,6 +154,8 @@ export async function convertToTypescript(
             These nodes exist: ${graph.nodes().join("\n")}`
           );
         }
+
+        logger.debug(`Adding edge from ${ref.referencee.id} to ${id}`);
         graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
     });
@@ -126,50 +163,54 @@ export async function convertToTypescript(
 
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
-  function addGlobalEdges(
+  async function addGlobalEdges(
     _scope: Scope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
   ) {
-    addEdges(id, value);
+    await addEdges(id, value);
   }
-  function addProviderEdges(
+  async function addProviderEdges(
     _scope: Scope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
   ) {
-    addEdges(id, value);
+    await addEdges(id, value);
   }
-  function addNamespacedEdges(
+  async function addNamespacedEdges(
     _scope: Scope,
     _type: string,
     _key: string,
     id: string,
     value: TerraformResourceBlock
   ) {
-    addEdges(id, value);
+    await addEdges(id, value);
   }
 
-  Object.values({
-    ...forEachProvider(scope, plan.provider, addProviderEdges),
-    ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
-    // locals are a special case
-    ...forEachGlobal(
-      scope,
-      "local",
-      Array.isArray(plan.locals)
-        ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
-        : {},
-      addGlobalEdges
-    ),
-    ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
-    ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
-    ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
-    ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
-  }).forEach((addEdgesToGraph) => addEdgesToGraph(graph));
+  await Promise.all(
+    Object.values({
+      ...forEachProvider(scope, plan.provider, addProviderEdges),
+      ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
+      // locals are a special case
+      ...forEachGlobal(
+        scope,
+        "local",
+        Array.isArray(plan.locals)
+          ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+          : {},
+        addGlobalEdges
+      ),
+      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
+      ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
+      ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
+      ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
+    }).map((addEdgesToGraph) => addEdgesToGraph(graph))
+  );
 
+  logger.debug(`Graph: ${JSON.stringify(graph, null, 2)}`);
+  logger.debug(`Starting to assemble the typescript code`);
   // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
   // where no node is referenced before it's defined
   // As we check that the nodes on both ends of an edge exist we can be sure
@@ -180,9 +221,11 @@ export async function convertToTypescript(
   let nodesVisitedThisIteration = 0;
   do {
     nodesVisitedThisIteration = 0;
-    graph.forEachNode((nodeId) => {
+
+    // Find next nodes to visit
+    const nodeExpressionGenerators = graph.mapNodes((nodeId, { code }) => {
       if (!nodesToVisit.includes(nodeId)) {
-        return;
+        return undefined;
       }
 
       const unresolvedDependencies = graph
@@ -193,20 +236,42 @@ export async function convertToTypescript(
         nodesToVisit = nodesToVisit.filter((id) => nodeId !== id);
         nodesVisitedThisIteration = nodesVisitedThisIteration + 1;
 
-        const list = graph.getNodeAttribute(nodeId, "code")(graph);
-        (Array.isArray(list) ? list : [list]).forEach((item) =>
-          expressions.push(item)
-        );
+        logger.debug(`Visiting node ${nodeId}`);
+        return code;
       }
+      return undefined;
     });
+
+    // Generate the code for the nodes
+    for (const code of nodeExpressionGenerators) {
+      if (code) {
+        expressions.push(...(await code(graph)));
+      }
+    }
+
+    logger.debug(
+      `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
+    );
   } while (nodesToVisit.length > 0 && nodesVisitedThisIteration != 0);
 
-  const backendExpressions = plan.terraform?.reduce(
-    (carry, terraform) => [
-      ...carry,
-      ...backendToExpression(scope, terraform.backend, nodeIds),
-    ],
-    [] as t.Statement[]
+  logger.debug(
+    `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
+  );
+
+  const backendExpressions = (
+    await Promise.all(
+      plan.terraform?.map((terraform) =>
+        backendToExpression(scope, terraform.backend, nodeIds)
+      ) || [Promise.resolve([])]
+    )
+  ).reduce((carry, item) => [...carry, ...item], []);
+
+  logger.debug(
+    `Using these backend expressions: ${JSON.stringify(
+      backendExpressions,
+      null,
+      2
+    )}`
   );
 
   // We collect all module sources
@@ -228,6 +293,10 @@ export async function convertToTypescript(
     ),
   ];
 
+  logger.debug(
+    `Found these modules: ${JSON.stringify(moduleRequirements, null, 2)}`
+  );
+
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
   const hasBackend = plan.terraform?.some(
@@ -241,9 +310,7 @@ export async function convertToTypescript(
     }).length > 0;
 
   const cdktfImports =
-    hasBackend || hasPlanOrOutputOrTerraformRemoteState
-      ? [cdktfImport]
-      : ([] as t.Statement[]);
+    hasBackend || hasPlanOrOutputOrTerraformRemoteState ? [cdktfImport] : [];
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
     expressions[0] = t.addComment(
@@ -255,6 +322,13 @@ You can read more about this at https://cdk.tf/variables`
   }
 
   const providerRequirements = getProviderRequirements(plan);
+  logger.debug(
+    `Found these provider requirements: ${JSON.stringify(
+      providerRequirements,
+      null,
+      2
+    )}`
+  );
 
   const providers = providerImports(Object.keys(providerRequirements));
   if (providers.length > 0) {
@@ -266,12 +340,19 @@ See https://cdk.tf/provider-generation for more details.`
     );
   }
 
+  logger.debug(`Using these providers: ${JSON.stringify(providers, null, 2)}`);
+
   // We add a comment if there are providers with missing schema information
   const providersLackingSchema = Object.keys(providerRequirements).filter(
     (providerName) =>
       !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
         schemaName.endsWith(providerName)
       )
+  );
+  logger.debug(
+    `${
+      providersLackingSchema.length
+    } providers lack schema information: ${providersLackingSchema.join(", ")}`
   );
   if (providersLackingSchema.length > 0) {
     expressions[0] = t.addComment(
@@ -286,19 +367,19 @@ For a more precise conversion please use the --provider flag in convert.`
 
   // We split up the generated code so that users can have more control over what to insert where
   return {
-    all: gen([
+    all: await gen([
       ...cdktfImports,
       ...providers,
       ...moduleImports(plan.module),
-      ...((backendExpressions || []) as any),
+      ...(backendExpressions || []),
       ...expressions,
     ]),
-    imports: gen([
+    imports: await gen([
       ...cdktfImports,
       ...providers,
       ...moduleImports(plan.module),
     ]),
-    code: gen([...((backendExpressions || []) as any), ...expressions]),
+    code: await gen([...(backendExpressions || []), ...expressions]),
     providers: Object.entries(providerRequirements).map(([source, version]) =>
       version === "*" ? source : `${source}@${version}`
     ),
@@ -365,8 +446,6 @@ type CdktfJson = Record<string, unknown> & {
 };
 export async function convertProject(
   combinedHcl: string,
-  inputMainFile: string,
-  inputCdktfJson: CdktfJson,
   { language, providerSchema }: ConvertOptions
 ) {
   if (language !== "typescript") {
@@ -383,19 +462,19 @@ export async function convertProject(
     language,
     providerSchema,
   });
-  const importMainFile = [imports, inputMainFile].join("\n");
-  const outputMainFile = importMainFile.replace(
-    "// define resources here",
-    code
-  );
-
-  const cdktfJson = { ...inputCdktfJson };
-  cdktfJson.terraformProviders = providers;
-  cdktfJson.terraformModules = tfModules;
 
   return {
-    code: prettier.format(outputMainFile, { parser: "babel" }),
-    cdktfJson,
+    code: (inputMainFile: string) => {
+      const importMainFile = [imports, inputMainFile].join("\n");
+      const outputMainFile = importMainFile.replace(CODE_MARKER, code);
+      return prettier.format(outputMainFile, { parser: "babel" });
+    },
+    cdktfJson: (inputCdktfJson: CdktfJson) => {
+      const cdktfJson = { ...inputCdktfJson };
+      cdktfJson.terraformProviders = providers;
+      cdktfJson.terraformModules = tfModules;
+      return cdktfJson;
+    },
     stats,
   };
 }

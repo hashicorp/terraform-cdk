@@ -55,11 +55,17 @@ export class TerraformCli implements Terraform {
     );
   }
 
-  public async plan(destroy = false): Promise<TerraformPlan> {
+  public async plan(
+    destroy = false,
+    refreshOnly = false
+  ): Promise<TerraformPlan> {
     const planFile = "plan";
     const options = ["plan", "-input=false", "-out", planFile];
     if (destroy) {
       options.push("-destroy");
+    }
+    if (refreshOnly) {
+      options.push("-refresh-only");
     }
     await this.setUserAgent();
     await exec(
@@ -87,6 +93,7 @@ export class TerraformCli implements Terraform {
 
   public async deploy(
     planFile: string,
+    refreshOnly = false,
     extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
@@ -101,6 +108,7 @@ export class TerraformCli implements Terraform {
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),
+        ...(refreshOnly ? ["-refresh-only"] : []),
       ],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       this.onStdout("deploy"),

@@ -358,6 +358,7 @@ class Parser {
               isOptional: optional,
               isRequired: required,
               isSingleItem: true,
+              isBlock: true,
             }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -372,7 +373,11 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, { struct, isMap: true }),
+            type: new AttributeTypeModel(struct.name, {
+              struct,
+              isMap: true,
+              isBlock: true,
+            }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: false,
@@ -398,6 +403,7 @@ class Parser {
               isOptional: optional,
               isRequired: required,
               isSingleItem: blockType.max_items === 1,
+              isBlock: true,
             }),
             description: `${terraformName} block`,
             storageName: `_${name}`,
@@ -488,7 +494,8 @@ class Parser {
 }
 
 export class ResourceParser {
-  private unique_classnames: string[] = [];
+  private uniqueClassnames: string[] = [];
+  private resources: Record<string, ResourceModel> = {};
 
   public parse(
     provider: string,
@@ -496,8 +503,19 @@ export class ResourceParser {
     schema: Schema,
     terraformType: string
   ): ResourceModel {
-    const parser = new Parser(this.unique_classnames);
+    if (this.resources[type]) {
+      return this.resources[type];
+    }
+
+    const parser = new Parser(this.uniqueClassnames);
     const resource = parser.resourceFrom(provider, type, schema, terraformType);
+    this.resources[type] = resource;
     return resource;
+  }
+
+  // Used by convert to determine the right name for a class
+  public getClassNameForResource(terraformType: string) {
+    const resource = this.resources[terraformType];
+    return resource ? resource.className : "";
   }
 }

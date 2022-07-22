@@ -20,7 +20,7 @@ export abstract class PackageManager {
   ): PackageManager {
     switch (language) {
       case Language.GO:
-        throw new Error("Go is not supported yet");
+        return new GoPackageManager(workingDirectory);
       case Language.TYPESCRIPT:
         return new NodePackageManager(workingDirectory);
       case Language.PYTHON:
@@ -212,6 +212,20 @@ class MavenPackageManager extends PackageManager {
 
     // Install
     await exec("mvn", ["install"], { cwd: this.workingDirectory });
+    console.log("Package installed.");
+  }
+}
+
+class GoPackageManager extends PackageManager {
+  public async addPackage(
+    packageName: string,
+    packageVersion?: string
+  ): Promise<void> {
+    console.log(`Adding package ${packageName} @ ${packageVersion}`);
+
+    // Install
+    await exec("go", ["get", packageName], { cwd: this.workingDirectory });
+
     console.log("Package installed.");
   }
 }

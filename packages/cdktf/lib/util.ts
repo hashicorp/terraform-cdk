@@ -1,3 +1,4 @@
+import { TerraformDynamicBlock } from "./terraform-dynamic-block";
 import { Tokenization } from "./tokens/token";
 /**
  * Merges `source` into `target`, overriding any existing values.
@@ -95,4 +96,31 @@ export function keysToSnakeCase(object: any): any {
     newObject[snakeCase(key)] = value;
     return newObject;
   }, {});
+}
+
+/**
+ * dynamic attributes are located at a different position than normal block attributes
+ * This method detects them and moves them from .attributeName to .dynamic.attributeName
+ * It also invokes the .toTerraform() method on the dynamic attribute to get the correct
+ * Terraform representation
+ */
+export function processDynamicAttributes(attributes: { [name: string]: any }): {
+  [name: string]: any;
+} {
+  const result: { [name: string]: any; dynamic?: { [name: string]: any } } = {};
+  Object.entries(attributes).forEach(([attributeName, value]) => {
+    if (TerraformDynamicBlock.isTerraformDynamicBlock(value)) {
+      if (!result.dynamic) {
+        result.dynamic = {};
+      }
+      result.dynamic[attributeName] = value.toTerraformDynamicBlockJson();
+    } else {
+      const recurse =
+        value !== null &&
+        typeof value === "object" &&
+        value.constructor === Object; // only descend into plain objects
+      result[attributeName] = recurse ? processDynamicAttributes(value) : value;
+    }
+  });
+  return result;
 }

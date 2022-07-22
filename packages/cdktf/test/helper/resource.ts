@@ -1,14 +1,20 @@
-import { TerraformResource, TerraformMetaArguments } from "../../lib";
+import {
+  TerraformResource,
+  TerraformMetaArguments,
+  IResolvable,
+} from "../../lib";
 import { Construct } from "constructs";
 import { TestProviderMetadata } from "./provider";
-import { stringToTerraform } from "../../lib/runtime";
+import { listMapper, stringToTerraform } from "../../lib/runtime";
 import { ComplexList, ComplexObject } from "../../lib/complex-computed-list";
 import { ITerraformResource } from "../../lib/terraform-resource";
 
 export interface TestResourceConfig extends TerraformMetaArguments {
   name: string;
+  names?: string[];
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
+  listBlock?: IResolvable;
 }
 
 export class TestResource extends TerraformResource {
@@ -17,6 +23,7 @@ export class TestResource extends TerraformResource {
   public names?: string[];
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
+  public listBlock?: IResolvable; // real life bindings also allow an interface here, but we don't use that in our tests using this
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
@@ -29,11 +36,15 @@ export class TestResource extends TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      forEach: config.forEach,
     });
 
     this.name = config.name;
+    this.names = config.names;
     this.tags = config.tags;
     this.nestedType = config.nestedType;
+    this.listBlock = config.listBlock;
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
@@ -42,6 +53,7 @@ export class TestResource extends TerraformResource {
       names: this.names,
       tags: this.tags,
       nested_type: this.nestedType,
+      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
 
@@ -59,6 +71,10 @@ export class TestResource extends TerraformResource {
 
   public get anyList() {
     return this.interpolationForAttribute("any_list");
+  }
+
+  public get stringMap() {
+    return this.getStringMapAttribute("string_map");
   }
 
   public get numberList() {
@@ -96,6 +112,7 @@ export class OtherTestResource extends TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
     });
   }
 

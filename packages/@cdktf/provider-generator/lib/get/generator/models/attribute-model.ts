@@ -33,6 +33,22 @@ export interface AttributeModelOptions {
   required: boolean;
 }
 
+export function escapeAttributeName(name: string) {
+  // `self` and `build` doesn't work in as property name in Python
+  if (name === "self" || name === "build") return `${name}Attribute`;
+  // jsii can't handle `getFoo` properties, since it's incompatible with Java
+  if (name.match(/^get[A-Za-z]+/)) return name.replace("get", "fetch");
+  // `equals` is a prohibited name in jsii
+  if (name === "equals") return "equalTo";
+  // `node` is already used by the Constructs base class
+  if (name === "node") return "nodeAttribute";
+  // `System` shadows built-in types in CSharp (see #1420)
+  if (name === "system") return "systemAttribute";
+  // `tfResourceType` is already used by resources to distinguish between different resource types
+  if (name === "tfResourceType") return `${name}Attribute`;
+  return name;
+}
+
 export class AttributeModel {
   public storageName: string; // private property
   private _name: string;
@@ -196,19 +212,7 @@ export class AttributeModel {
   }
 
   public static escapeName(name: string): string {
-    // `self` and `build` doesn't work in as property name in Python
-    if (name === "self" || name === "build") return `${name}Attribute`;
-    // jsii can't handle `getFoo` properties, since it's incompatible with Java
-    if (name.match(/^get[A-Za-z]+/)) return name.replace("get", "fetch");
-    // `equals` is a prohibited name in jsii
-    if (name === "equals") return "equalTo";
-    // `node` is already used by the Constructs base class
-    if (name === "node") return "nodeAttribute";
-    // `System` shadows built-in types in CSharp (see #1420)
-    if (name === "system") return "systemAttribute";
-    // `tfResourceType` is already used by resources to distinguish between different resource types
-    if (name === "tfResourceType") return `${name}Attribute`;
-    return name;
+    return escapeAttributeName(name);
   }
 
   public get description(): string | undefined {

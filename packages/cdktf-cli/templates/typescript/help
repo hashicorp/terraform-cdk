@@ -30,10 +30,14 @@
     npm run upgrade        Upgrade cdktf modules to latest version
     npm run upgrade:next   Upgrade cdktf modules to latest "@next" version (last commit)
 
- Use Prebuilt Providers:
+ Use Providers:
+
+  You can add prebuilt providers (if available) or locally generated ones using the add command:
+  
+  cdktf provider add "aws@~>3.0" null kreuzwerker/docker
 
   You can find all prebuilt providers on npm: https://www.npmjs.com/search?q=keywords:cdktf
-  You can install these providers through npm:
+  You can also install these providers directly through npm:
 
   npm install @cdktf/provider-aws
   npm install @cdktf/provider-google

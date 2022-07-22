@@ -2,19 +2,9 @@
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": [
-    "null@ ~> 3.1.0",
     "aws",
-    "google",
-    "azurerm",
-    "kubernetes",
-    "consul",
-    "vault",
     "nomad",
-    "external",
-    "terraform-providers/openstack",
-    "hashicorp/oci@= 4.75.0",
-    "DataDog/datadog@~> 3.0",
-    "awscc@= 0.17.0"
+    "kubernetes"
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"

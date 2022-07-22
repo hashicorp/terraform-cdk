@@ -63,25 +63,27 @@ class ReferenceStack extends TerraformStack {
                 .str(list.getReq().get(0).getReqstr())
                 .num(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0)))
                 .strList(Collections.singletonList(list.getReq().get(0).getReqstr()))
-                .numList(Collections.singletonList(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0))))
-                .boolList(Collections.singletonList(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false))))
+                .numList(
+                        Collections.singletonList(Token.asNumber(Fn.lookup(Fn.element(list.getReq(), 0), "reqnum", 0))))
+                .boolList(Collections
+                        .singletonList(Token.asAny(Fn.lookup(Fn.element(list.getReq(), 0), "reqbool", false))))
                 .build();
 
         // passing a reference to a complete list
         // Not supported at this time.
         // Tricky to get working because of JSII interface limitations.
         // ListBlockResource.Builder.create(this, "list_reference")
-        //         .req(Token.asAny(list.getReq()))
-        //         .singlereq(list.getSinglereq())
-        //         .build();
+        // .req(Token.asAny(list.getReq()))
+        // .singlereq(list.getSinglereq())
+        // .build();
 
         // passing a literal array with references for a list
         // This doesn't work since the types of 'req' and 'singlereq' are different.
         // It works in TS/Python since the type definitions have the same properties.
         // ListBlockResource.Builder.create(this, "list_literal")
-        //         .req(Token.asAny(Collections.singletonList(list.getSinglereq())))
-        //         .singlereq(list.getSinglereq())
-        //         .build();
+        // .req(Token.asAny(Collections.singletonList(list.getSinglereq())))
+        // .singlereq(list.getSinglereq())
+        // .build();
 
         // required values FROM map
         RequiredAttributeResource.Builder.create(this, "from_map")
@@ -116,7 +118,8 @@ class ReferenceStack extends TerraformStack {
                 .staticId(true)
                 .build();
 
-        // passing an element of a list ref of a complex list type (no block) into a resource
+        // passing an element of a list ref of a complex list type (no block) into a
+        // resource
         OptionalAttributeResource.Builder.create(this, "list_item_from_list_type_ref")
                 .str(list.getComputedListOfObject().get(5).getStr())
                 .build();
@@ -190,8 +193,82 @@ class ProviderStack extends TerraformStack {
     }
 }
 
-public class Main extends TerraformStack
-{
+class IteratorStack extends TerraformStack {
+    public IteratorStack(Construct scope, String id) {
+        super(scope, id);
+        EdgeProvider.Builder.create(this, "edge")
+                .reqstr("reqstr")
+                .reqnum(123)
+                .reqbool(true)
+                .build();
+
+        List<String> stringList = new ArrayList<String>();
+        stringList.add("a");
+        stringList.add("b");
+        stringList.add("c");
+
+        OptionalAttributeResource simpleList = OptionalAttributeResource.Builder.create(this, "target")
+                .strList(stringList)
+                .build();
+
+        List<ListBlockResourceReq> arrlist = new ArrayList<ListBlockResourceReq>();
+        arrlist.add(ListBlockResourceReq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build());
+        arrlist.add(ListBlockResourceReq.builder().reqbool(false).reqnum(0).reqstr("reqstr2").build());
+
+        ListBlockResource complexList = ListBlockResource.Builder.create(this, "list")
+                .req(arrlist)
+                .singlereq(ListBlockResourceSinglereq.builder().reqbool(false).reqnum(1).reqstr("reqstr").build())
+                .build();
+
+        Map<String, String> stringMap = new HashMap<String, String>();
+        stringMap.put("key1", "value1");
+        stringMap.put("key2", "value2");
+        Map<String, Boolean> boolMap = new HashMap<String, Boolean>();
+        boolMap.put("key1", true);
+
+        MapResource map = MapResource.Builder.create(this, "map")
+                .optMap(stringMap)
+                .reqMap(boolMap)
+                .build();
+
+        ListTerraformIterator stringListIterator = TerraformIterator
+                .fromList(simpleList.getStrList());
+        ListTerraformIterator complexListIterator = TerraformIterator
+                .fromList(complexList.getReq());
+        MapTerraformIterator stringMapIterator = TerraformIterator.fromMap(map.getOptMap());
+
+        // iterating over a list of strings
+        OptionalAttributeResource.Builder.create(this, "string_list_target")
+                .forEach(stringListIterator)
+                .str(Token.asString(stringListIterator.getValue()))
+                .build();
+
+        // iterating over a list of complex objects
+        OptionalAttributeResource.Builder.create(this, "complex_list_target")
+                .forEach(complexListIterator)
+                .str(complexListIterator.getString("reqstr"))
+                .num(complexListIterator.getNumber("reqnum"))
+                .build();
+
+        // iterating over entries of a map of strings
+        OptionalAttributeResource.Builder.create(this, "string_map_target")
+                .forEach(stringMapIterator)
+                .str(Token.asString(stringMapIterator.getValue()))
+                .build();
+
+        // passing an iterator to a block property
+        HashMap<String, Object> content = new HashMap<String, Object>();
+        content.put("reqbool", complexListIterator.getBoolean("reqbool"));
+        content.put("reqstr", complexListIterator.getString("reqstr"));
+        content.put("reqnum", complexListIterator.getNumber("reqnum"));
+        ListBlockResource.Builder.create(this, "list_attribute")
+                .req(complexListIterator.dynamic(content))
+                .singlereq(ListBlockResourceSinglereq.builder().reqbool(true).reqnum(0).reqstr("a").build())
+                .build();
+    }
+}
+
+public class Main extends TerraformStack {
     public Main(Construct scope, String id) {
         super(scope, id);
     }
@@ -200,6 +277,7 @@ public class Main extends TerraformStack
         final App app = Testing.stubVersion(App.Builder.create().stackTraces(false).build());
         new ReferenceStack(app, "reference");
         new ProviderStack(app, "provider");
+        new IteratorStack(app, "iterator");
         app.synth();
     }
 }

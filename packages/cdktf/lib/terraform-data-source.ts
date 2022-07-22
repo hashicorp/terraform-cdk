@@ -8,10 +8,12 @@ import {
   TerraformResourceLifecycle,
   ITerraformResource,
 } from "./terraform-resource";
-import { keysToSnakeCase, deepMerge } from "./util";
+import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IInterpolatingParent } from "./terraform-addressable";
+import { ITerraformIterator } from "./terraform-iterator";
+import assert = require("assert");
 
 export class TerraformDataSource
   extends TerraformElement
@@ -26,6 +28,7 @@ export class TerraformDataSource
   public count?: number;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
+  public forEach?: ITerraformIterator;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, `data.${config.terraformResourceType}`);
@@ -40,6 +43,7 @@ export class TerraformDataSource
     this.count = config.count;
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
+    this.forEach = config.forEach;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -87,11 +91,16 @@ export class TerraformDataSource
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
+    assert(
+      !this.forEach || typeof this.count === "undefined",
+      `forEach and count are both set, but they are mutually exclusive. You can only use either of them. Check the data source at path: ${this.node.path}`
+    );
     return {
       dependsOn: this.dependsOn,
       count: this.count,
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
+      forEach: this.forEach?._getForEachExpression(),
     };
   }
 
@@ -105,7 +114,7 @@ export class TerraformDataSource
    */
   public toTerraform(): any {
     const attributes = deepMerge(
-      this.synthesizeAttributes(),
+      processDynamicAttributes(this.synthesizeAttributes()),
       keysToSnakeCase(this.terraformMetaArguments),
       this.rawOverrides
     );

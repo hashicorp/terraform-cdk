@@ -1,5 +1,11 @@
 import { Construct } from "constructs";
-import { App, Fn, TerraformOutput, TerraformStack } from "cdktf";
+import {
+  App,
+  Fn,
+  TerraformIterator,
+  TerraformOutput,
+  TerraformStack,
+} from "cdktf";
 import * as edge from "./.gen/providers/edge";
 
 // Using references to resource attributes as resource arguments
@@ -181,7 +187,72 @@ export class ProviderStack extends TerraformStack {
   }
 }
 
+export class IteratorStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+    new edge.EdgeProvider(this, "edge", {
+      reqstr: "reqstr",
+      reqnum: 123,
+      reqbool: true,
+    });
+
+    const simpleList = new edge.OptionalAttributeResource(this, "target", {
+      strList: ["a", "b", "c"],
+    });
+
+    const complexList = new edge.ListBlockResource(this, "list", {
+      req: [
+        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+      ],
+      singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
+    });
+    const map = new edge.MapResource(this, "map", {
+      optMap: { key1: "value1", key2: "value2" },
+      reqMap: { key1: true },
+    });
+
+    const stringListIterator = TerraformIterator.fromList(simpleList.strList);
+    const complexListIterator = TerraformIterator.fromList(complexList.req);
+    const stringMapIterator = TerraformIterator.fromMap(map.optMap);
+
+    // iterating over a list of strings
+    new edge.OptionalAttributeResource(this, "string_list_target", {
+      forEach: stringListIterator,
+      str: stringListIterator.value,
+    });
+
+    // iterating over a list of complex objects
+    new edge.OptionalAttributeResource(this, "complex_list_target", {
+      forEach: complexListIterator,
+      str: complexListIterator.getString("reqstr"),
+      num: complexListIterator.getNumber("reqnum"),
+    });
+
+    // iterating over entries of a map of strings
+    new edge.OptionalAttributeResource(this, "string_map_target", {
+      forEach: stringMapIterator,
+      str: stringMapIterator.value,
+    });
+
+    // passing an iterator to a block property
+    new edge.ListBlockResource(this, "list_attribute", {
+      req: complexListIterator.dynamic({
+        reqbool: complexListIterator.getBoolean("reqbool"),
+        reqstr: complexListIterator.getString("reqstr"),
+        reqnum: complexListIterator.getNumber("reqnum"),
+      }),
+      singlereq: {
+        reqbool: true,
+        reqnum: 0,
+        reqstr: "a",
+      },
+    });
+  }
+}
+
 const app = new App();
 new ReferenceStack(app, "reference");
 new ProviderStack(app, "provider");
+new IteratorStack(app, "iterator");
 app.synth();

@@ -3,3 +3,4 @@ dist/
 tsconfig.json
 tsconfig.tsbuildinfo
 .jsii
+!scripts/generate-documentation.js
