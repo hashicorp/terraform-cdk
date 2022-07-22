@@ -16,6 +16,7 @@ import {
   Scope,
   AttributeModel,
 } from "./models";
+import { detectAttributeLoops } from "./loop-detection";
 
 const isReservedClassName = (className: string): boolean => {
   return ["string"].includes(className.toLowerCase());
@@ -81,6 +82,15 @@ class Parser {
           : new Scope({ name: provider, isProvider: true }),
       }),
       schema.block
+    );
+
+    // TODO: replace with fix
+    console.log(
+      `Result for ${baseName}: ${JSON.stringify(
+        detectAttributeLoops(attributes),
+        null,
+        2
+      )}`
     );
 
     const resourceModel = new ResourceModel({
