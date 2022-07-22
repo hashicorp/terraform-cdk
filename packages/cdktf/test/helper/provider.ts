@@ -1,10 +1,11 @@
-import { TerraformProvider } from "../../lib";
+import { IResolvable, listMapper, TerraformProvider } from "../../lib";
 import { Construct } from "constructs";
 
 export interface TestProviderConfig {
   alias?: string;
   accessKey?: string;
   type?: string;
+  listBlock?: IResolvable;
 }
 
 export enum TestProviderMetadata {
@@ -13,6 +14,7 @@ export enum TestProviderMetadata {
 
 export class TestProvider extends TerraformProvider {
   public accessKey?: string;
+  public listBlock?: IResolvable;
 
   constructor(scope: Construct, id: string, config: TestProviderConfig) {
     super(scope, id, {
@@ -25,6 +27,7 @@ export class TestProvider extends TerraformProvider {
 
     this.alias = config.alias;
     this.accessKey = config.accessKey;
+    this.listBlock = config.listBlock;
   }
 
   private _alias?: string;
@@ -38,6 +41,7 @@ export class TestProvider extends TerraformProvider {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       access_key: this.accessKey,
+      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
     };
   }
 }

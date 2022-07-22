@@ -243,15 +243,17 @@ export class AttributesEmitter {
         ? `${varReference} === undefined ? ${customDefault} : `
         : "";
 
+    const isBlockType = att.type.isBlock;
+
     switch (true) {
       case type.isSet && type.isMap:
         this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform), ${isBlockType})(${varReference}),`
         );
         break;
       case type.isList && type.isMap:
         this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform))(${varReference}),`
+          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform), ${isBlockType})(${varReference}),`
         );
         break;
       case type.isStringSet || type.isNumberSet || type.isBooleanSet:
@@ -260,7 +262,7 @@ export class AttributesEmitter {
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
             type.innerType
-          )}ToTerraform)(${varReference}),`
+          )}ToTerraform, ${isBlockType})(${varReference}),`
         );
         break;
       case type.isStringList || type.isNumberList || type.isBooleanList:
@@ -269,7 +271,7 @@ export class AttributesEmitter {
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
             type.innerType
-          )}ToTerraform)(${varReference}),`
+          )}ToTerraform, ${isBlockType})(${varReference}),`
         );
         break;
       case type.isSet && !type.isSingleItem:
@@ -278,7 +280,7 @@ export class AttributesEmitter {
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
             type.innerType
-          )}ToTerraform)(${varReference}),`
+          )}ToTerraform, ${isBlockType})(${varReference}),`
         );
         break;
       case type.isList && !type.isSingleItem:
@@ -287,7 +289,7 @@ export class AttributesEmitter {
             att.terraformName
           }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
             type.innerType
-          )}ToTerraform)(${varReference}),`
+          )}ToTerraform, ${isBlockType})(${varReference}),`
         );
         break;
       case type.isMap:

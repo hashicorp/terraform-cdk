@@ -257,6 +257,20 @@ func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Str:     cdktf.Token_AsString(stringMapIterator.Value(), &cdktf.EncodingOptions{}),
 	})
 
+	// passing an iterator to a block property
+	edge.NewListBlockResource(stack, jsii.String("list_attribute"), &edge.ListBlockResourceConfig{
+		Req: complexListIterator.Dynamic(&map[string]interface{}{
+			"reqbool": complexListIterator.GetBoolean(jsii.String("reqbool")),
+			"reqstr":  complexListIterator.GetString(jsii.String("reqstr")),
+			"reqnum":  complexListIterator.GetNumber(jsii.String("reqnum")),
+		}),
+		Singlereq: &edge.ListBlockResourceSinglereq{
+			Reqbool: jsii.Bool(true),
+			Reqnum:  jsii.Number(0),
+			Reqstr:  jsii.String("a"),
+		},
+	})
+
 	return stack
 }
 

@@ -374,6 +374,70 @@ export function call(name: string, args: Expression[]) {
   return new FunctionCall(name, args) as IResolvable;
 }
 
+export const FOR_EXPRESSION_KEY = ref("key");
+export const FOR_EXPRESSION_VALUE = ref("val");
+
+/**
+ * https://www.terraform.io/docs/language/expressions/for.html
+ */
+class ForExpression extends TFExpression {
+  constructor(
+    private input: Expression,
+    private valueExpression: Expression,
+    private keyExpression?: Expression
+  ) {
+    super({ input, valueExpression, keyExpression });
+  }
+
+  public resolve(context: IResolveContext): string {
+    const suppressBraces = context.suppressBraces;
+    context.suppressBraces = true;
+    const key = this.resolveArg(context, FOR_EXPRESSION_KEY);
+    const value = this.resolveArg(context, FOR_EXPRESSION_VALUE);
+    const input = this.resolveArg(context, this.input);
+    const valueExpr = this.resolveArg(context, this.valueExpression);
+
+    let expr: string;
+    if (this.keyExpression) {
+      const keyExpr = this.resolveArg(context, this.keyExpression);
+      expr = `{ for ${key}, ${value} in ${input}: ${keyExpr} => ${valueExpr} }`;
+    } else {
+      expr = `[ for ${key}, ${value} in ${input}: ${valueExpr}]`;
+    }
+
+    return suppressBraces ? expr : `\${${expr}}`;
+  }
+}
+
+/**
+ * Creates a for expression, used for advanced internal use cases (e.g. in the @cdktf/aws-adapter)
+ * It is currently not possible to use this via JSII in other languages. Usually you might want to
+ * use TerraformIterator instead.
+ *
+ * @param input the input for the expression e.g. a list or an object
+ * @param valueExpression will express the value e.g. [ for i in &lt;input&gt; : &lt;valueExpression&gt; ]
+ * @param keyExpression if set will return an object e.g. { for k,v in &lt;input&gt; : &lt;keyExpression&gt; => &lt;valueExpression&gt;}
+ * @returns a for expression
+ *
+ * The variables for key (for maps) / index (for lists) and value that are valid in the key- and valueExpression
+ * can be referenced by using these constants: FOR_EXPRESSION_KEY and FOR_EXPRESSION_VALUE.
+ *
+ * Currently nesting for expressions is not supported due to this simplification.
+ *
+ * Currently does not support filtering elements (if clause) or grouping results
+ */
+export function forExpression(
+  input: Expression,
+  valueExpression: Expression,
+  keyExpression?: Expression
+) {
+  return new ForExpression(
+    input,
+    valueExpression,
+    keyExpression
+  ) as IResolvable;
+}
+
 class Dependable extends TFExpression {
   constructor(private dependable: ITerraformDependable) {
     super(dependable);
@@ -396,6 +460,7 @@ export type Expression =
   | ConditionalExpression
   | OperatorExpression
   | Dependable
+  | ForExpression
   | string
   | string[]
   | number
