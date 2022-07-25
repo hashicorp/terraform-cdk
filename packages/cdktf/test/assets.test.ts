@@ -1,7 +1,7 @@
 import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
 import * as path from "path";
 
-describe("createAssetsFromLocalModules test", () => {
+describe("createAssetsFromLocalModules", () => {
   test("remote source without createAssetsFromLocalModules", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
