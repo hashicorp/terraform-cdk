@@ -28,7 +28,7 @@ If you want to add testing to an existing Go project, please [follow their guide
 
 The following Typescript example uses `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then, it uses custom matchers to verify the code acts as intended.
 
-The examples for other languages use `Testing.synth` to test a part of the application. CDKTF returns a JSON string representing the synthesized HCL-JSON is returned. Then, the custom assertions under `Testing` in the `cdktf` package verify the code acts as intended.
+The other examples use `Testing.synth` to test a part of the application. Given the desired scope to test, a JSON string representing the synthesized HCL-JSON is returned. Then the custom assertions under `Testing` in the cdktf package can be used to verify the code acts as intended.
 
 Examples in
 
