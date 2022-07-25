@@ -3,6 +3,7 @@ import * as inquirer from "inquirer";
 import * as open from "open";
 import * as chalk from "chalk";
 import * as terraformCloudClient from "./terraform-cloud-client";
+import { logger } from "../../../lib/logging";
 
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
@@ -114,12 +115,19 @@ the following file for use by subsequent Terraform commands:
   }
 
   public async getTerraformCredentialsFile(): Promise<TerraformCredentialsFile> {
-    const credentialsFile = JSON.parse(
-      fs.readFileSync(terraformCredentialsFilePath).toString()
-    );
-    const terraformCredentials: TerraformCredentialsFile = credentialsFile;
+    try {
+      const credentialsFile = JSON.parse(
+        fs.readFileSync(terraformCredentialsFilePath).toString()
+      );
+      const terraformCredentials: TerraformCredentialsFile = credentialsFile;
 
-    return terraformCredentials;
+      return terraformCredentials;
+    } catch (e) {
+      logger.debug(
+        `Could not find terraform credentials file at ${terraformCredentialsFilePath}`
+      );
+      return { credentials: {} };
+    }
   }
 
   public async isTokenValid(token: string): Promise<boolean> {

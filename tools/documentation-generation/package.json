@@ -1,0 +1,14 @@
+{
+    "name": "@tools/documentation-generation",
+    "version": "0.0.0",
+    "scripts": {
+        "docs": "node ./generate-documentation.js"
+    },
+    "dependencies": {
+        "cdktf": "file:../../packages/cdktf",
+        "constructs": "10.1.45"
+    },
+    "devDependencies": {
+        "jsii-docgen": "^7.0.54"
+    }
+}

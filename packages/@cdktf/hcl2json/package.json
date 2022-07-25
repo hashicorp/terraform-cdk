@@ -28,13 +28,13 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@types/node-fetch": "^2.6.1",
+    "@types/node-fetch": "^2.6.2",
     "node-fetch": "^2.6.7"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.1.2",
     "@types/jest": "^26.0.24",
-    "@types/node": "^14.18.12",
+    "@types/node": "^14.18.22",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"

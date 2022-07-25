@@ -609,6 +609,9 @@ import * as azuread from \\"./.gen/providers/azuread\\";
 
 /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
 You can read more about this at https://cdk.tf/variables*/
+new azuread.AzureadProvider(this, \\"azuread\\", {
+  tenantId: \\"00000000-0000-0000-0000-000000000000\\",
+});
 const azureAdDomainName = new cdktf.TerraformVariable(
   this,
   \\"azure_ad_domain_name\\",

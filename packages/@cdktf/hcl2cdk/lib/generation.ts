@@ -310,6 +310,10 @@ export async function resource(
   const nodeIds = graph.nodes();
   const resource = resourceType(provider, name, item);
 
+  if (!provider) {
+    throw new Error(`Could not parse resource type '${type}'`);
+  }
+
   const { for_each, count, ...config } = item[0];
   const mappedConfig = mapConfigPerResourceType(resource, config);
   const dynBlocks = extractDynamicBlocks(mappedConfig);
@@ -427,27 +431,30 @@ async function asExpression(
   const constructId = uniqueId(scope.constructs, name);
   const overrideId = !isProvider && constructId !== name;
 
-  const expression = t.newExpression(constructAst(type, isModuleImport), [
-    t.thisExpression(),
-    t.stringLiteral(constructId),
-    await valueToTs(
-      scope,
-      {
-        ...otherOptions,
-        providers:
-          providers && Object.keys(providers).length
-            ? Object.entries(providers).map(([key, value]) => ({
-                moduleAlias: key,
-                provider: value,
-              }))
-            : undefined,
-      },
-      `${type}`,
-      nodeIds,
-      [],
-      isModuleImport
-    ),
-  ]);
+  const expression = t.newExpression(
+    constructAst(scope, type, isModuleImport),
+    [
+      t.thisExpression(),
+      t.stringLiteral(constructId),
+      await valueToTs(
+        scope,
+        {
+          ...otherOptions,
+          providers:
+            providers && Object.keys(providers).length
+              ? Object.entries(providers).map(([key, value]) => ({
+                  moduleAlias: key,
+                  provider: value,
+                }))
+              : undefined,
+        },
+        `${type}`,
+        nodeIds,
+        [],
+        isModuleImport
+      ),
+    ]
+  );
 
   const statements = [];
   const varName = reference
@@ -604,7 +611,7 @@ export async function provider(
 
   return asExpression(
     scope,
-    `${importKey}.${pascalCase(key + "Provider")}`,
+    `${importKey}.${pascalCase(key)}Provider`,
     key,
     props,
     nodeIds,

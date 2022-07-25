@@ -294,5 +294,25 @@ describe("java full integration", () => {
         expect(t.str).toBe("${each.value}");
       });
     });
+    describe("list attribute", () => {
+      let t: Record<string, any>;
+      beforeAll(() => {
+        t = stack.byId("list_attribute");
+      });
+
+      it("renders a dynamic block", () => {
+        expect(t).toHaveProperty("dynamic", {
+          req: {
+            content: {
+              reqbool: '${each.value["reqbool"]}',
+              reqnum: '${each.value["reqnum"]}',
+              reqstr: '${each.value["reqstr"]}',
+            },
+            for_each: "${toset(list_block_resource.list.req)}",
+            iterator: "each",
+          },
+        });
+      });
+    });
   });
 });

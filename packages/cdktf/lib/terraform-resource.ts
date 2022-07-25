@@ -2,13 +2,22 @@ import { Construct } from "constructs";
 import { Token } from "./tokens";
 import { TerraformElement } from "./terraform-element";
 import { TerraformProvider } from "./terraform-provider";
-import { keysToSnakeCase, deepMerge } from "./util";
+import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 import { ITerraformDependable } from "./terraform-dependable";
 import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
+import {
+  ISSHProvisionerConnection,
+  IWinrmProvisionerConnection,
+} from "./terraform-provisioner";
 import assert = require("assert");
+import {
+  IFileProvisioner,
+  ILocalExecProvisioner,
+  IRemoteExecProvisioner,
+} from "./terraform-provisioner";
 
 export interface ITerraformResource {
   readonly terraformResourceType: string;
@@ -36,6 +45,10 @@ export interface TerraformMetaArguments {
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
   readonly forEach?: ITerraformIterator;
+  readonly provisioners?: Array<
+    IFileProvisioner | ILocalExecProvisioner | IRemoteExecProvisioner
+  >;
+  readonly connection?: ISSHProvisionerConnection | IWinrmProvisionerConnection;
 }
 
 export interface TerraformProviderGeneratorMetadata {
@@ -63,6 +76,10 @@ export class TerraformResource
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
   public forEach?: ITerraformIterator;
+  public connection?: ISSHProvisionerConnection | IWinrmProvisionerConnection;
+  public provisioners?: Array<
+    IFileProvisioner | ILocalExecProvisioner | IRemoteExecProvisioner
+  >;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -78,6 +95,8 @@ export class TerraformResource
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
     this.forEach = config.forEach;
+    this.provisioners = config.provisioners;
+    this.connection = config.connection;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -135,6 +154,7 @@ export class TerraformResource
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
       forEach: this.forEach?._getForEachExpression(),
+      connection: this.connection,
     };
   }
 
@@ -148,8 +168,13 @@ export class TerraformResource
    */
   public toTerraform(): any {
     const attributes = deepMerge(
-      this.synthesizeAttributes(),
+      processDynamicAttributes(this.synthesizeAttributes()),
       keysToSnakeCase(this.terraformMetaArguments),
+      {
+        provisioner: this.provisioners?.map(({ type, ...props }) => ({
+          [type]: keysToSnakeCase(props),
+        })),
+      },
       this.rawOverrides
     );
 

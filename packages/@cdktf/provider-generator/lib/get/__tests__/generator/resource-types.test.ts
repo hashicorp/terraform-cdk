@@ -17,7 +17,7 @@ test("generate a cloudfront distribution resource", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -42,7 +42,7 @@ test("generate a s3 bucket resource", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -65,7 +65,7 @@ test("generate a fms admin account with an empty options interface", async () =>
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -84,7 +84,7 @@ test("generate a security group", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(

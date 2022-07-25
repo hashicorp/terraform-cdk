@@ -81,7 +81,7 @@ export class EdgeProvider extends cdktf.TerraformProvider {
       terraformGeneratorMetadata: {
         providerName: 'edge'
       },
-      terraformProviderSource: 'undefined'
+      terraformProviderSource: 'registry.terraform.io/cdktf/edge'
     });
     this._optstr = config.optstr;
     this._optnum = config.optnum;
@@ -1644,6 +1644,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._opt.internalValue = config.opt;
@@ -1743,8 +1745,8 @@ export class ListBlockResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      opt: cdktf.listMapper(listBlockResourceOptToTerraform)(this._opt.internalValue),
-      req: cdktf.listMapper(listBlockResourceReqToTerraform)(this._req.internalValue),
+      opt: cdktf.listMapper(listBlockResourceOptToTerraform, true)(this._opt.internalValue),
+      req: cdktf.listMapper(listBlockResourceReqToTerraform, true)(this._req.internalValue),
       singleopt: listBlockResourceSingleoptToTerraform(this._singleopt.internalValue),
       singlereq: listBlockResourceSinglereqToTerraform(this._singlereq.internalValue),
       singleComputedBlock: listBlockResourceSingleComputedBlockToTerraform(this._singleComputedBlock.internalValue),
@@ -1809,6 +1811,8 @@ export class MapResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._optMap = config.optMap;
@@ -1947,6 +1951,8 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2067,9 +2073,9 @@ export class OptionalAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
-      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
-      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
-      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
+      strList: cdktf.listMapper(cdktf.stringToTerraform, false)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform, false)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._boolList),
     };
   }
 }
@@ -2143,6 +2149,8 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2263,9 +2271,9 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
-      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
-      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
-      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
+      strList: cdktf.listMapper(cdktf.stringToTerraform, false)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform, false)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._boolList),
     };
   }
 }
@@ -2339,6 +2347,8 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._str = config.str;
@@ -2441,9 +2451,9 @@ export class RequiredAttributeResource extends cdktf.TerraformResource {
       str: cdktf.stringToTerraform(this._str),
       num: cdktf.numberToTerraform(this._num),
       bool: cdktf.booleanToTerraform(this._bool),
-      strList: cdktf.listMapper(cdktf.stringToTerraform)(this._strList),
-      numList: cdktf.listMapper(cdktf.numberToTerraform)(this._numList),
-      boolList: cdktf.listMapper(cdktf.booleanToTerraform)(this._boolList),
+      strList: cdktf.listMapper(cdktf.stringToTerraform, false)(this._strList),
+      numList: cdktf.listMapper(cdktf.numberToTerraform, false)(this._numList),
+      boolList: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._boolList),
     };
   }
 }
@@ -2803,6 +2813,8 @@ export class SetBlockResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._set.internalValue = config.set;
@@ -2834,7 +2846,7 @@ export class SetBlockResource extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      set: cdktf.listMapper(setBlockResourceSetToTerraform)(this._set.internalValue),
+      set: cdktf.listMapper(setBlockResourceSetToTerraform, true)(this._set.internalValue),
     };
   }
 }

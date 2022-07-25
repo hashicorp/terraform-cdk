@@ -31,15 +31,14 @@ export class SourceStack extends TerraformStack {
       length: 32,
     });
 
-    const nullResouce = new NullProvider.Resource(this, "test", {});
-
-    nullResouce.addOverride("provisioner", [
-      {
-        "local-exec": {
+    new NullProvider.Resource(this, "test", {
+      provisioners: [
+        {
+          type: "local-exec",
           command: `echo "hello deploy"`,
         },
-      },
-    ]);
+      ],
+    });
 
     if (!localExecution) {
       new RemoteBackend(this, {

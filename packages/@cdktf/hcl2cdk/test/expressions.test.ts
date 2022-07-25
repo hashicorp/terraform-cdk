@@ -397,6 +397,7 @@ describe("expressions", () => {
     it("property access", () => {
       const scope: Scope = {
         providerSchema: { format_version: "0.1" },
+        providerGenerator: {},
         constructs: new Set<string>(),
         variables: {},
       };
@@ -425,6 +426,7 @@ describe("expressions", () => {
     it("nested terraform expressions without space", async () => {
       const scope: Scope = {
         providerSchema: { format_version: "0.1" },
+        providerGenerator: {},
         constructs: new Set<string>(),
         variables: {},
       };

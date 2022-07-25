@@ -125,7 +125,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   public get srcMakName(): string {
     switch (this.targetLanguage) {
       case Language.GO:
-        return this.name;
+        return this.name.replace(/-/gi, "_");
       case Language.JAVA:
       case Language.CSHARP:
       case Language.PYTHON:
@@ -208,6 +208,7 @@ export class ConstructsMaker {
   private readonly codeMakerOutdir: string;
   private readonly code: CodeMaker;
   private readonly targets: ConstructsMakerTarget[];
+  private versions: { [providerName: string]: string | undefined };
 
   constructor(
     private readonly options: GetOptions,
@@ -220,6 +221,7 @@ export class ConstructsMaker {
     this.targets = this.constraints.map((constraint) =>
       ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
     );
+    this.versions = {};
   }
 
   private async generateTypescript(target: ConstructsMakerTarget) {
@@ -228,48 +230,41 @@ export class ConstructsMaker {
     endSchemaReadTimer();
 
     const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
-    let versions = {};
     if (target instanceof ConstructsMakerModuleTarget) {
       target.spec = schema.moduleSchema[target.moduleKey];
       new ModuleGenerator(this.code, [target]);
     }
+
     if (target instanceof ConstructsMakerProviderTarget) {
       const generator = new TerraformProviderGenerator(
         this.code,
-        schema.providerSchema,
-        target
+        schema.providerSchema
       );
-      versions = generator.versions;
-    }
-    endTSTimer();
+      generator.generate(target);
 
-    return versions;
+      this.versions = { ...this.versions, ...generator.versions };
+    }
+
+    endTSTimer();
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
-  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+  private emitVersionsFile() {
     const filePath = "versions.json";
     this.code.openFile(filePath);
-    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.line(JSON.stringify(this.versions, null, 2));
     this.code.closeFile(filePath);
     return filePath;
   }
 
   public async generate() {
     const endGenerateTimer = logTimespan("Generate TS");
-    const generators = await Promise.all(
+    await Promise.all(
       this.targets.map((target) => this.generateTypescript(target))
     );
     endGenerateTimer();
 
-    const initialValue: { [fqpn: string]: string | undefined } = {};
-    const providerVersions = generators.reduce<{
-      [fqpn: string]: string | undefined;
-    }>((accumulator, current) => {
-      return { ...accumulator, ...current };
-    }, initialValue);
-
-    this.emitVersionsFile(providerVersions);
+    this.emitVersionsFile();
 
     if (this.isJavascriptTarget) {
       await this.save();

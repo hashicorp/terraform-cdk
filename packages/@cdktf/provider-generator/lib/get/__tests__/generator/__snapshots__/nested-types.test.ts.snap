@@ -42,7 +42,7 @@ export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: Nested
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    eq: cdktf.listMapper(cdktf.stringToTerraform)(struct!.eq),
+    eq: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.eq),
     exists: cdktf.booleanToTerraform(struct!.exists),
     property: cdktf.stringToTerraform(struct!.property),
   }
@@ -188,7 +188,7 @@ export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesR
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    filter: cdktf.listMapper(nestedTypesResourceArchiveRulesFilterToTerraform)(struct!.filter),
+    filter: cdktf.listMapper(nestedTypesResourceArchiveRulesFilterToTerraform, false)(struct!.filter),
     rule_name: cdktf.stringToTerraform(struct!.ruleName),
   }
 }
@@ -321,6 +321,8 @@ export class NestedTypesResource extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._name = config.name;
@@ -375,7 +377,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       name: cdktf.stringToTerraform(this._name),
-      archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform)(this._archiveRules.internalValue),
+      archive_rules: cdktf.listMapper(nestedTypesResourceArchiveRulesToTerraform, false)(this._archiveRules.internalValue),
     };
   }
 }

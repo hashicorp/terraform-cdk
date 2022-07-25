@@ -134,7 +134,7 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerra
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.whitelistedNames),
   }
 }
 
@@ -232,9 +232,9 @@ export function cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(st
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
+    headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
     query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
+    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
 }
@@ -561,8 +561,8 @@ export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: Cloudfro
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
+    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
+    cached_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cachedMethods),
     compress: cdktf.booleanToTerraform(struct!.compress),
     default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
     field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
@@ -571,10 +571,10 @@ export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: Cloudfro
     path_pattern: cdktf.stringToTerraform(struct!.pathPattern),
     smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
     target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
+    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.trustedSigners),
     viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
     forwarded_values: cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    lambda_function_association: cdktf.listMapper(cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
 }
 
@@ -1119,7 +1119,7 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.whitelistedNames),
   }
 }
 
@@ -1217,9 +1217,9 @@ export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerra
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
+    headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
     query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
+    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
 }
@@ -1542,8 +1542,8 @@ export function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: C
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
+    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
+    cached_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cachedMethods),
     compress: cdktf.booleanToTerraform(struct!.compress),
     default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
     field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
@@ -1551,10 +1551,10 @@ export function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: C
     min_ttl: cdktf.numberToTerraform(struct!.minTtl),
     smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
     target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
+    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.trustedSigners),
     viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
     forwarded_values: cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    lambda_function_association: cdktf.listMapper(cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
 }
 
@@ -1989,7 +1989,7 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
-    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform)(struct!.whitelistedNames),
+    whitelisted_names: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.whitelistedNames),
   }
 }
 
@@ -2087,9 +2087,9 @@ export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerra
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.headers),
+    headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
     query_string: cdktf.booleanToTerraform(struct!.queryString),
-    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform)(struct!.queryStringCacheKeys),
+    query_string_cache_keys: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.queryStringCacheKeys),
     cookies: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerraform(struct!.cookies),
   }
 }
@@ -2416,8 +2416,8 @@ export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: C
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    cached_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cachedMethods),
+    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
+    cached_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cachedMethods),
     compress: cdktf.booleanToTerraform(struct!.compress),
     default_ttl: cdktf.numberToTerraform(struct!.defaultTtl),
     field_level_encryption_id: cdktf.stringToTerraform(struct!.fieldLevelEncryptionId),
@@ -2426,10 +2426,10 @@ export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: C
     path_pattern: cdktf.stringToTerraform(struct!.pathPattern),
     smooth_streaming: cdktf.booleanToTerraform(struct!.smoothStreaming),
     target_origin_id: cdktf.stringToTerraform(struct!.targetOriginId),
-    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.trustedSigners),
+    trusted_signers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.trustedSigners),
     viewer_protocol_policy: cdktf.stringToTerraform(struct!.viewerProtocolPolicy),
     forwarded_values: cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform(struct!.forwardedValues),
-    lambda_function_association: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform)(struct!.lambdaFunctionAssociation),
+    lambda_function_association: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform, true)(struct!.lambdaFunctionAssociation),
   }
 }
 
@@ -2937,7 +2937,7 @@ export function cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct
     origin_keepalive_timeout: cdktf.numberToTerraform(struct!.originKeepaliveTimeout),
     origin_protocol_policy: cdktf.stringToTerraform(struct!.originProtocolPolicy),
     origin_read_timeout: cdktf.numberToTerraform(struct!.originReadTimeout),
-    origin_ssl_protocols: cdktf.listMapper(cdktf.stringToTerraform)(struct!.originSslProtocols),
+    origin_ssl_protocols: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.originSslProtocols),
   }
 }
 
@@ -3191,7 +3191,7 @@ export function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistr
     domain_name: cdktf.stringToTerraform(struct!.domainName),
     origin_id: cdktf.stringToTerraform(struct!.originId),
     origin_path: cdktf.stringToTerraform(struct!.originPath),
-    custom_header: cdktf.listMapper(cloudfrontDistributionOriginCustomHeaderToTerraform)(struct!.customHeader),
+    custom_header: cdktf.listMapper(cloudfrontDistributionOriginCustomHeaderToTerraform, true)(struct!.customHeader),
     custom_origin_config: cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct!.customOriginConfig),
     s3_origin_config: cloudfrontDistributionOriginS3OriginConfigToTerraform(struct!.s3OriginConfig),
   }
@@ -3394,7 +3394,7 @@ export function cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(str
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    status_codes: cdktf.listMapper(cdktf.numberToTerraform)(struct!.statusCodes),
+    status_codes: cdktf.listMapper(cdktf.numberToTerraform, false)(struct!.statusCodes),
   }
 }
 
@@ -3564,7 +3564,7 @@ export function cloudfrontDistributionOriginGroupToTerraform(struct?: Cloudfront
   return {
     origin_id: cdktf.stringToTerraform(struct!.originId),
     failover_criteria: cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(struct!.failoverCriteria),
-    member: cdktf.listMapper(cloudfrontDistributionOriginGroupMemberToTerraform)(struct!.member),
+    member: cdktf.listMapper(cloudfrontDistributionOriginGroupMemberToTerraform, true)(struct!.member),
   }
 }
 
@@ -3700,7 +3700,7 @@ export function cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(stru
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    locations: cdktf.listMapper(cdktf.stringToTerraform)(struct!.locations),
+    locations: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.locations),
     restriction_type: cdktf.stringToTerraform(struct!.restrictionType),
   }
 }
@@ -4041,6 +4041,8 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._aliases = config.aliases;
@@ -4443,7 +4445,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      aliases: cdktf.listMapper(cdktf.stringToTerraform)(this._aliases),
+      aliases: cdktf.listMapper(cdktf.stringToTerraform, false)(this._aliases),
       comment: cdktf.stringToTerraform(this._comment),
       default_root_object: cdktf.stringToTerraform(this._defaultRootObject),
       enabled: cdktf.booleanToTerraform(this._enabled),
@@ -4455,13 +4457,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       wait_for_deployment: cdktf.booleanToTerraform(this._waitForDeployment),
       web_acl_id: cdktf.stringToTerraform(this._webAclId),
-      cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform)(this._cacheBehavior.internalValue),
-      custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform)(this._customErrorResponse.internalValue),
+      cache_behavior: cdktf.listMapper(cloudfrontDistributionCacheBehaviorToTerraform, true)(this._cacheBehavior.internalValue),
+      custom_error_response: cdktf.listMapper(cloudfrontDistributionCustomErrorResponseToTerraform, true)(this._customErrorResponse.internalValue),
       default_cache_behavior: cloudfrontDistributionDefaultCacheBehaviorToTerraform(this._defaultCacheBehavior.internalValue),
       logging_config: cloudfrontDistributionLoggingConfigToTerraform(this._loggingConfig.internalValue),
-      ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform)(this._orderedCacheBehavior.internalValue),
-      origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform)(this._origin.internalValue),
-      origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform)(this._originGroup.internalValue),
+      ordered_cache_behavior: cdktf.listMapper(cloudfrontDistributionOrderedCacheBehaviorToTerraform, true)(this._orderedCacheBehavior.internalValue),
+      origin: cdktf.listMapper(cloudfrontDistributionOriginToTerraform, true)(this._origin.internalValue),
+      origin_group: cdktf.listMapper(cloudfrontDistributionOriginGroupToTerraform, true)(this._originGroup.internalValue),
       restrictions: cloudfrontDistributionRestrictionsToTerraform(this._restrictions.internalValue),
       viewer_certificate: cloudfrontDistributionViewerCertificateToTerraform(this._viewerCertificate.internalValue),
     };
@@ -4531,6 +4533,8 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._accountId = config.accountId;
@@ -4740,10 +4744,10 @@ export function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule | cdktf.IR
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    allowed_headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedHeaders),
-    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedMethods),
-    allowed_origins: cdktf.listMapper(cdktf.stringToTerraform)(struct!.allowedOrigins),
-    expose_headers: cdktf.listMapper(cdktf.stringToTerraform)(struct!.exposeHeaders),
+    allowed_headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedHeaders),
+    allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
+    allowed_origins: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedOrigins),
+    expose_headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.exposeHeaders),
     max_age_seconds: cdktf.numberToTerraform(struct!.maxAgeSeconds),
   }
 }
@@ -4939,7 +4943,7 @@ export function s3BucketGrantToTerraform(struct?: S3BucketGrant | cdktf.IResolva
   }
   return {
     id: cdktf.stringToTerraform(struct!.id),
-    permissions: cdktf.listMapper(cdktf.stringToTerraform)(struct!.permissions),
+    permissions: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.permissions),
     type: cdktf.stringToTerraform(struct!.type),
     uri: cdktf.stringToTerraform(struct!.uri),
   }
@@ -5601,8 +5605,8 @@ export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule 
     tags: cdktf.hashMapper(cdktf.stringToTerraform)(struct!.tags),
     expiration: s3BucketLifecycleRuleExpirationToTerraform(struct!.expiration),
     noncurrent_version_expiration: s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct!.noncurrentVersionExpiration),
-    noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform)(struct!.noncurrentVersionTransition),
-    transition: cdktf.listMapper(s3BucketLifecycleRuleTransitionToTerraform)(struct!.transition),
+    noncurrent_version_transition: cdktf.listMapper(s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform, true)(struct!.noncurrentVersionTransition),
+    transition: cdktf.listMapper(s3BucketLifecycleRuleTransitionToTerraform, true)(struct!.transition),
   }
 }
 
@@ -6988,7 +6992,7 @@ export function s3BucketReplicationConfigurationToTerraform(struct?: S3BucketRep
   }
   return {
     role: cdktf.stringToTerraform(struct!.role),
-    rules: cdktf.listMapper(s3BucketReplicationConfigurationRulesToTerraform)(struct!.rules),
+    rules: cdktf.listMapper(s3BucketReplicationConfigurationRulesToTerraform, true)(struct!.rules),
   }
 }
 
@@ -7543,6 +7547,8 @@ export class S3Bucket extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._accelerationStatus = config.accelerationStatus;
@@ -7972,10 +7978,10 @@ export class S3Bucket extends cdktf.TerraformResource {
       tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
       website_domain: cdktf.stringToTerraform(this._websiteDomain),
       website_endpoint: cdktf.stringToTerraform(this._websiteEndpoint),
-      cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform)(this._corsRule.internalValue),
-      grant: cdktf.listMapper(s3BucketGrantToTerraform)(this._grant.internalValue),
-      lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform)(this._lifecycleRule.internalValue),
-      logging: cdktf.listMapper(s3BucketLoggingToTerraform)(this._logging.internalValue),
+      cors_rule: cdktf.listMapper(s3BucketCorsRuleToTerraform, true)(this._corsRule.internalValue),
+      grant: cdktf.listMapper(s3BucketGrantToTerraform, true)(this._grant.internalValue),
+      lifecycle_rule: cdktf.listMapper(s3BucketLifecycleRuleToTerraform, true)(this._lifecycleRule.internalValue),
+      logging: cdktf.listMapper(s3BucketLoggingToTerraform, true)(this._logging.internalValue),
       object_lock_configuration: s3BucketObjectLockConfigurationToTerraform(this._objectLockConfiguration.internalValue),
       replication_configuration: s3BucketReplicationConfigurationToTerraform(this._replicationConfiguration.internalValue),
       server_side_encryption_configuration: s3BucketServerSideEncryptionConfigurationToTerraform(this._serverSideEncryptionConfiguration.internalValue),
@@ -8088,13 +8094,13 @@ export function securityGroupEgressToTerraform(struct?: SecurityGroupEgress | cd
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
     description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
     from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.prefixListIds),
     protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
-    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.securityGroups),
     self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
     to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
   }
@@ -8401,13 +8407,13 @@ export function securityGroupIngressToTerraform(struct?: SecurityGroupIngress | 
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
     description: struct!.description === undefined ? null : cdktf.stringToTerraform(struct!.description),
     from_port: struct!.fromPort === undefined ? null : cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    ipv6_cidr_blocks: struct!.ipv6CidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: struct!.prefixListIds === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.prefixListIds),
     protocol: struct!.protocol === undefined ? null : cdktf.stringToTerraform(struct!.protocol),
-    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    security_groups: struct!.securityGroups === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.securityGroups),
     self: struct!.selfAttribute === undefined ? null : cdktf.booleanToTerraform(struct!.selfAttribute),
     to_port: struct!.toPort === undefined ? null : cdktf.numberToTerraform(struct!.toPort),
   }
@@ -8803,6 +8809,8 @@ export class SecurityGroup extends cdktf.TerraformResource {
       dependsOn: config.dependsOn,
       count: config.count,
       lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
       forEach: config.forEach
     });
     this._description = config.description;
@@ -8998,9 +9006,9 @@ export class SecurityGroup extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       description: cdktf.stringToTerraform(this._description),
-      egress: cdktf.listMapper(securityGroupEgressToTerraform)(this._egress.internalValue),
+      egress: cdktf.listMapper(securityGroupEgressToTerraform, false)(this._egress.internalValue),
       id: cdktf.stringToTerraform(this._id),
-      ingress: cdktf.listMapper(securityGroupIngressToTerraform)(this._ingress.internalValue),
+      ingress: cdktf.listMapper(securityGroupIngressToTerraform, false)(this._ingress.internalValue),
       name: cdktf.stringToTerraform(this._name),
       name_prefix: cdktf.stringToTerraform(this._namePrefix),
       revoke_rules_on_delete: cdktf.booleanToTerraform(this._revokeRulesOnDelete),

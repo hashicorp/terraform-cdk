@@ -4,6 +4,7 @@
   "description": "Cloud Development Kit for Terraform",
   "scripts": {
     "build": "jsii --silence-warnings reserved-word",
+    "docs": "node ./scripts/generate-documentation.js",
     "watch": "jsii -w --silence-warnings reserved-word",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "package": "jsii-pacmak",
@@ -82,19 +83,20 @@
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",
-    "@types/node": "^14.18.12",
+    "@types/node": "^14.18.22",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
     "jest": "^26.6.3",
-    "jsii": "^1.55.1",
-    "jsii-pacmak": "^1.55.1",
+    "jsii": "^1.62.0",
+    "jsii-docgen": "^7.0.50",
+    "jsii-pacmak": "^1.62.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "archiver": "5.3.0",
+    "archiver": "5.3.1",
     "json-stable-stringify": "^1.0.1"
   },
   "bundledDependencies": [

@@ -24,6 +24,13 @@ export interface IResolveContext {
   suppressBraces?: boolean;
 
   /**
+   * TerraformIterators can be passed for block attributes and normal list attributes
+   * both require different handling when the iterable variable is accessed
+   * e.g. a dynamic block needs each.key while a for expression just needs key
+   */
+  iteratorContext?: "DYNAMIC_BLOCK" | "FOR_EXPRESSION";
+
+  /**
    * Resolve an inner object
    */
   resolve(x: any): any;
@@ -228,7 +235,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       throw new Error(
         `Cannot add elements to map token, got: ${JSON.stringify(
           xs
-        )}. You tried to add a value to a referenced map, instead use Fn.merge([yourReferencedMap, { your: 'value' }]).`
+        )}. You tried to add a value to a referenced map, instead use Fn.mergeMaps([yourReferencedMap, { your: 'value' }]).`
       );
     }
 

@@ -1,4 +1,8 @@
-import { ProviderConstraint } from "../../../lib/dependencies/dependency-manager";
+import { Language } from "@cdktf/provider-generator";
+import {
+  ProviderConstraint,
+  DependencyManager,
+} from "../../../lib/dependencies/dependency-manager";
 
 describe("dependency manager", () => {
   describe("ProviderConstraint", () => {
@@ -62,6 +66,22 @@ describe("dependency manager", () => {
       expect(constraint.name).toEqual("customprovider");
       expect(constraint.simplifiedName).toEqual(
         "registry.example.com/acme/customprovider"
+      );
+    });
+  });
+
+  describe("addLocalProvider", () => {
+    it("throws if the provider is not found", async () => {
+      const mgr = new DependencyManager(
+        Language.TYPESCRIPT,
+        "0.11.2",
+        __dirname
+      );
+
+      await expect(() =>
+        mgr.addLocalProvider(new ProviderConstraint("aaawwwwwssss", undefined))
+      ).rejects.toThrowErrorMatchingInlineSnapshot(
+        `"Usage Error: Could not find a version for the provider 'registry.terraform.io/hashicorp/aaawwwwwssss' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers."`
       );
     });
   });
