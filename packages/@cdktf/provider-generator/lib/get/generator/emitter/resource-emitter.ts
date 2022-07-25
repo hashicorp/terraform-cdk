@@ -122,7 +122,10 @@ export class ResourceEmitter {
     this.code.line(`provider: config.provider,`);
     this.code.line(`dependsOn: config.dependsOn,`);
     this.code.line(`count: config.count,`);
-    this.code.line(`lifecycle: config.lifecycle`);
+    this.code.line(`lifecycle: config.lifecycle,`);
+    this.code.line(`provisioners: config.provisioners,`);
+    this.code.line(`connection: config.connection,`);
+    this.code.line(`forEach: config.forEach`);
     this.code.close(`});`);
   }
 

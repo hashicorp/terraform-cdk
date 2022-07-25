@@ -1,19 +1,6 @@
 import { TestDriver } from "../../test-helper";
 
 describe("full integration test", () => {
-  describe("deploy", () => {
-    test("build providers", async () => {
-      // We have an arcane bug where the deploy is invoked twice although it's just called once.
-      // This is a workaround for that, by having a new driver every run we don't have this bug.
-      const deployDriver = new TestDriver(__dirname);
-      await deployDriver.setupTypescriptProject();
-      const deployLog = await deployDriver.deploy(["using-all-providers"]);
-      expect(deployLog).toContain("null_resource.test (test) will be created");
-      expect(deployLog).toContain("1 to add");
-      expect(deployLog).toContain("Apply complete!");
-    }, 600_000);
-  });
-
   describe("synth", () => {
     let driver: TestDriver;
 

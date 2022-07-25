@@ -69,13 +69,13 @@ app.synth();`,
           "node": ">=14.0"
         },
         "dependencies": {
-          "cdktf": "next",
+          "cdktf": "0.11.0-pre.53",
           "constructs": "^10.0.5"
         },
         "devDependencies": {
           "@types/node": "^14.0.26",
           "typescript": "^3.9.7",
-          "cdktf-cli": "next"
+          "cdktf-cli": "0.11.0-pre.53"
         }
       }`,
     ],
@@ -218,18 +218,18 @@ describe("convertProject", () => {
 
     const { code, cdktfJson } = await convertProject(
       getTerraformConfigFromDir(importPath),
-      mainTs,
-      require(path.resolve(targetPath, "cdktf.json")),
       {
         language: "typescript",
         providerSchema: cachedProviderSchema,
       }
     );
 
-    fs.writeFileSync(path.resolve(targetPath, "main.ts"), code, "utf8");
+    fs.writeFileSync(path.resolve(targetPath, "main.ts"), code(mainTs), "utf8");
     fs.writeFileSync(
       path.resolve(targetPath, "cdktf.json"),
-      JSON.stringify(cdktfJson),
+      JSON.stringify(
+        cdktfJson(require(path.resolve(targetPath, "cdktf.json")))
+      ),
       "utf8"
     );
 

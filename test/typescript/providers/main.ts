@@ -6,49 +6,9 @@ import {
   TerraformVariable,
   Testing,
 } from "cdktf";
-import * as NullProvider from "./.gen/providers/null";
 import * as Aws from "./.gen/providers/aws";
-import * as Azure from "./.gen/providers/azurerm";
-import * as Google from "./.gen/providers/google";
-import * as Kubernetes from "./.gen/providers/kubernetes";
-import * as Openstack from "./.gen/providers/openstack";
 import * as Nomad from "./.gen/providers/nomad";
-import * as Vault from "./.gen/providers/vault";
-import * as Consul from "./.gen/providers/consul";
-import * as External from "./.gen/providers/external";
-import * as Datadog from "./.gen/providers/datadog";
-import * as Awscc from "./.gen/providers/awscc";
-
-export class UsingAllProviders extends TerraformStack {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
-    new NullProvider.NullProvider(this, "null", {});
-
-    const nullResouce = new NullProvider.Resource(this, "test", {});
-
-    nullResouce.addOverride("provisioner", [
-      {
-        "local-exec": {
-          command: `echo "hello deploy"`,
-        },
-      },
-    ]);
-
-    [
-      Aws,
-      Azure,
-      Google,
-      Kubernetes,
-      Nomad,
-      Vault,
-      Openstack,
-      Consul,
-      External,
-      Datadog,
-      Awscc,
-    ];
-  }
-}
+import * as Kubernetes from "./.gen/providers/kubernetes";
 
 export class NamespacedProviders extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -105,17 +65,17 @@ export class References extends TerraformStack {
     });
 
     // simple references
-    const job = new Nomad.JobA(this, "firstJob", {
+    const job = new Nomad.Job(this, "firstJob", {
       jobspec: "./job/spec.hcl",
     });
 
-    new Nomad.JobA(this, "secondJob", {
+    new Nomad.Job(this, "secondJob", {
       jobspec: job.jobspec,
     });
 
     // single-item references
     new Kubernetes.KubernetesProvider(this, "k8s", {});
-    const namespace = new Kubernetes.NamespaceA(this, "myNamespace", {
+    const namespace = new Kubernetes.Namespace(this, "myNamespace", {
       metadata: { name: "myNamespace" },
     });
 
@@ -257,7 +217,6 @@ export class Mutation extends TerraformStack {
 }
 
 const app = Testing.stubVersion(new App({}));
-new UsingAllProviders(app, "using-all-providers");
 new NamespacedProviders(app, "namespaces");
 new References(app, "references");
 new Mutation(app, "mutation");

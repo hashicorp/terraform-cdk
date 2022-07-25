@@ -11,15 +11,14 @@ export class HelloTerra extends TerraformStack {
 
     new NullProvider.NullProvider(this, "null", {});
 
-    const nullResouce = new NullProvider.Resource(this, "test-Foo_Bar", {});
-
-    nullResouce.addOverride("provisioner", [
-      {
-        "local-exec": {
+    new NullProvider.Resource(this, "test-Foo_Bar", {
+      provisioners: [
+        {
+          type: "local-exec",
           command: `echo "hello deploy"`,
         },
-      },
-    ]);
+      ],
+    });
   }
 }
 

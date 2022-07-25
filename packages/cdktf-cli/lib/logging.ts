@@ -1,10 +1,63 @@
 import { configure, getLogger } from "log4js";
 import * as fs from "fs-extra";
 import * as path from "path";
+import * as Sentry from "@sentry/node";
 
-const logger = getLogger();
+import { setLogger as setProviderGeneratorLogger } from "@cdktf/provider-generator";
+import { setLogger as setHclLogger } from "@cdktf/hcl2cdk";
 
-logger.level = process.env.CDKTF_LOG_LEVEL || "INFO";
+const cliLogger = getLogger();
+const logger = {
+  trace(message: any, ...args: any[]) {
+    cliLogger.trace(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Debug,
+    });
+  },
+
+  debug(message: any, ...args: any[]) {
+    cliLogger.debug(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Debug,
+    });
+  },
+
+  info(message: any, ...args: any[]) {
+    cliLogger.info(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Info,
+    });
+  },
+
+  warn(message: any, ...args: any[]) {
+    cliLogger.warn(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Warning,
+    });
+  },
+
+  error(message: any, ...args: any[]) {
+    cliLogger.error(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Error,
+    });
+  },
+
+  fatal(message: any, ...args: any[]) {
+    cliLogger.fatal(message, ...args);
+    Sentry.addBreadcrumb({
+      message,
+      level: Sentry.Severity.Critical,
+    });
+  },
+};
+
+cliLogger.level = process.env.CDKTF_LOG_LEVEL || "INFO";
 const logFileName = "cdktf.log";
 
 if (
@@ -30,10 +83,8 @@ const processLoggerError = (chunk: Buffer | string | Uint8Array) => {
   logger.error(chunk.toString());
 };
 
-export {
-  logger,
-  getLogger,
-  processLoggerDebug,
-  processLoggerError,
-  logFileName,
-};
+// We have this mechanism to allow loggers from sub-packages to hook into this logging mechanism
+setHclLogger(logger as any);
+setProviderGeneratorLogger(logger as any);
+
+export { logger, processLoggerDebug, processLoggerError, logFileName };

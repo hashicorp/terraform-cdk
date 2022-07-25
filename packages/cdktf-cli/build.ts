@@ -66,8 +66,12 @@ const nativeNodeModulesPlugin = {
       "cdktf",
       "@cdktf/hcl2cdk",
       "constructs",
+      "yoga-layout-prebuilt",
     ],
     plugins: [nativeNodeModulesPlugin],
+    define: {
+      "process.env.SENTRY_DSN": JSON.stringify(process.env.SENTRY_DSN),
+    },
     tsconfig: "tsconfig.json",
   });
 

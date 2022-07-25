@@ -1,9 +1,4 @@
-import {
-  ConstructsMaker,
-  GetOptions,
-  config,
-  setLogger,
-} from "@cdktf/provider-generator";
+import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
 import {} from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
 import { logger } from "./logging";
@@ -36,7 +31,6 @@ export async function get({
   onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
   reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
 }: GetConfig) {
-  setLogger(logger as any);
   logger.debug(
     `Starting get, removing output directory: '${constructsOptions.codeMakerOutput}'`
   );

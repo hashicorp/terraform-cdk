@@ -254,3 +254,67 @@ test("using the same reference in two contexts", () => {
     `first:\${join(",", [test_resource.resource.string_value, "this is the ref: \${test_resource.resource.string_value}"])}|second:\${join(",", ["this is the ref: \${test_resource.resource.string_value}", test_resource.resource.string_value])}`
   );
 });
+
+it("supports file provisioner", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "content", {
+    name: "foo",
+    provisioners: [
+      { type: "file", destination: "hello.txt", content: "my-content" },
+    ],
+  });
+  new TestResource(stack, "source", {
+    name: "bar",
+    provisioners: [
+      { type: "file", destination: "world.txt", source: "my.txt" },
+    ],
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("supports local-exec provisioner", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [{ type: "local-exec", command: "echo 'hello' > world.txt" }],
+  });
+
+  new TestResource(stack, "advanced", {
+    name: "foo",
+    provisioners: [
+      {
+        type: "local-exec",
+        command: 'echo "hello $person" > greeting.txt',
+        workingDir: "/tmp",
+        environment: {
+          person: "daniel",
+        },
+        interpreter: ["/bin/bash", "-c"],
+      },
+    ],
+  });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("maintains the same order of provisioner", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  });
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

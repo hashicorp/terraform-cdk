@@ -15,7 +15,7 @@ test("generate an acm certifacte resource with complex computed types", async ()
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(

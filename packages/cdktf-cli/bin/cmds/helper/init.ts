@@ -29,6 +29,9 @@ import {
 } from "@cdktf/provider-generator";
 import { templates, templatesDir } from "./init-templates";
 import { init, Project } from "../../../lib";
+import { askForCrashReportingConsent } from "../../../lib/error-reporting";
+import ciDetect from "@npmcli/ci-detect";
+import { isInteractiveTerminal } from "./check-environment";
 
 const chalkColour = new chalk.Instance();
 
@@ -47,7 +50,7 @@ export function checkForEmptyDirectory(dir: string) {
     process.exit(1);
   }
 }
-
+const tfeHostname = "app.terraform.io";
 type Options = {
   local?: boolean;
   template?: string;
@@ -57,6 +60,7 @@ type Options = {
   dist?: string;
   destination: string;
   fromTerraformProject?: string;
+  enableCrashReporting?: boolean;
 };
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
@@ -66,7 +70,8 @@ export async function runInit(argv: Options) {
     // We ask the user to login to Terraform Cloud and set a token
     // If the user chooses not to use Terraform Cloud, we continue
     // without a token and set up the project.
-    const terraformLogin = new TerraformLogin();
+
+    const terraformLogin = new TerraformLogin(tfeHostname);
     token = await terraformLogin.askToLogin();
   } else {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -91,6 +96,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const projectId = uuid();
   telemetryData.projectId = projectId;
 
+  const fromTerraformProject =
+    argv.fromTerraformProject ||
+    (templateInfo.Name === "typescript"
+      ? await getTerraformProject()
+      : undefined);
+
   if (!argv.local) {
     if (!("OrganizationName" in projectInfo)) {
       throw new Error(`Missing organization name in project info`);
@@ -109,6 +120,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       );
       try {
         await terraformCloudClient.createWorkspace(
+          tfeHostname,
           projectInfo.OrganizationName,
           projectInfo.WorkspaceName,
           token
@@ -122,6 +134,48 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
   }
 
+  const ci: string | false = ciDetect();
+  const sendCrashReports =
+    argv.enableCrashReporting ??
+    (ci ? false : await askForCrashReportingConsent());
+
+  let convertResult, importPath;
+  if (fromTerraformProject) {
+    if (templateInfo.Name !== "typescript") {
+      console.error(
+        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
+      );
+    }
+
+    importPath = path.resolve(process.cwd(), fromTerraformProject);
+
+    const combinedTfFile = getTerraformConfigFromDir(importPath);
+
+    // Fetch all provider requirements from the project
+    const providerRequirements = await parseProviderRequirements(
+      combinedTfFile
+    );
+
+    // Get all the provider schemas
+    const { providerSchema } = await readSchema(
+      Object.entries(providerRequirements).map(([name, version]) =>
+        ConstructsMakerProviderTarget.from(
+          new config.TerraformProviderConstraint(`${name}@ ${version}`),
+          LANGUAGES[0]
+        )
+      )
+    );
+
+    try {
+      convertResult = await convertProject(combinedTfFile, {
+        language: "typescript",
+        providerSchema,
+      });
+    } catch (err) {
+      throw Errors.Internal(err, { fromTerraformProject: true });
+    }
+  }
+
   await init({
     cdktfVersion: argv.cdktfVersion,
     destination,
@@ -129,70 +183,42 @@ This means that your Terraform state file will be stored locally on disk in a fi
     projectId,
     projectInfo,
     templatePath: templateInfo.Path,
+    sendCrashReports: sendCrashReports,
   });
 
-  if (argv.fromTerraformProject) {
-    if (argv.template === "typescript") {
-      const mainTs = fs.readFileSync(
-        path.resolve(destination, "main.ts"),
-        "utf8"
-      );
+  if (convertResult && importPath) {
+    const { code, cdktfJson, stats } = convertResult;
 
-      const importPath = path.resolve(process.cwd(), argv.fromTerraformProject);
+    const mainTs = fs.readFileSync(
+      path.resolve(destination, "main.ts"),
+      "utf8"
+    );
+    fs.writeFileSync(
+      path.resolve(destination, "main.ts"),
+      code(mainTs),
+      "utf8"
+    );
 
-      const combinedTfFile = getTerraformConfigFromDir(importPath);
+    const renderedCdktfJson = cdktfJson(
+      require(path.resolve(destination, "cdktf.json"))
+    );
+    fs.writeFileSync(
+      path.resolve(destination, "cdktf.json"),
+      JSON.stringify(renderedCdktfJson, null, 2),
+      "utf8"
+    );
 
-      // Fetch all provider requirements from the project
-      const providerRequirements = await parseProviderRequirements(
-        combinedTfFile
-      );
+    const { terraformModules, terraformProviders } = renderedCdktfJson;
 
-      // Get all the provider schemas
-      const { providerSchema } = await readSchema(
-        Object.entries(providerRequirements).map(([name, version]) =>
-          ConstructsMakerProviderTarget.from(
-            new config.TerraformProviderConstraint(`${name}@ ${version}`),
-            LANGUAGES[0]
-          )
-        )
-      );
-      try {
-        const { code, cdktfJson, stats } = await convertProject(
-          combinedTfFile,
-          mainTs,
-          require(path.resolve(destination, "cdktf.json")),
-          {
-            language: "typescript",
-            providerSchema,
-          }
-        );
-
-        fs.writeFileSync(path.resolve(destination, "main.ts"), code, "utf8");
-        fs.writeFileSync(
-          path.resolve(destination, "cdktf.json"),
-          JSON.stringify(cdktfJson, null, 2),
-          "utf8"
-        );
-
-        const { terraformModules, terraformProviders } = cdktfJson;
-
-        if (terraformModules.length > 0) {
-          copyLocalModules(terraformModules, importPath, destination);
-        }
-
-        if (terraformModules.length + terraformProviders.length > 0) {
-          execSync("npm run get", { cwd: destination });
-        }
-
-        telemetryData.conversionStats = stats;
-      } catch (err) {
-        throw Errors.Internal(err, { fromTerraformProject: true });
-      }
-    } else {
-      console.error(
-        `The --from-terraform-project flag is only supported with the typescript template. The command will continue and ignore the flag.`
-      );
+    if (terraformModules.length > 0) {
+      copyLocalModules(terraformModules, importPath, destination);
     }
+
+    if (terraformModules.length + terraformProviders.length > 0) {
+      execSync("npm run get", { cwd: destination });
+    }
+
+    telemetryData.conversionStats = stats;
   }
 
   if (templateInfo.cleanupTemporaryFiles) {
@@ -258,6 +284,7 @@ async function gatherInfo(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
     const organizationNames = await terraformCloudClient.getOrganizationNames(
+      tfeHostname,
       token
     );
     const organizationData = organizationNames.data;
@@ -292,6 +319,47 @@ async function gatherInfo(
   }
 
   return project;
+}
+
+async function getTerraformProject(): Promise<string | undefined> {
+  if (!isInteractiveTerminal()) {
+    return Promise.resolve(undefined);
+  }
+  const { shouldUseTerraformProject } = await inquirer.prompt({
+    name: "shouldUseTerraformProject",
+    message: "Do you want to start from a Terraform project?",
+    type: "confirm",
+    default: false,
+  });
+
+  if (!shouldUseTerraformProject) {
+    return undefined;
+  }
+
+  let { terraformProject } = await inquirer.prompt([
+    {
+      name: "terraformProject",
+      message: "Please enter the path to the Terraform project",
+      type: "input",
+      default: "",
+    },
+  ]);
+
+  if (!terraformProject || terraformProject === "") {
+    return undefined;
+  }
+
+  if (!path.isAbsolute(terraformProject)) {
+    terraformProject = path.resolve(process.cwd(), terraformProject);
+  }
+
+  if (!fs.existsSync(terraformProject)) {
+    throw Errors.Usage(
+      `Could not find folder '${terraformProject}' to initialize from.`
+    );
+  }
+
+  return terraformProject;
 }
 
 /**

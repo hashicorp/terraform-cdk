@@ -6,9 +6,15 @@ on:
       - "docs/**"
       - "website/**"
       - "tools/update-github-project-board/**"
+  workflow_call:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: ${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-unit-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:

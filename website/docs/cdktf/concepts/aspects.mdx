@@ -36,8 +36,9 @@ export class TagsAddingAspect implements IAspect {
   // This method is called on every Construct within the specified scope (resources, data sources, etc.).
   visit(node: IConstruct) {
     if (isTaggableConstruct(node)) {
-      const currentTags = node.tags || {};
-      node.tags = Fn.tomap(Fn.merge([currentTags, this.tagsToAdd]));
+      // We need to take the input value to not create a circular reference
+      const currentTags = node.tagsInput || {};
+      node.tags = { ...this.tagsToAdd, ...currentTags };
     }
   }
 }

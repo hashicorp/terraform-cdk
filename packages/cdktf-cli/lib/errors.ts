@@ -1,5 +1,6 @@
 import { ReportParams, ReportRequest } from "./checkpoint";
 import { DISPLAY_VERSION } from "./version";
+import * as Sentry from "@sentry/node";
 
 // Errors that will emit telemetry events
 async function report(command: string, payload: Record<string, any>) {
@@ -45,5 +46,6 @@ export const Errors = {
   // Set the scope for all errors
   setScope(scope: string) {
     errorScope = scope;
+    Sentry.configureScope((s) => s.setTransactionName(scope));
   },
 };

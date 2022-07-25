@@ -1,0 +1,143 @@
+---
+page_title: "Best Practices"
+description: Build robust applications for production use cases. How to manage secrets, build constructs, design stacks, and more.
+---
+
+# CDK for Terraform Best Practices
+
+There are many ways to structure your CDK for Terraform (CDKTF) application. The structure you choose depends largely on the best practices for your chosen programming language and your use case. However, we recommend using the following principles to build robust, production-ready applications.
+
+## Read Secrets with Terraform Variables
+
+Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets. Terraform uses the values in `TerraformVariable` directly at execution time, so CDKTF does not write them to the synthesized `cdktf.json` file.
+
+The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable.
+
+```ts
+const adminPassword = new TerraformVariable(this, "adminPassword", {
+  type: "string",
+  description: "Admin password for the instance",
+  sensitive: true,
+});
+
+new MyResource(this, "hello", {
+  adminPassword: adminPassword.value, // use this instead of process.env.ADMIN_PASSWORD
+});
+```
+
+To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
+
+If you use Terraform Cloud with [remote execution](/cloud-docs/run#remote-operations), you can store your secrets in Terraform Cloud. Refer to the Terraform Cloud documentation about [workspace variables](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) for more details.
+
+We recommend using `TerraformVariable` only at the Stack level. Nesting them in custom constructs makes the interface unclear because some information may be passed into the constructor of the construct, while other data may be passed through a `TerraformVariable`. Nesting also changes the logical ID and makes it difficult to understand which `TerraformVariable` instances you must configure for the CDKTF program to run.
+
+## Providers
+
+A provider is a Terraform plugin that allows users to manage an external API. Provider plugins act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
+
+Use [pre-built providers](/cdktf/concepts/providers-and-resources#install-pre-built-providers) when possible. It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a performance optimization that reduces the time it takes to synthesize and run your application. You can also use pre-built providers as a peer dependency if you use open-source custom constructs.
+
+Refer to the [CDKTF Provider GitHub repositories](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-) for a complete list of pre-built providers.
+
+## Application Architecture
+
+We recommend the following best practices when structuring your CDKTF application.
+
+### Separate Business Units with Stacks
+
+A [stack](/cdktf/concepts/stacks) represents a collection of infrastructure that CDKTF synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. We recommend creating separate stacks for the following use cases:
+
+- Deployment stages (development / staging / production)
+- Business purposes (e-commerce / blog / data warehouse)
+- Regions (eu-west-1 / us-east-1) if they deploy similar infrastructure, e.g. for high availability
+- Software components (network / db / compute)
+- Deployment cycles (databases and domain names / applications)
+
+You do not always need to create a new class for each stack. For some use cases, it is more efficient to create a single stack class to define similar infrastructure and then pass arguments into the stack that customize the deployment. For example, you might create a class that creates AWS EC2 instances and then pass different regions and other configuration details based on the team or production stage that requires the infrastructure.
+
+The following example customizes the same base stack for different business purposes and staging environments.
+
+```ts
+const devNetworking = new NetworkingStack(this, "networking-development", {
+  // ...
+});
+
+// A single region is enough to create a development environment for each product.
+new Ecommerce(this, "ecommerce-development", {
+  vpcId: devNetworking.vpcId,
+  subnets: devNetworking.subnets,
+  region: "us-west-1",
+});
+new Blog(this, "ecommerce-development", {
+  vpcId: devNetworking.vpcId,
+  subnets: devNetworking.subnets,
+  region: "us-west-1",
+});
+
+// Staging environments require two ecommerce stacks in different regions
+// to test the high availability features of the infrastructure.
+const stageNetworking = new NetworkingStack(this, "networking-staging", {
+  // ...
+});
+const ecommerceStaging = new Ecommerce(this, "ecommerce-staging-us", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "us-west-1",
+});
+new Ecommerce(this, "ecommerce-staging-eu", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "eu-central-1",
+  databaseReplicationMaster: ecommerceStaging.databaseReplicationMaster,
+});
+new Blog(this, "ecommerce-staging", {
+  vpcId: stageNetworking.vpcId,
+  subnets: stageNetworking.subnets,
+  region: "us-west-1",
+});
+```
+
+### Create Extensible Constructs
+
+[Constructs](/cdktf/concepts/constructs) let you abstract common behavior into reusable classes. If you have no reason to limit the extensibility of a construct, you should default to making it as easy as possible to overwrite custom behavior, while still providing good standard defaults.
+
+In some cases, you can use interfaces from the generated provider bindings to allow users to customize the configuration. In very complex constructs, we recommend using methods to encapsulate behavior. For example, you can create a method that derives default values for the configuration. This lets users extend the base class and overwrite the behavior in a central location.
+
+The following example exposes configuration options for the S3 bucket resource within the construct. It also creates a second construct class that overwrites the default naming behavior.
+
+```ts
+import { Construct } from "constructs";
+import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3";
+
+class MyS3Bucket extends Construct {
+  constructor(
+    protected scope: Construct,
+    protected id: string,
+    protected s3Options: S3BucketConfig
+  ) {
+    super(scope, id);
+    new s3.Bucket(this, "MyBucket", {
+      ...s3Options,
+      bucketName: this.getBucketName(),
+      versioned: true,
+    });
+  }
+
+  public getBucketName() {
+    return this.s3Options.bucketName || `${this.id}-bucket`;
+  }
+}
+
+class SimpleS3Bucket extends MyS3Bucket {
+  // New behaviour was patched in by overwriting
+  public getBucketName() {
+    return this.id;
+  }
+}
+```
+
+### Use Projen to Distribute Constructs
+
+If your code is hosted on Github and you want to distribute it as a CDKTF construct, you can use [projen](https://github.com/projen/projen) to create a repository with all required tooling set up for you. You can run `npx projen new cdktf-construct` in a new folder, and the created project will be ready to use. Projen has built-in options to [publish constructs to all registries](https://github.com/projen/projen/blob/main/src/cdk/jsii-project.ts#L48).
+
+If you want to deploy your CDKTF construct as a Terraform module, we recommend [`projen-cdktf-hybrid-construct`](https://github.com/DanielMSchmidt/projen-cdktf-hybrid-construct).

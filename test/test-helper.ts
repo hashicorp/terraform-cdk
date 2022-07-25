@@ -165,7 +165,7 @@ export class TestDriver {
 
   init = async (template: string, additionalOptions = "") => {
     await this.exec(
-      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local ${additionalOptions}`
+      `cdktf init --template ${template} --project-name="typescript-test" --project-description="typescript test app" --local --enable-crash-reporting=false ${additionalOptions}`
     );
   };
 
@@ -250,24 +250,30 @@ export class TestDriver {
     return child;
   };
 
-  setupTypescriptProject = async () => {
+  setupTypescriptProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("typescript");
+    await this.init("typescript", options?.init?.additionalOptions);
     this.copyFiles("main.ts", "cdktf.json");
     await this.get();
   };
 
-  setupPythonProject = async () => {
+  setupPythonProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("python");
+    await this.init("python", options?.init?.additionalOptions);
     this.copyFiles("main.py", "cdktf.json");
     await this.get();
   };
 
-  setupCsharpProject = async () => {
+  setupCsharpProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("csharp");
-    this.copyFiles("Main.cs", "cdktf.json");
+    await this.init("csharp", options?.init?.additionalOptions);
+    this.copyFiles("Program.cs", "cdktf.json");
     await this.get();
     execSyncLogErrors(
       "dotnet add reference .gen/Providers.Null/Providers.Null.csproj",
@@ -278,23 +284,28 @@ export class TestDriver {
     );
   };
 
-  setupJavaProject = async () => {
+  setupJavaProject = async (options?: {
+    init?: { additionalOptions?: string };
+  }) => {
     this.switchToTempDir();
-    await this.init("java");
+    await this.init("java", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("Main.java", "src/main/java/com/mycompany/app/Main.java");
     await this.get();
   };
 
-  setupGoProject = async (cb?: (workingDirectory) => void) => {
+  setupGoProject = async (options?: {
+    init?: { additionalOptions?: string };
+    cb?: (workingDirectory) => void;
+  }) => {
     this.switchToTempDir();
     console.log(this.workingDirectory);
-    await this.init("go");
+    await this.init("go", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");
 
     await this.get();
-    cb && cb(this.workingDirectory);
+    options?.cb && options.cb(this.workingDirectory);
 
     // automatically retrieves required jsii-runtime module (used in generated providers)
     await this.exec("go mod tidy");

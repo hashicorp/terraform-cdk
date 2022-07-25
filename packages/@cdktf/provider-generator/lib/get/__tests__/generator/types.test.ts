@@ -19,7 +19,7 @@ test("computed optional complex attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -40,7 +40,7 @@ test("computed complex attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -65,7 +65,7 @@ test("computed complex nested attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -84,7 +84,7 @@ test("string list attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -103,7 +103,7 @@ test("number list attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -122,7 +122,7 @@ test("boolean list attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -141,7 +141,7 @@ test("string map attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -160,7 +160,7 @@ test("number map attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -179,7 +179,7 @@ test("boolean map attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -202,7 +202,7 @@ test("deeply nested block types", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -223,7 +223,7 @@ test("single block type", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -242,7 +242,7 @@ test("set / list block type", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -267,7 +267,7 @@ test("computed nested complex list block type", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -288,7 +288,7 @@ test("primitive string", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -309,7 +309,7 @@ test("primitive number", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -330,7 +330,7 @@ test("primitive boolean", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -351,7 +351,7 @@ test("primitive dynamic", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -372,7 +372,7 @@ test("ignored attributes", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -397,7 +397,7 @@ test("incompatible attribute names", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -418,7 +418,7 @@ test("list of string map attribute", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -437,7 +437,7 @@ test("reset and input name conflicts", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(

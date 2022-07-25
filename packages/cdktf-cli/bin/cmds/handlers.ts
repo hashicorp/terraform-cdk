@@ -1,7 +1,6 @@
 import chalk from "chalk";
 import * as fs from "fs-extra";
 import React from "react";
-import yargs from "yargs";
 import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
   readSchema,
@@ -16,7 +15,7 @@ import { renderInk } from "./helper/render-ink";
 import { terraformCheck } from "./helper/terraform-check";
 import * as terraformCloudClient from "./helper/terraform-cloud-client";
 import { TerraformLogin } from "./helper/terraform-login";
-import { findFileAboveCwd, readStreamAsString } from "./helper/utilities";
+import { readStreamAsString } from "./helper/utilities";
 import { displayVersionMessage } from "./helper/version-check";
 
 import { Diff } from "./ui/diff";
@@ -28,7 +27,7 @@ import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
 import { sendTelemetry } from "../../lib/checkpoint";
-import { Errors } from "../../lib/errors";
+import { Errors, IsErrorType } from "../../lib/errors";
 import { Output } from "./ui/output";
 import {
   NestedTerraformOutputs,
@@ -40,25 +39,36 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
-import { collectDebugInformation } from "../../lib/debug";
+import { collectDebugInformation, getPackageVersion } from "../../lib/debug";
+import { initializErrorReporting } from "../../lib/error-reporting";
+import {
+  DependencyManager,
+  ProviderConstraint,
+} from "../../lib/dependencies/dependency-manager";
+import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
+import { logger } from "../../lib/logging";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
-  const items: string[] = provider;
-  const cdktfJsonPath = findFileAboveCwd("cdktf.json");
-  if (cdktfJsonPath) {
-    const cdktfJson = await fs.readJson(cdktfJsonPath);
+  let providersFromConfig: (string | ProviderDependencySpec)[] = [];
 
-    if (Array.isArray(cdktfJson.terraformProviders)) {
-      items.push(...cdktfJson.terraformProviders);
+  try {
+    const config = CdktfConfig.read();
+    providersFromConfig = config.terraformProviders;
+  } catch (e) {
+    if (IsErrorType(e, "External")) {
+      // do nothing, expected if run in a different directory
+    } else {
+      throw e;
     }
   }
-  return items;
+  return [...provider, ...providersFromConfig];
 }
 
 export async function convert({ language, provider }: any) {
+  await initializErrorReporting();
   await displayVersionMessage();
 
   const providerRequirements = await getProviderRequirements(provider);
@@ -72,7 +82,10 @@ export async function convert({ language, provider }: any) {
     )
   );
 
-  const input = await readStreamAsString(process.stdin);
+  const input = await readStreamAsString(
+    process.stdin,
+    "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
+  );
   let output;
   try {
     const { all, stats } = await hcl2cdkConvert(input, {
@@ -89,6 +102,7 @@ export async function convert({ language, provider }: any) {
 }
 
 export async function deploy(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -97,6 +111,7 @@ export async function deploy(argv: any) {
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
+  const refreshOnly = argv.refreshOnly;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -119,11 +134,13 @@ export async function deploy(argv: any) {
       ignoreMissingStackDependencies:
         argv.ignoreMissingStackDependencies || false,
       parallelism: argv.parallelism,
+      refreshOnly,
     })
   );
 }
 
 export async function destroy(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -146,34 +163,35 @@ export async function destroy(argv: any) {
 }
 
 export async function diff(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
   const command = argv.app;
   const outDir = argv.output;
   const stack = argv.stack;
+  const refreshOnly = argv.refreshOnly;
 
   await renderInk(
     React.createElement(Diff, {
       outDir,
+      refreshOnly,
       targetStack: stack,
       synthCommand: command,
     })
   );
 }
 
-export async function get(argv: any) {
+export async function get(argv: { output: string; language: Language }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
+  await initializErrorReporting(true);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
-  const args = argv as {
-    output: string;
-    language: Language;
-  };
+  const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language } = args;
+  const { output, language } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
     ...providers,
@@ -181,9 +199,10 @@ export async function get(argv: any) {
   ];
 
   if (constraints.length === 0) {
-    throw Errors.Usage(
-      `Please specify providers or modules in "cdktf.json" config file`
+    logger.warn(
+      `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`
     );
+    return;
   }
 
   await renderInk(
@@ -212,6 +231,7 @@ export async function init(argv: any) {
 }
 
 export async function list(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -221,45 +241,51 @@ export async function list(argv: any) {
   await renderInk(React.createElement(List, { outDir, synthCommand: command }));
 }
 
-export async function login(argv: any) {
+export async function login(argv: { tfeHostname: string }) {
   await terraformCheck();
   await displayVersionMessage();
 
-  const args = argv as yargs.Arguments;
-  if (args["_"].length > 1) {
-    console.error(
-      chalkColour`{redBright ERROR: 'cdktf login' command cannot have more than one argument.}\n`
+  async function showUserDetails(authToken: string) {
+    // Get user details if token is set
+    const userAccount = await terraformCloudClient.getAccountDetails(
+      argv.tfeHostname,
+      authToken
     );
-    yargs.showHelp();
-    process.exit(1);
+    if (userAccount) {
+      const username = userAccount.data.attributes.username;
+      console.log(
+        chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`
+      );
+      console.log(chalkColour`\nWelcome {bold ${username}}!`);
+    } else {
+      throw Errors.Usage(`Configured Terraform Cloud token is invalid.`);
+    }
   }
 
-  const terraformLogin = new TerraformLogin();
-  const token = await terraformLogin.askToLogin();
-  if (token == "") {
-    console.error(
-      chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`
-    );
-    process.exit(1);
+  const terraformLogin = new TerraformLogin(argv.tfeHostname);
+  let token = "";
+  try {
+    token = await readStreamAsString(process.stdin, "No stdin was passed");
+  } catch (e) {
+    logger.debug(`No TTY stream passed to login`);
   }
 
-  // Get user details if token is set
-  const userAccount = await terraformCloudClient.getAccountDetails(token);
-  if (userAccount) {
-    const username = userAccount.data.attributes.username;
-    console.log(
-      chalkColour`\n{greenBright cdktf has successfully configured Terraform Cloud credentials!}`
-    );
-    console.log(chalkColour`\nWelcome {bold ${username}}!`);
+  // If we get a token through stdin, we don't need to ask for credentials, we just validate and set it
+  // This is useful for programmatically authenticating, e.g. a CI server
+  if (token) {
+    await terraformLogin.saveTerraformCredentials(token.replace(/\n/g, ""));
   } else {
-    console.error(
-      chalkColour`{redBright ERROR: couldn't configure Terraform Cloud credentials.}\n`
-    );
-    process.exit(1);
+    token = await terraformLogin.askToLogin();
+    if (token === "") {
+      throw Errors.Usage(`No Terraform Cloud token was provided.`);
+    }
   }
+
+  await showUserDetails(token);
 }
 
 export async function synth(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -283,6 +309,7 @@ export async function synth(argv: any) {
 }
 
 export async function watch(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   const command = argv.app;
@@ -308,6 +335,7 @@ export async function watch(argv: any) {
 }
 
 export async function output(argv: any) {
+  await initializErrorReporting(true);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -348,5 +376,46 @@ export async function debug(argv: any) {
     Object.entries(debugOutput).forEach(([key, value]) => {
       console.log(`${key}: ${value === null ? "null" : value}`);
     });
+  }
+}
+
+export async function providerAdd(argv: any) {
+  const config = CdktfConfig.read();
+
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  let needsGet = false;
+
+  for (const provider of argv.provider) {
+    const constraint = ProviderConstraint.fromConfigEntry(provider);
+
+    if (argv.forceLocal) {
+      needsGet = true;
+      await manager.addLocalProvider(constraint);
+    } else {
+      const { addedLocalProvider } = await manager.addProvider(constraint);
+      if (addedLocalProvider) {
+        needsGet = true;
+      }
+    }
+  }
+
+  if (needsGet) {
+    console.log(
+      "Local providers have been updated. Running cdktf get to update..."
+    );
+    await get({ language: language, output: config.codeMakerOutput });
   }
 }

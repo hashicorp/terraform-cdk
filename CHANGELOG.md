@@ -1,6 +1,46 @@
-## 0.11.0 (Unreleased)
+## 0.12.0 (unreleased)
 
 **Breaking Changes**
+
+### `cdktf get` exits with 0 exit code when no provider / module specifications are found in the `cdktf.json`
+
+Previously we would throw an error and exit with 1 if there were no provider or module specifications in the `cdktf.json` file. This can be inconvenient if `cdktf get` is part of a workflow.
+
+### `Fn.merge` is split into `Fn.mergeLists` and `Fn.mergeMaps`
+
+The Terraform `merge` function can merge both lists and maps, but this can cause [issues](https://github.com/hashicorp/terraform-cdk/issues/1653) when using the result in a typed language. Therefore we split it into `Fn.mergeLists` and `Fn.mergeMaps`, this means you need to change your cdktf programs code.
+
+## 0.11.2
+
+### feat
+
+- feat(cli): support custom Terraform Enterprise instances [\#1857](https://github.com/hashicorp/terraform-cdk/pull/1857)
+- feat(hcl2json): expose hcl expression parser [\#1794](https://github.com/hashicorp/terraform-cdk/pull/1794)
+
+### chore
+
+- chore: synthesize all boolean as iresolvable tests [\#1849](https://github.com/hashicorp/terraform-cdk/pull/1849)
+- chore(docs): Fix Environment Variables and Best Practices [\#1839](https://github.com/hashicorp/terraform-cdk/pull/1839)
+
+## 0.11.1
+
+### fix
+
+- fix(cli): Fix package version check on Windows [\#1831](https://github.com/hashicorp/terraform-cdk/pull/1831)
+- fix(docs): fix code blocks in "create and deploy" documentation [\#1826](https://github.com/hashicorp/terraform-cdk/pull/1826)
+- fix(release): update changelog [\#1824](https://github.com/hashicorp/terraform-cdk/pull/1824)
+
+### chore
+
+- chore(cli): filter usage errors from error reporting [\#1828](https://github.com/hashicorp/terraform-cdk/pull/1828)
+- chore: document debug command [\#1812](https://github.com/hashicorp/terraform-cdk/pull/1812)
+- chore: add best practice page [\#1790](https://github.com/hashicorp/terraform-cdk/pull/1790)
+
+## 0.11.0
+
+**Breaking Changes**
+
+Abbreviated version below, for a guide see [Upgrade Guide for 0.11](./docs/upgrade-guide/upgrading-to-0.11.md)
 
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
@@ -22,6 +62,45 @@ A `TerraformStack` may no longer contain whitespace characters, since we rely on
 For computed maps, the reference is now through a getter.
 
 To access `{ property = "value" }`, instead of `resource.mapAttribute("property")` you can now use `resource.mapAttribute.lookup("property")`.
+
+### Use ComplexLists and ComplexMaps for complex assignable properties [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
+
+Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no longer have setters; they instead have `putX` methods. The getter return type is also changed to be a derivative of either `ComplexList` or `ComplexMap`.
+
+### fix
+
+- fix(docs): Make sure code example works [\#1807](https://github.com/hashicorp/terraform-cdk/pull/1807)
+- fix(lib): Delay complex object fqn so that override id can still be used [\#1793](https://github.com/hashicorp/terraform-cdk/pull/1793)
+- fix(provider-generator): strictly adhere to the provider schema [\#1792](https://github.com/hashicorp/terraform-cdk/pull/1792)
+- fix: Avoid unstable fqn for TerraformElements [\#1779](https://github.com/hashicorp/terraform-cdk/pull/1779)
+- fix(cli): Respect CDKTF_HOME environment variable for checkpoint telemetry [\#1778](https://github.com/hashicorp/terraform-cdk/pull/1778)
+- fix(docs): remove outdated docs from the previous watch implementation [\#1768](https://github.com/hashicorp/terraform-cdk/pull/1768)
+- fix(cli): throw an error if a stack contains a whitespace [\#1750](https://github.com/hashicorp/terraform-cdk/pull/1750)
+
+### feat
+
+- feat(lib): add docstrings to gcs/http/local backend resources [\#1803](https://github.com/hashicorp/terraform-cdk/pull/1803)
+- feat(lib): add a warning about id fields [\#1802](https://github.com/hashicorp/terraform-cdk/pull/1802)
+- feat(docs): add guidance around secrets and warn that those values might be inlined in the generated Terraform config [\#1801](https://github.com/hashicorp/terraform-cdk/pull/1801)
+- feat(lib): add docstrings to cos/etcd/etcdv3 backend resources [\#1783](https://github.com/hashicorp/terraform-cdk/pull/1783)
+- feat(lib): add docstrings to artifactory/azurerm/consul backend resources [\#1781](https://github.com/hashicorp/terraform-cdk/pull/1781)
+- feat(lib): add docstrings to S3 backend resource [\#1780](https://github.com/hashicorp/terraform-cdk/pull/1780)
+- feat(release): support running releases on backport-release branches besides only on main [\#1770](https://github.com/hashicorp/terraform-cdk/pull/1770)
+- feat(cli): add cdktf provider add command [\#1761](https://github.com/hashicorp/terraform-cdk/pull/1761)
+- feat(provider-generator): Use `ComplexList` for any complex list [\#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
+
+### test
+
+- test(lib): ensure list mapper does not fail when passed IResolvables [\#1791](https://github.com/hashicorp/terraform-cdk/pull/1791)
+
+### chore
+
+- chore: group needs to be prefixed per type [\#1813](https://github.com/hashicorp/terraform-cdk/pull/1813)
+- chore: limit CI concurrency to the latest pushed commits [\#1810](https://github.com/hashicorp/terraform-cdk/pull/1810)
+- chore(cli): add sentry error reporting [\#1809](https://github.com/hashicorp/terraform-cdk/pull/1809)
+- chore: document computed map reference documentation [\#1775](https://github.com/hashicorp/terraform-cdk/pull/1775)
+- chore(release): Update changelog to contain backported release for 0.10.4 [\#1773](https://github.com/hashicorp/terraform-cdk/pull/1773)
+- chore(docs): document how to debug cdktf programs [\#1758](https://github.com/hashicorp/terraform-cdk/pull/1758)
 
 ## 0.10.4
 

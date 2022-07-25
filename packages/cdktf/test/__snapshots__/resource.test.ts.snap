@@ -91,6 +91,48 @@ exports[`do not change capitalization of tags 1`] = `
 }"
 `;
 
+exports[`maintains the same order of provisioner 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"simple\\": {
+        \\"name\\": \\"foo\\",
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo 'hello' > world.txt\\"
+            }
+          },
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo 'hello' > world1.txt\\"
+            }
+          },
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo 'hello' > world2.txt\\"
+            }
+          }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
 exports[`minimal configuration 1`] = `
 "{
   \\"provider\\": {
@@ -232,6 +274,100 @@ exports[`serialize list interpolation 1`] = `
       \\"other\\": {
         \\"version\\": \\"~> 2.0\\"
       },
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`supports file provisioner 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"content\\": {
+        \\"name\\": \\"foo\\",
+        \\"provisioner\\": [
+          {
+            \\"file\\": {
+              \\"content\\": \\"my-content\\",
+              \\"destination\\": \\"hello.txt\\"
+            }
+          }
+        ]
+      },
+      \\"source\\": {
+        \\"name\\": \\"bar\\",
+        \\"provisioner\\": [
+          {
+            \\"file\\": {
+              \\"destination\\": \\"world.txt\\",
+              \\"source\\": \\"my.txt\\"
+            }
+          }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;
+
+exports[`supports local-exec provisioner 1`] = `
+"{
+  \\"provider\\": {
+    \\"test\\": [
+      {
+      }
+    ]
+  },
+  \\"resource\\": {
+    \\"test_resource\\": {
+      \\"advanced\\": {
+        \\"name\\": \\"foo\\",
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo \\\\\\"hello $person\\\\\\" > greeting.txt\\",
+              \\"environment\\": {
+                \\"person\\": \\"daniel\\"
+              },
+              \\"interpreter\\": [
+                \\"/bin/bash\\",
+                \\"-c\\"
+              ],
+              \\"working_dir\\": \\"/tmp\\"
+            }
+          }
+        ]
+      },
+      \\"simple\\": {
+        \\"name\\": \\"foo\\",
+        \\"provisioner\\": [
+          {
+            \\"local-exec\\": {
+              \\"command\\": \\"echo 'hello' > world.txt\\"
+            }
+          }
+        ]
+      }
+    }
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
       \\"test\\": {
         \\"version\\": \\"~> 2.0\\"
       }
