@@ -5,24 +5,23 @@ description: Write assertions and snapshot tests for your CDK for Terraform appl
 
 # Unit Tests
 
-Testing your application can give you faster feedback cycles and guard you against unwanted changes. Testing is supported in Typescript with Jest. For all other languages, you can use any existing testing framework that supports assertions. 
+Testing your application can give you faster feedback cycles and guard you against unwanted changes. Testing is currently supported in Typescript with jest and compatible with any testing framework that supports assertions for all other languages.
 
 We generate all files necessary to start testing when you run `cdktf init` so that you can start writing tests right away.
 
-If you want to add jest to an existing Typescript project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+## Add Testing to Your Application
 
-```js
-const cdktf = require("cdktf");
-cdktf.Testing.setupJest();
-```
+    If you would like to add testing to an existing project, refer the following resources according to your chosen language:
+    - **TypeScript:** Follow TypeScript's [Getting Started guide](https://jestjs.io/docs/getting-started) for testing with Jest. Then, add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
-If you want to add pytest to an existing Python project, please [follow their guide](https://docs.pytest.org/en/7.1.x/getting-started.html). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
-
-If you want to add JUnit to an existing Java project, please [follow their guide](https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/junit.html). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
-
-If you want to add Xunit to an existing C# project, please [follow their guide](https://xunit.net/docs/getting-started/netcore/cmdline). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
-
-If you want to add testing to an existing Go project, please [follow their guide](https://go.dev/doc/tutorial/add-a-test). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
+        ```js
+        const cdktf = require("cdktf");
+        cdktf.Testing.setupJest();
+        ```
+    - **Python:** Follow the [Get Started guide](https://docs.pytest.org/en/7.1.x/getting-started.html) for pytest. The assertions for CDKTF are available in the `cdktf` package under `Testing`.
+    - **Java:** Follow the [Using JUnit documentation](https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/junit.html). The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
+    - **C#:** Follow the [Getting Started with xUnit.net guide](https://xunit.net/docs/getting-started/netcore/cmdline). The assertions for CDKTF are available in the `cdktf` package under `Testing`.
+    - **Go:** Follow the [Add a Test guide](https://go.dev/doc/tutorial/add-a-test) in the Go documentation. The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
 
 ### Write Assertions
 
@@ -181,7 +180,7 @@ func TestShouldUseUbuntuImage(t *testing.T){
 
 ### Snapshot Testing
 
-Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is currently only supported in Typescript with jest You can read more about them in the [Jest docs](https://jestjs.io/docs/snapshot-testing).
+Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is only supported in Typescript with Jest. Refer to the [Jest docs](https://jestjs.io/docs/snapshot-testing) for details.
 
 ```ts
 import { Testing } from "cdktf";
@@ -249,6 +248,7 @@ class TestApplication:
   app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
 
   def test_check_validity(self):
+    # We need to do a full synth to validate the terraform configuration
     assert Testing.to_be_valid_terraform(Testing.full_synth(stack)).pass_
 ```
 
@@ -264,6 +264,7 @@ public class TestApplication {
 
   @Test
   void checkValidity() {
+    // We need to do a full synth to validate the terraform configuration
     assertTrue(Testing.toBeValidTerraform(Testing.fullSynth(stack)).getPass());
   }
 }
@@ -284,6 +285,7 @@ namespace MyCompany.MyApp{
 
     [Fact]
     public void checkValidity(){
+      // We need to do a full synth to validate the terraform configuration
       Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
     }
   }
@@ -302,6 +304,7 @@ import (
 var stack = cdktf.NewTerraformStack(cdktf.Testing_App(nil), "stack")
 
 func TestCheckValidity(t *testing.T){
+  // We need to do a full synth to validate the terraform configuration
 	assertion := cdktf.Testing_ToBeValidTerraform(cdktf.Testing_FullSynth(stack))
 
 	if !*assertion.Pass() {

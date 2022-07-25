@@ -14,6 +14,6 @@ describe("java testing assertions", () => {
 
   test("run java testing suite", async () => {
     var res = await driver.exec('mvn test -Dtest="MainTest"');
-    expect(res.stderr).toBe("\n");
+    expect(res.stderr).toBe("");
   }, 6000000);
 });

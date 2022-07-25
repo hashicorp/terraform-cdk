@@ -12,6 +12,6 @@ describe("csharp testing assertions", () => {
 
   test("run csharp testing suite", async () => {
     var res = await driver.exec("dotnet test");
-    expect(res.stderr).toBe("\n");
+    expect(res.stderr).toBe("");
   }, 6000000);
 });
