@@ -11,6 +11,7 @@ dist
 coverage
 
 **/*wasm
+!wasm/
 tsconfig.tsbuildinfo
 wasm.md
 **/*.go
