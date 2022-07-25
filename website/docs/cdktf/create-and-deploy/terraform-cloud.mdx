@@ -22,7 +22,7 @@ Terraform Enterprise lets you set up a self-hosted distribution of Terraform Clo
 
 Terraform uses persisted state data to keep track of the real-world resources it manages. By default, Terraform writes state to a local file. We recommend integrating with Terraform Cloud to store state remotely. This prevents accidental loss of locally stored state and lets multiple people access the state data so they can work together on that collection of infrastructure resources.
 
-Other benefits of Terraform Cloud and Terraform Enterprise include the ability to run Terraform remotely, [manage variables and secrets](#managing-variables-and-secrets), and enforce [policies for sets of infrastructure](#policy-enforcement). 
+Other benefits of Terraform Cloud and Terraform Enterprise include the ability to run Terraform remotely, [manage variables and secrets](#managing-variables-and-secrets), and enforce [policies for sets of infrastructure](#policy-enforcement).
 
 ## Set up CDKTF with Terraform Cloud
 
@@ -46,7 +46,7 @@ For new projects, do the following:
 1. Select a Terraform Cloud organization and a name for your workspace.
 1. Choose whether to send crash reports to the CDKTF team.
 
-CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together. 
+CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together.
 
 ### Connect Existing CDKTF Projects
 
@@ -92,7 +92,7 @@ const myStack = new MyStack(app, "my-stack");
 app.synth();
 ```
 
-3. Run `cdktf init` and log in to Terraform Cloud. 
+3. Run `cdktf init` and log in to Terraform Cloud.
 
 Your CDKTF application is connected to the Terraform Cloud workspace you specified in the `RemoteBackend`. You must set the workspace to Remote Execution mode if you want to store state and run Terraform operations remotely.
 
@@ -102,43 +102,44 @@ Check your synthesized code into version control and connect your Terraform Clou
 
 ## Managing Variables and Secrets
 
-Terraform Cloud [variables](/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider. 
+Terraform Cloud [variables](/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
 
-To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud. 
+To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud.
 
-2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`. 
+2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`.
 
-    ```ts
-    import { Construct } from "constructs";
-    import { App, TerraformStack, TerraformVariable } from "cdktf";
+   ```ts
+   import { Construct } from "constructs";
+   import { App, TerraformStack, TerraformVariable } from "cdktf";
 
-    class MyStack extends TerraformStack {
-      constructor(scope: Construct, name: string) {
-        super(scope, name);
-        // You can define 'my-var' in Terraform Cloud and use the value in your application.
-        const value = new TerraformVariable(this, "my-var", {
-          default: "The default value to use",
-          description: "",
-          nullable: false, // if passing no
-          sensitive: true,
-          type: "string",
-        });
+   class MyStack extends TerraformStack {
+     constructor(scope: Construct, name: string) {
+       super(scope, name);
+       // You can define 'my-var' in Terraform Cloud and use the value in your application.
+       const value = new TerraformVariable(this, "my-var", {
+         default: "The default value to use",
+         description: "",
+         nullable: false, // if passing no
+         sensitive: true,
+         type: "string",
+       });
 
-        // define resources here
-      }
-    }
-    ```
+       // define resources here
+     }
+   }
+   ```
+
 3. Add variables that you declared in your CDKTF application to your Terraform Cloud workspace. Refer to [Add a Variable](/cloud-docs/workspaces/variables/managing-variables#add-a-variable) for details. This lets Terraform can access the value during operations.
 
 ### Variable Return Values
 
-The return value for `TerraformVariable` is an object with various representations of the value as attributes. You can pass this object as a string with `value.stringValue`, as a number with `value.numberValue`, or as a list with `value.listValue`. 
+The return value for `TerraformVariable` is an object with various representations of the value as attributes. You can pass this object as a string with `value.stringValue`, as a number with `value.numberValue`, or as a list with `value.listValue`.
 
 This means that there is no actual value in the variable field when CDKTF synthesizes your application. Instead, CDKTF uses a [Token](/cdktf/concepts/tokens), which represents a value that is unknown until Terraform applies your configuration. You cannot use tokens in dynamic checks during runtime. For example, `if (value.listValue.length > 42) {` always returns `false` because tokenized lists have a static length of one item.
 
 ## Continuous Integration
 
-To run Terraform Cloud in a CI workflow, you can either use [Terraform Cloud's VCS-driven workflow](/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) or use a [general-purpose CI to trigger the run in Terraform Cloud](/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-terraform-cloud). 
+To run Terraform Cloud in a CI workflow, you can either use [Terraform Cloud's VCS-driven workflow](/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) or use a [general-purpose CI to trigger the run in Terraform Cloud](/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-terraform-cloud).
 
 ## Policy Enforcement
 
@@ -146,4 +147,4 @@ To run Terraform Cloud in a CI workflow, you can either use [Terraform Cloud's V
 
 You can define [Sentinel policies](/cloud-docs/sentinel) for one or multiple Terraform Cloud workspaces to ensure that your infrastructure follows company-wide security standards and best practices. You can use Sentinel policies with CDKTF if Terraform Cloud is configured as a [Remote Backend](/concepts/remote-backends).
 
-You can also use [Run Tasks](/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the Terraform Cloud run lifecycle. Terraform Cloud uses the status response from the third-party tool to determine if a run should proceed. 
+You can also use [Run Tasks](/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the Terraform Cloud run lifecycle. Terraform Cloud uses the status response from the third-party tool to determine if a run should proceed.
