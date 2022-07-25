@@ -1,4 +1,3 @@
-import { TerraformStack } from ".";
 import {
   AnyMap,
   AnyMapList,
@@ -11,8 +10,14 @@ import {
   StringMap,
   StringMapList,
 } from "./complex-computed-list";
+import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { Fn } from "./terraform-functions";
-import { propertyAccess, ref } from "./tfExpression";
+import {
+  FOR_EXPRESSION_KEY,
+  FOR_EXPRESSION_VALUE,
+  propertyAccess,
+  ref,
+} from "./tfExpression";
 import { IResolvable, Lazy, Token } from "./tokens";
 
 export interface ITerraformIterator {
@@ -167,10 +172,19 @@ export abstract class TerraformIterator implements ITerraformIterator {
     // uses a Lazy value to be able to access the current TerraformStack and pass it to ref()
     return Lazy.anyValue(
       {
-        produce: (context) =>
-          ref("each.value", TerraformStack.of(context.scope)),
+        produce: (context) => {
+          switch (context.iteratorContext) {
+            case "DYNAMIC_BLOCK":
+              return ref("each.value");
+            case "FOR_EXPRESSION":
+              return FOR_EXPRESSION_VALUE;
+            default:
+              // same as dynamic block, as this is the case when a iterator is passed to the root level of e.g. a resource
+              return ref("each.value");
+          }
+        },
       },
-      { displayHint: "each.value" }
+      { displayHint: "<iterator value>" }
     );
   }
 
@@ -181,9 +195,28 @@ export abstract class TerraformIterator implements ITerraformIterator {
     // uses a Lazy value to be able to access the current TerraformStack and pass it to ref()
     return Lazy.anyValue(
       {
-        produce: (context) => ref("each.key", TerraformStack.of(context.scope)),
+        produce: (context) => {
+          switch (context.iteratorContext) {
+            case "DYNAMIC_BLOCK":
+              return ref("each.key");
+            case "FOR_EXPRESSION":
+              return FOR_EXPRESSION_KEY;
+            default:
+              // same as dynamic block, as this is the case when a iterator is passed to the root level of e.g. a resource
+              return ref("each.key");
+          }
+        },
       },
-      { displayHint: "each.key" }
+      { displayHint: "<iterator key>" }
+    );
+  }
+
+  public dynamic(attributes: { [key: string]: any }): IResolvable {
+    return Token.asAny(
+      new TerraformDynamicExpression({
+        iterator: this,
+        content: attributes,
+      })
     );
   }
 }

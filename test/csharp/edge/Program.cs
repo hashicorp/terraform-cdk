@@ -233,6 +233,22 @@ namespace MyCompany.MyApp
                 ForEach = stringMapIterator,
                 Str = Token.AsString(stringMapIterator.Value)
             });
+
+            // passing an iterator to a block property
+            new ListBlockResource(this, "list_attribute", new ListBlockResourceConfig {
+                Req = complexListIterator.Dynamic(new Dictionary<string, object> {
+                    // due to https://github.com/aws/jsii/issues/1044 we have to pass a string
+                    // (it will still correctly resolve to a boolean when deploying)
+                    ["reqbool"] = complexListIterator.GetString("reqbool"),
+                    ["reqstr"] = complexListIterator.GetString("reqstr"),
+                    ["reqnum"] = complexListIterator.GetNumber("reqnum")
+                }),
+                Singlereq = new ListBlockResourceSinglereq {
+                    Reqbool = true,
+                    Reqnum = 0,
+                    Reqstr = "a"
+                }
+            });
         }
     }
 

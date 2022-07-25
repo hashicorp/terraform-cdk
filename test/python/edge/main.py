@@ -219,6 +219,20 @@ class IteratorStack(TerraformStack):
             str=Token().as_string(string_map_iterator.value)
         )
 
+        # passing an iterator to a block property
+        edge.ListBlockResource(self, "list_attribute",
+            req=complex_list_iterator.dynamic({
+                "reqbool": complex_list_iterator.get_boolean("reqbool"),
+                "reqstr": complex_list_iterator.get_string("reqstr"),
+                "reqnum": complex_list_iterator.get_number("reqnum")
+            }),
+            singlereq={
+                "reqbool": True,
+                "reqnum": 0,
+                "reqstr": "a"
+            }
+        )
+
 app = App()
 ReferenceStack(app, "reference")
 ProviderStack(app, "provider")
