@@ -16,7 +16,7 @@
     "jest-watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist",
-    "prebuild": "cp $GOROOT/misc/wasm/wasm_exec.js ./wasm/wasm_exec.js"
+    "prebuild": "./prebuild.sh"
   },
   "repository": {
     "type": "git",
