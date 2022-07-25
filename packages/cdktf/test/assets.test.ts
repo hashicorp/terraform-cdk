@@ -1,10 +1,16 @@
 import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
+import * as path from "path";
 
 describe("createAssetsFromLocalModules test", () => {
   test("remote source without createAssetsFromLocalModules", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsNotExists = new TerraformHclModule(
@@ -21,7 +27,12 @@ describe("createAssetsFromLocalModules test", () => {
   test("remote source with createAssetsFromLocalModules set to true", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsTrue = new TerraformHclModule(
@@ -39,7 +50,12 @@ describe("createAssetsFromLocalModules test", () => {
   test("remote source with createAssetsFromLocalModules set to false", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsFalse = new TerraformHclModule(
@@ -57,9 +73,14 @@ describe("createAssetsFromLocalModules test", () => {
   test("local source without createAssetsFromLocalModules", () => {
     const localSource = "../";
     const assetRegex =
-      /^.\/assets\/MyStack_localmoduleid_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
+      /^.\/assets\/MyStack_localmodulemoduleOptionsNotExists_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsNotExists = new TerraformHclModule(
@@ -76,9 +97,14 @@ describe("createAssetsFromLocalModules test", () => {
   test("local source with createAssetsFromLocalModules set to true", () => {
     const localSource = "../";
     const assetRegex =
-      /^.\/assets\/MyStack_localmoduleid_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
+      /^.\/assets\/MyStack_localmodulemoduleOptionsTrue_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsTrue = new TerraformHclModule(
@@ -96,7 +122,12 @@ describe("createAssetsFromLocalModules test", () => {
   test("local source with createAssetsFromLocalModules set to false", () => {
     const localSource = "../";
 
-    const app = Testing.stubVersion(new App({ stackTraces: false }));
+    const app = Testing.stubVersion(
+      new App({
+        stackTraces: false,
+        context: { cdktfJsonPath: path.resolve(__dirname, "fixtures/app") },
+      })
+    );
     const stack = new TerraformStack(app, "MyStack");
 
     const moduleOptionsFalse = new TerraformHclModule(
