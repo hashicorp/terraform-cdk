@@ -1,17 +1,16 @@
 ---
 page_title: Resources
 description: >-
-  Providers allow Terraform to communicate with external APIs. Learn to define
-  resources in a CDK for Terraform application.
+  Resources describe one or more infrastructure objects, like virtual networks, compute instances, and DNS records. Define resources in a CDK for Terraform application.
 ---
 
 ## Resources
 
 Resources are the most important element when defining infrastructure in CDKTF applications. Each resource describes one or more infrastructure objects, such as virtual networks, compute instances, or higher-level components such as DNS records.
 
-To get resources to use you need to [install or generate a provider](/cdktf/providers).
+In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more [providers](/cdktf/providers). This page explains how to use resources in your application and how to use [escape hatches](#escape-hatch) to change resource behavior when necessary.
 
-### Define Resources
+## Define Resources
 
 Resource definitions and properties vary depending on the type of resource and the provider. Consult your provider's documentation for a full list of available resources and their configuration options.
 
@@ -40,13 +39,13 @@ export class HelloTerra extends TerraformStack {
 
 The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
 
-### Scope
+## Scope
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
 Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
 
-### References
+## References
 
 You can reference resource properties throughout your configuration. For example, you may want to use the name of a parent resource when assigning names to related child resources. Refer to your provider's documentation for a full list of available properties for each resource type.
 
@@ -72,13 +71,13 @@ new Deployment(this, "nginx-deployment", {
   });
 ```
 
-### Provisioners
+## Provisioners
 
 Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](https://www.terraform.io/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
 
 If you need to use the special [`self` object](https://www.terraform.io/language/resources/provisioners/syntax#the-self-object) that can only be used in `provisioner` and `connection` blocks to refer to the parent resource you can use the `TerraformSelf` class like this: `TerraformSelf.getString("public_ip")`.
 
-### Escape Hatch
+## Escape Hatch
 
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
@@ -155,7 +154,7 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the v
 
 Use a dot notation to access elements in arrays: `resource.addOverride("configurations.0.https", true)`.
 
-#### Escape Hatch for Dynamic Blocks
+### Escape Hatch for Dynamic Blocks
 
 Terraform configurations sometimes use [`dynamic` blocks](/language/expressions/dynamic-blocks) to create related resources based on dynamic data, or data that is only known after Terraform provisions the infrastructure. For example, you could create a series of nested blocks for a series of Virtual Private Cloud (VPC) ingress ports. A `dynamic` block loops over a complex value and generates a nested resource block for each element of that complex value.
 

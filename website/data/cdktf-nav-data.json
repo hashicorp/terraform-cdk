@@ -148,7 +148,7 @@
         "path": "api-reference/go"
       },
       {
-        "title": "Provider API References",
+        "title": "Providers",
         "path": "api-reference/provider"
       }
     ]
