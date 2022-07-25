@@ -79,7 +79,7 @@
       },
       {
         "title": "Terraform Cloud",
-        "path": "concepts/terraform-cloud"
+        "path": "create-and-deploy/terraform-cloud"
       },
       {
         "title": "Deployment Patterns",
