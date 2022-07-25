@@ -41,7 +41,9 @@ exports.post = options => {
       </packageSources>
     </configuration>`, 'utf-8');
   }
-
+  execSync(`dotnet add package Microsoft.NET.Test.Sdk --version 17.2.0`, { stdio: 'inherit' });
+  execSync(`dotnet add package xunit --version 2.4.1`, { stdio: 'inherit' });
+  execSync(`dotnet add package xunit.runner.visualstudio --version 2.4.5`, { stdio: 'inherit' });
   execSync(`dotnet restore`, { stdio: 'inherit' });
   console.log(readFileSync('./help', 'utf-8'));
 };

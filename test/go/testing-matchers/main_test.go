@@ -20,7 +20,6 @@ func TestToHaveResourcePass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResource(synth, docker.Container_TfResourceType())
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -29,7 +28,6 @@ func TestToHaveResourceFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResource(synth, docker.Config_TfResourceType())
 
 	if *assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -44,7 +42,6 @@ func TestToHaveResourceWithPropertiesPass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResourceWithProperties(synth, docker.Container_TfResourceType(), &properties)
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -59,7 +56,6 @@ func TestToHaveResourceWithPropertiesFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResourceWithProperties(synth, docker.Container_TfResourceType(), &properties)
 
 	if *assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -68,7 +64,6 @@ func TestToHaveDataPass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSource(synth, docker.DataDockerImage_TfResourceType())
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -76,7 +71,6 @@ func TestToHaveDataFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSource(synth, docker.DataDockerNetwork_TfResourceType())
 
 	if *assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -87,7 +81,6 @@ func TestToHaveDataWithPropertiesPass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSourceWithProperties(synth, docker.DataDockerImage_TfResourceType(), &properties)
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -98,7 +91,6 @@ func TestToHaveDataWithPropertiesFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSourceWithProperties(synth, docker.DataDockerImage_TfResourceType(), &properties)
 
 	if *assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -106,7 +98,6 @@ func TestToBeValidTerraformPass(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynth)
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -115,7 +106,6 @@ func TestToBeValidTerraformFail(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynthInvalid)
 
 	if *assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }

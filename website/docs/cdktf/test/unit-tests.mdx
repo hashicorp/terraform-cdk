@@ -7,14 +7,22 @@ description: Write assertions and snapshot tests for your CDK for Terraform appl
 
 Testing your application can give you faster feedback cycles and guard you against unwanted changes. Testing is currently supported in Typescript with jest and compatible with any testing framework that supports assertions for all other languages.
 
-For Typescript we generate all files necessary to run jest when you run `cdktf init` so that you can start writing tests right away. If you want to add jest to an existing Typescript project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+We generate all files necessary to start testing when you run `cdktf init` so that you can start writing tests right away. 
+
+If you want to add jest to an existing Typescript project, please [follow their guide](https://jestjs.io/docs/getting-started). Then, you need to add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
 ```js
 const cdktf = require("cdktf");
 cdktf.Testing.setupJest();
 ```
 
-For all other supported languages the CDKTF specific assertions can be found in the cdktf package under `Testing`.
+If you want to add pytest to an existing Python project, please [follow their guide](https://docs.pytest.org/en/7.1.x/getting-started.html). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
+
+If you want to add JUnit to an existing Java project, please [follow their guide](https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/junit.html). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
+
+If you want to add Xunit to an existing C# project, please [follow their guide](https://xunit.net/docs/getting-started/netcore/cmdline). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
+
+If you want to add testing to an existing Go project, please [follow their guide](https://go.dev/doc/tutorial/add-a-test). The CDKTF specific assertions can be found in the cdktf package under `Testing`.
 
 ### Write Assertions
 
@@ -34,7 +42,7 @@ Examples in
 ```ts
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
-import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
+import MyApplicationsAbstraction from "../app"; // Could be a class extending from Construct
 
 describe("Unit testing using assertions", () => {
   it("should contain a container", () => {
@@ -59,13 +67,13 @@ describe("Unit testing using assertions", () => {
 import pytest
 from cdktf import Testing
 from imports.docker import Image, Container
-from app import MyApplicationsAbstraction # Could be a class extending from cdktf.Resource
+from app import MyApplicationsAbstraction # Could be a class extending from Construct
 
 class TestApplication:
 
-    stack = TerraformStack(Testing.app(), "stack")
-    app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
-    synthesized = Testing.synth(stack)
+  stack = TerraformStack(Testing.app(), "stack")
+  app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
+  synthesized = Testing.synth(stack)
 
   def test_should_contain_container(self):
     assert Testing.to_have_resource(self.synthesized, Container.TF_RESOURCE_TYPE).pass_
@@ -82,7 +90,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import com.hashicorp.cdktf.Testing;
 import imports.docker.Container;
 import imports.docker.Image;
-import com.hashicorp.cdktf.MyApplicationsAbstraction; // Could be a class extending from cdktf.Resource
+import com.hashicorp.cdktf.MyApplicationsAbstraction; // Could be a class extending from Construct
 
 public class TestApplication {
 
@@ -108,7 +116,7 @@ public class TestApplication {
 
 ```csharp
 using Xunit;
-using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from cdktf.Resource
+using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from Construct
 using MyCompany.MyApp;
 using System;
 using System.Collections.Generic;
@@ -153,7 +161,6 @@ func TestShouldContainContainer(t *testing.T){
 	assertion := cdktf.Assertions_ToHaveResource(synth, docker.Container_TfResourceType())
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -165,7 +172,6 @@ func TestShouldUseUbuntuImage(t *testing.T){
 	assertion := cdktf.Assertions_ToHaveResourceWithProperties(synth, docker.Image_TfResourceType(), &properties)
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }
@@ -180,7 +186,7 @@ Snapshot tests are useful when you want to make sure your infrastructure does no
 ```ts
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
-import MyApplicationsAbstraction from "../app"; // Could be a class extending from cdktf.Resource
+import MyApplicationsAbstraction from "../app"; // Could be a class extending from Construct
 
 describe("Unit testing using snapshots", () => {
   it("Tests a custom abstraction", () => {
@@ -235,10 +241,12 @@ describe("Checking validity", () => {
 ```python
 import pytest
 from cdktf import Testing
+from app import MyApplicationsAbstraction # Could be a class extending from Construct
 
 class TestApplication:
 
-  stack = new TerraformStack(Testing.app(), "test")
+  stack = TerraformStack(Testing.app(), "stack")
+  app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
 
   def test_check_validity(self):
     assert Testing.to_be_valid_terraform(Testing.full_synth(stack)).pass_
@@ -247,11 +255,12 @@ class TestApplication:
 ```java
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import com.hashicorp.cdktf.Testing;
+import com.hashicorp.cdktf.MyApplicationsAbstraction; // Could be a class extending from Construct
 
 public class TestApplication {
 
   private final TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+  private final MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "resource");
 
   @Test
   void checkValidity() {
@@ -262,14 +271,16 @@ public class TestApplication {
 
 ```csharp
 using Xunit;
-using HashiCorp.Cdktf;
+using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from Construct
 using MyCompany.MyApp;
+using HashiCorp.Cdktf;
 using System;
 
 namespace MyCompany.MyApp{
   public class TestApplication{
 
     private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+    private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
 
     [Fact]
     public void checkValidity(){
@@ -294,7 +305,6 @@ func TestCheckValidity(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(cdktf.Testing_FullSynth(stack))
 
 	if !*assertion.Pass() {
-		t.Fail()
 		t.Error(assertion.Message())
 	}
 }

@@ -31,6 +31,7 @@ exports.post = options => {
 
   execSync('pipenv install', { stdio: 'inherit' });
   execSync(`pipenv install ${pypi_cdktf}`, { stdio: 'inherit' });
+  execSync(`pipenv install pytest`, { stdio: 'inherit' });
   chmodSync('main.py', '700');
 
   console.log(readFileSync('./help', 'utf-8'));

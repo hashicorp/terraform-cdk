@@ -1,0 +1,32 @@
+using Xunit;
+using HashiCorp.Cdktf;
+using System;
+using System.Collections.Generic;
+
+namespace MyCompany.MyApp{
+    // The tests below are example tests, you can find more information at
+    // https://cdk.tf/testing
+    public class TestProgram{
+        private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+        //private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
+        //private static string synthesized = Testing.synth(stack);
+
+        //[Fact]
+        //public void checkValidity(){
+        //    Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
+        //}
+
+        //[Fact]
+        //public void shouldContainContainer(){
+        //    Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType).Pass);
+        //}
+
+        //[Fact]
+        //public void shouldUseUbuntuImage(){
+        //    Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Image.TfResourceType, new Dictionary<String, Object>() {
+        //       {"name", "ubuntu:latest"}
+        //    }).Pass);
+        //}
+    }
+
+}

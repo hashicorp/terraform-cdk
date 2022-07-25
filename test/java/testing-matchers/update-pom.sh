@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Adds junit testing dependencies and maven testing plugin to pom.xml file
+
 get_dependency() {
   cat <<EOF
     <dependency>
@@ -37,6 +39,7 @@ resourceDir="src/main/java"
 sed -i "" "s|\(<sourceDirectory>\)[^<>]*\(</sourceDirectory>\)|\1${resourceDir}\2|" "pom.xml"
 sed -i "" "s|\(<testSourceDirectory>\)[^<>]*\(</testSourceDirectory>\)|\1${testDir}\2|" "pom.xml"
 
+# Checks OS to account for differences in sed command between linux and mac os
 if [[ "$OSTYPE" == "darwin"* ]]; then
   sed -i "" "s|<dependencies>|<dependencies>\n${f_dep}|" "pom.xml"
   sed -i "" "s|<plugins>|<plugins>\n${f_plug}|" "pom.xml"
