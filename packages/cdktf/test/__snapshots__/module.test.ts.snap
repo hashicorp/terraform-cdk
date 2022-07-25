@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`depends on 1`] = `
+"{
+  \\"module\\": {
+    \\"test_1\\": {
+      \\"source\\": \\"./assets/local-module-test_1/0D0E8E2DE57DE598737C290F4236D351\\"
+    },
+    \\"test_2\\": {
+      \\"depends_on\\": [
+        \\"module.test_1\\"
+      ],
+      \\"module_parameter\\": \\"myParam\\",
+      \\"source\\": \\"my-module\\",
+      \\"version\\": \\"1.0\\"
+    }
+  }
+}"
+`;
+
+exports[`minimal configuration 1`] = `
+"{
+  \\"module\\": {
+    \\"test\\": {
+      \\"module_parameter\\": \\"myParam\\",
+      \\"source\\": \\"my-module\\",
+      \\"version\\": \\"1.0\\"
+    }
+  }
+}"
+`;
+
+exports[`simple provider 1`] = `
+"{
+  \\"module\\": {
+    \\"test\\": {
+      \\"module_parameter\\": \\"myParam\\",
+      \\"providers\\": {
+        \\"test\\": \\"test.provider1\\"
+      },
+      \\"source\\": \\"my-module\\",
+      \\"version\\": \\"1.0\\"
+    }
+  },
+  \\"provider\\": {
+    \\"test\\": [
+      {
+        \\"access_key\\": \\"key\\",
+        \\"alias\\": \\"provider1\\"
+      }
+    ]
+  },
+  \\"terraform\\": {
+    \\"required_providers\\": {
+      \\"test\\": {
+        \\"version\\": \\"~> 2.0\\"
+      }
+    }
+  }
+}"
+`;

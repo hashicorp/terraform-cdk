@@ -218,18 +218,18 @@ describe("convertProject", () => {
 
     const { code, cdktfJson } = await convertProject(
       getTerraformConfigFromDir(importPath),
-      mainTs,
-      require(path.resolve(targetPath, "cdktf.json")),
       {
         language: "typescript",
         providerSchema: cachedProviderSchema,
       }
     );
 
-    fs.writeFileSync(path.resolve(targetPath, "main.ts"), code, "utf8");
+    fs.writeFileSync(path.resolve(targetPath, "main.ts"), code(mainTs), "utf8");
     fs.writeFileSync(
       path.resolve(targetPath, "cdktf.json"),
-      JSON.stringify(cdktfJson),
+      JSON.stringify(
+        cdktfJson(require(path.resolve(targetPath, "cdktf.json")))
+      ),
       "utf8"
     );
 

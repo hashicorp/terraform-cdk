@@ -1,3 +1,27 @@
+## 0.12.0 (unreleased)
+
+**Breaking Changes**
+
+### `cdktf get` exits with 0 exit code when no provider / module specifications are found in the `cdktf.json`
+
+Previously we would throw an error and exit with 1 if there were no provider or module specifications in the `cdktf.json` file. This can be inconvenient if `cdktf get` is part of a workflow.
+
+### `Fn.merge` is split into `Fn.mergeLists` and `Fn.mergeMaps`
+
+The Terraform `merge` function can merge both lists and maps, but this can cause [issues](https://github.com/hashicorp/terraform-cdk/issues/1653) when using the result in a typed language. Therefore we split it into `Fn.mergeLists` and `Fn.mergeMaps`, this means you need to change your cdktf programs code.
+
+## 0.11.2
+
+### feat
+
+- feat(cli): support custom Terraform Enterprise instances [\#1857](https://github.com/hashicorp/terraform-cdk/pull/1857)
+- feat(hcl2json): expose hcl expression parser [\#1794](https://github.com/hashicorp/terraform-cdk/pull/1794)
+
+### chore
+
+- chore: synthesize all boolean as iresolvable tests [\#1849](https://github.com/hashicorp/terraform-cdk/pull/1849)
+- chore(docs): Fix Environment Variables and Best Practices [\#1839](https://github.com/hashicorp/terraform-cdk/pull/1839)
+
 ## 0.11.1
 
 ### fix

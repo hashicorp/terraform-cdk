@@ -55,6 +55,22 @@ import { convertFiles } from "@cdktf/hcl2json";
 // => Unified JSON representation of all *.tf and *.tf.json files in the given directory
 ```
 
+### Parse an expression
+
+```js
+import { getReferencesInExpression } from "@cdktf/hcl2json";
+
+(async () => {
+  const variables = await getReferencesInExpression(
+    "main.tf",
+    "This is a ${var.input} embedded"
+  );
+  console.log(variables);
+})();
+
+// => [{ value: "var.input", startPosition: 12, endPosition: 23 }]
+```
+
 ## Development
 
 With `yarn build` a Typescript compile is triggered and a Go build with a WASM target is performed.

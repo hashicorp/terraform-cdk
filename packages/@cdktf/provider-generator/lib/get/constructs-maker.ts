@@ -12,6 +12,7 @@ import { ProviderSchema, readSchema } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
+import { logTimespan } from "../config";
 
 export enum Language {
   TYPESCRIPT = "typescript",
@@ -124,7 +125,7 @@ export class ConstructsMakerModuleTarget extends ConstructsMakerTarget {
   public get srcMakName(): string {
     switch (this.targetLanguage) {
       case Language.GO:
-        return this.name;
+        return this.name.replace(/-/gi, "_");
       case Language.JAVA:
       case Language.CSHARP:
       case Language.PYTHON:
@@ -207,6 +208,7 @@ export class ConstructsMaker {
   private readonly codeMakerOutdir: string;
   private readonly code: CodeMaker;
   private readonly targets: ConstructsMakerTarget[];
+  private versions: { [providerName: string]: string | undefined };
 
   constructor(
     private readonly options: GetOptions,
@@ -219,60 +221,51 @@ export class ConstructsMaker {
     this.targets = this.constraints.map((constraint) =>
       ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
     );
+    this.versions = {};
   }
 
-  private async generateTypeScript() {
-    const schema = await readSchema(this.targets);
+  private async generateTypescript(target: ConstructsMakerTarget) {
+    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
+    const schema = await readSchema([target]);
+    endSchemaReadTimer();
 
-    const moduleTargets: ConstructsMakerModuleTarget[] = this.targets.filter(
-      (target) => target instanceof ConstructsMakerModuleTarget
-    ) as ConstructsMakerModuleTarget[];
-    for (const target of moduleTargets) {
+    const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
+    if (target instanceof ConstructsMakerModuleTarget) {
       target.spec = schema.moduleSchema[target.moduleKey];
+      new ModuleGenerator(this.code, [target]);
     }
 
-    const providerTargets: ConstructsMakerProviderTarget[] =
-      this.targets.filter(
-        (target) => target instanceof ConstructsMakerProviderTarget
-      ) as ConstructsMakerProviderTarget[];
-
-    const providerGenerators = providerTargets.map(
-      (provider) =>
-        new TerraformProviderGenerator(
-          this.code,
-          schema.providerSchema,
-          provider
-        )
-    );
-
-    const initialValue: { [fqpn: string]: string | undefined } = {};
-    const providerVersions = providerGenerators
-      .map((providerGenerator) => providerGenerator.versions)
-      .reduce<{ [fqpn: string]: string | undefined }>(
-        (accumulator, current) => {
-          return { ...accumulator, ...current };
-        },
-        initialValue
+    if (target instanceof ConstructsMakerProviderTarget) {
+      const generator = new TerraformProviderGenerator(
+        this.code,
+        schema.providerSchema
       );
+      generator.generate(target);
 
-    this.emitVersionsFile(providerVersions);
-
-    if (moduleTargets.length > 0) {
-      new ModuleGenerator(this.code, moduleTargets);
+      this.versions = { ...this.versions, ...generator.versions };
     }
+
+    endTSTimer();
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
-  private emitVersionsFile(versions: { [fqpn: string]: string | undefined }) {
+  private emitVersionsFile() {
     const filePath = "versions.json";
     this.code.openFile(filePath);
-    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.line(JSON.stringify(this.versions, null, 2));
     this.code.closeFile(filePath);
     return filePath;
   }
 
   public async generate() {
-    await this.generateTypeScript();
+    const endGenerateTimer = logTimespan("Generate TS");
+    await Promise.all(
+      this.targets.map((target) => this.generateTypescript(target))
+    );
+    endGenerateTimer();
+
+    this.emitVersionsFile();
+
     if (this.isJavascriptTarget) {
       await this.save();
     }
@@ -347,7 +340,9 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
           process.env.NODE_OPTIONS = "--max-old-space-size=16384";
         }
 
+        const jsiiTimer = logTimespan("JSII");
         await generateJsiiLanguage(this.code, opts);
+        jsiiTimer();
       }
     }
 

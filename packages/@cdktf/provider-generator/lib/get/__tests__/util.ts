@@ -1,46 +1,9 @@
 import * as fs from "fs";
-import { mkdtemp, withTempDir } from "../../util";
+import { withTempDir } from "../../util";
 import { Language, ConstructsMaker } from "../constructs-maker";
 import * as path from "path";
-import {
-  TerraformDependencyConstraint,
-  TerraformModuleConstraint,
-} from "../../config";
 
-export function expectImportMatchSnapshot(
-  constraint: TerraformDependencyConstraint
-) {
-  jest.setTimeout(600_000);
-
-  test(constraint.name, async () => {
-    await mkdtemp(async (workdir) => {
-      const jsiiPath = path.join(workdir, ".jsii");
-
-      const maker = new ConstructsMaker(
-        {
-          codeMakerOutput: workdir,
-          outputJsii: jsiiPath,
-          targetLanguage: Language.TYPESCRIPT,
-        },
-        [constraint]
-      );
-
-      await maker.generate();
-
-      const manifest = JSON.parse(
-        await fs.promises.readFile(jsiiPath, "utf-8")
-      );
-
-      // patch versions in manifest because they're not stable
-      manifest.dependencies.cdktf = "999.999.999";
-      manifest.dependencies.constructs = "999.999.999";
-      manifest.fingerprint = "<fingerprint>";
-      manifest.jsiiVersion = "<jsiiVersion>";
-
-      expect(manifest).toMatchSnapshot();
-    });
-  });
-}
+import { TerraformModuleConstraint } from "../../config";
 
 export function expectModuleToMatchSnapshot(
   testName: string,

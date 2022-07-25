@@ -19,7 +19,7 @@ test("broken attribute description comments", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(
@@ -50,7 +50,7 @@ test("malformed code blocks which break in python rst", async () => {
       "utf-8"
     )
   );
-  new TerraformProviderGenerator(code, spec);
+  new TerraformProviderGenerator(code, spec).generateAll();
   await code.save(workdir);
 
   const output = fs.readFileSync(

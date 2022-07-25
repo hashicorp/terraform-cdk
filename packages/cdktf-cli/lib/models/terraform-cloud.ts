@@ -142,14 +142,17 @@ export class TerraformCloud implements Terraform {
       this.token = process.env.TERRAFORM_CLOUD_TOKEN;
     } else {
       if (!fs.existsSync(this.terraformConfigFilePath))
-        throw new Error("Please provide token for Terraform Cloud");
+        throw new Error("Please provide a token for Terraform Cloud");
       const configFile = JSON.parse(
         fs.readFileSync(this.terraformConfigFilePath, "utf8")
       ) as TerraformCredentialsFile;
       this.token = configFile.credentials[this.hostname].token;
     }
 
-    this.client = new TerraformCloudClient.TerraformCloud(this.token);
+    this.client = new TerraformCloudClient.TerraformCloud(
+      this.token,
+      this.hostname
+    );
 
     this.abortSignal.addEventListener("abort", () => {
       this.removeRun("cancel");
@@ -226,12 +229,15 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Plan")
-  public async plan(destroy = false): Promise<TerraformPlan> {
+  public async plan(
+    destroy = false,
+    refreshOnly = false
+  ): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
     const sendLog = this.createTerraformLogHandler("plan");
     const workspace = await this.workspace();
-    const workspaceUrl = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}`;
+    const workspaceUrl = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}`;
 
     if (
       workspace.attributes.locked &&
@@ -266,6 +272,7 @@ export class TerraformCloud implements Terraform {
       data: {
         attributes: {
           isDestroy: destroy,
+          refreshOnly,
           message: "cdktf",
         },
         relationships: {
@@ -284,7 +291,7 @@ export class TerraformCloud implements Terraform {
         },
       },
     });
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
+    const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
     const pendingStates = ["pending", "plan_queued", "planning"];
@@ -340,7 +347,10 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Deploy")
-  public async deploy(_planFile: string): Promise<void> {
+  public async deploy(
+    _planFile: string,
+    _refreshOnly?: boolean
+  ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
     if (!this.run)
       throw new Error(
@@ -494,7 +504,7 @@ export class TerraformCloud implements Terraform {
       return;
     }
 
-    const url = `https://app.terraform.io/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
+    const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${this.run.id}`;
     logger.info(`${action}ing run ${url}`);
     this.client.Runs.action(action, this.run.id)
       .then(() => {

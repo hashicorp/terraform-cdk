@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 import os
 from constructs import Construct
-from cdktf import App, Fn, TerraformStack, Token, TerraformOutput
+from cdktf import App, Fn, TerraformStack, Token, TerraformOutput, TerraformIterator
 import imports.edge as edge
 
 # Using references to resource attributes as resource arguments
@@ -173,7 +173,68 @@ class ProviderStack(TerraformStack):
             num=provider_full.computednum
         )
 
+class IteratorStack(TerraformStack):
+    def __init__(self, scope, id):
+        super().__init__(scope, id)
+        edge.EdgeProvider(self, "edge",
+            reqstr="reqstr",
+            reqnum=123,
+            reqbool=True
+        )
+
+        simple_list = edge.OptionalAttributeResource(self, "target",
+            str_list=["a", "b", "c"]
+        )
+
+        complex_list = edge.ListBlockResource(self, "list",
+            req=[{"reqbool": True, "reqnum": 1, "reqstr": "reqstr"}, {"reqbool": False, "reqnum": 0, "reqstr": "reqstr2"}
+            ],
+            singlereq={"reqbool": False, "reqnum": 1, "reqstr": "reqstr"}
+        )
+        map = edge.MapResource(self, "map",
+            opt_map={"key1": "value1", "key2": "value2"},
+            req_map={"key1": True}
+        )
+
+        string_list_iterator = TerraformIterator.from_list(simple_list.str_list)
+        complex_list_iterator = TerraformIterator.from_list(complex_list.req)
+        string_map_iterator = TerraformIterator.from_map(map.opt_map)
+
+        # iterating over a list of strings
+        edge.OptionalAttributeResource(self, "string_list_target",
+            for_each=string_list_iterator,
+            str=Token().as_string(string_list_iterator.value)
+        )
+
+        # iterating over a list of complex objects
+        edge.OptionalAttributeResource(self, "complex_list_target",
+            for_each=complex_list_iterator,
+            str=complex_list_iterator.get_string("reqstr"),
+            num=complex_list_iterator.get_number("reqnum")
+        )
+
+        # iterating over entries of a map of strings
+        edge.OptionalAttributeResource(self, "string_map_target",
+            for_each=string_map_iterator,
+            str=Token().as_string(string_map_iterator.value)
+        )
+
+        # passing an iterator to a block property
+        edge.ListBlockResource(self, "list_attribute",
+            req=complex_list_iterator.dynamic({
+                "reqbool": complex_list_iterator.get_boolean("reqbool"),
+                "reqstr": complex_list_iterator.get_string("reqstr"),
+                "reqnum": complex_list_iterator.get_number("reqnum")
+            }),
+            singlereq={
+                "reqbool": True,
+                "reqnum": 0,
+                "reqstr": "a"
+            }
+        )
+
 app = App()
 ReferenceStack(app, "reference")
 ProviderStack(app, "provider")
+IteratorStack(app, "iterator")
 app.synth()

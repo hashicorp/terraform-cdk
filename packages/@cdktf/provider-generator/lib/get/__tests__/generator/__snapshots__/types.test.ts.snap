@@ -50,7 +50,10 @@ export class BooleanList extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -97,8 +100,8 @@ export class BooleanList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooRequired),
-      foo_optional: cdktf.listMapper(cdktf.booleanToTerraform)(this._fooOptional),
+      foo_required: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._fooRequired),
+      foo_optional: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._fooOptional),
     };
   }
 }
@@ -155,7 +158,10 @@ export class BooleanMap extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -363,7 +369,10 @@ export class ComputedComplex extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
   }
 
@@ -565,7 +574,10 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
   }
 
@@ -813,7 +825,10 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._inputs.internalValue = config.inputs;
   }
@@ -844,7 +859,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      inputs: cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform)(this._inputs.internalValue),
+      inputs: cdktf.listMapper(blockTypeNestedComputedListInputsToTerraform, true)(this._inputs.internalValue),
     };
   }
 }
@@ -911,13 +926,13 @@ export function computedOptionalComplexEgressToTerraform(struct?: ComputedOption
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
   }
   return {
-    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.cidrBlocks),
+    cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
     description: cdktf.stringToTerraform(struct!.description),
     from_port: cdktf.numberToTerraform(struct!.fromPort),
-    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform)(struct!.ipv6CidrBlocks),
-    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform)(struct!.prefixListIds),
+    ipv6_cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.ipv6CidrBlocks),
+    prefix_list_ids: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.prefixListIds),
     protocol: cdktf.stringToTerraform(struct!.protocol),
-    security_groups: cdktf.listMapper(cdktf.stringToTerraform)(struct!.securityGroups),
+    security_groups: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.securityGroups),
     self: cdktf.booleanToTerraform(struct!.selfAttribute),
     to_port: cdktf.numberToTerraform(struct!.toPort),
   }
@@ -1210,7 +1225,10 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._egress.internalValue = config.egress;
   }
@@ -1241,7 +1259,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      egress: cdktf.listMapper(computedOptionalComplexEgressToTerraform)(this._egress.internalValue),
+      egress: cdktf.listMapper(computedOptionalComplexEgressToTerraform, false)(this._egress.internalValue),
     };
   }
 }
@@ -1487,7 +1505,10 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._lifecycleRule.internalValue = config.lifecycleRule;
   }
@@ -1518,7 +1539,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      lifecycle_rule: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform)(this._lifecycleRule.internalValue),
+      lifecycle_rule: cdktf.listMapper(deeplyNestedBlockTypesLifecycleRuleToTerraform, true)(this._lifecycleRule.internalValue),
     };
   }
 }
@@ -1574,7 +1595,10 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._id = config.id;
   }
@@ -1679,7 +1703,10 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._getPasswordData = config.fetchPasswordData;
     this._self = config.selfAttribute;
@@ -1819,7 +1846,10 @@ export class ListOfStringMap extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
   }
 
@@ -1895,7 +1925,10 @@ export class NumberList extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooRequired = config.fooRequired;
     this._fooOptional = config.fooOptional;
@@ -1940,8 +1973,8 @@ export class NumberList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      foo_required: cdktf.listMapper(cdktf.numberToTerraform)(this._fooRequired),
-      foo_optional: cdktf.listMapper(cdktf.numberToTerraform)(this._fooOptional),
+      foo_required: cdktf.listMapper(cdktf.numberToTerraform, false)(this._fooRequired),
+      foo_optional: cdktf.listMapper(cdktf.numberToTerraform, false)(this._fooOptional),
     };
   }
 }
@@ -1998,7 +2031,10 @@ export class NumberMap extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -2114,7 +2150,10 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -2244,7 +2283,10 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -2375,7 +2417,10 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -2505,7 +2550,10 @@ export class PrimitiveString extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._fooComputedOptional = config.fooComputedOptional;
     this._fooOptional = config.fooOptional;
@@ -2639,7 +2687,10 @@ export class NameConflict extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._values = config.values;
     this._resetValues = config.resetValues;
@@ -2979,7 +3030,10 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._timeoutsSet.internalValue = config.timeoutsSet;
     this._timeoutsList.internalValue = config.timeoutsList;
@@ -3027,8 +3081,8 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform)(this._timeoutsSet.internalValue),
-      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform)(this._timeoutsList.internalValue),
+      timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform, true)(this._timeoutsSet.internalValue),
+      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform, true)(this._timeoutsList.internalValue),
     };
   }
 }
@@ -3158,7 +3212,10 @@ export class SingleBlockType extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._timeouts.internalValue = config.timeouts;
   }
@@ -3250,7 +3307,10 @@ export class StringList extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._subjectAlternativeNamesOptionalComputed = config.subjectAlternativeNamesOptionalComputed;
     this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
@@ -3317,9 +3377,9 @@ export class StringList extends cdktf.TerraformResource {
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
-      subject_alternative_names_optional_computed: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptionalComputed),
-      subject_alternative_names_required: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesRequired),
-      subject_alternative_names_optional: cdktf.listMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_optional_computed: cdktf.listMapper(cdktf.stringToTerraform, false)(this._subjectAlternativeNamesOptionalComputed),
+      subject_alternative_names_required: cdktf.listMapper(cdktf.stringToTerraform, false)(this._subjectAlternativeNamesRequired),
+      subject_alternative_names_optional: cdktf.listMapper(cdktf.stringToTerraform, false)(this._subjectAlternativeNamesOptional),
     };
   }
 }
@@ -3376,7 +3436,10 @@ export class StringMap extends cdktf.TerraformResource {
       provider: config.provider,
       dependsOn: config.dependsOn,
       count: config.count,
-      lifecycle: config.lifecycle
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
     });
     this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;

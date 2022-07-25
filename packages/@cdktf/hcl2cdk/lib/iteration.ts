@@ -13,13 +13,14 @@ export function forEachGlobal<T, R>(
     id: string,
     value: T,
     graph: DirectedGraph
-  ) => R
-): Record<string, (graph: DirectedGraph) => R> {
+  ) => Promise<R>
+): Record<string, (graph: DirectedGraph) => Promise<R>> {
   return Object.entries(record || {}).reduce((carry, [key, item]) => {
     const id = `${prefix}.${key}`;
     return {
       ...carry,
-      [id]: (graph: DirectedGraph) => iterator(scope, key, id, item, graph),
+      [id]: async (graph: DirectedGraph) =>
+        await iterator(scope, key, id, item, graph),
     };
   }, {});
 }
@@ -33,8 +34,8 @@ export function forEachProvider<T, R>(
     id: string,
     value: T,
     graph: DirectedGraph
-  ) => R
-): Record<string, (graph: DirectedGraph) => R> {
+  ) => Promise<R>
+): Record<string, (graph: DirectedGraph) => Promise<R>> {
   return Object.entries(record || {}).reduce((carry, [key, items]) => {
     return {
       ...carry,
@@ -42,7 +43,8 @@ export function forEachProvider<T, R>(
         const id = item.alias ? `${key}.${item.alias}` : `${key}`;
         return {
           ...innerCarry,
-          [id]: (graph: DirectedGraph) => iterator(scope, key, id, item, graph),
+          [id]: async (graph: DirectedGraph) =>
+            await iterator(scope, key, id, item, graph),
         };
       }, {}),
     };
@@ -60,9 +62,9 @@ export function forEachNamespaced<T, R>(
     id: string,
     value: T,
     graph: DirectedGraph
-  ) => R,
+  ) => Promise<R>,
   prefix?: string
-): Record<string, (graph: DirectedGraph) => R> {
+): Record<string, (graph: DirectedGraph) => Promise<R>> {
   return Object.entries(record || {}).reduce(
     (outerCarry, [type, items]) => ({
       ...outerCarry,
@@ -71,12 +73,12 @@ export function forEachNamespaced<T, R>(
         const id = prefix ? `${prefix}.${type}.${key}` : `${type}.${key}`;
         return {
           ...innerCarry,
-          [id]: (graph: DirectedGraph) =>
-            iterator(scope, prefixedType, key, id, item, graph),
+          [id]: async (graph: DirectedGraph) =>
+            await iterator(scope, prefixedType, key, id, item, graph),
         };
-      }, {} as Record<string, (graph: DirectedGraph) => R>),
+      }, {} as Record<string, (graph: DirectedGraph) => Promise<R>>),
     }),
-    {} as Record<string, (graph: DirectedGraph) => R>
+    {} as Record<string, (graph: DirectedGraph) => Promise<R>>
   );
 }
 

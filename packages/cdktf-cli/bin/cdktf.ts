@@ -111,6 +111,11 @@ yargs
     command: "*", // catches everything not previously matched
     handler: (argv) => {
       const cmd = argv._[0];
+
+      if (cmd === "completion") {
+        // Yargs seems to also run the catch all command in case the completion command is run
+        return;
+      }
       console.error(
         cmd
           ? `Could not find command "${cmd}", here are all available ones:`

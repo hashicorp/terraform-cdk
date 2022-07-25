@@ -1,8 +1,10 @@
 import * as t from "@babel/types";
 import reservedWords from "reserved-words";
-import { camelCase, pascalCase } from "./utils";
+import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
 import { getResourceNamespace } from "@cdktf/provider-generator";
+import { getReferencesInExpression } from "@cdktf/hcl2json";
+import { getFullProviderName } from "./provider";
 
 export type Reference = {
   start: number;
@@ -12,101 +14,54 @@ export type Reference = {
   isVariable?: boolean;
 };
 
-const PROPERTY_ACCESS_REGEX = /\[.*\]/;
 const DOLLAR_REGEX = /\$/g;
 
-export function extractReferencesFromExpression(
+export async function extractReferencesFromExpression(
   input: string,
   nodeIds: readonly string[],
   scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
-): Reference[] {
-  const isDoubleParanthesis = input.startsWith("${{");
-  if (!input.startsWith("${")) {
-    return [];
-  }
+): Promise<Reference[]> {
+  logger.debug(`extractReferencesFromExpression(${input})`);
+  const possibleVariableSpots = await getReferencesInExpression(
+    "main.tf",
+    input
+  );
 
-  const start = isDoubleParanthesis ? 3 : 2;
-  const end = isDoubleParanthesis ? input.length - 2 : input.length - 1;
-  let expressionString = input.substring(start, end);
-
-  if (
-    expressionString.includes("for") &&
-    expressionString.includes("in") &&
-    expressionString.includes(":")
-  ) {
-    // for name, user in var.users : user.role => name...
-    // We just want the var.users part (that could be an expression)
-    expressionString = expressionString.substring(
-      expressionString.indexOf("in") + 2,
-      expressionString.indexOf(":")
-    );
-  }
-  const lines = expressionString
-    .split("\n")
-    .map((line) => {
-      const commentStart = line.indexOf("#");
-      const lineWithoutComment =
-        commentStart !== -1 ? line.substring(0, commentStart - 1) : line;
-
-      return lineWithoutComment.trim();
-    })
-    .filter((line) => line !== "");
-
-  const delimiters = [
-    "(",
-    ",",
-    ")",
-    ".*",
-    PROPERTY_ACCESS_REGEX,
-    " ",
-    "!",
-    "*",
-    "/",
-    "%",
-    ">",
-    "<",
-    "=",
-    "&&",
-    "||",
-    "?",
-    // There can be nested terraform expression strings
-    "${",
-    "}",
-  ];
-
-  let possibleVariableSpots = lines;
-
-  delimiters.forEach((delimiter) => {
-    possibleVariableSpots = possibleVariableSpots.reduce(
-      (carry, str) => [...carry, ...str.split(delimiter)],
-      [] as string[]
-    );
-  });
+  logger.debug(
+    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)}`
+  );
 
   return possibleVariableSpots.reduce((carry, spot) => {
+    const { value, startPosition, endPosition } = spot;
     // no reference
     if (
-      !spot.includes(".") || // just a literal
-      spot.startsWith(".") || // dangling property access
-      spot.endsWith("...") || // spread (likely in for loop)
-      spot.startsWith("count.") || // count variable
-      spot.startsWith("each.") || // each variable
+      !value.includes(".") || // just a literal
+      value.startsWith(".") || // dangling property access
+      value.endsWith("...") || // spread (likely in for loop)
+      value.startsWith("count.") || // count variable
+      value.startsWith("each.") || // each variable
       // https://www.terraform.io/docs/language/expressions/references.html#filesystem-and-workspace-info
-      spot.startsWith("path.module") ||
-      spot.startsWith("path.root") ||
-      spot.startsWith("path.cwd") ||
-      spot.startsWith("terraform.workspace")
+      value.startsWith("path.module") ||
+      value.startsWith("path.root") ||
+      value.startsWith("path.cwd") ||
+      value.startsWith("terraform.workspace") ||
+      value.startsWith("self.") // block local value
     ) {
+      logger.debug(`skipping ${value}`);
       return carry;
     }
 
-    const referenceParts = spot.split(".");
+    const referenceParts = value.split(".");
 
+    logger.debug(
+      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`
+    );
     const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
       const matchesFirst = parts[0] === referenceParts[0];
       const matchesFirstTwo =
-        matchesFirst && (parts[1] === referenceParts[1] || parts.length === 1);
+        matchesFirst &&
+        (parts[1] === referenceParts[1] || referenceParts.length === 1);
 
       return (
         matchesFirstTwo &&
@@ -117,8 +72,8 @@ export function extractReferencesFromExpression(
     if (!corespondingNodeId) {
       // This is most likely a false positive, so we just ignore it
       // We include the log below to help debugging
-      console.error(
-        `Found a reference that is unknown: ${input} has reference "${spot}". The id was not found in ${JSON.stringify(
+      logger.error(
+        `Found a reference that is unknown: ${input} has reference "${value}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
         Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`
@@ -127,10 +82,12 @@ export function extractReferencesFromExpression(
     }
 
     if (scopedIds.includes(corespondingNodeId)) {
+      logger.debug(`skipping '${value}' since it's a scoped variable`);
       return carry;
     }
+    logger.debug(`Found node id '${corespondingNodeId}'`);
 
-    const spotParts = spot.split(".");
+    const spotParts = value.split(".");
     let isThereANumericAccessor = false;
     const referenceSpotParts = spotParts.filter((part) => {
       if (!Number.isNaN(parseInt(part, 10))) {
@@ -142,29 +99,23 @@ export function extractReferencesFromExpression(
     });
     const fullReference = isThereANumericAccessor
       ? referenceSpotParts.slice(0, 2).join(".")
-      : spot;
+      : value;
 
-    // we know we are at closer to the end than the last reference we found
-    // this helps us find duplicate referencees
-    const position = carry.length ? carry[carry.length - 1].end : 0;
-    const start = input.indexOf(fullReference, position);
-    const end = start + fullReference.length;
-
-    const isVariable = spot.startsWith("var.");
+    const isVariable = value.startsWith("var.");
     const useFqn =
       // Can not use FQN on vars
       !isVariable &&
       // Can not use FQN on locals
-      !spot.startsWith("local.") &&
+      !value.startsWith("local.") &&
       // If the following character is
-      (input.substr(end + 1, 1) === "*" || // a * (splat) we need to use the FQN
-        input.substr(end, 1) === "[" || // a property access
+      (input.substr(endPosition + 1, 1) === "*" || // a * (splat) we need to use the FQN
+        input.substr(endPosition, 1) === "[" || // a property access
         isThereANumericAccessor || // a numeric access
         fullReference.split(".").length < 3);
 
     const ref: Reference = {
-      start,
-      end,
+      start: startPosition,
+      end: endPosition,
       referencee: {
         id: corespondingNodeId,
         full: fullReference,
@@ -172,12 +123,13 @@ export function extractReferencesFromExpression(
       useFqn,
       isVariable,
     };
+    logger.debug(`Found reference ${JSON.stringify(ref)}`);
     return [...carry, ref];
   }, [] as Reference[]);
 }
 
 export function referenceToVariableName(scope: Scope, ref: Reference): string {
-  const parts = ref.referencee.full.split(".");
+  const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
   const name = parts[0] === "data" ? parts[2] : parts[1];
   return variableName(scope, resource, name);
@@ -222,9 +174,42 @@ export function variableName(
   return variableName;
 }
 
-export function constructAst(type: string, isModuleImport: boolean) {
+export function constructAst(
+  scope: Scope,
+  type: string,
+  isModuleImport: boolean
+) {
   if (isModuleImport) {
     return t.memberExpression(t.identifier(type), t.identifier(type));
+  }
+
+  function getUniqueName(provider: string, type: string) {
+    // early abort on cdktf
+    if (provider === "cdktf") {
+      return pascalCase(type.replace("cdktf_", ""));
+    }
+
+    if (provider === "NullProvider") {
+      return pascalCase(type.replace("NullProvider_", ""));
+    }
+
+    // Special handling for provider blocks, e.g. aws_AwsProvider
+    if (type === `${pascalCase(provider)}Provider`) {
+      return type;
+    }
+
+    const fullProviderName = getFullProviderName(
+      scope.providerSchema,
+      provider
+    );
+    if (fullProviderName && scope.providerGenerator[fullProviderName]) {
+      return scope.providerGenerator[fullProviderName]?.getClassNameForResource(
+        type
+      );
+    } else {
+      // If we can not find the class name for a resource the caller needs to find a sensible default
+      return null;
+    }
   }
 
   // resources or data sources
@@ -232,37 +217,45 @@ export function constructAst(type: string, isModuleImport: boolean) {
     const parts = type.split(".");
     if (parts[0] === "data") {
       const [, provider, resource] = parts;
+
       const namespace = getResourceNamespace(provider, resource);
+      const resourceName =
+        getUniqueName(provider, parts.join("_")) ||
+        pascalCase(`data_${provider}_${resource}`);
+
       if (namespace) {
         return t.memberExpression(
           t.memberExpression(
             t.identifier(provider), // e.g. aws
             t.identifier(namespace.name) // e.g. EC2
           ),
-          t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsInstance
+          t.identifier(resourceName) // e.g. DataAwsInstance
         );
       }
 
       return t.memberExpression(
         t.identifier(provider), // e.g. aws
-        t.identifier(pascalCase(`data_${provider}_${resource}`)) // e.g. DataAwsNatGateway
+        t.identifier(resourceName) // e.g. DataAwsNatGateway
       );
     }
 
     const [provider, resource] = parts;
     const namespace = getResourceNamespace(provider, resource);
+    const resourceName =
+      getUniqueName(provider, parts.join("_")) || pascalCase(resource);
+
     if (namespace) {
       return t.memberExpression(
         t.memberExpression(
           t.identifier(provider), // e.g. aws
           t.identifier(namespace.name) // e.g. EC2
         ),
-        t.identifier(pascalCase(resource)) // e.g. Instance
+        t.identifier(resourceName) // e.g. Instance
       );
     }
     return t.memberExpression(
       t.identifier(provider), // e.g. google
-      t.identifier(pascalCase(resource)) // e.g. BigQueryTable
+      t.identifier(resourceName) // e.g. BigQueryTable
     );
   }
 
@@ -309,6 +302,12 @@ export function referencesToAst(
   refs: Reference[],
   scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
 ): t.Expression {
+  logger.debug(
+    `Transforming string '${input}' with references ${JSON.stringify(
+      refs
+    )} to AST`
+  );
+
   if (refs.length === 0) {
     return t.stringLiteral(input);
   }
@@ -412,12 +411,13 @@ export const extractDynamicBlocks = (
   }, [] as DynamicBlock[]);
 };
 
-export function findUsedReferences(
+export async function findUsedReferences(
   nodeIds: string[],
   item: TerraformResourceBlock
-): Reference[] {
+): Promise<Reference[]> {
+  logger.debug(`findUsedReferences(${nodeIds}, ${item})`);
   if (typeof item === "string") {
-    return extractReferencesFromExpression(item, nodeIds, []);
+    return await extractReferencesFromExpression(item, nodeIds, []);
   }
 
   if (typeof item !== "object" || item === null || item === undefined) {
@@ -425,22 +425,25 @@ export function findUsedReferences(
   }
 
   if (Array.isArray(item)) {
-    return item.reduce(
-      (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
-      []
-    );
+    return (
+      await Promise.all(item.map((i) => findUsedReferences(nodeIds, i)))
+    ).flat();
   }
 
   if (item && "dynamic" in item) {
     const dyn = (item as any)["dynamic"];
     const { for_each, ...others } = dyn;
     const dynamicRef = Object.keys(others)[0];
-    return findUsedReferences([...nodeIds, dynamicRef], dyn);
+    return await findUsedReferences([...nodeIds, dynamicRef], dyn);
   }
-  return Object.values(item as Record<string, any>).reduce(
-    (carry, i) => [...carry, ...findUsedReferences(nodeIds, i)],
-    []
-  );
+
+  return (
+    await Promise.all(
+      Object.values(item as Record<string, any>).map((i) =>
+        findUsedReferences(nodeIds, i)
+      )
+    )
+  ).flat();
 }
 
 // This only guesses if the type of an expression is list, it should be replaced by something that understands

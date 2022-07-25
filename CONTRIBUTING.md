@@ -1,9 +1,11 @@
 # Contributing
 
+## Prerequisites
+
 To build and install `terraform-cdk` locally you need to install:
 
 - Node version 14.0+
-- Go 1.16+
+- Go 1.16
 - dotnet (v3.1.0)
 - mvn
 - pipenv
@@ -48,7 +50,7 @@ We run the examples as part of our integration tests for each Pull Request. To s
 }
 ```
 
-If the example shouldn't be run as part of the build pipeline, a `"private": true` entry can be added to `package.json`. Please make sure to add the ignore reason as JSON comment to `package.json` (e.g. `"//": "This example takes ages to build").
+If the example shouldn't be run as part of the build pipeline, a `"private": true` entry can be added to `package.json`. Please make sure to add the ignore reason as JSON comment to `package.json` (e.g. `"//": "This example takes ages to build"`).
 
 ## Development
 
@@ -58,21 +60,53 @@ For development, you'd likely want to run:
 $ yarn watch
 ```
 
-This will watch for changes for the packages `cdktf` and `cdktf-cli`.
+This will watch for changes in all packages.
+
+### CLI changes
+
+If your changes target only CLI and packages used by the CLI, running `yarn watch` will be sufficient. Although it's technically a bit different from what we ship you should be able to use a direct path to our binary entry point to execute commands. You can put this in a shell alias like this:
+
+```shell
+alias cdktfl='/path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf' # For running cdktf locally
+alias cdktfld='node --inspect-brk /path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf.js' # For running cdktf locally with debugging
+
+$ cdktfl get
+```
+
+### Library changes
+
+If you make changes to the library you need to run `yarn build && yarn package` to run tests against the new version. You should be able to use the typescript examples by just running `yarn watch`.
 
 ## Tests
 
 If you just want to run the tests:
 
 ```shell
-$ yarn test
+$ yarn test # to run all tests at once
+$ yarn test:watch # to run all tests in watch mode
 ```
 
 To run integration tests, package and run integration tests.
 
 ```shell
 $ yarn package
-$ yarn integration
+$ yarn integration # For all integration tests
+$ yarn integration:single -- typescript/synth-app # For a single integration test
+```
+
+````
+
+If you need to update the snapshot tests, please run this for the unit tests:
+
+```shell
+$ yarn test:update
+````
+
+To update the integration tests, please run this:
+
+```shell
+$ yarn integration:update # For all integration tests
+$ yarn integration:single -- -u typescript/synth-app # For a single integration test
 ```
 
 ## Local Usage
@@ -205,27 +239,32 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 
 ## Debugging
 
-We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `verbose`.
+We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `debug`.
 
 ## Releasing
 
-(this section is work in progress, but contains useful information)
-
 ### Steps
+
+#### Before the release
+
+Most of our tests are automated but there are some workflows we need to manually test for now.
+
+- Test `cdktf` against Terraform Enterprise
 
 #### Terraform CDK
 
 1. Create a new branch (e.g. `prepare-release-0.9.0`)
-2. Update the [CHANGELOG](./CHANGELOG.md)
+2. Update the [CHANGELOG](./CHANGELOG.md): `./tools/create-changelog.sh` should get you a good start
 3. Update the version in the root `package.json`
 4. Write an [upgrade guide](website/docs/cdktf/release/)
 5. Create a PR to merge the new branch into `main`
-6. Merge the PR
-7. A new release will be build and published because the version changed
-8. Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`)
-9. Run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
-10. Update the learn examples and the end to end examples
-11. Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
+6. Merge the PR, a new release will be build and published because the version changed
+
+#### After the release
+
+- Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`) and run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
+- Update the learn examples and the end to end examples
+- Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
 
 ### Repositories to update
 
@@ -307,3 +346,7 @@ Here are GitHub links that help this process:
 ## Reproducing Bugs on Windows
 
 A good way to tackle windows related things is to use an AWS EC2 instance running Windows. Here's a Terraform repo with a bit of guideline on how to connect via Remote Desktop or VS Code Remote SSH https://github.com/skorfmann/windows-test-machine
+
+## Documentation
+
+The markdown files containing the documentation for CDK for Terraform are in the [`/website`](./website) directory. Refer to the [website README](./website/README.md) for more information.
