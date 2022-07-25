@@ -3,6 +3,7 @@ import * as inquirer from "inquirer";
 import * as open from "open";
 import * as chalk from "chalk";
 import * as terraformCloudClient from "./terraform-cloud-client";
+import { logger } from "../../../lib/logging";
 
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();
@@ -122,6 +123,9 @@ the following file for use by subsequent Terraform commands:
 
       return terraformCredentials;
     } catch (e) {
+      logger.debug(
+        `Could not find terraform credentials file at ${terraformCredentialsFilePath}`
+      );
       return { credentials: {} };
     }
   }
