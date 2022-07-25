@@ -10,7 +10,7 @@ import imports.docker.DataDockerNetwork;
 import imports.docker.Config;
 import java.util.HashMap;
 
-public class JunitTesting {
+public class MainTest {
 
     private final App app = Testing.app();
     private final Main main = new Main(app, "main-valid");

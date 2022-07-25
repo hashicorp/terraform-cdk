@@ -7,7 +7,13 @@ namespace MyCompany.MyApp{
     // The tests below are example tests, you can find more information at
     // https://cdk.tf/testing
     public class TestProgram{
-        private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+        
+        [Fact]
+        public void myAppTest(){
+            Assert.True(true);
+        }
+        
+        //private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
         //private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
         //private static string synthesized = Testing.synth(stack);
 

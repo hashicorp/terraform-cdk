@@ -1,11 +1,15 @@
 import pytest 
-from cdktf import Testing, TerraformStack
+from cdktf import Testing
 
 # The tests below are example tests, you can find more information at
 # https://cdk.tf/testing
+
 class TestMain:
 
-    stack = TerraformStack(Testing.app(), "stack")
+    def test_my_app(self):
+        assert True
+
+    #stack = TerraformStack(Testing.app(), "stack")
     #app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
     #synthesized = Testing.synth(stack)
     

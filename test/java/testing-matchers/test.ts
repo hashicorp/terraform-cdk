@@ -7,17 +7,13 @@ describe("java testing assertions", () => {
     driver = new TestDriver(__dirname);
     await driver.setupJavaProject();
     await driver.copyFile(
-      "JunitTesting.java",
-      "src/main/java/com/mycompany/app/JunitTesting.java"
+      "MainTest.java",
+      "src/main/java/com/mycompany/app/MainTest.java"
     );
-    await driver.copyFiles("update-pom.sh");
-    await driver.exec("bash update-pom.sh");
-    await driver.exec("mvn clean install");
   }, 6000000);
 
   test("run java testing suite", async () => {
-    expect(
-      async () => await driver.exec('mvn test -Dtest="JunitTesting"')
-    ).not.toThrow();
+    var res = await driver.exec('mvn test -Dtest="MainTest"');
+    expect(res.stderr).toBe("\n");
   }, 6000000);
 });
