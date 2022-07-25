@@ -114,12 +114,16 @@ the following file for use by subsequent Terraform commands:
   }
 
   public async getTerraformCredentialsFile(): Promise<TerraformCredentialsFile> {
-    const credentialsFile = JSON.parse(
-      fs.readFileSync(terraformCredentialsFilePath).toString()
-    );
-    const terraformCredentials: TerraformCredentialsFile = credentialsFile;
+    try {
+      const credentialsFile = JSON.parse(
+        fs.readFileSync(terraformCredentialsFilePath).toString()
+      );
+      const terraformCredentials: TerraformCredentialsFile = credentialsFile;
 
-    return terraformCredentials;
+      return terraformCredentials;
+    } catch (e) {
+      return { credentials: {} };
+    }
   }
 
   public async isTokenValid(token: string): Promise<boolean> {
