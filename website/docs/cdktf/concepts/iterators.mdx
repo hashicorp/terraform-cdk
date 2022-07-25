@@ -1,0 +1,62 @@
+---
+page_title: Iterators
+description: >-
+  Iterators let you loop over a collection of values that are only available at runtime.
+---
+
+# Iterators
+
+Iterators let you loop over a collection of values. You can use them to create multiple resources of the same type based on dynamic data that is only known at runtime.
+
+## When to Use Iterators
+
+Use iterators when you need to reference dynamic data that is not known until after Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
+
+When data is static or you know the values before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using loops in your preferred programming language.
+
+## Define Iterators
+
+Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` static method. Then use the `forEach` property to pass the iterator to a resource, data source, or module. This lets you use the iterator in attributes.
+
+The example below uses an iterator to create a unique name for each new S3 bucket.
+
+```ts
+import { s3 } from "@cdktf/provider-aws";
+import { TerraformIterator, TerraformVariable } from "cdktf";
+
+const list = new TerraformVariable(this, "list", {
+  type: "list(string)",
+});
+
+const iterator = TerraformIterator.fromList(list.listValue);
+
+const s3Bucket = new s3.Bucket(this, "bucket", {
+  forEach: iterator,
+  name: iterator.value,
+});
+```
+
+You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/providers-and-resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
+
+## Using Iterators on Complex Types
+
+The iterator also exposes methods to access nested attributes. The example below uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
+
+```ts
+const iterator = TerraformIterator.fromList([
+  {
+    name: "website-static-files",
+    tags: { app: "website" },
+  },
+  {
+    name: "images",
+    tags: { app: "image-converter" },
+  },
+]);
+
+const s3Bucket = new s3.Bucket(this, "bucket", {
+  forEach: iterator,
+  name: iterator.getString("name"),
+  tags: iterator.getStringMap("tags"),
+});
+```
