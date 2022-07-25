@@ -41,6 +41,10 @@
         "path": "concepts/functions"
       },
       {
+        "title": "Iterators",
+        "path": "concepts/iterators"
+      },
+      {
         "title": "Remote Backends",
         "path": "concepts/remote-backends"
       },
@@ -60,6 +64,7 @@
         "title": "Stacks",
         "path": "concepts/stacks"
       }
+      
     ]
   },
   { "title": "Examples and Guides", "path": "examples" },
@@ -75,6 +80,10 @@
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
+      },
+      {
+        "title": "Terraform Cloud",
+        "path": "create-and-deploy/terraform-cloud"
       },
       {
         "title": "Deployment Patterns",

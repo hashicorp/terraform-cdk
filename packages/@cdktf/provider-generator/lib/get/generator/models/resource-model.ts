@@ -27,6 +27,7 @@ interface ResourceModelOptions {
   configStructName: string;
 }
 
+type DefinitionPath = string;
 export class ResourceModel {
   public className: string;
   public filePath: string;
@@ -44,6 +45,7 @@ export class ResourceModel {
   private terraformSchemaType: string;
   private configStructName: string;
   public readonly structsRequireSharding: boolean;
+  public recursiveAttributePaths: { [usagePath: string]: DefinitionPath } = {};
 
   constructor(options: ResourceModelOptions) {
     this.className = options.className;

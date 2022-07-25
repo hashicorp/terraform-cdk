@@ -16,6 +16,7 @@ import {
   Scope,
   AttributeModel,
 } from "./models";
+import { detectAttributeLoops } from "./loop-detection";
 
 const isReservedClassName = (className: string): boolean => {
   return ["string"].includes(className.toLowerCase());
@@ -81,6 +82,67 @@ class Parser {
           : new Scope({ name: provider, isProvider: true }),
       }),
       schema.block
+    );
+
+    function getStructAttribute(
+      attributes: AttributeModel[],
+      path: string
+    ): AttributeModel {
+      const [first, ...rest] = path.split(".");
+      const attribute = attributes.find((att) => {
+        return att.terraformName === first;
+      });
+      if (!attribute)
+        throw new Error(
+          `Expected to find recursive attribute at path: ${path}`
+        );
+      if (!attribute.type.struct)
+        throw new Error(
+          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.typeName}`
+        );
+      if (rest.length === 0) return attribute;
+      return getStructAttribute(
+        attribute.type.struct?.attributes,
+        rest.join(".")
+      );
+    }
+
+    // Introduce recursion for some attributes
+    const recursiveAttributePaths = detectAttributeLoops(attributes);
+
+    Object.entries(recursiveAttributePaths).forEach(
+      ([attributePath, structPath]) => {
+        // TODO: build this to be a bit more defensive (e.g. remove ! operator)
+        const recursionTargetStructAttribute = getStructAttribute(
+          attributes,
+          structPath
+        );
+        const parts = attributePath.split(".");
+        const attributeName = parts.pop();
+        const parentAttribute = getStructAttribute(attributes, parts.join("."));
+        const indexToReplace =
+          parentAttribute.type.struct!.attributes.findIndex(
+            (att) => att.terraformName === attributeName
+          );
+        if (indexToReplace === -1)
+          throw new Error("Can't find attribute at path " + attributePath);
+        const previousAttribute =
+          parentAttribute.type.struct!.attributes[indexToReplace];
+
+        parentAttribute.type.struct!.attributes[indexToReplace] =
+          recursionTargetStructAttribute; // introduce recursion
+
+        // ugly, pls c̶a̶l̶l̶ refactor me maybe
+        // we store all structs in this.structs – now we need to dispose all structs that are part of previousAttribute
+        const disposeStructs = (attr: AttributeModel) => {
+          if (attr.type.struct) {
+            attr.type.struct.attributes.forEach(disposeStructs);
+            this.structs = this.structs.filter((s) => s !== attr.type.struct);
+          }
+        };
+
+        disposeStructs(previousAttribute);
+      }
     );
 
     const resourceModel = new ResourceModel({
@@ -305,6 +367,7 @@ class Parser {
         }),
         blockType.block
       );
+
       const blockStruct = this.addStruct(
         [
           parentType,
