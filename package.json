@@ -40,7 +40,7 @@
     "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
     "prepare-release": "tools/prepare-release.sh",
     "release": "standard-version",
-    "generate-docs": "cd tools/documentation-generation && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx"
+    "generate-docs": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx"
   },
   "workspaces": {
     "packages": [
