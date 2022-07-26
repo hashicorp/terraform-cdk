@@ -1,4 +1,4 @@
-## 0.12.0 (unreleased)
+## 0.12.0
 
 **Breaking Changes**
 
@@ -23,6 +23,7 @@ If you are currently using those types e.g. in a language like Java, you will ne
 - feat(docs): Add iterator docs page [\#1840](https://github.com/hashicorp/terraform-cdk/pull/1840)
 - feat(docs): document FORCE_COLOR env var that allows disabling colored output [\#1917](https://github.com/hashicorp/terraform-cdk/pull/1917)
 - feat(cli): plug provider add command in help printed after initializing a new cdktf project [\#1833](https://github.com/hashicorp/terraform-cdk/pull/1833)
+- feat(lib): exposed testing matchers for other languages properly [\#1935](https://github.com/hashicorp/terraform-cdk/pull/1935)
 
 ### fix
 
