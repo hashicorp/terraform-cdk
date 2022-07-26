@@ -64,7 +64,7 @@ app.synth();
 import path as path
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformAsset, AssetType
-from cdktf_cdktf_provider_aws import AwsProvider, s3
+from imports.aws import AwsProvider, s3
 
 class MyStack(TerraformStack):
     def __init__(self, scope, name):
@@ -138,8 +138,8 @@ app.synth();
 using Path;
 using Constructs;
 using HashiCorp.Cdktf;
-using HashiCorp.Cdktf.Providers.Aws;
-using HashiCorp.Cdktf.Providers.Aws.s3;
+using aws;
+using aws.S3;
 
 class MyStack : TerraformStack
 {
@@ -165,11 +165,16 @@ class MyStack : TerraformStack
             Source = asset.Path
         });
     }
+
+    public static void Main(string[] args)
+    {
+      App app = new App();
+      new MyStack(app, "demo");
+      app.Synth();
+    }
 }
 
-App app = new App();
-new MyStack(app, "demo");
-app.Synth();
+
 ```
 
 ```go

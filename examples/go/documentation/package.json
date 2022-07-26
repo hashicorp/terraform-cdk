@@ -1,0 +1,11 @@
+{
+  "//": "This example is used to verify all code samples in the documentation work correctly.",
+  "name": "@examples/go-documentation",
+  "version": "0.11.2",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm go.sum",
+    "build": "cdktf get && go mod tidy",
+    "synth": "cdktf synth"
+  }
+}

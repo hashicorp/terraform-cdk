@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/hcl2cdk",
-  "version": "0.0.0",
+  "version": "0.11.2",
   "description": "Transform HCL into CDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -31,8 +31,8 @@
     "@babel/generator": "^7.18.9",
     "@babel/template": "^7.18.6",
     "@babel/types": "^7.18.9",
-    "@cdktf/hcl2json": "0.0.0",
-    "@cdktf/provider-generator": "0.0.0",
+    "@cdktf/hcl2json": "0.11.2",
+    "@cdktf/provider-generator": "0.11.2",
     "camelcase": "^6.3.0",
     "glob": "7.2.3",
     "graphology": "^0.24.1",
