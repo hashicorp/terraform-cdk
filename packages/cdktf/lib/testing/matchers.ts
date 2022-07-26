@@ -29,8 +29,13 @@ export function returnMatcherToJest(
   };
 }
 
-// All expected properties are matched and considered equal if
-// There can be more properties in the received object than in the expected object while still returning true
+/**
+ * Compares expected and recieved. All expected properties are matched and considered equal if
+ * there can be more properties in the received object than in the expected object while still returning true.
+ * @param expected
+ * @param received
+ * @returns {boolean}
+ */
 export function asymetricDeepEqualIgnoringObjectCasing(
   expected: unknown,
   received: unknown

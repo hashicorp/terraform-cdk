@@ -11,6 +11,11 @@ type TFValueValidator = (value: any) => TFValue;
 
 type ExecutableTfFunction = (...args: any[]) => IResolvable;
 
+/**
+ * Determines if given str had unescaped double quotes
+ * @param str String to test
+ * @returns Boolean
+ */
 function hasUnescapedDoubleQuotes(str: string) {
   return /(^|[^\\])([\\]{2})*"/.test(str);
 }
