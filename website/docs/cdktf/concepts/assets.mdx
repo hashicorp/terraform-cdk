@@ -43,7 +43,7 @@ class MyStack extends TerraformStack {
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: path.resolve(__dirname, "../lambda"),
+      path: os.path.join(os.path.dirname(__file__), "..", "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
@@ -127,11 +127,13 @@ public class MyStack extends TerraformStack {
                 .source(asset.getPath())
                 .build();
     }
-}
 
-App app = new App();
-new MyStack(app, "demo");
-app.synth();
+     public static void main(String[] args) {
+        final App app = new App();
+        new MyStack(app, "demo");
+        app.synth();
+    }
+}
 ```
 
 ```csharp
