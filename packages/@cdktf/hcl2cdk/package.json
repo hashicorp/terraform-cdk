@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/hcl2cdk",
-  "version": "0.0.0",
+  "version": "0.11.2",
   "description": "Transform HCL into CDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

@@ -8,4 +8,5 @@
       "beforeSynth": "go mod tidy",
       "synth": "cdktf synth"
     }
-  }
+  
+}
