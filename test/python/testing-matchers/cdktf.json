@@ -1,0 +1,10 @@
+{
+  "language": "python",
+  "app": "pipenv run python main.py",
+  "terraformProviders": ["kreuzwerker/docker@~> 2.0"],
+  "terraformModules": [],
+  "codeMakerOutput": "imports",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}

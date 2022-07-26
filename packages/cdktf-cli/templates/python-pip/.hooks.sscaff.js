@@ -30,6 +30,7 @@ exports.post = options => {
   }
 
   writeFileSync('requirements.txt', pypi_cdktf, 'utf-8');
+  writeFileSync('requirements.txt', 'pytest', 'utf-8');
   let installArgs = '';
   if (!process.env.VIRTUAL_ENV) {
     installArgs += '--user'
