@@ -1,4 +1,4 @@
-## 0.12.0 (unreleased)
+## 0.12.0
 
 **Breaking Changes**
 
@@ -9,6 +9,46 @@ Previously we would throw an error and exit with 1 if there were no provider or 
 ### `Fn.merge` is split into `Fn.mergeLists` and `Fn.mergeMaps`
 
 The Terraform `merge` function can merge both lists and maps, but this can cause [issues](https://github.com/hashicorp/terraform-cdk/issues/1653) when using the result in a typed language. Therefore we split it into `Fn.mergeLists` and `Fn.mergeMaps`, this means you need to change your cdktf programs code.
+
+### Simplified interfaces of recursive attributes
+
+The generated provider bindings are based on the Terraform schema which does not support recursion and hence uses a large, explicit structure instead. Previously this resulted in long names such as e.g. `Wafv2WebAclRuleStatementAndStatementStatementOrStatementStatementLabelMatchStatement`. In 0.12 we implemented a first rough detection for this underlying recursion which drastically reduced the amount of generated interfaces as they now are converted to recursive data structures themselves.
+If you are currently using those types e.g. in a language like Java, you will need to change them to the new shorter names.
+
+### feat
+
+- feat(lib): Introduce Iterator and `for_each` to implement apply time iteration [\#1830](https://github.com/hashicorp/terraform-cdk/pull/1830)
+- feat(lib): Introduce TerraformDynamicBlock to enable iterator usage on blocks [\#1882](https://github.com/hashicorp/terraform-cdk/pull/1882)
+- feat(cli): support refresh only option for diff and deploy [\#1851](https://github.com/hashicorp/terraform-cdk/pull/1851)
+- feat(docs): Add iterator docs page [\#1840](https://github.com/hashicorp/terraform-cdk/pull/1840)
+- feat(docs): document FORCE_COLOR env var that allows disabling colored output [\#1917](https://github.com/hashicorp/terraform-cdk/pull/1917)
+- feat(cli): plug provider add command in help printed after initializing a new cdktf project [\#1833](https://github.com/hashicorp/terraform-cdk/pull/1833)
+- feat(lib): exposed testing matchers for other languages properly [\#1935](https://github.com/hashicorp/terraform-cdk/pull/1935)
+
+### fix
+
+- fix: Allow "all" as ignoreChanges lifecycle value [\#1848](https://github.com/hashicorp/terraform-cdk/pull/1848)
+- fix: Fixed naming collision between resources of different providers [\#1870](https://github.com/hashicorp/terraform-cdk/pull/1870)
+- fix: Small fix to the CONTRIBUTING.md [\#1887](https://github.com/hashicorp/terraform-cdk/pull/1887)
+- fix(cli): increase default max memory for node process when running app command for synth [\#1915](https://github.com/hashicorp/terraform-cdk/pull/1915)
+- fix(provider-generator): Meta arguments available for generated modules [\#1880](https://github.com/hashicorp/terraform-cdk/pull/1880)
+- fix(provider-generator): replace dashes with underscores in module names for Go when generating bindings for Terraform modules [\#1928](https://github.com/hashicorp/terraform-cdk/pull/1928)
+- fix(hcl2json): bundle wasm_exec used for building Go instead of looking for it at runtime [\#1954](https://github.com/hashicorp/terraform-cdk/pull/1954)
+- fix(hcl2cdk): use the same attribute renaming function as in the provider generation [\#1842](https://github.com/hashicorp/terraform-cdk/pull/1842)
+- fix(hcl2cdk): maps should not be wrapped in arrays [\#1838](https://github.com/hashicorp/terraform-cdk/pull/1838)
+
+### chore
+
+- chore: document CI flag [\#1888](https://github.com/hashicorp/terraform-cdk/pull/1888)
+- chore: modernize example output [\#1914](https://github.com/hashicorp/terraform-cdk/pull/1914)
+- chore: pin provider version [\#1896](https://github.com/hashicorp/terraform-cdk/pull/1896)
+- chore: update prerequisites [\#1894](https://github.com/hashicorp/terraform-cdk/pull/1894)
+- chore(tests): Re-enable Windows Provider Add C# Test [\#1879](https://github.com/hashicorp/terraform-cdk/pull/1879)
+- chore: add tfe test as pre-step to releasing [\#1872](https://github.com/hashicorp/terraform-cdk/pull/1872)
+- chore: split provider tests into one test per provider [\#1862](https://github.com/hashicorp/terraform-cdk/pull/1862)
+- chore: reuse integration test definition for releases [\#1859](https://github.com/hashicorp/terraform-cdk/pull/1859)
+- chore: fix broken link in readme [\#1845](https://github.com/hashicorp/terraform-cdk/pull/1845)
+- chore: npm-check-updates && yarn upgrade [\#1706](https://github.com/hashicorp/terraform-cdk/pull/1706)
 
 ## 0.11.2
 
