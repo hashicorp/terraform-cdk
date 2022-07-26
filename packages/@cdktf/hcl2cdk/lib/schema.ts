@@ -12,11 +12,18 @@ const outputConfig = tfObject({
 });
 export type Output = z.infer<typeof outputConfig>;
 
+const validationConfig = z.object({
+  error_message: z.string(),
+  condition: z.any(),
+});
+
 const variableConfig = tfObject({
   type: z.string(),
   default: z.any(),
   description: z.string(),
   sensitive: z.boolean(),
+  nullable: z.boolean().optional(),
+  validation: z.array(z.record(validationConfig)).optional(),
 });
 export type Variable = z.infer<typeof variableConfig>;
 

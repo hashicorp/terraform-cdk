@@ -25,13 +25,17 @@
     "stripInternal": true,
     "target": "ES2018",
     "incremental": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "allowJs": true,
+    "checkJs": false
   },
   "include": [
-    "**/*.ts",
+    "lib/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules",
     "**/*.d.ts",
+    "wasm/**/*"
   ],
 }

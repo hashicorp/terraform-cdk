@@ -166,6 +166,38 @@ exports[`tuple type 1`] = `
 }"
 `;
 
+exports[`validation block variable 1`] = `
+"{
+  \\"variable\\": {
+    \\"test-variable\\": {
+      \\"type\\": \\"string\\",
+      \\"validation\\": [
+        {
+          \\"condition\\": \\"\${can(regex(\\\\\\"^ami-\\\\\\", \\\\\\"ami-test\\\\\\"))}\\",
+          \\"error_message\\": \\"Validation failed..\\"
+        }
+      ]
+    }
+  }
+}"
+`;
+
+exports[`validation block variable self reference 1`] = `
+"{
+  \\"variable\\": {
+    \\"test-variable\\": {
+      \\"type\\": \\"string\\",
+      \\"validation\\": [
+        {
+          \\"condition\\": \\"\${length(var.test-variable)} > 4 && \${substr(var.test-variable, 0, 4)} == \\\\\\"ami-\\\\\\"\\",
+          \\"error_message\\": \\"The image_id value must be a valid AMI id, starting with \\\\\\"ami-\\\\\\".\\"
+        }
+      ]
+    }
+  }
+}"
+`;
+
 exports[`variable with variable default 1`] = `
 "{
   \\"variable\\": {

@@ -14,7 +14,9 @@ function typeStructure(model: AttributeModel) {
     return model.type.name;
   }
 
-  return "<complex>";
+  return `<complex:{${model.type.struct?.attributes
+    .map((att) => att.name)
+    .sort()}}${model.type.isList ? "[]" : ""}>`;
 }
 
 function getAttributeIdentifier(model: AttributeModel): AttributeIdentifier {
