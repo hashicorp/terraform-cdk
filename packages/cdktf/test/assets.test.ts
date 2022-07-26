@@ -2,7 +2,7 @@ import { App, TerraformHclModule, TerraformStack, Testing } from "../lib";
 import * as path from "path";
 
 describe("createAssetsFromLocalModules", () => {
-  test("remote source without createAssetsFromLocalModules", () => {
+  test("remote source without skipAssetCreationFromLocalModules", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
     const app = Testing.stubVersion(
@@ -24,7 +24,7 @@ describe("createAssetsFromLocalModules", () => {
     expect(moduleOptionsNotExists.source).toEqual(remoteSource);
   });
 
-  test("remote source with createAssetsFromLocalModules set to true", () => {
+  test("remote source with skipAssetCreationFromLocalModules set to true", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
     const app = Testing.stubVersion(
@@ -40,14 +40,14 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsTrue",
       {
         source: remoteSource,
-        createAssetsFromLocalModules: true,
+        skipAssetCreationFromLocalModules: true,
       }
     );
 
     expect(moduleOptionsTrue.source).toEqual(remoteSource);
   });
 
-  test("remote source with createAssetsFromLocalModules set to false", () => {
+  test("remote source with skipAssetCreationFromLocalModules set to false", () => {
     const remoteSource = "terraform-aws-modules/eks/aws";
 
     const app = Testing.stubVersion(
@@ -63,14 +63,14 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsFalse",
       {
         source: remoteSource,
-        createAssetsFromLocalModules: false,
+        skipAssetCreationFromLocalModules: false,
       }
     );
 
     expect(moduleOptionsFalse.source).toEqual(remoteSource);
   });
 
-  test("local source without createAssetsFromLocalModules", () => {
+  test("local source without skipAssetCreationFromLocalModules", () => {
     const localSource = "../";
     const assetRegex =
       /^.\/assets\/MyStack_localmodulemoduleOptionsNotExists_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
@@ -94,7 +94,7 @@ describe("createAssetsFromLocalModules", () => {
     expect(moduleOptionsNotExists.source).toMatch(assetRegex);
   });
 
-  test("local source with createAssetsFromLocalModules set to true", () => {
+  test("local source with skipAssetCreationFromLocalModules set to false", () => {
     const localSource = "../";
     const assetRegex =
       /^.\/assets\/MyStack_localmodulemoduleOptionsTrue_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
@@ -112,14 +112,14 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsTrue",
       {
         source: localSource,
-        createAssetsFromLocalModules: true,
+        skipAssetCreationFromLocalModules: false,
       }
     );
 
     expect(moduleOptionsTrue.source).toMatch(assetRegex);
   });
 
-  test("local source with createAssetsFromLocalModules set to false", () => {
+  test("local source with skipAssetCreationFromLocalModules set to true", () => {
     const localSource = "../";
 
     const app = Testing.stubVersion(
@@ -135,7 +135,7 @@ describe("createAssetsFromLocalModules", () => {
       "moduleOptionsFalse",
       {
         source: localSource,
-        createAssetsFromLocalModules: false,
+        skipAssetCreationFromLocalModules: true,
       }
     );
 
