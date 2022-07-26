@@ -5,8 +5,17 @@ import * as crypto from "crypto";
 
 const HASH_LEN = 32;
 
-// Full implementation at https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy-sync/copy-sync.js
+// Full implementation at https://github.com/jprichardson/node-fs-extra/blob/master/lib/copy/copy-sync.js
+/**
+ * Copy a file or directory. The directory can have contents and subfolders.
+ * @param {string} src
+ * @param {string} dest
+ */
 export function copySync(src: string, dest: string) {
+  /**
+   * Copies file if present otherwise walks subfolder
+   * @param {string} p
+   */
   function copyItem(p: string) {
     const sourcePath = path.resolve(src, p);
     const stat = fs.statSync(sourcePath);
@@ -17,7 +26,10 @@ export function copySync(src: string, dest: string) {
       walkSubfolder(p);
     }
   }
-
+  /**
+   * Copies contents of subfolder
+   * @param {string} p
+   */
   function walkSubfolder(p: string) {
     const sourceDir = path.resolve(src, p);
     fs.mkdirSync(path.resolve(dest, p), { recursive: true });
@@ -27,6 +39,11 @@ export function copySync(src: string, dest: string) {
   walkSubfolder(".");
 }
 
+/**
+ * Zips contents at src and places zip archive at dest
+ * @param {string} src
+ * @param {string} dest
+ */
 export function archiveSync(src: string, dest: string) {
   const projectRoot = path.resolve(__dirname, "..", "..");
   const zipSyncPath = path.resolve(projectRoot, "bin", "zipSync.js");
