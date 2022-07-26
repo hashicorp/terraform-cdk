@@ -9616,18 +9616,19 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                        | **Type**                                                                                                                                        | **Description**   |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.property.node">node</a></code>                         | <code>constructs.Node</code>                                                                                                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.fqn">fqn</a></code>                           | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.source">source</a></code>                     | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.providers">providers</a></code>               | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.version">version</a></code>                   | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">dependsOn</a></code>               | <code>string[]</code>                                                                                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.forEach">forEach</a></code>                   | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.variables">variables</a></code>               | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
+| **Name**                                                                                                                          | **Type**                                                                                                                                        | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.property.node">node</a></code>                                                           | <code>constructs.Node</code>                                                                                                                    | The tree node.    |
+| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">cdktfStack</a></code>                                               | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.fqn">fqn</a></code>                                                             | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">friendlyUniqueId</a></code>                                   | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">dependsOn</a></code>                                                 | <code>string[]</code>                                                                                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.variables">variables</a></code>                                                 | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
 
 ---
 
@@ -9690,6 +9691,16 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a> | <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]
+
+---
+
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules"></a>
+
+```typescript
+public readonly skipAssetCreationFromLocalModules: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -10188,17 +10199,18 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                     | **Type**                                                                                                                                        | **Description**   |
-| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModule.property.node">node</a></code>                         | <code>constructs.Node</code>                                                                                                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformModule.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.fqn">fqn</a></code>                           | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.source">source</a></code>                     | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.providers">providers</a></code>               | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.version">version</a></code>                   | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.dependsOn">dependsOn</a></code>               | <code>string[]</code>                                                                                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.forEach">forEach</a></code>                   | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| **Name**                                                                                                                       | **Type**                                                                                                                                        | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModule.property.node">node</a></code>                                                           | <code>constructs.Node</code>                                                                                                                    | The tree node.    |
+| <code><a href="#cdktf.TerraformModule.property.cdktfStack">cdktfStack</a></code>                                               | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.fqn">fqn</a></code>                                                             | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">friendlyUniqueId</a></code>                                   | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.dependsOn">dependsOn</a></code>                                                 | <code>string[]</code>                                                                                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
 
 ---
 
@@ -10261,6 +10273,16 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a> | <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]
+
+---
+
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformModule.property.skipAssetCreationFromLocalModules"></a>
+
+```typescript
+public readonly skipAssetCreationFromLocalModules: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -11892,6 +11914,7 @@ new TerraformVariable(scope: Construct, id: string, config: TerraformVariableCon
 | <code><a href="#cdktf.TerraformVariable.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
 | <code><a href="#cdktf.TerraformVariable.toMetadata">toMetadata</a></code>                         | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.toTerraform">toTerraform</a></code>                       | _No description._                                                                 |
+| <code><a href="#cdktf.TerraformVariable.addValidation">addValidation</a></code>                   | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.synthesizeAttributes">synthesizeAttributes</a></code>     | _No description._                                                                 |
 
 ---
@@ -11958,6 +11981,18 @@ public toMetadata(): any
 public toTerraform(): any
 ```
 
+##### `addValidation` <a name="addValidation" id="cdktf.TerraformVariable.addValidation"></a>
+
+```typescript
+public addValidation(validation: TerraformVariableValidationConfig): void
+```
+
+###### `validation`<sup>Required</sup> <a name="validation" id="cdktf.TerraformVariable.addValidation.parameter.validation"></a>
+
+- _Type:_ <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>
+
+---
+
 ##### `synthesizeAttributes` <a name="synthesizeAttributes" id="cdktf.TerraformVariable.synthesizeAttributes"></a>
 
 ```typescript
@@ -12006,22 +12041,23 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                       | **Type**                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformVariable.property.node">node</a></code>                         | <code>constructs.Node</code>                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.fqn">fqn</a></code>                           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.booleanValue">booleanValue</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.listValue">listValue</a></code>               | <code>string[]</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.numberValue">numberValue</a></code>           | <code>number</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.stringValue">stringValue</a></code>           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.value">value</a></code>                       | <code>any</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.default">default</a></code>                   | <code>any</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.description">description</a></code>           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.nullable">nullable</a></code>                 | <code>boolean</code>                                            | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.sensitive">sensitive</a></code>               | <code>boolean</code>                                            | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.type">type</a></code>                         | <code>string</code>                                             | _No description._ |
+| **Name**                                                                                       | **Type**                                                                                                | **Description**   |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformVariable.property.node">node</a></code>                         | <code>constructs.Node</code>                                                                            | The tree node.    |
+| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                         | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.fqn">fqn</a></code>                           | <code>string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.booleanValue">booleanValue</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a></code>                                               | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.listValue">listValue</a></code>               | <code>string[]</code>                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.numberValue">numberValue</a></code>           | <code>number</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.stringValue">stringValue</a></code>           | <code>string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.value">value</a></code>                       | <code>any</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.default">default</a></code>                   | <code>any</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.description">description</a></code>           | <code>string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.nullable">nullable</a></code>                 | <code>boolean</code>                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.sensitive">sensitive</a></code>               | <code>boolean</code>                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.type">type</a></code>                         | <code>string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.validation">validation</a></code>             | <code><a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]</code> | _No description._ |
 
 ---
 
@@ -12164,6 +12200,16 @@ public readonly type: string;
 ```
 
 - _Type:_ string
+
+---
+
+##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariable.property.validation"></a>
+
+```typescript
+public readonly validation: TerraformVariableValidationConfig[];
+```
+
+- _Type:_ <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]
 
 ---
 
@@ -17854,14 +17900,15 @@ const terraformHclModuleOptions: TerraformHclModuleOptions = { ... }
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                 | **Type**                                                                                                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">dependsOn</a></code> | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">forEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>       | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>     | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code> | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
+| **Name**                                                                                                                                 | **Type**                                                                                                                                        | **Description**   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">dependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>                                                 | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
 
 ---
 
@@ -17892,6 +17939,16 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a> | <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]
+
+---
+
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```typescript
+public readonly skipAssetCreationFromLocalModules: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -18031,13 +18088,14 @@ const terraformModuleOptions: TerraformModuleOptions = { ... }
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                              | **Type**                                                                                                                                        | **Description**   |
-| ------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">dependsOn</a></code> | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">forEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.providers">providers</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.source">source</a></code>       | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.version">version</a></code>     | <code>string</code>                                                                                                                             | _No description._ |
+| **Name**                                                                                                                              | **Type**                                                                                                                                        | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">dependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
 
 ---
 
@@ -18068,6 +18126,16 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a> | <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]
+
+---
+
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```typescript
+public readonly skipAssetCreationFromLocalModules: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -18142,11 +18210,12 @@ const terraformModuleUserOptions: TerraformModuleUserOptions = { ... }
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                  | **Type**                                                                                                                                        | **Description**   |
-| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModuleUserOptions.property.dependsOn">dependsOn</a></code> | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModuleUserOptions.property.forEach">forEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformModuleUserOptions.property.providers">providers</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| **Name**                                                                                                                                  | **Type**                                                                                                                                        | **Description**   |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.dependsOn">dependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
 
 ---
 
@@ -18177,6 +18246,16 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a> | <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]
+
+---
+
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```typescript
+public readonly skipAssetCreationFromLocalModules: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -18583,13 +18662,14 @@ const terraformVariableConfig: TerraformVariableConfig = { ... }
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**             | **Description**                                                                                                                   |
-| ------------------------------------------------------------------------------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code>         | <code>any</code>     | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>string</code>  | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code>       | <code>boolean</code> | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code>     | <code>boolean</code> | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code>               | <code>string</code>  | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+| **Name**                                                                                   | **Type**                                                                                                | **Description**                                                                                                                              |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code>         | <code>any</code>                                                                                        | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>string</code>                                                                                     | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code>       | <code>boolean</code>                                                                                    | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code>     | <code>boolean</code>                                                                                    | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code>               | <code>string</code>                                                                                     | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.validation">validation</a></code>   | <code><a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
 
 ---
 
@@ -18664,6 +18744,57 @@ The type constructors allow you to specify complex types such as collections:
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
 If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+
+---
+
+##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>
+
+```typescript
+public readonly validation: TerraformVariableValidationConfig[];
+```
+
+- _Type:_ <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]
+
+Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+
+---
+
+### TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>
+
+```typescript
+import { TerraformVariableValidationConfig } from 'cdktf'
+
+const terraformVariableValidationConfig: TerraformVariableValidationConfig = { ... }
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                               | **Type**            | **Description**   |
+| ------------------------------------------------------------------------------------------------------ | ------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.condition">condition</a></code>       | <code>any</code>    | _No description._ |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.errorMessage">errorMessage</a></code> | <code>string</code> | _No description._ |
+
+---
+
+##### `condition`<sup>Required</sup> <a name="condition" id="cdktf.TerraformVariableValidationConfig.property.condition"></a>
+
+```typescript
+public readonly condition: any;
+```
+
+- _Type:_ any
+
+---
+
+##### `errorMessage`<sup>Required</sup> <a name="errorMessage" id="cdktf.TerraformVariableValidationConfig.property.errorMessage"></a>
+
+```typescript
+public readonly errorMessage: string;
+```
+
+- _Type:_ string
 
 ---
 
@@ -19162,6 +19293,64 @@ public readonly all: IAspect[];
 - _Type:_ <a href="#cdktf.IAspect">IAspect</a>[]
 
 The list of aspects which were directly applied on this scope.
+
+---
+
+### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
+
+```typescript
+import { testingMatchers } from 'cdktf'
+
+new testingMatchers.AssertionReturn(message: string, pass: boolean)
+```
+
+| **Name**                                                                                                | **Type**             | **Description**   |
+| ------------------------------------------------------------------------------------------------------- | -------------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>string</code>  | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>boolean</code> | _No description._ |
+
+---
+
+##### `message`<sup>Required</sup> <a name="message" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message"></a>
+
+- _Type:_ string
+
+---
+
+##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
+
+- _Type:_ boolean
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                   | **Type**             | **Description**   |
+| ------------------------------------------------------------------------------------------ | -------------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>string</code>  | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>boolean</code> | _No description._ |
+
+---
+
+##### `message`<sup>Required</sup> <a name="message" id="cdktf.testingMatchers.AssertionReturn.property.message"></a>
+
+```typescript
+public readonly message: string;
+```
+
+- _Type:_ string
+
+---
+
+##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
+
+```typescript
+public readonly pass: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -22724,6 +22913,7 @@ new ListTerraformIterator(list: string[] | IResolvable | number[] | ComplexList 
 
 | **Name**                                                                            | **Description**   |
 | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ListTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAny">getAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
@@ -22735,6 +22925,18 @@ new ListTerraformIterator(list: string[] | IResolvable | number[] | ComplexList 
 | <code><a href="#cdktf.ListTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getString">getString</a></code>         | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.ListTerraformIterator.dynamic"></a>
+
+```typescript
+public dynamic(attributes: {[ key: string ]: any}): IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ListTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ {[ key: string ]: any}
 
 ---
 
@@ -23141,6 +23343,7 @@ new MapTerraformIterator(map: StringMap | NumberMap | BooleanMap | AnyMap | Comp
 
 | **Name**                                                                           | **Description**   |
 | ---------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.MapTerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAny">getAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
@@ -23152,6 +23355,18 @@ new MapTerraformIterator(map: StringMap | NumberMap | BooleanMap | AnyMap | Comp
 | <code><a href="#cdktf.MapTerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getString">getString</a></code>         | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.MapTerraformIterator.dynamic"></a>
+
+```typescript
+public dynamic(attributes: {[ key: string ]: any}): IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.MapTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ {[ key: string ]: any}
 
 ---
 
@@ -24045,6 +24260,7 @@ new TerraformIterator();
 
 | **Name**                                                                        | **Description**   |
 | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformIterator.dynamic">dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAny">getAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAnyMap">getAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getBoolean">getBoolean</a></code>       | _No description._ |
@@ -24056,6 +24272,18 @@ new TerraformIterator();
 | <code><a href="#cdktf.TerraformIterator.getNumberMap">getNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getString">getString</a></code>         | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getStringMap">getStringMap</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.TerraformIterator.dynamic"></a>
+
+```typescript
+public dynamic(attributes: {[ key: string ]: any}): IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.TerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ {[ key: string ]: any}
 
 ---
 
@@ -24343,19 +24571,37 @@ Access a property on the resource like this: `getString("publicIp")`
 
 Testing utilities for cdktf applications.
 
+#### Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
+
+```typescript
+import { Testing } from "cdktf";
+
+new Testing();
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                          | **Description**                                                                             |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.Testing.app">app</a></code>                                 | Returns an app for testing with the following properties: - Output directory is a temp dir. |
-| <code><a href="#cdktf.Testing.enableFutureFlags">enableFutureFlags</a></code>     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">fakeCdktfJsonPath</a></code>     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fullSynth">fullSynth</a></code>                     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.renderConstructTree">renderConstructTree</a></code> | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.setupJest">setupJest</a></code>                     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.stubVersion">stubVersion</a></code>                 | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.synth">synth</a></code>                             | Returns the Terraform synthesized JSON.                                                     |
-| <code><a href="#cdktf.Testing.synthScope">synthScope</a></code>                   | _No description._                                                                           |
+| **Name**                                                                                                | **Description**                                                                             |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.Testing.app">app</a></code>                                                       | Returns an app for testing with the following properties: - Output directory is a temp dir. |
+| <code><a href="#cdktf.Testing.enableFutureFlags">enableFutureFlags</a></code>                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">fakeCdktfJsonPath</a></code>                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fullSynth">fullSynth</a></code>                                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.renderConstructTree">renderConstructTree</a></code>                       | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.setupJest">setupJest</a></code>                                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.stubVersion">stubVersion</a></code>                                       | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.synth">synth</a></code>                                                   | Returns the Terraform synthesized JSON.                                                     |
+| <code><a href="#cdktf.Testing.synthScope">synthScope</a></code>                                         | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toBeValidTerraform">toBeValidTerraform</a></code>                         | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSource">toHaveDataSource</a></code>                             | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">toHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResource">toHaveResource</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResourceWithProperties">toHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
 ---
 
@@ -24480,6 +24726,112 @@ Testing.synthScope(fn: IScopeCallback)
 ###### `fn`<sup>Required</sup> <a name="fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
 
 - _Type:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+---
+
+##### `toBeValidTerraform` <a name="toBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toBeValidTerraform(received: string)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+##### `toHaveDataSource` <a name="toHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveDataSource(received: string, resourceType: string)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+##### `toHaveDataSourceWithProperties` <a name="toHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveDataSourceWithProperties(received: string, resourceType: string, properties?: {[ key: string ]: any})
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ {[ key: string ]: any}
+
+---
+
+##### `toHaveResource` <a name="toHaveResource" id="cdktf.Testing.toHaveResource"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveResource(received: string, resourceType: string)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+##### `toHaveResourceWithProperties` <a name="toHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveResourceWithProperties(received: string, resourceType: string, properties?: {[ key: string ]: any})
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
+
+- _Type:_ {[ key: string ]: any}
 
 ---
 
@@ -26118,11 +26470,12 @@ Resolve an inner object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                 | **Type**                           | **Description**                                                                  |
-| ---------------------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>           | <code>boolean</code>               | True when we are still preparing, false if we're rendering the final output.     |
-| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                   | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                              |
-| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code> | <code>boolean</code>               | True when ${} should be ommitted (because already inside them), false otherwise. |
+| **Name**                                                                                   | **Type**                           | **Description**                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>             | <code>boolean</code>               | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                     | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">iteratorContext</a></code> | <code>string</code>                | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code>   | <code>boolean</code>               | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
 ---
 
@@ -26147,6 +26500,18 @@ public readonly scope: IConstruct;
 - _Type:_ constructs.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `iteratorContext`<sup>Optional</sup> <a name="iteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```typescript
+public readonly iteratorContext: string;
+```
+
+- _Type:_ string
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
 
 ---
 
