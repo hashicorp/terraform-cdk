@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import * as fs from "fs-extra";
 import path from "path";
 import * as pkgUp from "pkg-up";

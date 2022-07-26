@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 function extractJsonLogLineIfPresent(logLine: string): string {
   try {
     const extractedMessage = JSON.parse(logLine)["@message"];

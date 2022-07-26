@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/private/intrinsic.ts
 import { IResolvable, IResolveContext } from "../resolvable";
 import { Token } from "../token";

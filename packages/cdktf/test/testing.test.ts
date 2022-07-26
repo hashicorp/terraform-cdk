@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { TerraformStack, TerraformResource, Testing } from "../lib";
 
 import { Aspects } from "../lib/aspect";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference lib="dom" />
 

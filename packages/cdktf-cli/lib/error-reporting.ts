@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import * as Sentry from "@sentry/node";
 import { getProjectId, getUserId } from "./checkpoint";
 import { collectDebugInformation } from "./debug";

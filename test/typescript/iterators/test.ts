@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { TestDriver } from "../../test-helper";
 import * as path from "path";
 import * as fs from "fs";

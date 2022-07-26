@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 import * as yargs from "yargs";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Language } from "@cdktf/provider-generator";
 import { toPascalCase } from "codemaker";
 import { ProviderDependencySpec } from "../cdktf-config";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import yargs from "yargs";
 
 export abstract class BaseCommand implements yargs.CommandModule {

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { ITerraformIterator } from "./terraform-iterator";
 import { IResolvable, IResolveContext, Lazy, Token } from "./tokens";

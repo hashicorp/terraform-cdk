@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Testing, TerraformStack } from "../lib";
 import * as b from "../lib/backends";
 import { TestResource } from "./helper";
