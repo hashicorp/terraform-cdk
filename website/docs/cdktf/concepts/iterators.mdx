@@ -61,9 +61,13 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 });
 ```
 
-## Using Iterators for list attributes
+## Using Iterators for List Attributes
 
-Besides using the iterator to create multiple resources at the top level, it is also possible to create a list of objects based on each item in the list and assign the result as a value to a property of a resource. The equivalent in native TypeScript code would be using `Array.map` and when using Terraform with HCL it would be using dynamic blocks. Use iterators for list attributes if the length of the list is not known before deploying, else use native functions that are available in your language, e.g. `Array.map` in TypeScript.
+You can also use iterators to create a list of objects based on each item in a list and assign the result as a value to a property of a resource. This is equivalent to using `Array.map` in TypeScript and using [dynamic blocks](/language/expressions/dynamic-blocks) in a Terraform HCL configuration. 
+
+Use iterators for list attributes if the length of the list is not known before deploying. Otherwise, use native functions that are available in your language (e.g., `Array.map` in TypeScript).
+
+The examples below use an iterator to create a team containing each member of an organization.
 
 <CodeTabs>
 
