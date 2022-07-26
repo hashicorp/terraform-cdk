@@ -12,6 +12,8 @@ import {
   containsMapToken,
 } from "./tokens/private/encoding";
 import { Tokenization } from "./tokens";
+import { TerraformDynamicBlock } from "./terraform-dynamic-block";
+import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 
 // vs. complex types).
 export type Mapper = (x: any) => any;
@@ -25,10 +27,31 @@ export const booleanToTerraform: Mapper = identity;
 export const anyToTerraform: Mapper = identity;
 export const numberToTerraform: Mapper = identity;
 
-export function listMapper(elementMapper: Mapper): Mapper {
+/**
+ * @param isBlockType blocks and lists of objects need to be handled different in Terraform
+ *                    but are represented exactly the same in generated bindings
+ *                    currently this is used to resolve TerraformDynamicBlocks if not within
+ *                    a block type (will be resolved to a for expression for those instead of
+ *                    a dynamic block)
+ */
+export function listMapper(
+  elementMapper: Mapper,
+  isBlockType?: boolean
+): Mapper {
   return (x: any) => {
     if (!canInspect(x)) {
       return x;
+    }
+
+    // replace dynamic expressions for block types so they can be detected and replaced properly by processDynamicAttributes()
+    // which also relocates them to dynamic.attributeName (something we can't do when resolving a value, put it somewhere else)
+    // if isBlockType is false, the TerraformDynamicExpression that is present will be resolved (it implements IResolvable) to a
+    // for expression directly (which can be used e.g. within Terraform functions or for attributes that are not of a block type)
+    if (
+      TerraformDynamicExpression.isTerraformDynamicExpression(x) &&
+      isBlockType
+    ) {
+      return TerraformDynamicBlock.fromDynamicExpression(x);
     }
 
     if (!Array.isArray(x)) {

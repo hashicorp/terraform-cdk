@@ -41,6 +41,10 @@
         "path": "concepts/functions"
       },
       {
+        "title": "Iterators",
+        "path": "concepts/iterators"
+      },
+      {
         "title": "Remote Backends",
         "path": "concepts/remote-backends"
       },
@@ -60,6 +64,7 @@
         "title": "Stacks",
         "path": "concepts/stacks"
       }
+      
     ]
   },
   { "title": "Examples and Guides", "path": "examples" },
@@ -75,6 +80,10 @@
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
+      },
+      {
+        "title": "Terraform Cloud",
+        "path": "create-and-deploy/terraform-cloud"
       },
       {
         "title": "Deployment Patterns",
@@ -143,6 +152,7 @@
         "title": "Overview",
         "path": "release"
       },
+      { "title": "Upgrading to Version 0.12", "path": "release/upgrade-guide-v0-12" },
       { "title": "Upgrading to Version 0.11", "path": "release/upgrade-guide-v0-11" },
       { "title": "Upgrading to Version 0.10", "path": "release/upgrade-guide-v0-10" },
       { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" },

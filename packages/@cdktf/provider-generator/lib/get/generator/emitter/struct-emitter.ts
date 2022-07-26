@@ -111,6 +111,19 @@ export class StructEmitter {
       }
     });
 
+    // fill the struct imports mapping before code generation so that imports can
+    // point to not yet generated struct files
+    for (let i = 0; i < structSplits.length; i++) {
+      const structFilename = `structs${i * STRUCT_SHARDING_THRESHOLD}.ts`;
+      const structs = structSplits[i];
+
+      // associate current structs batch with the file it will be written to
+      // to find it in subsequent files for importing
+      structs.forEach(
+        (struct) => (structImports[struct.name] = structFilename)
+      );
+    }
+
     const structPaths = [];
     for (let i = 0; i < structSplits.length; i++) {
       const structsToImport: Record<string, string[]> = {};
@@ -124,7 +137,7 @@ export class StructEmitter {
           const structTypeName = att.type.typeName;
           const fileToImport = structImports[structTypeName];
 
-          if (fileToImport) {
+          if (fileToImport && fileToImport !== structFilename) {
             const attTypeStruct = att.type.struct;
             if (!attTypeStruct)
               throw new Error(`${structTypeName} is not a struct`);
@@ -142,10 +155,6 @@ export class StructEmitter {
         });
       });
 
-      // associate current structs batch with the file it will be written to
-      // to find it in subsequent files for importing
-      structs.map((struct) => (structImports[struct.name] = structFilename));
-
       const namespacedFilePath = path.join(
         resource.structsFolderPath,
         structFilename
@@ -156,10 +165,9 @@ export class StructEmitter {
       this.code.line(`import * as cdktf from 'cdktf';`);
       Object.entries(structsToImport).forEach(([fileToImport, structs]) => {
         this.code.line(
-          `import { ${structs.join(",\n")} } from './${path.basename(
-            fileToImport,
-            ".ts"
-          )}'`
+          `import { ${[...new Set(structs)].join(
+            ",\n"
+          )} } from './${path.basename(fileToImport, ".ts")}'`
         );
       });
 

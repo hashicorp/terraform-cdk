@@ -346,3 +346,7 @@ Here are GitHub links that help this process:
 ## Reproducing Bugs on Windows
 
 A good way to tackle windows related things is to use an AWS EC2 instance running Windows. Here's a Terraform repo with a bit of guideline on how to connect via Remote Desktop or VS Code Remote SSH https://github.com/skorfmann/windows-test-machine
+
+## Documentation
+
+The markdown files containing the documentation for CDK for Terraform are in the [`/website`](./website) directory. Refer to the [website README](./website/README.md) for more information.

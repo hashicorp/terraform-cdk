@@ -22,7 +22,7 @@
     "express": "^4.17.2",
     "fs-extra": "^8.1.0",
     "jest": "^27.2.1",
-    "jsii-rosetta": "^1.53.0",
+    "jsii-rosetta": "^1.62.0",
     "node-pty": "0.10.0",
     "strip-ansi": "^6.0.0",
     "ts-jest": "^27.0.7",

@@ -2,7 +2,7 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
-import { ref } from "./tfExpression";
+import { Expression, ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 
@@ -51,6 +51,11 @@ export abstract class VariableType {
   }
 }
 
+export interface TerraformVariableValidationConfig {
+  readonly condition: Expression;
+  readonly errorMessage: string;
+}
+
 export interface TerraformVariableConfig {
   readonly default?: any;
   readonly description?: string;
@@ -86,6 +91,11 @@ export interface TerraformVariableConfig {
    * The nullable argument in a variable block controls whether the module caller may assign the value null to the variable.
    */
   readonly nullable?: boolean;
+
+  /**
+   * Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block
+   */
+  readonly validation?: TerraformVariableValidationConfig[];
 }
 
 export class TerraformVariable
@@ -97,6 +107,7 @@ export class TerraformVariable
   public readonly type?: string;
   public readonly sensitive?: boolean;
   public readonly nullable?: boolean;
+  private _validation?: TerraformVariableValidationConfig[];
 
   constructor(scope: Construct, id: string, config: TerraformVariableConfig) {
     super(scope, id, "var");
@@ -106,6 +117,7 @@ export class TerraformVariable
     this.type = config.type;
     this.sensitive = config.sensitive;
     this.nullable = config.nullable;
+    this._validation = config.validation;
   }
 
   public get stringValue(): string {
@@ -128,6 +140,18 @@ export class TerraformVariable
     return Token.asAny(this.interpolation());
   }
 
+  public get validation(): TerraformVariableValidationConfig[] | undefined {
+    return this._validation;
+  }
+
+  public addValidation(validation: TerraformVariableValidationConfig) {
+    if (!this._validation) {
+      this._validation = [];
+    }
+
+    this._validation.push(validation);
+  }
+
   private interpolation(): IResolvable {
     return ref(`var.${this.friendlyUniqueId}`, this.cdktfStack);
   }
@@ -139,6 +163,10 @@ export class TerraformVariable
       type: this.type,
       sensitive: this.sensitive,
       nullable: this.nullable,
+      validation: this.validation?.map((validation) => ({
+        error_message: validation.errorMessage,
+        condition: validation.condition,
+      })),
     };
   }
 

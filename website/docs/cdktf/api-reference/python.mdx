@@ -12513,27 +12513,31 @@ import cdktf
 cdktf.TerraformDataSource(
   scope: Construct,
   id: str,
+  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
+  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
 ```
 
-| **Name**                                                                                                                            | **Type**                                                                                                | **Description**   |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
+| **Name**                                                                                                                            | **Type**                                                                                                                                                                                                                             | **Description**   |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
 
 ---
 
@@ -12546,6 +12550,12 @@ cdktf.TerraformDataSource(
 ##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformDataSource.Initializer.parameter.id"></a>
 
 - _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformDataSource.Initializer.parameter.connection"></a>
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
 
 ---
 
@@ -12576,6 +12586,12 @@ cdktf.TerraformDataSource(
 ##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformDataSource.Initializer.parameter.provider"></a>
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformDataSource.Initializer.parameter.provisioners"></a>
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
 
 ---
 
@@ -13231,25 +13247,27 @@ import cdktf
 cdktf.TerraformHclModule(
   scope: Construct,
   id: str,
-  source: str,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
-  providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]] = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None,
+  source: str,
   version: str = None,
   variables: typing.Mapping[typing.Any] = None
 )
 ```
 
-| **Name**                                                                                        | **Type**                                                                                                                                                               | **Description**   |
-| ----------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>          | <code>constructs.Construct</code>                                                                                                                                      | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>                | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.source">source</a></code>        | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.forEach">for_each</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.providers">providers</a></code>  | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.version">version</a></code>      | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.variables">variables</a></code>  | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
+| **Name**                                                                                                                                            | **Type**                                                                                                                                                               | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>                                                              | <code>constructs.Construct</code>                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>                                                                    | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.variables">variables</a></code>                                                      | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
 
 ---
 
@@ -13260,12 +13278,6 @@ cdktf.TerraformHclModule(
 ---
 
 ##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformHclModule.Initializer.parameter.id"></a>
-
-- _Type:_ str
-
----
-
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModule.Initializer.parameter.source"></a>
 
 - _Type:_ str
 
@@ -13285,7 +13297,19 @@ cdktf.TerraformHclModule(
 
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModule.Initializer.parameter.providers"></a>
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformHclModule.Initializer.parameter.skipAssetCreationFromLocalModules"></a>
+
+- _Type:_ bool
+
+---
+
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModule.Initializer.parameter.source"></a>
+
+- _Type:_ str
 
 ---
 
@@ -13393,13 +13417,13 @@ def to_terraform() - > typing.Any
 
 ```python
 def add_provider(
-  provider: typing.Union[TerraformModuleProvider, TerraformProvider]
+  provider: typing.Union[TerraformProvider, TerraformModuleProvider]
 ) - > None
 ```
 
 ###### `provider`<sup>Required</sup> <a name="provider" id="cdktf.TerraformHclModule.addProvider.parameter.provider"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]
+- _Type:_ typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]
 
 ---
 
@@ -13552,18 +13576,19 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                          | **Type**                                                                                                                                                               | **Description**   |
-| ------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.property.node">node</a></code>                           | <code>constructs.Node</code>                                                                                                                                           | The tree node.    |
-| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.fqn">fqn</a></code>                             | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.source">source</a></code>                       | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.providers">providers</a></code>                 | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.version">version</a></code>                     | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">depends_on</a></code>                | <code>typing.List[str]</code>                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.forEach">for_each</a></code>                    | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.variables">variables</a></code>                 | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
+| **Name**                                                                                                                               | **Type**                                                                                                                                                               | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.property.node">node</a></code>                                                                | <code>constructs.Node</code>                                                                                                                                           | The tree node.    |
+| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">cdktf_stack</a></code>                                                   | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.fqn">fqn</a></code>                                                                  | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">friendly_unique_id</a></code>                                      | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[str]</code>                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.variables">variables</a></code>                                                      | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
 
 ---
 
@@ -13622,10 +13647,20 @@ source: str
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModule.property.providers"></a>
 
 ```python
-providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]]
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- _Type:_ bool
 
 ---
 
@@ -13953,23 +13988,25 @@ import cdktf
 cdktf.TerraformModule(
   scope: Construct,
   id: str,
-  source: str,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
-  providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]] = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None,
+  source: str,
   version: str = None
 )
 ```
 
-| **Name**                                                                                     | **Type**                                                                                                                                                               | **Description**   |
-| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.scope">scope</a></code>          | <code>constructs.Construct</code>                                                                                                                                      | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.id">id</a></code>                | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.source">source</a></code>        | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.forEach">for_each</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.providers">providers</a></code>  | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformModule.Initializer.parameter.version">version</a></code>      | <code>str</code>                                                                                                                                                       | _No description._ |
+| **Name**                                                                                                                                         | **Type**                                                                                                                                                               | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.scope">scope</a></code>                                                              | <code>constructs.Construct</code>                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.id">id</a></code>                                                                    | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.Initializer.parameter.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
 
 ---
 
@@ -13980,12 +14017,6 @@ cdktf.TerraformModule(
 ---
 
 ##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformModule.Initializer.parameter.id"></a>
-
-- _Type:_ str
-
----
-
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformModule.Initializer.parameter.source"></a>
 
 - _Type:_ str
 
@@ -14005,7 +14036,19 @@ cdktf.TerraformModule(
 
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformModule.Initializer.parameter.providers"></a>
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformModule.Initializer.parameter.skipAssetCreationFromLocalModules"></a>
+
+- _Type:_ bool
+
+---
+
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformModule.Initializer.parameter.source"></a>
+
+- _Type:_ str
 
 ---
 
@@ -14102,13 +14145,13 @@ def to_terraform() - > typing.Any
 
 ```python
 def add_provider(
-  provider: typing.Union[TerraformModuleProvider, TerraformProvider]
+  provider: typing.Union[TerraformProvider, TerraformModuleProvider]
 ) - > None
 ```
 
 ###### `provider`<sup>Required</sup> <a name="provider" id="cdktf.TerraformModule.addProvider.parameter.provider"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]
+- _Type:_ typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]
 
 ---
 
@@ -14184,17 +14227,18 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                       | **Type**                                                                                                                                                               | **Description**   |
-| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModule.property.node">node</a></code>                           | <code>constructs.Node</code>                                                                                                                                           | The tree node.    |
-| <code><a href="#cdktf.TerraformModule.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.fqn">fqn</a></code>                             | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.source">source</a></code>                       | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.providers">providers</a></code>                 | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.version">version</a></code>                     | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.dependsOn">depends_on</a></code>                | <code>typing.List[str]</code>                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.forEach">for_each</a></code>                    | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| **Name**                                                                                                                            | **Type**                                                                                                                                                               | **Description**   |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModule.property.node">node</a></code>                                                                | <code>constructs.Node</code>                                                                                                                                           | The tree node.    |
+| <code><a href="#cdktf.TerraformModule.property.cdktfStack">cdktf_stack</a></code>                                                   | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.fqn">fqn</a></code>                                                                  | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">friendly_unique_id</a></code>                                      | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[str]</code>                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
 
 ---
 
@@ -14253,10 +14297,20 @@ source: str
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformModule.property.providers"></a>
 
 ```python
-providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]]
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformModule.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- _Type:_ bool
 
 ---
 
@@ -15240,27 +15294,31 @@ import cdktf
 cdktf.TerraformResource(
   scope: Construct,
   id: str,
+  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
+  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
 ```
 
-| **Name**                                                                                                                          | **Type**                                                                                                | **Description**   |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
+| **Name**                                                                                                                          | **Type**                                                                                                                                                                                                                             | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
 
 ---
 
@@ -15273,6 +15331,12 @@ cdktf.TerraformResource(
 ##### `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.Initializer.parameter.id"></a>
 
 - _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.Initializer.parameter.connection"></a>
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
 
 ---
 
@@ -15303,6 +15367,12 @@ cdktf.TerraformResource(
 ##### `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResource.Initializer.parameter.provider"></a>
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.Initializer.parameter.provisioners"></a>
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
 
 ---
 
@@ -15594,20 +15664,22 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                             | **Type**                                                                                                | **Description**   |
-| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                               | <code>constructs.Node</code>                                                                            | The tree node.    |
-| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktf_stack</a></code>                                  | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                         | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                                 | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code>                     | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraform_meta_arguments</a></code>         | <code>typing.Mapping[typing.Any]</code>                                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[str]</code>                                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
+| **Name**                                                                                                             | **Type**                                                                                                                                                                                                                             | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                               | <code>constructs.Node</code>                                                                                                                                                                                                         | The tree node.    |
+| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktf_stack</a></code>                                  | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                                 | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code>                     | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraform_meta_arguments</a></code>         | <code>typing.Mapping[typing.Any]</code>                                                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[str]</code>                                                                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
 
 ---
 
@@ -15683,6 +15755,16 @@ terraform_generator_metadata: TerraformProviderGeneratorMetadata
 
 ---
 
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.property.connection"></a>
+
+```python
+connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+
+---
+
 ##### `count`<sup>Optional</sup> <a name="count" id="cdktf.TerraformResource.property.count"></a>
 
 ```python
@@ -15730,6 +15812,16 @@ provider: TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.property.provisioners"></a>
+
+```python
+provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+```
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
 
 ---
 
@@ -16040,19 +16132,21 @@ cdktf.TerraformVariable(
   description: str = None,
   nullable: bool = None,
   sensitive: bool = None,
-  type: str = None
+  type: str = None,
+  validation: typing.List[TerraformVariableValidationConfig] = None
 )
 ```
 
-| **Name**                                                                                          | **Type**                          | **Description**                                                                                                                   |
-| ------------------------------------------------------------------------------------------------- | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.scope">scope</a></code>             | <code>constructs.Construct</code> | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.id">id</a></code>                   | <code>str</code>                  | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.default">default</a></code>         | <code>typing.Any</code>           | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.description">description</a></code> | <code>str</code>                  | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.nullable">nullable</a></code>       | <code>bool</code>                 | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.sensitive">sensitive</a></code>     | <code>bool</code>                 | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.type">type</a></code>               | <code>str</code>                  | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+| **Name**                                                                                          | **Type**                                                                                                           | **Description**                                                                                                                              |
+| ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.scope">scope</a></code>             | <code>constructs.Construct</code>                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.id">id</a></code>                   | <code>str</code>                                                                                                   | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.default">default</a></code>         | <code>typing.Any</code>                                                                                            | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.description">description</a></code> | <code>str</code>                                                                                                   | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.nullable">nullable</a></code>       | <code>bool</code>                                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.sensitive">sensitive</a></code>     | <code>bool</code>                                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.type">type</a></code>               | <code>str</code>                                                                                                   | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.            |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.validation">validation</a></code>   | <code>typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
 
 ---
 
@@ -16122,6 +16216,14 @@ If both the type and default arguments are specified, the given default value mu
 
 ---
 
+##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariable.Initializer.parameter.validation"></a>
+
+- _Type:_ typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]
+
+Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+
+---
+
 #### Methods <a name="Methods" id="Methods"></a>
 
 | **Name**                                                                                             | **Description**                                                                   |
@@ -16132,6 +16234,7 @@ If both the type and default arguments are specified, the given default value mu
 | <code><a href="#cdktf.TerraformVariable.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
 | <code><a href="#cdktf.TerraformVariable.toMetadata">to_metadata</a></code>                           | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.toTerraform">to_terraform</a></code>                         | _No description._                                                                 |
+| <code><a href="#cdktf.TerraformVariable.addValidation">add_validation</a></code>                     | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.synthesizeAttributes">synthesize_attributes</a></code>       | _No description._                                                                 |
 
 ---
@@ -16203,6 +16306,27 @@ def to_metadata() - > typing.Any
 def to_terraform() - > typing.Any
 ```
 
+##### `add_validation` <a name="add_validation" id="cdktf.TerraformVariable.addValidation"></a>
+
+```python
+def add_validation(
+  condition: typing.Any,
+  error_message: str
+) - > None
+```
+
+###### `condition`<sup>Required</sup> <a name="condition" id="cdktf.TerraformVariable.addValidation.parameter.condition"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `error_message`<sup>Required</sup> <a name="error_message" id="cdktf.TerraformVariable.addValidation.parameter.errorMessage"></a>
+
+- _Type:_ str
+
+---
+
 ##### `synthesize_attributes` <a name="synthesize_attributes" id="cdktf.TerraformVariable.synthesizeAttributes"></a>
 
 ```python
@@ -16253,22 +16377,23 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                         | **Type**                                                        | **Description**   |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformVariable.property.node">node</a></code>                           | <code>constructs.Node</code>                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.fqn">fqn</a></code>                             | <code>str</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.booleanValue">boolean_value</a></code>          | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.listValue">list_value</a></code>                | <code>typing.List[str]</code>                                   | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.numberValue">number_value</a></code>            | <code>typing.Union[int, float]</code>                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.stringValue">string_value</a></code>            | <code>str</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.value">value</a></code>                         | <code>typing.Any</code>                                         | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.default">default</a></code>                     | <code>typing.Any</code>                                         | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.description">description</a></code>             | <code>str</code>                                                | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.nullable">nullable</a></code>                   | <code>bool</code>                                               | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.sensitive">sensitive</a></code>                 | <code>bool</code>                                               | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.type">type</a></code>                           | <code>str</code>                                                | _No description._ |
+| **Name**                                                                                         | **Type**                                                                                                           | **Description**   |
+| ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformVariable.property.node">node</a></code>                           | <code>constructs.Node</code>                                                                                       | The tree node.    |
+| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.fqn">fqn</a></code>                             | <code>str</code>                                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.booleanValue">boolean_value</a></code>          | <code><a href="#cdktf.IResolvable">IResolvable</a></code>                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.listValue">list_value</a></code>                | <code>typing.List[str]</code>                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.numberValue">number_value</a></code>            | <code>typing.Union[int, float]</code>                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.stringValue">string_value</a></code>            | <code>str</code>                                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.value">value</a></code>                         | <code>typing.Any</code>                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.default">default</a></code>                     | <code>typing.Any</code>                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.description">description</a></code>             | <code>str</code>                                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.nullable">nullable</a></code>                   | <code>bool</code>                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.sensitive">sensitive</a></code>                 | <code>bool</code>                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.type">type</a></code>                           | <code>str</code>                                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.validation">validation</a></code>               | <code>typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]</code> | _No description._ |
 
 ---
 
@@ -16411,6 +16536,16 @@ type: str
 ```
 
 - _Type:_ str
+
+---
+
+##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariable.property.validation"></a>
+
+```python
+validation: typing.List[TerraformVariableValidationConfig]
+```
+
+- _Type:_ typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]
 
 ---
 
@@ -22516,10 +22651,11 @@ unique_id: str
 import cdktf
 
 cdktf.TerraformHclModuleOptions(
-  source: str,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
-  providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]] = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None,
+  source: str,
   version: str = None,
   variables: typing.Mapping[typing.Any] = None
 )
@@ -22527,24 +22663,15 @@ cdktf.TerraformHclModuleOptions(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                  | **Type**                                                                                                                                                               | **Description**   |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>        | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">for_each</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>  | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>      | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>  | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
-
----
-
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
-
-```python
-source: str
-```
-
-- _Type:_ str
+| **Name**                                                                                                                                      | **Type**                                                                                                                                                               | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>                                                      | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
 
 ---
 
@@ -22571,10 +22698,30 @@ for_each: ITerraformIterator
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
 
 ```python
-providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]]
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- _Type:_ bool
+
+---
+
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+
+```python
+source: str
+```
+
+- _Type:_ str
 
 ---
 
@@ -22606,23 +22753,37 @@ variables: typing.Mapping[typing.Any]
 import cdktf
 
 cdktf.TerraformMetaArguments(
+  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
-  provider: TerraformProvider = None
+  provider: TerraformProvider = None,
+  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None
 )
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                               | **Type**                                                                                 | **Description**   |
-| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>          | <code>typing.Union[int, float]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">for_each</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                  | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>  | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>  | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>    | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                    | _No description._ |
+| **Name**                                                                                    | **Type**                                                                                                                                                                                                                             | **Description**   |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformMetaArguments.property.connection">connection</a></code>     | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>               | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">depends_on</a></code>      | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">for_each</a></code>          | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">provisioners</a></code> | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformMetaArguments.property.connection"></a>
+
+```python
+connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
 
 ---
 
@@ -22676,6 +22837,16 @@ provider: TerraformProvider
 
 ---
 
+##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformMetaArguments.property.provisioners"></a>
+
+```python
+provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+```
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+
+---
+
 ### TerraformModuleOptions <a name="TerraformModuleOptions" id="cdktf.TerraformModuleOptions"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.TerraformModuleOptions.Initializer"></a>
@@ -22684,33 +22855,25 @@ provider: TerraformProvider
 import cdktf
 
 cdktf.TerraformModuleOptions(
-  source: str,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
-  providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]] = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None,
+  source: str,
   version: str = None
 )
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                               | **Type**                                                                                                                                                               | **Description**   |
-| -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModuleOptions.property.source">source</a></code>        | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">for_each</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.providers">providers</a></code>  | <code>typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.version">version</a></code>      | <code>str</code>                                                                                                                                                       | _No description._ |
-
----
-
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformModuleOptions.property.source"></a>
-
-```python
-source: str
-```
-
-- _Type:_ str
+| **Name**                                                                                                                                   | **Type**                                                                                                                                                               | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
 
 ---
 
@@ -22737,10 +22900,30 @@ for_each: ITerraformIterator
 ##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformModuleOptions.property.providers"></a>
 
 ```python
-providers: typing.List[typing.Union[TerraformModuleProvider, TerraformProvider]]
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>, <a href="#cdktf.TerraformProvider">TerraformProvider</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- _Type:_ bool
+
+---
+
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformModuleOptions.property.source"></a>
+
+```python
+source: str
+```
+
+- _Type:_ str
 
 ---
 
@@ -22793,6 +22976,72 @@ provider: TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### TerraformModuleUserOptions <a name="TerraformModuleUserOptions" id="cdktf.TerraformModuleUserOptions"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformModuleUserOptions.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformModuleUserOptions(
+  depends_on: typing.List[ITerraformDependable] = None,
+  for_each: ITerraformIterator = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                                                       | **Type**                                                                                                                                                               | **Description**   |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+
+---
+
+##### `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.TerraformModuleUserOptions.property.dependsOn"></a>
+
+```python
+depends_on: typing.List[ITerraformDependable]
+```
+
+- _Type:_ typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]
+
+---
+
+##### `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.TerraformModuleUserOptions.property.forEach"></a>
+
+```python
+for_each: ITerraformIterator
+```
+
+- _Type:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformModuleUserOptions.property.providers"></a>
+
+```python
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
+```
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- _Type:_ bool
 
 ---
 
@@ -22993,11 +23242,13 @@ provider_version_constraint: str
 import cdktf
 
 cdktf.TerraformResourceConfig(
+  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
+  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
@@ -23005,15 +23256,27 @@ cdktf.TerraformResourceConfig(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                   | **Type**                                                                                                | **Description**   |
-| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
+| **Name**                                                                                                                   | **Type**                                                                                                                                                                                                                             | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResourceConfig.property.connection"></a>
+
+```python
+connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
 
 ---
 
@@ -23064,6 +23327,16 @@ provider: TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResourceConfig.property.provisioners"></a>
+
+```python
+provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+```
+
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
 
 ---
 
@@ -23207,19 +23480,21 @@ cdktf.TerraformVariableConfig(
   description: str = None,
   nullable: bool = None,
   sensitive: bool = None,
-  type: str = None
+  type: str = None,
+  validation: typing.List[TerraformVariableValidationConfig] = None
 )
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**                | **Description**                                                                                                                   |
-| ------------------------------------------------------------------------------------------ | ----------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code>         | <code>typing.Any</code> | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>str</code>        | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code>       | <code>bool</code>       | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code>     | <code>bool</code>       | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code>               | <code>str</code>        | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+| **Name**                                                                                   | **Type**                                                                                                           | **Description**                                                                                                                              |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code>         | <code>typing.Any</code>                                                                                            | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>str</code>                                                                                                   | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code>       | <code>bool</code>                                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code>     | <code>bool</code>                                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code>               | <code>str</code>                                                                                                   | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.validation">validation</a></code>   | <code>typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
 
 ---
 
@@ -23294,6 +23569,60 @@ The type constructors allow you to specify complex types such as collections:
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
 If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+
+---
+
+##### `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>
+
+```python
+validation: typing.List[TerraformVariableValidationConfig]
+```
+
+- _Type:_ typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]
+
+Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+
+---
+
+### TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformVariableValidationConfig(
+  condition: typing.Any,
+  error_message: str
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                | **Type**                | **Description**   |
+| ------------------------------------------------------------------------------------------------------- | ----------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.condition">condition</a></code>        | <code>typing.Any</code> | _No description._ |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.errorMessage">error_message</a></code> | <code>str</code>        | _No description._ |
+
+---
+
+##### `condition`<sup>Required</sup> <a name="condition" id="cdktf.TerraformVariableValidationConfig.property.condition"></a>
+
+```python
+condition: typing.Any
+```
+
+- _Type:_ typing.Any
+
+---
+
+##### `error_message`<sup>Required</sup> <a name="error_message" id="cdktf.TerraformVariableValidationConfig.property.errorMessage"></a>
+
+```python
+error_message: str
+```
+
+- _Type:_ str
 
 ---
 
@@ -23827,6 +24156,67 @@ all: typing.List[IAspect]
 - _Type:_ typing.List[<a href="#cdktf.IAspect">IAspect</a>]
 
 The list of aspects which were directly applied on this scope.
+
+---
+
+### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
+
+```python
+from cdktf import testing_matchers
+
+testingMatchers.AssertionReturn(
+  message: str,
+  pass: bool
+)
+```
+
+| **Name**                                                                                                | **Type**          | **Description**   |
+| ------------------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>str</code>  | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+
+---
+
+##### `message`<sup>Required</sup> <a name="message" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message"></a>
+
+- _Type:_ str
+
+---
+
+##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
+
+- _Type:_ bool
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                   | **Type**          | **Description**   |
+| ------------------------------------------------------------------------------------------ | ----------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>str</code>  | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+
+---
+
+##### `message`<sup>Required</sup> <a name="message" id="cdktf.testingMatchers.AssertionReturn.property.message"></a>
+
+```python
+message: str
+```
+
+- _Type:_ str
+
+---
+
+##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
+
+```python
+pass: bool
+```
+
+- _Type:_ bool
 
 ---
 
@@ -25127,7 +25517,8 @@ cdktf.Fn()
 | <code><a href="#cdktf.Fn.matchkeys">matchkeys</a></code>               | {@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.                                                                             |
 | <code><a href="#cdktf.Fn.max">max</a></code>                           | {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.                                                                                                                                                             |
 | <code><a href="#cdktf.Fn.md5">md5</a></code>                           | {@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.                                                                                                                                                     |
-| <code><a href="#cdktf.Fn.merge">merge</a></code>                       | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
+| <code><a href="#cdktf.Fn.mergeLists">merge_lists</a></code>            | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
+| <code><a href="#cdktf.Fn.mergeMaps">merge_maps</a></code>              | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
 | <code><a href="#cdktf.Fn.min">min</a></code>                           | {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.                                                                                                                                                             |
 | <code><a href="#cdktf.Fn.nonsensitive">nonsensitive</a></code>         | {@link https://www.terraform.io/docs/language/functions/nonsensitive.html nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.                                                                                |
 | <code><a href="#cdktf.Fn.one">one</a></code>                           | {@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements.                                                                                                                                                                 |
@@ -25604,6 +25995,8 @@ cdktf.Fn.coalescelist(
 ###### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.coalescelist.parameter.value"></a>
 
 - _Type:_ typing.List[typing.List[typing.Any]]
+
+Arguments are passed in an array.
 
 ---
 
@@ -26335,21 +26728,43 @@ cdktf.Fn.md5(
 
 ---
 
-##### `merge` <a name="merge" id="cdktf.Fn.merge"></a>
+##### `merge_lists` <a name="merge_lists" id="cdktf.Fn.mergeLists"></a>
 
 ```python
 import cdktf
 
-cdktf.Fn.merge(
+cdktf.Fn.merge_lists(
   values: typing.List[typing.Any]
 )
 ```
 
 {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
 
-###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.merge.parameter.values"></a>
+###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeLists.parameter.values"></a>
 
 - _Type:_ typing.List[typing.Any]
+
+Arguments are passed in an array.
+
+---
+
+##### `merge_maps` <a name="merge_maps" id="cdktf.Fn.mergeMaps"></a>
+
+```python
+import cdktf
+
+cdktf.Fn.merge_maps(
+  values: typing.List[typing.Any]
+)
+```
+
+{@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+
+###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeMaps.parameter.values"></a>
+
+- _Type:_ typing.List[typing.Any]
+
+Arguments are passed in an array.
 
 ---
 
@@ -27748,19 +28163,19 @@ If this returns an empty array the stack will not be attached.
 import cdktf
 
 cdktf.ListTerraformIterator(
-  list: typing.Union[IResolvable, ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, IResolvable]]]
+  list: typing.Union[typing.List[str], IResolvable, typing.List[typing.Union[int, float]], ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[typing.Union[bool, IResolvable]]]
 )
 ```
 
 | **Name**                                                                                | **Type**                                                                                                                                                                                                                                                                                                                                                                                                                                                          | **Description**   |
 | --------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.ListTerraformIterator.Initializer.parameter.list">list</a></code> | <code>typing.Union[<a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]</code> | _No description._ |
+| <code><a href="#cdktf.ListTerraformIterator.Initializer.parameter.list">list</a></code> | <code>typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]</code> | _No description._ |
 
 ---
 
 ##### `list`<sup>Required</sup> <a name="list" id="cdktf.ListTerraformIterator.Initializer.parameter.list"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
+- _Type:_ typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
 
 ---
 
@@ -27768,6 +28183,7 @@ cdktf.ListTerraformIterator(
 
 | **Name**                                                                              | **Description**   |
 | ------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ListTerraformIterator.dynamic">dynamic</a></code>               | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAny">get_any</a></code>                | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAnyMap">get_any_map</a></code>         | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getBoolean">get_boolean</a></code>        | _No description._ |
@@ -27779,6 +28195,20 @@ cdktf.ListTerraformIterator(
 | <code><a href="#cdktf.ListTerraformIterator.getNumberMap">get_number_map</a></code>   | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getString">get_string</a></code>          | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getStringMap">get_string_map</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.ListTerraformIterator.dynamic"></a>
+
+```python
+def dynamic(
+  attributes: typing.Mapping[typing.Any]
+) - > IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ListTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
 
 ---
 
@@ -27973,7 +28403,7 @@ name of the property to retrieve.
 import cdktf
 
 cdktf.ListTerraformIterator.from_list(
-  list: typing.Union[IResolvable, ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, IResolvable]]]
+  list: typing.Union[typing.List[str], IResolvable, typing.List[typing.Union[int, float]], ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[typing.Union[bool, IResolvable]]]
 )
 ```
 
@@ -27981,7 +28411,7 @@ Creates a new iterator from a list.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.ListTerraformIterator.fromList.parameter.list"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
+- _Type:_ typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
 
 ---
 
@@ -28218,6 +28648,7 @@ cdktf.MapTerraformIterator(
 
 | **Name**                                                                             | **Description**   |
 | ------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.MapTerraformIterator.dynamic">dynamic</a></code>               | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAny">get_any</a></code>                | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAnyMap">get_any_map</a></code>         | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getBoolean">get_boolean</a></code>        | _No description._ |
@@ -28229,6 +28660,20 @@ cdktf.MapTerraformIterator(
 | <code><a href="#cdktf.MapTerraformIterator.getNumberMap">get_number_map</a></code>   | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getString">get_string</a></code>          | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getStringMap">get_string_map</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.MapTerraformIterator.dynamic"></a>
+
+```python
+def dynamic(
+  attributes: typing.Mapping[typing.Any]
+) - > IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.MapTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
 
 ---
 
@@ -28423,7 +28868,7 @@ name of the property to retrieve.
 import cdktf
 
 cdktf.MapTerraformIterator.from_list(
-  list: typing.Union[IResolvable, ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, IResolvable]]]
+  list: typing.Union[typing.List[str], IResolvable, typing.List[typing.Union[int, float]], ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[typing.Union[bool, IResolvable]]]
 )
 ```
 
@@ -28431,7 +28876,7 @@ Creates a new iterator from a list.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.MapTerraformIterator.fromList.parameter.list"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
+- _Type:_ typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
 
 ---
 
@@ -29189,6 +29634,7 @@ cdktf.TerraformIterator()
 
 | **Name**                                                                          | **Description**   |
 | --------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformIterator.dynamic">dynamic</a></code>               | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAny">get_any</a></code>                | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAnyMap">get_any_map</a></code>         | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getBoolean">get_boolean</a></code>        | _No description._ |
@@ -29200,6 +29646,20 @@ cdktf.TerraformIterator()
 | <code><a href="#cdktf.TerraformIterator.getNumberMap">get_number_map</a></code>   | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getString">get_string</a></code>          | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getStringMap">get_string_map</a></code>   | _No description._ |
+
+---
+
+##### `dynamic` <a name="dynamic" id="cdktf.TerraformIterator.dynamic"></a>
+
+```python
+def dynamic(
+  attributes: typing.Mapping[typing.Any]
+) - > IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.TerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
 
 ---
 
@@ -29394,7 +29854,7 @@ name of the property to retrieve.
 import cdktf
 
 cdktf.TerraformIterator.from_list(
-  list: typing.Union[IResolvable, ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, IResolvable]]]
+  list: typing.Union[typing.List[str], IResolvable, typing.List[typing.Union[int, float]], ComplexList, StringMapList, NumberMapList, BooleanMapList, AnyMapList, typing.List[typing.Union[bool, IResolvable]]]
 )
 ```
 
@@ -29402,7 +29862,7 @@ Creates a new iterator from a list.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.TerraformIterator.fromList.parameter.list"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[str], typing.List[typing.Union[int, float]], typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
+- _Type:_ typing.Union[typing.List[str], <a href="#cdktf.IResolvable">IResolvable</a>, typing.List[typing.Union[int, float]], <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, typing.List[typing.Union[bool, <a href="#cdktf.IResolvable">IResolvable</a>]]]
 
 ---
 
@@ -29424,23 +29884,132 @@ Creates a new iterator from a map.
 
 ---
 
+### TerraformSelf <a name="TerraformSelf" id="cdktf.TerraformSelf"></a>
+
+Expressions in connection blocks cannot refer to their parent resource by name.
+
+References create dependencies, and referring to a resource by name within its own block would create a dependency cycle.
+Instead, expressions can use the self object, which represents the connection's parent resource and has all of that resource's attributes.
+For example, use self.public_ip to reference an aws_instance's public_ip attribute.
+
+#### Initializers <a name="Initializers" id="cdktf.TerraformSelf.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformSelf()
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                             | **Description**                                                                     |
+| -------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformSelf.getAny">get_any</a></code>       | Only usable within a connection block to reference the connections parent resource. |
+| <code><a href="#cdktf.TerraformSelf.getNumber">get_number</a></code> | Only usable within a connection block to reference the connections parent resource. |
+| <code><a href="#cdktf.TerraformSelf.getString">get_string</a></code> | Only usable within a connection block to reference the connections parent resource. |
+
+---
+
+##### `get_any` <a name="get_any" id="cdktf.TerraformSelf.getAny"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformSelf.get_any(
+  key: str
+)
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getAny("hostPort")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getAny.parameter.key"></a>
+
+- _Type:_ str
+
+---
+
+##### `get_number` <a name="get_number" id="cdktf.TerraformSelf.getNumber"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformSelf.get_number(
+  key: str
+)
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getNumber("hostPort")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getNumber.parameter.key"></a>
+
+- _Type:_ str
+
+---
+
+##### `get_string` <a name="get_string" id="cdktf.TerraformSelf.getString"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformSelf.get_string(
+  key: str
+)
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getString("publicIp")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getString.parameter.key"></a>
+
+- _Type:_ str
+
+---
+
 ### Testing <a name="Testing" id="cdktf.Testing"></a>
 
 Testing utilities for cdktf applications.
 
+#### Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.Testing()
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                            | **Description**                                                                             |
-| ----------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.Testing.app">app</a></code>                                   | Returns an app for testing with the following properties: - Output directory is a temp dir. |
-| <code><a href="#cdktf.Testing.enableFutureFlags">enable_future_flags</a></code>     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">fake_cdktf_json_path</a></code>    | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fullSynth">full_synth</a></code>                      | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.renderConstructTree">render_construct_tree</a></code> | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.setupJest">setup_jest</a></code>                      | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.stubVersion">stub_version</a></code>                  | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.synth">synth</a></code>                               | Returns the Terraform synthesized JSON.                                                     |
-| <code><a href="#cdktf.Testing.synthScope">synth_scope</a></code>                    | _No description._                                                                           |
+| **Name**                                                                                                     | **Description**                                                                             |
+| ------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.Testing.app">app</a></code>                                                            | Returns an app for testing with the following properties: - Output directory is a temp dir. |
+| <code><a href="#cdktf.Testing.enableFutureFlags">enable_future_flags</a></code>                              | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">fake_cdktf_json_path</a></code>                             | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fullSynth">full_synth</a></code>                                               | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.renderConstructTree">render_construct_tree</a></code>                          | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.setupJest">setup_jest</a></code>                                               | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.stubVersion">stub_version</a></code>                                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.synth">synth</a></code>                                                        | Returns the Terraform synthesized JSON.                                                     |
+| <code><a href="#cdktf.Testing.synthScope">synth_scope</a></code>                                             | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toBeValidTerraform">to_be_valid_terraform</a></code>                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSource">to_have_data_source</a></code>                               | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">to_have_data_source_with_properties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResource">to_have_resource</a></code>                                    | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResourceWithProperties">to_have_resource_with_properties</a></code>      | _No description._                                                                           |
 
 ---
 
@@ -29609,6 +30178,128 @@ cdktf.Testing.synth_scope(
 ###### `fn`<sup>Required</sup> <a name="fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
 
 - _Type:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+---
+
+##### `to_be_valid_terraform` <a name="to_be_valid_terraform" id="cdktf.Testing.toBeValidTerraform"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_be_valid_terraform(
+  received: str
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+##### `to_have_data_source` <a name="to_have_data_source" id="cdktf.Testing.toHaveDataSource"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_data_source(
+  received: str,
+  resource_type: str
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+##### `to_have_data_source_with_properties` <a name="to_have_data_source_with_properties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_data_source_with_properties(
+  received: str,
+  resource_type: str,
+  properties: typing.Mapping[typing.Any] = None
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
+##### `to_have_resource` <a name="to_have_resource" id="cdktf.Testing.toHaveResource"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_resource(
+  received: str,
+  resource_type: str
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+##### `to_have_resource_with_properties` <a name="to_have_resource_with_properties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_resource_with_properties(
+  received: str,
+  resource_type: str,
+  properties: typing.Mapping[typing.Any] = None
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
 
 ---
 
@@ -30775,6 +31466,96 @@ All aspects can visit an IConstruct.
 
 ---
 
+### IFileProvisioner <a name="IFileProvisioner" id="cdktf.IFileProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.IFileProvisioner">IFileProvisioner</a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                            | **Type**                                                                                                                                                                          | **Description**                                                                                                                                  |
+| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IFileProvisioner.property.destination">destination</a></code> | <code>str</code>                                                                                                                                                                  | The source file or directory.                                                                                                                    |
+| <code><a href="#cdktf.IFileProvisioner.property.type">type</a></code>               | <code>str</code>                                                                                                                                                                  | _No description._                                                                                                                                |
+| <code><a href="#cdktf.IFileProvisioner.property.connection">connection</a></code>   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.IFileProvisioner.property.content">content</a></code>         | <code>str</code>                                                                                                                                                                  | The destination path to write to on the remote system.                                                                                           |
+| <code><a href="#cdktf.IFileProvisioner.property.source">source</a></code>           | <code>str</code>                                                                                                                                                                  | The direct content to copy on the destination.                                                                                                   |
+
+---
+
+##### `destination`<sup>Required</sup> <a name="destination" id="cdktf.IFileProvisioner.property.destination"></a>
+
+```python
+destination: str
+```
+
+- _Type:_ str
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.IFileProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IFileProvisioner.property.connection"></a>
+
+```python
+connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+##### `content`<sup>Optional</sup> <a name="content" id="cdktf.IFileProvisioner.property.content"></a>
+
+```python
+content: str
+```
+
+- _Type:_ str
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+##### `source`<sup>Optional</sup> <a name="source" id="cdktf.IFileProvisioner.property.source"></a>
+
+```python
+source: str
+```
+
+- _Type:_ str
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---
+
 ### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
 
 - _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -30867,6 +31648,115 @@ Produce the list value.
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### ILocalExecProvisioner <a name="ILocalExecProvisioner" id="cdktf.ILocalExecProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>
+
+The local-exec provisioner invokes a local executable after a resource is created.
+
+This invokes a process on the machine running Terraform, not on the resource.
+
+See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                 | **Type**                         | **Description**                                                                   |
+| ---------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.command">command</a></code>         | <code>str</code>                 | This is the command to execute.                                                   |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.type">type</a></code>               | <code>str</code>                 | _No description._                                                                 |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.environment">environment</a></code> | <code>typing.Mapping[str]</code> | A record of key value pairs representing the environment of the executed command. |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>typing.List[str]</code>    | If provided, this is a list of interpreter arguments used to execute the command. |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.when">when</a></code>               | <code>str</code>                 | If provided, specifies when Terraform will execute the command.                   |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.workingDir">working_dir</a></code>  | <code>str</code>                 | If provided, specifies the working directory where command will be executed.      |
+
+---
+
+##### `command`<sup>Required</sup> <a name="command" id="cdktf.ILocalExecProvisioner.property.command"></a>
+
+```python
+command: str
+```
+
+- _Type:_ str
+
+This is the command to execute.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+It is evaluated in a shell, and can use environment variables or Terraform variables.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.ILocalExecProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="cdktf.ILocalExecProvisioner.property.environment"></a>
+
+```python
+environment: typing.Mapping[str]
+```
+
+- _Type:_ typing.Mapping[str]
+
+A record of key value pairs representing the environment of the executed command.
+
+It inherits the current process environment.
+
+---
+
+##### `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.ILocalExecProvisioner.property.interpreter"></a>
+
+```python
+interpreter: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+If provided, this is a list of interpreter arguments used to execute the command.
+
+The first argument is the interpreter itself.
+It can be provided as a relative path to the current working directory or as an absolute path
+The remaining arguments are appended prior to the command.
+This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+
+---
+
+##### `when`<sup>Optional</sup> <a name="when" id="cdktf.ILocalExecProvisioner.property.when"></a>
+
+```python
+when: str
+```
+
+- _Type:_ str
+
+If provided, specifies when Terraform will execute the command.
+
+For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+
+---
+
+##### `working_dir`<sup>Optional</sup> <a name="working_dir" id="cdktf.ILocalExecProvisioner.property.workingDir"></a>
+
+```python
+working_dir: str
+```
+
+- _Type:_ str
+
+If provided, specifies the working directory where command will be executed.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+The directory must exist.
 
 ---
 
@@ -30967,6 +31857,97 @@ Process the completely resolved value, after full recursion/resolution has happe
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IRemoteExecProvisioner <a name="IRemoteExecProvisioner" id="cdktf.IRemoteExecProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>
+
+The remote-exec provisioner invokes a script on a remote resource after it is created.
+
+This can be used to run a configuration management tool, bootstrap into a cluster, etc
+The remote-exec provisioner requires a connection and supports both ssh and winrm.
+
+See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                                                                                                                                                                          | **Description**                                                                                                                                  |
+| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.type">type</a></code>             | <code>str</code>                                                                                                                                                                  | _No description._                                                                                                                                |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.connection">connection</a></code> | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.inline">inline</a></code>         | <code>typing.List[str]</code>                                                                                                                                                     | This is a list of command strings.                                                                                                               |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.script">script</a></code>         | <code>str</code>                                                                                                                                                                  | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.scripts">scripts</a></code>       | <code>typing.List[str]</code>                                                                                                                                                     | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.IRemoteExecProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IRemoteExecProvisioner.property.connection"></a>
+
+```python
+connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+A connection must be provided here or in the parent resource.
+
+---
+
+##### `inline`<sup>Optional</sup> <a name="inline" id="cdktf.IRemoteExecProvisioner.property.inline"></a>
+
+```python
+inline: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+This is a list of command strings.
+
+They are executed in the order they are provided.
+This cannot be provided with script or scripts.
+
+---
+
+##### `script`<sup>Optional</sup> <a name="script" id="cdktf.IRemoteExecProvisioner.property.script"></a>
+
+```python
+script: str
+```
+
+- _Type:_ str
+
+This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
+
+This cannot be provided with inline or scripts.
+
+---
+
+##### `scripts`<sup>Optional</sup> <a name="scripts" id="cdktf.IRemoteExecProvisioner.property.scripts"></a>
+
+```python
+scripts: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
+
+They are executed in the order they are provided.
+This cannot be provided with inline or script.
 
 ---
 
@@ -31088,11 +32069,12 @@ Resolve an inner object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                  | **Type**                           | **Description**                                                                  |
-| ----------------------------------------------------------------------------------------- | ---------------------------------- | -------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>            | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.     |
-| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                    | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                              |
-| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code> | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise. |
+| **Name**                                                                                    | **Type**                           | **Description**                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>              | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                      | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code>                   | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
 ---
 
@@ -31117,6 +32099,18 @@ scope: IConstruct
 - _Type:_ constructs.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `iterator_context`<sup>Optional</sup> <a name="iterator_context" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```python
+iterator_context: str
+```
+
+- _Type:_ str
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
 
 ---
 
@@ -31178,6 +32172,383 @@ The stack in which this resource is defined.
 ### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
 
 - _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+### ISSHProvisionerConnection <a name="ISSHProvisionerConnection" id="cdktf.ISSHProvisionerConnection"></a>
+
+- _Implemented By:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                    | **Type**                              | **Description**                                                                                         |
+| ----------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.host">host</a></code>                              | <code>str</code>                      | The address of the resource to connect to.                                                              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.type">type</a></code>                              | <code>str</code>                      | The connection type.                                                                                    |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.agent">agent</a></code>                            | <code>str</code>                      | Set to false to disable using ssh-agent to authenticate.                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.agentIdentity">agent_identity</a></code>           | <code>str</code>                      | The preferred identity from the ssh agent for authentication.                                           |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionCertificate">bastion_certificate</a></code> | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHost">bastion_host</a></code>               | <code>str</code>                      | Setting this enables the bastion Host connection.                                                       |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHostKey">bastion_host_key</a></code>        | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the host connection.              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPassword">bastion_password</a></code>       | <code>str</code>                      | The password to use for the bastion host.                                                               |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPort">bastion_port</a></code>               | <code>typing.Union[int, float]</code> | The port to use connect to the bastion host.                                                            |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPrivateKey">bastion_private_key</a></code>  | <code>str</code>                      | The contents of an SSH key file to use for the bastion host.                                            |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionUser">bastion_user</a></code>               | <code>str</code>                      | The user for the connection to the bastion host.                                                        |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.certificate">certificate</a></code>                | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.hostKey">host_key</a></code>                       | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the connection.                   |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.password">password</a></code>                      | <code>str</code>                      | The password to use for the connection.                                                                 |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.port">port</a></code>                              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                 |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.privateKey">private_key</a></code>                 | <code>str</code>                      | The contents of an SSH key to use for the connection.                                                   |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyHost">proxy_host</a></code>                   | <code>str</code>                      | Setting this enables the SSH over HTTP connection.                                                      |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyPort">proxy_port</a></code>                   | <code>typing.Union[int, float]</code> | The port to use connect to the proxy host.                                                              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyScheme">proxy_scheme</a></code>               | <code>str</code>                      | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserName">proxy_user_name</a></code>          | <code>str</code>                      | The username to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserPassword">proxy_user_password</a></code>  | <code>str</code>                      | The password to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.scriptPath">script_path</a></code>                 | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                               |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.targetPlatform">target_platform</a></code>         | <code>str</code>                      | The target platform to connect to.                                                                      |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.timeout">timeout</a></code>                        | <code>str</code>                      | The timeout to wait for the connection to become available.                                             |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.user">user</a></code>                              | <code>str</code>                      | The user to use for the connection.                                                                     |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.ISSHProvisionerConnection.property.host"></a>
+
+```python
+host: str
+```
+
+- _Type:_ str
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.ISSHProvisionerConnection.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `agent`<sup>Optional</sup> <a name="agent" id="cdktf.ISSHProvisionerConnection.property.agent"></a>
+
+```python
+agent: str
+```
+
+- _Type:_ str
+
+Set to false to disable using ssh-agent to authenticate.
+
+On Windows the only supported SSH authentication agent is Pageant.
+
+---
+
+##### `agent_identity`<sup>Optional</sup> <a name="agent_identity" id="cdktf.ISSHProvisionerConnection.property.agentIdentity"></a>
+
+```python
+agent_identity: str
+```
+
+- _Type:_ str
+
+The preferred identity from the ssh agent for authentication.
+
+---
+
+##### `bastion_certificate`<sup>Optional</sup> <a name="bastion_certificate" id="cdktf.ISSHProvisionerConnection.property.bastionCertificate"></a>
+
+```python
+bastion_certificate: str
+```
+
+- _Type:_ str
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a bastion_private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `bastion_host`<sup>Optional</sup> <a name="bastion_host" id="cdktf.ISSHProvisionerConnection.property.bastionHost"></a>
+
+```python
+bastion_host: str
+```
+
+- _Type:_ str
+
+Setting this enables the bastion Host connection.
+
+The provisioner will connect to bastion_host first, and then connect from there to host.
+
+---
+
+##### `bastion_host_key`<sup>Optional</sup> <a name="bastion_host_key" id="cdktf.ISSHProvisionerConnection.property.bastionHostKey"></a>
+
+```python
+bastion_host_key: str
+```
+
+- _Type:_ str
+
+The public key from the remote host or the signing CA, used to verify the host connection.
+
+---
+
+##### `bastion_password`<sup>Optional</sup> <a name="bastion_password" id="cdktf.ISSHProvisionerConnection.property.bastionPassword"></a>
+
+```python
+bastion_password: str
+```
+
+- _Type:_ str
+
+The password to use for the bastion host.
+
+---
+
+##### `bastion_port`<sup>Optional</sup> <a name="bastion_port" id="cdktf.ISSHProvisionerConnection.property.bastionPort"></a>
+
+```python
+bastion_port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+
+The port to use connect to the bastion host.
+
+---
+
+##### `bastion_private_key`<sup>Optional</sup> <a name="bastion_private_key" id="cdktf.ISSHProvisionerConnection.property.bastionPrivateKey"></a>
+
+```python
+bastion_private_key: str
+```
+
+- _Type:_ str
+
+The contents of an SSH key file to use for the bastion host.
+
+These can be loaded from a file on disk using the file function.
+
+---
+
+##### `bastion_user`<sup>Optional</sup> <a name="bastion_user" id="cdktf.ISSHProvisionerConnection.property.bastionUser"></a>
+
+```python
+bastion_user: str
+```
+
+- _Type:_ str
+
+The user for the connection to the bastion host.
+
+---
+
+##### `certificate`<sup>Optional</sup> <a name="certificate" id="cdktf.ISSHProvisionerConnection.property.certificate"></a>
+
+```python
+certificate: str
+```
+
+- _Type:_ str
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `host_key`<sup>Optional</sup> <a name="host_key" id="cdktf.ISSHProvisionerConnection.property.hostKey"></a>
+
+```python
+host_key: str
+```
+
+- _Type:_ str
+
+The public key from the remote host or the signing CA, used to verify the connection.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.ISSHProvisionerConnection.property.password"></a>
+
+```python
+password: str
+```
+
+- _Type:_ str
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.ISSHProvisionerConnection.property.port"></a>
+
+```python
+port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `private_key`<sup>Optional</sup> <a name="private_key" id="cdktf.ISSHProvisionerConnection.property.privateKey"></a>
+
+```python
+private_key: str
+```
+
+- _Type:_ str
+
+The contents of an SSH key to use for the connection.
+
+These can be loaded from a file on disk using the file function.
+This takes preference over password if provided.
+
+---
+
+##### `proxy_host`<sup>Optional</sup> <a name="proxy_host" id="cdktf.ISSHProvisionerConnection.property.proxyHost"></a>
+
+```python
+proxy_host: str
+```
+
+- _Type:_ str
+
+Setting this enables the SSH over HTTP connection.
+
+This host will be connected to first, and then the host or bastion_host connection will be made from there.
+
+---
+
+##### `proxy_port`<sup>Optional</sup> <a name="proxy_port" id="cdktf.ISSHProvisionerConnection.property.proxyPort"></a>
+
+```python
+proxy_port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+
+The port to use connect to the proxy host.
+
+---
+
+##### `proxy_scheme`<sup>Optional</sup> <a name="proxy_scheme" id="cdktf.ISSHProvisionerConnection.property.proxyScheme"></a>
+
+```python
+proxy_scheme: str
+```
+
+- _Type:_ str
+
+The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
+
+---
+
+##### `proxy_user_name`<sup>Optional</sup> <a name="proxy_user_name" id="cdktf.ISSHProvisionerConnection.property.proxyUserName"></a>
+
+```python
+proxy_user_name: str
+```
+
+- _Type:_ str
+
+The username to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `proxy_user_password`<sup>Optional</sup> <a name="proxy_user_password" id="cdktf.ISSHProvisionerConnection.property.proxyUserPassword"></a>
+
+```python
+proxy_user_password: str
+```
+
+- _Type:_ str
+
+The password to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.ISSHProvisionerConnection.property.scriptPath"></a>
+
+```python
+script_path: str
+```
+
+- _Type:_ str
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `target_platform`<sup>Optional</sup> <a name="target_platform" id="cdktf.ISSHProvisionerConnection.property.targetPlatform"></a>
+
+```python
+target_platform: str
+```
+
+- _Type:_ str
+- _Default:_ unix
+
+The target platform to connect to.
+
+Valid values are "windows" and "unix".
+If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
+If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.ISSHProvisionerConnection.property.timeout"></a>
+
+```python
+timeout: str
+```
+
+- _Type:_ str
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.ISSHProvisionerConnection.property.user"></a>
+
+```python
+user: str
+```
+
+- _Type:_ str
+- _Default:_ root
+
+The user to use for the connection.
+
+---
 
 ### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
 
@@ -31632,6 +33003,177 @@ Resolve a single token.
 ###### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
 
 - _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+### IWinrmProvisionerConnection <a name="IWinrmProvisionerConnection" id="cdktf.IWinrmProvisionerConnection"></a>
+
+- _Implemented By:_ <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                      | **Type**                              | **Description**                                                                                                                                                             |
+| --------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.host">host</a></code>              | <code>str</code>                      | The address of the resource to connect to.                                                                                                                                  |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.type">type</a></code>              | <code>str</code>                      | The connection type.                                                                                                                                                        |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.cacert">cacert</a></code>          | <code>str</code>                      | The CA certificate to validate against.                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.https">https</a></code>            | <code>bool</code>                     | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.insecure">insecure</a></code>      | <code>bool</code>                     | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.password">password</a></code>      | <code>str</code>                      | The password to use for the connection.                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.port">port</a></code>              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.scriptPath">script_path</a></code> | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                                                                                                   |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.timeout">timeout</a></code>        | <code>str</code>                      | The timeout to wait for the connection to become available.                                                                                                                 |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.useNtlm">use_ntlm</a></code>       | <code>bool</code>                     | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.user">user</a></code>              | <code>str</code>                      | The user to use for the connection.                                                                                                                                         |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.IWinrmProvisionerConnection.property.host"></a>
+
+```python
+host: str
+```
+
+- _Type:_ str
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.IWinrmProvisionerConnection.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.IWinrmProvisionerConnection.property.cacert"></a>
+
+```python
+cacert: str
+```
+
+- _Type:_ str
+
+The CA certificate to validate against.
+
+---
+
+##### `https`<sup>Optional</sup> <a name="https" id="cdktf.IWinrmProvisionerConnection.property.https"></a>
+
+```python
+https: bool
+```
+
+- _Type:_ bool
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+##### `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.IWinrmProvisionerConnection.property.insecure"></a>
+
+```python
+insecure: bool
+```
+
+- _Type:_ bool
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.IWinrmProvisionerConnection.property.password"></a>
+
+```python
+password: str
+```
+
+- _Type:_ str
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.IWinrmProvisionerConnection.property.port"></a>
+
+```python
+port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.IWinrmProvisionerConnection.property.scriptPath"></a>
+
+```python
+script_path: str
+```
+
+- _Type:_ str
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.IWinrmProvisionerConnection.property.timeout"></a>
+
+```python
+timeout: str
+```
+
+- _Type:_ str
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `use_ntlm`<sup>Optional</sup> <a name="use_ntlm" id="cdktf.IWinrmProvisionerConnection.property.useNtlm"></a>
+
+```python
+use_ntlm: bool
+```
+
+- _Type:_ bool
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.IWinrmProvisionerConnection.property.user"></a>
+
+```python
+user: str
+```
+
+- _Type:_ str
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 

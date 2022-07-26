@@ -41,16 +41,18 @@ exports.post = options => {
       </packageSources>
     </configuration>`, 'utf-8');
   }
-
+  execSync(`dotnet add package Microsoft.NET.Test.Sdk --version 17.2.0`, { stdio: 'inherit' });
+  execSync(`dotnet add package xunit --version 2.4.1`, { stdio: 'inherit' });
+  execSync(`dotnet add package xunit.runner.visualstudio --version 2.4.5`, { stdio: 'inherit' });
   execSync(`dotnet restore`, { stdio: 'inherit' });
   console.log(readFileSync('./help', 'utf-8'));
 };
 
 function terraformCloudConfig(baseName, organizationName, workspaceName) {
-  template = readFileSync('./Main.cs', 'utf-8');
+  template = readFileSync('./Program.cs', 'utf-8');
 
-  result = template.replace(`new MyApp(app, "${baseName}");`, `MyApp stack = new MyApp(app, "${baseName}");
+  result = template.replace(`new MainStack(app, "${baseName}");`, `MainStack stack = new MainStack(app, "${baseName}");
             new RemoteBackend(stack, new RemoteBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedRemoteWorkspace("${workspaceName}") });`);
 
-  writeFileSync('./Main.cs', result, 'utf-8');
+  writeFileSync('./Program.cs', result, 'utf-8');
 }

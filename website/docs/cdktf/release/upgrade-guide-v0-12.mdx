@@ -1,0 +1,35 @@
+---
+page_title: Upgrading to CDKTF Version 0.12
+description: >-
+  We simplified recursive attribute types to have shorter names
+---
+
+# Upgrading to CDK for Terraform Version 0.12
+
+0.12 includes improvements to the provider code bindings, allowing for shorter
+attribute names for recursive attributes.
+
+### Simplified interfaces of recursive attributes
+
+The generated provider bindings are based on the Terraform schema which does not
+support recursion and hence uses a large, explicit structure instead. Previously
+this resulted in long names such as e.g.
+`Wafv2WebAclRuleStatementAndStatementStatementOrStatementStatementLabelMatchStatement`.
+In 0.12 we implemented a first rough detection for this underlying recursion
+which drastically reduced the amount of generated interfaces as they now are
+converted to recursive data structures themselves. If you are currently using
+those types e.g. in a language like Java, you will need to change them to the
+new shorter names.
+
+### `cdktf get` exits with 0 exit code when no provider / module specifications are found in the `cdktf.json`
+
+Previously we would throw an error and exit with 1 if there were no provider or
+module specifications in the `cdktf.json` file. This can be inconvenient if
+`cdktf get` is part of a workflow.
+
+### `Fn.merge` is split into `Fn.mergeLists` and `Fn.mergeMaps`
+
+The Terraform `merge` function can merge both lists and maps, but this can cause
+[issues](https://github.com/hashicorp/terraform-cdk/issues/1653) when using the
+result in a typed language. Therefore we split it into `Fn.mergeLists` and
+`Fn.mergeMaps`, this means you need to change your cdktf programs code.

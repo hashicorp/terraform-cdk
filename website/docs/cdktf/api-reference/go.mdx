@@ -9616,18 +9616,19 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                        | **Type**                                                                | **Description**   |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.property.node">Node</a></code>                         | <code>github.com/aws/constructs-go/constructs/v10.Node</code>           | The tree node.    |
-| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.source">Source</a></code>                     | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.providers">Providers</a></code>               | <code>\*[]interface{}</code>                                            | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.version">Version</a></code>                   | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">DependsOn</a></code>               | <code>*[]*string</code>                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.forEach">ForEach</a></code>                   | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.property.variables">Variables</a></code>               | <code>\*map[string]interface{}</code>                                   | _No description._ |
+| **Name**                                                                                                                          | **Type**                                                                | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.property.node">Node</a></code>                                                           | <code>github.com/aws/constructs-go/constructs/v10.Node</code>           | The tree node.    |
+| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">CdktfStack</a></code>                                               | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.fqn">Fqn</a></code>                                                             | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">FriendlyUniqueId</a></code>                                   | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.source">Source</a></code>                                                       | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                            | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.version">Version</a></code>                                                     | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">DependsOn</a></code>                                                 | <code>*[]*string</code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.property.variables">Variables</a></code>                                                 | <code>\*map[string]interface{}</code>                                   | _No description._ |
 
 ---
 
@@ -9690,6 +9691,16 @@ func Providers() *[]interface{}
 ```
 
 - _Type:_ \*[]interface{}
+
+---
+
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules"></a>
+
+```go
+func SkipAssetCreationFromLocalModules() *bool
+```
+
+- _Type:_ \*bool
 
 ---
 
@@ -10188,17 +10199,18 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                     | **Type**                                                                | **Description**   |
-| -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModule.property.node">Node</a></code>                         | <code>github.com/aws/constructs-go/constructs/v10.Node</code>           | The tree node.    |
-| <code><a href="#cdktf.TerraformModule.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.source">Source</a></code>                     | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.providers">Providers</a></code>               | <code>\*[]interface{}</code>                                            | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.version">Version</a></code>                   | <code>\*string</code>                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.dependsOn">DependsOn</a></code>               | <code>*[]*string</code>                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformModule.property.forEach">ForEach</a></code>                   | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | _No description._ |
+| **Name**                                                                                                                       | **Type**                                                                | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModule.property.node">Node</a></code>                                                           | <code>github.com/aws/constructs-go/constructs/v10.Node</code>           | The tree node.    |
+| <code><a href="#cdktf.TerraformModule.property.cdktfStack">CdktfStack</a></code>                                               | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.fqn">Fqn</a></code>                                                             | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.friendlyUniqueId">FriendlyUniqueId</a></code>                                   | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.source">Source</a></code>                                                       | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                            | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.version">Version</a></code>                                                     | <code>\*string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.dependsOn">DependsOn</a></code>                                                 | <code>*[]*string</code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformModule.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | _No description._ |
 
 ---
 
@@ -10261,6 +10273,16 @@ func Providers() *[]interface{}
 ```
 
 - _Type:_ \*[]interface{}
+
+---
+
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformModule.property.skipAssetCreationFromLocalModules"></a>
+
+```go
+func SkipAssetCreationFromLocalModules() *bool
+```
+
+- _Type:_ \*bool
 
 ---
 
@@ -11423,11 +11445,13 @@ Any object.
 | <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">TerraformMetaArguments</a></code>         | <code>\*map[string]interface{}</code>                                                                   | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.terraformResourceType">TerraformResourceType</a></code>           | <code>\*string</code>                                                                                   | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">TerraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.connection">Connection</a></code>                                 | <code>interface{}</code>                                                                                | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.count">Count</a></code>                                           | <code>\*f64</code>                                                                                      | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.dependsOn">DependsOn</a></code>                                   | <code>*[]*string</code>                                                                                 | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.forEach">ForEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.lifecycle">Lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
 | <code><a href="#cdktf.TerraformResource.property.provider">Provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provisioners">Provisioners</a></code>                             | <code>\*[]interface{}</code>                                                                            | _No description._ |
 
 ---
 
@@ -11503,6 +11527,16 @@ func TerraformGeneratorMetadata() TerraformProviderGeneratorMetadata
 
 ---
 
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.TerraformResource.property.connection"></a>
+
+```go
+func Connection() interface{}
+```
+
+- _Type:_ interface{}
+
+---
+
 ##### `Count`<sup>Optional</sup> <a name="Count" id="cdktf.TerraformResource.property.count"></a>
 
 ```go
@@ -11550,6 +11584,16 @@ func Provider() TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `Provisioners`<sup>Optional</sup> <a name="Provisioners" id="cdktf.TerraformResource.property.provisioners"></a>
+
+```go
+func Provisioners() *[]interface{}
+```
+
+- _Type:_ \*[]interface{}
 
 ---
 
@@ -11870,6 +11914,7 @@ cdktf.NewTerraformVariable(scope Construct, id *string, config TerraformVariable
 | <code><a href="#cdktf.TerraformVariable.resetOverrideLogicalId">ResetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
 | <code><a href="#cdktf.TerraformVariable.toMetadata">ToMetadata</a></code>                         | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.toTerraform">ToTerraform</a></code>                       | _No description._                                                                 |
+| <code><a href="#cdktf.TerraformVariable.addValidation">AddValidation</a></code>                   | _No description._                                                                 |
 | <code><a href="#cdktf.TerraformVariable.synthesizeAttributes">SynthesizeAttributes</a></code>     | _No description._                                                                 |
 
 ---
@@ -11936,6 +11981,18 @@ func ToMetadata() interface{}
 func ToTerraform() interface{}
 ```
 
+##### `AddValidation` <a name="AddValidation" id="cdktf.TerraformVariable.addValidation"></a>
+
+```go
+func AddValidation(validation TerraformVariableValidationConfig)
+```
+
+###### `validation`<sup>Required</sup> <a name="validation" id="cdktf.TerraformVariable.addValidation.parameter.validation"></a>
+
+- _Type:_ <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>
+
+---
+
 ##### `SynthesizeAttributes` <a name="SynthesizeAttributes" id="cdktf.TerraformVariable.synthesizeAttributes"></a>
 
 ```go
@@ -11984,22 +12041,23 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                       | **Type**                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformVariable.property.node">Node</a></code>                         | <code>github.com/aws/constructs-go/constructs/v10.Node</code>   | The tree node.    |
-| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.booleanValue">BooleanValue</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.listValue">ListValue</a></code>               | <code>*[]*string</code>                                         | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.numberValue">NumberValue</a></code>           | <code>\*f64</code>                                              | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.stringValue">StringValue</a></code>           | <code>\*string</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.value">Value</a></code>                       | <code>interface{}</code>                                        | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.default">Default</a></code>                   | <code>interface{}</code>                                        | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.description">Description</a></code>           | <code>\*string</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.nullable">Nullable</a></code>                 | <code>\*bool</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.sensitive">Sensitive</a></code>               | <code>\*bool</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformVariable.property.type">Type</a></code>                         | <code>\*string</code>                                           | _No description._ |
+| **Name**                                                                                       | **Type**                                                                                                  | **Description**   |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformVariable.property.node">Node</a></code>                         | <code>github.com/aws/constructs-go/constructs/v10.Node</code>                                             | The tree node.    |
+| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                           | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.booleanValue">BooleanValue</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a></code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.listValue">ListValue</a></code>               | <code>*[]*string</code>                                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.numberValue">NumberValue</a></code>           | <code>\*f64</code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.stringValue">StringValue</a></code>           | <code>\*string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.value">Value</a></code>                       | <code>interface{}</code>                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.default">Default</a></code>                   | <code>interface{}</code>                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.description">Description</a></code>           | <code>\*string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.nullable">Nullable</a></code>                 | <code>\*bool</code>                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.sensitive">Sensitive</a></code>               | <code>\*bool</code>                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.type">Type</a></code>                         | <code>\*string</code>                                                                                     | _No description._ |
+| <code><a href="#cdktf.TerraformVariable.property.validation">Validation</a></code>             | <code>\*[]<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a></code> | _No description._ |
 
 ---
 
@@ -12142,6 +12200,16 @@ func Type() *string
 ```
 
 - _Type:_ \*string
+
+---
+
+##### `Validation`<sup>Optional</sup> <a name="Validation" id="cdktf.TerraformVariable.property.validation"></a>
+
+```go
+func Validation() *[]TerraformVariableValidationConfig
+```
+
+- _Type:_ \*[]<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>
 
 ---
 
@@ -18247,10 +18315,11 @@ UniqueId *string
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 &cdktf.TerraformHclModuleOptions {
-	Source: *string,
 	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
 	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
 	Providers: *[]interface{},
+	SkipAssetCreationFromLocalModules: *bool,
+	Source: *string,
 	Version: *string,
 	Variables: *map[string]interface{},
 }
@@ -18258,24 +18327,15 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                 | **Type**                                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">Source</a></code>       | <code>\*string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">DependsOn</a></code> | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">ForEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">Providers</a></code> | <code>\*[]interface{}</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">Version</a></code>     | <code>\*string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">Variables</a></code> | <code>\*map[string]interface{}</code>                                           | _No description._ |
-
----
-
-##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
-
-```go
-Source *string
-```
-
-- _Type:_ \*string
+| **Name**                                                                                                                                 | **Type**                                                                        | **Description**   |
+| ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">DependsOn</a></code>                                                 | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">Source</a></code>                                                       | <code>\*string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">Version</a></code>                                                     | <code>\*string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">Variables</a></code>                                                 | <code>\*map[string]interface{}</code>                                           | _No description._ |
 
 ---
 
@@ -18309,6 +18369,26 @@ Providers *[]interface{}
 
 ---
 
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```go
+SkipAssetCreationFromLocalModules *bool
+```
+
+- _Type:_ \*bool
+
+---
+
+##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+
+```go
+Source *string
+```
+
+- _Type:_ \*string
+
+---
+
 ##### `Version`<sup>Optional</sup> <a name="Version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
 
 ```go
@@ -18337,23 +18417,37 @@ Variables *map[string]interface{}
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 &cdktf.TerraformMetaArguments {
+	Connection: interface{},
 	Count: *f64,
 	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
 	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
 	Lifecycle: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformResourceLifecycle,
 	Provider: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformProvider,
+	Provisioners: *[]interface{},
 }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                              | **Type**                                                                                | **Description**   |
-| ------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformMetaArguments.property.count">Count</a></code>         | <code>\*f64</code>                                                                      | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">DependsOn</a></code> | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">ForEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                 | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">Lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provider">Provider</a></code>   | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                   | _No description._ |
+| **Name**                                                                                    | **Type**                                                                                | **Description**   |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformMetaArguments.property.connection">Connection</a></code>     | <code>interface{}</code>                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.count">Count</a></code>               | <code>\*f64</code>                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">DependsOn</a></code>       | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">ForEach</a></code>           | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                 | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">Lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provider">Provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                   | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">Provisioners</a></code> | <code>\*[]interface{}</code>                                                            | _No description._ |
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.TerraformMetaArguments.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- _Type:_ interface{}
 
 ---
 
@@ -18407,6 +18501,16 @@ Provider TerraformProvider
 
 ---
 
+##### `Provisioners`<sup>Optional</sup> <a name="Provisioners" id="cdktf.TerraformMetaArguments.property.provisioners"></a>
+
+```go
+Provisioners *[]interface{}
+```
+
+- _Type:_ \*[]interface{}
+
+---
+
 ### TerraformModuleOptions <a name="TerraformModuleOptions" id="cdktf.TerraformModuleOptions"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.TerraformModuleOptions.Initializer"></a>
@@ -18415,33 +18519,25 @@ Provider TerraformProvider
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 &cdktf.TerraformModuleOptions {
-	Source: *string,
 	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
 	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
 	Providers: *[]interface{},
+	SkipAssetCreationFromLocalModules: *bool,
+	Source: *string,
 	Version: *string,
 }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                              | **Type**                                                                        | **Description**   |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformModuleOptions.property.source">Source</a></code>       | <code>\*string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">DependsOn</a></code> | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">ForEach</a></code>     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.providers">Providers</a></code> | <code>\*[]interface{}</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformModuleOptions.property.version">Version</a></code>     | <code>\*string</code>                                                           | _No description._ |
-
----
-
-##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformModuleOptions.property.source"></a>
-
-```go
-Source *string
-```
-
-- _Type:_ \*string
+| **Name**                                                                                                                              | **Type**                                                                        | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">DependsOn</a></code>                                                 | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.source">Source</a></code>                                                       | <code>\*string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformModuleOptions.property.version">Version</a></code>                                                     | <code>\*string</code>                                                           | _No description._ |
 
 ---
 
@@ -18472,6 +18568,26 @@ Providers *[]interface{}
 ```
 
 - _Type:_ \*[]interface{}
+
+---
+
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```go
+SkipAssetCreationFromLocalModules *bool
+```
+
+- _Type:_ \*bool
+
+---
+
+##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformModuleOptions.property.source"></a>
+
+```go
+Source *string
+```
+
+- _Type:_ \*string
 
 ---
 
@@ -18524,6 +18640,72 @@ Provider TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+### TerraformModuleUserOptions <a name="TerraformModuleUserOptions" id="cdktf.TerraformModuleUserOptions"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformModuleUserOptions.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.TerraformModuleUserOptions {
+	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
+	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
+	Providers: *[]interface{},
+	SkipAssetCreationFromLocalModules: *bool,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                                                  | **Type**                                                                        | **Description**   |
+| ----------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.dependsOn">DependsOn</a></code>                                                 | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                             | _No description._ |
+
+---
+
+##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformModuleUserOptions.property.dependsOn"></a>
+
+```go
+DependsOn *[]ITerraformDependable
+```
+
+- _Type:_ \*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+---
+
+##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformModuleUserOptions.property.forEach"></a>
+
+```go
+ForEach ITerraformIterator
+```
+
+- _Type:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+##### `Providers`<sup>Optional</sup> <a name="Providers" id="cdktf.TerraformModuleUserOptions.property.providers"></a>
+
+```go
+Providers *[]interface{}
+```
+
+- _Type:_ \*[]interface{}
+
+---
+
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformModuleUserOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```go
+SkipAssetCreationFromLocalModules *bool
+```
+
+- _Type:_ \*bool
 
 ---
 
@@ -18724,11 +18906,13 @@ ProviderVersionConstraint *string
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 &cdktf.TerraformResourceConfig {
+	Connection: interface{},
 	Count: *f64,
 	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
 	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
 	Lifecycle: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformResourceLifecycle,
 	Provider: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformProvider,
+	Provisioners: *[]interface{},
 	TerraformResourceType: *string,
 	TerraformGeneratorMetadata: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformProviderGeneratorMetadata,
 }
@@ -18738,13 +18922,25 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 | **Name**                                                                                                                 | **Type**                                                                                                | **Description**   |
 | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">Connection</a></code>                                 | <code>interface{}</code>                                                                                | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.count">Count</a></code>                                           | <code>\*f64</code>                                                                                      | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">DependsOn</a></code>                                   | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code>                         | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.forEach">ForEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                 | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">Lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                 | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.provider">Provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                   | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">Provisioners</a></code>                             | <code>\*[]interface{}</code>                                                                            | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">TerraformResourceType</a></code>           | <code>\*string</code>                                                                                   | _No description._ |
 | <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">TerraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | _No description._ |
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.TerraformResourceConfig.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- _Type:_ interface{}
 
 ---
 
@@ -18795,6 +18991,16 @@ Provider TerraformProvider
 ```
 
 - _Type:_ <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+##### `Provisioners`<sup>Optional</sup> <a name="Provisioners" id="cdktf.TerraformResourceConfig.property.provisioners"></a>
+
+```go
+Provisioners *[]interface{}
+```
+
+- _Type:_ \*[]interface{}
 
 ---
 
@@ -18939,18 +19145,20 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 	Nullable: *bool,
 	Sensitive: *bool,
 	Type: *string,
+	Validation: *[]github.com/hashicorp/terraform-cdk-go/cdktf.TerraformVariableValidationConfig,
 }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**                 | **Description**                                                                                                                   |
-| ------------------------------------------------------------------------------------------ | ------------------------ | --------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.TerraformVariableConfig.property.default">Default</a></code>         | <code>interface{}</code> | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.description">Description</a></code> | <code>\*string</code>    | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">Nullable</a></code>       | <code>\*bool</code>      | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">Sensitive</a></code>     | <code>\*bool</code>      | _No description._                                                                                                                 |
-| <code><a href="#cdktf.TerraformVariableConfig.property.type">Type</a></code>               | <code>\*string</code>    | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+| **Name**                                                                                   | **Type**                                                                                                  | **Description**                                                                                                                              |
+| ------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformVariableConfig.property.default">Default</a></code>         | <code>interface{}</code>                                                                                  | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.description">Description</a></code> | <code>\*string</code>                                                                                     | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">Nullable</a></code>       | <code>\*bool</code>                                                                                       | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">Sensitive</a></code>     | <code>\*bool</code>                                                                                       | _No description._                                                                                                                            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.type">Type</a></code>               | <code>\*string</code>                                                                                     | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.            |
+| <code><a href="#cdktf.TerraformVariableConfig.property.validation">Validation</a></code>   | <code>\*[]<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a></code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
 
 ---
 
@@ -19025,6 +19233,60 @@ The type constructors allow you to specify complex types such as collections:
 The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
 
 If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+
+---
+
+##### `Validation`<sup>Optional</sup> <a name="Validation" id="cdktf.TerraformVariableConfig.property.validation"></a>
+
+```go
+Validation *[]TerraformVariableValidationConfig
+```
+
+- _Type:_ \*[]<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>
+
+Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+
+---
+
+### TerraformVariableValidationConfig <a name="TerraformVariableValidationConfig" id="cdktf.TerraformVariableValidationConfig"></a>
+
+#### Initializer <a name="Initializer" id="cdktf.TerraformVariableValidationConfig.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.TerraformVariableValidationConfig {
+	Condition: interface{},
+	ErrorMessage: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                               | **Type**                 | **Description**   |
+| ------------------------------------------------------------------------------------------------------ | ------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.condition">Condition</a></code>       | <code>interface{}</code> | _No description._ |
+| <code><a href="#cdktf.TerraformVariableValidationConfig.property.errorMessage">ErrorMessage</a></code> | <code>\*string</code>    | _No description._ |
+
+---
+
+##### `Condition`<sup>Required</sup> <a name="Condition" id="cdktf.TerraformVariableValidationConfig.property.condition"></a>
+
+```go
+Condition interface{}
+```
+
+- _Type:_ interface{}
+
+---
+
+##### `ErrorMessage`<sup>Required</sup> <a name="ErrorMessage" id="cdktf.TerraformVariableValidationConfig.property.errorMessage"></a>
+
+```go
+ErrorMessage *string
+```
+
+- _Type:_ \*string
 
 ---
 
@@ -19529,6 +19791,64 @@ func All() *[]IAspect
 - _Type:_ \*[]<a href="#cdktf.IAspect">IAspect</a>
 
 The list of aspects which were directly applied on this scope.
+
+---
+
+### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
+
+#### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf/testingmatchers"
+
+testingmatchers.NewAssertionReturn(message *string, pass *bool) AssertionReturn
+```
+
+| **Name**                                                                                                | **Type**              | **Description**   |
+| ------------------------------------------------------------------------------------------------------- | --------------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>\*string</code> | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>\*bool</code>   | _No description._ |
+
+---
+
+##### `message`<sup>Required</sup> <a name="message" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
+
+- _Type:_ \*bool
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                   | **Type**              | **Description**   |
+| ------------------------------------------------------------------------------------------ | --------------------- | ----------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>\*string</code> | _No description._ |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>\*bool</code>   | _No description._ |
+
+---
+
+##### `Message`<sup>Required</sup> <a name="Message" id="cdktf.testingMatchers.AssertionReturn.property.message"></a>
+
+```go
+func Message() *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
+
+```go
+func Pass() *bool
+```
+
+- _Type:_ \*bool
 
 ---
 
@@ -20729,7 +21049,8 @@ cdktf.NewFn() Fn
 | <code><a href="#cdktf.Fn.matchkeys">Matchkeys</a></code>               | {@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.                                                                             |
 | <code><a href="#cdktf.Fn.max">Max</a></code>                           | {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.                                                                                                                                                             |
 | <code><a href="#cdktf.Fn.md5">Md5</a></code>                           | {@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.                                                                                                                                                     |
-| <code><a href="#cdktf.Fn.merge">Merge</a></code>                       | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
+| <code><a href="#cdktf.Fn.mergeLists">MergeLists</a></code>             | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
+| <code><a href="#cdktf.Fn.mergeMaps">MergeMaps</a></code>               | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.                                                                                     |
 | <code><a href="#cdktf.Fn.min">Min</a></code>                           | {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.                                                                                                                                                             |
 | <code><a href="#cdktf.Fn.nonsensitive">Nonsensitive</a></code>         | {@link https://www.terraform.io/docs/language/functions/nonsensitive.html nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.                                                                                |
 | <code><a href="#cdktf.Fn.one">One</a></code>                           | {@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements.                                                                                                                                                                 |
@@ -21158,6 +21479,8 @@ cdktf.Fn_Coalescelist(value *[]*[]interface{}) *[]*string
 ###### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.coalescelist.parameter.value"></a>
 
 - _Type:_ _[]_[]interface{}
+
+Arguments are passed in an array.
 
 ---
 
@@ -21805,19 +22128,39 @@ cdktf.Fn_Md5(value *string) *string
 
 ---
 
-##### `Merge` <a name="Merge" id="cdktf.Fn.merge"></a>
+##### `MergeLists` <a name="MergeLists" id="cdktf.Fn.mergeLists"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-cdktf.Fn_Merge(values *[]interface{}) *[]*string
+cdktf.Fn_MergeLists(values *[]interface{}) *[]*string
 ```
 
 {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
 
-###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.merge.parameter.values"></a>
+###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeLists.parameter.values"></a>
 
 - _Type:_ \*[]interface{}
+
+Arguments are passed in an array.
+
+---
+
+##### `MergeMaps` <a name="MergeMaps" id="cdktf.Fn.mergeMaps"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Fn_MergeMaps(values *[]interface{}) *map[string]*string
+```
+
+{@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+
+###### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeMaps.parameter.values"></a>
+
+- _Type:_ \*[]interface{}
+
+Arguments are passed in an array.
 
 ---
 
@@ -23068,6 +23411,7 @@ cdktf.NewListTerraformIterator(list interface{}) ListTerraformIterator
 
 | **Name**                                                                            | **Description**   |
 | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.ListTerraformIterator.dynamic">Dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAny">GetAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getAnyMap">GetAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getBoolean">GetBoolean</a></code>       | _No description._ |
@@ -23079,6 +23423,18 @@ cdktf.NewListTerraformIterator(list interface{}) ListTerraformIterator
 | <code><a href="#cdktf.ListTerraformIterator.getNumberMap">GetNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getString">GetString</a></code>         | _No description._ |
 | <code><a href="#cdktf.ListTerraformIterator.getStringMap">GetStringMap</a></code>   | _No description._ |
+
+---
+
+##### `Dynamic` <a name="Dynamic" id="cdktf.ListTerraformIterator.dynamic"></a>
+
+```go
+func Dynamic(attributes *map[string]interface{}) IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.ListTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ \*map[string]interface{}
 
 ---
 
@@ -23485,6 +23841,7 @@ cdktf.NewMapTerraformIterator(map interface{}) MapTerraformIterator
 
 | **Name**                                                                           | **Description**   |
 | ---------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.MapTerraformIterator.dynamic">Dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAny">GetAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getAnyMap">GetAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getBoolean">GetBoolean</a></code>       | _No description._ |
@@ -23496,6 +23853,18 @@ cdktf.NewMapTerraformIterator(map interface{}) MapTerraformIterator
 | <code><a href="#cdktf.MapTerraformIterator.getNumberMap">GetNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getString">GetString</a></code>         | _No description._ |
 | <code><a href="#cdktf.MapTerraformIterator.getStringMap">GetStringMap</a></code>   | _No description._ |
+
+---
+
+##### `Dynamic` <a name="Dynamic" id="cdktf.MapTerraformIterator.dynamic"></a>
+
+```go
+func Dynamic(attributes *map[string]interface{}) IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.MapTerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ \*map[string]interface{}
 
 ---
 
@@ -24389,6 +24758,7 @@ cdktf.NewTerraformIterator() TerraformIterator
 
 | **Name**                                                                        | **Description**   |
 | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformIterator.dynamic">Dynamic</a></code>             | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAny">GetAny</a></code>               | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getAnyMap">GetAnyMap</a></code>         | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getBoolean">GetBoolean</a></code>       | _No description._ |
@@ -24400,6 +24770,18 @@ cdktf.NewTerraformIterator() TerraformIterator
 | <code><a href="#cdktf.TerraformIterator.getNumberMap">GetNumberMap</a></code>   | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getString">GetString</a></code>         | _No description._ |
 | <code><a href="#cdktf.TerraformIterator.getStringMap">GetStringMap</a></code>   | _No description._ |
+
+---
+
+##### `Dynamic` <a name="Dynamic" id="cdktf.TerraformIterator.dynamic"></a>
+
+```go
+func Dynamic(attributes *map[string]interface{}) IResolvable
+```
+
+###### `attributes`<sup>Required</sup> <a name="attributes" id="cdktf.TerraformIterator.dynamic.parameter.attributes"></a>
+
+- _Type:_ \*map[string]interface{}
 
 ---
 
@@ -24598,23 +24980,126 @@ Creates a new iterator from a map.
 
 ---
 
+### TerraformSelf <a name="TerraformSelf" id="cdktf.TerraformSelf"></a>
+
+Expressions in connection blocks cannot refer to their parent resource by name.
+
+References create dependencies, and referring to a resource by name within its own block would create a dependency cycle.
+Instead, expressions can use the self object, which represents the connection's parent resource and has all of that resource's attributes.
+For example, use self.public_ip to reference an aws_instance's public_ip attribute.
+
+#### Initializers <a name="Initializers" id="cdktf.TerraformSelf.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewTerraformSelf() TerraformSelf
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                            | **Description**                                                                     |
+| ------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.TerraformSelf.getAny">GetAny</a></code>       | Only usable within a connection block to reference the connections parent resource. |
+| <code><a href="#cdktf.TerraformSelf.getNumber">GetNumber</a></code> | Only usable within a connection block to reference the connections parent resource. |
+| <code><a href="#cdktf.TerraformSelf.getString">GetString</a></code> | Only usable within a connection block to reference the connections parent resource. |
+
+---
+
+##### `GetAny` <a name="GetAny" id="cdktf.TerraformSelf.getAny"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.TerraformSelf_GetAny(key *string) interface{}
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getAny("hostPort")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getAny.parameter.key"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `GetNumber` <a name="GetNumber" id="cdktf.TerraformSelf.getNumber"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.TerraformSelf_GetNumber(key *string) *f64
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getNumber("hostPort")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getNumber.parameter.key"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `GetString` <a name="GetString" id="cdktf.TerraformSelf.getString"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.TerraformSelf_GetString(key *string) *string
+```
+
+Only usable within a connection block to reference the connections parent resource.
+
+Access a property on the resource like this: `getString("publicIp")`
+
+###### `key`<sup>Required</sup> <a name="key" id="cdktf.TerraformSelf.getString.parameter.key"></a>
+
+- _Type:_ \*string
+
+---
+
 ### Testing <a name="Testing" id="cdktf.Testing"></a>
 
 Testing utilities for cdktf applications.
 
+#### Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewTesting() Testing
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                                          | **Description**                                                                             |
-| --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.Testing.app">App</a></code>                                 | Returns an app for testing with the following properties: - Output directory is a temp dir. |
-| <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code>     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code>     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code>                     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code> | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code>                     | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code>                 | _No description._                                                                           |
-| <code><a href="#cdktf.Testing.synth">Synth</a></code>                             | Returns the Terraform synthesized JSON.                                                     |
-| <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code>                   | _No description._                                                                           |
+| **Name**                                                                                                | **Description**                                                                             |
+| ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.Testing.app">App</a></code>                                                       | Returns an app for testing with the following properties: - Output directory is a temp dir. |
+| <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code>                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code>                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code>                                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code>                       | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code>                                           | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code>                                       | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.synth">Synth</a></code>                                                   | Returns the Terraform synthesized JSON.                                                     |
+| <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code>                                         | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code>                         | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code>                             | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
 ---
 
@@ -24739,6 +25224,112 @@ cdktf.Testing_SynthScope(fn IScopeCallback) *string
 ###### `fn`<sup>Required</sup> <a name="fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
 
 - _Type:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+---
+
+##### `ToBeValidTerraform` <a name="ToBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToBeValidTerraform(received *string) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `ToHaveDataSource` <a name="ToHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveDataSource(received *string, resourceType *string) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `ToHaveDataSourceWithProperties` <a name="ToHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveDataSourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ \*map[string]interface{}
+
+---
+
+##### `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveResource(received *string, resourceType *string) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `ToHaveResourceWithProperties` <a name="ToHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveResourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
+
+- _Type:_ \*map[string]interface{}
 
 ---
 
@@ -25792,6 +26383,96 @@ All aspects can visit an IConstruct.
 
 ---
 
+### IFileProvisioner <a name="IFileProvisioner" id="cdktf.IFileProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.IFileProvisioner">IFileProvisioner</a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                            | **Type**                 | **Description**                                                                                                                                  |
+| ----------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IFileProvisioner.property.destination">Destination</a></code> | <code>\*string</code>    | The source file or directory.                                                                                                                    |
+| <code><a href="#cdktf.IFileProvisioner.property.type">Type</a></code>               | <code>\*string</code>    | _No description._                                                                                                                                |
+| <code><a href="#cdktf.IFileProvisioner.property.connection">Connection</a></code>   | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.IFileProvisioner.property.content">Content</a></code>         | <code>\*string</code>    | The destination path to write to on the remote system.                                                                                           |
+| <code><a href="#cdktf.IFileProvisioner.property.source">Source</a></code>           | <code>\*string</code>    | The direct content to copy on the destination.                                                                                                   |
+
+---
+
+##### `Destination`<sup>Required</sup> <a name="Destination" id="cdktf.IFileProvisioner.property.destination"></a>
+
+```go
+func Destination() *string
+```
+
+- _Type:_ \*string
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IFileProvisioner.property.type"></a>
+
+```go
+func Type() *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.IFileProvisioner.property.connection"></a>
+
+```go
+func Connection() interface{}
+```
+
+- _Type:_ interface{}
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+##### `Content`<sup>Optional</sup> <a name="Content" id="cdktf.IFileProvisioner.property.content"></a>
+
+```go
+func Content() *string
+```
+
+- _Type:_ \*string
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+##### `Source`<sup>Optional</sup> <a name="Source" id="cdktf.IFileProvisioner.property.source"></a>
+
+```go
+func Source() *string
+```
+
+- _Type:_ \*string
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---
+
 ### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
 
 - _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -25877,6 +26558,115 @@ Produce the list value.
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### ILocalExecProvisioner <a name="ILocalExecProvisioner" id="cdktf.ILocalExecProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>
+
+The local-exec provisioner invokes a local executable after a resource is created.
+
+This invokes a process on the machine running Terraform, not on the resource.
+
+See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                 | **Type**                         | **Description**                                                                   |
+| ---------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.command">Command</a></code>         | <code>\*string</code>            | This is the command to execute.                                                   |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.type">Type</a></code>               | <code>\*string</code>            | _No description._                                                                 |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.environment">Environment</a></code> | <code>*map[string]*string</code> | A record of key value pairs representing the environment of the executed command. |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.interpreter">Interpreter</a></code> | <code>*[]*string</code>          | If provided, this is a list of interpreter arguments used to execute the command. |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.when">When</a></code>               | <code>\*string</code>            | If provided, specifies when Terraform will execute the command.                   |
+| <code><a href="#cdktf.ILocalExecProvisioner.property.workingDir">WorkingDir</a></code>   | <code>\*string</code>            | If provided, specifies the working directory where command will be executed.      |
+
+---
+
+##### `Command`<sup>Required</sup> <a name="Command" id="cdktf.ILocalExecProvisioner.property.command"></a>
+
+```go
+func Command() *string
+```
+
+- _Type:_ \*string
+
+This is the command to execute.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+It is evaluated in a shell, and can use environment variables or Terraform variables.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.ILocalExecProvisioner.property.type"></a>
+
+```go
+func Type() *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Environment`<sup>Optional</sup> <a name="Environment" id="cdktf.ILocalExecProvisioner.property.environment"></a>
+
+```go
+func Environment() *map[string]*string
+```
+
+- _Type:_ *map[string]*string
+
+A record of key value pairs representing the environment of the executed command.
+
+It inherits the current process environment.
+
+---
+
+##### `Interpreter`<sup>Optional</sup> <a name="Interpreter" id="cdktf.ILocalExecProvisioner.property.interpreter"></a>
+
+```go
+func Interpreter() *[]*string
+```
+
+- _Type:_ *[]*string
+
+If provided, this is a list of interpreter arguments used to execute the command.
+
+The first argument is the interpreter itself.
+It can be provided as a relative path to the current working directory or as an absolute path
+The remaining arguments are appended prior to the command.
+This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+
+---
+
+##### `When`<sup>Optional</sup> <a name="When" id="cdktf.ILocalExecProvisioner.property.when"></a>
+
+```go
+func When() *string
+```
+
+- _Type:_ \*string
+
+If provided, specifies when Terraform will execute the command.
+
+For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+
+---
+
+##### `WorkingDir`<sup>Optional</sup> <a name="WorkingDir" id="cdktf.ILocalExecProvisioner.property.workingDir"></a>
+
+```go
+func WorkingDir() *string
+```
+
+- _Type:_ \*string
+
+If provided, specifies the working directory where command will be executed.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+The directory must exist.
 
 ---
 
@@ -25972,6 +26762,97 @@ Process the completely resolved value, after full recursion/resolution has happe
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### IRemoteExecProvisioner <a name="IRemoteExecProvisioner" id="cdktf.IRemoteExecProvisioner"></a>
+
+- _Implemented By:_ <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>
+
+The remote-exec provisioner invokes a script on a remote resource after it is created.
+
+This can be used to run a configuration management tool, bootstrap into a cluster, etc
+The remote-exec provisioner requires a connection and supports both ssh and winrm.
+
+See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                 | **Description**                                                                                                                                  |
+| --------------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.type">Type</a></code>             | <code>\*string</code>    | _No description._                                                                                                                                |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.connection">Connection</a></code> | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.inline">Inline</a></code>         | <code>*[]*string</code>  | This is a list of command strings.                                                                                                               |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.script">Script</a></code>         | <code>\*string</code>    | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
+| <code><a href="#cdktf.IRemoteExecProvisioner.property.scripts">Scripts</a></code>       | <code>*[]*string</code>  | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IRemoteExecProvisioner.property.type"></a>
+
+```go
+func Type() *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.IRemoteExecProvisioner.property.connection"></a>
+
+```go
+func Connection() interface{}
+```
+
+- _Type:_ interface{}
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+A connection must be provided here or in the parent resource.
+
+---
+
+##### `Inline`<sup>Optional</sup> <a name="Inline" id="cdktf.IRemoteExecProvisioner.property.inline"></a>
+
+```go
+func Inline() *[]*string
+```
+
+- _Type:_ *[]*string
+
+This is a list of command strings.
+
+They are executed in the order they are provided.
+This cannot be provided with script or scripts.
+
+---
+
+##### `Script`<sup>Optional</sup> <a name="Script" id="cdktf.IRemoteExecProvisioner.property.script"></a>
+
+```go
+func Script() *string
+```
+
+- _Type:_ \*string
+
+This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
+
+This cannot be provided with inline or scripts.
+
+---
+
+##### `Scripts`<sup>Optional</sup> <a name="Scripts" id="cdktf.IRemoteExecProvisioner.property.scripts"></a>
+
+```go
+func Scripts() *[]*string
+```
+
+- _Type:_ *[]*string
+
+This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
+
+They are executed in the order they are provided.
+This cannot be provided with inline or script.
 
 ---
 
@@ -26087,11 +26968,12 @@ Resolve an inner object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                 | **Type**                                                            | **Description**                                                                  |
-| ---------------------------------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code>           | <code>\*bool</code>                                                 | True when we are still preparing, false if we're rendering the final output.     |
-| <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code>                   | <code>github.com/aws/constructs-go/constructs/v10.IConstruct</code> | The scope from which resolution has been initiated.                              |
-| <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code> | <code>\*bool</code>                                                 | True when ${} should be ommitted (because already inside them), false otherwise. |
+| **Name**                                                                                   | **Type**                                                            | **Description**                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code>             | <code>\*bool</code>                                                 | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
+| <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code>                     | <code>github.com/aws/constructs-go/constructs/v10.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>\*string</code>                                               | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code>   | <code>\*bool</code>                                                 | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
 ---
 
@@ -26116,6 +26998,18 @@ func Scope() IConstruct
 - _Type:_ github.com/aws/constructs-go/constructs/v10.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `IteratorContext`<sup>Optional</sup> <a name="IteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```go
+func IteratorContext() *string
+```
+
+- _Type:_ \*string
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
 
 ---
 
@@ -26177,6 +27071,383 @@ The stack in which this resource is defined.
 ### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
 
 - _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+
+### ISSHProvisionerConnection <a name="ISSHProvisionerConnection" id="cdktf.ISSHProvisionerConnection"></a>
+
+- _Implemented By:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                   | **Type**              | **Description**                                                                                         |
+| ---------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.host">Host</a></code>                             | <code>\*string</code> | The address of the resource to connect to.                                                              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.type">Type</a></code>                             | <code>\*string</code> | The connection type.                                                                                    |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.agent">Agent</a></code>                           | <code>\*string</code> | Set to false to disable using ssh-agent to authenticate.                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.agentIdentity">AgentIdentity</a></code>           | <code>\*string</code> | The preferred identity from the ssh agent for authentication.                                           |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionCertificate">BastionCertificate</a></code> | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHost">BastionHost</a></code>               | <code>\*string</code> | Setting this enables the bastion Host connection.                                                       |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHostKey">BastionHostKey</a></code>         | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the host connection.              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPassword">BastionPassword</a></code>       | <code>\*string</code> | The password to use for the bastion host.                                                               |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPort">BastionPort</a></code>               | <code>\*f64</code>    | The port to use connect to the bastion host.                                                            |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPrivateKey">BastionPrivateKey</a></code>   | <code>\*string</code> | The contents of an SSH key file to use for the bastion host.                                            |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionUser">BastionUser</a></code>               | <code>\*string</code> | The user for the connection to the bastion host.                                                        |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.certificate">Certificate</a></code>               | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.hostKey">HostKey</a></code>                       | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the connection.                   |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.password">Password</a></code>                     | <code>\*string</code> | The password to use for the connection.                                                                 |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.port">Port</a></code>                             | <code>\*f64</code>    | The port to connect to.                                                                                 |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.privateKey">PrivateKey</a></code>                 | <code>\*string</code> | The contents of an SSH key to use for the connection.                                                   |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyHost">ProxyHost</a></code>                   | <code>\*string</code> | Setting this enables the SSH over HTTP connection.                                                      |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyPort">ProxyPort</a></code>                   | <code>\*f64</code>    | The port to use connect to the proxy host.                                                              |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyScheme">ProxyScheme</a></code>               | <code>\*string</code> | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserName">ProxyUserName</a></code>           | <code>\*string</code> | The username to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserPassword">ProxyUserPassword</a></code>   | <code>\*string</code> | The password to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.scriptPath">ScriptPath</a></code>                 | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                               |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.targetPlatform">TargetPlatform</a></code>         | <code>\*string</code> | The target platform to connect to.                                                                      |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.timeout">Timeout</a></code>                       | <code>\*string</code> | The timeout to wait for the connection to become available.                                             |
+| <code><a href="#cdktf.ISSHProvisionerConnection.property.user">User</a></code>                             | <code>\*string</code> | The user to use for the connection.                                                                     |
+
+---
+
+##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.ISSHProvisionerConnection.property.host"></a>
+
+```go
+func Host() *string
+```
+
+- _Type:_ \*string
+
+The address of the resource to connect to.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.ISSHProvisionerConnection.property.type"></a>
+
+```go
+func Type() *string
+```
+
+- _Type:_ \*string
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `Agent`<sup>Optional</sup> <a name="Agent" id="cdktf.ISSHProvisionerConnection.property.agent"></a>
+
+```go
+func Agent() *string
+```
+
+- _Type:_ \*string
+
+Set to false to disable using ssh-agent to authenticate.
+
+On Windows the only supported SSH authentication agent is Pageant.
+
+---
+
+##### `AgentIdentity`<sup>Optional</sup> <a name="AgentIdentity" id="cdktf.ISSHProvisionerConnection.property.agentIdentity"></a>
+
+```go
+func AgentIdentity() *string
+```
+
+- _Type:_ \*string
+
+The preferred identity from the ssh agent for authentication.
+
+---
+
+##### `BastionCertificate`<sup>Optional</sup> <a name="BastionCertificate" id="cdktf.ISSHProvisionerConnection.property.bastionCertificate"></a>
+
+```go
+func BastionCertificate() *string
+```
+
+- _Type:_ \*string
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a bastion_private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `BastionHost`<sup>Optional</sup> <a name="BastionHost" id="cdktf.ISSHProvisionerConnection.property.bastionHost"></a>
+
+```go
+func BastionHost() *string
+```
+
+- _Type:_ \*string
+
+Setting this enables the bastion Host connection.
+
+The provisioner will connect to bastion_host first, and then connect from there to host.
+
+---
+
+##### `BastionHostKey`<sup>Optional</sup> <a name="BastionHostKey" id="cdktf.ISSHProvisionerConnection.property.bastionHostKey"></a>
+
+```go
+func BastionHostKey() *string
+```
+
+- _Type:_ \*string
+
+The public key from the remote host or the signing CA, used to verify the host connection.
+
+---
+
+##### `BastionPassword`<sup>Optional</sup> <a name="BastionPassword" id="cdktf.ISSHProvisionerConnection.property.bastionPassword"></a>
+
+```go
+func BastionPassword() *string
+```
+
+- _Type:_ \*string
+
+The password to use for the bastion host.
+
+---
+
+##### `BastionPort`<sup>Optional</sup> <a name="BastionPort" id="cdktf.ISSHProvisionerConnection.property.bastionPort"></a>
+
+```go
+func BastionPort() *f64
+```
+
+- _Type:_ \*f64
+
+The port to use connect to the bastion host.
+
+---
+
+##### `BastionPrivateKey`<sup>Optional</sup> <a name="BastionPrivateKey" id="cdktf.ISSHProvisionerConnection.property.bastionPrivateKey"></a>
+
+```go
+func BastionPrivateKey() *string
+```
+
+- _Type:_ \*string
+
+The contents of an SSH key file to use for the bastion host.
+
+These can be loaded from a file on disk using the file function.
+
+---
+
+##### `BastionUser`<sup>Optional</sup> <a name="BastionUser" id="cdktf.ISSHProvisionerConnection.property.bastionUser"></a>
+
+```go
+func BastionUser() *string
+```
+
+- _Type:_ \*string
+
+The user for the connection to the bastion host.
+
+---
+
+##### `Certificate`<sup>Optional</sup> <a name="Certificate" id="cdktf.ISSHProvisionerConnection.property.certificate"></a>
+
+```go
+func Certificate() *string
+```
+
+- _Type:_ \*string
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `HostKey`<sup>Optional</sup> <a name="HostKey" id="cdktf.ISSHProvisionerConnection.property.hostKey"></a>
+
+```go
+func HostKey() *string
+```
+
+- _Type:_ \*string
+
+The public key from the remote host or the signing CA, used to verify the connection.
+
+---
+
+##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.ISSHProvisionerConnection.property.password"></a>
+
+```go
+func Password() *string
+```
+
+- _Type:_ \*string
+
+The password to use for the connection.
+
+---
+
+##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.ISSHProvisionerConnection.property.port"></a>
+
+```go
+func Port() *f64
+```
+
+- _Type:_ \*f64
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `PrivateKey`<sup>Optional</sup> <a name="PrivateKey" id="cdktf.ISSHProvisionerConnection.property.privateKey"></a>
+
+```go
+func PrivateKey() *string
+```
+
+- _Type:_ \*string
+
+The contents of an SSH key to use for the connection.
+
+These can be loaded from a file on disk using the file function.
+This takes preference over password if provided.
+
+---
+
+##### `ProxyHost`<sup>Optional</sup> <a name="ProxyHost" id="cdktf.ISSHProvisionerConnection.property.proxyHost"></a>
+
+```go
+func ProxyHost() *string
+```
+
+- _Type:_ \*string
+
+Setting this enables the SSH over HTTP connection.
+
+This host will be connected to first, and then the host or bastion_host connection will be made from there.
+
+---
+
+##### `ProxyPort`<sup>Optional</sup> <a name="ProxyPort" id="cdktf.ISSHProvisionerConnection.property.proxyPort"></a>
+
+```go
+func ProxyPort() *f64
+```
+
+- _Type:_ \*f64
+
+The port to use connect to the proxy host.
+
+---
+
+##### `ProxyScheme`<sup>Optional</sup> <a name="ProxyScheme" id="cdktf.ISSHProvisionerConnection.property.proxyScheme"></a>
+
+```go
+func ProxyScheme() *string
+```
+
+- _Type:_ \*string
+
+The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
+
+---
+
+##### `ProxyUserName`<sup>Optional</sup> <a name="ProxyUserName" id="cdktf.ISSHProvisionerConnection.property.proxyUserName"></a>
+
+```go
+func ProxyUserName() *string
+```
+
+- _Type:_ \*string
+
+The username to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `ProxyUserPassword`<sup>Optional</sup> <a name="ProxyUserPassword" id="cdktf.ISSHProvisionerConnection.property.proxyUserPassword"></a>
+
+```go
+func ProxyUserPassword() *string
+```
+
+- _Type:_ \*string
+
+The password to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.ISSHProvisionerConnection.property.scriptPath"></a>
+
+```go
+func ScriptPath() *string
+```
+
+- _Type:_ \*string
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `TargetPlatform`<sup>Optional</sup> <a name="TargetPlatform" id="cdktf.ISSHProvisionerConnection.property.targetPlatform"></a>
+
+```go
+func TargetPlatform() *string
+```
+
+- _Type:_ \*string
+- _Default:_ unix
+
+The target platform to connect to.
+
+Valid values are "windows" and "unix".
+If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
+If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
+
+---
+
+##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.ISSHProvisionerConnection.property.timeout"></a>
+
+```go
+func Timeout() *string
+```
+
+- _Type:_ \*string
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `User`<sup>Optional</sup> <a name="User" id="cdktf.ISSHProvisionerConnection.property.user"></a>
+
+```go
+func User() *string
+```
+
+- _Type:_ \*string
+- _Default:_ root
+
+The user to use for the connection.
+
+---
 
 ### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
 
@@ -26607,6 +27878,177 @@ Resolve a single token.
 ###### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
 
 - _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+### IWinrmProvisionerConnection <a name="IWinrmProvisionerConnection" id="cdktf.IWinrmProvisionerConnection"></a>
+
+- _Implemented By:_ <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                     | **Type**              | **Description**                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.host">Host</a></code>             | <code>\*string</code> | The address of the resource to connect to.                                                                                                                                  |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.type">Type</a></code>             | <code>\*string</code> | The connection type.                                                                                                                                                        |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.cacert">Cacert</a></code>         | <code>\*string</code> | The CA certificate to validate against.                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.https">Https</a></code>           | <code>\*bool</code>   | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.insecure">Insecure</a></code>     | <code>\*bool</code>   | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.password">Password</a></code>     | <code>\*string</code> | The password to use for the connection.                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.port">Port</a></code>             | <code>\*f64</code>    | The port to connect to.                                                                                                                                                     |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.scriptPath">ScriptPath</a></code> | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                                                                                                   |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.timeout">Timeout</a></code>       | <code>\*string</code> | The timeout to wait for the connection to become available.                                                                                                                 |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.useNtlm">UseNtlm</a></code>       | <code>\*bool</code>   | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.IWinrmProvisionerConnection.property.user">User</a></code>             | <code>\*string</code> | The user to use for the connection.                                                                                                                                         |
+
+---
+
+##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.IWinrmProvisionerConnection.property.host"></a>
+
+```go
+func Host() *string
+```
+
+- _Type:_ \*string
+
+The address of the resource to connect to.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IWinrmProvisionerConnection.property.type"></a>
+
+```go
+func Type() *string
+```
+
+- _Type:_ \*string
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `Cacert`<sup>Optional</sup> <a name="Cacert" id="cdktf.IWinrmProvisionerConnection.property.cacert"></a>
+
+```go
+func Cacert() *string
+```
+
+- _Type:_ \*string
+
+The CA certificate to validate against.
+
+---
+
+##### `Https`<sup>Optional</sup> <a name="Https" id="cdktf.IWinrmProvisionerConnection.property.https"></a>
+
+```go
+func Https() *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+##### `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.IWinrmProvisionerConnection.property.insecure"></a>
+
+```go
+func Insecure() *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.IWinrmProvisionerConnection.property.password"></a>
+
+```go
+func Password() *string
+```
+
+- _Type:_ \*string
+
+The password to use for the connection.
+
+---
+
+##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.IWinrmProvisionerConnection.property.port"></a>
+
+```go
+func Port() *f64
+```
+
+- _Type:_ \*f64
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.IWinrmProvisionerConnection.property.scriptPath"></a>
+
+```go
+func ScriptPath() *string
+```
+
+- _Type:_ \*string
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.IWinrmProvisionerConnection.property.timeout"></a>
+
+```go
+func Timeout() *string
+```
+
+- _Type:_ \*string
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `UseNtlm`<sup>Optional</sup> <a name="UseNtlm" id="cdktf.IWinrmProvisionerConnection.property.useNtlm"></a>
+
+```go
+func UseNtlm() *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+##### `User`<sup>Optional</sup> <a name="User" id="cdktf.IWinrmProvisionerConnection.property.user"></a>
+
+```go
+func User() *string
+```
+
+- _Type:_ \*string
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 

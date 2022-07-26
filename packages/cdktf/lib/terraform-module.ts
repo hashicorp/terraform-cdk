@@ -12,6 +12,7 @@ export interface TerraformModuleUserOptions {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
   readonly dependsOn?: ITerraformDependable[];
   readonly forEach?: ITerraformIterator;
+  readonly skipAssetCreationFromLocalModules?: boolean;
 }
 
 export interface TerraformModuleOptions extends TerraformModuleUserOptions {
@@ -33,21 +34,24 @@ export abstract class TerraformModule
   private _providers?: (TerraformProvider | TerraformModuleProvider)[];
   public dependsOn?: string[];
   public forEach?: ITerraformIterator;
+  public readonly skipAssetCreationFromLocalModules?: boolean;
 
   constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
     super(scope, id, "module");
 
-    if (options.source.startsWith("./") || options.source.startsWith("../")) {
-      // Create an asset for the local module for better TFC support
-      const asset = new TerraformAsset(scope, `local-module-${id}`, {
-        path: options.source,
-      });
+    this.source = options.source;
 
-      // Despite being a relative path already, further indicate it as such for Terraform handling
-      this.source = `./${asset.path}`;
-    } else {
-      this.source = options.source;
+    if (!options.skipAssetCreationFromLocalModules) {
+      if (options.source.startsWith("./") || options.source.startsWith("../")) {
+        // Create an asset for the local module for better TFC support
+        const asset = new TerraformAsset(scope, `local-module-${id}`, {
+          path: options.source,
+        });
+        // Despite being a relative path already, further indicate it as such for Terraform handling
+        this.source = `./${asset.path}`;
+      }
     }
+
     this.version = options.version;
     this._providers = options.providers;
     this.validateIfProvidersHaveUniqueKeys();

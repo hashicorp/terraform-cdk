@@ -11,6 +11,7 @@ const LANGUAGES = [
   {visitor: rosetta.PythonVisitor, targetPath: path.resolve(__dirname, "python", "edge", "translated.py")},
   {visitor: rosetta.JavaVisitor, targetPath: path.resolve(__dirname, "java", "edge", "Translated.java")},
   {visitor: rosetta.CSharpVisitor, targetPath: path.resolve(__dirname, "csharp", "edge", "Translated.cs")},
+  {visitor: rosetta.GoVisitor, targetPath: path.resolve(__dirname, "go", "edge", "translated.go")},
 ];
 
 LANGUAGES.map(({visitor, targetPath}) => {

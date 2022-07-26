@@ -28,7 +28,7 @@ function goBridge(getBytes: Promise<Buffer>) {
   let ready = false;
 
   async function init() {
-    await import(`${process.env.GOROOT}/misc/wasm/wasm_exec`);
+    await import(`../wasm/wasm_exec.js`);
     const go = new (global as any).Go();
     const bytes = await getBytes;
     const result = await WebAssembly.instantiate(bytes, go.importObject);
