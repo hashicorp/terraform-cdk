@@ -129,7 +129,7 @@ namespace MyCompany.MyApp{
     private static string synthesized = Testing.synth(stack);
 
     [Fact]
-    public void shouldContainContainer(){
+    public void ShouldContainContainer(){
       Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType).Pass);
     }
 
