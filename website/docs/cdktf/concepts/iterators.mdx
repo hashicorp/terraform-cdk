@@ -65,6 +65,136 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 
 Besides using the iterator to create multiple resources at the top level, it is also possible to create a list of objects based on each item in the list and assign the result as a value to a property of a resource. The equivalent in native TypeScript code would be using `Array.map` and when using Terraform with HCL it would be using dynamic blocks. Use iterators for list attributes if the length of the list is not known before deploying, else use native functions that are available in your language, e.g. `Array.map` in TypeScript.
 
+<CodeTabs>
+
 ```ts
-// todo
+const orgName = "my-org";
+
+new github.GithubProvider(this, "github", {
+  organization: orgName,
+});
+
+const team = new github.Team(this, "core-team", {
+  name: "core",
+});
+
+const orgMembers = new github.DataGithubOrganization(this, "org", {
+  name: orgName,
+});
+
+const orgMemberIterator = TerraformIterator.fromList(orgMembers.members);
+
+new github.TeamMembers(this, "members", {
+  teamId: team.id,
+  members: orgMemberIterator.dynamic({
+    username: orgMemberIterator.value,
+    role: "maintainer",
+  }),
+});
 ```
+
+```python
+org_name = "my-org"
+
+github.GithubProvider(self, "github",
+    organization=org_name
+)
+
+team = github.Team(self, "core-team",
+    name="core"
+)
+
+org_members = github.DataGithubOrganization(self, "org",
+    name=org_name
+)
+
+org_member_iterator = TerraformIterator.from_list(org_members.members)
+
+github.TeamMembers(self, "members",
+    team_id=team.id,
+    members=org_member_iterator.dynamic({
+        "username": Token().as_string(org_member_iterator.value),
+        "role": "maintainer"
+    })
+)
+```
+
+```java
+String orgName = "my-org";
+
+GithubProvider.Builder.create(this, "github")
+        .organization(orgName)
+        .build();
+
+Team team = Team.Builder.create(this, "core-team")
+        .name("core")
+        .build();
+
+DataGithubOrganization orgMembers = DataGithubOrganization.Builder.create(this, "org")
+        .name(orgName)
+        .build();
+
+ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
+
+HashMap<String, Object> content = new HashMap<String, Object>();
+content.put("username", Token.asString(orgMemberIterator.getValue()));
+content.put("role", "maintainer");
+TeamMembers.Builder.create(this, "members")
+        .teamId(team.getId())
+        .members(orgMemberIterator.dynamic(content))
+        .build();
+```
+
+```csharp
+var orgName = "my-org";
+
+new GithubProvider(this, "github", new GithubProviderConfig {
+    Organization = orgName
+});
+
+var team = new github.Team(this, "core-team", new TeamConfig {
+    Name = "core"
+});
+
+var orgMembers = new github.DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
+    Name = orgName
+});
+
+ListTerraformIterator orgMemberIterator = TerraformIterator.FromList(orgMembers.Members);
+
+new TeamMembers(this, "members", new TeamMembersConfig {
+    TeamId = team.Id,
+    Members = orgMemberIterator.Dynamic(new Dictionary<string, object> {
+        { "username", Token.AsString(orgMemberIterator.Value) },
+        { "role", "maintainer" }
+    })
+});
+```
+
+```go
+orgName := "my-org"
+
+github.NewGithubProvider(this, jsii.String("github"), &github.GithubProviderConfig{
+  "organization": &orgName,
+})
+
+team := github.NewTeam(this, jsii.String("core-team"), &github.TeamConfig{
+  "name": jsii.String("core"),
+})
+
+orgMembers := github.NewDataGithubOrganization(this, jsii.String("org"), &github.DataGithubOrganizationConfig{
+  "name": &orgName,
+})
+
+orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
+
+github.NewTeamMembers(this, jsii.String("members"), &github.TeamMembersConfig{
+  TeamId: team.Id(),
+  Members: orgMemberIterator.Dynamic(&map[string]interface{}{
+    "username": orgMemberIterator.Value(),
+    "role": jsii.String("maintainer"),
+  }),
+})
+```
+
+</CodeTabs>
