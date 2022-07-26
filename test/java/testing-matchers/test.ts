@@ -12,8 +12,11 @@ describe("java testing assertions", () => {
     );
   }, 6000000);
 
+  async function runTests() {
+    await driver.exec('mvn test -Dtest="MainTest"');
+  }
+
   test("run java testing suite", async () => {
-    var res = await driver.exec('mvn test -Dtest="MainTest"');
-    expect(res.stderr).toBe("");
+    await expect(runTests()).resolves.not.toThrow();
   }, 6000000);
 });

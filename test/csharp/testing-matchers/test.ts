@@ -10,8 +10,11 @@ describe("csharp testing assertions", () => {
     await driver.exec("dotnet add reference .gen/docker/docker.csproj");
   }, 6000000);
 
+  async function runTests() {
+    await driver.exec("dotnet test");
+  }
+
   test("run csharp testing suite", async () => {
-    var res = await driver.exec("dotnet test");
-    expect(res.stderr).toBe("");
+    await expect(runTests()).resolves.not.toThrow();
   }, 6000000);
 });
