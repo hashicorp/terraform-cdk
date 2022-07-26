@@ -17,7 +17,7 @@ public class MainTest {
 
     //@Test
     //void shouldContainContainer() {
-    //    assertTrue(Testing.toHaveResource(synthesized, Container.TF_RESOURCE_TYPE).getPass());
+    //    assertTrue(Testing.toHaveResource(synthesized, Container.TF_RESOURCE_TYPE) );
     //}
 
     //@Test
@@ -27,12 +27,12 @@ public class MainTest {
     //                {
     //                    put("name", "ubuntu:latest");
     //                }
-    //            }).getPass());
+    //            }) );
     //}
 
     //@Test
     //void checkValidity() {
-    //    assertTrue(Testing.toBeValidTerraform(Testing.fullSynth(stack)).getPass());
+    //    assertTrue(Testing.toBeValidTerraform(Testing.fullSynth(stack)) );
     //}
 
 }

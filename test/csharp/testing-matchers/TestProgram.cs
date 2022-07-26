@@ -20,60 +20,60 @@ namespace MyCompany.MyApp{
         
         [Fact]
         public void hasResourcePass(){
-            Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType).Pass);
+            Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType) );
         }
 
         [Fact]
         public void hasResourceFail(){
-            Assert.False(Testing.ToHaveResource(synthesized, Config.TfResourceType).Pass);
+            Assert.False(Testing.ToHaveResource(synthesized, Config.TfResourceType) );
         }
 
         [Fact]
         public void hasResourceWithPropertiesPass(){
             Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Container.TfResourceType, new Dictionary<String, Object>() {
                     {"dns_opts", new string[]{"1", "2", "3"}}
-                }).Pass);
+                }) );
         }
 
         [Fact]
         public void hasResourceWithPropertiesFail(){
             Assert.False(Testing.ToHaveResourceWithProperties(synthesized, Container.TfResourceType, new Dictionary<String, Object>() {
                     {"dns_opts", new string[]{"11", "22", "33"}}
-                }).Pass);
+                }) );
         }
         
         [Fact]
         public void hasDataPass(){
-            Assert.True(Testing.ToHaveDataSource(synthesized, DataDockerImage.TfResourceType).Pass);
+            Assert.True(Testing.ToHaveDataSource(synthesized, DataDockerImage.TfResourceType) );
         }
 
         [Fact]
         public void hasDataFail(){
-            Assert.False(Testing.ToHaveDataSource(synthesized, DataDockerNetwork.TfResourceType).Pass);
+            Assert.False(Testing.ToHaveDataSource(synthesized, DataDockerNetwork.TfResourceType) );
         }
 
         [Fact]
         public void hasDataWithPropertiesPass(){
             Assert.True(Testing.ToHaveDataSourceWithProperties(synthesized, DataDockerImage.TfResourceType, new Dictionary<String, Object>(){
                 {"name", "nginx:latest"}
-            }).Pass);
+            }) );
         }
 
         [Fact]
         public void hasDataWithPropertiesFail(){
             Assert.False(Testing.ToHaveDataSourceWithProperties(synthesized, DataDockerImage.TfResourceType, new Dictionary<String, Object>(){
                 {"name", "wrong"}
-            }).Pass);
+            }) );
         }
 
         [Fact]
         public void toBeValidTerraformPass(){
-            Assert.True(Testing.ToBeValidTerraform(fullSynthesizedValid).Pass);
+            Assert.True(Testing.ToBeValidTerraform(fullSynthesizedValid) );
         }
 
         [Fact]
         public void toBeValidTerraformFail(){
-            Assert.False(Testing.ToBeValidTerraform(fullSynthesizedInvalid).Pass);
+            Assert.False(Testing.ToBeValidTerraform(fullSynthesizedInvalid) );
         }
     }
 }

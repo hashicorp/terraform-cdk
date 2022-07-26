@@ -21,7 +21,7 @@ public class MainTest {
 
     @Test
     void hasResourcePass() {
-        assertTrue(Testing.toHaveResource(synthesized, Container.TF_RESOURCE_TYPE).getPass());
+        assertTrue(Testing.toHaveResource(synthesized, Container.TF_RESOURCE_TYPE) );
     }
 
     @Test
@@ -31,12 +31,12 @@ public class MainTest {
                     {
                         put("dns_opts", new String[] { "1", "2", "3" });
                     }
-                }).getPass());
+                }) );
     }
 
     @Test
     void hasResourceFail() {
-        assertFalse(Testing.toHaveResource(synthesized, Config.TF_RESOURCE_TYPE).getPass());
+        assertFalse(Testing.toHaveResource(synthesized, Config.TF_RESOURCE_TYPE));
     }
 
     @Test
@@ -46,12 +46,12 @@ public class MainTest {
                     {
                         put("dns_opts", new String[] { "11", "22", "33" });
                     }
-                }).getPass());
+                }) );
     }
 
     @Test
     void hasDataPass() {
-        assertTrue(Testing.toHaveDataSource(synthesized, DataDockerImage.TF_RESOURCE_TYPE).getPass());
+        assertTrue(Testing.toHaveDataSource(synthesized, DataDockerImage.TF_RESOURCE_TYPE));
     }
 
     @Test
@@ -61,12 +61,12 @@ public class MainTest {
                     {
                         put("name", "nginx:latest");
                     }
-                }).getPass());
+                }));
     }
 
     @Test
     void hasDataFail() {
-        assertFalse(Testing.toHaveDataSource(synthesized, DataDockerNetwork.TF_RESOURCE_TYPE).getPass());
+        assertFalse(Testing.toHaveDataSource(synthesized, DataDockerNetwork.TF_RESOURCE_TYPE) );
     }
 
     @Test
@@ -76,17 +76,17 @@ public class MainTest {
                     {
                         put("name", "wrong");
                     }
-                }).getPass());
+                }) );
     }
 
     @Test
     void isValidTerrformPass() {
-        assertTrue(Testing.toBeValidTerraform(fullSynthesized).getPass());
+        assertTrue(Testing.toBeValidTerraform(fullSynthesized) );
     }
 
     @Test
     void isValidTerrformFail() {
-        assertFalse(Testing.toBeValidTerraform(fullSynthesizedInvalidTerraform).getPass());
+        assertFalse(Testing.toBeValidTerraform(fullSynthesizedInvalidTerraform) );
     }
 
 }

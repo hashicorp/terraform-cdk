@@ -12,7 +12,6 @@ import {
   getToHaveResourceWithProperties,
   getToHaveDataSourceWithProperties,
   toBeValidTerraform,
-  AssertionReturn,
 } from "./matchers";
 
 export interface IScopeCallback {
@@ -172,50 +171,50 @@ export class Testing {
     received: string,
     resourceType: string,
     properties: Record<string, any> = {}
-  ): AssertionReturn {
+  ): boolean {
     return getToHaveDataSourceWithProperties()(
       received,
       { tfResourceType: resourceType },
       properties
-    );
+    ).pass;
   }
 
   public static toHaveDataSource(
     received: string,
     resourceType: string
-  ): AssertionReturn {
+  ): boolean {
     return getToHaveDataSourceWithProperties()(
       received,
       { tfResourceType: resourceType },
       {}
-    );
+    ).pass;
   }
 
   public static toHaveResourceWithProperties(
     received: string,
     resourceType: string,
     properties: Record<string, any> = {}
-  ): AssertionReturn {
+  ): boolean {
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },
       properties
-    );
+    ).pass;
   }
 
   public static toHaveResource(
     received: string,
     resourceType: string
-  ): AssertionReturn {
+  ): boolean {
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },
       {}
-    );
+    ).pass;
   }
 
-  public static toBeValidTerraform(received: string): AssertionReturn {
-    return toBeValidTerraform(received);
+  public static toBeValidTerraform(received: string): boolean {
+    return toBeValidTerraform(received).pass;
   }
 
   public static setupJest() {

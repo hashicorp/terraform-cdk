@@ -19,19 +19,19 @@ namespace MyCompany.MyApp{
 
         //[Fact]
         //public void CheckValidity(){
-        //    Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
+        //    Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)) );
         //}
 
         //[Fact]
         //public void shouldContainContainer(){
-        //    Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType).Pass);
+        //    Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType) );
         //}
 
         //[Fact]
         //public void shouldUseUbuntuImage(){
         //    Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Image.TfResourceType, new Dictionary<String, Object>() {
         //       {"name", "ubuntu:latest"}
-        //    }).Pass);
+        //    }) );
         //}
     }
 

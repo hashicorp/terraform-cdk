@@ -19,16 +19,16 @@ var fullSynthInvalid = cdktf.Testing_FullSynth(stackInvalid)
 func TestToHaveResourcePass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResource(synth, docker.Container_TfResourceType())
 
-	if !*assertion.Pass() {
-		t.Error(assertion.Message())
+	if !*assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 
 func TestToHaveResourceFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveResource(synth, docker.Config_TfResourceType())
 
-	if *assertion.Pass() {
-		t.Error(assertion.Message())
+	if *assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 
@@ -41,8 +41,8 @@ func TestToHaveResourceWithPropertiesPass(t *testing.T){
 	}
 	assertion := cdktf.Testing_ToHaveResourceWithProperties(synth, docker.Container_TfResourceType(), &properties)
 
-	if !*assertion.Pass() {
-		t.Error(assertion.Message())
+	if !*assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 
@@ -55,23 +55,23 @@ func TestToHaveResourceWithPropertiesFail(t *testing.T){
 	}
 	assertion := cdktf.Testing_ToHaveResourceWithProperties(synth, docker.Container_TfResourceType(), &properties)
 
-	if *assertion.Pass() {
-		t.Error(assertion.Message())
+	if *assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 
 func TestToHaveDataPass(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSource(synth, docker.DataDockerImage_TfResourceType())
 
-	if !*assertion.Pass() {
-		t.Error(assertion.Message())
+	if !*assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 func TestToHaveDataFail(t *testing.T){
 	assertion := cdktf.Testing_ToHaveDataSource(synth, docker.DataDockerNetwork_TfResourceType())
 
-	if *assertion.Pass() {
-		t.Error(assertion.Message())
+	if *assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 func TestToHaveDataWithPropertiesPass(t *testing.T){
@@ -80,8 +80,8 @@ func TestToHaveDataWithPropertiesPass(t *testing.T){
 	}
 	assertion := cdktf.Testing_ToHaveDataSourceWithProperties(synth, docker.DataDockerImage_TfResourceType(), &properties)
 
-	if !*assertion.Pass() {
-		t.Error(assertion.Message())
+	if !*assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 func TestToHaveDataWithPropertiesFail(t *testing.T){
@@ -90,22 +90,22 @@ func TestToHaveDataWithPropertiesFail(t *testing.T){
 	}
 	assertion := cdktf.Testing_ToHaveDataSourceWithProperties(synth, docker.DataDockerImage_TfResourceType(), &properties)
 
-	if *assertion.Pass() {
-		t.Error(assertion.Message())
+	if *assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 func TestToBeValidTerraformPass(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynth)
 
-	if !*assertion.Pass() {
-		t.Error(assertion.Message())
+	if !*assertion  {
+		t.Error("Assertion Failed")
 	}
 }
 
 func TestToBeValidTerraformFail(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynthInvalid)
 
-	if *assertion.Pass() {
-		t.Error(assertion.Message())
+	if *assertion  {
+		t.Error("Assertion Failed")
 	}
 }
