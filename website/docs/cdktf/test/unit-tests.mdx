@@ -284,7 +284,7 @@ namespace MyCompany.MyApp{
     private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
 
     [Fact]
-    public void checkValidity(){
+    public void CheckValidity(){
       // We need to do a full synth to validate the terraform configuration
       Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
     }
