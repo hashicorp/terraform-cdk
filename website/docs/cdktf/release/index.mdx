@@ -29,8 +29,7 @@ Edit the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuratio
 
 ### `excludeStackIdFromLogicalIds`
 
-When set, the stack id is excluded from generated logical ids for constructs within the stack. This means constructs that are top-level to the stack will have a logical id that is the same as their construct id.
-When you use nested constructs, the mechanism will add a suffix to the logical id to make it unique.
+When set, CDKTF excludes the stack id from generated logical ids for constructs within the stack. Constructs that are top-level to the stack have a logical id that is the same as their construct id. When you use nested constructs, CDKTF adds a suffix to the logical id to make it unique.
 
 ### `allowSepCharsInLogicalIds`
 
