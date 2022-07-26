@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // Originally from aws-cdk v2 because with constructs v10 addMessage was removed
 // in favor of Annotations in the AWS CDK
 // https://github.com/aws/aws-cdk/blob/dcae3eead0dbf9acb1ed80ba95bb104c64cb1bd7/packages/@aws-cdk/core/lib/annotations.ts

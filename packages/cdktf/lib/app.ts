@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Construct, IConstruct } from "constructs";
 import * as fs from "fs";
 import { version } from "../package.json";

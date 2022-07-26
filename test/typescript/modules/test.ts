@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { TestDriver, onWindows, onPosix } from "../../test-helper";
 import * as fs from "fs-extra";
 import * as path from "path";

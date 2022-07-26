@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import execa from "execa";
 import path from "path";
 import { promises as fs } from "fs";

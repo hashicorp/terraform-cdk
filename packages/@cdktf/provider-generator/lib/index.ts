@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 export * from "./get/constructs-maker";
 export * as config from "./config";
 export { getResourceNamespace } from "./get/generator/constants/provider-namespaces";

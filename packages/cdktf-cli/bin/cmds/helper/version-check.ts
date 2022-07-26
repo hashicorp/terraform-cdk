@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // This code was mostly copied from https://github.com/aws/aws-cdk/blob/0e96415ea9f365db93aa4b26e7464096b3d62af2/packages/aws-cdk/lib/version.ts
 
 import { exec as _exec } from "child_process";

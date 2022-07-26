@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 export * from "./s3-backend";
 export * from "./local-backend";
 export * from "./remote-backend";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // tslint:disable-next-line:no-var-requires
 import * as crypto from "crypto";
 

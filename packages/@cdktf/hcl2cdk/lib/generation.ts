@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import generate from "@babel/generator";
 import template from "@babel/template";
 import * as t from "@babel/types";

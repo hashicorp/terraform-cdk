@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // This is the programmatic entrypoint that the CLI uses.
 // While this is the closest we have to a programmatic API, please understand that the interfaces in this file are not stable.
 // Convert is not included here since it's published independently as @cdktf/hcl2cdk.

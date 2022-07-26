@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Testing, TerraformStack, TerraformLocal } from "../lib";
 import { TestResource } from "./helper";
 import { TestProvider } from "./helper/provider";

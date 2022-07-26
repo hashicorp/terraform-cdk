@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { SynthesizedStack } from "./synth-stack";
 import { AnnotationMetadataEntryType } from "cdktf";
 import * as chalk from "chalk";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Testing } from "../../..";
 import { TestResource } from "../../../../test/helper";
 import { TestDataSource } from "../../../../test/helper/data-source";

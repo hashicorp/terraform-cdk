@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // All switches based on environment variables in one place
 
 function envVarToBoolean(envVar: string | undefined): boolean {

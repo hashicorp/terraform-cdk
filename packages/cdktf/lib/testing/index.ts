@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import fs = require("fs");
 import path = require("path");
 import os = require("os");

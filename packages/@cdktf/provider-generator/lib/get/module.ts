@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import isValidDomain from "is-valid-domain";
 
 // Logic from https://github.com/hashicorp/terraform/blob/e09b831f6ee35d37b11b8dcccd3a6d6f6db5e5ff/internal/addrs/module_source.go#L198

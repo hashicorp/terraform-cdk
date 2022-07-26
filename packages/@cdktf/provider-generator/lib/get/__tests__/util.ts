@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import * as fs from "fs";
 import { withTempDir } from "../../util";
 import { Language, ConstructsMaker } from "../constructs-maker";

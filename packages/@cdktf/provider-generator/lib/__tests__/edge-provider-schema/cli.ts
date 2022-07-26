@@ -1,4 +1,5 @@
-#!/usr/bin/env node
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import * as path from "path";
 import * as fs from "fs-extra";
 import { edgeSchema } from ".";

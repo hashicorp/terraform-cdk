@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { logger } from "./logging";
 import { SynthesizedStack } from "./synth-stack";
 type TFIdentifier = string;

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { Testing, TerraformStack, TerraformOutput, Fn } from "../lib";
 import { TerraformVariable } from "../lib/terraform-variable";
 import { TerraformLocal } from "../lib/terraform-local";

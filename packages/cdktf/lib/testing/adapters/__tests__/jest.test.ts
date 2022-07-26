@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import { setupJest } from "../jest";
 import { Testing } from "../../index";
 import { TestDataSource } from "../../../../test/helper/data-source";

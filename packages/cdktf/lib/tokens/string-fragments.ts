@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 // Copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/string-fragments.ts
 import { IFragmentConcatenator, IResolvable } from "./resolvable";
 import { Tokenization } from "./token";

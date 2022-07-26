@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// Licensed under the Mozilla Public License 2.0
 import camelcase from "camelcase";
 
 export const camelCase = (str: string) => camelcase(str.replace(/[-/]/g, "_"));
