@@ -152,6 +152,7 @@
         "title": "Overview",
         "path": "release"
       },
+      { "title": "Upgrading to Version 0.12", "path": "release/upgrade-guide-v0-12" },
       { "title": "Upgrading to Version 0.11", "path": "release/upgrade-guide-v0-11" },
       { "title": "Upgrading to Version 0.10", "path": "release/upgrade-guide-v0-10" },
       { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" },
