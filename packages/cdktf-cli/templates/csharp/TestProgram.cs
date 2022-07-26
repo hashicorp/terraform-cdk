@@ -18,7 +18,7 @@ namespace MyCompany.MyApp{
         //private static string synthesized = Testing.synth(stack);
 
         //[Fact]
-        //public void checkValidity(){
+        //public void CheckValidity(){
         //    Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)).Pass);
         //}
 
