@@ -2,13 +2,17 @@ import fs = require("fs");
 import path = require("path");
 import os = require("os");
 import stringify = require("json-stable-stringify");
-import { App } from "../../lib";
-import { TerraformStack } from "../terraform-stack";
+import { App, TerraformStack } from "../../lib";
 import { Manifest } from "../manifest";
 import { FUTURE_FLAGS } from "../features";
 import { IConstruct, Construct } from "constructs";
 import { setupJest } from "./adapters/jest";
 import { invokeAspects } from "../synthesize/synthesizer";
+import {
+  getToHaveResourceWithProperties,
+  getToHaveDataSourceWithProperties,
+  toBeValidTerraform,
+} from "./matchers";
 
 export interface IScopeCallback {
   (scope: Construct): void;
@@ -163,12 +167,57 @@ export class Testing {
     }
   }
 
-  public static setupJest() {
-    setupJest();
+  public static toHaveDataSourceWithProperties(
+    received: string,
+    resourceType: string,
+    properties: Record<string, any> = {}
+  ): boolean {
+    return getToHaveDataSourceWithProperties()(
+      received,
+      { tfResourceType: resourceType },
+      properties
+    ).pass;
   }
 
-  /* istanbul ignore next */
-  private constructor() {
-    return;
+  public static toHaveDataSource(
+    received: string,
+    resourceType: string
+  ): boolean {
+    return getToHaveDataSourceWithProperties()(
+      received,
+      { tfResourceType: resourceType },
+      {}
+    ).pass;
+  }
+
+  public static toHaveResourceWithProperties(
+    received: string,
+    resourceType: string,
+    properties: Record<string, any> = {}
+  ): boolean {
+    return getToHaveResourceWithProperties()(
+      received,
+      { tfResourceType: resourceType },
+      properties
+    ).pass;
+  }
+
+  public static toHaveResource(
+    received: string,
+    resourceType: string
+  ): boolean {
+    return getToHaveResourceWithProperties()(
+      received,
+      { tfResourceType: resourceType },
+      {}
+    ).pass;
+  }
+
+  public static toBeValidTerraform(received: string): boolean {
+    return toBeValidTerraform(received).pass;
+  }
+
+  public static setupJest() {
+    setupJest();
   }
 }

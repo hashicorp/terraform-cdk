@@ -5,15 +5,29 @@ import { snakeCase } from "../util";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
+// TerraformConstructor is class with the static property 'tfResourceType'
 export interface TerraformConstructor {
-  new (...args: any[]): any;
   readonly tfResourceType: string;
 }
+
 export type SynthesizedStack = {
   resource: Record<string, any>;
   data: Record<string, any>;
 };
-export type MatcherReturn = { message: () => string; pass: boolean };
+
+export class AssertionReturn {
+  constructor(public readonly message: string, public readonly pass: boolean) {}
+}
+
+export type MatcherReturnJest = { message: () => string; pass: boolean };
+export function returnMatcherToJest(
+  toReturn: AssertionReturn
+): MatcherReturnJest {
+  return {
+    message: () => toReturn.message,
+    pass: toReturn.pass,
+  };
+}
 
 /**
  * Compares expected and recieved. All expected properties are matched and considered equal if
@@ -101,7 +115,7 @@ function getAssertElementWithProperties(
     received: string,
     itemType: TerraformConstructor,
     properties: Record<string, any> = {}
-  ) {
+  ): AssertionReturn {
     let stack: SynthesizedStack;
     try {
       stack = JSON.parse(received) as SynthesizedStack;
@@ -120,35 +134,33 @@ function getAssertElementWithProperties(
     const pass = passEvaluation(items, properties);
 
     if (pass) {
-      return {
-        pass,
-        message: () =>
-          `Expected no ${
-            itemType.tfResourceType
-          } with properties ${JSON.stringify(
-            properties,
-            jestAsymetricMatcherStringifyReplacer
-          )} to be present in synthesised stack.
+      return new AssertionReturn(
+        `Expected no ${
+          itemType.tfResourceType
+        } with properties ${JSON.stringify(
+          properties,
+          jestAsymetricMatcherStringifyReplacer
+        )} to be present in synthesised stack.
 Found ${items.length === 0 ? "no" : items.length} ${
-            itemType.tfResourceType
-          } resources instead${
-            items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
-          }`,
-      };
+          itemType.tfResourceType
+        } resources instead${
+          items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+        }`,
+        pass
+      );
     } else {
-      return {
-        message: () =>
-          `Expected ${itemType.tfResourceType} with properties ${JSON.stringify(
-            properties,
-            jestAsymetricMatcherStringifyReplacer
-          )} to be present in synthesised stack.
+      return new AssertionReturn(
+        `Expected ${itemType.tfResourceType} with properties ${JSON.stringify(
+          properties,
+          jestAsymetricMatcherStringifyReplacer
+        )} to be present in synthesised stack.
 Found ${items.length === 0 ? "no" : items.length} ${
-            itemType.tfResourceType
-          } resources instead${
-            items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
-          }`,
-        pass,
-      };
+          itemType.tfResourceType
+        } resources instead${
+          items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+        }`,
+        pass
+      );
     }
   };
 }
@@ -163,7 +175,7 @@ export function getToHaveDataSourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
-  ): MatcherReturn {
+  ): AssertionReturn {
     return getAssertElementWithProperties(customPassEvaluation)(
       "data",
       received,
@@ -183,7 +195,7 @@ export function getToHaveResourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
-  ): MatcherReturn {
+  ): AssertionReturn {
     return getAssertElementWithProperties(customPassEvaluation)(
       "resource",
       received,
@@ -192,16 +204,16 @@ export function getToHaveResourceWithProperties(
     );
   };
 }
-export function toBeValidTerraform(received: string): MatcherReturn {
+export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
       throw new Error("Path is not a directory");
     }
   } catch (e) {
-    return {
-      message: () => `Expected subject to be a terraform directory: ${e}`,
-      pass: false,
-    };
+    return new AssertionReturn(
+      `Expected subject to be a terraform directory: ${e}`,
+      false
+    );
   }
 
   try {
@@ -229,29 +241,28 @@ export function toBeValidTerraform(received: string): MatcherReturn {
         );
       }
     });
-
-    return {
-      pass: true,
-      message: () => `Expected subject not to be a valid terraform stack`,
-    };
+    return new AssertionReturn(
+      `Expected subject not to be a valid terraform stack`,
+      true
+    );
   } catch (e) {
-    return {
-      pass: false,
-      message: () => `Expected subject to be a valid terraform stack: ${e}`,
-    };
+    return new AssertionReturn(
+      `Expected subject to be a valid terraform stack: ${e}`,
+      false
+    );
   }
 }
 
-export function toPlanSuccessfully(received: string): MatcherReturn {
+export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
       throw new Error("Path is not a directory");
     }
   } catch (e) {
-    return {
-      message: () => `Expected subject to be a terraform directory: ${e}`,
-      pass: false,
-    };
+    return new AssertionReturn(
+      `Expected subject to be a terraform directory: ${e}`,
+      false
+    );
   }
 
   try {
@@ -273,14 +284,14 @@ export function toPlanSuccessfully(received: string): MatcherReturn {
       execSync(`${terraformBinaryName} plan -input=false `, opts);
     });
 
-    return {
-      pass: true,
-      message: () => `Expected subject not to plan successfully`,
-    };
+    return new AssertionReturn(
+      `Expected subject not to plan successfully`,
+      true
+    );
   } catch (e) {
-    return {
-      pass: false,
-      message: () => `Expected subject to plan successfully: ${e}`,
-    };
+    return new AssertionReturn(
+      `Expected subject to plan successfully: ${e}`,
+      false
+    );
   }
 }
