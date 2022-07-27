@@ -7,6 +7,8 @@ import (
 	jsii "github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/gkeAuth"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/cloudplatform"
+	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/google/gke"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/helm"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/kubernetes"
 	"github.com/hashicorp/terraform-cdk/examples/go/google/generated/hashicorp/local"
@@ -20,21 +22,21 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	})
 	local.NewLocalProvider(stack, jsii.String("local"), &local.LocalProviderConfig{})
 
-	sa := google.NewServiceAccount(stack, jsii.String("sa"), &google.ServiceAccountConfig{
+	sa := cloudplatform.NewServiceAccount(stack, jsii.String("sa"), &cloudplatform.ServiceAccountConfig{
 		AccountId:   jsii.String("cluster-admin"),
 		DisplayName: jsii.String("Cluster Admin"),
 	})
 
-	cluster := google.NewContainerCluster(stack, jsii.String("cluster"), &google.ContainerClusterConfig{
+	cluster := gke.NewContainerCluster(stack, jsii.String("cluster"), &gke.ContainerClusterConfig{
 		Name:                  jsii.String("cluster"),
 		RemoveDefaultNodePool: jsii.Bool(true),
 		InitialNodeCount:      jsii.Number(1),
 	})
 
-	google.NewContainerNodePool(stack, jsii.String("main-pool"), &google.ContainerNodePoolConfig{
+	gke.NewContainerNodePool(stack, jsii.String("main-pool"), &gke.ContainerNodePoolConfig{
 		Name:    jsii.String("main"),
 		Cluster: cluster.Name(),
-		NodeConfig: &google.ContainerNodePoolNodeConfig{
+		NodeConfig: &gke.ContainerNodePoolNodeConfig{
 			MachineType:    jsii.String("e2-medium"),
 			Preemptible:    jsii.Bool(true),
 			ServiceAccount: sa.Email(),
