@@ -28,11 +28,11 @@ Use these template names for the available pre-built templates:
 - `python`
 - `c#`
 - `java`
-- `go` (experimental)
+- `go`
 
 ### Use a Local Backend
 
-Your application needs somewhere to store [Terraform state](/language/state). Add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](/language/settings/backends/local). This means all terraform operations will happen on your local machine.
+Add the `--local` flag to created a scaffolded project that is pre-configured to use a [local backend](/language/settings/backends/local). This means that your application stores [Terraform state](/language/state) on your local machine and all Terraform operations run locally.
 
 ```
 $ cdktf init --template="typescript" --local
@@ -40,28 +40,7 @@ $ cdktf init --template="typescript" --local
 
 ### Use Terraform Cloud as a Remote Backend
 
-You can configure Terraform Cloud as a remote backend if you do not want to store your Terraform state locally. Refer to [Terraform Cloud docs](/cdktf/concepts/terraform-cloud) for setup details.
-
-#### Terraform Cloud VCS Integration
-
-Terraform Cloud supports [connecting to VCS providers](/cloud-docs/vcs). To use the VCS integration:
-
-1. Commit the synthesized Terraform config (the `cdktf.out` directory) alongside your code, so that Terraform Cloud can use it to deploy your infrastructure.
-1. On the **General Settings** page of your Terraform Cloud workspace, [set the Terraform working directory](/cloud-docs/workspaces/settings#terraform-working-directory) to the output directory of the stack you want to deploy. For example, use `cdktf.out/stacks/dev` if your stack is named `dev`.
-
-Refer to [Stacks](/cdktf/concepts/stacks) for more information about using stacks to separate the state management for multiple environments in an application.
-
-~> **Important**: The synthesized Terraform config might contain credentials or other sensitive data that was provided as input for the `cdktf` application. Use [Terraform input variables](/cdktf/concepts/variables-and-outputs#input-variables) to pass secrets configured as [workspace-specific variables](cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) in TerraformCloud.
-
-#### External CI service
-
-If you prefer to keep the generated artifacts out of your repository, use any CI (Continuous Integration) service to build and deploy them instead. The CDK for Terraform CLI supports deploying to Terraform Cloud using either the local or remote execution mode. For more information on how runs work in Terraform Cloud, see [Terraform Runs and Remote Operations](/cloud-docs/run).
-
-Use the [`cdktf-cli` commands](/cdktf/cli-reference/commands) as part of your CI steps to synthesize your code and deploy your infrastructure.
-
-```
-cdktf deploy --auto-approve
-```
+When you run `cdktf init` without the `--local` flag, CDKTF defaults to using Terraform Cloud as a remote backend. This lets you store state and run Terraform operations remotely in Terraform Cloud. Refer to [Set Up CDKTF With Terraform Cloud](/cdktf/create-and-deploy/terraform-cloud#set-up-cdktf-with-terraform-cloud) for details.
 
 ## Project Configuration
 
@@ -124,6 +103,8 @@ app.synth();
 ## Generate Terraform Configuration
 
 Run [`cdktf synth`](/cdktf/cli-reference/commands#synth) to synthesize your application into JSON configuration files that Terraform can use to manage infrastructure. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands.
+
+Refer to [Deployment Patterns](/cdktf/create-and-deploy/deployment-patterns#example-workflows) for example workflows, including connecting your CDKTF application to a Continuous Integration pipeline.
 
 ## Convert an HCL Project to a CDKTF TypeScript Project
 

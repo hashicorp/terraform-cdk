@@ -26,13 +26,9 @@ We recommend synthesizing your CDKTF application and using Terraform directly wh
 
 ## Using Terraform Cloud
 
-Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets by defining [workspace variables](/cloud-docs/workspaces/variables). You can only use workspace variables for secrets if you set your workspace to [remote execution mode](/cloud-docs/workspaces/settings#execution-mode), which means that Terraform runs are executed within Terraform Cloud. If you use the local execution mode or any other backend, you must specify the credentials for your providers locally through environment variables.
+Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets.
 
-Using Terraform Cloud with a [CLI-driven Run Workflow](/cloud-docs/run/cli), also requires setting your workspace to remote execution mode.
-
-~> **Warning:** Remote execution with non-interactive workflows requires auto-approved deployments. Minimize risk of unpredictable infrastructure changes and configuration drift by making sure that no one can change your infrastructure outside of your automated build pipeline. Refer to [Non-Interactive Workflows](/cloud-docs/run/cli#non-interactive-workflows) for details.
-
-To run Terraform Cloud with a [VCS-Driven Run Workflow](/cloud-docs/run/ui) you must check in your synthesized code.
+Refer to [Set Up CDKTF With Terraform Cloud](/cdktf/create-and-deploy/terraform-cloud#set-up-cdktf-with-terraform-cloud) for details. Refer to [Example Workflows](#example-workflows) for several examples of connecting your CDKTF application to Terraform Cloud and using Terraform Cloud in a Continuous Integration pipeline.
 
 ## Managing Secrets and Sensitive Data
 
@@ -44,12 +40,12 @@ The following examples demonstrate common deployment workflows for your CDKTF ap
 
 ### Deploy with Terraform and Terraform Cloud
 
-You could create a workflow with the following steps:
+Connect your synthesized CDKTF configuration to a Terraform Cloud workspace with the following steps:
 
-1. Add a pre-commit step that runs `cdktf synth`. This creates Terraform configuration files under `cdktf.out/stacks/<stack-name>`.
-2. Configure the VCS integration for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
+1. Add a pre-commit step in your CDKTF application that runs `cdktf synth`. This creates Terraform configuration files in the `cdktf.out/stacks/<stack-name>` directory.
+2. [Configure the VCS integration](/cloud-docs/workspaces/settings/vcs) for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
 
-Refer to [UI/VCS-Driven Run Workflow](/cloud-docs/run/ui) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
+Refer to [Automatic Run Triggering](/cloud-docs/workspaces/settings/vcs#automatic-run-triggering) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
 
 ### Terraform CDK GitHub Action
 
@@ -155,7 +151,7 @@ jobs:
             })
 ```
 
-### Running the CDKTF CLI on a general purpose CI
+### Running the CDKTF CLI on a General Purpose CI
 
 If you have a general purpose CI like GitHub Actions or CircleCI configured, use the `cdktf deploy --auto-approve <your stacks>` command to trigger a deployment. This deploys your stacks in the right order and in parallel. To set up this workflow, you must install the following software:
 
@@ -168,4 +164,4 @@ If you have a general purpose CI like GitHub Actions or CircleCI configured, use
 
 ### Contribute Additional Examples
 
-If you want to share another solution, please [open a GitHub issue](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2C+new&template=feature-request.md&title=) or submit a pull request for this documentation page.
+To share another solution, please [open a GitHub issue](https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2C+new&template=feature-request.md&title=) or submit a pull request for this documentation page.

@@ -21,8 +21,12 @@
         "path": "concepts/constructs"
       },
       {
-        "title": "Providers and Resources",
-        "path": "concepts/providers-and-resources"
+        "title": "Providers",
+        "path": "concepts/providers"
+      },
+      {
+        "title": "Resources",
+        "path": "concepts/resources"
       },
       {
         "title": "Modules",
@@ -142,6 +146,10 @@
       {
         "title": "Go",
         "path": "api-reference/go"
+      },
+      {
+        "title": "Providers",
+        "path": "api-reference/provider"
       }
     ]
   },

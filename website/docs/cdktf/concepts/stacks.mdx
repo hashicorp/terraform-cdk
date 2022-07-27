@@ -110,9 +110,9 @@ multiple-stacks-production-us   cdktf.out/stacks/multiple-stacks-production-us
 multiple-stacks-production-eu   cdktf.out/stacks/multiple-stacks-production-eu
 ```
 
-All Terraform operations are currently limited to a single stack, so you must specify a target stack directory to run `diff`, `deploy` or `destroy`. CDKTF emits an error if you omit the target stack and run a plain `cdktf deploy`. Please track this [issue](https://github.com/hashicorp/terraform-cdk/issues/650) if you're interested in deploying multiple stacks at once.
+To deploy and destroy multiple stacks at once, either specify multiple stacks in the `cdktf deploy` and `cdktf destroy` command or use a wild card glob (e.g., `cdktf deploy '*-production'`).
 
-To run multiple stacks at once, move them into the same directory and run `cdktf deploy`. For example, you could create a combined directory called `multiple-stacks-dev`, run `cdktf deploy multiple-stacks-dev`, and all Terraform operations will run in the folder `cdktf.out/stacks/multiple-stacks-dev`.
+Refer to [Best Practices](/cdktf/create-and-deploy/best-practices#separate-business-units-with-stacks) for more details about when to create multiple stacks and how to structure them.
 
 ### Cross-Stack References
 
