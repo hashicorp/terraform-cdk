@@ -11,17 +11,19 @@ We generate all files necessary to start testing when you run `cdktf init` so th
 
 ## Add Testing to Your Application
 
-    If you would like to add testing to an existing project, refer the following resources according to your chosen language:
-    - **TypeScript:** Follow TypeScript's [Getting Started guide](https://jestjs.io/docs/getting-started) for testing with Jest. Then, add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+If you would like to add testing to an existing project, refer the following resources according to your chosen language:
 
-        ```js
-        const cdktf = require("cdktf");
-        cdktf.Testing.setupJest();
-        ```
-    - **Python:** Follow the [Get Started guide](https://docs.pytest.org/en/7.1.x/getting-started.html) for pytest. The assertions for CDKTF are available in the `cdktf` package under `Testing`.
-    - **Java:** Follow the [Using JUnit documentation](https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/junit.html). The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
-    - **C#:** Follow the [Getting Started with xUnit.net guide](https://xunit.net/docs/getting-started/netcore/cmdline). The assertions for CDKTF are available in the `cdktf` package under `Testing`.
-    - **Go:** Follow the [Add a Test guide](https://go.dev/doc/tutorial/add-a-test) in the Go documentation. The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
+- **TypeScript:** Follow TypeScript's [Getting Started guide](https://jestjs.io/docs/getting-started) for testing with Jest. Then, add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+
+  ```js
+  const cdktf = require("cdktf");
+  cdktf.Testing.setupJest();
+  ```
+
+- **Python:** Follow the [Get Started guide](https://docs.pytest.org/en/7.1.x/getting-started.html) for pytest. The assertions for CDKTF are available in the `cdktf` package under `Testing`.
+- **Java:** Follow the [Using JUnit documentation](https://maven.apache.org/plugins-archives/maven-surefire-plugin-2.12.4/examples/junit.html). The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
+- **C#:** Follow the [Getting Started with xUnit.net guide](https://xunit.net/docs/getting-started/netcore/cmdline). The assertions for CDKTF are available in the `cdktf` package under `Testing`.
+- **Go:** Follow the [Add a Test guide](https://go.dev/doc/tutorial/add-a-test) in the Go documentation. The assertions for CDKTF specific are available in the `cdktf` package under `Testing`.
 
 ### Write Assertions
 
