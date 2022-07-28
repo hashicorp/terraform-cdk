@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using google;
-using google.compute;
+using google.Compute;
 using Constructs;
 using HashiCorp.Cdktf;
 
