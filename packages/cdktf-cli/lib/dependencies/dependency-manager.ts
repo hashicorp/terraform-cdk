@@ -168,6 +168,15 @@ export class DependencyManager {
       return false;
     }
 
+    // google and google-beta can not build go bindings yet
+    // the GH Action runners don't have enough RAM to support this
+    if (
+      this.targetLanguage === Language.GO &&
+      constraint.simplifiedName.includes("google")
+    ) {
+      return false;
+    }
+
     const v = await getPrebuiltProviderVersion(constraint, this.cdktfVersion);
     const exists = v !== null;
 
