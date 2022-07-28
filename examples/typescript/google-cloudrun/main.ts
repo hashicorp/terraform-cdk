@@ -1,11 +1,11 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import { GoogleProvider } from "./.gen/providers/google";
-import { DataGoogleIamPolicy } from "./.gen/providers/google/iam";
 import {
   CloudRunService,
+  GoogleProvider,
+  DataGoogleIamPolicy,
   CloudRunServiceIamPolicy,
-} from "./.gen/providers/google/cloudrun";
+} from "./.gen/providers/google";
 import * as path from "path";
 import * as fs from "fs";
 

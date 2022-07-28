@@ -1,10 +1,10 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { GoogleProvider } from "./.gen/providers/google";
 import {
+  GoogleProvider,
   ComputeNetwork,
   ComputeInstance,
-} from "./.gen/providers/google/compute";
+} from "./.gen/providers/google";
 import * as path from "path";
 import * as fs from "fs";
 

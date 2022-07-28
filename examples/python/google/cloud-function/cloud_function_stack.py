@@ -4,15 +4,9 @@ from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput, TerraformAsset, AssetType
 
 from imports.google import (
-    GoogleProvider,
-    
-)
-from imports.google.cloudfunctions import (
     CloudfunctionsFunctionIamBinding,
+    GoogleProvider,
     CloudfunctionsFunction,
-)
-
-from imports.google.storage import (
     StorageBucket,
     StorageBucketObject,
 )

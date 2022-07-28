@@ -10,11 +10,11 @@ import java.util.Arrays;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.google.compute.ComputeInstance;
-import imports.google.compute.ComputeInstanceBootDisk;
-import imports.google.compute.ComputeInstanceBootDiskInitializeParams;
-import imports.google.compute.ComputeInstanceNetworkInterface;
-import imports.google.compute.ComputeNetwork;
+import imports.google.ComputeInstance;
+import imports.google.ComputeInstanceBootDisk;
+import imports.google.ComputeInstanceBootDiskInitializeParams;
+import imports.google.ComputeInstanceNetworkInterface;
+import imports.google.ComputeNetwork;
 import imports.google.GoogleProvider;
 import software.constructs.Construct;
 

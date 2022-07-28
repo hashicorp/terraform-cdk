@@ -82,7 +82,7 @@ new google.GoogleProvider(this, \\"google\\", {
   project: \\"my-project\\",
   region: \\"us-central1\\",
 });
-new google.compute.ComputeAutoscaler(this, \\"example\\", {
+new google.ComputeAutoscaler(this, \\"example\\", {
   autoscalingPolicy: {
     cooldownPeriod: 60,
     cpuUtilization: {
@@ -860,7 +860,7 @@ new google.GoogleProvider(this, \\"google\\", {
   project: \\"my-project\\",
   region: \\"us-central1\\",
 });
-const googleComputeInstanceExample = new google.compute.ComputeInstance(
+const googleComputeInstanceExample = new google.ComputeInstance(
   this,
   \\"example\\",
   {
