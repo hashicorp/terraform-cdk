@@ -23,6 +23,10 @@ export interface TerraformOutputConfig {
   readonly staticId?: boolean;
 }
 
+/**
+ * You can define Terraform outputs to export structured data about your resources.
+ * Terraform prints the output value for the user after it applies infrastructure changes, and you can use this information as a data source for other Terraform workspaces.
+ */
 export class TerraformOutput extends TerraformElement {
   public value: Expression | ITerraformAddressable;
   public description?: string;

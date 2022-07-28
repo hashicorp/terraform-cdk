@@ -25,6 +25,9 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
+/**
+ * An abstract class that represents a Terraform module.
+ */
 export abstract class TerraformModule
   extends TerraformElement
   implements ITerraformDependable

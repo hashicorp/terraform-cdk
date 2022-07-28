@@ -145,6 +145,10 @@ export class Lazy {
   }
 }
 
+/**
+ * Base Class for lazily resolving values, this means they can be used as a token
+ * while not having their final value yet
+ */
 export abstract class LazyBase implements IResolvable {
   public readonly creationStack: string[];
   private postProcessors: IPostProcessor[] = [];
@@ -181,6 +185,10 @@ export abstract class LazyBase implements IResolvable {
   }
 }
 
+/**
+ * Lazily resolving string. This means it can be used as a token
+ * value while not having their final value yet
+ */
 class LazyString extends LazyBase {
   constructor(private readonly producer: IStringProducer) {
     super();
@@ -191,6 +199,10 @@ class LazyString extends LazyBase {
   }
 }
 
+/**
+ * Lazily resolving number. This means it can be used as a token
+ * value while not having their final value yet
+ */
 class LazyNumber extends LazyBase {
   constructor(private readonly producer: INumberProducer) {
     super();
@@ -201,6 +213,10 @@ class LazyNumber extends LazyBase {
   }
 }
 
+/**
+ * Lazily resolving list. This means it can be used as a token
+ * value while not having their final value yet
+ */
 class LazyList extends LazyBase {
   constructor(
     private readonly producer: IListProducer,
@@ -218,6 +234,10 @@ class LazyList extends LazyBase {
   }
 }
 
+/**
+ * Lazily resolving any. This means it can be used as a token
+ * value while not having their final value yet
+ */
 class LazyAny extends LazyBase {
   constructor(
     private readonly producer: IAnyProducer,

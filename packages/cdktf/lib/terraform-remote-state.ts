@@ -11,6 +11,9 @@ export interface DataTerraformRemoteStateConfig {
   readonly defaults?: { [key: string]: any };
 }
 
+/**
+ * A Terraform remote state.
+ */
 export abstract class TerraformRemoteState
   extends TerraformElement
   implements ITerraformAddressable

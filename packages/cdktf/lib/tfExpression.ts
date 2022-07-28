@@ -5,6 +5,11 @@ import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
 
+/**
+ * Base class for any Terraform expression
+ * A terraform expression is anything inside a ${}
+ * block and can be used to define logic.
+ */
 class TFExpression extends Intrinsic implements IResolvable {
   protected resolveArg(context: IResolveContext, arg: any): string {
     const resolvedArg = context.resolve(arg);
@@ -99,7 +104,9 @@ class TFExpression extends Intrinsic implements IResolvable {
   }
 }
 
-// A string that represents an input value to be escaped
+/**
+ * A class representation of a string that represents an input value to be escaped
+ */
 class RawString extends TFExpression {
   constructor(private readonly str: string) {
     super(str);
@@ -115,10 +122,17 @@ class RawString extends TFExpression {
   }
 }
 
+/**
+ * A string that represents an input value to be escaped
+ */
 export function rawString(str: string): IResolvable {
   return new RawString(str);
 }
 
+/**
+ * A class representation of a reference to a resource / data source / variable / local attribute.
+ * The resulting reference can be used across stacks to form cross-stack dependencies
+ */
 class Reference extends TFExpression {
   /**
    * A single reference could be used in multiple stacks,
@@ -166,6 +180,10 @@ class Reference extends TFExpression {
   }
 }
 
+/**
+ * A resolvable reference to a resource / data source / variable / local attribute.
+ * The resulting reference can be used across stacks to form cross-stack dependencies
+ */
 export function ref(identifier: string, stack?: TerraformStack): IResolvable {
   return new Reference(identifier, stack);
 }
@@ -178,6 +196,9 @@ export function insideTfExpression(arg: any) {
   return arg;
 }
 
+/**
+ * A class representation of a property access, e.g. my_resource.my_property["foo"]
+ */
 class PropertyAccess extends TFExpression {
   constructor(private target: Expression, private args: Expression[]) {
     super({ target, args });
@@ -198,10 +219,16 @@ class PropertyAccess extends TFExpression {
   }
 }
 
+/**
+ * A resolvable representation of a property access, e.g. my_resource.my_property["foo"]
+ */
 export function propertyAccess(target: Expression, args: Expression[]) {
   return new PropertyAccess(target, args) as IResolvable;
 }
 
+/**
+ * A class representation of a conditional expression, e.g. condition ? true : false
+ */
 class ConditionalExpression extends TFExpression {
   constructor(
     private condition: Expression,
@@ -252,6 +279,10 @@ export type Operator =
   | "!="
   | "&&"
   | "||";
+
+/**
+ * A class representing artihmetic expressions, e.g. a - b
+ */
 class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
@@ -293,65 +324,114 @@ class OperatorExpression extends TFExpression {
   }
 }
 
+/**
+ * creates an expression like `!a`
+ */
 export function notOperation(expression: Expression) {
   return new OperatorExpression("!", expression) as IResolvable;
 }
 
+/**
+ * creates an expression like `-a`
+ */
 export function negateOperation(expression: Expression) {
   return new OperatorExpression("-", expression) as IResolvable;
 }
 
+/**
+ * creates an expression like `a * b`
+ */
 export function mulOperation(left: Expression, right: Expression) {
   return new OperatorExpression("*", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a / b`
+ */
 export function divOperation(left: Expression, right: Expression) {
   return new OperatorExpression("/", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a % b`
+ */
 export function modOperation(left: Expression, right: Expression) {
   return new OperatorExpression("%", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a + b`
+ */
 export function addOperation(left: Expression, right: Expression) {
   return new OperatorExpression("+", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a - b`
+ */
 export function subOperation(left: Expression, right: Expression) {
   return new OperatorExpression("-", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a > b`
+ */
 export function gtOperation(left: Expression, right: Expression) {
   return new OperatorExpression(">", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a >= b`
+ */
 export function gteOperation(left: Expression, right: Expression) {
   return new OperatorExpression(">=", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a < b`
+ */
 export function ltOperation(left: Expression, right: Expression) {
   return new OperatorExpression("<", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a <= b`
+ */
 export function lteOperation(left: Expression, right: Expression) {
   return new OperatorExpression("<=", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a == b`
+ */
 export function eqOperation(left: Expression, right: Expression) {
   return new OperatorExpression("==", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a != b`
+ */
 export function neqOperation(left: Expression, right: Expression) {
   return new OperatorExpression("!=", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a && b`
+ */
 export function andOperation(left: Expression, right: Expression) {
   return new OperatorExpression("&&", left, right) as IResolvable;
 }
 
+/**
+ * creates an expression like `a || b`
+ */
 export function orOperation(left: Expression, right: Expression) {
   return new OperatorExpression("||", left, right) as IResolvable;
 }
+
+/**
+ * Class representing a function call, e.g. foo(a, b)
+ */
 class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
     super({ name, args });
@@ -370,6 +450,10 @@ class FunctionCall extends TFExpression {
     return suppressBraces ? expr : `\${${expr}}`;
   }
 }
+
+/**
+ * creates a function call expression, e.g. foo(a, b)
+ */
 export function call(name: string, args: Expression[]) {
   return new FunctionCall(name, args) as IResolvable;
 }
@@ -378,7 +462,7 @@ export const FOR_EXPRESSION_KEY = ref("key");
 export const FOR_EXPRESSION_VALUE = ref("val");
 
 /**
- * https://www.terraform.io/docs/language/expressions/for.html
+ * Class creating a for expression, see https://www.terraform.io/docs/language/expressions/for.html
  */
 class ForExpression extends TFExpression {
   constructor(
@@ -438,6 +522,9 @@ export function forExpression(
   ) as IResolvable;
 }
 
+/**
+ * Class representing a dependable element, e.g. a resource
+ */
 class Dependable extends TFExpression {
   constructor(private dependable: ITerraformDependable) {
     super(dependable);
@@ -449,6 +536,10 @@ class Dependable extends TFExpression {
     return this.dependable.fqn;
   }
 }
+
+/**
+ * Returns a dependable element, e.g. a resource
+ */
 export function dependable(dependable: ITerraformDependable): string {
   return Token.asString(new Dependable(dependable));
 }

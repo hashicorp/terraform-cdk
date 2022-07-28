@@ -15,11 +15,17 @@ export type SynthesizedStack = {
   data: Record<string, any>;
 };
 
+/**
+ * Class wrapping an assertion message and a boolean indicating whether the assertion passed or failed
+ */
 export class AssertionReturn {
   constructor(public readonly message: string, public readonly pass: boolean) {}
 }
 
 export type MatcherReturnJest = { message: () => string; pass: boolean };
+/**
+ * Wraps a AssertionReturn to make it usable in jest
+ */
 export function returnMatcherToJest(
   toReturn: AssertionReturn
 ): MatcherReturnJest {
@@ -93,14 +99,24 @@ const defaultPassEvaluation = (
   );
 };
 
+/**
+ * Jest has asymetric matchers, e.g. expect.ObjectContaining
+ */
 function isAsymmetric(obj: any) {
   return !!obj && typeof obj === "object" && "asymmetricMatch" in obj;
 }
-// You can use expect.Anything(), expect.ObjectContaining, etc in jest, this makes it nicer to read
-// when we print error mesages
+
+/**
+ * You can use expect.Anything(), expect.ObjectContaining, etc in jest, this makes it nicer to read
+ * when we print error mesages
+ */
 function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
   return isAsymmetric(value) ? `expect.${value.toString()}` : value;
 }
+
+/**
+ * Asserts if an element exists with given properties
+ */
 function getAssertElementWithProperties(
   // We have the evaluation function configurable so we can make use of the specific testing frameworks capabilities
   // This makes the resulting tests more native to the testing framework
@@ -165,6 +181,9 @@ Found ${items.length === 0 ? "no" : items.length} ${
   };
 }
 
+/**
+ * Returns function asserting if a data source with the given properties exists
+ */
 export function getToHaveDataSourceWithProperties(
   customPassEvaluation?: (
     items: any,
@@ -185,6 +204,9 @@ export function getToHaveDataSourceWithProperties(
   };
 }
 
+/**
+ * Returns function asserting if a resource with the given properties exists
+ */
 export function getToHaveResourceWithProperties(
   customPassEvaluation?: (
     items: any,
@@ -204,6 +226,10 @@ export function getToHaveResourceWithProperties(
     );
   };
 }
+
+/**
+ * Asserts that the stack results in valid terraform
+ */
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
@@ -253,6 +279,9 @@ export function toBeValidTerraform(received: string): AssertionReturn {
   }
 }
 
+/**
+ * Asserts that the stack result plans successfully by running a plan
+ */
 export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {

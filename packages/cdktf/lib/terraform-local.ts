@@ -5,6 +5,9 @@ import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 
+/**
+ * A Terraform local that saves any value to a stack to reference later.
+ */
 export class TerraformLocal
   extends TerraformElement
   implements ITerraformAddressable

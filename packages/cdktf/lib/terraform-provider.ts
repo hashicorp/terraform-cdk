@@ -10,6 +10,9 @@ export interface TerraformProviderConfig {
   readonly terraformProviderSource?: string;
 }
 
+/**
+ * Abstract class to create a terraform provider.
+ */
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;

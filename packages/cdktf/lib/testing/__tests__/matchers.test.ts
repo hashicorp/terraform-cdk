@@ -13,6 +13,9 @@ import { DockerProvider } from "../../../test/helper/provider";
 import * as fs from "fs";
 import * as path from "path";
 
+/**
+ * Make the synthesized stack invalid by corrupting the manifest
+ */
 function corruptSynthesizedStack(stackPath: string) {
   const manifest = JSON.parse(
     fs.readFileSync(path.resolve(stackPath, "manifest.json"), "utf8")

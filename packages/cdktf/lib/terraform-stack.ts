@@ -34,6 +34,9 @@ export interface TerraformStackMetadata {
   readonly backend: string;
 }
 
+/**
+ * Throws an error if the id of a stack contains a glob character
+ */
 function throwIfIdIsGlobCharacter(str: string): void {
   const err = (char: string) =>
     `Can not create Terraform stack with id "${str}". It contains a glob character: "${char}"`;
@@ -45,6 +48,9 @@ function throwIfIdIsGlobCharacter(str: string): void {
   });
 }
 
+/**
+ * Throws an error if the id of a stack contains a whitespace character
+ */
 function throwIfIdContainsWhitespace(str: string): void {
   if (/\s/.test(str)) {
     throw new Error(
@@ -53,6 +59,10 @@ function throwIfIdContainsWhitespace(str: string): void {
   }
 }
 
+/**
+ * A stack represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration.
+ * Stacks allow you to separate the state management for multiple environments within an application.
+ */
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
@@ -83,6 +93,9 @@ export class TerraformStack extends Construct {
   public static of(construct: IConstruct): TerraformStack {
     return _lookup(construct);
 
+    /**
+     * Recursively finds the stack that contains the given construct
+     */
     function _lookup(c: IConstruct): TerraformStack {
       if (TerraformStack.isStack(c)) {
         return c;
@@ -331,6 +344,9 @@ export class TerraformStack extends Construct {
   }
 }
 
+/**
+ * Finds all Terraform Elements in a given node.
+ */
 function terraformElements(
   node: IConstruct,
   into: TerraformElement[] = []

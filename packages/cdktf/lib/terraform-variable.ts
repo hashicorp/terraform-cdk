@@ -6,6 +6,9 @@ import { Expression, ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 
+/**
+ * Abstract class to build a variable type constraint.
+ */
 export abstract class VariableType {
   public static readonly STRING = "string";
   public static readonly NUMBER = "number";
@@ -98,6 +101,9 @@ export interface TerraformVariableConfig {
   readonly validation?: TerraformVariableValidationConfig[];
 }
 
+/**
+ * Creates a Terraform variable.
+ */
 export class TerraformVariable
   extends TerraformElement
   implements ITerraformAddressable

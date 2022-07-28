@@ -62,6 +62,9 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
+/**
+ * Base class for all Terraform resources.
+ */
 export class TerraformResource
   extends TerraformElement
   implements ITerraformResource, ITerraformDependable, IInterpolatingParent
