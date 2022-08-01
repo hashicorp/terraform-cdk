@@ -21,7 +21,7 @@ assignees: ""
 <!--- Please make note of the version you are using for the `hashicorp/terraform-cdk` and pre-built provider you are using.
 If you are not running the latest version, please upgrade because your issue may have already been fixed. --->
 
-### Affected Resource(s)
+### Affected Provider / Resource(s)
 
 <!--- Please list the affected resources. --->
 
