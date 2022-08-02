@@ -276,7 +276,7 @@ export function toPlanSuccessfully(received: string): AssertionReturn {
       execSync(`${terraformBinaryName} init`, opts);
 
       // Throws on a non-zero exit code
-      execSync(`${terraformBinaryName} plan -input=false `, opts);
+      execSync(`${terraformBinaryName} plan -input=false -lock=false `, opts);
     });
 
     return new AssertionReturn(
