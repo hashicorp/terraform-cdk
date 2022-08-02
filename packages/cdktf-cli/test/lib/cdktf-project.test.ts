@@ -392,27 +392,41 @@ describe("CdktfProject", () => {
         expect(e).toMatchInlineSnapshot(`[Error: non-zero exit code 1]`);
       }
 
-      return expect(
-        events
-          .filter((e) => !e.type.includes("update"))
-          .map((e) => `${e.stackName || "global"}: ${e.type}`)
-      ).toEqual([
+      const relevantEvents = events
+        .filter((e) => !e.type.includes("update"))
+        .map((e) => `${e.stackName || "global"}: ${e.type}`);
+
+      // the first 5 events have a stable order
+      expect(relevantEvents.slice(0, 5)).toEqual([
         "global: synthesizing",
         "global: synthesized",
         "stack1: planning",
         "stack2: planning",
         "stack3: planning",
-        "stack1: planned",
-        "stack1: deploying",
-        "stack2: planned",
-        "stack2: deploying",
-        "stack3: planned",
-        "stack3: deploying",
+      ]);
+
+      // the last 3 events also have a stable order because
+      // they have timeouts that ensure the duration they take
+      // to deploy / fail while deploying
+      expect(relevantEvents.slice(-3)).toEqual([
         "stack1: deployed",
         "stack2: errored",
         "stack3: deployed",
       ]);
-    });
+
+      // the middle events can occur in any order as the duration
+      // they take to plan is not guaranteed
+      expect(new Set(relevantEvents.slice(5, -3))).toEqual(
+        new Set([
+          "stack1: planned",
+          "stack1: deploying",
+          "stack2: planned",
+          "stack2: deploying",
+          "stack3: planned",
+          "stack3: deploying",
+        ])
+      );
+    }, 120_000);
 
     it("deploys stacks in the right order with auto approve", async () => {
       const events: any[] = [];
