@@ -327,7 +327,7 @@ async function getTerraformProject(): Promise<string | undefined> {
   }
   const { shouldUseTerraformProject } = await inquirer.prompt({
     name: "shouldUseTerraformProject",
-    message: "Do you want to start from a Terraform project?",
+    message: "Do you want to start from an existing Terraform project?",
     type: "confirm",
     default: false,
   });
