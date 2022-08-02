@@ -25,9 +25,10 @@ import { Aspects, IAspect } from "cdktf";
 // Not all constructs are taggable, so we need to filter it
 type TaggableConstruct = IConstruct & {
   tags?: { [key: string]: string };
+  tagsInput?: { [key: string]: string };
 };
 function isTaggableConstruct(x: IConstruct): x is TaggableConstruct {
-  return "tags" in x;
+  return "tags" in x && "tagsInput" in x;
 }
 
 export class TagsAddingAspect implements IAspect {
