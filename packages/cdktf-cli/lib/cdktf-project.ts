@@ -135,7 +135,14 @@ export async function getStackWithNoUnmetDependencies(
     return undefined;
   }
 
-  await Promise.race(stackExecutionPromises);
+  try {
+    await Promise.race(stackExecutionPromises);
+  } catch (e) {
+    // if an error was the first thing to happen, we still need to wait for all other work
+    // that is currently in progress to complete to allow it to properly wrap up
+    await Promise.allSettled(stackExecutionPromises);
+    throw e;
+  }
 
   return await getStackWithNoUnmetDependencies(stackExecutors);
 }
@@ -527,24 +534,49 @@ export class CdktfProject {
       if (runningStacks.length >= maxParallelRuns) {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
       } else {
-        const nextRunningExecutor = await next();
-        if (!nextRunningExecutor) {
-          // In this case we have no pending stacks, but we also can not find a new executor
-          break;
+        try {
+          const nextRunningExecutor = await next();
+          if (!nextRunningExecutor) {
+            // In this case we have no pending stacks, but we also can not find a new executor
+            break;
+          }
+          method === "deploy"
+            ? nextRunningExecutor.deploy(refreshOnly)
+            : nextRunningExecutor.destroy();
+        } catch (e) {
+          // await next() threw an error because a stack failed to apply/destroy
+          // wait for all other currently running stacks to complete before propagating that error
+          logger.debug(
+            "Encountered an error while awaiting stack to finish",
+            e
+          );
+          logger.debug("Waiting for still running stacks to finish");
+          await Promise.allSettled(
+            this.stacksToRun
+              .filter((ex) => ex.currentWorkPromise)
+              .map((ex) => ex.currentWorkPromise)
+          );
+          logger.debug(
+            "Done waiting for still running stacks. All pending work finished"
+          );
+          throw e;
         }
-
-        method === "deploy"
-          ? nextRunningExecutor.deploy(refreshOnly)
-          : nextRunningExecutor.destroy();
       }
     }
 
     // We end the loop when all stacks are started, now we need to wait for them to be done
-    await Promise.all(
-      this.stacksToRun
-        .filter((ex) => ex.currentWorkPromise)
-        .map((ex) => ex.currentWorkPromise)
-    );
+    // We wait for all work to finish even if one of the promises threw an error.
+    const currentWork = this.stacksToRun
+      .filter((ex) => ex.currentWorkPromise)
+      .map((ex) => ex.currentWorkPromise);
+    try {
+      await Promise.all(currentWork);
+    } catch (e) {
+      // if an error happened, we still need to wait for all other work that
+      // is currently in progress to complete to allow it to properly wrap up
+      await Promise.allSettled(currentWork);
+      throw e;
+    }
   }
 
   public async deploy(opts: ExecutionOptions = {}) {
