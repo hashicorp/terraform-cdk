@@ -550,11 +550,15 @@ export class CdktfProject {
             "Encountered an error while awaiting stack to finish",
             e
           );
-          logger.debug("Waiting for still running stacks to finish");
+          const openStacks = this.stacksToRun.filter(
+            (ex) => ex.currentWorkPromise
+          );
+          logger.debug(
+            "Waiting for still running stacks to finish:",
+            openStacks
+          );
           await Promise.allSettled(
-            this.stacksToRun
-              .filter((ex) => ex.currentWorkPromise)
-              .map((ex) => ex.currentWorkPromise)
+            openStacks.map((ex) => ex.currentWorkPromise)
           );
           logger.debug(
             "Done waiting for still running stacks. All pending work finished"
