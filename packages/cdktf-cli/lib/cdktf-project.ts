@@ -8,6 +8,7 @@ import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
+import { ensureAllSettledBeforeThrowing } from "./util";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -135,14 +136,10 @@ export async function getStackWithNoUnmetDependencies(
     return undefined;
   }
 
-  try {
-    await Promise.race(stackExecutionPromises);
-  } catch (e) {
-    // if an error was the first thing to happen, we still need to wait for all other work
-    // that is currently in progress to complete to allow it to properly wrap up
-    await Promise.allSettled(stackExecutionPromises);
-    throw e;
-  }
+  await ensureAllSettledBeforeThrowing(
+    Promise.race(stackExecutionPromises),
+    stackExecutionPromises
+  );
 
   return await getStackWithNoUnmetDependencies(stackExecutors);
 }
@@ -573,14 +570,8 @@ export class CdktfProject {
     const currentWork = this.stacksToRun
       .filter((ex) => ex.currentWorkPromise)
       .map((ex) => ex.currentWorkPromise);
-    try {
-      await Promise.all(currentWork);
-    } catch (e) {
-      // if an error happened, we still need to wait for all other work that
-      // is currently in progress to complete to allow it to properly wrap up
-      await Promise.allSettled(currentWork);
-      throw e;
-    }
+
+    await ensureAllSettledBeforeThrowing(Promise.all(currentWork), currentWork);
   }
 
   public async deploy(opts: ExecutionOptions = {}) {
