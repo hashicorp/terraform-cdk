@@ -1,4 +1,9 @@
-import { onPosix, onWindows, TestDriver } from "../../test-helper";
+import {
+  onPosix,
+  onWindows,
+  sanitizeTimestamps,
+  TestDriver,
+} from "../../test-helper";
 
 describe("provider add command", () => {
   describe("local", () => {
@@ -9,7 +14,7 @@ describe("provider add command", () => {
     }, 500_000);
 
     onPosix(
-      "adds local provider on posix", // Don't have pre-built providers for go
+      "adds local provider on posix",
       async () => {
         const res = await driver.exec("cdktf", [
           "provider",
@@ -18,11 +23,11 @@ describe("provider add command", () => {
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
-        Array [
-          "hashicorp/null@~> 3.1.0",
-          "hashicorp/local@=2.2.3",
-        ]
-      `);
+                  Array [
+                    "hashicorp/null@~> 3.1.0",
+                    "hashicorp/local@=2.2.3",
+                  ]
+              `);
 
         expect(res.stdout).toContain(
           `Local providers have been updated. Running cdktf get to update...`
@@ -51,11 +56,11 @@ describe("provider add command", () => {
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
-        Array [
-          "hashicorp/null@~> 3.1.0",
-          "hashicorp/local@=2.2.3",
-        ]
-      `);
+                  Array [
+                    "hashicorp/null@~> 3.1.0",
+                    "hashicorp/local@=2.2.3",
+                  ]
+              `);
 
         expect(res.stdout).toContain(
           `Local providers have been updated. Running cdktf get to update...`
@@ -73,5 +78,62 @@ describe("provider add command", () => {
       },
       120_000
     );
+  });
+
+  describe("pre-built", () => {
+    let driver: TestDriver;
+
+    beforeEach(async () => {
+      driver = new TestDriver(__dirname, {
+        CDKTF_DIST: "",
+        DISABLE_VERSION_CHECK: "true",
+      }); // reset CDKTF_DIST set by run-against-dist script & disable version check as we have to use an older version of cdktf-cli
+      await driver.setupGoProject({
+        init: { additionalOptions: "--cdktf-version 0.12.0" },
+      });
+    });
+
+    it("detects correct cdktf version", async () => {
+      const res = await driver.exec("cdktf", ["debug"]);
+      expect(res.stdout).toContain("cdktf: 0.12.0");
+    });
+
+    test("installs pre-built provider using go get", async () => {
+      const res = await driver.exec("cdktf", [
+        "provider",
+        "add",
+        "random@=3.3.2", // this won't always be the latest version, but theres v2.0.12 of the pre-built provider resulting in exactly this package
+      ]);
+
+      // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
+      // change in the future and would break this test
+      expect(sanitizeTimestamps(res.stdout))
+        .toContain(`Checking whether pre-built provider exists for the following constraints:
+  provider: random
+  version : =3.3.2
+  language: go
+  cdktf   : v0.12.0
+
+
+Found pre-built provider.
+
+Adding package github.com/hashicorp/cdktf-provider-random-go/random @ 2.0.12`);
+
+      expect(sanitizeTimestamps(res.stdout)).toContain(
+        "go get: added github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+      );
+      expect(sanitizeTimestamps(res.stdout)).toContain("Package installed.");
+
+      // go also prints to stderr, weird but 🤷
+      expect(res.stderr).toContain(
+        "go get: added github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+      );
+
+      const goMod = driver.readLocalFile("go.mod");
+
+      expect(goMod).toContain(
+        "github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+      );
+    }, 180_000);
   });
 });
