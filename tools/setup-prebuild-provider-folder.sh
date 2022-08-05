@@ -48,8 +48,9 @@ cd packages
 for repo in $REPO_NAMES; do
     echo "Adding $repo"
     
-    gh repo clone "hashicorp/$repo"
+    gh repo clone "hashicorp/$repo" &
 done
 
 # Removing is easier than filtering
 rm -rf cdktf-provider-project
+rm -rf cdktf-repository-manager
