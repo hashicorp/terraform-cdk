@@ -5,6 +5,7 @@ import { exec } from "../util";
 import { xml2js, js2xml, Element } from "xml-js";
 import { Errors } from "../errors";
 import * as fs from "fs-extra";
+import * as semver from "semver";
 
 /**
  * manages installing, updating, and removing dependencies
@@ -223,8 +224,23 @@ class GoPackageManager extends PackageManager {
   ): Promise<void> {
     console.log(`Adding package ${packageName} @ ${packageVersion}`);
 
+    const majorVersion: number | undefined = packageVersion
+      ? semver.major(packageVersion)
+      : undefined;
+
+    let versionPackageSuffix = "";
+    if (typeof majorVersion === "number" && majorVersion > 1) {
+      versionPackageSuffix = `/v${majorVersion}`;
+    }
+
     // Install
-    await exec("go", ["get", packageName], { cwd: this.workingDirectory });
+    await exec(
+      "go",
+      ["get", `${packageName}${versionPackageSuffix}@v${packageVersion}`],
+      {
+        cwd: this.workingDirectory,
+      }
+    );
 
     console.log("Package installed.");
   }
