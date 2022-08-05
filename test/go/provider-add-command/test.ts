@@ -104,6 +104,11 @@ describe("provider add command", () => {
         "add",
         "random@=3.3.2", // this won't always be the latest version, but theres v2.0.12 of the pre-built provider resulting in exactly this package
       ]);
+      // TODO: this will fail as soon as we release a new pre-built provider version for that exact version of the TF provider
+      // until there is a newer version of that TF provider, cdktf provider add will always pick the latest and hence v2.0.12 will change
+      // this will settle as soon as we release cdktf 0.13 or a "random@>3.3.2" comes out and no newer pre-built provider versions will
+      // be published for v3.3.2. We could skip this test in the meantime. Unfortunately we can't test against an older version as Go pre-built
+      // providers where only supported as of cdktf 0.12 🙈
 
       // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
       // change in the future and would break this test
@@ -112,7 +117,7 @@ describe("provider add command", () => {
   provider: random
   version : =3.3.2
   language: go
-  cdktf   : v0.12.0
+  cdktf   : 0.12.0
 
 
 Found pre-built provider.
