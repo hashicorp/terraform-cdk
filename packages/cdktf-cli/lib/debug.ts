@@ -224,7 +224,7 @@ async function getGoPackageVersion(packageName: string) {
     versionLine = versionLine.split("=>")[0].trim();
   }
 
-  return versionLine.split(" ").pop();
+  return versionLine.split(" ").pop()?.replace("v", "");
 }
 
 async function getJavaPackageVersion(packageName: string) {

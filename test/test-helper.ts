@@ -333,3 +333,17 @@ export class TestDriver {
 
 export const onWindows = process.platform === "win32" ? it : it.skip;
 export const onPosix = process.platform !== "win32" ? it : it.skip;
+
+/**
+ * replaces all occurences like
+ * [2022-08-05T15:51:40.093] [ERROR]
+ * with
+ * [<TIMESTAMP>] [ERROR]
+ * to allow snapshot tests on output that produces errors which are logged with timestamps
+ */
+export function sanitizeTimestamps(output: string): string {
+  return output.replace(
+    /\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}\]/m,
+    "[<TIMESTAMP>]"
+  );
+}
