@@ -79,7 +79,7 @@ class ReferenceStack extends TerraformStack {
 
         // passing a literal array with references for a list
         // This doesn't work since the types of 'req' and 'singlereq' are different.
-        // It works in TS/Python since the type definitions have the same properties.
+        // It works in TS since the type definitions have the same properties.
         // ListBlockResource.Builder.create(this, "list_literal")
         // .req(Token.asAny(Collections.singletonList(list.getSinglereq())))
         // .singlereq(list.getSinglereq())

@@ -60,16 +60,20 @@ class ReferenceStack(TerraformStack):
         )
 
         # passing a reference to a complete list
-        edge.ListBlockResource(self, "list_reference",
-            req=list.req,
-            singlereq=list.singlereq
-        )
+        # Not supported at this time.
+        # Tricky to get working because of JSII interface limitations.
+        # edge.ListBlockResource(self, "list_reference",
+        #     req=list.req,
+        #     singlereq=list.singlereq
+        # )
 
         # passing a literal array with references for a list
-        edge.ListBlockResource(self, "list_literal",
-            req=[list.singlereq],
-            singlereq=list.singlereq
-        )
+        # This doesn't work since the types of 'req' and 'singlereq' are different.
+        # It works in TS since the type definitions have the same properties.
+        #edge.ListBlockResource(self, "list_literal",
+        #    req=[list.singlereq],
+        #    singlereq=list.singlereq
+        #)
 
         # required values FROM map
         edge.RequiredAttributeResource(self, "from_map",

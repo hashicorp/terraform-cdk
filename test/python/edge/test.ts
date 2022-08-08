@@ -123,7 +123,8 @@ describe("full integration test", () => {
       ]);
     });
 
-    it("item references a required single item list", () => {
+    // Not supported at this time
+    it.skip("item references a required single item list", () => {
       const item = stack.byId("list_reference");
 
       // Expands single item references
@@ -142,14 +143,16 @@ describe("full integration test", () => {
       `);
     });
 
-    it("item references a required multi item list", () => {
+    // Not supported at this time
+    it.skip("item references a required multi item list", () => {
       const item = stack.byId("list_reference");
 
       // Expands single item references
       expect(item.req).toEqual("${list_block_resource.list.req}");
     });
 
-    it("list attribute uses reference of single-item list", () => {
+    // Not supported at this time
+    it.skip("list attribute uses reference of single-item list", () => {
       const item = stack.byId("list_literal");
 
       // Expands single item references
