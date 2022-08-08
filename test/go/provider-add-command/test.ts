@@ -20,6 +20,7 @@ describe("provider add command", () => {
           "provider",
           "add",
           "local@=2.2.3",
+          "--force-local",
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
@@ -53,6 +54,7 @@ describe("provider add command", () => {
           "provider",
           "add",
           "local@=2.2.3",
+          "--force-local",
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
