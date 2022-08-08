@@ -90,7 +90,7 @@
     "eslint": "^7.32.0",
     "jest": "^26.6.3",
     "jsii": "^1.63.2",
-    "jsii-docgen": "^7.0.61",
+    "jsii-docgen": "^7.0.66",
     "jsii-pacmak": "^1.63.2",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
