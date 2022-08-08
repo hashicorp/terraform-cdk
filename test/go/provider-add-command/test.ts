@@ -80,7 +80,7 @@ describe("provider add command", () => {
     );
   });
 
-  describe("pre-built", () => {
+  describe.skip("pre-built", () => {
     let driver: TestDriver;
 
     beforeEach(async () => {
@@ -109,6 +109,7 @@ describe("provider add command", () => {
       // this will settle as soon as we release cdktf 0.13 or a "random@>3.3.2" comes out and no newer pre-built provider versions will
       // be published for v3.3.2. We could skip this test in the meantime. Unfortunately we can't test against an older version as Go pre-built
       // providers where only supported as of cdktf 0.12 🙈
+      // Update: this now fails and is disabled for a bit.
 
       // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
       // change in the future and would break this test
