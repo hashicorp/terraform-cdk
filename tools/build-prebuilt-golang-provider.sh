@@ -12,7 +12,7 @@ if [ -z "$GITHUB_TOKEN" ]; then
     exit 1;
 fi
 
-# Some of use use gpg signing, but that does not work with the automation, so we need to disable it first.
+# Some of us use gpg signing, but that does not work with the automation, so we need to disable it first.
 GPG_SIGNING=$(git config --global commit.gpgsign)
 if [ "$GPG_SIGNING" = "true" ]; then
     git config --global commit.gpgsign false
@@ -36,7 +36,7 @@ for PROVIDER in "${PROVIDERS[@]}"; do
     jq -M -r ".version = \"$CURRENT_VERSION\"" package.json > package.json.new
     mv package.json.new package.json
 
-    # We don't use built to get around packaging for all the languages.
+    # We don't use "build" to get around packaging for all the languages.
     echo "Compiling ${PROVIDER} provider"
     yarn compile
 
