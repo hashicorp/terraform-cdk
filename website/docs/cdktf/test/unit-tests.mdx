@@ -203,7 +203,7 @@ describe("Unit testing using snapshots", () => {
 
 ### Integration with Terraform
 
-You can produce invalid Terraform configuration if you are using escape hatches in your CDK for Terraform application. You may use an escape hatch when setting up a [remote backend](/cdktf/concepts/remote-backends) or when [overriding resource attributes](/cdktf/concepts/providers-and-resources#escape-hatch)
+You can produce invalid Terraform configuration if you are using escape hatches in your CDK for Terraform application. You may use an escape hatch when setting up a [remote backend](/cdktf/concepts/remote-backends) or when [overriding resource attributes](/cdktf/concepts/resources#escape-hatch)
 
 To test this, you can assert that [`terraform validate`](/cli/commands/validate) or [`terraform plan`](/cli/commands/plan) run successfully on all or part of your application before running `cdktf plan` or `cdktf deploy`.
 

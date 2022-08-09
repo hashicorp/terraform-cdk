@@ -601,7 +601,7 @@ maven: Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)Maven home: 
 
 ## provider add
 
-This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/cdktf/concepts/providers-and-resources#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/cdktf/concepts/providers-and-resources#add-provider-to-cdktf-json).
+This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
 
 ```sh
 $ cdktf provider add --help

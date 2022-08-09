@@ -230,7 +230,7 @@ export class ListTerraformIterator extends TerraformIterator {
    * Returns the currenty entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
    * use count using the escape hatch:
-   * https://www.terraform.io/cdktf/concepts/providers-and-resources#escape-hatch
+   * https://www.terraform.io/cdktf/concepts/resources#escape-hatch
    */
   public get key(): any {
     return this._getKey();

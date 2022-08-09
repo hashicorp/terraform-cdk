@@ -93,7 +93,7 @@ Go to the working directory and run `cdktf get`. CDKTF automatically creates the
 
 ## Configure Modules
 
-You can configure modules in the same way as [resources](/cdktf/concepts/providers-and-resources#resources), with one exception.
+You can configure modules in the same way as [resources](/cdktf/concepts/resources), with one exception.
 
 For module inputs that use the `map` type, like `map(string)` or `list(map(string))`, you must specify the map values as strings. You must also ensure that the keys follow the required format listed in the module's documentation. For example, the module may specify that the keys must be in snake case.
 
