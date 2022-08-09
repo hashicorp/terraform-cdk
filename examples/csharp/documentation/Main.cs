@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using aws;
 using aws.S3;
+using kubernetes;
 using Constructs;
 using HashiCorp.Cdktf;
-
+using MyConstructs;
 
 namespace MyCompany.MyApp
 {
@@ -31,6 +32,18 @@ namespace MyCompany.MyApp
                 Bucket = bucket.Bucket,
                 Key = asset.FileName,
                 Source = asset.Path
+            });
+
+            // concepts/constructs.mdx
+            new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
+                ConfigPath = Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
+            });
+            new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
+                { "image", "nginx:latest" },
+                { "replicas", 2 },
+                { "app", "myapp" },
+                { "component", "frontend" },
+                { "environment", "dev" }
             });
         }
 

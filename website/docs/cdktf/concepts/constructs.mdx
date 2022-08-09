@@ -50,7 +50,9 @@ You can import any [CDKTF-compatible](#available-constructs) construct that is a
 
 The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
-```typescript
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import * as kubernetes from "@cdktf/provider-kubernetes";
@@ -81,18 +83,154 @@ new MyStack(app, "app");
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+import imports.kubernetes as kubernetes
+import os as os
+
+from my_constructs import KubernetesWebAppDeployment
+
+class MyStack(TerraformStack):
+    def __init__(self, scope, name):
+        super().__init__(scope, name)
+
+        kubernetes.KubernetesProvider(self, "kind",
+            config_path=os.path.join(os.path.dirname(__file__), '..', 'kubeconfig.yaml')
+        )
+
+        KubernetesWebAppDeployment(self, "deployment", {
+            "image": "nginx:latest",
+            "replicas": 2,
+            "app": "myapp",
+            "component": "frontend",
+            "environment": "dev"
+        })
+
+app = App()
+MyStack(app, "app")
+app.synth()
+```
+
+```java
+package com.mycompany.app;
+
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import imports.kubernetes.*;
+import java.nio.file.Paths;
+
+
+public class MyStack extends TerraformStack {
+    public MyStack(Construct scope, String name) {
+        super(scope, name);
+
+        KubernetesProvider.Builder.create(this, "kind")
+                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
+                .build();
+
+        new KubernetesWebAppDeployment(this, "deployment", Map.of(
+                "image", "nginx:latest",
+                "replicas", 2,
+                "app", "myapp",
+                "component", "frontend",
+                "environment", "dev"));
+    }
+}
+
+App app = new App();
+new MyStack(app, "app");
+app.synth();
+```
+
+```csharp
+using Constructs;
+using HashiCorp.Cdktf;
+using kubernetes;
+using Path;
+
+using MyConstructs;
+
+class MyStack : TerraformStack
+{
+    public MyStack(Construct scope, string name) : base(scope, name)
+    {
+
+        new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
+            ConfigPath = Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
+        });
+
+        new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
+            { "image", "nginx:latest" },
+            { "replicas", 2 },
+            { "app", "myapp" },
+            { "component", "frontend" },
+            { "environment", "dev" }
+        });
+    }
+}
+
+App app = new App();
+new MyStack(app, "app");
+app.Synth();
+```
+
+```go
+import "github.com/aws/constructs-go/constructs"
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+import "github.com/myorg/myproject/generated/hashicorp/kubernetes"
+import "github.com/myorg/myproject/myconstructs"
+import "path"
+
+type myStack struct {
+	terraformStack
+}
+
+func NewMyStack(scope construct, name *string) *myStack {
+	this := &myStack{}
+	NewTerraformStack_Override(this, scope, name)
+
+  cwd, err := os.Getwd()
+  if err != nil {
+      log.Println(err)
+  }
+
+	kubernetes.NewKubernetesProvider(this, jsii.String("kind"), &kubernetesProviderConfig{
+		configPath: jsii.String(path.Join(cwd, "../kubeconfig.yaml")),
+	})
+
+	myconstructs.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
+		"image": jsii.String("nginx:latest"),
+		"replicas": jsii.Number(2),
+		"app": jsii.String("myapp"),
+		"component": jsii.String("frontend"),
+		"environment": jsii.String("dev"),
+	})
+	return this
+}
+
+app := cdktf.NewApp()
+NewMyStack(app, jsii.String("app"))
+app.Synth()
+```
+
+</CodeTabs>
+
 ### Scope
 
 You can instantiate a construct multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. CDKTF infers a unique `name` for each instance from its `Construct#id` and parent construct. Instances that share the same parent element are considered to be part of the same scope. If you instantiate multiple constructs within the same scope, you must set a different `name` for each instance to avoid naming conflicts.
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
-```ts
+```typescript
 import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 
 class PublicS3Bucket extends Construct {
+  public bucket: S3Bucket;
   constructor(scope: Construct, name: string) {
-    super(scope, name); // This creates a new scope since we extend from resource
+    super(scope, name); // This creates a new scope since we extend from construct
 
     // This bucket is in a different scope than the buckets
     // defined in `MyStack`. Therefore, it does not need a unique name.
