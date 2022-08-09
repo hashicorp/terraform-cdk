@@ -45,4 +45,4 @@ You cannot edit documentation for past versions of CDK for Terraform. Documentat
 
 ## Code samples
 
-When adding new configuration code samples, use `CodeTabs` to provide them for all supported languages. If you don't intend to support more languages than Typescript you should use the `typescript` tag, if you use it within a `CodeTabs` component you should use `ts` instead. This is a convention to help us seperately find these cases in the search. To translate a code sample across all languages you can use the [jsii-workbench](https://github.com/DanielMSchmidt/jsii-workbench) as a helper.
+When adding new configuration code samples, use `CodeTabs` to provide them for all supported languages. If you don't intend to support more languages than Typescript you should use the `typescript` tag, if you use it within a `CodeTabs` component you should use `ts` instead. This is a convention to help us separately find these cases in the search. To translate a code sample across all languages you can use the [jsii-workbench](https://github.com/DanielMSchmidt/jsii-workbench) as a helper.
