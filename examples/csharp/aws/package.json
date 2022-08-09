@@ -1,6 +1,6 @@
 {
   "name": "@examples/csharp-aws",
-  "version": "0.11.2",
+  "version": "0.0.0",
   "license": "MPL-2.0",
   "scripts": {
     "//": "dotnet nuget locals -c all should be used if re-installing with the same version number",

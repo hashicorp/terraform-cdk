@@ -1,6 +1,6 @@
 {
   "name": "@examples/typescript-aws-cloudfront-proxy",
-  "version": "0.11.2",
+  "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
@@ -16,7 +16,7 @@
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "dependencies": {
-    "cdktf": "0.11.2",
+    "cdktf": "0.0.0",
     "constructs": "^10.0.25"
   },
   "devDependencies": {

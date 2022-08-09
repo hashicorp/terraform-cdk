@@ -1,6 +1,6 @@
 {
-  "name": "@examples/typescript-aws",
-  "version": "0.11.2",
+  "name": "@examples/typescript-aws-multi-stack",
+  "version": "0.0.0",
   "main": "index.js",
   "license": "MPL-2.0",
   "scripts": {
@@ -17,12 +17,11 @@
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "^14.18.25",
-    "typescript": "^3.9.10",
     "ts-node": "^10.9.1",
     "typescript": "^3.9.10"
   },
   "dependencies": {
-    "cdktf": "0.11.2",
+    "cdktf": "0.0.0",
     "constructs": "^10.0.25"
   }
 }

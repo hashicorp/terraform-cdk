@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/provider-generator",
-  "version": "0.11.2",
+  "version": "0.0.0",
   "description": "Exposes API to generate Terraform CDK provider bindings",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

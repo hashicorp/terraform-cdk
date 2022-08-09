@@ -1,6 +1,6 @@
 {
   "name": "@examples/python-kubernetes",
-  "version": "0.11.2",
+  "version": "0.0.0",
   "license": "MPL-2.0",
   "scripts": {
     "reinstall": "rm Pipfile.lock && PIPENV_IGNORE_VIRTUALENVS=1 pipenv install",
