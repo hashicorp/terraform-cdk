@@ -53,7 +53,7 @@ To create references, call `myResource.<propertyName>` on the resource instance.
 
 References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following TypeScript example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
-```ts
+```typescript
 
 const exampleNamespace = new Namespace(this, "tf-cdk-example", {
   metadata: {
@@ -168,7 +168,7 @@ To use an escape hatch to loop over dynamic data, you must:
 
 The following TypeScript example adds ingress values by looping through the ports passed as `TerraformVariable`.
 
-```ts
+```typescript
 const ports = new TerraformVariable(this, "ports", {
   type: "list",
   default: [22, 80, 443, 5432],
@@ -201,7 +201,7 @@ You should only use escape hatches when you need to work with dynamic values tha
 
 The following TypeScript example loops through the ports without using an escape hatch.
 
-```ts
+```typescript
 const ports = [22, 80, 443, 5432];
 
 new SecurityGroup(this, "sec1grp", {

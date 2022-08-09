@@ -189,7 +189,7 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
-```ts
+```typescript
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
 ```
 

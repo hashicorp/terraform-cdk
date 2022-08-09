@@ -184,7 +184,7 @@ func TestShouldUseUbuntuImage(t *testing.T){
 
 Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is only supported in Typescript with Jest. Refer to the [Jest docs](https://jestjs.io/docs/snapshot-testing) for details.
 
-```ts
+```typescript
 import { Testing } from "cdktf";
 import { Image, Container } from "../.gen/providers/docker";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from Construct

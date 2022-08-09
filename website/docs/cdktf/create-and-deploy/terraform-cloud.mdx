@@ -56,7 +56,7 @@ For existing projects, do the following:
 1. Create a Terraform Cloud workspace with the CLI-driven workflow.
 2. Add the `RemoteBackend` to your CDKTF application. The following example connects the application to a Terraform Cloud workspace called `my-app-prod`.
 
-   ```ts
+   ```typescript
    import { Construct } from "constructs";
    import { App, TerraformStack, RemoteBackend } from "cdktf";
 
@@ -110,7 +110,7 @@ To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/work
 
 2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`.
 
-   ```ts
+   ```typescript
    import { Construct } from "constructs";
    import { App, TerraformStack, TerraformVariable } from "cdktf";
 

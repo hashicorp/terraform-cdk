@@ -101,7 +101,7 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses a `TerraformOutput` to create an output.
 
-```ts
+```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 
@@ -186,7 +186,7 @@ Output: random-pet = choice-haddock
 
 The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
 
-```ts
+```typescript
 import * as random from "@cdktf/provider-random";
 
 import { Construct } from "constructs";

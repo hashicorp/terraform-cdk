@@ -32,7 +32,7 @@ To access `{ property = "value" }`, instead of `resource.mapAttribute("property"
 
 #### Example
 
-```ts
+```typescript
 const bucket = new s3.S3Bucket(this, "bucket");
 
 // previously
@@ -50,7 +50,7 @@ Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no l
 
 #### Typescript
 
-```ts
+```typescript
 // previously
 list.req = ["value"];
 Fn.lookup(Fn.element(list.req, 0), "reqstr", "default");
