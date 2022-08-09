@@ -8,7 +8,8 @@ set -ex
 
 PATH_TO_CREATE=$1
 if [ -z "$PATH_TO_CREATE" ]; then
-    echo "No argument supplied, please call with the path to create the folder"
+    echo "No argument supplied, please call with the path to create the folder to clone the providers into"
+    echo "The folder will be created if it doesn't exist"
 fi
 
 # Create the folder
@@ -50,6 +51,8 @@ for repo in $REPO_NAMES; do
     
     gh repo clone "hashicorp/$repo" &
 done
+
+wait # Wait for all the processes to finish
 
 # Removing is easier than filtering
 rm -rf cdktf-provider-project
