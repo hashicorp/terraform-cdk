@@ -1,4 +1,4 @@
-module github.com/hashicorp/terraform-cdk/examples/go/aws
+module github.com/hashicorp/terraform-cdk/examples/go/documentation
 
 go 1.16
 
