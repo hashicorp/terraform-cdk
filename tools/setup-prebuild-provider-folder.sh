@@ -4,7 +4,7 @@ set -ex
 
 # Creates a folder with all pre-built providers and lerna packages
 # that can be used to run a command against each (e.g. triggering a workflow or pushing a commit)
-# Requires the gh CLI and jq to be installed
+# Requires the Github CLI (gh) and jq to be installed
 
 PATH_TO_CREATE=$1
 if [ -z "$PATH_TO_CREATE" ]; then
