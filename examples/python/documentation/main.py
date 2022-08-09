@@ -1,6 +1,7 @@
 from constructs import Construct
 from cdktf import App, TerraformStack
 from imports.aws import AwsProvider, s3
+import os
 
 from my_constructs import KubernetesWebAppDeployment
 
@@ -15,7 +16,7 @@ class MyStack(TerraformStack):
         )
 
         asset = TerraformAsset(self, "lambda-asset",
-            path=path.resolve(__dirname, "../lambda"),
+            path=os.path.join(os.path.dirname(__file__), '..', 'lambda'),
             type=AssetType.ARCHIVE
         )
 

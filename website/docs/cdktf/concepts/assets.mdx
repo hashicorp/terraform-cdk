@@ -43,7 +43,7 @@ class MyStack extends TerraformStack {
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: os.path.join(os.path.dirname(__file__), "..", "lambda"),
+      path: path.join(__dirname, "..", "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
@@ -65,6 +65,7 @@ import path as path
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformAsset, AssetType
 from imports.aws import AwsProvider, s3
+import os
 
 class MyStack(TerraformStack):
     def __init__(self, scope, name):
@@ -79,7 +80,7 @@ class MyStack(TerraformStack):
         )
 
         asset = TerraformAsset(self, "lambda-asset",
-            path=path.resolve(__dirname, "../lambda"),
+            path=os.path.join(os.path.dirname(__file__), '..', 'lambda'),
             type=AssetType.ARCHIVE
         )
 
@@ -88,6 +89,7 @@ class MyStack(TerraformStack):
             key=asset.file_name,
             source=asset.path
         )
+
 
 app = App()
 MyStack(app, "demo")
