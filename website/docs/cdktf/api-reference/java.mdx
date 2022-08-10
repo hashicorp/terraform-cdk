@@ -24479,9 +24479,9 @@ new DefaultTokenResolver(IFragmentConcatenator concat);
 
 | **Name**                                                                                   | **Description**                     |
 | ------------------------------------------------------------------------------------------ | ----------------------------------- |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolveList</a></code>             | Resolve a tokenized list.           |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolveMap</a></code>               | Resolve a tokenized map.            |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolveNumberList</a></code> | Resolve a tokenized number list.    |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolveList</a></code>             | Resolves a list of string.          |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolveMap</a></code>               | Resolves a map token.               |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolveNumberList</a></code> | Resolves a list of numbers.         |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveString">resolveString</a></code>         | Resolve string fragments to Tokens. |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveToken">resolveToken</a></code>           | Default Token resolution.           |
 
@@ -24493,7 +24493,7 @@ new DefaultTokenResolver(IFragmentConcatenator concat);
 public java.lang.Object resolveList(java.util.List< java.lang.String > xs, IResolveContext context)
 ```
 
-Resolve a tokenized list.
+Resolves a list of string.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
 
@@ -24513,7 +24513,7 @@ Resolve a tokenized list.
 public java.lang.Object resolveMap(java.util.Map< java.lang.String, java.lang.Object > xs, IResolveContext context)
 ```
 
-Resolve a tokenized map.
+Resolves a map token.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
 
@@ -24533,7 +24533,7 @@ Resolve a tokenized map.
 public java.lang.Object resolveNumberList(java.util.List< java.lang.Number > xs, IResolveContext context)
 ```
 
-Resolve a tokenized number list.
+Resolves a list of numbers.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
 
@@ -28079,9 +28079,9 @@ new StringConcat();
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                 | **Description**                                 |
-| -------------------------------------------------------- | ----------------------------------------------- |
-| <code><a href="#cdktf.StringConcat.join">join</a></code> | Join the fragment on the left and on the right. |
+| **Name**                                                 | **Description**                |
+| -------------------------------------------------------- | ------------------------------ |
+| <code><a href="#cdktf.StringConcat.join">join</a></code> | Concatenates string fragments. |
 
 ---
 
@@ -28091,7 +28091,7 @@ new StringConcat();
 public java.lang.Object join(java.lang.Object left, java.lang.Object right)
 ```
 
-Join the fragment on the left and on the right.
+Concatenates string fragments.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.StringConcat.join.parameter.left"></a>
 
@@ -29242,11 +29242,11 @@ The object to test.
 
 #### Constants <a name="Constants" id="Constants"></a>
 
-| **Name**                                                                                       | **Type**                      | **Description**   |
-| ---------------------------------------------------------------------------------------------- | ----------------------------- | ----------------- |
-| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code>       | <code>java.lang.String</code> | _No description._ |
-| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>java.lang.Number</code> | _No description._ |
-| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>java.lang.String</code> | _No description._ |
+| **Name**                                                                                       | **Type**                      | **Description**                        |
+| ---------------------------------------------------------------------------------------------- | ----------------------------- | -------------------------------------- |
+| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code>       | <code>java.lang.String</code> | Any map token representation.          |
+| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>java.lang.Number</code> | Number Map token value representation. |
+| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>java.lang.String</code> | String Map token value representation. |
 
 ---
 
@@ -29258,6 +29258,8 @@ public java.lang.String getAnyMapTokenValue();
 
 - _Type:_ java.lang.String
 
+Any map token representation.
+
 ---
 
 ##### `NUMBER_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="NUMBER_MAP_TOKEN_VALUE" id="cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE"></a>
@@ -29268,6 +29270,8 @@ public java.lang.Number getNumberMapTokenValue();
 
 - _Type:_ java.lang.Number
 
+Number Map token value representation.
+
 ---
 
 ##### `STRING_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="STRING_MAP_TOKEN_VALUE" id="cdktf.Token.property.STRING_MAP_TOKEN_VALUE"></a>
@@ -29277,6 +29281,8 @@ public java.lang.String getStringMapTokenValue();
 ```
 
 - _Type:_ java.lang.String
+
+String Map token value representation.
 
 ---
 

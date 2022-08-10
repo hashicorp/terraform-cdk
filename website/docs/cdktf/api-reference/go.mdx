@@ -20857,9 +20857,9 @@ cdktf.NewDefaultTokenResolver(concat IFragmentConcatenator) DefaultTokenResolver
 
 | **Name**                                                                                   | **Description**                     |
 | ------------------------------------------------------------------------------------------ | ----------------------------------- |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveList">ResolveList</a></code>             | Resolve a tokenized list.           |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">ResolveMap</a></code>               | Resolve a tokenized map.            |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolve a tokenized number list.    |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveList">ResolveList</a></code>             | Resolves a list of string.          |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">ResolveMap</a></code>               | Resolves a map token.               |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolves a list of numbers.         |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveString">ResolveString</a></code>         | Resolve string fragments to Tokens. |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveToken">ResolveToken</a></code>           | Default Token resolution.           |
 
@@ -20871,7 +20871,7 @@ cdktf.NewDefaultTokenResolver(concat IFragmentConcatenator) DefaultTokenResolver
 func ResolveList(xs *[]*string, context IResolveContext) interface{}
 ```
 
-Resolve a tokenized list.
+Resolves a list of string.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
 
@@ -20891,7 +20891,7 @@ Resolve a tokenized list.
 func ResolveMap(xs *map[string]interface{}, context IResolveContext) interface{}
 ```
 
-Resolve a tokenized map.
+Resolves a map token.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
 
@@ -20911,7 +20911,7 @@ Resolve a tokenized map.
 func ResolveNumberList(xs *[]*f64, context IResolveContext) interface{}
 ```
 
-Resolve a tokenized number list.
+Resolves a list of numbers.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
 
@@ -24457,9 +24457,9 @@ cdktf.NewStringConcat() StringConcat
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                 | **Description**                                 |
-| -------------------------------------------------------- | ----------------------------------------------- |
-| <code><a href="#cdktf.StringConcat.join">Join</a></code> | Join the fragment on the left and on the right. |
+| **Name**                                                 | **Description**                |
+| -------------------------------------------------------- | ------------------------------ |
+| <code><a href="#cdktf.StringConcat.join">Join</a></code> | Concatenates string fragments. |
 
 ---
 
@@ -24469,7 +24469,7 @@ cdktf.NewStringConcat() StringConcat
 func Join(left interface{}, right interface{}) interface{}
 ```
 
-Join the fragment on the left and on the right.
+Concatenates string fragments.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.StringConcat.join.parameter.left"></a>
 
@@ -25620,11 +25620,11 @@ The object to test.
 
 #### Constants <a name="Constants" id="Constants"></a>
 
-| **Name**                                                                                    | **Type**              | **Description**   |
-| ------------------------------------------------------------------------------------------- | --------------------- | ----------------- |
-| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">AnyMapTokenValue</a></code>       | <code>\*string</code> | _No description._ |
-| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NumberMapTokenValue</a></code> | <code>\*f64</code>    | _No description._ |
-| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">StringMapTokenValue</a></code> | <code>\*string</code> | _No description._ |
+| **Name**                                                                                    | **Type**              | **Description**                        |
+| ------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------- |
+| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">AnyMapTokenValue</a></code>       | <code>\*string</code> | Any map token representation.          |
+| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NumberMapTokenValue</a></code> | <code>\*f64</code>    | Number Map token value representation. |
+| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">StringMapTokenValue</a></code> | <code>\*string</code> | String Map token value representation. |
 
 ---
 
@@ -25636,6 +25636,8 @@ func AnyMapTokenValue() *string
 
 - _Type:_ \*string
 
+Any map token representation.
+
 ---
 
 ##### `NumberMapTokenValue`<sup>Required</sup> <a name="NumberMapTokenValue" id="cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE"></a>
@@ -25646,6 +25648,8 @@ func NumberMapTokenValue() *f64
 
 - _Type:_ \*f64
 
+Number Map token value representation.
+
 ---
 
 ##### `StringMapTokenValue`<sup>Required</sup> <a name="StringMapTokenValue" id="cdktf.Token.property.STRING_MAP_TOKEN_VALUE"></a>
@@ -25655,6 +25659,8 @@ func StringMapTokenValue() *string
 ```
 
 - _Type:_ \*string
+
+String Map token value representation.
 
 ---
 

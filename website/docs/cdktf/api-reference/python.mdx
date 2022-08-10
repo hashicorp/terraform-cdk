@@ -25309,9 +25309,9 @@ cdktf.DefaultTokenResolver(
 
 | **Name**                                                                                     | **Description**                     |
 | -------------------------------------------------------------------------------------------- | ----------------------------------- |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolve_list</a></code>              | Resolve a tokenized list.           |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolve_map</a></code>                | Resolve a tokenized map.            |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolve a tokenized number list.    |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolve_list</a></code>              | Resolves a list of string.          |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolve_map</a></code>                | Resolves a map token.               |
+| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolves a list of numbers.         |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveString">resolve_string</a></code>          | Resolve string fragments to Tokens. |
 | <code><a href="#cdktf.DefaultTokenResolver.resolveToken">resolve_token</a></code>            | Default Token resolution.           |
 
@@ -25326,7 +25326,7 @@ def resolve_list(
 ) - > typing.Any
 ```
 
-Resolve a tokenized list.
+Resolves a list of string.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
 
@@ -25349,7 +25349,7 @@ def resolve_map(
 ) - > typing.Any
 ```
 
-Resolve a tokenized map.
+Resolves a map token.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
 
@@ -25372,7 +25372,7 @@ def resolve_number_list(
 ) - > typing.Any
 ```
 
-Resolve a tokenized number list.
+Resolves a list of numbers.
 
 ###### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
 
@@ -29313,9 +29313,9 @@ cdktf.StringConcat()
 
 #### Methods <a name="Methods" id="Methods"></a>
 
-| **Name**                                                 | **Description**                                 |
-| -------------------------------------------------------- | ----------------------------------------------- |
-| <code><a href="#cdktf.StringConcat.join">join</a></code> | Join the fragment on the left and on the right. |
+| **Name**                                                 | **Description**                |
+| -------------------------------------------------------- | ------------------------------ |
+| <code><a href="#cdktf.StringConcat.join">join</a></code> | Concatenates string fragments. |
 
 ---
 
@@ -29328,7 +29328,7 @@ def join(
 ) - > typing.Any
 ```
 
-Join the fragment on the left and on the right.
+Concatenates string fragments.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.StringConcat.join.parameter.left"></a>
 
@@ -30641,11 +30641,11 @@ The object to test.
 
 #### Constants <a name="Constants" id="Constants"></a>
 
-| **Name**                                                                                       | **Type**                              | **Description**   |
-| ---------------------------------------------------------------------------------------------- | ------------------------------------- | ----------------- |
-| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code>       | <code>str</code>                      | _No description._ |
-| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>typing.Union[int, float]</code> | _No description._ |
-| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>str</code>                      | _No description._ |
+| **Name**                                                                                       | **Type**                              | **Description**                        |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------- |
+| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code>       | <code>str</code>                      | Any map token representation.          |
+| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>typing.Union[int, float]</code> | Number Map token value representation. |
+| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>str</code>                      | String Map token value representation. |
 
 ---
 
@@ -30657,6 +30657,8 @@ ANY_MAP_TOKEN_VALUE: str
 
 - _Type:_ str
 
+Any map token representation.
+
 ---
 
 ##### `NUMBER_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="NUMBER_MAP_TOKEN_VALUE" id="cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE"></a>
@@ -30667,6 +30669,8 @@ NUMBER_MAP_TOKEN_VALUE: typing.Union[int, float]
 
 - _Type:_ typing.Union[int, float]
 
+Number Map token value representation.
+
 ---
 
 ##### `STRING_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="STRING_MAP_TOKEN_VALUE" id="cdktf.Token.property.STRING_MAP_TOKEN_VALUE"></a>
@@ -30676,6 +30680,8 @@ STRING_MAP_TOKEN_VALUE: str
 ```
 
 - _Type:_ str
+
+String Map token value representation.
 
 ---
 
