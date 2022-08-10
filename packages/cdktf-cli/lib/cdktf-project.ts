@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";

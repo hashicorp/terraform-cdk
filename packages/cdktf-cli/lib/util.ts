@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { SpawnOptions } from "child_process";
 import { spawn } from "cross-spawn";
 import * as fs from "fs-extra";

@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import fetch from "node-fetch";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { ProviderConstraint } from "./dependency-manager";

@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { IConstruct, IValidation, Node } from "constructs";
 import { TerraformProvider } from "../terraform-provider";
 import { TerraformResource } from "../terraform-resource";

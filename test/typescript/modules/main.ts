@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, Testing, LocalBackend } from "cdktf";
 import { OurLocalModule } from "./.gen/modules/our-local-module";

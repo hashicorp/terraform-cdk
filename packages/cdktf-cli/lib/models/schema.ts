@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import * as z from "zod";
 
 // Schemas from https://www.terraform.io/docs/internals/machine-readable-ui.html#change_summary

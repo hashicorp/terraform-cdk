@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, Manifest, App, Annotations, Testing } from "../lib";
 import * as fs from "fs";
 import * as path from "path";
