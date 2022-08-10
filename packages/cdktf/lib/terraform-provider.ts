@@ -10,6 +10,7 @@ export interface TerraformProviderConfig {
   readonly terraformProviderSource?: string;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformProvider extends TerraformElement {
   public readonly terraformResourceType: string;
   public readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;

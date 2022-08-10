@@ -37,6 +37,9 @@ describe("#synthScope", () => {
   });
 
   test("using resource", () => {
+    /**
+     *
+     */
     class MyResource extends Resource {
       public resource: TestResource;
 

@@ -6,6 +6,7 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class ArtifactoryBackend extends TerraformBackend {
   constructor(
     scope: Construct,
@@ -27,6 +28,7 @@ export class ArtifactoryBackend extends TerraformBackend {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
   constructor(
     scope: Construct,

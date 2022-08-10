@@ -80,6 +80,7 @@ function pathHash(path: string[]): string {
   return md5.slice(0, HASH_LEN).toUpperCase();
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function removeDisallowedCharacters(s: string, allowSepChars: boolean) {
   if (allowSepChars) {
     return removeNonAlphanumericSep(s);
@@ -95,6 +96,7 @@ function removeNonAlphanumeric(s: string) {
   return s.replace(/[^A-Za-z0-9]/g, "");
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function removeNonAlphanumericSep(s: string) {
   return s.replace(/[^A-Za-z0-9_-]/g, "");
 }

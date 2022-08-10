@@ -23,6 +23,7 @@ export interface IManifest {
   readonly version: string;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class Manifest implements IManifest {
   public static readonly fileName = "manifest.json";
   public static readonly stacksFolder = "stacks";

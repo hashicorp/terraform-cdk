@@ -48,6 +48,7 @@ type MapType =
   | AnyMap
   | ComplexMap;
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformIterator implements ITerraformIterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
@@ -221,6 +222,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class ListTerraformIterator extends TerraformIterator {
   constructor(private readonly list: ListType) {
     super();
@@ -252,6 +254,7 @@ export class ListTerraformIterator extends TerraformIterator {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class MapTerraformIterator extends TerraformIterator {
   constructor(private readonly map: MapType) {
     super();

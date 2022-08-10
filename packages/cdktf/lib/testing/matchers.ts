@@ -15,11 +15,13 @@ export type SynthesizedStack = {
   data: Record<string, any>;
 };
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class AssertionReturn {
   constructor(public readonly message: string, public readonly pass: boolean) {}
 }
 
 export type MatcherReturnJest = { message: () => string; pass: boolean };
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function returnMatcherToJest(
   toReturn: AssertionReturn
 ): MatcherReturnJest {
@@ -93,14 +95,17 @@ const defaultPassEvaluation = (
   );
 };
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function isAsymmetric(obj: any) {
   return !!obj && typeof obj === "object" && "asymmetricMatch" in obj;
 }
 // You can use expect.Anything(), expect.ObjectContaining, etc in jest, this makes it nicer to read
 // when we print error mesages
+// eslint-disable-next-line jsdoc/require-jsdoc
 function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
   return isAsymmetric(value) ? `expect.${value.toString()}` : value;
 }
+// eslint-disable-next-line jsdoc/require-jsdoc
 function getAssertElementWithProperties(
   // We have the evaluation function configurable so we can make use of the specific testing frameworks capabilities
   // This makes the resulting tests more native to the testing framework
@@ -165,6 +170,7 @@ Found ${items.length === 0 ? "no" : items.length} ${
   };
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function getToHaveDataSourceWithProperties(
   customPassEvaluation?: (
     items: any,
@@ -185,6 +191,7 @@ export function getToHaveDataSourceWithProperties(
   };
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function getToHaveResourceWithProperties(
   customPassEvaluation?: (
     items: any,
@@ -204,6 +211,7 @@ export function getToHaveResourceWithProperties(
     );
   };
 }
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
@@ -253,6 +261,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {

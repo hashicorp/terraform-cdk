@@ -8,6 +8,7 @@ import { ConstructOrder, IConstruct, MetadataEntry } from "constructs";
 import { Aspects, IAspect } from "../aspect";
 import { StackAnnotation } from "../manifest";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class StackSynthesizer implements IStackSynthesizer {
   /**
    * @param stack the stack to synthesize
@@ -109,6 +110,7 @@ export function invokeAspects(root: IConstruct) {
   let nestedAspectWarning = false;
   recurse(root, []);
 
+  // eslint-disable-next-line jsdoc/require-jsdoc
   function recurse(construct: IConstruct, inheritedAspects: IAspect[]) {
     const node = construct.node;
     const aspects = Aspects.of(construct);
@@ -151,10 +153,12 @@ const annotationMetadataEntryTypes = [
   AnnotationMetadataEntryType.ERROR,
 ] as string[];
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function isAnnotationMetadata(metadata: MetadataEntry): boolean {
   return annotationMetadataEntryTypes.includes(metadata.type);
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function isErrorAnnotation(annotation: StackAnnotation): boolean {
   return annotation.level === AnnotationMetadataEntryType.ERROR;
 }
@@ -175,6 +179,7 @@ export interface ICustomSynthesis {
   onSynthesize(session: ISynthesisSession): void;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function addCustomSynthesis(
   construct: IConstruct,
   synthesis: ICustomSynthesis
@@ -185,6 +190,7 @@ export function addCustomSynthesis(
   });
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function getCustomSynthesis(
   construct: IConstruct
 ): ICustomSynthesis | undefined {

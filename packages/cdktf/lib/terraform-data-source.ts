@@ -15,6 +15,7 @@ import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
 import assert = require("assert");
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformDataSource
   extends TerraformElement
   implements ITerraformResource, ITerraformDependable, IInterpolatingParent

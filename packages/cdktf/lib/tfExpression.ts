@@ -5,6 +5,7 @@ import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
   protected resolveArg(context: IResolveContext, arg: any): string {
     const resolvedArg = context.resolve(arg);
@@ -100,6 +101,7 @@ class TFExpression extends Intrinsic implements IResolvable {
 }
 
 // A string that represents an input value to be escaped
+// eslint-disable-next-line jsdoc/require-jsdoc
 class RawString extends TFExpression {
   constructor(private readonly str: string) {
     super(str);
@@ -115,10 +117,12 @@ class RawString extends TFExpression {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function rawString(str: string): IResolvable {
   return new RawString(str);
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class Reference extends TFExpression {
   /**
    * A single reference could be used in multiple stacks,
@@ -166,6 +170,7 @@ class Reference extends TFExpression {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function ref(identifier: string, stack?: TerraformStack): IResolvable {
   return new Reference(identifier, stack);
 }
@@ -178,6 +183,7 @@ export function insideTfExpression(arg: any) {
   return arg;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class PropertyAccess extends TFExpression {
   constructor(private target: Expression, private args: Expression[]) {
     super({ target, args });
@@ -198,10 +204,12 @@ class PropertyAccess extends TFExpression {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function propertyAccess(target: Expression, args: Expression[]) {
   return new PropertyAccess(target, args) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class ConditionalExpression extends TFExpression {
   constructor(
     private condition: Expression,
@@ -252,6 +260,7 @@ export type Operator =
   | "!="
   | "&&"
   | "||";
+// eslint-disable-next-line jsdoc/require-jsdoc
 class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
@@ -293,65 +302,81 @@ class OperatorExpression extends TFExpression {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function notOperation(expression: Expression) {
   return new OperatorExpression("!", expression) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function negateOperation(expression: Expression) {
   return new OperatorExpression("-", expression) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function mulOperation(left: Expression, right: Expression) {
   return new OperatorExpression("*", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function divOperation(left: Expression, right: Expression) {
   return new OperatorExpression("/", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function modOperation(left: Expression, right: Expression) {
   return new OperatorExpression("%", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function addOperation(left: Expression, right: Expression) {
   return new OperatorExpression("+", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function subOperation(left: Expression, right: Expression) {
   return new OperatorExpression("-", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function gtOperation(left: Expression, right: Expression) {
   return new OperatorExpression(">", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function gteOperation(left: Expression, right: Expression) {
   return new OperatorExpression(">=", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function ltOperation(left: Expression, right: Expression) {
   return new OperatorExpression("<", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function lteOperation(left: Expression, right: Expression) {
   return new OperatorExpression("<=", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function eqOperation(left: Expression, right: Expression) {
   return new OperatorExpression("==", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function neqOperation(left: Expression, right: Expression) {
   return new OperatorExpression("!=", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function andOperation(left: Expression, right: Expression) {
   return new OperatorExpression("&&", left, right) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function orOperation(left: Expression, right: Expression) {
   return new OperatorExpression("||", left, right) as IResolvable;
 }
+// eslint-disable-next-line jsdoc/require-jsdoc
 class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
     super({ name, args });
@@ -370,6 +395,7 @@ class FunctionCall extends TFExpression {
     return suppressBraces ? expr : `\${${expr}}`;
   }
 }
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function call(name: string, args: Expression[]) {
   return new FunctionCall(name, args) as IResolvable;
 }
@@ -438,6 +464,7 @@ export function forExpression(
   ) as IResolvable;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 class Dependable extends TFExpression {
   constructor(private dependable: ITerraformDependable) {
     super(dependable);
@@ -449,6 +476,7 @@ class Dependable extends TFExpression {
     return this.dependable.fqn;
   }
 }
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function dependable(dependable: ITerraformDependable): string {
   return Token.asString(new Dependable(dependable));
 }

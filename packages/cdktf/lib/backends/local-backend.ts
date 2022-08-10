@@ -8,6 +8,7 @@ import {
 } from "../terraform-remote-state";
 import { TerraformStack } from "..";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class LocalBackend extends TerraformBackend {
   private readonly props: LocalBackendProps;
   constructor(scope: Construct, props: LocalBackendProps = {}) {
@@ -40,6 +41,7 @@ export class LocalBackend extends TerraformBackend {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
   constructor(
     scope: Construct,

@@ -13,6 +13,7 @@ import { DockerProvider } from "../../../test/helper/provider";
 import * as fs from "fs";
 import * as path from "path";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function corruptSynthesizedStack(stackPath: string) {
   const manifest = JSON.parse(
     fs.readFileSync(path.resolve(stackPath, "manifest.json"), "utf8")

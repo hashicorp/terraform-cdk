@@ -62,6 +62,7 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformResource
   extends TerraformElement
   implements ITerraformResource, ITerraformDependable, IInterpolatingParent
