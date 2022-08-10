@@ -1,27 +1,37 @@
+// DOCS_BLOCK_START:assets,constructs
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider, s3 } from "./.gen/providers/aws";
-import * as kubernetes from "./.gen/providers/kubernetes";
-import * as path from "path";
+import { App, TerraformStack } from "cdktf";
+// DOCS_BLOCK_END:assets,constructs
 
-// concepts/constructs.mdx
+// DOCS_BLOCK_START:assets
+import { TerraformAsset, AssetType } from "cdktf";
+import { AwsProvider, s3 } from "./.gen/providers/aws";
+// DOCS_BLOCK_START:constructs
+import * as path from "path";
+// DOCS_BLOCK_END:assets
+import * as kubernetes from "./.gen/providers/kubernetes";
+
 import { KubernetesWebAppDeployment } from "./custom-constructs";
+// DOCS_BLOCK_END:constructs
+
+// DOCS_BLOCK_START:assets,constructs
 
 class MyStack extends TerraformStack {
-  constructor(scope: Construct, ns: string) {
-    super(scope, ns);
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
 
+    // DOCS_BLOCK_END:assets,constructs
+    // DOCS_BLOCK_START:assets
     new AwsProvider(this, "aws", {
-      region: "eu-central-1",
+      region: "us-west-2",
     });
 
-    // concepts/assets.mdx
     const bucket = new s3.S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: path.resolve(__dirname, "../lambda"),
+      path: path.resolve(__dirname, "..", "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
@@ -30,8 +40,9 @@ class MyStack extends TerraformStack {
       key: asset.fileName,
       source: asset.path, // returns a posix path
     });
+    // DOCS_BLOCK_END:assets
 
-    // concepts/constructs.mdx
+    // DOCS_BLOCK_START:constructs
     new kubernetes.KubernetesProvider(this, "kind", {
       configPath: path.join(__dirname, "../kubeconfig.yaml"),
     });
@@ -43,9 +54,12 @@ class MyStack extends TerraformStack {
       component: "frontend",
       environment: "dev",
     });
+    // DOCS_BLOCK_END:constructs
+    // DOCS_BLOCK_START:assets,constructs
   }
 }
 
 const app = new App();
-new MyStack(app, "typescript-documentation");
+new MyStack(app, "demo");
 app.synth();
+// DOCS_BLOCK_END:assets,constructs

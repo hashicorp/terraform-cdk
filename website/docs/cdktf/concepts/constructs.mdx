@@ -50,13 +50,14 @@ You can import any [CDKTF-compatible](#available-constructs) construct that is a
 
 The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <CodeTabs>
 
 ```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import * as kubernetes from "@cdktf/provider-kubernetes";
 import * as path from "path";
+import * as kubernetes from "./.gen/providers/kubernetes";
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
 
@@ -79,7 +80,7 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, "app");
+new MyStack(app, "demo");
 app.synth();
 ```
 
