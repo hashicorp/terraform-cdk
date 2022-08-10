@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { ref } from "./tfExpression";
 import { Token } from "./tokens/token";
 import { snakeCase } from "./util";

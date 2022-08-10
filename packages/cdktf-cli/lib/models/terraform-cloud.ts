@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as path from "path";
 import * as os from "os";

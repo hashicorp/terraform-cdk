@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { TestDriver, onPosix } from "../../test-helper";
 import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";

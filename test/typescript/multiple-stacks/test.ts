@@ -1,5 +1,5 @@
 // Copyright (c) HashiCorp, Inc
-// Licensed under the Mozilla Public License 2.0
+// SPDX-License-Identifier: MPL-2.0
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("multiple stacks", () => {
