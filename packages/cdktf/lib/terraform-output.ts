@@ -23,6 +23,7 @@ export interface TerraformOutputConfig {
   readonly staticId?: boolean;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformOutput extends TerraformElement {
   public value: Expression | ITerraformAddressable;
   public description?: string;

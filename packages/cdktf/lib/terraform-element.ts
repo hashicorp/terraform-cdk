@@ -10,6 +10,7 @@ export interface TerraformElementMetadata {
   readonly stackTrace: string[];
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformElement extends Construct {
   public readonly cdktfStack: TerraformStack;
   protected readonly rawOverrides: any = {};

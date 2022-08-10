@@ -25,6 +25,7 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformModule
   extends TerraformElement
   implements ITerraformDependable

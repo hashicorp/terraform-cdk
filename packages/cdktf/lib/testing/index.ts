@@ -99,6 +99,9 @@ export class Testing {
     invokeAspects(stack);
     const tfConfig = stack.toTerraform();
 
+    /**
+     *
+     */
     function removeMetadata(item: any): any {
       if (item !== null && typeof item === "object") {
         if (Array.isArray(item)) {
@@ -143,6 +146,9 @@ export class Testing {
   public static renderConstructTree(construct: IConstruct): string {
     return render(construct, 0, false);
 
+    /**
+     *
+     */
     function render(
       construct: IConstruct,
       level: number,

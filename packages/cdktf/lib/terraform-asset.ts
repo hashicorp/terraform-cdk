@@ -29,6 +29,7 @@ export enum AssetType {
 const ARCHIVE_NAME = "archive.zip";
 const ASSETS_DIRECTORY = "assets";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformAsset extends Resource {
   private sourcePath: string;
   // hash value of the asset that can be passed to consuming constructs (e.g. to not recreate a lambda function in case the underlying files did not change)

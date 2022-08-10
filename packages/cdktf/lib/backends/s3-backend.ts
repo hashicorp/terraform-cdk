@@ -6,6 +6,7 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class S3Backend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: S3BackendProps) {
     super(scope, "backend", "s3");
@@ -27,6 +28,7 @@ export class S3Backend extends TerraformBackend {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class DataTerraformRemoteStateS3 extends TerraformRemoteState {
   constructor(
     scope: Construct,

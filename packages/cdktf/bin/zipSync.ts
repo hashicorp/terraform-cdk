@@ -1,6 +1,7 @@
 import * as archiver from "archiver";
 import * as fs from "fs";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function zipFolder(inputPath: string, outputPath: string) {
   const output = fs.createWriteStream(outputPath);
 

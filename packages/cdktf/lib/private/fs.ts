@@ -50,9 +50,11 @@ export function archiveSync(src: string, dest: string) {
   execSync(`node ${zipSyncPath} ${src} ${dest}`);
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function hashPath(src: string) {
   const hash = crypto.createHash("md5");
 
+  // eslint-disable-next-line jsdoc/require-jsdoc
   function hashRecursion(p: string) {
     const stat = fs.statSync(p);
     if (stat.isFile()) {
@@ -68,6 +70,7 @@ export function hashPath(src: string) {
   return hash.digest("hex").slice(0, HASH_LEN).toUpperCase();
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export function findFileAboveCwd(
   file: string,
   rootPath = process.cwd()

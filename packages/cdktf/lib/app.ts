@@ -91,6 +91,7 @@ export class App extends Construct {
   public static of(construct: IConstruct): App {
     return _lookup(construct);
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     function _lookup(c: IConstruct): App {
       if (App.isApp(c)) {
         return c;

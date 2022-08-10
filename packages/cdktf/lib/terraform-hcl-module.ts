@@ -6,6 +6,7 @@ export interface TerraformHclModuleOptions extends TerraformModuleOptions {
   readonly variables?: { [key: string]: any };
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformHclModule extends TerraformModule {
   private _variables?: { [key: string]: any };
 

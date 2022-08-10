@@ -5,6 +5,7 @@ import { deepMerge } from "./util";
 
 const BACKEND_SYMBOL = Symbol.for("cdktf/TerraformBackend");
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformBackend extends TerraformElement {
   constructor(scope: Construct, id: string, protected readonly name: string) {
     super(scope, id);

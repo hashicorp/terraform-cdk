@@ -5,6 +5,7 @@ import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformLocal
   extends TerraformElement
   implements ITerraformAddressable
