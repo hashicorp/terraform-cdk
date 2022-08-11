@@ -1,0 +1,183 @@
+{
+  "github": {
+    "silent": true
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "https://github.com/hashicorp/terraform-cdk"
+    },
+    {
+      "source": "/launch",
+      "destination": "https://www.hashicorp.com/blog/cdk-for-terraform-enabling-python-and-typescript-support/"
+    },
+    {
+      "source": "/launch-aws",
+      "destination": "https://aws.amazon.com/blogs/developer/introducing-the-cloud-development-kit-for-terraform-preview/"
+    },
+    {
+      "source": "/learn",
+      "destination": "https://learn.hashicorp.com/terraform/cdktf/cdktf-intro"
+    },
+    {
+      "source": "/discuss",
+      "destination": "https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47"
+    },
+    {
+      "source": "/issues/:id",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/:id"
+    },
+    {
+      "source": "/feature",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title="
+    },
+    {
+      "source": "/bug",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title="
+    },
+    {
+      "source": "/escape-hatch",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/providers-and-resources.html#escape-hatch"
+    },
+    {
+      "source": "/jsii",
+      "destination": "https://github.com/aws/jsii"
+    },
+    {
+      "source": "/constructs",
+      "destination": "https://www.terraform.io/cdktf/concepts/constructs"
+    },
+    {
+      "source": "/awesome",
+      "destination": "https://github.com/skorfmann/awesome-terraform-cdk"
+    },
+    {
+      "source": "/imports",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/providers-and-resources.html"
+    },
+    {
+      "source": "/dev",
+      "destination": "https://cdk.dev"
+    },
+    {
+      "source": "/provider/:name",
+      "destination": "https://github.com/hashicorp/cdktf-provider-:name"
+    },
+    {
+      "source": "/provider",
+      "destination": "https://github.com/orgs/hashicorp/repositories?q=pre-built-provider&type=&language=&sort="
+    },
+    {
+      "source": "/interop",
+      "destination": "https://github.com/skorfmann/cfn2tf"
+    },
+    {
+      "source": "/cfn2tf",
+      "destination": "https://github.com/skorfmann/cfn2tf"
+    },
+    {
+      "source": "/job-us",
+      "destination": "https://www.hashicorp.com/job/2545021"
+    },
+    {
+      "source": "/job-eu",
+      "destination": "https://www.hashicorp.com/job/2548521"
+    },
+    {
+      "source": "/we-are-hiring",
+      "destination": "https://www.hashicorp.com/job/2545021"
+    },
+    {
+      "source": "/migrate-state",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/remote-backends.html#migrate-local-state-storage-to-remote"
+    },
+    {
+      "source": "/0.1",
+      "destination": "https://www.hashicorp.com/blog/announcing-cdk-for-terraform-0-1"
+    },
+    {
+      "source": "/github-nuget",
+      "destination": "https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-dotnet-cli-for-use-with-github-packages#authenticating-to-github-packages"
+    },
+    {
+      "source": "/modules-and-providers",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/providers-and-resources.html"
+    },
+    {
+      "source": "/office-hours",
+      "destination": "https://www.youtube.com/watch?v=BkypHylJcgs&ab_channel=HashiCorp"
+    },
+    {
+      "source": "/multiple-stacks",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/stacks.html#multiple-stacks"
+    },
+    {
+      "source": "/plus",
+      "destination": "https://github.com/cdktf-plus/cdktf-plus"
+    },
+    {
+      "source": "/watch",
+      "destination": "https://www.terraform.io/docs/cdktf/cli-reference/commands.html#watch"
+    },
+    {
+      "source": "/links",
+      "destination": "https://github.com/skorfmann/cdktf-redirects/blob/master/_redirects"
+    },
+    {
+      "source": "/prebuilt-providers",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/providers-and-resources.html#install-pre-built-providers"
+    },
+    {
+      "source": "/upgrade-constructs-v10",
+      "destination": "https://www.terraform.io/cdktf/release/upgrade-guide-v0-6"
+    },
+    {
+      "source": "/testing",
+      "destination": "https://www.terraform.io/docs/cdktf/test/unit-tests.html"
+    },
+    {
+      "source": "/bugs/convert-expressions",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/842"
+    },
+    {
+      "source": "/bugs/new/convert",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2C+new%2C+feature%2Fconvert&template=bug-report.md&title="
+    },
+    {
+      "source": "/variables",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/variables-and-outputs.html#input-variables"
+    },
+    {
+      "source": "/provider-generation",
+      "destination": "https://www.terraform.io/docs/cdktf/concepts/providers-and-resources.html#providers"
+    },
+    {
+      "source": "/telemetry",
+      "destination": "https://www.terraform.io/docs/cdktf/telemetry.html"
+    },
+    {
+      "source": "/convert-limitations",
+      "destination": "https://github.com/hashicorp/terraform-cdk/blob/main/packages/@cdktf/hcl2cdk/README.md#known-limitations"
+    },
+    {
+      "source": "/complex-object-as-configuration",
+      "destination": "https://www.terraform.io/cdktf/concepts/providers-and-resources#references"
+    },
+    {
+      "source": "/docs",
+      "destination": "https://www.terraform.io/cdktf"
+    },
+    {
+      "source": "/adapter",
+      "destination": "https://github.com/hashicorp/cdktf-aws-cdk"
+    },
+    {
+      "source": "/module-map-inputs",
+      "destination": "https://www.terraform.io/cdktf/concepts/modules#configure-modules"
+    },
+    {
+      "source": "/registry-providers",
+      "destination": "https://registry.terraform.io/browse/providers"
+    }
+  ]
+}

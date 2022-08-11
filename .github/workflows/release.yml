@@ -8,6 +8,7 @@ on:
       - "**.md"
       - "docs/**"
       - "website/**"
+      - "cdk.tf/**"
       - "tools/update-github-project-board/**"
 
 env:
