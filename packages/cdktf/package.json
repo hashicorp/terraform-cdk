@@ -73,7 +73,7 @@
       "@typescript-eslint/no-empty-interface": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "no-sequences": "error",
-      "jsdoc/require-jsdoc": [2, { "contexts": ["ClassDeclaration"] }]
+      "jsdoc/require-jsdoc": ["error", { "contexts": ["ClassDeclaration"] }]
     },
     "ignorePatterns": [
       "node_modules",
