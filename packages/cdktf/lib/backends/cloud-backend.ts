@@ -1,9 +1,10 @@
 import { Construct } from "constructs";
-import { keysToSnakeCase, deepMerge } from "../util";
+import { keysToSnakeCase, deepMerge, terraformBinaryName } from "../util";
 import { DataTerraformRemoteState } from "./remote-backend";
 import { Fn } from "../terraform-functions";
 import { TerraformRemoteState } from "../terraform-remote-state";
 import { TerraformBackend } from "../terraform-backend";
+import { ValidateBinaryVersion } from "../validations";
 
 /**
  * The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}.
@@ -15,6 +16,14 @@ import { TerraformBackend } from "../terraform-backend";
 export class CloudBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: CloudBackendProps) {
     super(scope, "backend", "cloud");
+
+    this.node.addValidation(
+      new ValidateBinaryVersion(
+        "terraform",
+        ">=1.1",
+        `${terraformBinaryName} version`
+      )
+    );
   }
 
   /**

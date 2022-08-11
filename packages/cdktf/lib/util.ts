@@ -1,6 +1,9 @@
 import { TerraformDynamicBlock } from "./terraform-dynamic-block";
 import { Tokenization } from "./tokens/token";
 
+export const terraformBinaryName =
+  process.env.TERRAFORM_BINARY_NAME || "terraform";
+
 /**
  * Merges `source` into `target`, overriding any existing values.
  * `undefined` will cause a value to be deleted.
