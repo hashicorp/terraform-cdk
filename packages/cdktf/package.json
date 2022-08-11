@@ -79,7 +79,8 @@
       "node_modules",
       "dist",
       "coverage",
-      "test"
+      "test",
+      "*.test*.ts"
     ]
   },
   "license": "MPL-2.0",

@@ -86,9 +86,7 @@ export class TerraformStack extends Construct {
   public static of(construct: IConstruct): TerraformStack {
     return _lookup(construct);
 
-    /**
-     *
-     */
+    // eslint-disable-next-line jsdoc/require-jsdoc
     function _lookup(c: IConstruct): TerraformStack {
       if (TerraformStack.isStack(c)) {
         return c;
