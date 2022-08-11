@@ -52,6 +52,9 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
+<!-- #xxNEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
+<!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
 <CodeTabs>
 
 ```ts
@@ -119,33 +122,35 @@ app.synth()
 ```java
 package com.mycompany.app;
 
-import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
-import com.hashicorp.cdktf.TerraformStack;
-import imports.kubernetes.*;
 import java.nio.file.Paths;
 
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
+import java.util.Map;
+import imports.kubernetes.*;
 
-public class MyStack extends TerraformStack {
-    public MyStack(Construct scope, String name) {
+public class Main extends TerraformStack {
+    public Main(final Construct scope, final String name) {
         super(scope, name);
-
+        
         KubernetesProvider.Builder.create(this, "kind")
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
 
         new KubernetesWebAppDeployment(this, "deployment", Map.of(
                 "image", "nginx:latest",
-                "replicas", 2,
+                "replicas", "2",
                 "app", "myapp",
                 "component", "frontend",
                 "environment", "dev"));
     }
+    public static void main(String[] args) {
+        final App app = new App();
+        new Main(app, "demo");
+        app.synth();
+    }
 }
-
-App app = new App();
-new MyStack(app, "app");
-app.synth();
 ```
 
 ```csharp

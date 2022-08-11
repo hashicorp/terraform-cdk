@@ -24,7 +24,7 @@ The stack output directory in `cdktf.out` contains all of the assets that `Terra
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
 <CodeTabs>
@@ -101,29 +101,30 @@ app.synth()
 ```
 
 ```java
-import path.*;
-import software.constructs.Construct;
+package com.mycompany.app;
+
+import java.nio.file.Paths;
+
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.AssetType;
-import com.hashicorp.cdktf.providers.aws.AwsProvider;
-import com.hashicorp.cdktf.providers.aws.s3.*;
+import imports.aws.AwsProvider;
+import imports.aws.s3.*;
 
-public class MyStack extends TerraformStack {
-    public MyStack(Construct scope, String name) {
+public class Main extends TerraformStack {
+    public Main(final Construct scope, final String name) {
         super(scope, name);
-
-        AwsProvider.Builder.create(this, "provider")
-                .region("us-west-2")
-                .build();
+        
+        AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
 
         S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")
                 .bucket("demo")
                 .build();
 
         TerraformAsset asset = TerraformAsset.Builder.create(this, "lambda-asset")
-                .path(resolve(__dirname, "../lambda"))
+                .path(Paths.get(System.getProperty("user.dir"), "lambda").toString())
                 .type(AssetType.ARCHIVE)
                 .build();
 
@@ -133,10 +134,9 @@ public class MyStack extends TerraformStack {
                 .source(asset.getPath())
                 .build();
     }
-
-     public static void main(String[] args) {
+    public static void main(String[] args) {
         final App app = new App();
-        new MyStack(app, "demo");
+        new Main(app, "demo");
         app.synth();
     }
 }
