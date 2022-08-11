@@ -97,6 +97,7 @@ export class Testing {
    */
   public static synth(stack: TerraformStack) {
     invokeAspects(stack);
+    stack.validate();
     const tfConfig = stack.toTerraform();
 
     // eslint-disable-next-line jsdoc/require-jsdoc
