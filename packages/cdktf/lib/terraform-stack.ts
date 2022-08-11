@@ -337,7 +337,7 @@ export class TerraformStack extends Construct {
   /**
    * Run all validations on the stack.
    */
-  public validate() {
+  public runChildValidations() {
     const errors: { message: string; source: IConstruct }[] = this.node
       .findAll()
       .map((node) =>
