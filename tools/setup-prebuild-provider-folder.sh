@@ -39,7 +39,7 @@ EOF
 # Install lerna
 yarn
 
-REPO_NAMES=$(gh repo list hashicorp --json "name" --topic pre-built-provider | jq -r ".[] | .name")
+REPO_NAMES=$(gh repo list hashicorp --json "name" --topic pre-built-provider --limit=10000 | jq -r ".[] | .name")
 
 # Create package folder
 mkdir -p packages

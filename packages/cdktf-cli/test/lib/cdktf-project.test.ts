@@ -396,14 +396,12 @@ describe("CdktfProject", () => {
         .filter((e) => !e.type.includes("update"))
         .map((e) => `${e.stackName || "global"}: ${e.type}`);
 
-      // the first 5 events have a stable order
-      expect(relevantEvents.slice(0, 5)).toEqual([
-        "global: synthesizing",
-        "global: synthesized",
-        "stack1: planning",
-        "stack2: planning",
-        "stack3: planning",
-      ]);
+      // Ensure we synth and plan all stacks
+      expect(relevantEvents).toContain("global: synthesizing");
+      expect(relevantEvents).toContain("global: synthesized");
+      expect(relevantEvents).toContain("stack1: planning");
+      expect(relevantEvents).toContain("stack2: planning");
+      expect(relevantEvents).toContain("stack3: planning");
 
       // the last 3 events also have a stable order because
       // they have timeouts that ensure the duration they take
