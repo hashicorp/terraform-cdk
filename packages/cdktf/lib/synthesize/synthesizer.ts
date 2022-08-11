@@ -25,7 +25,7 @@ export class StackSynthesizer implements IStackSynthesizer {
     invokeAspects(this.stack);
 
     if (!session.skipValidation) {
-      this.stack.runChildValidations();
+      this.stack.runAllValidations();
     }
 
     const manifest = session.manifest;
