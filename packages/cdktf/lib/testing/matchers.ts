@@ -32,7 +32,7 @@ export function returnMatcherToJest(
 }
 
 /**
- * Compares expected and recieved. All expected properties are matched and considered equal if
+ * Compares expected and received. All expected properties are matched and considered equal if
  * there can be more properties in the received object than in the expected object while still returning true.
  * @param expected
  * @param received
