@@ -26,9 +26,13 @@ test("validations are executed recursively", () => {
   new CustomConstruct(stack, "custom", validation, nestedValidation);
   stack.node.addValidation(stackValidation);
 
-  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
-    `"the construct \\"MyStack\\" has a \\"validate()\\" method which is no longer supported. Use \\"construct.node.addValidation()\\" to add validations to a construct"`
-  );
+  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
+    "Validation failed with the following errors:
+      [MyStack] stack_error
+      [MyStack/custom] custom_error_1
+      [MyStack/custom] custom_error_2
+      [MyStack/custom/nested] custom_nested_error"
+  `);
   expect(validation.validate).toHaveBeenCalledTimes(1);
   expect(nestedValidation.validate).toHaveBeenCalledTimes(1);
   expect(stackValidation.validate).toHaveBeenCalledTimes(1);
@@ -70,9 +74,10 @@ describe("ValidateBinaryVersion", () => {
         `echo "Terraform v1.2.0\non darwin_amd64"`
       )
     );
-    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
-      `"the construct \\"MyStack\\" has a \\"validate()\\" method which is no longer supported. Use \\"construct.node.addValidation()\\" to add validations to a construct"`
-    );
+    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
+      "Validation failed with the following errors:
+        [MyStack/testResource] terraform version 1.2.0 is lower than the required version >=1.3.0"
+    `);
   });
 
   test("validation passes if the version is correct", () => {
@@ -104,9 +109,10 @@ describe("ValidateBinaryVersion", () => {
     testResource.node.addValidation(
       new ValidateBinaryVersion("terraform", ">=1.2.0", `exit 1`)
     );
-    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
-      `"the construct \\"MyStack\\" has a \\"validate()\\" method which is no longer supported. Use \\"construct.node.addValidation()\\" to add validations to a construct"`
-    );
+    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
+      "Validation failed with the following errors:
+        [MyStack/testResource] Could not determine version of terraform, exit 1 failed: Error: Command failed: exit 1"
+    `);
   });
 
   test("validation fails if version command returns no version string", () => {
@@ -120,8 +126,9 @@ describe("ValidateBinaryVersion", () => {
     testResource.node.addValidation(
       new ValidateBinaryVersion("terraform", ">=1.2.0", `echo "foo"`)
     );
-    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(
-      `"the construct \\"MyStack\\" has a \\"validate()\\" method which is no longer supported. Use \\"construct.node.addValidation()\\" to add validations to a construct"`
-    );
+    expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
+      "Validation failed with the following errors:
+        [MyStack/testResource] Could not determine version of terraform (running echo \\"foo\\")"
+    `);
   });
 });

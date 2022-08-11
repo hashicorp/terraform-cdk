@@ -23,7 +23,7 @@ export class ValidateBinaryVersion implements IValidation {
       const version = versionOfCommand.match(semverRegex);
       if (!version) {
         return [
-          `Could not determine version of ${this.binary} (running ${this.versionCommand}`,
+          `Could not determine version of ${this.binary} (running ${this.versionCommand})`,
         ];
       }
 
