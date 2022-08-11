@@ -21,7 +21,8 @@ export class CloudBackend extends TerraformBackend {
       new ValidateBinaryVersion(
         "terraform",
         ">=1.1",
-        `${terraformBinaryName} version`
+        `${terraformBinaryName} version`,
+        `The cloud block is only supported for Terraform >=1.1. Please upgrade your Terraform version.`
       )
     );
   }
