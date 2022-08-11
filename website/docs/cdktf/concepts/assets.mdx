@@ -23,7 +23,7 @@ The following TypeScript example uses `TerraformAsset` to upload the contents of
 The stack output directory in `cdktf.out` contains all of the assets that `TerraformAsset` needs. This is important for workflows where you use synthesized configurations with Terraform directly. For example, you would only need to upload the contents of the stack output folder to Terraform Cloud or Terraform Enterprise.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#assets -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
@@ -67,38 +67,36 @@ app.synth();
 ```
 
 ```python
-import path as path
 from constructs import Construct
-from cdktf import App, TerraformStack, TerraformAsset, AssetType
-from imports.aws import AwsProvider, s3
+import cdktf
+import imports.aws as aws
 import os
 
-class MyStack(TerraformStack):
-    def __init__(self, scope, name):
+
+class MyStack(cdktf.TerraformStack):
+    def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        AwsProvider(self, "provider",
-            region="us-west-2"
-        )
+        aws.AwsProvider(self, 'aws', region='eu-central-1')
 
-        bucket = s3.S3Bucket(self, "bucket",
-            bucket="demo"
-        )
+        bucket = aws.s3.S3Bucket(self, "bucket", bucket="demo")
 
-        asset = TerraformAsset(self, "lambda-asset",
-            path=os.path.join(os.path.dirname(__file__), '..', 'lambda'),
-            type=AssetType.ARCHIVE
-        )
+        asset = cdktf.TerraformAsset(self, "lambda-asset",
+                                     path=os.path.join(os.path.dirname(
+                                         __file__), '..', 'lambda'),
+                                     type=cdktf.AssetType.ARCHIVE
+                                     )
 
-        s3.S3BucketObject(self, "lambda-archive",
-            bucket=bucket.bucket,
-            key=asset.file_name,
-            source=asset.path
-        )
+        aws.s3.S3BucketObject(self, "lambda-archive",
+                              bucket=bucket.bucket,
+                              key=asset.file_name,
+                              source=asset.path
+                              )
 
 
-app = App()
+app = cdktf.App()
 MyStack(app, "demo")
+
 app.synth()
 ```
 

@@ -51,6 +51,7 @@ You can import any [CDKTF-compatible](#available-constructs) construct that is a
 The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
 <CodeTabs>
 
 ```ts
@@ -86,19 +87,19 @@ app.synth();
 
 ```python
 from constructs import Construct
-from cdktf import App, TerraformStack
+import cdktf
+import os
 import imports.kubernetes as kubernetes
-import os as os
-
 from my_constructs import KubernetesWebAppDeployment
 
-class MyStack(TerraformStack):
-    def __init__(self, scope, name):
-        super().__init__(scope, name)
 
+class MyStack(cdktf.TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
         kubernetes.KubernetesProvider(self, "kind",
-            config_path=os.path.join(os.path.dirname(__file__), '..', 'kubeconfig.yaml')
-        )
+                                      config_path=os.path.join(os.path.dirname(
+                                          __file__), '..', 'kubeconfig.yaml')
+                                      )
 
         KubernetesWebAppDeployment(self, "deployment", {
             "image": "nginx:latest",
@@ -108,8 +109,10 @@ class MyStack(TerraformStack):
             "environment": "dev"
         })
 
-app = App()
-MyStack(app, "app")
+
+app = cdktf.App()
+MyStack(app, "demo")
+
 app.synth()
 ```
 
