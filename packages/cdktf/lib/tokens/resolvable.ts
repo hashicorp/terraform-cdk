@@ -155,7 +155,7 @@ export class StringConcat implements IFragmentConcatenator {
  */
 export class DefaultTokenResolver implements ITokenResolver {
   /**
-   * Resolves token
+   * Resolves tokens
    */
   constructor(private readonly concat: IFragmentConcatenator) {}
 
