@@ -114,7 +114,7 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
 }
 
 export interface Terraform {
-  init: () => Promise<void>;
+  init: (upgrade: boolean) => Promise<void>;
   plan: (
     destroy: boolean,
     refreshOnly?: boolean,
