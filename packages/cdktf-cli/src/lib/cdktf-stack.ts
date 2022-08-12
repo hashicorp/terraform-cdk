@@ -238,12 +238,14 @@ export class CdktfStack {
       this.createTerraformLogHandler.bind(this)
     );
 
-    await terraform.init();
+    const needsUpgrade = await this.checkLockFile();
+
+    await terraform.init(needsUpgrade);
 
     return terraform;
   }
 
-  private async checkLockFile() {
+  private async checkLockFile(): Promise<boolean> {
     const lockFilePath = path.join(
       this.stack.workingDirectory,
       ".terraform.lock.hcl"
@@ -273,18 +275,38 @@ export class CdktfStack {
       });
 
       const requiredProviders = this.parsedContent.terraform.required_providers;
-      const providers = Object.values(requiredProviders).map((value) => {
-        return new ProviderConstraint(
-          (value as any).source,
-          (value as any).version
+      const providers = Object.values(requiredProviders).reduce<
+        Record<string, ProviderConstraint>
+      >((acc, obj) => {
+        const constraint = new ProviderConstraint(
+          (obj as any).source,
+          (obj as any).version
         );
-      });
+        acc[constraint.source] = constraint;
+        return acc;
+      }, {});
 
-      // TODO check if any provider contained in `providers` violates constraints in `lockedProviders`
+      // check if any provider contained in `providers` violates constraints in `lockedProviders`
+      const providerMatches = lockedProviders.map((lockedProvider) => {
+        const provider = providers[lockedProvider.source];
+        if (provider) {
+          return lockedProvider.matchesVersion(provider.version ?? "*"); //TODO check if correct fallback for no version
+        }
+        // else no longer using this provider, so won't cause problems
+
+        return true;
+      });
+      // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
+
+      // Upgrade if some provider constraint not met
+      return providerMatches.some((m) => !m);
     } catch (err) {
       // ignore as this most likely means the file doesn't exist
-      // if it is some other error, Terraform will mentiond later
+      // if it is some other error, Terraform will mention it later
     }
+
+    // Don't upgrade if something went wrong
+    return false;
   }
 
   private async run(cb: () => Promise<void>) {

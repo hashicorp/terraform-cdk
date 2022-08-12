@@ -218,7 +218,8 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Init")
-  public async init(): Promise<void> {
+  public async init(_needsUpgrade: boolean): Promise<void> {
+    //TODO not sure if the needsUpgrade flag is relevant in tf cloud or how to use it
     const sendLog = this.createTerraformLogHandler("init");
     if (
       fs.existsSync(
