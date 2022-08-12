@@ -1,30 +1,40 @@
+// DOCS_BLOCK_START:assets,constructs
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
-using aws;
-using aws.S3;
-using kubernetes;
 using Constructs;
 using HashiCorp.Cdktf;
+// DOCS_BLOCK_END:assets,constructs
+// DOCS_BLOCK_START:assets
+using aws;
+using aws.S3;
+// DOCS_BLOCK_END:assets
+// DOCS_BLOCK_START:constructs
+using kubernetes;
 using MyConstructs;
+// DOCS_BLOCK_END:constructs
 
+// DOCS_BLOCK_START:assets,constructs
 namespace MyCompany.MyApp
 {
     class MyApp : TerraformStack
     {
-        public MyApp(Construct scope, string id) : base(scope, id)
+        public MyApp(Construct scope, string name) : base(scope, name)
         {
+
+            // DOCS_BLOCK_END:assets,constructs
+            // DOCS_BLOCK_START:assets
             new AwsProvider(this, "aws", new AwsProviderConfig {
                 Region = "eu-central-1"
             });
 
-            // concepts/assets.mdx
             S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
                 Bucket = "demo"
             });
 
             TerraformAsset asset = new TerraformAsset(this, "lambda-asset", new TerraformAssetConfig {
-                Path = Resolve(__dirname, "../lambda"),
+                Path = Path.Join(Environment.CurrentDirectory, "lambda"),
                 Type = AssetType.ARCHIVE
             });
 
@@ -33,10 +43,10 @@ namespace MyCompany.MyApp
                 Key = asset.FileName,
                 Source = asset.Path
             });
-
-            // concepts/constructs.mdx
+            // DOCS_BLOCK_END:assets
+            // DOCS_BLOCK_START:constructs
             new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
-                ConfigPath = Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
+                ConfigPath = Path.Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
             });
             new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
                 { "image", "nginx:latest" },
@@ -45,14 +55,17 @@ namespace MyCompany.MyApp
                 { "component", "frontend" },
                 { "environment", "dev" }
             });
+            // DOCS_BLOCK_END:constructs
+            // DOCS_BLOCK_START:assets,constructs
         }
 
         public static void Main(string[] args)
         {
             App app = new App();
-            new MyApp(app, "csharp-documentation");
+            new MyApp(app, "demo");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
     }
 }
+// DOCS_BLOCK_END:assets,constructs

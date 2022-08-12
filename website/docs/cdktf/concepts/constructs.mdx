@@ -53,7 +53,7 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
 <CodeTabs>
 
@@ -154,35 +154,42 @@ public class Main extends TerraformStack {
 ```
 
 ```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
 using kubernetes;
-using Path;
-
 using MyConstructs;
-
-class MyStack : TerraformStack
+namespace MyCompany.MyApp
 {
-    public MyStack(Construct scope, string name) : base(scope, name)
+    class MyApp : TerraformStack
     {
+        public MyApp(Construct scope, string name) : base(scope, name)
+        {
 
-        new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
-            ConfigPath = Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
-        });
+            new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
+                ConfigPath = Path.Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
+            });
+            new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
+                { "image", "nginx:latest" },
+                { "replicas", 2 },
+                { "app", "myapp" },
+                { "component", "frontend" },
+                { "environment", "dev" }
+            });
+        }
 
-        new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
-            { "image", "nginx:latest" },
-            { "replicas", 2 },
-            { "app", "myapp" },
-            { "component", "frontend" },
-            { "environment", "dev" }
-        });
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyApp(app, "demo");
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
     }
 }
-
-App app = new App();
-new MyStack(app, "app");
-app.Synth();
 ```
 
 ```go

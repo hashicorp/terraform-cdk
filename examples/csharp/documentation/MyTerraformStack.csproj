@@ -13,4 +13,8 @@
     <ProjectReference Include=".gen\aws\aws.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include=".gen\kubernetes\kubernetes.csproj" />
+  </ItemGroup>
+
 </Project>

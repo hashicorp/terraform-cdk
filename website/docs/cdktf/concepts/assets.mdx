@@ -25,7 +25,7 @@ The stack output directory in `cdktf.out` contains all of the assets that `Terra
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
 <!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
 <CodeTabs>
 
@@ -143,46 +143,50 @@ public class Main extends TerraformStack {
 ```
 
 ```csharp
-using Path;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
 using aws;
 using aws.S3;
-
-class MyStack : TerraformStack
+namespace MyCompany.MyApp
 {
-    public MyStack(Construct scope, string name) : base(scope, name)
+    class MyApp : TerraformStack
     {
+        public MyApp(Construct scope, string name) : base(scope, name)
+        {
 
-        new AwsProvider(this, "provider", new AwsProviderConfig {
-            Region = "us-west-2"
-        });
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
 
-        S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
-            Bucket = "demo"
-        });
+            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+                Bucket = "demo"
+            });
 
-        TerraformAsset asset = new TerraformAsset(this, "lambda-asset", new TerraformAssetConfig {
-            Path = Resolve(__dirname, "../lambda"),
-            Type = AssetType.ARCHIVE
-        });
+            TerraformAsset asset = new TerraformAsset(this, "lambda-asset", new TerraformAssetConfig {
+                Path = Path.Join(Environment.CurrentDirectory, "lambda"),
+                Type = AssetType.ARCHIVE
+            });
 
-        new S3BucketObject(this, "lambda-archive", new S3BucketObjectConfig {
-            Bucket = bucket.Bucket,
-            Key = asset.FileName,
-            Source = asset.Path
-        });
-    }
+            new S3BucketObject(this, "lambda-archive", new S3BucketObjectConfig {
+                Bucket = bucket.Bucket,
+                Key = asset.FileName,
+                Source = asset.Path
+            });
+        }
 
-    public static void Main(string[] args)
-    {
-      App app = new App();
-      new MyStack(app, "demo");
-      app.Synth();
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyApp(app, "demo");
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
     }
 }
-
-
 ```
 
 ```go
