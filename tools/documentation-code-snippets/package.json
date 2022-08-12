@@ -10,6 +10,7 @@
         "ts-node": "^10.9.1"
     },
     "dependencies": {
+        "execa": "^5.1.1",
         "glob": "^8.0.3"
     }
 }

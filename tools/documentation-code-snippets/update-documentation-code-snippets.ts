@@ -3,6 +3,7 @@ import { promisify } from "util";
 import path from "path";
 import fs from "fs/promises";
 import g from "glob";
+import execa from "execa";
 const glob = promisify(g);
 
 const REPO_ROOT = path.resolve(__dirname, "..", "..");
@@ -260,12 +261,11 @@ ${requestedSnippets
 
   for (const repoLocalSourcePath of sourcePaths) {
     const sourcePath = resolveRepoPath(repoLocalSourcePath);
-    // glob ignore option does not support !-negation, ignore those lines as they break the detection
-    const ignore =
-      (await tryFindGitignoreContent(sourcePath))
-        ?.split("\n")
-        .filter((line) => !line.startsWith("!")) || [];
-    const files = await glob(sourcePath + "**/**/*", { ignore, nodir: true });
+    const files = (await execa("git", ["ls-files"], { cwd: sourcePath })).stdout
+      .split("\n")
+      .map((f) => `${sourcePath}/${f}`);
+
+    console.log(files);
 
     for (const filename of files) {
       const containsSources = await fileContainsCodeBlockSources(filename);
