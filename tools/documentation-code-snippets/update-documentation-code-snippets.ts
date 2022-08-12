@@ -109,19 +109,26 @@ function getSnippedIdsReferencedInSourcePath(
 async function fileContainsCodeBlockSources(
   filename: string
 ): Promise<boolean> {
-  const content = (await fs.readFile(filename)).toString();
-  if (content.includes(CODE_BLOCK_SOURCE_PREFIX)) {
-    if (
-      content.includes(CODE_BLOCK_SOURCE_START) &&
-      content.includes(CODE_BLOCK_SOURCE_END)
-    ) {
-      return true;
+  try {
+    const content = (await fs.readFile(filename)).toString();
+    if (content.includes(CODE_BLOCK_SOURCE_PREFIX)) {
+      if (
+        content.includes(CODE_BLOCK_SOURCE_START) &&
+        content.includes(CODE_BLOCK_SOURCE_END)
+      ) {
+        return true;
+      }
+      throw new Error(
+        `file ${filename} seems to contain a code block source (starting with "${CODE_BLOCK_SOURCE_PREFIX}") but does not contain at least one start and one end comment`
+      );
     }
-    throw new Error(
-      `file ${filename} seems to contain a code block source (starting with "${CODE_BLOCK_SOURCE_PREFIX}") but does not contain at least one start and one end comment`
+    return false;
+  } catch (e) {
+    console.warn(
+      `Warning: Could not read file "${filename}". Maybe it was recently deleted and Git does not know about this yet. Skipping that file`
     );
+    return false;
   }
-  return false;
 }
 
 type Snippet = {
