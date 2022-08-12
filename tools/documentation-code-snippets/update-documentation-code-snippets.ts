@@ -106,10 +106,6 @@ function getSnippedIdsReferencedInSourcePath(
   );
 }
 
-async function tryFindGitignoreContent(dir: string): Promise<string> {
-  return (await fs.readFile(path.join(dir, ".gitignore"))).toString();
-}
-
 async function fileContainsCodeBlockSources(
   filename: string
 ): Promise<boolean> {
