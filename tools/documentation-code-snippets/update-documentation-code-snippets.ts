@@ -261,8 +261,6 @@ ${requestedSnippets
       .split("\n")
       .map((f) => `${sourcePath}/${f}`);
 
-    console.log(files);
-
     for (const filename of files) {
       const containsSources = await fileContainsCodeBlockSources(filename);
       if (containsSources) {
