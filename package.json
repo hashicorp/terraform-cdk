@@ -62,7 +62,10 @@
       "**/archiver/**",
       "json-stable-stringify",
       "**/json-stable-stringify",
-      "**/json-stable-stringify/**"
+      "**/json-stable-stringify/**",
+      "semver",
+      "**/semver",
+      "**/semver/**"
     ]
   },
   "devDependencies": {
