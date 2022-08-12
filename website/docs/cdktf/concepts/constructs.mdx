@@ -54,7 +54,7 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
 <CodeTabs>
 
 ```ts
@@ -193,42 +193,46 @@ namespace MyCompany.MyApp
 ```
 
 ```go
-import "github.com/aws/constructs-go/constructs"
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-import "github.com/myorg/myproject/generated/hashicorp/kubernetes"
-import "github.com/myorg/myproject/myconstructs"
-import "path"
+package main
 
-type myStack struct {
-	terraformStack
-}
+import (
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
-func NewMyStack(scope construct, name *string) *myStack {
-	this := &myStack{}
-	NewTerraformStack_Override(this, scope, name)
+	"os"
+	"path"
+)
 
-  cwd, err := os.Getwd()
-  if err != nil {
-      log.Println(err)
-  }
+func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
 
-	kubernetes.NewKubernetesProvider(this, jsii.String("kind"), &kubernetesProviderConfig{
-		configPath: jsii.String(path.Join(cwd, "../kubeconfig.yaml")),
+	cwd, _ := os.Getwd()
+
+	kubernetes.NewKubernetesProvider(stack, jsii.String("kind"), &kubernetes.KubernetesProviderConfig{
+		ConfigPath: jsii.String(path.Join(cwd, "kubeconfig.yaml")),
 	})
-
-	myconstructs.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
-		"image": jsii.String("nginx:latest"),
-		"replicas": jsii.Number(2),
-		"app": jsii.String("myapp"),
-		"component": jsii.String("frontend"),
+	myconstructs.NewKubernetesWebAppDeployment(stack, "deployment", map[string]interface{}{
+		"image":       jsii.String("nginx:latest"),
+		"replicas":    jsii.Number(2),
+		"app":         jsii.String("myapp"),
+		"component":   jsii.String("frontend"),
 		"environment": jsii.String("dev"),
 	})
-	return this
+
+	return stack
 }
 
-app := cdktf.NewApp()
-NewMyStack(app, jsii.String("app"))
-app.Synth()
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewExampleCdktfDocumentationStack(app, "demo")
+
+	app.Synth()
+}
+
 ```
 
 </CodeTabs>

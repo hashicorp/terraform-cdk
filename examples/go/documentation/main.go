@@ -1,48 +1,66 @@
+// DOCS_BLOCK_START:assets,constructs
 package main
 
 import (
+	// DOCS_BLOCK_END:assets,constructs
+	// DOCS_BLOCK_START:assets
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3"
+	// DOCS_BLOCK_END:assets
+	// DOCS_BLOCK_START:constructs
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
+	// DOCS_BLOCK_END:constructs
 
+	// DOCS_BLOCK_START:assets,constructs
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	"os"
+	"path"
 )
 
-func NewExampleCdktfDocumentationStack(scope constructs.Construct, id string) cdktf.TerraformStack {
-	stack := cdktf.NewTerraformStack(scope, &id)
+func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
 
-	// concepts/assets.mdx
+	cwd, _ := os.Getwd()
+
+	// DOCS_BLOCK_END:assets,constructs
+	// DOCS_BLOCK_START:assets
 	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
 		Region: jsii.String("us-east-1"),
 	})
 
-	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &aws.s3.S3BucketConfig{
-		bucket: jsii.String("demo"),
+	bucket := s3.NewS3Bucket(stack, jsii.String("bucket"), &s3.S3BucketConfig{
+		Bucket: jsii.String("demo"),
 	})
 
-	asset := cdktf.NewTerraformAsset(this, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
-		path: path.resolve(__dirname, jsii.String("../lambda")),
-		type: cdktf.AssetType_ARCHIVE,
+	asset := cdktf.NewTerraformAsset(stack, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
+		Path: jsii.String(path.Join(cwd, "lambda")),
+		Type: cdktf.AssetType_ARCHIVE,
 	})
 
-	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &aws.s3.S3BucketObjectConfig{
-		bucket: bucket.bucket,
-		key: asset.fileName,
-		source: asset.path,
+	s3.NewS3BucketObject(stack, jsii.String("lambda-archive"), &s3.S3BucketObjectConfig{
+		Bucket: bucket.Bucket(),
+		Key:    asset.FileName(),
+		Source: asset.Path(),
 	})
 
-	// concepts/constructs.mdx
-	kubernetes.NewKubernetesProvider(this, jsii.String("kind"), &kubernetesProviderConfig{
-		configPath: jsii.String(path.Join(cwd, "../kubeconfig.yaml")),
+	// DOCS_BLOCK_END:assets
+	// DOCS_BLOCK_START:constructs
+	kubernetes.NewKubernetesProvider(stack, jsii.String("kind"), &kubernetes.KubernetesProviderConfig{
+		ConfigPath: jsii.String(path.Join(cwd, "kubeconfig.yaml")),
 	})
-	myconstructs.NewKubernetesWebAppDeployment(this, jsii.String("deployment"), map[string]interface{}{
-		"image": jsii.String("nginx:latest"),
-		"replicas": jsii.Number(2),
-		"app": jsii.String("myapp"),
-		"component": jsii.String("frontend"),
+	myconstructs.NewKubernetesWebAppDeployment(stack, "deployment", map[string]interface{}{
+		"image":       jsii.String("nginx:latest"),
+		"replicas":    jsii.Number(2),
+		"app":         jsii.String("myapp"),
+		"component":   jsii.String("frontend"),
 		"environment": jsii.String("dev"),
 	})
+	// DOCS_BLOCK_END:constructs
+	// DOCS_BLOCK_START:assets,constructs
 
 	return stack
 }
@@ -50,7 +68,9 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, id string) cd
 func main() {
 	app := cdktf.NewApp(nil)
 
-	NewExampleCdktfDocumentationStack(app, "go-documentation")
+	NewExampleCdktfDocumentationStack(app, "demo")
 
 	app.Synth()
 }
+
+// DOCS_BLOCK_END:assets,constructs

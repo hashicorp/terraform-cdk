@@ -26,7 +26,7 @@ The stack output directory in `cdktf.out` contains all of the assets that `Terra
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
-<!-- #xxNEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
 <CodeTabs>
 
 ```ts
@@ -190,43 +190,55 @@ namespace MyCompany.MyApp
 ```
 
 ```go
-import path "github.com/aws-samples/dummy/path"
-import "github.com/aws/constructs-go/constructs"
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-import "github.com/hashicorp/cdktf-provider-aws-go/aws"
+package main
 
-type myStack struct {
-	terraformStack
+import (
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3"
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	"os"
+	"path"
+)
+
+func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cwd, _ := os.Getwd()
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("us-east-1"),
+	})
+
+	bucket := s3.NewS3Bucket(stack, jsii.String("bucket"), &s3.S3BucketConfig{
+		Bucket: jsii.String("demo"),
+	})
+
+	asset := cdktf.NewTerraformAsset(stack, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
+		Path: jsii.String(path.Join(cwd, "lambda")),
+		Type: cdktf.AssetType_ARCHIVE,
+	})
+
+	s3.NewS3BucketObject(stack, jsii.String("lambda-archive"), &s3.S3BucketObjectConfig{
+		Bucket: bucket.Bucket(),
+		Key:    asset.FileName(),
+		Source: asset.Path(),
+	})
+
+
+	return stack
 }
 
-func NewMyStack(scope construct, name *string) *myStack {
-	this := &myStack{}
-	NewTerraformStack_Override(this, scope, name)
+func main() {
+	app := cdktf.NewApp(nil)
 
-	aws.NewAwsProvider(this, jsii.String("provider"), &awsProviderConfig{
-		region: jsii.String("us-west-2"),
-	})
+	NewExampleCdktfDocumentationStack(app, "demo")
 
-	bucket := aws.S3.NewS3Bucket(this, jsii.String("bucket"), &aws.s3.S3BucketConfig{
-		bucket: jsii.String("demo"),
-	})
-
-	asset := cdktf.NewTerraformAsset(this, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
-		path: path.resolve(__dirname, jsii.String("../lambda")),
-		type: cdktf.AssetType_ARCHIVE,
-	})
-
-	aws.S3.NewS3BucketObject(this, jsii.String("lambda-archive"), &aws.s3.S3BucketObjectConfig{
-		bucket: bucket.bucket,
-		key: asset.fileName,
-		source: asset.path,
-	})
-	return this
+	app.Synth()
 }
 
-app := cdktf.NewApp()
-NewMyStack(app, jsii.String("demo"))
-app.Synth()
 ```
 
 </CodeTabs>
