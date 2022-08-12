@@ -76,7 +76,7 @@ describe("ValidateBinaryVersion", () => {
     );
     expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
       "Validation failed with the following errors:
-        [MyStack/testResource] terraform version 1.2.0 is lower than the required version >=1.3.0"
+        [MyStack/testResource] terraform version 1.2.0 is lower than the required version >=1.3.0 for this construct. "
     `);
   });
 
