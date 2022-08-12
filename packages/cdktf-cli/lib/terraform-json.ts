@@ -18,14 +18,20 @@ export interface TerraformJsonConfigBackendRemote {
   workspaces: TerraformJsonConfigBackendRemoteWorkspace;
 }
 
-export interface TerraformJsonConfigCloudWorkspace {
+export interface TerraformJsonConfigCloudWorkspaceByName {
   name?: string;
+}
+
+export interface TerraformJsonConfigCloudWorkspaceByTags {
+  tags?: string[];
 }
 export interface TerraformJsonConfigCloud {
   organization: string;
   hostname?: string;
   token?: string;
-  workspaces: TerraformJsonConfigCloudWorkspace;
+  workspaces:
+    | TerraformJsonConfigCloudWorkspaceByName
+    | TerraformJsonConfigCloudWorkspaceByTags;
 }
 
 export interface TerraformJsonConfigBackend {
