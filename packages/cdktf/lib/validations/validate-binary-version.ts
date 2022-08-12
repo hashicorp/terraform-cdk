@@ -30,7 +30,11 @@ export class ValidateBinaryVersion implements IValidation {
 
       if (!semver.satisfies(version[0], this.versionConstraint)) {
         return [
-          `${this.binary} version ${version[0]} is lower than the required version ${this.versionConstraint}for this construct. ${this.hint}`,
+          `${this.binary} version ${
+            version[0]
+          } is lower than the required version ${
+            this.versionConstraint
+          } for this construct. ${this.hint || ""}`,
         ];
       }
       return [];
