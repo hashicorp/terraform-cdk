@@ -223,10 +223,29 @@ export class IteratorStack extends TerraformStack {
     });
 
     // iterating over a list of complex objects
-    new edge.OptionalAttributeResource(this, "complex_list_target", {
-      forEach: complexListIterator,
-      str: complexListIterator.getString("reqstr"),
-      num: complexListIterator.getNumber("reqnum"),
+    const optAttrResources = new edge.OptionalAttributeResource(
+      this,
+      "complex_list_target",
+      {
+        forEach: complexListIterator,
+        str: complexListIterator.getString("reqstr"),
+        num: complexListIterator.getNumber("reqnum"),
+      }
+    );
+
+    // accessing resources with a forEach property
+    const resourceIterator = TerraformIterator.fromResource(optAttrResources);
+    new TerraformOutput(this, "resource_for_each_all_str_and_num_values", {
+      value: resourceIterator.dynamic({
+        str: resourceIterator.getString("str"),
+        num: resourceIterator.getNumber("num"),
+      }),
+    });
+    // todo: describe and change "copy" to a better name
+    new edge.OptionalAttributeResource(this, "complex_list_target_copy", {
+      forEach: resourceIterator,
+      str: resourceIterator.getString("reqstr"),
+      num: resourceIterator.getNumber("reqnum"),
     });
 
     // iterating over entries of a map of strings

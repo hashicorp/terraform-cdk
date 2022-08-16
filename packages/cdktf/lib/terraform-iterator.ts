@@ -10,8 +10,12 @@ import {
   StringMap,
   StringMapList,
 } from "./complex-computed-list";
+import { TerraformDataSource } from "./terraform-data-source";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
+import { TerraformElement } from "./terraform-element";
 import { Fn } from "./terraform-functions";
+import { TerraformProvider } from "./terraform-provider";
+import { TerraformResource } from "./terraform-resource";
 import {
   FOR_EXPRESSION_KEY,
   FOR_EXPRESSION_VALUE,
@@ -76,6 +80,18 @@ export abstract class TerraformIterator implements ITerraformIterator {
       | { [key: string]: boolean }
   ): MapTerraformIterator {
     return new MapTerraformIterator(map);
+  }
+
+  public static fromResource(resource: TerraformResource) {
+    return new TerraformElementIterator(resource);
+  }
+
+  public static fromDatasource(resource: TerraformDataSource) {
+    return new TerraformElementIterator(resource);
+  }
+
+  public static fromProvider(resource: TerraformProvider) {
+    return new TerraformElementIterator(resource);
   }
 
   /**
@@ -277,6 +293,34 @@ export class MapTerraformIterator extends TerraformIterator {
 
   /**
    * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
+  }
+}
+
+export class TerraformElementIterator extends TerraformIterator {
+  constructor(private readonly element: TerraformElement) {
+    super();
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    // explicit wrapping to circumvent "Found an encoded map token in a scalar string context." error
+    return ref(this.element.fqn);
+  }
+
+  /**
+   * Returns the current element of the multiple resources / datasources / providers that are being iterated over.
+   */
+  public get key(): string {
+    return Token.asString(this._getKey());
+  }
+
+  /**
+   * Returns the current element of the multiple resources / datasources / providers that are being iterated over.
    */
   public get value(): any {
     return this._getValue();
