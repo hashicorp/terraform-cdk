@@ -1,3 +1,26 @@
+## 0.12.1
+
+### fix
+
+- fix(cli): add major versions greater 1 to package name when installing pre-built providers for go [\#2002](https://github.com/hashicorp/terraform-cdk/pull/2002)
+- fix(cli): Wait for other stacks to complete if one of them failed [\#1987](https://github.com/hashicorp/terraform-cdk/pull/1987)
+- fix(cli): fix version detection for Java being a bit too optimistic about the package name [\#1995](https://github.com/hashicorp/terraform-cdk/pull/1995)
+- fix(cli): Improve wording around starting from an existing Terraform project [\#1985](https://github.com/hashicorp/terraform-cdk/pull/1985)
+- fix(tests): force local as Go now has pre-built providers [\#2005](https://github.com/hashicorp/terraform-cdk/pull/2005)
+- fix(tests): as predicted, the test needs to be skipped for a bit of time [\#2004](https://github.com/hashicorp/terraform-cdk/pull/2004)
+- fix(docs): fix aspects example not being valid TypeScript [\#1986](https://github.com/hashicorp/terraform-cdk/pull/1986)
+- fix(docs): fix links by removing all links to the providers-and-resources page that does not exist anymore [\#2010](https://github.com/hashicorp/terraform-cdk/pull/2010)
+- fix: don't lock state in tests [\#1990](https://github.com/hashicorp/terraform-cdk/pull/1990)
+- fix: don't overwrite all `NODE_OPTIONS` [\#2009](https://github.com/hashicorp/terraform-cdk/pull/2009)
+
+### chore
+
+- chore: add vercel config for cdk.tf redirects page [\#2016](https://github.com/hashicorp/terraform-cdk/pull/2016)
+- chore: add notes for how to clean the local dotnet cache [\#2022](https://github.com/hashicorp/terraform-cdk/pull/2022)
+- chore: add issue template for filing bugs with a pre-built providers label [\#1983](https://github.com/hashicorp/terraform-cdk/pull/1983)
+- chore: npm-check-updates && yarn upgrade [\#1984](https://github.com/hashicorp/terraform-cdk/pull/1984)
+- chore: npm-check-updates && yarn upgrade [\#2007](https://github.com/hashicorp/terraform-cdk/pull/2007)
+
 ## 0.12.0
 
 **Breaking Changes**
