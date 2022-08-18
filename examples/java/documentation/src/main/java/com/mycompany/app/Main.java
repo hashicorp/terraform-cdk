@@ -50,12 +50,14 @@ public class Main extends TerraformStack {
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
 
-        new KubernetesWebAppDeployment(this, "deployment", Map.of(
-                "image", "nginx:latest",
-                "replicas", "2",
-                "app", "myapp",
-                "component", "frontend",
-                "environment", "dev"));
+        final HashMap<string, string> properties = new HashMap<>();
+        properties.put("image", "lambci/lambda:latest");
+        properties.put("replicas", "2");
+        properties.put("app", "myapp");
+        properties.put("component", "frontend");
+        properties.put("environment", "dev");
+
+        new KubernetesWebAppDeployment(this, "deployment", properties);
         // DOCS_BLOCK_END:constructs
         // DOCS_BLOCK_START:assets,constructs
     }
