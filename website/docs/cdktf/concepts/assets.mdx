@@ -27,6 +27,7 @@ The stack output directory in `cdktf.out` contains all of the assets that `Terra
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
+
 <CodeTabs>
 
 ```ts
@@ -116,7 +117,7 @@ import imports.aws.s3.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-        
+
         AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
 
         S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")

@@ -55,6 +55,7 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
+
 <CodeTabs>
 
 ```ts
@@ -133,7 +134,7 @@ import imports.kubernetes.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-        
+
         KubernetesProvider.Builder.create(this, "kind")
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
