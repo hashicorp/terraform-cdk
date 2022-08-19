@@ -237,7 +237,7 @@ export class CdktfStack {
   public async diff({ refreshOnly }: { refreshOnly?: boolean }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+      const terraform = await this.initalizeTerraform({ isSpeculative: true });
 
       const plan = await terraform.plan(false, refreshOnly);
       this.currentPlan = plan;
