@@ -42,9 +42,12 @@ jobs:
         with:
           name: dist
           path: dist
-      - id: build-bench-matrix
+      - id: build-test-matrix
         run: |
-          ./tools/build-bench-matrix.sh
+          tfDefault=$(cat .terraform.versions.json | jq -r '.default')
+          examples=$(npx lerna list --scope "@examples/{typescript,java,csharp,go,python}-{azure,aws,google}" | jq  -R -s -c --arg tfDefault "${tfDefault}" 'split("\n") | map(select(length > 0)) | { target: values, terraform: [$tfDefault]}')
+          echo $examples
+          echo "::set-output name=examples::$examples"
   linux_bench:
     needs: build-benchmark-matrix
     runs-on: ubuntu-latest
@@ -65,7 +68,15 @@ jobs:
         with:
           name: dist
           path: dist
-      - name: Run bench
+      - name: Run benchmark
+        run: test/run-against-dist tools/build-examples.sh ${TEST_TARGET}
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          TEST_TARGET: "${{ matrix.target }}"
+          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          MAVEN_OPTS: "-Xmx3G"
+          EMIT_BENCHMARK_FILE: "1"
+
       # Run e.g. on examples/typescript/aws both get and then synth and measure both times, best through a script
 # Collect all results
 # Upload a report
