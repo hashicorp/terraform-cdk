@@ -99,7 +99,7 @@ test("stack validation returns error when provider is missing", () => {
   const errors = stack.node.validate();
 
   expect(errors).toEqual([
-    `Found resources without a matching provider. Please make sure to add the following providers to your stack: test-provider`,
+    `Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack for the following providers: test-provider`,
   ]);
 });
 
