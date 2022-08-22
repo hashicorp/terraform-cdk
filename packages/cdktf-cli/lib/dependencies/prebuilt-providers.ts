@@ -31,7 +31,8 @@ export async function getNpmPackageName(
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
-      ProviderConstraint.fromConfigEntry(p).source === constraint.source
+      ProviderConstraint.fromConfigEntry(p).source.toLowerCase() ===
+      constraint.source.toLowerCase()
   );
   if (!entry) {
     return undefined; // no pre-built provider found for this constraint
