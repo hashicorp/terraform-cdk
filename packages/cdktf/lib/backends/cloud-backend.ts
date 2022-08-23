@@ -102,6 +102,9 @@ export interface CloudBackendProps {
   readonly token?: string;
 }
 
+/**
+ * A cloud workspace can either be a single named workspace, or a list of tagged workspaces.
+ */
 export abstract class CloudWorkspace {
   public abstract toTerraform(): any;
 }
