@@ -1,6 +1,6 @@
 # Python-Provisioner
 
-This example shows how one can use provisioners in python.
+This example shows how one can use provisioners in Python.
 
 ## Usage
 
