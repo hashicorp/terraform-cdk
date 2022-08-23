@@ -14,6 +14,7 @@ export interface IResourceConstructor<T extends IResource> {
 
 /**
  * A construct which represents a resource.
+ * @deprecated - Please use Construct from the constructs package instead.
  */
 export abstract class Resource extends Construct implements IResource {
   public readonly stack: TerraformStack;

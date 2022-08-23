@@ -7,9 +7,9 @@ import {
   hashPath,
   findFileAboveCwd,
 } from "./private/fs";
-import { Resource } from "./resource";
 import { ISynthesisSession } from "./synthesize";
 import { addCustomSynthesis } from "./synthesize/synthesizer";
+import { TerraformStack } from "./terraform-stack";
 
 export interface TerraformAssetConfig {
   // path to the file or folder configured. If relative, the path is resolved from the location of cdktf.json
@@ -30,7 +30,8 @@ const ARCHIVE_NAME = "archive.zip";
 const ASSETS_DIRECTORY = "assets";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export class TerraformAsset extends Resource {
+export class TerraformAsset extends Construct {
+  private stack: TerraformStack;
   private sourcePath: string;
   // hash value of the asset that can be passed to consuming constructs (e.g. to not recreate a lambda function in case the underlying files did not change)
   public assetHash: string;
@@ -46,6 +47,8 @@ export class TerraformAsset extends Resource {
    */
   constructor(scope: Construct, id: string, config: TerraformAssetConfig) {
     super(scope, id);
+
+    this.stack = TerraformStack.of(this);
 
     if (path.isAbsolute(config.path)) {
       this.sourcePath = config.path;
