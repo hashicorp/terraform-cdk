@@ -1,3 +1,20 @@
+## 0.12.2 (unreleased)
+
+**Breaking Changes**
+
+A very minor change in the interface names for provisioners occured [to support them in JSII languages](https://github.com/hashicorp/terraform-cdk/pull/2042), renaming the following interfaces:
+
+- `ISSHProvisionerConnection` to `SSHProvisionerConnection`
+- `IWinrmProvisionerConnection` to `WinrmProvisionerConnection`
+- `IFileProvisioner` to `FileProvisioner`
+- `ILocalExecProvisioner` to `LocalExecProvisioner`
+- `IRemoteExecProvisioner` to `RemoteExecProvisioner`
+
+### fix
+
+- fix(hcl2json): add fs-extra to dependencies [\#2040](https://github.com/hashicorp/terraform-cdk/pull/2040)
+- fix(lib): support provisioners in JSII languages [\#2042](https://github.com/hashicorp/terraform-cdk/pull/2042)
+
 ## 0.12.1
 
 ### fix
