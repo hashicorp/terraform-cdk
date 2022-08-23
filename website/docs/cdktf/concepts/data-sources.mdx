@@ -19,7 +19,7 @@ When data is static or you know the values before [synthesizing your code](/cdkt
 
 Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All classes representing Data Sources are prefixed with `Data`.
 
-In the TypeScript example below, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
+In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
 ```typescript
 .....
@@ -39,7 +39,7 @@ export class HelloTerraform extends TerraformStack {
 
 The [`terraform_remote_state` data source](/language/state/remote-state-data) retrieves state data from a remote [Terraform backend](/language/settings/backends). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure. Refer to the [Remote Backends page](/cdktf/concepts/remote-backends) for more details.
 
-The TypeScript example below uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
+The following TypeScript example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
 ```typescript
 .....

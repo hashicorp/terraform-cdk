@@ -54,7 +54,7 @@ app.synth();
 
 To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/cdktf/create-and-deploy/configuration-file).
 
-The example below adds the [DNS Simple](https://registry.terraform.io/providers/dnsimple/dnsimple/latest/docs) provider:
+The following example adds the [DNS Simple](https://registry.terraform.io/providers/dnsimple/dnsimple/latest/docs) provider.
 
 ```json
 {
@@ -79,7 +79,7 @@ Generated typescript constructs in the output directory: .gen
 
 #### Import Classes
 
-Import and use the generated classes in your application. The TypeScript example below imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
+Import and use the generated classes in your application. The following TypeScript example imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
 
 ```typescript
 import { Construct } from "constructs";
@@ -202,7 +202,7 @@ It can take several minutes to generate the code bindings for providers with ver
 - [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
 - [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
 
-These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The example below shows how to install the AWS provider in TypeScript / Node.
+These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
 
 ```
 npm install @cdktf/provider-aws
