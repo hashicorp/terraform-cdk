@@ -58,8 +58,8 @@ export class SynthStack {
     );
 
     // Increases the default memory available to Node.js when synthesizing a TypeScript CDK project.
-    const nodeOptsSwitch = "--max-old-space-size"
-    const nodeOptsSetting = `${nodeOptsSwitch}=4096`
+    const nodeOptsSwitch = "--max-old-space-size";
+    const nodeOptsSetting = `${nodeOptsSwitch}=4096`;
     if (env.NODE_OPTIONS && !env.NODE_OPTIONS.includes(nodeOptsSwitch)) {
       logger.warn(`WARNING: Found NODE_OPTIONS environment variable without a setting for ${nodeOptsSwitch}
 The synthesizing step for TypeScript may need an increased amount of memory if multiple large providers
