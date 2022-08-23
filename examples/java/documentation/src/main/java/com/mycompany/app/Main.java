@@ -50,7 +50,7 @@ public class Main extends TerraformStack {
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
 
-        final HashMap<string, string> properties = new HashMap<>();
+        final HashMap<String, String> properties = new HashMap<>();
         properties.put("image", "lambci/lambda:latest");
         properties.put("replicas", "2");
         properties.put("app", "myapp");
