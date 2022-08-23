@@ -1,0 +1,8 @@
+{
+  "language": "python",
+  "app": "pipenv run python main.py",
+  "terraformProviders": [
+    "hashicorp/null@~> 3.1"
+  ],
+  "codeMakerOutput": "imports"
+}
