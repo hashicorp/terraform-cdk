@@ -258,9 +258,10 @@ Most of our tests are automated but there are some workflows we need to manually
 1. Create a new branch (e.g. `prepare-release-0.9.0`)
 2. Update the [CHANGELOG](./CHANGELOG.md): `./tools/create-changelog.sh` should get you a good start
 3. Update the version in the root `package.json`
-4. Write an [upgrade guide](website/docs/cdktf/release/)
-5. Create a PR to merge the new branch into `main`
-6. Merge the PR, a new release will be build and published because the version changed
+4. Write an [upgrade guide](website/docs/cdktf/release/) (for major releases)
+5. Run `yarn generate-docs` to bring our api documentation up to date
+6. Create a PR to merge the new branch into `main`
+7. Merge the PR, a new release will be build and published because the version changed
 
 #### After the release
 
