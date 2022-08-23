@@ -70,7 +70,7 @@ You can also provide context when instantiating the `App` class.
 const app = new App({ context: { myConfig: "value" } });
 ```
 
-The TypeScript example below uses `App` context to provide a custom tag value to an AWS EC2 instance.
+The following TypeScript example uses `App` context to provide a custom tag value to an AWS EC2 instance.
 
 ```typescript
 import { Construct } from "constructs";
@@ -118,7 +118,7 @@ $ cdktf init --template=typescript --from-terraform-project /path/to/my/tf-hcl-p
 
 ### Usage Example
 
-Consider the HCL configuration below.
+The following HCL configuration defines the `random` provider.
 
 ```hcl
 # File: /tmp/demo/main.tf

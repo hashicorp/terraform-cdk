@@ -104,7 +104,7 @@ When you declare providers in JSON, add the constraint in the `version` property
 
 CDKTF uses feature flags to enable potentially breaking behaviors in a release. Flags are stored as runtime context values in `cdktf.json`. Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. New projects created using `cdktf init` include flags enabling all features available in the release that created the project.
 
-Edit `cdktf.json` to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading (example below).
+Edit `cdktf.json` to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The following example adds a feature flag.
 
 ```json
 {
@@ -120,15 +120,15 @@ The [CHANGELOG on Github](https://github.com/hashicorp/terraform-cdk/blob/main/C
 
 ## Configure Files to Watch
 
-When using `cdktf watch` we inspect the `cdktf.json`s `watchPattern` property to determine which files to watch. If you do not specify a `watchPattern` property, we will add the default watch pattern for your language on the first run. The `watchPattern` expects an array of glob patterns, e.g. `["main.ts", "../constructs/**/*.ts", "lib/*.ts"]`.
+When using `cdktf watch`, CDKTF inspects the `cdktf.json`s `watchPattern` property to determine which files to watch. If you do not specify a `watchPattern` property, CDKTF adds the default watch pattern for your language on the first run. The `watchPattern` expects an array of glob patterns, e.g. `["main.ts", "../constructs/**/*.ts", "lib/*.ts"]`.
 
 ## Configuration Examples
 
 ### Change the Output Directory
 
-Defining `output` changes the directory where `cdktf` will put your generated Terraform configuration file. All Terraform operations will be performed from this directory.
+Defining `output` changes the directory where `cdktf` stores your generated Terraform configuration file. Terraform performs all operations within this directory.
 
-The example below synthesizes the JSON Terraform configuration into `my-workdir`:
+The following example synthesizes the JSON Terraform configuration into `my-workdir`:
 
 ```json
 {
@@ -139,7 +139,7 @@ The example below synthesizes the JSON Terraform configuration into `my-workdir`
 
 ### Build Providers
 
-With the `terraformProviders` configuration below, a `cdktf get` will build the latest AWS provider within the 2.X version range. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput`, see other examples below.
+With the following `terraformProviders` configuration, a `cdktf get` builds the latest AWS provider within the 2.X version range. CDKTF saves the generated code in in `.gen` by default. You can adjust this behavior with `codeMakerOutput`. Refer to the other examples on this page.
 
 ```json
 {
@@ -151,7 +151,7 @@ With the `terraformProviders` configuration below, a `cdktf get` will build the 
 
 ### Build Modules
 
-With this `terraformModules` configuration, a `cdktf get` will build the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry. The generated code will be saved into `.gen` by default. This can be adjusted with `codeMakerOutput` - see other examples below.
+With the following `terraformModules` configuration, a `cdktf get` builds the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry. The generated code will be saved into `.gen` by default. You can adjust this behavior with `codeMakerOutput`. Refer to the other examples on this page.
 
 ```json
 {
@@ -163,7 +163,7 @@ With this `terraformModules` configuration, a `cdktf get` will build the latest 
 
 ### Build Providers & Modules
 
-This combines the two examples above. A `cdktf get` will build both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
+With the following example configuration, a `cdktf get` builds both the AWS provider and the latest `terraform-aws-modules/vpc/aws` module from the Terraform Registry.
 
 ```json
 {
@@ -176,7 +176,7 @@ This combines the two examples above. A `cdktf get` will build both the AWS prov
 
 ### Build Multiple Providers
 
-It's possible to build multiple providers or modules as well.
+You can also build multiple providers or modules. The following example builds multiple providers.
 
 ```json
 {
@@ -197,7 +197,7 @@ It's possible to build multiple providers or modules as well.
 
 ### Build Providers in Custom Directory
 
-This generates the `aws` provider bindings in the folder `./imports`. This is used in the Python template to make it easier to reference the generated classes.
+The following configuration generates the `aws` provider bindings in the folder `./imports`. The Python template uses this method to make it easier to reference the generated classes.
 
 ```json
 {
@@ -210,7 +210,7 @@ This generates the `aws` provider bindings in the folder `./imports`. This is us
 
 ### Enable Crash Reporting for the CLI
 
-You can enable or disable crash reporting by setting the `sendCrashReports` property to `true` or `false`. Sending crash reports helps our team improve the CLI faster, you can learn more about what we track on our [telemetry page](/cdktf/telemetry#crash-reporting).
+You can enable or disable crash reporting by setting the `sendCrashReports` property to `true` or `false`. Sending crash reports helps our team improve the CLI faster. Refer to [Telemetry](/cdktf/telemetry#crash-reporting) for more information about what we track.
 
 ```json
 {
