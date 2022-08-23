@@ -16,7 +16,7 @@ import imports.aws.s3.*;
 // DOCS_BLOCK_END:assets
 
 // DOCS_BLOCK_START:constructs
-import java.util.Map;
+import java.util.*;
 import imports.kubernetes.*;
 // DOCS_BLOCK_END:constructs
 
