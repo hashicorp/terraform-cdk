@@ -13,13 +13,38 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  lint-examples:
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: install dependencies
+        run: yarn install
+      - name: lint examples
+        run: yarn lint:examples
+
   build-example-matrix:
     runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     outputs:
       examples: ${{ steps.set-examples.outputs.examples }}
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: install dependencies
+        run: yarn install
+      - name: build and package
+        run: |
+          yarn build
+          yarn package
+      - name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
@@ -50,17 +75,17 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
       - name: installing dependencies
         run: |
           yarn install
-      - name: compile
+      - name: lint
         run: |
           yarn lint:examples
-          yarn build
-        env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-      - name: create bundle
-        run: yarn package
       - name: examples integration tests
         run: test/run-against-dist node tools/build-example.js ${TEST_TARGET}
         env:
