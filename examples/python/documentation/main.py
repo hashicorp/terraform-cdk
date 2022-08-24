@@ -41,7 +41,7 @@ class MyStack(cdktf.TerraformStack):
                                       )
 
         KubernetesWebAppDeployment(self, "deployment",
-                                   image="nginx:latest"
+                                   image="nginx:latest",
                                    replicas=2,
                                    app="myapp",
                                    component="frontend",
