@@ -178,6 +178,10 @@
     {
       "source": "/registry-providers",
       "destination": "https://registry.terraform.io/browse/providers"
+    },
+    {
+      "source": "/crash-reporting",
+      "destination": "https://developer.hashicorp.com/cdktf/telemetry#crash-reporting"
     }
   ]
 }
