@@ -3,8 +3,10 @@
 var fs = require("fs");
 var path = require("path");
 var exec = require("child_process").execSync;
+const { performance } = require("perf_hooks");
 
 function run(command) {
+  // TODO: look into https://www.npmjs.com/package/pidusage to get the Memory usage of the process.
   const start = performance.now();
   exec(command, {
     stdio: "inherit",
@@ -12,6 +14,7 @@ function run(command) {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
     },
+    cwd: path.resolve(__dirname, ".."),
   });
   return (performance.now() - start) / 1000;
 }
