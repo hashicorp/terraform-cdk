@@ -23,7 +23,7 @@ class MyStack(cdktf.TerraformStack):
 
         asset = cdktf.TerraformAsset(self, "lambda-asset",
                                      path=os.path.join(os.path.dirname(
-                                         __file__), '..', 'lambda'),
+                                         __file__), 'lambda'),
                                      type=cdktf.AssetType.ARCHIVE
                                      )
 
