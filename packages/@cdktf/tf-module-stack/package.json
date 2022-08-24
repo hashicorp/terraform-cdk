@@ -1,0 +1,138 @@
+{
+  "name": "@cdktf/tf-module-stack",
+  "description": "A drop-in replacement for cdktf.TerraformStack that let's you define Terraform modules as construct",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/tf-module-stack"
+  },
+  "scripts": {
+    "build": "scripts/run-task build",
+    "bump": "scripts/run-task bump",
+    "clobber": "scripts/run-task clobber",
+    "compat": "scripts/run-task compat",
+    "compile": "scripts/run-task compile",
+    "docgen": "scripts/run-task docgen",
+    "eslint": "scripts/run-task eslint",
+    "package": "scripts/run-task package",
+    "package-all": "scripts/run-task package-all",
+    "package:js": "scripts/run-task package:js",
+    "package:python": "scripts/run-task package:python",
+    "post-compile": "scripts/run-task post-compile",
+    "post-upgrade": "scripts/run-task post-upgrade",
+    "pre-compile": "scripts/run-task pre-compile",
+    "release": "scripts/run-task release",
+    "test": "scripts/run-task test",
+    "test:update": "scripts/run-task test:update",
+    "test:watch": "scripts/run-task test:watch",
+    "unbump": "scripts/run-task unbump",
+    "upgrade": "scripts/run-task upgrade",
+    "watch": "scripts/run-task watch"
+  },
+  "author": {
+    "name": "Daniel Schmidt",
+    "email": "danielmschmidt92@gmail.com",
+    "organization": false
+  },
+  "devDependencies": {
+    "@cdktf/provider-null": "^0.7.37",
+    "@cdktf/provider-random": "^0.3.63",
+    "@dschmidt/cdktf-construct-base": "^0.1.19",
+    "@types/jest": "^27",
+    "@types/node": "^14",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "cdktf": "0.12.0",
+    "constructs": "10.0.107",
+    "eslint": "^8",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "jest": "^27",
+    "jest-junit": "^13",
+    "jsii": "^1.65.0",
+    "jsii-diff": "^1.65.0",
+    "jsii-docgen": "^6.3.27",
+    "jsii-pacmak": "^1.65.0",
+    "json-schema": "^0.4.0",
+    "npm-check-updates": "^15",
+    "prettier": "^2.7.1",
+    "standard-version": "^9",
+    "ts-jest": "^27",
+    "ts-node": "10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "peerDependencies": {
+    "cdktf": "^0.12.0",
+    "constructs": "^10.0.107"
+  },
+  "keywords": [
+    "cdk",
+    "cdktf"
+  ],
+  "main": "lib/index.js",
+  "license": "Apache-2.0",
+  "version": "0.0.0",
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/(test|src)/**/*(*.)@(spec|test).ts?(x)"
+    ],
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "clover",
+      "cobertura",
+      "text"
+    ],
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "dist"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "dist"
+    ],
+    "watchPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-reports"
+        }
+      ]
+    ],
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.dev.json"
+      }
+    }
+  },
+  "types": "lib/index.d.ts",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "targets": {
+      "python": {
+        "distName": "cdktf-tf-module-stack",
+        "module": "cdktf_tf_module_stack"
+      }
+    },
+    "tsc": {
+      "outDir": "lib",
+      "rootDir": "src"
+    }
+  },
+  "resolutions": {
+    "@types/prettier": "2.6.0"
+  }
+}
