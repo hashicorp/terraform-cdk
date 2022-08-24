@@ -1,0 +1,132 @@
+{
+  "name": "@cdktf/projen-cdktf-hybrid-construct",
+  "description": "Projen template for CDKTF Constructs that should also be used as Terraform Modules.",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/projen-cdktf-hybrid-construct"
+  },
+  "scripts": {
+    "build": "scripts/run-task build",
+    "buildExample": "scripts/run-task buildExample",
+    "buildExample:hybrid": "scripts/run-task buildExample:hybrid",
+    "buildExample:terraform": "scripts/run-task buildExample:terraform",
+    "bump": "scripts/run-task bump",
+    "clobber": "scripts/run-task clobber",
+    "compat": "scripts/run-task compat",
+    "compile": "scripts/run-task compile",
+    "docgen": "scripts/run-task docgen",
+    "eslint": "scripts/run-task eslint",
+    "package": "scripts/run-task package",
+    "package-all": "scripts/run-task package-all",
+    "package:js": "scripts/run-task package:js",
+    "post-compile": "scripts/run-task post-compile",
+    "post-upgrade": "scripts/run-task post-upgrade",
+    "pre-compile": "scripts/run-task pre-compile",
+    "release": "scripts/run-task release",
+    "test": "scripts/run-task test",
+    "test:update": "scripts/run-task test:update",
+    "test:watch": "scripts/run-task test:watch",
+    "unbump": "scripts/run-task unbump",
+    "upgrade": "scripts/run-task upgrade",
+    "watch": "scripts/run-task watch"
+  },
+  "author": {
+    "name": "Daniel Schmidt",
+    "email": "danielmschmidt92@gmail.com",
+    "organization": false
+  },
+  "devDependencies": {
+    "@types/change-case": "^2.3.1",
+    "@types/fs-extra": "^9.0.13",
+    "@types/glob": "^7.2.0",
+    "@types/jest": "^27.5.1",
+    "@types/node": "^14",
+    "@typescript-eslint/eslint-plugin": "^5",
+    "@typescript-eslint/parser": "^5",
+    "eslint": "^8",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-import-resolver-node": "^0.3.6",
+    "eslint-import-resolver-typescript": "^2.7.1",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "fs-extra": "^10.1.0",
+    "glob": "^7.2.0",
+    "jest": "^27",
+    "jest-junit": "^13",
+    "jsii": "^1.58.0",
+    "jsii-diff": "^1.58.0",
+    "jsii-docgen": "^7.0.7",
+    "jsii-pacmak": "^1.58.0",
+    "json-schema": "^0.4.0",
+    "npm-check-updates": "^12",
+    "prettier": "^2.6.2",
+    "projen": "0.56.2",
+    "standard-version": "^9",
+    "ts-jest": "^27",
+    "ts-node": "^9",
+    "typescript": "^4.6.4"
+  },
+  "peerDependencies": {
+    "projen": ">= 0.56.2"
+  },
+  "dependencies": {
+    "change-case": "^4.1.2"
+  },
+  "bundledDependencies": [
+    "change-case"
+  ],
+  "main": "lib/index.js",
+  "license": "MIT",
+  "version": "0.0.0",
+  "jest": {
+    "testMatch": [
+      "<rootDir>/src/**/__tests__/**/*.ts?(x)",
+      "<rootDir>/(test|src)/**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "clearMocks": true,
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "clover",
+      "cobertura",
+      "text"
+    ],
+    "coverageDirectory": "coverage",
+    "coveragePathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "watchPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "outputDirectory": "test-reports"
+        }
+      ]
+    ],
+    "preset": "ts-jest",
+    "globals": {
+      "ts-jest": {
+        "tsconfig": "tsconfig.dev.json"
+      }
+    }
+  },
+  "types": "lib/index.d.ts",
+  "stability": "stable",
+  "jsii": {
+    "outdir": "dist",
+    "targets": {},
+    "tsc": {
+      "outDir": "lib",
+      "rootDir": "src"
+    }
+  }
+}

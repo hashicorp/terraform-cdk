@@ -1,0 +1,13 @@
+{
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "my-awesome-module",
+      "version": "0.10.1"
+    },
+    "outputs": {
+    }
+  },
+  "terraform": {
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node --project ../tsconfig.dev.json index.ts",
+  "projectId": "my-project-id"
+}
