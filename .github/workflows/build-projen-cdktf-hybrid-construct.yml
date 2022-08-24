@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --check-files
       - name: build
-        run: scripts/run-task build
+        run: npx lerna exec --scope='@cdktf/projen-cdktf-hybrid-construct' scripts/run-task build
       - id: self_mutation
         name: Find mutations
         run: |-
@@ -72,25 +72,3 @@ jobs:
             git add .
             git commit -s -m "chore: self mutation"
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
-  package-js:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
-    steps:
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 14.x
-      - name: Download build artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: build-artifact
-          path: dist
-      - name: Prepare Repository
-        run: mv dist .repo
-      - name: Install Dependencies
-        run: cd .repo && yarn install --check-files --frozen-lockfile
-      - name: Create js artifact
-        run: cd .repo && npx projen package:js
-      - name: Collect js Artifact
-        run: mv .repo/dist dist

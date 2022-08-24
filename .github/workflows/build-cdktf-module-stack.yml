@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: yarn install --check-files
       - name: build
-        run: scripts/run-task build
+        run: npx lerna exec --scope='@cdktf/tf-module-stack' scripts/run-task build
       - id: self_mutation
         name: Find mutations
         run: |-
@@ -72,50 +72,3 @@ jobs:
             git add .
             git commit -s -m "chore: self mutation"
             git push origin HEAD:${{ github.event.pull_request.head.ref }}
-  package-js:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14.x
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: dist
-      - name: Prepare Repository
-        run: mv dist .repo
-      - name: Install Dependencies
-        run: cd .repo && yarn install --check-files --frozen-lockfile
-      - name: Create js artifact
-        run: cd .repo && npx projen package:js
-      - name: Collect js Artifact
-        run: mv .repo/dist dist
-  package-python:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions: {}
-    if: "! needs.build.outputs.self_mutation_happened"
-    steps:
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 14.x
-      - uses: actions/setup-python@v3
-        with:
-          python-version: 3.x
-      - name: Download build artifacts
-        uses: actions/download-artifact@v3
-        with:
-          name: build-artifact
-          path: dist
-      - name: Prepare Repository
-        run: mv dist .repo
-      - name: Install Dependencies
-        run: cd .repo && yarn install --check-files --frozen-lockfile
-      - name: Create python artifact
-        run: cd .repo && npx projen package:python
-      - name: Collect python Artifact
-        run: mv .repo/dist dist
