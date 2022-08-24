@@ -6,7 +6,6 @@ var exec = require("child_process").execSync;
 const { performance } = require("perf_hooks");
 
 function run(command) {
-  // TODO: look into https://www.npmjs.com/package/pidusage to get the Memory usage of the process.
   const start = performance.now();
   exec(command, {
     stdio: "inherit",
@@ -26,9 +25,14 @@ if (!exampleToBuild) {
   process.exit(1);
 }
 
-run(`npx lerna run --scope ${exampleToBuild}* reinstall`);
-const getTime = run(`npx lerna run --scope ${exampleToBuild}* build`);
-const synthTime = run(`npx lerna run --scope ${exampleToBuild}* synth`);
+function runInExample(command) {
+  return run(`npx lerna run --scope='${exampleToBuild}*' ${command}`);
+}
+
+runInExample(`reinstall`);
+const getTime = runInExample(`build`);
+runInExample(`beforeSynth`);
+const synthTime = runInExample(`synth`);
 
 console.log(`${exampleToBuild} built in ${getTime}s`);
 console.log(`${exampleToBuild} synthesized in ${synthTime}s`);
