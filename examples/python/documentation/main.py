@@ -40,13 +40,13 @@ class MyStack(cdktf.TerraformStack):
                                           __file__), '..', 'kubeconfig.yaml')
                                       )
 
-        KubernetesWebAppDeployment(self, "deployment", {
-            "image": "nginx:latest",
-            "replicas": 2,
-            "app": "myapp",
-            "component": "frontend",
-            "environment": "dev"
-        })
+        KubernetesWebAppDeployment(self, "deployment",
+                                   image="nginx:latest"
+                                   replicas=2,
+                                   app="myapp",
+                                   component="frontend",
+                                   environment="dev"
+                                   )
         # DOCS_BLOCK_END:constructs
 # DOCS_BLOCK_START:assets,constructs
 
