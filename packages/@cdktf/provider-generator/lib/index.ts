@@ -49,15 +49,27 @@ export async function generateProviderBindingsFromSchema(
   }
 }
 
+type Await<T> = T extends Promise<infer U> ? U : T;
+
+type Schema = {
+  providerSchema?: Await<ReturnType<typeof readProviderSchema>>;
+  moduleSchema?: Await<ReturnType<typeof readModuleSchema>>;
+};
 // Used for convert
-export async function readSchema(targets: ConstructsMakerTarget[]) {
+export async function readSchema(
+  targets: ConstructsMakerTarget[]
+): Promise<Schema> {
   const schemas = await Promise.all(
     targets.map((t) =>
       t.isModule
-        ? readModuleSchema(t as any).then((s) => ({ providerSchema: s }))
-        : readProviderSchema(t as any).then((s) => ({ moduleSchema: s }))
+        ? readModuleSchema(t as any).then(
+            (s) => ({ providerSchema: s } as Schema)
+          )
+        : readProviderSchema(t as any).then(
+            (s) => ({ moduleSchema: s } as Schema)
+          )
     )
   );
 
-  return deepmerge.all(schemas) as any;
+  return deepmerge.all(schemas);
 }

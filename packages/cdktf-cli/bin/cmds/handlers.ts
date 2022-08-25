@@ -90,7 +90,7 @@ export async function convert({ language, provider }: any) {
   try {
     const { all, stats } = await hcl2cdkConvert(input, {
       language,
-      providerSchema,
+      providerSchema: providerSchema ?? {},
     });
     output = all;
     await sendTelemetry("convert", { ...stats, error: false });
