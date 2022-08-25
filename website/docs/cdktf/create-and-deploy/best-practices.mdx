@@ -13,7 +13,7 @@ Secrets appear in your synthesized CDKTF code when you read them directly from e
 
 The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable.
 
-```ts
+```typescript
 const adminPassword = new TerraformVariable(this, "adminPassword", {
   type: "string",
   description: "Admin password for the instance",
@@ -57,7 +57,7 @@ You do not always need to create a new class for each stack. For some use cases,
 
 The following example customizes the same base stack for different business purposes and staging environments.
 
-```ts
+```typescript
 const devNetworking = new NetworkingStack(this, "networking-development", {
   // ...
 });
@@ -105,7 +105,7 @@ In some cases, you can use interfaces from the generated provider bindings to al
 
 The following example exposes configuration options for the S3 bucket resource within the construct. It also creates a second construct class that overwrites the default naming behavior.
 
-```ts
+```typescript
 import { Construct } from "constructs";
 import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3";
 

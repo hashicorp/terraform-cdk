@@ -40,7 +40,6 @@
     "constructs": "^10.0.25",
     "cross-spawn": "^7.0.3",
     "https-proxy-agent": "^5.0.1",
-    "yoga-layout-prebuilt": "^1.10.0",
     "ink-select-input": "^4.2.1",
     "jsii": "^1.65.0",
     "jsii-pacmak": "^1.65.0",
@@ -49,7 +48,8 @@
     "node-fetch": "^2.6.7",
     "tunnel-agent": "^0.6.0",
     "xml-js": "^1.6.11",
-    "yargs": "^17.5"
+    "yargs": "^17.5",
+    "yoga-layout-prebuilt": "^1.10.0"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

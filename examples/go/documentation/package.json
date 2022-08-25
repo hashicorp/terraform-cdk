@@ -1,0 +1,12 @@
+{
+  "//": "This example is disabled since it can't be built in CI. It's used to verify all code samples in the documentation work correctly.",
+  "private": true,
+  "name": "@examples/go-documentation",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm go.sum",
+    "build": "cdktf get && go mod tidy",
+    "synth": "cdktf synth"
+  }
+}

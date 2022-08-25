@@ -1,6 +1,6 @@
 {
   "name": "@examples/typescript-backends-s3",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",

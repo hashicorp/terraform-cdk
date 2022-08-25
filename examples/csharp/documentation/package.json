@@ -1,0 +1,12 @@
+{
+  "//": "This example is used to verify all code samples in the documentation work correctly.",
+  "name": "@examples/csharp-documentation",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "//": "dotnet nuget locals -c all should be used if re-installing with the same version number",
+    "reinstall": "dotnet restore",
+    "build": "cdktf get",
+    "synth": "cdktf synth"
+  }
+}

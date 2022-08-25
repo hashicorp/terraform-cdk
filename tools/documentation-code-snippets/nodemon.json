@@ -1,0 +1,14 @@
+{
+    "restartable": "rs",
+    "ignore": [
+      ".git",
+      "node_modules/**/node_modules"
+    ],
+    "watch": [
+      "../../examples/**",
+      "../../website/docs/**",
+      "./"
+    ],
+    "ext": "ts,json,java,cs,go,py,mdx"
+  }
+  

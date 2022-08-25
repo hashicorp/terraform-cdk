@@ -20,7 +20,7 @@ Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` 
 
 The following example uses an iterator to create a unique name for each new S3 bucket.
 
-```ts
+```typescript
 import { s3 } from "@cdktf/provider-aws";
 import { TerraformIterator, TerraformVariable } from "cdktf";
 
@@ -42,7 +42,7 @@ You cannot access the index of items when iterating over lists. This is because 
 
 The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
-```ts
+```typescript
 const iterator = TerraformIterator.fromList([
   {
     name: "website-static-files",
@@ -71,7 +71,7 @@ The following examples use an iterator to create a team containing each member o
 
 <CodeTabs>
 
-```ts
+```typescript
 const orgName = "my-org";
 
 new github.GithubProvider(this, "github", {

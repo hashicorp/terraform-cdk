@@ -22,32 +22,39 @@ The following TypeScript example uses `TerraformAsset` to upload the contents of
 
 The stack output directory in `cdktf.out` contains all of the assets that `TerraformAsset` needs. This is important for workflows where you use synthesized configurations with Terraform directly. For example, you would only need to upload the contents of the stack output folder to Terraform Cloud or Terraform Enterprise.
 
-```typescript
-import * as path from "path";
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#assets -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#assets -->
+
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/aws-provider";
-import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
-import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { App, TerraformStack } from "cdktf";
+import { TerraformAsset, AssetType } from "cdktf";
+import { AwsProvider, s3 } from "./.gen/providers/aws";
+import * as path from "path";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new AwsProvider(this, "provider", {
+    new AwsProvider(this, "aws", {
       region: "us-west-2",
     });
 
-    const bucket = new S3Bucket(this, "bucket", {
+    const bucket = new s3.S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: path.resolve(__dirname, "../lambda"),
+      path: path.resolve(__dirname, "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
-    new S3BucketObject(this, "lambda-archive", {
+    new s3.S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
       source: asset.path, // returns a posix path
@@ -59,6 +66,183 @@ const app = new App();
 new MyStack(app, "demo");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+import cdktf
+import imports.aws as aws
+import os
+
+
+class MyStack(cdktf.TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        aws.AwsProvider(self, 'aws', region='eu-central-1')
+
+        bucket = aws.s3.S3Bucket(self, "bucket", bucket="demo")
+
+        asset = cdktf.TerraformAsset(self, "lambda-asset",
+                                     path=os.path.join(os.path.dirname(
+                                         __file__), 'lambda'),
+                                     type=cdktf.AssetType.ARCHIVE
+                                     )
+
+        aws.s3.S3BucketObject(self, "lambda-archive",
+                              bucket=bucket.bucket,
+                              key=asset.file_name,
+                              source=asset.path
+                              )
+
+
+app = cdktf.App()
+MyStack(app, "demo")
+
+app.synth()
+```
+
+```java
+package com.mycompany.app;
+
+import java.nio.file.Paths;
+
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformAsset;
+import com.hashicorp.cdktf.AssetType;
+import imports.aws.AwsProvider;
+import imports.aws.s3.*;
+
+public class Main extends TerraformStack {
+    public Main(final Construct scope, final String name) {
+        super(scope, name);
+
+        AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
+
+        S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")
+                .bucket("demo")
+                .build();
+
+        TerraformAsset asset = TerraformAsset.Builder.create(this, "lambda-asset")
+                .path(Paths.get(System.getProperty("user.dir"), "lambda").toString())
+                .type(AssetType.ARCHIVE)
+                .build();
+
+        S3BucketObject.Builder.create(this, "lambda-archive")
+                .bucket(bucket.getBucket())
+                .key(asset.getFileName())
+                .source(asset.getPath())
+                .build();
+    }
+    public static void main(String[] args) {
+        final App app = new App();
+        new Main(app, "demo");
+        app.synth();
+    }
+}
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws;
+using aws.S3;
+namespace MyCompany.MyApp
+{
+    class MyApp : TerraformStack
+    {
+        public MyApp(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+                Bucket = "demo"
+            });
+
+            TerraformAsset asset = new TerraformAsset(this, "lambda-asset", new TerraformAssetConfig {
+                Path = Path.Join(Environment.CurrentDirectory, "lambda"),
+                Type = AssetType.ARCHIVE
+            });
+
+            new S3BucketObject(this, "lambda-archive", new S3BucketObjectConfig {
+                Bucket = bucket.Bucket,
+                Key = asset.FileName,
+                Source = asset.Path
+            });
+        }
+
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyApp(app, "demo");
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
+    }
+}
+```
+
+```go
+package main
+
+import (
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3"
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	"os"
+	"path"
+)
+
+func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cwd, _ := os.Getwd()
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("us-east-1"),
+	})
+
+	bucket := s3.NewS3Bucket(stack, jsii.String("bucket"), &s3.S3BucketConfig{
+		Bucket: jsii.String("demo"),
+	})
+
+	asset := cdktf.NewTerraformAsset(stack, jsii.String("lambda-asset"), &cdktf.TerraformAssetConfig{
+		Path: jsii.String(path.Join(cwd, "lambda")),
+		Type: cdktf.AssetType_ARCHIVE,
+	})
+
+	s3.NewS3BucketObject(stack, jsii.String("lambda-archive"), &s3.S3BucketObjectConfig{
+		Bucket: bucket.Bucket(),
+		Key:    asset.FileName(),
+		Source: asset.Path(),
+	})
+
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewExampleCdktfDocumentationStack(app, "demo")
+
+	app.Synth()
+}
+
+```
+
+</CodeTabs>
 
 ## Paths
 
