@@ -32,6 +32,8 @@ import { init, Project } from "../../../lib";
 import { askForCrashReportingConsent } from "../../../lib/error-reporting";
 import ciDetect from "@npmcli/ci-detect";
 import { isInteractiveTerminal } from "./check-environment";
+import { getTerraformVersion } from "./terraform-check";
+import * as semver from "semver";
 
 const chalkColour = new chalk.Instance();
 
@@ -77,11 +79,19 @@ export async function runInit(argv: Options) {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
 This means that your Terraform state file will be stored locally on disk in a file 'terraform.<STACK NAME>.tfstate' in the root of your project.}`);
   }
+  const isRemote = token != "";
 
   // Check if template was specified by the user
   let template = "";
   if (argv.template) {
     template = argv.template;
+  }
+
+  const tfVersion = await getTerraformVersion();
+  if (tfVersion && semver.lt(tfVersion, "1.1.0") && isRemote) {
+    throw Errors.Usage(
+      `Terraform version ${tfVersion} is not supported for remote configuration. We use the CloudBackend to configure the connection to Terraform Cloud, which is only supported in Terraform 1.1 and higher. Please upgrade to version 1.1.0 or higher or use the local mode by passing --local (in this case you can use the RemoteBackend to work with Terraform Cloud.`
+    );
   }
 
   // Gather information about the template and the project
@@ -113,7 +123,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     // Check if token is set so we can set up Terraform Cloud workspace
     // only set with the '--local' option is specified the user.
-    if (token != "") {
+    if (isRemote) {
       telemetryData.isRemote = Boolean(token);
       console.log(
         chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
