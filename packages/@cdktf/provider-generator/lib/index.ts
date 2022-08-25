@@ -59,5 +59,5 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     )
   );
 
-  return deepmerge.all(schemas);
+  return deepmerge.all(schemas) as any;
 }
