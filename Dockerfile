@@ -3,7 +3,7 @@ FROM docker.mirror.hashicorp.services/jsii/superchain:node14
 ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
 
-RUN yum install -y unzip jq gcc gcc-c++ && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
+RUN yum install -y unzip jq gcc gcc-c++ time && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 RUN npm install -g @sentry/cli --unsafe-perm
 
 ENV TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
