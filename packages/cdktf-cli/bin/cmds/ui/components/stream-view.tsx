@@ -3,13 +3,16 @@ import { Box, Static, Text } from "ink";
 import { LogEntry } from "../hooks/cdktf-project";
 
 const possibleColors = [
-  "red",
   "yellow",
   "blue",
-  "magenta",
   "cyan",
-  "white",
   "green",
+  "white",
+  "yellowBright",
+  "blueBright",
+  "cyanBright",
+  "greenBright",
+  "whiteBright",
 ];
 
 let colorPointer = 0;
