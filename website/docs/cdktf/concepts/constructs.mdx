@@ -134,7 +134,7 @@ import imports.kubernetes.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-        
+
         KubernetesProvider.Builder.create(this, "kind")
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();

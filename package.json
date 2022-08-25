@@ -41,7 +41,7 @@
     "prepare-release": "tools/prepare-release.sh",
     "release": "standard-version",
     "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx",
-    "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets",
+    "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
     "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api"
   },
   "workspaces": {
