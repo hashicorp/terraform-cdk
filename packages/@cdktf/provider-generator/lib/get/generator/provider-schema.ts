@@ -2,8 +2,9 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { exec, withTempDir } from "../../util";
 import { ModuleSchema, Input } from "./module-schema";
-import { ConstructsMakerTarget } from "../constructs-maker";
+import { ConstructsMakerModuleTarget } from "../constructs-maker";
 import { convertFiles } from "@cdktf/hcl2json";
+import { ConstructsMakerProviderTarget } from "../constructs-maker";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
@@ -255,43 +256,60 @@ export interface TerraformConfig {
   module?: { [name: string]: { source: string; version?: string } };
 }
 
-export async function readSchema(targets: ConstructsMakerTarget[]) {
+export async function readProviderSchema(
+  target: ConstructsMakerProviderTarget
+) {
+  const config: TerraformConfig = {
+    provider: {},
+    terraform: {
+      required_providers: {},
+    },
+  };
+
+  config.provider![target.name] = {};
+  config.terraform.required_providers![target.name] = {
+    version: target.version,
+    source: target.source,
+  };
+
+  let providerSchema: ProviderSchema = { format_version: "0.1" };
+
+  await withTempDir("fetchProviderSchema", async () => {
+    const outdir = process.cwd();
+    const filePath = path.join(outdir, "main.tf.json");
+    await fs.writeFile(filePath, JSON.stringify(config));
+
+    await exec(terraformBinaryName, ["init"], { cwd: outdir });
+    providerSchema = JSON.parse(
+      await exec(terraformBinaryName, ["providers", "schema", "-json"], {
+        cwd: outdir,
+      })
+    ) as ProviderSchema;
+
+    const versionSchema = JSON.parse(
+      await exec(terraformBinaryName, ["version", "-json"], {
+        cwd: outdir,
+      })
+    ) as VersionSchema;
+
+    providerSchema.provider_versions = versionSchema.provider_selections;
+  });
+
+  return providerSchema;
+}
+
+export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
   const config: TerraformConfig = {
     terraform: {},
   };
 
-  if (targets.length === 0) {
-    return {
-      providerSchema: {
-        format_version: "0.1" as "0.1",
-        provider_schemas: {},
-      },
-      moduleSchema: {},
-    };
+  if (!config.module) config.module = {};
+  const source = (target.constraint as any).localSource || target.source;
+  config.module[target.moduleKey] = { source: source };
+  if (target.version) {
+    config.module[target.moduleKey]["version"] = target.version;
   }
 
-  for (const target of targets) {
-    if (target.isModule) {
-      if (!config.module) config.module = {};
-      const source = (target.constraint as any).localSource || target.source;
-      config.module[target.moduleKey] = { source: source };
-      if (target.version) {
-        config.module[target.moduleKey]["version"] = target.version;
-      }
-    } else {
-      if (!config.provider) config.provider = {};
-
-      if (!config.terraform.required_providers) {
-        config.terraform.required_providers = {};
-      }
-      config.provider[target.name] = {};
-      config.terraform.required_providers[target.name] = {
-        version: target.version,
-        source: target.source,
-      };
-    }
-  }
-  let providerSchema: ProviderSchema = { format_version: "0.1" };
   let moduleSchema: Record<string, ModuleSchema> = {};
 
   await withTempDir("fetchSchema", async () => {
@@ -299,22 +317,7 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     const filePath = path.join(outdir, "main.tf.json");
     await fs.writeFile(filePath, JSON.stringify(config));
 
-    await exec(terraformBinaryName, ["init"], { cwd: outdir });
-    if (config.provider) {
-      providerSchema = JSON.parse(
-        await exec(terraformBinaryName, ["providers", "schema", "-json"], {
-          cwd: outdir,
-        })
-      ) as ProviderSchema;
-
-      const versionSchema = JSON.parse(
-        await exec(terraformBinaryName, ["version", "-json"], {
-          cwd: outdir,
-        })
-      ) as VersionSchema;
-
-      providerSchema.provider_versions = versionSchema.provider_selections;
-    }
+    await exec(terraformBinaryName, ["get"], { cwd: outdir });
     if (config.module) {
       moduleSchema = await harvestModuleSchema(
         outdir,
@@ -323,8 +326,5 @@ export async function readSchema(targets: ConstructsMakerTarget[]) {
     }
   });
 
-  return {
-    providerSchema,
-    moduleSchema,
-  };
+  return moduleSchema;
 }

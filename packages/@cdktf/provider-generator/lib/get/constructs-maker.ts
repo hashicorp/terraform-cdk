@@ -8,7 +8,11 @@ import {
   TerraformDependencyConstraint,
   logger,
 } from "../config";
-import { ProviderSchema, readSchema } from "./generator/provider-schema";
+import {
+  ProviderSchema,
+  readProviderSchema,
+  readModuleSchema,
+} from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
@@ -223,29 +227,46 @@ export class ConstructsMaker {
     );
     this.versions = {};
   }
-
-  private async generateTypescript(target: ConstructsMakerTarget) {
+  private async generateTypescriptProvider(
+    target: ConstructsMakerProviderTarget
+  ) {
     const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
-    const schema = await readSchema([target]);
+    const schema = await readProviderSchema(target);
     endSchemaReadTimer();
 
     const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
-    if (target instanceof ConstructsMakerModuleTarget) {
-      target.spec = schema.moduleSchema[target.moduleKey];
-      new ModuleGenerator(this.code, [target]);
-    }
+    const generator = new TerraformProviderGenerator(this.code, schema);
+    generator.generate(target);
 
-    if (target instanceof ConstructsMakerProviderTarget) {
-      const generator = new TerraformProviderGenerator(
-        this.code,
-        schema.providerSchema
-      );
-      generator.generate(target);
-
-      this.versions = { ...this.versions, ...generator.versions };
-    }
-
+    this.versions = { ...this.versions, ...generator.versions };
     endTSTimer();
+  }
+
+  private async generateTypescriptModule(target: ConstructsMakerModuleTarget) {
+    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
+    const schema = await readModuleSchema(target);
+    endSchemaReadTimer();
+
+    const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
+    target.spec = schema[target.moduleKey];
+    new ModuleGenerator(this.code, [target]);
+    endTSTimer();
+  }
+
+  private async generateTypescript(target: ConstructsMakerTarget) {
+    if (target.isModule) {
+      await this.generateTypescriptModule(
+        target as ConstructsMakerModuleTarget
+      );
+    } else if (target.isProvider) {
+      await this.generateTypescriptProvider(
+        target as ConstructsMakerProviderTarget
+      );
+    } else {
+      throw new Error(
+        `Unknown target type used to generate bindings: ${target.name}`
+      );
+    }
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
