@@ -4,7 +4,8 @@ export { getResourceNamespace } from "./get/generator/constants/provider-namespa
 export { isRegistryModule } from "./get/module";
 export { TerraformModuleConstraint, isLocalModule } from "./config";
 export {
-  readSchema,
+  readProviderSchema,
+  readModuleSchema,
   ProviderSchema,
   Schema,
   BlockType,
