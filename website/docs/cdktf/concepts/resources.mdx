@@ -14,7 +14,7 @@ In your CDK for Terraform (CDKTF) application, you will use your preferred progr
 
 Resource definitions and properties vary depending on the type of resource and the provider. Consult your provider's documentation for a full list of available resources and their configuration options.
 
-The TypeScript example below defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
+The following TypeScript example defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
 
 ```typescript
 export class HelloTerra extends TerraformStack {
@@ -51,7 +51,7 @@ You can reference resource properties throughout your configuration. For example
 
 To create references, call `myResource.<propertyName>` on the resource instance. For example, you could use `myResource.name` to retrieve the `name` property from `myResource`. Terraform does not support passing an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source, so you must create a reference for each individual property.
 
-References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The TypeScript example below uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
+References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following TypeScript example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
 ```ts
 
@@ -81,7 +81,7 @@ If you need to use the special [`self` object](https://www.terraform.io/language
 
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
-The TypeScript example below defines a provisioner for a resource using the `addOverride` method.
+The following TypeScript example defines a provisioner for a resource using the `addOverride` method.
 
 ```typescript
 const tableName = "my-table";
@@ -166,7 +166,7 @@ To use an escape hatch to loop over dynamic data, you must:
 - Create a `for_each` value for the second argument and set it to the list you want to iterate over.
 - Take the attribute as base for the reference when you reference values from the list. For example, use `"${<attribute_name>.value.nested_value}"`.
 
-The TypeScript example below adds ingress values by looping through the ports passed as `TerraformVariable`.
+The following TypeScript example adds ingress values by looping through the ports passed as `TerraformVariable`.
 
 ```ts
 const ports = new TerraformVariable(this, "ports", {
@@ -199,7 +199,7 @@ sg.addOverride("dynamic.ingress", {
 
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
 
-The TypeScript example below loops through the ports without using an escape hatch.
+The following TypeScript example loops through the ports without using an escape hatch.
 
 ```ts
 const ports = [22, 80, 443, 5432];

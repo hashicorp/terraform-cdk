@@ -12513,31 +12513,31 @@ import cdktf
 cdktf.TerraformDataSource(
   scope: Construct,
   id: str,
-  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
-  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
+  provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
 ```
 
-| **Name**                                                                                                                            | **Type**                                                                                                                                                                                                                             | **Description**   |
-| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
+| **Name**                                                                                                                            | **Type**                                                                                                                                                                                                                       | **Description**   |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code>                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
 
 ---
 
@@ -12555,7 +12555,7 @@ cdktf.TerraformDataSource(
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformDataSource.Initializer.parameter.connection"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
 
 ---
 
@@ -12591,7 +12591,7 @@ cdktf.TerraformDataSource(
 
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformDataSource.Initializer.parameter.provisioners"></a>
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
 
 ---
 
@@ -15294,31 +15294,31 @@ import cdktf
 cdktf.TerraformResource(
   scope: Construct,
   id: str,
-  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
-  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
+  provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
 ```
 
-| **Name**                                                                                                                          | **Type**                                                                                                                                                                                                                             | **Description**   |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
+| **Name**                                                                                                                          | **Type**                                                                                                                                                                                                                       | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                             | <code>constructs.Construct</code>                                                                                                                                                                                              | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                   | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code>                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
 
 ---
 
@@ -15336,7 +15336,7 @@ cdktf.TerraformResource(
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.Initializer.parameter.connection"></a>
 
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
 
 ---
 
@@ -15372,7 +15372,7 @@ cdktf.TerraformResource(
 
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.Initializer.parameter.provisioners"></a>
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
 
 ---
 
@@ -15664,22 +15664,22 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                             | **Type**                                                                                                                                                                                                                             | **Description**   |
-| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                               | <code>constructs.Node</code>                                                                                                                                                                                                         | The tree node.    |
-| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktf_stack</a></code>                                  | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                                                                                      | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                                 | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code>                     | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraform_meta_arguments</a></code>         | <code>typing.Mapping[typing.Any]</code>                                                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[str]</code>                                                                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+| **Name**                                                                                                             | **Type**                                                                                                                                                                                                                       | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                               | <code>constructs.Node</code>                                                                                                                                                                                                   | The tree node.    |
+| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktf_stack</a></code>                                  | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                                 | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code>                     | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraform_meta_arguments</a></code>         | <code>typing.Mapping[typing.Any]</code>                                                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code>                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[str]</code>                                                                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | _No description._ |
 
 ---
 
@@ -15758,10 +15758,10 @@ terraform_generator_metadata: TerraformProviderGeneratorMetadata
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.property.connection"></a>
 
 ```python
-connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
 ```
 
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
 
 ---
 
@@ -15818,10 +15818,10 @@ provider: TerraformProvider
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.property.provisioners"></a>
 
 ```python
-provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
 
 ---
 
@@ -20439,6 +20439,108 @@ username: str
 
 ---
 
+### FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+#### Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.FileProvisioner(
+  destination: str,
+  type: str,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
+  content: str = None,
+  source: str = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                           | **Type**                                                                                                                                                                      | **Description**                                                                                                                                  |
+| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.FileProvisioner.property.destination">destination</a></code> | <code>str</code>                                                                                                                                                              | The source file or directory.                                                                                                                    |
+| <code><a href="#cdktf.FileProvisioner.property.type">type</a></code>               | <code>str</code>                                                                                                                                                              | _No description._                                                                                                                                |
+| <code><a href="#cdktf.FileProvisioner.property.connection">connection</a></code>   | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.FileProvisioner.property.content">content</a></code>         | <code>str</code>                                                                                                                                                              | The destination path to write to on the remote system.                                                                                           |
+| <code><a href="#cdktf.FileProvisioner.property.source">source</a></code>           | <code>str</code>                                                                                                                                                              | The direct content to copy on the destination.                                                                                                   |
+
+---
+
+##### `destination`<sup>Required</sup> <a name="destination" id="cdktf.FileProvisioner.property.destination"></a>
+
+```python
+destination: str
+```
+
+- _Type:_ str
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.FileProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.FileProvisioner.property.connection"></a>
+
+```python
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+##### `content`<sup>Optional</sup> <a name="content" id="cdktf.FileProvisioner.property.content"></a>
+
+```python
+content: str
+```
+
+- _Type:_ str
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+##### `source`<sup>Optional</sup> <a name="source" id="cdktf.FileProvisioner.property.source"></a>
+
+```python
+source: str
+```
+
+- _Type:_ str
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---
+
 ### GcsBackendProps <a name="GcsBackendProps" id="cdktf.GcsBackendProps"></a>
 
 Stores the state as an object in a configurable prefix in a pre-existing bucket on Google Cloud Storage (GCS).
@@ -20986,6 +21088,128 @@ workspace_dir: str
 
 ---
 
+### LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
+
+The local-exec provisioner invokes a local executable after a resource is created.
+
+This invokes a process on the machine running Terraform, not on the resource.
+
+See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.LocalExecProvisioner(
+  command: str,
+  type: str,
+  environment: typing.Mapping[str] = None,
+  interpreter: typing.List[str] = None,
+  when: str = None,
+  working_dir: str = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                         | **Description**                                                                   |
+| --------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.LocalExecProvisioner.property.command">command</a></code>         | <code>str</code>                 | This is the command to execute.                                                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.type">type</a></code>               | <code>str</code>                 | _No description._                                                                 |
+| <code><a href="#cdktf.LocalExecProvisioner.property.environment">environment</a></code> | <code>typing.Mapping[str]</code> | A record of key value pairs representing the environment of the executed command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>typing.List[str]</code>    | If provided, this is a list of interpreter arguments used to execute the command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.when">when</a></code>               | <code>str</code>                 | If provided, specifies when Terraform will execute the command.                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">working_dir</a></code>  | <code>str</code>                 | If provided, specifies the working directory where command will be executed.      |
+
+---
+
+##### `command`<sup>Required</sup> <a name="command" id="cdktf.LocalExecProvisioner.property.command"></a>
+
+```python
+command: str
+```
+
+- _Type:_ str
+
+This is the command to execute.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+It is evaluated in a shell, and can use environment variables or Terraform variables.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.LocalExecProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
+
+```python
+environment: typing.Mapping[str]
+```
+
+- _Type:_ typing.Mapping[str]
+
+A record of key value pairs representing the environment of the executed command.
+
+It inherits the current process environment.
+
+---
+
+##### `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
+
+```python
+interpreter: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+If provided, this is a list of interpreter arguments used to execute the command.
+
+The first argument is the interpreter itself.
+It can be provided as a relative path to the current working directory or as an absolute path
+The remaining arguments are appended prior to the command.
+This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+
+---
+
+##### `when`<sup>Optional</sup> <a name="when" id="cdktf.LocalExecProvisioner.property.when"></a>
+
+```python
+when: str
+```
+
+- _Type:_ str
+
+If provided, specifies when Terraform will execute the command.
+
+For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+
+---
+
+##### `working_dir`<sup>Optional</sup> <a name="working_dir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
+
+```python
+working_dir: str
+```
+
+- _Type:_ str
+
+If provided, specifies the working directory where command will be executed.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+The directory must exist.
+
+---
+
 ### MantaBackendProps <a name="MantaBackendProps" id="cdktf.MantaBackendProps"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.MantaBackendProps.Initializer"></a>
@@ -21493,6 +21717,109 @@ token: str
 ```
 
 - _Type:_ str
+
+---
+
+### RemoteExecProvisioner <a name="RemoteExecProvisioner" id="cdktf.RemoteExecProvisioner"></a>
+
+The remote-exec provisioner invokes a script on a remote resource after it is created.
+
+This can be used to run a configuration management tool, bootstrap into a cluster, etc
+The remote-exec provisioner requires a connection and supports both ssh and winrm.
+
+See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.RemoteExecProvisioner.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.RemoteExecProvisioner(
+  type: str,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
+  inline: typing.List[str] = None,
+  script: str = None,
+  scripts: typing.List[str] = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                                                                                                                                                                      | **Description**                                                                                                                                  |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.type">type</a></code>             | <code>str</code>                                                                                                                                                              | _No description._                                                                                                                                |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.connection">connection</a></code> | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.inline">inline</a></code>         | <code>typing.List[str]</code>                                                                                                                                                 | This is a list of command strings.                                                                                                               |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.script">script</a></code>         | <code>str</code>                                                                                                                                                              | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.scripts">scripts</a></code>       | <code>typing.List[str]</code>                                                                                                                                                 | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.RemoteExecProvisioner.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.RemoteExecProvisioner.property.connection"></a>
+
+```python
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+A connection must be provided here or in the parent resource.
+
+---
+
+##### `inline`<sup>Optional</sup> <a name="inline" id="cdktf.RemoteExecProvisioner.property.inline"></a>
+
+```python
+inline: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+This is a list of command strings.
+
+They are executed in the order they are provided.
+This cannot be provided with script or scripts.
+
+---
+
+##### `script`<sup>Optional</sup> <a name="script" id="cdktf.RemoteExecProvisioner.property.script"></a>
+
+```python
+script: str
+```
+
+- _Type:_ str
+
+This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
+
+This cannot be provided with inline or scripts.
+
+---
+
+##### `scripts`<sup>Optional</sup> <a name="scripts" id="cdktf.RemoteExecProvisioner.property.scripts"></a>
+
+```python
+scripts: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
+
+They are executed in the order they are provided.
+This cannot be provided with inline or script.
 
 ---
 
@@ -22004,6 +22331,415 @@ workspace_key_prefix: str
 (Optional) Prefix applied to the state path inside the bucket.
 
 This is only relevant when using a non-default workspace. Defaults to env:
+
+---
+
+### SSHProvisionerConnection <a name="SSHProvisionerConnection" id="cdktf.SSHProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.SSHProvisionerConnection.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.SSHProvisionerConnection(
+  host: str,
+  type: str,
+  agent: str = None,
+  agent_identity: str = None,
+  bastion_certificate: str = None,
+  bastion_host: str = None,
+  bastion_host_key: str = None,
+  bastion_password: str = None,
+  bastion_port: typing.Union[int, float] = None,
+  bastion_private_key: str = None,
+  bastion_user: str = None,
+  certificate: str = None,
+  host_key: str = None,
+  password: str = None,
+  port: typing.Union[int, float] = None,
+  private_key: str = None,
+  proxy_host: str = None,
+  proxy_port: typing.Union[int, float] = None,
+  proxy_scheme: str = None,
+  proxy_user_name: str = None,
+  proxy_user_password: str = None,
+  script_path: str = None,
+  target_platform: str = None,
+  timeout: str = None,
+  user: str = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                   | **Type**                              | **Description**                                                                                         |
+| ---------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.host">host</a></code>                              | <code>str</code>                      | The address of the resource to connect to.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.type">type</a></code>                              | <code>str</code>                      | The connection type.                                                                                    |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agent">agent</a></code>                            | <code>str</code>                      | Set to false to disable using ssh-agent to authenticate.                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agentIdentity">agent_identity</a></code>           | <code>str</code>                      | The preferred identity from the ssh agent for authentication.                                           |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionCertificate">bastion_certificate</a></code> | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHost">bastion_host</a></code>               | <code>str</code>                      | Setting this enables the bastion Host connection.                                                       |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHostKey">bastion_host_key</a></code>        | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the host connection.              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPassword">bastion_password</a></code>       | <code>str</code>                      | The password to use for the bastion host.                                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPort">bastion_port</a></code>               | <code>typing.Union[int, float]</code> | The port to use connect to the bastion host.                                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPrivateKey">bastion_private_key</a></code>  | <code>str</code>                      | The contents of an SSH key file to use for the bastion host.                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionUser">bastion_user</a></code>               | <code>str</code>                      | The user for the connection to the bastion host.                                                        |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.certificate">certificate</a></code>                | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.hostKey">host_key</a></code>                       | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the connection.                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.password">password</a></code>                      | <code>str</code>                      | The password to use for the connection.                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.port">port</a></code>                              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.privateKey">private_key</a></code>                 | <code>str</code>                      | The contents of an SSH key to use for the connection.                                                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyHost">proxy_host</a></code>                   | <code>str</code>                      | Setting this enables the SSH over HTTP connection.                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyPort">proxy_port</a></code>                   | <code>typing.Union[int, float]</code> | The port to use connect to the proxy host.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyScheme">proxy_scheme</a></code>               | <code>str</code>                      | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserName">proxy_user_name</a></code>          | <code>str</code>                      | The username to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserPassword">proxy_user_password</a></code>  | <code>str</code>                      | The password to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.scriptPath">script_path</a></code>                 | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.targetPlatform">target_platform</a></code>         | <code>str</code>                      | The target platform to connect to.                                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.timeout">timeout</a></code>                        | <code>str</code>                      | The timeout to wait for the connection to become available.                                             |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.user">user</a></code>                              | <code>str</code>                      | The user to use for the connection.                                                                     |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.SSHProvisionerConnection.property.host"></a>
+
+```python
+host: str
+```
+
+- _Type:_ str
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.SSHProvisionerConnection.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `agent`<sup>Optional</sup> <a name="agent" id="cdktf.SSHProvisionerConnection.property.agent"></a>
+
+```python
+agent: str
+```
+
+- _Type:_ str
+
+Set to false to disable using ssh-agent to authenticate.
+
+On Windows the only supported SSH authentication agent is Pageant.
+
+---
+
+##### `agent_identity`<sup>Optional</sup> <a name="agent_identity" id="cdktf.SSHProvisionerConnection.property.agentIdentity"></a>
+
+```python
+agent_identity: str
+```
+
+- _Type:_ str
+
+The preferred identity from the ssh agent for authentication.
+
+---
+
+##### `bastion_certificate`<sup>Optional</sup> <a name="bastion_certificate" id="cdktf.SSHProvisionerConnection.property.bastionCertificate"></a>
+
+```python
+bastion_certificate: str
+```
+
+- _Type:_ str
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a bastion_private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `bastion_host`<sup>Optional</sup> <a name="bastion_host" id="cdktf.SSHProvisionerConnection.property.bastionHost"></a>
+
+```python
+bastion_host: str
+```
+
+- _Type:_ str
+
+Setting this enables the bastion Host connection.
+
+The provisioner will connect to bastion_host first, and then connect from there to host.
+
+---
+
+##### `bastion_host_key`<sup>Optional</sup> <a name="bastion_host_key" id="cdktf.SSHProvisionerConnection.property.bastionHostKey"></a>
+
+```python
+bastion_host_key: str
+```
+
+- _Type:_ str
+
+The public key from the remote host or the signing CA, used to verify the host connection.
+
+---
+
+##### `bastion_password`<sup>Optional</sup> <a name="bastion_password" id="cdktf.SSHProvisionerConnection.property.bastionPassword"></a>
+
+```python
+bastion_password: str
+```
+
+- _Type:_ str
+
+The password to use for the bastion host.
+
+---
+
+##### `bastion_port`<sup>Optional</sup> <a name="bastion_port" id="cdktf.SSHProvisionerConnection.property.bastionPort"></a>
+
+```python
+bastion_port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+
+The port to use connect to the bastion host.
+
+---
+
+##### `bastion_private_key`<sup>Optional</sup> <a name="bastion_private_key" id="cdktf.SSHProvisionerConnection.property.bastionPrivateKey"></a>
+
+```python
+bastion_private_key: str
+```
+
+- _Type:_ str
+
+The contents of an SSH key file to use for the bastion host.
+
+These can be loaded from a file on disk using the file function.
+
+---
+
+##### `bastion_user`<sup>Optional</sup> <a name="bastion_user" id="cdktf.SSHProvisionerConnection.property.bastionUser"></a>
+
+```python
+bastion_user: str
+```
+
+- _Type:_ str
+
+The user for the connection to the bastion host.
+
+---
+
+##### `certificate`<sup>Optional</sup> <a name="certificate" id="cdktf.SSHProvisionerConnection.property.certificate"></a>
+
+```python
+certificate: str
+```
+
+- _Type:_ str
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `host_key`<sup>Optional</sup> <a name="host_key" id="cdktf.SSHProvisionerConnection.property.hostKey"></a>
+
+```python
+host_key: str
+```
+
+- _Type:_ str
+
+The public key from the remote host or the signing CA, used to verify the connection.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.SSHProvisionerConnection.property.password"></a>
+
+```python
+password: str
+```
+
+- _Type:_ str
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>
+
+```python
+port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `private_key`<sup>Optional</sup> <a name="private_key" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>
+
+```python
+private_key: str
+```
+
+- _Type:_ str
+
+The contents of an SSH key to use for the connection.
+
+These can be loaded from a file on disk using the file function.
+This takes preference over password if provided.
+
+---
+
+##### `proxy_host`<sup>Optional</sup> <a name="proxy_host" id="cdktf.SSHProvisionerConnection.property.proxyHost"></a>
+
+```python
+proxy_host: str
+```
+
+- _Type:_ str
+
+Setting this enables the SSH over HTTP connection.
+
+This host will be connected to first, and then the host or bastion_host connection will be made from there.
+
+---
+
+##### `proxy_port`<sup>Optional</sup> <a name="proxy_port" id="cdktf.SSHProvisionerConnection.property.proxyPort"></a>
+
+```python
+proxy_port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+
+The port to use connect to the proxy host.
+
+---
+
+##### `proxy_scheme`<sup>Optional</sup> <a name="proxy_scheme" id="cdktf.SSHProvisionerConnection.property.proxyScheme"></a>
+
+```python
+proxy_scheme: str
+```
+
+- _Type:_ str
+
+The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
+
+---
+
+##### `proxy_user_name`<sup>Optional</sup> <a name="proxy_user_name" id="cdktf.SSHProvisionerConnection.property.proxyUserName"></a>
+
+```python
+proxy_user_name: str
+```
+
+- _Type:_ str
+
+The username to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `proxy_user_password`<sup>Optional</sup> <a name="proxy_user_password" id="cdktf.SSHProvisionerConnection.property.proxyUserPassword"></a>
+
+```python
+proxy_user_password: str
+```
+
+- _Type:_ str
+
+The password to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.SSHProvisionerConnection.property.scriptPath"></a>
+
+```python
+script_path: str
+```
+
+- _Type:_ str
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `target_platform`<sup>Optional</sup> <a name="target_platform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>
+
+```python
+target_platform: str
+```
+
+- _Type:_ str
+- _Default:_ unix
+
+The target platform to connect to.
+
+Valid values are "windows" and "unix".
+If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
+If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>
+
+```python
+timeout: str
+```
+
+- _Type:_ str
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>
+
+```python
+user: str
+```
+
+- _Type:_ str
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -22753,37 +23489,37 @@ variables: typing.Mapping[typing.Any]
 import cdktf
 
 cdktf.TerraformMetaArguments(
-  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
-  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None
+  provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]] = None
 )
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                    | **Type**                                                                                                                                                                                                                             | **Description**   |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformMetaArguments.property.connection">connection</a></code>     | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>               | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">depends_on</a></code>      | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">for_each</a></code>          | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">provisioners</a></code> | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
+| **Name**                                                                                    | **Type**                                                                                                                                                                                                                       | **Description**   |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformMetaArguments.property.connection">connection</a></code>     | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code>                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>               | <code>typing.Union[int, float]</code>                                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">depends_on</a></code>      | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">for_each</a></code>          | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">provisioners</a></code> | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | _No description._ |
 
 ---
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformMetaArguments.property.connection"></a>
 
 ```python
-connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
 ```
 
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
 
 ---
 
@@ -22840,10 +23576,10 @@ provider: TerraformProvider
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformMetaArguments.property.provisioners"></a>
 
 ```python
-provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
 
 ---
 
@@ -23242,13 +23978,13 @@ provider_version_constraint: str
 import cdktf
 
 cdktf.TerraformResourceConfig(
-  connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection] = None,
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
   count: typing.Union[int, float] = None,
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   lifecycle: TerraformResourceLifecycle = None,
   provider: TerraformProvider = None,
-  provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]] = None,
+  provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]] = None,
   terraform_resource_type: str,
   terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
 )
@@ -23256,27 +23992,27 @@ cdktf.TerraformResourceConfig(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                   | **Type**                                                                                                                                                                                                                             | **Description**   |
-| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                              | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                              | _No description._ |
+| **Name**                                                                                                                   | **Type**                                                                                                                                                                                                                       | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code>                                   | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code>                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                             | <code>typing.Union[int, float]</code>                                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">depends_on</a></code>                                    | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">for_each</a></code>                                        | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                     | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                       | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code>                               | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraform_resource_type</a></code>           | <code>str</code>                                                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
 
 ---
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResourceConfig.property.connection"></a>
 
 ```python
-connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
 ```
 
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
+- _Type:_ typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
 
 ---
 
@@ -23333,10 +24069,10 @@ provider: TerraformProvider
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResourceConfig.property.provisioners"></a>
 
 ```python
-provisioners: typing.List[typing.Union[IFileProvisioner, ILocalExecProvisioner, IRemoteExecProvisioner]]
+provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]]
 ```
 
-- _Type:_ typing.List[typing.Union[<a href="#cdktf.IFileProvisioner">IFileProvisioner</a>, <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>, <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>]]
+- _Type:_ typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
 
 ---
 
@@ -23701,6 +24437,195 @@ stub_version: bool
 ```
 
 - _Type:_ bool
+
+---
+
+### WinrmProvisionerConnection <a name="WinrmProvisionerConnection" id="cdktf.WinrmProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.WinrmProvisionerConnection.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.WinrmProvisionerConnection(
+  host: str,
+  type: str,
+  cacert: str = None,
+  https: bool = None,
+  insecure: bool = None,
+  password: str = None,
+  port: typing.Union[int, float] = None,
+  script_path: str = None,
+  timeout: str = None,
+  use_ntlm: bool = None,
+  user: str = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                     | **Type**                              | **Description**                                                                                                                                                             |
+| -------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.host">host</a></code>              | <code>str</code>                      | The address of the resource to connect to.                                                                                                                                  |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.type">type</a></code>              | <code>str</code>                      | The connection type.                                                                                                                                                        |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.cacert">cacert</a></code>          | <code>str</code>                      | The CA certificate to validate against.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.https">https</a></code>            | <code>bool</code>                     | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.insecure">insecure</a></code>      | <code>bool</code>                     | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.password">password</a></code>      | <code>str</code>                      | The password to use for the connection.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.port">port</a></code>              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.scriptPath">script_path</a></code> | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                                                                                                   |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.timeout">timeout</a></code>        | <code>str</code>                      | The timeout to wait for the connection to become available.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.useNtlm">use_ntlm</a></code>       | <code>bool</code>                     | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.user">user</a></code>              | <code>str</code>                      | The user to use for the connection.                                                                                                                                         |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.WinrmProvisionerConnection.property.host"></a>
+
+```python
+host: str
+```
+
+- _Type:_ str
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.WinrmProvisionerConnection.property.type"></a>
+
+```python
+type: str
+```
+
+- _Type:_ str
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.WinrmProvisionerConnection.property.cacert"></a>
+
+```python
+cacert: str
+```
+
+- _Type:_ str
+
+The CA certificate to validate against.
+
+---
+
+##### `https`<sup>Optional</sup> <a name="https" id="cdktf.WinrmProvisionerConnection.property.https"></a>
+
+```python
+https: bool
+```
+
+- _Type:_ bool
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+##### `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.WinrmProvisionerConnection.property.insecure"></a>
+
+```python
+insecure: bool
+```
+
+- _Type:_ bool
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.WinrmProvisionerConnection.property.password"></a>
+
+```python
+password: str
+```
+
+- _Type:_ str
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>
+
+```python
+port: typing.Union[int, float]
+```
+
+- _Type:_ typing.Union[int, float]
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>
+
+```python
+script_path: str
+```
+
+- _Type:_ str
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>
+
+```python
+timeout: str
+```
+
+- _Type:_ str
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `use_ntlm`<sup>Optional</sup> <a name="use_ntlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>
+
+```python
+use_ntlm: bool
+```
+
+- _Type:_ bool
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>
+
+```python
+user: str
+```
+
+- _Type:_ str
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -31472,96 +32397,6 @@ All aspects can visit an IConstruct.
 
 ---
 
-### IFileProvisioner <a name="IFileProvisioner" id="cdktf.IFileProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IFileProvisioner">IFileProvisioner</a>
-
-The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
-
-The file provisioner supports both ssh and winrm type connections.
-
-See {@link https://www.terraform.io/language/resources/provisioners/file file}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                            | **Type**                                                                                                                                                                          | **Description**                                                                                                                                  |
-| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IFileProvisioner.property.destination">destination</a></code> | <code>str</code>                                                                                                                                                                  | The source file or directory.                                                                                                                    |
-| <code><a href="#cdktf.IFileProvisioner.property.type">type</a></code>               | <code>str</code>                                                                                                                                                                  | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IFileProvisioner.property.connection">connection</a></code>   | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IFileProvisioner.property.content">content</a></code>         | <code>str</code>                                                                                                                                                                  | The destination path to write to on the remote system.                                                                                           |
-| <code><a href="#cdktf.IFileProvisioner.property.source">source</a></code>           | <code>str</code>                                                                                                                                                                  | The direct content to copy on the destination.                                                                                                   |
-
----
-
-##### `destination`<sup>Required</sup> <a name="destination" id="cdktf.IFileProvisioner.property.destination"></a>
-
-```python
-destination: str
-```
-
-- _Type:_ str
-
-The source file or directory.
-
-Specify it either relative to the current working directory or as an absolute path.
-This argument cannot be combined with content.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IFileProvisioner.property.type"></a>
-
-```python
-type: str
-```
-
-- _Type:_ str
-
----
-
-##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IFileProvisioner.property.connection"></a>
-
-```python
-connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
-```
-
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
----
-
-##### `content`<sup>Optional</sup> <a name="content" id="cdktf.IFileProvisioner.property.content"></a>
-
-```python
-content: str
-```
-
-- _Type:_ str
-
-The destination path to write to on the remote system.
-
-See Destination Paths below for more information.
-
----
-
-##### `source`<sup>Optional</sup> <a name="source" id="cdktf.IFileProvisioner.property.source"></a>
-
-```python
-source: str
-```
-
-- _Type:_ str
-
-The direct content to copy on the destination.
-
-If destination is a file, the content will be written on that file.
-In case of a directory, a file named tf-file-content is created inside that directory.
-We recommend using a file as the destination when using content.
-This argument cannot be combined with source.
-
----
-
 ### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
 
 - _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -31654,115 +32489,6 @@ Produce the list value.
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### ILocalExecProvisioner <a name="ILocalExecProvisioner" id="cdktf.ILocalExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>
-
-The local-exec provisioner invokes a local executable after a resource is created.
-
-This invokes a process on the machine running Terraform, not on the resource.
-
-See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                 | **Type**                         | **Description**                                                                   |
-| ---------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.command">command</a></code>         | <code>str</code>                 | This is the command to execute.                                                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.type">type</a></code>               | <code>str</code>                 | _No description._                                                                 |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.environment">environment</a></code> | <code>typing.Mapping[str]</code> | A record of key value pairs representing the environment of the executed command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>typing.List[str]</code>    | If provided, this is a list of interpreter arguments used to execute the command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.when">when</a></code>               | <code>str</code>                 | If provided, specifies when Terraform will execute the command.                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.workingDir">working_dir</a></code>  | <code>str</code>                 | If provided, specifies the working directory where command will be executed.      |
-
----
-
-##### `command`<sup>Required</sup> <a name="command" id="cdktf.ILocalExecProvisioner.property.command"></a>
-
-```python
-command: str
-```
-
-- _Type:_ str
-
-This is the command to execute.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-It is evaluated in a shell, and can use environment variables or Terraform variables.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.ILocalExecProvisioner.property.type"></a>
-
-```python
-type: str
-```
-
-- _Type:_ str
-
----
-
-##### `environment`<sup>Optional</sup> <a name="environment" id="cdktf.ILocalExecProvisioner.property.environment"></a>
-
-```python
-environment: typing.Mapping[str]
-```
-
-- _Type:_ typing.Mapping[str]
-
-A record of key value pairs representing the environment of the executed command.
-
-It inherits the current process environment.
-
----
-
-##### `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.ILocalExecProvisioner.property.interpreter"></a>
-
-```python
-interpreter: typing.List[str]
-```
-
-- _Type:_ typing.List[str]
-
-If provided, this is a list of interpreter arguments used to execute the command.
-
-The first argument is the interpreter itself.
-It can be provided as a relative path to the current working directory or as an absolute path
-The remaining arguments are appended prior to the command.
-This allows building command lines of the form "/bin/bash", "-c", "echo foo".
-If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
-
----
-
-##### `when`<sup>Optional</sup> <a name="when" id="cdktf.ILocalExecProvisioner.property.when"></a>
-
-```python
-when: str
-```
-
-- _Type:_ str
-
-If provided, specifies when Terraform will execute the command.
-
-For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
-
----
-
-##### `working_dir`<sup>Optional</sup> <a name="working_dir" id="cdktf.ILocalExecProvisioner.property.workingDir"></a>
-
-```python
-working_dir: str
-```
-
-- _Type:_ str
-
-If provided, specifies the working directory where command will be executed.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-The directory must exist.
 
 ---
 
@@ -31863,97 +32589,6 @@ Process the completely resolved value, after full recursion/resolution has happe
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### IRemoteExecProvisioner <a name="IRemoteExecProvisioner" id="cdktf.IRemoteExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>
-
-The remote-exec provisioner invokes a script on a remote resource after it is created.
-
-This can be used to run a configuration management tool, bootstrap into a cluster, etc
-The remote-exec provisioner requires a connection and supports both ssh and winrm.
-
-See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                | **Type**                                                                                                                                                                          | **Description**                                                                                                                                  |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.type">type</a></code>             | <code>str</code>                                                                                                                                                                  | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.connection">connection</a></code> | <code>typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.inline">inline</a></code>         | <code>typing.List[str]</code>                                                                                                                                                     | This is a list of command strings.                                                                                                               |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.script">script</a></code>         | <code>str</code>                                                                                                                                                                  | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.scripts">scripts</a></code>       | <code>typing.List[str]</code>                                                                                                                                                     | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IRemoteExecProvisioner.property.type"></a>
-
-```python
-type: str
-```
-
-- _Type:_ str
-
----
-
-##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IRemoteExecProvisioner.property.connection"></a>
-
-```python
-connection: typing.Union[ISSHProvisionerConnection, IWinrmProvisionerConnection]
-```
-
-- _Type:_ typing.Union[<a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>, <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>]
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-A connection must be provided here or in the parent resource.
-
----
-
-##### `inline`<sup>Optional</sup> <a name="inline" id="cdktf.IRemoteExecProvisioner.property.inline"></a>
-
-```python
-inline: typing.List[str]
-```
-
-- _Type:_ typing.List[str]
-
-This is a list of command strings.
-
-They are executed in the order they are provided.
-This cannot be provided with script or scripts.
-
----
-
-##### `script`<sup>Optional</sup> <a name="script" id="cdktf.IRemoteExecProvisioner.property.script"></a>
-
-```python
-script: str
-```
-
-- _Type:_ str
-
-This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
-
-This cannot be provided with inline or scripts.
-
----
-
-##### `scripts`<sup>Optional</sup> <a name="scripts" id="cdktf.IRemoteExecProvisioner.property.scripts"></a>
-
-```python
-scripts: typing.List[str]
-```
-
-- _Type:_ typing.List[str]
-
-This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
-
-They are executed in the order they are provided.
-This cannot be provided with inline or script.
 
 ---
 
@@ -32178,383 +32813,6 @@ The stack in which this resource is defined.
 ### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
 
 - _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
-
-### ISSHProvisionerConnection <a name="ISSHProvisionerConnection" id="cdktf.ISSHProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                                    | **Type**                              | **Description**                                                                                         |
-| ----------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.host">host</a></code>                              | <code>str</code>                      | The address of the resource to connect to.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.type">type</a></code>                              | <code>str</code>                      | The connection type.                                                                                    |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agent">agent</a></code>                            | <code>str</code>                      | Set to false to disable using ssh-agent to authenticate.                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agentIdentity">agent_identity</a></code>           | <code>str</code>                      | The preferred identity from the ssh agent for authentication.                                           |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionCertificate">bastion_certificate</a></code> | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHost">bastion_host</a></code>               | <code>str</code>                      | Setting this enables the bastion Host connection.                                                       |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHostKey">bastion_host_key</a></code>        | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the host connection.              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPassword">bastion_password</a></code>       | <code>str</code>                      | The password to use for the bastion host.                                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPort">bastion_port</a></code>               | <code>typing.Union[int, float]</code> | The port to use connect to the bastion host.                                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPrivateKey">bastion_private_key</a></code>  | <code>str</code>                      | The contents of an SSH key file to use for the bastion host.                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionUser">bastion_user</a></code>               | <code>str</code>                      | The user for the connection to the bastion host.                                                        |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.certificate">certificate</a></code>                | <code>str</code>                      | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.hostKey">host_key</a></code>                       | <code>str</code>                      | The public key from the remote host or the signing CA, used to verify the connection.                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.password">password</a></code>                      | <code>str</code>                      | The password to use for the connection.                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.port">port</a></code>                              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.privateKey">private_key</a></code>                 | <code>str</code>                      | The contents of an SSH key to use for the connection.                                                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyHost">proxy_host</a></code>                   | <code>str</code>                      | Setting this enables the SSH over HTTP connection.                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyPort">proxy_port</a></code>                   | <code>typing.Union[int, float]</code> | The port to use connect to the proxy host.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyScheme">proxy_scheme</a></code>               | <code>str</code>                      | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserName">proxy_user_name</a></code>          | <code>str</code>                      | The username to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserPassword">proxy_user_password</a></code>  | <code>str</code>                      | The password to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.scriptPath">script_path</a></code>                 | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.targetPlatform">target_platform</a></code>         | <code>str</code>                      | The target platform to connect to.                                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.timeout">timeout</a></code>                        | <code>str</code>                      | The timeout to wait for the connection to become available.                                             |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.user">user</a></code>                              | <code>str</code>                      | The user to use for the connection.                                                                     |
-
----
-
-##### `host`<sup>Required</sup> <a name="host" id="cdktf.ISSHProvisionerConnection.property.host"></a>
-
-```python
-host: str
-```
-
-- _Type:_ str
-
-The address of the resource to connect to.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.ISSHProvisionerConnection.property.type"></a>
-
-```python
-type: str
-```
-
-- _Type:_ str
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `agent`<sup>Optional</sup> <a name="agent" id="cdktf.ISSHProvisionerConnection.property.agent"></a>
-
-```python
-agent: str
-```
-
-- _Type:_ str
-
-Set to false to disable using ssh-agent to authenticate.
-
-On Windows the only supported SSH authentication agent is Pageant.
-
----
-
-##### `agent_identity`<sup>Optional</sup> <a name="agent_identity" id="cdktf.ISSHProvisionerConnection.property.agentIdentity"></a>
-
-```python
-agent_identity: str
-```
-
-- _Type:_ str
-
-The preferred identity from the ssh agent for authentication.
-
----
-
-##### `bastion_certificate`<sup>Optional</sup> <a name="bastion_certificate" id="cdktf.ISSHProvisionerConnection.property.bastionCertificate"></a>
-
-```python
-bastion_certificate: str
-```
-
-- _Type:_ str
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a bastion_private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `bastion_host`<sup>Optional</sup> <a name="bastion_host" id="cdktf.ISSHProvisionerConnection.property.bastionHost"></a>
-
-```python
-bastion_host: str
-```
-
-- _Type:_ str
-
-Setting this enables the bastion Host connection.
-
-The provisioner will connect to bastion_host first, and then connect from there to host.
-
----
-
-##### `bastion_host_key`<sup>Optional</sup> <a name="bastion_host_key" id="cdktf.ISSHProvisionerConnection.property.bastionHostKey"></a>
-
-```python
-bastion_host_key: str
-```
-
-- _Type:_ str
-
-The public key from the remote host or the signing CA, used to verify the host connection.
-
----
-
-##### `bastion_password`<sup>Optional</sup> <a name="bastion_password" id="cdktf.ISSHProvisionerConnection.property.bastionPassword"></a>
-
-```python
-bastion_password: str
-```
-
-- _Type:_ str
-
-The password to use for the bastion host.
-
----
-
-##### `bastion_port`<sup>Optional</sup> <a name="bastion_port" id="cdktf.ISSHProvisionerConnection.property.bastionPort"></a>
-
-```python
-bastion_port: typing.Union[int, float]
-```
-
-- _Type:_ typing.Union[int, float]
-
-The port to use connect to the bastion host.
-
----
-
-##### `bastion_private_key`<sup>Optional</sup> <a name="bastion_private_key" id="cdktf.ISSHProvisionerConnection.property.bastionPrivateKey"></a>
-
-```python
-bastion_private_key: str
-```
-
-- _Type:_ str
-
-The contents of an SSH key file to use for the bastion host.
-
-These can be loaded from a file on disk using the file function.
-
----
-
-##### `bastion_user`<sup>Optional</sup> <a name="bastion_user" id="cdktf.ISSHProvisionerConnection.property.bastionUser"></a>
-
-```python
-bastion_user: str
-```
-
-- _Type:_ str
-
-The user for the connection to the bastion host.
-
----
-
-##### `certificate`<sup>Optional</sup> <a name="certificate" id="cdktf.ISSHProvisionerConnection.property.certificate"></a>
-
-```python
-certificate: str
-```
-
-- _Type:_ str
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `host_key`<sup>Optional</sup> <a name="host_key" id="cdktf.ISSHProvisionerConnection.property.hostKey"></a>
-
-```python
-host_key: str
-```
-
-- _Type:_ str
-
-The public key from the remote host or the signing CA, used to verify the connection.
-
----
-
-##### `password`<sup>Optional</sup> <a name="password" id="cdktf.ISSHProvisionerConnection.property.password"></a>
-
-```python
-password: str
-```
-
-- _Type:_ str
-
-The password to use for the connection.
-
----
-
-##### `port`<sup>Optional</sup> <a name="port" id="cdktf.ISSHProvisionerConnection.property.port"></a>
-
-```python
-port: typing.Union[int, float]
-```
-
-- _Type:_ typing.Union[int, float]
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `private_key`<sup>Optional</sup> <a name="private_key" id="cdktf.ISSHProvisionerConnection.property.privateKey"></a>
-
-```python
-private_key: str
-```
-
-- _Type:_ str
-
-The contents of an SSH key to use for the connection.
-
-These can be loaded from a file on disk using the file function.
-This takes preference over password if provided.
-
----
-
-##### `proxy_host`<sup>Optional</sup> <a name="proxy_host" id="cdktf.ISSHProvisionerConnection.property.proxyHost"></a>
-
-```python
-proxy_host: str
-```
-
-- _Type:_ str
-
-Setting this enables the SSH over HTTP connection.
-
-This host will be connected to first, and then the host or bastion_host connection will be made from there.
-
----
-
-##### `proxy_port`<sup>Optional</sup> <a name="proxy_port" id="cdktf.ISSHProvisionerConnection.property.proxyPort"></a>
-
-```python
-proxy_port: typing.Union[int, float]
-```
-
-- _Type:_ typing.Union[int, float]
-
-The port to use connect to the proxy host.
-
----
-
-##### `proxy_scheme`<sup>Optional</sup> <a name="proxy_scheme" id="cdktf.ISSHProvisionerConnection.property.proxyScheme"></a>
-
-```python
-proxy_scheme: str
-```
-
-- _Type:_ str
-
-The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
-
----
-
-##### `proxy_user_name`<sup>Optional</sup> <a name="proxy_user_name" id="cdktf.ISSHProvisionerConnection.property.proxyUserName"></a>
-
-```python
-proxy_user_name: str
-```
-
-- _Type:_ str
-
-The username to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `proxy_user_password`<sup>Optional</sup> <a name="proxy_user_password" id="cdktf.ISSHProvisionerConnection.property.proxyUserPassword"></a>
-
-```python
-proxy_user_password: str
-```
-
-- _Type:_ str
-
-The password to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.ISSHProvisionerConnection.property.scriptPath"></a>
-
-```python
-script_path: str
-```
-
-- _Type:_ str
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `target_platform`<sup>Optional</sup> <a name="target_platform" id="cdktf.ISSHProvisionerConnection.property.targetPlatform"></a>
-
-```python
-target_platform: str
-```
-
-- _Type:_ str
-- _Default:_ unix
-
-The target platform to connect to.
-
-Valid values are "windows" and "unix".
-If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
-If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
-
----
-
-##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.ISSHProvisionerConnection.property.timeout"></a>
-
-```python
-timeout: str
-```
-
-- _Type:_ str
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `user`<sup>Optional</sup> <a name="user" id="cdktf.ISSHProvisionerConnection.property.user"></a>
-
-```python
-user: str
-```
-
-- _Type:_ str
-- _Default:_ root
-
-The user to use for the connection.
-
----
 
 ### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
 
@@ -33009,177 +33267,6 @@ Resolve a single token.
 ###### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
 
 - _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-### IWinrmProvisionerConnection <a name="IWinrmProvisionerConnection" id="cdktf.IWinrmProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                      | **Type**                              | **Description**                                                                                                                                                             |
-| --------------------------------------------------------------------------------------------- | ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.host">host</a></code>              | <code>str</code>                      | The address of the resource to connect to.                                                                                                                                  |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.type">type</a></code>              | <code>str</code>                      | The connection type.                                                                                                                                                        |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.cacert">cacert</a></code>          | <code>str</code>                      | The CA certificate to validate against.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.https">https</a></code>            | <code>bool</code>                     | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.insecure">insecure</a></code>      | <code>bool</code>                     | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.password">password</a></code>      | <code>str</code>                      | The password to use for the connection.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.port">port</a></code>              | <code>typing.Union[int, float]</code> | The port to connect to.                                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.scriptPath">script_path</a></code> | <code>str</code>                      | The path used to copy scripts meant for remote execution.                                                                                                                   |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.timeout">timeout</a></code>        | <code>str</code>                      | The timeout to wait for the connection to become available.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.useNtlm">use_ntlm</a></code>       | <code>bool</code>                     | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.user">user</a></code>              | <code>str</code>                      | The user to use for the connection.                                                                                                                                         |
-
----
-
-##### `host`<sup>Required</sup> <a name="host" id="cdktf.IWinrmProvisionerConnection.property.host"></a>
-
-```python
-host: str
-```
-
-- _Type:_ str
-
-The address of the resource to connect to.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IWinrmProvisionerConnection.property.type"></a>
-
-```python
-type: str
-```
-
-- _Type:_ str
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.IWinrmProvisionerConnection.property.cacert"></a>
-
-```python
-cacert: str
-```
-
-- _Type:_ str
-
-The CA certificate to validate against.
-
----
-
-##### `https`<sup>Optional</sup> <a name="https" id="cdktf.IWinrmProvisionerConnection.property.https"></a>
-
-```python
-https: bool
-```
-
-- _Type:_ bool
-
-Set to true to connect using HTTPS instead of HTTP.
-
----
-
-##### `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.IWinrmProvisionerConnection.property.insecure"></a>
-
-```python
-insecure: bool
-```
-
-- _Type:_ bool
-
-Set to true to skip validating the HTTPS certificate chain.
-
----
-
-##### `password`<sup>Optional</sup> <a name="password" id="cdktf.IWinrmProvisionerConnection.property.password"></a>
-
-```python
-password: str
-```
-
-- _Type:_ str
-
-The password to use for the connection.
-
----
-
-##### `port`<sup>Optional</sup> <a name="port" id="cdktf.IWinrmProvisionerConnection.property.port"></a>
-
-```python
-port: typing.Union[int, float]
-```
-
-- _Type:_ typing.Union[int, float]
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `script_path`<sup>Optional</sup> <a name="script_path" id="cdktf.IWinrmProvisionerConnection.property.scriptPath"></a>
-
-```python
-script_path: str
-```
-
-- _Type:_ str
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.IWinrmProvisionerConnection.property.timeout"></a>
-
-```python
-timeout: str
-```
-
-- _Type:_ str
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `use_ntlm`<sup>Optional</sup> <a name="use_ntlm" id="cdktf.IWinrmProvisionerConnection.property.useNtlm"></a>
-
-```python
-use_ntlm: bool
-```
-
-- _Type:_ bool
-
-Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
-
-Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
-
----
-
-##### `user`<sup>Optional</sup> <a name="user" id="cdktf.IWinrmProvisionerConnection.property.user"></a>
-
-```python
-user: str
-```
-
-- _Type:_ str
-- _Default:_ root
-
-The user to use for the connection.
 
 ---
 

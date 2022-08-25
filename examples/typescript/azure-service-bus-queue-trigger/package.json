@@ -6,8 +6,7 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "get": "cdktf get",
-    "build": "tsc",
+    "build": "cdktf get",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
     "watch": "tsc -w",

@@ -16103,6 +16103,108 @@ Username *string
 
 ---
 
+### FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+#### Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.FileProvisioner {
+	Destination: *string,
+	Type: *string,
+	Connection: interface{},
+	Content: *string,
+	Source: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                           | **Type**                 | **Description**                                                                                                                                  |
+| ---------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.FileProvisioner.property.destination">Destination</a></code> | <code>\*string</code>    | The source file or directory.                                                                                                                    |
+| <code><a href="#cdktf.FileProvisioner.property.type">Type</a></code>               | <code>\*string</code>    | _No description._                                                                                                                                |
+| <code><a href="#cdktf.FileProvisioner.property.connection">Connection</a></code>   | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.FileProvisioner.property.content">Content</a></code>         | <code>\*string</code>    | The destination path to write to on the remote system.                                                                                           |
+| <code><a href="#cdktf.FileProvisioner.property.source">Source</a></code>           | <code>\*string</code>    | The direct content to copy on the destination.                                                                                                   |
+
+---
+
+##### `Destination`<sup>Required</sup> <a name="Destination" id="cdktf.FileProvisioner.property.destination"></a>
+
+```go
+Destination *string
+```
+
+- _Type:_ \*string
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.FileProvisioner.property.type"></a>
+
+```go
+Type *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.FileProvisioner.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- _Type:_ interface{}
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+##### `Content`<sup>Optional</sup> <a name="Content" id="cdktf.FileProvisioner.property.content"></a>
+
+```go
+Content *string
+```
+
+- _Type:_ \*string
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+##### `Source`<sup>Optional</sup> <a name="Source" id="cdktf.FileProvisioner.property.source"></a>
+
+```go
+Source *string
+```
+
+- _Type:_ \*string
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---
+
 ### GcsBackendProps <a name="GcsBackendProps" id="cdktf.GcsBackendProps"></a>
 
 Stores the state as an object in a configurable prefix in a pre-existing bucket on Google Cloud Storage (GCS).
@@ -16650,6 +16752,128 @@ WorkspaceDir *string
 
 ---
 
+### LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
+
+The local-exec provisioner invokes a local executable after a resource is created.
+
+This invokes a process on the machine running Terraform, not on the resource.
+
+See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.LocalExecProvisioner {
+	Command: *string,
+	Type: *string,
+	Environment: *map[string]*string,
+	Interpreter: *[]*string,
+	When: *string,
+	WorkingDir: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                         | **Description**                                                                   |
+| --------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.LocalExecProvisioner.property.command">Command</a></code>         | <code>\*string</code>            | This is the command to execute.                                                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.type">Type</a></code>               | <code>\*string</code>            | _No description._                                                                 |
+| <code><a href="#cdktf.LocalExecProvisioner.property.environment">Environment</a></code> | <code>*map[string]*string</code> | A record of key value pairs representing the environment of the executed command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">Interpreter</a></code> | <code>*[]*string</code>          | If provided, this is a list of interpreter arguments used to execute the command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.when">When</a></code>               | <code>\*string</code>            | If provided, specifies when Terraform will execute the command.                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">WorkingDir</a></code>   | <code>\*string</code>            | If provided, specifies the working directory where command will be executed.      |
+
+---
+
+##### `Command`<sup>Required</sup> <a name="Command" id="cdktf.LocalExecProvisioner.property.command"></a>
+
+```go
+Command *string
+```
+
+- _Type:_ \*string
+
+This is the command to execute.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+It is evaluated in a shell, and can use environment variables or Terraform variables.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.LocalExecProvisioner.property.type"></a>
+
+```go
+Type *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Environment`<sup>Optional</sup> <a name="Environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
+
+```go
+Environment *map[string]*string
+```
+
+- _Type:_ *map[string]*string
+
+A record of key value pairs representing the environment of the executed command.
+
+It inherits the current process environment.
+
+---
+
+##### `Interpreter`<sup>Optional</sup> <a name="Interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
+
+```go
+Interpreter *[]*string
+```
+
+- _Type:_ *[]*string
+
+If provided, this is a list of interpreter arguments used to execute the command.
+
+The first argument is the interpreter itself.
+It can be provided as a relative path to the current working directory or as an absolute path
+The remaining arguments are appended prior to the command.
+This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+
+---
+
+##### `When`<sup>Optional</sup> <a name="When" id="cdktf.LocalExecProvisioner.property.when"></a>
+
+```go
+When *string
+```
+
+- _Type:_ \*string
+
+If provided, specifies when Terraform will execute the command.
+
+For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+
+---
+
+##### `WorkingDir`<sup>Optional</sup> <a name="WorkingDir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
+
+```go
+WorkingDir *string
+```
+
+- _Type:_ \*string
+
+If provided, specifies the working directory where command will be executed.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+The directory must exist.
+
+---
+
 ### MantaBackendProps <a name="MantaBackendProps" id="cdktf.MantaBackendProps"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.MantaBackendProps.Initializer"></a>
@@ -17157,6 +17381,109 @@ Token *string
 ```
 
 - _Type:_ \*string
+
+---
+
+### RemoteExecProvisioner <a name="RemoteExecProvisioner" id="cdktf.RemoteExecProvisioner"></a>
+
+The remote-exec provisioner invokes a script on a remote resource after it is created.
+
+This can be used to run a configuration management tool, bootstrap into a cluster, etc
+The remote-exec provisioner requires a connection and supports both ssh and winrm.
+
+See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.RemoteExecProvisioner.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.RemoteExecProvisioner {
+	Type: *string,
+	Connection: interface{},
+	Inline: *[]*string,
+	Script: *string,
+	Scripts: *[]*string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                 | **Description**                                                                                                                                  |
+| -------------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.type">Type</a></code>             | <code>\*string</code>    | _No description._                                                                                                                                |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.connection">Connection</a></code> | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.inline">Inline</a></code>         | <code>*[]*string</code>  | This is a list of command strings.                                                                                                               |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.script">Script</a></code>         | <code>\*string</code>    | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.scripts">Scripts</a></code>       | <code>*[]*string</code>  | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.RemoteExecProvisioner.property.type"></a>
+
+```go
+Type *string
+```
+
+- _Type:_ \*string
+
+---
+
+##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.RemoteExecProvisioner.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- _Type:_ interface{}
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+A connection must be provided here or in the parent resource.
+
+---
+
+##### `Inline`<sup>Optional</sup> <a name="Inline" id="cdktf.RemoteExecProvisioner.property.inline"></a>
+
+```go
+Inline *[]*string
+```
+
+- _Type:_ *[]*string
+
+This is a list of command strings.
+
+They are executed in the order they are provided.
+This cannot be provided with script or scripts.
+
+---
+
+##### `Script`<sup>Optional</sup> <a name="Script" id="cdktf.RemoteExecProvisioner.property.script"></a>
+
+```go
+Script *string
+```
+
+- _Type:_ \*string
+
+This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
+
+This cannot be provided with inline or scripts.
+
+---
+
+##### `Scripts`<sup>Optional</sup> <a name="Scripts" id="cdktf.RemoteExecProvisioner.property.scripts"></a>
+
+```go
+Scripts *[]*string
+```
+
+- _Type:_ *[]*string
+
+This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
+
+They are executed in the order they are provided.
+This cannot be provided with inline or script.
 
 ---
 
@@ -17668,6 +17995,415 @@ WorkspaceKeyPrefix *string
 (Optional) Prefix applied to the state path inside the bucket.
 
 This is only relevant when using a non-default workspace. Defaults to env:
+
+---
+
+### SSHProvisionerConnection <a name="SSHProvisionerConnection" id="cdktf.SSHProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.SSHProvisionerConnection.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.SSHProvisionerConnection {
+	Host: *string,
+	Type: *string,
+	Agent: *string,
+	AgentIdentity: *string,
+	BastionCertificate: *string,
+	BastionHost: *string,
+	BastionHostKey: *string,
+	BastionPassword: *string,
+	BastionPort: *f64,
+	BastionPrivateKey: *string,
+	BastionUser: *string,
+	Certificate: *string,
+	HostKey: *string,
+	Password: *string,
+	Port: *f64,
+	PrivateKey: *string,
+	ProxyHost: *string,
+	ProxyPort: *f64,
+	ProxyScheme: *string,
+	ProxyUserName: *string,
+	ProxyUserPassword: *string,
+	ScriptPath: *string,
+	TargetPlatform: *string,
+	Timeout: *string,
+	User: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                  | **Type**              | **Description**                                                                                         |
+| --------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.host">Host</a></code>                             | <code>\*string</code> | The address of the resource to connect to.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.type">Type</a></code>                             | <code>\*string</code> | The connection type.                                                                                    |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agent">Agent</a></code>                           | <code>\*string</code> | Set to false to disable using ssh-agent to authenticate.                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agentIdentity">AgentIdentity</a></code>           | <code>\*string</code> | The preferred identity from the ssh agent for authentication.                                           |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionCertificate">BastionCertificate</a></code> | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHost">BastionHost</a></code>               | <code>\*string</code> | Setting this enables the bastion Host connection.                                                       |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHostKey">BastionHostKey</a></code>         | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the host connection.              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPassword">BastionPassword</a></code>       | <code>\*string</code> | The password to use for the bastion host.                                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPort">BastionPort</a></code>               | <code>\*f64</code>    | The port to use connect to the bastion host.                                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPrivateKey">BastionPrivateKey</a></code>   | <code>\*string</code> | The contents of an SSH key file to use for the bastion host.                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionUser">BastionUser</a></code>               | <code>\*string</code> | The user for the connection to the bastion host.                                                        |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.certificate">Certificate</a></code>               | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.hostKey">HostKey</a></code>                       | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the connection.                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.password">Password</a></code>                     | <code>\*string</code> | The password to use for the connection.                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.port">Port</a></code>                             | <code>\*f64</code>    | The port to connect to.                                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.privateKey">PrivateKey</a></code>                 | <code>\*string</code> | The contents of an SSH key to use for the connection.                                                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyHost">ProxyHost</a></code>                   | <code>\*string</code> | Setting this enables the SSH over HTTP connection.                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyPort">ProxyPort</a></code>                   | <code>\*f64</code>    | The port to use connect to the proxy host.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyScheme">ProxyScheme</a></code>               | <code>\*string</code> | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserName">ProxyUserName</a></code>           | <code>\*string</code> | The username to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserPassword">ProxyUserPassword</a></code>   | <code>\*string</code> | The password to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.scriptPath">ScriptPath</a></code>                 | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.targetPlatform">TargetPlatform</a></code>         | <code>\*string</code> | The target platform to connect to.                                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.timeout">Timeout</a></code>                       | <code>\*string</code> | The timeout to wait for the connection to become available.                                             |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.user">User</a></code>                             | <code>\*string</code> | The user to use for the connection.                                                                     |
+
+---
+
+##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.SSHProvisionerConnection.property.host"></a>
+
+```go
+Host *string
+```
+
+- _Type:_ \*string
+
+The address of the resource to connect to.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.SSHProvisionerConnection.property.type"></a>
+
+```go
+Type *string
+```
+
+- _Type:_ \*string
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `Agent`<sup>Optional</sup> <a name="Agent" id="cdktf.SSHProvisionerConnection.property.agent"></a>
+
+```go
+Agent *string
+```
+
+- _Type:_ \*string
+
+Set to false to disable using ssh-agent to authenticate.
+
+On Windows the only supported SSH authentication agent is Pageant.
+
+---
+
+##### `AgentIdentity`<sup>Optional</sup> <a name="AgentIdentity" id="cdktf.SSHProvisionerConnection.property.agentIdentity"></a>
+
+```go
+AgentIdentity *string
+```
+
+- _Type:_ \*string
+
+The preferred identity from the ssh agent for authentication.
+
+---
+
+##### `BastionCertificate`<sup>Optional</sup> <a name="BastionCertificate" id="cdktf.SSHProvisionerConnection.property.bastionCertificate"></a>
+
+```go
+BastionCertificate *string
+```
+
+- _Type:_ \*string
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a bastion_private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `BastionHost`<sup>Optional</sup> <a name="BastionHost" id="cdktf.SSHProvisionerConnection.property.bastionHost"></a>
+
+```go
+BastionHost *string
+```
+
+- _Type:_ \*string
+
+Setting this enables the bastion Host connection.
+
+The provisioner will connect to bastion_host first, and then connect from there to host.
+
+---
+
+##### `BastionHostKey`<sup>Optional</sup> <a name="BastionHostKey" id="cdktf.SSHProvisionerConnection.property.bastionHostKey"></a>
+
+```go
+BastionHostKey *string
+```
+
+- _Type:_ \*string
+
+The public key from the remote host or the signing CA, used to verify the host connection.
+
+---
+
+##### `BastionPassword`<sup>Optional</sup> <a name="BastionPassword" id="cdktf.SSHProvisionerConnection.property.bastionPassword"></a>
+
+```go
+BastionPassword *string
+```
+
+- _Type:_ \*string
+
+The password to use for the bastion host.
+
+---
+
+##### `BastionPort`<sup>Optional</sup> <a name="BastionPort" id="cdktf.SSHProvisionerConnection.property.bastionPort"></a>
+
+```go
+BastionPort *f64
+```
+
+- _Type:_ \*f64
+
+The port to use connect to the bastion host.
+
+---
+
+##### `BastionPrivateKey`<sup>Optional</sup> <a name="BastionPrivateKey" id="cdktf.SSHProvisionerConnection.property.bastionPrivateKey"></a>
+
+```go
+BastionPrivateKey *string
+```
+
+- _Type:_ \*string
+
+The contents of an SSH key file to use for the bastion host.
+
+These can be loaded from a file on disk using the file function.
+
+---
+
+##### `BastionUser`<sup>Optional</sup> <a name="BastionUser" id="cdktf.SSHProvisionerConnection.property.bastionUser"></a>
+
+```go
+BastionUser *string
+```
+
+- _Type:_ \*string
+
+The user for the connection to the bastion host.
+
+---
+
+##### `Certificate`<sup>Optional</sup> <a name="Certificate" id="cdktf.SSHProvisionerConnection.property.certificate"></a>
+
+```go
+Certificate *string
+```
+
+- _Type:_ \*string
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `HostKey`<sup>Optional</sup> <a name="HostKey" id="cdktf.SSHProvisionerConnection.property.hostKey"></a>
+
+```go
+HostKey *string
+```
+
+- _Type:_ \*string
+
+The public key from the remote host or the signing CA, used to verify the connection.
+
+---
+
+##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.SSHProvisionerConnection.property.password"></a>
+
+```go
+Password *string
+```
+
+- _Type:_ \*string
+
+The password to use for the connection.
+
+---
+
+##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.SSHProvisionerConnection.property.port"></a>
+
+```go
+Port *f64
+```
+
+- _Type:_ \*f64
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `PrivateKey`<sup>Optional</sup> <a name="PrivateKey" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>
+
+```go
+PrivateKey *string
+```
+
+- _Type:_ \*string
+
+The contents of an SSH key to use for the connection.
+
+These can be loaded from a file on disk using the file function.
+This takes preference over password if provided.
+
+---
+
+##### `ProxyHost`<sup>Optional</sup> <a name="ProxyHost" id="cdktf.SSHProvisionerConnection.property.proxyHost"></a>
+
+```go
+ProxyHost *string
+```
+
+- _Type:_ \*string
+
+Setting this enables the SSH over HTTP connection.
+
+This host will be connected to first, and then the host or bastion_host connection will be made from there.
+
+---
+
+##### `ProxyPort`<sup>Optional</sup> <a name="ProxyPort" id="cdktf.SSHProvisionerConnection.property.proxyPort"></a>
+
+```go
+ProxyPort *f64
+```
+
+- _Type:_ \*f64
+
+The port to use connect to the proxy host.
+
+---
+
+##### `ProxyScheme`<sup>Optional</sup> <a name="ProxyScheme" id="cdktf.SSHProvisionerConnection.property.proxyScheme"></a>
+
+```go
+ProxyScheme *string
+```
+
+- _Type:_ \*string
+
+The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
+
+---
+
+##### `ProxyUserName`<sup>Optional</sup> <a name="ProxyUserName" id="cdktf.SSHProvisionerConnection.property.proxyUserName"></a>
+
+```go
+ProxyUserName *string
+```
+
+- _Type:_ \*string
+
+The username to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `ProxyUserPassword`<sup>Optional</sup> <a name="ProxyUserPassword" id="cdktf.SSHProvisionerConnection.property.proxyUserPassword"></a>
+
+```go
+ProxyUserPassword *string
+```
+
+- _Type:_ \*string
+
+The password to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.SSHProvisionerConnection.property.scriptPath"></a>
+
+```go
+ScriptPath *string
+```
+
+- _Type:_ \*string
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `TargetPlatform`<sup>Optional</sup> <a name="TargetPlatform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>
+
+```go
+TargetPlatform *string
+```
+
+- _Type:_ \*string
+- _Default:_ unix
+
+The target platform to connect to.
+
+Valid values are "windows" and "unix".
+If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
+If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
+
+---
+
+##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>
+
+```go
+Timeout *string
+```
+
+- _Type:_ \*string
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `User`<sup>Optional</sup> <a name="User" id="cdktf.SSHProvisionerConnection.property.user"></a>
+
+```go
+User *string
+```
+
+- _Type:_ \*string
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -19365,6 +20101,195 @@ StubVersion *bool
 ```
 
 - _Type:_ \*bool
+
+---
+
+### WinrmProvisionerConnection <a name="WinrmProvisionerConnection" id="cdktf.WinrmProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.WinrmProvisionerConnection.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.WinrmProvisionerConnection {
+	Host: *string,
+	Type: *string,
+	Cacert: *string,
+	Https: *bool,
+	Insecure: *bool,
+	Password: *string,
+	Port: *f64,
+	ScriptPath: *string,
+	Timeout: *string,
+	UseNtlm: *bool,
+	User: *string,
+}
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                    | **Type**              | **Description**                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.host">Host</a></code>             | <code>\*string</code> | The address of the resource to connect to.                                                                                                                                  |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.type">Type</a></code>             | <code>\*string</code> | The connection type.                                                                                                                                                        |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.cacert">Cacert</a></code>         | <code>\*string</code> | The CA certificate to validate against.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.https">Https</a></code>           | <code>\*bool</code>   | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.insecure">Insecure</a></code>     | <code>\*bool</code>   | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.password">Password</a></code>     | <code>\*string</code> | The password to use for the connection.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.port">Port</a></code>             | <code>\*f64</code>    | The port to connect to.                                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.scriptPath">ScriptPath</a></code> | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                                                                                                   |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.timeout">Timeout</a></code>       | <code>\*string</code> | The timeout to wait for the connection to become available.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.useNtlm">UseNtlm</a></code>       | <code>\*bool</code>   | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.user">User</a></code>             | <code>\*string</code> | The user to use for the connection.                                                                                                                                         |
+
+---
+
+##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.WinrmProvisionerConnection.property.host"></a>
+
+```go
+Host *string
+```
+
+- _Type:_ \*string
+
+The address of the resource to connect to.
+
+---
+
+##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.WinrmProvisionerConnection.property.type"></a>
+
+```go
+Type *string
+```
+
+- _Type:_ \*string
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `Cacert`<sup>Optional</sup> <a name="Cacert" id="cdktf.WinrmProvisionerConnection.property.cacert"></a>
+
+```go
+Cacert *string
+```
+
+- _Type:_ \*string
+
+The CA certificate to validate against.
+
+---
+
+##### `Https`<sup>Optional</sup> <a name="Https" id="cdktf.WinrmProvisionerConnection.property.https"></a>
+
+```go
+Https *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+##### `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.WinrmProvisionerConnection.property.insecure"></a>
+
+```go
+Insecure *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.WinrmProvisionerConnection.property.password"></a>
+
+```go
+Password *string
+```
+
+- _Type:_ \*string
+
+The password to use for the connection.
+
+---
+
+##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.WinrmProvisionerConnection.property.port"></a>
+
+```go
+Port *f64
+```
+
+- _Type:_ \*f64
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>
+
+```go
+ScriptPath *string
+```
+
+- _Type:_ \*string
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>
+
+```go
+Timeout *string
+```
+
+- _Type:_ \*string
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `UseNtlm`<sup>Optional</sup> <a name="UseNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>
+
+```go
+UseNtlm *bool
+```
+
+- _Type:_ \*bool
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+##### `User`<sup>Optional</sup> <a name="User" id="cdktf.WinrmProvisionerConnection.property.user"></a>
+
+```go
+User *string
+```
+
+- _Type:_ \*string
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -26389,96 +27314,6 @@ All aspects can visit an IConstruct.
 
 ---
 
-### IFileProvisioner <a name="IFileProvisioner" id="cdktf.IFileProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IFileProvisioner">IFileProvisioner</a>
-
-The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
-
-The file provisioner supports both ssh and winrm type connections.
-
-See {@link https://www.terraform.io/language/resources/provisioners/file file}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                            | **Type**                 | **Description**                                                                                                                                  |
-| ----------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IFileProvisioner.property.destination">Destination</a></code> | <code>\*string</code>    | The source file or directory.                                                                                                                    |
-| <code><a href="#cdktf.IFileProvisioner.property.type">Type</a></code>               | <code>\*string</code>    | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IFileProvisioner.property.connection">Connection</a></code>   | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IFileProvisioner.property.content">Content</a></code>         | <code>\*string</code>    | The destination path to write to on the remote system.                                                                                           |
-| <code><a href="#cdktf.IFileProvisioner.property.source">Source</a></code>           | <code>\*string</code>    | The direct content to copy on the destination.                                                                                                   |
-
----
-
-##### `Destination`<sup>Required</sup> <a name="Destination" id="cdktf.IFileProvisioner.property.destination"></a>
-
-```go
-func Destination() *string
-```
-
-- _Type:_ \*string
-
-The source file or directory.
-
-Specify it either relative to the current working directory or as an absolute path.
-This argument cannot be combined with content.
-
----
-
-##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IFileProvisioner.property.type"></a>
-
-```go
-func Type() *string
-```
-
-- _Type:_ \*string
-
----
-
-##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.IFileProvisioner.property.connection"></a>
-
-```go
-func Connection() interface{}
-```
-
-- _Type:_ interface{}
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
----
-
-##### `Content`<sup>Optional</sup> <a name="Content" id="cdktf.IFileProvisioner.property.content"></a>
-
-```go
-func Content() *string
-```
-
-- _Type:_ \*string
-
-The destination path to write to on the remote system.
-
-See Destination Paths below for more information.
-
----
-
-##### `Source`<sup>Optional</sup> <a name="Source" id="cdktf.IFileProvisioner.property.source"></a>
-
-```go
-func Source() *string
-```
-
-- _Type:_ \*string
-
-The direct content to copy on the destination.
-
-If destination is a file, the content will be written on that file.
-In case of a directory, a file named tf-file-content is created inside that directory.
-We recommend using a file as the destination when using content.
-This argument cannot be combined with source.
-
----
-
 ### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
 
 - _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -26564,115 +27399,6 @@ Produce the list value.
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### ILocalExecProvisioner <a name="ILocalExecProvisioner" id="cdktf.ILocalExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>
-
-The local-exec provisioner invokes a local executable after a resource is created.
-
-This invokes a process on the machine running Terraform, not on the resource.
-
-See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                 | **Type**                         | **Description**                                                                   |
-| ---------------------------------------------------------------------------------------- | -------------------------------- | --------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.command">Command</a></code>         | <code>\*string</code>            | This is the command to execute.                                                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.type">Type</a></code>               | <code>\*string</code>            | _No description._                                                                 |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.environment">Environment</a></code> | <code>*map[string]*string</code> | A record of key value pairs representing the environment of the executed command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.interpreter">Interpreter</a></code> | <code>*[]*string</code>          | If provided, this is a list of interpreter arguments used to execute the command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.when">When</a></code>               | <code>\*string</code>            | If provided, specifies when Terraform will execute the command.                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.workingDir">WorkingDir</a></code>   | <code>\*string</code>            | If provided, specifies the working directory where command will be executed.      |
-
----
-
-##### `Command`<sup>Required</sup> <a name="Command" id="cdktf.ILocalExecProvisioner.property.command"></a>
-
-```go
-func Command() *string
-```
-
-- _Type:_ \*string
-
-This is the command to execute.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-It is evaluated in a shell, and can use environment variables or Terraform variables.
-
----
-
-##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.ILocalExecProvisioner.property.type"></a>
-
-```go
-func Type() *string
-```
-
-- _Type:_ \*string
-
----
-
-##### `Environment`<sup>Optional</sup> <a name="Environment" id="cdktf.ILocalExecProvisioner.property.environment"></a>
-
-```go
-func Environment() *map[string]*string
-```
-
-- _Type:_ *map[string]*string
-
-A record of key value pairs representing the environment of the executed command.
-
-It inherits the current process environment.
-
----
-
-##### `Interpreter`<sup>Optional</sup> <a name="Interpreter" id="cdktf.ILocalExecProvisioner.property.interpreter"></a>
-
-```go
-func Interpreter() *[]*string
-```
-
-- _Type:_ *[]*string
-
-If provided, this is a list of interpreter arguments used to execute the command.
-
-The first argument is the interpreter itself.
-It can be provided as a relative path to the current working directory or as an absolute path
-The remaining arguments are appended prior to the command.
-This allows building command lines of the form "/bin/bash", "-c", "echo foo".
-If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
-
----
-
-##### `When`<sup>Optional</sup> <a name="When" id="cdktf.ILocalExecProvisioner.property.when"></a>
-
-```go
-func When() *string
-```
-
-- _Type:_ \*string
-
-If provided, specifies when Terraform will execute the command.
-
-For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
-
----
-
-##### `WorkingDir`<sup>Optional</sup> <a name="WorkingDir" id="cdktf.ILocalExecProvisioner.property.workingDir"></a>
-
-```go
-func WorkingDir() *string
-```
-
-- _Type:_ \*string
-
-If provided, specifies the working directory where command will be executed.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-The directory must exist.
 
 ---
 
@@ -26768,97 +27494,6 @@ Process the completely resolved value, after full recursion/resolution has happe
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### IRemoteExecProvisioner <a name="IRemoteExecProvisioner" id="cdktf.IRemoteExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>
-
-The remote-exec provisioner invokes a script on a remote resource after it is created.
-
-This can be used to run a configuration management tool, bootstrap into a cluster, etc
-The remote-exec provisioner requires a connection and supports both ssh and winrm.
-
-See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                | **Type**                 | **Description**                                                                                                                                  |
-| --------------------------------------------------------------------------------------- | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.type">Type</a></code>             | <code>\*string</code>    | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.connection">Connection</a></code> | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.inline">Inline</a></code>         | <code>*[]*string</code>  | This is a list of command strings.                                                                                                               |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.script">Script</a></code>         | <code>\*string</code>    | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.scripts">Scripts</a></code>       | <code>*[]*string</code>  | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
-
----
-
-##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IRemoteExecProvisioner.property.type"></a>
-
-```go
-func Type() *string
-```
-
-- _Type:_ \*string
-
----
-
-##### `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.IRemoteExecProvisioner.property.connection"></a>
-
-```go
-func Connection() interface{}
-```
-
-- _Type:_ interface{}
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-A connection must be provided here or in the parent resource.
-
----
-
-##### `Inline`<sup>Optional</sup> <a name="Inline" id="cdktf.IRemoteExecProvisioner.property.inline"></a>
-
-```go
-func Inline() *[]*string
-```
-
-- _Type:_ *[]*string
-
-This is a list of command strings.
-
-They are executed in the order they are provided.
-This cannot be provided with script or scripts.
-
----
-
-##### `Script`<sup>Optional</sup> <a name="Script" id="cdktf.IRemoteExecProvisioner.property.script"></a>
-
-```go
-func Script() *string
-```
-
-- _Type:_ \*string
-
-This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
-
-This cannot be provided with inline or scripts.
-
----
-
-##### `Scripts`<sup>Optional</sup> <a name="Scripts" id="cdktf.IRemoteExecProvisioner.property.scripts"></a>
-
-```go
-func Scripts() *[]*string
-```
-
-- _Type:_ *[]*string
-
-This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
-
-They are executed in the order they are provided.
-This cannot be provided with inline or script.
 
 ---
 
@@ -27077,383 +27712,6 @@ The stack in which this resource is defined.
 ### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
 
 - _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
-
-### ISSHProvisionerConnection <a name="ISSHProvisionerConnection" id="cdktf.ISSHProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                                   | **Type**              | **Description**                                                                                         |
-| ---------------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.host">Host</a></code>                             | <code>\*string</code> | The address of the resource to connect to.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.type">Type</a></code>                             | <code>\*string</code> | The connection type.                                                                                    |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agent">Agent</a></code>                           | <code>\*string</code> | Set to false to disable using ssh-agent to authenticate.                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agentIdentity">AgentIdentity</a></code>           | <code>\*string</code> | The preferred identity from the ssh agent for authentication.                                           |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionCertificate">BastionCertificate</a></code> | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHost">BastionHost</a></code>               | <code>\*string</code> | Setting this enables the bastion Host connection.                                                       |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHostKey">BastionHostKey</a></code>         | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the host connection.              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPassword">BastionPassword</a></code>       | <code>\*string</code> | The password to use for the bastion host.                                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPort">BastionPort</a></code>               | <code>\*f64</code>    | The port to use connect to the bastion host.                                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPrivateKey">BastionPrivateKey</a></code>   | <code>\*string</code> | The contents of an SSH key file to use for the bastion host.                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionUser">BastionUser</a></code>               | <code>\*string</code> | The user for the connection to the bastion host.                                                        |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.certificate">Certificate</a></code>               | <code>\*string</code> | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.hostKey">HostKey</a></code>                       | <code>\*string</code> | The public key from the remote host or the signing CA, used to verify the connection.                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.password">Password</a></code>                     | <code>\*string</code> | The password to use for the connection.                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.port">Port</a></code>                             | <code>\*f64</code>    | The port to connect to.                                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.privateKey">PrivateKey</a></code>                 | <code>\*string</code> | The contents of an SSH key to use for the connection.                                                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyHost">ProxyHost</a></code>                   | <code>\*string</code> | Setting this enables the SSH over HTTP connection.                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyPort">ProxyPort</a></code>                   | <code>\*f64</code>    | The port to use connect to the proxy host.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyScheme">ProxyScheme</a></code>               | <code>\*string</code> | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserName">ProxyUserName</a></code>           | <code>\*string</code> | The username to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserPassword">ProxyUserPassword</a></code>   | <code>\*string</code> | The password to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.scriptPath">ScriptPath</a></code>                 | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.targetPlatform">TargetPlatform</a></code>         | <code>\*string</code> | The target platform to connect to.                                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.timeout">Timeout</a></code>                       | <code>\*string</code> | The timeout to wait for the connection to become available.                                             |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.user">User</a></code>                             | <code>\*string</code> | The user to use for the connection.                                                                     |
-
----
-
-##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.ISSHProvisionerConnection.property.host"></a>
-
-```go
-func Host() *string
-```
-
-- _Type:_ \*string
-
-The address of the resource to connect to.
-
----
-
-##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.ISSHProvisionerConnection.property.type"></a>
-
-```go
-func Type() *string
-```
-
-- _Type:_ \*string
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `Agent`<sup>Optional</sup> <a name="Agent" id="cdktf.ISSHProvisionerConnection.property.agent"></a>
-
-```go
-func Agent() *string
-```
-
-- _Type:_ \*string
-
-Set to false to disable using ssh-agent to authenticate.
-
-On Windows the only supported SSH authentication agent is Pageant.
-
----
-
-##### `AgentIdentity`<sup>Optional</sup> <a name="AgentIdentity" id="cdktf.ISSHProvisionerConnection.property.agentIdentity"></a>
-
-```go
-func AgentIdentity() *string
-```
-
-- _Type:_ \*string
-
-The preferred identity from the ssh agent for authentication.
-
----
-
-##### `BastionCertificate`<sup>Optional</sup> <a name="BastionCertificate" id="cdktf.ISSHProvisionerConnection.property.bastionCertificate"></a>
-
-```go
-func BastionCertificate() *string
-```
-
-- _Type:_ \*string
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a bastion_private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `BastionHost`<sup>Optional</sup> <a name="BastionHost" id="cdktf.ISSHProvisionerConnection.property.bastionHost"></a>
-
-```go
-func BastionHost() *string
-```
-
-- _Type:_ \*string
-
-Setting this enables the bastion Host connection.
-
-The provisioner will connect to bastion_host first, and then connect from there to host.
-
----
-
-##### `BastionHostKey`<sup>Optional</sup> <a name="BastionHostKey" id="cdktf.ISSHProvisionerConnection.property.bastionHostKey"></a>
-
-```go
-func BastionHostKey() *string
-```
-
-- _Type:_ \*string
-
-The public key from the remote host or the signing CA, used to verify the host connection.
-
----
-
-##### `BastionPassword`<sup>Optional</sup> <a name="BastionPassword" id="cdktf.ISSHProvisionerConnection.property.bastionPassword"></a>
-
-```go
-func BastionPassword() *string
-```
-
-- _Type:_ \*string
-
-The password to use for the bastion host.
-
----
-
-##### `BastionPort`<sup>Optional</sup> <a name="BastionPort" id="cdktf.ISSHProvisionerConnection.property.bastionPort"></a>
-
-```go
-func BastionPort() *f64
-```
-
-- _Type:_ \*f64
-
-The port to use connect to the bastion host.
-
----
-
-##### `BastionPrivateKey`<sup>Optional</sup> <a name="BastionPrivateKey" id="cdktf.ISSHProvisionerConnection.property.bastionPrivateKey"></a>
-
-```go
-func BastionPrivateKey() *string
-```
-
-- _Type:_ \*string
-
-The contents of an SSH key file to use for the bastion host.
-
-These can be loaded from a file on disk using the file function.
-
----
-
-##### `BastionUser`<sup>Optional</sup> <a name="BastionUser" id="cdktf.ISSHProvisionerConnection.property.bastionUser"></a>
-
-```go
-func BastionUser() *string
-```
-
-- _Type:_ \*string
-
-The user for the connection to the bastion host.
-
----
-
-##### `Certificate`<sup>Optional</sup> <a name="Certificate" id="cdktf.ISSHProvisionerConnection.property.certificate"></a>
-
-```go
-func Certificate() *string
-```
-
-- _Type:_ \*string
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `HostKey`<sup>Optional</sup> <a name="HostKey" id="cdktf.ISSHProvisionerConnection.property.hostKey"></a>
-
-```go
-func HostKey() *string
-```
-
-- _Type:_ \*string
-
-The public key from the remote host or the signing CA, used to verify the connection.
-
----
-
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.ISSHProvisionerConnection.property.password"></a>
-
-```go
-func Password() *string
-```
-
-- _Type:_ \*string
-
-The password to use for the connection.
-
----
-
-##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.ISSHProvisionerConnection.property.port"></a>
-
-```go
-func Port() *f64
-```
-
-- _Type:_ \*f64
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `PrivateKey`<sup>Optional</sup> <a name="PrivateKey" id="cdktf.ISSHProvisionerConnection.property.privateKey"></a>
-
-```go
-func PrivateKey() *string
-```
-
-- _Type:_ \*string
-
-The contents of an SSH key to use for the connection.
-
-These can be loaded from a file on disk using the file function.
-This takes preference over password if provided.
-
----
-
-##### `ProxyHost`<sup>Optional</sup> <a name="ProxyHost" id="cdktf.ISSHProvisionerConnection.property.proxyHost"></a>
-
-```go
-func ProxyHost() *string
-```
-
-- _Type:_ \*string
-
-Setting this enables the SSH over HTTP connection.
-
-This host will be connected to first, and then the host or bastion_host connection will be made from there.
-
----
-
-##### `ProxyPort`<sup>Optional</sup> <a name="ProxyPort" id="cdktf.ISSHProvisionerConnection.property.proxyPort"></a>
-
-```go
-func ProxyPort() *f64
-```
-
-- _Type:_ \*f64
-
-The port to use connect to the proxy host.
-
----
-
-##### `ProxyScheme`<sup>Optional</sup> <a name="ProxyScheme" id="cdktf.ISSHProvisionerConnection.property.proxyScheme"></a>
-
-```go
-func ProxyScheme() *string
-```
-
-- _Type:_ \*string
-
-The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
-
----
-
-##### `ProxyUserName`<sup>Optional</sup> <a name="ProxyUserName" id="cdktf.ISSHProvisionerConnection.property.proxyUserName"></a>
-
-```go
-func ProxyUserName() *string
-```
-
-- _Type:_ \*string
-
-The username to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `ProxyUserPassword`<sup>Optional</sup> <a name="ProxyUserPassword" id="cdktf.ISSHProvisionerConnection.property.proxyUserPassword"></a>
-
-```go
-func ProxyUserPassword() *string
-```
-
-- _Type:_ \*string
-
-The password to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.ISSHProvisionerConnection.property.scriptPath"></a>
-
-```go
-func ScriptPath() *string
-```
-
-- _Type:_ \*string
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `TargetPlatform`<sup>Optional</sup> <a name="TargetPlatform" id="cdktf.ISSHProvisionerConnection.property.targetPlatform"></a>
-
-```go
-func TargetPlatform() *string
-```
-
-- _Type:_ \*string
-- _Default:_ unix
-
-The target platform to connect to.
-
-Valid values are "windows" and "unix".
-If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
-If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
-
----
-
-##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.ISSHProvisionerConnection.property.timeout"></a>
-
-```go
-func Timeout() *string
-```
-
-- _Type:_ \*string
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `User`<sup>Optional</sup> <a name="User" id="cdktf.ISSHProvisionerConnection.property.user"></a>
-
-```go
-func User() *string
-```
-
-- _Type:_ \*string
-- _Default:_ root
-
-The user to use for the connection.
-
----
 
 ### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
 
@@ -27884,177 +28142,6 @@ Resolve a single token.
 ###### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
 
 - _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-### IWinrmProvisionerConnection <a name="IWinrmProvisionerConnection" id="cdktf.IWinrmProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                     | **Type**              | **Description**                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------- | --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.host">Host</a></code>             | <code>\*string</code> | The address of the resource to connect to.                                                                                                                                  |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.type">Type</a></code>             | <code>\*string</code> | The connection type.                                                                                                                                                        |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.cacert">Cacert</a></code>         | <code>\*string</code> | The CA certificate to validate against.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.https">Https</a></code>           | <code>\*bool</code>   | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.insecure">Insecure</a></code>     | <code>\*bool</code>   | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.password">Password</a></code>     | <code>\*string</code> | The password to use for the connection.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.port">Port</a></code>             | <code>\*f64</code>    | The port to connect to.                                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.scriptPath">ScriptPath</a></code> | <code>\*string</code> | The path used to copy scripts meant for remote execution.                                                                                                                   |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.timeout">Timeout</a></code>       | <code>\*string</code> | The timeout to wait for the connection to become available.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.useNtlm">UseNtlm</a></code>       | <code>\*bool</code>   | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.user">User</a></code>             | <code>\*string</code> | The user to use for the connection.                                                                                                                                         |
-
----
-
-##### `Host`<sup>Required</sup> <a name="Host" id="cdktf.IWinrmProvisionerConnection.property.host"></a>
-
-```go
-func Host() *string
-```
-
-- _Type:_ \*string
-
-The address of the resource to connect to.
-
----
-
-##### `Type`<sup>Required</sup> <a name="Type" id="cdktf.IWinrmProvisionerConnection.property.type"></a>
-
-```go
-func Type() *string
-```
-
-- _Type:_ \*string
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `Cacert`<sup>Optional</sup> <a name="Cacert" id="cdktf.IWinrmProvisionerConnection.property.cacert"></a>
-
-```go
-func Cacert() *string
-```
-
-- _Type:_ \*string
-
-The CA certificate to validate against.
-
----
-
-##### `Https`<sup>Optional</sup> <a name="Https" id="cdktf.IWinrmProvisionerConnection.property.https"></a>
-
-```go
-func Https() *bool
-```
-
-- _Type:_ \*bool
-
-Set to true to connect using HTTPS instead of HTTP.
-
----
-
-##### `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.IWinrmProvisionerConnection.property.insecure"></a>
-
-```go
-func Insecure() *bool
-```
-
-- _Type:_ \*bool
-
-Set to true to skip validating the HTTPS certificate chain.
-
----
-
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.IWinrmProvisionerConnection.property.password"></a>
-
-```go
-func Password() *string
-```
-
-- _Type:_ \*string
-
-The password to use for the connection.
-
----
-
-##### `Port`<sup>Optional</sup> <a name="Port" id="cdktf.IWinrmProvisionerConnection.property.port"></a>
-
-```go
-func Port() *f64
-```
-
-- _Type:_ \*f64
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.IWinrmProvisionerConnection.property.scriptPath"></a>
-
-```go
-func ScriptPath() *string
-```
-
-- _Type:_ \*string
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.IWinrmProvisionerConnection.property.timeout"></a>
-
-```go
-func Timeout() *string
-```
-
-- _Type:_ \*string
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `UseNtlm`<sup>Optional</sup> <a name="UseNtlm" id="cdktf.IWinrmProvisionerConnection.property.useNtlm"></a>
-
-```go
-func UseNtlm() *bool
-```
-
-- _Type:_ \*bool
-
-Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
-
-Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
-
----
-
-##### `User`<sup>Optional</sup> <a name="User" id="cdktf.IWinrmProvisionerConnection.property.user"></a>
-
-```go
-func User() *string
-```
-
-- _Type:_ \*string
-- _Default:_ root
-
-The user to use for the connection.
 
 ---
 

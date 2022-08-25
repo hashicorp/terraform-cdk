@@ -15,7 +15,7 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 ## Install Modules
 
-You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the TypeScript project below has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
+You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the following TypeScript project has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
 ```typescript
 import { Construct } from "constructs";
@@ -103,7 +103,7 @@ Modules often return data that you can use as inputs to other modules or resourc
 
 ### Examples
 
-The TypeScript example below uses a local module and references its output as a Terraform output.
+The following TypeScript example uses a local module and references its output as a Terraform output.
 
 ```typescript
 import { Construct } from "constructs";
@@ -126,7 +126,7 @@ class MyStack extends TerraformStack {
 }
 ```
 
-The Python example below uses a local module and references its output as a Terraform output.
+The following Python example uses a local module and references its output as a Terraform output.
 
 ```python
 #!/usr/bin/env python
@@ -149,7 +149,7 @@ class MyStack(TerraformStack):
 
 While we generally recommend generating code bindings for modules, you can also use the `TerraformHclModule` class to reference any module that Terraform supports. Both methods create identical synthesized Terraform configuration files, but using `TerraformHclModule` does not generate any types or type-safe inputs or outputs.
 
-The TypeScript example below uses `TerraformHclModule` to import an AWS module.
+The following TypeScript example uses `TerraformHclModule` to import an AWS module.
 
 ```typescript
 const provider = new AwsProvider(stack, "provider", {

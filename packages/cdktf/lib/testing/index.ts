@@ -95,8 +95,12 @@ export class Testing {
   /**
    * Returns the Terraform synthesized JSON.
    */
-  public static synth(stack: TerraformStack) {
+  public static synth(stack: TerraformStack, runValidations = false) {
     invokeAspects(stack);
+    if (runValidations) {
+      stack.runAllValidations();
+    }
+
     const tfConfig = stack.toTerraform();
 
     // eslint-disable-next-line jsdoc/require-jsdoc

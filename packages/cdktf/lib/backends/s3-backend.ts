@@ -135,6 +135,18 @@ export interface S3BackendProps {
    */
   readonly assumeRolePolicy?: string;
   /**
+   * (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+   */
+  readonly assumeRolePolicyArns?: string[];
+  /**
+   * (Optional) Map of assume role session tags.
+   */
+  readonly assumeRoleTags?: { [key: string]: string };
+  /**
+   * (Optional) Set of assume role session tag keys to pass to any subsequent sessions.
+   */
+  readonly assumeRoleTransitiveTagKeys?: string[];
+  /**
    * (Optional) External identifier to use when assuming the role.
    */
   readonly externalId?: string;
@@ -171,6 +183,10 @@ export interface S3BackendProps {
    * (Optional) Skip credentials validation via the STS API.
    */
   readonly skipCredentialsValidation?: boolean;
+  /**
+   * (Optional) Skip validation of provided region name.
+   */
+  readonly skipRegionValidation?: boolean;
   /**
    * (Optional) Skip usage of EC2 Metadata API.
    */

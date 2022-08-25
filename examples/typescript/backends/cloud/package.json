@@ -1,12 +1,14 @@
 {
-  "name": "@examples/typescript-gcp-cloud-run",
-  "version": "0.0.0",
+  "//": "This example test is disabled via the 'private' attribute since it needs credentials (I assume at least)",
+  "name": "@examples/typescript-backends-cloud",
+  "private": true,
+  "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
   "scripts": {
     "get": "cdktf get",
-    "build": "yarn get",
+    "build": "yarn get && tsc",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
@@ -24,10 +26,10 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "^14.18.25",
+    "@types/node": "^14.18.21",
     "cdktf-cli": "0.0.0",
     "jest": "^27.5.1",
-    "ts-node": "^10.9.1",
+    "ts-node": "^10.8.2",
     "typescript": "^3.9.10"
   }
 }

@@ -18,7 +18,7 @@ When data is static or you know the values before [synthesizing your code](/cdkt
 
 Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` static method. Then use the `forEach` property to pass the iterator to a resource, data source, or module. This lets you use the iterator in attributes.
 
-The example below uses an iterator to create a unique name for each new S3 bucket.
+The following example uses an iterator to create a unique name for each new S3 bucket.
 
 ```ts
 import { s3 } from "@cdktf/provider-aws";
@@ -40,7 +40,7 @@ You cannot access the index of items when iterating over lists. This is because 
 
 ## Using Iterators on Complex Types
 
-The iterator also exposes methods to access nested attributes. The example below uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
+The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
 ```ts
 const iterator = TerraformIterator.fromList([
@@ -67,7 +67,7 @@ You can also use iterators to create a list of objects based on each item in a l
 
 Use iterators for list attributes if the length of the list is not known before deploying. Otherwise, use native functions that are available in your language (e.g., `Array.map` in TypeScript).
 
-The examples below use an iterator to create a team containing each member of an organization.
+The following examples use an iterator to create a team containing each member of an organization.
 
 <CodeTabs>
 

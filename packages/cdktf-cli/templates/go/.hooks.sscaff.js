@@ -52,10 +52,10 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.go', 'utf-8');
 
   result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "${baseName}")
-	cdktf.NewRemoteBackend(stack, &cdktf.RemoteBackendProps{
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendProps{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("${organizationName}"),
-		Workspaces:   cdktf.NewNamedRemoteWorkspace(jsii.String("${workspaceName}")),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("${workspaceName}")),
 	})`);
 
   // add import for jsii helper used above

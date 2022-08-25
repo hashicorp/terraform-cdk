@@ -25,22 +25,7 @@ export class StackSynthesizer implements IStackSynthesizer {
     invokeAspects(this.stack);
 
     if (!session.skipValidation) {
-      const errors: { message: string; source: IConstruct }[] = this.stack.node
-        .findAll()
-        .map((node) =>
-          node.node
-            .validate()
-            .map((error) => ({ message: error, source: node }))
-        )
-        .reduce((prev, curr) => [...prev, ...curr], []);
-      if (errors.length > 0) {
-        const errorList = errors
-          .map((e) => `[${e.source.node.path}] ${e.message}`)
-          .join("\n  ");
-        throw new Error(
-          `Validation failed with the following errors:\n  ${errorList}`
-        );
-      }
+      this.stack.runAllValidations();
     }
 
     const manifest = session.manifest;

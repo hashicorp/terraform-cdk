@@ -6,6 +6,7 @@ import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
+import { Errors } from "./errors";
 
 export type StackUpdate =
   | {
@@ -91,6 +92,27 @@ async function getTerraformClient(
       return tfClient;
     }
   }
+
+  if (parsedStack.terraform?.cloud) {
+    const workspaces = parsedStack.terraform.cloud.workspaces;
+    if (!("name" in workspaces)) {
+      throw Errors.Usage(
+        "The Cloud backend can not used with the cdktf-cli unless specified with a workspace name."
+      );
+    }
+
+    const tfClient = new TerraformCloud(
+      abortSignal,
+      stack,
+      { ...parsedStack.terraform.cloud, workspaces },
+      isSpeculative,
+      createTerraformLogHandler
+    );
+    if (await tfClient.isRemoteWorkspace()) {
+      return tfClient;
+    }
+  }
+
   return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
 }
 

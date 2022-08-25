@@ -31,7 +31,7 @@ If you plan to use CDKTF to manage your infrastructure, we recommend using your 
 
 You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](/language/values/variables#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](/language/values/variables#environment-variables).
 
-The TypeScript example below uses `TerraformVariable` to provide inputs to resources.
+The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
 
 ```typescript
 const imageId = new TerraformVariable(this, "imageId", {
@@ -57,7 +57,7 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ### Define Local Values
 
-The TypeScript example below uses `TerraformLocal` to create a local value.
+The following TypeScript example uses `TerraformLocal` to create a local value.
 
 ```typescript
 const commonTags = new TerraformLocal(this, "common_tags", {
@@ -70,7 +70,7 @@ new EC2.Instance(this, "example", {
 });
 ```
 
-When you run `cdktf synth` the `TerraformLocal` above synthesizes to the following JSON.
+When you run `cdktf synth` the `TerraformLocal` synthesizes to the following JSON.
 
 ```json
 "locals": {
@@ -99,7 +99,7 @@ Use outputs to make data from [Terraform resources](/cdktf/concepts/resources) a
 
 When values are available before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using the functionality in your preferred programming language to supply this data as direct inputs.
 
-The TypeScript example below uses a `TerraformOutput` to create an output.
+The following TypeScript example uses a `TerraformOutput` to create an output.
 
 ```ts
 import { Construct } from "constructs";
@@ -134,7 +134,7 @@ To access outputs, use the `_output` suffix for Python and the `Output` suffix f
 
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/cdktf/concepts/resources) for more information about how to use escape hatches.
 
-The Typescript example below uses `TerraformOutput` to create an output for a Random provider resource.
+The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
 
 ```typescript
 import * as random from "@cdktf/provider-random";
@@ -160,7 +160,7 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
-When you run `cdktf synth`, CDKTF synthesizes the code above to the following JSON configuration.
+When you run `cdktf synth`, CDKTF synthesizes the code to the following JSON configuration.
 
 ```json
 "output": {
@@ -184,7 +184,7 @@ Output: random-pet = choice-haddock
 
 ### Define & Reference Outputs via Remote State
 
-The TypeScript example below uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
 
 ```ts
 import * as random from "@cdktf/provider-random";
@@ -194,7 +194,7 @@ import {
   App,
   TerraformStack,
   TerraformOutput,
-  RemoteBackend,
+  CloudBackend,
   DataTerraformRemoteState,
 } from "cdktf";
 
@@ -202,11 +202,9 @@ class Producer extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new RemoteBackend(this, {
+    new CloudBackend(this, {
       organization: "hashicorp",
-      workspaces: {
-        name: "producer",
-      },
+      workspaces: new NamedCloudWorkspace("producer"),
     });
 
     new random.RandomProvider(this, "random", {});
@@ -222,11 +220,9 @@ class Consumer extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new RemoteBackend(this, {
+    new CloudBackend(this, {
       organization: "hashicorp",
-      workspaces: {
-        name: "consumer",
-      },
+      workspaces: new NamedCloudWorkspace("consumer"),
     });
 
     const remoteState = new DataTerraformRemoteState(this, "remote-pet", {

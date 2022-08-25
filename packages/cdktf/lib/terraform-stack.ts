@@ -333,6 +333,26 @@ export class TerraformStack extends Construct {
 
     this.dependencies.push(dependency);
   }
+
+  /**
+   * Run all validations on the stack.
+   */
+  public runAllValidations() {
+    const errors: { message: string; source: IConstruct }[] = this.node
+      .findAll()
+      .map((node) =>
+        node.node.validate().map((error) => ({ message: error, source: node }))
+      )
+      .reduce((prev, curr) => [...prev, ...curr], []);
+    if (errors.length > 0) {
+      const errorList = errors
+        .map((e) => `[${e.source.node.path}] ${e.message}`)
+        .join("\n  ");
+      throw new Error(
+        `Validation failed with the following errors:\n  ${errorList}`
+      );
+    }
+  }
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc

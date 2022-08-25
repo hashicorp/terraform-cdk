@@ -178,6 +178,10 @@
     {
       "source": "/registry-providers",
       "destination": "https://registry.terraform.io/browse/providers"
+    },
+    {
+      "source": "/cdk-day-2022-hybrid-modules",
+      "destination": "https://www.youtube.com/watch?v=s8tO-ymVQPg&t=10260s"
     }
   ]
 }

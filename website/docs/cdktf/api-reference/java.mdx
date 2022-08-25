@@ -11980,34 +11980,34 @@ public java.lang.String getFriendlyUniqueId();
 import com.hashicorp.cdktf.TerraformDataSource;
 
 TerraformDataSource.Builder.create(Construct scope, java.lang.String id)
-//  .connection(ISSHProvisionerConnection)
-//  .connection(IWinrmProvisionerConnection)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
 //  .count(java.lang.Number)
 //  .dependsOn(java.util.List< ITerraformDependable >)
 //  .forEach(ITerraformIterator)
 //  .lifecycle(TerraformResourceLifecycle)
 //  .provider(TerraformProvider)
-//  .provisioners(java.util.List<  IFileProvisioner)
-//  .provisioners(ILocalExecProvisioner)
-//  .provisioners(IRemoteExecProvisioner >)
+//  .provisioners(java.util.List<  FileProvisioner)
+//  .provisioners(LocalExecProvisioner)
+//  .provisioners(RemoteExecProvisioner >)
     .terraformResourceType(java.lang.String)
 //  .terraformGeneratorMetadata(TerraformProviderGeneratorMetadata)
     .build();
 ```
 
-| **Name**                                                                                                                          | **Type**                                                                                                                                                                                                                       | **Description**   |
-| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                           | <code>software.constructs.Construct</code>                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                 | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.connection">connection</a></code>                                 | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code>                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>></code> | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
+| **Name**                                                                                                                          | **Type**                                                                                                                                                                                                                 | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.scope">scope</a></code>                                           | <code>software.constructs.Construct</code>                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.id">id</a></code>                                                 | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.connection">connection</a></code>                                 | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code>                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformDataSource.Initializer.parameter.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                  | _No description._ |
 
 ---
 
@@ -12025,7 +12025,7 @@ TerraformDataSource.Builder.create(Construct scope, java.lang.String id)
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformDataSource.Initializer.parameter.connection"></a>
 
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
 
 ---
 
@@ -12061,7 +12061,7 @@ TerraformDataSource.Builder.create(Construct scope, java.lang.String id)
 
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformDataSource.Initializer.parameter.provisioners"></a>
 
-- _Type:_ java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>>
+- _Type:_ java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
 
 ---
 
@@ -14634,34 +14634,34 @@ public java.lang.String getTfResourceType();
 import com.hashicorp.cdktf.TerraformResource;
 
 TerraformResource.Builder.create(Construct scope, java.lang.String id)
-//  .connection(ISSHProvisionerConnection)
-//  .connection(IWinrmProvisionerConnection)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
 //  .count(java.lang.Number)
 //  .dependsOn(java.util.List< ITerraformDependable >)
 //  .forEach(ITerraformIterator)
 //  .lifecycle(TerraformResourceLifecycle)
 //  .provider(TerraformProvider)
-//  .provisioners(java.util.List<  IFileProvisioner)
-//  .provisioners(ILocalExecProvisioner)
-//  .provisioners(IRemoteExecProvisioner >)
+//  .provisioners(java.util.List<  FileProvisioner)
+//  .provisioners(LocalExecProvisioner)
+//  .provisioners(RemoteExecProvisioner >)
     .terraformResourceType(java.lang.String)
 //  .terraformGeneratorMetadata(TerraformProviderGeneratorMetadata)
     .build();
 ```
 
-| **Name**                                                                                                                        | **Type**                                                                                                                                                                                                                       | **Description**   |
-| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                           | <code>software.constructs.Construct</code>                                                                                                                                                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                 | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code>                                 | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code>                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>></code> | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
+| **Name**                                                                                                                        | **Type**                                                                                                                                                                                                                 | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code>                                           | <code>software.constructs.Construct</code>                                                                                                                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code>                                                 | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code>                                 | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code>                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                  | _No description._ |
 
 ---
 
@@ -14679,7 +14679,7 @@ TerraformResource.Builder.create(Construct scope, java.lang.String id)
 
 ##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.Initializer.parameter.connection"></a>
 
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
 
 ---
 
@@ -14715,7 +14715,7 @@ TerraformResource.Builder.create(Construct scope, java.lang.String id)
 
 ##### `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.Initializer.parameter.provisioners"></a>
 
-- _Type:_ java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>>
+- _Type:_ java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
 
 ---
 
@@ -14980,22 +14980,22 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                           | **Type**                                                                                                                                                                                                                       | **Description**   |
-| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                             | <code>software.constructs.Node</code>                                                                                                                                                                                          | The tree node.    |
-| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktfStack</a></code>                                 | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                               | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendlyUniqueId</a></code>                     | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraformMetaArguments</a></code>         | <code>java.util.Map< java.lang.String, java.lang.Object ></code>                                                                                                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code>                                 | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code>                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< java.lang.String ></code>                                                                                                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>></code> | _No description._ |
+| **Name**                                                                                                           | **Type**                                                                                                                                                                                                                 | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResource.property.node">node</a></code>                                             | <code>software.constructs.Node</code>                                                                                                                                                                                    | The tree node.    |
+| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktfStack</a></code>                                 | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code>                                               | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendlyUniqueId</a></code>                     | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraformMetaArguments</a></code>         | <code>java.util.Map< java.lang.String, java.lang.Object ></code>                                                                                                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code>                                 | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code>                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< java.lang.String ></code>                                                                                                                                                                          | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | _No description._ |
 
 ---
 
@@ -15077,7 +15077,7 @@ public TerraformProviderGeneratorMetadata getTerraformGeneratorMetadata();
 public java.lang.Object getConnection();
 ```
 
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
 
 ---
 
@@ -15137,7 +15137,7 @@ public TerraformProvider getProvider();
 public java.lang.Object getProvisioners();
 ```
 
-- _Type:_ java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>>
+- _Type:_ java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
 
 ---
 
@@ -19715,6 +19715,109 @@ public java.lang.String getUsername();
 
 ---
 
+### FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+#### Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.FileProvisioner;
+
+FileProvisioner.builder()
+    .destination(java.lang.String)
+    .type(java.lang.String)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
+//  .content(java.lang.String)
+//  .source(java.lang.String)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                           | **Type**                                                                                                                                                          | **Description**                                                                                                                                  |
+| ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.FileProvisioner.property.destination">destination</a></code> | <code>java.lang.String</code>                                                                                                                                     | The source file or directory.                                                                                                                    |
+| <code><a href="#cdktf.FileProvisioner.property.type">type</a></code>               | <code>java.lang.String</code>                                                                                                                                     | _No description._                                                                                                                                |
+| <code><a href="#cdktf.FileProvisioner.property.connection">connection</a></code>   | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.FileProvisioner.property.content">content</a></code>         | <code>java.lang.String</code>                                                                                                                                     | The destination path to write to on the remote system.                                                                                           |
+| <code><a href="#cdktf.FileProvisioner.property.source">source</a></code>           | <code>java.lang.String</code>                                                                                                                                     | The direct content to copy on the destination.                                                                                                   |
+
+---
+
+##### `destination`<sup>Required</sup> <a name="destination" id="cdktf.FileProvisioner.property.destination"></a>
+
+```java
+public java.lang.String getDestination();
+```
+
+- _Type:_ java.lang.String
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.FileProvisioner.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.FileProvisioner.property.connection"></a>
+
+```java
+public java.lang.Object getConnection();
+```
+
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+##### `content`<sup>Optional</sup> <a name="content" id="cdktf.FileProvisioner.property.content"></a>
+
+```java
+public java.lang.String getContent();
+```
+
+- _Type:_ java.lang.String
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+##### `source`<sup>Optional</sup> <a name="source" id="cdktf.FileProvisioner.property.source"></a>
+
+```java
+public java.lang.String getSource();
+```
+
+- _Type:_ java.lang.String
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---
+
 ### GcsBackendProps <a name="GcsBackendProps" id="cdktf.GcsBackendProps"></a>
 
 Stores the state as an object in a configurable prefix in a pre-existing bucket on Google Cloud Storage (GCS).
@@ -20262,6 +20365,128 @@ public java.lang.String getWorkspaceDir();
 
 ---
 
+### LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
+
+The local-exec provisioner invokes a local executable after a resource is created.
+
+This invokes a process on the machine running Terraform, not on the resource.
+
+See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.LocalExecProvisioner;
+
+LocalExecProvisioner.builder()
+    .command(java.lang.String)
+    .type(java.lang.String)
+//  .environment(java.util.Map< java.lang.String, java.lang.String >)
+//  .interpreter(java.util.List< java.lang.String >)
+//  .when(java.lang.String)
+//  .workingDir(java.lang.String)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                | **Type**                                                         | **Description**                                                                   |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.LocalExecProvisioner.property.command">command</a></code>         | <code>java.lang.String</code>                                    | This is the command to execute.                                                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.type">type</a></code>               | <code>java.lang.String</code>                                    | _No description._                                                                 |
+| <code><a href="#cdktf.LocalExecProvisioner.property.environment">environment</a></code> | <code>java.util.Map< java.lang.String, java.lang.String ></code> | A record of key value pairs representing the environment of the executed command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>java.util.List< java.lang.String ></code>                  | If provided, this is a list of interpreter arguments used to execute the command. |
+| <code><a href="#cdktf.LocalExecProvisioner.property.when">when</a></code>               | <code>java.lang.String</code>                                    | If provided, specifies when Terraform will execute the command.                   |
+| <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">workingDir</a></code>   | <code>java.lang.String</code>                                    | If provided, specifies the working directory where command will be executed.      |
+
+---
+
+##### `command`<sup>Required</sup> <a name="command" id="cdktf.LocalExecProvisioner.property.command"></a>
+
+```java
+public java.lang.String getCommand();
+```
+
+- _Type:_ java.lang.String
+
+This is the command to execute.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+It is evaluated in a shell, and can use environment variables or Terraform variables.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.LocalExecProvisioner.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `environment`<sup>Optional</sup> <a name="environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.String > getEnvironment();
+```
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.String >
+
+A record of key value pairs representing the environment of the executed command.
+
+It inherits the current process environment.
+
+---
+
+##### `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
+
+```java
+public java.util.List< java.lang.String > getInterpreter();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+If provided, this is a list of interpreter arguments used to execute the command.
+
+The first argument is the interpreter itself.
+It can be provided as a relative path to the current working directory or as an absolute path
+The remaining arguments are appended prior to the command.
+This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+
+---
+
+##### `when`<sup>Optional</sup> <a name="when" id="cdktf.LocalExecProvisioner.property.when"></a>
+
+```java
+public java.lang.String getWhen();
+```
+
+- _Type:_ java.lang.String
+
+If provided, specifies when Terraform will execute the command.
+
+For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+
+---
+
+##### `workingDir`<sup>Optional</sup> <a name="workingDir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
+
+```java
+public java.lang.String getWorkingDir();
+```
+
+- _Type:_ java.lang.String
+
+If provided, specifies the working directory where command will be executed.
+
+It can be provided as a relative path to the current working directory or as an absolute path.
+The directory must exist.
+
+---
+
 ### MantaBackendProps <a name="MantaBackendProps" id="cdktf.MantaBackendProps"></a>
 
 #### Initializer <a name="Initializer" id="cdktf.MantaBackendProps.Initializer"></a>
@@ -20769,6 +20994,110 @@ public java.lang.String getToken();
 ```
 
 - _Type:_ java.lang.String
+
+---
+
+### RemoteExecProvisioner <a name="RemoteExecProvisioner" id="cdktf.RemoteExecProvisioner"></a>
+
+The remote-exec provisioner invokes a script on a remote resource after it is created.
+
+This can be used to run a configuration management tool, bootstrap into a cluster, etc
+The remote-exec provisioner requires a connection and supports both ssh and winrm.
+
+See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+
+#### Initializer <a name="Initializer" id="cdktf.RemoteExecProvisioner.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.RemoteExecProvisioner;
+
+RemoteExecProvisioner.builder()
+    .type(java.lang.String)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
+//  .inline(java.util.List< java.lang.String >)
+//  .script(java.lang.String)
+//  .scripts(java.util.List< java.lang.String >)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                                                                                                                                                          | **Description**                                                                                                                                  |
+| -------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.type">type</a></code>             | <code>java.lang.String</code>                                                                                                                                     | _No description._                                                                                                                                |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.connection">connection</a></code> | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.inline">inline</a></code>         | <code>java.util.List< java.lang.String ></code>                                                                                                                   | This is a list of command strings.                                                                                                               |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.script">script</a></code>         | <code>java.lang.String</code>                                                                                                                                     | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
+| <code><a href="#cdktf.RemoteExecProvisioner.property.scripts">scripts</a></code>       | <code>java.util.List< java.lang.String ></code>                                                                                                                   | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.RemoteExecProvisioner.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.RemoteExecProvisioner.property.connection"></a>
+
+```java
+public java.lang.Object getConnection();
+```
+
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+A connection must be provided here or in the parent resource.
+
+---
+
+##### `inline`<sup>Optional</sup> <a name="inline" id="cdktf.RemoteExecProvisioner.property.inline"></a>
+
+```java
+public java.util.List< java.lang.String > getInline();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+This is a list of command strings.
+
+They are executed in the order they are provided.
+This cannot be provided with script or scripts.
+
+---
+
+##### `script`<sup>Optional</sup> <a name="script" id="cdktf.RemoteExecProvisioner.property.script"></a>
+
+```java
+public java.lang.String getScript();
+```
+
+- _Type:_ java.lang.String
+
+This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
+
+This cannot be provided with inline or scripts.
+
+---
+
+##### `scripts`<sup>Optional</sup> <a name="scripts" id="cdktf.RemoteExecProvisioner.property.scripts"></a>
+
+```java
+public java.util.List< java.lang.String > getScripts();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
+
+They are executed in the order they are provided.
+This cannot be provided with inline or script.
 
 ---
 
@@ -21280,6 +21609,415 @@ public java.lang.String getWorkspaceKeyPrefix();
 (Optional) Prefix applied to the state path inside the bucket.
 
 This is only relevant when using a non-default workspace. Defaults to env:
+
+---
+
+### SSHProvisionerConnection <a name="SSHProvisionerConnection" id="cdktf.SSHProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.SSHProvisionerConnection.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.SSHProvisionerConnection;
+
+SSHProvisionerConnection.builder()
+    .host(java.lang.String)
+    .type(java.lang.String)
+//  .agent(java.lang.String)
+//  .agentIdentity(java.lang.String)
+//  .bastionCertificate(java.lang.String)
+//  .bastionHost(java.lang.String)
+//  .bastionHostKey(java.lang.String)
+//  .bastionPassword(java.lang.String)
+//  .bastionPort(java.lang.Number)
+//  .bastionPrivateKey(java.lang.String)
+//  .bastionUser(java.lang.String)
+//  .certificate(java.lang.String)
+//  .hostKey(java.lang.String)
+//  .password(java.lang.String)
+//  .port(java.lang.Number)
+//  .privateKey(java.lang.String)
+//  .proxyHost(java.lang.String)
+//  .proxyPort(java.lang.Number)
+//  .proxyScheme(java.lang.String)
+//  .proxyUserName(java.lang.String)
+//  .proxyUserPassword(java.lang.String)
+//  .scriptPath(java.lang.String)
+//  .targetPlatform(java.lang.String)
+//  .timeout(java.lang.String)
+//  .user(java.lang.String)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                                  | **Type**                      | **Description**                                                                                         |
+| --------------------------------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.host">host</a></code>                             | <code>java.lang.String</code> | The address of the resource to connect to.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.type">type</a></code>                             | <code>java.lang.String</code> | The connection type.                                                                                    |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agent">agent</a></code>                           | <code>java.lang.String</code> | Set to false to disable using ssh-agent to authenticate.                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.agentIdentity">agentIdentity</a></code>           | <code>java.lang.String</code> | The preferred identity from the ssh agent for authentication.                                           |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionCertificate">bastionCertificate</a></code> | <code>java.lang.String</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHost">bastionHost</a></code>               | <code>java.lang.String</code> | Setting this enables the bastion Host connection.                                                       |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionHostKey">bastionHostKey</a></code>         | <code>java.lang.String</code> | The public key from the remote host or the signing CA, used to verify the host connection.              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPassword">bastionPassword</a></code>       | <code>java.lang.String</code> | The password to use for the bastion host.                                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPort">bastionPort</a></code>               | <code>java.lang.Number</code> | The port to use connect to the bastion host.                                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionPrivateKey">bastionPrivateKey</a></code>   | <code>java.lang.String</code> | The contents of an SSH key file to use for the bastion host.                                            |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.bastionUser">bastionUser</a></code>               | <code>java.lang.String</code> | The user for the connection to the bastion host.                                                        |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.certificate">certificate</a></code>               | <code>java.lang.String</code> | The contents of a signed CA Certificate.                                                                |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.hostKey">hostKey</a></code>                       | <code>java.lang.String</code> | The public key from the remote host or the signing CA, used to verify the connection.                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.password">password</a></code>                     | <code>java.lang.String</code> | The password to use for the connection.                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.port">port</a></code>                             | <code>java.lang.Number</code> | The port to connect to.                                                                                 |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.privateKey">privateKey</a></code>                 | <code>java.lang.String</code> | The contents of an SSH key to use for the connection.                                                   |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyHost">proxyHost</a></code>                   | <code>java.lang.String</code> | Setting this enables the SSH over HTTP connection.                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyPort">proxyPort</a></code>                   | <code>java.lang.Number</code> | The port to use connect to the proxy host.                                                              |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyScheme">proxyScheme</a></code>               | <code>java.lang.String</code> | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserName">proxyUserName</a></code>           | <code>java.lang.String</code> | The username to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.proxyUserPassword">proxyUserPassword</a></code>   | <code>java.lang.String</code> | The password to use connect to the private proxy host.                                                  |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.scriptPath">scriptPath</a></code>                 | <code>java.lang.String</code> | The path used to copy scripts meant for remote execution.                                               |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.targetPlatform">targetPlatform</a></code>         | <code>java.lang.String</code> | The target platform to connect to.                                                                      |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.timeout">timeout</a></code>                       | <code>java.lang.String</code> | The timeout to wait for the connection to become available.                                             |
+| <code><a href="#cdktf.SSHProvisionerConnection.property.user">user</a></code>                             | <code>java.lang.String</code> | The user to use for the connection.                                                                     |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.SSHProvisionerConnection.property.host"></a>
+
+```java
+public java.lang.String getHost();
+```
+
+- _Type:_ java.lang.String
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.SSHProvisionerConnection.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- _Type:_ java.lang.String
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `agent`<sup>Optional</sup> <a name="agent" id="cdktf.SSHProvisionerConnection.property.agent"></a>
+
+```java
+public java.lang.String getAgent();
+```
+
+- _Type:_ java.lang.String
+
+Set to false to disable using ssh-agent to authenticate.
+
+On Windows the only supported SSH authentication agent is Pageant.
+
+---
+
+##### `agentIdentity`<sup>Optional</sup> <a name="agentIdentity" id="cdktf.SSHProvisionerConnection.property.agentIdentity"></a>
+
+```java
+public java.lang.String getAgentIdentity();
+```
+
+- _Type:_ java.lang.String
+
+The preferred identity from the ssh agent for authentication.
+
+---
+
+##### `bastionCertificate`<sup>Optional</sup> <a name="bastionCertificate" id="cdktf.SSHProvisionerConnection.property.bastionCertificate"></a>
+
+```java
+public java.lang.String getBastionCertificate();
+```
+
+- _Type:_ java.lang.String
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a bastion_private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `bastionHost`<sup>Optional</sup> <a name="bastionHost" id="cdktf.SSHProvisionerConnection.property.bastionHost"></a>
+
+```java
+public java.lang.String getBastionHost();
+```
+
+- _Type:_ java.lang.String
+
+Setting this enables the bastion Host connection.
+
+The provisioner will connect to bastion_host first, and then connect from there to host.
+
+---
+
+##### `bastionHostKey`<sup>Optional</sup> <a name="bastionHostKey" id="cdktf.SSHProvisionerConnection.property.bastionHostKey"></a>
+
+```java
+public java.lang.String getBastionHostKey();
+```
+
+- _Type:_ java.lang.String
+
+The public key from the remote host or the signing CA, used to verify the host connection.
+
+---
+
+##### `bastionPassword`<sup>Optional</sup> <a name="bastionPassword" id="cdktf.SSHProvisionerConnection.property.bastionPassword"></a>
+
+```java
+public java.lang.String getBastionPassword();
+```
+
+- _Type:_ java.lang.String
+
+The password to use for the bastion host.
+
+---
+
+##### `bastionPort`<sup>Optional</sup> <a name="bastionPort" id="cdktf.SSHProvisionerConnection.property.bastionPort"></a>
+
+```java
+public java.lang.Number getBastionPort();
+```
+
+- _Type:_ java.lang.Number
+
+The port to use connect to the bastion host.
+
+---
+
+##### `bastionPrivateKey`<sup>Optional</sup> <a name="bastionPrivateKey" id="cdktf.SSHProvisionerConnection.property.bastionPrivateKey"></a>
+
+```java
+public java.lang.String getBastionPrivateKey();
+```
+
+- _Type:_ java.lang.String
+
+The contents of an SSH key file to use for the bastion host.
+
+These can be loaded from a file on disk using the file function.
+
+---
+
+##### `bastionUser`<sup>Optional</sup> <a name="bastionUser" id="cdktf.SSHProvisionerConnection.property.bastionUser"></a>
+
+```java
+public java.lang.String getBastionUser();
+```
+
+- _Type:_ java.lang.String
+
+The user for the connection to the bastion host.
+
+---
+
+##### `certificate`<sup>Optional</sup> <a name="certificate" id="cdktf.SSHProvisionerConnection.property.certificate"></a>
+
+```java
+public java.lang.String getCertificate();
+```
+
+- _Type:_ java.lang.String
+
+The contents of a signed CA Certificate.
+
+The certificate argument must be used in conjunction with a private_key.
+These can be loaded from a file on disk using the the file function.
+
+---
+
+##### `hostKey`<sup>Optional</sup> <a name="hostKey" id="cdktf.SSHProvisionerConnection.property.hostKey"></a>
+
+```java
+public java.lang.String getHostKey();
+```
+
+- _Type:_ java.lang.String
+
+The public key from the remote host or the signing CA, used to verify the connection.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.SSHProvisionerConnection.property.password"></a>
+
+```java
+public java.lang.String getPassword();
+```
+
+- _Type:_ java.lang.String
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.SSHProvisionerConnection.property.port"></a>
+
+```java
+public java.lang.Number getPort();
+```
+
+- _Type:_ java.lang.Number
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `privateKey`<sup>Optional</sup> <a name="privateKey" id="cdktf.SSHProvisionerConnection.property.privateKey"></a>
+
+```java
+public java.lang.String getPrivateKey();
+```
+
+- _Type:_ java.lang.String
+
+The contents of an SSH key to use for the connection.
+
+These can be loaded from a file on disk using the file function.
+This takes preference over password if provided.
+
+---
+
+##### `proxyHost`<sup>Optional</sup> <a name="proxyHost" id="cdktf.SSHProvisionerConnection.property.proxyHost"></a>
+
+```java
+public java.lang.String getProxyHost();
+```
+
+- _Type:_ java.lang.String
+
+Setting this enables the SSH over HTTP connection.
+
+This host will be connected to first, and then the host or bastion_host connection will be made from there.
+
+---
+
+##### `proxyPort`<sup>Optional</sup> <a name="proxyPort" id="cdktf.SSHProvisionerConnection.property.proxyPort"></a>
+
+```java
+public java.lang.Number getProxyPort();
+```
+
+- _Type:_ java.lang.Number
+
+The port to use connect to the proxy host.
+
+---
+
+##### `proxyScheme`<sup>Optional</sup> <a name="proxyScheme" id="cdktf.SSHProvisionerConnection.property.proxyScheme"></a>
+
+```java
+public java.lang.String getProxyScheme();
+```
+
+- _Type:_ java.lang.String
+
+The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
+
+---
+
+##### `proxyUserName`<sup>Optional</sup> <a name="proxyUserName" id="cdktf.SSHProvisionerConnection.property.proxyUserName"></a>
+
+```java
+public java.lang.String getProxyUserName();
+```
+
+- _Type:_ java.lang.String
+
+The username to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `proxyUserPassword`<sup>Optional</sup> <a name="proxyUserPassword" id="cdktf.SSHProvisionerConnection.property.proxyUserPassword"></a>
+
+```java
+public java.lang.String getProxyUserPassword();
+```
+
+- _Type:_ java.lang.String
+
+The password to use connect to the private proxy host.
+
+This argument should be specified only if authentication is required for the HTTP Proxy server.
+
+---
+
+##### `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.SSHProvisionerConnection.property.scriptPath"></a>
+
+```java
+public java.lang.String getScriptPath();
+```
+
+- _Type:_ java.lang.String
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `targetPlatform`<sup>Optional</sup> <a name="targetPlatform" id="cdktf.SSHProvisionerConnection.property.targetPlatform"></a>
+
+```java
+public java.lang.String getTargetPlatform();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ unix
+
+The target platform to connect to.
+
+Valid values are "windows" and "unix".
+If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
+If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.SSHProvisionerConnection.property.timeout"></a>
+
+```java
+public java.lang.String getTimeout();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.SSHProvisionerConnection.property.user"></a>
+
+```java
+public java.lang.String getUser();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -22030,30 +22768,30 @@ public java.util.Map< java.lang.String, java.lang.Object > getVariables();
 import com.hashicorp.cdktf.TerraformMetaArguments;
 
 TerraformMetaArguments.builder()
-//  .connection(ISSHProvisionerConnection)
-//  .connection(IWinrmProvisionerConnection)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
 //  .count(java.lang.Number)
 //  .dependsOn(java.util.List< ITerraformDependable >)
 //  .forEach(ITerraformIterator)
 //  .lifecycle(TerraformResourceLifecycle)
 //  .provider(TerraformProvider)
-//  .provisioners(java.util.List<  IFileProvisioner)
-//  .provisioners(ILocalExecProvisioner)
-//  .provisioners(IRemoteExecProvisioner >)
+//  .provisioners(java.util.List<  FileProvisioner)
+//  .provisioners(LocalExecProvisioner)
+//  .provisioners(RemoteExecProvisioner >)
     .build();
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                    | **Type**                                                                                                                                                                                                                       | **Description**   |
-| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformMetaArguments.property.connection">connection</a></code>     | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code>                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>               | <code>java.lang.Number</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">dependsOn</a></code>       | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">forEach</a></code>           | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">provisioners</a></code> | <code>java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>></code> | _No description._ |
+| **Name**                                                                                    | **Type**                                                                                                                                                                                                                 | **Description**   |
+| ------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformMetaArguments.property.connection">connection</a></code>     | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code>                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.count">count</a></code>               | <code>java.lang.Number</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.dependsOn">dependsOn</a></code>       | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.forEach">forEach</a></code>           | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.lifecycle">lifecycle</a></code>       | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provider">provider</a></code>         | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformMetaArguments.property.provisioners">provisioners</a></code> | <code>java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | _No description._ |
 
 ---
 
@@ -22063,7 +22801,7 @@ TerraformMetaArguments.builder()
 public java.lang.Object getConnection();
 ```
 
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
 
 ---
 
@@ -22123,7 +22861,7 @@ public TerraformProvider getProvider();
 public java.lang.Object getProvisioners();
 ```
 
-- _Type:_ java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>>
+- _Type:_ java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
 
 ---
 
@@ -22524,16 +23262,16 @@ public java.lang.String getProviderVersionConstraint();
 import com.hashicorp.cdktf.TerraformResourceConfig;
 
 TerraformResourceConfig.builder()
-//  .connection(ISSHProvisionerConnection)
-//  .connection(IWinrmProvisionerConnection)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
 //  .count(java.lang.Number)
 //  .dependsOn(java.util.List< ITerraformDependable >)
 //  .forEach(ITerraformIterator)
 //  .lifecycle(TerraformResourceLifecycle)
 //  .provider(TerraformProvider)
-//  .provisioners(java.util.List<  IFileProvisioner)
-//  .provisioners(ILocalExecProvisioner)
-//  .provisioners(IRemoteExecProvisioner >)
+//  .provisioners(java.util.List<  FileProvisioner)
+//  .provisioners(LocalExecProvisioner)
+//  .provisioners(RemoteExecProvisioner >)
     .terraformResourceType(java.lang.String)
 //  .terraformGeneratorMetadata(TerraformProviderGeneratorMetadata)
     .build();
@@ -22541,17 +23279,17 @@ TerraformResourceConfig.builder()
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                 | **Type**                                                                                                                                                                                                                       | **Description**   |
-| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
-| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code>                                 | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code>                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                          | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>></code> | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                        | _No description._ |
+| **Name**                                                                                                                 | **Type**                                                                                                                                                                                                                 | **Description**   |
+| ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code>                                 | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code>                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code>                                           | <code>java.lang.Number</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">dependsOn</a></code>                                   | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">forEach</a></code>                                       | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code>                                   | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code>                                     | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code>                                                                                                                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code>                             | <code>java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraformResourceType</a></code>           | <code>java.lang.String</code>                                                                                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code>                                                                                                                  | _No description._ |
 
 ---
 
@@ -22561,7 +23299,7 @@ TerraformResourceConfig.builder()
 public java.lang.Object getConnection();
 ```
 
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
+- _Type:_ <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
 
 ---
 
@@ -22621,7 +23359,7 @@ public TerraformProvider getProvider();
 public java.lang.Object getProvisioners();
 ```
 
-- _Type:_ java.util.List< <a href="#cdktf.IFileProvisioner">IFileProvisioner</a> OR <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a> OR <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>>
+- _Type:_ java.util.List< <a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
 
 ---
 
@@ -22987,6 +23725,195 @@ public java.lang.Boolean getStubVersion();
 ```
 
 - _Type:_ java.lang.Boolean
+
+---
+
+### WinrmProvisionerConnection <a name="WinrmProvisionerConnection" id="cdktf.WinrmProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+#### Initializer <a name="Initializer" id="cdktf.WinrmProvisionerConnection.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.WinrmProvisionerConnection;
+
+WinrmProvisionerConnection.builder()
+    .host(java.lang.String)
+    .type(java.lang.String)
+//  .cacert(java.lang.String)
+//  .https(java.lang.Boolean)
+//  .insecure(java.lang.Boolean)
+//  .password(java.lang.String)
+//  .port(java.lang.Number)
+//  .scriptPath(java.lang.String)
+//  .timeout(java.lang.String)
+//  .useNtlm(java.lang.Boolean)
+//  .user(java.lang.String)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                    | **Type**                       | **Description**                                                                                                                                                             |
+| ------------------------------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.host">host</a></code>             | <code>java.lang.String</code>  | The address of the resource to connect to.                                                                                                                                  |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.type">type</a></code>             | <code>java.lang.String</code>  | The connection type.                                                                                                                                                        |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.cacert">cacert</a></code>         | <code>java.lang.String</code>  | The CA certificate to validate against.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.https">https</a></code>           | <code>java.lang.Boolean</code> | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.insecure">insecure</a></code>     | <code>java.lang.Boolean</code> | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.password">password</a></code>     | <code>java.lang.String</code>  | The password to use for the connection.                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.port">port</a></code>             | <code>java.lang.Number</code>  | The port to connect to.                                                                                                                                                     |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.scriptPath">scriptPath</a></code> | <code>java.lang.String</code>  | The path used to copy scripts meant for remote execution.                                                                                                                   |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.timeout">timeout</a></code>       | <code>java.lang.String</code>  | The timeout to wait for the connection to become available.                                                                                                                 |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.useNtlm">useNtlm</a></code>       | <code>java.lang.Boolean</code> | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.user">user</a></code>             | <code>java.lang.String</code>  | The user to use for the connection.                                                                                                                                         |
+
+---
+
+##### `host`<sup>Required</sup> <a name="host" id="cdktf.WinrmProvisionerConnection.property.host"></a>
+
+```java
+public java.lang.String getHost();
+```
+
+- _Type:_ java.lang.String
+
+The address of the resource to connect to.
+
+---
+
+##### `type`<sup>Required</sup> <a name="type" id="cdktf.WinrmProvisionerConnection.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- _Type:_ java.lang.String
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+##### `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.WinrmProvisionerConnection.property.cacert"></a>
+
+```java
+public java.lang.String getCacert();
+```
+
+- _Type:_ java.lang.String
+
+The CA certificate to validate against.
+
+---
+
+##### `https`<sup>Optional</sup> <a name="https" id="cdktf.WinrmProvisionerConnection.property.https"></a>
+
+```java
+public java.lang.Boolean getHttps();
+```
+
+- _Type:_ java.lang.Boolean
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+##### `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.WinrmProvisionerConnection.property.insecure"></a>
+
+```java
+public java.lang.Boolean getInsecure();
+```
+
+- _Type:_ java.lang.Boolean
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+##### `password`<sup>Optional</sup> <a name="password" id="cdktf.WinrmProvisionerConnection.property.password"></a>
+
+```java
+public java.lang.String getPassword();
+```
+
+- _Type:_ java.lang.String
+
+The password to use for the connection.
+
+---
+
+##### `port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>
+
+```java
+public java.lang.Number getPort();
+```
+
+- _Type:_ java.lang.Number
+- _Default:_ 22
+
+The port to connect to.
+
+---
+
+##### `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>
+
+```java
+public java.lang.String getScriptPath();
+```
+
+- _Type:_ java.lang.String
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>
+
+```java
+public java.lang.String getTimeout();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+##### `useNtlm`<sup>Optional</sup> <a name="useNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>
+
+```java
+public java.lang.Boolean getUseNtlm();
+```
+
+- _Type:_ java.lang.Boolean
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+##### `user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>
+
+```java
+public java.lang.String getUser();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ root
+
+The user to use for the connection.
 
 ---
 
@@ -30011,96 +30938,6 @@ All aspects can visit an IConstruct.
 
 ---
 
-### IFileProvisioner <a name="IFileProvisioner" id="cdktf.IFileProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IFileProvisioner">IFileProvisioner</a>
-
-The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
-
-The file provisioner supports both ssh and winrm type connections.
-
-See {@link https://www.terraform.io/language/resources/provisioners/file file}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                            | **Type**                                                                                                                                                              | **Description**                                                                                                                                  |
-| ----------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IFileProvisioner.property.destination">destination</a></code> | <code>java.lang.String</code>                                                                                                                                         | The source file or directory.                                                                                                                    |
-| <code><a href="#cdktf.IFileProvisioner.property.type">type</a></code>               | <code>java.lang.String</code>                                                                                                                                         | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IFileProvisioner.property.connection">connection</a></code>   | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IFileProvisioner.property.content">content</a></code>         | <code>java.lang.String</code>                                                                                                                                         | The destination path to write to on the remote system.                                                                                           |
-| <code><a href="#cdktf.IFileProvisioner.property.source">source</a></code>           | <code>java.lang.String</code>                                                                                                                                         | The direct content to copy on the destination.                                                                                                   |
-
----
-
-##### `destination`<sup>Required</sup> <a name="destination" id="cdktf.IFileProvisioner.property.destination"></a>
-
-```java
-public java.lang.String getDestination();
-```
-
-- _Type:_ java.lang.String
-
-The source file or directory.
-
-Specify it either relative to the current working directory or as an absolute path.
-This argument cannot be combined with content.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IFileProvisioner.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- _Type:_ java.lang.String
-
----
-
-##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IFileProvisioner.property.connection"></a>
-
-```java
-public java.lang.Object getConnection();
-```
-
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
----
-
-##### `content`<sup>Optional</sup> <a name="content" id="cdktf.IFileProvisioner.property.content"></a>
-
-```java
-public java.lang.String getContent();
-```
-
-- _Type:_ java.lang.String
-
-The destination path to write to on the remote system.
-
-See Destination Paths below for more information.
-
----
-
-##### `source`<sup>Optional</sup> <a name="source" id="cdktf.IFileProvisioner.property.source"></a>
-
-```java
-public java.lang.String getSource();
-```
-
-- _Type:_ java.lang.String
-
-The direct content to copy on the destination.
-
-If destination is a file, the content will be written on that file.
-In case of a directory, a file named tf-file-content is created inside that directory.
-We recommend using a file as the destination when using content.
-This argument cannot be combined with source.
-
----
-
 ### IFragmentConcatenator <a name="IFragmentConcatenator" id="cdktf.IFragmentConcatenator"></a>
 
 - _Implemented By:_ <a href="#cdktf.StringConcat">StringConcat</a>, <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
@@ -30186,115 +31023,6 @@ Produce the list value.
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IListProducer.produce.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### ILocalExecProvisioner <a name="ILocalExecProvisioner" id="cdktf.ILocalExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.ILocalExecProvisioner">ILocalExecProvisioner</a>
-
-The local-exec provisioner invokes a local executable after a resource is created.
-
-This invokes a process on the machine running Terraform, not on the resource.
-
-See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                 | **Type**                                                         | **Description**                                                                   |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.command">command</a></code>         | <code>java.lang.String</code>                                    | This is the command to execute.                                                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.type">type</a></code>               | <code>java.lang.String</code>                                    | _No description._                                                                 |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.environment">environment</a></code> | <code>java.util.Map< java.lang.String, java.lang.String ></code> | A record of key value pairs representing the environment of the executed command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>java.util.List< java.lang.String ></code>                  | If provided, this is a list of interpreter arguments used to execute the command. |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.when">when</a></code>               | <code>java.lang.String</code>                                    | If provided, specifies when Terraform will execute the command.                   |
-| <code><a href="#cdktf.ILocalExecProvisioner.property.workingDir">workingDir</a></code>   | <code>java.lang.String</code>                                    | If provided, specifies the working directory where command will be executed.      |
-
----
-
-##### `command`<sup>Required</sup> <a name="command" id="cdktf.ILocalExecProvisioner.property.command"></a>
-
-```java
-public java.lang.String getCommand();
-```
-
-- _Type:_ java.lang.String
-
-This is the command to execute.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-It is evaluated in a shell, and can use environment variables or Terraform variables.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.ILocalExecProvisioner.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- _Type:_ java.lang.String
-
----
-
-##### `environment`<sup>Optional</sup> <a name="environment" id="cdktf.ILocalExecProvisioner.property.environment"></a>
-
-```java
-public java.util.Map< java.lang.String, java.lang.String > getEnvironment();
-```
-
-- _Type:_ java.util.Map< java.lang.String, java.lang.String >
-
-A record of key value pairs representing the environment of the executed command.
-
-It inherits the current process environment.
-
----
-
-##### `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.ILocalExecProvisioner.property.interpreter"></a>
-
-```java
-public java.util.List< java.lang.String > getInterpreter();
-```
-
-- _Type:_ java.util.List< java.lang.String >
-
-If provided, this is a list of interpreter arguments used to execute the command.
-
-The first argument is the interpreter itself.
-It can be provided as a relative path to the current working directory or as an absolute path
-The remaining arguments are appended prior to the command.
-This allows building command lines of the form "/bin/bash", "-c", "echo foo".
-If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
-
----
-
-##### `when`<sup>Optional</sup> <a name="when" id="cdktf.ILocalExecProvisioner.property.when"></a>
-
-```java
-public java.lang.String getWhen();
-```
-
-- _Type:_ java.lang.String
-
-If provided, specifies when Terraform will execute the command.
-
-For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
-
----
-
-##### `workingDir`<sup>Optional</sup> <a name="workingDir" id="cdktf.ILocalExecProvisioner.property.workingDir"></a>
-
-```java
-public java.lang.String getWorkingDir();
-```
-
-- _Type:_ java.lang.String
-
-If provided, specifies the working directory where command will be executed.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-The directory must exist.
 
 ---
 
@@ -30390,97 +31118,6 @@ Process the completely resolved value, after full recursion/resolution has happe
 ###### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
 
 - _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### IRemoteExecProvisioner <a name="IRemoteExecProvisioner" id="cdktf.IRemoteExecProvisioner"></a>
-
-- _Implemented By:_ <a href="#cdktf.IRemoteExecProvisioner">IRemoteExecProvisioner</a>
-
-The remote-exec provisioner invokes a script on a remote resource after it is created.
-
-This can be used to run a configuration management tool, bootstrap into a cluster, etc
-The remote-exec provisioner requires a connection and supports both ssh and winrm.
-
-See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                | **Type**                                                                                                                                                              | **Description**                                                                                                                                  |
-| --------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.type">type</a></code>             | <code>java.lang.String</code>                                                                                                                                         | _No description._                                                                                                                                |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.connection">connection</a></code> | <code><a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.inline">inline</a></code>         | <code>java.util.List< java.lang.String ></code>                                                                                                                       | This is a list of command strings.                                                                                                               |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.script">script</a></code>         | <code>java.lang.String</code>                                                                                                                                         | This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.                            |
-| <code><a href="#cdktf.IRemoteExecProvisioner.property.scripts">scripts</a></code>       | <code>java.util.List< java.lang.String ></code>                                                                                                                       | This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.                    |
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IRemoteExecProvisioner.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- _Type:_ java.lang.String
-
----
-
-##### `connection`<sup>Optional</sup> <a name="connection" id="cdktf.IRemoteExecProvisioner.property.connection"></a>
-
-```java
-public java.lang.Object getConnection();
-```
-
-- _Type:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a> OR <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-A connection must be provided here or in the parent resource.
-
----
-
-##### `inline`<sup>Optional</sup> <a name="inline" id="cdktf.IRemoteExecProvisioner.property.inline"></a>
-
-```java
-public java.util.List< java.lang.String > getInline();
-```
-
-- _Type:_ java.util.List< java.lang.String >
-
-This is a list of command strings.
-
-They are executed in the order they are provided.
-This cannot be provided with script or scripts.
-
----
-
-##### `script`<sup>Optional</sup> <a name="script" id="cdktf.IRemoteExecProvisioner.property.script"></a>
-
-```java
-public java.lang.String getScript();
-```
-
-- _Type:_ java.lang.String
-
-This is a path (relative or absolute) to a local script that will be copied to the remote resource and then executed.
-
-This cannot be provided with inline or scripts.
-
----
-
-##### `scripts`<sup>Optional</sup> <a name="scripts" id="cdktf.IRemoteExecProvisioner.property.scripts"></a>
-
-```java
-public java.util.List< java.lang.String > getScripts();
-```
-
-- _Type:_ java.util.List< java.lang.String >
-
-This is a list of paths (relative or absolute) to local scripts that will be copied to the remote resource and then executed.
-
-They are executed in the order they are provided.
-This cannot be provided with inline or script.
 
 ---
 
@@ -30699,383 +31336,6 @@ The stack in which this resource is defined.
 ### IScopeCallback <a name="IScopeCallback" id="cdktf.IScopeCallback"></a>
 
 - _Implemented By:_ <a href="#cdktf.IScopeCallback">IScopeCallback</a>
-
-### ISSHProvisionerConnection <a name="ISSHProvisionerConnection" id="cdktf.ISSHProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.ISSHProvisionerConnection">ISSHProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                                   | **Type**                      | **Description**                                                                                         |
-| ---------------------------------------------------------------------------------------------------------- | ----------------------------- | ------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.host">host</a></code>                             | <code>java.lang.String</code> | The address of the resource to connect to.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.type">type</a></code>                             | <code>java.lang.String</code> | The connection type.                                                                                    |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agent">agent</a></code>                           | <code>java.lang.String</code> | Set to false to disable using ssh-agent to authenticate.                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.agentIdentity">agentIdentity</a></code>           | <code>java.lang.String</code> | The preferred identity from the ssh agent for authentication.                                           |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionCertificate">bastionCertificate</a></code> | <code>java.lang.String</code> | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHost">bastionHost</a></code>               | <code>java.lang.String</code> | Setting this enables the bastion Host connection.                                                       |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionHostKey">bastionHostKey</a></code>         | <code>java.lang.String</code> | The public key from the remote host or the signing CA, used to verify the host connection.              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPassword">bastionPassword</a></code>       | <code>java.lang.String</code> | The password to use for the bastion host.                                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPort">bastionPort</a></code>               | <code>java.lang.Number</code> | The port to use connect to the bastion host.                                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionPrivateKey">bastionPrivateKey</a></code>   | <code>java.lang.String</code> | The contents of an SSH key file to use for the bastion host.                                            |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.bastionUser">bastionUser</a></code>               | <code>java.lang.String</code> | The user for the connection to the bastion host.                                                        |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.certificate">certificate</a></code>               | <code>java.lang.String</code> | The contents of a signed CA Certificate.                                                                |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.hostKey">hostKey</a></code>                       | <code>java.lang.String</code> | The public key from the remote host or the signing CA, used to verify the connection.                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.password">password</a></code>                     | <code>java.lang.String</code> | The password to use for the connection.                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.port">port</a></code>                             | <code>java.lang.Number</code> | The port to connect to.                                                                                 |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.privateKey">privateKey</a></code>                 | <code>java.lang.String</code> | The contents of an SSH key to use for the connection.                                                   |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyHost">proxyHost</a></code>                   | <code>java.lang.String</code> | Setting this enables the SSH over HTTP connection.                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyPort">proxyPort</a></code>                   | <code>java.lang.Number</code> | The port to use connect to the proxy host.                                                              |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyScheme">proxyScheme</a></code>               | <code>java.lang.String</code> | The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy. |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserName">proxyUserName</a></code>           | <code>java.lang.String</code> | The username to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.proxyUserPassword">proxyUserPassword</a></code>   | <code>java.lang.String</code> | The password to use connect to the private proxy host.                                                  |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.scriptPath">scriptPath</a></code>                 | <code>java.lang.String</code> | The path used to copy scripts meant for remote execution.                                               |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.targetPlatform">targetPlatform</a></code>         | <code>java.lang.String</code> | The target platform to connect to.                                                                      |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.timeout">timeout</a></code>                       | <code>java.lang.String</code> | The timeout to wait for the connection to become available.                                             |
-| <code><a href="#cdktf.ISSHProvisionerConnection.property.user">user</a></code>                             | <code>java.lang.String</code> | The user to use for the connection.                                                                     |
-
----
-
-##### `host`<sup>Required</sup> <a name="host" id="cdktf.ISSHProvisionerConnection.property.host"></a>
-
-```java
-public java.lang.String getHost();
-```
-
-- _Type:_ java.lang.String
-
-The address of the resource to connect to.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.ISSHProvisionerConnection.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- _Type:_ java.lang.String
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `agent`<sup>Optional</sup> <a name="agent" id="cdktf.ISSHProvisionerConnection.property.agent"></a>
-
-```java
-public java.lang.String getAgent();
-```
-
-- _Type:_ java.lang.String
-
-Set to false to disable using ssh-agent to authenticate.
-
-On Windows the only supported SSH authentication agent is Pageant.
-
----
-
-##### `agentIdentity`<sup>Optional</sup> <a name="agentIdentity" id="cdktf.ISSHProvisionerConnection.property.agentIdentity"></a>
-
-```java
-public java.lang.String getAgentIdentity();
-```
-
-- _Type:_ java.lang.String
-
-The preferred identity from the ssh agent for authentication.
-
----
-
-##### `bastionCertificate`<sup>Optional</sup> <a name="bastionCertificate" id="cdktf.ISSHProvisionerConnection.property.bastionCertificate"></a>
-
-```java
-public java.lang.String getBastionCertificate();
-```
-
-- _Type:_ java.lang.String
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a bastion_private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `bastionHost`<sup>Optional</sup> <a name="bastionHost" id="cdktf.ISSHProvisionerConnection.property.bastionHost"></a>
-
-```java
-public java.lang.String getBastionHost();
-```
-
-- _Type:_ java.lang.String
-
-Setting this enables the bastion Host connection.
-
-The provisioner will connect to bastion_host first, and then connect from there to host.
-
----
-
-##### `bastionHostKey`<sup>Optional</sup> <a name="bastionHostKey" id="cdktf.ISSHProvisionerConnection.property.bastionHostKey"></a>
-
-```java
-public java.lang.String getBastionHostKey();
-```
-
-- _Type:_ java.lang.String
-
-The public key from the remote host or the signing CA, used to verify the host connection.
-
----
-
-##### `bastionPassword`<sup>Optional</sup> <a name="bastionPassword" id="cdktf.ISSHProvisionerConnection.property.bastionPassword"></a>
-
-```java
-public java.lang.String getBastionPassword();
-```
-
-- _Type:_ java.lang.String
-
-The password to use for the bastion host.
-
----
-
-##### `bastionPort`<sup>Optional</sup> <a name="bastionPort" id="cdktf.ISSHProvisionerConnection.property.bastionPort"></a>
-
-```java
-public java.lang.Number getBastionPort();
-```
-
-- _Type:_ java.lang.Number
-
-The port to use connect to the bastion host.
-
----
-
-##### `bastionPrivateKey`<sup>Optional</sup> <a name="bastionPrivateKey" id="cdktf.ISSHProvisionerConnection.property.bastionPrivateKey"></a>
-
-```java
-public java.lang.String getBastionPrivateKey();
-```
-
-- _Type:_ java.lang.String
-
-The contents of an SSH key file to use for the bastion host.
-
-These can be loaded from a file on disk using the file function.
-
----
-
-##### `bastionUser`<sup>Optional</sup> <a name="bastionUser" id="cdktf.ISSHProvisionerConnection.property.bastionUser"></a>
-
-```java
-public java.lang.String getBastionUser();
-```
-
-- _Type:_ java.lang.String
-
-The user for the connection to the bastion host.
-
----
-
-##### `certificate`<sup>Optional</sup> <a name="certificate" id="cdktf.ISSHProvisionerConnection.property.certificate"></a>
-
-```java
-public java.lang.String getCertificate();
-```
-
-- _Type:_ java.lang.String
-
-The contents of a signed CA Certificate.
-
-The certificate argument must be used in conjunction with a private_key.
-These can be loaded from a file on disk using the the file function.
-
----
-
-##### `hostKey`<sup>Optional</sup> <a name="hostKey" id="cdktf.ISSHProvisionerConnection.property.hostKey"></a>
-
-```java
-public java.lang.String getHostKey();
-```
-
-- _Type:_ java.lang.String
-
-The public key from the remote host or the signing CA, used to verify the connection.
-
----
-
-##### `password`<sup>Optional</sup> <a name="password" id="cdktf.ISSHProvisionerConnection.property.password"></a>
-
-```java
-public java.lang.String getPassword();
-```
-
-- _Type:_ java.lang.String
-
-The password to use for the connection.
-
----
-
-##### `port`<sup>Optional</sup> <a name="port" id="cdktf.ISSHProvisionerConnection.property.port"></a>
-
-```java
-public java.lang.Number getPort();
-```
-
-- _Type:_ java.lang.Number
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `privateKey`<sup>Optional</sup> <a name="privateKey" id="cdktf.ISSHProvisionerConnection.property.privateKey"></a>
-
-```java
-public java.lang.String getPrivateKey();
-```
-
-- _Type:_ java.lang.String
-
-The contents of an SSH key to use for the connection.
-
-These can be loaded from a file on disk using the file function.
-This takes preference over password if provided.
-
----
-
-##### `proxyHost`<sup>Optional</sup> <a name="proxyHost" id="cdktf.ISSHProvisionerConnection.property.proxyHost"></a>
-
-```java
-public java.lang.String getProxyHost();
-```
-
-- _Type:_ java.lang.String
-
-Setting this enables the SSH over HTTP connection.
-
-This host will be connected to first, and then the host or bastion_host connection will be made from there.
-
----
-
-##### `proxyPort`<sup>Optional</sup> <a name="proxyPort" id="cdktf.ISSHProvisionerConnection.property.proxyPort"></a>
-
-```java
-public java.lang.Number getProxyPort();
-```
-
-- _Type:_ java.lang.Number
-
-The port to use connect to the proxy host.
-
----
-
-##### `proxyScheme`<sup>Optional</sup> <a name="proxyScheme" id="cdktf.ISSHProvisionerConnection.property.proxyScheme"></a>
-
-```java
-public java.lang.String getProxyScheme();
-```
-
-- _Type:_ java.lang.String
-
-The ssh connection also supports the following fields to facilitate connections by SSH over HTTP proxy.
-
----
-
-##### `proxyUserName`<sup>Optional</sup> <a name="proxyUserName" id="cdktf.ISSHProvisionerConnection.property.proxyUserName"></a>
-
-```java
-public java.lang.String getProxyUserName();
-```
-
-- _Type:_ java.lang.String
-
-The username to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `proxyUserPassword`<sup>Optional</sup> <a name="proxyUserPassword" id="cdktf.ISSHProvisionerConnection.property.proxyUserPassword"></a>
-
-```java
-public java.lang.String getProxyUserPassword();
-```
-
-- _Type:_ java.lang.String
-
-The password to use connect to the private proxy host.
-
-This argument should be specified only if authentication is required for the HTTP Proxy server.
-
----
-
-##### `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.ISSHProvisionerConnection.property.scriptPath"></a>
-
-```java
-public java.lang.String getScriptPath();
-```
-
-- _Type:_ java.lang.String
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `targetPlatform`<sup>Optional</sup> <a name="targetPlatform" id="cdktf.ISSHProvisionerConnection.property.targetPlatform"></a>
-
-```java
-public java.lang.String getTargetPlatform();
-```
-
-- _Type:_ java.lang.String
-- _Default:_ unix
-
-The target platform to connect to.
-
-Valid values are "windows" and "unix".
-If the platform is set to windows, the default script*path is c:\windows\temp\terraform*%RAND%.cmd, assuming the SSH default shell is cmd.exe.
-If the SSH default shell is PowerShell, set script*path to "c:/windows/temp/terraform*%RAND%.ps1"
-
----
-
-##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.ISSHProvisionerConnection.property.timeout"></a>
-
-```java
-public java.lang.String getTimeout();
-```
-
-- _Type:_ java.lang.String
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `user`<sup>Optional</sup> <a name="user" id="cdktf.ISSHProvisionerConnection.property.user"></a>
-
-```java
-public java.lang.String getUser();
-```
-
-- _Type:_ java.lang.String
-- _Default:_ root
-
-The user to use for the connection.
-
----
 
 ### IStackSynthesizer <a name="IStackSynthesizer" id="cdktf.IStackSynthesizer"></a>
 
@@ -31506,177 +31766,6 @@ Resolve a single token.
 ###### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
 
 - _Type:_ <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-### IWinrmProvisionerConnection <a name="IWinrmProvisionerConnection" id="cdktf.IWinrmProvisionerConnection"></a>
-
-- _Implemented By:_ <a href="#cdktf.IWinrmProvisionerConnection">IWinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
-See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
-
-#### Properties <a name="Properties" id="Properties"></a>
-
-| **Name**                                                                                     | **Type**                       | **Description**                                                                                                                                                             |
-| -------------------------------------------------------------------------------------------- | ------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.host">host</a></code>             | <code>java.lang.String</code>  | The address of the resource to connect to.                                                                                                                                  |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.type">type</a></code>             | <code>java.lang.String</code>  | The connection type.                                                                                                                                                        |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.cacert">cacert</a></code>         | <code>java.lang.String</code>  | The CA certificate to validate against.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.https">https</a></code>           | <code>java.lang.Boolean</code> | Set to true to connect using HTTPS instead of HTTP.                                                                                                                         |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.insecure">insecure</a></code>     | <code>java.lang.Boolean</code> | Set to true to skip validating the HTTPS certificate chain.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.password">password</a></code>     | <code>java.lang.String</code>  | The password to use for the connection.                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.port">port</a></code>             | <code>java.lang.Number</code>  | The port to connect to.                                                                                                                                                     |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.scriptPath">scriptPath</a></code> | <code>java.lang.String</code>  | The path used to copy scripts meant for remote execution.                                                                                                                   |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.timeout">timeout</a></code>       | <code>java.lang.String</code>  | The timeout to wait for the connection to become available.                                                                                                                 |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.useNtlm">useNtlm</a></code>       | <code>java.lang.Boolean</code> | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
-| <code><a href="#cdktf.IWinrmProvisionerConnection.property.user">user</a></code>             | <code>java.lang.String</code>  | The user to use for the connection.                                                                                                                                         |
-
----
-
-##### `host`<sup>Required</sup> <a name="host" id="cdktf.IWinrmProvisionerConnection.property.host"></a>
-
-```java
-public java.lang.String getHost();
-```
-
-- _Type:_ java.lang.String
-
-The address of the resource to connect to.
-
----
-
-##### `type`<sup>Required</sup> <a name="type" id="cdktf.IWinrmProvisionerConnection.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- _Type:_ java.lang.String
-
-The connection type.
-
-Valid values are "ssh" and "winrm".
-Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
-Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
-
----
-
-##### `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.IWinrmProvisionerConnection.property.cacert"></a>
-
-```java
-public java.lang.String getCacert();
-```
-
-- _Type:_ java.lang.String
-
-The CA certificate to validate against.
-
----
-
-##### `https`<sup>Optional</sup> <a name="https" id="cdktf.IWinrmProvisionerConnection.property.https"></a>
-
-```java
-public java.lang.Boolean getHttps();
-```
-
-- _Type:_ java.lang.Boolean
-
-Set to true to connect using HTTPS instead of HTTP.
-
----
-
-##### `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.IWinrmProvisionerConnection.property.insecure"></a>
-
-```java
-public java.lang.Boolean getInsecure();
-```
-
-- _Type:_ java.lang.Boolean
-
-Set to true to skip validating the HTTPS certificate chain.
-
----
-
-##### `password`<sup>Optional</sup> <a name="password" id="cdktf.IWinrmProvisionerConnection.property.password"></a>
-
-```java
-public java.lang.String getPassword();
-```
-
-- _Type:_ java.lang.String
-
-The password to use for the connection.
-
----
-
-##### `port`<sup>Optional</sup> <a name="port" id="cdktf.IWinrmProvisionerConnection.property.port"></a>
-
-```java
-public java.lang.Number getPort();
-```
-
-- _Type:_ java.lang.Number
-- _Default:_ 22
-
-The port to connect to.
-
----
-
-##### `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.IWinrmProvisionerConnection.property.scriptPath"></a>
-
-```java
-public java.lang.String getScriptPath();
-```
-
-- _Type:_ java.lang.String
-
-The path used to copy scripts meant for remote execution.
-
-Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
-
----
-
-##### `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.IWinrmProvisionerConnection.property.timeout"></a>
-
-```java
-public java.lang.String getTimeout();
-```
-
-- _Type:_ java.lang.String
-- _Default:_ 5m
-
-The timeout to wait for the connection to become available.
-
-Should be provided as a string (e.g., "30s" or "5m".)
-
----
-
-##### `useNtlm`<sup>Optional</sup> <a name="useNtlm" id="cdktf.IWinrmProvisionerConnection.property.useNtlm"></a>
-
-```java
-public java.lang.Boolean getUseNtlm();
-```
-
-- _Type:_ java.lang.Boolean
-
-Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
-
-Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
-
----
-
-##### `user`<sup>Optional</sup> <a name="user" id="cdktf.IWinrmProvisionerConnection.property.user"></a>
-
-```java
-public java.lang.String getUser();
-```
-
-- _Type:_ java.lang.String
-- _Default:_ root
-
-The user to use for the connection.
 
 ---
 
