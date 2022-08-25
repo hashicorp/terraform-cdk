@@ -85,7 +85,8 @@
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
-    "packages/cdktf": "yarn generate-docs:api",
+    "packages/cdktf/**": "yarn generate-docs:api",
+    "examples/*/documentation/**": "yarn generate-docs:translations",
     "**/*.{ts,tsx,js,css,md}": "prettier --write"
   },
   "eslintConfig": {
