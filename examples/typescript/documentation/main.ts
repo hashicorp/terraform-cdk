@@ -31,7 +31,7 @@ class MyStack extends TerraformStack {
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: path.resolve(__dirname, "..", "lambda"),
+      path: path.resolve(__dirname, "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
