@@ -16,10 +16,18 @@ export {
 
 import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
-import { generateJsiiLanguage } from "./get/constructs-maker";
+import deepmerge from "deepmerge";
+import {
+  generateJsiiLanguage,
+  ConstructsMakerTarget,
+} from "./get/constructs-maker";
 export { escapeAttributeName } from "./get/generator/models";
 import { TerraformProviderGenerator } from "./get/generator/provider-generator";
-import { ProviderSchema } from "./get/generator/provider-schema";
+import {
+  ProviderSchema,
+  readModuleSchema,
+  readProviderSchema,
+} from "./get/generator/provider-schema";
 
 export { setLogger } from "./config";
 export { TerraformProviderGenerator, CodeMaker };
@@ -39,4 +47,17 @@ export async function generateProviderBindingsFromSchema(
   if (options) {
     await generateJsiiLanguage(code, options);
   }
+}
+
+// Used for convert
+export async function readSchema(targets: ConstructsMakerTarget[]) {
+  const schemas = await Promise.all(
+    targets.map((t) =>
+      t.isModule
+        ? readModuleSchema(t as any).then((s) => ({ providerSchema: s }))
+        : readProviderSchema(t as any).then((s) => ({ moduleSchema: s }))
+    )
+  );
+
+  return deepmerge.all(schemas);
 }
