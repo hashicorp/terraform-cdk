@@ -31,11 +31,13 @@
   "dependencies": {
     "@cdktf/hcl2json": "0.0.0",
     "codemaker": "^1.65.0",
+    "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
     "jsii-srcmak": "^0.1.655"
   },
   "devDependencies": {
+    "@types/deepmerge": "^2.2.0",
     "@types/fs-extra": "^8.1.2",
     "@types/glob": "^7.2.0",
     "@types/jest": "^26.0.24",
