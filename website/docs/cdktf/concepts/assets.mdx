@@ -50,7 +50,7 @@ class MyStack extends TerraformStack {
     });
 
     const asset = new TerraformAsset(this, "lambda-asset", {
-      path: path.resolve(__dirname, "..", "lambda"),
+      path: path.resolve(__dirname, "lambda"),
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
@@ -84,7 +84,7 @@ class MyStack(cdktf.TerraformStack):
 
         asset = cdktf.TerraformAsset(self, "lambda-asset",
                                      path=os.path.join(os.path.dirname(
-                                         __file__), '..', 'lambda'),
+                                         __file__), 'lambda'),
                                      type=cdktf.AssetType.ARCHIVE
                                      )
 
@@ -117,7 +117,7 @@ import imports.aws.s3.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-
+        
         AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
 
         S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")

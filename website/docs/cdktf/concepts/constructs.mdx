@@ -105,13 +105,13 @@ class MyStack(cdktf.TerraformStack):
                                           __file__), '..', 'kubeconfig.yaml')
                                       )
 
-        KubernetesWebAppDeployment(self, "deployment", {
-            "image": "nginx:latest",
-            "replicas": 2,
-            "app": "myapp",
-            "component": "frontend",
-            "environment": "dev"
-        })
+        KubernetesWebAppDeployment(self, "deployment",
+                                   image="nginx:latest",
+                                   replicas=2,
+                                   app="myapp",
+                                   component="frontend",
+                                   environment="dev"
+                                   )
 
 
 app = cdktf.App()
@@ -128,23 +128,25 @@ import java.nio.file.Paths;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
-import java.util.Map;
+import java.util.*;
 import imports.kubernetes.*;
 
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-
+        
         KubernetesProvider.Builder.create(this, "kind")
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();
 
-        new KubernetesWebAppDeployment(this, "deployment", Map.of(
-                "image", "nginx:latest",
-                "replicas", "2",
-                "app", "myapp",
-                "component", "frontend",
-                "environment", "dev"));
+        final HashMap<String, String> properties = new HashMap<>();
+        properties.put("image", "lambci/lambda:latest");
+        properties.put("replicas", "2");
+        properties.put("app", "myapp");
+        properties.put("component", "frontend");
+        properties.put("environment", "dev");
+
+        new KubernetesWebAppDeployment(this, "deployment", properties);
     }
     public static void main(String[] args) {
         final App app = new App();
