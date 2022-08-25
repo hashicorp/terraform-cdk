@@ -1,13 +1,12 @@
 // Builds a single example, passed  as the first argument.
 
-var fs = require("fs");
 var path = require("path");
 var exec = require("child_process").execSync;
 const { performance } = require("perf_hooks");
 
 function run(command) {
   const start = performance.now();
-  exec(`/usr/bin/time -pv ${command}`, {
+  const stdout = exec(`/usr/bin/time -pv ${command}`, {
     stdio: "inherit",
     env: {
       ...process.env,
@@ -15,7 +14,17 @@ function run(command) {
     },
     cwd: path.resolve(__dirname, ".."),
   });
-  return (performance.now() - start) / 1000;
+  const time = (performance.now() - start) / 1000;
+
+  const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(
+    stdout.toString()
+  );
+  let maxMemoryKbytes = null;
+  if (match) {
+    maxMemoryKbytes = Number(match[1]);
+  }
+
+  return { time, maxMemoryKbytes };
 }
 
 const exampleToBuild = process.argv[2];
@@ -30,9 +39,13 @@ function runInExample(command) {
 }
 
 runInExample(`reinstall`);
-const getTime = runInExample(`build`);
+const getStats = runInExample(`build`);
 runInExample(`beforeSynth`);
-const synthTime = runInExample(`synth`);
+const synthStats = runInExample(`synth`);
 
-console.log(`${exampleToBuild} built in ${getTime}s`);
-console.log(`${exampleToBuild} synthesized in ${synthTime}s`);
+console.log(
+  `${exampleToBuild} built in ${getTime.time}s using ${getStats.maxMemoryKbytes} kb of memory`
+);
+console.log(
+  `${exampleToBuild} synthesized in ${synthTime.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+);
