@@ -169,7 +169,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     try {
       convertResult = await convertProject(combinedTfFile, {
         language: "typescript",
-        providerSchema,
+        providerSchema: providerSchema ?? {},
       });
     } catch (err) {
       throw Errors.Internal(err, { fromTerraformProject: true });
