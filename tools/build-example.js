@@ -7,7 +7,7 @@ const { performance } = require("perf_hooks");
 
 function run(command) {
   const start = performance.now();
-  exec(command, {
+  exec(`/usr/bin/time -pv ${command}`, {
     stdio: "inherit",
     env: {
       ...process.env,
