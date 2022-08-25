@@ -89,7 +89,7 @@ export async function convertToTypescript(
   const scope: Scope = {
     providerSchema,
     providerGenerator: Object.keys(
-      providerSchema.provider_schemas || {}
+      providerSchema?.provider_schemas || {}
     ).reduce((carry, fqpn) => {
       const providerGenerator = new TerraformProviderGenerator(
         new CodeMaker(),
@@ -345,7 +345,7 @@ See https://cdk.tf/provider-generation for more details.`
   // We add a comment if there are providers with missing schema information
   const providersLackingSchema = Object.keys(providerRequirements).filter(
     (providerName) =>
-      !Object.keys(providerSchema.provider_schemas || {}).some((schemaName) =>
+      !Object.keys(providerSchema?.provider_schemas || {}).some((schemaName) =>
         schemaName.endsWith(providerName)
       )
   );
