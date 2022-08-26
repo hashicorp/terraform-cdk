@@ -63,10 +63,10 @@ export async function readSchema(
     targets.map((t) =>
       t.isModule
         ? readModuleSchema(t as any).then(
-            (s) => ({ providerSchema: s } as Schema)
+            (s) => ({ moduleSchema: s } as Schema)
           )
         : readProviderSchema(t as any).then(
-            (s) => ({ moduleSchema: s } as Schema)
+            (s) => ({ providerSchema: s } as Schema)
           )
     )
   );
@@ -79,5 +79,7 @@ export async function readSchema(
     moduleSchema: {},
   });
 
-  return deepmerge.all(schemas);
+  const x = deepmerge.all(schemas);
+  console.log(x);
+  return x;
 }
