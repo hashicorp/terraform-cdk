@@ -950,6 +950,289 @@ public java.lang.String getFriendlyUniqueId();
 
 ---
 
+### CloudBackend <a name="CloudBackend" id="cdktf.CloudBackend"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+#### Initializers <a name="Initializers" id="cdktf.CloudBackend.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.CloudBackend;
+
+CloudBackend.Builder.create(Construct scope)
+    .organization(java.lang.String)
+    .workspaces(NamedCloudWorkspace)
+    .workspaces(TaggedCloudWorkspaces)
+//  .hostname(java.lang.String)
+//  .token(java.lang.String)
+    .build();
+```
+
+| **Name**                                                                                       | **Type**                                                                                                                                      | **Description**                                                                                             |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.scope">scope</a></code>               | <code>software.constructs.Construct</code>                                                                                                    | _No description._                                                                                           |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.organization">organization</a></code> | <code>java.lang.String</code>                                                                                                                 | The name of the organization containing the workspace(s) the current configuration should use.              |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.hostname">hostname</a></code>         | <code>java.lang.String</code>                                                                                                                 | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with Terraform Cloud.                                                        |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="cdktf.CloudBackend.Initializer.parameter.scope"></a>
+
+- _Type:_ software.constructs.Construct
+
+---
+
+##### `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackend.Initializer.parameter.organization"></a>
+
+- _Type:_ java.lang.String
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+##### `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackend.Initializer.parameter.workspaces"></a>
+
+- _Type:_ <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackend.Initializer.parameter.hostname"></a>
+
+- _Type:_ java.lang.String
+- _Default:_ app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackend.Initializer.parameter.token"></a>
+
+- _Type:_ java.lang.String
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                         | **Description**                                                                   |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackend.toString">toString</a></code>                                 | Returns a string representation of this construct.                                |
+| <code><a href="#cdktf.CloudBackend.addOverride">addOverride</a></code>                           | _No description._                                                                 |
+| <code><a href="#cdktf.CloudBackend.overrideLogicalId">overrideLogicalId</a></code>               | Overrides the auto-generated logical ID with a specific ID.                       |
+| <code><a href="#cdktf.CloudBackend.resetOverrideLogicalId">resetOverrideLogicalId</a></code>     | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.CloudBackend.toMetadata">toMetadata</a></code>                             | _No description._                                                                 |
+| <code><a href="#cdktf.CloudBackend.toTerraform">toTerraform</a></code>                           | Adds this resource to the terraform JSON output.                                  |
+| <code><a href="#cdktf.CloudBackend.getRemoteStateDataSource">getRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend.               |
+
+---
+
+##### `toString` <a name="toString" id="cdktf.CloudBackend.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+##### `addOverride` <a name="addOverride" id="cdktf.CloudBackend.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.CloudBackend.addOverride.parameter.path"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="cdktf.CloudBackend.addOverride.parameter.value"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+##### `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.CloudBackend.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+###### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.CloudBackend.overrideLogicalId.parameter.newLogicalId"></a>
+
+- _Type:_ java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+##### `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.CloudBackend.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+##### `toMetadata` <a name="toMetadata" id="cdktf.CloudBackend.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+##### `toTerraform` <a name="toTerraform" id="cdktf.CloudBackend.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+Adds this resource to the terraform JSON output.
+
+##### `getRemoteStateDataSource` <a name="getRemoteStateDataSource" id="cdktf.CloudBackend.getRemoteStateDataSource"></a>
+
+```java
+public TerraformRemoteState getRemoteStateDataSource(Construct scope, java.lang.String name, java.lang.String _fromStack)
+```
+
+Creates a TerraformRemoteState resource that accesses this backend.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter.scope"></a>
+
+- _Type:_ software.constructs.Construct
+
+---
+
+###### `name`<sup>Required</sup> <a name="name" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter.name"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `_fromStack`<sup>Required</sup> <a name="_fromStack" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter._fromStack"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                               | **Description**               |
+| ---------------------------------------------------------------------- | ----------------------------- |
+| <code><a href="#cdktf.CloudBackend.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#cdktf.CloudBackend.isBackend">isBackend</a></code>     | _No description._             |
+
+---
+
+##### `isConstruct` <a name="isConstruct" id="cdktf.CloudBackend.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.CloudBackend;
+
+CloudBackend.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.CloudBackend.isConstruct.parameter.x"></a>
+
+- _Type:_ java.lang.Object
+
+Any object.
+
+---
+
+##### `isBackend` <a name="isBackend" id="cdktf.CloudBackend.isBackend"></a>
+
+```java
+import com.hashicorp.cdktf.CloudBackend;
+
+CloudBackend.isBackend(java.lang.Object x)
+```
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.CloudBackend.isBackend.parameter.x"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                  | **Type**                                                        | **Description**   |
+| ----------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.CloudBackend.property.node">node</a></code>                         | <code>software.constructs.Node</code>                           | The tree node.    |
+| <code><a href="#cdktf.CloudBackend.property.cdktfStack">cdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
+| <code><a href="#cdktf.CloudBackend.property.fqn">fqn</a></code>                           | <code>java.lang.String</code>                                   | _No description._ |
+| <code><a href="#cdktf.CloudBackend.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code>                                   | _No description._ |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="cdktf.CloudBackend.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- _Type:_ software.constructs.Node
+
+The tree node.
+
+---
+
+##### `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.CloudBackend.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.CloudBackend.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- _Type:_ java.lang.String
+
+---
+
+##### `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.CloudBackend.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- _Type:_ java.lang.String
+
+---
+
 ### ConsulBackend <a name="ConsulBackend" id="cdktf.ConsulBackend"></a>
 
 #### Initializers <a name="Initializers" id="cdktf.ConsulBackend.Initializer"></a>
@@ -6584,6 +6867,9 @@ DataTerraformRemoteStateS3.Builder.create(Construct scope, java.lang.String id)
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
 //  .assumeRolePolicy(java.lang.String)
+//  .assumeRolePolicyArns(java.util.List< java.lang.String >)
+//  .assumeRoleTags(java.util.Map< java.lang.String, java.lang.String >)
+//  .assumeRoleTransitiveTagKeys(java.util.List< java.lang.String >)
 //  .dynamodbEndpoint(java.lang.String)
 //  .dynamodbTable(java.lang.String)
 //  .encrypt(java.lang.Boolean)
@@ -6601,6 +6887,7 @@ DataTerraformRemoteStateS3.Builder.create(Construct scope, java.lang.String id)
 //  .sharedCredentialsFile(java.lang.String)
 //  .skipCredentialsValidation(java.lang.Boolean)
 //  .skipMetadataApiCheck(java.lang.Boolean)
+//  .skipRegionValidation(java.lang.Boolean)
 //  .sseCustomerKey(java.lang.String)
 //  .stsEndpoint(java.lang.String)
 //  .token(java.lang.String)
@@ -6608,38 +6895,42 @@ DataTerraformRemoteStateS3.Builder.create(Construct scope, java.lang.String id)
     .build();
 ```
 
-| **Name**                                                                                                                               | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope">scope</a></code>                                         | <code>software.constructs.Construct</code>                       | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id">id</a></code>                                               | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults">defaults</a></code>                                   | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace">workspace</a></code>                                 | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket">bucket</a></code>                                       | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key">key</a></code>                                             | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey">accessKey</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl">acl</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy">assumeRolePolicy</a></code>                   | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint">dynamodbEndpoint</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable">dynamodbTable</a></code>                         | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code>                                     | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">externalId</a></code>                               | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">forcePathStyle</a></code>                       | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iamEndpoint</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kmsKeyId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">maxRetries</a></code>                               | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile">profile</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region">region</a></code>                                       | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn">roleArn</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey">secretKey</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName">sessionName</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile">sharedCredentialsFile</a></code>         | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation">skipCredentialsValidation</a></code> | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck">skipMetadataApiCheck</a></code>           | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey">sseCustomerKey</a></code>                       | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint">stsEndpoint</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token">token</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix">workspaceKeyPrefix</a></code>               | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                                   | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope">scope</a></code>                                             | <code>software.constructs.Construct</code>                       | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id">id</a></code>                                                   | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults">defaults</a></code>                                       | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace">workspace</a></code>                                     | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket">bucket</a></code>                                           | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key">key</a></code>                                                 | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey">accessKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl">acl</a></code>                                                 | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy">assumeRolePolicy</a></code>                       | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns">assumeRolePolicyArns</a></code>               | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags">assumeRoleTags</a></code>                           | <code>java.util.Map< java.lang.String, java.lang.String ></code> | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys">assumeRoleTransitiveTagKeys</a></code> | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint">dynamodbEndpoint</a></code>                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable">dynamodbTable</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code>                                         | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">externalId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">forcePathStyle</a></code>                           | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iamEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kmsKeyId</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">maxRetries</a></code>                                   | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile">profile</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region">region</a></code>                                           | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn">roleArn</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey">secretKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName">sessionName</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile">sharedCredentialsFile</a></code>             | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation">skipCredentialsValidation</a></code>     | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck">skipMetadataApiCheck</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation">skipRegionValidation</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey">sseCustomerKey</a></code>                           | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint">stsEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token">token</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix">workspaceKeyPrefix</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -6712,6 +7003,30 @@ or AWS shared configuration file (e.g. ~/.aws/config).
 - _Type:_ java.lang.String
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRolePolicyArns`<sup>Optional</sup> <a name="assumeRolePolicyArns" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns"></a>
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRoleTags`<sup>Optional</sup> <a name="assumeRoleTags" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags"></a>
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.String >
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assumeRoleTransitiveTagKeys`<sup>Optional</sup> <a name="assumeRoleTransitiveTagKeys" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys"></a>
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -6874,6 +7189,14 @@ Defaults to ~/.aws/credentials.
 - _Type:_ java.lang.Boolean
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skipRegionValidation`<sup>Optional</sup> <a name="skipRegionValidation" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation"></a>
+
+- _Type:_ java.lang.Boolean
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -10459,7 +10782,7 @@ new Resource(Construct scope, java.lang.String id);
 
 ---
 
-##### `toString` <a name="toString" id="cdktf.Resource.toString"></a>
+##### ~~`toString`~~ <a name="toString" id="cdktf.Resource.toString"></a>
 
 ```java
 public java.lang.String toString()
@@ -10475,7 +10798,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### `isConstruct` <a name="isConstruct" id="cdktf.Resource.isConstruct"></a>
+##### ~~`isConstruct`~~ <a name="isConstruct" id="cdktf.Resource.isConstruct"></a>
 
 ```java
 import com.hashicorp.cdktf.Resource;
@@ -10516,7 +10839,9 @@ Any object.
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="cdktf.Resource.property.node"></a>
+##### ~~`node`~~<sup>Required</sup> <a name="node" id="cdktf.Resource.property.node"></a>
+
+- _Deprecated:_ - Please use Construct from the constructs package instead.
 
 ```java
 public Node getNode();
@@ -10528,7 +10853,9 @@ The tree node.
 
 ---
 
-##### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Resource.property.stack"></a>
+##### ~~`stack`~~<sup>Required</sup> <a name="stack" id="cdktf.Resource.property.stack"></a>
+
+- _Deprecated:_ - Please use Construct from the constructs package instead.
 
 ```java
 public TerraformStack getStack();
@@ -10553,6 +10880,9 @@ S3Backend.Builder.create(Construct scope)
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
 //  .assumeRolePolicy(java.lang.String)
+//  .assumeRolePolicyArns(java.util.List< java.lang.String >)
+//  .assumeRoleTags(java.util.Map< java.lang.String, java.lang.String >)
+//  .assumeRoleTransitiveTagKeys(java.util.List< java.lang.String >)
 //  .dynamodbEndpoint(java.lang.String)
 //  .dynamodbTable(java.lang.String)
 //  .encrypt(java.lang.Boolean)
@@ -10570,6 +10900,7 @@ S3Backend.Builder.create(Construct scope)
 //  .sharedCredentialsFile(java.lang.String)
 //  .skipCredentialsValidation(java.lang.Boolean)
 //  .skipMetadataApiCheck(java.lang.Boolean)
+//  .skipRegionValidation(java.lang.Boolean)
 //  .sseCustomerKey(java.lang.String)
 //  .stsEndpoint(java.lang.String)
 //  .token(java.lang.String)
@@ -10577,35 +10908,39 @@ S3Backend.Builder.create(Construct scope)
     .build();
 ```
 
-| **Name**                                                                                                              | **Type**                                   | **Description**                                                                                                                                                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.scope">scope</a></code>                                         | <code>software.constructs.Construct</code> | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.bucket">bucket</a></code>                                       | <code>java.lang.String</code>              | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.key">key</a></code>                                             | <code>java.lang.String</code>              | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.accessKey">accessKey</a></code>                                 | <code>java.lang.String</code>              | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.acl">acl</a></code>                                             | <code>java.lang.String</code>              | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicy">assumeRolePolicy</a></code>                   | <code>java.lang.String</code>              | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbEndpoint">dynamodbEndpoint</a></code>                   | <code>java.lang.String</code>              | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbTable">dynamodbTable</a></code>                         | <code>java.lang.String</code>              | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.encrypt">encrypt</a></code>                                     | <code>java.lang.Boolean</code>             | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.endpoint">endpoint</a></code>                                   | <code>java.lang.String</code>              | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.externalId">externalId</a></code>                               | <code>java.lang.String</code>              | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">forcePathStyle</a></code>                       | <code>java.lang.Boolean</code>             | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.iamEndpoint">iamEndpoint</a></code>                             | <code>java.lang.String</code>              | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.kmsKeyId">kmsKeyId</a></code>                                   | <code>java.lang.String</code>              | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.maxRetries">maxRetries</a></code>                               | <code>java.lang.Number</code>              | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.profile">profile</a></code>                                     | <code>java.lang.String</code>              | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.region">region</a></code>                                       | <code>java.lang.String</code>              | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.roleArn">roleArn</a></code>                                     | <code>java.lang.String</code>              | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.secretKey">secretKey</a></code>                                 | <code>java.lang.String</code>              | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sessionName">sessionName</a></code>                             | <code>java.lang.String</code>              | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sharedCredentialsFile">sharedCredentialsFile</a></code>         | <code>java.lang.String</code>              | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipCredentialsValidation">skipCredentialsValidation</a></code> | <code>java.lang.Boolean</code>             | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipMetadataApiCheck">skipMetadataApiCheck</a></code>           | <code>java.lang.Boolean</code>             | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sseCustomerKey">sseCustomerKey</a></code>                       | <code>java.lang.String</code>              | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.stsEndpoint">stsEndpoint</a></code>                             | <code>java.lang.String</code>              | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.token">token</a></code>                                         | <code>java.lang.String</code>              | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.workspaceKeyPrefix">workspaceKeyPrefix</a></code>               | <code>java.lang.String</code>              | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                  | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.scope">scope</a></code>                                             | <code>software.constructs.Construct</code>                       | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.bucket">bucket</a></code>                                           | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.key">key</a></code>                                                 | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.accessKey">accessKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.acl">acl</a></code>                                                 | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicy">assumeRolePolicy</a></code>                       | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicyArns">assumeRolePolicyArns</a></code>               | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRoleTags">assumeRoleTags</a></code>                           | <code>java.util.Map< java.lang.String, java.lang.String ></code> | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRoleTransitiveTagKeys">assumeRoleTransitiveTagKeys</a></code> | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbEndpoint">dynamodbEndpoint</a></code>                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbTable">dynamodbTable</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.encrypt">encrypt</a></code>                                         | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.endpoint">endpoint</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.externalId">externalId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">forcePathStyle</a></code>                           | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.iamEndpoint">iamEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.kmsKeyId">kmsKeyId</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.maxRetries">maxRetries</a></code>                                   | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.profile">profile</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.region">region</a></code>                                           | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.roleArn">roleArn</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.secretKey">secretKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sessionName">sessionName</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sharedCredentialsFile">sharedCredentialsFile</a></code>             | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipCredentialsValidation">skipCredentialsValidation</a></code>     | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipMetadataApiCheck">skipMetadataApiCheck</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipRegionValidation">skipRegionValidation</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sseCustomerKey">sseCustomerKey</a></code>                           | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.stsEndpoint">stsEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.token">token</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.workspaceKeyPrefix">workspaceKeyPrefix</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -10660,6 +10995,30 @@ or AWS shared configuration file (e.g. ~/.aws/config).
 - _Type:_ java.lang.String
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRolePolicyArns`<sup>Optional</sup> <a name="assumeRolePolicyArns" id="cdktf.S3Backend.Initializer.parameter.assumeRolePolicyArns"></a>
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRoleTags`<sup>Optional</sup> <a name="assumeRoleTags" id="cdktf.S3Backend.Initializer.parameter.assumeRoleTags"></a>
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.String >
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assumeRoleTransitiveTagKeys`<sup>Optional</sup> <a name="assumeRoleTransitiveTagKeys" id="cdktf.S3Backend.Initializer.parameter.assumeRoleTransitiveTagKeys"></a>
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -10822,6 +11181,14 @@ Defaults to ~/.aws/credentials.
 - _Type:_ java.lang.Boolean
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skipRegionValidation`<sup>Optional</sup> <a name="skipRegionValidation" id="cdktf.S3Backend.Initializer.parameter.skipRegionValidation"></a>
+
+- _Type:_ java.lang.Boolean
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -11643,14 +12010,13 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                      | **Type**                                                        | **Description**                                                                                                    |
-| ----------------------------------------------------------------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code>           | <code>software.constructs.Node</code>                           | The tree node.                                                                                                     |
-| <code><a href="#cdktf.TerraformAsset.property.stack">stack</a></code>         | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined.                                                                       |
-| <code><a href="#cdktf.TerraformAsset.property.fileName">fileName</a></code>   | <code>java.lang.String</code>                                   | Name of the asset.                                                                                                 |
-| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code>           | <code>java.lang.String</code>                                   | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.assetHash">assetHash</a></code> | <code>java.lang.String</code>                                   | _No description._                                                                                                  |
-| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code>           | <code><a href="#cdktf.AssetType">AssetType</a></code>           | _No description._                                                                                                  |
+| **Name**                                                                      | **Type**                                              | **Description**                                                                                                    |
+| ----------------------------------------------------------------------------- | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code>           | <code>software.constructs.Node</code>                 | The tree node.                                                                                                     |
+| <code><a href="#cdktf.TerraformAsset.property.fileName">fileName</a></code>   | <code>java.lang.String</code>                         | Name of the asset.                                                                                                 |
+| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code>           | <code>java.lang.String</code>                         | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
+| <code><a href="#cdktf.TerraformAsset.property.assetHash">assetHash</a></code> | <code>java.lang.String</code>                         | _No description._                                                                                                  |
+| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code>           | <code><a href="#cdktf.AssetType">AssetType</a></code> | _No description._                                                                                                  |
 
 ---
 
@@ -11663,18 +12029,6 @@ public Node getNode();
 - _Type:_ software.constructs.Node
 
 The tree node.
-
----
-
-##### `stack`<sup>Required</sup> <a name="stack" id="cdktf.TerraformAsset.property.stack"></a>
-
-```java
-public TerraformStack getStack();
-```
-
-- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
-
-The stack in which this resource is defined.
 
 ---
 
@@ -15184,6 +15538,7 @@ new TerraformStack(Construct scope, java.lang.String id);
 | <code><a href="#cdktf.TerraformStack.prepareStack">prepareStack</a></code>                                               | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerIncomingCrossStackReference">registerIncomingCrossStackReference</a></code> | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerOutgoingCrossStackReference">registerOutgoingCrossStackReference</a></code> | _No description._                                  |
+| <code><a href="#cdktf.TerraformStack.runAllValidations">runAllValidations</a></code>                                     | Run all validations on the stack.                  |
 | <code><a href="#cdktf.TerraformStack.toTerraform">toTerraform</a></code>                                                 | _No description._                                  |
 
 ---
@@ -15291,6 +15646,14 @@ public TerraformOutput registerOutgoingCrossStackReference(java.lang.String iden
 - _Type:_ java.lang.String
 
 ---
+
+##### `runAllValidations` <a name="runAllValidations" id="cdktf.TerraformStack.runAllValidations"></a>
+
+```java
+public void runAllValidations()
+```
+
+Run all validations on the stack.
 
 ##### `toTerraform` <a name="toTerraform" id="cdktf.TerraformStack.toTerraform"></a>
 
@@ -16254,6 +16617,90 @@ public java.lang.Boolean getUseMsi();
 (Optional) Should Managed Service Identity authentication be used?
 
 This can also be sourced from the ARM_USE_MSI environment variable.
+
+---
+
+### CloudBackendProps <a name="CloudBackendProps" id="cdktf.CloudBackendProps"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+https://www.terraform.io/cli/cloud/settings#arguments
+
+#### Initializer <a name="Initializer" id="cdktf.CloudBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.CloudBackendProps;
+
+CloudBackendProps.builder()
+    .organization(java.lang.String)
+    .workspaces(NamedCloudWorkspace)
+    .workspaces(TaggedCloudWorkspaces)
+//  .hostname(java.lang.String)
+//  .token(java.lang.String)
+    .build();
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                                                                                                                                      | **Description**                                                                                             |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackendProps.property.organization">organization</a></code> | <code>java.lang.String</code>                                                                                                                 | The name of the organization containing the workspace(s) the current configuration should use.              |
+| <code><a href="#cdktf.CloudBackendProps.property.workspaces">workspaces</a></code>     | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackendProps.property.hostname">hostname</a></code>         | <code>java.lang.String</code>                                                                                                                 | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
+| <code><a href="#cdktf.CloudBackendProps.property.token">token</a></code>               | <code>java.lang.String</code>                                                                                                                 | The token used to authenticate with Terraform Cloud.                                                        |
+
+---
+
+##### `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackendProps.property.organization"></a>
+
+```java
+public java.lang.String getOrganization();
+```
+
+- _Type:_ java.lang.String
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+##### `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackendProps.property.workspaces"></a>
+
+```java
+public java.lang.Object getWorkspaces();
+```
+
+- _Type:_ <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendProps.property.hostname"></a>
+
+```java
+public java.lang.String getHostname();
+```
+
+- _Type:_ java.lang.String
+- _Default:_ app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendProps.property.token"></a>
+
+```java
+public java.lang.String getToken();
+```
+
+- _Type:_ java.lang.String
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
 
 ---
 
@@ -18656,6 +19103,9 @@ DataTerraformRemoteStateS3Config.builder()
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
 //  .assumeRolePolicy(java.lang.String)
+//  .assumeRolePolicyArns(java.util.List< java.lang.String >)
+//  .assumeRoleTags(java.util.Map< java.lang.String, java.lang.String >)
+//  .assumeRoleTransitiveTagKeys(java.util.List< java.lang.String >)
 //  .dynamodbEndpoint(java.lang.String)
 //  .dynamodbTable(java.lang.String)
 //  .encrypt(java.lang.Boolean)
@@ -18673,6 +19123,7 @@ DataTerraformRemoteStateS3Config.builder()
 //  .sharedCredentialsFile(java.lang.String)
 //  .skipCredentialsValidation(java.lang.Boolean)
 //  .skipMetadataApiCheck(java.lang.Boolean)
+//  .skipRegionValidation(java.lang.Boolean)
 //  .sseCustomerKey(java.lang.String)
 //  .stsEndpoint(java.lang.String)
 //  .token(java.lang.String)
@@ -18682,36 +19133,40 @@ DataTerraformRemoteStateS3Config.builder()
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                        | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.defaults">defaults</a></code>                                   | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspace">workspace</a></code>                                 | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.bucket">bucket</a></code>                                       | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">key</a></code>                                             | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">accessKey</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">acl</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">assumeRolePolicy</a></code>                   | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbEndpoint">dynamodbEndpoint</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbTable">dynamodbTable</a></code>                         | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">encrypt</a></code>                                     | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">externalId</a></code>                               | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">forcePathStyle</a></code>                       | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">iamEndpoint</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">kmsKeyId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">maxRetries</a></code>                               | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.profile">profile</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.region">region</a></code>                                       | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.roleArn">roleArn</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.secretKey">secretKey</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sessionName">sessionName</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sharedCredentialsFile">sharedCredentialsFile</a></code>         | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipCredentialsValidation">skipCredentialsValidation</a></code> | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipMetadataApiCheck">skipMetadataApiCheck</a></code>           | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sseCustomerKey">sseCustomerKey</a></code>                       | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.stsEndpoint">stsEndpoint</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.token">token</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspaceKeyPrefix">workspaceKeyPrefix</a></code>               | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                            | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.defaults">defaults</a></code>                                       | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspace">workspace</a></code>                                     | <code>java.lang.String</code>                                    | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.bucket">bucket</a></code>                                           | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">key</a></code>                                                 | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">accessKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">acl</a></code>                                                 | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">assumeRolePolicy</a></code>                       | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns">assumeRolePolicyArns</a></code>               | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTags">assumeRoleTags</a></code>                           | <code>java.util.Map< java.lang.String, java.lang.String ></code> | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTransitiveTagKeys">assumeRoleTransitiveTagKeys</a></code> | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbEndpoint">dynamodbEndpoint</a></code>                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbTable">dynamodbTable</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">encrypt</a></code>                                         | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">externalId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">forcePathStyle</a></code>                           | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">iamEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">kmsKeyId</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">maxRetries</a></code>                                   | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.profile">profile</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.region">region</a></code>                                           | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.roleArn">roleArn</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.secretKey">secretKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sessionName">sessionName</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sharedCredentialsFile">sharedCredentialsFile</a></code>             | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipCredentialsValidation">skipCredentialsValidation</a></code>     | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipMetadataApiCheck">skipMetadataApiCheck</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipRegionValidation">skipRegionValidation</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sseCustomerKey">sseCustomerKey</a></code>                           | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.stsEndpoint">stsEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.token">token</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspaceKeyPrefix">workspaceKeyPrefix</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -18800,6 +19255,42 @@ public java.lang.String getAssumeRolePolicy();
 - _Type:_ java.lang.String
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRolePolicyArns`<sup>Optional</sup> <a name="assumeRolePolicyArns" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns"></a>
+
+```java
+public java.util.List< java.lang.String > getAssumeRolePolicyArns();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRoleTags`<sup>Optional</sup> <a name="assumeRoleTags" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTags"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.String > getAssumeRoleTags();
+```
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.String >
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assumeRoleTransitiveTagKeys`<sup>Optional</sup> <a name="assumeRoleTransitiveTagKeys" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTransitiveTagKeys"></a>
+
+```java
+public java.util.List< java.lang.String > getAssumeRoleTransitiveTagKeys();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -19030,6 +19521,18 @@ public java.lang.Boolean getSkipMetadataApiCheck();
 - _Type:_ java.lang.Boolean
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skipRegionValidation`<sup>Optional</sup> <a name="skipRegionValidation" id="cdktf.DataTerraformRemoteStateS3Config.property.skipRegionValidation"></a>
+
+```java
+public java.lang.Boolean getSkipRegionValidation();
+```
+
+- _Type:_ java.lang.Boolean
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -21198,6 +21701,9 @@ S3BackendProps.builder()
 //  .accessKey(java.lang.String)
 //  .acl(java.lang.String)
 //  .assumeRolePolicy(java.lang.String)
+//  .assumeRolePolicyArns(java.util.List< java.lang.String >)
+//  .assumeRoleTags(java.util.Map< java.lang.String, java.lang.String >)
+//  .assumeRoleTransitiveTagKeys(java.util.List< java.lang.String >)
 //  .dynamodbEndpoint(java.lang.String)
 //  .dynamodbTable(java.lang.String)
 //  .encrypt(java.lang.Boolean)
@@ -21215,6 +21721,7 @@ S3BackendProps.builder()
 //  .sharedCredentialsFile(java.lang.String)
 //  .skipCredentialsValidation(java.lang.Boolean)
 //  .skipMetadataApiCheck(java.lang.Boolean)
+//  .skipRegionValidation(java.lang.Boolean)
 //  .sseCustomerKey(java.lang.String)
 //  .stsEndpoint(java.lang.String)
 //  .token(java.lang.String)
@@ -21224,34 +21731,38 @@ S3BackendProps.builder()
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                      | **Type**                       | **Description**                                                                                                                                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.S3BackendProps.property.bucket">bucket</a></code>                                       | <code>java.lang.String</code>  | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.key">key</a></code>                                             | <code>java.lang.String</code>  | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.S3BackendProps.property.accessKey">accessKey</a></code>                                 | <code>java.lang.String</code>  | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.acl">acl</a></code>                                             | <code>java.lang.String</code>  | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicy">assumeRolePolicy</a></code>                   | <code>java.lang.String</code>  | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.S3BackendProps.property.dynamodbEndpoint">dynamodbEndpoint</a></code>                   | <code>java.lang.String</code>  | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.S3BackendProps.property.dynamodbTable">dynamodbTable</a></code>                         | <code>java.lang.String</code>  | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3BackendProps.property.encrypt">encrypt</a></code>                                     | <code>java.lang.Boolean</code> | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3BackendProps.property.endpoint">endpoint</a></code>                                   | <code>java.lang.String</code>  | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.S3BackendProps.property.externalId">externalId</a></code>                               | <code>java.lang.String</code>  | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">forcePathStyle</a></code>                       | <code>java.lang.Boolean</code> | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">iamEndpoint</a></code>                             | <code>java.lang.String</code>  | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">kmsKeyId</a></code>                                   | <code>java.lang.String</code>  | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.S3BackendProps.property.maxRetries">maxRetries</a></code>                               | <code>java.lang.Number</code>  | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.profile">profile</a></code>                                     | <code>java.lang.String</code>  | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.S3BackendProps.property.region">region</a></code>                                       | <code>java.lang.String</code>  | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.S3BackendProps.property.roleArn">roleArn</a></code>                                     | <code>java.lang.String</code>  | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.S3BackendProps.property.secretKey">secretKey</a></code>                                 | <code>java.lang.String</code>  | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3BackendProps.property.sessionName">sessionName</a></code>                             | <code>java.lang.String</code>  | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.sharedCredentialsFile">sharedCredentialsFile</a></code>         | <code>java.lang.String</code>  | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3BackendProps.property.skipCredentialsValidation">skipCredentialsValidation</a></code> | <code>java.lang.Boolean</code> | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.S3BackendProps.property.skipMetadataApiCheck">skipMetadataApiCheck</a></code>           | <code>java.lang.Boolean</code> | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.sseCustomerKey">sseCustomerKey</a></code>                       | <code>java.lang.String</code>  | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.S3BackendProps.property.stsEndpoint">stsEndpoint</a></code>                             | <code>java.lang.String</code>  | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.S3BackendProps.property.token">token</a></code>                                         | <code>java.lang.String</code>  | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3BackendProps.property.workspaceKeyPrefix">workspaceKeyPrefix</a></code>               | <code>java.lang.String</code>  | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                          | **Type**                                                         | **Description**                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.S3BackendProps.property.bucket">bucket</a></code>                                           | <code>java.lang.String</code>                                    | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.key">key</a></code>                                                 | <code>java.lang.String</code>                                    | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.S3BackendProps.property.accessKey">accessKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.acl">acl</a></code>                                                 | <code>java.lang.String</code>                                    | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicy">assumeRolePolicy</a></code>                       | <code>java.lang.String</code>                                    | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicyArns">assumeRolePolicyArns</a></code>               | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTags">assumeRoleTags</a></code>                           | <code>java.util.Map< java.lang.String, java.lang.String ></code> | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys">assumeRoleTransitiveTagKeys</a></code> | <code>java.util.List< java.lang.String ></code>                  | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbEndpoint">dynamodbEndpoint</a></code>                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbTable">dynamodbTable</a></code>                             | <code>java.lang.String</code>                                    | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.encrypt">encrypt</a></code>                                         | <code>java.lang.Boolean</code>                                   | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.endpoint">endpoint</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.S3BackendProps.property.externalId">externalId</a></code>                                   | <code>java.lang.String</code>                                    | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">forcePathStyle</a></code>                           | <code>java.lang.Boolean</code>                                   | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">iamEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">kmsKeyId</a></code>                                       | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.S3BackendProps.property.maxRetries">maxRetries</a></code>                                   | <code>java.lang.Number</code>                                    | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.profile">profile</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.S3BackendProps.property.region">region</a></code>                                           | <code>java.lang.String</code>                                    | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.S3BackendProps.property.roleArn">roleArn</a></code>                                         | <code>java.lang.String</code>                                    | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.S3BackendProps.property.secretKey">secretKey</a></code>                                     | <code>java.lang.String</code>                                    | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3BackendProps.property.sessionName">sessionName</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.sharedCredentialsFile">sharedCredentialsFile</a></code>             | <code>java.lang.String</code>                                    | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.skipCredentialsValidation">skipCredentialsValidation</a></code>     | <code>java.lang.Boolean</code>                                   | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.S3BackendProps.property.skipMetadataApiCheck">skipMetadataApiCheck</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.skipRegionValidation">skipRegionValidation</a></code>               | <code>java.lang.Boolean</code>                                   | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.sseCustomerKey">sseCustomerKey</a></code>                           | <code>java.lang.String</code>                                    | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.S3BackendProps.property.stsEndpoint">stsEndpoint</a></code>                                 | <code>java.lang.String</code>                                    | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.S3BackendProps.property.token">token</a></code>                                             | <code>java.lang.String</code>                                    | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.workspaceKeyPrefix">workspaceKeyPrefix</a></code>                   | <code>java.lang.String</code>                                    | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -21320,6 +21831,42 @@ public java.lang.String getAssumeRolePolicy();
 - _Type:_ java.lang.String
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRolePolicyArns`<sup>Optional</sup> <a name="assumeRolePolicyArns" id="cdktf.S3BackendProps.property.assumeRolePolicyArns"></a>
+
+```java
+public java.util.List< java.lang.String > getAssumeRolePolicyArns();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assumeRoleTags`<sup>Optional</sup> <a name="assumeRoleTags" id="cdktf.S3BackendProps.property.assumeRoleTags"></a>
+
+```java
+public java.util.Map< java.lang.String, java.lang.String > getAssumeRoleTags();
+```
+
+- _Type:_ java.util.Map< java.lang.String, java.lang.String >
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assumeRoleTransitiveTagKeys`<sup>Optional</sup> <a name="assumeRoleTransitiveTagKeys" id="cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys"></a>
+
+```java
+public java.util.List< java.lang.String > getAssumeRoleTransitiveTagKeys();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -21550,6 +22097,18 @@ public java.lang.Boolean getSkipMetadataApiCheck();
 - _Type:_ java.lang.Boolean
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skipRegionValidation`<sup>Optional</sup> <a name="skipRegionValidation" id="cdktf.S3BackendProps.property.skipRegionValidation"></a>
+
+```java
+public java.lang.Boolean getSkipRegionValidation();
+```
+
+- _Type:_ java.lang.Boolean
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -24654,6 +25213,37 @@ public java.lang.String getFqn();
 - _Type:_ java.lang.String
 
 ---
+
+### CloudWorkspace <a name="CloudWorkspace" id="cdktf.CloudWorkspace"></a>
+
+A cloud workspace can either be a single named workspace, or a list of tagged workspaces.
+
+#### Initializers <a name="Initializers" id="cdktf.CloudWorkspace.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.CloudWorkspace;
+
+new CloudWorkspace();
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                 | **Description**   |
+| ------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.CloudWorkspace.toTerraform">toTerraform</a></code> | _No description._ |
+
+---
+
+##### `toTerraform` <a name="toTerraform" id="cdktf.CloudWorkspace.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
 
 ### ComplexComputedList <a name="ComplexComputedList" id="cdktf.ComplexComputedList"></a>
 
@@ -28645,6 +29235,64 @@ Returns the value of the current item iterated over.
 
 ---
 
+### NamedCloudWorkspace <a name="NamedCloudWorkspace" id="cdktf.NamedCloudWorkspace"></a>
+
+The name of a single Terraform Cloud workspace.
+
+You will only be able to use the workspace specified in the configuration with this working directory, and cannot manage workspaces from the CLI (e.g. terraform workspace select or terraform workspace new).
+
+#### Initializers <a name="Initializers" id="cdktf.NamedCloudWorkspace.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+
+new NamedCloudWorkspace(java.lang.String name);
+```
+
+| **Name**                                                                              | **Type**                      | **Description**   |
+| ------------------------------------------------------------------------------------- | ----------------------------- | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.Initializer.parameter.name">name</a></code> | <code>java.lang.String</code> | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.NamedCloudWorkspace.Initializer.parameter.name"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                      | **Description**   |
+| ----------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.toTerraform">toTerraform</a></code> | _No description._ |
+
+---
+
+##### `toTerraform` <a name="toTerraform" id="cdktf.NamedCloudWorkspace.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                 | **Type**                      | **Description**   |
+| ------------------------------------------------------------------------ | ----------------------------- | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.property.name">name</a></code> | <code>java.lang.String</code> | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.NamedCloudWorkspace.property.name"></a>
+
+```java
+public java.lang.String getName();
+```
+
+- _Type:_ java.lang.String
+
+---
+
 ### NamedRemoteWorkspace <a name="NamedRemoteWorkspace" id="cdktf.NamedRemoteWorkspace"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -29286,6 +29934,64 @@ public java.lang.String getFqn();
 
 ---
 
+### TaggedCloudWorkspaces <a name="TaggedCloudWorkspaces" id="cdktf.TaggedCloudWorkspaces"></a>
+
+A set of Terraform Cloud workspace tags.
+
+You will be able to use this working directory with any workspaces that have all of the specified tags, and can use the terraform workspace commands to switch between them or create new workspaces. New workspaces will automatically have the specified tags. This option conflicts with name.
+
+#### Initializers <a name="Initializers" id="cdktf.TaggedCloudWorkspaces.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TaggedCloudWorkspaces;
+
+new TaggedCloudWorkspaces(java.util.List< java.lang.String > tags);
+```
+
+| **Name**                                                                                | **Type**                                        | **Description**   |
+| --------------------------------------------------------------------------------------- | ----------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.Initializer.parameter.tags">tags</a></code> | <code>java.util.List< java.lang.String ></code> | _No description._ |
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="cdktf.TaggedCloudWorkspaces.Initializer.parameter.tags"></a>
+
+- _Type:_ java.util.List< java.lang.String >
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                        | **Description**   |
+| ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.toTerraform">toTerraform</a></code> | _No description._ |
+
+---
+
+##### `toTerraform` <a name="toTerraform" id="cdktf.TaggedCloudWorkspaces.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                   | **Type**                                        | **Description**   |
+| -------------------------------------------------------------------------- | ----------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.property.tags">tags</a></code> | <code>java.util.List< java.lang.String ></code> | _No description._ |
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="cdktf.TaggedCloudWorkspaces.property.tags"></a>
+
+```java
+public java.util.List< java.lang.String > getTags();
+```
+
+- _Type:_ java.util.List< java.lang.String >
+
+---
+
 ### TerraformIterator <a name="TerraformIterator" id="cdktf.TerraformIterator"></a>
 
 - _Implements:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
@@ -29751,7 +30457,7 @@ Testing.stubVersion(App app)
 ```java
 import com.hashicorp.cdktf.Testing;
 
-Testing.synth(TerraformStack stack)
+Testing.synth(TerraformStack stack),Testing.synth(TerraformStack stack, java.lang.Boolean runValidations)
 ```
 
 Returns the Terraform synthesized JSON.
@@ -29759,6 +30465,12 @@ Returns the Terraform synthesized JSON.
 ###### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.synth.parameter.stack"></a>
 
 - _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+###### `runValidations`<sup>Optional</sup> <a name="runValidations" id="cdktf.Testing.synth.parameter.runValidations"></a>
+
+- _Type:_ java.lang.Boolean
 
 ---
 
@@ -31294,7 +32006,7 @@ True when ${} should be ommitted (because already inside them), false otherwise.
 
 - _Extends:_ software.constructs.IConstruct
 
-- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.TerraformAsset">TerraformAsset</a>, <a href="#cdktf.IResource">IResource</a>
+- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.IResource">IResource</a>
 
 #### Properties <a name="Properties" id="Properties"></a>
 
