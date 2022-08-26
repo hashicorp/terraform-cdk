@@ -1,5 +1,5 @@
 {
-  "name": "@examples/azure-app-service-docker",
+  "name": "@examples/azure-app-service",
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",

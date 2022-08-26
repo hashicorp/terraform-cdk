@@ -1,5 +1,5 @@
 {
-  "name": "service-bus-queue-trigger",
+  "name": "@examples/typescript-azure-service-bus-queue-trigger",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",

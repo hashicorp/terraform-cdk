@@ -1,5 +1,5 @@
 {
-  "name": "@examples/typescript-provisioners",
+  "name": "@examples/typescript-provisioner",
   "version": "0.0.0",
   "main": "main.js",
   "license": "MPL-2.0",
