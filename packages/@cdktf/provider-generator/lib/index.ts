@@ -71,5 +71,13 @@ export async function readSchema(
     )
   );
 
+  // ensure we have a schema for each target type
+  schemas.unshift({
+    providerSchema: {
+      format_version: "0.1",
+    },
+    moduleSchema: {},
+  });
+
   return deepmerge.all(schemas);
 }
