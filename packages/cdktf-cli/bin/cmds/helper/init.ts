@@ -121,8 +121,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
       throw new Error(`Missing organization name in project info`);
     }
 
-    // Check if token is set so we can set up Terraform Cloud workspace
-    // only set with the '--local' option is specified the user.
+    // Set up a Terraform Cloud workspace if the user opted-in
     if (isRemote) {
       telemetryData.isRemote = Boolean(token);
       console.log(
