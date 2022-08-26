@@ -10,6 +10,8 @@ A very minor change in the interface names for provisioners occured [to support 
 - `ILocalExecProvisioner` to `LocalExecProvisioner`
 - `IRemoteExecProvisioner` to `RemoteExecProvisioner`
 
+Another very minor change is that we now use the `CloudBackend` by default when running cdktf init. This requires Terraform >=1.1, therefore an error is thrown on `cdktf init` if you want to use Terraform Cloud and are on an older version. Already existing projects are not affected and you can use `cdktf init --local` and configure the `RemoteBackend` if you need to use an older version.
+
 ### fix
 
 - fix(hcl2json): add fs-extra to dependencies [\#2040](https://github.com/hashicorp/terraform-cdk/pull/2040)
