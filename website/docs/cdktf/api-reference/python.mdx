@@ -988,6 +988,302 @@ friendly_unique_id: str
 
 ---
 
+### CloudBackend <a name="CloudBackend" id="cdktf.CloudBackend"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+#### Initializers <a name="Initializers" id="cdktf.CloudBackend.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.CloudBackend(
+  scope: Construct,
+  organization: str,
+  workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces],
+  hostname: str = None,
+  token: str = None
+)
+```
+
+| **Name**                                                                                       | **Type**                                                                                                                                                  | **Description**                                                                                             |
+| ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.scope">scope</a></code>               | <code>constructs.Construct</code>                                                                                                                         | _No description._                                                                                           |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.organization">organization</a></code> | <code>str</code>                                                                                                                                          | The name of the organization containing the workspace(s) the current configuration should use.              |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.workspaces">workspaces</a></code>     | <code>typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]</code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.hostname">hostname</a></code>         | <code>str</code>                                                                                                                                          | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
+| <code><a href="#cdktf.CloudBackend.Initializer.parameter.token">token</a></code>               | <code>str</code>                                                                                                                                          | The token used to authenticate with Terraform Cloud.                                                        |
+
+---
+
+##### `scope`<sup>Required</sup> <a name="scope" id="cdktf.CloudBackend.Initializer.parameter.scope"></a>
+
+- _Type:_ constructs.Construct
+
+---
+
+##### `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackend.Initializer.parameter.organization"></a>
+
+- _Type:_ str
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+##### `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackend.Initializer.parameter.workspaces"></a>
+
+- _Type:_ typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackend.Initializer.parameter.hostname"></a>
+
+- _Type:_ str
+- _Default:_ app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackend.Initializer.parameter.token"></a>
+
+- _Type:_ str
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                                             | **Description**                                                                   |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackend.toString">to_string</a></code>                                    | Returns a string representation of this construct.                                |
+| <code><a href="#cdktf.CloudBackend.addOverride">add_override</a></code>                              | _No description._                                                                 |
+| <code><a href="#cdktf.CloudBackend.overrideLogicalId">override_logical_id</a></code>                 | Overrides the auto-generated logical ID with a specific ID.                       |
+| <code><a href="#cdktf.CloudBackend.resetOverrideLogicalId">reset_override_logical_id</a></code>      | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.CloudBackend.toMetadata">to_metadata</a></code>                                | _No description._                                                                 |
+| <code><a href="#cdktf.CloudBackend.toTerraform">to_terraform</a></code>                              | Adds this resource to the terraform JSON output.                                  |
+| <code><a href="#cdktf.CloudBackend.getRemoteStateDataSource">get_remote_state_data_source</a></code> | Creates a TerraformRemoteState resource that accesses this backend.               |
+
+---
+
+##### `to_string` <a name="to_string" id="cdktf.CloudBackend.toString"></a>
+
+```python
+def to_string() - > str
+```
+
+Returns a string representation of this construct.
+
+##### `add_override` <a name="add_override" id="cdktf.CloudBackend.addOverride"></a>
+
+```python
+def add_override(
+  path: str,
+  value: typing.Any
+) - > None
+```
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.CloudBackend.addOverride.parameter.path"></a>
+
+- _Type:_ str
+
+---
+
+###### `value`<sup>Required</sup> <a name="value" id="cdktf.CloudBackend.addOverride.parameter.value"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `override_logical_id` <a name="override_logical_id" id="cdktf.CloudBackend.overrideLogicalId"></a>
+
+```python
+def override_logical_id(
+  new_logical_id: str
+) - > None
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+###### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.CloudBackend.overrideLogicalId.parameter.newLogicalId"></a>
+
+- _Type:_ str
+
+The new logical ID to use for this stack element.
+
+---
+
+##### `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.CloudBackend.resetOverrideLogicalId"></a>
+
+```python
+def reset_override_logical_id() - > None
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+##### `to_metadata` <a name="to_metadata" id="cdktf.CloudBackend.toMetadata"></a>
+
+```python
+def to_metadata() - > typing.Any
+```
+
+##### `to_terraform` <a name="to_terraform" id="cdktf.CloudBackend.toTerraform"></a>
+
+```python
+def to_terraform() - > typing.Any
+```
+
+Adds this resource to the terraform JSON output.
+
+##### `get_remote_state_data_source` <a name="get_remote_state_data_source" id="cdktf.CloudBackend.getRemoteStateDataSource"></a>
+
+```python
+def get_remote_state_data_source(
+  scope: Construct,
+  name: str,
+  _fromstack: str
+) - > TerraformRemoteState
+```
+
+Creates a TerraformRemoteState resource that accesses this backend.
+
+###### `scope`<sup>Required</sup> <a name="scope" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter.scope"></a>
+
+- _Type:_ constructs.Construct
+
+---
+
+###### `name`<sup>Required</sup> <a name="name" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter.name"></a>
+
+- _Type:_ str
+
+---
+
+###### `_fromstack`<sup>Required</sup> <a name="_fromstack" id="cdktf.CloudBackend.getRemoteStateDataSource.parameter._fromStack"></a>
+
+- _Type:_ str
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                                                | **Description**               |
+| ----------------------------------------------------------------------- | ----------------------------- |
+| <code><a href="#cdktf.CloudBackend.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#cdktf.CloudBackend.isBackend">is_backend</a></code>     | _No description._             |
+
+---
+
+##### `is_construct` <a name="is_construct" id="cdktf.CloudBackend.isConstruct"></a>
+
+```python
+import cdktf
+
+cdktf.CloudBackend.is_construct(
+  x: typing.Any
+)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.CloudBackend.isConstruct.parameter.x"></a>
+
+- _Type:_ typing.Any
+
+Any object.
+
+---
+
+##### `is_backend` <a name="is_backend" id="cdktf.CloudBackend.isBackend"></a>
+
+```python
+import cdktf
+
+cdktf.CloudBackend.is_backend(
+  x: typing.Any
+)
+```
+
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.CloudBackend.isBackend.parameter.x"></a>
+
+- _Type:_ typing.Any
+
+---
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                    | **Type**                                                        | **Description**   |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.CloudBackend.property.node">node</a></code>                           | <code>constructs.Node</code>                                    | The tree node.    |
+| <code><a href="#cdktf.CloudBackend.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
+| <code><a href="#cdktf.CloudBackend.property.fqn">fqn</a></code>                             | <code>str</code>                                                | _No description._ |
+| <code><a href="#cdktf.CloudBackend.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                | _No description._ |
+
+---
+
+##### `node`<sup>Required</sup> <a name="node" id="cdktf.CloudBackend.property.node"></a>
+
+```python
+node: Node
+```
+
+- _Type:_ constructs.Node
+
+The tree node.
+
+---
+
+##### `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.CloudBackend.property.cdktfStack"></a>
+
+```python
+cdktf_stack: TerraformStack
+```
+
+- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+##### `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.CloudBackend.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- _Type:_ str
+
+---
+
+##### `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.CloudBackend.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- _Type:_ str
+
+---
+
 ### ConsulBackend <a name="ConsulBackend" id="cdktf.ConsulBackend"></a>
 
 #### Initializers <a name="Initializers" id="cdktf.ConsulBackend.Initializer"></a>
@@ -6899,6 +7195,9 @@ cdktf.DataTerraformRemoteStateS3(
   access_key: str = None,
   acl: str = None,
   assume_role_policy: str = None,
+  assume_role_policy_arns: typing.List[str] = None,
+  assume_role_tags: typing.Mapping[str] = None,
+  assume_role_transitive_tag_keys: typing.List[str] = None,
   dynamodb_endpoint: str = None,
   dynamodb_table: str = None,
   encrypt: bool = None,
@@ -6916,6 +7215,7 @@ cdktf.DataTerraformRemoteStateS3(
   shared_credentials_file: str = None,
   skip_credentials_validation: bool = None,
   skip_metadata_api_check: bool = None,
+  skip_region_validation: bool = None,
   sse_customer_key: str = None,
   sts_endpoint: str = None,
   token: str = None,
@@ -6923,38 +7223,42 @@ cdktf.DataTerraformRemoteStateS3(
 )
 ```
 
-| **Name**                                                                                                                                 | **Type**                                | **Description**                                                                                                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope">scope</a></code>                                           | <code>constructs.Construct</code>       | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id">id</a></code>                                                 | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults">defaults</a></code>                                     | <code>typing.Mapping[typing.Any]</code> | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace">workspace</a></code>                                   | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket">bucket</a></code>                                         | <code>str</code>                        | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key">key</a></code>                                               | <code>str</code>                        | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey">access_key</a></code>                                  | <code>str</code>                        | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl">acl</a></code>                                               | <code>str</code>                        | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy">assume_role_policy</a></code>                   | <code>str</code>                        | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint">dynamodb_endpoint</a></code>                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable">dynamodb_table</a></code>                          | <code>str</code>                        | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code>                                       | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code>                                     | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">external_id</a></code>                                | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile">profile</a></code>                                       | <code>str</code>                        | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region">region</a></code>                                         | <code>str</code>                        | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn">role_arn</a></code>                                      | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey">secret_key</a></code>                                  | <code>str</code>                        | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName">session_name</a></code>                              | <code>str</code>                        | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile">shared_credentials_file</a></code>         | <code>str</code>                        | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation">skip_credentials_validation</a></code> | <code>bool</code>                       | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck">skip_metadata_api_check</a></code>          | <code>bool</code>                       | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey">sse_customer_key</a></code>                       | <code>str</code>                        | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint">sts_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token">token</a></code>                                           | <code>str</code>                        | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix">workspace_key_prefix</a></code>               | <code>str</code>                        | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                                       | **Type**                                | **Description**                                                                                                                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope">scope</a></code>                                                 | <code>constructs.Construct</code>       | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id">id</a></code>                                                       | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults">defaults</a></code>                                           | <code>typing.Mapping[typing.Any]</code> | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace">workspace</a></code>                                         | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket">bucket</a></code>                                               | <code>str</code>                        | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key">key</a></code>                                                     | <code>str</code>                        | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey">access_key</a></code>                                        | <code>str</code>                        | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl">acl</a></code>                                                     | <code>str</code>                        | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy">assume_role_policy</a></code>                         | <code>str</code>                        | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns">assume_role_policy_arns</a></code>                | <code>typing.List[str]</code>           | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags">assume_role_tags</a></code>                             | <code>typing.Mapping[str]</code>        | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys">assume_role_transitive_tag_keys</a></code> | <code>typing.List[str]</code>           | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint">dynamodb_endpoint</a></code>                          | <code>str</code>                        | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable">dynamodb_table</a></code>                                | <code>str</code>                        | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code>                                             | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code>                                           | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">external_id</a></code>                                      | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">force_path_style</a></code>                             | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                         | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">max_retries</a></code>                                      | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile">profile</a></code>                                             | <code>str</code>                        | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region">region</a></code>                                               | <code>str</code>                        | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn">role_arn</a></code>                                            | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey">secret_key</a></code>                                        | <code>str</code>                        | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName">session_name</a></code>                                    | <code>str</code>                        | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile">shared_credentials_file</a></code>               | <code>str</code>                        | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation">skip_credentials_validation</a></code>       | <code>bool</code>                       | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck">skip_metadata_api_check</a></code>                | <code>bool</code>                       | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation">skip_region_validation</a></code>                 | <code>bool</code>                       | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey">sse_customer_key</a></code>                             | <code>str</code>                        | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint">sts_endpoint</a></code>                                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token">token</a></code>                                                 | <code>str</code>                        | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix">workspace_key_prefix</a></code>                     | <code>str</code>                        | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -7027,6 +7331,30 @@ or AWS shared configuration file (e.g. ~/.aws/config).
 - _Type:_ str
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_policy_arns`<sup>Optional</sup> <a name="assume_role_policy_arns" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns"></a>
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_tags`<sup>Optional</sup> <a name="assume_role_tags" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags"></a>
+
+- _Type:_ typing.Mapping[str]
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assume_role_transitive_tag_keys`<sup>Optional</sup> <a name="assume_role_transitive_tag_keys" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys"></a>
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -7189,6 +7517,14 @@ Defaults to ~/.aws/credentials.
 - _Type:_ bool
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skip_region_validation`<sup>Optional</sup> <a name="skip_region_validation" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation"></a>
+
+- _Type:_ bool
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -10939,7 +11275,7 @@ cdktf.Resource(
 
 ---
 
-##### `to_string` <a name="to_string" id="cdktf.Resource.toString"></a>
+##### ~~`to_string`~~ <a name="to_string" id="cdktf.Resource.toString"></a>
 
 ```python
 def to_string() - > str
@@ -10955,7 +11291,7 @@ Returns a string representation of this construct.
 
 ---
 
-##### `is_construct` <a name="is_construct" id="cdktf.Resource.isConstruct"></a>
+##### ~~`is_construct`~~ <a name="is_construct" id="cdktf.Resource.isConstruct"></a>
 
 ```python
 import cdktf
@@ -10998,7 +11334,9 @@ Any object.
 
 ---
 
-##### `node`<sup>Required</sup> <a name="node" id="cdktf.Resource.property.node"></a>
+##### ~~`node`~~<sup>Required</sup> <a name="node" id="cdktf.Resource.property.node"></a>
+
+- _Deprecated:_ - Please use Construct from the constructs package instead.
 
 ```python
 node: Node
@@ -11010,7 +11348,9 @@ The tree node.
 
 ---
 
-##### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Resource.property.stack"></a>
+##### ~~`stack`~~<sup>Required</sup> <a name="stack" id="cdktf.Resource.property.stack"></a>
+
+- _Deprecated:_ - Please use Construct from the constructs package instead.
 
 ```python
 stack: TerraformStack
@@ -11036,6 +11376,9 @@ cdktf.S3Backend(
   access_key: str = None,
   acl: str = None,
   assume_role_policy: str = None,
+  assume_role_policy_arns: typing.List[str] = None,
+  assume_role_tags: typing.Mapping[str] = None,
+  assume_role_transitive_tag_keys: typing.List[str] = None,
   dynamodb_endpoint: str = None,
   dynamodb_table: str = None,
   encrypt: bool = None,
@@ -11053,6 +11396,7 @@ cdktf.S3Backend(
   shared_credentials_file: str = None,
   skip_credentials_validation: bool = None,
   skip_metadata_api_check: bool = None,
+  skip_region_validation: bool = None,
   sse_customer_key: str = None,
   sts_endpoint: str = None,
   token: str = None,
@@ -11060,35 +11404,39 @@ cdktf.S3Backend(
 )
 ```
 
-| **Name**                                                                                                                | **Type**                              | **Description**                                                                                                                                                                                                                                                |
-| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.scope">scope</a></code>                                           | <code>constructs.Construct</code>     | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.bucket">bucket</a></code>                                         | <code>str</code>                      | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.key">key</a></code>                                               | <code>str</code>                      | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.accessKey">access_key</a></code>                                  | <code>str</code>                      | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.acl">acl</a></code>                                               | <code>str</code>                      | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicy">assume_role_policy</a></code>                   | <code>str</code>                      | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbEndpoint">dynamodb_endpoint</a></code>                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbTable">dynamodb_table</a></code>                          | <code>str</code>                      | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.encrypt">encrypt</a></code>                                       | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.endpoint">endpoint</a></code>                                     | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.externalId">external_id</a></code>                                | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.profile">profile</a></code>                                       | <code>str</code>                      | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.region">region</a></code>                                         | <code>str</code>                      | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.roleArn">role_arn</a></code>                                      | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.secretKey">secret_key</a></code>                                  | <code>str</code>                      | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sessionName">session_name</a></code>                              | <code>str</code>                      | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sharedCredentialsFile">shared_credentials_file</a></code>         | <code>str</code>                      | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipCredentialsValidation">skip_credentials_validation</a></code> | <code>bool</code>                     | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipMetadataApiCheck">skip_metadata_api_check</a></code>          | <code>bool</code>                     | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.sseCustomerKey">sse_customer_key</a></code>                       | <code>str</code>                      | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.stsEndpoint">sts_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.token">token</a></code>                                           | <code>str</code>                      | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3Backend.Initializer.parameter.workspaceKeyPrefix">workspace_key_prefix</a></code>               | <code>str</code>                      | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                      | **Type**                              | **Description**                                                                                                                                                                                                                                                |
+| ----------------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.scope">scope</a></code>                                                 | <code>constructs.Construct</code>     | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.bucket">bucket</a></code>                                               | <code>str</code>                      | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.key">key</a></code>                                                     | <code>str</code>                      | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.accessKey">access_key</a></code>                                        | <code>str</code>                      | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.acl">acl</a></code>                                                     | <code>str</code>                      | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicy">assume_role_policy</a></code>                         | <code>str</code>                      | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRolePolicyArns">assume_role_policy_arns</a></code>                | <code>typing.List[str]</code>         | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRoleTags">assume_role_tags</a></code>                             | <code>typing.Mapping[str]</code>      | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.assumeRoleTransitiveTagKeys">assume_role_transitive_tag_keys</a></code> | <code>typing.List[str]</code>         | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbEndpoint">dynamodb_endpoint</a></code>                          | <code>str</code>                      | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.dynamodbTable">dynamodb_table</a></code>                                | <code>str</code>                      | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.encrypt">encrypt</a></code>                                             | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.endpoint">endpoint</a></code>                                           | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.externalId">external_id</a></code>                                      | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.forcePathStyle">force_path_style</a></code>                             | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.iamEndpoint">iam_endpoint</a></code>                                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.kmsKeyId">kms_key_id</a></code>                                         | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.maxRetries">max_retries</a></code>                                      | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.profile">profile</a></code>                                             | <code>str</code>                      | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.region">region</a></code>                                               | <code>str</code>                      | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.roleArn">role_arn</a></code>                                            | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.secretKey">secret_key</a></code>                                        | <code>str</code>                      | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sessionName">session_name</a></code>                                    | <code>str</code>                      | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sharedCredentialsFile">shared_credentials_file</a></code>               | <code>str</code>                      | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipCredentialsValidation">skip_credentials_validation</a></code>       | <code>bool</code>                     | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipMetadataApiCheck">skip_metadata_api_check</a></code>                | <code>bool</code>                     | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.skipRegionValidation">skip_region_validation</a></code>                 | <code>bool</code>                     | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.sseCustomerKey">sse_customer_key</a></code>                             | <code>str</code>                      | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.stsEndpoint">sts_endpoint</a></code>                                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.token">token</a></code>                                                 | <code>str</code>                      | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3Backend.Initializer.parameter.workspaceKeyPrefix">workspace_key_prefix</a></code>                     | <code>str</code>                      | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -11143,6 +11491,30 @@ or AWS shared configuration file (e.g. ~/.aws/config).
 - _Type:_ str
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_policy_arns`<sup>Optional</sup> <a name="assume_role_policy_arns" id="cdktf.S3Backend.Initializer.parameter.assumeRolePolicyArns"></a>
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_tags`<sup>Optional</sup> <a name="assume_role_tags" id="cdktf.S3Backend.Initializer.parameter.assumeRoleTags"></a>
+
+- _Type:_ typing.Mapping[str]
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assume_role_transitive_tag_keys`<sup>Optional</sup> <a name="assume_role_transitive_tag_keys" id="cdktf.S3Backend.Initializer.parameter.assumeRoleTransitiveTagKeys"></a>
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -11305,6 +11677,14 @@ Defaults to ~/.aws/credentials.
 - _Type:_ bool
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skip_region_validation`<sup>Optional</sup> <a name="skip_region_validation" id="cdktf.S3Backend.Initializer.parameter.skipRegionValidation"></a>
+
+- _Type:_ bool
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -12157,14 +12537,13 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                       | **Type**                                                        | **Description**                                                                                                    |
-| ------------------------------------------------------------------------------ | --------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code>            | <code>constructs.Node</code>                                    | The tree node.                                                                                                     |
-| <code><a href="#cdktf.TerraformAsset.property.stack">stack</a></code>          | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined.                                                                       |
-| <code><a href="#cdktf.TerraformAsset.property.fileName">file_name</a></code>   | <code>str</code>                                                | Name of the asset.                                                                                                 |
-| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code>            | <code>str</code>                                                | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.assetHash">asset_hash</a></code> | <code>str</code>                                                | _No description._                                                                                                  |
-| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code>            | <code><a href="#cdktf.AssetType">AssetType</a></code>           | _No description._                                                                                                  |
+| **Name**                                                                       | **Type**                                              | **Description**                                                                                                    |
+| ------------------------------------------------------------------------------ | ----------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code>            | <code>constructs.Node</code>                          | The tree node.                                                                                                     |
+| <code><a href="#cdktf.TerraformAsset.property.fileName">file_name</a></code>   | <code>str</code>                                      | Name of the asset.                                                                                                 |
+| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code>            | <code>str</code>                                      | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
+| <code><a href="#cdktf.TerraformAsset.property.assetHash">asset_hash</a></code> | <code>str</code>                                      | _No description._                                                                                                  |
+| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code>            | <code><a href="#cdktf.AssetType">AssetType</a></code> | _No description._                                                                                                  |
 
 ---
 
@@ -12177,18 +12556,6 @@ node: Node
 - _Type:_ constructs.Node
 
 The tree node.
-
----
-
-##### `stack`<sup>Required</sup> <a name="stack" id="cdktf.TerraformAsset.property.stack"></a>
-
-```python
-stack: TerraformStack
-```
-
-- _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
-
-The stack in which this resource is defined.
 
 ---
 
@@ -15871,6 +16238,7 @@ cdktf.TerraformStack(
 | <code><a href="#cdktf.TerraformStack.prepareStack">prepare_stack</a></code>                                                  | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerIncomingCrossStackReference">register_incoming_cross_stack_reference</a></code> | _No description._                                  |
 | <code><a href="#cdktf.TerraformStack.registerOutgoingCrossStackReference">register_outgoing_cross_stack_reference</a></code> | _No description._                                  |
+| <code><a href="#cdktf.TerraformStack.runAllValidations">run_all_validations</a></code>                                       | Run all validations on the stack.                  |
 | <code><a href="#cdktf.TerraformStack.toTerraform">to_terraform</a></code>                                                    | _No description._                                  |
 
 ---
@@ -15991,6 +16359,14 @@ def register_outgoing_cross_stack_reference(
 - _Type:_ str
 
 ---
+
+##### `run_all_validations` <a name="run_all_validations" id="cdktf.TerraformStack.runAllValidations"></a>
+
+```python
+def run_all_validations() - > None
+```
+
+Run all validations on the stack.
 
 ##### `to_terraform` <a name="to_terraform" id="cdktf.TerraformStack.toTerraform"></a>
 
@@ -16978,6 +17354,89 @@ use_msi: bool
 (Optional) Should Managed Service Identity authentication be used?
 
 This can also be sourced from the ARM_USE_MSI environment variable.
+
+---
+
+### CloudBackendProps <a name="CloudBackendProps" id="cdktf.CloudBackendProps"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+https://www.terraform.io/cli/cloud/settings#arguments
+
+#### Initializer <a name="Initializer" id="cdktf.CloudBackendProps.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.CloudBackendProps(
+  organization: str,
+  workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces],
+  hostname: str = None,
+  token: str = None
+)
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                               | **Type**                                                                                                                                                  | **Description**                                                                                             |
+| -------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.CloudBackendProps.property.organization">organization</a></code> | <code>str</code>                                                                                                                                          | The name of the organization containing the workspace(s) the current configuration should use.              |
+| <code><a href="#cdktf.CloudBackendProps.property.workspaces">workspaces</a></code>     | <code>typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]</code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackendProps.property.hostname">hostname</a></code>         | <code>str</code>                                                                                                                                          | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.                         |
+| <code><a href="#cdktf.CloudBackendProps.property.token">token</a></code>               | <code>str</code>                                                                                                                                          | The token used to authenticate with Terraform Cloud.                                                        |
+
+---
+
+##### `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackendProps.property.organization"></a>
+
+```python
+organization: str
+```
+
+- _Type:_ str
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+##### `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackendProps.property.workspaces"></a>
+
+```python
+workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces]
+```
+
+- _Type:_ typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+##### `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendProps.property.hostname"></a>
+
+```python
+hostname: str
+```
+
+- _Type:_ str
+- _Default:_ app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+##### `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendProps.property.token"></a>
+
+```python
+token: str
+```
+
+- _Type:_ str
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
 
 ---
 
@@ -19380,6 +19839,9 @@ cdktf.DataTerraformRemoteStateS3Config(
   access_key: str = None,
   acl: str = None,
   assume_role_policy: str = None,
+  assume_role_policy_arns: typing.List[str] = None,
+  assume_role_tags: typing.Mapping[str] = None,
+  assume_role_transitive_tag_keys: typing.List[str] = None,
   dynamodb_endpoint: str = None,
   dynamodb_table: str = None,
   encrypt: bool = None,
@@ -19397,6 +19859,7 @@ cdktf.DataTerraformRemoteStateS3Config(
   shared_credentials_file: str = None,
   skip_credentials_validation: bool = None,
   skip_metadata_api_check: bool = None,
+  skip_region_validation: bool = None,
   sse_customer_key: str = None,
   sts_endpoint: str = None,
   token: str = None,
@@ -19406,36 +19869,40 @@ cdktf.DataTerraformRemoteStateS3Config(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                          | **Type**                                | **Description**                                                                                                                                                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.defaults">defaults</a></code>                                     | <code>typing.Mapping[typing.Any]</code> | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspace">workspace</a></code>                                   | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.bucket">bucket</a></code>                                         | <code>str</code>                        | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">key</a></code>                                               | <code>str</code>                        | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">access_key</a></code>                                  | <code>str</code>                        | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">acl</a></code>                                               | <code>str</code>                        | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">assume_role_policy</a></code>                   | <code>str</code>                        | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbEndpoint">dynamodb_endpoint</a></code>                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbTable">dynamodb_table</a></code>                          | <code>str</code>                        | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">encrypt</a></code>                                       | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                     | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">external_id</a></code>                                | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.profile">profile</a></code>                                       | <code>str</code>                        | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.region">region</a></code>                                         | <code>str</code>                        | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.roleArn">role_arn</a></code>                                      | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.secretKey">secret_key</a></code>                                  | <code>str</code>                        | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sessionName">session_name</a></code>                              | <code>str</code>                        | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sharedCredentialsFile">shared_credentials_file</a></code>         | <code>str</code>                        | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipCredentialsValidation">skip_credentials_validation</a></code> | <code>bool</code>                       | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipMetadataApiCheck">skip_metadata_api_check</a></code>          | <code>bool</code>                       | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sseCustomerKey">sse_customer_key</a></code>                       | <code>str</code>                        | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.stsEndpoint">sts_endpoint</a></code>                              | <code>str</code>                        | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.token">token</a></code>                                           | <code>str</code>                        | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspaceKeyPrefix">workspace_key_prefix</a></code>               | <code>str</code>                        | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                                                | **Type**                                | **Description**                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.defaults">defaults</a></code>                                           | <code>typing.Mapping[typing.Any]</code> | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspace">workspace</a></code>                                         | <code>str</code>                        | _No description._                                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.bucket">bucket</a></code>                                               | <code>str</code>                        | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.key">key</a></code>                                                     | <code>str</code>                        | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.accessKey">access_key</a></code>                                        | <code>str</code>                        | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.acl">acl</a></code>                                                     | <code>str</code>                        | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicy">assume_role_policy</a></code>                         | <code>str</code>                        | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns">assume_role_policy_arns</a></code>                | <code>typing.List[str]</code>           | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTags">assume_role_tags</a></code>                             | <code>typing.Mapping[str]</code>        | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTransitiveTagKeys">assume_role_transitive_tag_keys</a></code> | <code>typing.List[str]</code>           | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbEndpoint">dynamodb_endpoint</a></code>                          | <code>str</code>                        | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.dynamodbTable">dynamodb_table</a></code>                                | <code>str</code>                        | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.encrypt">encrypt</a></code>                                             | <code>bool</code>                       | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.endpoint">endpoint</a></code>                                           | <code>str</code>                        | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.externalId">external_id</a></code>                                      | <code>str</code>                        | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.forcePathStyle">force_path_style</a></code>                             | <code>bool</code>                       | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.iamEndpoint">iam_endpoint</a></code>                                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.kmsKeyId">kms_key_id</a></code>                                         | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.maxRetries">max_retries</a></code>                                      | <code>typing.Union[int, float]</code>   | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.profile">profile</a></code>                                             | <code>str</code>                        | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.region">region</a></code>                                               | <code>str</code>                        | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.roleArn">role_arn</a></code>                                            | <code>str</code>                        | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.secretKey">secret_key</a></code>                                        | <code>str</code>                        | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sessionName">session_name</a></code>                                    | <code>str</code>                        | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sharedCredentialsFile">shared_credentials_file</a></code>               | <code>str</code>                        | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipCredentialsValidation">skip_credentials_validation</a></code>       | <code>bool</code>                       | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipMetadataApiCheck">skip_metadata_api_check</a></code>                | <code>bool</code>                       | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.skipRegionValidation">skip_region_validation</a></code>                 | <code>bool</code>                       | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.sseCustomerKey">sse_customer_key</a></code>                             | <code>str</code>                        | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.stsEndpoint">sts_endpoint</a></code>                                    | <code>str</code>                        | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.token">token</a></code>                                                 | <code>str</code>                        | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3Config.property.workspaceKeyPrefix">workspace_key_prefix</a></code>                     | <code>str</code>                        | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -19524,6 +19991,42 @@ assume_role_policy: str
 - _Type:_ str
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_policy_arns`<sup>Optional</sup> <a name="assume_role_policy_arns" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRolePolicyArns"></a>
+
+```python
+assume_role_policy_arns: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_tags`<sup>Optional</sup> <a name="assume_role_tags" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTags"></a>
+
+```python
+assume_role_tags: typing.Mapping[str]
+```
+
+- _Type:_ typing.Mapping[str]
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assume_role_transitive_tag_keys`<sup>Optional</sup> <a name="assume_role_transitive_tag_keys" id="cdktf.DataTerraformRemoteStateS3Config.property.assumeRoleTransitiveTagKeys"></a>
+
+```python
+assume_role_transitive_tag_keys: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -19754,6 +20257,18 @@ skip_metadata_api_check: bool
 - _Type:_ bool
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skip_region_validation`<sup>Optional</sup> <a name="skip_region_validation" id="cdktf.DataTerraformRemoteStateS3Config.property.skipRegionValidation"></a>
+
+```python
+skip_region_validation: bool
+```
+
+- _Type:_ bool
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -21920,6 +22435,9 @@ cdktf.S3BackendProps(
   access_key: str = None,
   acl: str = None,
   assume_role_policy: str = None,
+  assume_role_policy_arns: typing.List[str] = None,
+  assume_role_tags: typing.Mapping[str] = None,
+  assume_role_transitive_tag_keys: typing.List[str] = None,
   dynamodb_endpoint: str = None,
   dynamodb_table: str = None,
   encrypt: bool = None,
@@ -21937,6 +22455,7 @@ cdktf.S3BackendProps(
   shared_credentials_file: str = None,
   skip_credentials_validation: bool = None,
   skip_metadata_api_check: bool = None,
+  skip_region_validation: bool = None,
   sse_customer_key: str = None,
   sts_endpoint: str = None,
   token: str = None,
@@ -21946,34 +22465,38 @@ cdktf.S3BackendProps(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                        | **Type**                              | **Description**                                                                                                                                                                                                                                                |
-| --------------------------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.S3BackendProps.property.bucket">bucket</a></code>                                         | <code>str</code>                      | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.key">key</a></code>                                               | <code>str</code>                      | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
-| <code><a href="#cdktf.S3BackendProps.property.accessKey">access_key</a></code>                                  | <code>str</code>                      | (Optional) AWS access key.                                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.acl">acl</a></code>                                               | <code>str</code>                      | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicy">assume_role_policy</a></code>                   | <code>str</code>                      | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
-| <code><a href="#cdktf.S3BackendProps.property.dynamodbEndpoint">dynamodb_endpoint</a></code>                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.S3BackendProps.property.dynamodbTable">dynamodb_table</a></code>                          | <code>str</code>                      | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3BackendProps.property.encrypt">encrypt</a></code>                                       | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
-| <code><a href="#cdktf.S3BackendProps.property.endpoint">endpoint</a></code>                                     | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
-| <code><a href="#cdktf.S3BackendProps.property.externalId">external_id</a></code>                                | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
-| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">force_path_style</a></code>                       | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">iam_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
-| <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">kms_key_id</a></code>                                   | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
-| <code><a href="#cdktf.S3BackendProps.property.maxRetries">max_retries</a></code>                                | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.profile">profile</a></code>                                       | <code>str</code>                      | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
-| <code><a href="#cdktf.S3BackendProps.property.region">region</a></code>                                         | <code>str</code>                      | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
-| <code><a href="#cdktf.S3BackendProps.property.roleArn">role_arn</a></code>                                      | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
-| <code><a href="#cdktf.S3BackendProps.property.secretKey">secret_key</a></code>                                  | <code>str</code>                      | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
-| <code><a href="#cdktf.S3BackendProps.property.sessionName">session_name</a></code>                              | <code>str</code>                      | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
-| <code><a href="#cdktf.S3BackendProps.property.sharedCredentialsFile">shared_credentials_file</a></code>         | <code>str</code>                      | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3BackendProps.property.skipCredentialsValidation">skip_credentials_validation</a></code> | <code>bool</code>                     | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
-| <code><a href="#cdktf.S3BackendProps.property.skipMetadataApiCheck">skip_metadata_api_check</a></code>          | <code>bool</code>                     | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
-| <code><a href="#cdktf.S3BackendProps.property.sseCustomerKey">sse_customer_key</a></code>                       | <code>str</code>                      | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
-| <code><a href="#cdktf.S3BackendProps.property.stsEndpoint">sts_endpoint</a></code>                              | <code>str</code>                      | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
-| <code><a href="#cdktf.S3BackendProps.property.token">token</a></code>                                           | <code>str</code>                      | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
-| <code><a href="#cdktf.S3BackendProps.property.workspaceKeyPrefix">workspace_key_prefix</a></code>               | <code>str</code>                      | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
+| **Name**                                                                                                              | **Type**                              | **Description**                                                                                                                                                                                                                                                |
+| --------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.S3BackendProps.property.bucket">bucket</a></code>                                               | <code>str</code>                      | Name of the S3 Bucket.                                                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.key">key</a></code>                                                     | <code>str</code>                      | Path to the state file inside the S3 Bucket.                                                                                                                                                                                                                   |
+| <code><a href="#cdktf.S3BackendProps.property.accessKey">access_key</a></code>                                        | <code>str</code>                      | (Optional) AWS access key.                                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.acl">acl</a></code>                                                     | <code>str</code>                      | (Optional) Canned ACL to be applied to the state file.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicy">assume_role_policy</a></code>                         | <code>str</code>                      | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.                                                                                                                                                          |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicyArns">assume_role_policy_arns</a></code>                | <code>typing.List[str]</code>         | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.                                                                                                                      |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTags">assume_role_tags</a></code>                             | <code>typing.Mapping[str]</code>      | (Optional) Map of assume role session tags.                                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys">assume_role_transitive_tag_keys</a></code> | <code>typing.List[str]</code>         | (Optional) Set of assume role session tag keys to pass to any subsequent sessions.                                                                                                                                                                             |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbEndpoint">dynamodb_endpoint</a></code>                          | <code>str</code>                      | (Optional) Custom endpoint for the AWS DynamoDB API.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbTable">dynamodb_table</a></code>                                | <code>str</code>                      | (Optional) Name of DynamoDB Table to use for state locking and consistency.                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.encrypt">encrypt</a></code>                                             | <code>bool</code>                     | (Optional) Enable server side encryption of the state file.                                                                                                                                                                                                    |
+| <code><a href="#cdktf.S3BackendProps.property.endpoint">endpoint</a></code>                                           | <code>str</code>                      | (Optional) Custom endpoint for the AWS S3 API.                                                                                                                                                                                                                 |
+| <code><a href="#cdktf.S3BackendProps.property.externalId">external_id</a></code>                                      | <code>str</code>                      | (Optional) External identifier to use when assuming the role.                                                                                                                                                                                                  |
+| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">force_path_style</a></code>                             | <code>bool</code>                     | (Optional) Enable path-style S3 URLs (https://< HOST >/< BUCKET > instead of https://< BUCKET >.< HOST >).                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">iam_endpoint</a></code>                                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.                                                                                                                                                                               |
+| <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">kms_key_id</a></code>                                         | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.                                                                                                                                                   |
+| <code><a href="#cdktf.S3BackendProps.property.maxRetries">max_retries</a></code>                                      | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure.                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.profile">profile</a></code>                                             | <code>str</code>                      | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.S3BackendProps.property.region">region</a></code>                                               | <code>str</code>                      | AWS Region of the S3 Bucket and DynamoDB Table (if used).                                                                                                                                                                                                      |
+| <code><a href="#cdktf.S3BackendProps.property.roleArn">role_arn</a></code>                                            | <code>str</code>                      | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume.                                                                                                                                                                                               |
+| <code><a href="#cdktf.S3BackendProps.property.secretKey">secret_key</a></code>                                        | <code>str</code>                      | (Optional) AWS secret access key.                                                                                                                                                                                                                              |
+| <code><a href="#cdktf.S3BackendProps.property.sessionName">session_name</a></code>                                    | <code>str</code>                      | (Optional) Session name to use when assuming the role.                                                                                                                                                                                                         |
+| <code><a href="#cdktf.S3BackendProps.property.sharedCredentialsFile">shared_credentials_file</a></code>               | <code>str</code>                      | (Optional) Path to the AWS shared credentials file.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.skipCredentialsValidation">skip_credentials_validation</a></code>       | <code>bool</code>                     | (Optional) Skip credentials validation via the STS API.                                                                                                                                                                                                        |
+| <code><a href="#cdktf.S3BackendProps.property.skipMetadataApiCheck">skip_metadata_api_check</a></code>                | <code>bool</code>                     | (Optional) Skip usage of EC2 Metadata API.                                                                                                                                                                                                                     |
+| <code><a href="#cdktf.S3BackendProps.property.skipRegionValidation">skip_region_validation</a></code>                 | <code>bool</code>                     | (Optional) Skip validation of provided region name.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.sseCustomerKey">sse_customer_key</a></code>                             | <code>str</code>                      | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).                                                                                                                                                |
+| <code><a href="#cdktf.S3BackendProps.property.stsEndpoint">sts_endpoint</a></code>                                    | <code>str</code>                      | (Optional) Custom endpoint for the AWS Security Token Service (STS) API.                                                                                                                                                                                       |
+| <code><a href="#cdktf.S3BackendProps.property.token">token</a></code>                                                 | <code>str</code>                      | (Optional) Multi-Factor Authentication (MFA) token.                                                                                                                                                                                                            |
+| <code><a href="#cdktf.S3BackendProps.property.workspaceKeyPrefix">workspace_key_prefix</a></code>                     | <code>str</code>                      | (Optional) Prefix applied to the state path inside the bucket.                                                                                                                                                                                                 |
 
 ---
 
@@ -22042,6 +22565,42 @@ assume_role_policy: str
 - _Type:_ str
 
 (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_policy_arns`<sup>Optional</sup> <a name="assume_role_policy_arns" id="cdktf.S3BackendProps.property.assumeRolePolicyArns"></a>
+
+```python
+assume_role_policy_arns: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+##### `assume_role_tags`<sup>Optional</sup> <a name="assume_role_tags" id="cdktf.S3BackendProps.property.assumeRoleTags"></a>
+
+```python
+assume_role_tags: typing.Mapping[str]
+```
+
+- _Type:_ typing.Mapping[str]
+
+(Optional) Map of assume role session tags.
+
+---
+
+##### `assume_role_transitive_tag_keys`<sup>Optional</sup> <a name="assume_role_transitive_tag_keys" id="cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys"></a>
+
+```python
+assume_role_transitive_tag_keys: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
 
 ---
 
@@ -22272,6 +22831,18 @@ skip_metadata_api_check: bool
 - _Type:_ bool
 
 (Optional) Skip usage of EC2 Metadata API.
+
+---
+
+##### `skip_region_validation`<sup>Optional</sup> <a name="skip_region_validation" id="cdktf.S3BackendProps.property.skipRegionValidation"></a>
+
+```python
+skip_region_validation: bool
+```
+
+- _Type:_ bool
+
+(Optional) Skip validation of provided region name.
 
 ---
 
@@ -25415,6 +25986,37 @@ fqn: str
 - _Type:_ str
 
 ---
+
+### CloudWorkspace <a name="CloudWorkspace" id="cdktf.CloudWorkspace"></a>
+
+A cloud workspace can either be a single named workspace, or a list of tagged workspaces.
+
+#### Initializers <a name="Initializers" id="cdktf.CloudWorkspace.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.CloudWorkspace()
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                  | **Description**   |
+| ------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.CloudWorkspace.toTerraform">to_terraform</a></code> | _No description._ |
+
+---
+
+##### `to_terraform` <a name="to_terraform" id="cdktf.CloudWorkspace.toTerraform"></a>
+
+```python
+def to_terraform() - > typing.Any
+```
 
 ### ComplexComputedList <a name="ComplexComputedList" id="cdktf.ComplexComputedList"></a>
 
@@ -29856,6 +30458,66 @@ Returns the value of the current item iterated over.
 
 ---
 
+### NamedCloudWorkspace <a name="NamedCloudWorkspace" id="cdktf.NamedCloudWorkspace"></a>
+
+The name of a single Terraform Cloud workspace.
+
+You will only be able to use the workspace specified in the configuration with this working directory, and cannot manage workspaces from the CLI (e.g. terraform workspace select or terraform workspace new).
+
+#### Initializers <a name="Initializers" id="cdktf.NamedCloudWorkspace.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.NamedCloudWorkspace(
+  name: str
+)
+```
+
+| **Name**                                                                              | **Type**         | **Description**   |
+| ------------------------------------------------------------------------------------- | ---------------- | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.Initializer.parameter.name">name</a></code> | <code>str</code> | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.NamedCloudWorkspace.Initializer.parameter.name"></a>
+
+- _Type:_ str
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                       | **Description**   |
+| ------------------------------------------------------------------------------ | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.toTerraform">to_terraform</a></code> | _No description._ |
+
+---
+
+##### `to_terraform` <a name="to_terraform" id="cdktf.NamedCloudWorkspace.toTerraform"></a>
+
+```python
+def to_terraform() - > typing.Any
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                 | **Type**         | **Description**   |
+| ------------------------------------------------------------------------ | ---------------- | ----------------- |
+| <code><a href="#cdktf.NamedCloudWorkspace.property.name">name</a></code> | <code>str</code> | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="cdktf.NamedCloudWorkspace.property.name"></a>
+
+```python
+name: str
+```
+
+- _Type:_ str
+
+---
+
 ### NamedRemoteWorkspace <a name="NamedRemoteWorkspace" id="cdktf.NamedRemoteWorkspace"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -30538,6 +31200,66 @@ fqn: str
 
 ---
 
+### TaggedCloudWorkspaces <a name="TaggedCloudWorkspaces" id="cdktf.TaggedCloudWorkspaces"></a>
+
+A set of Terraform Cloud workspace tags.
+
+You will be able to use this working directory with any workspaces that have all of the specified tags, and can use the terraform workspace commands to switch between them or create new workspaces. New workspaces will automatically have the specified tags. This option conflicts with name.
+
+#### Initializers <a name="Initializers" id="cdktf.TaggedCloudWorkspaces.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TaggedCloudWorkspaces(
+  tags: typing.List[str]
+)
+```
+
+| **Name**                                                                                | **Type**                      | **Description**   |
+| --------------------------------------------------------------------------------------- | ----------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.Initializer.parameter.tags">tags</a></code> | <code>typing.List[str]</code> | _No description._ |
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="cdktf.TaggedCloudWorkspaces.Initializer.parameter.tags"></a>
+
+- _Type:_ typing.List[str]
+
+---
+
+#### Methods <a name="Methods" id="Methods"></a>
+
+| **Name**                                                                         | **Description**   |
+| -------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.toTerraform">to_terraform</a></code> | _No description._ |
+
+---
+
+##### `to_terraform` <a name="to_terraform" id="cdktf.TaggedCloudWorkspaces.toTerraform"></a>
+
+```python
+def to_terraform() - > typing.Any
+```
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                   | **Type**                      | **Description**   |
+| -------------------------------------------------------------------------- | ----------------------------- | ----------------- |
+| <code><a href="#cdktf.TaggedCloudWorkspaces.property.tags">tags</a></code> | <code>typing.List[str]</code> | _No description._ |
+
+---
+
+##### `tags`<sup>Required</sup> <a name="tags" id="cdktf.TaggedCloudWorkspaces.property.tags"></a>
+
+```python
+tags: typing.List[str]
+```
+
+- _Type:_ typing.List[str]
+
+---
+
 ### TerraformIterator <a name="TerraformIterator" id="cdktf.TerraformIterator"></a>
 
 - _Implements:_ <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
@@ -31078,7 +31800,8 @@ cdktf.Testing.stub_version(
 import cdktf
 
 cdktf.Testing.synth(
-  stack: TerraformStack
+  stack: TerraformStack,
+  run_validations: bool = None
 )
 ```
 
@@ -31087,6 +31810,12 @@ Returns the Terraform synthesized JSON.
 ###### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.synth.parameter.stack"></a>
 
 - _Type:_ <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+###### `run_validations`<sup>Optional</sup> <a name="run_validations" id="cdktf.Testing.synth.parameter.runValidations"></a>
+
+- _Type:_ bool
 
 ---
 
@@ -32771,7 +33500,7 @@ True when ${} should be ommitted (because already inside them), false otherwise.
 
 - _Extends:_ constructs.IConstruct
 
-- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.TerraformAsset">TerraformAsset</a>, <a href="#cdktf.IResource">IResource</a>
+- _Implemented By:_ <a href="#cdktf.Resource">Resource</a>, <a href="#cdktf.IResource">IResource</a>
 
 #### Properties <a name="Properties" id="Properties"></a>
 
