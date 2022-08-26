@@ -6,7 +6,7 @@ const { performance } = require("perf_hooks");
 
 function run(command) {
   const start = performance.now();
-  const child = exec(`/usr/bin/time -pv ${command}`, {
+  const stdout = exec(`/usr/bin/time -pv ${command}`, {
     stdio: ["pipe", "pipe", process.stderr],
     env: {
       ...process.env,
@@ -16,7 +16,7 @@ function run(command) {
   });
   const time = (performance.now() - start) / 1000;
 
-  const output = child.stdout.toString();
+  const output = stdout.toString();
   console.log(output);
 
   const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(output);
@@ -45,8 +45,8 @@ runInExample(`beforeSynth`);
 const synthStats = runInExample(`synth`);
 
 console.log(
-  `${exampleToBuild} built in ${getTime.time}s using ${getStats.maxMemoryKbytes} kb of memory`
+  `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
 );
 console.log(
-  `${exampleToBuild} synthesized in ${synthTime.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+  `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
 );
