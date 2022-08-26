@@ -1,0 +1,11 @@
+{
+  "name": "@examples/go-scaleway",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm go.sum",
+    "build": "cdktf get",
+    "beforeSynth": "go mod tidy",
+    "synth": "cdktf synth"
+  }
+}
