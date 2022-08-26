@@ -79,7 +79,5 @@ export async function readSchema(
     moduleSchema: {},
   });
 
-  const x = deepmerge.all(schemas);
-  console.log(x);
-  return x;
+  return deepmerge.all(schemas);
 }
