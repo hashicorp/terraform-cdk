@@ -6,8 +6,8 @@ const { performance } = require("perf_hooks");
 
 function run(command) {
   const start = performance.now();
-  const stdout = exec(`/usr/bin/time -pv ${command}`, {
-    stdio: "inherit",
+  const child = exec(`/usr/bin/time -pv ${command}`, {
+    stdio: ["pipe", "pipe", process.stderr],
     env: {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
@@ -16,9 +16,10 @@ function run(command) {
   });
   const time = (performance.now() - start) / 1000;
 
-  const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(
-    stdout.toString()
-  );
+  const output = child.stdout.toString();
+  console.log(output);
+
+  const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(output);
   let maxMemoryKbytes = null;
   if (match) {
     maxMemoryKbytes = Number(match[1]);
