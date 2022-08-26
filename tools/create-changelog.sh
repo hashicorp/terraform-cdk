@@ -2,15 +2,12 @@
 
 const exec = (cmd) => require("child_process").execSync(cmd).toString();
 const lastReleasedVersion = require("../package.json").version;
-const prs = exec(
-  `git log v${lastReleasedVersion}..HEAD | grep "Merge pull request #"`
-)
-  .split(" ")
-  .filter((word) => word.match(/#\d*/))
-  .map((word) => parseInt(word.replace("#", ""), 10));
+const commitHashes = exec(
+  `git log --pretty=format:"%H" v${lastReleasedVersion}..HEAD`
+);
 
 const json = JSON.parse(
-  exec("gh pr list --state merged --json number,title --limit 200")
+  exec("gh pr list --state merged --json number,title,mergeCommit --limit 200")
 ); // just a high enough limit
 
 const allowedTypes = [
@@ -34,10 +31,14 @@ const typeMap = json.reduce((map, pr) => {
 
   return { ...map, [type]: [...(map[type] || []), pr.number] };
 }, {});
+const mergeCommitMap = json.reduce(
+  (map, pr) => ({ ...map, [pr.number]: pr.mergeCommit.oid }),
+  {}
+);
 
 const lines = Object.entries(typeMap).map(([type, prsPerType]) => {
   const content = prsPerType
-    .filter((pr) => prs.includes(pr))
+    .filter((num) => commitHashes.includes(mergeCommitMap[num]))
     .map((num) => {
       if (titleMap[num])
         return `- ${titleMap[num]} [\\#${num}](https://github.com/hashicorp/terraform-cdk/pull/${num})`;
