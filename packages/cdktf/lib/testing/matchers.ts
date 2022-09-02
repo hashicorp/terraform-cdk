@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
+import { execSync, spawnSync } from "child_process";
 import { snakeCase } from "../util";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
@@ -210,7 +210,6 @@ export function toBeValidTerraform(received: string): AssertionReturn {
       false
     );
   }
-
   try {
     const manifest = JSON.parse(
       fs.readFileSync(path.resolve(received, "manifest.json"), "utf8")
@@ -218,28 +217,42 @@ export function toBeValidTerraform(received: string): AssertionReturn {
 
     const stacks = Object.entries(manifest.stacks);
 
+    var errors: string[] = [];
+
     stacks.forEach(([name, stack]) => {
       const opts = {
         cwd: path.resolve(received, (stack as any).workingDirectory),
         env: process.env,
         stdio: "pipe",
+        shell: true,
       } as any;
       execSync(`${terraformBinaryName} init`, opts);
-      const out = execSync(`${terraformBinaryName} validate -json`, opts);
-
-      const result = JSON.parse(out.toString());
+      // using spawnSync to avoid error thrown by non 0 exit code
+      const out = spawnSync(`${terraformBinaryName} validate -json`, opts);
+      const result = JSON.parse(out.stdout);
       if (!result.valid) {
-        throw new Error(
+        errors.push(
           `Found ${
             result.error_count
-          } Errors in stack ${name}: ${result.diagnostics.join("\n")}`
+          } Errors in stack ${name}: ${result.diagnostics.reduce(
+            (prev: string, curr: Object) =>
+              prev.concat(JSON.stringify(curr, null, 2) + "\n"),
+            "\n"
+          )}`
         );
       }
     });
-    return new AssertionReturn(
-      `Expected subject not to be a valid terraform stack`,
-      true
-    );
+    if (errors.length) {
+      return new AssertionReturn(
+        `Expected subject to be a valid terraform stack: ${errors.join("\n")}`,
+        false
+      );
+    } else {
+      return new AssertionReturn(
+        `Expected subject not to be a valid terraform stack`,
+        true
+      );
+    }
   } catch (e) {
     return new AssertionReturn(
       `Expected subject to be a valid terraform stack: ${e}`,
