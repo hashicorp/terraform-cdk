@@ -1,5 +1,5 @@
 {
-  "name": "cdktf",
+  "name": "@examples/typescript-aws-s3-static-website",
   "version": "1.0.0",
   "main": "main.js",
   "types": "main.ts",
@@ -20,8 +20,7 @@
     "node": ">=14.0"
   },
   "dependencies": {
-    "@cdktf/provider-aws": "^8.0.10",
-    "cdktf": "^0.11.2",
+    "cdktf": "0.0.0",
     "constructs": "^10.1.41"
   },
   "devDependencies": {

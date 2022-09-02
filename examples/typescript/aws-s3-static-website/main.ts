@@ -11,13 +11,13 @@ class MyStack extends TerraformStack {
     const awsRegion = new TerraformVariable(this, 'awsRegion', {
       type: 'string',
       default: 'us-east-1',
-      description: 'The AWS Region to be use'
+      description: 'The AWS Region to be used'
     });
 
     const bucketName = new TerraformVariable(this, 'bucketName', {
       type: 'string',
       default: 'test-bucket',
-      description: 'The name-prefix of the S3 bucket to be use'
+      description: 'The name-prefix of the S3 bucket to be used'
     });
 
     // Provider Configuration
