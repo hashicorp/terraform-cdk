@@ -11,6 +11,24 @@ function eventNames(events: any[]) {
     .filter((name) => !name.includes("update"));
 }
 
+function installFixturesInWorkingDirectory(
+  {
+    outDir,
+    workingDirectory,
+  }: {
+    outDir: string;
+    workingDirectory: string;
+  },
+
+  fixtureName: string
+) {
+  fs.copyFileSync(
+    path.resolve(__dirname, `fixtures/${fixtureName}/main.ts.fixture`),
+    path.resolve(workingDirectory, "main.ts")
+  );
+  return { outDir, workingDirectory };
+}
+
 jest.setTimeout(30000);
 describe("CdktfProject", () => {
   let inNewWorkingDirectory: () => {
@@ -350,6 +368,64 @@ describe("CdktfProject", () => {
       ]);
     });
 
+    it("error in an deploying stack does not abort already running stacks", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...installFixturesInWorkingDirectory(
+          inNewWorkingDirectory(),
+          "parallel-error"
+        ),
+        onUpdate: (event) => {
+          events.push(event);
+        },
+      });
+
+      try {
+        await cdktfProject.deploy({
+          stackNames: ["stack1", "stack2", "stack3"],
+          parallelism: 100,
+          autoApprove: true,
+        });
+        throw new Error("This error should not be thrown");
+      } catch (e) {
+        expect(e).toMatchInlineSnapshot(`[Error: non-zero exit code 1]`);
+      }
+
+      const relevantEvents = events
+        .filter((e) => !e.type.includes("update"))
+        .map((e) => `${e.stackName || "global"}: ${e.type}`);
+
+      // Ensure we synth and plan all stacks
+      expect(relevantEvents).toContain("global: synthesizing");
+      expect(relevantEvents).toContain("global: synthesized");
+      expect(relevantEvents).toContain("stack1: planning");
+      expect(relevantEvents).toContain("stack2: planning");
+      expect(relevantEvents).toContain("stack3: planning");
+
+      // the last 3 events also have a stable order because
+      // they have timeouts that ensure the duration they take
+      // to deploy / fail while deploying
+      expect(relevantEvents.slice(-3)).toEqual([
+        "stack1: deployed",
+        "stack2: errored",
+        "stack3: deployed",
+      ]);
+
+      // the middle events can occur in any order as the duration
+      // they take to plan is not guaranteed
+      expect(new Set(relevantEvents.slice(5, -3))).toEqual(
+        new Set([
+          "stack1: planned",
+          "stack1: deploying",
+          "stack2: planned",
+          "stack2: deploying",
+          "stack3: planned",
+          "stack3: deploying",
+        ])
+      );
+    }, 120_000);
+
     it("deploys stacks in the right order with auto approve", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
@@ -566,26 +642,15 @@ describe("CdktfProject", () => {
   });
 
   describe("highly parallel", () => {
-    let workingDirectory: string;
-    let outDir: string;
-
-    beforeEach(() => {
-      const env = inNewWorkingDirectory();
-      workingDirectory = env.workingDirectory;
-      outDir = env.outDir;
-      fs.copyFileSync(
-        path.resolve(__dirname, "fixtures/parallel/main.ts.fixture"),
-        path.resolve(workingDirectory, "main.ts")
-      );
-    });
-
     it("stalls logs and updates while waiting for approval", async () => {
       let events: any[] = [];
       let eventsDuringWaitForApprove: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
-        workingDirectory,
-        outDir,
+        ...installFixturesInWorkingDirectory(
+          inNewWorkingDirectory(),
+          "parallel"
+        ),
         onUpdate: (event) => {
           events.push(event);
 

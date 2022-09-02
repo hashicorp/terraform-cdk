@@ -34,6 +34,7 @@ export interface TerraformStackMetadata {
   readonly backend: string;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function throwIfIdIsGlobCharacter(str: string): void {
   const err = (char: string) =>
     `Can not create Terraform stack with id "${str}". It contains a glob character: "${char}"`;
@@ -45,6 +46,7 @@ function throwIfIdIsGlobCharacter(str: string): void {
   });
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function throwIfIdContainsWhitespace(str: string): void {
   if (/\s/.test(str)) {
     throw new Error(
@@ -53,6 +55,7 @@ function throwIfIdContainsWhitespace(str: string): void {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformStack extends Construct {
   private readonly rawOverrides: any = {};
   private readonly cdktfVersion: string;
@@ -83,6 +86,7 @@ export class TerraformStack extends Construct {
   public static of(construct: IConstruct): TerraformStack {
     return _lookup(construct);
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     function _lookup(c: IConstruct): TerraformStack {
       if (TerraformStack.isStack(c)) {
         return c;
@@ -329,8 +333,29 @@ export class TerraformStack extends Construct {
 
     this.dependencies.push(dependency);
   }
+
+  /**
+   * Run all validations on the stack.
+   */
+  public runAllValidations() {
+    const errors: { message: string; source: IConstruct }[] = this.node
+      .findAll()
+      .map((node) =>
+        node.node.validate().map((error) => ({ message: error, source: node }))
+      )
+      .reduce((prev, curr) => [...prev, ...curr], []);
+    if (errors.length > 0) {
+      const errorList = errors
+        .map((e) => `[${e.source.node.path}] ${e.message}`)
+        .join("\n  ");
+      throw new Error(
+        `Validation failed with the following errors:\n  ${errorList}`
+      );
+    }
+  }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 function terraformElements(
   node: IConstruct,
   into: TerraformElement[] = []

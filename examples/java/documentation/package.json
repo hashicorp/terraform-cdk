@@ -1,0 +1,11 @@
+{
+  "//": "This example is used to verify all code samples in the documentation work correctly.",
+  "name": "@examples/java-documentation",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "mvn install:install-file -Dfile=./../../../dist/java/com/hashicorp/cdktf/0.0.0/cdktf-0.0.0.jar -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=0.0.0 -Dpackaging=jar",
+    "build": "cdktf get",
+    "synth": "cdktf synth"
+  }
+}

@@ -5,8 +5,8 @@ import {
   Testing,
   TerraformAsset,
   TerraformOutput,
-  RemoteBackend,
-  NamedRemoteWorkspace,
+  CloudBackend,
+  NamedCloudWorkspace,
 } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 import * as local from "./.gen/providers/local";
@@ -41,9 +41,9 @@ export class SourceStack extends TerraformStack {
     });
 
     if (!localExecution) {
-      new RemoteBackend(this, {
+      new CloudBackend(this, {
         organization: organization!,
-        workspaces: new NamedRemoteWorkspace(name!),
+        workspaces: new NamedCloudWorkspace(name!),
         token,
       });
     }

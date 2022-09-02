@@ -23,7 +23,8 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   },
   "include": [
     "**/*.ts"

@@ -8,6 +8,7 @@ import { NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
+import { ensureAllSettledBeforeThrowing } from "./util";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -135,7 +136,10 @@ export async function getStackWithNoUnmetDependencies(
     return undefined;
   }
 
-  await Promise.race(stackExecutionPromises);
+  await ensureAllSettledBeforeThrowing(
+    Promise.race(stackExecutionPromises),
+    stackExecutionPromises
+  );
 
   return await getStackWithNoUnmetDependencies(stackExecutors);
 }
@@ -527,24 +531,47 @@ export class CdktfProject {
       if (runningStacks.length >= maxParallelRuns) {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
       } else {
-        const nextRunningExecutor = await next();
-        if (!nextRunningExecutor) {
-          // In this case we have no pending stacks, but we also can not find a new executor
-          break;
+        try {
+          const nextRunningExecutor = await next();
+          if (!nextRunningExecutor) {
+            // In this case we have no pending stacks, but we also can not find a new executor
+            break;
+          }
+          method === "deploy"
+            ? nextRunningExecutor.deploy(refreshOnly)
+            : nextRunningExecutor.destroy();
+        } catch (e) {
+          // await next() threw an error because a stack failed to apply/destroy
+          // wait for all other currently running stacks to complete before propagating that error
+          logger.debug(
+            "Encountered an error while awaiting stack to finish",
+            e
+          );
+          const openStacks = this.stacksToRun.filter(
+            (ex) => ex.currentWorkPromise
+          );
+          logger.debug(
+            "Waiting for still running stacks to finish:",
+            openStacks
+          );
+          await Promise.allSettled(
+            openStacks.map((ex) => ex.currentWorkPromise)
+          );
+          logger.debug(
+            "Done waiting for still running stacks. All pending work finished"
+          );
+          throw e;
         }
-
-        method === "deploy"
-          ? nextRunningExecutor.deploy(refreshOnly)
-          : nextRunningExecutor.destroy();
       }
     }
 
     // We end the loop when all stacks are started, now we need to wait for them to be done
-    await Promise.all(
-      this.stacksToRun
-        .filter((ex) => ex.currentWorkPromise)
-        .map((ex) => ex.currentWorkPromise)
-    );
+    // We wait for all work to finish even if one of the promises threw an error.
+    const currentWork = this.stacksToRun
+      .filter((ex) => ex.currentWorkPromise)
+      .map((ex) => ex.currentWorkPromise);
+
+    await ensureAllSettledBeforeThrowing(Promise.all(currentWork), currentWork);
   }
 
   public async deploy(opts: ExecutionOptions = {}) {

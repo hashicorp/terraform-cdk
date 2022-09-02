@@ -19,7 +19,7 @@ In an effort to streamline the interfaces of resources, computed attributes of t
 
 #### Typescript
 
-```ts
+```typescript
 // previously
 const firstItemId = resource.listAttribute("0").id;
 
@@ -74,11 +74,11 @@ firstItem := resource.ListAttribute().Get(jsii.Number(0)); // now possible
 
 ### Referencing computed string map entries via function call [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
 
-In preparation for a similar change as to the computed lists (section above), string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
+In preparation for a similar change as to the computed lists, string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
 
 #### Example
 
-```ts
+```typescript
 const bucket = new s3.S3Bucket(this, "bucket");
 
 // previously

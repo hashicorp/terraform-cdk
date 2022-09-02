@@ -48,6 +48,7 @@ type MapType =
   | AnyMap
   | ComplexMap;
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformIterator implements ITerraformIterator {
   /**
    * @internal used by TerraformResource to set the for_each expression
@@ -221,6 +222,7 @@ export abstract class TerraformIterator implements ITerraformIterator {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class ListTerraformIterator extends TerraformIterator {
   constructor(private readonly list: ListType) {
     super();
@@ -230,7 +232,7 @@ export class ListTerraformIterator extends TerraformIterator {
    * Returns the currenty entry in the list or set that is being iterated over.
    * For lists this is the same as `iterator.value`. If you need the index,
    * use count using the escape hatch:
-   * https://www.terraform.io/cdktf/concepts/providers-and-resources#escape-hatch
+   * https://www.terraform.io/cdktf/concepts/resources#escape-hatch
    */
   public get key(): any {
     return this._getKey();
@@ -252,6 +254,7 @@ export class ListTerraformIterator extends TerraformIterator {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class MapTerraformIterator extends TerraformIterator {
   constructor(private readonly map: MapType) {
     super();

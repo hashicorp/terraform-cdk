@@ -4,6 +4,7 @@ import * as chalk from "chalk";
 import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
+import { logger } from "./logging";
 import { sendTelemetry } from "./checkpoint";
 import { shell } from "./util";
 
@@ -57,19 +58,18 @@ export class SynthStack {
     );
 
     // Increases the default memory available to Node.js when synthesizing a TypeScript CDK project.
-    if (
-      env.NODE_OPTIONS &&
-      !env.NODE_OPTIONS.includes(`--max-old-space-size`)
-    ) {
-      console.warn(`found NODE_OPTIONS environment variable without a setting for --max-old-space-size.
+    const nodeOptsSwitch = "--max-old-space-size";
+    const nodeOptsSetting = `${nodeOptsSwitch}=4096`;
+    if (env.NODE_OPTIONS && !env.NODE_OPTIONS.includes(nodeOptsSwitch)) {
+      logger.warn(`WARNING: Found NODE_OPTIONS environment variable without a setting for ${nodeOptsSwitch}
 The synthesizing step for TypeScript may need an increased amount of memory if multiple large providers
 are used with locally generated bindings. You can ignore this if you don't use CDKTF with TypeScript.
-If not present, the cdktf-cli sets it to NODE_OPTIONS="--max-old-space-size=4048" by default. But as
+If not present, the cdktf-cli sets it to NODE_OPTIONS="${nodeOptsSetting}" by default. But as
 your environment already contains a NODE_OPTIONS variable, we won't override it. Hence, the app command
 might fail while synthesizing with an out of memory error.`);
     } else {
       // increase memory to allow ts-node (when using TypeScript) to handle large amounts of generated code in memory
-      env.NODE_OPTIONS = "--max-old-space-size=4048";
+      env.NODE_OPTIONS = `${env.NODE_OPTIONS || ""} ${nodeOptsSetting}`.trim();
     }
 
     try {
@@ -111,7 +111,7 @@ Command output on stdout:
         e.errorOutput = errorOutput;
         throw e;
       }
-      console.error(errorOutput);
+      console.error(`ERROR: ${errorOutput}`);
       process.exit(1);
     }
 
@@ -120,7 +120,7 @@ Command output on stdout:
       if (graceful) {
         throw new Error(errorMessage);
       }
-      console.error(errorMessage);
+      logger.error(errorMessage);
       process.exit(1);
     }
 
@@ -148,7 +148,7 @@ Command output on stdout:
     await this.synthTelemetry(endTime - startTime, stacks, synthOrigin);
 
     if (stacks.length === 0) {
-      console.error("ERROR: No Terraform code synthesized.");
+      logger.error("ERROR: No Terraform code synthesized.");
     }
 
     const stackNames = stacks.map((s) => s.name);

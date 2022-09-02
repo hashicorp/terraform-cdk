@@ -5,10 +5,14 @@ import * as http from "http";
 import * as net from "net";
 import * as url from "url";
 import { readFileSync } from "fs-extra";
+import * as semver from "semver";
 
 const { TERRAFORM_CLOUD_TOKEN, GITHUB_RUN_NUMBER, TERRAFORM_VERSION } =
   process.env;
 const withAuth = TERRAFORM_CLOUD_TOKEN ? onPosix : it.skip;
+const onTf1_1 = semver.gte(TERRAFORM_VERSION || "0.0.0", "1.1.0")
+  ? withAuth
+  : it.skip;
 
 if (!TERRAFORM_CLOUD_TOKEN) {
   console.log("TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests");
@@ -92,7 +96,7 @@ describe("full integration test", () => {
     driver.copyFolders("fixtures");
   });
 
-  withAuth("deploy in Terraform Cloud", async () => {
+  onTf1_1("deploy in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
     await client.Workspaces.create(orgName, {
@@ -110,7 +114,7 @@ describe("full integration test", () => {
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 
-  withAuth("deploy locally and then in Terraform Cloud", async () => {
+  onTf1_1("deploy locally and then in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
     await client.Workspaces.create(orgName, {
@@ -133,7 +137,7 @@ describe("full integration test", () => {
   });
 
   // Only the origin stack is in TFC, the consumer stack is local
-  withAuth(
+  onTf1_1(
     "deploy with cross stack reference origin in Terraform Cloud",
     async () => {
       const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
@@ -178,7 +182,7 @@ describe("full integration test", () => {
       proxyAddress = undefined;
     });
 
-    withAuth("deploy through HTTP_PROXY in Terraform Cloud", async () => {
+    onTf1_1("deploy through HTTP_PROXY in Terraform Cloud", async () => {
       const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
       await client.Workspaces.create(orgName, {

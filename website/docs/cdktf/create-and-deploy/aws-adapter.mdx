@@ -93,13 +93,13 @@ export class MyStack extends TerraformStack {
 
 The `AwsTerraformAdapter` adds an Aspect to `MyStack` that is invoked when the stack is synthesized. That Aspect then iterates over all AWS CDK constructs that have been added to the adapter, converts them to CDK for Terraform constructs, and adds them to the stack. It does not add the AWS CDK constructs themselves.
 
-The [full code of the example above](https://github.com/hashicorp/cdktf-aws-cdk/tree/main/examples/typescript-cron-lambda) is available in the cdktf-aws-cdk repository.
+The [full example code](https://github.com/hashicorp/cdktf-aws-cdk/tree/main/examples/typescript-cron-lambda) is available in the cdktf-aws-cdk repository.
 
 ## Write Manual Mappings
 
 While some mappings are already included, you need to manually map most resources that the AWS Cloud Control API does not yet support ([supported resources](https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/supported-resources.html)).
 
-The example below shows how to write and register a mapping for an `AWS::DynamoDB::Table` CloudFormation resource.
+The following example shows how to write and register a mapping for an `AWS::DynamoDB::Table` CloudFormation resource.
 
 Consider the following code:
 
@@ -210,9 +210,9 @@ Error: cannot map some properties of AWS::DynamoDB::Table: {
 }
 ```
 
-The example below adds mapping for missing values in the error message. First, it maps the `AttributeDefinitions` array to make sure it fits the schema of the Terraform resource. It also looks up the `hashKey` in the `KeySchema array`. Finally, it deletes the properties that have been handled and returns a new `DynamodbTable` resource.
+The following example adds mapping for missing values in the error message. First, it maps the `AttributeDefinitions` array to make sure it fits the schema of the Terraform resource. It also looks up the `hashKey` in the `KeySchema array`. Finally, it deletes the properties that have been handled and returns a new `DynamodbTable` resource.
 
-```ts
+```typescript
 import { DynamoDB } from "@cdktf/aws-cdk";
 import { registerMapping } from "@cdktf/aws-cdk/lib/mapping";
 
@@ -256,9 +256,9 @@ Error: cannot map some properties of AWS::DynamoDB::Table: {
 }
 ```
 
-The error indicates that the `ProvisionedThroughput` property has not yet been mapped or deleted. The example below shows a complete mapping for the DynamoDB table.
+The error indicates that the `ProvisionedThroughput` property has not yet been mapped or deleted. The following example shows a complete mapping for the DynamoDB table.
 
-```ts
+```typescript
 import { DynamoDB } from "@cdktf/aws-cdk";
 import { registerMapping } from "@cdktf/aws-cdk/lib/mapping";
 
@@ -325,9 +325,9 @@ This code synthesizes without error and produces the following `aws_dynamodb_tab
 
 You should also map the `attributes` argument. When AWS CDK constructs reference each other's properties, they do so via the CloudFormation property name of the resource.
 
-The example below maps the `Arn` CloudFormation property to the `.arn` of the Terraform resource. While this example might look like something that could be handled automatically, there are cases where this cannot map directly. For example, there are some resources that do not have a direct representation in Terraform but do in CloudFormation (and vice versa).
+The follwing example maps the `Arn` CloudFormation property to the `.arn` of the Terraform resource. While this example might look like something that could be handled automatically, there are cases where this cannot map directly. For example, there are some resources that do not have a direct representation in Terraform but do in CloudFormation (and vice versa).
 
-```ts
+```typescript
 import { aws_dynamodb, CfnOutput } from "aws-cdk-lib";
 // ...
 
@@ -345,9 +345,9 @@ Synthesizing this code produces the following error.
 Error: Resolution error: no "Arn" attribute mapping for resource of type AWS::DynamoDB::Table.
 ```
 
-To fix the resolution error, the example below adds an `Arn` property to the empty `attributes` object in the mapping.
+To fix the resolution error, the following example adds an `Arn` property to the empty `attributes` object in the mapping.
 
-```ts
+```typescript
 registerMapping("AWS::DynamoDB::Table", {
   resource: (scope: Construct, id: string, props: any) => {
     /* ... */

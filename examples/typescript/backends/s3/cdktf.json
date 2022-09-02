@@ -2,7 +2,6 @@
   "language": "typescript",
   "app": "npx ts-node main.ts",
   "terraformProviders": [
-    "aws@~> 3.0"
-  ],
-  "projectId": "5498d255-7568-45ac-b866-ec47fea2a693"
+    "aws@~> 4.0"
+  ]
 }

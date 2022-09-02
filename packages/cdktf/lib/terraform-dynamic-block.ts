@@ -5,6 +5,7 @@ import { captureStackTrace } from "./tokens/private/stack-trace";
 
 const DYNAMIC_BLOCK_SYMBOL = Symbol.for("cdktf/TerraformDynamicBlock");
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformDynamicBlock implements IResolvable {
   public readonly creationStack: string[];
   public readonly forEach: ITerraformIterator;

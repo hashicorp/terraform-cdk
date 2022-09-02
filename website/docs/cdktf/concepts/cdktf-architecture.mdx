@@ -23,11 +23,11 @@ The [`jsii` tool](https://aws.github.io/jsii/) enables publishing polyglot libra
 
 CDKTF [synthesizes](/cdktf/cli-reference/commands#synth) infrastructure that you define in a supported programming language into [JSON configuration files](/language/syntax/json) that Terraform can use to manage infrastructure.
 
-The diagram below shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
+The following diagram shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 
 ![cdktf-terraform](./images/cdktf-terraform-workflow.png)
 
-CDKTF also automatically extracts the schemas from existing Terraform [providers](/cdktf/concepts/providers-and-resources) or [modules](/cdktf/concepts/modules) and generates the necessary code bindings for your application.
+CDKTF also automatically extracts the schemas from existing Terraform [providers](/cdktf/concepts/providers) or [modules](/cdktf/concepts/modules) and generates the necessary code bindings for your application.
 
 ![cdktf-terraform](./images/provider-modules.png)
 
@@ -57,7 +57,7 @@ Stacks allow you to separate the state management within an application. For exa
 
 ### `Resource` Class
 
-A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [providers and resources documentation](/cdktf/concepts/providers-and-resources#resources) for more details.
+A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [resources documentation](/cdktf/concepts/resources) for more details.
 
 ### Constructs
 

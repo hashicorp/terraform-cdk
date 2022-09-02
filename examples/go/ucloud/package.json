@@ -1,10 +1,11 @@
 {
-    "name": "@examples/go-ucloud",
-    "version": "0.0.0",
-    "license": "MPL-2.0",
-    "scripts": {
-      "reinstall": "rm go.sum",
-      "build": "cdktf get && go mod tidy",
-      "synth": "cdktf synth"
-    }
+  "name": "@examples/go-ucloud",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm go.sum",
+    "build": "cdktf get",
+    "beforeSynth": "go mod tidy",
+    "synth": "cdktf synth"
   }
+}

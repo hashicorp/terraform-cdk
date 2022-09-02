@@ -19,7 +19,7 @@ Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for mo
 
 ## Single Stack
 
-The example below generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
+The following example generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
 ```typescript
 import { Construct } from "constructs";
@@ -52,7 +52,7 @@ app.synth();
 
 You can specify multiple stacks in your application. For example, you may want a separate configuration for development, testing, and production environments.
 
-The example below synthesizes multiple Terraform configurations in the configured output folder.
+The following example synthesizes multiple Terraform configurations in the configured output folder.
 
 ```typescript
 import { Construct } from "constructs";
@@ -189,7 +189,7 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
-```ts
+```typescript
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
 ```
 
@@ -203,7 +203,9 @@ Until version `0.2`, CDKTF only supported a single stack. For local state handli
 
 For anything on the top-level `terraform` block that is not natively implemented, use the **stack escape hatch** to define a configuration. For example, define remote backend using the `addOverride` method in TypeScript.
 
-~> **Important**: Escape hatches **must not** have empty arguments or objects, as they will be removed from the synthesized JSON configuration.
+~> **Important**: Escape hatches **must not** have empty arguments or objects, because CDKTF removes them from the synthesized JSON configuration.
+
+The following example synthesizes a Terraform configuration with the `remote` backend included in the `terraform` block.
 
 ```typescript
 stack.addOverride("terraform.backend", {
@@ -216,7 +218,7 @@ stack.addOverride("terraform.backend", {
 });
 ```
 
-The example above synthesizes a Terraform configuration with the remote backend included in the `terraform` block.
+The following configuration snippet shows the `remote` backend configuration.
 
 ```json
 {

@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.12.0",
+  "version": "0.12.2",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
@@ -40,7 +40,9 @@
     "prepare-next-release": "standard-version --prerelease pre --release-as minor --skip.changelog=true --skip.commit=true",
     "prepare-release": "tools/prepare-release.sh",
     "release": "standard-version",
-    "generate-docs": "cd tools/documentation-generation && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx"
+    "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx",
+    "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
+    "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api"
   },
   "workspaces": {
     "packages": [
@@ -62,7 +64,10 @@
       "**/archiver/**",
       "json-stable-stringify",
       "**/json-stable-stringify",
-      "**/json-stable-stringify/**"
+      "**/json-stable-stringify/**",
+      "semver",
+      "**/semver",
+      "**/semver/**"
     ]
   },
   "devDependencies": {
@@ -80,7 +85,8 @@
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
-    "packages/cdktf": "yarn docs",
+    "packages/cdktf/**": "yarn generate-docs:api",
+    "examples/*/documentation/**": "yarn generate-docs:translations",
     "**/*.{ts,tsx,js,css,md}": "prettier --write"
   },
   "eslintConfig": {

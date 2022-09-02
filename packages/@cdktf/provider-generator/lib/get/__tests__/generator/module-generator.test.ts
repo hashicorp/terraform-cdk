@@ -74,3 +74,26 @@ test("generate multiple aws modules", async () => {
 expectModuleToMatchSnapshot("getX variables", "generator", [
   "module-get-x.test.fixture.tf",
 ]);
+
+test("generate module that can't be initialized", async () => {
+  jest.setTimeout(120000);
+
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "module-generator.test-no-init")
+  );
+  const constraint = new TerraformModuleConstraint(
+    "milliHQ/next-js/aws@1.0.0-canary.5"
+  );
+
+  const maker = new ConstructsMaker(
+    { codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT },
+    [constraint]
+  );
+  await maker.generate();
+
+  const output = fs.readFileSync(
+    path.join(workdir, "modules/milliHQ/aws/next-js.ts"),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});

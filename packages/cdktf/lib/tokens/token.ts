@@ -108,6 +108,9 @@ export class Token {
     );
   }
 
+  /**
+   * String Map token value representation
+   */
   public static readonly STRING_MAP_TOKEN_VALUE = "String Map Token Value";
 
   /**
@@ -120,6 +123,9 @@ export class Token {
     return this.asMap(value, Token.STRING_MAP_TOKEN_VALUE, options);
   }
 
+  /**
+   * Number Map token value representation
+   */
   public static readonly NUMBER_MAP_TOKEN_VALUE = -123456789;
 
   /**
@@ -142,6 +148,9 @@ export class Token {
     return this.asMap(value, true, options);
   }
 
+  /**
+   * Any map token representation
+   */
   public static readonly ANY_MAP_TOKEN_VALUE = "Any Map Token Value";
 
   /**

@@ -134,6 +134,9 @@ export interface IFragmentConcatenator {
  * Drops 'undefined's.
  */
 export class StringConcat implements IFragmentConcatenator {
+  /**
+   * Concatenates string fragments
+   */
   public join(left: any | undefined, right: any | undefined): any {
     if (left === undefined) {
       return right !== undefined ? `${right}` : undefined;
@@ -151,6 +154,9 @@ export class StringConcat implements IFragmentConcatenator {
  * @experimental
  */
 export class DefaultTokenResolver implements ITokenResolver {
+  /**
+   * Resolves tokens
+   */
   constructor(private readonly concat: IFragmentConcatenator) {}
 
   /**
@@ -194,6 +200,9 @@ export class DefaultTokenResolver implements ITokenResolver {
     return fragments.mapTokens({ mapToken: context.resolve }).join(this.concat);
   }
 
+  /**
+   * Resolves a list of string
+   */
   public resolveList(xs: string[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
@@ -214,6 +223,9 @@ export class DefaultTokenResolver implements ITokenResolver {
     return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
   }
 
+  /**
+   * Resolves a list of numbers
+   */
   public resolveNumberList(xs: number[], context: IResolveContext) {
     // Must be a singleton list token, because concatenation is not allowed.
     if (xs.length !== 1) {
@@ -229,6 +241,9 @@ export class DefaultTokenResolver implements ITokenResolver {
     return context.resolve(token);
   }
 
+  /**
+   * Resolves a map token
+   */
   public resolveMap(xs: { [key: string]: any }, context: IResolveContext) {
     const keys = Object.keys(xs);
     if (keys.length !== 1) {

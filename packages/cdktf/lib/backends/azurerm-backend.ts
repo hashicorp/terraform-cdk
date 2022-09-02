@@ -6,6 +6,7 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class AzurermBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: AzurermBackendProps) {
     super(scope, "backend", "azurerm");
@@ -27,6 +28,7 @@ export class AzurermBackend extends TerraformBackend {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
   constructor(
     scope: Construct,

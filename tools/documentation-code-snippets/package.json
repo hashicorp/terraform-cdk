@@ -1,0 +1,16 @@
+{
+    "name": "@tools/documentation-code-snippets",
+    "version": "0.0.0",
+    "scripts": {
+        "update-snippets": "ts-node ./update-documentation-code-snippets.ts",
+        "update-snippets:watch": "nodemon ./update-documentation-code-snippets.ts"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.19",
+        "ts-node": "^10.9.1"
+    },
+    "dependencies": {
+        "execa": "^5.1.1",
+        "glob": "^8.0.3"
+    }
+}

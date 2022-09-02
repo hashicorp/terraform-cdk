@@ -11,6 +11,7 @@ export interface DataTerraformRemoteStateConfig {
   readonly defaults?: { [key: string]: any };
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformRemoteState
   extends TerraformElement
   implements ITerraformAddressable

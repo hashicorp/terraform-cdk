@@ -224,7 +224,7 @@ async function getGoPackageVersion(packageName: string) {
     versionLine = versionLine.split("=>")[0].trim();
   }
 
-  return versionLine.split(" ").pop();
+  return versionLine.split(" ").pop()?.replace("v", "");
 }
 
 async function getJavaPackageVersion(packageName: string) {
@@ -253,9 +253,12 @@ async function getJavaPackageVersion(packageName: string) {
     return undefined;
   }
 
+  // We need to search for the package name AND a colon to not match a line like
+  // [INFO]    com.hashicorp:cdktf-provider-aws:jar:9.0.9:compile
+  // when looking for the cdktf package (see Github issue #1994)
   const versionLine = resolutionPart
     .split(/\r\n|\r|\n/)
-    .find((line) => line.includes(javaPackageName));
+    .find((line) => line.includes(`${javaPackageName}:`));
 
   if (!versionLine) {
     logger.debug(

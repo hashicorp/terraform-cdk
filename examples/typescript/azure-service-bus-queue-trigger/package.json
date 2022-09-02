@@ -6,8 +6,7 @@
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
-    "get": "cdktf get",
-    "build": "tsc",
+    "build": "cdktf get",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
@@ -26,7 +25,7 @@
   },
   "devDependencies": {
     "@types/jest": "^27.5.2",
-    "@types/node": "^16.11.45",
+    "@types/node": "^16.11.52",
     "jest": "^27.5.1",
     "ts-jest": "^27.1.5",
     "ts-node": "^10.9.1",

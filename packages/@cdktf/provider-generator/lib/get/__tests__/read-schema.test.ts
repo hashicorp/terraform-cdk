@@ -1,4 +1,7 @@
-import { readSchema } from "../generator/provider-schema";
+import {
+  readProviderSchema,
+  readModuleSchema,
+} from "../generator/provider-schema";
 import {
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
@@ -28,11 +31,11 @@ describe("readSchema", () => {
 
   it("generates a single provider schema", async () => {
     const provider = new TerraformProviderConstraint("hashicorp/null@3.1.0");
-    const targets = new ConstructsMakerProviderTarget(
+    const target = new ConstructsMakerProviderTarget(
       provider,
       Language.TYPESCRIPT
     );
-    const result = await readSchema([targets]);
+    const result = await readProviderSchema(target);
     expect(result).toMatchSnapshot();
   });
 
@@ -40,11 +43,8 @@ describe("readSchema", () => {
     const module = new TerraformModuleConstraint(
       "terraform-aws-modules/iam/aws//modules/iam-account@3.12.0"
     );
-    const targets = new ConstructsMakerModuleTarget(
-      module,
-      Language.TYPESCRIPT
-    );
-    const result = await readSchema([targets]);
+    const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
+    const result = await readModuleSchema(target);
     expect(result).toMatchSnapshot();
   });
 
@@ -52,11 +52,8 @@ describe("readSchema", () => {
     const module = new TerraformModuleConstraint(
       "terraform-aws-modules/eks/aws@7.0.1"
     );
-    const targets = new ConstructsMakerModuleTarget(
-      module,
-      Language.TYPESCRIPT
-    );
-    const result = await readSchema([targets]);
+    const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
+    const result = await readModuleSchema(target);
     expect(result).toMatchSnapshot();
   });
 });

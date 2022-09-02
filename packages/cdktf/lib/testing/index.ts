@@ -95,10 +95,15 @@ export class Testing {
   /**
    * Returns the Terraform synthesized JSON.
    */
-  public static synth(stack: TerraformStack) {
+  public static synth(stack: TerraformStack, runValidations = false) {
     invokeAspects(stack);
+    if (runValidations) {
+      stack.runAllValidations();
+    }
+
     const tfConfig = stack.toTerraform();
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     function removeMetadata(item: any): any {
       if (item !== null && typeof item === "object") {
         if (Array.isArray(item)) {
@@ -143,6 +148,7 @@ export class Testing {
   public static renderConstructTree(construct: IConstruct): string {
     return render(construct, 0, false);
 
+    // eslint-disable-next-line jsdoc/require-jsdoc
     function render(
       construct: IConstruct,
       level: number,

@@ -58,7 +58,8 @@
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
     "plugins": [
-      "@typescript-eslint"
+      "@typescript-eslint",
+      "jsdoc"
     ],
     "extends": [
       "eslint:recommended",
@@ -71,37 +72,44 @@
       "@typescript-eslint/no-use-before-define": 0,
       "@typescript-eslint/no-empty-interface": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
-      "no-sequences": "error"
+      "no-sequences": "error",
+      "jsdoc/require-jsdoc": ["error", { "contexts": ["ClassDeclaration"] }]
     },
     "ignorePatterns": [
       "node_modules",
       "dist",
-      "coverage"
+      "coverage",
+      "test",
+      "*.test*.ts"
     ]
   },
   "license": "MPL-2.0",
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",
-    "@types/node": "^14.18.22",
+    "@types/node": "^14.18.25",
+    "@types/semver": "^7.3.11",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
+    "eslint-plugin-jsdoc": "^39.3.6",
     "jest": "^26.6.3",
-    "jsii": "^1.62.0",
-    "jsii-docgen": "^7.0.57",
-    "jsii-pacmak": "^1.62.0",
+    "jsii": "^1.65.0",
+    "jsii-docgen": "^7.0.71",
+    "jsii-pacmak": "^1.65.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
   "dependencies": {
     "archiver": "5.3.1",
-    "json-stable-stringify": "^1.0.1"
+    "json-stable-stringify": "^1.0.1",
+    "semver": "^7.3.7"
   },
   "bundledDependencies": [
     "archiver",
-    "json-stable-stringify"
+    "json-stable-stringify",
+    "semver"
   ],
   "stability": "experimental",
   "peerDependencies": {

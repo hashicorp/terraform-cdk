@@ -17,11 +17,11 @@ When inputs are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ## Usage Example
 
-The TypeScript example below uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
+The following TypeScript example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 
-```ts
+```typescript
 import { Fn, TerraformOutput } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws";
 

@@ -9,14 +9,14 @@ import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
 import {
-  ISSHProvisionerConnection,
-  IWinrmProvisionerConnection,
+  SSHProvisionerConnection,
+  WinrmProvisionerConnection,
 } from "./terraform-provisioner";
 import assert = require("assert");
 import {
-  IFileProvisioner,
-  ILocalExecProvisioner,
-  IRemoteExecProvisioner,
+  FileProvisioner,
+  LocalExecProvisioner,
+  RemoteExecProvisioner,
 } from "./terraform-provisioner";
 
 export interface ITerraformResource {
@@ -46,9 +46,9 @@ export interface TerraformMetaArguments {
   readonly lifecycle?: TerraformResourceLifecycle;
   readonly forEach?: ITerraformIterator;
   readonly provisioners?: Array<
-    IFileProvisioner | ILocalExecProvisioner | IRemoteExecProvisioner
+    FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
-  readonly connection?: ISSHProvisionerConnection | IWinrmProvisionerConnection;
+  readonly connection?: SSHProvisionerConnection | WinrmProvisionerConnection;
 }
 
 export interface TerraformProviderGeneratorMetadata {
@@ -62,6 +62,7 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformResource
   extends TerraformElement
   implements ITerraformResource, ITerraformDependable, IInterpolatingParent
@@ -76,9 +77,9 @@ export class TerraformResource
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
   public forEach?: ITerraformIterator;
-  public connection?: ISSHProvisionerConnection | IWinrmProvisionerConnection;
+  public connection?: SSHProvisionerConnection | WinrmProvisionerConnection;
   public provisioners?: Array<
-    IFileProvisioner | ILocalExecProvisioner | IRemoteExecProvisioner
+    FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {

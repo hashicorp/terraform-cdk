@@ -9,7 +9,7 @@ import (
 
 var app = cdktf.Testing_App(nil)
 var stack = NewMyStack(app, "stack")
-var synth = cdktf.Testing_Synth(stack)
+var synth = cdktf.Testing_Synth(stack, jsii.Bool(false))
 var fullSynth = cdktf.Testing_FullSynth(stack)
 
 var stackInvalid = NewMyStackInvalid(app, "stack-invalid")

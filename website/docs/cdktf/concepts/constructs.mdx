@@ -44,17 +44,25 @@ Constructs also provide a way to logically structure a set of resources, but you
 
 ## Use Constructs
 
-> **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial on HashiCorp Learn to use a custom construct. It includes the example code below.
+> **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial on HashiCorp Learn to use a custom construct.
 
 You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project’s programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
-The TypeScript example below instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
+The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
+
+<CodeTabs>
+
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import * as kubernetes from "@cdktf/provider-kubernetes";
 import * as path from "path";
+import * as kubernetes from "./.gen/providers/kubernetes";
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
 
@@ -77,25 +85,178 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, "app");
+new MyStack(app, "demo");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+import cdktf
+import os
+import imports.kubernetes as kubernetes
+from my_constructs import KubernetesWebAppDeployment
+
+
+class MyStack(cdktf.TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+        kubernetes.KubernetesProvider(self, "kind",
+                                      config_path=os.path.join(os.path.dirname(
+                                          __file__), '..', 'kubeconfig.yaml')
+                                      )
+
+        KubernetesWebAppDeployment(self, "deployment",
+                                   image="nginx:latest",
+                                   replicas=2,
+                                   app="myapp",
+                                   component="frontend",
+                                   environment="dev"
+                                   )
+
+
+app = cdktf.App()
+MyStack(app, "demo")
+
+app.synth()
+```
+
+```java
+package com.mycompany.app;
+
+import java.nio.file.Paths;
+
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
+import java.util.*;
+import imports.kubernetes.*;
+
+public class Main extends TerraformStack {
+    public Main(final Construct scope, final String name) {
+        super(scope, name);
+
+        KubernetesProvider.Builder.create(this, "kind")
+                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
+                .build();
+
+        final HashMap<String, String> properties = new HashMap<>();
+        properties.put("image", "lambci/lambda:latest");
+        properties.put("replicas", "2");
+        properties.put("app", "myapp");
+        properties.put("component", "frontend");
+        properties.put("environment", "dev");
+
+        new KubernetesWebAppDeployment(this, "deployment", properties);
+    }
+    public static void main(String[] args) {
+        final App app = new App();
+        new Main(app, "demo");
+        app.synth();
+    }
+}
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using kubernetes;
+using MyConstructs;
+namespace MyCompany.MyApp
+{
+    class MyApp : TerraformStack
+    {
+        public MyApp(Construct scope, string name) : base(scope, name)
+        {
+
+            new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
+                ConfigPath = Path.Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
+            });
+            new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {
+                { "image", "nginx:latest" },
+                { "replicas", 2 },
+                { "app", "myapp" },
+                { "component", "frontend" },
+                { "environment", "dev" }
+            });
+        }
+
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyApp(app, "demo");
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
+    }
+}
+```
+
+```go
+package main
+
+import (
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	"os"
+	"path"
+)
+
+func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cwd, _ := os.Getwd()
+
+	kubernetes.NewKubernetesProvider(stack, jsii.String("kind"), &kubernetes.KubernetesProviderConfig{
+		ConfigPath: jsii.String(path.Join(cwd, "kubeconfig.yaml")),
+	})
+	myconstructs.NewKubernetesWebAppDeployment(stack, "deployment", map[string]interface{}{
+		"image":       jsii.String("nginx:latest"),
+		"replicas":    jsii.Number(2),
+		"app":         jsii.String("myapp"),
+		"component":   jsii.String("frontend"),
+		"environment": jsii.String("dev"),
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewExampleCdktfDocumentationStack(app, "demo")
+
+	app.Synth()
+}
+
+```
+
+</CodeTabs>
 
 ### Scope
 
 You can instantiate a construct multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. CDKTF infers a unique `name` for each instance from its `Construct#id` and parent construct. Instances that share the same parent element are considered to be part of the same scope. If you instantiate multiple constructs within the same scope, you must set a different `name` for each instance to avoid naming conflicts.
 
-The example below creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
+The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
-```ts
+```typescript
 import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 
 class PublicS3Bucket extends Construct {
+  public bucket: S3Bucket;
   constructor(scope: Construct, name: string) {
-    super(scope, name); // This creates a new scope since we extend from resource
+    super(scope, name); // This creates a new scope since we extend from construct
 
     // This bucket is in a different scope than the buckets
-    // defined in `MyStack` below. Therefore, it does not need a unique name.
+    // defined in `MyStack`. Therefore, it does not need a unique name.
     this.bucket = new S3Bucket(this, "bucket", {
       bucketPrefix: name,
       website: [
