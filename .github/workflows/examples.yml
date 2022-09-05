@@ -37,8 +37,12 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+      CI: "1"
     timeout-minutes: 60
     steps:
+      - uses: datadog/agent-github-action@v1.3
+        with:
+          api_key: ${{ secrets.DATA_DOG_API_KEY }}
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: |
@@ -50,8 +54,10 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle
         run: yarn package
+      - name: install tooling
+        run: cd tools/build-example && yarn install
       - name: examples integration tests
-        run: test/run-against-dist node tools/build-example.js ${TEST_TARGET}
+        run: test/run-against-dist node tools/build-example/index.js ${TEST_TARGET}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           TEST_TARGET: "${{ matrix.target }}"

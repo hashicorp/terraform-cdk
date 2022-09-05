@@ -1,0 +1,15 @@
+{
+  "name": "build-example",
+  "version": "1.0.0",
+  "description": "A script that builds one example, measures the time and RAM it took and reports these numbers to DataDog.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "hot-shots": "^9.2.0"
+  }
+}

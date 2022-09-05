@@ -1,8 +1,9 @@
 // Builds a single example, passed  as the first argument.
 
-var path = require("path");
-var exec = require("child_process").execSync;
+const path = require("path");
+const exec = require("child_process").execSync;
 const { performance } = require("perf_hooks");
+const StatsD = require("hot-shots");
 
 function run(command) {
   const start = performance.now();
@@ -50,3 +51,43 @@ console.log(
 console.log(
   `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
 );
+
+if (process.env.CI) {
+  const client = new StatsD({
+    port: 8125,
+    globalTags: {
+      env: process.env.NODE_ENV,
+      gitSha: process.env.GITHUB_SHA,
+      gitRef: process.env.GITHUB_REF_NAME,
+    },
+    errorHandler: function (error) {
+      console.log("Socket errors caught here: ", error);
+    },
+  });
+  // exampleToBuild is e.g. @examples/typescript-aws-cloudfront-proxy
+  const exampleName = exampleToBuild.replace(/^@examples\//, "");
+  const exampleParts = exampleName.split("-");
+  const exampleLanguage = exampleParts.shift(); // e.g. typescript
+  const exampleId = exampleParts.join("_"); // e.g. aws_cloudfront_proxy
+
+  client.gauge(`cdktf.${exampleLanguage}.${exampleId}.get.time`, getStats.time);
+  if (getStats.maxMemoryKbytes) {
+    client.gauge(
+      `cdktf.${exampleLanguage}.${exampleId}.get.memory`,
+      getStats.maxMemoryKbytes
+    );
+  }
+  client.gauge(
+    `cdktf.${exampleLanguage}.${exampleId}.synth.time`,
+    synthStats.time
+  );
+
+  if (synthStats.maxMemoryKbytes) {
+    client.gauge(
+      `cdktf.${exampleToBuild}.synth.memory`,
+      synthStats.maxMemoryKbytes
+    );
+  }
+  client.close();
+  console.log("Sent stats to Datadog");
+}
