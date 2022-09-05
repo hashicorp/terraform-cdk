@@ -1,6 +1,6 @@
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider
+from imports.aws.aws_provider import AwsProvider
 from imports.aws.sns import SnsTopic
 from imports.terraform_aws_modules.aws import Vpc
 from imports.aws.lambdafunction import LambdaFunction
@@ -20,8 +20,10 @@ class MyStack(TerraformStack):
             public_subnets=["10.0.1.0/24", "10.0.2.0/24"]
             )
         SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
-        role = IamRole(self, 'Role', name='lambda-role', assume_role_policy='{}')
-        LambdaFunction(self, 'Lambda', function_name='my-first-lambda-function', role=role.arn, handler='index.handler', runtime='python3.6')
+        role = IamRole(self, 'Role', name='lambda-role',
+                       assume_role_policy='{}')
+        LambdaFunction(self, 'Lambda', function_name='my-first-lambda-function',
+                       role=role.arn, handler='index.handler', runtime='python3.6')
 
 
 app = App()

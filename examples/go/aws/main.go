@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/eks"
-	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws"
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws/awsprovider"
 	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws/ec2"
 
 	"github.com/aws/constructs-go/constructs/v10"
@@ -13,7 +13,7 @@ import (
 func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+	awsprovider.NewAwsProvider(stack, jsii.String("aws"), &awsprovider.AwsProviderConfig{
 		Region: jsii.String("us-east-1"),
 	})
 

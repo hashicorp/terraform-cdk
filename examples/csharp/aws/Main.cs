@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using aws;
+using aws.AwsProvider;
 using aws.Datasources;
 using aws.Dynamodb;
 using aws.Sns;
