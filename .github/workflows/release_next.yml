@@ -60,6 +60,8 @@ jobs:
           yarn install
           yarn build
           yarn package
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
       - name: Add sourcemap and commit info to sentry
         if: steps.get_release_status.outputs.release == 'unreleased'
         run: |
