@@ -1,8 +1,7 @@
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
+import { execSync, spawnSync } from "child_process";
 import { snakeCase, terraformBinaryName } from "../util";
-
 
 // TerraformConstructor is class with the static property 'tfResourceType'
 export interface TerraformConstructor {
