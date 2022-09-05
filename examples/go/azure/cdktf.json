@@ -20,5 +20,5 @@
   "context": {
     "excludeStackIdFromLogicalIds": "true",
     "allowSepCharsInLogicalIds": "true"
-  },
+  }
 }
