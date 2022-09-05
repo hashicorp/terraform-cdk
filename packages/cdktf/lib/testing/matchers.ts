@@ -228,7 +228,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
 
     const stacks = Object.entries(manifest.stacks);
 
-    var errors: string[] = [];
+    const errors: string[] = [];
 
     stacks.forEach(([name, stack]) => {
       const opts = {
@@ -246,7 +246,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
           `Found ${
             result.error_count
           } Errors in stack ${name}: ${result.diagnostics.reduce(
-            (prev: string, curr: Object) =>
+            (prev: string, curr: any) =>
               prev.concat(JSON.stringify(curr, null, 2) + "\n"),
             "\n"
           )}`
