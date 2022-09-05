@@ -3,12 +3,12 @@
 import { Construct } from "constructs";
 import { App, Fn, TerraformStack } from "cdktf";
 import {
-  KubernetesProvider,
-  Namespace,
-  Deployment,
-  Service,
+  kubernetesProvider,
+  deployment,
+  service,
 } from "./.gen/providers/kubernetes";
-import { AwsProvider, datasources, vpc, eks } from "./.gen/providers/aws";
+import { Namespace } from "./.gen/providers/kubernetes/namespace";
+import { awsProvider, datasources, vpc, eks } from "./.gen/providers/aws";
 import { Eks } from "./.gen/modules/terraform-aws-modules/aws/eks";
 import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
 
@@ -24,7 +24,7 @@ class EksClusterStack extends TerraformStack {
     region = "us-east-1"
   ) {
     super(scope, id);
-    new AwsProvider(this, "aws", {
+    new awsProvider.AwsProvider(this, "aws", {
       region,
     });
 
@@ -160,7 +160,7 @@ class KubernetesApplicationStack extends TerraformStack {
   ) {
     super(scope, id);
 
-    new KubernetesProvider(this, "cluster", {
+    new kubernetesProvider.KubernetesProvider(this, "cluster", {
       host: cluster.endpoint,
       clusterCaCertificate: Fn.base64decode(
         cluster.certificateAuthority.get(0).data
@@ -175,7 +175,7 @@ class KubernetesApplicationStack extends TerraformStack {
     });
 
     const app = "nginx-example";
-    const nginx = new Deployment(this, "nginx-deployment", {
+    const nginx = new deployment.Deployment(this, "nginx-deployment", {
       metadata: {
         name: app,
         namespace: exampleNamespace.metadata.name,
@@ -213,7 +213,7 @@ class KubernetesApplicationStack extends TerraformStack {
       },
     });
 
-    new Service(this, "nginx-service", {
+    new service.Service(this, "nginx-service", {
       metadata: {
         namespace: nginx.metadata.namespace,
         name: "nginx-service",

@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { CodeMaker } from "codemaker";
+import { CodeMaker, toCamelCase } from "codemaker";
 import { ProviderSchema } from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
@@ -196,10 +196,9 @@ export class TerraformProviderGenerator {
         const fileName = file.replace("ns:", "");
         this.code.line(`export * as ${fileName} from './${fileName}'`);
       } else {
+        const fileName = file.replace(`${folder}/`, "").replace(".ts", "");
         this.code.line(
-          `export * from './${file
-            .replace(`${folder}/`, "")
-            .replace(".ts", "")}';`
+          `export * as ${toCamelCase(fileName)} from './${fileName}';`
         );
       }
     }
