@@ -13,3 +13,5 @@ packages/@cdktf/provider-generator/edge-provider-bindings
 test/edge-provider-bindings
 !tools/documentation-generation/generate-documentation.js
 !tools/build-example.js
+**/go.mod
+**/go.sum
