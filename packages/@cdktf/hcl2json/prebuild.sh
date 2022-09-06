@@ -12,6 +12,6 @@ then
     exit 1
 fi
 
-cp $GOROOT/misc/wasm/wasm_exec.js ./wasm/wasm_exec.js
+cp "$GOROOT/misc/wasm/wasm_exec.js" ./wasm/wasm_exec.js
 
 echo "Copied build system wasm_exec.js file to wasm/ directory."
