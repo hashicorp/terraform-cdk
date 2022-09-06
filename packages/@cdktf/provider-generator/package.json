@@ -34,7 +34,7 @@
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
-    "jsii-srcmak": "^0.1.662"
+    "jsii-srcmak": "^0.1.666"
   },
   "devDependencies": {
     "@types/deepmerge": "^2.2.0",
