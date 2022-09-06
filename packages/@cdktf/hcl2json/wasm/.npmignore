@@ -1,2 +1,3 @@
 !wasm_exec.js
+!wasm_exec_node.js
 !wasm_exec.d.ts
