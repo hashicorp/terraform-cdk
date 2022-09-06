@@ -95,9 +95,9 @@
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
     "jest": "^26.6.3",
-    "jsii": "^1.67.0",
-    "jsii-docgen": "^7.0.76",
-    "jsii-pacmak": "^1.67.0",
+    "jsii": "^1.65.0",
+    "jsii-docgen": "^7.0.73",
+    "jsii-pacmak": "^1.65.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
