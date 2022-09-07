@@ -44,4 +44,28 @@ describe("extractJsonLogIfPresent", () => {
         null_resource.sleep-79_null-resource_7E1E3312 (sleep-79/null-resource): Plan to create"
       `);
   });
+
+  it("removes any whitespace before json messages", () => {
+    expect(
+      extractJsonLogIfPresent(
+        `{"@level":"info","@message":" Terraform 1.1.7","@module":"terraform.ui","@timestamp":"2022-03-24T14:17:24.197605Z","terraform":"1.1.7","type":"version","ui":"1.0"}`
+      )
+    ).toMatchInlineSnapshot(`"Terraform 1.1.7"`);
+  });
+
+  it("does not remove whitespace before non-json messages", () => {
+    expect(
+      extractJsonLogIfPresent(
+        [
+          "Terraform v1.1.7",
+          "\ton linux_amd64",
+          "\tInitializing plugins and modules...",
+        ].join("\n")
+      )
+    ).toMatchInlineSnapshot(`
+      "Terraform v1.1.7
+      	on linux_amd64
+      	Initializing plugins and modules..."
+    `);
+  });
 });
