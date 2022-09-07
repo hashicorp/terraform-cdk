@@ -175,3 +175,99 @@ index ed450bc..77224de 100644
      }
      async save(outDir, tarball, { license, notice }) {
          const output = path.join(outDir, this.rootPackage.packageName);
+diff --git a/node_modules/jsii-pacmak/lib/targets/go/package.js b/node_modules/jsii-pacmak/lib/targets/go/package.js
+index c23ad4c..fcc3c0a 100644
+--- a/node_modules/jsii-pacmak/lib/targets/go/package.js
++++ b/node_modules/jsii-pacmak/lib/targets/go/package.js
+@@ -21,6 +21,7 @@ class Package {
+     constructor(jsiiModule, packageName, filePath, moduleName, version, 
+     // If no root is provided, this module is the root
+     root) {
++        this._types = {};
+         this.jsiiModule = jsiiModule;
+         this.packageName = packageName;
+         this.filePath = filePath;
+@@ -72,7 +73,11 @@ class Package {
+      * Search for a type with a `fqn` within this. Searches all Children modules as well.
+      */
+     findType(fqn) {
+-        return (0, util_1.findTypeInTree)(this, fqn);
++        if (!this._types[fqn]) {
++            this._types[fqn] = (0, util_1.findTypeInTree)(this, fqn);
++        }
++        return this._types[fqn];
++
+     }
+     emit(context) {
+         this.emitTypes(context);
+diff --git a/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js b/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
+index ee811ec..3f89c4c 100644
+--- a/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
++++ b/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
+@@ -2,6 +2,13 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.GoTypeRef = void 0;
+ const log = require("../../../logging");
++const msBetween = (message) => {
++    const start = Date.now();
++    console.log(`${message} started`);
++    return () => {
++      console.log(`${message} took ${Date.now() - start}ms`);
++    };
++  };
+ /*
+  * Maps names of JS primitives to corresponding Go types as strings
+  */
+@@ -29,9 +36,12 @@ class PrimitiveMapper {
+  * Accepts a JSII TypeReference and Go Package and can resolve the GoType within the module tree.
+  */
+ class GoTypeRef {
++    
+     constructor(root, reference) {
+         this.root = root;
+         this.reference = reference;
++        this._scopedNameCache = {}
++        this._scopedReferenceCache = {}
+     }
+     get type() {
+         if (this.reference.fqn) {
+@@ -123,10 +133,29 @@ class GoTypeRef {
+      * Return the name of a type for reference from the `Package` passed in
+      */
+     scopedName(scope) {
+-        return this.scopedTypeName(this.typeMap, scope);
++        const id = `${scope.filePath}#${scope.moduleName}`
++        const cachedValue = this._scopedNameCache[id];
++        if (cachedValue) {
++            console.count("scopedName cache hit")
++            return cachedValue
++        }
++        console.count("scopedName cache miss")
++        const computedValue =  this.scopedTypeName(this.typeMap, scope);
++        this._scopedNameCache[id] = computedValue;
++        return computedValue;
+     }
+     scopedReference(scope) {
+-        return this.scopedTypeName(this.typeMap, scope, true);
++        const id = `${scope.filePath}#${scope.moduleName}`
++        console.log("scopedReference", id)
++        const cachedValue = this._scopedReferenceCache[id];
++        if (cachedValue) {
++            console.count("scopedReference cache hit")
++            return cachedValue
++        }
++        console.count("scopedReference cache miss")
++        const computedValue =  this.scopedTypeName(this.typeMap, scope, true);
++        this._scopedReferenceCache[id] = computedValue;
++        return computedValue;
+     }
+     buildTypeMap(ref) {
+         if (ref.primitiveType) {
+@@ -156,6 +185,7 @@ class GoTypeRef {
+         return { type: 'interface', value: ref };
+     }
+     scopedTypeName(typeMap, scope, asRef = false) {
++        
+         if (typeMap.type === 'primitive') {
+             const { value } = typeMap;
+             const prefix = asRef && value !== 'interface{}' ? '*' : '';
