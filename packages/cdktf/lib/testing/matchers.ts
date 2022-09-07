@@ -245,7 +245,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
         errors.push(
           `Found ${
             result.error_count
-          } Errors in stack ${name}: ${result.diagnostics.reduce(
+          } Errors validating stack ${name}: ${result.diagnostics.reduce(
             (prev: string, curr: any) =>
               prev.concat(JSON.stringify(curr, null, 2) + "\n"),
             "\n"
@@ -265,10 +265,9 @@ export function toBeValidTerraform(received: string): AssertionReturn {
       );
     }
   } catch (e) {
-    return new AssertionReturn(
-      `Expected subject to be a valid terraform stack: ${e}`,
-      false
-    );
+    throw new Error(`Encountered an error prior to beginning the validation task: ${e} \n
+    Ensure a Terraform binary is installed.
+    `);
   }
 }
 
