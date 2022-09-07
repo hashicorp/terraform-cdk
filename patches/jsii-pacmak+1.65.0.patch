@@ -1,0 +1,177 @@
+diff --git a/node_modules/jsii-pacmak/lib/builder.js b/node_modules/jsii-pacmak/lib/builder.js
+index 6592f03..751cdaa 100644
+--- a/node_modules/jsii-pacmak/lib/builder.js
++++ b/node_modules/jsii-pacmak/lib/builder.js
+@@ -14,6 +14,14 @@ const util_1 = require("./util");
+  * do that yet--this class can serve as a base class: it will build each package
+  * independently, taking care to build them in the right order.
+  */
++
++ const msBetween = (message) => {
++    const start = Date.now();
++    console.log(`${message} started`);
++    return () => {
++      console.log(`${message} took ${Date.now() - start}ms`);
++    };
++  };
+ class IndependentPackageBuilder {
+     constructor(targetName, targetConstructor, modules, options) {
+         this.targetName = targetName;
+@@ -23,29 +31,40 @@ class IndependentPackageBuilder {
+     }
+     async buildModules() {
+         if (this.options.codeOnly) {
++            const after = msBetween(`Pacmak IndependentPackageBuilder.buildModules#codeOnly for ${this.modules}`);
+             await Promise.all((0, util_1.flatten)(this.modules).map((module) => this.generateModuleCode(module, this.options)));
++            after();
+             return;
+         }
+         for (const modules of this.modules) {
++            const after = msBetween(`Pacmak IndependentPackageBuilder.buildModules#modules for ${modules}`);
+             // eslint-disable-next-line no-await-in-loop
+             await Promise.all(modules.map((module) => this.buildModule(module, this.options)));
++            after()
+         }
+     }
+     async generateModuleCode(module, options) {
+         const outputDir = this.finalOutputDir(module, options);
+         logging.debug(`Generating ${this.targetName} code into ${outputDir}`);
++        const after = msBetween(`Pacmak IndependentPackageBuilder.generateModuleCode for ${module}`);
+         await this.makeTarget(module, options).generateCode(outputDir, module.tarball);
++        after()
+     }
+     async buildModule(module, options) {
+         const target = this.makeTarget(module, options);
+         const outputDir = this.finalOutputDir(module, options);
++        const after1 = msBetween(`Pacmak IndependentPackageBuilder.buildModule#make ${module}`);
+         const src = await util_1.Scratch.make((tmpdir) => {
+             logging.debug(`Generating ${this.targetName} code into ${tmpdir}`);
+             return target.generateCode(tmpdir, module.tarball);
+         });
++        after1();
+         try {
+             logging.debug(`Building ${src.directory} into ${outputDir}`);
+-            return await target.build(src.directory, outputDir);
++            const after2 = msBetween(`Pacmak IndependentPackageBuilder.buildModule#build ${module}`);
++            const x = await target.build(src.directory, outputDir);
++            after2();
++            return x;
+         }
+         catch (err) {
+             logging.warn(`Failed building ${this.targetName}`);
+diff --git a/node_modules/jsii-pacmak/lib/index.js b/node_modules/jsii-pacmak/lib/index.js
+index 6dc2829..0713129 100644
+--- a/node_modules/jsii-pacmak/lib/index.js
++++ b/node_modules/jsii-pacmak/lib/index.js
+@@ -48,6 +48,14 @@ async function pacmak({ argv = {}, clean = true, codeOnly = false, fingerprint =
+         logging.info('Packaging NPM bundles');
+         return Promise.all(modulesToPackageFlat.map((m) => m.npmPack()));
+     });
++    const msBetween = (message) => {
++        const start = Date.now();
++        console.log(`${message} started`);
++        return () => {
++          console.log(`${message} took ${Date.now() - start}ms`);
++        };
++      };
++    const after = msBetween('Pacmak loads JSII');
+     await timers.recordAsync('load jsii', () => {
+         logging.info('Loading jsii assemblies and translations');
+         const system = new jsii_reflect_1.TypeSystem();
+@@ -56,6 +64,7 @@ async function pacmak({ argv = {}, clean = true, codeOnly = false, fingerprint =
+             return rosetta.addAssembly(m.assembly.spec, m.moduleDirectory);
+         }));
+     });
++    after()
+     try {
+         const targetSets = sliceTargets(modulesToPackageSorted, targets, forceTarget);
+         if (targetSets.every((s) => s.modulesSorted.length === 0)) {
+diff --git a/node_modules/jsii-pacmak/lib/target.js b/node_modules/jsii-pacmak/lib/target.js
+index 43a0dfa..3e1c567 100644
+--- a/node_modules/jsii-pacmak/lib/target.js
++++ b/node_modules/jsii-pacmak/lib/target.js
+@@ -6,6 +6,14 @@ const path = require("path");
+ const spdx = require("spdx-license-list/full");
+ const dependency_graph_1 = require("./dependency-graph");
+ const logging = require("./logging");
++
++const msBetween = (message) => {
++    const start = Date.now();
++    console.log(`${message} started`);
++    return () => {
++      console.log(`${message} took ${Date.now() - start}ms`);
++    };
++  };
+ class Target {
+     constructor(options) {
+         this.arguments = options.arguments;
+@@ -23,9 +31,13 @@ class Target {
+      * @param outDir the directory where the generated source will be placed.
+      */
+     async generateCode(outDir, tarball) {
++        const generatorLoad = msBetween(`Target.generateCode(${outDir})#load`);
+         await this.generator.load(this.packageDir, this.assembly);
++        generatorLoad()
+         if (this.force || !(await this.generator.upToDate(outDir))) {
++            const generatorGenerate = msBetween(`Target.generateCode(${outDir})#generate`);
+             this.generator.generate(this.fingerprint);
++            generatorGenerate()
+             const licenseFile = path.join(this.packageDir, 'LICENSE');
+             const license = (await fs.pathExists(licenseFile))
+                 ? await fs.readFile(licenseFile, 'utf8')
+diff --git a/node_modules/jsii-pacmak/lib/targets/go.js b/node_modules/jsii-pacmak/lib/targets/go.js
+index ed450bc..77224de 100644
+--- a/node_modules/jsii-pacmak/lib/targets/go.js
++++ b/node_modules/jsii-pacmak/lib/targets/go.js
+@@ -11,6 +11,14 @@ const documentation_1 = require("./go/documentation");
+ const package_1 = require("./go/package");
+ const runtime_1 = require("./go/runtime");
+ const util_2 = require("./go/util");
++
++const msBetween = (message) => {
++    const start = Date.now();
++    console.log(`${message} started`);
++    return () => {
++      console.log(`${message} took ${Date.now() - start}ms`);
++    };
++  };
+ class Golang extends target_1.Target {
+     constructor(options) {
+         super(options);
+@@ -46,7 +54,9 @@ class Golang extends target_1.Target {
+             logging.info(`[${pkgDir}] Content of ${localGoMod.path} file:\n${localGoMod.content}`);
+             return Promise.reject(e);
+         }
++        const end = msBetween(`go build ${localGoMod.path}`)
+         await go('build', ['-modfile', localGoMod.path, './...'], { cwd: pkgDir });
++        end()
+         // delete local.go.mod and local.go.sum from the output directory so it doesn't get published
+         const localGoSum = `${path.basename(localGoMod.path, '.mod')}.sum`;
+         await fs.remove(path.join(pkgDir, localGoMod.path));
+@@ -113,6 +123,8 @@ class Golang extends target_1.Target {
+     }
+ }
+ exports.Golang = Golang;
++
++
+ class GoGenerator {
+     constructor(rosetta) {
+         this.rosetta = rosetta;
+@@ -130,11 +142,16 @@ class GoGenerator {
+         return Promise.resolve(false);
+     }
+     generate() {
++        const rootPackage = msBetween('Go.generate#create-root-package');
+         this.rootPackage = new package_1.RootPackage(this.assembly);
+-        return this.rootPackage.emit({
++        rootPackage();
++        const rootPackageEmit = msBetween('Go.generate#emit');
++        const x = this.rootPackage.emit({
+             code: this.code,
+             documenter: this.documenter,
+         });
++        rootPackageEmit()
++        return x
+     }
+     async save(outDir, tarball, { license, notice }) {
+         const output = path.join(outDir, this.rootPackage.packageName);

@@ -34,6 +34,13 @@ export const LANGUAGES = [
   Language.GO,
 ];
 
+const msBetween = (message: string) => {
+  const start = Date.now();
+  return () => {
+    console.log(`${message} took ${Date.now() - start}ms`);
+  };
+};
+
 export async function generateJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options
@@ -42,8 +49,12 @@ export async function generateJsiiLanguage(
     // this is not typescript, so we generate in a staging directory and
     // use jsii-srcmak to compile and extract the language-specific source
     // into our project.
+    const stop = msBetween("Saving code");
     await code.save(staging);
+    stop();
+    const stopJsii = msBetween("Running jsii-srcmak");
     await srcmak.srcmak(staging, opts);
+    stopJsii();
   });
 }
 
