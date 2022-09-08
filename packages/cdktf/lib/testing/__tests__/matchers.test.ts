@@ -221,7 +221,7 @@ describe("matchers", () => {
       );
     });
 
-    it("fails if the terraform config passed is invalid", () => {
+    it("throws if the terraform config passed is invalid", () => {
       const app = Testing.app();
       const stack = new TerraformStack(app, "test");
 
@@ -230,12 +230,10 @@ describe("matchers", () => {
       const result = Testing.fullSynth(stack);
       corruptSynthesizedStack(result);
 
-      const res = toBeValidTerraform(result);
-      expect(res.pass).toBeFalsy();
-      expect(res.message).toEqual(
-        expect.stringContaining(
-          "Expected subject to be a valid terraform stack"
-        )
+      expect(() => {
+        toBeValidTerraform(result);
+      }).toThrow(
+        "Encountered an error prior to beginning the validation task:"
       );
     });
   });

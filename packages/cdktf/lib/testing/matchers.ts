@@ -266,7 +266,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
     }
   } catch (e) {
     throw new Error(`Encountered an error prior to beginning the validation task: ${e} \n
-    Ensure a Terraform binary is installed.
+    Ensure that a Terraform binary is installed or that your Terraform configuration is valid.
     `);
   }
 }
