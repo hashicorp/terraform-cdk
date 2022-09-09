@@ -41,7 +41,7 @@ async function getCurrentProjectItemIds(): Promise<string[]> {
         items: { nodes },
       },
     },
-  } = await gql(
+  } = (await gql(
     `
   query($org: String!, $number: Int!) {
     organization(login: $org) {
@@ -56,7 +56,7 @@ async function getCurrentProjectItemIds(): Promise<string[]> {
   }
   `,
     { org: ORG, number: PROJECT_ID }
-  );
+  )) as any;
 
   return nodes.map((node: { id: string }) => node.id);
 }
@@ -72,7 +72,7 @@ async function addToProject(
     addProjectNextItem: {
       projectNextItem: { id: cardId },
     },
-  } = await gql(
+  } = (await gql(
     `
   mutation($project:ID!, $issue:ID!) {
     addProjectNextItem(input: {projectId: $project, contentId: $issue}) {
@@ -83,7 +83,7 @@ async function addToProject(
   }
   `,
     { project: projectId, issue: issue.node_id }
-  );
+  )) as any;
 
   // Set status
   await gql(
@@ -116,7 +116,7 @@ async function addToProject(
 }
 
 async function removeItemFromProject(projectId: string, itemId: string) {
-  const {} = await gql(
+  await gql(
     `
   mutation(
     $project: ID!
@@ -167,7 +167,7 @@ async function run() {
   console.log("Fetching Project...");
   const {
     organization: { projectNext: project },
-  } = await gql(
+  } = (await gql(
     `query($org: String!, $number: Int!) {
     organization(login: $org) {
       projectNext(number: $number) {
@@ -183,7 +183,7 @@ async function run() {
     }
   }`,
     { org: ORG, number: PROJECT_ID }
-  );
+  )) as any;
 
   const projectId = project.id;
   const statusColumn = project.fields.nodes.find(

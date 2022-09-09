@@ -1,4 +1,4 @@
-## 0.12.2 (unreleased)
+## 0.12.2
 
 **Breaking Changes**
 
@@ -12,10 +12,38 @@ A very minor change in the interface names for provisioners occured [to support 
 
 Another very minor change is that we now use the `CloudBackend` by default when running cdktf init. This requires Terraform >=1.1, therefore an error is thrown on `cdktf init` if you want to use Terraform Cloud and are on an older version. Already existing projects are not affected and you can use `cdktf init --local` and configure the `RemoteBackend` if you need to use an older version.
 
+### feat
+
+- feat(cli): throw an error if a user tries to create a new project with TFC on an old TF version [\#2062](https://github.com/hashicorp/terraform-cdk/pull/2062)
+- feat: install time tool in Docker container to be able to use it for memory consumption tracking in tests [\#2059](https://github.com/hashicorp/terraform-cdk/pull/2059)
+- feat: add Go port of TypeScript Google CloudRun example [\#2035](https://github.com/hashicorp/terraform-cdk/pull/2035)
+- feat(lib): add support for cloud backend [\#1924](https://github.com/hashicorp/terraform-cdk/pull/1924)
+
 ### fix
 
+- fix(provider-generator): use terraform get instead of init to download modules [\#2057](https://github.com/hashicorp/terraform-cdk/pull/2057)
+- fix(lib): Add missing config options for S3Backend: skipRegionValidation, assumeRolePolicyArns, assumeRoleTags, and assumeRoleTransitiveTagKeys [\#2050](https://github.com/hashicorp/terraform-cdk/pull/2050)
+- fix: support provisioners in JSII languages [\#2042](https://github.com/hashicorp/terraform-cdk/pull/2042)
 - fix(hcl2json): add fs-extra to dependencies [\#2040](https://github.com/hashicorp/terraform-cdk/pull/2040)
-- fix(lib): support provisioners in JSII languages [\#2042](https://github.com/hashicorp/terraform-cdk/pull/2042)
+- fix(lib): Improve error message when provider constructs are missing [\#2039](https://github.com/hashicorp/terraform-cdk/pull/2039)
+- fix(cli): Make provider add command case insensitive for provider names [\#2038](https://github.com/hashicorp/terraform-cdk/pull/2038)
+- fix(cli): run a speculative plan on diff [\#2033](https://github.com/hashicorp/terraform-cdk/pull/2033)
+
+### chore
+
+- chore(cli): remove red and magenta from colors for stack names [\#2064](https://github.com/hashicorp/terraform-cdk/pull/2064)
+- chore: add link to hybrid module talk [\#2054](https://github.com/hashicorp/terraform-cdk/pull/2054)
+- chore: make Terraform 1.2.8 available in Docker image [\#2051](https://github.com/hashicorp/terraform-cdk/pull/2051)
+- chore: document updating the API documentation [\#2046](https://github.com/hashicorp/terraform-cdk/pull/2046)
+- chore(docs): Remove positional language + fix style nits [\#2045](https://github.com/hashicorp/terraform-cdk/pull/2045)
+- chore(lib): deprecate Resource in favor of Construct [\#2044](https://github.com/hashicorp/terraform-cdk/pull/2044)
+- chore: update links in our youtube playlist examples [\#2043](https://github.com/hashicorp/terraform-cdk/pull/2043)
+- chore: npm-check-updates && yarn upgrade [\#2025](https://github.com/hashicorp/terraform-cdk/pull/2025)
+- chore: translate parts of the documentation [\#2011](https://github.com/hashicorp/terraform-cdk/pull/2011)
+
+### refactor
+
+- refactor: port example script to JS [\#2047](https://github.com/hashicorp/terraform-cdk/pull/2047)
 
 ## 0.12.1
 

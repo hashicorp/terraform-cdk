@@ -28,9 +28,9 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@babel/generator": "^7.18.12",
+    "@babel/generator": "^7.18.13",
     "@babel/template": "^7.18.10",
-    "@babel/types": "^7.18.10",
+    "@babel/types": "^7.18.13",
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
     "camelcase": "^6.3.0",
@@ -45,7 +45,7 @@
   "devDependencies": {
     "@types/glob": "^7.2.0",
     "@types/jest": "^26.0.24",
-    "@types/node": "^14.18.25",
+    "@types/node": "^14.18.26",
     "@types/reserved-words": "^0.1.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.6",
