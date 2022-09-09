@@ -63,3 +63,5 @@ jobs:
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
+      - name: wait for data dog to forward the metrics
+        run: sleep 10
