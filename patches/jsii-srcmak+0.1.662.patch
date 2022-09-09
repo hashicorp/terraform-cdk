@@ -1,5 +1,5 @@
 diff --git a/node_modules/jsii-srcmak/lib/srcmak.js b/node_modules/jsii-srcmak/lib/srcmak.js
-index 9fa7730..b6e6397 100644
+index 9fa7730..ba455a4 100644
 --- a/node_modules/jsii-srcmak/lib/srcmak.js
 +++ b/node_modules/jsii-srcmak/lib/srcmak.js
 @@ -32,10 +32,20 @@ const compile_1 = require("./compile");
@@ -23,14 +23,16 @@ index 9fa7730..b6e6397 100644
      await (0, util_2.mkdtemp)(async (workdir) => {
          // copy sources to temp directory
          await fs.copy(srcdir, workdir);
-@@ -46,6 +56,7 @@ async function srcmak(srcdir, options = {}) {
+@@ -46,7 +56,8 @@ async function srcmak(srcdir, options = {}) {
              await fs.copy(path.join(workdir, '.jsii'), options.jsii.path);
          }
          // run pacmak to generate code
+-        await (0, util_2.exec)(pacmakModule, ['--code-only'], { cwd: workdir });
 +        console.log(`Please run 0x ${pacmakModule} --code-only in ${workdir}`)
-         await (0, util_2.exec)(pacmakModule, ['--code-only'], { cwd: workdir });
++        await (0, util_2.exec)(pacmakModule, ['--code-only', '-vvvvv'], { cwd: workdir });
          // extract code based on selected languages
          if (options.python) {
+             const reldir = options.python.moduleName.replace(/\./g, '/'); // jsii replaces "." with "/"
 @@ -75,6 +86,8 @@ async function srcmak(srcdir, options = {}) {
              await fs.remove(path.join(target, 'go.mod'));
          }

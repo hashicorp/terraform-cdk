@@ -60,7 +60,7 @@ index 6592f03..751cdaa 100644
          catch (err) {
              logging.warn(`Failed building ${this.targetName}`);
 diff --git a/node_modules/jsii-pacmak/lib/index.js b/node_modules/jsii-pacmak/lib/index.js
-index 6dc2829..0713129 100644
+index 6dc2829..b591716 100644
 --- a/node_modules/jsii-pacmak/lib/index.js
 +++ b/node_modules/jsii-pacmak/lib/index.js
 @@ -48,6 +48,14 @@ async function pacmak({ argv = {}, clean = true, codeOnly = false, fingerprint =
@@ -86,6 +86,15 @@ index 6dc2829..0713129 100644
      try {
          const targetSets = sliceTargets(modulesToPackageSorted, targets, forceTarget);
          if (targetSets.every((s) => s.modulesSorted.length === 0)) {
+@@ -91,7 +100,7 @@ async function pacmak({ argv = {}, clean = true, codeOnly = false, fingerprint =
+             logging.info('Temporary directories retained (--no-clean)');
+         }
+     }
+-    logging.info(`Packaged. ${timers.display()}`);
++    console.log(`Packaged. ${timers.display()}`);
+ }
+ exports.pacmak = pacmak;
+ //#endregion
 diff --git a/node_modules/jsii-pacmak/lib/target.js b/node_modules/jsii-pacmak/lib/target.js
 index 43a0dfa..3e1c567 100644
 --- a/node_modules/jsii-pacmak/lib/target.js
@@ -176,7 +185,7 @@ index ed450bc..77224de 100644
      async save(outDir, tarball, { license, notice }) {
          const output = path.join(outDir, this.rootPackage.packageName);
 diff --git a/node_modules/jsii-pacmak/lib/targets/go/package.js b/node_modules/jsii-pacmak/lib/targets/go/package.js
-index c23ad4c..fcc3c0a 100644
+index c23ad4c..29d114e 100644
 --- a/node_modules/jsii-pacmak/lib/targets/go/package.js
 +++ b/node_modules/jsii-pacmak/lib/targets/go/package.js
 @@ -21,6 +21,7 @@ class Package {
@@ -200,8 +209,46 @@ index c23ad4c..fcc3c0a 100644
      }
      emit(context) {
          this.emitTypes(context);
+@@ -231,6 +236,7 @@ exports.Package = Package;
+  */
+ class RootPackage extends Package {
+     constructor(assembly, rootPackageCache = new Map()) {
++        
+         const goConfig = assembly.targets?.go ?? {};
+         const packageName = (0, util_1.goPackageNameForAssembly)(assembly);
+         const filePath = '';
+@@ -242,6 +248,7 @@ class RootPackage extends Package {
+         this.assembly = assembly;
+         this.version = version;
+         this.versionFile = new version_file_1.VersionFile(this.version);
++        this._types={};
+     }
+     emit(context) {
+         super.emit(context);
+@@ -289,12 +296,15 @@ class RootPackage extends Package {
+      * This allows resolving type references from other JSII modules
+      */
+     findType(fqn) {
+-        return this.packageDependencies.reduce((accum, current) => {
+-            if (accum) {
+-                return accum;
+-            }
+-            return current.findType(fqn);
+-        }, super.findType(fqn));
++        if (!this._types[fqn]) {
++            this._types[fqn] = this.packageDependencies.reduce((accum, current) => {
++                if (accum) {
++                    return accum;
++                }
++                return current.findType(fqn);
++            }, super.findType(fqn));
++        }
++        return this._types[fqn];
+     }
+     /*
+      * Get all JSII module dependencies of the package being generated
 diff --git a/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js b/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
-index ee811ec..3f89c4c 100644
+index ee811ec..4a9c527 100644
 --- a/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
 +++ b/node_modules/jsii-pacmak/lib/targets/go/types/go-type-reference.js
 @@ -2,6 +2,13 @@
@@ -231,7 +278,7 @@ index ee811ec..3f89c4c 100644
      }
      get type() {
          if (this.reference.fqn) {
-@@ -123,10 +133,29 @@ class GoTypeRef {
+@@ -123,10 +133,24 @@ class GoTypeRef {
       * Return the name of a type for reference from the `Package` passed in
       */
      scopedName(scope) {
@@ -239,10 +286,8 @@ index ee811ec..3f89c4c 100644
 +        const id = `${scope.filePath}#${scope.moduleName}`
 +        const cachedValue = this._scopedNameCache[id];
 +        if (cachedValue) {
-+            console.count("scopedName cache hit")
 +            return cachedValue
 +        }
-+        console.count("scopedName cache miss")
 +        const computedValue =  this.scopedTypeName(this.typeMap, scope);
 +        this._scopedNameCache[id] = computedValue;
 +        return computedValue;
@@ -250,20 +295,17 @@ index ee811ec..3f89c4c 100644
      scopedReference(scope) {
 -        return this.scopedTypeName(this.typeMap, scope, true);
 +        const id = `${scope.filePath}#${scope.moduleName}`
-+        console.log("scopedReference", id)
 +        const cachedValue = this._scopedReferenceCache[id];
 +        if (cachedValue) {
-+            console.count("scopedReference cache hit")
 +            return cachedValue
 +        }
-+        console.count("scopedReference cache miss")
 +        const computedValue =  this.scopedTypeName(this.typeMap, scope, true);
 +        this._scopedReferenceCache[id] = computedValue;
 +        return computedValue;
      }
      buildTypeMap(ref) {
          if (ref.primitiveType) {
-@@ -156,6 +185,7 @@ class GoTypeRef {
+@@ -156,6 +180,7 @@ class GoTypeRef {
          return { type: 'interface', value: ref };
      }
      scopedTypeName(typeMap, scope, asRef = false) {
@@ -271,3 +313,15 @@ index ee811ec..3f89c4c 100644
          if (typeMap.type === 'primitive') {
              const { value } = typeMap;
              const prefix = asRef && value !== 'interface{}' ? '*' : '';
+diff --git a/node_modules/jsii-pacmak/lib/timer.js b/node_modules/jsii-pacmak/lib/timer.js
+index e998237..f008e76 100644
+--- a/node_modules/jsii-pacmak/lib/timer.js
++++ b/node_modules/jsii-pacmak/lib/timer.js
+@@ -14,6 +14,7 @@ class Timer {
+     }
+     end() {
+         this.timeMs = (Date.now() - this.startTime) / 1000;
++        console.log(`Timer '${this.label}' took ${this.humanTime()}`);
+     }
+     isSet() {
+         return this.timeMs !== undefined;
