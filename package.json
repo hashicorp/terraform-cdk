@@ -87,7 +87,8 @@
   "lint-staged": {
     "packages/cdktf/**/*.ts": "yarn generate-docs:api",
     "examples/*/documentation/**/*.{ts,cs,go,java,py}": "yarn generate-docs:translations",
-    "**/*.{ts,tsx,js,css,md}": "prettier --write"
+    "**/*.{tsx,js,css,md}": "prettier --write",
+    "**/*.ts": ["prettier --write", "./tools/add-copyright-header-to-file.sh"]
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
