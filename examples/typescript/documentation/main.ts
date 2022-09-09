@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:assets,constructs
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
