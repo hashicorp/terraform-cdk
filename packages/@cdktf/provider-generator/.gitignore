@@ -3,4 +3,5 @@
 tsconfig.tsbuildinfo
 !tsconfig.json
 edge-provider-bindings
+cdktf-provider-generator-*.tgz
 !test/generate-provider-tests.js
