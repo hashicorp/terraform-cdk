@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using google;
+using google.GoogleProvider;
+using google.ComputeNetwork;
+using google.ComputeInstance;
 using Constructs;
 using HashiCorp.Cdktf;
 
