@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { parseConfig } from "../lib/config";
 import * as fs from "fs-extra";
 import * as os from "os";

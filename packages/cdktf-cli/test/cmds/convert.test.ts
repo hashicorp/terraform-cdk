@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import execa from "execa";
 import path from "path";
 import { promises as fs } from "fs";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { CodeMaker } from "codemaker";
 import { ResourceModel } from "../models";
 import { AttributesEmitter } from "./attributes-emitter";

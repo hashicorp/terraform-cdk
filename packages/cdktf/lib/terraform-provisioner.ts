@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { ref } from "./tfExpression";
 import { Token } from "./tokens/token";
 import { snakeCase } from "./util";

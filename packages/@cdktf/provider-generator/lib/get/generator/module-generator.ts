@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { CodeMaker, toCamelCase } from "codemaker";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
 import { AttributeModel } from "./models";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 /*
 
 Shows how provisioners can be used, requires docker and vagrant to be installed and working

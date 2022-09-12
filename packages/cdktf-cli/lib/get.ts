@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { ConstructsMaker, GetOptions, config } from "@cdktf/provider-generator";
 import {} from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { TerraformCliPlan } from "../../lib/models/terraform-cli";
 
 describe("terraform-cli", () => {

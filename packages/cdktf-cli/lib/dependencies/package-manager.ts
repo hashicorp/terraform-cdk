@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Language } from "@cdktf/provider-generator";
 import { existsSync } from "fs-extra";
 import path from "path";

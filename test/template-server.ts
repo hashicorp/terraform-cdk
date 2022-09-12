@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as archiver from "archiver";
 import * as http from "http";
 import { AddressInfo } from "net";

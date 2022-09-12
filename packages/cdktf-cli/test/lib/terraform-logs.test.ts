@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { extractJsonLogIfPresent } from "../../lib/server/terraform-logs";
 
 describe("extractJsonLogIfPresent", () => {

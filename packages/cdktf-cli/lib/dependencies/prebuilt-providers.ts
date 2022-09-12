@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // TODO: introduce caching for the calls to NPM
 
 import { HttpsProxyAgent } from "https-proxy-agent";

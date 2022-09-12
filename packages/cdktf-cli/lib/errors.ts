@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { ReportParams, ReportRequest } from "./checkpoint";
 import { DISPLAY_VERSION } from "./version";
 import * as Sentry from "@sentry/node";

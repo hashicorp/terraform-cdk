@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
 import { LANGUAGES, config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";

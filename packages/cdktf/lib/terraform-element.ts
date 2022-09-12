@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { ok } from "assert";
 import { Construct } from "constructs";
 import { Token } from ".";

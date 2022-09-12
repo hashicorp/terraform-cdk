@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
