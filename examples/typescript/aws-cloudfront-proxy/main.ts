@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 import {
   cloudfront,
-  AwsProvider,
+  awsProvider,
   route53,
   acm,
   wafv2,
@@ -18,11 +18,11 @@ class MyStack extends TerraformStack {
     const domainName = "www.example.com";
     const proxyTarget = "example.com";
 
-    new AwsProvider(this, "aws", {
+    new awsProvider.AwsProvider(this, "aws", {
       region: "eu-central-1",
     });
 
-    const provider = new AwsProvider(this, "aws.route53", {
+    const provider = new awsProvider.AwsProvider(this, "aws.route53", {
       region: "us-east-1",
       alias: "route53",
     });

@@ -3,7 +3,7 @@ package com.example.cdktf.common;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformVariable;
-import imports.vsphere.VsphereProvider;
+import imports.vsphere.vsphere_provider.VsphereProvider;
 import software.constructs.Construct;
 
 public abstract class BaseApplicationModule extends TerraformStack {

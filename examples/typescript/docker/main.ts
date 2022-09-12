@@ -17,12 +17,10 @@ Steps:
 
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import {
-  Container,
-  Image,
-  DockerProvider,
-  Service,
-} from "./.gen/providers/docker";
+import { Image } from "./.gen/providers/docker/image";
+import { DockerProvider } from "./.gen/providers/docker/docker-provider";
+import { Container } from "./.gen/providers/docker/container";
+import { Service } from "./.gen/providers/docker/service";
 
 class MyStack extends TerraformStack {
   public readonly dockerImage: Image;

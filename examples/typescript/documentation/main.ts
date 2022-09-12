@@ -7,13 +7,15 @@ import { App, TerraformStack } from "cdktf";
 
 // DOCS_BLOCK_START:assets
 import { TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider, s3 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/aws-provider";
+import { s3 } from "./.gen/providers/aws";
 // DOCS_BLOCK_START:constructs
 import * as path from "path";
 // DOCS_BLOCK_END:assets
-import * as kubernetes from "./.gen/providers/kubernetes";
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/kubernetes-provider";
+
 // DOCS_BLOCK_END:constructs
 
 // DOCS_BLOCK_START:assets,constructs
@@ -45,7 +47,7 @@ class MyStack extends TerraformStack {
     // DOCS_BLOCK_END:assets
 
     // DOCS_BLOCK_START:constructs
-    new kubernetes.KubernetesProvider(this, "kind", {
+    new KubernetesProvider(this, "kind", {
       configPath: path.join(__dirname, "../kubeconfig.yaml"),
     });
 

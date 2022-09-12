@@ -2,11 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  VaultProvider,
-  TransitSecretBackendKey,
-  Mount,
-} from "./.gen/providers/vault";
+import { VaultProvider } from "./.gen/providers/vault/vault-provider";
+import { Mount } from "./.gen/providers/vault/mount";
+import { TransitSecretBackendKey } from "./.gen/providers/vault/transit-secret-backend-key";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
