@@ -18,6 +18,8 @@ Everything within a CDKTF application descends from the `Construct` class, so yo
 
 The following TypeScript example defines an aspect to add tags to resources.
 
+<CodeTabs>
+
 ```typescript
 import { IConstruct } from "constructs";
 import { Aspects, IAspect } from "cdktf";
@@ -48,7 +50,23 @@ export class TagsAddingAspect implements IAspect {
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+
 You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+
+<CodeTabs>
 
 ```typescript
 import { IConstruct } from "constructs";
@@ -75,3 +93,17 @@ export class ValidateS3IsPrefixed implements IAspect {
 // Check the prefix for every resource within `myStack`.
 Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>

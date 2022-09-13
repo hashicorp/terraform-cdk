@@ -246,6 +246,9 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
+UPDATE DOC EXAMPLES
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
@@ -280,6 +283,51 @@ class MyStack extends TerraformStack {
   }
 }
 ```
+
+```python
+#!/usr/bin/env python
+from constructs import Construct
+from cdktf import TerraformStack
+from imports.aws.s3 import S3Bucket, S3BucketWebsite
+
+class PublicS3Bucket(Construct):
+
+    bucket: S3Bucket
+    
+    def __init__(self, scope: Construct, name: str):
+        super(scope, name) # This creates a new scope since we extend from construct
+
+        # This bucket is in a different scope than the buckets
+        # defined in `MyStack`. Therefore, it does not need a unique name.
+        self.bucket = S3Bucket(self, "bucket",
+            bucket_prefix = name,
+            website = S3BucketWebsite(
+                index_document = "index.html",
+                error_document = "5xx.html",
+            )
+        )
+
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, ns: str):
+        super().__init__(scope, ns)
+
+        # Both buckets are inside of the same stack, meaning they share
+        # the same scope. Therefore, their names must be unique.
+        PublicS3Bucket(self, "first-bucket")
+        PublicS3Bucket(self, "second-bucket")
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+UPDATE DOC EXAMPLES
 
 ### Aspects
 

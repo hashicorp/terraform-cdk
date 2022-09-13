@@ -20,6 +20,8 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 
 The following TypeScript example is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
@@ -51,6 +53,20 @@ const app = new App();
 new MyStack(app, "random-pet-module");
 app.synth();
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
 

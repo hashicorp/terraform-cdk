@@ -16,6 +16,8 @@ Resource definitions and properties vary depending on the type of resource and t
 
 The following TypeScript example defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
 
+<CodeTabs>
+
 ```typescript
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -37,6 +39,20 @@ export class HelloTerra extends TerraformStack {
 }
 ```
 
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+
 The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
 
 ## Scope
@@ -53,8 +69,9 @@ To create references, call `myResource.<propertyName>` on the resource instance.
 
 References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following TypeScript example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
-```typescript
+<CodeTabs>
 
+```typescript
 const exampleNamespace = new Namespace(this, "tf-cdk-example", {
   metadata: {
     name: "tf-cdk-example",
@@ -71,6 +88,20 @@ new Deployment(this, "nginx-deployment", {
   });
 ```
 
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+
 ## Provisioners
 
 Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](https://www.terraform.io/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
@@ -82,6 +113,8 @@ If you need to use the special [`self` object](https://www.terraform.io/language
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
 The following TypeScript example defines a provisioner for a resource using the `addOverride` method.
+
+<CodeTabs>
 
 ```typescript
 const tableName = "my-table";
@@ -100,6 +133,20 @@ table.addOverride("provisioner", [
   },
 ]);
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
 
@@ -131,12 +178,28 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [
 
 To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
 
+<CodeTabs>
+
 ```typescript
 const topic = new SnsTopic(this, "Topic", {
   displayName: "will-be-overwritten",
 });
 topic.addOverride("display_name", "my-topic");
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the value overwritten.
 
@@ -168,6 +231,8 @@ To use an escape hatch to loop over dynamic data, you must:
 
 The following TypeScript example adds ingress values by looping through the ports passed as `TerraformVariable`.
 
+<CodeTabs>
+
 ```typescript
 const ports = new TerraformVariable(this, "ports", {
   type: "list",
@@ -197,9 +262,25 @@ sg.addOverride("dynamic.ingress", {
 });
 ```
 
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
 
 The following TypeScript example loops through the ports without using an escape hatch.
+
+<CodeTabs>
 
 ```typescript
 const ports = [22, 80, 443, 5432];
@@ -223,3 +304,17 @@ new SecurityGroup(this, "sec1grp", {
   })),
 });
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>

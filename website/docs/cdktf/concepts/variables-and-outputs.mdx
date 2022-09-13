@@ -33,6 +33,8 @@ You must specify values in exactly the same way as you would in an HCL configura
 
 The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
 
+<CodeTabs>
+
 ```typescript
 const imageId = new TerraformVariable(this, "imageId", {
   type: "string",
@@ -44,6 +46,20 @@ new Instance(this, "hello", {
   instanceType: "t2.micro",
 });
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 ## Local Values
 
@@ -59,6 +75,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses `TerraformLocal` to create a local value.
 
+<CodeTabs>
+
 ```typescript
 const commonTags = new TerraformLocal(this, "common_tags", {
   Service: "service_name",
@@ -69,6 +87,20 @@ new Instance(this, "example", {
   tags: commonTags.expression,
 });
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 When you run `cdktf synth` the `TerraformLocal` synthesizes to the following JSON.
 
@@ -101,6 +133,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses a `TerraformOutput` to create an output.
 
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
@@ -128,6 +162,20 @@ new MyStack(app, "cdktf-producer", {
 app.synth();
 ```
 
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
+
 ### Define Output Values
 
 To access outputs, use the `_output` suffix for Python and the `Output` suffix for other languages.
@@ -135,6 +183,8 @@ To access outputs, use the `_output` suffix for Python and the `Output` suffix f
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/cdktf/concepts/resources) for more information about how to use escape hatches.
 
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
+
+<CodeTabs>
 
 ```typescript
 import { RandomProvider } from "@cdktf/provider-random/lib/provider";
@@ -159,6 +209,20 @@ const app = new App();
 new MyStack(app, "cdktf-demo");
 app.synth();
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF synthesizes the code to the following JSON configuration.
 
@@ -185,6 +249,8 @@ Output: random-pet = choice-haddock
 ### Define & Reference Outputs via Remote State
 
 The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+
+<CodeTabs>
 
 ```typescript
 import { RandomProvider } from "@cdktf/provider-random/lib/provider";
@@ -243,3 +309,17 @@ new Producer(app, "cdktf-producer");
 new Consumer(app, "cdktf-consumer");
 app.synth();
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
