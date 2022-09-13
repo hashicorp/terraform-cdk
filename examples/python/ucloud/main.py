@@ -1,7 +1,9 @@
 import os
 from constructs import Construct
 from cdktf import App, TerraformStack, Fn, Token
-from imports.ucloud import DataUcloudImages, Instance, UcloudProvider
+from imports.ucloud.ucloud_provider import UcloudProvider
+from imports.ucloud.data_ucloud_images import DataUcloudImages
+from imports.ucloud.instance import Instance
 
 
 class MyStack(TerraformStack):
