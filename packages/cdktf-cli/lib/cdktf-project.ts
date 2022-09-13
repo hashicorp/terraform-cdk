@@ -284,6 +284,7 @@ export type ExecutionOptions = MultipleStackOptions & {
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
   refreshOnly?: boolean;
+  terraformParallelism?: number;
 };
 
 export type DiffOptions = SingleStackOptions & {
@@ -520,7 +521,8 @@ export class CdktfProject {
     method: "deploy" | "destroy",
     next: () => Promise<CdktfStack | undefined>,
     parallelism: number,
-    refreshOnly?: boolean
+    refreshOnly?: boolean,
+    terraformParallelism?: number
   ) {
     // We only support refresh only on deploy, a bit of a leaky abstraction here
     if (refreshOnly && method !== "deploy") {
@@ -540,8 +542,8 @@ export class CdktfProject {
             break;
           }
           method === "deploy"
-            ? nextRunningExecutor.deploy(refreshOnly)
-            : nextRunningExecutor.destroy();
+            ? nextRunningExecutor.deploy(refreshOnly, terraformParallelism)
+            : nextRunningExecutor.destroy(terraformParallelism);
         } catch (e) {
           // await next() threw an error because a stack failed to apply/destroy
           // wait for all other currently running stacks to complete before propagating that error
@@ -601,7 +603,13 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    await this.execute("deploy", next, parallelism, opts.refreshOnly);
+    await this.execute(
+      "deploy",
+      next,
+      parallelism,
+      opts.refreshOnly,
+      opts.terraformParallelism
+    );
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -617,6 +625,7 @@ export class CdktfProject {
 
   public async destroy(opts: ExecutionOptions = {}) {
     const parallelism = opts.parallelism || -1;
+    const terraformParallelism = opts.terraformParallelism || -1;
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -659,7 +668,13 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
-    await this.execute("destroy", next, parallelism);
+    await this.execute(
+      "destroy",
+      next,
+      parallelism,
+      false,
+      terraformParallelism
+    );
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
