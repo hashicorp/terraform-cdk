@@ -233,7 +233,8 @@ export class TerraformCloud implements Terraform {
   @BeautifyErrors("Plan")
   public async plan(
     destroy = false,
-    refreshOnly = false
+    refreshOnly = false,
+    _parallelism = -1
   ): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
@@ -351,7 +352,8 @@ export class TerraformCloud implements Terraform {
   @BeautifyErrors("Deploy")
   public async deploy(
     _planFile: string,
-    _refreshOnly?: boolean
+    _refreshOnly?: boolean,
+    _parallelism?: number
   ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
     if (!this.run)

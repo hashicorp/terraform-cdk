@@ -59,7 +59,8 @@ export class TerraformCli implements Terraform {
 
   public async plan(
     destroy = false,
-    refreshOnly = false
+    refreshOnly = false,
+    parallelism = -1
   ): Promise<TerraformPlan> {
     const planFile = "plan";
     const options = ["plan", "-input=false", "-out", planFile];
@@ -68,6 +69,9 @@ export class TerraformCli implements Terraform {
     }
     if (refreshOnly) {
       options.push("-refresh-only");
+    }
+    if (parallelism !== -1) {
+      options.push(`-parallelism=${parallelism}`);
     }
     await this.setUserAgent();
     await exec(
@@ -96,6 +100,7 @@ export class TerraformCli implements Terraform {
   public async deploy(
     planFile: string,
     refreshOnly = false,
+    parallelism = -1,
     extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
@@ -107,10 +112,11 @@ export class TerraformCli implements Terraform {
         "-input=false",
 
         ...extraOptions,
+        ...(refreshOnly ? ["-refresh-only"] : []),
+        ...(parallelism > -1 ? [`-parallelism=${parallelism}`] : []),
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),
-        ...(refreshOnly ? ["-refresh-only"] : []),
       ],
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       this.onStdout("deploy"),
@@ -118,11 +124,16 @@ export class TerraformCli implements Terraform {
     );
   }
 
-  public async destroy(): Promise<void> {
+  public async destroy(parallelism = -1): Promise<void> {
     await this.setUserAgent();
+    const options = ["destroy", "-auto-approve", "-input=false"];
+    if (parallelism > -1) {
+      options.push(`-parallelism=${parallelism}`);
+    }
+
     await exec(
       terraformBinaryName,
-      ["destroy", "-auto-approve", "-input=false"],
+      options,
       { cwd: this.workdir, env: process.env, signal: this.abortSignal },
       this.onStdout("destroy"),
       this.onStderr("destroy")
