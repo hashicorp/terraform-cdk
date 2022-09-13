@@ -1,6 +1,6 @@
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput, TerraformVariable } from "cdktf";
-import { AwsProvider, s3 } from '@cdktf/provider-aws';
+import { AwsProvider, s3 } from "./.gen/providers/aws";
 
 
 class MyStack extends TerraformStack {
