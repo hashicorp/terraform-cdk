@@ -269,12 +269,16 @@ export class CdktfStack {
     });
   }
 
-  public async deploy(refreshOnly?: boolean) {
+  public async deploy(refreshOnly?: boolean, terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
 
-      const plan = await terraform.plan(false, refreshOnly);
+      const plan = await terraform.plan(
+        false,
+        refreshOnly,
+        terraformParallelism
+      );
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
       const approved = this.options.autoApprove
@@ -288,7 +292,11 @@ export class CdktfStack {
 
       this.updateState({ type: "deploying", stackName: this.stack.name });
       if (plan.needsApply) {
-        await terraform.deploy(plan.planFile, refreshOnly);
+        await terraform.deploy(
+          plan.planFile,
+          refreshOnly,
+          terraformParallelism
+        );
       }
 
       const outputs = await terraform.output();
@@ -306,7 +314,7 @@ export class CdktfStack {
     });
   }
 
-  public async destroy() {
+  public async destroy(terraformParallelism = -1) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });
@@ -323,7 +331,7 @@ export class CdktfStack {
       }
 
       this.updateState({ type: "destroying", stackName: this.stack.name });
-      await terraform.destroy();
+      await terraform.destroy(terraformParallelism);
 
       this.updateState({
         type: "destroyed",
