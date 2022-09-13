@@ -10,12 +10,14 @@ interface GetConfig {
   codeMakerOutput: string;
   language: Language;
   constraints: config.TerraformDependencyConstraint[];
+  parallelism: number;
 }
 
 export const Get = ({
   codeMakerOutput,
   language,
   constraints,
+  parallelism,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
     Status.STARTING
@@ -25,6 +27,7 @@ export const Get = ({
   const constructsOptions: GetOptions = {
     codeMakerOutput: codeMakerOutput,
     targetLanguage: language,
+    jsiiParallelism: parallelism,
   };
 
   React.useEffect(() => {
