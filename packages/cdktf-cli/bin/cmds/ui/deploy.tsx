@@ -56,6 +56,7 @@ interface DeployConfig {
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
   refreshOnly?: boolean;
+  terraformParallelism?: number;
 }
 
 export const Deploy = ({
@@ -68,6 +69,7 @@ export const Deploy = ({
   ignoreMissingStackDependencies,
   parallelism,
   refreshOnly,
+  terraformParallelism,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -79,6 +81,7 @@ export const Deploy = ({
         ignoreMissingStackDependencies,
         parallelism,
         refreshOnly,
+        terraformParallelism,
       });
 
       if (onOutputsRetrieved) {

@@ -67,6 +67,12 @@ class Command extends BaseCommand {
         boolean: true,
         desc: 'Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.',
       })
+      .option("terraform-parallelism", {
+        type: "number",
+        required: false,
+        desc: "Customize number of parallel graph traversals by Terraform. By default, the parallelism flag is not forwarded to Terraform.",
+        default: -1,
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

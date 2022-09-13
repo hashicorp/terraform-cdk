@@ -114,6 +114,7 @@ export async function deploy(argv: any) {
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -137,6 +138,7 @@ export async function deploy(argv: any) {
         argv.ignoreMissingStackDependencies || false,
       parallelism: argv.parallelism,
       refreshOnly,
+      terraformParallelism,
     })
   );
 }
