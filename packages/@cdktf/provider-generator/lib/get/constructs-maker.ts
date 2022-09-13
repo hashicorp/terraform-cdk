@@ -52,6 +52,7 @@ export async function generateJsiiLanguage(
 export interface GetOptions {
   readonly targetLanguage: Language;
   readonly codeMakerOutput: string;
+  readonly jsiiParallelism?: number;
   /**
    * Path to copy the output .jsii file.
    * @default - jsii file is not emitted
@@ -365,9 +366,24 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     if (!this.isJavascriptTarget || this.options.outputJsii) {
-      for (const target of this.targets) {
-        await this.generateJsiiLanguage(target);
-      }
+      const numberOfWorkers =
+        this.options.jsiiParallelism === -1
+          ? this.targets.length
+          : this.options.jsiiParallelism;
+
+      const work = [...this.targets];
+      const workers = new Array(numberOfWorkers).fill(async () => {
+        let target: ConstructsMakerTarget | undefined;
+        while ((target = work.pop())) {
+          const endJsiiTarget = logTimespan(
+            `Generating JSII bindings for ${target.name}`
+          );
+          await this.generateJsiiLanguage(target);
+          endJsiiTarget();
+        }
+      });
+
+      await Promise.all(workers.map((fn) => fn()));
     }
 
     for (const target of this.targets) {
