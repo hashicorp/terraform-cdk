@@ -26,6 +26,8 @@ with a `TerraformBackend` subclass or a JSON configuration file.
 
 The following TypeScript example uses the `TerraformBackend` subclass `CloudBackend`.
 
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, CloudBackend, TerraformStack, TerraformOutput } from "cdktf";
@@ -51,6 +53,20 @@ class MyStack extends TerraformStack {
 const app = new App();
 new Mystack(app, "hello-terraform");
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
 
@@ -102,6 +118,8 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Use `CloudBackend` to add a new remote backend.
 
+   <CodeTabs>
+
    ```typescript
    const stack = new MyStack(app, "hello-terraform");
    new CloudBackend(stack, {
@@ -110,6 +128,20 @@ Consider an example project called `hello-terraform` that is using local storage
      workspaces: new NamedCloudWorkspace("my-app-prod"),
    });
    ```
+
+   ```python
+   ```
+
+   ```java
+   ```
+
+   ```csharp
+   ```
+
+   ```go
+   ```
+
+   </CodeTabs>
 
 1. Run `cdktf synth` to generate the Terraform configuration file.
 
@@ -226,6 +258,8 @@ Escape hatches can add to or override existing resources, and you can use them f
 
 The following example uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
+<CodeTabs>
+
 ```typescript
 stack.addOverride("terraform.backend", {
   atlas: {
@@ -234,3 +268,17 @@ stack.addOverride("terraform.backend", {
   },
 });
 ```
+
+```python
+```
+
+```java
+```
+
+```csharp
+```
+
+```go
+```
+
+</CodeTabs>
