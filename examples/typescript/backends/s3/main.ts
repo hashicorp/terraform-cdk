@@ -7,7 +7,8 @@ import {
   S3Backend,
   DataTerraformRemoteStateS3,
 } from "cdktf";
-import { AwsProvider, s3 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/aws-provider";
+import * as s3 from "./.gen/providers/aws/s3";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {

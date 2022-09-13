@@ -18,8 +18,8 @@ package main
 
 import (
 	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/dockerimage"
 	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/dockerprovider"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -31,7 +31,7 @@ func NewExampleCdktfGoDockerStack(scope constructs.Construct, id string) cdktf.T
 
 	dockerprovider.NewDockerProvider(stack, jsii.String("provider"), &dockerprovider.DockerProviderConfig{})
 
-	dockerImage := dockerimage.NewImage(stack, jsii.String("nginxImage"), &dockerimage.ImageConfig{
+	dockerImage := image.NewImage(stack, jsii.String("nginxImage"), &image.ImageConfig{
 		Name:        jsii.String("nginx:latest"),
 		KeepLocally: jsii.Bool(false),
 	})
