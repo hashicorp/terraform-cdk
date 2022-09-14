@@ -115,6 +115,9 @@ export async function deploy(argv: any) {
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const refreshOnly = argv.refreshOnly;
   const terraformParallelism = argv.terraformParallelism;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -134,9 +137,8 @@ export async function deploy(argv: any) {
       autoApprove,
       onOutputsRetrieved,
       outputsPath,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
       refreshOnly,
       terraformParallelism,
     })
@@ -152,6 +154,9 @@ export async function destroy(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -159,9 +164,8 @@ export async function destroy(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
     })
   );
 }

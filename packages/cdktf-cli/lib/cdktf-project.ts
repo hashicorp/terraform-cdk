@@ -534,38 +534,31 @@ export class CdktfProject {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
-      } else {
-        try {
-          const nextRunningExecutor = await next();
-          if (!nextRunningExecutor) {
-            // In this case we have no pending stacks, but we also can not find a new executor
-            break;
-          }
-          method === "deploy"
-            ? nextRunningExecutor.deploy(refreshOnly, terraformParallelism)
-            : nextRunningExecutor.destroy(terraformParallelism);
-        } catch (e) {
-          // await next() threw an error because a stack failed to apply/destroy
-          // wait for all other currently running stacks to complete before propagating that error
-          logger.debug(
-            "Encountered an error while awaiting stack to finish",
-            e
-          );
-          const openStacks = this.stacksToRun.filter(
-            (ex) => ex.currentWorkPromise
-          );
-          logger.debug(
-            "Waiting for still running stacks to finish:",
-            openStacks
-          );
-          await Promise.allSettled(
-            openStacks.map((ex) => ex.currentWorkPromise)
-          );
-          logger.debug(
-            "Done waiting for still running stacks. All pending work finished"
-          );
-          throw e;
+        continue;
+      }
+
+      try {
+        const nextRunningExecutor = await next();
+        if (!nextRunningExecutor) {
+          // In this case we have no pending stacks, but we also can not find a new executor
+          break;
         }
+        method === "deploy"
+          ? nextRunningExecutor.deploy(refreshOnly, terraformParallelism)
+          : nextRunningExecutor.destroy(terraformParallelism);
+      } catch (e) {
+        // await next() threw an error because a stack failed to apply/destroy
+        // wait for all other currently running stacks to complete before propagating that error
+        logger.debug("Encountered an error while awaiting stack to finish", e);
+        const openStacks = this.stacksToRun.filter(
+          (ex) => ex.currentWorkPromise
+        );
+        logger.debug("Waiting for still running stacks to finish:", openStacks);
+        await Promise.allSettled(openStacks.map((ex) => ex.currentWorkPromise));
+        logger.debug(
+          "Done waiting for still running stacks. All pending work finished"
+        );
+        throw e;
       }
     }
 
