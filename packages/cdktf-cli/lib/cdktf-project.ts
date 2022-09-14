@@ -279,17 +279,21 @@ export type MultipleStackOptions = {
   stackNames?: string[];
 };
 
-export type ExecutionOptions = MultipleStackOptions & {
+export type AutoApproveOptions = {
   autoApprove?: boolean;
-  ignoreMissingStackDependencies?: boolean;
-  parallelism?: number;
-  refreshOnly?: boolean;
-  terraformParallelism?: number;
 };
 
 export type DiffOptions = SingleStackOptions & {
   refreshOnly?: boolean;
 };
+
+export type MutationOptions = MultipleStackOptions &
+  AutoApproveOptions & {
+    refreshOnly?: boolean;
+    ignoreMissingStackDependencies?: boolean;
+    parallelism?: number;
+    terraformParallelism?: number;
+  };
 
 type LogMessage = {
   stackName: string;
@@ -453,7 +457,7 @@ export class CdktfProject {
 
   public getStackExecutor(
     stack: SynthesizedStack,
-    opts: ExecutionOptions = {}
+    opts: AutoApproveOptions = {}
   ) {
     const enhanceLogMessage = createEnhanceLogMessage(stack);
     const onLog = this.bufferWhileWaitingForApproval(this.onLog);
@@ -520,16 +524,15 @@ export class CdktfProject {
   private async execute(
     method: "deploy" | "destroy",
     next: () => Promise<CdktfStack | undefined>,
-    parallelism: number,
-    refreshOnly?: boolean,
-    terraformParallelism?: number
+    opts: MutationOptions
   ) {
     // We only support refresh only on deploy, a bit of a leaky abstraction here
-    if (refreshOnly && method !== "deploy") {
+    if (opts.refreshOnly && method !== "deploy") {
       throw Errors.Internal(`Refresh only is only supported on deploy`);
     }
 
-    const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
+    const maxParallelRuns =
+      !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -544,8 +547,11 @@ export class CdktfProject {
           break;
         }
         method === "deploy"
-          ? nextRunningExecutor.deploy(refreshOnly, terraformParallelism)
-          : nextRunningExecutor.destroy(terraformParallelism);
+          ? nextRunningExecutor.deploy(
+              opts.refreshOnly,
+              opts.terraformParallelism
+            )
+          : nextRunningExecutor.destroy(opts.terraformParallelism);
       } catch (e) {
         // await next() threw an error because a stack failed to apply/destroy
         // wait for all other currently running stacks to complete before propagating that error
@@ -571,8 +577,7 @@ export class CdktfProject {
     await ensureAllSettledBeforeThrowing(Promise.all(currentWork), currentWork);
   }
 
-  public async deploy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || -1;
+  public async deploy(opts: MutationOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
@@ -596,13 +601,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    await this.execute(
-      "deploy",
-      next,
-      parallelism,
-      opts.refreshOnly,
-      opts.terraformParallelism
-    );
+    await this.execute("deploy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -616,9 +615,7 @@ export class CdktfProject {
     }
   }
 
-  public async destroy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || -1;
-    const terraformParallelism = opts.terraformParallelism || -1;
+  public async destroy(opts: MutationOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -661,13 +658,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
-    await this.execute(
-      "destroy",
-      next,
-      parallelism,
-      false,
-      terraformParallelism
-    );
+    await this.execute("destroy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -695,7 +686,9 @@ export class CdktfProject {
     }
 
     this.stacksToRun = stacksToRun.map((stack) =>
-      this.getStackExecutor(stack, opts)
+      // Options are empty, because MultipleStackOptions doesn't have any relevant
+      // options for `getStackExecutor`, hence defaults are fine
+      this.getStackExecutor(stack, {})
     );
 
     const outputs = await Promise.all(
