@@ -87,11 +87,49 @@ exampleProjects.forEach((example) => {
     failedCheck = true;
     return;
   }
+
+  const configJsonPath = path.resolve(REPO_ROOT, example, "cdktf.json");
+
+  const hasConfigJson = fs.existsSync(configJsonPath);
+
+  // We only check examples that have a cdktf.json (E.g. the Java Gradle example does not have a cdktf.json in its main directory)
+  if (!hasConfigJson) {
+    return;
+  }
+  const configJson = JSON.parse(fs.readFileSync(configJsonPath));
+
+  if (configJson.projectId) {
+    failedCheck = true;
+    console.error(
+      `Error: Found example in directory '${example}' but it had a projectId defined in cdktf.json with the value "${configJson.projectId}". Please remove that key.`
+    );
+    return;
+  }
+
+  if (configJson.userId) {
+    failedCheck = true;
+    console.error(
+      `Error: Found example in directory '${example}' but it had a userId defined in cdktf.json with the value "${configJson.userId}". Please remove that key.`
+    );
+    return;
+  }
+
+  if (
+    configJson.sendCrashReports &&
+    (configJson.sendCrashReports === true ||
+      configJson.sendCrashReports !== "false")
+  ) {
+    failedCheck = true;
+    console.error(
+      `Error: Found example in directory '${example}' but it had a sendCrashReports defined in cdktf.json with the truthy value "${configJson.sendCrashReports}". Please remove that key or set it to false or "false".`
+    );
+    return;
+  }
 });
 
 if (failedCheck) {
   console.log(
-    "Linting the examples failed. One or more examples don't have a package.json with the right name. See stderr for more information about them."
+    "Linting the examples failed. One or more examples failed the validation rules. See stderr for more information about them."
   );
   process.exit(1);
 } else {
