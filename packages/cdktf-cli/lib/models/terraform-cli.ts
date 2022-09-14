@@ -70,7 +70,7 @@ export class TerraformCli implements Terraform {
     if (refreshOnly) {
       options.push("-refresh-only");
     }
-    if (parallelism !== -1) {
+    if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
     }
     await this.setUserAgent();
