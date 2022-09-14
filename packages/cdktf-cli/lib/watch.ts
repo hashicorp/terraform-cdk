@@ -4,7 +4,7 @@ import path from "path";
 import {
   CdktfProject,
   CdktfProjectOptions,
-  ExecutionOptions,
+  MutationOptions,
 } from "./cdktf-project";
 import { Errors } from "./errors";
 import * as fs from "fs";
@@ -93,7 +93,7 @@ export type State =
 
 export async function watch(
   projectOptions: CdktfProjectOptions,
-  executionOptions: ExecutionOptions,
+  mutationOptions: MutationOptions,
   abortSignal: AbortSignal,
   onStateChange: (newState: State) => void
 ) {
@@ -122,7 +122,7 @@ export async function watch(
     });
     const abort = () => project.hardAbort();
     abortSignal.addEventListener("abort", abort);
-    await project.deploy(executionOptions);
+    await project.deploy(mutationOptions);
     abortSignal.removeEventListener("abort", abort);
     logger.debug("cdktf deploy finished");
 
