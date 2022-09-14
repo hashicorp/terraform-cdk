@@ -234,6 +234,7 @@ export class TerraformCloud implements Terraform {
   public async plan(
     destroy = false,
     refreshOnly = false,
+    // Parallelism is ignored as custom parallelism is not supported by TFC yet
     _parallelism = -1
   ): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
@@ -353,6 +354,7 @@ export class TerraformCloud implements Terraform {
   public async deploy(
     _planFile: string,
     _refreshOnly?: boolean,
+    // Parallelism is ignored as custom parallelism is not supported by TFC yet
     _parallelism?: number
   ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
@@ -456,7 +458,7 @@ export class TerraformCloud implements Terraform {
         this.organizationName,
         this.workspaceName
       );
-    } catch (e) {
+    } catch (e: any) {
       if (e.response?.status === 404) {
         // return a more descriptive error message as http response is not descriptive enough
         // will not be touched by BeautifyErrors decorator
