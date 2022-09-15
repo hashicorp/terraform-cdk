@@ -29,8 +29,8 @@ exports.post = options => {
     throw new Error(`missing context "pypi_cdktf"`);
   }
 
-  writeFileSync('requirements.txt', pypi_cdktf, 'utf-8');
-  writeFileSync('requirements.txt', 'pytest', 'utf-8');
+  writeFileSync('requirements.txt', pypi_cdktf + '\r\npytest\r\n', 'utf-8');
+  
   let installArgs = '';
   if (!process.env.VIRTUAL_ENV) {
     installArgs += '--user'
