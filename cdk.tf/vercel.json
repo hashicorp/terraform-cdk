@@ -185,7 +185,7 @@
     },
     {
       "source": "/crash-reporting",
-      "destination": "https://developer.hashicorp.com/cdktf/telemetry#crash-reporting"
+      "destination": "https://www.terraform.io/cdktf/telemetry#crash-reporting"
     }
   ]
 }
