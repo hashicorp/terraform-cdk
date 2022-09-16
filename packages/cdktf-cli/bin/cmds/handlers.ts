@@ -157,6 +157,7 @@ export async function destroy(argv: any) {
   const ignoreMissingStackDependencies =
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -166,6 +167,7 @@ export async function destroy(argv: any) {
       autoApprove,
       ignoreMissingStackDependencies,
       parallelism,
+      terraformParallelism,
     })
   );
 }
@@ -179,6 +181,7 @@ export async function diff(argv: any) {
   const outDir = argv.output;
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Diff, {
@@ -186,6 +189,7 @@ export async function diff(argv: any) {
       refreshOnly,
       targetStack: stack,
       synthCommand: command,
+      terraformParallelism,
     })
   );
 }
