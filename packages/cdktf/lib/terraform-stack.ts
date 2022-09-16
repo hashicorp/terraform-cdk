@@ -24,7 +24,6 @@ import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
-type Constructor<T> = Function & { prototype: T };
 type StackIdentifier = string;
 type OutputIdMap =
   | { [constructId: string]: string }
@@ -100,8 +99,8 @@ export class TerraformStack extends Construct {
         let hint = "";
         if (
           construct.node.scope === c &&
-          c instanceof App &&
-          construct instanceof TerraformBackend
+          App.isApp(c) &&
+          TerraformBackend.isBackend(construct)
         ) {
           // the scope of the originally passed construct equals the construct c
           // which has no scope (i.e. has no parent construct) and c is an App
@@ -119,24 +118,14 @@ export class TerraformStack extends Construct {
   }
 
   private findAll<T>({
-    byConstructor: ClassConstructor,
     byPredicate,
   }: {
-    byConstructor?: Constructor<T>;
-    byPredicate?: (node: unknown) => boolean;
+    byPredicate: (node: unknown) => boolean;
   }): T[] {
-    const predicate = ClassConstructor
-      ? (x: unknown) => x instanceof ClassConstructor
-      : byPredicate;
-
-    if (!predicate) {
-      throw new Error("Either byConstructor or byPredicate must be provided");
-    }
-
     const items: T[] = [];
 
     const visit = async (node: IConstruct) => {
-      if (predicate(node)) {
+      if (byPredicate(node)) {
         items.push(node as unknown as T);
       }
 
@@ -198,10 +187,12 @@ export class TerraformStack extends Construct {
    * @param tfElement The element for which the logical ID is allocated.
    */
   protected allocateLogicalId(tfElement: TerraformElement | Node): string {
-    const node =
-      tfElement instanceof TerraformElement ? tfElement.node : tfElement;
-    const stack =
-      tfElement instanceof TerraformElement ? tfElement.cdktfStack : this;
+    const node = TerraformElement.isTerraformElement(tfElement)
+      ? tfElement.node
+      : tfElement;
+    const stack = TerraformElement.isTerraformElement(tfElement)
+      ? tfElement.cdktfStack
+      : this;
 
     let stackIndex;
     if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
@@ -220,7 +211,10 @@ export class TerraformStack extends Construct {
   }
 
   public allProviders(): TerraformProvider[] {
-    return this.findAll({ byConstructor: TerraformProvider });
+    return this.findAll({
+      byPredicate: (item: unknown) =>
+        TerraformProvider.isTerraformProvider(item),
+    });
   }
 
   public ensureBackendExists(): TerraformBackend {
@@ -362,7 +356,7 @@ function terraformElements(
   node: IConstruct,
   into: TerraformElement[] = []
 ): TerraformElement[] {
-  if (node instanceof TerraformElement) {
+  if (TerraformElement.isTerraformElement(node)) {
     into.push(node);
   }
 
