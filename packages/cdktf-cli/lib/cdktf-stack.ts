@@ -258,12 +258,16 @@ export class CdktfStack {
     this.currentWorkPromise = undefined;
   }
 
-  public async diff({ refreshOnly }: { refreshOnly?: boolean }) {
+  public async diff(refreshOnly?: boolean, terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: true });
 
-      const plan = await terraform.plan(false, refreshOnly);
+      const plan = await terraform.plan(
+        false,
+        refreshOnly,
+        terraformParallelism
+      );
       this.currentPlan = plan;
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
     });
@@ -314,7 +318,7 @@ export class CdktfStack {
     });
   }
 
-  public async destroy(terraformParallelism = -1) {
+  public async destroy(terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform({ isSpeculative: false });

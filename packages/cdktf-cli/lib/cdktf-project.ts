@@ -285,6 +285,7 @@ export type AutoApproveOptions = {
 
 export type DiffOptions = SingleStackOptions & {
   refreshOnly?: boolean;
+  terraformParallelism?: number;
 };
 
 export type MutationOptions = MultipleStackOptions &
@@ -513,7 +514,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff({ refreshOnly: opts?.refreshOnly });
+    await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
     if (!stack.currentPlan)
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
