@@ -36,6 +36,7 @@ import ciDetect from "@npmcli/ci-detect";
 import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
+import { CdktfConfig } from "../../../lib/cdktf-config";
 
 const chalkColour = new chalk.Instance();
 
@@ -236,7 +237,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
     await templateInfo.cleanupTemporaryFiles();
   }
 
-  await sendTelemetry("init", telemetryData);
+  const cdktfConfig = CdktfConfig.read(destination);
+
+  await sendTelemetry("init", {
+    ...telemetryData,
+    language: cdktfConfig.language,
+  });
 }
 
 function copyLocalModules(
