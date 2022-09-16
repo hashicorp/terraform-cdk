@@ -36,7 +36,7 @@ if (!exampleToBuild) {
 }
 
 function runInExample(command) {
-  return run(`npx lerna run --scope='${exampleToBuild}*' ${command}`);
+  return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
 }
 
 runInExample(`reinstall`);
