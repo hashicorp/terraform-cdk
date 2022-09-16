@@ -6,23 +6,12 @@ import * as os from "os";
 import { CdktfProject, get, init, Language } from "../../lib/index";
 import { SynthesizedStack } from "../../lib/synth-stack";
 import { getMultipleStacks } from "../../lib/cdktf-project";
-import { exec } from "cdktf-cli/lib/util";
 
 function eventNames(events: any[]) {
   return events
     .map((event) => event.type)
     .filter((name) => !name.includes("update"));
 }
-
-jest.mock("cdktf-cli/lib/util", () => {
-  const originalModule = jest.requireActual("cdktf-cli/lib/util");
-
-  return {
-    __esmodule: true,
-    ...originalModule,
-    exec: jest.fn().mockImplementation(originalModule.exec),
-  };
-});
 
 function installFixturesInWorkingDirectory(
   {
@@ -97,14 +86,6 @@ describe("CdktfProject", () => {
         outDir,
       };
     };
-  });
-
-  beforeEach(() => {
-    (exec as jest.Mock).mockClear();
-  });
-
-  afterAll(() => {
-    jest.resetModules();
   });
 
   it("should be able to create a CdktfProject", () => {
@@ -230,60 +211,6 @@ describe("CdktfProject", () => {
       ]);
       return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
     });
-
-    it("runs without terraform parallelism", async () => {
-      const events: any[] = [];
-      const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
-        ...inNewWorkingDirectory(),
-        onUpdate: (event) => {
-          events.push(event);
-          if (event.type === "waiting for approval") {
-            event.approve();
-          }
-        },
-      });
-
-      await cdktfProject.deploy({
-        stackNames: ["first"],
-        autoApprove: true,
-        parallelism: 1,
-        terraformParallelism: 1,
-      });
-
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const planCall = execCalls.find((call) => call[1][0] === "plan");
-      const applyCall = execCalls.find((call) => call[1][0] === "apply");
-      expect(planCall[1]).toContain("-parallelism=1");
-      expect(applyCall[1]).toContain("-parallelism=1");
-    });
-
-    it("ignores the terraform parallelism flag if negative", async () => {
-      const events: any[] = [];
-      const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
-        ...inNewWorkingDirectory(),
-        onUpdate: (event) => {
-          events.push(event);
-          if (event.type === "waiting for approval") {
-            event.approve();
-          }
-        },
-      });
-
-      await cdktfProject.deploy({
-        stackNames: ["first"],
-        autoApprove: true,
-        parallelism: 1,
-        terraformParallelism: -1,
-      });
-
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const planCall = execCalls.find((call) => call[1][0] === "plan");
-      const applyCall = execCalls.find((call) => call[1][0] === "apply");
-      expect(planCall[1]).not.toContain("-parallelism=-1");
-      expect(applyCall[1]).not.toContain("-parallelism=1");
-    });
   });
 
   describe("destroy", () => {
@@ -340,50 +267,6 @@ describe("CdktfProject", () => {
         "destroyed",
       ]);
       return expect(eventTypes.includes("waiting for approval")).toBeFalsy();
-    });
-
-    it("passes the terraform parallelism flag to terraform", async () => {
-      const events: any[] = [];
-      const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
-        ...inNewWorkingDirectory(),
-        onUpdate: (event) => {
-          events.push(event);
-        },
-      });
-
-      await cdktfProject.destroy({
-        stackNames: ["second"],
-        autoApprove: true,
-        parallelism: 1,
-        terraformParallelism: 1,
-      });
-
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const destroyCall = execCalls.find((call) => call[1][0] === "destroy");
-      expect(destroyCall[1]).toContain("-parallelism=1");
-    });
-
-    it("doesn't pass the terraform parallelism flag if negative", async () => {
-      const events: any[] = [];
-      const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
-        ...inNewWorkingDirectory(),
-        onUpdate: (event) => {
-          events.push(event);
-        },
-      });
-
-      await cdktfProject.destroy({
-        stackNames: ["second"],
-        autoApprove: true,
-        parallelism: 1,
-        terraformParallelism: -1,
-      });
-
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const destroyCall = execCalls.find((call) => call[1][0] === "destroy");
-      expect(destroyCall[1]).not.toContain("-parallelism=-1");
     });
   });
 
