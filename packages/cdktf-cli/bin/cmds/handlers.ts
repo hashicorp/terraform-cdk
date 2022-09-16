@@ -333,6 +333,8 @@ export async function watch(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const terraformParallelism = argv.terraformParallelism;
+  const parallelism = argv.parallelism;
 
   if (!autoApprove) {
     console.error(
@@ -347,6 +349,8 @@ export async function watch(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
+      terraformParallelism,
+      parallelism,
     })
   );
 }

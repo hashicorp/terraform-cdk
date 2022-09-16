@@ -43,6 +43,13 @@ class Command extends BaseCommand {
         desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
         default: -1,
       })
+      .option("terraform-parallelism", {
+        type: "number",
+        required: false,
+        desc: "Customize number of parallel graph traversals by Terraform. By default, the parallelism flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend",
+        // Setting value to negative will prevent it from being forwarded to terraform as an argument
+        default: -1,
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
