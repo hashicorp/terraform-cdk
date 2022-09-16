@@ -110,7 +110,12 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          NODE_OPTIONS: "--max-old-space-size=7168"
+          NODE_OPTIONS: "--max-old-space-size=7168 -r dd-trace/ci/init"
+          DD_CIVISIBILITY_AGENTLESS_ENABLED: true
+          DD_API_KEY: ${{ secrets.DATA_DOG_API_KEY }}
+          DD_ENV: "ci"
+          DD_SERVICE: "terraform-cdk-integration-linux"
+          DD_TRACE_AGENT_URL: "http://localhost:8126"
 
   windows_integration:
     needs: prepare-integration-tests
@@ -156,4 +161,9 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
-          NODE_OPTIONS: "--max-old-space-size=7168"
+          NODE_OPTIONS: "--max-old-space-size=7168 -r dd-trace/ci/init"
+          DD_CIVISIBILITY_AGENTLESS_ENABLED: true
+          DD_API_KEY: ${{ secrets.DATA_DOG_API_KEY }}
+          DD_ENV: "ci"
+          DD_SERVICE: "terraform-cdk-integration-windows"
+          DD_TRACE_AGENT_URL: "http://localhost:8126"

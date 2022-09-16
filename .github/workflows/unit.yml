@@ -71,3 +71,9 @@ jobs:
           yarn test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          NODE_OPTIONS: "--max-old-space-size=7168 -r dd-trace/ci/init"
+          DD_CIVISIBILITY_AGENTLESS_ENABLED: true
+          DD_API_KEY: ${{ secrets.DATA_DOG_API_KEY }}
+          DD_ENV: "ci"
+          DD_SERVICE: "terraform-cdk"
+          DD_TRACE_AGENT_URL: "http://localhost:8126"
