@@ -458,7 +458,7 @@ export class TerraformCloud implements Terraform {
         this.organizationName,
         this.workspaceName
       );
-    } catch (e: any) {
+    } catch (e) {
       if (e.response?.status === 404) {
         // return a more descriptive error message as http response is not descriptive enough
         // will not be touched by BeautifyErrors decorator
