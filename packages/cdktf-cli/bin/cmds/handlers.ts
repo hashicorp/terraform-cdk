@@ -426,7 +426,7 @@ export async function providerAdd(argv: any) {
     await get({
       language: language,
       output: config.codeMakerOutput,
-      parallelism: -1,
+      parallelism: 1,
     });
   }
 }
