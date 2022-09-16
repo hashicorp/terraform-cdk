@@ -1,5 +1,5 @@
 {
-  "name": "@examples/typescript-aws-multi-stack",
+  "name": "@examples/typescript-aws-multiple-stacks",
   "version": "0.0.0",
   "main": "index.js",
   "license": "MPL-2.0",
