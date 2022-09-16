@@ -4,7 +4,6 @@
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
-  "private": true,
   "scripts": {
     "build": "cdktf get",
     "synth": "cdktf synth",
@@ -20,7 +19,7 @@
   },
   "dependencies": {
     "@cdktf/provider-azurerm": "^0.8.15",
-    "cdktf": "^0.6.2",
+    "cdktf": "^0.0.0",
     "constructs": "^10.0.25"
   },
   "devDependencies": {

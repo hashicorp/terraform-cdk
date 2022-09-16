@@ -30,7 +30,7 @@ class MyStack extends TerraformStack {
 
     // Instantiate Azure Provider
     new AzurermProvider(this, "AzureRm", {
-      features: [{}],
+      features: {},
     });
 
     // Creates the Resource Group for application
@@ -62,8 +62,7 @@ class MyStack extends TerraformStack {
     // Creates the Service Bus Queue
     const queue = new ServicebusQueue(this, "myapp-queue", {
       name: "myapp-queue",
-      namespaceName: namespace.name,
-      resourceGroupName: rg.name,
+      namespaceId: namespace.id,
     });
 
     // Creates the Service Bus Authorization Rule
@@ -72,9 +71,7 @@ class MyStack extends TerraformStack {
       "myapp-queueAuthorizationRule",
       {
         name: "myapp-queueAuthorizationRule",
-        namespaceName: namespace.name,
-        resourceGroupName: rg.name,
-        queueName: queue.name,
+        queueId: queue.id,
         listen: true,
         send: false,
         manage: false,
@@ -89,12 +86,10 @@ class MyStack extends TerraformStack {
         name: "myapp-appServicePlan",
         location,
         resourceGroupName: rg.name,
-        sku: [
-          {
-            size: "Y1",
-            tier: "Dynamic",
-          },
-        ],
+        sku: {
+          size: "Y1",
+          tier: "Dynamic",
+        },
         kind: "Linux",
         reserved: true,
       }
