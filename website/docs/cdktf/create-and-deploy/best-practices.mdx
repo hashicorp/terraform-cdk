@@ -116,7 +116,7 @@ class MyS3Bucket extends Construct {
     protected s3Options: S3BucketConfig
   ) {
     super(scope, id);
-    new s3.Bucket(this, "MyBucket", {
+    new S3Bucket(this, "MyBucket", {
       ...s3Options,
       bucketName: this.getBucketName(),
       versioned: true,
