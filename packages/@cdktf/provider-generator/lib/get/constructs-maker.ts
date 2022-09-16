@@ -366,10 +366,12 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     if (!this.isJavascriptTarget || this.options.outputJsii) {
-      const numberOfWorkers =
+      const numberOfWorkers = Math.max(
+        1,
         this.options.jsiiParallelism === -1
           ? this.targets.length
-          : this.options.jsiiParallelism;
+          : this.options.jsiiParallelism || 1
+      );
 
       const work = [...this.targets];
       const workers = new Array(numberOfWorkers).fill(async () => {
