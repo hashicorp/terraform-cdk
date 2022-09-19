@@ -142,7 +142,7 @@ information on how to disable it.`
 
 export async function ReportRequest(reportParams: ReportParams): Promise<void> {
   // we won't report when checkpoint is disabled.
-  if (CHECKPOINT_DISABLE) {
+  if (CHECKPOINT_DISABLE()) {
     return;
   }
 

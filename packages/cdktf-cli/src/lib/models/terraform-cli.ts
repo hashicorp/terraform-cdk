@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { exec, readCDKTFVersion } from "cdktf-cli/lib/util";
+import { exec, readCDKTFVersion } from "../../lib/util";
 import {
   Terraform,
   TerraformPlan,
