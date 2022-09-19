@@ -6,7 +6,8 @@
     "cdktf": "bundle/bin/cdktf"
   },
   "scripts": {
-    "build": "tsc",
+    "prebuild": "tsc build.ts",
+    "build": "tsc --noEmit",
     "postbuild": "node build.js",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",

@@ -52,7 +52,11 @@ const nativeNodeModulesPlugin = {
 
 (async () => {
   await esbuild.build({
-    entryPoints: ["./bin/cdktf.ts", "./lib/index.ts", "./bin/cmds/handlers.ts"],
+    entryPoints: [
+      "src/bin/cdktf.ts",
+      "src/lib/index.ts",
+      "src/bin/cmds/handlers.ts",
+    ],
     bundle: true,
     outdir: "./bundle",
     format: "cjs",
@@ -77,5 +81,5 @@ const nativeNodeModulesPlugin = {
     tsconfig: "tsconfig.json",
   });
 
-  fs.copySync("./bin/cdktf", "./bundle/bin/cdktf");
+  fs.copySync("src/bin/cdktf", "./bundle/bin/cdktf");
 })();
