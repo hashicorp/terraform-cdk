@@ -67,8 +67,8 @@ This will watch for changes in all packages.
 If your changes target only CLI and packages used by the CLI, running `yarn watch` will be sufficient. Although it's technically a bit different from what we ship you should be able to use a direct path to our binary entry point to execute commands. You can put this in a shell alias like this:
 
 ```shell
-alias cdktfl='/path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf' # For running cdktf locally
-alias cdktfld='node --inspect-brk /path/to/terraform-cdk/packages/cdktf-cli/bin/cdktf.js' # For running cdktf locally with debugging
+alias cdktfl='/path/to/terraform-cdk/packages/cdktf-cli/bundle/bin/cdktf' # For running cdktf locally
+alias cdktfld='node --inspect-brk /path/to/terraform-cdk/packages/cdktf-cli/bundle/bin/cdktf.js' # For running cdktf locally with debugging
 
 $ cdktfl get
 ```
