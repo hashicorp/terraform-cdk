@@ -4,7 +4,7 @@ module.exports = {
   ],
   testMatch: ['**/*.test.ts', '**/*.test.tsx'],
   transform: {
-    "^.+\\.tsx?$": "esbuild-jest"
+    "^.+\\.tsx?$": "ts-jest"
   },
   moduleFileExtensions: [
     "js",
