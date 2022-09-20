@@ -6,10 +6,11 @@
     "cdktf": "bundle/bin/cdktf"
   },
   "scripts": {
-    "prebuild": "tsc build.ts",
+    "compile-build-config": "tsc build.ts",
+    "prebuild": "yarn compile-build-config",
     "build": "tsc --noEmit",
     "postbuild": "node build.js",
-    "watch": "tsc -w",
+    "watch": "yarn compile-build-config && node build.js --watch",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",

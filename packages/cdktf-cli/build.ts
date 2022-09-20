@@ -3,6 +3,8 @@
 const esbuild = require("esbuild");
 import * as fs from "fs-extra";
 
+const enableWatch = process.argv.find((arg) => arg === "--watch") === "--watch";
+
 // Taken from https://github.com/evanw/esbuild/issues/1051#issuecomment-806325487 to deal with `fsevents`
 const nativeNodeModulesPlugin = {
   name: "native-node-modules",
@@ -63,6 +65,12 @@ const nativeNodeModulesPlugin = {
     target: "node14",
     minify: true,
     sourcemap: true,
+    watch: enableWatch && {
+      onRebuild(error: Error) {
+        if (error) console.error("Watch build failed: ", error);
+        else console.log("Rebuilt");
+      },
+    },
     platform: "node",
     external: [
       "jsii",
@@ -80,6 +88,10 @@ const nativeNodeModulesPlugin = {
     },
     tsconfig: "tsconfig.json",
   });
+
+  if (enableWatch) {
+    console.log("Watching…");
+  }
 
   fs.copySync("src/bin/cdktf", "./bundle/bin/cdktf");
 })();
