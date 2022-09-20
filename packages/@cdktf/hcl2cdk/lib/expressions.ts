@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as t from "@babel/types";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";

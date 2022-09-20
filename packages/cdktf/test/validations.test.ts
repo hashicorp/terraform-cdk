@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { App, TerraformStack, Testing } from "../lib";
 
 import fs = require("fs");

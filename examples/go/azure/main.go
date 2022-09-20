@@ -5,8 +5,8 @@ import (
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
-	"cdk.tf/go/stack/generated/hashicorp/azurerm"
-	"cdk.tf/go/stack/generated/nullmodule"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/nullmodule"
 )
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {

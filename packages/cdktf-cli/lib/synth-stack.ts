@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as chalk from "chalk";

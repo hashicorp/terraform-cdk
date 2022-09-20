@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { DirectedGraph } from "graphology";
 import { providers as telemetryAllowedProviders } from "./telemetryAllowList.json";
 import { Scope } from "./types";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference lib="dom" />
 
@@ -28,7 +30,9 @@ function goBridge(getBytes: Promise<Buffer>) {
   let ready = false;
 
   async function init() {
-    await import(`../wasm/wasm_exec.js`);
+    // After: https://github.com/golang/go/commit/680caf15355057ca84857a2a291b6f5c44e73329
+    // Go 1.19+ has a different entrypoint
+    await import(`../wasm/bridge_wasm_exec.js`);
     const go = new (global as any).Go();
     const bytes = await getBytes;
     const result = await WebAssembly.instantiate(bytes, go.importObject);

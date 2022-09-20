@@ -12,7 +12,7 @@ exports.pre = () => {
       execSync('which pipenv')
     }
   } catch {
-    console.error(`Unable to find "pipenv". Install from https://pipenv.kennethreitz.org`)
+    console.error(`Unable to find "pipenv". Follow the instructions from https://pipenv.pypa.io/`)
     process.exit(1);
   }
 };

@@ -10,10 +10,10 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "ts-node": "^10.4.0"
+    "ts-node": "^10.9.1"
   },
   "dependencies": {
-    "@octokit/rest": "^18.12.0",
-    "@octokit/graphql": "^4.8.0"
+    "@octokit/rest": "^19.0.4",
+    "@octokit/graphql": "^5.0.1"
   }
 }

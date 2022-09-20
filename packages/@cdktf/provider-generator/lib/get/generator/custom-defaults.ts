@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "aws.security_group.ingress.cidr_blocks": null,
   "aws.security_group.ingress.description": null,

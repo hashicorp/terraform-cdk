@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { setupJest } from "../jest";
 import { Testing } from "../../index";
 import { TestDataSource } from "../../../../test/helper/data-source";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as path from "path";
 import { Errors } from "../../../lib/errors";
 export function isCdktfProjectDirectory(directory: string): boolean {

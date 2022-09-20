@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import fs = require("fs");
 import path = require("path");
 import os = require("os");

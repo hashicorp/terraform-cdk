@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
 import { LANGUAGES, config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
@@ -26,6 +28,12 @@ class Command extends BaseCommand {
         desc: "Output programming language",
         alias: "l",
         choices: LANGUAGES,
+      })
+      .option("parallelism", {
+        type: "number",
+        required: false,
+        desc: "Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII). Defaults to infinity, denoted by -1",
+        default: -1,
       });
 
   public async handleCommand(argv: any) {

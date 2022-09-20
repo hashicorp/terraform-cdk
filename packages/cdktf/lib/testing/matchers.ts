@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as path from "path";
 import { execSync, spawnSync } from "child_process";

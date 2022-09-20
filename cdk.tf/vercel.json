@@ -181,7 +181,11 @@
     },
     {
       "source": "/cdk-day-2022-hybrid-modules",
-      "destination": "https://www.youtube.com/watch?v=s8tO-ymVQPg&t=10260s"
+      "destination": "https://www.youtube.com/watch?v=7Dt_zJbDmso"
+    },
+    {
+      "source": "/crash-reporting",
+      "destination": "https://www.terraform.io/cdktf/telemetry#crash-reporting"
     }
   ]
 }

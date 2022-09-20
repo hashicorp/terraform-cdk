@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { TestDriver, onPosix, onWindows } from "../../test-helper";
 
 describe("cross stack references", () => {

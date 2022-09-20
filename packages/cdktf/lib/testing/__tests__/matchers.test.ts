@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Testing } from "../index";
 import { TestResource, DockerImage } from "../../../test/helper/resource";
 import {

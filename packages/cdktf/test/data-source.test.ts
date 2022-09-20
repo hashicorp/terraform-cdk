@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Testing, Token } from "../lib";
 import { TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";

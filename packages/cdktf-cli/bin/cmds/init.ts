@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
 
 import { templates } from "./helper/init-templates";
@@ -47,7 +49,7 @@ class Command extends BaseCommand {
       })
       .option("enable-crash-reporting", {
         type: "boolean",
-        desc: "Enable crash reporting for the CLI, see https://www.terraform.io/cdktf/telemetry#crash-reporting for more details",
+        desc: "Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details",
       })
       .strict();
 

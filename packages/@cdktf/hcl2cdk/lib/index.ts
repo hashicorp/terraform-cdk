@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { parse } from "@cdktf/hcl2json";
 import {
   isRegistryModule,

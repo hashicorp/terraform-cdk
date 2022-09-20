@@ -30,7 +30,7 @@ const list = new TerraformVariable(this, "list", {
 
 const iterator = TerraformIterator.fromList(list.listValue);
 
-const s3Bucket = new s3.Bucket(this, "bucket", {
+const s3Bucket = new s3.S3Bucket(this, "bucket", {
   forEach: iterator,
   name: iterator.value,
 });
@@ -52,9 +52,9 @@ const iterator = TerraformIterator.fromList([
     name: "images",
     tags: { app: "image-converter" },
   },
-]);
+] as any);
 
-const s3Bucket = new s3.Bucket(this, "bucket", {
+const s3Bucket = new s3.S3Bucket(this, "bucket", {
   forEach: iterator,
   name: iterator.getString("name"),
   tags: iterator.getStringMap("tags"),

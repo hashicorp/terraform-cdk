@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // --------------------------------------------------------------------------------
 // This file defines context keys that enable certain features that are
 // implemented behind a flag in order to preserve backwards compatibility for

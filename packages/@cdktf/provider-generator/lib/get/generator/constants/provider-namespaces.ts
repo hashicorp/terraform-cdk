@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 type Prefix = string;
 export type ResourceNamespace = {
   name: string;
