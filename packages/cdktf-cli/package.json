@@ -92,6 +92,9 @@
       "coverage"
     ]
   },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tsc-files src/lib/ambient.d.ts --noEmit"
+  },
   "devDependencies": {
     "@cdktf/provider-generator": "0.0.0",
     "@npmcli/ci-detect": "^1.4.0",
