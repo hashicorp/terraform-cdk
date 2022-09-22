@@ -130,7 +130,16 @@ export async function extractReferencesFromExpression(
 }
 
 function getResourceNamespace(provider: string, resource: string) {
-  return camelCase(`${provider}_${resource}`);
+  if (provider === "cdktf") {
+    return undefined;
+  }
+
+  // e.g. awsProvider -> provider
+  if (resource === pascalCase(`${provider}_provider`)) {
+    return "provider";
+  }
+
+  return camelCase(resource);
 }
 
 export function referenceToVariableName(scope: Scope, ref: Reference): string {
