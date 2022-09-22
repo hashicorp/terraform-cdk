@@ -24,6 +24,18 @@ const isReservedClassName = (className: string): boolean => {
   return ["string", "object"].includes(className.toLowerCase());
 };
 
+const getFileName = (provider: string, baseName: string): string => {
+  if (baseName === "index") {
+    return "index-resource.ts";
+  }
+
+  if (baseName === `${provider}_provider`) {
+    return "provider.ts";
+  }
+
+  return `${toSnakeCase(baseName).replace(/_/g, "-")}.ts`;
+};
+
 class Parser {
   private structs = new Array<Struct>();
 
@@ -70,10 +82,8 @@ class Parser {
     const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
     const configStructName = this.uniqueClassName(`${className}Config`);
-    const fileName =
-      baseName === "index"
-        ? "index-resource.ts"
-        : `${toSnakeCase(baseName).replace(/_/g, "-")}.ts`;
+    const fileName = getFileName(provider, baseName);
+
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
     const attributes = this.renderAttributesForBlock(
       new Scope({
