@@ -1,286 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Edge Provider Schema compiles to Typescript: edge-provider.ts 1`] = `
-"// https://www.terraform.io/docs/providers/edge
-// generated from terraform resource schema
-
-import { Construct } from 'constructs';
-import * as cdktf from 'cdktf';
-
-// Configuration
-
-export interface EdgeProviderConfig {
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optstr EdgeProvider#optstr}
-  */
-  readonly optstr?: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optnum EdgeProvider#optnum}
-  */
-  readonly optnum?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optbool EdgeProvider#optbool}
-  */
-  readonly optbool?: boolean | cdktf.IResolvable;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqstr EdgeProvider#reqstr}
-  */
-  readonly reqstr: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqnum EdgeProvider#reqnum}
-  */
-  readonly reqnum: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqbool EdgeProvider#reqbool}
-  */
-  readonly reqbool: boolean | cdktf.IResolvable;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computedstr EdgeProvider#computedstr}
-  */
-  readonly computedstr?: string;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computednum EdgeProvider#computednum}
-  */
-  readonly computednum?: number;
-  /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computedbool EdgeProvider#computedbool}
-  */
-  readonly computedbool?: boolean | cdktf.IResolvable;
-  /**
-  * Alias name
-  * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#alias EdgeProvider#alias}
-  */
-  readonly alias?: string;
-}
-
-/**
-* Represents a {@link https://www.terraform.io/docs/providers/edge edge}
-*/
-export class EdgeProvider extends cdktf.TerraformProvider {
-
-  // =================
-  // STATIC PROPERTIES
-  // =================
-  public static readonly tfResourceType = \\"edge\\";
-
-  // ===========
-  // INITIALIZER
-  // ===========
-
-  /**
-  * Create a new {@link https://www.terraform.io/docs/providers/edge edge} Resource
-  *
-  * @param scope The scope in which to define this construct
-  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
-  * @param options EdgeProviderConfig
-  */
-  public constructor(scope: Construct, id: string, config: EdgeProviderConfig) {
-    super(scope, id, {
-      terraformResourceType: 'edge',
-      terraformGeneratorMetadata: {
-        providerName: 'edge'
-      },
-      terraformProviderSource: 'registry.terraform.io/cdktf/edge'
-    });
-    this._optstr = config.optstr;
-    this._optnum = config.optnum;
-    this._optbool = config.optbool;
-    this._reqstr = config.reqstr;
-    this._reqnum = config.reqnum;
-    this._reqbool = config.reqbool;
-    this._computedstr = config.computedstr;
-    this._computednum = config.computednum;
-    this._computedbool = config.computedbool;
-    this._alias = config.alias;
-  }
-
-  // ==========
-  // ATTRIBUTES
-  // ==========
-
-  // optstr - computed: false, optional: true, required: false
-  private _optstr?: string; 
-  public get optstr() {
-    return this._optstr;
-  }
-  public set optstr(value: string | undefined) {
-    this._optstr = value;
-  }
-  public resetOptstr() {
-    this._optstr = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get optstrInput() {
-    return this._optstr;
-  }
-
-  // optnum - computed: false, optional: true, required: false
-  private _optnum?: number; 
-  public get optnum() {
-    return this._optnum;
-  }
-  public set optnum(value: number | undefined) {
-    this._optnum = value;
-  }
-  public resetOptnum() {
-    this._optnum = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get optnumInput() {
-    return this._optnum;
-  }
-
-  // optbool - computed: false, optional: true, required: false
-  private _optbool?: boolean | cdktf.IResolvable; 
-  public get optbool() {
-    return this._optbool;
-  }
-  public set optbool(value: boolean | cdktf.IResolvable | undefined) {
-    this._optbool = value;
-  }
-  public resetOptbool() {
-    this._optbool = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get optboolInput() {
-    return this._optbool;
-  }
-
-  // reqstr - computed: false, optional: false, required: true
-  private _reqstr?: string; 
-  public get reqstr() {
-    return this._reqstr;
-  }
-  public set reqstr(value: string | undefined) {
-    this._reqstr = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get reqstrInput() {
-    return this._reqstr;
-  }
-
-  // reqnum - computed: false, optional: false, required: true
-  private _reqnum?: number; 
-  public get reqnum() {
-    return this._reqnum;
-  }
-  public set reqnum(value: number | undefined) {
-    this._reqnum = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get reqnumInput() {
-    return this._reqnum;
-  }
-
-  // reqbool - computed: false, optional: false, required: true
-  private _reqbool?: boolean | cdktf.IResolvable; 
-  public get reqbool() {
-    return this._reqbool;
-  }
-  public set reqbool(value: boolean | cdktf.IResolvable | undefined) {
-    this._reqbool = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get reqboolInput() {
-    return this._reqbool;
-  }
-
-  // computedstr - computed: true, optional: true, required: false
-  private _computedstr?: string; 
-  public get computedstr() {
-    return this._computedstr;
-  }
-  public set computedstr(value: string | undefined) {
-    this._computedstr = value;
-  }
-  public resetComputedstr() {
-    this._computedstr = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get computedstrInput() {
-    return this._computedstr;
-  }
-
-  // computednum - computed: true, optional: true, required: false
-  private _computednum?: number; 
-  public get computednum() {
-    return this._computednum;
-  }
-  public set computednum(value: number | undefined) {
-    this._computednum = value;
-  }
-  public resetComputednum() {
-    this._computednum = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get computednumInput() {
-    return this._computednum;
-  }
-
-  // computedbool - computed: true, optional: true, required: false
-  private _computedbool?: boolean | cdktf.IResolvable; 
-  public get computedbool() {
-    return this._computedbool;
-  }
-  public set computedbool(value: boolean | cdktf.IResolvable | undefined) {
-    this._computedbool = value;
-  }
-  public resetComputedbool() {
-    this._computedbool = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get computedboolInput() {
-    return this._computedbool;
-  }
-
-  // alias - computed: false, optional: true, required: false
-  private _alias?: string; 
-  public get alias() {
-    return this._alias;
-  }
-  public set alias(value: string | undefined) {
-    this._alias = value;
-  }
-  public resetAlias() {
-    this._alias = undefined;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get aliasInput() {
-    return this._alias;
-  }
-
-  // =========
-  // SYNTHESIS
-  // =========
-
-  protected synthesizeAttributes(): { [name: string]: any } {
-    return {
-      optstr: cdktf.stringToTerraform(this._optstr),
-      optnum: cdktf.numberToTerraform(this._optnum),
-      optbool: cdktf.booleanToTerraform(this._optbool),
-      reqstr: cdktf.stringToTerraform(this._reqstr),
-      reqnum: cdktf.numberToTerraform(this._reqnum),
-      reqbool: cdktf.booleanToTerraform(this._reqbool),
-      computedstr: cdktf.stringToTerraform(this._computedstr),
-      computednum: cdktf.numberToTerraform(this._computednum),
-      computedbool: cdktf.booleanToTerraform(this._computedbool),
-      alias: cdktf.stringToTerraform(this._alias),
-    };
-  }
-}
-"
-`;
-
 exports[`Edge Provider Schema compiles to Typescript: index.ts 1`] = `
 "// generated by cdktf get
-export * from './required-attribute-resource';
-export * from './optional-attribute-resource';
-export * from './optional-computed-attribute-resource';
-export * from './list-block-resource';
-export * from './map-resource';
-export * from './set-block-resource';
-export * from './edge-provider';
+export * as requiredAttributeResource from './required-attribute-resource';
+export * as optionalAttributeResource from './optional-attribute-resource';
+export * as optionalComputedAttributeResource from './optional-computed-attribute-resource';
+export * as listBlockResource from './list-block-resource';
+export * as mapResource from './map-resource';
+export * as setBlockResource from './set-block-resource';
+export * as provider from './provider';
 
 "
 `;
@@ -2274,6 +2002,278 @@ export class OptionalComputedAttributeResource extends cdktf.TerraformResource {
       strList: cdktf.listMapper(cdktf.stringToTerraform, false)(this._strList),
       numList: cdktf.listMapper(cdktf.numberToTerraform, false)(this._numList),
       boolList: cdktf.listMapper(cdktf.booleanToTerraform, false)(this._boolList),
+    };
+  }
+}
+"
+`;
+
+exports[`Edge Provider Schema compiles to Typescript: provider.ts 1`] = `
+"// https://www.terraform.io/docs/providers/edge
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface EdgeProviderConfig {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optstr EdgeProvider#optstr}
+  */
+  readonly optstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optnum EdgeProvider#optnum}
+  */
+  readonly optnum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#optbool EdgeProvider#optbool}
+  */
+  readonly optbool?: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqstr EdgeProvider#reqstr}
+  */
+  readonly reqstr: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqnum EdgeProvider#reqnum}
+  */
+  readonly reqnum: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#reqbool EdgeProvider#reqbool}
+  */
+  readonly reqbool: boolean | cdktf.IResolvable;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computedstr EdgeProvider#computedstr}
+  */
+  readonly computedstr?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computednum EdgeProvider#computednum}
+  */
+  readonly computednum?: number;
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#computedbool EdgeProvider#computedbool}
+  */
+  readonly computedbool?: boolean | cdktf.IResolvable;
+  /**
+  * Alias name
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/edge#alias EdgeProvider#alias}
+  */
+  readonly alias?: string;
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/edge edge}
+*/
+export class EdgeProvider extends cdktf.TerraformProvider {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = \\"edge\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/edge edge} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options EdgeProviderConfig
+  */
+  public constructor(scope: Construct, id: string, config: EdgeProviderConfig) {
+    super(scope, id, {
+      terraformResourceType: 'edge',
+      terraformGeneratorMetadata: {
+        providerName: 'edge'
+      },
+      terraformProviderSource: 'registry.terraform.io/cdktf/edge'
+    });
+    this._optstr = config.optstr;
+    this._optnum = config.optnum;
+    this._optbool = config.optbool;
+    this._reqstr = config.reqstr;
+    this._reqnum = config.reqnum;
+    this._reqbool = config.reqbool;
+    this._computedstr = config.computedstr;
+    this._computednum = config.computednum;
+    this._computedbool = config.computedbool;
+    this._alias = config.alias;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // optstr - computed: false, optional: true, required: false
+  private _optstr?: string; 
+  public get optstr() {
+    return this._optstr;
+  }
+  public set optstr(value: string | undefined) {
+    this._optstr = value;
+  }
+  public resetOptstr() {
+    this._optstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optstrInput() {
+    return this._optstr;
+  }
+
+  // optnum - computed: false, optional: true, required: false
+  private _optnum?: number; 
+  public get optnum() {
+    return this._optnum;
+  }
+  public set optnum(value: number | undefined) {
+    this._optnum = value;
+  }
+  public resetOptnum() {
+    this._optnum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optnumInput() {
+    return this._optnum;
+  }
+
+  // optbool - computed: false, optional: true, required: false
+  private _optbool?: boolean | cdktf.IResolvable; 
+  public get optbool() {
+    return this._optbool;
+  }
+  public set optbool(value: boolean | cdktf.IResolvable | undefined) {
+    this._optbool = value;
+  }
+  public resetOptbool() {
+    this._optbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get optboolInput() {
+    return this._optbool;
+  }
+
+  // reqstr - computed: false, optional: false, required: true
+  private _reqstr?: string; 
+  public get reqstr() {
+    return this._reqstr;
+  }
+  public set reqstr(value: string | undefined) {
+    this._reqstr = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqstrInput() {
+    return this._reqstr;
+  }
+
+  // reqnum - computed: false, optional: false, required: true
+  private _reqnum?: number; 
+  public get reqnum() {
+    return this._reqnum;
+  }
+  public set reqnum(value: number | undefined) {
+    this._reqnum = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqnumInput() {
+    return this._reqnum;
+  }
+
+  // reqbool - computed: false, optional: false, required: true
+  private _reqbool?: boolean | cdktf.IResolvable; 
+  public get reqbool() {
+    return this._reqbool;
+  }
+  public set reqbool(value: boolean | cdktf.IResolvable | undefined) {
+    this._reqbool = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get reqboolInput() {
+    return this._reqbool;
+  }
+
+  // computedstr - computed: true, optional: true, required: false
+  private _computedstr?: string; 
+  public get computedstr() {
+    return this._computedstr;
+  }
+  public set computedstr(value: string | undefined) {
+    this._computedstr = value;
+  }
+  public resetComputedstr() {
+    this._computedstr = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedstrInput() {
+    return this._computedstr;
+  }
+
+  // computednum - computed: true, optional: true, required: false
+  private _computednum?: number; 
+  public get computednum() {
+    return this._computednum;
+  }
+  public set computednum(value: number | undefined) {
+    this._computednum = value;
+  }
+  public resetComputednum() {
+    this._computednum = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computednumInput() {
+    return this._computednum;
+  }
+
+  // computedbool - computed: true, optional: true, required: false
+  private _computedbool?: boolean | cdktf.IResolvable; 
+  public get computedbool() {
+    return this._computedbool;
+  }
+  public set computedbool(value: boolean | cdktf.IResolvable | undefined) {
+    this._computedbool = value;
+  }
+  public resetComputedbool() {
+    this._computedbool = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get computedboolInput() {
+    return this._computedbool;
+  }
+
+  // alias - computed: false, optional: true, required: false
+  private _alias?: string; 
+  public get alias() {
+    return this._alias;
+  }
+  public set alias(value: string | undefined) {
+    this._alias = value;
+  }
+  public resetAlias() {
+    this._alias = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get aliasInput() {
+    return this._alias;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      optstr: cdktf.stringToTerraform(this._optstr),
+      optnum: cdktf.numberToTerraform(this._optnum),
+      optbool: cdktf.booleanToTerraform(this._optbool),
+      reqstr: cdktf.stringToTerraform(this._reqstr),
+      reqnum: cdktf.numberToTerraform(this._reqnum),
+      reqbool: cdktf.booleanToTerraform(this._reqbool),
+      computedstr: cdktf.stringToTerraform(this._computedstr),
+      computednum: cdktf.numberToTerraform(this._computednum),
+      computedbool: cdktf.booleanToTerraform(this._computedbool),
+      alias: cdktf.stringToTerraform(this._alias),
     };
   }
 }
