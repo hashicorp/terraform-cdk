@@ -2,10 +2,6 @@
 // SPDX-License-Identifier: MPL-2.0
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import {
-  ResourceNamespace,
-  getResourceNamespace,
-} from "../constants/provider-namespaces";
 import { Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
@@ -103,10 +99,6 @@ export class ResourceModel {
     return this.terraformSchemaType === "provider";
   }
 
-  public get namespace(): ResourceNamespace | undefined {
-    return getResourceNamespace(this.provider, this.baseName);
-  }
-
   public get isDataSource(): boolean {
     return this.terraformSchemaType === "data_source";
   }
@@ -147,11 +139,7 @@ export class ResourceModel {
   public get structsFolderPath(): string {
     const basePath = this.filePath.split("/").slice(0, -1).join("/");
 
-    if (this.namespace) {
-      return path.join(basePath, this.namespace!.name, this.structsFolderName);
-    } else {
-      return path.join(basePath, this.structsFolderName);
-    }
+    return path.join(basePath, this.structsFolderName);
   }
 
   private escapeSchema(schema: string): string {

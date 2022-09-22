@@ -4,7 +4,6 @@ import * as t from "@babel/types";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
-import { getResourceNamespace } from "@cdktf/provider-generator";
 import { getReferencesInExpression } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 
@@ -130,6 +129,10 @@ export async function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
+function getResourceNamespace(provider: string, resource: string) {
+  return camelCase(`${provider}_${resource}`);
+}
+
 export function referenceToVariableName(scope: Scope, ref: Reference): string {
   const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
@@ -229,7 +232,7 @@ export function constructAst(
         return t.memberExpression(
           t.memberExpression(
             t.identifier(provider), // e.g. aws
-            t.identifier(namespace.name) // e.g. EC2
+            t.identifier(namespace) // e.g. EC2
           ),
           t.identifier(resourceName) // e.g. DataAwsInstance
         );
@@ -250,7 +253,7 @@ export function constructAst(
       return t.memberExpression(
         t.memberExpression(
           t.identifier(provider), // e.g. aws
-          t.identifier(namespace.name) // e.g. EC2
+          t.identifier(namespace) // e.g. EC2
         ),
         t.identifier(resourceName) // e.g. Instance
       );
