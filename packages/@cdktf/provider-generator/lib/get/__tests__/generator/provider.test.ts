@@ -19,7 +19,7 @@ test("generate provider", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/aws-provider.ts"),
+    path.join(workdir, "providers/aws/provider.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
