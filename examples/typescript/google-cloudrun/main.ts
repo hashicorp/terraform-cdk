@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 import * as path from "path";
 import * as fs from "fs";
-import { GoogleProvider } from "./.gen/providers/google/google-provider";
+import { GoogleProvider } from "./.gen/providers/google/provider";
 import { CloudRunService } from "./.gen/providers/google/cloud-run-service";
 import { DataGoogleIamPolicy } from "./.gen/providers/google/data-google-iam-policy";
 import { CloudRunServiceIamPolicy } from "./.gen/providers/google/cloud-run-service-iam-policy";

@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import * as path from "path";
 import * as fs from "fs";
-import { GoogleProvider } from "./.gen/providers/google/google-provider";
+import { GoogleProvider } from "./.gen/providers/google/provider";
 import { ComputeNetwork } from "./.gen/providers/google/compute-network";
 import { ComputeInstance } from "./.gen/providers/google/compute-instance";
 

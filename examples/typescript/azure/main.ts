@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AzurermProvider } from "./.gen/providers/azurerm/azurerm-provider";
+import { AzurermProvider } from "./.gen/providers/azurerm/provider";
 import { VirtualNetwork } from "./.gen/providers/azurerm/virtual-network";
 
 class MyStack extends TerraformStack {

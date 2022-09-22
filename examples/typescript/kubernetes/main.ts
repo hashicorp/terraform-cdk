@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { KubernetesProvider } from "./.gen/providers/kubernetes/kubernetes-provider";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 import { Namespace } from "./.gen/providers/kubernetes/namespace";
 import { Deployment } from "./.gen/providers/kubernetes/deployment";
 import { Service } from "./.gen/providers/kubernetes/service";

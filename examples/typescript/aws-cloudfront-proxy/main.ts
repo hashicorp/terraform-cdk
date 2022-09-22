@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 import {
   cloudfront,
-  awsProvider,
+  provider,
   route53,
   acm,
   wafv2,

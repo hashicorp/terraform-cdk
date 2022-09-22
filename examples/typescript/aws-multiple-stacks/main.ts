@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/aws-provider";
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import * as ec2 from "./.gen/providers/aws/ec2";
 
 interface MyStackConfig {

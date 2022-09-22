@@ -8,7 +8,7 @@ import {
   service,
 } from "./.gen/providers/kubernetes";
 import { Namespace } from "./.gen/providers/kubernetes/namespace";
-import { awsProvider, datasources, vpc, eks } from "./.gen/providers/aws";
+import { provider, datasources, vpc, eks } from "./.gen/providers/aws";
 import { Eks } from "./.gen/modules/terraform-aws-modules/aws/eks";
 import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
 

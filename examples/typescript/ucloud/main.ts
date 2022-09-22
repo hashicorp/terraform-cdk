@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { UcloudProvider } from "./.gen/providers/ucloud/ucloud-provider";
+import { UcloudProvider } from "./.gen/providers/ucloud/provider";
 import { DataUcloudImages } from "./.gen/providers/ucloud/data-ucloud-images";
 import { Instance } from "./.gen/providers/ucloud/instance";
 

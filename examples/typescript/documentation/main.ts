@@ -7,14 +7,14 @@ import { App, TerraformStack } from "cdktf";
 
 // DOCS_BLOCK_START:assets
 import { TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/aws-provider";
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import { s3 } from "./.gen/providers/aws";
 // DOCS_BLOCK_START:constructs
 import * as path from "path";
 // DOCS_BLOCK_END:assets
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
-import { KubernetesProvider } from "./.gen/providers/kubernetes/kubernetes-provider";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 
 // DOCS_BLOCK_END:constructs
 
