@@ -87,7 +87,7 @@
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",
-    "@types/node": "^14.18.26",
+    "@types/node": "^14.18.29",
     "@types/semver": "^7.3.12",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -95,9 +95,9 @@
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
     "jest": "^26.6.3",
-    "jsii": "^1.65.0",
-    "jsii-docgen": "^7.0.73",
-    "jsii-pacmak": "^1.65.0",
+    "jsii": "^1.68.0",
+    "jsii-docgen": "^7.0.92",
+    "jsii-pacmak": "^1.68.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
