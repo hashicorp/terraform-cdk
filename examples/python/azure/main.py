@@ -1,6 +1,6 @@
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput, Token
-from imports.azurerm.azurerm_provider import AzurermProvider
+from imports.azurerm.provider import AzurermProvider
 from imports.azurerm.resource_group import ResourceGroup
 from imports.azurerm.virtual_network import VirtualNetwork
 

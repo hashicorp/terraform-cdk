@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using aws.AwsProvider;
-using aws.Datasources;
+using aws.provider.AwsProvider;
+using aws.DataAwsRegion;
+using aws.DynamodbTable;
 using aws.Dynamodb;
-using aws.Sns;
+using aws.SnsTopic;
 using Constructs;
 using HashiCorp.Cdktf;
 

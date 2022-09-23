@@ -18,8 +18,8 @@ package main
 
 import (
 	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/dockerprovider"
 	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
+	dockerprovider "github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/provider"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"

@@ -12,7 +12,7 @@ import com.hashicorp.cdktf.TerraformStack;
 
 import imports.google.compute_instance.*;
 import imports.google.compute_network.*;
-import imports.google.google_provider.GoogleProvider;
+import imports.google.provider.GoogleProvider;
 import software.constructs.Construct;
 
 public class Main extends TerraformStack {

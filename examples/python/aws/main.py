@@ -1,6 +1,6 @@
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws.aws_provider import AwsProvider
+from imports.aws.provider import AwsProvider
 from imports.aws.sns import SnsTopic
 from imports.terraform_aws_modules.aws import Vpc
 from imports.aws.lambdafunction import LambdaFunction

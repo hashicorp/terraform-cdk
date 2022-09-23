@@ -2,12 +2,12 @@
 from constructs import Construct
 import cdktf
 # DOCS_BLOCK_END:constructs
-from imports.aws.aws_provider import AwsProvider
+from imports.aws.provider import AwsProvider
 import imports.aws.s3 as s3
 # DOCS_BLOCK_START:constructs
 import os
 # DOCS_BLOCK_END:assets
-import imports.kubernetes.kubernetes_provider as kubernetes
+import imports.kubernetes.provider as kubernetes
 from my_constructs import KubernetesWebAppDeployment
 # DOCS_BLOCK_END:constructs
 # DOCS_BLOCK_START:assets,constructs

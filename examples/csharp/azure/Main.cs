@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using azurerm.AzurermProvider;
+using azurerm.Provider;
 using azurerm.VirtualNetwork;
 using Constructs;
 using HashiCorp.Cdktf;

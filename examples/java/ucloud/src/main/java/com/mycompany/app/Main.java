@@ -12,7 +12,7 @@ import com.hashicorp.cdktf.Token;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.ucloud.ucloud_provider.UcloudProvider;
+import imports.ucloud.provider.UcloudProvider;
 import imports.ucloud.data_ucloud_images.DataUcloudImages;;
 import imports.ucloud.instance.Instance;
 import software.constructs.Construct;

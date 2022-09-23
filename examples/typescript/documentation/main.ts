@@ -8,7 +8,8 @@ import { App, TerraformStack } from "cdktf";
 // DOCS_BLOCK_START:assets
 import { TerraformAsset, AssetType } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-import { s3 } from "./.gen/providers/aws";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
 // DOCS_BLOCK_START:constructs
 import * as path from "path";
 // DOCS_BLOCK_END:assets
@@ -30,7 +31,7 @@ class MyStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    const bucket = new s3.S3Bucket(this, "bucket", {
+    const bucket = new S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
@@ -39,7 +40,7 @@ class MyStack extends TerraformStack {
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
-    new s3.S3BucketObject(this, "lambda-archive", {
+    new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
       source: asset.path, // returns a posix path

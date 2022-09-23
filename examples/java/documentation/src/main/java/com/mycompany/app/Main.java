@@ -11,13 +11,13 @@ import software.constructs.Construct;
 // DOCS_BLOCK_START:assets
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.AssetType;
-import imports.aws.aws_provider.AwsProvider;
+import imports.aws.provider.AwsProvider;
 import imports.aws.s3.*;
 // DOCS_BLOCK_END:assets
 
 // DOCS_BLOCK_START:constructs
 import java.util.*;
-import imports.kubernetes.kubernetes_provider.*;
+import imports.kubernetes.provider.*;
 // DOCS_BLOCK_END:constructs
 
 // DOCS_BLOCK_START:assets,constructs

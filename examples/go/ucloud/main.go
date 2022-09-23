@@ -8,7 +8,7 @@ import (
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/dataucloudimages"
 	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/instance"
-	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/ucloudprovider"
+	ucloudprovider "github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/provider"
 )
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {

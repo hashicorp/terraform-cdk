@@ -10,7 +10,7 @@ import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.aws.aws_provider.AwsProvider;
+import imports.aws.provider.AwsProvider;
 import imports.aws.datasources.DataAwsRegion;
 import imports.aws.dynamodb.DynamodbTable;
 import imports.aws.dynamodb.DynamodbTableAttribute;

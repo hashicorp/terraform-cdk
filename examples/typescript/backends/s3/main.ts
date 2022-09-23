@@ -8,7 +8,7 @@ import {
   DataTerraformRemoteStateS3,
 } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-import * as s3 from "./.gen/providers/aws/s3";
+import { DataAwsS3BucketObject } from "./.gen/providers/aws/data-aws-s3-bucket-object";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
@@ -34,7 +34,7 @@ class MyStack extends TerraformStack {
     });
 
     // Reference Remote State
-    new s3.DataAwsS3BucketObject(this, "object", {
+    new DataAwsS3BucketObject(this, "object", {
       bucket: "objectbucket",
       key: otherState.getString("bucket_key"),
     });

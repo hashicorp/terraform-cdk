@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using google.GoogleProvider;
+using google.Provider;
 using google.ComputeNetwork;
 using google.ComputeInstance;
 using Constructs;

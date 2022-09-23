@@ -4,7 +4,7 @@ import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
 import imports.kubernetes.deployment.*;
-import imports.kubernetes.kubernetes_provider.KubernetesProvider;
+import imports.kubernetes.provider.KubernetesProvider;
 import imports.kubernetes.namespace.*;
 import imports.kubernetes.service.*;
 

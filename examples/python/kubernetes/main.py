@@ -1,6 +1,6 @@
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.kubernetes.kubernetes_provider import KubernetesProvider
+from imports.kubernetes.provider import KubernetesProvider
 from imports.kubernetes.namespace import Namespace
 from imports.kubernetes.deployment import Deployment
 from imports.kubernetes.service import Service
