@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Providers.Null;
-using Providers.Edge;
+using Providers.Edge.Provider;
 using Constructs;
 using HashiCorp.Cdktf;
 

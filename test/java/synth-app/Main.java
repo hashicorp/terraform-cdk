@@ -7,11 +7,11 @@ import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.Testing;
 import com.hashicorp.cdktf.LocalBackend;
 
-import imports.nullprovider.NullProvider;
-import imports.nullprovider.Resource;
+import imports.nullprovider.provider.NullProvider;
+import imports.nullprovider.resource.Resource;
 
-import imports.random.RandomProvider;
-import imports.random.StringResource;
+import imports.random.provider.RandomProvider;
+import imports.random.string_resource.StringResource;
 
 public class Main extends TerraformStack
 {
