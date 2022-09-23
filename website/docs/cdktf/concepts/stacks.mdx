@@ -48,16 +48,29 @@ new MyStack(app, "a-single-stack");
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
+
 ```python
+stack.add_override("terraform.backend",{
+    "remote": {
+        "organization": "test",
+        "workspaces": {
+            "name": "test"
+        }
+    }
+})
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -116,16 +129,22 @@ new MyStack(app, "multiple-stacks-production-eu", {
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -205,16 +224,22 @@ new BackendStack(app, "target-stack", {
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -244,15 +269,19 @@ this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceF
 ```
 
 ```python
+self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -284,16 +313,22 @@ stack.addOverride("terraform.backend", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

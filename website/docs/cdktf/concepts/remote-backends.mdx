@@ -54,16 +54,27 @@ const app = new App();
 new Mystack(app, "hello-terraform");
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
+
 ```python
+stack.add_override("terraform.backend",{
+    "atlas": {
+        "name": "example_corp/networking-prod",
+        "address": "https://app.terraform.io"
+    }
+})
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -118,7 +129,7 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Use `CloudBackend` to add a new remote backend.
 
-   <CodeTabs>
+    <CodeTabs>
 
    ```typescript
    const stack = new MyStack(app, "hello-terraform");
@@ -129,19 +140,25 @@ Consider an example project called `hello-terraform` that is using local storage
    });
    ```
 
+   <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
+
    ```python
+
    ```
 
    ```java
+
    ```
 
    ```csharp
+
    ```
 
    ```go
+
    ```
 
-   </CodeTabs>
+    </CodeTabs>
 
 1. Run `cdktf synth` to generate the Terraform configuration file.
 
@@ -269,16 +286,22 @@ stack.addOverride("terraform.backend", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

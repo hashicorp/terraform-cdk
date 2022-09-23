@@ -38,16 +38,41 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
+
 ```python
+from imports.aws import s3
+from cdktf import TerraformIterator, TerraformVariable
+        iterator = TerraformIterator.from_list(
+            list = [
+                {
+                    "name": "website-static-files",
+                    "tags": {"app": "website"}
+                },
+                {
+                    "name": "images",
+                    "tags": {"app": "image-converter"}
+                }
+            ]
+        )
+
+        s3Bucket = s3.S3Bucket(self, "bucket",
+            for_each = iterator,
+            name = iterator.getString("name"),
+            tags = iterator.getString("tags")
+        )
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -79,16 +104,22 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

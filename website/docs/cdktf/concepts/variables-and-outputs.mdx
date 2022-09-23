@@ -47,16 +47,64 @@ new EC2.Instance(this, "hello", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
+
 ```python
+import imports.random as random
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput, CloudBackend, NamedRemoteWorkspace, DataTerraformRemoteState
+
+class Producer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("producer")
+        )
+
+        random.RandomProvider(self, "random")
+        pet = random.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value = pet.id
+        )
+
+class Consumer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("consumer")
+        )
+
+        remoteState = DataTerraformRemoteState(self, "remote-pet",
+            organization = "hashicorp",
+            workspaces = NamedRemoteWorkspace(name = "producer")
+        )
+
+        TerraformOutput(self, "random-remote-pet",
+            value = remoteState.get_string("random-pet")
+        )
+
+app = App()
+Producer(app, "cdktf-producer")
+Consumer(app, "cdktf-consumer")
+app.synth()
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -88,16 +136,22 @@ new EC2.Instance(this, "example", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -162,16 +216,22 @@ new MyStack(app, "cdktf-producer", {
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -210,16 +270,22 @@ new MyStack(app, "cdktf-demo");
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -310,16 +376,22 @@ new Consumer(app, "cdktf-consumer");
 app.synth();
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

@@ -37,20 +37,41 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
+
 ```python
+from cdktf import DataTerraformRemoteState
+from imports.aws import ec2
+
+class HelloTerraform(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        #.....
+        remoteState = DataTerraformRemoteState(self,
+            organization = "hashicorp",
+            workspace = 'vpc-prod'
+        )
+
+        ec2.Instance(self, "foo",
+            #.....
+            subnet_id = remoteState.get('subnet_id')
+        )
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
-
 
 ## Remote State Data Source
 
@@ -84,16 +105,22 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

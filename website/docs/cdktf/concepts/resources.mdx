@@ -39,16 +39,44 @@ export class HelloTerra extends TerraformStack {
 }
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-define -->
+
 ```python
+from imports.aws.vpc import SecurityGroup
+        ports = [22, 80, 443, 5432]
+
+        SecurityGroup(self, "sec1grp",
+            name = "security1",
+            vpc_id = "vpcs",
+            egress = [
+                {
+                    "fromPort": 0,
+                    "toPort": 0,
+                    "ciderBlocks": ["0.0.0.0/0"],
+                    "protocal": "-1"
+                }
+            ],
+            ingress = map(lambda port_list, port: port_list.append(
+                {
+                    "fromPort": port,
+                    "toPort": port,
+                    "cidrBlocks": ["0.0.0.0/0"],
+                    "protocol": "-1",
+                }
+            ), [], ports)
+        )
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -88,16 +116,22 @@ new Deployment(this, "nginx-deployment", {
   });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-references -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -134,16 +168,22 @@ table.addOverride("provisioner", [
 ]);
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -187,16 +227,22 @@ const topic = new SnsTopic(this, "Topic", {
 topic.addOverride("display_name", "my-topic");
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-override-attribute -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -262,16 +308,22 @@ sg.addOverride("dynamic.ingress", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch-dynamic-block -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -305,16 +357,22 @@ new SecurityGroup(this, "sec1grp", {
 });
 ```
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-loop-thru-ports -->
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
