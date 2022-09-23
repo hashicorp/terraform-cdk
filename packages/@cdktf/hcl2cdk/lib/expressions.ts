@@ -252,7 +252,7 @@ export function constructAst(
         return t.memberExpression(
           t.memberExpression(
             t.identifier(provider), // e.g. aws
-            t.identifier(namespace) // e.g. EC2
+            t.identifier(namespace) // e.g. dataAwsInstance
           ),
           t.identifier(resourceName) // e.g. DataAwsInstance
         );
