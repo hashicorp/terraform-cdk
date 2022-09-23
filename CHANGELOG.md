@@ -2,7 +2,7 @@
 
 **Breaking Changes**
 
-A very minor change in the UX of the `cdktf get` command now generates the provider bindings for all languages other than Typescript in parallel. This speeds up the process in general, but on devices with limited memory it could lead to Out Of Memory errors. If this happens you can limit the parallelism by providing the parallelism flag: `cdktf get --parallelism=1`.
+A very minor change in the UX of the `cdktf get` command now generates the provider bindings for all languages (except TypeScript) in parallel. This speeds up the process in general, but on devices with limited memory it could lead to Out of Memory errors. If this happens you can limit the parallelism by providing the parallelism flag: `cdktf get --parallelism=1`.
 
 ### fix
 
