@@ -9,9 +9,9 @@ import {
   Fn,
   LocalBackend,
 } from "cdktf";
-import { AwsProvider, sns } from "./.gen/providers/aws";
-import { Instance } from "./.gen/providers/aws/ec2";
-import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2";
+import { provider, snsTopic } from "./.gen/providers/aws";
+import { Instance } from "./.gen/providers/aws/instance";
+import { Wafv2WebAcl } from "./.gen/providers/aws/wafv2-web-acl";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -20,14 +20,14 @@ export class HelloTerra extends TerraformStack {
       path: "terraform.tfstate",
     });
 
-    new AwsProvider(this, "aws", {
+    new provider.AwsProvider(this, "aws", {
       region: "eu-central-1",
       ignoreTags: {
         keys: ["foo"],
       },
     });
 
-    const topic = new sns.SnsTopic(this, "Topic", {
+    const topic = new snsTopic.SnsTopic(this, "Topic", {
       displayName: "overwritten",
     });
     topic.addOverride("display_name", "topic");

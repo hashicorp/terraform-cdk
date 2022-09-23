@@ -11,7 +11,8 @@ import {
   LocalBackend,
 } from "cdktf";
 import * as path from "path";
-import { Resource as NullResource, NullProvider } from "./.gen/providers/null";
+import { NullProvider } from "./.gen/providers/null/provider";
+import { Resource as NullResource } from "./.gen/providers/null/resource";
 
 function assets(scope: Construct, assetOverrides = {}) {
   const localAsset = new TerraformAsset(scope, "local-asset", {
