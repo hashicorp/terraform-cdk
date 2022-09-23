@@ -21,7 +21,7 @@ import {
 import { detectAttributeLoops } from "./loop-detection";
 
 const isReservedClassName = (className: string): boolean => {
-  return ["string"].includes(className.toLowerCase());
+  return ["string", "object"].includes(className.toLowerCase());
 };
 
 class Parser {
