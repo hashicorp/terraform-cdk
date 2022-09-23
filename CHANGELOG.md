@@ -16,6 +16,7 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 - fix(docs): fix wrong command mentioned in TFC docs [\#2083](https://github.com/hashicorp/terraform-cdk/pull/2083)
 - fix: let create changelog script use commit hashes from PRs instead of finding merge commit messages that may not always exist [\#2068](https://github.com/hashicorp/terraform-cdk/pull/2068)
 - fix(provider-generator): Add special case in case resource is named 'object' [\#2138](https://github.com/hashicorp/terraform-cdk/pull/2138)
+- fix(lib): Add missing config options for AzurermBackend [\#2127](https://github.com/hashicorp/terraform-cdk/pull/2127)
 
 ### feat
 
