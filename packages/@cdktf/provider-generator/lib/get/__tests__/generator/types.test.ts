@@ -409,6 +409,42 @@ test("incompatible attribute names", async () => {
   expect(output).toMatchSnapshot();
 });
 
+test("incompatible resource names", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "incompatible-resource-names.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        "fixtures",
+        "incompatible-resource-names.test.fixture.json"
+      ),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const files = fs.readdirSync(path.join(workdir, "providers/test"));
+  expect(files).toMatchInlineSnapshot(`
+    Array [
+      "index.ts",
+      "object-resource.ts",
+      "string-resource.ts",
+    ]
+  `);
+
+  for (const file of files) {
+    const output = fs.readFileSync(
+      path.join(workdir, "providers/test/", file),
+      "utf-8"
+    );
+    expect(output).toMatchSnapshot(file); // use filename as snapshot indicator to not depend on order of files (e.g. if new file appears)
+  }
+});
+
 test("list of string map attribute", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(
