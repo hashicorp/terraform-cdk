@@ -129,14 +129,25 @@ export async function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
-function getResourceNamespace(provider: string, resource: string) {
+function getResourceNamespace(
+  provider: string,
+  resource: string,
+  isDataSource: boolean
+) {
   if (provider === "cdktf") {
     return undefined;
   }
 
   // e.g. awsProvider -> provider
-  if (resource === pascalCase(`${provider}_provider`)) {
+  if (
+    resource === pascalCase(`${provider}_provider`) ||
+    (provider === "NullProvider" && resource === "NullProvider")
+  ) {
     return "provider";
+  }
+
+  if (isDataSource) {
+    return camelCase(`data_${provider}_${resource}`);
   }
 
   return camelCase(resource);
@@ -232,7 +243,7 @@ export function constructAst(
     if (parts[0] === "data") {
       const [, provider, resource] = parts;
 
-      const namespace = getResourceNamespace(provider, resource);
+      const namespace = getResourceNamespace(provider, resource, true);
       const resourceName =
         getUniqueName(provider, parts.join("_")) ||
         pascalCase(`data_${provider}_${resource}`);
@@ -254,7 +265,7 @@ export function constructAst(
     }
 
     const [provider, resource] = parts;
-    const namespace = getResourceNamespace(provider, resource);
+    const namespace = getResourceNamespace(provider, resource, false);
     const resourceName =
       getUniqueName(provider, parts.join("_")) || pascalCase(resource);
 
