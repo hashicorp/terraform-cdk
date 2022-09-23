@@ -1,8 +1,42 @@
-## 0.13.0 (unreleased)
+## 0.12.3
 
 **Breaking Changes**
 
 A very minor change in the UX of the `cdktf get` command now generates the provider bindings for all languages other than Typescript in parallel. This speeds up the process in general, but on devices with limited memory it could lead to Out Of Memory errors. If this happens you can limit the parallelism by providing the parallelism flag: `cdktf get --parallelism=1`.
+
+### fix
+
+- fix(docs): Fix two small bugs in the code causing it to not compile [\#2128](https://github.com/hashicorp/terraform-cdk/pull/2128)
+- fix(cli): Update require package in template [\#2118](https://github.com/hashicorp/terraform-cdk/pull/2118)
+- fix: Change url of `pipenv` in log [\#2117](https://github.com/hashicorp/terraform-cdk/pull/2117)
+- fix(cli): support using remote execution in Terraform Cloud with up to 500 MB (instead of 10MB) [\#2108](https://github.com/hashicorp/terraform-cdk/pull/2108)
+- fix(docs): remove empty code block [\#2102](https://github.com/hashicorp/terraform-cdk/pull/2102)
+- fix: update constructs and go runtime versions [\#2096](https://github.com/hashicorp/terraform-cdk/pull/2096)
+- fix(cli): add sentry DSN in build process [\#2085](https://github.com/hashicorp/terraform-cdk/pull/2085)
+- fix(docs): fix wrong command mentioned in TFC docs [\#2083](https://github.com/hashicorp/terraform-cdk/pull/2083)
+- fix: let create changelog script use commit hashes from PRs instead of finding merge commit messages that may not always exist [\#2068](https://github.com/hashicorp/terraform-cdk/pull/2068)
+
+### feat
+
+- feat(cli): include language used in cdktf init telemetry event [\#2123](https://github.com/hashicorp/terraform-cdk/pull/2123)
+- feat(cli): support generating provider bindings in parallel [\#2111](https://github.com/hashicorp/terraform-cdk/pull/2111)
+
+### chore
+
+- chore: split up unit tests per package [\#2122](https://github.com/hashicorp/terraform-cdk/pull/2122)
+- chore: Update diagram with new provider count [\#2104](https://github.com/hashicorp/terraform-cdk/pull/2104)
+- chore: change YT link to cut version [\#2103](https://github.com/hashicorp/terraform-cdk/pull/2103)
+- chore(cli): Don't trim output for unstructured logs [\#2100](https://github.com/hashicorp/terraform-cdk/pull/2100)
+- chore: only run expensive tasks on source code changes [\#2099](https://github.com/hashicorp/terraform-cdk/pull/2099)
+- chore: Support building with Go 1.19 [\#2098](https://github.com/hashicorp/terraform-cdk/pull/2098)
+- chore: fix go azure example [\#2092](https://github.com/hashicorp/terraform-cdk/pull/2092)
+- chore: fix the project board TS errors [\#2091](https://github.com/hashicorp/terraform-cdk/pull/2091)
+- chore: npm-check-updates && yarn upgrade [\#2077](https://github.com/hashicorp/terraform-cdk/pull/2077)
+- chore(examples): clean up examples [\#2069](https://github.com/hashicorp/terraform-cdk/pull/2069)
+- chore(docs): Check whether links work :) [\#2063](https://github.com/hashicorp/terraform-cdk/pull/2063)
+- chore: ensure we have license header [\#1960](https://github.com/hashicorp/terraform-cdk/pull/1960)
+- chore: measure and print memory consumption of build and synth steps for examples in CI [\#2060](https://github.com/hashicorp/terraform-cdk/pull/2060)
+- chore: start running tests against TF 1.2.8 and drop running against 1.0.7 [\#2058](https://github.com/hashicorp/terraform-cdk/pull/2058)
 
 ## 0.12.2
 
