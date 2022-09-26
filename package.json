@@ -89,7 +89,10 @@
     "packages/cdktf/**/*.ts": "yarn generate-docs:api",
     "examples/*/documentation/**/*.{ts,cs,go,java,py}": "yarn generate-docs:translations",
     "**/*.{tsx,js,css,md}": "prettier --write",
-    "**/*.ts": ["prettier --write", "./tools/add-copyright-header-to-file.sh"],
+    "**/*.ts": [
+      "prettier --write",
+      "./tools/add-copyright-header-to-file.sh"
+    ],
     "examples/**": "yarn lint:examples"
   },
   "eslintConfig": {
