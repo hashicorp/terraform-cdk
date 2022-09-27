@@ -32,7 +32,7 @@
   ],
   "include": [
     "src/**/*.ts",
-    "test/ui/deploy.test.tsx"
+    "src/test/ui/deploy.test.tsx"
   ],
   "exclude": [
     "node_modules",
