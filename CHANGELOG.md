@@ -151,6 +151,8 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 - chore: measure and print memory consumption of build and synth steps for examples in CI [\#2060](https://github.com/hashicorp/terraform-cdk/pull/2060)
 - chore: start running tests against TF 1.2.8 and drop running against 1.0.7 [\#2058](https://github.com/hashicorp/terraform-cdk/pull/2058)
 
+Only for developers of `terraform-cdk`: we modified how the `cdktf` cli is built. This might have an effect on the generated completion script. It is recommended to build the `cdktf-cli` package and update your completion script.
+
 ## 0.12.2
 
 **Breaking Changes**
