@@ -6,6 +6,8 @@ import {
   getNpmPackageName,
   getPrebuiltProviderVersion,
   getAllPrebuiltProviderVersions,
+  getPrebuiltProviderRepositoryName,
+  resetFetchCache,
 } from "../../../lib/dependencies/prebuilt-providers";
 import "../../../lib/logging";
 
@@ -15,7 +17,8 @@ jest.mock("../../../lib/logging");
 function buildNpmResponse(
   version = "0.0.0",
   name = "test",
-  cdktfVersion = "^0.12.2"
+  cdktfVersion = "^0.12.2",
+  hasRepository = true
 ): any {
   return {
     versions: {
@@ -31,10 +34,16 @@ function buildNpmResponse(
         },
       },
     },
+    repository:
+      (hasRepository && {
+        type: "git",
+        url: `git+https://github.com/cdktf/cdktf-provider-${name}.git`,
+      }) ||
+      {},
   };
 }
 
-describe("network issues", () => {
+describe("prebuilt-providers", () => {
   beforeAll(() => {
     nock.disableNetConnect();
   });
@@ -42,6 +51,23 @@ describe("network issues", () => {
   afterAll(() => {
     nock.cleanAll();
     nock.enableNetConnect();
+  });
+
+  afterEach(() => {
+    resetFetchCache();
+    nock.cleanAll();
+  });
+
+  describe("getPrebuiltProviderRepositoryName", () => {
+    it("reads the repository field", async () => {
+      nock("https://registry.npmjs.org/")
+        .get(new RegExp("/@cdktf/.*"))
+        .reply(200, buildNpmResponse("2.3.0", "test1"));
+
+      await expect(
+        getPrebuiltProviderRepositoryName("@cdktf/provider-test1")
+      ).resolves.toEqual("github.com/cdktf/cdktf-provider-test1");
+    });
   });
 
   describe("getPrebuiltProviderVersions", () => {

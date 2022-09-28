@@ -33,6 +33,11 @@ async function cachedFetch<T>(url: string): Promise<T> {
   return responseBody as T;
 }
 
+// For testing purposes only
+export async function resetFetchCache() {
+  fetchCache.clear();
+}
+
 async function fetchWrapped<T>(url: string): Promise<T> {
   let response;
   try {
@@ -124,6 +129,10 @@ type NpmPackageResult = {
   versions: {
     [version: string]: PackageJson;
   };
+  repository?: {
+    type: string;
+    url: string;
+  };
 };
 
 type PrebuiltProviderVersion = {
@@ -131,6 +140,24 @@ type PrebuiltProviderVersion = {
   providerVersion: string; // e.g. "4.12.1"
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
+
+export async function getPrebuiltProviderRepositoryName(
+  packageName: string
+): Promise<string> {
+  const url = `https://registry.npmjs.org/${packageName}`;
+  const result = await cachedFetch<NpmPackageResult>(url);
+
+  const repositoryUrl = result?.repository?.url;
+
+  if (!repositoryUrl) return "";
+
+  const repositoryRegex = /^git\+https:\/\/(github.com\/.*)\.git$/;
+  const match = repositoryRegex.exec(repositoryUrl);
+
+  if (!match) return "";
+
+  return match[1];
+}
 
 export async function getAllPrebuiltProviderVersions(
   packageName: string
