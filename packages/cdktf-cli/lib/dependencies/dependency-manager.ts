@@ -251,12 +251,12 @@ export class DependencyManager {
   private convertPackageName(name: string, repository: string): string {
     const providerName = name.replace("@cdktf/provider-", "");
     switch (this.targetLanguage) {
-      case Language.GO: // e.g. github.com/hashicorp/cdktf-provider-opentelekomcloud-go/opentelekomcloud
+      case Language.GO: // e.g. github.com/cdktf/cdktf-provider-opentelekomcloud-go/opentelekomcloud
         if (repository) {
           return `${repository}-go/${providerName}`;
         }
 
-        return `github.com/hashicorp/cdktf-provider-${providerName}-go/${providerName}`;
+        return `github.com/cdktf/cdktf-provider-${providerName}-go/${providerName}`;
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
