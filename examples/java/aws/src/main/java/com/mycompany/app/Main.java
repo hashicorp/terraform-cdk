@@ -11,10 +11,10 @@ import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
 import imports.aws.provider.AwsProvider;
-import imports.aws.datasources.DataAwsRegion;
-import imports.aws.dynamodb.DynamodbTable;
-import imports.aws.dynamodb.DynamodbTableAttribute;
-import imports.aws.sns.SnsTopic;
+import imports.aws.data_aws_region.DataAwsRegion;
+import imports.aws.dynamodb_table.DynamodbTable;
+import imports.aws.dynamodb_table.DynamodbTableAttribute;
+import imports.aws.sns_topic.SnsTopic;
 import software.constructs.Construct;
 
 public class Main extends TerraformStack {
