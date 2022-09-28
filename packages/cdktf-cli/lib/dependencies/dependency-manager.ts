@@ -9,6 +9,7 @@ import { CdktfConfigManager } from "./cdktf-config-manager";
 import { PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
+  getPrebuiltProviderRepositoryName,
   getPrebuiltProviderVersion,
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
@@ -197,7 +198,6 @@ export class DependencyManager {
       );
     }
 
-    const packageName = this.convertPackageName(npmPackageName);
     const prebuiltProviderVersion = await getPrebuiltProviderVersion(
       constraint,
       this.cdktfVersion
@@ -209,6 +209,13 @@ export class DependencyManager {
     }
 
     const packageVersion = prebuiltProviderVersion;
+    const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
+      npmPackageName
+    );
+    const packageName = this.convertPackageName(
+      npmPackageName,
+      prebuiltProviderRepository
+    );
 
     await this.packageManager.addPackage(packageName, packageVersion);
 
@@ -241,10 +248,14 @@ export class DependencyManager {
   /**
    * Converts an NPM package name of a pre-built provider package to the name in the target language
    */
-  private convertPackageName(name: string): string {
+  private convertPackageName(name: string, repository: string): string {
     const providerName = name.replace("@cdktf/provider-", "");
     switch (this.targetLanguage) {
       case Language.GO: // e.g. github.com/hashicorp/cdktf-provider-opentelekomcloud-go/opentelekomcloud
+        if (repository) {
+          return `${repository}-go/${providerName}`;
+        }
+
         return `github.com/hashicorp/cdktf-provider-${providerName}-go/${providerName}`;
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
