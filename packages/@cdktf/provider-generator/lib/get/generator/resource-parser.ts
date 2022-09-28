@@ -21,7 +21,7 @@ import {
 import { detectAttributeLoops } from "./loop-detection";
 
 const isReservedClassName = (className: string): boolean => {
-  return ["string", "object"].includes(className.toLowerCase());
+  return ["string", "object", "function"].includes(className.toLowerCase());
 };
 
 const getFileName = (provider: string, baseName: string): string => {
