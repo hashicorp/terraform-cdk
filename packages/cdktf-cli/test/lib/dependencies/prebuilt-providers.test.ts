@@ -48,7 +48,7 @@ describe("network issues", () => {
 
       await expect(
         getAllPrebuiltProviderVersions("@cdktf/test")
-      ).rejects.toThrowError(/failed, reason:/);
+      ).rejects.toThrowError("Connection error");
     });
 
     it("succeeds when package found", async () => {
@@ -122,7 +122,7 @@ describe("network issues", () => {
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
-      ).rejects.toThrowError(/@cdktf\/provider-test failed, reason/);
+      ).rejects.toThrowError("Connection error");
     });
 
     it("succeeds when both github and npm work", async () => {

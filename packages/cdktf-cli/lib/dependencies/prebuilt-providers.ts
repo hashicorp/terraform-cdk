@@ -80,16 +80,33 @@ type PrebuiltProviderVersion = {
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
 
+async function getNpmPackageInformation(
+  packageName: string
+): Promise<NpmPackageResult> {
+  const url = `https://registry.npmjs.org/${packageName}`;
+
+  let response;
+  try {
+    response = await fetch(url, {
+      agent,
+      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
+    });
+  } catch (e) {
+    // Fetch only fails here because of connectivity issues
+    logger.error(
+      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again"
+    );
+
+    throw new Error("Connection error");
+  }
+
+  return await response?.json();
+}
+
 export async function getAllPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
-  const url = `https://registry.npmjs.org/${packageName}`;
-  const result = (await (
-    await fetch(url, {
-      agent,
-      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
-    })
-  ).json()) as NpmPackageResult; // TODO: handle 404 and other errors (abort on other errors)
+  const result = await getNpmPackageInformation(packageName);
 
   const versions = Object.entries(result.versions)
     .map(([version, packageJson]) => {
