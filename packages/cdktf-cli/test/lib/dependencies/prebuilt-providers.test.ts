@@ -7,6 +7,10 @@ import {
   getPrebuiltProviderVersion,
   getAllPrebuiltProviderVersions,
 } from "../../../lib/dependencies/prebuilt-providers";
+import "../../../lib/logging";
+
+// Prevent logging outputs from polluting the test results
+jest.mock("../../../lib/logging");
 
 function buildNpmResponse(
   version = "0.0.0",
@@ -51,6 +55,26 @@ describe("network issues", () => {
       ).rejects.toThrowError("Connection error");
     });
 
+    it("fails when npm responds with 5xx", async () => {
+      nock("https://registry.npmjs.org/")
+        .get(new RegExp("/@cdktf/.*"))
+        .reply(502, "Gateway error");
+
+      await expect(
+        getAllPrebuiltProviderVersions("@cdktf/test")
+      ).rejects.toThrowError(/Unexpected error/);
+    });
+
+    it("fails when package doesn't exist", async () => {
+      nock("https://registry.npmjs.org/")
+        .get(new RegExp("/@cdktf/.*"))
+        .reply(404, "Not found");
+
+      await expect(
+        getAllPrebuiltProviderVersions("@cdktf/test")
+      ).rejects.toThrowError(/not found/i);
+    });
+
     it("succeeds when package found", async () => {
       nock("https://registry.npmjs.org/")
         .get(new RegExp("/@cdktf/.*"))
@@ -76,7 +100,7 @@ describe("network issues", () => {
 
       await expect(
         getNpmPackageName(ProviderConstraint.fromConfigEntry("test"))
-      ).rejects.toThrowError(/failed, reason:/);
+      ).rejects.toThrowError("Connection error");
     });
 
     it("succeeds when connection works", async () => {
@@ -103,7 +127,7 @@ describe("network issues", () => {
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
-      ).rejects.toThrowError(/provider.json failed, reason:/);
+      ).rejects.toThrowError("Connection error");
     });
 
     it("returns null on connection error with npm", async () => {

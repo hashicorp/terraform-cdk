@@ -21,15 +21,51 @@ type ProvidersMap = {
   [name: string]: string;
 };
 
+async function fetchWrapped<T>(url: string): Promise<T> {
+  let response;
+  try {
+    response = await fetch(url, {
+      agent,
+      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
+    });
+  } catch (e) {
+    // Fetch only fails here because of connectivity issues
+    logger.error(
+      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again"
+    );
+
+    throw new Error("Connection error");
+  }
+
+  if (!response.ok) {
+    if (response.status >= 500) {
+      throw new Error(
+        "Unexpected error while finding pre-built provider. Please try again."
+      );
+    }
+    if (response.status === 404) {
+      throw new Error(`Pre-built provider information not found`);
+    }
+    if (response.status >= 400) {
+      const responseText = await response.text();
+      // This means that we're sending a bad request. We should record this in sentry too.
+      logger.error(
+        `Received ${response.status} response from ${url}: ${responseText}`
+      );
+
+      throw new Error(
+        "Unexpected error while finding pre-built provider. Please try again."
+      );
+    }
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export async function getNpmPackageName(
   constraint: ProviderConstraint
 ): Promise<string | undefined> {
-  const providers = (await (
-    await fetch(providersMapUrl, {
-      agent,
-      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
-    })
-  ).json()) as ProvidersMap;
+  const providers = await fetchWrapped<ProvidersMap>(providersMapUrl);
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
@@ -65,6 +101,10 @@ type PackageJson = {
   peerDependencies?: {
     cdktf?: string;
   };
+  repository?: {
+    type: string;
+    url: string;
+  };
   // ... many more fields
 };
 type NpmPackageResult = {
@@ -80,33 +120,11 @@ type PrebuiltProviderVersion = {
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
 
-async function getNpmPackageInformation(
-  packageName: string
-): Promise<NpmPackageResult> {
-  const url = `https://registry.npmjs.org/${packageName}`;
-
-  let response;
-  try {
-    response = await fetch(url, {
-      agent,
-      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
-    });
-  } catch (e) {
-    // Fetch only fails here because of connectivity issues
-    logger.error(
-      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again"
-    );
-
-    throw new Error("Connection error");
-  }
-
-  return await response?.json();
-}
-
 export async function getAllPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
-  const result = await getNpmPackageInformation(packageName);
+  const url = `https://registry.npmjs.org/${packageName}`;
+  const result = await fetchWrapped<NpmPackageResult>(url);
 
   const versions = Object.entries(result.versions)
     .map(([version, packageJson]) => {
