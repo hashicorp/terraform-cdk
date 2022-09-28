@@ -5,7 +5,7 @@ import { ProviderConstraint } from "../../../lib/dependencies/dependency-manager
 import {
   getNpmPackageName,
   getPrebuiltProviderVersion,
-  getPrebuiltProviderVersions,
+  getAllPrebuiltProviderVersions,
 } from "../../../lib/dependencies/prebuilt-providers";
 
 function buildNpmResponse(
@@ -47,7 +47,7 @@ describe("network issues", () => {
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
-        getPrebuiltProviderVersions("@cdktf/test")
+        getAllPrebuiltProviderVersions("@cdktf/test")
       ).rejects.toThrowError(/failed, reason:/);
     });
 
@@ -56,7 +56,9 @@ describe("network issues", () => {
         .get(new RegExp("/@cdktf/.*"))
         .reply(200, buildNpmResponse("2.3.0"));
 
-      await expect(getPrebuiltProviderVersions("@cdktf/test")).resolves.toEqual(
+      await expect(
+        getAllPrebuiltProviderVersions("@cdktf/test")
+      ).resolves.toEqual(
         expect.arrayContaining([
           expect.objectContaining({
             packageVersion: "2.3.0",

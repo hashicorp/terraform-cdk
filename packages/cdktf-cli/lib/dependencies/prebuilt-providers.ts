@@ -80,7 +80,7 @@ type PrebuiltProviderVersion = {
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
 
-export async function getPrebuiltProviderVersions(
+export async function getAllPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
   const url = `https://registry.npmjs.org/${packageName}`;
@@ -141,7 +141,7 @@ export async function getPrebuiltProviderVersion(
     return null;
   }
 
-  const versions = await getPrebuiltProviderVersions(providerName);
+  const versions = await getAllPrebuiltProviderVersions(providerName);
 
   // find first the version that matches the requested provider version and cdktf version
   const matchingVersion = versions.find((v) => {
