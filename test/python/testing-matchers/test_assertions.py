@@ -1,7 +1,10 @@
 import pytest
 from main import MyStack, MyStackInvalidTerraform
 from cdktf import Testing
-from imports.docker import Image, Container, DataDockerImage, DataDockerNetwork, Config
+from imports.docker.config import Config
+from imports.docker.container import Container
+from imports.docker.data_docker_image import DataDockerImage
+from imports.docker.data_docker_network import DataDockerNetwork
 
 class TestAssertions:
 
