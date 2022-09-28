@@ -4,10 +4,10 @@ import com.hashicorp.cdktf.App;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
-import imports.docker.Container;
-import imports.docker.DataDockerImage;
-import imports.docker.DataDockerNetwork;
-import imports.docker.Config;
+import imports.docker.container.Container;
+import imports.docker.data_docker_image.DataDockerImage;
+import imports.docker.data_docker_network.DataDockerNetwork;
+import imports.docker.config.Config;
 import java.util.HashMap;
 
 public class MainTest {
