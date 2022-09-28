@@ -90,6 +90,41 @@ describe("network issues", () => {
         ])
       );
     });
+
+    it("returns using cache the second time", async () => {
+      nock("https://registry.npmjs.org/")
+        .get(new RegExp("/@cdktf/.*"))
+        .reply(200, buildNpmResponse("2.4.2", "cachey"));
+
+      await expect(
+        getAllPrebuiltProviderVersions("@cdktf/cachey")
+      ).resolves.toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            packageVersion: "2.4.2",
+          }),
+        ])
+      );
+
+      // Since we're expecting the cache to respond, the actual URL can fail
+      const scope = nock("https://registry.npmjs.org/")
+        .get(new RegExp("/@cdktf/.*"))
+        .reply(500);
+
+      await expect(
+        getAllPrebuiltProviderVersions("@cdktf/cachey")
+      ).resolves.toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            packageVersion: "2.4.2",
+          }),
+        ])
+      );
+
+      // ensure we never made the request
+      expect(scope.isDone()).toBeFalsy();
+      nock.cleanAll();
+    });
   });
 
   describe("getNpmPackageName", () => {

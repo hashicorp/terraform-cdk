@@ -21,6 +21,18 @@ type ProvidersMap = {
   [name: string]: string;
 };
 
+const fetchCache = new Map<string, any>();
+async function cachedFetch<T>(url: string): Promise<T> {
+  if (fetchCache.has(url)) {
+    return fetchCache.get(url) as T;
+  }
+
+  const responseBody = await fetchWrapped<T>(url);
+  fetchCache.set(url, responseBody);
+
+  return responseBody as T;
+}
+
 async function fetchWrapped<T>(url: string): Promise<T> {
   let response;
   try {
@@ -65,7 +77,7 @@ async function fetchWrapped<T>(url: string): Promise<T> {
 export async function getNpmPackageName(
   constraint: ProviderConstraint
 ): Promise<string | undefined> {
-  const providers = await fetchWrapped<ProvidersMap>(providersMapUrl);
+  const providers = await cachedFetch<ProvidersMap>(providersMapUrl);
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
@@ -124,7 +136,7 @@ export async function getAllPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
   const url = `https://registry.npmjs.org/${packageName}`;
-  const result = await fetchWrapped<NpmPackageResult>(url);
+  const result = await cachedFetch<NpmPackageResult>(url);
 
   const versions = Object.entries(result.versions)
     .map(([version, packageJson]) => {
