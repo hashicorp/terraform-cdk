@@ -79,7 +79,8 @@ type PrebuiltProviderVersion = {
   providerVersion: string; // e.g. "4.12.1"
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
-async function getPrebuiltProviderVersions(
+
+export async function getPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
   const url = `https://registry.npmjs.org/${packageName}`;
