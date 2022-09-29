@@ -6,7 +6,9 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 
 ### fix
 
+- fix(provider-generator): Add special case in case resource is named 'object' [\#2138](https://github.com/hashicorp/terraform-cdk/pull/2138)
 - fix(docs): Fix two small bugs in the code causing it to not compile [\#2128](https://github.com/hashicorp/terraform-cdk/pull/2128)
+- fix(lib): Add missing config options for AzurermBackend [\#2127](https://github.com/hashicorp/terraform-cdk/pull/2127)
 - fix(cli): Update require package in template [\#2118](https://github.com/hashicorp/terraform-cdk/pull/2118)
 - fix: Change url of `pipenv` in log [\#2117](https://github.com/hashicorp/terraform-cdk/pull/2117)
 - fix(cli): support using remote execution in Terraform Cloud with up to 500 MB (instead of 10MB) [\#2108](https://github.com/hashicorp/terraform-cdk/pull/2108)
@@ -15,8 +17,6 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 - fix(cli): add sentry DSN in build process [\#2085](https://github.com/hashicorp/terraform-cdk/pull/2085)
 - fix(docs): fix wrong command mentioned in TFC docs [\#2083](https://github.com/hashicorp/terraform-cdk/pull/2083)
 - fix: let create changelog script use commit hashes from PRs instead of finding merge commit messages that may not always exist [\#2068](https://github.com/hashicorp/terraform-cdk/pull/2068)
-- fix(provider-generator): Add special case in case resource is named 'object' [\#2138](https://github.com/hashicorp/terraform-cdk/pull/2138)
-- fix(lib): Add missing config options for AzurermBackend [\#2127](https://github.com/hashicorp/terraform-cdk/pull/2127)
 
 ### feat
 
@@ -25,6 +25,8 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 
 ### chore
 
+- chore(cli): Use the npm package's repository field for generating go package name [\#2145](https://github.com/hashicorp/terraform-cdk/pull/2145)
+- chore: npm-check-updates && yarn upgrade [\#2142](https://github.com/hashicorp/terraform-cdk/pull/2142)
 - chore: split up unit tests per package [\#2122](https://github.com/hashicorp/terraform-cdk/pull/2122)
 - chore: Update diagram with new provider count [\#2104](https://github.com/hashicorp/terraform-cdk/pull/2104)
 - chore: change YT link to cut version [\#2103](https://github.com/hashicorp/terraform-cdk/pull/2103)
@@ -33,6 +35,7 @@ A very minor change in the UX of the `cdktf get` command now generates the provi
 - chore: Support building with Go 1.19 [\#2098](https://github.com/hashicorp/terraform-cdk/pull/2098)
 - chore: fix go azure example [\#2092](https://github.com/hashicorp/terraform-cdk/pull/2092)
 - chore: fix the project board TS errors [\#2091](https://github.com/hashicorp/terraform-cdk/pull/2091)
+- chore: npm-check-updates && yarn upgrade [\#2090](https://github.com/hashicorp/terraform-cdk/pull/2090)
 - chore: npm-check-updates && yarn upgrade [\#2077](https://github.com/hashicorp/terraform-cdk/pull/2077)
 - chore(examples): clean up examples [\#2069](https://github.com/hashicorp/terraform-cdk/pull/2069)
 - chore(docs): Check whether links work :) [\#2063](https://github.com/hashicorp/terraform-cdk/pull/2063)
