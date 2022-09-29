@@ -35,7 +35,8 @@ import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { TerraformAsset, AssetType } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-import { s3 } from "./.gen/providers/aws";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
 import * as path from "path";
 
 class MyStack extends TerraformStack {
@@ -46,7 +47,7 @@ class MyStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    const bucket = new s3.S3Bucket(this, "bucket", {
+    const bucket = new S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
@@ -55,7 +56,7 @@ class MyStack extends TerraformStack {
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
-    new s3.S3BucketObject(this, "lambda-archive", {
+    new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
       source: asset.path, // returns a posix path
@@ -71,7 +72,7 @@ app.synth();
 ```python
 from constructs import Construct
 import cdktf
-from imports.aws.aws_provider import AwsProvider
+from imports.aws.provider import AwsProvider
 import imports.aws.s3 as s3
 import os
 
@@ -113,8 +114,9 @@ import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.AssetType;
-import imports.aws.aws_provider.AwsProvider;
-import imports.aws.s3.*;
+import imports.aws.provider.AwsProvider;
+import imports.aws.s3_bucket.*;
+import imports.aws.s3_bucket_object.*;
 
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
@@ -152,8 +154,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
-using aws.AwsProvider;
-using aws.S3;
+using aws.Provider;
+using aws.S3Bucket;
+using aws.S3BucketObject;
 namespace MyCompany.MyApp
 {
     class MyApp : TerraformStack

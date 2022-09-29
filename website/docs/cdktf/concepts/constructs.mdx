@@ -93,7 +93,7 @@ app.synth();
 from constructs import Construct
 import cdktf
 import os
-import imports.kubernetes.kubernetes_provider as kubernetes
+import imports.kubernetes.provider as kubernetes
 from my_constructs import KubernetesWebAppDeployment
 
 
@@ -129,7 +129,7 @@ import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
 import java.util.*;
-import imports.kubernetes.kubernetes_provider.*;
+import imports.kubernetes.provider.*;
 
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
@@ -163,7 +163,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
-using kubernetes.KubernetesProvider;
+using kubernetes.Provider;
 using MyConstructs;
 namespace MyCompany.MyApp
 {
