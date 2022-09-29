@@ -20,6 +20,8 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 
 The following TypeScript example is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#hcl-interop -->
+
 <CodeTabs>
 
 ```typescript
@@ -52,8 +54,6 @@ const app = new App();
 new MyStack(app, "random-pet-module");
 app.synth();
 ```
-
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#hcl-interop -->
 
 ```python
 from constructs import Construct

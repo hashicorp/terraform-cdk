@@ -27,6 +27,8 @@ To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` 
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
+
 <CodeTabs>
 
 ```typescript
@@ -45,8 +47,6 @@ new Eks(this, "EksModule", {
   clusterLogRetentionInDays: logRetention.numberValue,
 });
 ```
-
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
 
 ```python
         log_retention = TerraformVariable(self, "logRetentionInDays",

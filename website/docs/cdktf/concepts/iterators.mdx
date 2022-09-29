@@ -20,6 +20,8 @@ Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` 
 
 The following example uses an iterator to create a unique name for each new S3 bucket.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
+
 <CodeTabs>
 
 ```typescript
@@ -37,8 +39,6 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
   name: iterator.value,
 });
 ```
-
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
 
 ```python
 from imports.aws import s3
@@ -83,6 +83,8 @@ You cannot access the index of items when iterating over lists. This is because 
 
 The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
+
 <CodeTabs>
 
 ```typescript
@@ -103,8 +105,6 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
   tags: iterator.getStringMap("tags"),
 });
 ```
-
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
 
 ```python
 
