@@ -1,7 +1,29 @@
 {
   "language": "python",
   "app": "pipenv run python main.py",
-  "terraformProviders": ["aws@~> 3.0", "kubernetes@~> 2.0"],
-  "terraformModules": [],
-  "codeMakerOutput": "imports"
+  "terraformProviders": [
+    "aws@~> 3.0",
+    "kubernetes@~> 2.0",
+    "hashicorp/random@~> 3.1",
+    "dnsimple/dnsimple",
+    "kreuzwerker/docker"
+  ],
+  "terraformModules": [
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "~> 3.0"
+    },
+    {
+      "name": "eks",
+      "source": "terraform-aws-modules/eks/aws",
+      "version": "~> 3.0"
+    },
+    {
+      "name": "my_local_module",
+      "source": "./local_module/"
+    }
+  ],
+  "codeMakerOutput": "imports",
+  "projectId": "67e89e50-ad55-4770-98f6-dd6089b95cea"
 }

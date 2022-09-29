@@ -26,6 +26,8 @@ with a `TerraformBackend` subclass or a JSON configuration file.
 
 The following TypeScript example uses the `TerraformBackend` subclass `CloudBackend`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
+
 <CodeTabs>
 
 ```typescript
@@ -55,15 +57,19 @@ new Mystack(app, "hello-terraform");
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -118,28 +124,32 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Use `CloudBackend` to add a new remote backend.
 
-   <CodeTabs>
+  <CodeTabs>
 
-   ```typescript
-   const stack = new MyStack(app, "hello-terraform");
-   new CloudBackend(stack, {
-     hostname: "app.terraform.io",
-     organization: "company",
-     workspaces: new NamedCloudWorkspace("my-app-prod"),
-   });
-   ```
+```typescript
+const stack = new MyStack(app, "hello-terraform");
+new CloudBackend(stack, {
+  hostname: "app.terraform.io",
+  organization: "company",
+  workspaces: new NamedCloudWorkspace("my-app-prod"),
+});
+```
 
-   ```python
-   ```
+```python
 
-   ```java
-   ```
+```
 
-   ```csharp
-   ```
+```java
 
-   ```go
-   ```
+```
+
+```csharp
+
+```
+
+```go
+
+```
 
    </CodeTabs>
 
@@ -258,6 +268,8 @@ Escape hatches can add to or override existing resources, and you can use them f
 
 The following example uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
+
 <CodeTabs>
 
 ```typescript
@@ -270,15 +282,19 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

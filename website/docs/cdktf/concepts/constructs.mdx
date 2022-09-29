@@ -247,6 +247,9 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
 UPDATE DOC EXAMPLES
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
+
 <CodeTabs>
 
 ```typescript
@@ -293,7 +296,7 @@ from imports.aws.s3 import S3Bucket, S3BucketWebsite
 class PublicS3Bucket(Construct):
 
     bucket: S3Bucket
-    
+
     def __init__(self, scope: Construct, name: str):
         super(scope, name) # This creates a new scope since we extend from construct
 
@@ -318,12 +321,15 @@ class MyStack(TerraformStack):
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
