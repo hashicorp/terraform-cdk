@@ -134,6 +134,7 @@ function getResourceNamespace(
   resource: string,
   isDataSource: boolean
 ) {
+  // happens e.g. for references to cdktf.TerraformStack (and similar) in generated code
   if (provider === "cdktf") {
     return undefined;
   }
