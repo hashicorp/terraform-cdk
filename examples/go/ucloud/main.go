@@ -6,24 +6,26 @@ import (
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
-	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud"
+	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/dataucloudimages"
+	"github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/instance"
+	ucloudprovider "github.com/hashicorp/terraform-cdk/examples/go/ucloud/generated/ucloud/ucloud/provider"
 )
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	ucloud.NewUcloudProvider(stack, jsii.String("ucloud"), &ucloud.UcloudProviderConfig{
+	ucloudprovider.NewUcloudProvider(stack, jsii.String("ucloud"), &ucloudprovider.UcloudProviderConfig{
 		Region:    jsii.String("cn-bj2"),
 		ProjectId: jsii.String(os.Getenv("UCLOUD_PROJECT_ID")),
 	})
 
-	images := ucloud.NewDataUcloudImages(stack, jsii.String("images"), &ucloud.DataUcloudImagesConfig{
+	images := dataucloudimages.NewDataUcloudImages(stack, jsii.String("images"), &dataucloudimages.DataUcloudImagesConfig{
 		AvailabilityZone: jsii.String("cn-bj2-04"),
 		NameRegex:        jsii.String("^CentOS 8.2 64"),
 		ImageType:        jsii.String("base"),
 	})
 
-	ucloud.NewInstance(stack, jsii.String("web"), &ucloud.InstanceConfig{
+	instance.NewInstance(stack, jsii.String("web"), &instance.InstanceConfig{
 		AvailabilityZone: jsii.String("cn-bj2-04"),
 		ImageId:          images.Images().Get(jsii.Number(0)).Id(),
 		InstanceType:     jsii.String("n-basic-2"),

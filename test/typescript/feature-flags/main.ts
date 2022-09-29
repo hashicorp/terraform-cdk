@@ -11,9 +11,9 @@ export class HelloTerra extends TerraformStack {
       path: "terraform.tfstate",
     });
 
-    new NullProvider.NullProvider(this, "null", {});
+    new NullProvider.provider.NullProvider(this, "null", {});
 
-    new NullProvider.Resource(this, "test-Foo_Bar", {
+    new NullProvider.resource.Resource(this, "test-Foo_Bar", {
       provisioners: [
         {
           type: "local-exec",

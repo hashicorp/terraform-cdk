@@ -34,7 +34,9 @@ The stack output directory in `cdktf.out` contains all of the assets that `Terra
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider, s3 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
 import * as path from "path";
 
 class MyStack extends TerraformStack {
@@ -45,7 +47,7 @@ class MyStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    const bucket = new s3.S3Bucket(this, "bucket", {
+    const bucket = new S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
@@ -54,7 +56,7 @@ class MyStack extends TerraformStack {
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
-    new s3.S3BucketObject(this, "lambda-archive", {
+    new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
       source: asset.path, // returns a posix path
@@ -70,7 +72,9 @@ app.synth();
 ```python
 from constructs import Construct
 import cdktf
-import imports.aws as aws
+from imports.aws.provider import AwsProvider
+from imports.aws.s3_bucket import S3Bucket
+from imports.aws.s3_bucket_object import S3BucketObject
 import os
 
 
@@ -78,9 +82,9 @@ class MyStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        aws.AwsProvider(self, 'aws', region='eu-central-1')
+        AwsProvider(self, 'aws', region='eu-central-1')
 
-        bucket = aws.s3.S3Bucket(self, "bucket", bucket="demo")
+        bucket = S3Bucket(self, "bucket", bucket="demo")
 
         asset = cdktf.TerraformAsset(self, "lambda-asset",
                                      path=os.path.join(os.path.dirname(
@@ -88,11 +92,11 @@ class MyStack(cdktf.TerraformStack):
                                      type=cdktf.AssetType.ARCHIVE
                                      )
 
-        aws.s3.S3BucketObject(self, "lambda-archive",
-                              bucket=bucket.bucket,
-                              key=asset.file_name,
-                              source=asset.path
-                              )
+        S3BucketObject(self, "lambda-archive",
+                          bucket=bucket.bucket,
+                          key=asset.file_name,
+                          source=asset.path
+                          )
 
 
 app = cdktf.App()
@@ -111,8 +115,9 @@ import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.AssetType;
-import imports.aws.AwsProvider;
-import imports.aws.s3.*;
+import imports.aws.provider.AwsProvider;
+import imports.aws.s3_bucket.*;
+import imports.aws.s3_bucket_object.*;
 
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
@@ -150,8 +155,9 @@ using System.Collections.Generic;
 using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
-using aws;
-using aws.S3;
+using aws.Provider;
+using aws.S3Bucket;
+using aws.S3BucketObject;
 namespace MyCompany.MyApp
 {
     class MyApp : TerraformStack

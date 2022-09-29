@@ -4,7 +4,12 @@ import java.util.*;
 import software.constructs.Construct;
 
 import com.hashicorp.cdktf.*;
-import imports.edgeprovider.*;
+import imports.edgeprovider.provider.*;
+import imports.edgeprovider.optional_attribute_resource.*;
+import imports.edgeprovider.list_block_resource.*;
+import imports.edgeprovider.set_block_resource.*;
+import imports.edgeprovider.map_resource.*;
+import imports.edgeprovider.required_attribute_resource.*;
 
 // Using references to resource attributes as resource arguments
 class ReferenceStack extends TerraformStack {

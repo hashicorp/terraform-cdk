@@ -23,16 +23,10 @@ test("generate a cloudfront distribution resource", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/cloudfront/cloudfront-distribution.ts"),
+    path.join(workdir, "providers/aws/cloudfront-distribution.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot("cloudfront");
-
-  const outputIndex = fs.readFileSync(
-    path.join(workdir, "providers/aws/cloudfront/index.ts"),
-    "utf-8"
-  );
-  expect(outputIndex).toMatchSnapshot("index");
 });
 
 test("generate a s3 bucket resource", async () => {
@@ -48,7 +42,7 @@ test("generate a s3 bucket resource", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/s3/s3-bucket.ts"),
+    path.join(workdir, "providers/aws/s3-bucket.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -71,7 +65,7 @@ test("generate a fms admin account with an empty options interface", async () =>
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/fms/fms-admin-account.ts"),
+    path.join(workdir, "providers/aws/fms-admin-account.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -90,7 +84,7 @@ test("generate a security group", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/vpc/security-group.ts"),
+    path.join(workdir, "providers/aws/security-group.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();

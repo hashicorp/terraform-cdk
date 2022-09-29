@@ -2,7 +2,8 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, ec2 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 
 interface MyStackConfig {
   environment: string;
@@ -19,7 +20,7 @@ class MyStack extends TerraformStack {
       region,
     });
 
-    new ec2.Instance(this, "Hello", {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {

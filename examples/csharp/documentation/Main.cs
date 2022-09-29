@@ -7,11 +7,12 @@ using Constructs;
 using HashiCorp.Cdktf;
 // DOCS_BLOCK_END:assets,constructs
 // DOCS_BLOCK_START:assets
-using aws;
-using aws.S3;
+using aws.Provider;
+using aws.S3Bucket;
+using aws.S3BucketObject;
 // DOCS_BLOCK_END:assets
 // DOCS_BLOCK_START:constructs
-using kubernetes;
+using kubernetes.Provider;
 using MyConstructs;
 // DOCS_BLOCK_END:constructs
 

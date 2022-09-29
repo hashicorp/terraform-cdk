@@ -25,6 +25,18 @@
             }
           },
           "block_types": {}
+        },
+        "test_function": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "dummy": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
         }
       }
     }

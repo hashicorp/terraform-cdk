@@ -2,7 +2,10 @@ using System;
 using System.Collections.Generic;
 using Constructs;
 using HashiCorp.Cdktf;
-using docker;
+using docker.Provider;
+using docker.Container;
+using docker.Image;
+using docker.DataDockerImage;
 
 namespace MyCompany.MyApp
 {

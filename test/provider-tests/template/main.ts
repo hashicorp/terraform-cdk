@@ -8,9 +8,9 @@ import * as NullProvider from "./.gen/providers/null";
 export class UsingAllProviders extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new NullProvider.NullProvider(this, "null", {});
+    new NullProvider.provider.NullProvider(this, "null", {});
 
-    new NullProvider.Resource(this, "test", {
+    new NullProvider.resource.Resource(this, "test", {
       provisioners: [
         {
           type: "local-exec",
