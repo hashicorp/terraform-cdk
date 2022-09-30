@@ -13,6 +13,7 @@ export interface TerraformConstructor {
 export type SynthesizedStack = {
   resource: Record<string, any>;
   data: Record<string, any>;
+  provider: Record<string, any>;
 };
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -137,7 +138,6 @@ function getAssertElementWithProperties(
           )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
       ) || []; // get a list of all configs of that type
     const pass = passEvaluation(items, properties);
-
     if (pass) {
       return new AssertionReturn(
         `Expected no ${
@@ -245,6 +245,27 @@ const withProcessOutput = (message: string, err: unknown) => {
 
   return `${message}: ${err}${appendix}.`;
 };
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function getToHaveProviderWithProperties(
+  customPassEvaluation?: (
+    items: any,
+    assertedProperties: Record<string, any>
+  ) => boolean
+) {
+  return function toHaveProviderWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): AssertionReturn {
+    return getAssertElementWithProperties(customPassEvaluation)(
+      "provider",
+      received,
+      resourceType,
+      properties
+    );
+  };
+}
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function toBeValidTerraform(received: string): AssertionReturn {
