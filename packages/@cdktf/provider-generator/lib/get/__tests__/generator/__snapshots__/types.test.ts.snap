@@ -1804,7 +1804,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
 "
 `;
 
-exports[`incompatible resource names: function-resource.ts 1`] = `
+exports[`incompatible resource names: function-resource 1`] = `
 "// https://www.terraform.io/docs/providers/test/r/function
 // generated from terraform resource schema
 
@@ -1900,7 +1900,7 @@ export * as functionResource from './function-resource';
 "
 `;
 
-exports[`incompatible resource names: object-resource.ts 1`] = `
+exports[`incompatible resource names: object-resource 1`] = `
 "// https://www.terraform.io/docs/providers/test/r/object
 // generated from terraform resource schema
 
@@ -1987,7 +1987,7 @@ export class ObjectResource extends cdktf.TerraformResource {
 "
 `;
 
-exports[`incompatible resource names: string-resource.ts 1`] = `
+exports[`incompatible resource names: string-resource 1`] = `
 "// https://www.terraform.io/docs/providers/test/r/string
 // generated from terraform resource schema
 

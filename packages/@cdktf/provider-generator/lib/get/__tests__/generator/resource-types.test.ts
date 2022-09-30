@@ -23,7 +23,7 @@ test("generate a cloudfront distribution resource", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/cloudfront-distribution.ts"),
+    path.join(workdir, "providers/aws/cloudfront-distribution/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot("cloudfront");
@@ -42,7 +42,7 @@ test("generate a s3 bucket resource", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/s3-bucket.ts"),
+    path.join(workdir, "providers/aws/s3-bucket/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -65,7 +65,7 @@ test("generate a fms admin account with an empty options interface", async () =>
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/fms-admin-account.ts"),
+    path.join(workdir, "providers/aws/fms-admin-account/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -84,7 +84,7 @@ test("generate a security group", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/security-group.ts"),
+    path.join(workdir, "providers/aws/security-group/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
