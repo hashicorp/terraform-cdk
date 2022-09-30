@@ -153,6 +153,7 @@ export class TerraformProviderGenerator {
       } else {
         files.push(this.emitResource(resourceModel));
       }
+      this.emitResourceReadme(resourceModel);
     });
 
     if (provider.provider) {
@@ -168,9 +169,24 @@ export class TerraformProviderGenerator {
       }
       providerResource.providerVersion = providerVersion;
       files.push(this.emitResource(providerResource));
+      this.emitResourceReadme(providerResource);
     }
 
     this.emitIndexFile(name, files);
+  }
+
+  private emitResourceReadme(resource: ResourceModel): void {
+    const filePath = `${resource.namespaceFolderPath}/README.md`;
+    this.code.openFile(filePath);
+    this.code.line(`# \`${resource.terraformType}\``);
+    this.code.line();
+    const type = resource.isProvider
+      ? resource.provider
+      : resource.terraformType;
+    this.code.line(
+      `Refer to the Terraform Registory for docs: [\`${type}\`](${resource.linkToDocs}).`
+    );
+    this.code.closeFile(filePath);
   }
 
   private emitIndexFile(provider: string, files: string[]): void {
