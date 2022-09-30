@@ -61,7 +61,7 @@ export class ValidateS3IsPrefixed implements IAspect {
   // This method is called on every Construct within the defined scope (resource, data sources, etc.).
   visit(node: IConstruct) {
     if (node instanceof s3.S3Bucket) {
-      if (node.bucket && !node.bucket.startsWith(this.prefix)) {
+      if (node.bucketInput && !node.bucketInput.startsWith(this.prefix)) {
         // You can include `addInfo`, `addWarning`, and `addError`.
         // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
         Annotations.of(node).addError(
