@@ -28,7 +28,8 @@ This TypeScript example project has a `main.ts` file that defines AWS resources.
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -38,7 +39,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new EC2.Instance(this, "Hello", {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -84,8 +85,10 @@ Import and use the generated classes in your application. The following TypeScri
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack, Token } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
-import { DnsimpleProvider, Record } from "./.gen/providers/dnsimple";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
+import { DnsimpleProvider } from "./.gen/providers/dnsimple/provider";
+import { Record } from "./.gen/providers/dnsimple/record";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -95,7 +98,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    const instance = new EC2.Instance(this, "Hello", {
+    const instance = new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -194,13 +197,13 @@ cdktf synth --json
 
 It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/hashicorp/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include:
 
-- [AWS Provider](https://github.com/terraform-cdk-providers/cdktf-provider-aws)
-- [Google Provider](https://github.com/terraform-cdk-providers/cdktf-provider-google)
-- [Azure Provider](https://github.com/terraform-cdk-providers/cdktf-provider-azurerm)
-- [Kubernetes Provider](https://github.com/terraform-cdk-providers/cdktf-provider-kubernetes)
-- [Docker Provider](https://github.com/terraform-cdk-providers/cdktf-provider-docker)
-- [Github Provider](https://github.com/terraform-cdk-providers/cdktf-provider-github)
-- [Null Provider](https://github.com/terraform-cdk-providers/cdktf-provider-null)
+- [AWS Provider](https://cdk.tf/provider/aws)
+- [Google Provider](https://cdk.tf/provider/google)
+- [Azure Provider](https://cdk.tf/provider/azurerm)
+- [Kubernetes Provider](https://cdk.tf/provider/kubernetes)
+- [Docker Provider](https://cdk.tf/provider/docker)
+- [Github Provider](https://cdk.tf/provider/github)
+- [Null Provider](https://cdk.tf/provider/null)
 
 These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
 

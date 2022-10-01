@@ -27,7 +27,7 @@ export class HelloTerra extends TerraformStack {
 
     const region = new DataAwsRegion(this, "region");
 
-    new aws.DynamoDB.DynamodbTable(this, "Hello", {
+    new DynamodbTable(this, "Hello", {
       name: `my-first-table-${region.name}`,
       hashKey: "temp",
       attribute: [{ name: "id", type: "S" }],
@@ -86,7 +86,7 @@ The following TypeScript example defines a provisioner for a resource using the 
 ```typescript
 const tableName = "my-table";
 
-const table = new aws.DynamoDB.DynamodbTable(this, "Hello", {
+const table = new DynamodbTable(this, "Hello", {
   name: tableName,
   hashKey: "id",
   attribute: [{ name: "id", type: "S" }],
