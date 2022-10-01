@@ -42,7 +42,8 @@ Examples in
 
 ```ts
 import { Testing } from "cdktf";
-import { Image, Container } from "../.gen/providers/docker";
+import { Image } from "../.gen/providers/docker/image";
+import { Container } from "../.gen/providers/docker/container";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from Construct
 
 describe("Unit testing using assertions", () => {
@@ -67,7 +68,8 @@ describe("Unit testing using assertions", () => {
 ```python
 import pytest
 from cdktf import Testing
-from imports.docker import Image, Container
+from imports.docker.image import Image
+from imports.docker.container import Container
 from app import MyApplicationsAbstraction # Could be a class extending from Construct
 
 class TestApplication:
@@ -121,7 +123,8 @@ using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending
 using MyCompany.MyApp;
 using System;
 using System.Collections.Generic;
-using docker;
+using docker.Image;
+using docker.Container;
 
 namespace MyCompany.MyApp{
   public class TestApplication{
@@ -150,7 +153,8 @@ package main
 
 import (
 	"testing"
-	"cdk.tf/go/stack/generated/kreuzwerker/docker"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker/image"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker/container"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 	"github.com/aws/jsii-runtime-go"
 )
@@ -159,7 +163,7 @@ var stack = NewMyApplicationsAbstraction(cdktf.Assertions_App(nil), "stack")
 var synth = cdktf.Assertions_Synth(stack)
 
 func TestShouldContainContainer(t *testing.T){
-	assertion := cdktf.Assertions_ToHaveResource(synth, docker.Container_TfResourceType())
+	assertion := cdktf.Assertions_ToHaveResource(synth, container.Container_TfResourceType())
 
 	if !*assertion  {
 		t.Error(assertion.Message())
@@ -170,7 +174,7 @@ func TestShouldUseUbuntuImage(t *testing.T){
 	properties := map[string]interface{}{
 		"name": "ubuntu:latest",
 	}
-	assertion := cdktf.Assertions_ToHaveResourceWithProperties(synth, docker.Image_TfResourceType(), &properties)
+	assertion := cdktf.Assertions_ToHaveResourceWithProperties(synth, image.Image_TfResourceType(), &properties)
 
 	if !*assertion  {
 		t.Error(assertion.Message())
@@ -186,7 +190,8 @@ Snapshot tests are useful when you want to make sure your infrastructure does no
 
 ```typescript
 import { Testing } from "cdktf";
-import { Image, Container } from "../.gen/providers/docker";
+import { Image } from "../.gen/providers/docker/image";
+import { Container } from "../.gen/providers/docker/container";
 import MyApplicationsAbstraction from "../app"; // Could be a class extending from Construct
 
 describe("Unit testing using snapshots", () => {
@@ -276,7 +281,6 @@ public class TestApplication {
 using Xunit;
 using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from Construct
 using MyCompany.MyApp;
-using HashiCorp.Cdktf;
 using System;
 
 namespace MyCompany.MyApp{
