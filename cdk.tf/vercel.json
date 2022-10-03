@@ -96,6 +96,10 @@
       "destination": "https://www.hashicorp.com/blog/announcing-cdk-for-terraform-0-1"
     },
     {
+      "source": "/0.13",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/2146"
+    },
+    {
       "source": "/github-nuget",
       "destination": "https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-dotnet-cli-for-use-with-github-packages#authenticating-to-github-packages"
     },
