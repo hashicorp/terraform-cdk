@@ -8,7 +8,7 @@ from imports.aws.s3_bucket_object import S3BucketObject
 # DOCS_BLOCK_START:constructs
 import os
 # DOCS_BLOCK_END:assets
-import imports.kubernetes.provider as kubernetes
+from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 # DOCS_BLOCK_END:constructs
 # DOCS_BLOCK_START:assets,constructs
@@ -30,17 +30,17 @@ class MyStack(cdktf.TerraformStack):
                                      )
 
         S3BucketObject(self, "lambda-archive",
-                          bucket=bucket.bucket,
-                          key=asset.file_name,
-                          source=asset.path
-                          )
+                       bucket=bucket.bucket,
+                       key=asset.file_name,
+                       source=asset.path
+                       )
         # DOCS_BLOCK_END:assets
 
         # DOCS_BLOCK_START:constructs
-        kubernetes.KubernetesProvider(self, "kind",
-                                      config_path=os.path.join(os.path.dirname(
-                                          __file__), '..', 'kubeconfig.yaml')
-                                      )
+        KubernetesProvider(self, "kind",
+                           config_path=os.path.join(os.path.dirname(
+                               __file__), '..', 'kubeconfig.yaml')
+                           )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",

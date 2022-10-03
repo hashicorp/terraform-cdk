@@ -93,10 +93,10 @@ class MyStack(cdktf.TerraformStack):
                                      )
 
         S3BucketObject(self, "lambda-archive",
-                          bucket=bucket.bucket,
-                          key=asset.file_name,
-                          source=asset.path
-                          )
+                       bucket=bucket.bucket,
+                       key=asset.file_name,
+                       source=asset.path
+                       )
 
 
 app = cdktf.App()
@@ -200,8 +200,9 @@ namespace MyCompany.MyApp
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucketobject"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -219,7 +220,7 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) 
 		Region: jsii.String("us-east-1"),
 	})
 
-	bucket := s3.NewS3Bucket(stack, jsii.String("bucket"), &s3.S3BucketConfig{
+	bucket := s3bucket.NewS3Bucket(stack, jsii.String("bucket"), &s3bucket.S3BucketConfig{
 		Bucket: jsii.String("demo"),
 	})
 
@@ -228,7 +229,7 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) 
 		Type: cdktf.AssetType_ARCHIVE,
 	})
 
-	s3.NewS3BucketObject(stack, jsii.String("lambda-archive"), &s3.S3BucketObjectConfig{
+	s3bucketobject.NewS3BucketObject(stack, jsii.String("lambda-archive"), &s3bucketobject.S3BucketObjectConfig{
 		Bucket: bucket.Bucket(),
 		Key:    asset.FileName(),
 		Source: asset.Path(),

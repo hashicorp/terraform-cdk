@@ -93,17 +93,17 @@ app.synth();
 from constructs import Construct
 import cdktf
 import os
-import imports.kubernetes.provider as kubernetes
+from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 
 
 class MyStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
-        kubernetes.KubernetesProvider(self, "kind",
-                                      config_path=os.path.join(os.path.dirname(
-                                          __file__), '..', 'kubeconfig.yaml')
-                                      )
+        KubernetesProvider(self, "kind",
+                           config_path=os.path.join(os.path.dirname(
+                               __file__), '..', 'kubeconfig.yaml')
+                           )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",
@@ -199,7 +199,7 @@ namespace MyCompany.MyApp
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes"
+	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"

@@ -22,16 +22,16 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
 ```typescript
-.....
-import { DataAwsRegion } from './gen/providers/aws'
+// .....
+import { DataAwsRegion } from "./gen/providers/aws/data-aws-region";
 
 export class HelloTerraform extends TerraformStack {
-    constructor(scope: Construct, id: string) {
-        super(scope, id);
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-        .....
-        const region = new DataAwsRegion(this, 'region')
-    }
+    // .....
+    const region = new DataAwsRegion(this, "region");
+  }
 }
 ```
 
@@ -42,7 +42,7 @@ The [`terraform_remote_state` data source](/language/state/remote-state-data) re
 The following TypeScript example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
 ```typescript
-.....
+// .....
 import { DataTerraformRemoteState } from 'cdktf';
 
 export class HelloTerraform extends TerraformStack {
@@ -57,8 +57,8 @@ export class HelloTerraform extends TerraformStack {
             }
         });
 
-        new aws.EC2.Instance(this, 'foo', {
-            ....
+        new Instance(this, 'foo', {
+            // ....
             subnetId: remoteState.get('subnet_id')
         });
     }

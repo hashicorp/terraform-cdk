@@ -61,7 +61,7 @@
     },
     {
       "source": "/provider/:name",
-      "destination": "https://github.com/hashicorp/cdktf-provider-:name"
+      "destination": "https://github.com/cdktf/cdktf-provider-:name"
     },
     {
       "source": "/provider",

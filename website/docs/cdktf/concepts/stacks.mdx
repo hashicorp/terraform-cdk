@@ -24,7 +24,8 @@ The following example generates a single Terraform configuration in the configur
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -34,7 +35,7 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new EC2.Instance(this, "Hello", {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
@@ -57,7 +58,8 @@ The following example synthesizes multiple Terraform configurations in the confi
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider, EC2 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { Instance } from "./.gen/providers/aws/instance";
 
 interface MyStackConfig {
   environment: string;
@@ -74,7 +76,7 @@ class MyStack extends TerraformStack {
       region,
     });
 
-    new EC2.Instance(this, "Hello", {
+    new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
       tags: {
@@ -121,7 +123,7 @@ When you reference resources from one stack in another stack, you can do so by e
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import { Vpc } from "./my-aws-vpc-construct";
 import { DockerBackend } from "./my-docker-backend-construct";
 
