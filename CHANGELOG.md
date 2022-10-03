@@ -1,7 +1,7 @@
 ## 0.13.0
 
 **Breaking Changes**
-Abbreviated version below, for a guide see [Upgrade Guide for 0.13](./docs/upgrade-guide/upgrading-to-0.13.md).
+Abbreviated version below, for a guide see [Upgrade Guide for 0.13](https://www.terraform.io/cdktf/release/upgrade-guide-v0-13).
 
 0.13 includes performance improvements to generated providers. Instead of exporting a flat list of exports including all supported resources and data sources, we now export each construct and it's associated structures in their own namespace. Due to this, the way you import constructs from your CDKTF application will change. For more information regarding this release, and some of the reasonings behind the changes, please check out the [version 0.13 release post](https://cdk.tf/0.13).
 
