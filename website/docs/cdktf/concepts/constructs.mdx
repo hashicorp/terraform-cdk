@@ -199,7 +199,7 @@ namespace MyCompany.MyApp
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
+	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -214,7 +214,7 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) 
 
 	cwd, _ := os.Getwd()
 
-	provider.NewKubernetesProvider(stack, jsii.String("kind"), &provider.KubernetesProviderConfig{
+	kubernetes.NewKubernetesProvider(stack, jsii.String("kind"), &kubernetes.KubernetesProviderConfig{
 		ConfigPath: jsii.String(path.Join(cwd, "kubeconfig.yaml")),
 	})
 	myconstructs.NewKubernetesWebAppDeployment(stack, "deployment", map[string]interface{}{
