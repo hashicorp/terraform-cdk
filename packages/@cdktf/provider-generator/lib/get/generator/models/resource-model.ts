@@ -137,9 +137,11 @@ export class ResourceModel {
   }
 
   public get structsFolderPath(): string {
-    const basePath = this.filePath.split("/").slice(0, -1).join("/");
+    return path.join(this.namespaceFolderPath, this.structsFolderName);
+  }
 
-    return path.join(basePath, this.structsFolderName);
+  public get namespaceFolderPath(): string {
+    return this.filePath.split("/").slice(0, -1).join("/");
   }
 
   private escapeSchema(schema: string): string {

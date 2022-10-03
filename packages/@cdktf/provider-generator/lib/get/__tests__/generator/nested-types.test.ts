@@ -19,7 +19,7 @@ test("generate a resource with nested types", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/test/nested-types-resource.ts"),
+    path.join(workdir, "providers/test/nested-types-resource/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();

@@ -26,14 +26,14 @@ const isReservedClassName = (className: string): boolean => {
 
 const getFileName = (provider: string, baseName: string): string => {
   if (baseName === "index") {
-    return "index-resource.ts";
+    return "index-resource/index.ts";
   }
 
   if (baseName === `${provider}_provider`) {
-    return "provider.ts";
+    return "provider/index.ts";
   }
 
-  return `${toSnakeCase(baseName).replace(/_/g, "-")}.ts`;
+  return `${toSnakeCase(baseName).replace(/_/g, "-")}/index.ts`;
 };
 
 class Parser {

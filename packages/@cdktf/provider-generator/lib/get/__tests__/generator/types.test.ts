@@ -25,7 +25,7 @@ test("computed optional complex attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/computed-optional-complex.ts"),
+    path.join(workdir, "providers/aws/computed-optional-complex/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -46,7 +46,7 @@ test("computed complex attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/computed-complex.ts"),
+    path.join(workdir, "providers/aws/computed-complex/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -71,7 +71,7 @@ test("computed complex nested attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/computed-complex-nested.ts"),
+    path.join(workdir, "providers/aws/computed-complex-nested/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -90,7 +90,7 @@ test("string list attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/string-list.ts"),
+    path.join(workdir, "providers/aws/string-list/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -109,7 +109,7 @@ test("number list attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/number-list.ts"),
+    path.join(workdir, "providers/aws/number-list/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -128,7 +128,7 @@ test("boolean list attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/boolean-list.ts"),
+    path.join(workdir, "providers/aws/boolean-list/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -147,7 +147,7 @@ test("string map attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/string-map.ts"),
+    path.join(workdir, "providers/aws/string-map/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -166,7 +166,7 @@ test("number map attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/number-map.ts"),
+    path.join(workdir, "providers/aws/number-map/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -185,7 +185,7 @@ test("boolean map attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/boolean-map.ts"),
+    path.join(workdir, "providers/aws/boolean-map/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -208,7 +208,7 @@ test("deeply nested block types", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/deeply-nested-block-types.ts"),
+    path.join(workdir, "providers/aws/deeply-nested-block-types/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -229,7 +229,7 @@ test("single block type", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/single-block-type.ts"),
+    path.join(workdir, "providers/aws/single-block-type/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -248,7 +248,7 @@ test("set / list block type", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/block-type-set-list.ts"),
+    path.join(workdir, "providers/aws/block-type-set-list/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -273,7 +273,10 @@ test("computed nested complex list block type", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/block-type-nested-computed-list.ts"),
+    path.join(
+      workdir,
+      "providers/aws/block-type-nested-computed-list/index.ts"
+    ),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -294,7 +297,7 @@ test("primitive string", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/primitive-string.ts"),
+    path.join(workdir, "providers/aws/primitive-string/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -315,7 +318,7 @@ test("primitive number", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/primitive-number.ts"),
+    path.join(workdir, "providers/aws/primitive-number/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -336,7 +339,7 @@ test("primitive boolean", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/primitive-boolean.ts"),
+    path.join(workdir, "providers/aws/primitive-boolean/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -357,7 +360,7 @@ test("primitive dynamic", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/primitive-dynamic.ts"),
+    path.join(workdir, "providers/aws/primitive-dynamic/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -378,7 +381,7 @@ test("ignored attributes", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/ignored-attributes.ts"),
+    path.join(workdir, "providers/aws/ignored-attributes/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -403,7 +406,7 @@ test("incompatible attribute names", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/incompatible-attribute-names.ts"),
+    path.join(workdir, "providers/aws/incompatible-attribute-names/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -430,16 +433,21 @@ test("incompatible resource names", async () => {
   const files = fs.readdirSync(path.join(workdir, "providers/test"));
   expect(files).toMatchInlineSnapshot(`
     Array [
-      "function-resource.ts",
+      "function-resource",
       "index.ts",
-      "object-resource.ts",
-      "string-resource.ts",
+      "object-resource",
+      "string-resource",
     ]
   `);
 
   for (const file of files) {
     const output = fs.readFileSync(
-      path.join(workdir, "providers/test/", file),
+      path.join(
+        workdir,
+        "providers/test/",
+        file,
+        file !== "index.ts" ? "index.ts" : ""
+      ),
       "utf-8"
     );
     expect(output).toMatchSnapshot(file); // use filename as snapshot indicator to not depend on order of files (e.g. if new file appears)
@@ -461,7 +469,7 @@ test("list of string map attribute", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/list-of-string-map.ts"),
+    path.join(workdir, "providers/aws/list-of-string-map/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -480,7 +488,7 @@ test("reset and input name conflicts", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/name-conflict.ts"),
+    path.join(workdir, "providers/aws/name-conflict/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
