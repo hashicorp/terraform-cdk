@@ -1,3 +1,91 @@
+## 0.13.0
+
+**Breaking Changes**
+Abbreviated version below, for a guide see [Upgrade Guide for 0.13](https://www.terraform.io/cdktf/release/upgrade-guide-v0-13).
+
+0.13 includes performance improvements to generated providers. Instead of exporting a flat list of exports including all supported resources and data sources, we now export each construct and it's associated structures in their own namespace. Due to this, the way you import constructs from your CDKTF application will change. For more information regarding this release, and some of the reasonings behind the changes, please check out the [version 0.13 release post](https://cdk.tf/0.13).
+
+#### Typescript
+
+```typescript
+// Before version 0.13
+import { Container, Image, DockerProvider } from "@ckdtf/provider-docker";
+
+// Version 0.13
+import { Image } from "@cdktf/provider-docker/lib/image";
+import { DockerProvider } from "@cdktf/provider-docker/lib/provider";
+import { Container } from "@cdktf/provider-docker/lib/container";
+```
+
+#### Python
+
+```python
+# Before version 0.13
+from cdktf_cdktf_provider_kubernetes.kubernetes import Namespace, Service, Deployment, KubernetesProvider
+
+# Version 0.13
+from cdktf_cdktf_provider_kubernetes.kubernetes.provider import KubernetesProvider
+from cdktf_cdktf_provider_kubernetes.kubernetes.namespace import Namespace
+from cdktf_cdktf_provider_kubernetes.kubernetes.deployment import Deployment
+from cdktf_cdktf_provider_kubernetes.kubernetes.service import Service
+```
+
+#### Go
+
+> **Note:** For Go projects, another important thing to note is that we've also moved our pre-built providers to the `cdktf` Github Organization. You can find more about that change [here](https://github.com/hashicorp/terraform-cdk/issues/2146).
+
+```go
+// Before version 0.13
+import (
+  "github.com/cdktf/cdktf-provider-azurerm-go/azurerm"
+)
+
+// Version 0.13
+import (
+  azurermprovider "github.com/cdktf/cdktf-provider-azurerm-go/azurerm/provider"
+  "github.com/cdktf/cdktf-provider-azurerm-go/azurerm/networkinterface"
+)
+```
+
+#### Java
+
+```java
+// Before version 0.13
+import com.hashicorp.cdktf.providers.google.ComputeInstance;
+import com.hashicorp.cdktf.providers.google.GoogleProvider;
+
+// Version 0.13
+import com.hashicorp.cdktf.providers.google.compute_instance.ComputeInstance;
+import com.hashicorp.cdktf.providers.google.provider.GoogleProvider;
+```
+
+#### C\#
+
+```csharp
+// Before version 0.13
+using azurerm;
+
+// Version 0.13
+using azurerm.Provider;
+using azurerm.VirtualNetwork;
+```
+
+### feat
+
+- feat(provider-generator): namespace every resource / data source / provider [\#2087](https://github.com/hashicorp/terraform-cdk/pull/2087)
+- feat(provider-generator): Move generated files into their own directories [\#2153](https://github.com/hashicorp/terraform-cdk/pull/2153)
+
+### fix
+
+- fix(docs): Fix Aspects example [\#2152](https://github.com/hashicorp/terraform-cdk/pull/2152)
+
+### chore
+
+- chore: update documentation for version 0.13 release [\#2156](https://github.com/hashicorp/terraform-cdk/pull/2156)
+- chore: Upgrade guide for 0.13 [\#2155](https://github.com/hashicorp/terraform-cdk/pull/2155)
+- chore: Add version 0.13 upgrade guide to releases page [\#2161](https://github.com/hashicorp/terraform-cdk/pull/2161)
+- chore: Add redirect to incoming github issue [\#2159](https://github.com/hashicorp/terraform-cdk/pull/2159)
+
 ## 0.12.3
 
 **Breaking Changes**
