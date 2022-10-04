@@ -20,8 +20,10 @@ import {
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 
-const isReservedClassName = (className: string): boolean => {
-  return ["string", "object", "function"].includes(className.toLowerCase());
+const isReservedClassOrNamespaceName = (className: string): boolean => {
+  return ["string", "object", "function", "static"].includes(
+    className.toLowerCase()
+  );
 };
 
 const getFileName = (provider: string, baseName: string): string => {
@@ -75,7 +77,7 @@ class Parser {
       };
     }
 
-    if (isReservedClassName(baseName)) {
+    if (isReservedClassOrNamespaceName(baseName)) {
       baseName = `${baseName}_resource`;
     }
 
