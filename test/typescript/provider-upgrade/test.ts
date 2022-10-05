@@ -11,12 +11,20 @@ describe("upgrade pre-built provider", () => {
   });
 
   test("initial add", async () => {
-    await driver.exec("npm", ["install", "@cdktf/provider-azuread@0.4.7"]);
+    await driver.exec("npm", [
+      "install",
+      "@cdktf/provider-azuread@0.4.7",
+      "--force",
+    ]);
     await driver.diff();
   });
 
   test("update version", async () => {
-    await driver.exec("npm", ["install", "@cdktf/provider-azuread@0.5.17"]);
+    await driver.exec("npm", [
+      "install",
+      "@cdktf/provider-azuread@0.5.17",
+      "--force",
+    ]);
     await driver.diff();
   });
 });
