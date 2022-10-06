@@ -84,16 +84,16 @@ func NewMyStack(/* ... */) cdktf.TerraformStack {
 Before version 0.13:
 
 ```python
-from cdktf_cdktf_provider_kubernetes.kubernetes import Namespace, Service, Deployment, KubernetesProvider
+from cdktf_cdktf_provider_kubernetes import Namespace, Service, Deployment, KubernetesProvider
 ```
 
 Version 0.13:
 
 ```python
-from cdktf_cdktf_provider_kubernetes.kubernetes.provider import KubernetesProvider
-from cdktf_cdktf_provider_kubernetes.kubernetes.namespace import Namespace
-from cdktf_cdktf_provider_kubernetes.kubernetes.deployment import Deployment
-from cdktf_cdktf_provider_kubernetes.kubernetes.service import Service
+from cdktf_cdktf_provider_kubernetes.provider import KubernetesProvider
+from cdktf_cdktf_provider_kubernetes.namespace import Namespace
+from cdktf_cdktf_provider_kubernetes.deployment import Deployment
+from cdktf_cdktf_provider_kubernetes.service import Service
 ```
 
 #### Java
@@ -219,9 +219,9 @@ from cdktf_cdktf_provider_aws import AwsProvider, cloudfront, acm
 Version 0.13:
 
 ```python
-from cdktf_cdktf_provider_aws.aws.provider import AwsProvider
-from cdktf_cdktf_provider_aws.aws.cloudfront_distribution import CloudfrontDistribution
-from cdktf_cdktf_provider_aws.aws.acm_certificate import AcmCertificate
+from cdktf_cdktf_provider_aws.provider import AwsProvider
+from cdktf_cdktf_provider_aws.cloudfront_distribution import CloudfrontDistribution
+from cdktf_cdktf_provider_aws.acm_certificate import AcmCertificate
 ```
 
 #### Java
