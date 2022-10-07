@@ -4,8 +4,8 @@ import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformHclModule;
 import com.hashicorp.cdktf.TerraformHclModuleOptions;
 import com.hashicorp.cdktf.TerraformStack;
-import imports.aws.AwsProvider;
-import imports.aws.AwsProviderConfig;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 import software.constructs.Construct;
 
 import java.util.ArrayList;

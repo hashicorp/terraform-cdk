@@ -7,12 +7,12 @@ import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.TerraformAssetConfig;
 import com.hashicorp.cdktf.AssetType;
-import imports.aws.AwsProvider;
-import imports.aws.AwsProviderConfig;
-import imports.aws.s3.S3Bucket;
-import imports.aws.s3.S3BucketConfig;
-import imports.aws.s3.S3BucketObject;
-import imports.aws.s3.S3BucketObjectConfig;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.aws.s3_bucket.S3Bucket;
+import imports.aws.s3_bucket.S3BucketConfig;
+import imports.aws.s3_bucket_object.S3BucketObject;
+import imports.aws.s3_bucket_object.S3BucketObjectConfig;
 
 import java.nio.file.Paths;
 

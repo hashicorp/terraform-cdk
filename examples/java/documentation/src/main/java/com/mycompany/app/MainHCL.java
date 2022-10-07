@@ -8,10 +8,9 @@ import com.hashicorp.cdktf.TerraformOutputConfig;
 import com.hashicorp.cdktf.TerraformVariable;
 import com.hashicorp.cdktf.TerraformVariableConfig;
 import com.hashicorp.cdktf.App;
-import imports.random.RandomProvider;
-import imports.random.RandomProviderConfig;
-import imports.random.Pet;
-import imports.random.PetConfig;
+import imports.random.provider.RandomProvider;
+import imports.random.pet.Pet;
+import imports.random.pet.PetConfig;
 
 public class MainHCL extends TerraformStack {
 
