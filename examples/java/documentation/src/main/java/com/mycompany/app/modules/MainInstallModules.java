@@ -6,8 +6,8 @@ import java.util.Arrays;
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.App;
-import imports.aws.AwsProvider;
-import imports.aws.AwsProviderConfig;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 import imports.vpc.Vpc;
 import imports.vpc.VpcOptions;
 

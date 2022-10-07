@@ -6,8 +6,8 @@ import software.constructs.Construct;
 // DOCS_BLOCK_START:data-sources-remote-state-data-source
 import com.hashicorp.cdktf.DataTerraformRemoteState;
 import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
-import imports.aws.ec2.Instance;
-import imports.aws.ec2.InstanceConfig;
+import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
 
 public class DataSourcesRemoteState extends TerraformStack {
 

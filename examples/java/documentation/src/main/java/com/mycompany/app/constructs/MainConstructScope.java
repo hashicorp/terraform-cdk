@@ -1,11 +1,11 @@
 package com.mycompany.app.constructs;
 
 import software.constructs.Construct;
-import imports.aws.AwsProvider;
-import imports.aws.AwsProviderConfig;
-import imports.aws.s3.S3Bucket;
-import imports.aws.s3.S3BucketConfig;
-import imports.aws.s3.S3BucketWebsite;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.aws.s3_bucket.S3Bucket;
+import imports.aws.s3_bucket.S3BucketConfig;
+import imports.aws.s3_bucket.S3BucketWebsite;
 
 // DOCS_BLOCK_START:constructs-scope
 import software.constructs.Construct;

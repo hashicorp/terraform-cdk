@@ -3,13 +3,14 @@ package com.mycompany.app.constructs;
 
 import com.hashicorp.cdktf.App;
 import com.mycompany.app.assets.MainAssets;
+
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
 
 // DOCS_BLOCK_START:constructs-use-constructs
 import java.nio.file.Paths;
-import imports.kubernetes.KubernetesProvider;
-import imports.kubernetes.KubernetesProviderConfig;
+import imports.kubernetes.provider.KubernetesProvider;
+import imports.kubernetes.provider.KubernetesProviderConfig;
 import com.mycompany.app.myconstructs.KubernetesWebAppDeployment;
 import com.mycompany.app.myconstructs.KubernetesWebAppDeploymentConfig;
 

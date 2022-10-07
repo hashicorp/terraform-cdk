@@ -4,10 +4,9 @@ import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
 
 // DOCS_BLOCK_START:data-sources-define-data-sources
-import imports.aws.datasources.DataAwsRegion;
-import imports.aws.datasources.DataAwsRegionConfig;
-import imports.aws.AwsProvider;
-import imports.aws.AwsProviderConfig;
+import imports.aws.data_aws_region.DataAwsRegion;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 
 public class DataSourcesDefine extends TerraformStack {
 
