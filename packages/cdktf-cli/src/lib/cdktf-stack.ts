@@ -258,7 +258,6 @@ export class CdktfStack {
 
       lockFile.split(/\r\n|\r|\n/).forEach((line) => {
         if (currentProvider) {
-          // const versionMatch = line.match(/version\s= "(.*)"/); // TODO should this be used instead / in addition to?
           const constraintMatch = line.match(/constraints\s= "(.*)"/);
           if (constraintMatch) {
             lockedProviders.push(
@@ -290,7 +289,7 @@ export class CdktfStack {
       const providerMatches = lockedProviders.map((lockedProvider) => {
         const provider = providers[lockedProvider.source];
         if (provider) {
-          return lockedProvider.matchesVersion(provider.version ?? "*"); //TODO check if correct fallback for no version
+          return lockedProvider.matchesVersion(provider.version ?? ">0");
         }
         // else no longer using this provider, so won't cause problems
 
