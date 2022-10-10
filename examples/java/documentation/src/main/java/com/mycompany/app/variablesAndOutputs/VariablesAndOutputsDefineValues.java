@@ -11,7 +11,7 @@ import imports.random.provider.RandomProvider;
 
 public class VariablesAndOutputsDefineValues extends TerraformStack {
 
-    public VariablesAndOutputsDefineValues(Construct scope, String id){
+    public VariablesAndOutputsDefineValues(Construct scope, String id) {
         super(scope, id);
 
         new RandomProvider(this, "random");
@@ -20,8 +20,7 @@ public class VariablesAndOutputsDefineValues extends TerraformStack {
 
         new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
                 .value(pet.getId())
-                .build()
-        );
+                .build());
     }
 
     public static void main(String[] args) {
@@ -30,4 +29,4 @@ public class VariablesAndOutputsDefineValues extends TerraformStack {
         app.synth();
     }
 }
-// DOCS_BLOCK_START:var-out-define-output-values
+// DOCS_BLOCK_END:var-out-define-output-values

@@ -41,15 +41,49 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 ```
 
 ```python
+
 ```
 
 ```java
+import imports.aws.s3_bucket.S3Bucket;
+import imports.aws.s3_bucket.S3BucketConfig;
+import com.hashicorp.cdktf.TerraformIterator;
+
+        TerraformIterator iterator = TerraformIterator.fromList(
+                Arrays.asList(
+                        new HashMap() {
+                            {
+                                put("name", "website-static-files");
+                                put("tags", new HashMap<String, String>() {
+                                    {
+                                        put("app", "website");
+                                    }
+                                });
+                            }
+                        },
+                        new HashMap() {
+                            {
+                                put("name", "images");
+                                put("tags", new HashMap<String, String>() {
+                                    {
+                                        put("app", "image-converter");
+                                    }
+                                });
+                            }
+                        }));
+
+        S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                .forEach(iterator)
+                .tags(iterator.getStringMap("tags"))
+                .build());
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -84,15 +118,19 @@ const s3Bucket = new s3.Bucket(this, "bucket", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

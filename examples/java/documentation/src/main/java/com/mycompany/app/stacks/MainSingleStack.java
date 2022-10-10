@@ -1,6 +1,6 @@
 package com.mycompany.app.stacks;
 
-// DOCS_BLOCK_END:single-stack
+// DOCS_BLOCK_START:single-stack
 import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
@@ -11,19 +11,17 @@ import imports.aws.instance.InstanceConfig;
 
 public class MainSingleStack extends TerraformStack {
 
-    public MainSingleStack(Construct scope, String id){
+    public MainSingleStack(Construct scope, String id) {
         super(scope, id);
 
         new AwsProvider(this, "aws", AwsProviderConfig.builder()
                 .region("us-east-1")
-                .build()
-        );
+                .build());
 
         new Instance(this, "Hello", InstanceConfig.builder()
                 .ami("ami-2757f631")
                 .instanceType("t2.micro")
-                .build()
-        );
+                .build());
     }
 
     public static void main(String[] args) {

@@ -14,7 +14,7 @@ import imports.random.pet.PetConfig;
 
 public class MainHCL extends TerraformStack {
 
-    public MainHCL(Construct scope, String id){
+    public MainHCL(Construct scope, String id) {
         super(scope, id);
 
         new RandomProvider(this, "default");
@@ -22,18 +22,15 @@ public class MainHCL extends TerraformStack {
                 .type("number")
                 .defaultValue(2)
                 .description("Pet name length")
-                .build()
-        );
+                .build());
 
         Pet myPet = new Pet(this, "example", PetConfig.builder()
                 .length(petNameLength.getNumberValue())
-                .build()
-        );
+                .build());
 
         new TerraformOutput(this, "name", TerraformOutputConfig.builder()
                 .value(myPet.getId())
-                .build()
-        );
+                .build());
     }
 
     public static void main(String[] args) {
@@ -42,4 +39,4 @@ public class MainHCL extends TerraformStack {
         app.synth();
     }
 }
-// DOCS_BLOCK_START:hcl-interop
+// DOCS_BLOCK_END:hcl-interop

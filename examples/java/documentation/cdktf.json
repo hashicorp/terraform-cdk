@@ -23,5 +23,6 @@
       "name": "my_local_module",
       "source": "./local_module/"
     }
-  ]
+  ],
+  "projectId": "4cd8834b-69c6-4a48-97fa-3e33d69912fa"
 }

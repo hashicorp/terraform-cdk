@@ -121,37 +121,41 @@ app.synth()
 ```
 
 ```java
-package com.mycompany.app;
-
-import java.nio.file.Paths;
-
-import com.hashicorp.cdktf.App;
-import com.hashicorp.cdktf.TerraformStack;
 import software.constructs.Construct;
-import java.util.*;
-import imports.kubernetes.*;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+public class MainConstructScope extends TerraformStack {
 
-public class Main extends TerraformStack {
-    public Main(final Construct scope, final String name) {
+    public MainConstructScope(Construct scope, String name){
         super(scope, name);
 
-        KubernetesProvider.Builder.create(this, "kind")
-                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
-                .build();
+        new MainConstructScope.PublicS3Bucket(this, "first-bucket");
+        new MainConstructScope.PublicS3Bucket(this, "second-bucket");
 
-        final HashMap<String, String> properties = new HashMap<>();
-        properties.put("image", "lambci/lambda:latest");
-        properties.put("replicas", "2");
-        properties.put("app", "myapp");
-        properties.put("component", "frontend");
-        properties.put("environment", "dev");
-
-        new KubernetesWebAppDeployment(this, "deployment", properties);
     }
-    public static void main(String[] args) {
-        final App app = new App();
-        new Main(app, "demo");
-        app.synth();
+
+    static class PublicS3Bucket extends Construct{
+
+        public S3Bucket bucket;
+
+        public PublicS3Bucket(Construct scope, String name){
+            super(scope, name);
+
+            new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                    .region("us-east-1")
+                    .build()
+            );
+
+            this.bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                    .bucketPrefix(name)
+                    .website(S3BucketWebsite.builder()
+                            .indexDocument("index.html")
+                            .errorDocument("5xx.html")
+                            .build()
+                    )
+                    .build()
+            );
+        }
     }
 }
 ```
@@ -296,7 +300,7 @@ from imports.aws.s3 import S3Bucket, S3BucketWebsite
 class PublicS3Bucket(Construct):
 
     bucket: S3Bucket
-    
+
     def __init__(self, scope: Construct, name: str):
         super(scope, name) # This creates a new scope since we extend from construct
 
@@ -321,12 +325,15 @@ class MyStack(TerraformStack):
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

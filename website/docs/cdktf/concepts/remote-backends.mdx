@@ -57,15 +57,28 @@ new Mystack(app, "hello-terraform");
 ```
 
 ```python
+
 ```
 
 ```java
+stack.addOverride("terraform.backend", new HashMap<String, HashMap>() {
+    {
+        put("atlas", new HashMap<String, String>() {
+            {
+                put("name", "example_corp/networking-prod");
+                put("address", "https://app.terraform.io");
+            }
+        });
+    }
+});
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -132,15 +145,19 @@ Consider an example project called `hello-terraform` that is using local storage
    ```
 
    ```python
+
    ```
 
    ```java
+
    ```
 
    ```csharp
+
    ```
 
    ```go
+
    ```
 
    </CodeTabs>
@@ -274,15 +291,19 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

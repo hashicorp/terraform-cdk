@@ -42,15 +42,40 @@ export class HelloTerra extends TerraformStack {
 ```
 
 ```python
+
 ```
 
 ```java
+                List<Number> myPorts = Arrays.asList(22, 80, 443, 5432);
+                List<SecurityGroupIngress> ingress = new ArrayList();
+                myPorts.forEach(port -> ingress.add(
+                                SecurityGroupIngress.builder()
+                                                .toPort(port)
+                                                .fromPort(port)
+                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                .protocol("-1")
+                                                .build()));
+
+                new SecurityGroup(this, "sec2grp", SecurityGroupConfig.builder()
+                                .name("security1")
+                                .vpcId("vpcs")
+                                .egress(Arrays.asList(
+                                                SecurityGroupEgress.builder()
+                                                                .fromPort(0)
+                                                                .toPort(0)
+                                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                                .protocol("-1")
+                                                                .build()))
+                                .ingress(ingress)
+                                .build());
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -93,15 +118,19 @@ new Deployment(this, "nginx-deployment", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -141,15 +170,19 @@ table.addOverride("provisioner", [
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -196,15 +229,19 @@ topic.addOverride("display_name", "my-topic");
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -273,15 +310,19 @@ sg.addOverride("dynamic.ingress", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -318,15 +359,19 @@ new SecurityGroup(this, "sec1grp", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

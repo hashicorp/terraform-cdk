@@ -49,15 +49,35 @@ new Eks(this, "EksModule", {
 ```
 
 ```python
+
 ```
 
 ```java
+        TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", TerraformVariableConfig.builder()
+                .type("number")
+                .build()
+        );
+
+        Vpc vpc = new Vpc(this, "vpcName", VpcOptions.builder()
+                .name("vpcName")
+                .publicSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24"))
+                .build()
+        );
+
+        new Eks(this, "EksModules", EksOptions.builder()
+                .clusterName("my-kubernetes-cluster")
+                .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
+                .clusterCreateTimeout(logRetention.getNumberValue())
+                .build()
+        );
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

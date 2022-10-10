@@ -53,15 +53,36 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+        AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
+                .source("terraform-aws-modules/vpc/aws")
+                .variables(new HashMap<String, Object>(){{
+                    put("name", "my-vpc");
+                    put("cidr", "10.0.0.0/16");
+                    put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
+                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enableNatGateway", true);
+                }})
+                .providers(Arrays.asList(provider))
+                .build()
+        );
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -166,12 +187,15 @@ class MyStack(TerraformStack):
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -206,17 +230,21 @@ const module = new TerraformHclModule(stack, "Vpc", {
   providers: [provider],
 });
 ```
+
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
-
