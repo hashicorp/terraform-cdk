@@ -5,6 +5,8 @@ import { IFragmentConcatenator, IResolvable } from "../resolvable";
 import { TokenizedStringFragments } from "../string-fragments";
 import { Tokenization } from "../token";
 
+type LookupFunction = (id: string) => IResolvable | undefined;
+
 // Details for encoding and decoding Tokens into native types; should not be exported
 
 export const BEGIN_STRING_TOKEN_MARKER = "${TfToken[";
@@ -75,35 +77,55 @@ export class TokenString {
     private readonly regexMatchIndex: number = 1
   ) {}
 
+  private tokenizeNext(
+    lookup: LookupFunction,
+    fragments: TokenizedStringFragments,
+    startIndex: number,
+    _escapeDepth: number
+  ): { index: number; escapeDepth: number } {
+    this.re.lastIndex = startIndex;
+    const match = this.re.exec(this.str);
+
+    if (!match) {
+      fragments.addLiteral(this.str.substring(startIndex));
+      return {
+        index: -1,
+        escapeDepth: _escapeDepth,
+      };
+    }
+
+    if (match.index > startIndex) {
+      const lede = this.str.substring(startIndex, match.index);
+      fragments.addLiteral(lede);
+    }
+
+    const token = lookup(match[this.regexMatchIndex]);
+    if (token) {
+      fragments.addToken(token);
+    } else {
+      fragments.addLiteral(this.str.substring(match.index, this.re.lastIndex));
+    }
+
+    const nextIndex = this.re.lastIndex;
+
+    return {
+      index: nextIndex,
+      escapeDepth: _escapeDepth,
+    };
+  }
+
   /**
    * Split string on markers, substituting markers with Tokens
    */
-  public split(
-    lookup: (id: string) => IResolvable | undefined
-  ): TokenizedStringFragments {
+  public split(lookup: LookupFunction): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
 
-    let rest = 0;
-    this.re.lastIndex = 0; // Reset
-    let m = this.re.exec(this.str);
-    while (m) {
-      if (m.index > rest) {
-        ret.addLiteral(this.str.substring(rest, m.index));
-      }
-
-      const token = lookup(m[this.regexMatchIndex]);
-      if (token) {
-        ret.addToken(token);
-      } else {
-        ret.addLiteral(this.str.substring(m.index, this.re.lastIndex));
-      }
-
-      rest = this.re.lastIndex;
-      m = this.re.exec(this.str);
-    }
-
-    if (rest < this.str.length) {
-      ret.addLiteral(this.str.substring(rest));
+    let index = 0;
+    let escapeDepth = 0;
+    while (index >= 0) {
+      const iter = this.tokenizeNext(lookup, ret, index, escapeDepth);
+      index = iter.index;
+      escapeDepth = iter.escapeDepth;
     }
 
     return ret;
