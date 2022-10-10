@@ -16,7 +16,6 @@ Resource definitions and properties vary depending on the type of resource and t
 
 The following TypeScript example defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-define -->
 
 <CodeTabs>
@@ -72,7 +71,6 @@ To create references, call `myResource.<propertyName>` on the resource instance.
 
 References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following TypeScript example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-references -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-references -->
 
 <CodeTabs>
@@ -120,7 +118,6 @@ Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) t
 
 The following TypeScript example defines a provisioner for a resource using the `addOverride` method.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch -->
 
 <CodeTabs>
@@ -187,7 +184,6 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [
 
 To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-override-attribute -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-override-attribute -->
 
 <CodeTabs>
@@ -243,7 +239,6 @@ To use an escape hatch to loop over dynamic data, you must:
 
 The following TypeScript example adds ingress values by looping through the ports passed as `TerraformVariable`.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch-dynamic-block -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch-dynamic-block -->
 
 <CodeTabs>
@@ -295,7 +290,6 @@ You should only use escape hatches when you need to work with dynamic values tha
 
 The following TypeScript example loops through the ports without using an escape hatch.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-loop-thru-ports -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-loop-thru-ports -->
 
 <CodeTabs>

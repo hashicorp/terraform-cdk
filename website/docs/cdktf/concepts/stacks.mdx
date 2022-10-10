@@ -21,7 +21,6 @@ Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for mo
 
 The following example generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#single-stack -->
 
 <CodeTabs>
@@ -73,7 +72,6 @@ You can specify multiple stacks in your application. For example, you may want a
 
 The following example synthesizes multiple Terraform configurations in the configured output folder.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#multiple-stacks -->
 
 <CodeTabs>
@@ -156,7 +154,6 @@ Refer to [Best Practices](/cdktf/create-and-deploy/best-practices#separate-busin
 
 When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#cross-stack-reference -->
 
 <CodeTabs>
@@ -280,7 +277,6 @@ For anything on the top-level `terraform` block that is not natively implemented
 
 The following example synthesizes a Terraform configuration with the `remote` backend included in the `terraform` block.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-escape-hatches -->
 
 <CodeTabs>
