@@ -33364,11 +33364,24 @@ new TokenizedStringFragments();
 
 | **Name**                                                                             | **Description**                                              |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.addEscape">addEscape</a></code>       | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">addIntrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">addLiteral</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">addToken</a></code>         | Adds a token fragment.                                       |
 | <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code>                 | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">mapTokens</a></code>       | Apply a transformation function to all tokens in the string. |
+
+---
+
+##### `addEscape` <a name="addEscape" id="cdktf.TokenizedStringFragments.addEscape"></a>
+
+```java
+public void addEscape(java.lang.String kind)
+```
+
+###### `kind`<sup>Required</sup> <a name="kind" id="cdktf.TokenizedStringFragments.addEscape.parameter.kind"></a>
+
+- _Type:_ java.lang.String
 
 ---
 
@@ -33454,12 +33467,25 @@ Apply a transformation function to all tokens in the string.
 
 | **Name**                                                                                  | **Type**                                                                   | **Description**                                  |
 | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.property.escapes">escapes</a></code>       | <code>java.util.List< <a href="#cdktf.IResolvable">IResolvable</a>></code> | Return all escape fragments from this string.    |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">firstValue</a></code> | <code>java.lang.Object</code>                                              | Returns the first value.                         |
 | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code>   | <code>java.util.List< <a href="#cdktf.IResolvable">IResolvable</a>></code> | Return all intrinsic fragments from this string. |
 | <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code>         | <code>java.lang.Number</code>                                              | Returns the number of fragments.                 |
 | <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code>     | <code>java.util.List< <a href="#cdktf.IResolvable">IResolvable</a>></code> | Return all literals from this string.            |
 | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code>         | <code>java.util.List< <a href="#cdktf.IResolvable">IResolvable</a>></code> | Return all Tokens from this string.              |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">firstToken</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code>                  | Returns the first token.                         |
+
+---
+
+##### `escapes`<sup>Required</sup> <a name="escapes" id="cdktf.TokenizedStringFragments.property.escapes"></a>
+
+```java
+public java.util.List< IResolvable > getEscapes();
+```
+
+- _Type:_ java.util.List< <a href="#cdktf.IResolvable">IResolvable</a>>
+
+Return all escape fragments from this string.
 
 ---
 

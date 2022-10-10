@@ -29165,11 +29165,24 @@ new TokenizedStringFragments();
 
 | **Name**                                                                             | **Description**                                              |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.addEscape">AddEscape</a></code>       | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">AddIntrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">AddLiteral</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">AddToken</a></code>         | Adds a token fragment.                                       |
 | <code><a href="#cdktf.TokenizedStringFragments.join">Join</a></code>                 | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">MapTokens</a></code>       | Apply a transformation function to all tokens in the string. |
+
+---
+
+##### `AddEscape` <a name="AddEscape" id="cdktf.TokenizedStringFragments.addEscape"></a>
+
+```csharp
+private void AddEscape(string Kind)
+```
+
+###### `Kind`<sup>Required</sup> <a name="Kind" id="cdktf.TokenizedStringFragments.addEscape.parameter.kind"></a>
+
+- _Type:_ string
 
 ---
 
@@ -29255,12 +29268,25 @@ Apply a transformation function to all tokens in the string.
 
 | **Name**                                                                                  | **Type**                                                    | **Description**                                  |
 | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.property.escapes">Escapes</a></code>       | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all escape fragments from this string.    |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">FirstValue</a></code> | <code>object</code>                                         | Returns the first value.                         |
 | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">Intrinsic</a></code>   | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all intrinsic fragments from this string. |
 | <code><a href="#cdktf.TokenizedStringFragments.property.length">Length</a></code>         | <code>double</code>                                         | Returns the number of fragments.                 |
 | <code><a href="#cdktf.TokenizedStringFragments.property.literals">Literals</a></code>     | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all literals from this string.            |
 | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">Tokens</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all Tokens from this string.              |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">FirstToken</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code>   | Returns the first token.                         |
+
+---
+
+##### `Escapes`<sup>Required</sup> <a name="Escapes" id="cdktf.TokenizedStringFragments.property.escapes"></a>
+
+```csharp
+public IResolvable[] Escapes { get; }
+```
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>[]
+
+Return all escape fragments from this string.
 
 ---
 

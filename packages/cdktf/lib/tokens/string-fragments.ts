@@ -12,7 +12,12 @@ import { Tokenization } from "./token";
 type LiteralFragment = { type: "literal"; lit: any };
 type TokenFragment = { type: "token"; token: IResolvable };
 type IntrinsicFragment = { type: "intrinsic"; value: any };
-type Fragment = LiteralFragment | TokenFragment | IntrinsicFragment;
+type EscapeFragment = { type: "escape"; kind: "open" | "close" };
+type Fragment =
+  | LiteralFragment
+  | TokenFragment
+  | IntrinsicFragment
+  | EscapeFragment;
 
 /**
  * Fragments of a concatenated string containing stringified Tokens
@@ -73,6 +78,10 @@ export class TokenizedStringFragments {
     this.fragments.push({ type: "intrinsic", value });
   }
 
+  public addEscape(kind: "open" | "close") {
+    this.fragments.push({ type: "escape", kind });
+  }
+
   /**
    * Return all Tokens from this string
    */
@@ -107,6 +116,19 @@ export class TokenizedStringFragments {
     for (const f of this.fragments) {
       if (f.type === "intrinsic") {
         ret.push(f.value);
+      }
+    }
+    return ret;
+  }
+
+  /**
+   * Return all escape fragments from this string
+   */
+  public get escapes(): IResolvable[] {
+    const ret = new Array<IResolvable>();
+    for (const f of this.fragments) {
+      if (f.type === "escape") {
+        ret.push(f.kind as any);
       }
     }
     return ret;

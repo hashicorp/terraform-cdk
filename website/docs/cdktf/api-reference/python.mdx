@@ -34956,11 +34956,26 @@ cdktf.TokenizedStringFragments()
 
 | **Name**                                                                              | **Description**                                              |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.addEscape">add_escape</a></code>       | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">add_intrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">add_literal</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">add_token</a></code>         | Adds a token fragment.                                       |
 | <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code>                  | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">map_tokens</a></code>       | Apply a transformation function to all tokens in the string. |
+
+---
+
+##### `add_escape` <a name="add_escape" id="cdktf.TokenizedStringFragments.addEscape"></a>
+
+```python
+def add_escape(
+  kind: str
+) - > None
+```
+
+###### `kind`<sup>Required</sup> <a name="kind" id="cdktf.TokenizedStringFragments.addEscape.parameter.kind"></a>
+
+- _Type:_ str
 
 ---
 
@@ -35056,12 +35071,25 @@ Apply a transformation function to all tokens in the string.
 
 | **Name**                                                                                   | **Type**                                                               | **Description**                                  |
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.property.escapes">escapes</a></code>        | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all escape fragments from this string.    |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">first_value</a></code> | <code>typing.Any</code>                                                | Returns the first value.                         |
 | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code>    | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all intrinsic fragments from this string. |
 | <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code>          | <code>typing.Union[int, float]</code>                                  | Returns the number of fragments.                 |
 | <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code>      | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all literals from this string.            |
 | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code>          | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all Tokens from this string.              |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">first_token</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code>              | Returns the first token.                         |
+
+---
+
+##### `escapes`<sup>Required</sup> <a name="escapes" id="cdktf.TokenizedStringFragments.property.escapes"></a>
+
+```python
+escapes: typing.List[IResolvable]
+```
+
+- _Type:_ typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]
+
+Return all escape fragments from this string.
 
 ---
 
