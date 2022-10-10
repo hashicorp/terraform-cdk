@@ -14,6 +14,8 @@ import {
 } from "@cdktf/provider-generator";
 import deepmerge from "deepmerge";
 
+// Polyfill for older TS versions
+type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes,
@@ -94,12 +96,12 @@ const providerBindingCache: Record<
   ProviderFqn,
   Promise<AbsolutePath> | undefined
 > = {};
-const providerSchemaCache: Record<ProviderFqn, SchemaPromise> = {};
+const providerSchemaCache: Record<ProviderFqn, SchemaPromise | undefined> = {};
 
 async function generateBindings(
   binding: ProviderDefinition
 ): Promise<AbsolutePath> {
-  const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf-provider-"));
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
   await fs.writeFile(
     path.resolve(tempDir, "cdktf.json"),
     JSON.stringify({
@@ -198,7 +200,7 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
 
   return deepmerge.all([
     { providerSchema: { provider_schemas: {} }, moduleSchema: {} },
-    ...subSchemas.filter((s) => s !== undefined),
+    ...(subSchemas.filter((s) => s !== undefined) as Awaited<SchemaPromise>[]),
   ]) as any;
 }
 
