@@ -62,11 +62,18 @@ Documentation.forProject(
   };
 
   for ([lang, key] of Object.entries(languages)) {
-    const markdown = await docs.toMarkdown({
-      language: key,
-      readme: false,
-      allSubmodules: true,
-    });
+    const [markdown, json] = await Promise.all([
+      docs.toMarkdown({
+        language: key,
+        readme: false,
+        allSubmodules: true,
+      }),
+      docs.toJson({
+        language: key,
+        readme: false,
+        allSubmodules: true,
+      }),
+    ]);
     const rendered = markdown.render();
 
     const composed = `---
@@ -90,6 +97,12 @@ ${replaceAngleBracketsInDocumentation(
     fs.writeFileSync(
       path.resolve(targetFolder, `${lang.toLowerCase()}.mdx`),
       composed,
+      "utf-8"
+    );
+
+    fs.writeFileSync(
+      path.resolve(targetFolder, `${lang.toLowerCase()}.json`),
+      json.render(),
       "utf-8"
     );
   }
