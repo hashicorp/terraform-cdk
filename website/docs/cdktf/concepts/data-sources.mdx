@@ -21,6 +21,8 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
+
 <CodeTabs>
 
 ```typescript
@@ -57,6 +59,9 @@ export class HelloTerraform extends TerraformStack {
 The [`terraform_remote_state` data source](/language/state/remote-state-data) retrieves state data from a remote [Terraform backend](/language/settings/backends). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure. Refer to the [Remote Backends page](/cdktf/concepts/remote-backends) for more details.
 
 The following TypeScript example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-remote-state-data-source -->
 
 <CodeTabs>
 

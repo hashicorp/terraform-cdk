@@ -33,6 +33,8 @@ You must specify values in exactly the same way as you would in an HCL configura
 
 The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
+
 <CodeTabs>
 
 ```typescript
@@ -74,6 +76,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 ### Define Local Values
 
 The following TypeScript example uses `TerraformLocal` to create a local value.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
 
 <CodeTabs>
 
@@ -133,6 +137,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses a `TerraformOutput` to create an output.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
+
 <CodeTabs>
 
 ```typescript
@@ -183,6 +189,8 @@ To access outputs, use the `_output` suffix for Python and the `Output` suffix f
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/cdktf/concepts/resources) for more information about how to use escape hatches.
 
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
 
 <CodeTabs>
 
@@ -249,6 +257,8 @@ Output: random-pet = choice-haddock
 ### Define & Reference Outputs via Remote State
 
 The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-reference-remote-state -->
 
 <CodeTabs>
 

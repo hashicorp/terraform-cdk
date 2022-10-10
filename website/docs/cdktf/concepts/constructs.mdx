@@ -52,7 +52,7 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-use-constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
 
@@ -247,6 +247,10 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
 UPDATE DOC EXAMPLES
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-scope -->
+
 <CodeTabs>
 
 ```typescript
