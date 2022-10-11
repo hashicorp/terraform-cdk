@@ -39,6 +39,9 @@ const NUMBER_TOKEN_REGEX = new RegExp(
   "g"
 );
 
+const ESCAPE_TOKEN_BEGIN_REGEX = /\$\{(?!TfToken\[)/g;
+const ESCAPE_TOKEN_END_REGEX = /\}/g;
+
 /**
  * A string with markers in it that can be resolved to external values
  */
@@ -46,8 +49,8 @@ export class TokenString {
   /**
    * Returns a `TokenString` for this string.
    */
-  public static forString(s: string) {
-    return new TokenString(s, STRING_TOKEN_REGEX);
+  public static forString(s: string, includeEscapeSequences = false) {
+    return new TokenString(s, STRING_TOKEN_REGEX, 1, includeEscapeSequences);
   }
 
   /**
@@ -74,29 +77,161 @@ export class TokenString {
   constructor(
     private readonly str: string,
     private readonly re: RegExp,
-    private readonly regexMatchIndex: number = 1
+    private readonly regexMatchIndex: number = 1,
+    private readonly includeEscapeSequences: boolean = false
   ) {}
+
+  private nextEscapeToken(
+    fragments: TokenizedStringFragments,
+    startIndex: number,
+    escapeDepth: number,
+    maxIndex: number
+  ) {
+    ESCAPE_TOKEN_BEGIN_REGEX.lastIndex = startIndex;
+    ESCAPE_TOKEN_END_REGEX.lastIndex = startIndex;
+    let startMatch = ESCAPE_TOKEN_BEGIN_REGEX.exec(this.str);
+    let endMatch = ESCAPE_TOKEN_END_REGEX.exec(this.str);
+
+    if (startMatch && startMatch.index >= maxIndex) {
+      startMatch = null;
+    }
+    if (endMatch && endMatch.index >= maxIndex) {
+      endMatch = null;
+    }
+
+    if (!startMatch && !endMatch) {
+      return {
+        index: -1,
+        escapeDepth: escapeDepth,
+      };
+    }
+
+    if (startMatch && endMatch) {
+      if (startMatch.index > startIndex && startMatch.index > startIndex) {
+        const lede = this.str.substring(
+          startIndex,
+          Math.min(startMatch.index, endMatch.index)
+        );
+        fragments.addLiteral(lede);
+      }
+
+      if (startMatch.index < endMatch.index) {
+        fragments.addEscape("open");
+
+        return {
+          index: ESCAPE_TOKEN_BEGIN_REGEX.lastIndex,
+          escapeDepth: escapeDepth + 1,
+        };
+      }
+
+      fragments.addEscape("close");
+      return {
+        index: ESCAPE_TOKEN_END_REGEX.lastIndex,
+        escapeDepth: escapeDepth - 1,
+      };
+    }
+
+    if (startMatch) {
+      if (startMatch.index > startIndex) {
+        const lede = this.str.substring(startIndex, startMatch.index);
+        fragments.addLiteral(lede);
+      }
+
+      fragments.addEscape("open");
+
+      return {
+        index: ESCAPE_TOKEN_BEGIN_REGEX.lastIndex,
+        escapeDepth: escapeDepth + 1,
+      };
+    }
+
+    if (endMatch) {
+      if (endMatch.index > startIndex) {
+        const lede = this.str.substring(startIndex, endMatch.index);
+        fragments.addLiteral(lede);
+      }
+
+      fragments.addEscape("close");
+
+      return {
+        index: ESCAPE_TOKEN_END_REGEX.lastIndex,
+        escapeDepth: escapeDepth - 1,
+      };
+    }
+
+    return {
+      index: -1,
+      escapeDepth: escapeDepth,
+    };
+  }
 
   private tokenizeNext(
     lookup: LookupFunction,
     fragments: TokenizedStringFragments,
     startIndex: number,
-    _escapeDepth: number
+    escapeDepth: number
   ): { index: number; escapeDepth: number } {
     this.re.lastIndex = startIndex;
+    if (startIndex >= this.str.length) {
+      return {
+        index: -1,
+        escapeDepth,
+      };
+    }
     const match = this.re.exec(this.str);
 
     if (!match) {
+      if (this.includeEscapeSequences) {
+        const next = this.nextEscapeToken(
+          fragments,
+          startIndex,
+          escapeDepth,
+          this.str.length
+        );
+        if (next.index === -1) {
+          fragments.addLiteral(this.str.substring(startIndex));
+          return {
+            index: -1,
+            escapeDepth,
+          };
+        } else {
+          return next;
+        }
+      }
+
       fragments.addLiteral(this.str.substring(startIndex));
       return {
         index: -1,
-        escapeDepth: _escapeDepth,
+        escapeDepth: escapeDepth,
       };
     }
 
     if (match.index > startIndex) {
+      if (this.includeEscapeSequences) {
+        const next = this.nextEscapeToken(
+          fragments,
+          startIndex,
+          escapeDepth,
+          match.index
+        );
+        if (next.index === -1) {
+          fragments.addLiteral(this.str.substring(startIndex, match.index));
+          return {
+            index: match.index,
+            escapeDepth: escapeDepth,
+          };
+        } else {
+          return next;
+        }
+      }
+
       const lede = this.str.substring(startIndex, match.index);
       fragments.addLiteral(lede);
+
+      return {
+        index: match.index,
+        escapeDepth,
+      };
     }
 
     const token = lookup(match[this.regexMatchIndex]);
@@ -110,7 +245,7 @@ export class TokenString {
 
     return {
       index: nextIndex,
-      escapeDepth: _escapeDepth,
+      escapeDepth,
     };
   }
 
