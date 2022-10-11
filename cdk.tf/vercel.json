@@ -97,7 +97,7 @@
     },
     {
       "source": "/0.13",
-      "destination": "https://github.com/hashicorp/terraform-cdk/issues/2160"
+      "destination": "https://www.hashicorp.com/blog/cdk-for-terraform-0-13-significantly-improves-performance"
     },
     {
       "source": "/github-nuget",
