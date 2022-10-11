@@ -204,10 +204,10 @@ function cdktfVersionMatches(
   return semver.satisfies(cdktfVersion, cdktfPeerDependencyConstraint);
 }
 
-export async function getPrebuiltProviderVersion(
+export async function getPrebuiltProviderVersions(
   constraint: ProviderConstraint,
   cdktfVersion: string
-): Promise<string | null> {
+): Promise<string[] | null> {
   const providerName = await getNpmPackageName(constraint); // TODO: add lots of debug logs to this call
 
   // no pre-built provider exists
@@ -218,7 +218,7 @@ export async function getPrebuiltProviderVersion(
   const versions = await getAllPrebuiltProviderVersions(providerName);
 
   // find first the version that matches the requested provider version and cdktf version
-  const matchingVersion = versions.find((v) => {
+  const matchingVersions = versions.filter((v) => {
     if (!cdktfVersionMatches(cdktfVersion, v.cdktfPeerDependencyConstraint)) {
       return false; // skip if cdktf version does not match
     }
@@ -228,9 +228,11 @@ export async function getPrebuiltProviderVersion(
     return true; // if no version constraint is passed, return true on the first match
   });
 
-  if (matchingVersion) {
-    return matchingVersion.packageVersion;
+  if (!matchingVersions.length) {
+    return null;
   }
-
-  return null;
+  const npmPackageVersions = matchingVersions
+    .map((matchingVersion) => matchingVersion.packageVersion)
+    .sort(semver.compare);
+  return npmPackageVersions;
 }

@@ -10,7 +10,7 @@ import { PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
   getPrebuiltProviderRepositoryName,
-  getPrebuiltProviderVersion,
+  getPrebuiltProviderVersions,
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
@@ -171,7 +171,7 @@ export class DependencyManager {
       return false;
     }
 
-    const v = await getPrebuiltProviderVersion(constraint, this.cdktfVersion);
+    const v = await getPrebuiltProviderVersions(constraint, this.cdktfVersion);
     const exists = v !== null;
 
     if (exists) {
@@ -198,17 +198,16 @@ export class DependencyManager {
       );
     }
 
-    const prebuiltProviderVersion = await getPrebuiltProviderVersion(
+    const prebuiltProviderNpmVersions = await getPrebuiltProviderVersions(
       constraint,
       this.cdktfVersion
     );
-    if (!prebuiltProviderVersion) {
+    if (!prebuiltProviderNpmVersions) {
       throw Errors.Usage(
         `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
       );
     }
 
-    const packageVersion = prebuiltProviderVersion;
     const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
       npmPackageName
     );
@@ -216,10 +215,53 @@ export class DependencyManager {
       npmPackageName,
       prebuiltProviderRepository
     );
+    const packageVersion = await this.getLanguageSpecificPackageVersion(
+      packageName,
+      prebuiltProviderNpmVersions
+    );
+
+    if (!packageVersion) {
+      throw Errors.Usage(
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`
+      );
+    }
 
     await this.packageManager.addPackage(packageName, packageVersion);
 
     // TODO: more debug logs
+  }
+
+  // The version we use for npm might differ from other registries
+  // This happens mostly in cases where a provider update failed to publish to one of the registries
+  // In that case we use the latest version that was published successfully and works with the current cdktf release
+  private async getLanguageSpecificPackageVersion(
+    packageName: string,
+    prebuiltProviderNpmVersions: string[]
+  ) {
+    logger.debug(
+      "Found possibly matching versions (released on npm): ",
+      prebuiltProviderNpmVersions
+    );
+    logger.debug(
+      "Searching through package manager to find latest available version for given language"
+    );
+
+    for (const version of prebuiltProviderNpmVersions) {
+      try {
+        const isAvailable = await this.packageManager.isVersionAvailable(
+          packageName,
+          version
+        );
+        if (isAvailable) {
+          return version;
+        }
+      } catch (err) {
+        logger.info(
+          `Could not find version ${version} for package ${packageName}: '${err}'. Skipping...`
+        );
+      }
+    }
+    return null;
   }
 
   async addLocalProvider(constraint: ProviderConstraint) {

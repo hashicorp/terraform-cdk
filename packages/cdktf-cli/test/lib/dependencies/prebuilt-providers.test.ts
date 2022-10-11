@@ -4,7 +4,7 @@ import nock from "nock";
 import { ProviderConstraint } from "../../../lib/dependencies/dependency-manager";
 import {
   getNpmPackageName,
-  getPrebuiltProviderVersion,
+  getPrebuiltProviderVersions,
   getAllPrebuiltProviderVersions,
   getPrebuiltProviderRepositoryName,
   resetFetchCache,
@@ -184,7 +184,7 @@ describe("prebuilt-providers", () => {
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
-        getPrebuiltProviderVersion(
+        getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
@@ -203,7 +203,7 @@ describe("prebuilt-providers", () => {
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
-        getPrebuiltProviderVersion(
+        getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
@@ -221,7 +221,7 @@ describe("prebuilt-providers", () => {
         .reply(200, buildNpmResponse("2.3.0"));
 
       await expect(
-        getPrebuiltProviderVersion(
+        getPrebuiltProviderVersions(
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
