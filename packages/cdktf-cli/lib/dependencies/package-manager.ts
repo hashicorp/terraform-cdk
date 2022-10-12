@@ -171,14 +171,14 @@ class PythonPackageManager extends PackageManager {
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
-    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
+    logger.debug(`Checking if ${packageName}@${packageVersion} is available for Python`);
     const url = `https://pypi.org/pypi/${packageName}/${packageVersion}/json`;
     logger.debug(`Fetching package information for ${packageName} from ${url}`);
 
     const response = await fetch(url);
     const json = await response.json();
     logger.debug(
-      `Got response fron Pypi for ${packageName}: ${JSON.stringify(json)}`
+      `Got response from PyPI for ${packageName}@${packageVersion}: ${JSON.stringify(json)}`
     );
 
     if (json.info) {
@@ -186,7 +186,7 @@ class PythonPackageManager extends PackageManager {
       return true;
     } else {
       logger.debug(
-        `Could not get pypi package info, got: ${JSON.stringify(json)}`
+        `Could not get PyPI package info, got: ${JSON.stringify(json)}`
       );
       return false;
     }
@@ -220,9 +220,8 @@ class NugetPackageManager extends PackageManager {
   ): Promise<boolean> {
     logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
 
-    const parts = packageName.split(".");
-    const owner = parts[0];
-    const id = parts.slice(1).join(".");
+    const [owner, ...rest] = packageName.split(".");
+    const id = rest.join(".");
     const url = `https://azuresearch-usnc.nuget.org/query?q=owner:${owner}%20id:${id}&prerelease=false&semVerLevel=2.0.0`;
     logger.debug(`Fetching package metadata from Nuget: '${url}'`);
 
@@ -231,7 +230,7 @@ class NugetPackageManager extends PackageManager {
       data: { id: string; versions: { version: string }[] }[];
     };
     logger.debug(
-      `Got response from Nuget for ${packageName} : ${JSON.stringify(json)}`
+      `Got response from NuGet for ${packageName} : ${JSON.stringify(json)}`
     );
 
     if (!json?.data?.length) {
@@ -309,13 +308,13 @@ class MavenPackageManager extends PackageManager {
 
     const url = `https://search.maven.org/solrsearch/select?q=g:${groupId}+AND+a:${packageIdentifier}+AND+v:${packageVersion}&rows=5&wt=json`;
     logger.debug(
-      `Trying to find package version by querying maven central under '${url}'`
+      `Trying to find package version by querying Maven Central under '${url}'`
     );
     const response = await fetch(url);
 
     const json = await response.json();
     logger.debug(
-      `Got response from the maven package search for ${packageName}: ${JSON.stringify(
+      `Got response from the Maven package search for ${packageName}: ${JSON.stringify(
         json
       )}`
     );
