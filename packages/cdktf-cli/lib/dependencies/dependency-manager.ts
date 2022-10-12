@@ -248,7 +248,7 @@ export class DependencyManager {
 
     for (const version of prebuiltProviderNpmVersions) {
       try {
-        const isAvailable = await this.packageManager.isVersionAvailable(
+        const isAvailable = await this.packageManager.isNpmVersionAvailable(
           packageName,
           version
         );
