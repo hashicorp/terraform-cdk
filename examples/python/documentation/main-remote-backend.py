@@ -3,7 +3,7 @@ from cdktf import CloudBackend, NamedCloudWorkspace
 
 # DOCS_BLOCK_START:remote-backend-define
 from constructs import Construct
-from cdktf import App, CloudBackend, NamedCloudWorkspace,TerraformStack, TerraformOutput
+from cdktf import App, CloudBackend, NamedCloudWorkspace, TerraformStack, TerraformOutput
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
