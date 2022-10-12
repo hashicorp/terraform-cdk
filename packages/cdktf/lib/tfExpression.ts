@@ -58,7 +58,11 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     // Only a token reference
-    if (tokenList.literals.length === 0 && numberOfTokens === 1) {
+    if (
+      tokenList.literals.length === 0 &&
+      tokenList.escapes.length === 0 &&
+      numberOfTokens === 1
+    ) {
       return resolvedArg;
     }
 

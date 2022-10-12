@@ -1,7 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 // Copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/string-fragments.ts
-import { IFragmentConcatenator, IResolvable } from "./resolvable";
+import {
+  IFragmentConcatenator,
+  IResolvable,
+  IResolveContext,
+} from "./resolvable";
 import { Tokenization } from "./token";
 
 /**
@@ -137,22 +141,34 @@ export class TokenizedStringFragments {
   /**
    * Apply a transformation function to all tokens in the string
    */
-  public mapTokens(mapper: ITokenMapper): TokenizedStringFragments {
+  public mapTokens(context: IResolveContext): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
+    let escapeDepth = 0;
 
     for (const f of this.fragments) {
       switch (f.type) {
         case "literal":
           ret.addLiteral(f.lit);
           break;
+        case "escape":
+          ret.addEscape(f.kind);
+          escapeDepth = f.kind === "open" ? escapeDepth + 1 : escapeDepth - 1;
+          break;
         case "token":
           // eslint-disable-next-line no-case-declarations
-          const mapped = mapper.mapToken(f.token);
+          const supressBraces = context.suppressBraces;
+          if (escapeDepth > 0) {
+            context.suppressBraces = true;
+          }
+          // eslint-disable-next-line no-case-declarations
+          const mapped = context.resolve(f.token);
           if (Tokenization.isResolvable(mapped)) {
             ret.addToken(mapped);
           } else {
             ret.addIntrinsic(mapped);
           }
+          context.suppressBraces = supressBraces;
+
           break;
         case "intrinsic":
           ret.addIntrinsic(f.value);
@@ -208,6 +224,8 @@ function fragmentValue(fragment: Fragment): any {
   switch (fragment.type) {
     case "literal":
       return fragment.lit;
+    case "escape":
+      return fragment.kind === "open" ? "${" : "}";
     case "token":
       return fragment.token.toString();
     case "intrinsic":

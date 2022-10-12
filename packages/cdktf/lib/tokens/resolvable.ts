@@ -199,7 +199,7 @@ export class DefaultTokenResolver implements ITokenResolver {
     fragments: TokenizedStringFragments,
     context: IResolveContext
   ) {
-    return fragments.mapTokens({ mapToken: context.resolve }).join(this.concat);
+    return fragments.mapTokens(context).join(this.concat);
   }
 
   /**
@@ -222,7 +222,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       );
     }
 
-    return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
+    return fragments.mapTokens(context).firstValue;
   }
 
   /**
@@ -265,6 +265,6 @@ export class DefaultTokenResolver implements ITokenResolver {
       );
     }
 
-    return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
+    return fragments.mapTokens(context).firstValue;
   }
 }

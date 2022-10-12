@@ -143,7 +143,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
 
     let str: string = obj;
 
-    const tokenStr = TokenString.forString(str);
+    const tokenStr = TokenString.forString(str, true);
     if (tokenStr.test()) {
       const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
       str = options.resolver.resolveString(fragments, makeContext()[0]);
@@ -156,12 +156,8 @@ export function resolve(obj: any, options: IResolveOptions): any {
         return TokenMap.instance().lookupNumberToken(parseFloat(id));
       });
 
-      str = fragments
-        .mapTokens({
-          mapToken: (resolvable: IResolvable) =>
-            makeContext()[0].resolve(resolvable),
-        })
-        .join(new StringConcat());
+      const context = makeContext()[0];
+      str = fragments.mapTokens(context).join(new StringConcat());
     }
 
     return str;
