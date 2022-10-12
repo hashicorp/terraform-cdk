@@ -51,7 +51,7 @@ class Command extends BaseCommand {
       .option("terraform-parallelism", {
         type: "number",
         required: false,
-        desc: "Customize number of parallel graph traversals by Terraform. By default, the parallelism flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend",
+        desc: "Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend",
         // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
