@@ -17,3 +17,9 @@ test/edge-provider-bindings
 !tools/update-github-project-board/index.ts
 **/go.mod
 **/go.sum
+website/website-preview
+*.py
+*.java
+*.go
+*.cs
+
