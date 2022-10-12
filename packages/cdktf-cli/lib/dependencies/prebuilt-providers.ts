@@ -233,6 +233,7 @@ export async function getPrebuiltProviderVersions(
   }
   const npmPackageVersions = matchingVersions
     .map((matchingVersion) => matchingVersion.packageVersion)
-    .sort(semver.compare);
+    .sort(semver.compare)
+    .reverse();
   return npmPackageVersions;
 }

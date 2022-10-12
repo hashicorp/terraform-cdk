@@ -171,14 +171,18 @@ class PythonPackageManager extends PackageManager {
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
-    logger.debug(`Checking if ${packageName}@${packageVersion} is available for Python`);
+    logger.debug(
+      `Checking if ${packageName}@${packageVersion} is available for Python`
+    );
     const url = `https://pypi.org/pypi/${packageName}/${packageVersion}/json`;
     logger.debug(`Fetching package information for ${packageName} from ${url}`);
 
     const response = await fetch(url);
     const json = await response.json();
     logger.debug(
-      `Got response from PyPI for ${packageName}@${packageVersion}: ${JSON.stringify(json)}`
+      `Got response from PyPI for ${packageName}@${packageVersion}: ${JSON.stringify(
+        json
+      )}`
     );
 
     if (json.info) {
@@ -221,7 +225,7 @@ class NugetPackageManager extends PackageManager {
     logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
 
     const [owner, ...rest] = packageName.split(".");
-    const id = rest.join(".");
+    const id = rest[rest.length - 1];
     const url = `https://azuresearch-usnc.nuget.org/query?q=owner:${owner}%20id:${id}&prerelease=false&semVerLevel=2.0.0`;
     logger.debug(`Fetching package metadata from Nuget: '${url}'`);
 
@@ -237,7 +241,8 @@ class NugetPackageManager extends PackageManager {
       return false; // No package found
     }
 
-    const packageVersions = json.data.find((p) => p.id === id)?.versions ?? [];
+    const packageVersions =
+      json.data.find((p) => p.id === packageName)?.versions ?? [];
 
     if (!packageVersions.length) {
       return false; // No package release matching the id found
