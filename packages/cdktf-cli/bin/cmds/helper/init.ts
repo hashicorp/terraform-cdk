@@ -192,6 +192,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     cdktfVersion: argv.cdktfVersion,
     destination,
     dist: argv.dist,
+    providers: argv.providers,
     projectId,
     projectInfo,
     templatePath: templateInfo.Path,

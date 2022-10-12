@@ -222,6 +222,7 @@ export async function get(argv: {
 }
 
 export async function init(argv: any) {
+  console.log(argv);
   await terraformCheck();
   await displayVersionMessage();
   await checkEnvironment();

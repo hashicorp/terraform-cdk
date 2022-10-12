@@ -26,6 +26,7 @@ export type InitArgs = {
   cdktfVersion?: string;
   destination: string;
   dist?: string;
+  providers?: string[];
   projectId: string;
   projectInfo: Project;
   templatePath: string;
@@ -36,6 +37,7 @@ export async function init({
   cdktfVersion,
   destination,
   dist,
+  providers,
   projectId,
   projectInfo,
   templatePath,
