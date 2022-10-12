@@ -46,7 +46,7 @@ export abstract class PackageManager {
   // public abstract listPackages(): Promise<todo>; future stuff..
   // add check if package exists already. might query version in the future and offer to upgrade?
 
-  public abstract isVersionAvailable(
+  public abstract isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean>;
@@ -84,7 +84,7 @@ class NodePackageManager extends PackageManager {
     console.log("Package installed.");
   }
 
-  public async isVersionAvailable(
+  public async isNpmVersionAvailable(
     _packageName: string,
     _packageVersion: string
   ): Promise<boolean> {
@@ -167,7 +167,7 @@ class PythonPackageManager extends PackageManager {
     }
   }
 
-  public async isVersionAvailable(
+  public async isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
@@ -214,7 +214,7 @@ class NugetPackageManager extends PackageManager {
     console.log("Package installed.");
   }
 
-  public async isVersionAvailable(
+  public async isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
@@ -291,7 +291,7 @@ class MavenPackageManager extends PackageManager {
     console.log("Package installed.");
   }
 
-  public async isVersionAvailable(
+  public async isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
@@ -352,7 +352,7 @@ class GoPackageManager extends PackageManager {
     console.log("Package installed.");
   }
 
-  public async isVersionAvailable(
+  public async isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean> {
