@@ -20,8 +20,28 @@ import {
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 
-const isReservedClassName = (className: string): boolean => {
-  return ["string", "object", "function"].includes(className.toLowerCase());
+// Can't be used in expressions like "export * as <keyword> from ... "
+// filtered from all keywords from: https://github.com/microsoft/TypeScript/blob/503604c884bd0557c851b11b699ef98cdb65b93b/src/compiler/types.ts#L114-L197
+const RESERVED_KEYWORDS_FOR_NAMESPACES = [
+  "implements",
+  "interface",
+  "let",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "static",
+  "yield",
+  "await",
+];
+
+const isReservedClassOrNamespaceName = (className: string): boolean => {
+  return [
+    "string",
+    "object",
+    "function",
+    ...RESERVED_KEYWORDS_FOR_NAMESPACES,
+  ].includes(className.toLowerCase());
 };
 
 const getFileName = (provider: string, baseName: string): string => {
@@ -75,7 +95,7 @@ class Parser {
       };
     }
 
-    if (isReservedClassName(baseName)) {
+    if (isReservedClassOrNamespaceName(baseName)) {
       baseName = `${baseName}_resource`;
     }
 
