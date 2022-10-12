@@ -225,7 +225,7 @@ describe("prebuilt-providers", () => {
           ProviderConstraint.fromConfigEntry("test"),
           "0.12.2"
         )
-      ).resolves.toEqual("2.3.0");
+      ).resolves.toEqual(["2.3.0"]);
     });
   });
 });
