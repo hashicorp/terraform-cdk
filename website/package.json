@@ -2,10 +2,12 @@
   "name": "terraform-cdk-docs-preview",
   "private": "true",
   "scripts": {
+    "start": "./scripts/website-start.sh",
     "build": "./scripts/website-build.sh"
   },
   "devDependencies": {
-    "next": "^12.1.0"
+    "@hashicorp/platform-cli": "^2.1.0",
+    "next": "^12.3.0"
   },
   "engines": {
     "npm": ">=7.0.0"
