@@ -96,6 +96,7 @@ import os
 from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 
+class PublicS3Bucket(Construct):
 
 class MyStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
