@@ -1,22 +1,21 @@
-from imports.aws import AwsProvider
-from imports.aws.datasources import DataAwsRegion
+
 from cdktf import App
 # DOCS_BLOCK_START:resources-define
 from constructs import Construct
 from cdktf import TerraformStack
-from imports.aws import dynamodb
+import imports.aws as aws
 
-class HelloTera(TerraformStack):
+class HelloTerra(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = "us-east-1" 
         )
 
-        region = DataAwsRegion(self, "region")
+        region = aws.data_aws_region.DataAwsRegion(self, "region")
 
-        dynamodb.DynamodbTable(self, "Hello",
+        aws.dynamodb_table.DynamodbTable(self, "Hello",
             name = "my-first-table-{}".format(region.name),
             hash_key = "temp",
             attribute = [{ "name": "id", "type": "S"}],
@@ -25,7 +24,7 @@ class HelloTera(TerraformStack):
 # DOCS_BLOCK_END:resources-define
 
 # DOCS_BLOCK_START:resources-references
-from imports.kubernetes import Deployment, DeploymentMetadata, Namespace, NamespaceMetadata
+import imports.kubernetes as kubernetes 
 # DOCS_BLOCK_END:resources-references
 
 class TestStack(TerraformStack):
@@ -35,14 +34,14 @@ class TestStack(TerraformStack):
         app = App()
         # DOCS_BLOCK_START:resources-references
         
-        exampleNamespace = Namespace(self, "tf-cdk-example",
-            metadata = NamespaceMetadata({
+        exampleNamespace = kubernetes.namespace.Namespace(self, "tf-cdk-example",
+            metadata = kubernetes.namespace.NamespaceMetadata({
                 "name": "tf-cdk-example"
             })
         )
 
-        Deployment(self, "nginx-deployment",
-            metadata = DeploymentMetadata({
+        kubernetes.deployment.Deployment(self, "nginx-deployment",
+            metadata = kubernetes.deployment.DeploymentMetadata({
                 "name": "nginx",
                 "namespace": exampleNamespace.metadata.name,
                 "labels": {
@@ -57,7 +56,7 @@ class TestStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 # DOCS_BLOCK_START:resources-escape-hatch
-from imports.aws import dynamodb
+import imports.aws as aws
 # DOCS_BLOCK_END:resources-escape-hatch
 
 class TestStack(TerraformStack):
@@ -67,7 +66,7 @@ class TestStack(TerraformStack):
         
         tableName = "my-table"
 
-        table = dynamodb.DynamodbTable(self, "Hello",
+        table = aws.dynamodb_table.DynamodbTable(self, "Hello",
             name = tableName,
             hash_key = "id",
             attribute = [{"name": "id", "type": "S"}]
@@ -83,7 +82,7 @@ class TestStack(TerraformStack):
         # DOCS_BLOCK_END:resources-escape-hatch
 
 #DOCS_BLOCK_START:resources-override-attribute
-from imports.aws import sns
+import imports.aws as aws
 #DOCS_BLOCK_END:resources-override-attribute
 
 
@@ -92,7 +91,7 @@ class TestStack(TerraformStack):
         super().__init__(scope, name)
         #DOCS_BLOCK_START:resources-override-attribute
 
-        topic = sns.SnsTopic(self, "Topic",
+        topic = aws.sns_topic.SnsTopic(self, "Topic",
             display_name = "will-be-overwritten"
         )
 
@@ -101,7 +100,7 @@ class TestStack(TerraformStack):
 
 #DOCS_BLOCK_START:resources-escape-hatch-dynamic-block
 from cdktf import TerraformVariable
-from imports.aws.vpc import SecurityGroup
+import imports.aws as aws
 #DOCS_BLOCK_END:resources-escape-hatch-dynamic-block
 
 class TestStack(TerraformStack):
@@ -114,7 +113,7 @@ class TestStack(TerraformStack):
             default = [22, 80, 443, 5432] 
         )
 
-        sq = SecurityGroup(self, "sec1grp",
+        sq = aws.security_group.SecurityGroup(self, "sec1grp",
             name = "security1",
             vpc_id = "vpcs",
             egress = [
@@ -139,7 +138,7 @@ class TestStack(TerraformStack):
         #DOCS_BLOCK_END:resources-escape-hatch-dynamic-block
 
 #DOCS_BLOCK_START:resources-escape-loop-thru-ports
-from imports.aws.vpc import SecurityGroup
+import imports.aws as aws
 #DOCS_BLOCK_END:resources-escape-loop-thru-ports
 
 class TestStack(TerraformStack):
@@ -149,7 +148,7 @@ class TestStack(TerraformStack):
         
         ports = [22, 80, 443, 5432]
 
-        SecurityGroup(self, "sec1grp",
+        aws.security_group.SecurityGroup(self, "sec1grp",
             name = "security1",
             vpc_id = "vpcs",
             egress = [

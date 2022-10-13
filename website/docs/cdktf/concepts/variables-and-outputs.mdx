@@ -33,6 +33,8 @@ You must specify values in exactly the same way as you would in an HCL configura
 
 The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
+
 <CodeTabs>
 
 ```typescript
@@ -48,15 +50,61 @@ new Instance(this, "hello", {
 ```
 
 ```python
+import imports.random as random
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput, CloudBackend, NamedRemoteWorkspace, DataTerraformRemoteState
+
+class Producer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("producer")
+        )
+
+        random.provider.RandomProvider(self, "random")
+        pet = random.pet.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value = pet.id
+        )
+
+class Consumer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("consumer")
+        )
+
+        remoteState = DataTerraformRemoteState(self, "remote-pet",
+            organization = "hashicorp",
+            workspaces = NamedRemoteWorkspace(name = "producer")
+        )
+
+        TerraformOutput(self, "random-remote-pet",
+            value = remoteState.get_string("random-pet")
+        )
+
+app = App()
+Producer(app, "cdktf-producer")
+Consumer(app, "cdktf-consumer")
+app.synth()
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -75,6 +123,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses `TerraformLocal` to create a local value.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
+
 <CodeTabs>
 
 ```typescript
@@ -89,15 +139,19 @@ new Instance(this, "example", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -133,6 +187,8 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following TypeScript example uses a `TerraformOutput` to create an output.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
+
 <CodeTabs>
 
 ```typescript
@@ -163,15 +219,19 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -183,6 +243,8 @@ To access outputs, use the `_output` suffix for Python and the `Output` suffix f
 Outputs return an HCL expression representing the underlying Terraform resource, so the return type must always be `string`. When `TerraformOutput` is any other type than string, you must add a typecast to compile the application (e.g. `mod.numberOutput as number`). If a module returns a list, you must use an escape hatch to access items or loop over it. Refer to the [Resources page](/cdktf/concepts/resources) for more information about how to use escape hatches.
 
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
 
 <CodeTabs>
 
@@ -211,15 +273,19 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -249,6 +315,8 @@ Output: random-pet = choice-haddock
 ### Define & Reference Outputs via Remote State
 
 The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
 
 <CodeTabs>
 
@@ -311,15 +379,19 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

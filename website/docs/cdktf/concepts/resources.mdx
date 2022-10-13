@@ -42,11 +42,11 @@ export class HelloTerra extends TerraformStack {
 ```
 
 ```python
-from imports.aws.vpc import SecurityGroup
+import imports.aws as aws
 
         ports = [22, 80, 443, 5432]
 
-        SecurityGroup(self, "sec1grp",
+        aws.security_group.SecurityGroup(self, "sec1grp",
             name = "security1",
             vpc_id = "vpcs",
             egress = [

@@ -1,8 +1,7 @@
-from imports.aws import AwsProvider
-from imports.aws.s3 import S3Bucket, S3BucketWebsite
+from imports.aws.provider import AwsProvider
+from imports.aws.s3_bucket import S3Bucket, S3BucketWebsite
 
 # DOCS_BLOCK_START:constructs-scope
-
 from constructs import Construct
 from cdktf import App, TerraformStack
 
@@ -27,7 +26,6 @@ class PublicS3Bucket(Construct):
             )
         )
 
-
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
@@ -46,7 +44,7 @@ from my_constructs import KubernetesWebAppDeployment
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
-        kubernetes.KubernetesProvider(self, "kind",
+        kubernetes.provider.KubernetesProvider(self, "kind",
                                       config_path=os.path.join(os.path.dirname(
                                           __file__), '..', 'kubeconfig.yaml')
                                       )

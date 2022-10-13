@@ -1,7 +1,8 @@
-from cdktf import TerraformStack
+from cdktf import TerraformStack, Token
 from constructs import Construct
+import imports.github as github
 # DOCS_BLOCK_START:iterators-define-iterators,iterators-iterators-complex-types
-from imports.aws import s3
+import imports.aws as aws
 from cdktf import TerraformIterator, TerraformVariable
 # DOCS_BLOCK_END:iterators-define-iterators,iterators-iterators-complex-types     
 
@@ -23,7 +24,7 @@ class TestStack(TerraformStack):
             ]
         )
 
-        s3Bucket = s3.S3Bucket(self, "bucket",
+        s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
             for_each = iterator,
             name = iterator.getString("name"),
             tags = iterator.getString("tags")
@@ -37,8 +38,34 @@ class TestStack(TerraformStack):
 
         iterator = TerraformIterator.from_list(list.list_value)
 
-        s3Bucket = s3.S3Bucket(self, "bucket",
+        s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
             for_each = iterator,
             name = iterator.value
         )
         # DOCS_BLOCK_END:iterators-define-iterators
+
+        # DOCS_BLOCK_START:iterators-list-attributes
+        org_name = "my-org"
+
+        github.provider.GithubProvider(self, "github",
+            organization=org_name
+        )
+
+        github_team = github.team.Team(self, "core-team",
+            name="core"
+        )
+
+        org_members = github.data_github_organization.DataGithubOrganization(self, "org",
+            name=org_name
+        )
+
+        org_member_iterator = TerraformIterator.from_list(org_members.members)
+
+        github.team_members.TeamMembers(self, "members",
+            team_id=github_team.id,
+            members=org_member_iterator.dynamic({
+                "username": Token().as_string(org_member_iterator.value),
+                "role": "maintainer"
+            })
+        )
+        # DOCS_BLOCK_END:iterators-list-attributes

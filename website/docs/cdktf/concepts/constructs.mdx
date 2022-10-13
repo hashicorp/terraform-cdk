@@ -98,7 +98,26 @@ from my_constructs import KubernetesWebAppDeployment
 
 class PublicS3Bucket(Construct):
 
-class MyStack(cdktf.TerraformStack):
+    bucket: S3Bucket
+
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name) # This creates a new scope since we extend from construct
+
+        AwsProvider(self, "aws",
+            region = "us-east-1"
+        )
+
+        # This bucket is in a different scope than the buckets
+        # defined in `MyStack`. Therefore, it does not need a unique name.
+        self.bucket = S3Bucket(self, "bucket",
+            bucket_prefix = name,
+            website = S3BucketWebsite(
+                index_document = "index.html",
+                error_document = "5xx.html",
+            )
+        )
+
+class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
         KubernetesProvider(self, "kind",

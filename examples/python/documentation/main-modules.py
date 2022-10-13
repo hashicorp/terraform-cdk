@@ -3,14 +3,14 @@ from cdktf import TerraformHclModule
 # DOCS_BLOCK_START:modules-install-modules
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider
+import imports.aws as aws
 from imports.vpc import Vpc
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = "us-east-1",
         )
 
@@ -31,7 +31,7 @@ app.synth
 
 stack = TerraformStack(App(), "temp")
 # DOCS_BLOCK_START:modules-create-modules
-provider = AwsProvider(stack, "provider",
+provider = aws.provider.AwsProvider(stack, "provider",
     region = "us-east-1",
 )
 

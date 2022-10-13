@@ -8,9 +8,9 @@ class MyStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        aws.AwsProvider(self, 'aws', region='eu-central-1')
+        aws.provider.AwsProvider(self, 'aws', region='eu-central-1')
 
-        bucket = aws.s3.S3Bucket(self, "bucket", bucket="demo")
+        bucket = aws.s3_bucket.S3Bucket(self, "bucket", bucket="demo")
 
         asset = cdktf.TerraformAsset(self, "lambda-asset",
                                      path=os.path.join(os.path.dirname(
@@ -18,12 +18,11 @@ class MyStack(cdktf.TerraformStack):
                                      type=cdktf.AssetType.ARCHIVE
                                      )
 
-        aws.s3.S3BucketObject(self, "lambda-archive",
+        aws.s3_bucket_object.S3BucketObject(self, "lambda-archive",
                               bucket=bucket.bucket,
                               key=asset.file_name,
                               source=asset.path
                               )
-        x
 
 app = cdktf.App()
 MyStack(app, "demo")

@@ -44,10 +44,7 @@ new TerraformOutput(this, "first-zone", {
 
 ```python
 from cdktf import Fn, TerraformOutput
-from imports.aws.datasources import DataAwsAvailabilityZones
-
-        from cdktf import Fn, TerraformOutput
-        from imports.aws.datasources import DataAwsAvailabilityZones
+from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
 
         zones = DataAwsAvailabilityZones(self, 'zones',
             state = "available",

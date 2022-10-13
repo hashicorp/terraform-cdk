@@ -1,20 +1,20 @@
 # DOCS_BLOCK_START:hcl-interop
 from constructs import Construct
 from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
-from imports.random import Pet, RandomProvider
+import imports.random as random
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        RandomProvider(self, "default")
+        random.provider.RandomProvider(self, "default")
         petNameLength = TerraformVariable(self, "petNameLength",
             type = "number",
             default = 2,
             description = "Pet name length"
         )
 
-        myPet = Pet(self, "example",
+        myPet = random.pet.Pet(self, "example",
             length = petNameLength.number_value
         )
 
