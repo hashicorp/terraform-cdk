@@ -1,6 +1,6 @@
 from cdktf import TerraformStack, TerraformLocal, TerraformVariable, CloudBackend, NamedCloudWorkspace
-from imports.aws import ec2
-
+import imports.aws as aws
+from constructs import Construct
 
 class TestStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
@@ -11,7 +11,7 @@ class TestStack(TerraformStack):
             "owner": "owner"
         })
 
-        ec2.Instance(self, "example",
+        aws.instance.Instance(self, "example",
             tags = commonTags.expression
         )
         #DOCS_BLOCK_END:var-out-define-local
@@ -21,7 +21,7 @@ class TestStack(TerraformStack):
             default = "ami-abcde123",
             description = "What AMI to use to create an instance"
         )
-        ec2.Instance(self, "hello",
+        aws.instance.Instance(self, "hello",
             ami = imageId.string_value,
             instance_type = "t2.micro"
         )
@@ -59,8 +59,8 @@ class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        random.RandomProvider(self, "random")
-        pet = random.Pet(self, "pet")
+        random.provider.RandomProvider(self, "random")
+        pet = random.pet.Pet(self, "pet")
 
         TerraformOutput(self, "random-pet", 
             value = pet.id
@@ -87,8 +87,8 @@ class Producer(TerraformStack):
             workspaces = NamedCloudWorkspace("producer")
         )
 
-        random.RandomProvider(self, "random")
-        pet = random.Pet(self, "pet")
+        random.provider.RandomProvider(self, "random")
+        pet = random.pet.Pet(self, "pet")
 
         TerraformOutput(self, "random-pet",
             value = pet.id

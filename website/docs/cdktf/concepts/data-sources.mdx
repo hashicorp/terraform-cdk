@@ -21,6 +21,8 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
+
 <CodeTabs>
 
 ```typescript
@@ -37,11 +39,9 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
-
 ```python
 from cdktf import DataTerraformRemoteState
-from imports.aws import ec2
+from imports.aws.instance import Instance
 
 class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -53,7 +53,7 @@ class HelloTerraform(TerraformStack):
             workspace = 'vpc-prod'
         )
 
-        ec2.Instance(self, "foo",
+        Instance(self, "foo",
             #.....
             subnet_id = remoteState.get('subnet_id')
         )

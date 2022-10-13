@@ -1,20 +1,33 @@
-from cdktf import CloudBackend, NamedCloudWorkspace
-
-
 # DOCS_BLOCK_START:remote-backend-define
 from constructs import Construct
 from cdktf import App, CloudBackend, NamedCloudWorkspace, TerraformStack, TerraformOutput
+# DOCS_BLOCK_END:remote-backend-define
 
-class MyStack(TerraformStack):
+class Stack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
+# DOCS_BLOCK_START:remote-backend-migrate
+stack = Stack(App(), "hi-terraform")
+# DOCS_BLOCK_END:remote-backend-migrate
+
+# DOCS_BLOCK_START:remote-backend-define
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+        
+        # DOCS_BLOCK_END:remote-backend-define
+        
+        # DOCS_BLOCK_START:remote-backend-define,remote-backend-migrate
         CloudBackend(self,
             hostname = "app.terraform.io",
             organization = "company",
             workspaces = NamedCloudWorkspace("my-app-prod")
         )
-
+        # DOCS_BLOCK_END:remote-backend-define,remote-backend-migrate
+        
+        # DOCS_BLOCK_START:remote-backend-define
+        
         TerraformOutput(self, "dns-server",
             value = "hello-world"
         )
@@ -23,15 +36,6 @@ app = App()
 MyStack(app, "hello-terraform")
 app.synth
 # DOCS_BLOCK_END:remote-backend-define
-
-# DOCS_BLOCK_START:remote-backend-migrate
-stack = MyStack(app, "hi-terraform")
-CloudBackend(stack,
-    hostname = "app.terraform.io",
-    organization = "company",
-    workspaces = NamedCloudWorkspace("my-app")
-)
-# DOCS_BLOCK_END:remote-backend-migrate
 
 # DOCS_BLOCK_START:remote-backend-escape-hatches
 stack.add_override("terraform.backend",{

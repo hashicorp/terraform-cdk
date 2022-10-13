@@ -1,17 +1,17 @@
 # DOCS_BLOCK_START:providers-import-providers
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider, ec2
+import imports.aws as aws
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = "us-east-1",
         )
 
-        ec2.Instance(self, "hello",
+        aws.instance.Instance(self, "hello",
             ami = "ami-2757f631",
             instance_type = "t2.micro",
         )
@@ -25,28 +25,28 @@ app.synth
 import os
 from constructs import Construct
 from cdktf import App, TerraformStack, Token
-from imports.aws import AwsProvider, ec2
-from imports.dnsimple import DnsimpleProvider, Record
+import imports.aws as aws
+import imports.dnsimple as dnsimple
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = "us-east-1",
         )
 
-        instance = ec2.Instance(self, "Hello",
+        instance = aws.instance.Instance(self, "Hello",
             ami = "ami-2757f631",
             instance_type = "t2.micro",
         )
 
-        DnsimpleProvider(self, "dnsimple",
+        dnsimple.provider.DnsimpleProvider(self, "dnsimple",
             token = Token.as_string(os.getenv("DNSIMPLE_TOKEN")),
             account = Token.as_string(os.getenv("DNSIMPLE_ACCOUNT")),
         )
 
-        Record(self, "web-www",
+        dnsimple.record.Record(self, "web-www",
             domain = "example.com",
             name = "web",
             value = instance.public_ip,

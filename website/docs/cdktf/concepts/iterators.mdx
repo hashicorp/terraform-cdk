@@ -41,25 +41,28 @@ const s3Bucket = new S3Bucket(this, "bucket", {
 ```
 
 ```python
-from imports.aws import s3
-from cdktf import TerraformIterator, TerraformVariable
-        iterator = TerraformIterator.from_list(
-            list = [
-                {
-                    "name": "website-static-files",
-                    "tags": {"app": "website"}
-                },
-                {
-                    "name": "images",
-                    "tags": {"app": "image-converter"}
-                }
-            ]
+        org_name = "my-org"
+
+        github.provider.GithubProvider(self, "github",
+            organization=org_name
         )
 
-        s3Bucket = s3.S3Bucket(self, "bucket",
-            for_each = iterator,
-            name = iterator.getString("name"),
-            tags = iterator.getString("tags")
+        github_team = github.team.Team(self, "core-team",
+            name="core"
+        )
+
+        org_members = github.data_github_organization.DataGithubOrganization(self, "org",
+            name=org_name
+        )
+
+        org_member_iterator = TerraformIterator.from_list(org_members.members)
+
+        github.team_members.TeamMembers(self, "members",
+            team_id=github_team.id,
+            members=org_member_iterator.dynamic({
+                "username": Token().as_string(org_member_iterator.value),
+                "role": "maintainer"
+            })
         )
 ```
 
@@ -131,6 +134,8 @@ You can also use iterators to create a list of objects based on each item in a l
 Use iterators for list attributes if the length of the list is not known before deploying. Otherwise, use native functions that are available in your language (e.g., `Array.map` in TypeScript).
 
 The following examples use an iterator to create a team containing each member of an organization.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
 
 <CodeTabs>
 

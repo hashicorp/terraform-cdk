@@ -2,7 +2,7 @@ from constructs import Construct
 from cdktf import TerraformStack
 # DOCS_BLOCK_START:functions-usage-example
 from cdktf import Fn, TerraformOutput
-from imports.aws.datasources import DataAwsAvailabilityZones
+from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
 # DOCS_BLOCK_END:functions-usage-example
 
 class TestStack(TerraformStack):
@@ -10,9 +10,6 @@ class TestStack(TerraformStack):
         super().__init__(scope, id)
 
         # DOCS_BLOCK_START:functions-usage-example
-        
-        from cdktf import Fn, TerraformOutput
-        from imports.aws.datasources import DataAwsAvailabilityZones
 
         zones = DataAwsAvailabilityZones(self, 'zones',
             state = "available",

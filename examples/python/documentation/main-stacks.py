@@ -1,17 +1,17 @@
 #DOCS_BLOCK_START:single-stack
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider, ec2
+import imports.aws as aws
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = "us-east-1"
         )
 
-        ec2.Instance(self, "Hello",
+        aws.instance.Instance(self, "Hello",
             ami = "ami-2757f631",
             instance_type = "t2.micro"
         )
@@ -24,7 +24,7 @@ app.synth
 #DOCS_BLOCK_START:multiple-stacks
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider, ec2
+import imports.aws as aws
 
 class MyStackConfig:
     environment: str
@@ -40,11 +40,11 @@ class MyStack(TerraformStack):
 
         region = "us-east-1" if config.region == None else config.region
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = region
         )
 
-        ec2.Instance(self, "Hello",
+        aws.instance.Instance(self, "Hello",
             ami = "ami-2757f631",
             instance_type = "t2.micro",
             tags = {
@@ -63,7 +63,7 @@ app.synth
 #DOCS_BLOCK_START:cross-stack-reference
 from constructs import Construct
 from cdktf import App, TerraformStack
-from imports.aws import AwsProvider
+import imports.aws as aws
 from imports.vpc import Vpc
 from my_constructs import DockerBackend
 
@@ -73,7 +73,7 @@ class VPCStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws",
+        aws.provider.AwsProvider(self, "aws",
             region = self.region
         )
 
@@ -92,7 +92,7 @@ class BackendStack(TerraformStack):
     def __init__(self, scope: Construct, id: str, config: BackendStackConfig):
         super().__init__(scope, id)
 
-        AwsProvider(self, "aws", 
+        aws.provider.AwsProvider(self, "aws", 
             region = config.region
         )
 

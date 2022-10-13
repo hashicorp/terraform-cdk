@@ -90,7 +90,6 @@ app.synth();
 ```
 
 ```python
-
 from constructs import Construct
 from cdktf import App, TerraformStack
 
@@ -114,7 +113,6 @@ class PublicS3Bucket(Construct):
                 error_document = "5xx.html",
             )
         )
-
 
 class MyStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):

@@ -2,8 +2,8 @@ from cdktf import TerraformStack
 from constructs import Construct
 
 # DOCS_BLOCK_START:data-sources-define-data-sources
-from imports.aws.datasources import DataAwsRegion
-from imports.aws import AwsProvider
+from imports.aws.data_aws_region import DataAwsRegion
+from imports.aws.provider import AwsProvider
 
 class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -19,11 +19,10 @@ class HelloTerraform(TerraformStack):
 # DOCS_BLOCK_END:data-sources-define-data-sources
 
 from cdktf import DataTerraformRemoteState
-from imports.aws import ec2
 
 # DOCS_BLOCK_START:data-sources-remote-state-data-source
 from cdktf import DataTerraformRemoteState
-from imports.aws import ec2
+from imports.aws.instance import Instance
 
 class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -35,7 +34,7 @@ class HelloTerraform(TerraformStack):
             workspace = 'vpc-prod'
         )
 
-        ec2.Instance(self, "foo",
+        Instance(self, "foo",
             #.....
             subnet_id = remoteState.get('subnet_id')
         )
