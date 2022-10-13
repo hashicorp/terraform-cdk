@@ -114,6 +114,10 @@ export async function deploy(argv: any) {
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -133,10 +137,10 @@ export async function deploy(argv: any) {
       autoApprove,
       onOutputsRetrieved,
       outputsPath,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
       refreshOnly,
+      terraformParallelism,
     })
   );
 }
@@ -150,6 +154,10 @@ export async function destroy(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -157,9 +165,9 @@ export async function destroy(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
+      terraformParallelism,
     })
   );
 }
@@ -173,6 +181,7 @@ export async function diff(argv: any) {
   const outDir = argv.output;
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Diff, {
@@ -180,6 +189,7 @@ export async function diff(argv: any) {
       refreshOnly,
       targetStack: stack,
       synthCommand: command,
+      terraformParallelism,
     })
   );
 }
@@ -323,6 +333,8 @@ export async function watch(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const terraformParallelism = argv.terraformParallelism;
+  const parallelism = argv.parallelism;
 
   if (!autoApprove) {
     console.error(
@@ -337,6 +349,8 @@ export async function watch(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
+      terraformParallelism,
+      parallelism,
     })
   );
 }

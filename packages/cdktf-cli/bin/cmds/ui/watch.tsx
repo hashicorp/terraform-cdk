@@ -10,6 +10,7 @@ interface WatchConfig {
   parallelism?: number;
   synthCommand: string;
   autoApprove: boolean;
+  terraformParallelism?: number;
 }
 
 export const Watch = ({
@@ -18,6 +19,7 @@ export const Watch = ({
   synthCommand,
   autoApprove,
   parallelism,
+  terraformParallelism,
 }: WatchConfig): React.ReactElement => {
   const [logEntryId, setLogEntryId] = useState<number>(0);
   const [logEntries, setLogEntries] = useState<LogEntry[]>([]);
@@ -57,6 +59,7 @@ export const Watch = ({
         autoApprove,
         stackNames: targetStacks,
         parallelism,
+        terraformParallelism,
       },
       ac.signal,
       (state) => {
