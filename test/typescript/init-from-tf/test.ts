@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
 import * as fs from "fs";
 import * as path from "path";

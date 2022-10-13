@@ -12665,37 +12665,53 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 	Key: *string,
 	StorageAccountName: *string,
 	AccessKey: *string,
+	ClientCertificatePassword: *string,
+	ClientCertificatePath: *string,
 	ClientId: *string,
 	ClientSecret: *string,
 	Endpoint: *string,
 	Environment: *string,
 	MsiEndpoint: *string,
+	OidcRequestToken: *string,
+	OidcRequestUrl: *string,
 	ResourceGroupName: *string,
 	SasToken: *string,
+	Snapshot: *bool,
 	SubscriptionId: *string,
 	TenantId: *string,
+	UseAzureadAuth: *bool,
+	UseMicrosoftGraph: *bool,
 	UseMsi: *bool,
+	UseOidc: *bool,
 }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                             | **Type**              | **Description**                                                                                                                 |
-| ---------------------------------------------------------------------------------------------------- | --------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.AzurermBackendProps.property.containerName">ContainerName</a></code>           | <code>\*string</code> | (Required) The Name of the Storage Container within the Storage Account.                                                        |
-| <code><a href="#cdktf.AzurermBackendProps.property.key">Key</a></code>                               | <code>\*string</code> | (Required) The name of the Blob used to retrieve/store Terraform's State file inside the Storage Container.                     |
-| <code><a href="#cdktf.AzurermBackendProps.property.storageAccountName">StorageAccountName</a></code> | <code>\*string</code> | (Required) The Name of the Storage Account.                                                                                     |
-| <code><a href="#cdktf.AzurermBackendProps.property.accessKey">AccessKey</a></code>                   | <code>\*string</code> | access_key - (Optional) The Access Key used to access the Blob Storage Account.                                                 |
-| <code><a href="#cdktf.AzurermBackendProps.property.clientId">ClientId</a></code>                     | <code>\*string</code> | (Optional) The Client ID of the Service Principal.                                                                              |
-| <code><a href="#cdktf.AzurermBackendProps.property.clientSecret">ClientSecret</a></code>             | <code>\*string</code> | (Optional) The Client Secret of the Service Principal.                                                                          |
-| <code><a href="#cdktf.AzurermBackendProps.property.endpoint">Endpoint</a></code>                     | <code>\*string</code> | (Optional) The Custom Endpoint for Azure Resource Manager. This can also be sourced from the ARM_ENDPOINT environment variable. |
-| <code><a href="#cdktf.AzurermBackendProps.property.environment">Environment</a></code>               | <code>\*string</code> | (Optional) The Azure Environment which should be used.                                                                          |
-| <code><a href="#cdktf.AzurermBackendProps.property.msiEndpoint">MsiEndpoint</a></code>               | <code>\*string</code> | (Optional) The path to a custom Managed Service Identity endpoint which is automatically determined if not specified.           |
-| <code><a href="#cdktf.AzurermBackendProps.property.resourceGroupName">ResourceGroupName</a></code>   | <code>\*string</code> | (Required) The Name of the Resource Group in which the Storage Account exists.                                                  |
-| <code><a href="#cdktf.AzurermBackendProps.property.sasToken">SasToken</a></code>                     | <code>\*string</code> | (Optional) The SAS Token used to access the Blob Storage Account.                                                               |
-| <code><a href="#cdktf.AzurermBackendProps.property.subscriptionId">SubscriptionId</a></code>         | <code>\*string</code> | (Optional) The Subscription ID in which the Storage Account exists.                                                             |
-| <code><a href="#cdktf.AzurermBackendProps.property.tenantId">TenantId</a></code>                     | <code>\*string</code> | (Optional) The Tenant ID in which the Subscription exists.                                                                      |
-| <code><a href="#cdktf.AzurermBackendProps.property.useMsi">UseMsi</a></code>                         | <code>\*bool</code>   | (Optional) Should Managed Service Identity authentication be used?                                                              |
+| **Name**                                                                                                           | **Type**              | **Description**                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------ | --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.AzurermBackendProps.property.containerName">ContainerName</a></code>                         | <code>\*string</code> | (Required) The Name of the Storage Container within the Storage Account.                                                                       |
+| <code><a href="#cdktf.AzurermBackendProps.property.key">Key</a></code>                                             | <code>\*string</code> | (Required) The name of the Blob used to retrieve/store Terraform's State file inside the Storage Container.                                    |
+| <code><a href="#cdktf.AzurermBackendProps.property.storageAccountName">StorageAccountName</a></code>               | <code>\*string</code> | (Required) The Name of the Storage Account.                                                                                                    |
+| <code><a href="#cdktf.AzurermBackendProps.property.accessKey">AccessKey</a></code>                                 | <code>\*string</code> | access_key - (Optional) The Access Key used to access the Blob Storage Account.                                                                |
+| <code><a href="#cdktf.AzurermBackendProps.property.clientCertificatePassword">ClientCertificatePassword</a></code> | <code>\*string</code> | (Optional) The password associated with the Client Certificate specified in client_certificate_path.                                           |
+| <code><a href="#cdktf.AzurermBackendProps.property.clientCertificatePath">ClientCertificatePath</a></code>         | <code>\*string</code> | (Optional) The path to the PFX file used as the Client Certificate when authenticating as a Service Principal.                                 |
+| <code><a href="#cdktf.AzurermBackendProps.property.clientId">ClientId</a></code>                                   | <code>\*string</code> | (Optional) The Client ID of the Service Principal.                                                                                             |
+| <code><a href="#cdktf.AzurermBackendProps.property.clientSecret">ClientSecret</a></code>                           | <code>\*string</code> | (Optional) The Client Secret of the Service Principal.                                                                                         |
+| <code><a href="#cdktf.AzurermBackendProps.property.endpoint">Endpoint</a></code>                                   | <code>\*string</code> | (Optional) The Custom Endpoint for Azure Resource Manager. This can also be sourced from the ARM_ENDPOINT environment variable.                |
+| <code><a href="#cdktf.AzurermBackendProps.property.environment">Environment</a></code>                             | <code>\*string</code> | (Optional) The Azure Environment which should be used.                                                                                         |
+| <code><a href="#cdktf.AzurermBackendProps.property.msiEndpoint">MsiEndpoint</a></code>                             | <code>\*string</code> | (Optional) The path to a custom Managed Service Identity endpoint which is automatically determined if not specified.                          |
+| <code><a href="#cdktf.AzurermBackendProps.property.oidcRequestToken">OidcRequestToken</a></code>                   | <code>\*string</code> | (Optional) The bearer token for the request to the OIDC provider.                                                                              |
+| <code><a href="#cdktf.AzurermBackendProps.property.oidcRequestUrl">OidcRequestUrl</a></code>                       | <code>\*string</code> | (Optional) The URL for the OIDC provider from which to request an ID token.                                                                    |
+| <code><a href="#cdktf.AzurermBackendProps.property.resourceGroupName">ResourceGroupName</a></code>                 | <code>\*string</code> | (Required) The Name of the Resource Group in which the Storage Account exists.                                                                 |
+| <code><a href="#cdktf.AzurermBackendProps.property.sasToken">SasToken</a></code>                                   | <code>\*string</code> | (Optional) The SAS Token used to access the Blob Storage Account.                                                                              |
+| <code><a href="#cdktf.AzurermBackendProps.property.snapshot">Snapshot</a></code>                                   | <code>\*bool</code>   | (Optional) Should the Blob used to store the Terraform Statefile be snapshotted before use?                                                    |
+| <code><a href="#cdktf.AzurermBackendProps.property.subscriptionId">SubscriptionId</a></code>                       | <code>\*string</code> | (Optional) The Subscription ID in which the Storage Account exists.                                                                            |
+| <code><a href="#cdktf.AzurermBackendProps.property.tenantId">TenantId</a></code>                                   | <code>\*string</code> | (Optional) The Tenant ID in which the Subscription exists.                                                                                     |
+| <code><a href="#cdktf.AzurermBackendProps.property.useAzureadAuth">UseAzureadAuth</a></code>                       | <code>\*bool</code>   | (Optional) Should AzureAD Authentication be used to access the Blob Storage Account.                                                           |
+| <code><a href="#cdktf.AzurermBackendProps.property.useMicrosoftGraph">UseMicrosoftGraph</a></code>                 | <code>\*bool</code>   | (Optional) Should MSAL be used for authentication instead of ADAL, and should Microsoft Graph be used instead of Azure Active Directory Graph? |
+| <code><a href="#cdktf.AzurermBackendProps.property.useMsi">UseMsi</a></code>                                       | <code>\*bool</code>   | (Optional) Should Managed Service Identity authentication be used?                                                                             |
+| <code><a href="#cdktf.AzurermBackendProps.property.useOidc">UseOidc</a></code>                                     | <code>\*bool</code>   | (Optional) Should OIDC authentication be used? This can also be sourced from the ARM_USE_OIDC environment variable.                            |
 
 ---
 
@@ -12746,6 +12762,36 @@ AccessKey *string
 access_key - (Optional) The Access Key used to access the Blob Storage Account.
 
 This can also be sourced from the ARM_ACCESS_KEY environment variable.
+
+---
+
+##### `ClientCertificatePassword`<sup>Optional</sup> <a name="ClientCertificatePassword" id="cdktf.AzurermBackendProps.property.clientCertificatePassword"></a>
+
+```go
+ClientCertificatePassword *string
+```
+
+- _Type:_ \*string
+
+(Optional) The password associated with the Client Certificate specified in client_certificate_path.
+
+This can also be sourced from the
+ARM_CLIENT_CERTIFICATE_PASSWORD environment variable.
+
+---
+
+##### `ClientCertificatePath`<sup>Optional</sup> <a name="ClientCertificatePath" id="cdktf.AzurermBackendProps.property.clientCertificatePath"></a>
+
+```go
+ClientCertificatePath *string
+```
+
+- _Type:_ \*string
+
+(Optional) The path to the PFX file used as the Client Certificate when authenticating as a Service Principal.
+
+This can also be sourced from the
+ARM_CLIENT_CERTIFICATE_PATH environment variable.
 
 ---
 
@@ -12820,6 +12866,37 @@ This can also be sourced from the ARM_MSI_ENDPOINT environment variable.
 
 ---
 
+##### `OidcRequestToken`<sup>Optional</sup> <a name="OidcRequestToken" id="cdktf.AzurermBackendProps.property.oidcRequestToken"></a>
+
+```go
+OidcRequestToken *string
+```
+
+- _Type:_ \*string
+
+(Optional) The bearer token for the request to the OIDC provider.
+
+This can
+also be sourced from the ARM_OIDC_REQUEST_TOKEN or
+ACTIONS_ID_TOKEN_REQUEST_TOKEN environment variables.
+
+---
+
+##### `OidcRequestUrl`<sup>Optional</sup> <a name="OidcRequestUrl" id="cdktf.AzurermBackendProps.property.oidcRequestUrl"></a>
+
+```go
+OidcRequestUrl *string
+```
+
+- _Type:_ \*string
+
+(Optional) The URL for the OIDC provider from which to request an ID token.
+
+This can also be sourced from the ARM_OIDC_REQUEST_URL or
+ACTIONS_ID_TOKEN_REQUEST_URL environment variables.
+
+---
+
 ##### `ResourceGroupName`<sup>Optional</sup> <a name="ResourceGroupName" id="cdktf.AzurermBackendProps.property.resourceGroupName"></a>
 
 ```go
@@ -12843,6 +12920,21 @@ SasToken *string
 (Optional) The SAS Token used to access the Blob Storage Account.
 
 This can also be sourced from the ARM_SAS_TOKEN environment variable.
+
+---
+
+##### `Snapshot`<sup>Optional</sup> <a name="Snapshot" id="cdktf.AzurermBackendProps.property.snapshot"></a>
+
+```go
+Snapshot *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should the Blob used to store the Terraform Statefile be snapshotted before use?
+
+Defaults to false. This value can also be sourced
+from the ARM_SNAPSHOT environment variable.
 
 ---
 
@@ -12874,6 +12966,44 @@ This can also be sourced from the ARM_TENANT_ID environment variable.
 
 ---
 
+##### `UseAzureadAuth`<sup>Optional</sup> <a name="UseAzureadAuth" id="cdktf.AzurermBackendProps.property.useAzureadAuth"></a>
+
+```go
+UseAzureadAuth *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should AzureAD Authentication be used to access the Blob Storage Account.
+
+This can also be sourced from the ARM_USE_AZUREAD environment
+variable.
+
+Note: When using AzureAD for Authentication to Storage you also need to
+ensure the Storage Blob Data Owner role is assigned.
+
+---
+
+##### `UseMicrosoftGraph`<sup>Optional</sup> <a name="UseMicrosoftGraph" id="cdktf.AzurermBackendProps.property.useMicrosoftGraph"></a>
+
+```go
+UseMicrosoftGraph *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should MSAL be used for authentication instead of ADAL, and should Microsoft Graph be used instead of Azure Active Directory Graph?
+
+Defaults to true.
+
+Note: In Terraform 1.2 the Azure Backend uses MSAL (and Microsoft Graph)
+rather than ADAL (and Azure Active Directory Graph) for authentication by
+default - you can disable this by setting use_microsoft_graph to false.
+This setting will be removed in Terraform 1.3, due to Microsoft's
+deprecation of ADAL.
+
+---
+
 ##### `UseMsi`<sup>Optional</sup> <a name="UseMsi" id="cdktf.AzurermBackendProps.property.useMsi"></a>
 
 ```go
@@ -12885,6 +13015,21 @@ UseMsi *bool
 (Optional) Should Managed Service Identity authentication be used?
 
 This can also be sourced from the ARM_USE_MSI environment variable.
+
+---
+
+##### `UseOidc`<sup>Optional</sup> <a name="UseOidc" id="cdktf.AzurermBackendProps.property.useOidc"></a>
+
+```go
+UseOidc *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should OIDC authentication be used? This can also be sourced from the ARM_USE_OIDC environment variable.
+
+Note: When using OIDC for authentication, use_microsoft_graph
+must be set to true (which is the default).
 
 ---
 
@@ -13442,39 +13587,55 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 	Key: *string,
 	StorageAccountName: *string,
 	AccessKey: *string,
+	ClientCertificatePassword: *string,
+	ClientCertificatePath: *string,
 	ClientId: *string,
 	ClientSecret: *string,
 	Endpoint: *string,
 	Environment: *string,
 	MsiEndpoint: *string,
+	OidcRequestToken: *string,
+	OidcRequestUrl: *string,
 	ResourceGroupName: *string,
 	SasToken: *string,
+	Snapshot: *bool,
 	SubscriptionId: *string,
 	TenantId: *string,
+	UseAzureadAuth: *bool,
+	UseMicrosoftGraph: *bool,
 	UseMsi: *bool,
+	UseOidc: *bool,
 }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                               | **Type**                              | **Description**                                                                                                                 |
-| ---------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.defaults">Defaults</a></code>                     | <code>\*map[string]interface{}</code> | _No description._                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.workspace">Workspace</a></code>                   | <code>\*string</code>                 | _No description._                                                                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.containerName">ContainerName</a></code>           | <code>\*string</code>                 | (Required) The Name of the Storage Container within the Storage Account.                                                        |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.key">Key</a></code>                               | <code>\*string</code>                 | (Required) The name of the Blob used to retrieve/store Terraform's State file inside the Storage Container.                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.storageAccountName">StorageAccountName</a></code> | <code>\*string</code>                 | (Required) The Name of the Storage Account.                                                                                     |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.accessKey">AccessKey</a></code>                   | <code>\*string</code>                 | access_key - (Optional) The Access Key used to access the Blob Storage Account.                                                 |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientId">ClientId</a></code>                     | <code>\*string</code>                 | (Optional) The Client ID of the Service Principal.                                                                              |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientSecret">ClientSecret</a></code>             | <code>\*string</code>                 | (Optional) The Client Secret of the Service Principal.                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.endpoint">Endpoint</a></code>                     | <code>\*string</code>                 | (Optional) The Custom Endpoint for Azure Resource Manager. This can also be sourced from the ARM_ENDPOINT environment variable. |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.environment">Environment</a></code>               | <code>\*string</code>                 | (Optional) The Azure Environment which should be used.                                                                          |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.msiEndpoint">MsiEndpoint</a></code>               | <code>\*string</code>                 | (Optional) The path to a custom Managed Service Identity endpoint which is automatically determined if not specified.           |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.resourceGroupName">ResourceGroupName</a></code>   | <code>\*string</code>                 | (Required) The Name of the Resource Group in which the Storage Account exists.                                                  |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.sasToken">SasToken</a></code>                     | <code>\*string</code>                 | (Optional) The SAS Token used to access the Blob Storage Account.                                                               |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.subscriptionId">SubscriptionId</a></code>         | <code>\*string</code>                 | (Optional) The Subscription ID in which the Storage Account exists.                                                             |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.tenantId">TenantId</a></code>                     | <code>\*string</code>                 | (Optional) The Tenant ID in which the Subscription exists.                                                                      |
-| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.useMsi">UseMsi</a></code>                         | <code>\*bool</code>                   | (Optional) Should Managed Service Identity authentication be used?                                                              |
+| **Name**                                                                                                                             | **Type**                              | **Description**                                                                                                                                |
+| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.defaults">Defaults</a></code>                                   | <code>\*map[string]interface{}</code> | _No description._                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.workspace">Workspace</a></code>                                 | <code>\*string</code>                 | _No description._                                                                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.containerName">ContainerName</a></code>                         | <code>\*string</code>                 | (Required) The Name of the Storage Container within the Storage Account.                                                                       |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.key">Key</a></code>                                             | <code>\*string</code>                 | (Required) The name of the Blob used to retrieve/store Terraform's State file inside the Storage Container.                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.storageAccountName">StorageAccountName</a></code>               | <code>\*string</code>                 | (Required) The Name of the Storage Account.                                                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.accessKey">AccessKey</a></code>                                 | <code>\*string</code>                 | access_key - (Optional) The Access Key used to access the Blob Storage Account.                                                                |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientCertificatePassword">ClientCertificatePassword</a></code> | <code>\*string</code>                 | (Optional) The password associated with the Client Certificate specified in client_certificate_path.                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientCertificatePath">ClientCertificatePath</a></code>         | <code>\*string</code>                 | (Optional) The path to the PFX file used as the Client Certificate when authenticating as a Service Principal.                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientId">ClientId</a></code>                                   | <code>\*string</code>                 | (Optional) The Client ID of the Service Principal.                                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.clientSecret">ClientSecret</a></code>                           | <code>\*string</code>                 | (Optional) The Client Secret of the Service Principal.                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.endpoint">Endpoint</a></code>                                   | <code>\*string</code>                 | (Optional) The Custom Endpoint for Azure Resource Manager. This can also be sourced from the ARM_ENDPOINT environment variable.                |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.environment">Environment</a></code>                             | <code>\*string</code>                 | (Optional) The Azure Environment which should be used.                                                                                         |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.msiEndpoint">MsiEndpoint</a></code>                             | <code>\*string</code>                 | (Optional) The path to a custom Managed Service Identity endpoint which is automatically determined if not specified.                          |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.oidcRequestToken">OidcRequestToken</a></code>                   | <code>\*string</code>                 | (Optional) The bearer token for the request to the OIDC provider.                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.oidcRequestUrl">OidcRequestUrl</a></code>                       | <code>\*string</code>                 | (Optional) The URL for the OIDC provider from which to request an ID token.                                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.resourceGroupName">ResourceGroupName</a></code>                 | <code>\*string</code>                 | (Required) The Name of the Resource Group in which the Storage Account exists.                                                                 |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.sasToken">SasToken</a></code>                                   | <code>\*string</code>                 | (Optional) The SAS Token used to access the Blob Storage Account.                                                                              |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.snapshot">Snapshot</a></code>                                   | <code>\*bool</code>                   | (Optional) Should the Blob used to store the Terraform Statefile be snapshotted before use?                                                    |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.subscriptionId">SubscriptionId</a></code>                       | <code>\*string</code>                 | (Optional) The Subscription ID in which the Storage Account exists.                                                                            |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.tenantId">TenantId</a></code>                                   | <code>\*string</code>                 | (Optional) The Tenant ID in which the Subscription exists.                                                                                     |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.useAzureadAuth">UseAzureadAuth</a></code>                       | <code>\*bool</code>                   | (Optional) Should AzureAD Authentication be used to access the Blob Storage Account.                                                           |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.useMicrosoftGraph">UseMicrosoftGraph</a></code>                 | <code>\*bool</code>                   | (Optional) Should MSAL be used for authentication instead of ADAL, and should Microsoft Graph be used instead of Azure Active Directory Graph? |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.useMsi">UseMsi</a></code>                                       | <code>\*bool</code>                   | (Optional) Should Managed Service Identity authentication be used?                                                                             |
+| <code><a href="#cdktf.DataTerraformRemoteStateAzurermConfig.property.useOidc">UseOidc</a></code>                                     | <code>\*bool</code>                   | (Optional) Should OIDC authentication be used? This can also be sourced from the ARM_USE_OIDC environment variable.                            |
 
 ---
 
@@ -13545,6 +13706,36 @@ AccessKey *string
 access_key - (Optional) The Access Key used to access the Blob Storage Account.
 
 This can also be sourced from the ARM_ACCESS_KEY environment variable.
+
+---
+
+##### `ClientCertificatePassword`<sup>Optional</sup> <a name="ClientCertificatePassword" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.clientCertificatePassword"></a>
+
+```go
+ClientCertificatePassword *string
+```
+
+- _Type:_ \*string
+
+(Optional) The password associated with the Client Certificate specified in client_certificate_path.
+
+This can also be sourced from the
+ARM_CLIENT_CERTIFICATE_PASSWORD environment variable.
+
+---
+
+##### `ClientCertificatePath`<sup>Optional</sup> <a name="ClientCertificatePath" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.clientCertificatePath"></a>
+
+```go
+ClientCertificatePath *string
+```
+
+- _Type:_ \*string
+
+(Optional) The path to the PFX file used as the Client Certificate when authenticating as a Service Principal.
+
+This can also be sourced from the
+ARM_CLIENT_CERTIFICATE_PATH environment variable.
 
 ---
 
@@ -13619,6 +13810,37 @@ This can also be sourced from the ARM_MSI_ENDPOINT environment variable.
 
 ---
 
+##### `OidcRequestToken`<sup>Optional</sup> <a name="OidcRequestToken" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.oidcRequestToken"></a>
+
+```go
+OidcRequestToken *string
+```
+
+- _Type:_ \*string
+
+(Optional) The bearer token for the request to the OIDC provider.
+
+This can
+also be sourced from the ARM_OIDC_REQUEST_TOKEN or
+ACTIONS_ID_TOKEN_REQUEST_TOKEN environment variables.
+
+---
+
+##### `OidcRequestUrl`<sup>Optional</sup> <a name="OidcRequestUrl" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.oidcRequestUrl"></a>
+
+```go
+OidcRequestUrl *string
+```
+
+- _Type:_ \*string
+
+(Optional) The URL for the OIDC provider from which to request an ID token.
+
+This can also be sourced from the ARM_OIDC_REQUEST_URL or
+ACTIONS_ID_TOKEN_REQUEST_URL environment variables.
+
+---
+
 ##### `ResourceGroupName`<sup>Optional</sup> <a name="ResourceGroupName" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.resourceGroupName"></a>
 
 ```go
@@ -13642,6 +13864,21 @@ SasToken *string
 (Optional) The SAS Token used to access the Blob Storage Account.
 
 This can also be sourced from the ARM_SAS_TOKEN environment variable.
+
+---
+
+##### `Snapshot`<sup>Optional</sup> <a name="Snapshot" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.snapshot"></a>
+
+```go
+Snapshot *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should the Blob used to store the Terraform Statefile be snapshotted before use?
+
+Defaults to false. This value can also be sourced
+from the ARM_SNAPSHOT environment variable.
 
 ---
 
@@ -13673,6 +13910,44 @@ This can also be sourced from the ARM_TENANT_ID environment variable.
 
 ---
 
+##### `UseAzureadAuth`<sup>Optional</sup> <a name="UseAzureadAuth" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.useAzureadAuth"></a>
+
+```go
+UseAzureadAuth *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should AzureAD Authentication be used to access the Blob Storage Account.
+
+This can also be sourced from the ARM_USE_AZUREAD environment
+variable.
+
+Note: When using AzureAD for Authentication to Storage you also need to
+ensure the Storage Blob Data Owner role is assigned.
+
+---
+
+##### `UseMicrosoftGraph`<sup>Optional</sup> <a name="UseMicrosoftGraph" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.useMicrosoftGraph"></a>
+
+```go
+UseMicrosoftGraph *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should MSAL be used for authentication instead of ADAL, and should Microsoft Graph be used instead of Azure Active Directory Graph?
+
+Defaults to true.
+
+Note: In Terraform 1.2 the Azure Backend uses MSAL (and Microsoft Graph)
+rather than ADAL (and Azure Active Directory Graph) for authentication by
+default - you can disable this by setting use_microsoft_graph to false.
+This setting will be removed in Terraform 1.3, due to Microsoft's
+deprecation of ADAL.
+
+---
+
 ##### `UseMsi`<sup>Optional</sup> <a name="UseMsi" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.useMsi"></a>
 
 ```go
@@ -13684,6 +13959,21 @@ UseMsi *bool
 (Optional) Should Managed Service Identity authentication be used?
 
 This can also be sourced from the ARM_USE_MSI environment variable.
+
+---
+
+##### `UseOidc`<sup>Optional</sup> <a name="UseOidc" id="cdktf.DataTerraformRemoteStateAzurermConfig.property.useOidc"></a>
+
+```go
+UseOidc *bool
+```
+
+- _Type:_ \*bool
+
+(Optional) Should OIDC authentication be used? This can also be sourced from the ARM_USE_OIDC environment variable.
+
+Note: When using OIDC for authentication, use_microsoft_graph
+must be set to true (which is the default).
 
 ---
 

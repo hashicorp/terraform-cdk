@@ -1,5 +1,5 @@
 {
-    "name": "@examples/python-gcp-cloud-function",
+    "name": "@examples/python-google-cloud-function",
     "version": "0.0.0",
     "license": "MPL-2.0",
     "scripts": {

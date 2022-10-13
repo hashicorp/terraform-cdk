@@ -2,7 +2,6 @@
     "language": "go",
     "app": "go run main.go",
     "codeMakerOutput": "generated",
-    "projectId": "8acbba0c-66a6-471b-bd44-9641bbc0f3a3",
     "terraformProviders": [
         "scaleway/scaleway@>= 2.2.0"
     ],

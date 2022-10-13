@@ -3,28 +3,10 @@ package com.mycompany.app;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.kubernetes.Deployment;
-import imports.kubernetes.DeploymentConfig;
-import imports.kubernetes.DeploymentMetadata;
-import imports.kubernetes.DeploymentSpec;
-import imports.kubernetes.DeploymentSpecSelector;
-import imports.kubernetes.DeploymentSpecTemplate;
-import imports.kubernetes.DeploymentSpecTemplateMetadata;
-import imports.kubernetes.DeploymentSpecTemplateSpec;
-import imports.kubernetes.DeploymentSpecTemplateSpecContainer;
-import imports.kubernetes.DeploymentSpecTemplateSpecContainerPort;
-import imports.kubernetes.DeploymentSpecTemplateSpecContainerResources;
-import imports.kubernetes.DeploymentSpecTemplateSpecContainerResourcesLimits;
-import imports.kubernetes.DeploymentSpecTemplateSpecContainerResourcesRequests;
-import imports.kubernetes.KubernetesProvider;
-import imports.kubernetes.Namespace;
-import imports.kubernetes.NamespaceConfig;
-import imports.kubernetes.NamespaceMetadata;
-import imports.kubernetes.Service;
-import imports.kubernetes.ServiceConfig;
-import imports.kubernetes.ServiceMetadata;
-import imports.kubernetes.ServiceSpec;
-import imports.kubernetes.ServiceSpecPort;
+import imports.kubernetes.deployment.*;
+import imports.kubernetes.provider.KubernetesProvider;
+import imports.kubernetes.namespace.*;
+import imports.kubernetes.service.*;
 
 import software.constructs.Construct;
 

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
@@ -39,6 +41,13 @@ class Command extends BaseCommand {
         type: "number",
         required: false,
         desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
+        default: -1,
+      })
+      .option("terraform-parallelism", {
+        type: "number",
+        required: false,
+        desc: "Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend",
+        // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
       .showHelpOnFail(true);

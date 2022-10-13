@@ -107,7 +107,7 @@ The following example exposes configuration options for the S3 bucket resource w
 
 ```typescript
 import { Construct } from "constructs";
-import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3";
+import { S3Bucket, S3BucketConfig } from "@cdktf/provider-aws/lib/s3bucket";
 
 class MyS3Bucket extends Construct {
   constructor(
@@ -116,7 +116,7 @@ class MyS3Bucket extends Construct {
     protected s3Options: S3BucketConfig
   ) {
     super(scope, id);
-    new s3.Bucket(this, "MyBucket", {
+    new S3Bucket(this, "MyBucket", {
       ...s3Options,
       bucketName: this.getBucketName(),
       versioned: true,

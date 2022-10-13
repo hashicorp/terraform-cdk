@@ -8,13 +8,13 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.docker.DockerProvider;
-import imports.docker.Image;
-import imports.docker.ImageConfig;
-import imports.docker.Container;
-import imports.docker.ContainerConfig;
-import imports.docker.DataDockerImage;
-import imports.docker.DataDockerImageConfig;
+import imports.docker.provider.DockerProvider;
+import imports.docker.image.Image;
+import imports.docker.image.ImageConfig;
+import imports.docker.container.Container;
+import imports.docker.container.ContainerConfig;
+import imports.docker.data_docker_image.DataDockerImage;
+import imports.docker.data_docker_image.DataDockerImageConfig;
 
 
 public class Main extends TerraformStack {

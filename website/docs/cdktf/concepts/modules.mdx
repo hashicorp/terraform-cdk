@@ -24,7 +24,7 @@ You can use modules from the [Terraform Registry](https://registry.terraform.io/
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "@cdktf/provider-aws";
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
 import { Vpc } from '.gen/modules/vpc';
 
 class MyStack extends TerraformStack {

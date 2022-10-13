@@ -45,6 +45,7 @@ jobs:
           yarn install
       - name: compile
         run: |
+          yarn lint:examples
           yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"

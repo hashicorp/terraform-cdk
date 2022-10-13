@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as Sentry from "@sentry/node";
 import { getProjectId, getUserId } from "./checkpoint";
 import { collectDebugInformation } from "./debug";

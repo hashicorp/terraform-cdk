@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 export * from "./s3-backend";
 export * from "./local-backend";
 export * from "./remote-backend";

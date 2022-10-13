@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -23,25 +25,19 @@ test("shard exports across multiple files to avoid generating files with more th
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/wafv2/wafv2-web-acl.ts"),
+    path.join(workdir, "providers/aws/wafv2-web-acl/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot(`wafv2-web-acl-resource`);
 
-  const outputIndex = fs.readFileSync(
-    path.join(workdir, "providers/aws/wafv2/index.ts"),
-    "utf-8"
-  );
-  expect(outputIndex).toMatchSnapshot(`index`);
-
   const outputStructsIndex = fs.readFileSync(
-    path.join(workdir, "providers/aws/wafv2/wafv2-web-acl-structs/index.ts"),
+    path.join(workdir, "providers/aws/wafv2-web-acl/index-structs/index.ts"),
     "utf-8"
   );
   expect(outputStructsIndex).toMatchSnapshot(`structs-index`);
 
   const outputStructs0 = fs.readFileSync(
-    path.join(workdir, "providers/aws/wafv2/wafv2-web-acl-structs/structs0.ts"),
+    path.join(workdir, "providers/aws/wafv2-web-acl/index-structs/structs0.ts"),
     "utf-8"
   );
   expect(outputStructs0).toMatchSnapshot(`structs0`);
@@ -49,7 +45,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs400 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs400.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs400.ts"
     ),
     "utf-8"
   );
@@ -58,7 +54,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs800 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs800.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs800.ts"
     ),
     "utf-8"
   );
@@ -67,7 +63,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs1200 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs1200.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs1200.ts"
     ),
     "utf-8"
   );
@@ -76,7 +72,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs1600 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs1600.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs1600.ts"
     ),
     "utf-8"
   );
@@ -85,7 +81,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs2000 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs2000.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs2000.ts"
     ),
     "utf-8"
   );
@@ -94,7 +90,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs2400 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs2400.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs2400.ts"
     ),
     "utf-8"
   );
@@ -103,7 +99,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs2800 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs2800.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs2800.ts"
     ),
     "utf-8"
   );
@@ -112,7 +108,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs3200 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs3200.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs3200.ts"
     ),
     "utf-8"
   );
@@ -121,7 +117,7 @@ test("shard exports across multiple files to avoid generating files with more th
   const outputStructs3600 = fs.readFileSync(
     path.join(
       workdir,
-      "providers/aws/wafv2/wafv2-web-acl-structs/structs3600.ts"
+      "providers/aws/wafv2-web-acl/index-structs/structs3600.ts"
     ),
     "utf-8"
   );
@@ -144,25 +140,28 @@ test("shard exports across multiple files to avoid generating files with more th
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/datadog/dashboard.ts"),
+    path.join(workdir, "providers/datadog/dashboard/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot(`dashboard-resource`);
 
   const outputStructsIndex = fs.readFileSync(
-    path.join(workdir, "providers/datadog/dashboard-structs/index.ts"),
+    path.join(workdir, "providers/datadog/dashboard/index-structs/index.ts"),
     "utf-8"
   );
   expect(outputStructsIndex).toMatchSnapshot(`structs-index`);
 
   const outputStructs0 = fs.readFileSync(
-    path.join(workdir, "providers/datadog/dashboard-structs/structs0.ts"),
+    path.join(workdir, "providers/datadog/dashboard/index-structs/structs0.ts"),
     "utf-8"
   );
   expect(outputStructs0).toMatchSnapshot(`structs0`);
 
   const outputStructs400 = fs.readFileSync(
-    path.join(workdir, "providers/datadog/dashboard-structs/structs400.ts"),
+    path.join(
+      workdir,
+      "providers/datadog/dashboard/index-structs/structs400.ts"
+    ),
     "utf-8"
   );
   expect(outputStructs400).toMatchSnapshot(`structs400`);

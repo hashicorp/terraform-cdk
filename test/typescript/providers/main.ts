@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import {
   App,
@@ -13,36 +15,40 @@ import * as Kubernetes from "./.gen/providers/kubernetes";
 export class NamespacedProviders extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new Aws.AwsProvider(this, "aws", {
+    new Aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
 
-    const ami = new Aws.ec2.DataAwsAmi(this, "ami", {
+    const ami = new Aws.dataAwsAmi.DataAwsAmi(this, "ami", {
       mostRecent: true,
       owners: ["amazon"],
     });
 
-    new Aws.ec2.Instance(this, "instance", {
+    new Aws.instance.Instance(this, "instance", {
       ami: ami.id,
       availabilityZone: "us-east-1a",
       instanceType: "t2.micro",
     });
 
-    const userId = new Aws.datasources.DataAwsCallerIdentity(
+    const userId = new Aws.dataAwsCallerIdentity.DataAwsCallerIdentity(
       this,
       "callerIdentity",
       {}
     );
 
-    const role = new Aws.iam.IamRole(this, "role", {
+    const role = new Aws.iamRole.IamRole(this, "role", {
       assumeRolePolicy: "assumeRolePolicy",
     });
-    new Aws.iam.IamRolePolicyAttachment(this, "lambda-role-vpc-att", {
-      policyArn:
-        "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
-      role: role.name,
-    });
-    new Aws.lambdafunction.LambdaFunction(this, "lambdaFn", {
+    new Aws.iamRolePolicyAttachment.IamRolePolicyAttachment(
+      this,
+      "lambda-role-vpc-att",
+      {
+        policyArn:
+          "arn:aws:iam::aws:policy/service-role/AWSLambdaVPCAccessExecutionRole",
+        role: role.name,
+      }
+    );
+    new Aws.lambdaFunction.LambdaFunction(this, "lambdaFn", {
       handler: "index.handler",
       runtime: "nodejs12.x",
       timeout: 10,
@@ -56,7 +62,7 @@ export class References extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const provider = new Nomad.NomadProvider(this, "nomad", {
+    const provider = new Nomad.provider.NomadProvider(this, "nomad", {
       address: "http://127.0.0.1",
     });
     // provider values are no references
@@ -65,21 +71,21 @@ export class References extends TerraformStack {
     });
 
     // simple references
-    const job = new Nomad.Job(this, "firstJob", {
+    const job = new Nomad.job.Job(this, "firstJob", {
       jobspec: "./job/spec.hcl",
     });
 
-    new Nomad.Job(this, "secondJob", {
+    new Nomad.job.Job(this, "secondJob", {
       jobspec: job.jobspec,
     });
 
     // single-item references
-    new Kubernetes.KubernetesProvider(this, "k8s", {});
-    const namespace = new Kubernetes.Namespace(this, "myNamespace", {
+    new Kubernetes.provider.KubernetesProvider(this, "k8s", {});
+    const namespace = new Kubernetes.namespace.Namespace(this, "myNamespace", {
       metadata: { name: "myNamespace" },
     });
 
-    new Kubernetes.Deployment(this, "myDeployment", {
+    new Kubernetes.deployment.Deployment(this, "myDeployment", {
       metadata: {
         name: "myDeployment",
         namespace: namespace.metadata.name,
@@ -121,16 +127,16 @@ export class Mutation extends TerraformStack {
     }).stringValue;
 
     // Simple Mutation
-    new Aws.AwsProvider(this, "aws", {
+    new Aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
 
-    const ami = new Aws.ec2.DataAwsAmi(this, "ami", {
+    const ami = new Aws.dataAwsAmi.DataAwsAmi(this, "ami", {
       mostRecent: true,
       owners: ["amazon"],
     });
 
-    const instance = new Aws.ec2.Instance(this, "instance", {
+    const instance = new Aws.instance.Instance(this, "instance", {
       ami: "my-ami",
       availabilityZone: "us-east-1a",
       instanceType: "t2.micro",
@@ -149,34 +155,38 @@ export class Mutation extends TerraformStack {
     instance.putMetadataOptions({ httpEndpoint: "127.0.0.1" });
 
     // Nested Mutation
-    new Kubernetes.KubernetesProvider(this, "k8s", {});
-    const deployment = new Kubernetes.Deployment(this, "myDeployment", {
-      metadata: { name: "myDeployment" },
-      spec: {
-        replicas: "1",
-        minReadySeconds: 42,
-        selector: {
-          matchLabels: {
-            app: "myDeployment",
-          },
-        },
-        template: {
-          metadata: {
-            labels: {
+    new Kubernetes.provider.KubernetesProvider(this, "k8s", {});
+    const deployment = new Kubernetes.deployment.Deployment(
+      this,
+      "myDeployment",
+      {
+        metadata: { name: "myDeployment" },
+        spec: {
+          replicas: "1",
+          minReadySeconds: 42,
+          selector: {
+            matchLabels: {
               app: "myDeployment",
             },
           },
-          spec: {
-            container: [
-              {
-                name: "myDeployment",
-                image: "nginx",
+          template: {
+            metadata: {
+              labels: {
+                app: "myDeployment",
               },
-            ],
+            },
+            spec: {
+              container: [
+                {
+                  name: "myDeployment",
+                  image: "nginx",
+                },
+              ],
+            },
           },
         },
-      },
-    });
+      }
+    );
 
     // direct primitive mutation
     deployment.spec.replicas = "2";

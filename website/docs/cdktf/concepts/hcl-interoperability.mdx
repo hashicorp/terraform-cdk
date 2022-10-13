@@ -27,7 +27,8 @@ The following TypeScript example is a CDKTF application that uses the `hashicorp
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
-import { Pet, RandomProvider } from "./.gen/providers/random";
+import { Pet } from "./.gen/providers/random/pet";
+import { RandomProvider } from "./.gen/providers/random/provider";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {

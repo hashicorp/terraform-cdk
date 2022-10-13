@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as yargs from "yargs";
 import { config as cfg } from "@cdktf/provider-generator";
 import { requireHandlers } from "./helper/utilities";
@@ -54,6 +56,8 @@ class Command extends BaseCommand {
         default: false,
       })
       .option("parallelism", {
+        // Note: This parallelism doesn't affect the underlying Terraform traversal parallelism
+        // That is done by `terraform-parallelism`
         type: "number",
         required: false,
         desc: "Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1",
@@ -64,6 +68,13 @@ class Command extends BaseCommand {
         required: false,
         boolean: true,
         desc: 'Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.',
+      })
+      .option("terraform-parallelism", {
+        type: "number",
+        required: false,
+        desc: "Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend",
+        // Setting value to negative will prevent it from being forwarded to terraform as an argument
+        default: -1,
       })
       .showHelpOnFail(true);
 

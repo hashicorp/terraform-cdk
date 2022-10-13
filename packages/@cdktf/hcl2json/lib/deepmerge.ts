@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 /**
  * Merges `source` into `target`, overriding any existing values.
  * `undefined` will cause a value to be deleted.

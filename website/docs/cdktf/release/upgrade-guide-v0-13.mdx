@@ -1,0 +1,261 @@
+---
+page_title: Upgrading to CDKTF Version 0.13
+description: >-
+  Introducing namespaces for generated providers
+---
+
+# Upgrading to CDK for Terraform Version 0.13
+
+0.13 includes performance improvements to generated providers. Instead of exporting a flat list of exports
+including all supported resources and data sources, we now export each construct and it's associated structures in their own namespace.
+Due to this, the way you import constructs from your CDKTF application will change.
+For more information regarding this release, and some of the reasonings behind the changes, please check out the [version 0.13 release post.](https://cdk.tf/0.13)
+
+### CDKTF get and compatibility with non-namespaced providers
+
+CDKTF 0.13 is backwards compatible and supports 0.12 generated (and pre-built) non-namespaced providers without
+any modifications. However, it will only generate namespaced providers. This means that if you were to generate
+a new provider using version 0.13, it will be namespaced. In order to migrate gradually, you may want to check in
+the generated provider bindings from version 0.12 to your codebase until you're ready to migrate them.
+The next major versions of our pre-built providers after the release of version 0.13 will also become namespaced.
+Same rules apply there: as long as you don't upgrade your pre-built providers beyond their current major version,
+no changes will be required on your part.
+
+### New way to import constructs
+
+Below is a comparison of pre 0.13 imports vs namespaced based imports introduced in version 0.13,
+per supported language:
+
+#### Typescript
+
+Before version 0.13:
+
+```typescript
+import { Container, Image, DockerProvider } from "@ckdtf/provider-docker";
+```
+
+Version 0.13:
+
+```typescript
+import { Image } from "@cdktf/provider-docker/lib/image";
+import { DockerProvider } from "@cdktf/provider-docker/lib/provider";
+import { Container } from "@cdktf/provider-docker/lib/container";
+```
+
+#### Go
+
+> **Note:** For Go projects, another important thing to note is that we've also moved our pre-built providers to the `cdktf` Github Organization. You can find more about that change [here](https://github.com/hashicorp/terraform-cdk/issues/2146).
+
+Before version 0.13:
+
+```go
+import (
+  // ... other imports
+  "github.com/cdktf/cdktf-provider-azurerm-go/azurerm"
+)
+
+func NewMyStack(/* ... */) cdktf.TerraformStack {
+  stack := cdktf.NewTerraformStack(/* ... */)
+
+  azurerm.NewAzurermProvider(/* ... */)
+  azurerm.NewNetworkInterface(/* ... */)
+}
+```
+
+Version 0.13:
+
+```go
+import (
+  // ... other imports
+  azurermprovider "github.com/cdktf/cdktf-provider-azurerm-go/azurerm/provider"
+  "github.com/cdktf/cdktf-provider-azurerm-go/azurerm/networkinterface"
+)
+
+func NewMyStack(/* ... */) cdktf.TerraformStack {
+  stack := cdktf.NewTerraformStack(/* ... */)
+
+  azurermprovider.NewAzurermProvider(/* ... */)
+  networkinterface.NewNetworkInterface(/* ... */)
+}
+```
+
+#### Python
+
+Before version 0.13:
+
+```python
+from cdktf_cdktf_provider_kubernetes import Namespace, Service, Deployment, KubernetesProvider
+```
+
+Version 0.13:
+
+```python
+from cdktf_cdktf_provider_kubernetes.provider import KubernetesProvider
+from cdktf_cdktf_provider_kubernetes.namespace import Namespace
+from cdktf_cdktf_provider_kubernetes.deployment import Deployment
+from cdktf_cdktf_provider_kubernetes.service import Service
+```
+
+#### Java
+
+Before version 0.13:
+
+```java
+import com.hashicorp.cdktf.providers.google.ComputeInstance;
+import com.hashicorp.cdktf.providers.google.GoogleProvider;
+```
+
+Version 0.13:
+
+```java
+import com.hashicorp.cdktf.providers.google.compute_instance.ComputeInstance;
+import com.hashicorp.cdktf.providers.google.provider.GoogleProvider;
+```
+
+#### C\#
+
+Before version 0.13:
+
+```csharp
+using azurerm;
+```
+
+Version 0.13:
+
+```csharp
+using azurerm.Provider;
+using azurerm.VirtualNetwork;
+```
+
+### New way to import constructs for the AWS provider
+
+If you've used our AWS provider, you might have noticed that it's already namespaced. However, before
+version 0.13, the AWS provider was a special case that we were namespacing by hand. With the release of
+version 0.13, we're no longer going to be doing that.
+
+#### Typescript
+
+Before version 0.13:
+
+```typescript
+import { AwsProvider, cloudfront, acm } from "@cdktf/provider-aws";
+
+class MyStack extends TerraformStack {
+  constructor(/* ... */) {
+    super(/* ... */);
+
+    new AwsProvider(/* ... */);
+    new cloudfront.CloudfrontDistribution(/* ... */);
+    new acm.AcmCertificate(/* ... */);
+  }
+}
+```
+
+Version 0.13:
+
+```typescript
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
+import { CloudfrontDistribution } from "@cdktf/provider-aws/lib/cloudfront-distribution";
+import { AcmCertificate } from "@cdktf/provider-aws/lib/acm-certificate";
+
+class MyStack extends TerraformStack {
+  constructor(/* ... */) {
+    super(/* ... */);
+
+    new AwsProvider(/* ... */);
+    new CloudfrontDistribution(/* ... */);
+    new AcmCertificate(/* ... */);
+  }
+}
+```
+
+#### Go
+
+Before version 0.13:
+
+```go
+import (
+  // ... other imports
+  "github.com/cdktf/cdktf-provider-aws-go/aws"
+)
+
+func NewMyStack(/* ... */) cdktf.TerraformStack {
+  stack := cdktf.NewTerraformStack(/* ... */)
+
+  aws.NewAwsProvider(/* ... */)
+  aws.NewCloudfrontDistribution(/* ... */)
+  aws.NewAcmCertificate(/* ... */)
+}
+```
+
+Version 0.13:
+
+```go
+import (
+  // ... other imports
+  "github.com/cdktf/cdktf-provider-aws-go/aws/cloudfrontdistribution"
+  "github.com/cdktf/cdktf-provider-aws-go/aws/provider"
+  "github.com/cdktf/cdktf-provider-aws-go/aws/acmcertificate"
+
+)
+
+func NewMyStack(/* ... */) cdktf.TerraformStack {
+  stack := cdktf.NewTerraformStack(/* ... */)
+
+  provider.NewAwsProvider(/* ... */)
+  cloudfrontdistribution.NewCloudfrontDistribution(/* ... */)
+  acmcertificate.NewAcmCertificate(/* ... */)
+}
+```
+
+#### Python
+
+Before version 0.13:
+
+```python
+from cdktf_cdktf_provider_aws import AwsProvider, cloudfront, acm
+```
+
+Version 0.13:
+
+```python
+from cdktf_cdktf_provider_aws.provider import AwsProvider
+from cdktf_cdktf_provider_aws.cloudfront_distribution import CloudfrontDistribution
+from cdktf_cdktf_provider_aws.acm_certificate import AcmCertificate
+```
+
+#### Java
+
+Before version 0.13:
+
+```java
+import com.hashicorp.cdktf.providers.aws.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.cloudfront.CloudfrontDistribution;
+import com.hashicorp.cdktf.providers.aws.acm.AcmCertificate;
+```
+
+Version 0.13:
+
+```java
+import com.hashicorp.cdktf.providers.aws.provider.AwsProvider;
+import com.hashicorp.cdktf.providers.aws.cloudfront_distribution.CloudfrontDistribution;
+import com.hashicorp.cdktf.providers.aws.acm_certificate.AcmCertificate;
+```
+
+#### C\#
+
+Before version 0.13:
+
+```csharp
+using HashiCorp.Cdktf.Providers.Aws;
+using HashiCorp.Cdktf.Providers.Aws.Cloudfront;
+using HashiCorp.Cdktf.Providers.Aws.Acm;
+```
+
+Version 0.13:
+
+```csharp
+using HashiCorp.Cdktf.Providers.Aws.Provider;
+using HashiCorp.Cdktf.Providers.Aws.CloudfrontDistribution;
+using HashiCorp.Cdktf.Providers.Aws.AcmCertificate;
+```

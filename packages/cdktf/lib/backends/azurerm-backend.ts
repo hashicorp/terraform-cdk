@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { TerraformBackend } from "../terraform-backend";
 import { keysToSnakeCase } from "../util";
@@ -81,6 +83,12 @@ export interface AzurermBackendProps {
    */
   readonly endpoint?: string;
   /**
+   * (Optional) Should the Blob used to store the Terraform Statefile be
+   * snapshotted before use? Defaults to false. This value can also be sourced
+   * from the ARM_SNAPSHOT environment variable.
+   */
+  readonly snapshot?: boolean;
+  /**
    * (Optional) The Subscription ID in which the Storage Account exists.
    * This can also be sourced from the ARM_SUBSCRIPTION_ID environment variable.
    */
@@ -125,6 +133,59 @@ export interface AzurermBackendProps {
    * This can also be sourced from the ARM_CLIENT_SECRET environment variable.
    */
   readonly clientSecret?: string;
+  /**
+   * (Optional) The password associated with the Client Certificate specified
+   * in client_certificate_path. This can also be sourced from the
+   * ARM_CLIENT_CERTIFICATE_PASSWORD environment variable.
+   */
+  readonly clientCertificatePassword?: string;
+  /**
+   * (Optional) The path to the PFX file used as the Client Certificate when
+   * authenticating as a Service Principal. This can also be sourced from the
+   * ARM_CLIENT_CERTIFICATE_PATH environment variable.
+   */
+  readonly clientCertificatePath?: string;
+  /**
+   * (Optional) Should MSAL be used for authentication instead of ADAL, and
+   * should Microsoft Graph be used instead of Azure Active Directory Graph?
+   * Defaults to true.
+   *
+   * Note: In Terraform 1.2 the Azure Backend uses MSAL (and Microsoft Graph)
+   * rather than ADAL (and Azure Active Directory Graph) for authentication by
+   * default - you can disable this by setting use_microsoft_graph to false.
+   * This setting will be removed in Terraform 1.3, due to Microsoft's
+   * deprecation of ADAL.
+   */
+  readonly useMicrosoftGraph?: boolean;
+  /**
+   * (Optional) The URL for the OIDC provider from which to request an ID token.
+   * This can also be sourced from the ARM_OIDC_REQUEST_URL or
+   * ACTIONS_ID_TOKEN_REQUEST_URL environment variables.
+   */
+  readonly oidcRequestUrl?: string;
+  /**
+   * (Optional) The bearer token for the request to the OIDC provider. This can
+   * also be sourced from the ARM_OIDC_REQUEST_TOKEN or
+   * ACTIONS_ID_TOKEN_REQUEST_TOKEN environment variables.
+   */
+  readonly oidcRequestToken?: string;
+  /**
+   * (Optional) Should OIDC authentication be used? This can also be sourced
+   * from the ARM_USE_OIDC environment variable.
+   *
+   * Note: When using OIDC for authentication, use_microsoft_graph
+   * must be set to true (which is the default).
+   */
+  readonly useOidc?: boolean;
+  /**
+   * (Optional) Should AzureAD Authentication be used to access the Blob Storage
+   * Account. This can also be sourced from the ARM_USE_AZUREAD environment
+   * variable.
+   *
+   * Note: When using AzureAD for Authentication to Storage you also need to
+   * ensure the Storage Blob Data Owner role is assigned.
+   */
+  readonly useAzureadAuth?: boolean;
 }
 
 export interface DataTerraformRemoteStateAzurermConfig

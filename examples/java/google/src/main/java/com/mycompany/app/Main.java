@@ -10,12 +10,9 @@ import java.util.Arrays;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.google.ComputeInstance;
-import imports.google.ComputeInstanceBootDisk;
-import imports.google.ComputeInstanceBootDiskInitializeParams;
-import imports.google.ComputeInstanceNetworkInterface;
-import imports.google.ComputeNetwork;
-import imports.google.GoogleProvider;
+import imports.google.compute_instance.*;
+import imports.google.compute_network.*;
+import imports.google.provider.GoogleProvider;
 import software.constructs.Construct;
 
 public class Main extends TerraformStack {

@@ -1,11 +1,11 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  AppService,
-  AppServicePlan,
-  AzurermProvider,
-  ResourceGroup,
-} from "./.gen/providers/azurerm";
+import { AzurermProvider } from "./.gen/providers/azurerm/provider";
+import { ResourceGroup } from "./.gen/providers/azurerm/resource-group";
+import { AppServicePlan } from "./.gen/providers/azurerm/app-service-plan";
+import { AppService } from "./.gen/providers/azurerm/app-service";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {

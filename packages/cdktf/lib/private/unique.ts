@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // tslint:disable-next-line:no-var-requires
 import * as crypto from "crypto";
 

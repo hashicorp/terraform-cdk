@@ -1,5 +1,7 @@
 {
-  "name": "@disabled-examples/python-aws-eks",
+  "//": "This example test is disabled via the 'private' attribute.",
+  "name": "@examples/python-aws-eks",
+  "private": true,
   "version": "0.0.0",
   "license": "MPL-2.0",
   "scripts": {

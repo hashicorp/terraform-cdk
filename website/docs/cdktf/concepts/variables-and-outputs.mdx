@@ -41,7 +41,7 @@ const imageId = new TerraformVariable(this, "imageId", {
   default: "ami-abcde123",
   description: "What AMI to use to create an instance",
 });
-new EC2.Instance(this, "hello", {
+new Instance(this, "hello", {
   ami: imageId.value,
   instanceType: "t2.micro",
 });
@@ -131,7 +131,7 @@ const commonTags = new TerraformLocal(this, "common_tags", {
   Owner: "owner",
 });
 
-new EC2.Instance(this, "example", {
+new Instance(this, "example", {
   tags: commonTags.expression,
 });
 ```
@@ -247,8 +247,8 @@ The following Typescript example uses `TerraformOutput` to create an output for 
 <CodeTabs>
 
 ```typescript
-import * as random from "@cdktf/provider-random";
-
+import { RandomProvider } from "@cdktf/provider-random/lib/provider";
+import { Pet } from "@cdktf/provider-random/lib/pet";
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 
@@ -256,8 +256,8 @@ class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new random.RandomProvider(this, "random", {});
-    const pet = new random.Pet(this, "pet", {});
+    new RandomProvider(this, "random", {});
+    const pet = new Pet(this, "pet", {});
 
     new TerraformOutput(this, "random-pet", {
       value: pet.id,
@@ -319,8 +319,8 @@ The following TypeScript example uses outputs to share data between stacks, each
 <CodeTabs>
 
 ```typescript
-import * as random from "@cdktf/provider-random";
-
+import { RandomProvider } from "@cdktf/provider-random/lib/provider";
+import { Pet } from "@cdktf/provider-random/lib/pet";
 import { Construct } from "constructs";
 import {
   App,
@@ -339,8 +339,8 @@ class Producer extends TerraformStack {
       workspaces: new NamedCloudWorkspace("producer"),
     });
 
-    new random.RandomProvider(this, "random", {});
-    const pet = new random.Pet(this, "pet", {});
+    new RandomProvider(this, "random", {});
+    const pet = new Pet(this, "pet", {});
 
     new TerraformOutput(this, "random-pet", {
       value: pet.id,

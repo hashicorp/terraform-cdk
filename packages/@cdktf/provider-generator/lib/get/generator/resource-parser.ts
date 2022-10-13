@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { toCamelCase, toPascalCase, toSnakeCase } from "codemaker";
 import {
   Attribute,
@@ -18,8 +20,40 @@ import {
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 
-const isReservedClassName = (className: string): boolean => {
-  return ["string"].includes(className.toLowerCase());
+// Can't be used in expressions like "export * as <keyword> from ... "
+// filtered from all keywords from: https://github.com/microsoft/TypeScript/blob/503604c884bd0557c851b11b699ef98cdb65b93b/src/compiler/types.ts#L114-L197
+const RESERVED_KEYWORDS_FOR_NAMESPACES = [
+  "implements",
+  "interface",
+  "let",
+  "package",
+  "private",
+  "protected",
+  "public",
+  "static",
+  "yield",
+  "await",
+];
+
+const isReservedClassOrNamespaceName = (className: string): boolean => {
+  return [
+    "string",
+    "object",
+    "function",
+    ...RESERVED_KEYWORDS_FOR_NAMESPACES,
+  ].includes(className.toLowerCase());
+};
+
+const getFileName = (provider: string, baseName: string): string => {
+  if (baseName === "index") {
+    return "index-resource/index.ts";
+  }
+
+  if (baseName === `${provider}_provider`) {
+    return "provider/index.ts";
+  }
+
+  return `${toSnakeCase(baseName).replace(/_/g, "-")}/index.ts`;
 };
 
 class Parser {
@@ -61,17 +95,15 @@ class Parser {
       };
     }
 
-    if (isReservedClassName(baseName)) {
+    if (isReservedClassOrNamespaceName(baseName)) {
       baseName = `${baseName}_resource`;
     }
 
     const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
     const configStructName = this.uniqueClassName(`${className}Config`);
-    const fileName =
-      baseName === "index"
-        ? "index-resource.ts"
-        : `${toSnakeCase(baseName).replace(/_/g, "-")}.ts`;
+    const fileName = getFileName(provider, baseName);
+
     const filePath = `providers/${toSnakeCase(provider)}/${fileName}`;
     const attributes = this.renderAttributesForBlock(
       new Scope({

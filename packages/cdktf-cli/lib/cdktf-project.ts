@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 16
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
@@ -277,16 +279,22 @@ export type MultipleStackOptions = {
   stackNames?: string[];
 };
 
-export type ExecutionOptions = MultipleStackOptions & {
+export type AutoApproveOptions = {
   autoApprove?: boolean;
-  ignoreMissingStackDependencies?: boolean;
-  parallelism?: number;
-  refreshOnly?: boolean;
 };
 
 export type DiffOptions = SingleStackOptions & {
   refreshOnly?: boolean;
+  terraformParallelism?: number;
 };
+
+export type MutationOptions = MultipleStackOptions &
+  AutoApproveOptions & {
+    refreshOnly?: boolean;
+    ignoreMissingStackDependencies?: boolean;
+    parallelism?: number;
+    terraformParallelism?: number;
+  };
 
 type LogMessage = {
   stackName: string;
@@ -450,7 +458,7 @@ export class CdktfProject {
 
   public getStackExecutor(
     stack: SynthesizedStack,
-    opts: ExecutionOptions = {}
+    opts: AutoApproveOptions = {}
   ) {
     const enhanceLogMessage = createEnhanceLogMessage(stack);
     const onLog = this.bufferWhileWaitingForApproval(this.onLog);
@@ -506,7 +514,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff({ refreshOnly: opts?.refreshOnly });
+    await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
     if (!stack.currentPlan)
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -517,51 +525,47 @@ export class CdktfProject {
   private async execute(
     method: "deploy" | "destroy",
     next: () => Promise<CdktfStack | undefined>,
-    parallelism: number,
-    refreshOnly?: boolean
+    opts: MutationOptions
   ) {
     // We only support refresh only on deploy, a bit of a leaky abstraction here
-    if (refreshOnly && method !== "deploy") {
+    if (opts.refreshOnly && method !== "deploy") {
       throw Errors.Internal(`Refresh only is only supported on deploy`);
     }
 
-    const maxParallelRuns = parallelism === -1 ? Infinity : parallelism;
+    const maxParallelRuns =
+      !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
-      } else {
-        try {
-          const nextRunningExecutor = await next();
-          if (!nextRunningExecutor) {
-            // In this case we have no pending stacks, but we also can not find a new executor
-            break;
-          }
-          method === "deploy"
-            ? nextRunningExecutor.deploy(refreshOnly)
-            : nextRunningExecutor.destroy();
-        } catch (e) {
-          // await next() threw an error because a stack failed to apply/destroy
-          // wait for all other currently running stacks to complete before propagating that error
-          logger.debug(
-            "Encountered an error while awaiting stack to finish",
-            e
-          );
-          const openStacks = this.stacksToRun.filter(
-            (ex) => ex.currentWorkPromise
-          );
-          logger.debug(
-            "Waiting for still running stacks to finish:",
-            openStacks
-          );
-          await Promise.allSettled(
-            openStacks.map((ex) => ex.currentWorkPromise)
-          );
-          logger.debug(
-            "Done waiting for still running stacks. All pending work finished"
-          );
-          throw e;
+        continue;
+      }
+
+      try {
+        const nextRunningExecutor = await next();
+        if (!nextRunningExecutor) {
+          // In this case we have no pending stacks, but we also can not find a new executor
+          break;
         }
+        method === "deploy"
+          ? nextRunningExecutor.deploy(
+              opts.refreshOnly,
+              opts.terraformParallelism
+            )
+          : nextRunningExecutor.destroy(opts.terraformParallelism);
+      } catch (e) {
+        // await next() threw an error because a stack failed to apply/destroy
+        // wait for all other currently running stacks to complete before propagating that error
+        logger.debug("Encountered an error while awaiting stack to finish", e);
+        const openStacks = this.stacksToRun.filter(
+          (ex) => ex.currentWorkPromise
+        );
+        logger.debug("Waiting for still running stacks to finish:", openStacks);
+        await Promise.allSettled(openStacks.map((ex) => ex.currentWorkPromise));
+        logger.debug(
+          "Done waiting for still running stacks. All pending work finished"
+        );
+        throw e;
       }
     }
 
@@ -574,8 +578,7 @@ export class CdktfProject {
     await ensureAllSettledBeforeThrowing(Promise.all(currentWork), currentWork);
   }
 
-  public async deploy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || -1;
+  public async deploy(opts: MutationOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
@@ -599,7 +602,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
 
-    await this.execute("deploy", next, parallelism, opts.refreshOnly);
+    await this.execute("deploy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -613,8 +616,7 @@ export class CdktfProject {
     }
   }
 
-  public async destroy(opts: ExecutionOptions = {}) {
-    const parallelism = opts.parallelism || -1;
+  public async destroy(opts: MutationOptions = {}) {
     const stacks = await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -657,7 +659,7 @@ export class CdktfProject {
           )
       : () => getStackWithNoUnmetDependants(this.stacksToRun);
 
-    await this.execute("destroy", next, parallelism);
+    await this.execute("destroy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
       (executor) => executor.isPending
@@ -685,7 +687,9 @@ export class CdktfProject {
     }
 
     this.stacksToRun = stacksToRun.map((stack) =>
-      this.getStackExecutor(stack, opts)
+      // Options are empty, because MultipleStackOptions doesn't have any relevant
+      // options for `getStackExecutor`, hence defaults are fine
+      this.getStackExecutor(stack, {})
     );
 
     const outputs = await Promise.all(

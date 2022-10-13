@@ -130,27 +130,30 @@ $ cdktf deploy --help
 **Help Output**
 
 ```
-cdktf deploy [OPTIONS] <stacks..>
+cdktf deploy [stacks...]
 
 Deploy the given stacks
 
 Positionals:
-  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                                          [array] [required] [default: []]
+  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app  [array] [default: []]
 
 Options:
-      --version                                 Show version number                                                                                                                                     [boolean]
-      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                                CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                        [boolean] [default: false]
-      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                    [string]
-  -a, --app                                     Command to use in order to execute cdktf app                                                                          [required] [default: "npx ts-node main.ts"]
-  -o, --output                                  Output directory for the synthesized Terraform config                                                                           [required] [default: "cdktf.out"]
-      --auto-approve                            Auto approve                                                                                                                           [boolean] [default: false]
-      --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                 [string]
-      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                [boolean] [default: false]
-      --ignore-missing-stack-dependencies       Don't check if all stacks specified in the command have their dependencies included as well                                            [boolean] [default: false]
-      --parallelism                             Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                              [number] [default: -1]
-  -h, --help                                    Show help                                                                                                                                               [boolean]
+      --version                                 Show version number  [boolean]
+      --disable-plugin-cache-env                Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.  [boolean] [default: false]
+      --log-level                               Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL  [string]
+  -a, --app                                     Command to use in order to execute cdktf app  [required]
+  -o, --output                                  Output directory for the synthesized Terraform config  [required] [default: "cdktf.out"]
+      --auto-approve                            Auto approve  [boolean] [default: false]
+      --outputs-file                            Path to file where stack outputs will be written as JSON  [string]
+      --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file  [boolean] [default: false]
+      --ignore-missing-stack-dependencies       Don't check if all stacks specified in the command have their dependencies included as well  [boolean] [default: false]
+      --parallelism                             Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1  [number] [default: -1]
+      --refresh-only                            Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.  [boolean] [default: false]
+      --terraform-parallelism                   Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
+  -h, --help                                    Show help  [boolean]
 ```
+
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](https://www.terraform.io/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 
@@ -199,25 +202,27 @@ $ cdktf destroy --help
 Help output:
 
 ```
-cdktf destroy [OPTIONS] <stacks..>
+cdktf destroy [stacks..]
 
 Destroy the given stacks
 
 Positionals:
-  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app                                                                         [array] [required] [default: []]
+  stacks  Destroy stacks matching the given ids. Required when more than one stack is present in the app  [array] [default: []]
 
 Options:
-      --version                            Show version number                                                                                                                                          [boolean]
-      --disable-plugin-cache-env           Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                       [boolean] [default: false]
-      --log-level                          Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                         [string]
-  -a, --app                                Command to use in order to execute cdktf app                                                                               [required] [default: "npx ts-node main.ts"]
-  -o, --output                             Output directory for the synthesized Terraform config                                                                                [required] [default: "cdktf.out"]
-      --auto-approve                       Auto approve                                                                                                                                [boolean] [default: false]
-      --ignore-missing-stack-dependencies  Don't check if all stacks specified in the command have their dependencies included as well                                                 [boolean] [default: false]
-      --parallelism                        Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                                   [number] [default: -1]
-  -h, --help                               Show help                                                                                                                                                    [boolean]
+      --version                            Show version number  [boolean]
+      --disable-plugin-cache-env           Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.  [boolean] [default: false]
+      --log-level                          Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL  [string]
+  -a, --app                                Command to use in order to execute cdktf app  [required]
+  -o, --output                             Output directory for the synthesized Terraform config  [required] [default: "cdktf.out"]
+      --auto-approve                       Auto approve  [boolean] [default: false]
+      --ignore-missing-stack-dependencies  Don't check if all stacks specified in the command have their dependencies included as well  [boolean] [default: false]
+      --parallelism                        Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1  [number] [default: -1]
+      --terraform-parallelism              Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
+  -h, --help                               Show help  [boolean]
 ```
+
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](https://www.terraform.io/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 
@@ -264,17 +269,25 @@ $ cdktf diff --help
 Help output:
 
 ```
-cdktf diff [OPTIONS]
+cdktf diff [stack]
 
 Perform a diff (terraform plan) for the given stack
 
+Positionals:
+  stack  Diff stack which matches the given id only. Required when more than one stack is present in the app  [string]
+
 Options:
-  --version          Show version number                                                                                                                                           [boolean]
-  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                          [string]
-  --app, -a          Command to use in order to execute cdktf app                                                                                                                 [required]
-  --output, -o       Output directory                                                                                                                      [required] [default: "cdktf.out"]
-  -h, --help         Show help                                                                                                                                                     [boolean]
+      --version                   Show version number  [boolean]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.  [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL  [string]
+  -a, --app                       Command to use in order to execute cdktf app  [required]
+  -o, --output                    Output directory for the synthesized Terraform config  [required] [default: "cdktf.out"]
+      --refresh-only              Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.  [boolean] [default: false]
+      --terraform-parallelism     Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
+  -h, --help                      Show help  [boolean]
 ```
+
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](https://www.terraform.io/cli/commands/plan#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 Examples:
 
@@ -301,11 +314,15 @@ cdktf get [OPTIONS]
 Generate CDK Constructs for Terraform providers and modules.
 
 Options:
-  --version          Show version number                                                                                                            [boolean]
-  --log-level        Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                           [string]
-  --output, -o       Output directory for generated Constructs                                                                     [string] [default: ".gen"]
-  --language, -l     Output programming language                                [string] [required] [choices: "typescript", "python", "java", "csharp", "go"]
-  -h, --help         Show help                                                                                                                      [boolean]
+      --version                   Show version number                                                                                                                                                                [boolean]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
+                                                                                                                                                                                                    [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                               [string]
+  -o, --output                    Output directory for generated Constructs                                                                                                                      [string] [default: "imports"]
+  -l, --language                  Output programming language                                                                [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "python"]
+      --parallelism               Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII). Defaults to infinity, denoted by -1
+                                                                                                                                                                                                        [number] [default: -1]
+  -h, --help                      Show help                                                                                                                                                                          [boolean]
 ```
 
 **Examples**
@@ -323,6 +340,12 @@ $ cat cdktf.json
 
 ```bash
 $ cdktf get
+```
+
+If you run into issues generating a lot of bindings you can use the `--parallelism` option to limit the number of bindings generated in parallel.
+
+```bash
+$ cdktf get --parallelism 1
 ```
 
 ## init
@@ -353,7 +376,7 @@ Options:
       --local                     Use local state storage for generated Terraform.                                                                    [boolean] [default: false]
       --cdktf-version             The cdktf version to use while creating a new project.                                                             [string] [default: "0.0.0"]
       --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path                             [string]
-      --enable-crash-reporting    Enable crash reporting for the CLI, see https://www.terraform.io/cdktf/telemetry#crash-reporting for more details                    [boolean]
+      --enable-crash-reporting    Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details                    [boolean]
   -h, --help                      Show help                                                                                                                            [boolean]
 ```
 
@@ -474,24 +497,26 @@ $ cdktf watch --help
 **Help Output**
 
 ```
-cdktf watch  [OPTIONS] <stacks..>
+cdktf watch [stacks..]
 
 [experimental] Watch for file changes and automatically trigger a deploy
 
 Positionals:
-  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app                                                                                       [array] [required] [default: []]
+  stacks  Deploy stacks matching the given ids. Required when more than one stack is present in the app  [array] [default: []]
 
 Options:
-      --version                   Show version number                                                                                                                                                                [boolean]
-      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                               [string]
-  -a, --app                       Command to use in order to execute cdktf app                                                                                                     [required] [default: "npx ts-node main.ts"]
-  -o, --output                    Output directory for the synthesized Terraform config                                                                                                      [required] [default: "cdktf.out"]
-      --auto-approve              Auto approve                                                                                                                                                      [boolean] [default: false]
-      --parallelism               Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                                                         [number] [default: -1]
-  -h, --help                      Show help                                                                                                                                                                          [boolean]
+      --version                   Show version number  [boolean]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.  [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL  [string]
+  -a, --app                       Command to use in order to execute cdktf app  [required]
+  -o, --output                    Output directory for the synthesized Terraform config  [required] [default: "cdktf.out"]
+      --auto-approve              Auto approve  [boolean] [default: false]
+      --parallelism               Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1  [number] [default: -1]
+      --terraform-parallelism     Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
+  -h, --help                      Show help  [boolean]
 ```
+
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](https://www.terraform.io/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 

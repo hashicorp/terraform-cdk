@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { IValidation } from "constructs";
 import { execSync } from "child_process";
 import * as semver from "semver";

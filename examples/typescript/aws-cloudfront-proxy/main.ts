@@ -1,11 +1,14 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
 import {
-  cloudfront,
-  AwsProvider,
-  route53,
-  acm,
-  wafv2,
+  provider,
+  acmCertificate,
+  route53Record,
+  wafv2WebAcl,
+  cloudfrontDistribution,
+  acmCertificateValidation,
 } from "./.gen/providers/aws";
 
 class MyStack extends TerraformStack {
@@ -16,16 +19,16 @@ class MyStack extends TerraformStack {
     const domainName = "www.example.com";
     const proxyTarget = "example.com";
 
-    new AwsProvider(this, "aws", {
+    new provider.AwsProvider(this, "aws", {
       region: "eu-central-1",
     });
 
-    const provider = new AwsProvider(this, "aws.route53", {
+    const usEastProvider = new provider.AwsProvider(this, "aws.route53", {
       region: "us-east-1",
       alias: "route53",
     });
 
-    new wafv2.Wafv2WebAcl(this, "wafv2", {
+    new wafv2WebAcl.Wafv2WebAcl(this, "wafv2", {
       defaultAction: {
         allow: {},
       },
@@ -69,10 +72,10 @@ class MyStack extends TerraformStack {
       ],
     });
 
-    const cert = new acm.AcmCertificate(this, "cert", {
+    const cert = new acmCertificate.AcmCertificate(this, "cert", {
       domainName,
       validationMethod: "DNS",
-      provider,
+      provider: usEastProvider,
     });
 
     // const zone = new DataAwsRoute53Zone(this, 'zone', {
@@ -80,23 +83,31 @@ class MyStack extends TerraformStack {
     //   privateZone: false
     // })
 
-    const record = new route53.Route53Record(this, "CertValidationRecord", {
-      name: cert.domainValidationOptions.get(0).resourceRecordName,
-      type: cert.domainValidationOptions.get(0).resourceRecordType,
-      records: [cert.domainValidationOptions.get(0).resourceRecordValue],
-      // zoneId: zone.zoneId,
-      zoneId: "123",
-      ttl: 60,
-      allowOverwrite: true,
-    });
+    const record = new route53Record.Route53Record(
+      this,
+      "CertValidationRecord",
+      {
+        name: cert.domainValidationOptions.get(0).resourceRecordName,
+        type: cert.domainValidationOptions.get(0).resourceRecordType,
+        records: [cert.domainValidationOptions.get(0).resourceRecordValue],
+        // zoneId: zone.zoneId,
+        zoneId: "123",
+        ttl: 60,
+        allowOverwrite: true,
+      }
+    );
 
-    new acm.AcmCertificateValidation(this, "certvalidation", {
-      certificateArn: cert.arn,
-      validationRecordFqdns: [record.fqdn],
-      provider,
-    });
+    new acmCertificateValidation.AcmCertificateValidation(
+      this,
+      "certvalidation",
+      {
+        certificateArn: cert.arn,
+        validationRecordFqdns: [record.fqdn],
+        provider: usEastProvider,
+      }
+    );
 
-    const distribution = new cloudfront.CloudfrontDistribution(
+    const distribution = new cloudfrontDistribution.CloudfrontDistribution(
       this,
       "cloudfront",
       {
@@ -165,7 +176,7 @@ class MyStack extends TerraformStack {
       }
     );
 
-    new route53.Route53Record(this, "distribution_domain", {
+    new route53Record.Route53Record(this, "distribution_domain", {
       name: domainName,
       type: "A",
       // zoneId: zone.zoneId,

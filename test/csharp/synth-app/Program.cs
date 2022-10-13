@@ -1,5 +1,6 @@
 using System;
-using Providers.Null;
+using Providers.Null.Provider;
+using NullResource = Providers.Null.Resource;
 using Constructs;
 using HashiCorp.Cdktf;
 
@@ -13,7 +14,7 @@ namespace MyCompany.MyApp
                 Path = "terraform.tfstate"
             });
             new NullProvider(this, "Null");
-            Providers.Null.Resource resource = new Providers.Null.Resource(this, "null", new Providers.Null.ResourceConfig {});
+            NullResource.Resource resource = new NullResource.Resource(this, "null", new NullResource.ResourceConfig {});
         }
 
         public static void Main(string[] args)

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { resolve } from "../lib/_tokens";
 import { listMapper, hashMapper, anyToTerraform } from "../lib/runtime";
 import { Token } from "../lib/tokens/token";

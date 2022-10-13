@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Testing, TerraformStack, TerraformProvider } from "../lib";
 import { Construct } from "constructs";
 import { TestProvider } from "./helper/provider";

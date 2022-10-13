@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import chalk from "chalk";
 import * as fs from "fs-extra";
 import React from "react";
@@ -112,6 +114,10 @@ export async function deploy(argv: any) {
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -131,10 +137,10 @@ export async function deploy(argv: any) {
       autoApprove,
       onOutputsRetrieved,
       outputsPath,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
       refreshOnly,
+      terraformParallelism,
     })
   );
 }
@@ -148,6 +154,10 @@ export async function destroy(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const ignoreMissingStackDependencies =
+    argv.ignoreMissingStackDependencies || false;
+  const parallelism = argv.parallelism;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -155,9 +165,9 @@ export async function destroy(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
-      ignoreMissingStackDependencies:
-        argv.ignoreMissingStackDependencies || false,
-      parallelism: argv.parallelism,
+      ignoreMissingStackDependencies,
+      parallelism,
+      terraformParallelism,
     })
   );
 }
@@ -171,6 +181,7 @@ export async function diff(argv: any) {
   const outDir = argv.output;
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
+  const terraformParallelism = argv.terraformParallelism;
 
   await renderInk(
     React.createElement(Diff, {
@@ -178,11 +189,16 @@ export async function diff(argv: any) {
       refreshOnly,
       targetStack: stack,
       synthCommand: command,
+      terraformParallelism,
     })
   );
 }
 
-export async function get(argv: { output: string; language: Language }) {
+export async function get(argv: {
+  output: string;
+  language: Language;
+  parallelism: number;
+}) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await initializErrorReporting(true);
@@ -191,7 +207,7 @@ export async function get(argv: { output: string; language: Language }) {
   const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language } = argv;
+  const { output, language, parallelism } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
     ...providers,
@@ -210,6 +226,7 @@ export async function get(argv: { output: string; language: Language }) {
       codeMakerOutput: output,
       language: language,
       constraints,
+      parallelism,
     })
   );
 }
@@ -316,6 +333,8 @@ export async function watch(argv: any) {
   const outDir = argv.output;
   const autoApprove = argv.autoApprove;
   const stacks = argv.stacks;
+  const terraformParallelism = argv.terraformParallelism;
+  const parallelism = argv.parallelism;
 
   if (!autoApprove) {
     console.error(
@@ -330,6 +349,8 @@ export async function watch(argv: any) {
       targetStacks: stacks,
       synthCommand: command,
       autoApprove,
+      terraformParallelism,
+      parallelism,
     })
   );
 }
@@ -416,6 +437,10 @@ export async function providerAdd(argv: any) {
     console.log(
       "Local providers have been updated. Running cdktf get to update..."
     );
-    await get({ language: language, output: config.codeMakerOutput });
+    await get({
+      language: language,
+      output: config.codeMakerOutput,
+      parallelism: 1,
+    });
   }
 }

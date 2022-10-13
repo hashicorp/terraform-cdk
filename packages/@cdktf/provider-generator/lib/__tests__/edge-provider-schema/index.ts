@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { ProviderSchema } from "../../";
 import { schema, SchemaBuilder as S } from "./builder";
 

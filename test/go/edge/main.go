@@ -1,7 +1,12 @@
 package main
 
 import (
-	"cdk.tf/go/stack/generated/hashicorp/edge"
+	"cdk.tf/go/stack/generated/hashicorp/edge/listblockresource"
+	"cdk.tf/go/stack/generated/hashicorp/edge/mapresource"
+	"cdk.tf/go/stack/generated/hashicorp/edge/optionalattributeresource"
+	"cdk.tf/go/stack/generated/hashicorp/edge/provider"
+	"cdk.tf/go/stack/generated/hashicorp/edge/requiredattributeresource"
+	"cdk.tf/go/stack/generated/hashicorp/edge/setblockresource"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -10,16 +15,16 @@ import (
 func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	edge.NewEdgeProvider(stack, jsii.String("edge"), &edge.EdgeProviderConfig{
+	provider.NewEdgeProvider(stack, jsii.String("edge"), &provider.EdgeProviderConfig{
 		Reqstr:  jsii.String("reqstr"),
 		Reqnum:  jsii.Number(123),
 		Reqbool: jsii.Bool(true),
 	})
 
-	res := edge.NewOptionalAttributeResource(stack, jsii.String("test"), &edge.OptionalAttributeResourceConfig{})
+	res := optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("test"), &optionalattributeresource.OptionalAttributeResourceConfig{})
 
-	list := edge.NewListBlockResource(stack, jsii.String("list"), &edge.ListBlockResourceConfig{
-		Req: &[]*edge.ListBlockResourceReq{
+	list := listblockresource.NewListBlockResource(stack, jsii.String("list"), &listblockresource.ListBlockResourceConfig{
+		Req: &[]*listblockresource.ListBlockResourceReq{
 			{
 				Reqbool: jsii.Bool(true),
 				Reqnum:  jsii.Number(1),
@@ -31,24 +36,24 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 				Reqstr:  jsii.String(("reqstr2")),
 			},
 		},
-		Singlereq: &edge.ListBlockResourceSinglereq{
+		Singlereq: &listblockresource.ListBlockResourceSinglereq{
 			Reqbool: jsii.Bool(false),
 			Reqnum:  jsii.Number(1),
 			Reqstr:  jsii.String(("reqstr")),
 		},
 	})
 
-	mapRes := edge.NewMapResource(stack, jsii.String("map"), &edge.MapResourceConfig{
+	mapRes := mapresource.NewMapResource(stack, jsii.String("map"), &mapresource.MapResourceConfig{
 		OptMap: &map[string]*string{"Key1": jsii.String("value1")},
 		ReqMap: &map[string]interface{}{"Key1": jsii.Bool(true)},
 	})
 
-	set := edge.NewSetBlockResource(stack, jsii.String("set_block"), &edge.SetBlockResourceConfig{
-		Set: &[]*edge.SetBlockResourceSet{&edge.SetBlockResourceSet{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")}, &edge.SetBlockResourceSet{Reqbool: jsii.Bool(false), Reqnum: jsii.Number(0), Reqstr: jsii.String("reqstr2")}},
+	set := setblockresource.NewSetBlockResource(stack, jsii.String("set_block"), &setblockresource.SetBlockResourceConfig{
+		Set: &[]*setblockresource.SetBlockResourceSet{&setblockresource.SetBlockResourceSet{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")}, &setblockresource.SetBlockResourceSet{Reqbool: jsii.Bool(false), Reqnum: jsii.Number(0), Reqstr: jsii.String("reqstr2")}},
 	})
 
 	// plain values
-	edge.NewRequiredAttributeResource(stack, jsii.String("plain"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("plain"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     res.Bool(),
 		Str:      res.Str(),
 		Num:      res.Num(),
@@ -58,7 +63,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	// required values FROM required single item lists
-	edge.NewRequiredAttributeResource(stack, jsii.String("from_single_list"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("from_single_list"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     list.Singlereq().Reqbool(),
 		Str:      list.Singlereq().Reqstr(),
 		Num:      list.Singlereq().Reqnum(),
@@ -68,7 +73,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	// required values FROM required multi item lists
-	edge.NewRequiredAttributeResource(stack, jsii.String("from_list"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("from_list"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     cdktf.Token_AsAny(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqbool"), jsii.Bool(false))),
 		Str:      list.Req().Get(jsii.Number(0)).Reqstr(),
 		Num:      cdktf.Token_AsNumber(cdktf.Fn_Lookup(cdktf.Fn_Element(list.Req(), jsii.Number(0)), jsii.String("reqnum"), jsii.Number(0))),
@@ -78,7 +83,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	// passing a reference to a complete list
-	// edge.NewListBlockResource(stack, jsii.String("list_reference"), &edge.ListBlockResourceConfig{
+	// listblockresource.NewListBlockResource(stack, jsii.String("list_reference"), &listblockresource.ListBlockResourceConfig{
 	// TODO: this fails at synth with "Expected array type, got \"<unresolved-token>\""
 	// Req: list.Req(),
 	// TODO: this does not compile (see #1371)
@@ -86,14 +91,14 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	// })
 
 	// passing a literal array with references for a list
-	// edge.NewListBlockResource(stack, jsii.String("list_literal"), &edge.ListBlockResourceConfig{
+	// listblockresource.NewListBlockResource(stack, jsii.String("list_literal"), &listblockresource.ListBlockResourceConfig{
 	// TODO: this does not compile as the types do not match (despite having the same interface)
-	// Req: &[]*edge.ListBlockResourceReq{list.Singlereq()},
+	// Req: &[]*listblockresource.ListBlockResourceReq{list.Singlereq()},
 	// Singlereq: list.Singlereq(),
 	// })
 
 	// required values FROM map
-	edge.NewRequiredAttributeResource(stack, jsii.String("from_map"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("from_map"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     cdktf.Token_AsAny(cdktf.Fn_Lookup(mapRes.ReqMap(), jsii.String("key1"), jsii.Bool(false))),
 		Str:      cdktf.Token_AsString(cdktf.Fn_Lookup(mapRes.OptMap(), jsii.String("key1"), jsii.String("missing")), &cdktf.EncodingOptions{}),
 		Num:      cdktf.Token_AsNumber(cdktf.Fn_Lookup(mapRes.ComputedMap(), jsii.String("key1"), jsii.Number(0))),
@@ -103,20 +108,20 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	// passing a reference to a complete map
-	edge.NewMapResource(stack, jsii.String("map_reference"), &edge.MapResourceConfig{
+	mapresource.NewMapResource(stack, jsii.String("map_reference"), &mapresource.MapResourceConfig{
 		OptMap: mapRes.OptMap(),
 		ReqMap: mapRes.ReqMap(),
 	})
 
 	// passing a list ref into a set
-	edge.NewSetBlockResource(stack, jsii.String("set_from_list"), &edge.SetBlockResourceConfig{
+	setblockresource.NewSetBlockResource(stack, jsii.String("set_from_list"), &setblockresource.SetBlockResourceConfig{
 		Set: list.Req(),
 	})
 
 	// passing a set ref into a list
-	edge.NewListBlockResource(stack, jsii.String("list_from_set"), &edge.ListBlockResourceConfig{
+	listblockresource.NewListBlockResource(stack, jsii.String("list_from_set"), &listblockresource.ListBlockResourceConfig{
 		Req:       set.Set(),
-		Singlereq: &edge.ListBlockResourceSinglereq{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")},
+		Singlereq: &listblockresource.ListBlockResourceSinglereq{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")},
 	})
 
 	// passing a list ref of a complex list type (no block) into an output
@@ -126,7 +131,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	// passing an element of a list ref of a complex list type (no block) into a resource
-	edge.NewOptionalAttributeResource(stack, jsii.String("list_item_from_list_type_ref"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("list_item_from_list_type_ref"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		Str: list.ComputedListOfObject().Get(jsii.Number(5)).Str(),
 	})
 
@@ -136,13 +141,13 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	providerOpt := edge.NewEdgeProvider(stack, jsii.String("edge"), &edge.EdgeProviderConfig{
+	providerOpt := provider.NewEdgeProvider(stack, jsii.String("edge"), &provider.EdgeProviderConfig{
 		Reqstr:  jsii.String("reqstr"),
 		Reqnum:  jsii.Number(123),
 		Reqbool: jsii.Bool(true),
 	})
 
-	providerFull := edge.NewEdgeProvider(stack, jsii.String("edge_full"), &edge.EdgeProviderConfig{
+	providerFull := provider.NewEdgeProvider(stack, jsii.String("provider_full"), &provider.EdgeProviderConfig{
 		Reqstr:       jsii.String("reqstr"),
 		Reqnum:       jsii.Number(123),
 		Reqbool:      jsii.Bool(true),
@@ -155,7 +160,7 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		Alias:        jsii.String("full"),
 	})
 
-	edge.NewRequiredAttributeResource(stack, jsii.String("reqOpt"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("reqOpt"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     providerOpt.Reqbool(),
 		Num:      providerOpt.Reqnum(),
 		Str:      providerOpt.Reqstr(),
@@ -164,19 +169,19 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		BoolList: &[]interface{}{providerOpt.Reqbool()},
 	})
 
-	edge.NewOptionalAttributeResource(stack, jsii.String("optOpt"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("optOpt"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		Bool: providerOpt.Optbool(),
 		Str:  providerOpt.Optstr(),
 		Num:  providerOpt.Optnum(),
 	})
 
-	edge.NewOptionalAttributeResource(stack, jsii.String("computedOpt"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("computedOpt"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		Bool: providerOpt.Computedbool(),
 		Str:  providerOpt.Computedstr(),
 		Num:  providerOpt.Computednum(),
 	})
 
-	edge.NewRequiredAttributeResource(stack, jsii.String("reqFull"), &edge.RequiredAttributeResourceConfig{
+	requiredattributeresource.NewRequiredAttributeResource(stack, jsii.String("reqFull"), &requiredattributeresource.RequiredAttributeResourceConfig{
 		Bool:     providerFull.Reqbool(),
 		Num:      providerFull.Reqnum(),
 		Str:      providerFull.Reqstr(),
@@ -185,13 +190,13 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 		BoolList: &[]interface{}{providerFull.Reqbool()},
 	})
 
-	edge.NewOptionalAttributeResource(stack, jsii.String("optFull"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("optFull"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		Bool: providerFull.Optbool(),
 		Str:  providerFull.Optstr(),
 		Num:  providerFull.Optnum(),
 	})
 
-	edge.NewOptionalAttributeResource(stack, jsii.String("computedFull"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("computedFull"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		Bool: providerFull.Computedbool(),
 		Str:  providerFull.Computedstr(),
 		Num:  providerFull.Computednum(),
@@ -203,18 +208,18 @@ func NewProviderStack(scope constructs.Construct, id string) cdktf.TerraformStac
 func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	edge.NewEdgeProvider(stack, jsii.String("edge"), &edge.EdgeProviderConfig{
+	provider.NewEdgeProvider(stack, jsii.String("edge"), &provider.EdgeProviderConfig{
 		Reqstr:  jsii.String("reqstr"),
 		Reqnum:  jsii.Number(123),
 		Reqbool: jsii.Bool(true),
 	})
 
-	simpleList := edge.NewOptionalAttributeResource(stack, jsii.String("target"), &edge.OptionalAttributeResourceConfig{
+	simpleList := optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("target"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		StrList: &[]*string{jsii.String("a"), jsii.String("b"), jsii.String("c")},
 	})
 
-	complexList := edge.NewListBlockResource(stack, jsii.String("list"), &edge.ListBlockResourceConfig{
-		Req: &[]*edge.ListBlockResourceReq{
+	complexList := listblockresource.NewListBlockResource(stack, jsii.String("list"), &listblockresource.ListBlockResourceConfig{
+		Req: &[]*listblockresource.ListBlockResourceReq{
 			{
 				Reqbool: jsii.Bool(true),
 				Reqnum:  jsii.Number(1),
@@ -226,10 +231,10 @@ func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStac
 				Reqstr:  jsii.String(("reqstr2")),
 			},
 		},
-		Singlereq: &edge.ListBlockResourceSinglereq{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")},
+		Singlereq: &listblockresource.ListBlockResourceSinglereq{Reqbool: jsii.Bool(true), Reqnum: jsii.Number(1), Reqstr: jsii.String("reqstr")},
 	})
 
-	stringMap := edge.NewMapResource(stack, jsii.String("map"), &edge.MapResourceConfig{
+	stringMap := mapresource.NewMapResource(stack, jsii.String("map"), &mapresource.MapResourceConfig{
 		OptMap: &map[string]*string{"key1": jsii.String("value1"), "key2": jsii.String("value2")},
 		ReqMap: &map[string]interface{}{"key1": jsii.Bool(true)},
 	})
@@ -239,32 +244,32 @@ func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStac
 	stringMapIterator := cdktf.TerraformIterator_FromMap(stringMap.OptMap())
 
 	// iterating over a list of strings
-	edge.NewOptionalAttributeResource(stack, jsii.String("string_list_target"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("string_list_target"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		ForEach: &stringListIterator,
 		Str:     cdktf.Token_AsString(stringListIterator.Value(), &cdktf.EncodingOptions{}),
 	})
 
 	// iterating over a list of complex objects
-	edge.NewOptionalAttributeResource(stack, jsii.String("complex_list_target"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("complex_list_target"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		ForEach: &complexListIterator,
 		Str:     complexListIterator.GetString(jsii.String("reqstr")),
 		Num:     complexListIterator.GetNumber(jsii.String("reqnum")),
 	})
 
 	// iterating over entries of a map of strings
-	edge.NewOptionalAttributeResource(stack, jsii.String("string_map_target"), &edge.OptionalAttributeResourceConfig{
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("string_map_target"), &optionalattributeresource.OptionalAttributeResourceConfig{
 		ForEach: &stringMapIterator,
 		Str:     cdktf.Token_AsString(stringMapIterator.Value(), &cdktf.EncodingOptions{}),
 	})
 
 	// passing an iterator to a block property
-	edge.NewListBlockResource(stack, jsii.String("list_attribute"), &edge.ListBlockResourceConfig{
+	listblockresource.NewListBlockResource(stack, jsii.String("list_attribute"), &listblockresource.ListBlockResourceConfig{
 		Req: complexListIterator.Dynamic(&map[string]interface{}{
 			"reqbool": complexListIterator.GetBoolean(jsii.String("reqbool")),
 			"reqstr":  complexListIterator.GetString(jsii.String("reqstr")),
 			"reqnum":  complexListIterator.GetNumber(jsii.String("reqnum")),
 		}),
-		Singlereq: &edge.ListBlockResourceSinglereq{
+		Singlereq: &listblockresource.ListBlockResourceSinglereq{
 			Reqbool: jsii.Bool(true),
 			Reqnum:  jsii.Number(0),
 			Reqstr:  jsii.String("a"),

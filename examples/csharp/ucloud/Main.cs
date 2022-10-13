@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using ucloud;
+using ucloud.Provider;
+using ucloud.DataUcloudImages;
+using ucloud.Instance;
 using Constructs;
 using HashiCorp.Cdktf;
 

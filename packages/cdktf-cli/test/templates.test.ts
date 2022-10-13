@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { readFileSync } from "fs-extra";
 import * as path from "path";
 import { CODE_MARKER } from "@cdktf/hcl2cdk";

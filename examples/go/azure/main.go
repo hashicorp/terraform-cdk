@@ -5,7 +5,12 @@ import (
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
-	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/azurermprovider"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/linuxvirtualmachine"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/networkinterface"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/resourcegroup"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/subnet"
+	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/hashicorp/azurerm/virtualnetwork"
 	"github.com/hashicorp/terraform-cdk/examples/go/azure/generated/nullmodule"
 )
 
@@ -13,8 +18,8 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
 	//Initialise the provider
-	azurerm.NewAzurermProvider(stack, jsii.String("azurerm"), &azurerm.AzurermProviderConfig{
-		Features: &azurerm.AzurermProviderFeatures{},
+	azurermprovider.NewAzurermProvider(stack, jsii.String("azurerm"), &azurermprovider.AzurermProviderConfig{
+		Features: &azurermprovider.AzurermProviderFeatures{},
 		//Subscription:    jsii.String(""), //Just for an example, login credential is coming from ARM* environment variables
 	})
 
@@ -32,21 +37,21 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	*/
 
 	//Create a resource group
-	rg := azurerm.NewResourceGroup(stack, jsii.String("test_rg"), &azurerm.ResourceGroupConfig{
+	rg := resourcegroup.NewResourceGroup(stack, jsii.String("test_rg"), &resourcegroup.ResourceGroupConfig{
 		//Name:     n.ResourceGroupOutput(), //GOTO 26
 		Name:     jsii.String("test-rg"),
 		Location: jsii.String("westeurope"),
 	})
 
 	//Create the azurerm Virtual Network with a subnet
-	vm_nw := azurerm.NewVirtualNetwork(stack, jsii.String("test_vm_nw"), &azurerm.VirtualNetworkConfig{
+	vm_nw := virtualnetwork.NewVirtualNetwork(stack, jsii.String("test_vm_nw"), &virtualnetwork.VirtualNetworkConfig{
 		Name:              jsii.String("test-vm-nw"),
 		AddressSpace:      &[]*string{jsii.String("10.0.0.0/16")},
 		Location:          rg.Location(),
 		ResourceGroupName: rg.Name(),
 	})
 
-	vm_nw_sn := azurerm.NewSubnet(stack, jsii.String("test_vm_nw_sn"), &azurerm.SubnetConfig{
+	vm_nw_sn := subnet.NewSubnet(stack, jsii.String("test_vm_nw_sn"), &subnet.SubnetConfig{
 		Name:               jsii.String("test-vm-nw-sn"),
 		ResourceGroupName:  rg.Name(),
 		VirtualNetworkName: vm_nw.Name(),
@@ -54,19 +59,19 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	})
 
 	//Create the test Virtual Machine with its Network Interface
-	vm_nic := azurerm.NewNetworkInterface(stack, jsii.String("test_vm_nic"), &azurerm.NetworkInterfaceConfig{
+	vm_nic := networkinterface.NewNetworkInterface(stack, jsii.String("test_vm_nic"), &networkinterface.NetworkInterfaceConfig{
 		Name:              jsii.String("test-vm-nic"),
 		Location:          rg.Location(),
 		ResourceGroupName: rg.Name(),
 
-		IpConfiguration: &[]*azurerm.NetworkInterfaceIpConfiguration{{
+		IpConfiguration: &[]*networkinterface.NetworkInterfaceIpConfiguration{{
 			Name:                       jsii.String("internal"),
 			SubnetId:                   vm_nw_sn.Id(),
 			PrivateIpAddressAllocation: jsii.String("Dynamic"),
 		}},
 	})
 
-	vm := azurerm.NewLinuxVirtualMachine(stack, jsii.String("test_vm"), &azurerm.LinuxVirtualMachineConfig{
+	vm := linuxvirtualmachine.NewLinuxVirtualMachine(stack, jsii.String("test_vm"), &linuxvirtualmachine.LinuxVirtualMachineConfig{
 		Name:                jsii.String("test-vm"),
 		Location:            rg.Location(),
 		ResourceGroupName:   rg.Name(),
@@ -74,17 +79,17 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		AdminUsername:       jsii.String("adminuser"),
 		NetworkInterfaceIds: &[]*string{vm_nic.Id()},
 
-		AdminSshKey: &[]*azurerm.LinuxVirtualMachineAdminSshKey{{
+		AdminSshKey: &[]*linuxvirtualmachine.LinuxVirtualMachineAdminSshKey{{
 			Username:  jsii.String("glados"),
 			PublicKey: cdktf.Fn_File(jsii.String("~/.ssh/id_rsa.pub")),
 		}},
 
-		OsDisk: &azurerm.LinuxVirtualMachineOsDisk{
+		OsDisk: &linuxvirtualmachine.LinuxVirtualMachineOsDisk{
 			Caching:            jsii.String("ReadWrite"),
 			StorageAccountType: jsii.String("Standard_LRS"),
 		},
 
-		SourceImageReference: &azurerm.LinuxVirtualMachineSourceImageReference{
+		SourceImageReference: &linuxvirtualmachine.LinuxVirtualMachineSourceImageReference{
 			Publisher: jsii.String("Canonical"),
 			Offer:     jsii.String("UbuntuServer"),
 			Sku:       jsii.String("16.04-LTS"),

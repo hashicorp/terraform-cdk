@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, Testing } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
@@ -5,9 +7,9 @@ import * as NullProvider from "./.gen/providers/null";
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new NullProvider.NullProvider(this, "null", {});
+    new NullProvider.provider.NullProvider(this, "null", {});
 
-    const nullResouce = new NullProvider.Resource(this, "test", {});
+    const nullResouce = new NullProvider.resource.Resource(this, "test", {});
 
     nullResouce.addOverride("provisioner", [
       {

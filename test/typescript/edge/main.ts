@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import {
   App,
@@ -12,25 +14,29 @@ import * as edge from "./.gen/providers/edge";
 export class ReferenceStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new edge.EdgeProvider(this, "edge", {
+    new edge.provider.EdgeProvider(this, "edge", {
       reqstr: "reqstr",
       reqnum: 123,
       reqbool: true,
     });
 
-    const res = new edge.OptionalAttributeResource(this, "test", {});
-    const list = new edge.ListBlockResource(this, "list", {
+    const res = new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "test",
+      {}
+    );
+    const list = new edge.listBlockResource.ListBlockResource(this, "list", {
       req: [
         { reqbool: true, reqnum: 1, reqstr: "reqstr" },
         { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
       ],
       singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
     });
-    const map = new edge.MapResource(this, "map", {
+    const map = new edge.mapResource.MapResource(this, "map", {
       optMap: { key1: "value1" },
       reqMap: { key1: true },
     });
-    const set = new edge.SetBlockResource(this, "set_block", {
+    const set = new edge.setBlockResource.SetBlockResource(this, "set_block", {
       set: [
         { reqbool: true, reqnum: 1, reqstr: "reqstr" },
         { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
@@ -38,70 +44,86 @@ export class ReferenceStack extends TerraformStack {
     });
 
     // plain values
-    new edge.RequiredAttributeResource(this, "plain", {
-      bool: res.bool,
-      str: res.str,
-      num: res.num,
-      strList: res.strList,
-      numList: res.numList,
-      boolList: res.boolList,
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "plain",
+      {
+        bool: res.bool,
+        str: res.str,
+        num: res.num,
+        strList: res.strList,
+        numList: res.numList,
+        boolList: res.boolList,
+      }
+    );
 
     // required values FROM required single item lists
-    new edge.RequiredAttributeResource(this, "from_single_list", {
-      bool: list.singlereq.reqbool,
-      str: list.singlereq.reqstr,
-      num: list.singlereq.reqnum,
-      strList: [list.singlereq.reqstr],
-      numList: [list.singlereq.reqnum],
-      boolList: [list.singlereq.reqbool],
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "from_single_list",
+      {
+        bool: list.singlereq.reqbool,
+        str: list.singlereq.reqstr,
+        num: list.singlereq.reqnum,
+        strList: [list.singlereq.reqstr],
+        numList: [list.singlereq.reqnum],
+        boolList: [list.singlereq.reqbool],
+      }
+    );
 
     // required values FROM required multi item lists
-    new edge.RequiredAttributeResource(this, "from_list", {
-      bool: Fn.lookup(Fn.element(list.req, 0), "reqbool", false),
-      str: list.req.get(0).reqstr,
-      num: Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
-      strList: [list.req.get(0).reqstr],
-      numList: [Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
-      boolList: [Fn.lookup(Fn.element(list.req, 0), "reqbool", false)],
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "from_list",
+      {
+        bool: Fn.lookup(Fn.element(list.req, 0), "reqbool", false),
+        str: list.req.get(0).reqstr,
+        num: Fn.lookup(Fn.element(list.req, 0), "reqnum", 0),
+        strList: [list.req.get(0).reqstr],
+        numList: [Fn.lookup(Fn.element(list.req, 0), "reqnum", 0)],
+        boolList: [Fn.lookup(Fn.element(list.req, 0), "reqbool", false)],
+      }
+    );
 
     // passing a reference to a complete list
-    new edge.ListBlockResource(this, "list_reference", {
+    new edge.listBlockResource.ListBlockResource(this, "list_reference", {
       req: list.req,
       singlereq: list.singlereq,
     });
 
     // passing a literal array with references for a list
-    new edge.ListBlockResource(this, "list_literal", {
+    new edge.listBlockResource.ListBlockResource(this, "list_literal", {
       req: [list.singlereq],
       singlereq: list.singlereq,
     });
 
     // required values FROM map
-    new edge.RequiredAttributeResource(this, "from_map", {
-      bool: Fn.lookup(map.reqMap, "key1", false),
-      str: Fn.lookup(map.optMap, "key1", "missing"),
-      num: Fn.lookup(map.computedMap, "key1", 0),
-      strList: [Fn.lookup(map.optMap, "key1", "missing")],
-      numList: [Fn.lookup(map.computedMap, "key1", 0)],
-      boolList: [Fn.lookup(map.reqMap, "key1", false)],
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "from_map",
+      {
+        bool: Fn.lookup(map.reqMap, "key1", false),
+        str: Fn.lookup(map.optMap, "key1", "missing"),
+        num: Fn.lookup(map.computedMap, "key1", 0),
+        strList: [Fn.lookup(map.optMap, "key1", "missing")],
+        numList: [Fn.lookup(map.computedMap, "key1", 0)],
+        boolList: [Fn.lookup(map.reqMap, "key1", false)],
+      }
+    );
 
     // passing a reference to a complete map
-    new edge.MapResource(this, "map_reference", {
+    new edge.mapResource.MapResource(this, "map_reference", {
       optMap: map.optMap,
       reqMap: map.reqMap,
     });
 
     // passing a list ref into a set
-    new edge.SetBlockResource(this, "set_from_list", {
+    new edge.setBlockResource.SetBlockResource(this, "set_from_list", {
       set: list.req,
     });
 
     // passing a set ref into a list
-    new edge.ListBlockResource(this, "list_from_set", {
+    new edge.listBlockResource.ListBlockResource(this, "list_from_set", {
       req: set.set,
       singlereq: { reqbool: true, reqnum: 1, reqstr: "reqstr" },
     });
@@ -113,9 +135,13 @@ export class ReferenceStack extends TerraformStack {
     });
 
     // passing an element of a list ref of a complex list type (no block) into a resource
-    new edge.OptionalAttributeResource(this, "list_item_from_list_type_ref", {
-      str: list.computedListOfObject.get(5).str,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "list_item_from_list_type_ref",
+      {
+        str: list.computedListOfObject.get(5).str,
+      }
+    );
   }
 }
 
@@ -123,12 +149,12 @@ export class ReferenceStack extends TerraformStack {
 export class ProviderStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    const providerOpt = new edge.EdgeProvider(this, "edge", {
+    const providerOpt = new edge.provider.EdgeProvider(this, "edge", {
       reqstr: "reqstr",
       reqnum: 123,
       reqbool: true,
     });
-    const providerFull = new edge.EdgeProvider(this, "edge_full", {
+    const providerFull = new edge.provider.EdgeProvider(this, "edge_full", {
       reqstr: "reqstr",
       reqnum: 123,
       reqbool: true,
@@ -143,71 +169,104 @@ export class ProviderStack extends TerraformStack {
 
     // Non-null assertion because provider.reqbool may be undefined
     // although it is required to be set and therefor never actually is undefined
-    new edge.RequiredAttributeResource(this, "reqOpt", {
-      bool: providerOpt.reqbool!,
-      num: providerOpt.reqnum!,
-      str: providerOpt.reqstr!,
-      strList: [providerOpt.reqstr!],
-      numList: [providerOpt.reqnum!],
-      boolList: [providerOpt.reqbool!],
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "reqOpt",
+      {
+        bool: providerOpt.reqbool!,
+        num: providerOpt.reqnum!,
+        str: providerOpt.reqstr!,
+        strList: [providerOpt.reqstr!],
+        numList: [providerOpt.reqnum!],
+        boolList: [providerOpt.reqbool!],
+      }
+    );
 
-    new edge.OptionalAttributeResource(this, "optOpt", {
-      bool: providerOpt.optbool,
-      str: providerOpt.optstr,
-      num: providerOpt.optnum,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "optOpt",
+      {
+        bool: providerOpt.optbool,
+        str: providerOpt.optstr,
+        num: providerOpt.optnum,
+      }
+    );
 
-    new edge.OptionalAttributeResource(this, "computedOpt", {
-      bool: providerOpt.computedbool,
-      str: providerOpt.computedstr,
-      num: providerOpt.computednum,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "computedOpt",
+      {
+        bool: providerOpt.computedbool,
+        str: providerOpt.computedstr,
+        num: providerOpt.computednum,
+      }
+    );
 
-    new edge.RequiredAttributeResource(this, "reqFull", {
-      bool: providerFull.reqbool!,
-      num: providerFull.reqnum!,
-      str: providerFull.reqstr!,
-      strList: [providerFull.reqstr!],
-      numList: [providerFull.reqnum!],
-      boolList: [providerFull.reqbool!],
-    });
+    new edge.requiredAttributeResource.RequiredAttributeResource(
+      this,
+      "reqFull",
+      {
+        bool: providerFull.reqbool!,
+        num: providerFull.reqnum!,
+        str: providerFull.reqstr!,
+        strList: [providerFull.reqstr!],
+        numList: [providerFull.reqnum!],
+        boolList: [providerFull.reqbool!],
+      }
+    );
 
-    new edge.OptionalAttributeResource(this, "optFull", {
-      bool: providerFull.optbool,
-      str: providerFull.optstr,
-      num: providerFull.optnum,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "optFull",
+      {
+        bool: providerFull.optbool,
+        str: providerFull.optstr,
+        num: providerFull.optnum,
+      }
+    );
 
-    new edge.OptionalAttributeResource(this, "computedFull", {
-      bool: providerFull.computedbool,
-      str: providerFull.computedstr,
-      num: providerFull.computednum,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "computedFull",
+      {
+        bool: providerFull.computedbool,
+        str: providerFull.computedstr,
+        num: providerFull.computednum,
+      }
+    );
   }
 }
 
 export class IteratorStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    new edge.EdgeProvider(this, "edge", {
+    new edge.provider.EdgeProvider(this, "edge", {
       reqstr: "reqstr",
       reqnum: 123,
       reqbool: true,
     });
 
-    const simpleList = new edge.OptionalAttributeResource(this, "target", {
-      strList: ["a", "b", "c"],
-    });
+    const simpleList =
+      new edge.optionalAttributeResource.OptionalAttributeResource(
+        this,
+        "target",
+        {
+          strList: ["a", "b", "c"],
+        }
+      );
 
-    const complexList = new edge.ListBlockResource(this, "list", {
-      req: [
-        { reqbool: true, reqnum: 1, reqstr: "reqstr" },
-        { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
-      ],
-      singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
-    });
-    const map = new edge.MapResource(this, "map", {
+    const complexList = new edge.listBlockResource.ListBlockResource(
+      this,
+      "list",
+      {
+        req: [
+          { reqbool: true, reqnum: 1, reqstr: "reqstr" },
+          { reqbool: false, reqnum: 0, reqstr: "reqstr2" },
+        ],
+        singlereq: { reqbool: false, reqnum: 1, reqstr: "reqstr" },
+      }
+    );
+    const map = new edge.mapResource.MapResource(this, "map", {
       optMap: { key1: "value1", key2: "value2" },
       reqMap: { key1: true },
     });
@@ -217,26 +276,38 @@ export class IteratorStack extends TerraformStack {
     const stringMapIterator = TerraformIterator.fromMap(map.optMap);
 
     // iterating over a list of strings
-    new edge.OptionalAttributeResource(this, "string_list_target", {
-      forEach: stringListIterator,
-      str: stringListIterator.value,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "string_list_target",
+      {
+        forEach: stringListIterator,
+        str: stringListIterator.value,
+      }
+    );
 
     // iterating over a list of complex objects
-    new edge.OptionalAttributeResource(this, "complex_list_target", {
-      forEach: complexListIterator,
-      str: complexListIterator.getString("reqstr"),
-      num: complexListIterator.getNumber("reqnum"),
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "complex_list_target",
+      {
+        forEach: complexListIterator,
+        str: complexListIterator.getString("reqstr"),
+        num: complexListIterator.getNumber("reqnum"),
+      }
+    );
 
     // iterating over entries of a map of strings
-    new edge.OptionalAttributeResource(this, "string_map_target", {
-      forEach: stringMapIterator,
-      str: stringMapIterator.value,
-    });
+    new edge.optionalAttributeResource.OptionalAttributeResource(
+      this,
+      "string_map_target",
+      {
+        forEach: stringMapIterator,
+        str: stringMapIterator.value,
+      }
+    );
 
     // passing an iterator to a block property
-    new edge.ListBlockResource(this, "list_attribute", {
+    new edge.listBlockResource.ListBlockResource(this, "list_attribute", {
       req: complexListIterator.dynamic({
         reqbool: complexListIterator.getBoolean("reqbool"),
         reqstr: complexListIterator.getString("reqstr"),

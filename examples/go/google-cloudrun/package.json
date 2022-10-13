@@ -1,0 +1,13 @@
+{
+  "//": "This example test is disabled via the 'private' attribute since it takes more than 20 minutes to build",
+  "name": "@examples/go-google-cloudrun",
+  "private": true,
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm go.sum",
+    "build": "cdktf get",
+    "beforeSynth": "go mod tidy",
+    "synth": "cdktf synth"
+  }
+}

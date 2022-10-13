@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Octokit } from "@octokit/rest";
 import { graphql } from "@octokit/graphql";
 
