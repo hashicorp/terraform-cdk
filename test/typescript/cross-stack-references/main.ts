@@ -1,12 +1,13 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, Fn, TerraformStack, Testing, TerraformLocal } from "cdktf";
-import {
-  RandomProvider,
-  Integer as NumericResource,
-  Password as StringResource,
-  Shuffle as ListResource,
-} from "./.gen/providers/random";
-import { LocalProvider, File } from "./.gen/providers/local";
+import { RandomProvider } from "./.gen/providers/random/provider";
+import { Integer as NumericResource } from "./.gen/providers/random/integer";
+import { Password as StringResource } from "./.gen/providers/random/password";
+import { Shuffle as ListResource } from "./.gen/providers/random/shuffle";
+import { LocalProvider } from "./.gen/providers/local/provider";
+import { File } from "./.gen/providers/local/file";
 
 function writeToFile(scope: Construct, name: string, value: any) {
   const filename = `../../../${name}`;

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -23,7 +25,7 @@ test("broken attribute description comments", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/google/description-escaping.ts"),
+    path.join(workdir, "providers/google/description-escaping/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();
@@ -54,7 +56,7 @@ test("malformed code blocks which break in python rst", async () => {
   await code.save(workdir);
 
   const output = fs.readFileSync(
-    path.join(workdir, "providers/aws/code-blocks.ts"),
+    path.join(workdir, "providers/aws/code-blocks/index.ts"),
     "utf-8"
   );
   expect(output).toMatchSnapshot();

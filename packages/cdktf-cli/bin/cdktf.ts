@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 process.env.NODE_ENV = process.env.NODE_ENV || "production";
 
 import * as yargs from "yargs";

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // TODO: introduce caching for the calls to NPM
 
 import { HttpsProxyAgent } from "https-proxy-agent";
@@ -19,15 +21,68 @@ type ProvidersMap = {
   [name: string]: string;
 };
 
+const fetchCache = new Map<string, any>();
+async function cachedFetch<T>(url: string): Promise<T> {
+  if (fetchCache.has(url)) {
+    return fetchCache.get(url) as T;
+  }
+
+  const responseBody = await fetchWrapped<T>(url);
+  fetchCache.set(url, responseBody);
+
+  return responseBody as T;
+}
+
+// For testing purposes only
+export async function resetFetchCache() {
+  fetchCache.clear();
+}
+
+async function fetchWrapped<T>(url: string): Promise<T> {
+  let response;
+  try {
+    response = await fetch(url, {
+      agent,
+      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
+    });
+  } catch (e) {
+    // Fetch only fails here because of connectivity issues
+    logger.error(
+      "Unable to request pre-built provider information: Network error, please check if you're connected to the internet and try again"
+    );
+
+    throw new Error("Connection error");
+  }
+
+  if (!response.ok) {
+    if (response.status >= 500) {
+      throw new Error(
+        "Unexpected error while finding pre-built provider. Please try again."
+      );
+    }
+    if (response.status === 404) {
+      throw new Error(`Pre-built provider information not found`);
+    }
+    if (response.status >= 400) {
+      const responseText = await response.text();
+      // This means that we're sending a bad request. We should record this in sentry too.
+      logger.error(
+        `Received ${response.status} response from ${url}: ${responseText}`
+      );
+
+      throw new Error(
+        "Unexpected error while finding pre-built provider. Please try again."
+      );
+    }
+  }
+
+  return response.json() as Promise<T>;
+}
+
 export async function getNpmPackageName(
   constraint: ProviderConstraint
 ): Promise<string | undefined> {
-  const providers = (await (
-    await fetch(providersMapUrl, {
-      agent,
-      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
-    })
-  ).json()) as ProvidersMap;
+  const providers = await cachedFetch<ProvidersMap>(providersMapUrl);
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
@@ -63,12 +118,20 @@ type PackageJson = {
   peerDependencies?: {
     cdktf?: string;
   };
+  repository?: {
+    type: string;
+    url: string;
+  };
   // ... many more fields
 };
 type NpmPackageResult = {
   name: string; // e.g. "@cdktf/provider-aws"
   versions: {
     [version: string]: PackageJson;
+  };
+  repository?: {
+    type: string;
+    url: string;
   };
 };
 
@@ -77,16 +140,30 @@ type PrebuiltProviderVersion = {
   providerVersion: string; // e.g. "4.12.1"
   cdktfPeerDependencyConstraint: string; // e.g. "^10.0.0"
 };
-async function getPrebuiltProviderVersions(
+
+export async function getPrebuiltProviderRepositoryName(
+  packageName: string
+): Promise<string> {
+  const url = `https://registry.npmjs.org/${packageName}`;
+  const result = await cachedFetch<NpmPackageResult>(url);
+
+  const repositoryUrl = result?.repository?.url;
+
+  if (!repositoryUrl) return "";
+
+  const repositoryRegex = /^git\+https:\/\/(github.com\/.*)\.git$/;
+  const match = repositoryRegex.exec(repositoryUrl);
+
+  if (!match) return "";
+
+  return match[1];
+}
+
+export async function getAllPrebuiltProviderVersions(
   packageName: string
 ): Promise<PrebuiltProviderVersion[]> {
   const url = `https://registry.npmjs.org/${packageName}`;
-  const result = (await (
-    await fetch(url, {
-      agent,
-      headers: { "User-Agent": "HashiCorp/cdktf-cli" },
-    })
-  ).json()) as NpmPackageResult; // TODO: handle 404 and other errors (abort on other errors)
+  const result = await cachedFetch<NpmPackageResult>(url);
 
   const versions = Object.entries(result.versions)
     .map(([version, packageJson]) => {
@@ -127,10 +204,10 @@ function cdktfVersionMatches(
   return semver.satisfies(cdktfVersion, cdktfPeerDependencyConstraint);
 }
 
-export async function getPrebuiltProviderVersion(
+export async function getPrebuiltProviderVersions(
   constraint: ProviderConstraint,
   cdktfVersion: string
-): Promise<string | null> {
+): Promise<string[] | null> {
   const providerName = await getNpmPackageName(constraint); // TODO: add lots of debug logs to this call
 
   // no pre-built provider exists
@@ -138,10 +215,10 @@ export async function getPrebuiltProviderVersion(
     return null;
   }
 
-  const versions = await getPrebuiltProviderVersions(providerName);
+  const versions = await getAllPrebuiltProviderVersions(providerName);
 
   // find first the version that matches the requested provider version and cdktf version
-  const matchingVersion = versions.find((v) => {
+  const matchingVersions = versions.filter((v) => {
     if (!cdktfVersionMatches(cdktfVersion, v.cdktfPeerDependencyConstraint)) {
       return false; // skip if cdktf version does not match
     }
@@ -151,9 +228,12 @@ export async function getPrebuiltProviderVersion(
     return true; // if no version constraint is passed, return true on the first match
   });
 
-  if (matchingVersion) {
-    return matchingVersion.packageVersion;
+  if (!matchingVersions.length) {
+    return null;
   }
-
-  return null;
+  const npmPackageVersions = matchingVersions
+    .map((matchingVersion) => matchingVersion.packageVersion)
+    .sort(semver.compare)
+    .reverse();
+  return npmPackageVersions;
 }

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
 import { IPty, IDisposable } from "node-pty";
 import stripAnsi = require("strip-ansi");

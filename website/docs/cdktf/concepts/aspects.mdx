@@ -75,15 +75,15 @@ You can also use aspects for validation. The following TypeScript example define
 ```typescript
 import { IConstruct } from "constructs";
 import { Aspects, IAspect, Annotations } from "cdktf";
-import { s3 } from "./.gen/providers/aws";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
 export class ValidateS3IsPrefixed implements IAspect {
   constructor(private prefix: string) {}
 
   // This method is called on every Construct within the defined scope (resource, data sources, etc.).
   visit(node: IConstruct) {
-    if (node instanceof s3.S3Bucket) {
-      if (node.bucket && !node.bucket.startsWith(this.prefix)) {
+    if (node instanceof S3Bucket) {
+      if (node.bucketInput && !node.bucketInput.startsWith(this.prefix)) {
         // You can include `addInfo`, `addWarning`, and `addError`.
         // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
         Annotations.of(node).addError(

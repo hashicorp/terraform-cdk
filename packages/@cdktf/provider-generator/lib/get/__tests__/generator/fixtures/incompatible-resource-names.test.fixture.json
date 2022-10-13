@@ -1,0 +1,57 @@
+{
+  "provider_schemas": {
+    "test": {
+      "resource_schemas": {
+        "test_string": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "dummy": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        },
+        "test_object": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "dummy": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        },
+        "test_function": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "dummy": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        },
+        "test_static": {
+          "version": 1,
+          "block": {
+            "attributes": {
+              "dummy": {
+                "type": "string",
+                "optional": true
+              }
+            }
+          },
+          "block_types": {}
+        }
+      }
+    }
+  }
+}
+

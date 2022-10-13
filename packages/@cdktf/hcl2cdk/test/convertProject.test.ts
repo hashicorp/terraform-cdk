@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
@@ -11,6 +13,16 @@ import {
 } from "@cdktf/provider-generator";
 
 const providerRequirements = ["kreuzwerker/docker@ ~>2.15.0"];
+const CDKTF_CLI = path.resolve(
+  __dirname,
+  "..",
+  "..",
+  "..",
+  "..",
+  "packages",
+  "cdktf-cli"
+);
+
 const createFiles = (cwd: string, files: [string, string][]) => {
   files.forEach(([p, content]) => {
     fs.writeFileSync(path.resolve(cwd, p), content, "utf8");
@@ -69,13 +81,13 @@ app.synth();`,
           "node": ">=14.0"
         },
         "dependencies": {
-          "cdktf": "0.11.0-pre.53",
+          "cdktf": "latest",
           "constructs": "^10.0.5"
         },
         "devDependencies": {
           "@types/node": "^14.0.26",
           "typescript": "^3.9.7",
-          "cdktf-cli": "0.11.0-pre.53"
+          "cdktf-cli": "${CDKTF_CLI}"
         }
       }`,
     ],
@@ -158,7 +170,7 @@ function resources(plan: any) {
 }
 
 let cachedProviderSchema: any;
-describe("convertProject", () => {
+describe.skip("convertProject", () => {
   beforeAll(async () => {
     // Get all the provider schemas
     const { providerSchema } = await readSchema(

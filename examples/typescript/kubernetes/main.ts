@@ -1,11 +1,11 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import {
-  KubernetesProvider,
-  Namespace,
-  Deployment,
-  Service,
-} from "./.gen/providers/kubernetes";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
+import { Namespace } from "./.gen/providers/kubernetes/namespace";
+import { Deployment } from "./.gen/providers/kubernetes/deployment";
+import { Service } from "./.gen/providers/kubernetes/service";
 
 class KubeStack extends TerraformStack {
   constructor(scope: Construct, id: string) {

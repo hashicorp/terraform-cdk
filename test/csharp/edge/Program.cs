@@ -2,8 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-using Providers.Null;
-using Providers.Edge;
+using Providers.Edge.Provider;
+using Providers.Edge.ListBlockResource;
+using Providers.Edge.OptionalAttributeResource;
+using Providers.Edge.MapResource;
+using Providers.Edge.SetBlockResource;
+using Providers.Edge.RequiredAttributeResource;
 using Constructs;
 using HashiCorp.Cdktf;
 

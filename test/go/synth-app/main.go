@@ -1,7 +1,8 @@
 package main
 
 import (
-	"cdk.tf/go/stack/generated/hashicorp/random"
+	"cdk.tf/go/stack/generated/hashicorp/random/pet"
+	random "cdk.tf/go/stack/generated/hashicorp/random/provider"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -15,7 +16,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 
 	random.NewRandomProvider(stack, jsii.String("provider"), &random.RandomProviderConfig{})
 
-	random.NewPet(stack, jsii.String("pet"), &random.PetConfig{Prefix: jsii.String("my")})
+	pet.NewPet(stack, jsii.String("pet"), &pet.PetConfig{Prefix: jsii.String("my")})
 
 	return stack
 }

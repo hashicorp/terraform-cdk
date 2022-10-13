@@ -1,13 +1,15 @@
 package main
 
 import (
-	"cdk.tf/go/stack/generated/kreuzwerker/docker"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker/container"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker/datadockerimage"
+	"cdk.tf/go/stack/generated/kreuzwerker/docker/image"
+	docker "cdk.tf/go/stack/generated/kreuzwerker/docker/provider"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 )
-
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
@@ -15,20 +17,20 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	// The code that defines your stack goes here
 	docker.NewDockerProvider(stack, jsii.String("provider"), &docker.DockerProviderConfig{})
 
-	dataImage := docker.NewDataDockerImage(stack, jsii.String("id"), &docker.DataDockerImageConfig{
+	dataImage := datadockerimage.NewDataDockerImage(stack, jsii.String("id"), &datadockerimage.DataDockerImageConfig{
 		Name: jsii.String("nginx:latest"),
 	})
 
 	imageName := dataImage.Name()
-	dockerImage := docker.NewImage(stack, jsii.String("nginxImage"), &docker.ImageConfig{
-		Name: imageName,
+	dockerImage := image.NewImage(stack, jsii.String("nginxImage"), &image.ImageConfig{
+		Name:        imageName,
 		KeepLocally: jsii.Bool(false),
 	})
 
-	docker.NewContainer(stack, jsii.String("nginxContainer"), &docker.ContainerConfig{
+	container.NewContainer(stack, jsii.String("nginxContainer"), &container.ContainerConfig{
 		Image: dockerImage.Latest(),
 		Name:  jsii.String("tutorial"),
-		Ports: &[]*docker.ContainerPorts{{
+		Ports: &[]*container.ContainerPorts{{
 			Internal: jsii.Number(80), External: jsii.Number(8000),
 		}},
 	})
@@ -42,22 +44,22 @@ func NewMyStackInvalid(scope constructs.Construct, id string) cdktf.TerraformSta
 	// The code that defines your stack goes here
 	docker.NewDockerProvider(stack, jsii.String("provider"), &docker.DockerProviderConfig{})
 
-	dataImage := docker.NewDataDockerImage(stack, jsii.String("id"), &docker.DataDockerImageConfig{
+	dataImage := datadockerimage.NewDataDockerImage(stack, jsii.String("id"), &datadockerimage.DataDockerImageConfig{
 		Name: jsii.String("nginx:latest"),
 	})
 
 	imageName := dataImage.Name()
-	dockerImage := docker.NewImage(stack, jsii.String("nginxImage"), &docker.ImageConfig{
-		Name: imageName,
+	dockerImage := image.NewImage(stack, jsii.String("nginxImage"), &image.ImageConfig{
+		Name:        imageName,
 		KeepLocally: jsii.Bool(false),
 	})
 
-	type fails struct {}
+	type fails struct{}
 
-	docker.NewContainer(stack, jsii.String("nginxContainer"), &docker.ContainerConfig{
+	container.NewContainer(stack, jsii.String("nginxContainer"), &container.ContainerConfig{
 		Image: dockerImage.Latest(),
 		Name:  jsii.String("nginx-go-cdktf"),
-		Ports: &[]*docker.ContainerPorts{{
+		Ports: &[]*container.ContainerPorts{{
 			Internal: jsii.Number(80), External: jsii.Number(8000),
 		}},
 	}).AddOverride(jsii.String(""), &[]*fails{})

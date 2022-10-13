@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import execa from "execa";
 import path from "path";
 import { promises as fs } from "fs";
@@ -28,7 +30,7 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(this, "dummy", {});`
       );
     });
   }, 30_000);
@@ -51,7 +53,7 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(this, "dummy", {});`
       );
     });
   }, 30_000);
@@ -70,7 +72,7 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(this, "dummy", {});`
       );
     });
   }, 30_000);
@@ -135,7 +137,7 @@ describe("convert command", () => {
         `import * as kubernetes from "./.gen/providers/kubernetes";`
       );
       expect(result.stdout).toContain(
-        `new kubernetes.Deployment(this, "myapp", {`
+        `new kubernetes.deployment.Deployment(this, "myapp", {`
       );
       expect(result.stdout).toContain(`template: {`);
     });
@@ -201,7 +203,7 @@ describe("convert command", () => {
         `import * as kubernetes from "./.gen/providers/kubernetes";`
       );
       expect(result.stdout).toContain(
-        `new kubernetes.Deployment(this, "myapp", {`
+        `new kubernetes.deployment.Deployment(this, "myapp", {`
       );
       expect(result.stdout).toContain(`template: {`);
     });

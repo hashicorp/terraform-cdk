@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { logger } from "./logging";
 import { SynthesizedStack } from "./synth-stack";
 type TFIdentifier = string;

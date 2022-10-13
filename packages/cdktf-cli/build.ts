@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 const esbuild = require("esbuild");
 import * as fs from "fs-extra";
 

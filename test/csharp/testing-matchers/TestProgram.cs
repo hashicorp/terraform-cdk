@@ -1,9 +1,13 @@
 using Xunit;
 using HashiCorp.Cdktf;
-using MyCompany.MyApp;
+
 using System;
 using System.Collections.Generic;
-using docker;
+
+using docker.Container;
+using docker.DataDockerImage;
+using docker.DataDockerNetwork;
+using docker.Config;
 
 namespace MyCompany.MyApp{
 

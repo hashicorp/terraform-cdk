@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { SynthesizedStack } from "./synth-stack";
 import { AnnotationMetadataEntryType } from "cdktf";
 import * as chalk from "chalk";

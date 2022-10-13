@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:assets,constructs
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
@@ -5,13 +7,16 @@ import { App, TerraformStack } from "cdktf";
 
 // DOCS_BLOCK_START:assets
 import { TerraformAsset, AssetType } from "cdktf";
-import { AwsProvider, s3 } from "./.gen/providers/aws";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketObject } from "./.gen/providers/aws/s3-bucket-object";
 // DOCS_BLOCK_START:constructs
 import * as path from "path";
 // DOCS_BLOCK_END:assets
-import * as kubernetes from "./.gen/providers/kubernetes";
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
+
 // DOCS_BLOCK_END:constructs
 
 // DOCS_BLOCK_START:assets,constructs
@@ -26,7 +31,7 @@ class MyStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    const bucket = new s3.S3Bucket(this, "bucket", {
+    const bucket = new S3Bucket(this, "bucket", {
       bucket: "demo",
     });
 
@@ -35,7 +40,7 @@ class MyStack extends TerraformStack {
       type: AssetType.ARCHIVE, // if left empty it infers directory and file
     });
 
-    new s3.S3BucketObject(this, "lambda-archive", {
+    new S3BucketObject(this, "lambda-archive", {
       bucket: bucket.bucket,
       key: asset.fileName,
       source: asset.path, // returns a posix path
@@ -43,7 +48,7 @@ class MyStack extends TerraformStack {
     // DOCS_BLOCK_END:assets
 
     // DOCS_BLOCK_START:constructs
-    new kubernetes.KubernetesProvider(this, "kind", {
+    new KubernetesProvider(this, "kind", {
       configPath: path.join(__dirname, "../kubeconfig.yaml"),
     });
 

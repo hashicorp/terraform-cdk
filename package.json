@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.12.2",
+  "version": "0.13.0",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
@@ -17,6 +17,7 @@
     "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
     "lint:workspace": "eslint .",
+    "lint:examples": "node tools/lint-examples.js",
     "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
     "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",
     "integration:update": "cd test && yarn && yarn edge:install && NODE_OPTIONS='--max-old-space-size=7168' ./run-against-dist npx jest -u --runInBand",
@@ -87,7 +88,12 @@
   "lint-staged": {
     "packages/cdktf/**/*.ts": "yarn generate-docs:api",
     "examples/*/documentation/**/*.{ts,cs,go,java,py}": "yarn generate-docs:translations",
-    "**/*.{ts,tsx,js,css,md}": "prettier --write"
+    "**/*.{tsx,js,css,md}": "prettier --write",
+    "**/*.ts": [
+      "prettier --write",
+      "./tools/add-copyright-header-to-file.sh"
+    ],
+    "examples/**": "yarn lint:examples"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

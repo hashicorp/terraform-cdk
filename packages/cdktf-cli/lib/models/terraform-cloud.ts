@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import * as path from "path";
 import * as os from "os";
@@ -231,7 +233,9 @@ export class TerraformCloud implements Terraform {
   @BeautifyErrors("Plan")
   public async plan(
     destroy = false,
-    refreshOnly = false
+    refreshOnly = false,
+    // Parallelism is ignored as custom parallelism is not supported by TFC yet
+    _parallelism = -1
   ): Promise<TerraformPlan> {
     if (!this.configurationVersionId)
       throw new Error("Please create a ConfigurationVersion before planning");
@@ -349,7 +353,9 @@ export class TerraformCloud implements Terraform {
   @BeautifyErrors("Deploy")
   public async deploy(
     _planFile: string,
-    _refreshOnly?: boolean
+    _refreshOnly?: boolean,
+    // Parallelism is ignored as custom parallelism is not supported by TFC yet
+    _parallelism?: number
   ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
     if (!this.run)

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, TerraformResource, Testing } from "../lib";
 
 import { Aspects } from "../lib/aspect";

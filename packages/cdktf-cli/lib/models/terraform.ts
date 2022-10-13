@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 export enum PlannedResourceAction {
   CREATE = "create",
   UPDATE = "update",
@@ -113,9 +115,17 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
 
 export interface Terraform {
   init: () => Promise<void>;
-  plan: (destroy: boolean, refreshOnly?: boolean) => Promise<TerraformPlan>;
-  deploy(planFile: string, refreshOnly?: boolean): Promise<void>;
-  destroy(): Promise<void>;
+  plan: (
+    destroy: boolean,
+    refreshOnly?: boolean,
+    parallelism?: number
+  ) => Promise<TerraformPlan>;
+  deploy(
+    planFile: string,
+    refreshOnly?: boolean,
+    parallelism?: number
+  ): Promise<void>;
+  destroy(parallelism?: number): Promise<void>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
 }

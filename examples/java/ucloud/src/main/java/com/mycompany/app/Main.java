@@ -12,9 +12,9 @@ import com.hashicorp.cdktf.Token;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.ucloud.UcloudProvider;
-import imports.ucloud.DataUcloudImages;
-import imports.ucloud.Instance;
+import imports.ucloud.provider.UcloudProvider;
+import imports.ucloud.data_ucloud_images.DataUcloudImages;;
+import imports.ucloud.instance.Instance;
 import software.constructs.Construct;
 
 public class Main extends TerraformStack {

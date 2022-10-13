@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import {
   App,
@@ -10,7 +12,7 @@ import {
 } from "cdktf";
 import * as NullProvider from "./.gen/providers/null";
 import * as local from "./.gen/providers/local";
-import { RandomProvider, Password } from "./.gen/providers/random";
+import * as random from "./.gen/providers/random";
 import * as path from "path";
 const token = process.env.TERRAFORM_CLOUD_TOKEN;
 const name = process.env.TERRAFORM_CLOUD_WORKSPACE_NAME;
@@ -18,20 +20,20 @@ const organization = process.env.TERRAFORM_CLOUD_ORGANIZATION;
 const localExecution = process.env.TF_EXECUTE_LOCAL === "true";
 
 export class SourceStack extends TerraformStack {
-  public password: Password;
+  public password: random.password.Password;
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new NullProvider.NullProvider(this, "null", {});
-    new RandomProvider(this, "random", {});
-    new local.LocalProvider(this, "local", {});
+    new NullProvider.provider.NullProvider(this, "null", {});
+    new random.provider.RandomProvider(this, "random", {});
+    new local.provider.LocalProvider(this, "local", {});
 
-    this.password = new Password(this, "password", {
+    this.password = new random.password.Password(this, "password", {
       length: 32,
     });
 
-    new NullProvider.Resource(this, "test", {
+    new NullProvider.resource.Resource(this, "test", {
       provisioners: [
         {
           type: "local-exec",
@@ -69,12 +71,16 @@ export class SourceStack extends TerraformStack {
 }
 
 export class ConsumerStack extends TerraformStack {
-  constructor(scope: Construct, id: string, password: Password) {
+  constructor(
+    scope: Construct,
+    id: string,
+    password: random.password.Password
+  ) {
     super(scope, id);
 
-    new local.LocalProvider(this, "local", {});
+    new local.provider.LocalProvider(this, "local", {});
 
-    new local.File(this, "file", {
+    new local.file.File(this, "file", {
       filename: "../../../consumer-file.txt",
       content: password.result,
     });

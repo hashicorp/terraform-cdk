@@ -44,7 +44,7 @@ Constructs also provide a way to logically structure a set of resources, but you
 
 ## Use Constructs
 
-> **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial on HashiCorp Learn to use a custom construct.
+> **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial to use a custom construct. It includes the example code below.
 
 You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project’s programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
@@ -62,15 +62,15 @@ The following TypeScript example instantiates a construct called `KubernetesWebA
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import * as path from "path";
-import * as kubernetes from "./.gen/providers/kubernetes";
 
 import { KubernetesWebAppDeployment } from "./custom-constructs";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
-    new kubernetes.KubernetesProvider(this, "kind", {
+    new KubernetesProvider(this, "kind", {
       configPath: path.join(__dirname, "../kubeconfig.yaml"),
     });
 
@@ -93,17 +93,17 @@ app.synth();
 from constructs import Construct
 import cdktf
 import os
-import imports.kubernetes as kubernetes
+from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 
 
 class MyStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
-        kubernetes.KubernetesProvider(self, "kind",
-                                      config_path=os.path.join(os.path.dirname(
-                                          __file__), '..', 'kubeconfig.yaml')
-                                      )
+        KubernetesProvider(self, "kind",
+                           config_path=os.path.join(os.path.dirname(
+                               __file__), '..', 'kubeconfig.yaml')
+                           )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",
@@ -167,7 +167,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Constructs;
 using HashiCorp.Cdktf;
-using kubernetes;
+using kubernetes.Provider;
 using MyConstructs;
 namespace MyCompany.MyApp
 {
@@ -203,7 +203,7 @@ namespace MyCompany.MyApp
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes"
+	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"

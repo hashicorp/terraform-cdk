@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 /*
 
 Shows how provisioners can be used, requires docker and vagrant to be installed and working
@@ -6,8 +8,10 @@ Shows how provisioners can be used, requires docker and vagrant to be installed 
 
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { Container, DockerProvider } from "./.gen/providers/docker";
-import { NullProvider, Resource } from "./.gen/providers/null";
+import { DockerProvider } from "./.gen/providers/docker/provider";
+import { NullProvider } from "./.gen/providers/null/provider";
+import { Resource } from "./.gen/providers/null/resource";
+import { Container } from "./.gen/providers/docker/container";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {

@@ -19,25 +19,24 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-tf-matrix:
+  build-test-matrix:
     runs-on: ubuntu-latest
     outputs:
-      versions: ${{ steps.build-tf-versions.outputs.versions }}
+      tests: ${{ steps.build-test-matrix.outputs.tests }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - uses: actions/checkout@v2
-      - id: build-tf-versions
+      - id: build-test-matrix
         run: |
-          versions=$(cat .terraform.versions.json | jq -c '.tested | { terraform: . }')
-          echo "::set-output name=versions::$versions"
+          ./tools/build-unit-test-matrix.sh
 
   unit-tests:
-    needs: build-tf-matrix
+    needs: build-test-matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-tf-matrix.outputs.versions)}}
+      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -64,10 +63,8 @@ jobs:
           tools/align-version.sh
           yarn build
           yarn package
-        env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: test
         run: |
-          yarn test:ci
+          npx lerna run --scope '${{ matrix.target }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"

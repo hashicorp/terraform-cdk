@@ -1,5 +1,5 @@
 {
-  "name": "@examples/typescript-provisioners",
+  "name": "@examples/typescript-provisioner",
   "version": "0.0.0",
   "main": "main.js",
   "license": "MPL-2.0",
@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "^14.18.26",
+    "@types/node": "^14.18.30",
     "jest": "^27.5.1",
     "ts-node": "^10.9.1",
     "typescript": "^3.9.10"

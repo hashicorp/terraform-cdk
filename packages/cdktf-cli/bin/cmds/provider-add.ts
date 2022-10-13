@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
 import { requireHandlers } from "./helper/utilities";
 import { Errors } from "../../lib/errors";

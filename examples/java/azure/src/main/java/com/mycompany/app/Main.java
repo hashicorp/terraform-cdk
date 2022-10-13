@@ -7,9 +7,8 @@ import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformStack;
 
-import imports.azurerm.AzurermProvider;
-import imports.azurerm.AzurermProviderFeatures;
-import imports.azurerm.VirtualNetwork;
+import imports.azurerm.provider.*;
+import imports.azurerm.virtual_network.*;
 
 import software.constructs.Construct;
 

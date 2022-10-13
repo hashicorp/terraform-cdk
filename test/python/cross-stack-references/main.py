@@ -1,13 +1,12 @@
 #!/usr/bin/python3 -tt
 from constructs import Construct
 from cdktf import App, Fn, TerraformStack, Testing
-from imports.random import (
-    RandomProvider,
-    Integer as NumericResource,
-    Password as StringResource,
-    Shuffle as ListResource,
-)
-from imports.local import LocalProvider, File
+from imports.random.provider import RandomProvider
+from imports.random.integer import Integer as NumericResource
+from imports.random.password import Password as StringResource
+from imports.random.shuffle import Shuffle as ListResource
+from imports.local.provider import LocalProvider
+from imports.local.file import File
 
 
 def writeToFile(scope: Construct, name: str, value):

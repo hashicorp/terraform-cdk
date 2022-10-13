@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Testing, TerraformStack } from "../lib";
 import * as b from "../lib/backends";
 

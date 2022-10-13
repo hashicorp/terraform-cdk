@@ -17,7 +17,9 @@ Steps:
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
+	dockerprovider "github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/provider"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -27,17 +29,17 @@ import (
 func NewExampleCdktfGoDockerStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
-	docker.NewDockerProvider(stack, jsii.String("provider"), &docker.DockerProviderConfig{})
+	dockerprovider.NewDockerProvider(stack, jsii.String("provider"), &dockerprovider.DockerProviderConfig{})
 
-	dockerImage := docker.NewImage(stack, jsii.String("nginxImage"), &docker.ImageConfig{
+	dockerImage := image.NewImage(stack, jsii.String("nginxImage"), &image.ImageConfig{
 		Name:        jsii.String("nginx:latest"),
 		KeepLocally: jsii.Bool(false),
 	})
 
-	docker.NewContainer(stack, jsii.String("nginxContainer"), &docker.ContainerConfig{
+	container.NewContainer(stack, jsii.String("nginxContainer"), &container.ContainerConfig{
 		Image: dockerImage.Latest(),
 		Name:  jsii.String("tutorial"),
-		Ports: &[]*docker.ContainerPorts{{
+		Ports: &[]*container.ContainerPorts{{
 			Internal: jsii.Number(80), External: jsii.Number(8000),
 		}},
 	})

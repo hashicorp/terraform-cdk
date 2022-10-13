@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Language } from "@cdktf/provider-generator";
 import { existsSync } from "fs-extra";
 import path from "path";
@@ -6,6 +8,8 @@ import { xml2js, js2xml, Element } from "xml-js";
 import { Errors } from "../errors";
 import * as fs from "fs-extra";
 import * as semver from "semver";
+import fetch from "node-fetch";
+import { logger } from "../logging";
 
 /**
  * manages installing, updating, and removing dependencies
@@ -41,6 +45,11 @@ export abstract class PackageManager {
   ): Promise<void>;
   // public abstract listPackages(): Promise<todo>; future stuff..
   // add check if package exists already. might query version in the future and offer to upgrade?
+
+  public abstract isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean>;
 }
 
 class NodePackageManager extends PackageManager {
@@ -73,6 +82,14 @@ class NodePackageManager extends PackageManager {
     await exec(command, args, { cwd: this.workingDirectory });
 
     console.log("Package installed.");
+  }
+
+  public async isNpmVersionAvailable(
+    _packageName: string,
+    _packageVersion: string
+  ): Promise<boolean> {
+    // We get the list of available versions from npm, no need to check here
+    return true;
   }
 }
 
@@ -149,6 +166,35 @@ class PythonPackageManager extends PackageManager {
       console.log("Package installed.");
     }
   }
+
+  public async isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean> {
+    logger.debug(
+      `Checking if ${packageName}@${packageVersion} is available for Python`
+    );
+    const url = `https://pypi.org/pypi/${packageName}/${packageVersion}/json`;
+    logger.debug(`Fetching package information for ${packageName} from ${url}`);
+
+    const response = await fetch(url);
+    const json = await response.json();
+    logger.debug(
+      `Got response from PyPI for ${packageName}@${packageVersion}: ${JSON.stringify(
+        json
+      )}`
+    );
+
+    if (json.info) {
+      // We found the version, so it exists
+      return true;
+    } else {
+      logger.debug(
+        `Could not get PyPI package info, got: ${JSON.stringify(json)}`
+      );
+      return false;
+    }
+  }
 }
 
 class NugetPackageManager extends PackageManager {
@@ -170,6 +216,39 @@ class NugetPackageManager extends PackageManager {
     await exec(command, args, { cwd: this.workingDirectory });
 
     console.log("Package installed.");
+  }
+
+  public async isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean> {
+    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
+
+    const [owner, ...rest] = packageName.split(".");
+    const id = rest[rest.length - 1];
+    const url = `https://azuresearch-usnc.nuget.org/query?q=owner:${owner}%20id:${id}&prerelease=false&semVerLevel=2.0.0`;
+    logger.debug(`Fetching package metadata from Nuget: '${url}'`);
+
+    const response = await fetch(url);
+    const json = (await response.json()) as {
+      data: { id: string; versions: { version: string }[] }[];
+    };
+    logger.debug(
+      `Got response from NuGet for ${packageName} : ${JSON.stringify(json)}`
+    );
+
+    if (!json?.data?.length) {
+      return false; // No package found
+    }
+
+    const packageVersions =
+      json.data.find((p) => p.id === packageName)?.versions ?? [];
+
+    if (!packageVersions.length) {
+      return false; // No package release matching the id found
+    }
+
+    return packageVersions.some((v) => v.version === packageVersion);
   }
 }
 
@@ -215,6 +294,38 @@ class MavenPackageManager extends PackageManager {
     await exec("mvn", ["install"], { cwd: this.workingDirectory });
     console.log("Package installed.");
   }
+
+  public async isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean> {
+    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
+
+    const parts = packageName.split(".");
+    if (parts.length !== 3) {
+      throw Errors.Internal(
+        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`
+      );
+    }
+
+    const packageIdentifier = parts.pop();
+    const groupId = parts.join(".");
+
+    const url = `https://search.maven.org/solrsearch/select?q=g:${groupId}+AND+a:${packageIdentifier}+AND+v:${packageVersion}&rows=5&wt=json`;
+    logger.debug(
+      `Trying to find package version by querying Maven Central under '${url}'`
+    );
+    const response = await fetch(url);
+
+    const json = await response.json();
+    logger.debug(
+      `Got response from the Maven package search for ${packageName}: ${JSON.stringify(
+        json
+      )}`
+    );
+
+    return (json?.response?.numFound ?? 0) > 0;
+  }
 }
 
 class GoPackageManager extends PackageManager {
@@ -243,5 +354,51 @@ class GoPackageManager extends PackageManager {
     );
 
     console.log("Package installed.");
+  }
+
+  public async isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean> {
+    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
+
+    // e.g. github.com/cdktf/cdktf-provider-google-go/google
+    const parts = packageName.split("/");
+    if (parts.length !== 4) {
+      throw Errors.Internal(
+        `Expecting Go package name to be in the format of github.com/<org>/<repo>/<package>, got ${packageName}`
+      );
+    }
+
+    const org = parts[1];
+    const repo = parts[2];
+    const packagePath = parts[3];
+
+    const url = `https://api.github.com/repos/${org}/${repo}/git/ref/tags/${packagePath}/v${packageVersion}`;
+    logger.debug(`Fetching tags for ${org}/${repo} from '${url}'`);
+    const response = await fetch(url, {
+      headers: {
+        Accept: "application/vnd.github+json",
+      },
+    });
+
+    const json = await response.json();
+    logger.debug(
+      `Got response from GitHubs repository tag endpoint for ${packageName}: ${JSON.stringify(
+        json
+      )}`
+    );
+
+    if (json && json.ref) {
+      return true;
+    }
+
+    logger.info(
+      `Could not find the tag ${packagePath}/v${packageVersion} in the repository ${org}/${repo}: ${JSON.stringify(
+        json
+      )}}`
+    );
+
+    return false;
   }
 }

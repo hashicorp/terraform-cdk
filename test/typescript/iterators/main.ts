@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import {
   App,
@@ -17,7 +19,7 @@ export class TestIterators extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new ArchiveProvider.ArchiveProvider(this, "archive");
+    new ArchiveProvider.provider.ArchiveProvider(this, "archive");
 
     const list = new TerraformVariable(this, "files", {
       type: "list(string)",
@@ -33,7 +35,7 @@ export class TestIterators extends TerraformStack {
 
     // TODO: we don't support using .dynamic for simple mapping (i.e. to a string instead of to an object) yet
     // tracking issue: https://github.com/hashicorp/terraform-cdk/issues/1940
-    new ArchiveProvider.DataArchiveFile(this, "dir", {
+    new ArchiveProvider.dataArchiveFile.DataArchiveFile(this, "dir", {
       type: "zip",
       outputPath: "${path.module}/out1.zip",
       sourceDir: files.path,
@@ -55,7 +57,7 @@ export class TestIterators extends TerraformStack {
     //   }
     // }
     // CDKTF:
-    new ArchiveProvider.DataArchiveFile(this, "inline", {
+    new ArchiveProvider.dataArchiveFile.DataArchiveFile(this, "inline", {
       type: "zip",
       outputPath: "${path.module}/out2.zip",
       source: it.dynamic({
@@ -103,7 +105,7 @@ export class TestIteratorsSynthOnly extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    new NomadProvider.NomadProvider(this, "nomad", {
+    new NomadProvider.provider.NomadProvider(this, "nomad", {
       address: "dummy",
     });
 
@@ -148,7 +150,7 @@ export class TestIteratorsSynthOnly extends TerraformStack {
     //   }
     // }
     // CDKTF:
-    new NomadProvider.Volume(this, "mysqlvolume", {
+    new NomadProvider.volume.Volume(this, "mysqlvolume", {
       pluginId: "aws-ebs0",
       name: "mysql-volume",
       volumeId: "mysql-volume",

@@ -2,11 +2,13 @@
 from constructs import Construct
 import cdktf
 # DOCS_BLOCK_END:constructs
-import imports.aws as aws
+from imports.aws.provider import AwsProvider
+from imports.aws.s3_bucket import S3Bucket
+from imports.aws.s3_bucket_object import S3BucketObject
 # DOCS_BLOCK_START:constructs
 import os
 # DOCS_BLOCK_END:assets
-import imports.kubernetes as kubernetes
+from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 # DOCS_BLOCK_END:constructs
 # DOCS_BLOCK_START:assets,constructs
@@ -17,9 +19,9 @@ class MyStack(cdktf.TerraformStack):
         super().__init__(scope, name)
         # DOCS_BLOCK_END:constructs
 
-        aws.AwsProvider(self, 'aws', region='eu-central-1')
+        AwsProvider(self, 'aws', region='eu-central-1')
 
-        bucket = aws.s3.S3Bucket(self, "bucket", bucket="demo")
+        bucket = S3Bucket(self, "bucket", bucket="demo")
 
         asset = cdktf.TerraformAsset(self, "lambda-asset",
                                      path=os.path.join(os.path.dirname(
@@ -27,18 +29,18 @@ class MyStack(cdktf.TerraformStack):
                                      type=cdktf.AssetType.ARCHIVE
                                      )
 
-        aws.s3.S3BucketObject(self, "lambda-archive",
-                              bucket=bucket.bucket,
-                              key=asset.file_name,
-                              source=asset.path
-                              )
+        S3BucketObject(self, "lambda-archive",
+                       bucket=bucket.bucket,
+                       key=asset.file_name,
+                       source=asset.path
+                       )
         # DOCS_BLOCK_END:assets
 
         # DOCS_BLOCK_START:constructs
-        kubernetes.KubernetesProvider(self, "kind",
-                                      config_path=os.path.join(os.path.dirname(
-                                          __file__), '..', 'kubeconfig.yaml')
-                                      )
+        KubernetesProvider(self, "kind",
+                           config_path=os.path.join(os.path.dirname(
+                               __file__), '..', 'kubeconfig.yaml')
+                           )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",

@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct, IConstruct, Node } from "constructs";
 import { resolve } from "./_tokens";
 

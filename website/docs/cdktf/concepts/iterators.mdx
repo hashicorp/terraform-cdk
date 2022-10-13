@@ -25,7 +25,7 @@ The following example uses an iterator to create a unique name for each new S3 b
 <CodeTabs>
 
 ```typescript
-import { s3 } from "@cdktf/provider-aws";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
 import { TerraformIterator, TerraformVariable } from "cdktf";
 
 const list = new TerraformVariable(this, "list", {
@@ -34,7 +34,7 @@ const list = new TerraformVariable(this, "list", {
 
 const iterator = TerraformIterator.fromList(list.listValue);
 
-const s3Bucket = new s3.Bucket(this, "bucket", {
+const s3Bucket = new S3Bucket(this, "bucket", {
   forEach: iterator,
   name: iterator.value,
 });
@@ -108,9 +108,9 @@ const iterator = TerraformIterator.fromList([
     name: "images",
     tags: { app: "image-converter" },
   },
-]);
+] as any);
 
-const s3Bucket = new s3.Bucket(this, "bucket", {
+const s3Bucket = new S3Bucket(this, "bucket", {
   forEach: iterator,
   name: iterator.getString("name"),
   tags: iterator.getStringMap("tags"),
@@ -148,21 +148,21 @@ The following examples use an iterator to create a team containing each member o
 ```typescript
 const orgName = "my-org";
 
-new github.GithubProvider(this, "github", {
+new GithubProvider(this, "github", {
   organization: orgName,
 });
 
-const team = new github.Team(this, "core-team", {
+const team = new Team(this, "core-team", {
   name: "core",
 });
 
-const orgMembers = new github.DataGithubOrganization(this, "org", {
+const orgMembers = new DataGithubOrganization(this, "org", {
   name: orgName,
 });
 
 const orgMemberIterator = TerraformIterator.fromList(orgMembers.members);
 
-new github.TeamMembers(this, "members", {
+new TeamMembers(this, "members", {
   teamId: team.id,
   members: orgMemberIterator.dynamic({
     username: orgMemberIterator.value,
@@ -174,15 +174,15 @@ new github.TeamMembers(this, "members", {
 ```python
 org_name = "my-org"
 
-github.GithubProvider(self, "github",
+GithubProvider(self, "github",
     organization=org_name
 )
 
-team = github.Team(self, "core-team",
+team = Team(self, "core-team",
     name="core"
 )
 
-org_members = github.DataGithubOrganization(self, "org",
+org_members = DataGithubOrganization(self, "org",
     name=org_name
 )
 
@@ -230,11 +230,11 @@ new GithubProvider(this, "github", new GithubProviderConfig {
     Organization = orgName
 });
 
-var team = new github.Team(this, "core-team", new TeamConfig {
+var team = new Team(this, "core-team", new TeamConfig {
     Name = "core"
 });
 
-var orgMembers = new github.DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
+var orgMembers = new DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
     Name = orgName
 });
 
@@ -252,25 +252,25 @@ new TeamMembers(this, "members", new TeamMembersConfig {
 ```go
 orgName := "my-org"
 
-github.NewGithubProvider(this, jsii.String("github"), &github.GithubProviderConfig{
-  "organization": &orgName,
+provider.NewGithubProvider(stack, jsii.String("github"), &provider.GithubProviderConfig{
+  Organization: &orgName,
 })
 
-team := github.NewTeam(this, jsii.String("core-team"), &github.TeamConfig{
-  "name": jsii.String("core"),
+team := team.NewTeam(stack, jsii.String("core-team"), &team.TeamConfig{
+  Name: jsii.String("core"),
 })
 
-orgMembers := github.NewDataGithubOrganization(this, jsii.String("org"), &github.DataGithubOrganizationConfig{
-  "name": &orgName,
+orgMembers := datagithuborganization.NewDataGithubOrganization(stack, jsii.String("org"), &datagithuborganization.DataGithubOrganizationConfig{
+  Name: &orgName,
 })
 
 orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
 
-github.NewTeamMembers(this, jsii.String("members"), &github.TeamMembersConfig{
+teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembersConfig{
   TeamId: team.Id(),
   Members: orgMemberIterator.Dynamic(&map[string]interface{}{
     "username": orgMemberIterator.Value(),
-    "role": jsii.String("maintainer"),
+    "role":     jsii.String("maintainer"),
   }),
 })
 ```

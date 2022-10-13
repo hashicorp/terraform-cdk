@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Language } from "@cdktf/provider-generator";
 import { toPascalCase } from "codemaker";
 import { ProviderDependencySpec } from "../cdktf-config";
@@ -7,7 +9,8 @@ import { CdktfConfigManager } from "./cdktf-config-manager";
 import { PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
-  getPrebuiltProviderVersion,
+  getPrebuiltProviderRepositoryName,
+  getPrebuiltProviderVersions,
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
@@ -168,7 +171,7 @@ export class DependencyManager {
       return false;
     }
 
-    const v = await getPrebuiltProviderVersion(constraint, this.cdktfVersion);
+    const v = await getPrebuiltProviderVersions(constraint, this.cdktfVersion);
     const exists = v !== null;
 
     if (exists) {
@@ -195,22 +198,70 @@ export class DependencyManager {
       );
     }
 
-    const packageName = this.convertPackageName(npmPackageName);
-    const prebuiltProviderVersion = await getPrebuiltProviderVersion(
+    const prebuiltProviderNpmVersions = await getPrebuiltProviderVersions(
       constraint,
       this.cdktfVersion
     );
-    if (!prebuiltProviderVersion) {
+    if (!prebuiltProviderNpmVersions) {
       throw Errors.Usage(
         `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
       );
     }
 
-    const packageVersion = prebuiltProviderVersion;
+    const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
+      npmPackageName
+    );
+    const packageName = this.convertPackageName(
+      npmPackageName,
+      prebuiltProviderRepository
+    );
+    const packageVersion = await this.getLanguageSpecificPackageVersion(
+      packageName,
+      prebuiltProviderNpmVersions
+    );
+
+    if (!packageVersion) {
+      throw Errors.Usage(
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`
+      );
+    }
 
     await this.packageManager.addPackage(packageName, packageVersion);
 
     // TODO: more debug logs
+  }
+
+  // The version we use for npm might differ from other registries
+  // This happens mostly in cases where a provider update failed to publish to one of the registries
+  // In that case we use the latest version that was published successfully and works with the current cdktf release
+  private async getLanguageSpecificPackageVersion(
+    packageName: string,
+    prebuiltProviderNpmVersions: string[]
+  ) {
+    logger.debug(
+      "Found possibly matching versions (released on npm): ",
+      prebuiltProviderNpmVersions
+    );
+    logger.debug(
+      "Searching through package manager to find latest available version for given language"
+    );
+
+    for (const version of prebuiltProviderNpmVersions) {
+      try {
+        const isAvailable = await this.packageManager.isNpmVersionAvailable(
+          packageName,
+          version
+        );
+        if (isAvailable) {
+          return version;
+        }
+      } catch (err) {
+        logger.info(
+          `Could not find version ${version} for package ${packageName}: '${err}'. Skipping...`
+        );
+      }
+    }
+    return null;
   }
 
   async addLocalProvider(constraint: ProviderConstraint) {
@@ -239,11 +290,15 @@ export class DependencyManager {
   /**
    * Converts an NPM package name of a pre-built provider package to the name in the target language
    */
-  private convertPackageName(name: string): string {
+  private convertPackageName(name: string, repository: string): string {
     const providerName = name.replace("@cdktf/provider-", "");
     switch (this.targetLanguage) {
-      case Language.GO: // e.g. github.com/hashicorp/cdktf-provider-opentelekomcloud-go/opentelekomcloud
-        return `github.com/hashicorp/cdktf-provider-${providerName}-go/${providerName}`;
+      case Language.GO: // e.g. github.com/cdktf/cdktf-provider-opentelekomcloud-go/opentelekomcloud
+        if (repository) {
+          return `${repository}-go/${providerName}`;
+        }
+
+        return `github.com/cdktf/cdktf-provider-${providerName}-go/${providerName}`;
       case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
         return name; // already the correct name
       case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
