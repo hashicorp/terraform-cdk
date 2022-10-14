@@ -1,63 +1,74 @@
- ResolveOptions <a name="ResolveOptions" id="cdktf.ResolveOptions"></a>
-
-Options to the resolve() operation.
-
-NOT the same as the ResolveContext; ResolveContext is exposed to Token
-implementors and resolution hooks, whereas this struct is just to bundle
-a number of things that would otherwise be arguments to resolve() in a
-readable way.
-
-# Initializer <a name="Initializer" id="cdktf.ResolveOptions.Initializer"></a>
-
-```typescript
-import { ResolveOptions } from 'cdktf'
-
-const resolveOptions: ResolveOptions = { ... }
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ResolveOptions.property.resolver">resolver</a></code> | <code><a href="#cdktf.ITokenResolver">ITokenResolver</a></code> | The resolver to apply to any resolvable tokens found. |
-| <code><a href="#cdktf.ResolveOptions.property.scope">scope</a></code> | <code>constructs.IConstruct</code> | The scope from which resolution is performed. |
-| <code><a href="#cdktf.ResolveOptions.property.preparing">preparing</a></code> | <code>boolean</code> | Whether the resolution is being executed during the prepare phase or not. |
-
+---
+page_title: API Reference for cdktf.ResolveOptions
+description: >-
+  The CDKTF Core API Reference for cdktf.ResolveOptions.
 ---
 
-## `resolver`<sup>Required</sup> <a name="resolver" id="cdktf.ResolveOptions.property.resolver"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```typescript
-public readonly resolver: ITokenResolver;
-```
+# API Reference for cdktf.ResolveOptions
 
-- *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
-
-The resolver to apply to any resolvable tokens found.
-
----
-
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.ResolveOptions.property.scope"></a>
-
-```typescript
-public readonly scope: IConstruct;
-```
-
-- *Type:* constructs.IConstruct
-
-The scope from which resolution is performed.
-
----
-
-## `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>
-
-```typescript
-public readonly preparing: boolean;
-```
-
-- *Type:* boolean
-- *Default:* false
-
-Whether the resolution is being executed during the prepare phase or not.
-
----
+   ResolveOptions <a name="ResolveOptions" id="cdktf.ResolveOptions"></a>
+  
+  Options to the resolve() operation.
+  
+  NOT the same as the ResolveContext; ResolveContext is exposed to Token
+  implementors and resolution hooks, whereas this struct is just to bundle
+  a number of things that would otherwise be arguments to resolve() in a
+  readable way.
+  
+  # Initializer <a name="Initializer" id="cdktf.ResolveOptions.Initializer"></a>
+  
+  ```typescript
+  import { ResolveOptions } from 'cdktf'
+  
+  const resolveOptions: ResolveOptions = { ... }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ResolveOptions.property.resolver">resolver</a></code> | <code><a href="#cdktf.ITokenResolver">ITokenResolver</a></code> | The resolver to apply to any resolvable tokens found. |
+  | <code><a href="#cdktf.ResolveOptions.property.scope">scope</a></code> | <code>constructs.IConstruct</code> | The scope from which resolution is performed. |
+  | <code><a href="#cdktf.ResolveOptions.property.preparing">preparing</a></code> | <code>boolean</code> | Whether the resolution is being executed during the prepare phase or not. |
+  
+  ---
+  
+  ## `resolver`<sup>Required</sup> <a name="resolver" id="cdktf.ResolveOptions.property.resolver"></a>
+  
+  ```typescript
+  public readonly resolver: ITokenResolver;
+  ```
+  
+  - *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+  
+  The resolver to apply to any resolvable tokens found.
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.ResolveOptions.property.scope"></a>
+  
+  ```typescript
+  public readonly scope: IConstruct;
+  ```
+  
+  - *Type:* constructs.IConstruct
+  
+  The scope from which resolution is performed.
+  
+  ---
+  
+  ## `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>
+  
+  ```typescript
+  public readonly preparing: boolean;
+  ```
+  
+  - *Type:* boolean
+  - *Default:* false
+  
+  Whether the resolution is being executed during the prepare phase or not.
+  
+  ---
+  

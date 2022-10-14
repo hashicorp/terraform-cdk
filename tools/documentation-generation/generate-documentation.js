@@ -1,7 +1,11 @@
 #!/usr/bin/env node
 
 const fs = require("fs-extra");
-const { Documentation, Language } = require("../../../jsii-docgen");
+const {
+  Documentation,
+  Language,
+  MarkdownDocument,
+} = require("../../../jsii-docgen");
 const path = require("path");
 
 const targetFolder = path.resolve(
@@ -47,8 +51,38 @@ function replaceAngleBracketsInDocumentation(docs) {
   return sanitizedLines.join("\n");
 }
 
+function indexPage(name) {
+  const item = new MarkdownDocument({ id: name });
+  item.section(new MarkdownDocument({ header: { title: name } }));
+  return item;
+}
+
 // { title: string, path: string }[]
 const navigationEntries = [];
+const pagePerGroupRoutes = [];
+const pagePerClassRoutes = [];
+navigationEntries.push(
+  {
+    title: "Page per Group",
+    path: `api-reference/page-per-group/`,
+    routes: pagePerGroupRoutes,
+  },
+  {
+    title: "Page per Class",
+    path: `api-reference/page-per-class/`,
+    routes: pagePerClassRoutes,
+  }
+);
+fs.mkdirpSync(path.resolve(targetFolder, "page-per-group"));
+fs.writeFileSync(
+  path.resolve(targetFolder, "page-per-group", "index.mdx"),
+  makeMdxCompatible(indexPage("page-per-group"))
+);
+fs.mkdirpSync(path.resolve(targetFolder, "page-per-class"));
+fs.writeFileSync(
+  path.resolve(targetFolder, "page-per-class", "index.mdx"),
+  makeMdxCompatible(indexPage("page-per-class"))
+);
 
 function updateNavigationEntries() {
   const navDataPath = path.resolve(
@@ -66,6 +100,28 @@ function updateNavigationEntries() {
     navigationEntries;
 
   fs.writeFileSync(navDataPath, JSON.stringify(input, null, 2));
+}
+
+function makeMdxCompatible(md) {
+  const rendered = md.render();
+
+  return `---
+page_title: API Reference for ${md.id}
+description: >-
+  The CDKTF Core API Reference for ${md.id}.
+---
+
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for ${md.id}
+
+${replaceAngleBracketsInDocumentation(
+  rendered.replace(
+    `# API Reference <a name="API Reference" id="api-reference"></a>`,
+    ""
+  )
+)}
+`;
 }
 
 Documentation.forProject(
@@ -89,29 +145,10 @@ Documentation.forProject(
       readme: false,
       allSubmodules: true,
     });
-    const rendered = markdown.render();
-
-    const composed = `---
-page_title: API Reference for ${lang}
-description: >-
-  The CDKTF Core API Reference for ${lang}.
----
-
-<!-- This file is generated through yarn generate-docs -->
-
-# API Reference for ${lang}
-
-${replaceAngleBracketsInDocumentation(
-  rendered.replace(
-    `# API Reference <a name="API Reference" id="api-reference"></a>`,
-    ""
-  )
-)}
-`;
 
     fs.writeFileSync(
       path.resolve(targetFolder, `${lang.toLowerCase()}.mdx`),
-      composed,
+      makeMdxCompatible(markdown),
       "utf-8"
     );
     navigationEntries.push({
@@ -124,6 +161,22 @@ ${replaceAngleBracketsInDocumentation(
     fs.mkdirpSync(
       path.resolve(targetFolder, "page-per-group", lang.toLowerCase())
     );
+
+    const groupRoutes = [];
+    pagePerGroupRoutes.push({
+      title: lang,
+      path: `api-reference/page-per-group/${lang.toLowerCase()}`,
+      routes: groupRoutes,
+    });
+    fs.writeFileSync(
+      path.resolve(
+        targetFolder,
+        "page-per-group",
+        lang.toLowerCase(),
+        "index.mdx"
+      ),
+      makeMdxCompatible(indexPage(lang))
+    );
     const groups = content.sections;
     for (const group of groups) {
       fs.writeFileSync(
@@ -133,17 +186,35 @@ ${replaceAngleBracketsInDocumentation(
           lang.toLowerCase(),
           `${group.id.toLowerCase()}.mdx`
         ),
-        group.render()
+        makeMdxCompatible(group)
       );
 
-      navigationEntries.push({
+      groupRoutes.push({
         title: lang,
         path: `api-reference/page-per-group/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
       });
     }
 
-    // One page per class
+    const classRoutes = [];
+    pagePerClassRoutes.push({
+      title: lang,
+      path: `api-reference/page-per-class/${lang.toLowerCase()}`,
+      routes: classRoutes,
+    });
+    fs.mkdirpSync(
+      path.resolve(targetFolder, "page-per-class", lang.toLowerCase())
+    );
+    fs.writeFileSync(
+      path.resolve(
+        targetFolder,
+        "page-per-class",
+        lang.toLowerCase(),
+        "index.mdx"
+      ),
+      makeMdxCompatible(indexPage(lang))
+    );
 
+    // One page per class
     for (const group of groups) {
       fs.mkdirpSync(
         path.resolve(
@@ -153,6 +224,24 @@ ${replaceAngleBracketsInDocumentation(
           group.id.toLowerCase()
         )
       );
+
+      const groupRoutes = [];
+      classRoutes.push({
+        title: lang,
+        path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
+        routes: groupRoutes,
+      });
+      fs.writeFileSync(
+        path.resolve(
+          targetFolder,
+          "page-per-class",
+          lang.toLowerCase(),
+          group.id.toLowerCase(),
+          "index.mdx"
+        ),
+        makeMdxCompatible(indexPage(group.id))
+      );
+
       for (const section of group.sections) {
         fs.writeFileSync(
           path.resolve(
@@ -162,10 +251,10 @@ ${replaceAngleBracketsInDocumentation(
             group.id.toLowerCase(),
             `${section.id.toLowerCase()}.mdx`
           ),
-          section.render()
+          makeMdxCompatible(section)
         );
 
-        navigationEntries.push({
+        groupRoutes.push({
           title: lang,
           path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}/${section.id.toLowerCase()}`,
         });

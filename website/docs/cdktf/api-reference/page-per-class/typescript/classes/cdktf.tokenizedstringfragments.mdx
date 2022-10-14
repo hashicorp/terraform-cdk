@@ -1,193 +1,204 @@
- TokenizedStringFragments <a name="TokenizedStringFragments" id="cdktf.TokenizedStringFragments"></a>
-
-Fragments of a concatenated string containing stringified Tokens.
-
-# Initializers <a name="Initializers" id="cdktf.TokenizedStringFragments.Initializer"></a>
-
-```typescript
-import { TokenizedStringFragments } from 'cdktf'
-
-new TokenizedStringFragments()
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-
+---
+page_title: API Reference for cdktf.TokenizedStringFragments
+description: >-
+  The CDKTF Core API Reference for cdktf.TokenizedStringFragments.
 ---
 
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">addIntrinsic</a></code> | Adds an intrinsic fragment. |
-| <code><a href="#cdktf.TokenizedStringFragments.addLiteral">addLiteral</a></code> | Adds a literal fragment. |
-| <code><a href="#cdktf.TokenizedStringFragments.addToken">addToken</a></code> | Adds a token fragment. |
-| <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code> | Combine the string fragments using the given joiner. |
-| <code><a href="#cdktf.TokenizedStringFragments.mapTokens">mapTokens</a></code> | Apply a transformation function to all tokens in the string. |
-
----
-
-## `addIntrinsic` <a name="addIntrinsic" id="cdktf.TokenizedStringFragments.addIntrinsic"></a>
-
-```typescript
-public addIntrinsic(value: any): void
-```
-
-Adds an intrinsic fragment.
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.TokenizedStringFragments.addIntrinsic.parameter.value"></a>
-
-- *Type:* any
-
-the intrinsic value to add.
-
----
-
-## `addLiteral` <a name="addLiteral" id="cdktf.TokenizedStringFragments.addLiteral"></a>
-
-```typescript
-public addLiteral(lit: any): void
-```
-
-Adds a literal fragment.
-
-### `lit`<sup>Required</sup> <a name="lit" id="cdktf.TokenizedStringFragments.addLiteral.parameter.lit"></a>
-
-- *Type:* any
-
-the literal to add.
-
----
-
-## `addToken` <a name="addToken" id="cdktf.TokenizedStringFragments.addToken"></a>
-
-```typescript
-public addToken(token: IResolvable): void
-```
-
-Adds a token fragment.
-
-### `token`<sup>Required</sup> <a name="token" id="cdktf.TokenizedStringFragments.addToken.parameter.token"></a>
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
-
-the token to add.
-
----
-
-## `join` <a name="join" id="cdktf.TokenizedStringFragments.join"></a>
-
-```typescript
-public join(concat: IFragmentConcatenator): any
-```
-
-Combine the string fragments using the given joiner.
-
-If there are any
-
-### `concat`<sup>Required</sup> <a name="concat" id="cdktf.TokenizedStringFragments.join.parameter.concat"></a>
-
-- *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
-
----
-
-## `mapTokens` <a name="mapTokens" id="cdktf.TokenizedStringFragments.mapTokens"></a>
-
-```typescript
-public mapTokens(mapper: ITokenMapper): TokenizedStringFragments
-```
-
-Apply a transformation function to all tokens in the string.
-
-### `mapper`<sup>Required</sup> <a name="mapper" id="cdktf.TokenizedStringFragments.mapTokens.parameter.mapper"></a>
-
-- *Type:* <a href="#cdktf.ITokenMapper">ITokenMapper</a>
-
----
-
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">firstValue</a></code> | <code>any</code> | Returns the first value. |
-| <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all intrinsic fragments from this string. |
-| <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code> | <code>number</code> | Returns the number of fragments. |
-| <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all literals from this string. |
-| <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all Tokens from this string. |
-| <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">firstToken</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code> | Returns the first token. |
-
----
-
-## `firstValue`<sup>Required</sup> <a name="firstValue" id="cdktf.TokenizedStringFragments.property.firstValue"></a>
-
-```typescript
-public readonly firstValue: any;
-```
-
-- *Type:* any
-
-Returns the first value.
-
----
-
-## `intrinsic`<sup>Required</sup> <a name="intrinsic" id="cdktf.TokenizedStringFragments.property.intrinsic"></a>
-
-```typescript
-public readonly intrinsic: IResolvable[];
-```
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
-
-Return all intrinsic fragments from this string.
-
----
-
-## `length`<sup>Required</sup> <a name="length" id="cdktf.TokenizedStringFragments.property.length"></a>
-
-```typescript
-public readonly length: number;
-```
-
-- *Type:* number
-
-Returns the number of fragments.
-
----
-
-## `literals`<sup>Required</sup> <a name="literals" id="cdktf.TokenizedStringFragments.property.literals"></a>
-
-```typescript
-public readonly literals: IResolvable[];
-```
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
-
-Return all literals from this string.
-
----
-
-## `tokens`<sup>Required</sup> <a name="tokens" id="cdktf.TokenizedStringFragments.property.tokens"></a>
-
-```typescript
-public readonly tokens: IResolvable[];
-```
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
-
-Return all Tokens from this string.
-
----
-
-## `firstToken`<sup>Optional</sup> <a name="firstToken" id="cdktf.TokenizedStringFragments.property.firstToken"></a>
-
-```typescript
-public readonly firstToken: IResolvable;
-```
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
-
-Returns the first token.
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.TokenizedStringFragments
+
+   TokenizedStringFragments <a name="TokenizedStringFragments" id="cdktf.TokenizedStringFragments"></a>
+  
+  Fragments of a concatenated string containing stringified Tokens.
+  
+  # Initializers <a name="Initializers" id="cdktf.TokenizedStringFragments.Initializer"></a>
+  
+  ```typescript
+  import { TokenizedStringFragments } from 'cdktf'
+  
+  new TokenizedStringFragments()
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">addIntrinsic</a></code> | Adds an intrinsic fragment. |
+  | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">addLiteral</a></code> | Adds a literal fragment. |
+  | <code><a href="#cdktf.TokenizedStringFragments.addToken">addToken</a></code> | Adds a token fragment. |
+  | <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code> | Combine the string fragments using the given joiner. |
+  | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">mapTokens</a></code> | Apply a transformation function to all tokens in the string. |
+  
+  ---
+  
+  ## `addIntrinsic` <a name="addIntrinsic" id="cdktf.TokenizedStringFragments.addIntrinsic"></a>
+  
+  ```typescript
+  public addIntrinsic(value: any): void
+  ```
+  
+  Adds an intrinsic fragment.
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.TokenizedStringFragments.addIntrinsic.parameter.value"></a>
+  
+  - *Type:* any
+  
+  the intrinsic value to add.
+  
+  ---
+  
+  ## `addLiteral` <a name="addLiteral" id="cdktf.TokenizedStringFragments.addLiteral"></a>
+  
+  ```typescript
+  public addLiteral(lit: any): void
+  ```
+  
+  Adds a literal fragment.
+  
+  ### `lit`<sup>Required</sup> <a name="lit" id="cdktf.TokenizedStringFragments.addLiteral.parameter.lit"></a>
+  
+  - *Type:* any
+  
+  the literal to add.
+  
+  ---
+  
+  ## `addToken` <a name="addToken" id="cdktf.TokenizedStringFragments.addToken"></a>
+  
+  ```typescript
+  public addToken(token: IResolvable): void
+  ```
+  
+  Adds a token fragment.
+  
+  ### `token`<sup>Required</sup> <a name="token" id="cdktf.TokenizedStringFragments.addToken.parameter.token"></a>
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  the token to add.
+  
+  ---
+  
+  ## `join` <a name="join" id="cdktf.TokenizedStringFragments.join"></a>
+  
+  ```typescript
+  public join(concat: IFragmentConcatenator): any
+  ```
+  
+  Combine the string fragments using the given joiner.
+  
+  If there are any
+  
+  ### `concat`<sup>Required</sup> <a name="concat" id="cdktf.TokenizedStringFragments.join.parameter.concat"></a>
+  
+  - *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+  
+  ---
+  
+  ## `mapTokens` <a name="mapTokens" id="cdktf.TokenizedStringFragments.mapTokens"></a>
+  
+  ```typescript
+  public mapTokens(mapper: ITokenMapper): TokenizedStringFragments
+  ```
+  
+  Apply a transformation function to all tokens in the string.
+  
+  ### `mapper`<sup>Required</sup> <a name="mapper" id="cdktf.TokenizedStringFragments.mapTokens.parameter.mapper"></a>
+  
+  - *Type:* <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+  
+  ---
+  
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">firstValue</a></code> | <code>any</code> | Returns the first value. |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all intrinsic fragments from this string. |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code> | <code>number</code> | Returns the number of fragments. |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all literals from this string. |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all Tokens from this string. |
+  | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">firstToken</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code> | Returns the first token. |
+  
+  ---
+  
+  ## `firstValue`<sup>Required</sup> <a name="firstValue" id="cdktf.TokenizedStringFragments.property.firstValue"></a>
+  
+  ```typescript
+  public readonly firstValue: any;
+  ```
+  
+  - *Type:* any
+  
+  Returns the first value.
+  
+  ---
+  
+  ## `intrinsic`<sup>Required</sup> <a name="intrinsic" id="cdktf.TokenizedStringFragments.property.intrinsic"></a>
+  
+  ```typescript
+  public readonly intrinsic: IResolvable[];
+  ```
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
+  
+  Return all intrinsic fragments from this string.
+  
+  ---
+  
+  ## `length`<sup>Required</sup> <a name="length" id="cdktf.TokenizedStringFragments.property.length"></a>
+  
+  ```typescript
+  public readonly length: number;
+  ```
+  
+  - *Type:* number
+  
+  Returns the number of fragments.
+  
+  ---
+  
+  ## `literals`<sup>Required</sup> <a name="literals" id="cdktf.TokenizedStringFragments.property.literals"></a>
+  
+  ```typescript
+  public readonly literals: IResolvable[];
+  ```
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
+  
+  Return all literals from this string.
+  
+  ---
+  
+  ## `tokens`<sup>Required</sup> <a name="tokens" id="cdktf.TokenizedStringFragments.property.tokens"></a>
+  
+  ```typescript
+  public readonly tokens: IResolvable[];
+  ```
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>[]
+  
+  Return all Tokens from this string.
+  
+  ---
+  
+  ## `firstToken`<sup>Optional</sup> <a name="firstToken" id="cdktf.TokenizedStringFragments.property.firstToken"></a>
+  
+  ```typescript
+  public readonly firstToken: IResolvable;
+  ```
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  Returns the first token.
+  
+  ---
+  
+  

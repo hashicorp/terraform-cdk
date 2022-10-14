@@ -1,97 +1,108 @@
- LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>
-
-- *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>
-
-# Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.NewLazyBase() LazyBase
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-
+---
+page_title: API Reference for cdktf.LazyBase
+description: >-
+  The CDKTF Core API Reference for cdktf.LazyBase.
 ---
 
-# Methods <a name="Methods" id="Methods"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.LazyBase.addPostProcessor">AddPostProcessor</a></code> | *No description.* |
-| <code><a href="#cdktf.LazyBase.resolve">Resolve</a></code> | Produce the Token's value at resolution time. |
-| <code><a href="#cdktf.LazyBase.toJSON">ToJSON</a></code> | Turn this Token into JSON. |
-| <code><a href="#cdktf.LazyBase.toString">ToString</a></code> | Return a string representation of this resolvable object. |
+# API Reference for cdktf.LazyBase
 
----
-
-## `AddPostProcessor` <a name="AddPostProcessor" id="cdktf.LazyBase.addPostProcessor"></a>
-
-```go
-func AddPostProcessor(postProcessor IPostProcessor)
-```
-
-### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.LazyBase.addPostProcessor.parameter.postProcessor"></a>
-
-- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-## `Resolve` <a name="Resolve" id="cdktf.LazyBase.resolve"></a>
-
-```go
-func Resolve(context IResolveContext) interface{}
-```
-
-Produce the Token's value at resolution time.
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.LazyBase.resolve.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `ToJSON` <a name="ToJSON" id="cdktf.LazyBase.toJSON"></a>
-
-```go
-func ToJSON() interface{}
-```
-
-Turn this Token into JSON.
-
-Called automatically when JSON.stringify() is called on a Token.
-
-## `ToString` <a name="ToString" id="cdktf.LazyBase.toString"></a>
-
-```go
-func ToString() *string
-```
-
-Return a string representation of this resolvable object.
-
-Returns a reversible string representation.
-
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.LazyBase.property.creationStack">CreationStack</a></code> | <code>*[]*string</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
-
----
-
-## `CreationStack`<sup>Required</sup> <a name="CreationStack" id="cdktf.LazyBase.property.creationStack"></a>
-
-```go
-func CreationStack() *[]*string
-```
-
-- *Type:* *[]*string
-
-The creation stack of this resolvable which will be appended to errors thrown during resolution.
-
-If this returns an empty array the stack will not be attached.
-
----
-
+   LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>
+  
+  - *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  # Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.NewLazyBase() LazyBase
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.LazyBase.addPostProcessor">AddPostProcessor</a></code> | *No description.* |
+  | <code><a href="#cdktf.LazyBase.resolve">Resolve</a></code> | Produce the Token's value at resolution time. |
+  | <code><a href="#cdktf.LazyBase.toJSON">ToJSON</a></code> | Turn this Token into JSON. |
+  | <code><a href="#cdktf.LazyBase.toString">ToString</a></code> | Return a string representation of this resolvable object. |
+  
+  ---
+  
+  ## `AddPostProcessor` <a name="AddPostProcessor" id="cdktf.LazyBase.addPostProcessor"></a>
+  
+  ```go
+  func AddPostProcessor(postProcessor IPostProcessor)
+  ```
+  
+  ### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.LazyBase.addPostProcessor.parameter.postProcessor"></a>
+  
+  - *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+  
+  ---
+  
+  ## `Resolve` <a name="Resolve" id="cdktf.LazyBase.resolve"></a>
+  
+  ```go
+  func Resolve(context IResolveContext) interface{}
+  ```
+  
+  Produce the Token's value at resolution time.
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.LazyBase.resolve.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `ToJSON` <a name="ToJSON" id="cdktf.LazyBase.toJSON"></a>
+  
+  ```go
+  func ToJSON() interface{}
+  ```
+  
+  Turn this Token into JSON.
+  
+  Called automatically when JSON.stringify() is called on a Token.
+  
+  ## `ToString` <a name="ToString" id="cdktf.LazyBase.toString"></a>
+  
+  ```go
+  func ToString() *string
+  ```
+  
+  Return a string representation of this resolvable object.
+  
+  Returns a reversible string representation.
+  
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.LazyBase.property.creationStack">CreationStack</a></code> | <code>*[]*string</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+  
+  ---
+  
+  ## `CreationStack`<sup>Required</sup> <a name="CreationStack" id="cdktf.LazyBase.property.creationStack"></a>
+  
+  ```go
+  func CreationStack() *[]*string
+  ```
+  
+  - *Type:* *[]*string
+  
+  The creation stack of this resolvable which will be appended to errors thrown during resolution.
+  
+  If this returns an empty array the stack will not be attached.
+  
+  ---
+  
+  

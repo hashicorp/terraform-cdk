@@ -1,89 +1,100 @@
- StackManifest <a name="StackManifest" id="cdktf.StackManifest"></a>
+---
+page_title: API Reference for cdktf.StackManifest
+description: >-
+  The CDKTF Core API Reference for cdktf.StackManifest.
+---
 
-# Initializer <a name="Initializer" id="cdktf.StackManifest.Initializer"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```python
-import cdktf
+# API Reference for cdktf.StackManifest
 
-cdktf.StackManifest(
-  annotations: typing.List[StackAnnotation],
-  construct_path: str,
-  dependencies: typing.List[str],
-  name: str,
-  synthesized_stack_path: str,
+   StackManifest <a name="StackManifest" id="cdktf.StackManifest"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.StackManifest.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.StackManifest(
+    annotations: typing.List[StackAnnotation],
+    construct_path: str,
+    dependencies: typing.List[str],
+    name: str,
+    synthesized_stack_path: str,
+    working_directory: str
+  )
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.StackManifest.property.annotations">annotations</a></code> | <code>typing.List[<a href="#cdktf.StackAnnotation">StackAnnotation</a>]</code> | *No description.* |
+  | <code><a href="#cdktf.StackManifest.property.constructPath">construct_path</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.StackManifest.property.dependencies">dependencies</a></code> | <code>typing.List[str]</code> | *No description.* |
+  | <code><a href="#cdktf.StackManifest.property.name">name</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.StackManifest.property.synthesizedStackPath">synthesized_stack_path</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.StackManifest.property.workingDirectory">working_directory</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## `annotations`<sup>Required</sup> <a name="annotations" id="cdktf.StackManifest.property.annotations"></a>
+  
+  ```python
+  annotations: typing.List[StackAnnotation]
+  ```
+  
+  - *Type:* typing.List[<a href="#cdktf.StackAnnotation">StackAnnotation</a>]
+  
+  ---
+  
+  ## `construct_path`<sup>Required</sup> <a name="construct_path" id="cdktf.StackManifest.property.constructPath"></a>
+  
+  ```python
+  construct_path: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `dependencies`<sup>Required</sup> <a name="dependencies" id="cdktf.StackManifest.property.dependencies"></a>
+  
+  ```python
+  dependencies: typing.List[str]
+  ```
+  
+  - *Type:* typing.List[str]
+  
+  ---
+  
+  ## `name`<sup>Required</sup> <a name="name" id="cdktf.StackManifest.property.name"></a>
+  
+  ```python
+  name: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `synthesized_stack_path`<sup>Required</sup> <a name="synthesized_stack_path" id="cdktf.StackManifest.property.synthesizedStackPath"></a>
+  
+  ```python
+  synthesized_stack_path: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `working_directory`<sup>Required</sup> <a name="working_directory" id="cdktf.StackManifest.property.workingDirectory"></a>
+  
+  ```python
   working_directory: str
-)
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.StackManifest.property.annotations">annotations</a></code> | <code>typing.List[<a href="#cdktf.StackAnnotation">StackAnnotation</a>]</code> | *No description.* |
-| <code><a href="#cdktf.StackManifest.property.constructPath">construct_path</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.StackManifest.property.dependencies">dependencies</a></code> | <code>typing.List[str]</code> | *No description.* |
-| <code><a href="#cdktf.StackManifest.property.name">name</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.StackManifest.property.synthesizedStackPath">synthesized_stack_path</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.StackManifest.property.workingDirectory">working_directory</a></code> | <code>str</code> | *No description.* |
-
----
-
-## `annotations`<sup>Required</sup> <a name="annotations" id="cdktf.StackManifest.property.annotations"></a>
-
-```python
-annotations: typing.List[StackAnnotation]
-```
-
-- *Type:* typing.List[<a href="#cdktf.StackAnnotation">StackAnnotation</a>]
-
----
-
-## `construct_path`<sup>Required</sup> <a name="construct_path" id="cdktf.StackManifest.property.constructPath"></a>
-
-```python
-construct_path: str
-```
-
-- *Type:* str
-
----
-
-## `dependencies`<sup>Required</sup> <a name="dependencies" id="cdktf.StackManifest.property.dependencies"></a>
-
-```python
-dependencies: typing.List[str]
-```
-
-- *Type:* typing.List[str]
-
----
-
-## `name`<sup>Required</sup> <a name="name" id="cdktf.StackManifest.property.name"></a>
-
-```python
-name: str
-```
-
-- *Type:* str
-
----
-
-## `synthesized_stack_path`<sup>Required</sup> <a name="synthesized_stack_path" id="cdktf.StackManifest.property.synthesizedStackPath"></a>
-
-```python
-synthesized_stack_path: str
-```
-
-- *Type:* str
-
----
-
-## `working_directory`<sup>Required</sup> <a name="working_directory" id="cdktf.StackManifest.property.workingDirectory"></a>
-
-```python
-working_directory: str
-```
-
-- *Type:* str
-
----
+  ```
+  
+  - *Type:* str
+  
+  ---
+  

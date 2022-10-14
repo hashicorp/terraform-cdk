@@ -1,67 +1,78 @@
- ResolveOptions <a name="ResolveOptions" id="cdktf.ResolveOptions"></a>
-
-Options to the resolve() operation.
-
-NOT the same as the ResolveContext; ResolveContext is exposed to Token
-implementors and resolution hooks, whereas this struct is just to bundle
-a number of things that would otherwise be arguments to resolve() in a
-readable way.
-
-# Initializer <a name="Initializer" id="cdktf.ResolveOptions.Initializer"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-new ResolveOptions {
-    ITokenResolver Resolver,
-    IConstruct Scope,
-    bool Preparing = null
-};
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ResolveOptions.property.resolver">Resolver</a></code> | <code><a href="#cdktf.ITokenResolver">ITokenResolver</a></code> | The resolver to apply to any resolvable tokens found. |
-| <code><a href="#cdktf.ResolveOptions.property.scope">Scope</a></code> | <code>Constructs.IConstruct</code> | The scope from which resolution is performed. |
-| <code><a href="#cdktf.ResolveOptions.property.preparing">Preparing</a></code> | <code>bool</code> | Whether the resolution is being executed during the prepare phase or not. |
-
+---
+page_title: API Reference for cdktf.ResolveOptions
+description: >-
+  The CDKTF Core API Reference for cdktf.ResolveOptions.
 ---
 
-## `Resolver`<sup>Required</sup> <a name="Resolver" id="cdktf.ResolveOptions.property.resolver"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```csharp
-public ITokenResolver Resolver { get; set; }
-```
+# API Reference for cdktf.ResolveOptions
 
-- *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
-
-The resolver to apply to any resolvable tokens found.
-
----
-
-## `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.ResolveOptions.property.scope"></a>
-
-```csharp
-public IConstruct Scope { get; set; }
-```
-
-- *Type:* Constructs.IConstruct
-
-The scope from which resolution is performed.
-
----
-
-## `Preparing`<sup>Optional</sup> <a name="Preparing" id="cdktf.ResolveOptions.property.preparing"></a>
-
-```csharp
-public bool Preparing { get; set; }
-```
-
-- *Type:* bool
-- *Default:* false
-
-Whether the resolution is being executed during the prepare phase or not.
-
----
+   ResolveOptions <a name="ResolveOptions" id="cdktf.ResolveOptions"></a>
+  
+  Options to the resolve() operation.
+  
+  NOT the same as the ResolveContext; ResolveContext is exposed to Token
+  implementors and resolution hooks, whereas this struct is just to bundle
+  a number of things that would otherwise be arguments to resolve() in a
+  readable way.
+  
+  # Initializer <a name="Initializer" id="cdktf.ResolveOptions.Initializer"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  new ResolveOptions {
+      ITokenResolver Resolver,
+      IConstruct Scope,
+      bool Preparing = null
+  };
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ResolveOptions.property.resolver">Resolver</a></code> | <code><a href="#cdktf.ITokenResolver">ITokenResolver</a></code> | The resolver to apply to any resolvable tokens found. |
+  | <code><a href="#cdktf.ResolveOptions.property.scope">Scope</a></code> | <code>Constructs.IConstruct</code> | The scope from which resolution is performed. |
+  | <code><a href="#cdktf.ResolveOptions.property.preparing">Preparing</a></code> | <code>bool</code> | Whether the resolution is being executed during the prepare phase or not. |
+  
+  ---
+  
+  ## `Resolver`<sup>Required</sup> <a name="Resolver" id="cdktf.ResolveOptions.property.resolver"></a>
+  
+  ```csharp
+  public ITokenResolver Resolver { get; set; }
+  ```
+  
+  - *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+  
+  The resolver to apply to any resolvable tokens found.
+  
+  ---
+  
+  ## `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.ResolveOptions.property.scope"></a>
+  
+  ```csharp
+  public IConstruct Scope { get; set; }
+  ```
+  
+  - *Type:* Constructs.IConstruct
+  
+  The scope from which resolution is performed.
+  
+  ---
+  
+  ## `Preparing`<sup>Optional</sup> <a name="Preparing" id="cdktf.ResolveOptions.property.preparing"></a>
+  
+  ```csharp
+  public bool Preparing { get; set; }
+  ```
+  
+  - *Type:* bool
+  - *Default:* false
+  
+  Whether the resolution is being executed during the prepare phase or not.
+  
+  ---
+  

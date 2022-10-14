@@ -1,121 +1,132 @@
- LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
-
-The local-exec provisioner invokes a local executable after a resource is created.
-
-This invokes a process on the machine running Terraform, not on the resource.
-
-See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
-
-# Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.LocalExecProvisioner(
-  command: str,
-  type: str,
-  environment: typing.Mapping[str] = None,
-  interpreter: typing.List[str] = None,
-  when: str = None,
-  working_dir: str = None
-)
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.LocalExecProvisioner.property.command">command</a></code> | <code>str</code> | This is the command to execute. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.type">type</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.LocalExecProvisioner.property.environment">environment</a></code> | <code>typing.Mapping[str]</code> | A record of key value pairs representing the environment of the executed command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>typing.List[str]</code> | If provided, this is a list of interpreter arguments used to execute the command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.when">when</a></code> | <code>str</code> | If provided, specifies when Terraform will execute the command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">working_dir</a></code> | <code>str</code> | If provided, specifies the working directory where command will be executed. |
-
+---
+page_title: API Reference for cdktf.LocalExecProvisioner
+description: >-
+  The CDKTF Core API Reference for cdktf.LocalExecProvisioner.
 ---
 
-## `command`<sup>Required</sup> <a name="command" id="cdktf.LocalExecProvisioner.property.command"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```python
-command: str
-```
+# API Reference for cdktf.LocalExecProvisioner
 
-- *Type:* str
-
-This is the command to execute.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-It is evaluated in a shell, and can use environment variables or Terraform variables.
-
----
-
-## `type`<sup>Required</sup> <a name="type" id="cdktf.LocalExecProvisioner.property.type"></a>
-
-```python
-type: str
-```
-
-- *Type:* str
-
----
-
-## `environment`<sup>Optional</sup> <a name="environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
-
-```python
-environment: typing.Mapping[str]
-```
-
-- *Type:* typing.Mapping[str]
-
-A record of key value pairs representing the environment of the executed command.
-
-It inherits the current process environment.
-
----
-
-## `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
-
-```python
-interpreter: typing.List[str]
-```
-
-- *Type:* typing.List[str]
-
-If provided, this is a list of interpreter arguments used to execute the command.
-
-The first argument is the interpreter itself.
-It can be provided as a relative path to the current working directory or as an absolute path
-The remaining arguments are appended prior to the command.
-This allows building command lines of the form "/bin/bash", "-c", "echo foo".
-If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
-
----
-
-## `when`<sup>Optional</sup> <a name="when" id="cdktf.LocalExecProvisioner.property.when"></a>
-
-```python
-when: str
-```
-
-- *Type:* str
-
-If provided, specifies when Terraform will execute the command.
-
-For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
-
----
-
-## `working_dir`<sup>Optional</sup> <a name="working_dir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
-
-```python
-working_dir: str
-```
-
-- *Type:* str
-
-If provided, specifies the working directory where command will be executed.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-The directory must exist.
-
----
+   LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
+  
+  The local-exec provisioner invokes a local executable after a resource is created.
+  
+  This invokes a process on the machine running Terraform, not on the resource.
+  
+  See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+  
+  # Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.LocalExecProvisioner(
+    command: str,
+    type: str,
+    environment: typing.Mapping[str] = None,
+    interpreter: typing.List[str] = None,
+    when: str = None,
+    working_dir: str = None
+  )
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.command">command</a></code> | <code>str</code> | This is the command to execute. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.type">type</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.environment">environment</a></code> | <code>typing.Mapping[str]</code> | A record of key value pairs representing the environment of the executed command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">interpreter</a></code> | <code>typing.List[str]</code> | If provided, this is a list of interpreter arguments used to execute the command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.when">when</a></code> | <code>str</code> | If provided, specifies when Terraform will execute the command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">working_dir</a></code> | <code>str</code> | If provided, specifies the working directory where command will be executed. |
+  
+  ---
+  
+  ## `command`<sup>Required</sup> <a name="command" id="cdktf.LocalExecProvisioner.property.command"></a>
+  
+  ```python
+  command: str
+  ```
+  
+  - *Type:* str
+  
+  This is the command to execute.
+  
+  It can be provided as a relative path to the current working directory or as an absolute path.
+  It is evaluated in a shell, and can use environment variables or Terraform variables.
+  
+  ---
+  
+  ## `type`<sup>Required</sup> <a name="type" id="cdktf.LocalExecProvisioner.property.type"></a>
+  
+  ```python
+  type: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `environment`<sup>Optional</sup> <a name="environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
+  
+  ```python
+  environment: typing.Mapping[str]
+  ```
+  
+  - *Type:* typing.Mapping[str]
+  
+  A record of key value pairs representing the environment of the executed command.
+  
+  It inherits the current process environment.
+  
+  ---
+  
+  ## `interpreter`<sup>Optional</sup> <a name="interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
+  
+  ```python
+  interpreter: typing.List[str]
+  ```
+  
+  - *Type:* typing.List[str]
+  
+  If provided, this is a list of interpreter arguments used to execute the command.
+  
+  The first argument is the interpreter itself.
+  It can be provided as a relative path to the current working directory or as an absolute path
+  The remaining arguments are appended prior to the command.
+  This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+  If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+  
+  ---
+  
+  ## `when`<sup>Optional</sup> <a name="when" id="cdktf.LocalExecProvisioner.property.when"></a>
+  
+  ```python
+  when: str
+  ```
+  
+  - *Type:* str
+  
+  If provided, specifies when Terraform will execute the command.
+  
+  For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+  
+  ---
+  
+  ## `working_dir`<sup>Optional</sup> <a name="working_dir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
+  
+  ```python
+  working_dir: str
+  ```
+  
+  - *Type:* str
+  
+  If provided, specifies the working directory where command will be executed.
+  
+  It can be provided as a relative path to the current working directory or as an absolute path.
+  The directory must exist.
+  
+  ---
+  

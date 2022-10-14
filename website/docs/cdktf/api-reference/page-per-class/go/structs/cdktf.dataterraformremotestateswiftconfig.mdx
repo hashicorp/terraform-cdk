@@ -1,365 +1,376 @@
- DataTerraformRemoteStateSwiftConfig <a name="DataTerraformRemoteStateSwiftConfig" id="cdktf.DataTerraformRemoteStateSwiftConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateSwiftConfig.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-&cdktf.DataTerraformRemoteStateSwiftConfig {
-	Defaults: *map[string]interface{},
-	Workspace: *string,
-	Container: *string,
-	ApplicationCredentialId: *string,
-	ApplicationCredentialName: *string,
-	ApplicationCredentialSecret: *string,
-	ArchiveContainer: *string,
-	AuthUrl: *string,
-	CacertFile: *string,
-	Cert: *string,
-	Cloud: *string,
-	DefaultDomain: *string,
-	DomainId: *string,
-	DomainName: *string,
-	ExpireAfter: *string,
-	Insecure: *bool,
-	Key: *string,
-	Password: *string,
-	ProjectDomainId: *string,
-	ProjectDomainName: *string,
-	RegionName: *string,
-	StateName: *string,
-	TenantId: *string,
-	TenantName: *string,
-	Token: *string,
-	UserDomainId: *string,
-	UserDomainName: *string,
-	UserId: *string,
-	UserName: *string,
-}
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults">Defaults</a></code> | <code>*map[string]interface{}</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace">Workspace</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.container">Container</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId">ApplicationCredentialId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName">ApplicationCredentialName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret">ApplicationCredentialSecret</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer">ArchiveContainer</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl">AuthUrl</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile">CacertFile</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cert">Cert</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud">Cloud</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain">DefaultDomain</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId">DomainId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName">DomainName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter">ExpireAfter</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure">Insecure</a></code> | <code>*bool</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.key">Key</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.password">Password</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId">ProjectDomainId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName">ProjectDomainName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName">RegionName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName">StateName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId">TenantId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName">TenantName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.token">Token</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId">UserDomainId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName">UserDomainName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userId">UserId</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userName">UserName</a></code> | <code>*string</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateSwiftConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateSwiftConfig.
 ---
 
-## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults"></a>
-
-```go
-Defaults *map[string]interface{}
-```
-
-- *Type:* *map[string]interface{}
-
----
-
-## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace"></a>
-
-```go
-Workspace *string
-```
-
-- *Type:* *string
-
----
-
-## `Container`<sup>Required</sup> <a name="Container" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.container"></a>
-
-```go
-Container *string
-```
-
-- *Type:* *string
-
----
-
-## `ApplicationCredentialId`<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId"></a>
-
-```go
-ApplicationCredentialId *string
-```
-
-- *Type:* *string
-
----
-
-## `ApplicationCredentialName`<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName"></a>
-
-```go
-ApplicationCredentialName *string
-```
-
-- *Type:* *string
-
----
-
-## `ApplicationCredentialSecret`<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret"></a>
-
-```go
-ApplicationCredentialSecret *string
-```
-
-- *Type:* *string
-
----
-
-## `ArchiveContainer`<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer"></a>
-
-```go
-ArchiveContainer *string
-```
-
-- *Type:* *string
-
----
-
-## `AuthUrl`<sup>Optional</sup> <a name="AuthUrl" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl"></a>
-
-```go
-AuthUrl *string
-```
-
-- *Type:* *string
-
----
-
-## `CacertFile`<sup>Optional</sup> <a name="CacertFile" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile"></a>
-
-```go
-CacertFile *string
-```
-
-- *Type:* *string
-
----
-
-## `Cert`<sup>Optional</sup> <a name="Cert" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cert"></a>
-
-```go
-Cert *string
-```
-
-- *Type:* *string
-
----
-
-## `Cloud`<sup>Optional</sup> <a name="Cloud" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud"></a>
-
-```go
-Cloud *string
-```
-
-- *Type:* *string
-
----
-
-## `DefaultDomain`<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain"></a>
-
-```go
-DefaultDomain *string
-```
-
-- *Type:* *string
-
----
-
-## `DomainId`<sup>Optional</sup> <a name="DomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId"></a>
-
-```go
-DomainId *string
-```
-
-- *Type:* *string
-
----
-
-## `DomainName`<sup>Optional</sup> <a name="DomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName"></a>
-
-```go
-DomainName *string
-```
-
-- *Type:* *string
-
----
-
-## `ExpireAfter`<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter"></a>
-
-```go
-ExpireAfter *string
-```
-
-- *Type:* *string
-
----
-
-## `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure"></a>
-
-```go
-Insecure *bool
-```
-
-- *Type:* *bool
-
----
-
-## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.key"></a>
-
-```go
-Key *string
-```
-
-- *Type:* *string
-
----
-
-## `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.password"></a>
-
-```go
-Password *string
-```
-
-- *Type:* *string
-
----
-
-## `ProjectDomainId`<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId"></a>
-
-```go
-ProjectDomainId *string
-```
-
-- *Type:* *string
-
----
-
-## `ProjectDomainName`<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName"></a>
-
-```go
-ProjectDomainName *string
-```
-
-- *Type:* *string
-
----
-
-## `RegionName`<sup>Optional</sup> <a name="RegionName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName"></a>
-
-```go
-RegionName *string
-```
-
-- *Type:* *string
-
----
-
-## `StateName`<sup>Optional</sup> <a name="StateName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName"></a>
-
-```go
-StateName *string
-```
-
-- *Type:* *string
-
----
-
-## `TenantId`<sup>Optional</sup> <a name="TenantId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId"></a>
-
-```go
-TenantId *string
-```
-
-- *Type:* *string
-
----
-
-## `TenantName`<sup>Optional</sup> <a name="TenantName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName"></a>
-
-```go
-TenantName *string
-```
-
-- *Type:* *string
-
----
-
-## `Token`<sup>Optional</sup> <a name="Token" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.token"></a>
-
-```go
-Token *string
-```
-
-- *Type:* *string
-
----
-
-## `UserDomainId`<sup>Optional</sup> <a name="UserDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId"></a>
-
-```go
-UserDomainId *string
-```
-
-- *Type:* *string
-
----
-
-## `UserDomainName`<sup>Optional</sup> <a name="UserDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName"></a>
-
-```go
-UserDomainName *string
-```
-
-- *Type:* *string
-
----
-
-## `UserId`<sup>Optional</sup> <a name="UserId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userId"></a>
-
-```go
-UserId *string
-```
-
-- *Type:* *string
-
----
-
-## `UserName`<sup>Optional</sup> <a name="UserName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userName"></a>
-
-```go
-UserName *string
-```
-
-- *Type:* *string
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateSwiftConfig
+
+   DataTerraformRemoteStateSwiftConfig <a name="DataTerraformRemoteStateSwiftConfig" id="cdktf.DataTerraformRemoteStateSwiftConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateSwiftConfig.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  &cdktf.DataTerraformRemoteStateSwiftConfig {
+  	Defaults: *map[string]interface{},
+  	Workspace: *string,
+  	Container: *string,
+  	ApplicationCredentialId: *string,
+  	ApplicationCredentialName: *string,
+  	ApplicationCredentialSecret: *string,
+  	ArchiveContainer: *string,
+  	AuthUrl: *string,
+  	CacertFile: *string,
+  	Cert: *string,
+  	Cloud: *string,
+  	DefaultDomain: *string,
+  	DomainId: *string,
+  	DomainName: *string,
+  	ExpireAfter: *string,
+  	Insecure: *bool,
+  	Key: *string,
+  	Password: *string,
+  	ProjectDomainId: *string,
+  	ProjectDomainName: *string,
+  	RegionName: *string,
+  	StateName: *string,
+  	TenantId: *string,
+  	TenantName: *string,
+  	Token: *string,
+  	UserDomainId: *string,
+  	UserDomainName: *string,
+  	UserId: *string,
+  	UserName: *string,
+  }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults">Defaults</a></code> | <code>*map[string]interface{}</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace">Workspace</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.container">Container</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId">ApplicationCredentialId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName">ApplicationCredentialName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret">ApplicationCredentialSecret</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer">ArchiveContainer</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl">AuthUrl</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile">CacertFile</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cert">Cert</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud">Cloud</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain">DefaultDomain</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId">DomainId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName">DomainName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter">ExpireAfter</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure">Insecure</a></code> | <code>*bool</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.key">Key</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.password">Password</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId">ProjectDomainId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName">ProjectDomainName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName">RegionName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName">StateName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId">TenantId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName">TenantName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.token">Token</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId">UserDomainId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName">UserDomainName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userId">UserId</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateSwiftConfig.property.userName">UserName</a></code> | <code>*string</code> | *No description.* |
+  
+  ---
+  
+  ## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults"></a>
+  
+  ```go
+  Defaults *map[string]interface{}
+  ```
+  
+  - *Type:* *map[string]interface{}
+  
+  ---
+  
+  ## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace"></a>
+  
+  ```go
+  Workspace *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Container`<sup>Required</sup> <a name="Container" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.container"></a>
+  
+  ```go
+  Container *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ApplicationCredentialId`<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId"></a>
+  
+  ```go
+  ApplicationCredentialId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ApplicationCredentialName`<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName"></a>
+  
+  ```go
+  ApplicationCredentialName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ApplicationCredentialSecret`<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret"></a>
+  
+  ```go
+  ApplicationCredentialSecret *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ArchiveContainer`<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer"></a>
+  
+  ```go
+  ArchiveContainer *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `AuthUrl`<sup>Optional</sup> <a name="AuthUrl" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl"></a>
+  
+  ```go
+  AuthUrl *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `CacertFile`<sup>Optional</sup> <a name="CacertFile" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile"></a>
+  
+  ```go
+  CacertFile *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Cert`<sup>Optional</sup> <a name="Cert" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cert"></a>
+  
+  ```go
+  Cert *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Cloud`<sup>Optional</sup> <a name="Cloud" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud"></a>
+  
+  ```go
+  Cloud *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `DefaultDomain`<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain"></a>
+  
+  ```go
+  DefaultDomain *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `DomainId`<sup>Optional</sup> <a name="DomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId"></a>
+  
+  ```go
+  DomainId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `DomainName`<sup>Optional</sup> <a name="DomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName"></a>
+  
+  ```go
+  DomainName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ExpireAfter`<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter"></a>
+  
+  ```go
+  ExpireAfter *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure"></a>
+  
+  ```go
+  Insecure *bool
+  ```
+  
+  - *Type:* *bool
+  
+  ---
+  
+  ## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.key"></a>
+  
+  ```go
+  Key *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.password"></a>
+  
+  ```go
+  Password *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ProjectDomainId`<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId"></a>
+  
+  ```go
+  ProjectDomainId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ProjectDomainName`<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName"></a>
+  
+  ```go
+  ProjectDomainName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `RegionName`<sup>Optional</sup> <a name="RegionName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName"></a>
+  
+  ```go
+  RegionName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `StateName`<sup>Optional</sup> <a name="StateName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName"></a>
+  
+  ```go
+  StateName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `TenantId`<sup>Optional</sup> <a name="TenantId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId"></a>
+  
+  ```go
+  TenantId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `TenantName`<sup>Optional</sup> <a name="TenantName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName"></a>
+  
+  ```go
+  TenantName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Token`<sup>Optional</sup> <a name="Token" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.token"></a>
+  
+  ```go
+  Token *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `UserDomainId`<sup>Optional</sup> <a name="UserDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId"></a>
+  
+  ```go
+  UserDomainId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `UserDomainName`<sup>Optional</sup> <a name="UserDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName"></a>
+  
+  ```go
+  UserDomainName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `UserId`<sup>Optional</sup> <a name="UserId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userId"></a>
+  
+  ```go
+  UserId *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `UserName`<sup>Optional</sup> <a name="UserName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userName"></a>
+  
+  ```go
+  UserName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  

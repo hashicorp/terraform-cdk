@@ -1,382 +1,393 @@
- DataTerraformRemoteStateGcs <a name="DataTerraformRemoteStateGcs" id="cdktf.DataTerraformRemoteStateGcs"></a>
-
-# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateGcs.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateGcs;
-
-DataTerraformRemoteStateGcs.Builder.create(Construct scope, java.lang.String id)
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .bucket(java.lang.String)
-//  .accessToken(java.lang.String)
-//  .credentials(java.lang.String)
-//  .encryptionKey(java.lang.String)
-//  .impersonateServiceAccount(java.lang.String)
-//  .impersonateServiceAccountDelegates(java.util.List<java.lang.String>)
-//  .prefix(java.lang.String)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.bucket">bucket</a></code> | <code>java.lang.String</code> | (Required) The name of the GCS bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.credentials">credentials</a></code> | <code>java.lang.String</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.encryptionKey">encryptionKey</a></code> | <code>java.lang.String</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccount">impersonateServiceAccount</a></code> | <code>java.lang.String</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccountDelegates">impersonateServiceAccountDelegates</a></code> | <code>java.util.List<java.lang.String></code> | (Optional) The delegation chain for an impersonating a service account. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) GCS prefix inside the bucket. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateGcs
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateGcs.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.id"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.defaults"></a>
-
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.workspace"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.bucket"></a>
-
-- *Type:* java.lang.String
-
-(Required) The name of the GCS bucket.
-
-This name must be globally unique.
-
----
-
-## `accessToken`<sup>Optional</sup> <a name="accessToken" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.accessToken"></a>
-
-- *Type:* java.lang.String
-
-(Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
-
----
-
-## `credentials`<sup>Optional</sup> <a name="credentials" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.credentials"></a>
-
-- *Type:* java.lang.String
-
-(Optional) Local path to Google Cloud Platform account credentials in JSON format.
-
-If unset, Google Application Default Credentials are used.
-The provided credentials must have Storage Object Admin role on the bucket.
-
-Warning: if using the Google Cloud Platform provider as well,
-it will also pick up the GOOGLE_CREDENTIALS environment variable.
-
----
-
-## `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.encryptionKey"></a>
-
-- *Type:* java.lang.String
-
-(Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
-
----
-
-## `impersonateServiceAccount`<sup>Optional</sup> <a name="impersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccount"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The service account to impersonate for accessing the State Bucket.
-
-You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
-If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
-Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
-
----
-
-## `impersonateServiceAccountDelegates`<sup>Optional</sup> <a name="impersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccountDelegates"></a>
-
-- *Type:* java.util.List<java.lang.String>
-
-(Optional) The delegation chain for an impersonating a service account.
-
----
-
-## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.prefix"></a>
-
-- *Type:* java.lang.String
-
-(Optional) GCS prefix inside the bucket.
-
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.addOverride">addOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.toMetadata">toMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.get">get</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.getBoolean">getBoolean</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.getList">getList</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.getNumber">getNumber</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.getString">getString</a></code> | *No description.* |
-
----
-
-## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateGcs.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateGcs.addOverride"></a>
-
-```java
-public void addOverride(java.lang.String path, java.lang.Object value)
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateGcs.addOverride.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateGcs.addOverride.parameter.value"></a>
-
-- *Type:* java.lang.Object
-
----
-
-## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateGcs.overrideLogicalId"></a>
-
-```java
-public void overrideLogicalId(java.lang.String newLogicalId)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateGcs.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* java.lang.String
-
-The new logical ID to use for this stack element.
-
----
-
-## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateGcs.resetOverrideLogicalId"></a>
-
-```java
-public void resetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateGcs.toMetadata"></a>
-
-```java
-public java.lang.Object toMetadata()
-```
-
-## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateGcs.toTerraform"></a>
-
-```java
-public java.lang.Object toTerraform()
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get` <a name="get" id="cdktf.DataTerraformRemoteStateGcs.get"></a>
-
-```java
-public IResolvable get(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.get.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateGcs.getBoolean"></a>
-
-```java
-public IResolvable getBoolean(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getBoolean.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateGcs.getList"></a>
-
-```java
-public java.util.List<java.lang.String> getList(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getList.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateGcs.getNumber"></a>
-
-```java
-public java.lang.Number getNumber(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getNumber.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateGcs.getString"></a>
-
-```java
-public java.lang.String getString(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getString.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateGcs.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateGcs;
-
-DataTerraformRemoteStateGcs.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateGcs.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateGcs.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateGcs.property.cdktfStack"></a>
-
-```java
-public TerraformStack getCdktfStack();
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateGcs.property.fqn"></a>
-
-```java
-public java.lang.String getFqn();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateGcs.property.friendlyUniqueId"></a>
-
-```java
-public java.lang.String getFriendlyUniqueId();
-```
-
-- *Type:* java.lang.String
-
----
-
-# Constants <a name="Constants" id="Constants"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateGcs.property.tfResourceType"></a>
-
-```java
-public java.lang.String getTfResourceType();
-```
-
-- *Type:* java.lang.String
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateGcs
+
+   DataTerraformRemoteStateGcs <a name="DataTerraformRemoteStateGcs" id="cdktf.DataTerraformRemoteStateGcs"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateGcs.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateGcs;
+  
+  DataTerraformRemoteStateGcs.Builder.create(Construct scope, java.lang.String id)
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .bucket(java.lang.String)
+  //  .accessToken(java.lang.String)
+  //  .credentials(java.lang.String)
+  //  .encryptionKey(java.lang.String)
+  //  .impersonateServiceAccount(java.lang.String)
+  //  .impersonateServiceAccountDelegates(java.util.List< java.lang.String >)
+  //  .prefix(java.lang.String)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.bucket">bucket</a></code> | <code>java.lang.String</code> | (Required) The name of the GCS bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.credentials">credentials</a></code> | <code>java.lang.String</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.encryptionKey">encryptionKey</a></code> | <code>java.lang.String</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccount">impersonateServiceAccount</a></code> | <code>java.lang.String</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccountDelegates">impersonateServiceAccountDelegates</a></code> | <code>java.util.List< java.lang.String ></code> | (Optional) The delegation chain for an impersonating a service account. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) GCS prefix inside the bucket. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.id"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.defaults"></a>
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.workspace"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.bucket"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) The name of the GCS bucket.
+  
+  This name must be globally unique.
+  
+  ---
+  
+  ## `accessToken`<sup>Optional</sup> <a name="accessToken" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.accessToken"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
+  
+  ---
+  
+  ## `credentials`<sup>Optional</sup> <a name="credentials" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.credentials"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) Local path to Google Cloud Platform account credentials in JSON format.
+  
+  If unset, Google Application Default Credentials are used.
+  The provided credentials must have Storage Object Admin role on the bucket.
+  
+  Warning: if using the Google Cloud Platform provider as well,
+  it will also pick up the GOOGLE_CREDENTIALS environment variable.
+  
+  ---
+  
+  ## `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.encryptionKey"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
+  
+  ---
+  
+  ## `impersonateServiceAccount`<sup>Optional</sup> <a name="impersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccount"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The service account to impersonate for accessing the State Bucket.
+  
+  You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
+  If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
+  Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
+  
+  ---
+  
+  ## `impersonateServiceAccountDelegates`<sup>Optional</sup> <a name="impersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.impersonateServiceAccountDelegates"></a>
+  
+  - *Type:* java.util.List< java.lang.String >
+  
+  (Optional) The delegation chain for an impersonating a service account.
+  
+  ---
+  
+  ## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateGcs.Initializer.parameter.prefix"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) GCS prefix inside the bucket.
+  
+  Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.addOverride">addOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.toMetadata">toMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.get">get</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.getBoolean">getBoolean</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.getList">getList</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.getNumber">getNumber</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.getString">getString</a></code> | *No description.* |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateGcs.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateGcs.addOverride"></a>
+  
+  ```java
+  public void addOverride(java.lang.String path, java.lang.Object value)
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateGcs.addOverride.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateGcs.addOverride.parameter.value"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  ## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateGcs.overrideLogicalId"></a>
+  
+  ```java
+  public void overrideLogicalId(java.lang.String newLogicalId)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateGcs.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* java.lang.String
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateGcs.resetOverrideLogicalId"></a>
+  
+  ```java
+  public void resetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateGcs.toMetadata"></a>
+  
+  ```java
+  public java.lang.Object toMetadata()
+  ```
+  
+  ## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateGcs.toTerraform"></a>
+  
+  ```java
+  public java.lang.Object toTerraform()
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get` <a name="get" id="cdktf.DataTerraformRemoteStateGcs.get"></a>
+  
+  ```java
+  public IResolvable get(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.get.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateGcs.getBoolean"></a>
+  
+  ```java
+  public IResolvable getBoolean(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getBoolean.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateGcs.getList"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getList(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getList.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateGcs.getNumber"></a>
+  
+  ```java
+  public java.lang.Number getNumber(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getNumber.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateGcs.getString"></a>
+  
+  ```java
+  public java.lang.String getString(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateGcs.getString.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateGcs.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateGcs;
+  
+  DataTerraformRemoteStateGcs.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateGcs.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateGcs.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateGcs.property.cdktfStack"></a>
+  
+  ```java
+  public TerraformStack getCdktfStack();
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateGcs.property.fqn"></a>
+  
+  ```java
+  public java.lang.String getFqn();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateGcs.property.friendlyUniqueId"></a>
+  
+  ```java
+  public java.lang.String getFriendlyUniqueId();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Constants <a name="Constants" id="Constants"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcs.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateGcs.property.tfResourceType"></a>
+  
+  ```java
+  public java.lang.String getTfResourceType();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  

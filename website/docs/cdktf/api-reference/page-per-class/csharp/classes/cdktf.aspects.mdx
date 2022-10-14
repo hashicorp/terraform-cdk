@@ -1,74 +1,85 @@
- Aspects <a name="Aspects" id="cdktf.Aspects"></a>
-
-Aspects can be applied to CDK tree scopes and can operate on the tree before synthesis.
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Aspects.add">Add</a></code> | Adds an aspect to apply this scope before synthesis. |
-
+---
+page_title: API Reference for cdktf.Aspects
+description: >-
+  The CDKTF Core API Reference for cdktf.Aspects.
 ---
 
-## `Add` <a name="Add" id="cdktf.Aspects.add"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```csharp
-private void Add(IAspect Aspect)
-```
+# API Reference for cdktf.Aspects
 
-Adds an aspect to apply this scope before synthesis.
-
-### `Aspect`<sup>Required</sup> <a name="Aspect" id="cdktf.Aspects.add.parameter.aspect"></a>
-
-- *Type:* <a href="#cdktf.IAspect">IAspect</a>
-
-The aspect to add.
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Aspects.of">Of</a></code> | Returns the `Aspects` object associated with a construct scope. |
-
----
-
-## `Of` <a name="Of" id="cdktf.Aspects.of"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Aspects.Of(IConstruct Scope);
-```
-
-Returns the `Aspects` object associated with a construct scope.
-
-### `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.Aspects.of.parameter.scope"></a>
-
-- *Type:* Constructs.IConstruct
-
-The scope for which these aspects will apply.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.Aspects.property.all">All</a></code> | <code><a href="#cdktf.IAspect">IAspect</a>[]</code> | The list of aspects which were directly applied on this scope. |
-
----
-
-## `All`<sup>Required</sup> <a name="All" id="cdktf.Aspects.property.all"></a>
-
-```csharp
-public IAspect[] All { get; }
-```
-
-- *Type:* <a href="#cdktf.IAspect">IAspect</a>[]
-
-The list of aspects which were directly applied on this scope.
-
----
-
+   Aspects <a name="Aspects" id="cdktf.Aspects"></a>
+  
+  Aspects can be applied to CDK tree scopes and can operate on the tree before synthesis.
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Aspects.add">Add</a></code> | Adds an aspect to apply this scope before synthesis. |
+  
+  ---
+  
+  ## `Add` <a name="Add" id="cdktf.Aspects.add"></a>
+  
+  ```csharp
+  private void Add(IAspect Aspect)
+  ```
+  
+  Adds an aspect to apply this scope before synthesis.
+  
+  ### `Aspect`<sup>Required</sup> <a name="Aspect" id="cdktf.Aspects.add.parameter.aspect"></a>
+  
+  - *Type:* <a href="#cdktf.IAspect">IAspect</a>
+  
+  The aspect to add.
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Aspects.of">Of</a></code> | Returns the `Aspects` object associated with a construct scope. |
+  
+  ---
+  
+  ## `Of` <a name="Of" id="cdktf.Aspects.of"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Aspects.Of(IConstruct Scope);
+  ```
+  
+  Returns the `Aspects` object associated with a construct scope.
+  
+  ### `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.Aspects.of.parameter.scope"></a>
+  
+  - *Type:* Constructs.IConstruct
+  
+  The scope for which these aspects will apply.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.Aspects.property.all">All</a></code> | <code><a href="#cdktf.IAspect">IAspect</a>[]</code> | The list of aspects which were directly applied on this scope. |
+  
+  ---
+  
+  ## `All`<sup>Required</sup> <a name="All" id="cdktf.Aspects.property.all"></a>
+  
+  ```csharp
+  public IAspect[] All { get; }
+  ```
+  
+  - *Type:* <a href="#cdktf.IAspect">IAspect</a>[]
+  
+  The list of aspects which were directly applied on this scope.
+  
+  ---
+  
+  

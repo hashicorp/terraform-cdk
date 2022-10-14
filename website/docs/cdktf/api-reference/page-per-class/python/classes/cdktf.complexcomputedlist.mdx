@@ -1,282 +1,293 @@
- ComplexComputedList <a name="ComplexComputedList" id="cdktf.ComplexComputedList"></a>
-
-- *Implements:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>, <a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>
-
-# Initializers <a name="Initializers" id="cdktf.ComplexComputedList.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.ComplexComputedList(
-  terraform_resource: IInterpolatingParent,
-  terraform_attribute: str,
-  complex_computed_list_index: str,
-  wraps_set: bool = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.terraformResource">terraform_resource</a></code> | <code><a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.terraformAttribute">terraform_attribute</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.complexComputedListIndex">complex_computed_list_index</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.wrapsSet">wraps_set</a></code> | <code>bool</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.ComplexComputedList
+description: >-
+  The CDKTF Core API Reference for cdktf.ComplexComputedList.
 ---
 
-## `terraform_resource`<sup>Required</sup> <a name="terraform_resource" id="cdktf.ComplexComputedList.Initializer.parameter.terraformResource"></a>
-
-- *Type:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
-
----
-
-## `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.Initializer.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## `complex_computed_list_index`<sup>Required</sup> <a name="complex_computed_list_index" id="cdktf.ComplexComputedList.Initializer.parameter.complexComputedListIndex"></a>
-
-- *Type:* str
-
----
-
-## `wraps_set`<sup>Optional</sup> <a name="wraps_set" id="cdktf.ComplexComputedList.Initializer.parameter.wrapsSet"></a>
-
-- *Type:* bool
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.ComplexComputedList.computeFqn">compute_fqn</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getAnyMapAttribute">get_any_map_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getBooleanAttribute">get_boolean_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getBooleanMapAttribute">get_boolean_map_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getListAttribute">get_list_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getNumberAttribute">get_number_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getNumberListAttribute">get_number_list_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getNumberMapAttribute">get_number_map_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getStringAttribute">get_string_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.getStringMapAttribute">get_string_map_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.interpolationForAttribute">interpolation_for_attribute</a></code> | *No description.* |
-| <code><a href="#cdktf.ComplexComputedList.resolve">resolve</a></code> | Produce the Token's value at resolution time. |
-| <code><a href="#cdktf.ComplexComputedList.toString">to_string</a></code> | Return a string representation of this resolvable object. |
-
----
-
-## ~~`compute_fqn`~~ <a name="compute_fqn" id="cdktf.ComplexComputedList.computeFqn"></a>
-
-```python
-def compute_fqn() -> str
-```
-
-## ~~`get_any_map_attribute`~~ <a name="get_any_map_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute"></a>
-
-```python
-def get_any_map_attribute(
-  terraform_attribute: str
-) -> typing.Mapping[typing.Any]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_boolean_attribute`~~ <a name="get_boolean_attribute" id="cdktf.ComplexComputedList.getBooleanAttribute"></a>
-
-```python
-def get_boolean_attribute(
-  terraform_attribute: str
-) -> IResolvable
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_boolean_map_attribute`~~ <a name="get_boolean_map_attribute" id="cdktf.ComplexComputedList.getBooleanMapAttribute"></a>
-
-```python
-def get_boolean_map_attribute(
-  terraform_attribute: str
-) -> typing.Mapping[bool]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanMapAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_list_attribute`~~ <a name="get_list_attribute" id="cdktf.ComplexComputedList.getListAttribute"></a>
-
-```python
-def get_list_attribute(
-  terraform_attribute: str
-) -> typing.List[str]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getListAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_number_attribute`~~ <a name="get_number_attribute" id="cdktf.ComplexComputedList.getNumberAttribute"></a>
-
-```python
-def get_number_attribute(
-  terraform_attribute: str
-) -> typing.Union[int, float]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_number_list_attribute`~~ <a name="get_number_list_attribute" id="cdktf.ComplexComputedList.getNumberListAttribute"></a>
-
-```python
-def get_number_list_attribute(
-  terraform_attribute: str
-) -> typing.List[typing.Union[int, float]]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberListAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_number_map_attribute`~~ <a name="get_number_map_attribute" id="cdktf.ComplexComputedList.getNumberMapAttribute"></a>
-
-```python
-def get_number_map_attribute(
-  terraform_attribute: str
-) -> typing.Mapping[typing.Union[int, float]]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberMapAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_string_attribute`~~ <a name="get_string_attribute" id="cdktf.ComplexComputedList.getStringAttribute"></a>
-
-```python
-def get_string_attribute(
-  terraform_attribute: str
-) -> str
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`get_string_map_attribute`~~ <a name="get_string_map_attribute" id="cdktf.ComplexComputedList.getStringMapAttribute"></a>
-
-```python
-def get_string_map_attribute(
-  terraform_attribute: str
-) -> typing.Mapping[str]
-```
-
-### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringMapAttribute.parameter.terraformAttribute"></a>
-
-- *Type:* str
-
----
-
-## ~~`interpolation_for_attribute`~~ <a name="interpolation_for_attribute" id="cdktf.ComplexComputedList.interpolationForAttribute"></a>
-
-```python
-def interpolation_for_attribute(
-  property: str
-) -> IResolvable
-```
-
-### `property`<sup>Required</sup> <a name="property" id="cdktf.ComplexComputedList.interpolationForAttribute.parameter.property"></a>
-
-- *Type:* str
-
----
-
-## ~~`resolve`~~ <a name="resolve" id="cdktf.ComplexComputedList.resolve"></a>
-
-```python
-def resolve(
-  _context: IResolveContext
-) -> typing.Any
-```
-
-Produce the Token's value at resolution time.
-
-### `_context`<sup>Required</sup> <a name="_context" id="cdktf.ComplexComputedList.resolve.parameter._context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## ~~`to_string`~~ <a name="to_string" id="cdktf.ComplexComputedList.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Return a string representation of this resolvable object.
-
-Returns a reversible string representation.
-
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ComplexComputedList.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
-| <code><a href="#cdktf.ComplexComputedList.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
-
----
-
-## ~~`creation_stack`~~<sup>Required</sup> <a name="creation_stack" id="cdktf.ComplexComputedList.property.creationStack"></a>
-
-- *Deprecated:* Going to be replaced by Array of ComplexListItem
-and will be removed in the future
-
-```python
-creation_stack: typing.List[str]
-```
-
-- *Type:* typing.List[str]
-
-The creation stack of this resolvable which will be appended to errors thrown during resolution.
-
-If this returns an empty array the stack will not be attached.
-
----
-
-## ~~`fqn`~~<sup>Required</sup> <a name="fqn" id="cdktf.ComplexComputedList.property.fqn"></a>
-
-- *Deprecated:* Going to be replaced by Array of ComplexListItem
-and will be removed in the future
-
-```python
-fqn: str
-```
-
-- *Type:* str
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.ComplexComputedList
+
+   ComplexComputedList <a name="ComplexComputedList" id="cdktf.ComplexComputedList"></a>
+  
+  - *Implements:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>, <a href="#cdktf.IResolvable">IResolvable</a>, <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>
+  
+  # Initializers <a name="Initializers" id="cdktf.ComplexComputedList.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.ComplexComputedList(
+    terraform_resource: IInterpolatingParent,
+    terraform_attribute: str,
+    complex_computed_list_index: str,
+    wraps_set: bool = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.terraformResource">terraform_resource</a></code> | <code><a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.terraformAttribute">terraform_attribute</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.complexComputedListIndex">complex_computed_list_index</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.Initializer.parameter.wrapsSet">wraps_set</a></code> | <code>bool</code> | *No description.* |
+  
+  ---
+  
+  ## `terraform_resource`<sup>Required</sup> <a name="terraform_resource" id="cdktf.ComplexComputedList.Initializer.parameter.terraformResource"></a>
+  
+  - *Type:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+  
+  ---
+  
+  ## `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.Initializer.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `complex_computed_list_index`<sup>Required</sup> <a name="complex_computed_list_index" id="cdktf.ComplexComputedList.Initializer.parameter.complexComputedListIndex"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `wraps_set`<sup>Optional</sup> <a name="wraps_set" id="cdktf.ComplexComputedList.Initializer.parameter.wrapsSet"></a>
+  
+  - *Type:* bool
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.ComplexComputedList.computeFqn">compute_fqn</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getAnyMapAttribute">get_any_map_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getBooleanAttribute">get_boolean_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getBooleanMapAttribute">get_boolean_map_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getListAttribute">get_list_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getNumberAttribute">get_number_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getNumberListAttribute">get_number_list_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getNumberMapAttribute">get_number_map_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getStringAttribute">get_string_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.getStringMapAttribute">get_string_map_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.interpolationForAttribute">interpolation_for_attribute</a></code> | *No description.* |
+  | <code><a href="#cdktf.ComplexComputedList.resolve">resolve</a></code> | Produce the Token's value at resolution time. |
+  | <code><a href="#cdktf.ComplexComputedList.toString">to_string</a></code> | Return a string representation of this resolvable object. |
+  
+  ---
+  
+  ## ~~`compute_fqn`~~ <a name="compute_fqn" id="cdktf.ComplexComputedList.computeFqn"></a>
+  
+  ```python
+ def compute_fqn() - > str
+  ```
+  
+  ## ~~`get_any_map_attribute`~~ <a name="get_any_map_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute"></a>
+  
+  ```python
+  def get_any_map_attribute(
+    terraform_attribute: str
+ ) - > typing.Mapping[typing.Any]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getAnyMapAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_boolean_attribute`~~ <a name="get_boolean_attribute" id="cdktf.ComplexComputedList.getBooleanAttribute"></a>
+  
+  ```python
+  def get_boolean_attribute(
+    terraform_attribute: str
+ ) - > IResolvable
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_boolean_map_attribute`~~ <a name="get_boolean_map_attribute" id="cdktf.ComplexComputedList.getBooleanMapAttribute"></a>
+  
+  ```python
+  def get_boolean_map_attribute(
+    terraform_attribute: str
+ ) - > typing.Mapping[bool]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getBooleanMapAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_list_attribute`~~ <a name="get_list_attribute" id="cdktf.ComplexComputedList.getListAttribute"></a>
+  
+  ```python
+  def get_list_attribute(
+    terraform_attribute: str
+ ) - > typing.List[str]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getListAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_number_attribute`~~ <a name="get_number_attribute" id="cdktf.ComplexComputedList.getNumberAttribute"></a>
+  
+  ```python
+  def get_number_attribute(
+    terraform_attribute: str
+ ) - > typing.Union[int, float]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_number_list_attribute`~~ <a name="get_number_list_attribute" id="cdktf.ComplexComputedList.getNumberListAttribute"></a>
+  
+  ```python
+  def get_number_list_attribute(
+    terraform_attribute: str
+ ) - > typing.List[typing.Union[int, float]]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberListAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_number_map_attribute`~~ <a name="get_number_map_attribute" id="cdktf.ComplexComputedList.getNumberMapAttribute"></a>
+  
+  ```python
+  def get_number_map_attribute(
+    terraform_attribute: str
+ ) - > typing.Mapping[typing.Union[int, float]]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getNumberMapAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_string_attribute`~~ <a name="get_string_attribute" id="cdktf.ComplexComputedList.getStringAttribute"></a>
+  
+  ```python
+  def get_string_attribute(
+    terraform_attribute: str
+ ) - > str
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`get_string_map_attribute`~~ <a name="get_string_map_attribute" id="cdktf.ComplexComputedList.getStringMapAttribute"></a>
+  
+  ```python
+  def get_string_map_attribute(
+    terraform_attribute: str
+ ) - > typing.Mapping[str]
+  ```
+  
+  ### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexComputedList.getStringMapAttribute.parameter.terraformAttribute"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`interpolation_for_attribute`~~ <a name="interpolation_for_attribute" id="cdktf.ComplexComputedList.interpolationForAttribute"></a>
+  
+  ```python
+  def interpolation_for_attribute(
+    property: str
+ ) - > IResolvable
+  ```
+  
+  ### `property`<sup>Required</sup> <a name="property" id="cdktf.ComplexComputedList.interpolationForAttribute.parameter.property"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## ~~`resolve`~~ <a name="resolve" id="cdktf.ComplexComputedList.resolve"></a>
+  
+  ```python
+  def resolve(
+    _context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Produce the Token's value at resolution time.
+  
+  ### `_context`<sup>Required</sup> <a name="_context" id="cdktf.ComplexComputedList.resolve.parameter._context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## ~~`to_string`~~ <a name="to_string" id="cdktf.ComplexComputedList.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Return a string representation of this resolvable object.
+  
+  Returns a reversible string representation.
+  
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ComplexComputedList.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+  | <code><a href="#cdktf.ComplexComputedList.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## ~~`creation_stack`~~<sup>Required</sup> <a name="creation_stack" id="cdktf.ComplexComputedList.property.creationStack"></a>
+  
+  - *Deprecated:* Going to be replaced by Array of ComplexListItem
+  and will be removed in the future
+  
+  ```python
+  creation_stack: typing.List[str]
+  ```
+  
+  - *Type:* typing.List[str]
+  
+  The creation stack of this resolvable which will be appended to errors thrown during resolution.
+  
+  If this returns an empty array the stack will not be attached.
+  
+  ---
+  
+  ## ~~`fqn`~~<sup>Required</sup> <a name="fqn" id="cdktf.ComplexComputedList.property.fqn"></a>
+  
+  - *Deprecated:* Going to be replaced by Array of ComplexListItem
+  and will be removed in the future
+  
+  ```python
+  fqn: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  

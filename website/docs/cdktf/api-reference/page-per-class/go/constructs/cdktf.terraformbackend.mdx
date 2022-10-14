@@ -1,248 +1,259 @@
- TerraformBackend <a name="TerraformBackend" id="cdktf.TerraformBackend"></a>
-
-# Initializers <a name="Initializers" id="cdktf.TerraformBackend.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.NewTerraformBackend(scope Construct, id *string, name *string) TerraformBackend
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformBackend.Initializer.parameter.scope">scope</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Construct</code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.Initializer.parameter.id">id</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.Initializer.parameter.name">name</a></code> | <code>*string</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.TerraformBackend
+description: >-
+  The CDKTF Core API Reference for cdktf.TerraformBackend.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformBackend.Initializer.parameter.scope"></a>
-
-- *Type:* github.com/aws/constructs-go/constructs/v10.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformBackend.Initializer.parameter.id"></a>
-
-- *Type:* *string
-
----
-
-## `name`<sup>Required</sup> <a name="name" id="cdktf.TerraformBackend.Initializer.parameter.name"></a>
-
-- *Type:* *string
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformBackend.toString">ToString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.TerraformBackend.addOverride">AddOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.overrideLogicalId">OverrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.TerraformBackend.resetOverrideLogicalId">ResetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.TerraformBackend.toMetadata">ToMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.toTerraform">ToTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.TerraformBackend.getRemoteStateDataSource">GetRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
-
----
-
-## `ToString` <a name="ToString" id="cdktf.TerraformBackend.toString"></a>
-
-```go
-func ToString() *string
-```
-
-Returns a string representation of this construct.
-
-## `AddOverride` <a name="AddOverride" id="cdktf.TerraformBackend.addOverride"></a>
-
-```go
-func AddOverride(path *string, value interface{})
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformBackend.addOverride.parameter.path"></a>
-
-- *Type:* *string
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformBackend.addOverride.parameter.value"></a>
-
-- *Type:* interface{}
-
----
-
-## `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.TerraformBackend.overrideLogicalId"></a>
-
-```go
-func OverrideLogicalId(newLogicalId *string)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.TerraformBackend.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* *string
-
-The new logical ID to use for this stack element.
-
----
-
-## `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.TerraformBackend.resetOverrideLogicalId"></a>
-
-```go
-func ResetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `ToMetadata` <a name="ToMetadata" id="cdktf.TerraformBackend.toMetadata"></a>
-
-```go
-func ToMetadata() interface{}
-```
-
-## `ToTerraform` <a name="ToTerraform" id="cdktf.TerraformBackend.toTerraform"></a>
-
-```go
-func ToTerraform() interface{}
-```
-
-Adds this resource to the terraform JSON output.
-
-## `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.TerraformBackend.getRemoteStateDataSource"></a>
-
-```go
-func GetRemoteStateDataSource(scope Construct, name *string, fromStack *string) TerraformRemoteState
-```
-
-Creates a TerraformRemoteState resource that accesses this backend.
-
-### `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.scope"></a>
-
-- *Type:* github.com/aws/constructs-go/constructs/v10.Construct
-
----
-
-### `name`<sup>Required</sup> <a name="name" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.name"></a>
-
-- *Type:* *string
-
----
-
-### `fromStack`<sup>Required</sup> <a name="fromStack" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.fromStack"></a>
-
-- *Type:* *string
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformBackend.isConstruct">IsConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.TerraformBackend.isBackend">IsBackend</a></code> | *No description.* |
-
----
-
-## `IsConstruct` <a name="IsConstruct" id="cdktf.TerraformBackend.isConstruct"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.TerraformBackend_IsConstruct(x interface{}) *bool
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformBackend.isConstruct.parameter.x"></a>
-
-- *Type:* interface{}
-
-Any object.
-
----
-
-## `IsBackend` <a name="IsBackend" id="cdktf.TerraformBackend.isBackend"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.TerraformBackend_IsBackend(x interface{}) *bool
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformBackend.isBackend.parameter.x"></a>
-
-- *Type:* interface{}
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformBackend.property.node">Node</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Node</code> | The tree node. |
-| <code><a href="#cdktf.TerraformBackend.property.cdktfStack">CdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.property.fqn">Fqn</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.TerraformBackend.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>*string</code> | *No description.* |
-
----
-
-## `Node`<sup>Required</sup> <a name="Node" id="cdktf.TerraformBackend.property.node"></a>
-
-```go
-func Node() Node
-```
-
-- *Type:* github.com/aws/constructs-go/constructs/v10.Node
-
-The tree node.
-
----
-
-## `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.TerraformBackend.property.cdktfStack"></a>
-
-```go
-func CdktfStack() TerraformStack
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.TerraformBackend.property.fqn"></a>
-
-```go
-func Fqn() *string
-```
-
-- *Type:* *string
-
----
-
-## `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.TerraformBackend.property.friendlyUniqueId"></a>
-
-```go
-func FriendlyUniqueId() *string
-```
-
-- *Type:* *string
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.TerraformBackend
+
+   TerraformBackend <a name="TerraformBackend" id="cdktf.TerraformBackend"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.TerraformBackend.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.NewTerraformBackend(scope Construct, id *string, name *string) TerraformBackend
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformBackend.Initializer.parameter.scope">scope</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.Initializer.parameter.id">id</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.Initializer.parameter.name">name</a></code> | <code>*string</code> | *No description.* |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformBackend.Initializer.parameter.scope"></a>
+  
+  - *Type:* github.com/aws/constructs-go/constructs/v10.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformBackend.Initializer.parameter.id"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `name`<sup>Required</sup> <a name="name" id="cdktf.TerraformBackend.Initializer.parameter.name"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformBackend.toString">ToString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.TerraformBackend.addOverride">AddOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.overrideLogicalId">OverrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.TerraformBackend.resetOverrideLogicalId">ResetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.TerraformBackend.toMetadata">ToMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.toTerraform">ToTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.TerraformBackend.getRemoteStateDataSource">GetRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
+  
+  ---
+  
+  ## `ToString` <a name="ToString" id="cdktf.TerraformBackend.toString"></a>
+  
+  ```go
+  func ToString() *string
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `AddOverride` <a name="AddOverride" id="cdktf.TerraformBackend.addOverride"></a>
+  
+  ```go
+  func AddOverride(path *string, value interface{})
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformBackend.addOverride.parameter.path"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformBackend.addOverride.parameter.value"></a>
+  
+  - *Type:* interface{}
+  
+  ---
+  
+  ## `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.TerraformBackend.overrideLogicalId"></a>
+  
+  ```go
+  func OverrideLogicalId(newLogicalId *string)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.TerraformBackend.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* *string
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.TerraformBackend.resetOverrideLogicalId"></a>
+  
+  ```go
+  func ResetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `ToMetadata` <a name="ToMetadata" id="cdktf.TerraformBackend.toMetadata"></a>
+  
+  ```go
+  func ToMetadata() interface{}
+  ```
+  
+  ## `ToTerraform` <a name="ToTerraform" id="cdktf.TerraformBackend.toTerraform"></a>
+  
+  ```go
+  func ToTerraform() interface{}
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.TerraformBackend.getRemoteStateDataSource"></a>
+  
+  ```go
+  func GetRemoteStateDataSource(scope Construct, name *string, fromStack *string) TerraformRemoteState
+  ```
+  
+  Creates a TerraformRemoteState resource that accesses this backend.
+  
+  ### `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.scope"></a>
+  
+  - *Type:* github.com/aws/constructs-go/constructs/v10.Construct
+  
+  ---
+  
+  ### `name`<sup>Required</sup> <a name="name" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.name"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `fromStack`<sup>Required</sup> <a name="fromStack" id="cdktf.TerraformBackend.getRemoteStateDataSource.parameter.fromStack"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformBackend.isConstruct">IsConstruct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.TerraformBackend.isBackend">IsBackend</a></code> | *No description.* |
+  
+  ---
+  
+  ## `IsConstruct` <a name="IsConstruct" id="cdktf.TerraformBackend.isConstruct"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.TerraformBackend_IsConstruct(x interface{}) *bool
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformBackend.isConstruct.parameter.x"></a>
+  
+  - *Type:* interface{}
+  
+  Any object.
+  
+  ---
+  
+  ## `IsBackend` <a name="IsBackend" id="cdktf.TerraformBackend.isBackend"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.TerraformBackend_IsBackend(x interface{}) *bool
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformBackend.isBackend.parameter.x"></a>
+  
+  - *Type:* interface{}
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformBackend.property.node">Node</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Node</code> | The tree node. |
+  | <code><a href="#cdktf.TerraformBackend.property.cdktfStack">CdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.property.fqn">Fqn</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformBackend.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>*string</code> | *No description.* |
+  
+  ---
+  
+  ## `Node`<sup>Required</sup> <a name="Node" id="cdktf.TerraformBackend.property.node"></a>
+  
+  ```go
+  func Node() Node
+  ```
+  
+  - *Type:* github.com/aws/constructs-go/constructs/v10.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.TerraformBackend.property.cdktfStack"></a>
+  
+  ```go
+  func CdktfStack() TerraformStack
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.TerraformBackend.property.fqn"></a>
+  
+  ```go
+  func Fqn() *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.TerraformBackend.property.friendlyUniqueId"></a>
+  
+  ```go
+  func FriendlyUniqueId() *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  

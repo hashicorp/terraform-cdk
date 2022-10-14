@@ -1,276 +1,287 @@
- Testing <a name="Testing" id="cdktf.Testing"></a>
-
-Testing utilities for cdktf applications.
-
-# Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-new Testing();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-
+---
+page_title: API Reference for cdktf.Testing
+description: >-
+  The CDKTF Core API Reference for cdktf.Testing.
 ---
 
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Testing.app">App</a></code> | Returns an app for testing with the following properties: - Output directory is a temp dir. |
-| <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.synth">Synth</a></code> | Returns the Terraform synthesized JSON. |
-| <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code> | *No description.* |
-
----
-
-## `App` <a name="App" id="cdktf.Testing.app"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.App(TestingAppOptions Options = null);
-```
-
-Returns an app for testing with the following properties: - Output directory is a temp dir.
-
-### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.Testing.app.parameter.options"></a>
-
-- *Type:* <a href="#cdktf.TestingAppOptions">TestingAppOptions</a>
-
----
-
-## `EnableFutureFlags` <a name="EnableFutureFlags" id="cdktf.Testing.enableFutureFlags"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.EnableFutureFlags(App App);
-```
-
-### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.enableFutureFlags.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `FakeCdktfJsonPath` <a name="FakeCdktfJsonPath" id="cdktf.Testing.fakeCdktfJsonPath"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.FakeCdktfJsonPath(App App);
-```
-
-### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.fakeCdktfJsonPath.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `FullSynth` <a name="FullSynth" id="cdktf.Testing.fullSynth"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.FullSynth(TerraformStack Stack);
-```
-
-### `Stack`<sup>Required</sup> <a name="Stack" id="cdktf.Testing.fullSynth.parameter.stack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `RenderConstructTree` <a name="RenderConstructTree" id="cdktf.Testing.renderConstructTree"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.RenderConstructTree(IConstruct Construct);
-```
-
-### `Construct`<sup>Required</sup> <a name="Construct" id="cdktf.Testing.renderConstructTree.parameter.construct"></a>
-
-- *Type:* Constructs.IConstruct
-
----
-
-## `SetupJest` <a name="SetupJest" id="cdktf.Testing.setupJest"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.SetupJest();
-```
-
-## `StubVersion` <a name="StubVersion" id="cdktf.Testing.stubVersion"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.StubVersion(App App);
-```
-
-### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.stubVersion.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `Synth` <a name="Synth" id="cdktf.Testing.synth"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.Synth(TerraformStack Stack, bool RunValidations = null);
-```
-
-Returns the Terraform synthesized JSON.
-
-### `Stack`<sup>Required</sup> <a name="Stack" id="cdktf.Testing.synth.parameter.stack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `RunValidations`<sup>Optional</sup> <a name="RunValidations" id="cdktf.Testing.synth.parameter.runValidations"></a>
-
-- *Type:* bool
-
----
-
-## `SynthScope` <a name="SynthScope" id="cdktf.Testing.synthScope"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.SynthScope(IScopeCallback Fn);
-```
-
-### `Fn`<sup>Required</sup> <a name="Fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
-
-- *Type:* <a href="#cdktf.IScopeCallback">IScopeCallback</a>
-
----
-
-## `ToBeValidTerraform` <a name="ToBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.ToBeValidTerraform(string Received);
-```
-
-### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
-
-- *Type:* string
-
----
-
-## `ToHaveDataSource` <a name="ToHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.ToHaveDataSource(string Received, string ResourceType);
-```
-
-### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
-
-- *Type:* string
-
----
-
-### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
-
-- *Type:* string
-
----
-
-## `ToHaveDataSourceWithProperties` <a name="ToHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.ToHaveDataSourceWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary<string, object> Properties = null);
-```
-
-### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
-
-- *Type:* string
-
----
-
-### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
-
-- *Type:* string
-
----
-
-### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
-
-- *Type:* System.Collections.Generic.IDictionary<string, object>
-
----
-
-## `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.ToHaveResource(string Received, string ResourceType);
-```
-
-### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
-
-- *Type:* string
-
----
-
-### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
-
-- *Type:* string
-
----
-
-## `ToHaveResourceWithProperties` <a name="ToHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-Testing.ToHaveResourceWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary<string, object> Properties = null);
-```
-
-### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
-
-- *Type:* string
-
----
-
-### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
-
-- *Type:* string
-
----
-
-### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
-
-- *Type:* System.Collections.Generic.IDictionary<string, object>
-
----
-
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.Testing
+
+   Testing <a name="Testing" id="cdktf.Testing"></a>
+  
+  Testing utilities for cdktf applications.
+  
+  # Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  new Testing();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  
+  ---
+  
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Testing.app">App</a></code> | Returns an app for testing with the following properties: - Output directory is a temp dir. |
+  | <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.synth">Synth</a></code> | Returns the Terraform synthesized JSON. |
+  | <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code> | *No description.* |
+  
+  ---
+  
+  ## `App` <a name="App" id="cdktf.Testing.app"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.App(TestingAppOptions Options = null);
+  ```
+  
+  Returns an app for testing with the following properties: - Output directory is a temp dir.
+  
+  ### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.Testing.app.parameter.options"></a>
+  
+  - *Type:* <a href="#cdktf.TestingAppOptions">TestingAppOptions</a>
+  
+  ---
+  
+  ## `EnableFutureFlags` <a name="EnableFutureFlags" id="cdktf.Testing.enableFutureFlags"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.EnableFutureFlags(App App);
+  ```
+  
+  ### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.enableFutureFlags.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `FakeCdktfJsonPath` <a name="FakeCdktfJsonPath" id="cdktf.Testing.fakeCdktfJsonPath"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.FakeCdktfJsonPath(App App);
+  ```
+  
+  ### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.fakeCdktfJsonPath.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `FullSynth` <a name="FullSynth" id="cdktf.Testing.fullSynth"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.FullSynth(TerraformStack Stack);
+  ```
+  
+  ### `Stack`<sup>Required</sup> <a name="Stack" id="cdktf.Testing.fullSynth.parameter.stack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `RenderConstructTree` <a name="RenderConstructTree" id="cdktf.Testing.renderConstructTree"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.RenderConstructTree(IConstruct Construct);
+  ```
+  
+  ### `Construct`<sup>Required</sup> <a name="Construct" id="cdktf.Testing.renderConstructTree.parameter.construct"></a>
+  
+  - *Type:* Constructs.IConstruct
+  
+  ---
+  
+  ## `SetupJest` <a name="SetupJest" id="cdktf.Testing.setupJest"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.SetupJest();
+  ```
+  
+  ## `StubVersion` <a name="StubVersion" id="cdktf.Testing.stubVersion"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.StubVersion(App App);
+  ```
+  
+  ### `App`<sup>Required</sup> <a name="App" id="cdktf.Testing.stubVersion.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `Synth` <a name="Synth" id="cdktf.Testing.synth"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.Synth(TerraformStack Stack, bool RunValidations = null);
+  ```
+  
+  Returns the Terraform synthesized JSON.
+  
+  ### `Stack`<sup>Required</sup> <a name="Stack" id="cdktf.Testing.synth.parameter.stack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `RunValidations`<sup>Optional</sup> <a name="RunValidations" id="cdktf.Testing.synth.parameter.runValidations"></a>
+  
+  - *Type:* bool
+  
+  ---
+  
+  ## `SynthScope` <a name="SynthScope" id="cdktf.Testing.synthScope"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.SynthScope(IScopeCallback Fn);
+  ```
+  
+  ### `Fn`<sup>Required</sup> <a name="Fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
+  
+  - *Type:* <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+  
+  ---
+  
+  ## `ToBeValidTerraform` <a name="ToBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.ToBeValidTerraform(string Received);
+  ```
+  
+  ### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `ToHaveDataSource` <a name="ToHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.ToHaveDataSource(string Received, string ResourceType);
+  ```
+  
+  ### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `ToHaveDataSourceWithProperties` <a name="ToHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.ToHaveDataSourceWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary< string, object > Properties = null);
+  ```
+  
+  ### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+  
+  - *Type:* System.Collections.Generic.IDictionary< string, object >
+  
+  ---
+  
+  ## `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.ToHaveResource(string Received, string ResourceType);
+  ```
+  
+  ### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `ToHaveResourceWithProperties` <a name="ToHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  Testing.ToHaveResourceWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary< string, object > Properties = null);
+  ```
+  
+  ### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
+  
+  - *Type:* System.Collections.Generic.IDictionary< string, object >
+  
+  ---
+  
+  
+  

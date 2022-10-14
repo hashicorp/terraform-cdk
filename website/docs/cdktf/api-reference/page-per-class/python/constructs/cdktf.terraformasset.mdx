@@ -1,182 +1,193 @@
- TerraformAsset <a name="TerraformAsset" id="cdktf.TerraformAsset"></a>
-
-# Initializers <a name="Initializers" id="cdktf.TerraformAsset.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.TerraformAsset(
-  scope: Construct,
-  id: str,
-  path: str,
-  asset_hash: str = None,
-  type: AssetType = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.path">path</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.assetHash">asset_hash</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.TerraformAsset
+description: >-
+  The CDKTF Core API Reference for cdktf.TerraformAsset.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformAsset.Initializer.parameter.scope"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-- *Type:* constructs.Construct
+# API Reference for cdktf.TerraformAsset
 
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformAsset.Initializer.parameter.id"></a>
-
-- *Type:* str
-
----
-
-## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.Initializer.parameter.path"></a>
-
-- *Type:* str
-
----
-
-## `asset_hash`<sup>Optional</sup> <a name="asset_hash" id="cdktf.TerraformAsset.Initializer.parameter.assetHash"></a>
-
-- *Type:* str
-
----
-
-## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformAsset.Initializer.parameter.type"></a>
-
-- *Type:* <a href="#cdktf.AssetType">AssetType</a>
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformAsset.toString">to_string</a></code> | Returns a string representation of this construct. |
-
----
-
-## `to_string` <a name="to_string" id="cdktf.TerraformAsset.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Returns a string representation of this construct.
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformAsset.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `is_construct` <a name="is_construct" id="cdktf.TerraformAsset.isConstruct"></a>
-
-```python
-import cdktf
-
-cdktf.TerraformAsset.is_construct(
-  x: typing.Any
-)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformAsset.isConstruct.parameter.x"></a>
-
-- *Type:* typing.Any
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.TerraformAsset.property.fileName">file_name</a></code> | <code>str</code> | Name of the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code> | <code>str</code> | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.assetHash">asset_hash</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformAsset.property.node"></a>
-
-```python
-node: Node
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `file_name`<sup>Required</sup> <a name="file_name" id="cdktf.TerraformAsset.property.fileName"></a>
-
-```python
-file_name: str
-```
-
-- *Type:* str
-
-Name of the asset.
-
----
-
-## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.property.path"></a>
-
-```python
-path: str
-```
-
-- *Type:* str
-
-The path relative to the root of the terraform directory in posix format Use this property to reference the asset.
-
----
-
-## `asset_hash`<sup>Required</sup> <a name="asset_hash" id="cdktf.TerraformAsset.property.assetHash"></a>
-
-```python
-asset_hash: str
-```
-
-- *Type:* str
-
----
-
-## `type`<sup>Required</sup> <a name="type" id="cdktf.TerraformAsset.property.type"></a>
-
-```python
-type: AssetType
-```
-
-- *Type:* <a href="#cdktf.AssetType">AssetType</a>
-
----
-
+   TerraformAsset <a name="TerraformAsset" id="cdktf.TerraformAsset"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.TerraformAsset.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.TerraformAsset(
+    scope: Construct,
+    id: str,
+    path: str,
+    asset_hash: str = None,
+    type: AssetType = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.path">path</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.assetHash">asset_hash</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformAsset.Initializer.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformAsset.Initializer.parameter.id"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.Initializer.parameter.path"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `asset_hash`<sup>Optional</sup> <a name="asset_hash" id="cdktf.TerraformAsset.Initializer.parameter.assetHash"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformAsset.Initializer.parameter.type"></a>
+  
+  - *Type:* <a href="#cdktf.AssetType">AssetType</a>
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.toString">to_string</a></code> | Returns a string representation of this construct. |
+  
+  ---
+  
+  ## `to_string` <a name="to_string" id="cdktf.TerraformAsset.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Returns a string representation of this construct.
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `is_construct` <a name="is_construct" id="cdktf.TerraformAsset.isConstruct"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.TerraformAsset.is_construct(
+    x: typing.Any
+  )
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformAsset.isConstruct.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.TerraformAsset.property.fileName">file_name</a></code> | <code>str</code> | Name of the asset. |
+  | <code><a href="#cdktf.TerraformAsset.property.path">path</a></code> | <code>str</code> | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
+  | <code><a href="#cdktf.TerraformAsset.property.assetHash">asset_hash</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.property.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformAsset.property.node"></a>
+  
+  ```python
+  node: Node
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `file_name`<sup>Required</sup> <a name="file_name" id="cdktf.TerraformAsset.property.fileName"></a>
+  
+  ```python
+  file_name: str
+  ```
+  
+  - *Type:* str
+  
+  Name of the asset.
+  
+  ---
+  
+  ## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.property.path"></a>
+  
+  ```python
+  path: str
+  ```
+  
+  - *Type:* str
+  
+  The path relative to the root of the terraform directory in posix format Use this property to reference the asset.
+  
+  ---
+  
+  ## `asset_hash`<sup>Required</sup> <a name="asset_hash" id="cdktf.TerraformAsset.property.assetHash"></a>
+  
+  ```python
+  asset_hash: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `type`<sup>Required</sup> <a name="type" id="cdktf.TerraformAsset.property.type"></a>
+  
+  ```python
+  type: AssetType
+  ```
+  
+  - *Type:* <a href="#cdktf.AssetType">AssetType</a>
+  
+  ---
+  
+  

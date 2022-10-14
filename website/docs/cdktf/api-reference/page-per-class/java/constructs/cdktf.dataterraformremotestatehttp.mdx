@@ -1,436 +1,447 @@
- DataTerraformRemoteStateHttp <a name="DataTerraformRemoteStateHttp" id="cdktf.DataTerraformRemoteStateHttp"></a>
-
-# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateHttp.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateHttp;
-
-DataTerraformRemoteStateHttp.Builder.create(Construct scope, java.lang.String id)
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .address(java.lang.String)
-//  .lockAddress(java.lang.String)
-//  .lockMethod(java.lang.String)
-//  .password(java.lang.String)
-//  .retryMax(java.lang.Number)
-//  .retryWaitMax(java.lang.Number)
-//  .retryWaitMin(java.lang.Number)
-//  .skipCertVerification(java.lang.Boolean)
-//  .unlockAddress(java.lang.String)
-//  .unlockMethod(java.lang.String)
-//  .updateMethod(java.lang.String)
-//  .username(java.lang.String)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address">address</a></code> | <code>java.lang.String</code> | (Required) The address of the REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress">lockAddress</a></code> | <code>java.lang.String</code> | (Optional) The address of the lock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod">lockMethod</a></code> | <code>java.lang.String</code> | (Optional) The HTTP method to use when locking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Optional) The password for HTTP basic authentication. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax">retryMax</a></code> | <code>java.lang.Number</code> | (Optional) The number of HTTP request retries. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax">retryWaitMax</a></code> | <code>java.lang.Number</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin">retryWaitMin</a></code> | <code>java.lang.Number</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification">skipCertVerification</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to skip TLS verification. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress">unlockAddress</a></code> | <code>java.lang.String</code> | (Optional) The address of the unlock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod">unlockMethod</a></code> | <code>java.lang.String</code> | (Optional) The HTTP method to use when unlocking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod">updateMethod</a></code> | <code>java.lang.String</code> | (Optional) HTTP method to use when updating state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Optional) The username for HTTP basic authentication. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateHttp
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateHttp.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults"></a>
-
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address"></a>
-
-- *Type:* java.lang.String
-
-(Required) The address of the REST endpoint.
-
----
-
-## `lockAddress`<sup>Optional</sup> <a name="lockAddress" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The address of the lock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `lockMethod`<sup>Optional</sup> <a name="lockMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The HTTP method to use when locking.
-
-Defaults to LOCK.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The password for HTTP basic authentication.
-
----
-
-## `retryMax`<sup>Optional</sup> <a name="retryMax" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax"></a>
-
-- *Type:* java.lang.Number
-
-(Optional) The number of HTTP request retries.
-
-Defaults to 2.
-
----
-
-## `retryWaitMax`<sup>Optional</sup> <a name="retryWaitMax" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax"></a>
-
-- *Type:* java.lang.Number
-
-(Optional) The maximum time in seconds to wait between HTTP request attempts.
-
-Defaults to 30.
-
----
-
-## `retryWaitMin`<sup>Optional</sup> <a name="retryWaitMin" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin"></a>
-
-- *Type:* java.lang.Number
-
-(Optional) The minimum time in seconds to wait between HTTP request attempts.
-
-Defaults to 1.
-
----
-
-## `skipCertVerification`<sup>Optional</sup> <a name="skipCertVerification" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification"></a>
-
-- *Type:* java.lang.Boolean
-
-(Optional) Whether to skip TLS verification.
-
-Defaults to false.
-
----
-
-## `unlockAddress`<sup>Optional</sup> <a name="unlockAddress" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The address of the unlock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `unlockMethod`<sup>Optional</sup> <a name="unlockMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The HTTP method to use when unlocking.
-
-Defaults to UNLOCK.
-
----
-
-## `updateMethod`<sup>Optional</sup> <a name="updateMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod"></a>
-
-- *Type:* java.lang.String
-
-(Optional) HTTP method to use when updating state.
-
-Defaults to POST.
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username"></a>
-
-- *Type:* java.lang.String
-
-(Optional) The username for HTTP basic authentication.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.addOverride">addOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toMetadata">toMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.get">get</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getBoolean">getBoolean</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getList">getList</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getNumber">getNumber</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getString">getString</a></code> | *No description.* |
-
----
-
-## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateHttp.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateHttp.addOverride"></a>
-
-```java
-public void addOverride(java.lang.String path, java.lang.Object value)
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.value"></a>
-
-- *Type:* java.lang.Object
-
----
-
-## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId"></a>
-
-```java
-public void overrideLogicalId(java.lang.String newLogicalId)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* java.lang.String
-
-The new logical ID to use for this stack element.
-
----
-
-## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId"></a>
-
-```java
-public void resetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateHttp.toMetadata"></a>
-
-```java
-public java.lang.Object toMetadata()
-```
-
-## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateHttp.toTerraform"></a>
-
-```java
-public java.lang.Object toTerraform()
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get` <a name="get" id="cdktf.DataTerraformRemoteStateHttp.get"></a>
-
-```java
-public IResolvable get(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.get.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateHttp.getBoolean"></a>
-
-```java
-public IResolvable getBoolean(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getBoolean.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateHttp.getList"></a>
-
-```java
-public java.util.List<java.lang.String> getList(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getList.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateHttp.getNumber"></a>
-
-```java
-public java.lang.Number getNumber(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getNumber.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateHttp.getString"></a>
-
-```java
-public java.lang.String getString(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getString.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateHttp.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateHttp;
-
-DataTerraformRemoteStateHttp.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateHttp.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateHttp.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateHttp.property.cdktfStack"></a>
-
-```java
-public TerraformStack getCdktfStack();
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateHttp.property.fqn"></a>
-
-```java
-public java.lang.String getFqn();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId"></a>
-
-```java
-public java.lang.String getFriendlyUniqueId();
-```
-
-- *Type:* java.lang.String
-
----
-
-# Constants <a name="Constants" id="Constants"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateHttp.property.tfResourceType"></a>
-
-```java
-public java.lang.String getTfResourceType();
-```
-
-- *Type:* java.lang.String
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateHttp
+
+   DataTerraformRemoteStateHttp <a name="DataTerraformRemoteStateHttp" id="cdktf.DataTerraformRemoteStateHttp"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateHttp.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateHttp;
+  
+  DataTerraformRemoteStateHttp.Builder.create(Construct scope, java.lang.String id)
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .address(java.lang.String)
+  //  .lockAddress(java.lang.String)
+  //  .lockMethod(java.lang.String)
+  //  .password(java.lang.String)
+  //  .retryMax(java.lang.Number)
+  //  .retryWaitMax(java.lang.Number)
+  //  .retryWaitMin(java.lang.Number)
+  //  .skipCertVerification(java.lang.Boolean)
+  //  .unlockAddress(java.lang.String)
+  //  .unlockMethod(java.lang.String)
+  //  .updateMethod(java.lang.String)
+  //  .username(java.lang.String)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address">address</a></code> | <code>java.lang.String</code> | (Required) The address of the REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress">lockAddress</a></code> | <code>java.lang.String</code> | (Optional) The address of the lock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod">lockMethod</a></code> | <code>java.lang.String</code> | (Optional) The HTTP method to use when locking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Optional) The password for HTTP basic authentication. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax">retryMax</a></code> | <code>java.lang.Number</code> | (Optional) The number of HTTP request retries. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax">retryWaitMax</a></code> | <code>java.lang.Number</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin">retryWaitMin</a></code> | <code>java.lang.Number</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification">skipCertVerification</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to skip TLS verification. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress">unlockAddress</a></code> | <code>java.lang.String</code> | (Optional) The address of the unlock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod">unlockMethod</a></code> | <code>java.lang.String</code> | (Optional) The HTTP method to use when unlocking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod">updateMethod</a></code> | <code>java.lang.String</code> | (Optional) HTTP method to use when updating state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Optional) The username for HTTP basic authentication. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults"></a>
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) The address of the REST endpoint.
+  
+  ---
+  
+  ## `lockAddress`<sup>Optional</sup> <a name="lockAddress" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The address of the lock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `lockMethod`<sup>Optional</sup> <a name="lockMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The HTTP method to use when locking.
+  
+  Defaults to LOCK.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The password for HTTP basic authentication.
+  
+  ---
+  
+  ## `retryMax`<sup>Optional</sup> <a name="retryMax" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax"></a>
+  
+  - *Type:* java.lang.Number
+  
+  (Optional) The number of HTTP request retries.
+  
+  Defaults to 2.
+  
+  ---
+  
+  ## `retryWaitMax`<sup>Optional</sup> <a name="retryWaitMax" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax"></a>
+  
+  - *Type:* java.lang.Number
+  
+  (Optional) The maximum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 30.
+  
+  ---
+  
+  ## `retryWaitMin`<sup>Optional</sup> <a name="retryWaitMin" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin"></a>
+  
+  - *Type:* java.lang.Number
+  
+  (Optional) The minimum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 1.
+  
+  ---
+  
+  ## `skipCertVerification`<sup>Optional</sup> <a name="skipCertVerification" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification"></a>
+  
+  - *Type:* java.lang.Boolean
+  
+  (Optional) Whether to skip TLS verification.
+  
+  Defaults to false.
+  
+  ---
+  
+  ## `unlockAddress`<sup>Optional</sup> <a name="unlockAddress" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The address of the unlock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `unlockMethod`<sup>Optional</sup> <a name="unlockMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The HTTP method to use when unlocking.
+  
+  Defaults to UNLOCK.
+  
+  ---
+  
+  ## `updateMethod`<sup>Optional</sup> <a name="updateMethod" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) HTTP method to use when updating state.
+  
+  Defaults to POST.
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The username for HTTP basic authentication.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.addOverride">addOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toMetadata">toMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.get">get</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getBoolean">getBoolean</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getList">getList</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getNumber">getNumber</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getString">getString</a></code> | *No description.* |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateHttp.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateHttp.addOverride"></a>
+  
+  ```java
+  public void addOverride(java.lang.String path, java.lang.Object value)
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.value"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  ## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId"></a>
+  
+  ```java
+  public void overrideLogicalId(java.lang.String newLogicalId)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* java.lang.String
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId"></a>
+  
+  ```java
+  public void resetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateHttp.toMetadata"></a>
+  
+  ```java
+  public java.lang.Object toMetadata()
+  ```
+  
+  ## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateHttp.toTerraform"></a>
+  
+  ```java
+  public java.lang.Object toTerraform()
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get` <a name="get" id="cdktf.DataTerraformRemoteStateHttp.get"></a>
+  
+  ```java
+  public IResolvable get(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.get.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateHttp.getBoolean"></a>
+  
+  ```java
+  public IResolvable getBoolean(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getBoolean.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateHttp.getList"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getList(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getList.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateHttp.getNumber"></a>
+  
+  ```java
+  public java.lang.Number getNumber(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getNumber.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateHttp.getString"></a>
+  
+  ```java
+  public java.lang.String getString(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getString.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateHttp.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateHttp;
+  
+  DataTerraformRemoteStateHttp.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateHttp.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateHttp.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateHttp.property.cdktfStack"></a>
+  
+  ```java
+  public TerraformStack getCdktfStack();
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateHttp.property.fqn"></a>
+  
+  ```java
+  public java.lang.String getFqn();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId"></a>
+  
+  ```java
+  public java.lang.String getFriendlyUniqueId();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Constants <a name="Constants" id="Constants"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateHttp.property.tfResourceType"></a>
+  
+  ```java
+  public java.lang.String getTfResourceType();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  

@@ -1,149 +1,160 @@
- DefaultTokenResolver <a name="DefaultTokenResolver" id="cdktf.DefaultTokenResolver"></a>
-
-- *Implements:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
-
-Default resolver implementation.
-
-# Initializers <a name="Initializers" id="cdktf.DefaultTokenResolver.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.NewDefaultTokenResolver(concat IFragmentConcatenator) DefaultTokenResolver
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DefaultTokenResolver.Initializer.parameter.concat">concat</a></code> | <code><a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a></code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.DefaultTokenResolver
+description: >-
+  The CDKTF Core API Reference for cdktf.DefaultTokenResolver.
 ---
 
-## `concat`<sup>Required</sup> <a name="concat" id="cdktf.DefaultTokenResolver.Initializer.parameter.concat"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-- *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+# API Reference for cdktf.DefaultTokenResolver
 
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveList">ResolveList</a></code> | Resolves a list of string. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">ResolveMap</a></code> | Resolves a map token. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolves a list of numbers. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveString">ResolveString</a></code> | Resolve string fragments to Tokens. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveToken">ResolveToken</a></code> | Default Token resolution. |
-
----
-
-## `ResolveList` <a name="ResolveList" id="cdktf.DefaultTokenResolver.resolveList"></a>
-
-```go
-func ResolveList(xs *[]*string, context IResolveContext) interface{}
-```
-
-Resolves a list of string.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
-
-- *Type:* *[]*string
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `ResolveMap` <a name="ResolveMap" id="cdktf.DefaultTokenResolver.resolveMap"></a>
-
-```go
-func ResolveMap(xs *map[string]interface{}, context IResolveContext) interface{}
-```
-
-Resolves a map token.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
-
-- *Type:* *map[string]interface{}
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveMap.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `ResolveNumberList` <a name="ResolveNumberList" id="cdktf.DefaultTokenResolver.resolveNumberList"></a>
-
-```go
-func ResolveNumberList(xs *[]*f64, context IResolveContext) interface{}
-```
-
-Resolves a list of numbers.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
-
-- *Type:* *[]*f64
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `ResolveString` <a name="ResolveString" id="cdktf.DefaultTokenResolver.resolveString"></a>
-
-```go
-func ResolveString(fragments TokenizedStringFragments, context IResolveContext) interface{}
-```
-
-Resolve string fragments to Tokens.
-
-### `fragments`<sup>Required</sup> <a name="fragments" id="cdktf.DefaultTokenResolver.resolveString.parameter.fragments"></a>
-
-- *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveString.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `ResolveToken` <a name="ResolveToken" id="cdktf.DefaultTokenResolver.resolveToken"></a>
-
-```go
-func ResolveToken(t IResolvable, context IResolveContext, postProcessor IPostProcessor) interface{}
-```
-
-Default Token resolution.
-
-Resolve the Token, recurse into whatever it returns,
-then finally post-process it.
-
-### `t`<sup>Required</sup> <a name="t" id="cdktf.DefaultTokenResolver.resolveToken.parameter.t"></a>
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveToken.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.DefaultTokenResolver.resolveToken.parameter.postProcessor"></a>
-
-- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-
-
+   DefaultTokenResolver <a name="DefaultTokenResolver" id="cdktf.DefaultTokenResolver"></a>
+  
+  - *Implements:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+  
+  Default resolver implementation.
+  
+  # Initializers <a name="Initializers" id="cdktf.DefaultTokenResolver.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.NewDefaultTokenResolver(concat IFragmentConcatenator) DefaultTokenResolver
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DefaultTokenResolver.Initializer.parameter.concat">concat</a></code> | <code><a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a></code> | *No description.* |
+  
+  ---
+  
+  ## `concat`<sup>Required</sup> <a name="concat" id="cdktf.DefaultTokenResolver.Initializer.parameter.concat"></a>
+  
+  - *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveList">ResolveList</a></code> | Resolves a list of string. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveMap">ResolveMap</a></code> | Resolves a map token. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolves a list of numbers. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveString">ResolveString</a></code> | Resolve string fragments to Tokens. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveToken">ResolveToken</a></code> | Default Token resolution. |
+  
+  ---
+  
+  ## `ResolveList` <a name="ResolveList" id="cdktf.DefaultTokenResolver.resolveList"></a>
+  
+  ```go
+  func ResolveList(xs *[]*string, context IResolveContext) interface{}
+  ```
+  
+  Resolves a list of string.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
+  
+  - *Type:* *[]*string
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `ResolveMap` <a name="ResolveMap" id="cdktf.DefaultTokenResolver.resolveMap"></a>
+  
+  ```go
+  func ResolveMap(xs *map[string]interface{}, context IResolveContext) interface{}
+  ```
+  
+  Resolves a map token.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
+  
+  - *Type:* *map[string]interface{}
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveMap.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `ResolveNumberList` <a name="ResolveNumberList" id="cdktf.DefaultTokenResolver.resolveNumberList"></a>
+  
+  ```go
+  func ResolveNumberList(xs *[]*f64, context IResolveContext) interface{}
+  ```
+  
+  Resolves a list of numbers.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
+  
+  - *Type:* *[]*f64
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `ResolveString` <a name="ResolveString" id="cdktf.DefaultTokenResolver.resolveString"></a>
+  
+  ```go
+  func ResolveString(fragments TokenizedStringFragments, context IResolveContext) interface{}
+  ```
+  
+  Resolve string fragments to Tokens.
+  
+  ### `fragments`<sup>Required</sup> <a name="fragments" id="cdktf.DefaultTokenResolver.resolveString.parameter.fragments"></a>
+  
+  - *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveString.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `ResolveToken` <a name="ResolveToken" id="cdktf.DefaultTokenResolver.resolveToken"></a>
+  
+  ```go
+  func ResolveToken(t IResolvable, context IResolveContext, postProcessor IPostProcessor) interface{}
+  ```
+  
+  Default Token resolution.
+  
+  Resolve the Token, recurse into whatever it returns,
+  then finally post-process it.
+  
+  ### `t`<sup>Required</sup> <a name="t" id="cdktf.DefaultTokenResolver.resolveToken.parameter.t"></a>
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveToken.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.DefaultTokenResolver.resolveToken.parameter.postProcessor"></a>
+  
+  - *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+  
+  ---
+  
+  
+  
+  

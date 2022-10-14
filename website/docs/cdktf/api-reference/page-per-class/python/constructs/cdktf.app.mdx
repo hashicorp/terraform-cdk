@@ -1,267 +1,278 @@
- App <a name="App" id="cdktf.App"></a>
-
-Represents a cdktf application.
-
-# Initializers <a name="Initializers" id="cdktf.App.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.App(
-  context: typing.Mapping[typing.Any] = None,
-  outdir: str = None,
-  skip_validation: bool = None,
-  stack_traces: bool = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.App.Initializer.parameter.context">context</a></code> | <code>typing.Mapping[typing.Any]</code> | Additional context values for the application. |
-| <code><a href="#cdktf.App.Initializer.parameter.outdir">outdir</a></code> | <code>str</code> | The directory to output Terraform resources. |
-| <code><a href="#cdktf.App.Initializer.parameter.skipValidation">skip_validation</a></code> | <code>bool</code> | Whether to skip the validation during synthesis of the app. |
-| <code><a href="#cdktf.App.Initializer.parameter.stackTraces">stack_traces</a></code> | <code>bool</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.App
+description: >-
+  The CDKTF Core API Reference for cdktf.App.
 ---
 
-## `context`<sup>Optional</sup> <a name="context" id="cdktf.App.Initializer.parameter.context"></a>
-
-- *Type:* typing.Mapping[typing.Any]
-- *Default:* no additional context
-
-Additional context values for the application.
-
-Context set by the CLI or the `context` key in `cdktf.json` has precedence.
-
-Context can be read from any construct using `node.getContext(key)`.
-
----
-
-## `outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.App.Initializer.parameter.outdir"></a>
-
-- *Type:* str
-- *Default:* CDKTF_OUTDIR if defined, otherwise "cdktf.out"
-
-The directory to output Terraform resources.
-
----
-
-## `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.App.Initializer.parameter.skipValidation"></a>
-
-- *Type:* bool
-- *Default:* false
-
-Whether to skip the validation during synthesis of the app.
-
----
-
-## `stack_traces`<sup>Optional</sup> <a name="stack_traces" id="cdktf.App.Initializer.parameter.stackTraces"></a>
-
-- *Type:* bool
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.App.toString">to_string</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.App.crossStackReference">cross_stack_reference</a></code> | Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources. |
-| <code><a href="#cdktf.App.synth">synth</a></code> | Synthesizes all resources to the output directory. |
-
----
-
-## `to_string` <a name="to_string" id="cdktf.App.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Returns a string representation of this construct.
-
-## `cross_stack_reference` <a name="cross_stack_reference" id="cdktf.App.crossStackReference"></a>
-
-```python
-def cross_stack_reference(
-  from_stack: TerraformStack,
-  to_stack: TerraformStack,
-  identifier: str
-) -> str
-```
-
-Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources.
-
-### `from_stack`<sup>Required</sup> <a name="from_stack" id="cdktf.App.crossStackReference.parameter.fromStack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `to_stack`<sup>Required</sup> <a name="to_stack" id="cdktf.App.crossStackReference.parameter.toStack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.App.crossStackReference.parameter.identifier"></a>
-
-- *Type:* str
-
----
-
-## `synth` <a name="synth" id="cdktf.App.synth"></a>
-
-```python
-def synth() -> None
-```
-
-Synthesizes all resources to the output directory.
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.App.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.App.isApp">is_app</a></code> | *No description.* |
-| <code><a href="#cdktf.App.of">of</a></code> | *No description.* |
-
----
-
-## `is_construct` <a name="is_construct" id="cdktf.App.isConstruct"></a>
-
-```python
-import cdktf
-
-cdktf.App.is_construct(
-  x: typing.Any
-)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isConstruct.parameter.x"></a>
-
-- *Type:* typing.Any
-
-Any object.
-
----
-
-## `is_app` <a name="is_app" id="cdktf.App.isApp"></a>
-
-```python
-import cdktf
-
-cdktf.App.is_app(
-  x: typing.Any
-)
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isApp.parameter.x"></a>
-
-- *Type:* typing.Any
-
----
-
-## `of` <a name="of" id="cdktf.App.of"></a>
-
-```python
-import cdktf
-
-cdktf.App.of(
-  construct: IConstruct
-)
-```
-
-### `construct`<sup>Required</sup> <a name="construct" id="cdktf.App.of.parameter.construct"></a>
-
-- *Type:* constructs.IConstruct
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.App.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.App.property.manifest">manifest</a></code> | <code><a href="#cdktf.Manifest">Manifest</a></code> | *No description.* |
-| <code><a href="#cdktf.App.property.outdir">outdir</a></code> | <code>str</code> | The output directory into which resources will be synthesized. |
-| <code><a href="#cdktf.App.property.skipValidation">skip_validation</a></code> | <code>bool</code> | Whether to skip the validation during synthesis of the app. |
-| <code><a href="#cdktf.App.property.targetStackId">target_stack_id</a></code> | <code>str</code> | The stack which will be synthesized. |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.App.property.node"></a>
-
-```python
-node: Node
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `manifest`<sup>Required</sup> <a name="manifest" id="cdktf.App.property.manifest"></a>
-
-```python
-manifest: Manifest
-```
-
-- *Type:* <a href="#cdktf.Manifest">Manifest</a>
-
----
-
-## `outdir`<sup>Required</sup> <a name="outdir" id="cdktf.App.property.outdir"></a>
-
-```python
-outdir: str
-```
-
-- *Type:* str
-
-The output directory into which resources will be synthesized.
-
----
-
-## `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.App.property.skipValidation"></a>
-
-```python
-skip_validation: bool
-```
-
-- *Type:* bool
-
-Whether to skip the validation during synthesis of the app.
-
----
-
-## `target_stack_id`<sup>Optional</sup> <a name="target_stack_id" id="cdktf.App.property.targetStackId"></a>
-
-```python
-target_stack_id: str
-```
-
-- *Type:* str
-
-The stack which will be synthesized.
-
-If not set, all stacks will be synthesized.
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.App
+
+   App <a name="App" id="cdktf.App"></a>
+  
+  Represents a cdktf application.
+  
+  # Initializers <a name="Initializers" id="cdktf.App.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.App(
+    context: typing.Mapping[typing.Any] = None,
+    outdir: str = None,
+    skip_validation: bool = None,
+    stack_traces: bool = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.App.Initializer.parameter.context">context</a></code> | <code>typing.Mapping[typing.Any]</code> | Additional context values for the application. |
+  | <code><a href="#cdktf.App.Initializer.parameter.outdir">outdir</a></code> | <code>str</code> | The directory to output Terraform resources. |
+  | <code><a href="#cdktf.App.Initializer.parameter.skipValidation">skip_validation</a></code> | <code>bool</code> | Whether to skip the validation during synthesis of the app. |
+  | <code><a href="#cdktf.App.Initializer.parameter.stackTraces">stack_traces</a></code> | <code>bool</code> | *No description.* |
+  
+  ---
+  
+  ## `context`<sup>Optional</sup> <a name="context" id="cdktf.App.Initializer.parameter.context"></a>
+  
+  - *Type:* typing.Mapping[typing.Any]
+  - *Default:* no additional context
+  
+  Additional context values for the application.
+  
+  Context set by the CLI or the `context` key in `cdktf.json` has precedence.
+  
+  Context can be read from any construct using `node.getContext(key)`.
+  
+  ---
+  
+  ## `outdir`<sup>Optional</sup> <a name="outdir" id="cdktf.App.Initializer.parameter.outdir"></a>
+  
+  - *Type:* str
+  - *Default:* CDKTF_OUTDIR if defined, otherwise "cdktf.out"
+  
+  The directory to output Terraform resources.
+  
+  ---
+  
+  ## `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.App.Initializer.parameter.skipValidation"></a>
+  
+  - *Type:* bool
+  - *Default:* false
+  
+  Whether to skip the validation during synthesis of the app.
+  
+  ---
+  
+  ## `stack_traces`<sup>Optional</sup> <a name="stack_traces" id="cdktf.App.Initializer.parameter.stackTraces"></a>
+  
+  - *Type:* bool
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.App.toString">to_string</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.App.crossStackReference">cross_stack_reference</a></code> | Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources. |
+  | <code><a href="#cdktf.App.synth">synth</a></code> | Synthesizes all resources to the output directory. |
+  
+  ---
+  
+  ## `to_string` <a name="to_string" id="cdktf.App.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `cross_stack_reference` <a name="cross_stack_reference" id="cdktf.App.crossStackReference"></a>
+  
+  ```python
+  def cross_stack_reference(
+    from_stack: TerraformStack,
+    to_stack: TerraformStack,
+    identifier: str
+ ) - > str
+  ```
+  
+  Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources.
+  
+  ### `from_stack`<sup>Required</sup> <a name="from_stack" id="cdktf.App.crossStackReference.parameter.fromStack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `to_stack`<sup>Required</sup> <a name="to_stack" id="cdktf.App.crossStackReference.parameter.toStack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.App.crossStackReference.parameter.identifier"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `synth` <a name="synth" id="cdktf.App.synth"></a>
+  
+  ```python
+ def synth() - > None
+  ```
+  
+  Synthesizes all resources to the output directory.
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.App.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.App.isApp">is_app</a></code> | *No description.* |
+  | <code><a href="#cdktf.App.of">of</a></code> | *No description.* |
+  
+  ---
+  
+  ## `is_construct` <a name="is_construct" id="cdktf.App.isConstruct"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.App.is_construct(
+    x: typing.Any
+  )
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isConstruct.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  Any object.
+  
+  ---
+  
+  ## `is_app` <a name="is_app" id="cdktf.App.isApp"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.App.is_app(
+    x: typing.Any
+  )
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isApp.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  ## `of` <a name="of" id="cdktf.App.of"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.App.of(
+    construct: IConstruct
+  )
+  ```
+  
+  ### `construct`<sup>Required</sup> <a name="construct" id="cdktf.App.of.parameter.construct"></a>
+  
+  - *Type:* constructs.IConstruct
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.App.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.App.property.manifest">manifest</a></code> | <code><a href="#cdktf.Manifest">Manifest</a></code> | *No description.* |
+  | <code><a href="#cdktf.App.property.outdir">outdir</a></code> | <code>str</code> | The output directory into which resources will be synthesized. |
+  | <code><a href="#cdktf.App.property.skipValidation">skip_validation</a></code> | <code>bool</code> | Whether to skip the validation during synthesis of the app. |
+  | <code><a href="#cdktf.App.property.targetStackId">target_stack_id</a></code> | <code>str</code> | The stack which will be synthesized. |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.App.property.node"></a>
+  
+  ```python
+  node: Node
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `manifest`<sup>Required</sup> <a name="manifest" id="cdktf.App.property.manifest"></a>
+  
+  ```python
+  manifest: Manifest
+  ```
+  
+  - *Type:* <a href="#cdktf.Manifest">Manifest</a>
+  
+  ---
+  
+  ## `outdir`<sup>Required</sup> <a name="outdir" id="cdktf.App.property.outdir"></a>
+  
+  ```python
+  outdir: str
+  ```
+  
+  - *Type:* str
+  
+  The output directory into which resources will be synthesized.
+  
+  ---
+  
+  ## `skip_validation`<sup>Optional</sup> <a name="skip_validation" id="cdktf.App.property.skipValidation"></a>
+  
+  ```python
+  skip_validation: bool
+  ```
+  
+  - *Type:* bool
+  
+  Whether to skip the validation during synthesis of the app.
+  
+  ---
+  
+  ## `target_stack_id`<sup>Optional</sup> <a name="target_stack_id" id="cdktf.App.property.targetStackId"></a>
+  
+  ```python
+  target_stack_id: str
+  ```
+  
+  - *Type:* str
+  
+  The stack which will be synthesized.
+  
+  If not set, all stacks will be synthesized.
+  
+  ---
+  
+  

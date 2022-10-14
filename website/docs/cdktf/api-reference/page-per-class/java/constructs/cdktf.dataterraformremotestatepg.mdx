@@ -1,322 +1,333 @@
- DataTerraformRemoteStatePg <a name="DataTerraformRemoteStatePg" id="cdktf.DataTerraformRemoteStatePg"></a>
-
-# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStatePg.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStatePg;
-
-DataTerraformRemoteStatePg.Builder.create(Construct scope, java.lang.String id)
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .connStr(java.lang.String)
-//  .schemaName(java.lang.String)
-//  .skipSchemaCreation(java.lang.Boolean)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.connStr">connStr</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.schemaName">schemaName</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.skipSchemaCreation">skipSchemaCreation</a></code> | <code>java.lang.Boolean</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStatePg
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStatePg.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.id"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.defaults"></a>
-
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.workspace"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `connStr`<sup>Required</sup> <a name="connStr" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.connStr"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `schemaName`<sup>Optional</sup> <a name="schemaName" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.schemaName"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `skipSchemaCreation`<sup>Optional</sup> <a name="skipSchemaCreation" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.skipSchemaCreation"></a>
-
-- *Type:* java.lang.Boolean
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.addOverride">addOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.toMetadata">toMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.get">get</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.getBoolean">getBoolean</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.getList">getList</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.getNumber">getNumber</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.getString">getString</a></code> | *No description.* |
-
----
-
-## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStatePg.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStatePg.addOverride"></a>
-
-```java
-public void addOverride(java.lang.String path, java.lang.Object value)
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStatePg.addOverride.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStatePg.addOverride.parameter.value"></a>
-
-- *Type:* java.lang.Object
-
----
-
-## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStatePg.overrideLogicalId"></a>
-
-```java
-public void overrideLogicalId(java.lang.String newLogicalId)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStatePg.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* java.lang.String
-
-The new logical ID to use for this stack element.
-
----
-
-## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStatePg.resetOverrideLogicalId"></a>
-
-```java
-public void resetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStatePg.toMetadata"></a>
-
-```java
-public java.lang.Object toMetadata()
-```
-
-## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStatePg.toTerraform"></a>
-
-```java
-public java.lang.Object toTerraform()
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get` <a name="get" id="cdktf.DataTerraformRemoteStatePg.get"></a>
-
-```java
-public IResolvable get(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.get.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStatePg.getBoolean"></a>
-
-```java
-public IResolvable getBoolean(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getBoolean.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStatePg.getList"></a>
-
-```java
-public java.util.List<java.lang.String> getList(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getList.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStatePg.getNumber"></a>
-
-```java
-public java.lang.Number getNumber(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getNumber.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStatePg.getString"></a>
-
-```java
-public java.lang.String getString(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getString.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStatePg.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStatePg;
-
-DataTerraformRemoteStatePg.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStatePg.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStatePg.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStatePg.property.cdktfStack"></a>
-
-```java
-public TerraformStack getCdktfStack();
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStatePg.property.fqn"></a>
-
-```java
-public java.lang.String getFqn();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStatePg.property.friendlyUniqueId"></a>
-
-```java
-public java.lang.String getFriendlyUniqueId();
-```
-
-- *Type:* java.lang.String
-
----
-
-# Constants <a name="Constants" id="Constants"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStatePg.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStatePg.property.tfResourceType"></a>
-
-```java
-public java.lang.String getTfResourceType();
-```
-
-- *Type:* java.lang.String
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStatePg
+
+   DataTerraformRemoteStatePg <a name="DataTerraformRemoteStatePg" id="cdktf.DataTerraformRemoteStatePg"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStatePg.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStatePg;
+  
+  DataTerraformRemoteStatePg.Builder.create(Construct scope, java.lang.String id)
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .connStr(java.lang.String)
+  //  .schemaName(java.lang.String)
+  //  .skipSchemaCreation(java.lang.Boolean)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.connStr">connStr</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.schemaName">schemaName</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.Initializer.parameter.skipSchemaCreation">skipSchemaCreation</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.id"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.defaults"></a>
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.workspace"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `connStr`<sup>Required</sup> <a name="connStr" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.connStr"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `schemaName`<sup>Optional</sup> <a name="schemaName" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.schemaName"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `skipSchemaCreation`<sup>Optional</sup> <a name="skipSchemaCreation" id="cdktf.DataTerraformRemoteStatePg.Initializer.parameter.skipSchemaCreation"></a>
+  
+  - *Type:* java.lang.Boolean
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.addOverride">addOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.toMetadata">toMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.get">get</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.getBoolean">getBoolean</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.getList">getList</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.getNumber">getNumber</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.getString">getString</a></code> | *No description.* |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStatePg.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStatePg.addOverride"></a>
+  
+  ```java
+  public void addOverride(java.lang.String path, java.lang.Object value)
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStatePg.addOverride.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStatePg.addOverride.parameter.value"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  ## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStatePg.overrideLogicalId"></a>
+  
+  ```java
+  public void overrideLogicalId(java.lang.String newLogicalId)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStatePg.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* java.lang.String
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStatePg.resetOverrideLogicalId"></a>
+  
+  ```java
+  public void resetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStatePg.toMetadata"></a>
+  
+  ```java
+  public java.lang.Object toMetadata()
+  ```
+  
+  ## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStatePg.toTerraform"></a>
+  
+  ```java
+  public java.lang.Object toTerraform()
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get` <a name="get" id="cdktf.DataTerraformRemoteStatePg.get"></a>
+  
+  ```java
+  public IResolvable get(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.get.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStatePg.getBoolean"></a>
+  
+  ```java
+  public IResolvable getBoolean(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getBoolean.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStatePg.getList"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getList(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getList.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStatePg.getNumber"></a>
+  
+  ```java
+  public java.lang.Number getNumber(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getNumber.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStatePg.getString"></a>
+  
+  ```java
+  public java.lang.String getString(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStatePg.getString.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStatePg.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStatePg;
+  
+  DataTerraformRemoteStatePg.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStatePg.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStatePg.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStatePg.property.cdktfStack"></a>
+  
+  ```java
+  public TerraformStack getCdktfStack();
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStatePg.property.fqn"></a>
+  
+  ```java
+  public java.lang.String getFqn();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStatePg.property.friendlyUniqueId"></a>
+  
+  ```java
+  public java.lang.String getFriendlyUniqueId();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Constants <a name="Constants" id="Constants"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStatePg.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStatePg.property.tfResourceType"></a>
+  
+  ```java
+  public java.lang.String getTfResourceType();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  

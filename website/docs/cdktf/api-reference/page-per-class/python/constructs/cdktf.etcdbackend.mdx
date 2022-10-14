@@ -1,289 +1,300 @@
- EtcdBackend <a name="EtcdBackend" id="cdktf.EtcdBackend"></a>
-
-# Initializers <a name="Initializers" id="cdktf.EtcdBackend.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.EtcdBackend(
-  scope: Construct,
-  endpoints: str,
-  path: str,
-  password: str = None,
-  username: str = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.EtcdBackend.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.EtcdBackend.Initializer.parameter.endpoints">endpoints</a></code> | <code>str</code> | (Required) A space-separated list of the etcd endpoints. |
-| <code><a href="#cdktf.EtcdBackend.Initializer.parameter.path">path</a></code> | <code>str</code> | (Required) The path where to store the state. |
-| <code><a href="#cdktf.EtcdBackend.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password. |
-| <code><a href="#cdktf.EtcdBackend.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username. |
-
+---
+page_title: API Reference for cdktf.EtcdBackend
+description: >-
+  The CDKTF Core API Reference for cdktf.EtcdBackend.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdBackend.Initializer.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.EtcdBackend.Initializer.parameter.endpoints"></a>
-
-- *Type:* str
-
-(Required) A space-separated list of the etcd endpoints.
-
----
-
-## `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackend.Initializer.parameter.path"></a>
-
-- *Type:* str
-
-(Required) The path where to store the state.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.EtcdBackend.Initializer.parameter.password"></a>
-
-- *Type:* str
-
-(Optional) The password.
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.EtcdBackend.Initializer.parameter.username"></a>
-
-- *Type:* str
-
-(Optional) The username.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.EtcdBackend.toString">to_string</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.EtcdBackend.addOverride">add_override</a></code> | *No description.* |
-| <code><a href="#cdktf.EtcdBackend.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.EtcdBackend.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.EtcdBackend.toMetadata">to_metadata</a></code> | *No description.* |
-| <code><a href="#cdktf.EtcdBackend.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.EtcdBackend.getRemoteStateDataSource">get_remote_state_data_source</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
-
----
-
-## `to_string` <a name="to_string" id="cdktf.EtcdBackend.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Returns a string representation of this construct.
-
-## `add_override` <a name="add_override" id="cdktf.EtcdBackend.addOverride"></a>
-
-```python
-def add_override(
-  path: str,
-  value: typing.Any
-) -> None
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackend.addOverride.parameter.path"></a>
-
-- *Type:* str
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.EtcdBackend.addOverride.parameter.value"></a>
-
-- *Type:* typing.Any
-
----
-
-## `override_logical_id` <a name="override_logical_id" id="cdktf.EtcdBackend.overrideLogicalId"></a>
-
-```python
-def override_logical_id(
-  new_logical_id: str
-) -> None
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.EtcdBackend.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* str
-
-The new logical ID to use for this stack element.
-
----
-
-## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.EtcdBackend.resetOverrideLogicalId"></a>
-
-```python
-def reset_override_logical_id() -> None
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `to_metadata` <a name="to_metadata" id="cdktf.EtcdBackend.toMetadata"></a>
-
-```python
-def to_metadata() -> typing.Any
-```
-
-## `to_terraform` <a name="to_terraform" id="cdktf.EtcdBackend.toTerraform"></a>
-
-```python
-def to_terraform() -> typing.Any
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get_remote_state_data_source` <a name="get_remote_state_data_source" id="cdktf.EtcdBackend.getRemoteStateDataSource"></a>
-
-```python
-def get_remote_state_data_source(
-  scope: Construct,
-  name: str,
-  _fromstack: str
-) -> TerraformRemoteState
-```
-
-Creates a TerraformRemoteState resource that accesses this backend.
-
-### `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-### `name`<sup>Required</sup> <a name="name" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter.name"></a>
-
-- *Type:* str
-
----
-
-### `_fromstack`<sup>Required</sup> <a name="_fromstack" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter._fromStack"></a>
-
-- *Type:* str
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.EtcdBackend.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.EtcdBackend.isBackend">is_backend</a></code> | *No description.* |
-
----
-
-## `is_construct` <a name="is_construct" id="cdktf.EtcdBackend.isConstruct"></a>
-
-```python
-import cdktf
-
-cdktf.EtcdBackend.is_construct(
-  x: typing.Any
-)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdBackend.isConstruct.parameter.x"></a>
-
-- *Type:* typing.Any
-
-Any object.
-
----
-
-## `is_backend` <a name="is_backend" id="cdktf.EtcdBackend.isBackend"></a>
-
-```python
-import cdktf
-
-cdktf.EtcdBackend.is_backend(
-  x: typing.Any
-)
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdBackend.isBackend.parameter.x"></a>
-
-- *Type:* typing.Any
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.EtcdBackend.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.EtcdBackend.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.EtcdBackend.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.EtcdBackend.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.EtcdBackend.property.node"></a>
-
-```python
-node: Node
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.EtcdBackend.property.cdktfStack"></a>
-
-```python
-cdktf_stack: TerraformStack
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.EtcdBackend.property.fqn"></a>
-
-```python
-fqn: str
-```
-
-- *Type:* str
-
----
-
-## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.EtcdBackend.property.friendlyUniqueId"></a>
-
-```python
-friendly_unique_id: str
-```
-
-- *Type:* str
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.EtcdBackend
+
+   EtcdBackend <a name="EtcdBackend" id="cdktf.EtcdBackend"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.EtcdBackend.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.EtcdBackend(
+    scope: Construct,
+    endpoints: str,
+    path: str,
+    password: str = None,
+    username: str = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.EtcdBackend.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.EtcdBackend.Initializer.parameter.endpoints">endpoints</a></code> | <code>str</code> | (Required) A space-separated list of the etcd endpoints. |
+  | <code><a href="#cdktf.EtcdBackend.Initializer.parameter.path">path</a></code> | <code>str</code> | (Required) The path where to store the state. |
+  | <code><a href="#cdktf.EtcdBackend.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password. |
+  | <code><a href="#cdktf.EtcdBackend.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdBackend.Initializer.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.EtcdBackend.Initializer.parameter.endpoints"></a>
+  
+  - *Type:* str
+  
+  (Required) A space-separated list of the etcd endpoints.
+  
+  ---
+  
+  ## `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackend.Initializer.parameter.path"></a>
+  
+  - *Type:* str
+  
+  (Required) The path where to store the state.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.EtcdBackend.Initializer.parameter.password"></a>
+  
+  - *Type:* str
+  
+  (Optional) The password.
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.EtcdBackend.Initializer.parameter.username"></a>
+  
+  - *Type:* str
+  
+  (Optional) The username.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.EtcdBackend.toString">to_string</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.EtcdBackend.addOverride">add_override</a></code> | *No description.* |
+  | <code><a href="#cdktf.EtcdBackend.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.EtcdBackend.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.EtcdBackend.toMetadata">to_metadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.EtcdBackend.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.EtcdBackend.getRemoteStateDataSource">get_remote_state_data_source</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
+  
+  ---
+  
+  ## `to_string` <a name="to_string" id="cdktf.EtcdBackend.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `add_override` <a name="add_override" id="cdktf.EtcdBackend.addOverride"></a>
+  
+  ```python
+  def add_override(
+    path: str,
+    value: typing.Any
+ ) - > None
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackend.addOverride.parameter.path"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.EtcdBackend.addOverride.parameter.value"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  ## `override_logical_id` <a name="override_logical_id" id="cdktf.EtcdBackend.overrideLogicalId"></a>
+  
+  ```python
+  def override_logical_id(
+    new_logical_id: str
+ ) - > None
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.EtcdBackend.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* str
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.EtcdBackend.resetOverrideLogicalId"></a>
+  
+  ```python
+ def reset_override_logical_id() - > None
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `to_metadata` <a name="to_metadata" id="cdktf.EtcdBackend.toMetadata"></a>
+  
+  ```python
+ def to_metadata() - > typing.Any
+  ```
+  
+  ## `to_terraform` <a name="to_terraform" id="cdktf.EtcdBackend.toTerraform"></a>
+  
+  ```python
+ def to_terraform() - > typing.Any
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get_remote_state_data_source` <a name="get_remote_state_data_source" id="cdktf.EtcdBackend.getRemoteStateDataSource"></a>
+  
+  ```python
+  def get_remote_state_data_source(
+    scope: Construct,
+    name: str,
+    _fromstack: str
+ ) - > TerraformRemoteState
+  ```
+  
+  Creates a TerraformRemoteState resource that accesses this backend.
+  
+  ### `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ### `name`<sup>Required</sup> <a name="name" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter.name"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ### `_fromstack`<sup>Required</sup> <a name="_fromstack" id="cdktf.EtcdBackend.getRemoteStateDataSource.parameter._fromStack"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.EtcdBackend.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.EtcdBackend.isBackend">is_backend</a></code> | *No description.* |
+  
+  ---
+  
+  ## `is_construct` <a name="is_construct" id="cdktf.EtcdBackend.isConstruct"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.EtcdBackend.is_construct(
+    x: typing.Any
+  )
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdBackend.isConstruct.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  Any object.
+  
+  ---
+  
+  ## `is_backend` <a name="is_backend" id="cdktf.EtcdBackend.isBackend"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.EtcdBackend.is_backend(
+    x: typing.Any
+  )
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdBackend.isBackend.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.EtcdBackend.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.EtcdBackend.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.EtcdBackend.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.EtcdBackend.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.EtcdBackend.property.node"></a>
+  
+  ```python
+  node: Node
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.EtcdBackend.property.cdktfStack"></a>
+  
+  ```python
+  cdktf_stack: TerraformStack
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.EtcdBackend.property.fqn"></a>
+  
+  ```python
+  fqn: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.EtcdBackend.property.friendlyUniqueId"></a>
+  
+  ```python
+  friendly_unique_id: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  

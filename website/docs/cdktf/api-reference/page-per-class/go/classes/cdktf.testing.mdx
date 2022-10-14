@@ -1,276 +1,287 @@
- Testing <a name="Testing" id="cdktf.Testing"></a>
-
-Testing utilities for cdktf applications.
-
-# Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.NewTesting() Testing
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-
+---
+page_title: API Reference for cdktf.Testing
+description: >-
+  The CDKTF Core API Reference for cdktf.Testing.
 ---
 
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Testing.app">App</a></code> | Returns an app for testing with the following properties: - Output directory is a temp dir. |
-| <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.synth">Synth</a></code> | Returns the Terraform synthesized JSON. |
-| <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code> | *No description.* |
-| <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code> | *No description.* |
-
----
-
-## `App` <a name="App" id="cdktf.Testing.app"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_App(options TestingAppOptions) App
-```
-
-Returns an app for testing with the following properties: - Output directory is a temp dir.
-
-### `options`<sup>Optional</sup> <a name="options" id="cdktf.Testing.app.parameter.options"></a>
-
-- *Type:* <a href="#cdktf.TestingAppOptions">TestingAppOptions</a>
-
----
-
-## `EnableFutureFlags` <a name="EnableFutureFlags" id="cdktf.Testing.enableFutureFlags"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_EnableFutureFlags(app App) App
-```
-
-### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.enableFutureFlags.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `FakeCdktfJsonPath` <a name="FakeCdktfJsonPath" id="cdktf.Testing.fakeCdktfJsonPath"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_FakeCdktfJsonPath(app App) App
-```
-
-### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.fakeCdktfJsonPath.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `FullSynth` <a name="FullSynth" id="cdktf.Testing.fullSynth"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_FullSynth(stack TerraformStack) *string
-```
-
-### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.fullSynth.parameter.stack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `RenderConstructTree` <a name="RenderConstructTree" id="cdktf.Testing.renderConstructTree"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_RenderConstructTree(construct IConstruct) *string
-```
-
-### `construct`<sup>Required</sup> <a name="construct" id="cdktf.Testing.renderConstructTree.parameter.construct"></a>
-
-- *Type:* github.com/aws/constructs-go/constructs/v10.IConstruct
-
----
-
-## `SetupJest` <a name="SetupJest" id="cdktf.Testing.setupJest"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_SetupJest()
-```
-
-## `StubVersion` <a name="StubVersion" id="cdktf.Testing.stubVersion"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_StubVersion(app App) App
-```
-
-### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.stubVersion.parameter.app"></a>
-
-- *Type:* <a href="#cdktf.App">App</a>
-
----
-
-## `Synth` <a name="Synth" id="cdktf.Testing.synth"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_Synth(stack TerraformStack, runValidations *bool) *string
-```
-
-Returns the Terraform synthesized JSON.
-
-### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.synth.parameter.stack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `runValidations`<sup>Optional</sup> <a name="runValidations" id="cdktf.Testing.synth.parameter.runValidations"></a>
-
-- *Type:* *bool
-
----
-
-## `SynthScope` <a name="SynthScope" id="cdktf.Testing.synthScope"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_SynthScope(fn IScopeCallback) *string
-```
-
-### `fn`<sup>Required</sup> <a name="fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
-
-- *Type:* <a href="#cdktf.IScopeCallback">IScopeCallback</a>
-
----
-
-## `ToBeValidTerraform` <a name="ToBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_ToBeValidTerraform(received *string) *bool
-```
-
-### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
-
-- *Type:* *string
-
----
-
-## `ToHaveDataSource` <a name="ToHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_ToHaveDataSource(received *string, resourceType *string) *bool
-```
-
-### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
-
-- *Type:* *string
-
----
-
-### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
-
-- *Type:* *string
-
----
-
-## `ToHaveDataSourceWithProperties` <a name="ToHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_ToHaveDataSourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
-```
-
-### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
-
-- *Type:* *string
-
----
-
-### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
-
-- *Type:* *string
-
----
-
-### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
-
-- *Type:* *map[string]interface{}
-
----
-
-## `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_ToHaveResource(received *string, resourceType *string) *bool
-```
-
-### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
-
-- *Type:* *string
-
----
-
-### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
-
-- *Type:* *string
-
----
-
-## `ToHaveResourceWithProperties` <a name="ToHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-cdktf.Testing_ToHaveResourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
-```
-
-### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
-
-- *Type:* *string
-
----
-
-### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
-
-- *Type:* *string
-
----
-
-### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
-
-- *Type:* *map[string]interface{}
-
----
-
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.Testing
+
+   Testing <a name="Testing" id="cdktf.Testing"></a>
+  
+  Testing utilities for cdktf applications.
+  
+  # Initializers <a name="Initializers" id="cdktf.Testing.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.NewTesting() Testing
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  
+  ---
+  
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Testing.app">App</a></code> | Returns an app for testing with the following properties: - Output directory is a temp dir. |
+  | <code><a href="#cdktf.Testing.enableFutureFlags">EnableFutureFlags</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.fakeCdktfJsonPath">FakeCdktfJsonPath</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.fullSynth">FullSynth</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.renderConstructTree">RenderConstructTree</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.setupJest">SetupJest</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.stubVersion">StubVersion</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.synth">Synth</a></code> | Returns the Terraform synthesized JSON. |
+  | <code><a href="#cdktf.Testing.synthScope">SynthScope</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code> | *No description.* |
+  | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code> | *No description.* |
+  
+  ---
+  
+  ## `App` <a name="App" id="cdktf.Testing.app"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_App(options TestingAppOptions) App
+  ```
+  
+  Returns an app for testing with the following properties: - Output directory is a temp dir.
+  
+  ### `options`<sup>Optional</sup> <a name="options" id="cdktf.Testing.app.parameter.options"></a>
+  
+  - *Type:* <a href="#cdktf.TestingAppOptions">TestingAppOptions</a>
+  
+  ---
+  
+  ## `EnableFutureFlags` <a name="EnableFutureFlags" id="cdktf.Testing.enableFutureFlags"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_EnableFutureFlags(app App) App
+  ```
+  
+  ### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.enableFutureFlags.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `FakeCdktfJsonPath` <a name="FakeCdktfJsonPath" id="cdktf.Testing.fakeCdktfJsonPath"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_FakeCdktfJsonPath(app App) App
+  ```
+  
+  ### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.fakeCdktfJsonPath.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `FullSynth` <a name="FullSynth" id="cdktf.Testing.fullSynth"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_FullSynth(stack TerraformStack) *string
+  ```
+  
+  ### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.fullSynth.parameter.stack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `RenderConstructTree` <a name="RenderConstructTree" id="cdktf.Testing.renderConstructTree"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_RenderConstructTree(construct IConstruct) *string
+  ```
+  
+  ### `construct`<sup>Required</sup> <a name="construct" id="cdktf.Testing.renderConstructTree.parameter.construct"></a>
+  
+  - *Type:* github.com/aws/constructs-go/constructs/v10.IConstruct
+  
+  ---
+  
+  ## `SetupJest` <a name="SetupJest" id="cdktf.Testing.setupJest"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_SetupJest()
+  ```
+  
+  ## `StubVersion` <a name="StubVersion" id="cdktf.Testing.stubVersion"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_StubVersion(app App) App
+  ```
+  
+  ### `app`<sup>Required</sup> <a name="app" id="cdktf.Testing.stubVersion.parameter.app"></a>
+  
+  - *Type:* <a href="#cdktf.App">App</a>
+  
+  ---
+  
+  ## `Synth` <a name="Synth" id="cdktf.Testing.synth"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_Synth(stack TerraformStack, runValidations *bool) *string
+  ```
+  
+  Returns the Terraform synthesized JSON.
+  
+  ### `stack`<sup>Required</sup> <a name="stack" id="cdktf.Testing.synth.parameter.stack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `runValidations`<sup>Optional</sup> <a name="runValidations" id="cdktf.Testing.synth.parameter.runValidations"></a>
+  
+  - *Type:* *bool
+  
+  ---
+  
+  ## `SynthScope` <a name="SynthScope" id="cdktf.Testing.synthScope"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_SynthScope(fn IScopeCallback) *string
+  ```
+  
+  ### `fn`<sup>Required</sup> <a name="fn" id="cdktf.Testing.synthScope.parameter.fn"></a>
+  
+  - *Type:* <a href="#cdktf.IScopeCallback">IScopeCallback</a>
+  
+  ---
+  
+  ## `ToBeValidTerraform` <a name="ToBeValidTerraform" id="cdktf.Testing.toBeValidTerraform"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_ToBeValidTerraform(received *string) *bool
+  ```
+  
+  ### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toBeValidTerraform.parameter.received"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ToHaveDataSource` <a name="ToHaveDataSource" id="cdktf.Testing.toHaveDataSource"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_ToHaveDataSource(received *string, resourceType *string) *bool
+  ```
+  
+  ### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSource.parameter.received"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSource.parameter.resourceType"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ToHaveDataSourceWithProperties` <a name="ToHaveDataSourceWithProperties" id="cdktf.Testing.toHaveDataSourceWithProperties"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_ToHaveDataSourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
+  ```
+  
+  ### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.received"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.resourceType"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+  
+  - *Type:* *map[string]interface{}
+  
+  ---
+  
+  ## `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_ToHaveResource(received *string, resourceType *string) *bool
+  ```
+  
+  ### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResource.parameter.received"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResource.parameter.resourceType"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `ToHaveResourceWithProperties` <a name="ToHaveResourceWithProperties" id="cdktf.Testing.toHaveResourceWithProperties"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  cdktf.Testing_ToHaveResourceWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
+  ```
+  
+  ### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveResourceWithProperties.parameter.received"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveResourceWithProperties.parameter.resourceType"></a>
+  
+  - *Type:* *string
+  
+  ---
+  
+  ### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveResourceWithProperties.parameter.properties"></a>
+  
+  - *Type:* *map[string]interface{}
+  
+  ---
+  
+  
+  

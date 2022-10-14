@@ -1,212 +1,223 @@
- DataTerraformRemoteStateHttpConfig <a name="DataTerraformRemoteStateHttpConfig" id="cdktf.DataTerraformRemoteStateHttpConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateHttpConfig.Initializer"></a>
-
-```typescript
-import { DataTerraformRemoteStateHttpConfig } from 'cdktf'
-
-const dataTerraformRemoteStateHttpConfig: DataTerraformRemoteStateHttpConfig = { ... }
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.defaults">defaults</a></code> | <code>{[ key: string ]: any}</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.workspace">workspace</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.address">address</a></code> | <code>string</code> | (Required) The address of the REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress">lockAddress</a></code> | <code>string</code> | (Optional) The address of the lock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod">lockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when locking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.password">password</a></code> | <code>string</code> | (Optional) The password for HTTP basic authentication. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax">retryMax</a></code> | <code>number</code> | (Optional) The number of HTTP request retries. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax">retryWaitMax</a></code> | <code>number</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin">retryWaitMin</a></code> | <code>number</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification">skipCertVerification</a></code> | <code>boolean</code> | (Optional) Whether to skip TLS verification. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress">unlockAddress</a></code> | <code>string</code> | (Optional) The address of the unlock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod">unlockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when unlocking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod">updateMethod</a></code> | <code>string</code> | (Optional) HTTP method to use when updating state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.username">username</a></code> | <code>string</code> | (Optional) The username for HTTP basic authentication. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateHttpConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateHttpConfig.
 ---
 
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttpConfig.property.defaults"></a>
-
-```typescript
-public readonly defaults: {[ key: string ]: any};
-```
-
-- *Type:* {[ key: string ]: any}
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttpConfig.property.workspace"></a>
-
-```typescript
-public readonly workspace: string;
-```
-
-- *Type:* string
-
----
-
-## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttpConfig.property.address"></a>
-
-```typescript
-public readonly address: string;
-```
-
-- *Type:* string
-
-(Required) The address of the REST endpoint.
-
----
-
-## `lockAddress`<sup>Optional</sup> <a name="lockAddress" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress"></a>
-
-```typescript
-public readonly lockAddress: string;
-```
-
-- *Type:* string
-
-(Optional) The address of the lock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `lockMethod`<sup>Optional</sup> <a name="lockMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod"></a>
-
-```typescript
-public readonly lockMethod: string;
-```
-
-- *Type:* string
-
-(Optional) The HTTP method to use when locking.
-
-Defaults to LOCK.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttpConfig.property.password"></a>
-
-```typescript
-public readonly password: string;
-```
-
-- *Type:* string
-
-(Optional) The password for HTTP basic authentication.
-
----
-
-## `retryMax`<sup>Optional</sup> <a name="retryMax" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax"></a>
-
-```typescript
-public readonly retryMax: number;
-```
-
-- *Type:* number
-
-(Optional) The number of HTTP request retries.
-
-Defaults to 2.
-
----
-
-## `retryWaitMax`<sup>Optional</sup> <a name="retryWaitMax" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax"></a>
-
-```typescript
-public readonly retryWaitMax: number;
-```
-
-- *Type:* number
-
-(Optional) The maximum time in seconds to wait between HTTP request attempts.
-
-Defaults to 30.
-
----
-
-## `retryWaitMin`<sup>Optional</sup> <a name="retryWaitMin" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin"></a>
-
-```typescript
-public readonly retryWaitMin: number;
-```
-
-- *Type:* number
-
-(Optional) The minimum time in seconds to wait between HTTP request attempts.
-
-Defaults to 1.
-
----
-
-## `skipCertVerification`<sup>Optional</sup> <a name="skipCertVerification" id="cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification"></a>
-
-```typescript
-public readonly skipCertVerification: boolean;
-```
-
-- *Type:* boolean
-
-(Optional) Whether to skip TLS verification.
-
-Defaults to false.
-
----
-
-## `unlockAddress`<sup>Optional</sup> <a name="unlockAddress" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress"></a>
-
-```typescript
-public readonly unlockAddress: string;
-```
-
-- *Type:* string
-
-(Optional) The address of the unlock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `unlockMethod`<sup>Optional</sup> <a name="unlockMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod"></a>
-
-```typescript
-public readonly unlockMethod: string;
-```
-
-- *Type:* string
-
-(Optional) The HTTP method to use when unlocking.
-
-Defaults to UNLOCK.
-
----
-
-## `updateMethod`<sup>Optional</sup> <a name="updateMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod"></a>
-
-```typescript
-public readonly updateMethod: string;
-```
-
-- *Type:* string
-
-(Optional) HTTP method to use when updating state.
-
-Defaults to POST.
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttpConfig.property.username"></a>
-
-```typescript
-public readonly username: string;
-```
-
-- *Type:* string
-
-(Optional) The username for HTTP basic authentication.
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateHttpConfig
+
+   DataTerraformRemoteStateHttpConfig <a name="DataTerraformRemoteStateHttpConfig" id="cdktf.DataTerraformRemoteStateHttpConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateHttpConfig.Initializer"></a>
+  
+  ```typescript
+  import { DataTerraformRemoteStateHttpConfig } from 'cdktf'
+  
+  const dataTerraformRemoteStateHttpConfig: DataTerraformRemoteStateHttpConfig = { ... }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.defaults">defaults</a></code> | <code>{[ key: string ]: any}</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.workspace">workspace</a></code> | <code>string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.address">address</a></code> | <code>string</code> | (Required) The address of the REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress">lockAddress</a></code> | <code>string</code> | (Optional) The address of the lock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod">lockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when locking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.password">password</a></code> | <code>string</code> | (Optional) The password for HTTP basic authentication. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax">retryMax</a></code> | <code>number</code> | (Optional) The number of HTTP request retries. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax">retryWaitMax</a></code> | <code>number</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin">retryWaitMin</a></code> | <code>number</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification">skipCertVerification</a></code> | <code>boolean</code> | (Optional) Whether to skip TLS verification. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress">unlockAddress</a></code> | <code>string</code> | (Optional) The address of the unlock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod">unlockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when unlocking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod">updateMethod</a></code> | <code>string</code> | (Optional) HTTP method to use when updating state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.username">username</a></code> | <code>string</code> | (Optional) The username for HTTP basic authentication. |
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttpConfig.property.defaults"></a>
+  
+  ```typescript
+  public readonly defaults: {[ key: string ]: any};
+  ```
+  
+  - *Type:* {[ key: string ]: any}
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttpConfig.property.workspace"></a>
+  
+  ```typescript
+  public readonly workspace: string;
+  ```
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttpConfig.property.address"></a>
+  
+  ```typescript
+  public readonly address: string;
+  ```
+  
+  - *Type:* string
+  
+  (Required) The address of the REST endpoint.
+  
+  ---
+  
+  ## `lockAddress`<sup>Optional</sup> <a name="lockAddress" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress"></a>
+  
+  ```typescript
+  public readonly lockAddress: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The address of the lock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `lockMethod`<sup>Optional</sup> <a name="lockMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod"></a>
+  
+  ```typescript
+  public readonly lockMethod: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The HTTP method to use when locking.
+  
+  Defaults to LOCK.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttpConfig.property.password"></a>
+  
+  ```typescript
+  public readonly password: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The password for HTTP basic authentication.
+  
+  ---
+  
+  ## `retryMax`<sup>Optional</sup> <a name="retryMax" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax"></a>
+  
+  ```typescript
+  public readonly retryMax: number;
+  ```
+  
+  - *Type:* number
+  
+  (Optional) The number of HTTP request retries.
+  
+  Defaults to 2.
+  
+  ---
+  
+  ## `retryWaitMax`<sup>Optional</sup> <a name="retryWaitMax" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax"></a>
+  
+  ```typescript
+  public readonly retryWaitMax: number;
+  ```
+  
+  - *Type:* number
+  
+  (Optional) The maximum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 30.
+  
+  ---
+  
+  ## `retryWaitMin`<sup>Optional</sup> <a name="retryWaitMin" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin"></a>
+  
+  ```typescript
+  public readonly retryWaitMin: number;
+  ```
+  
+  - *Type:* number
+  
+  (Optional) The minimum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 1.
+  
+  ---
+  
+  ## `skipCertVerification`<sup>Optional</sup> <a name="skipCertVerification" id="cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification"></a>
+  
+  ```typescript
+  public readonly skipCertVerification: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  (Optional) Whether to skip TLS verification.
+  
+  Defaults to false.
+  
+  ---
+  
+  ## `unlockAddress`<sup>Optional</sup> <a name="unlockAddress" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress"></a>
+  
+  ```typescript
+  public readonly unlockAddress: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The address of the unlock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `unlockMethod`<sup>Optional</sup> <a name="unlockMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod"></a>
+  
+  ```typescript
+  public readonly unlockMethod: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The HTTP method to use when unlocking.
+  
+  Defaults to UNLOCK.
+  
+  ---
+  
+  ## `updateMethod`<sup>Optional</sup> <a name="updateMethod" id="cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod"></a>
+  
+  ```typescript
+  public readonly updateMethod: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) HTTP method to use when updating state.
+  
+  Defaults to POST.
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttpConfig.property.username"></a>
+  
+  ```typescript
+  public readonly username: string;
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The username for HTTP basic authentication.
+  
+  ---
+  

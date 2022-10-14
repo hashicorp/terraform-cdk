@@ -1,233 +1,244 @@
- DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-&cdktf.DataTerraformRemoteStateOssConfig {
-	Defaults: *map[string]interface{},
-	Workspace: *string,
-	Bucket: *string,
-	AccessKey: *string,
-	Acl: *string,
-	AssumeRole: github.com/hashicorp/terraform-cdk-go/cdktf.OssAssumeRole,
-	EcsRoleName: *string,
-	Encrypt: *bool,
-	Endpoint: *string,
-	Key: *string,
-	Prefix: *string,
-	Profile: *string,
-	Region: *string,
-	SecretKey: *string,
-	SecurityToken: *string,
-	SharedCredentialsFile: *string,
-	TablestoreEndpoint: *string,
-	TablestoreTable: *string,
-}
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.defaults">Defaults</a></code> | <code>*map[string]interface{}</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.workspace">Workspace</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.bucket">Bucket</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.accessKey">AccessKey</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.acl">Acl</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.assumeRole">AssumeRole</a></code> | <code><a href="#cdktf.OssAssumeRole">OssAssumeRole</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.ecsRoleName">EcsRoleName</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.encrypt">Encrypt</a></code> | <code>*bool</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.endpoint">Endpoint</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.key">Key</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.prefix">Prefix</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.profile">Profile</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.region">Region</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.secretKey">SecretKey</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.securityToken">SecurityToken</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.sharedCredentialsFile">SharedCredentialsFile</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreEndpoint">TablestoreEndpoint</a></code> | <code>*string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreTable">TablestoreTable</a></code> | <code>*string</code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateOssConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateOssConfig.
 ---
 
-## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateOssConfig.property.defaults"></a>
-
-```go
-Defaults *map[string]interface{}
-```
-
-- *Type:* *map[string]interface{}
-
----
-
-## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateOssConfig.property.workspace"></a>
-
-```go
-Workspace *string
-```
-
-- *Type:* *string
-
----
-
-## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.DataTerraformRemoteStateOssConfig.property.bucket"></a>
-
-```go
-Bucket *string
-```
-
-- *Type:* *string
-
----
-
-## `AccessKey`<sup>Optional</sup> <a name="AccessKey" id="cdktf.DataTerraformRemoteStateOssConfig.property.accessKey"></a>
-
-```go
-AccessKey *string
-```
-
-- *Type:* *string
-
----
-
-## `Acl`<sup>Optional</sup> <a name="Acl" id="cdktf.DataTerraformRemoteStateOssConfig.property.acl"></a>
-
-```go
-Acl *string
-```
-
-- *Type:* *string
-
----
-
-## `AssumeRole`<sup>Optional</sup> <a name="AssumeRole" id="cdktf.DataTerraformRemoteStateOssConfig.property.assumeRole"></a>
-
-```go
-AssumeRole OssAssumeRole
-```
-
-- *Type:* <a href="#cdktf.OssAssumeRole">OssAssumeRole</a>
-
----
-
-## `EcsRoleName`<sup>Optional</sup> <a name="EcsRoleName" id="cdktf.DataTerraformRemoteStateOssConfig.property.ecsRoleName"></a>
-
-```go
-EcsRoleName *string
-```
-
-- *Type:* *string
-
----
-
-## `Encrypt`<sup>Optional</sup> <a name="Encrypt" id="cdktf.DataTerraformRemoteStateOssConfig.property.encrypt"></a>
-
-```go
-Encrypt *bool
-```
-
-- *Type:* *bool
-
----
-
-## `Endpoint`<sup>Optional</sup> <a name="Endpoint" id="cdktf.DataTerraformRemoteStateOssConfig.property.endpoint"></a>
-
-```go
-Endpoint *string
-```
-
-- *Type:* *string
-
----
-
-## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateOssConfig.property.key"></a>
-
-```go
-Key *string
-```
-
-- *Type:* *string
-
----
-
-## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateOssConfig.property.prefix"></a>
-
-```go
-Prefix *string
-```
-
-- *Type:* *string
-
----
-
-## `Profile`<sup>Optional</sup> <a name="Profile" id="cdktf.DataTerraformRemoteStateOssConfig.property.profile"></a>
-
-```go
-Profile *string
-```
-
-- *Type:* *string
-
----
-
-## `Region`<sup>Optional</sup> <a name="Region" id="cdktf.DataTerraformRemoteStateOssConfig.property.region"></a>
-
-```go
-Region *string
-```
-
-- *Type:* *string
-
----
-
-## `SecretKey`<sup>Optional</sup> <a name="SecretKey" id="cdktf.DataTerraformRemoteStateOssConfig.property.secretKey"></a>
-
-```go
-SecretKey *string
-```
-
-- *Type:* *string
-
----
-
-## `SecurityToken`<sup>Optional</sup> <a name="SecurityToken" id="cdktf.DataTerraformRemoteStateOssConfig.property.securityToken"></a>
-
-```go
-SecurityToken *string
-```
-
-- *Type:* *string
-
----
-
-## `SharedCredentialsFile`<sup>Optional</sup> <a name="SharedCredentialsFile" id="cdktf.DataTerraformRemoteStateOssConfig.property.sharedCredentialsFile"></a>
-
-```go
-SharedCredentialsFile *string
-```
-
-- *Type:* *string
-
----
-
-## `TablestoreEndpoint`<sup>Optional</sup> <a name="TablestoreEndpoint" id="cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreEndpoint"></a>
-
-```go
-TablestoreEndpoint *string
-```
-
-- *Type:* *string
-
----
-
-## `TablestoreTable`<sup>Optional</sup> <a name="TablestoreTable" id="cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreTable"></a>
-
-```go
-TablestoreTable *string
-```
-
-- *Type:* *string
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateOssConfig
+
+   DataTerraformRemoteStateOssConfig <a name="DataTerraformRemoteStateOssConfig" id="cdktf.DataTerraformRemoteStateOssConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateOssConfig.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  &cdktf.DataTerraformRemoteStateOssConfig {
+  	Defaults: *map[string]interface{},
+  	Workspace: *string,
+  	Bucket: *string,
+  	AccessKey: *string,
+  	Acl: *string,
+  	AssumeRole: github.com/hashicorp/terraform-cdk-go/cdktf.OssAssumeRole,
+  	EcsRoleName: *string,
+  	Encrypt: *bool,
+  	Endpoint: *string,
+  	Key: *string,
+  	Prefix: *string,
+  	Profile: *string,
+  	Region: *string,
+  	SecretKey: *string,
+  	SecurityToken: *string,
+  	SharedCredentialsFile: *string,
+  	TablestoreEndpoint: *string,
+  	TablestoreTable: *string,
+  }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.defaults">Defaults</a></code> | <code>*map[string]interface{}</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.workspace">Workspace</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.bucket">Bucket</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.accessKey">AccessKey</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.acl">Acl</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.assumeRole">AssumeRole</a></code> | <code><a href="#cdktf.OssAssumeRole">OssAssumeRole</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.ecsRoleName">EcsRoleName</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.encrypt">Encrypt</a></code> | <code>*bool</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.endpoint">Endpoint</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.key">Key</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.prefix">Prefix</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.profile">Profile</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.region">Region</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.secretKey">SecretKey</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.securityToken">SecurityToken</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.sharedCredentialsFile">SharedCredentialsFile</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreEndpoint">TablestoreEndpoint</a></code> | <code>*string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreTable">TablestoreTable</a></code> | <code>*string</code> | *No description.* |
+  
+  ---
+  
+  ## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateOssConfig.property.defaults"></a>
+  
+  ```go
+  Defaults *map[string]interface{}
+  ```
+  
+  - *Type:* *map[string]interface{}
+  
+  ---
+  
+  ## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateOssConfig.property.workspace"></a>
+  
+  ```go
+  Workspace *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.DataTerraformRemoteStateOssConfig.property.bucket"></a>
+  
+  ```go
+  Bucket *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `AccessKey`<sup>Optional</sup> <a name="AccessKey" id="cdktf.DataTerraformRemoteStateOssConfig.property.accessKey"></a>
+  
+  ```go
+  AccessKey *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Acl`<sup>Optional</sup> <a name="Acl" id="cdktf.DataTerraformRemoteStateOssConfig.property.acl"></a>
+  
+  ```go
+  Acl *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `AssumeRole`<sup>Optional</sup> <a name="AssumeRole" id="cdktf.DataTerraformRemoteStateOssConfig.property.assumeRole"></a>
+  
+  ```go
+  AssumeRole OssAssumeRole
+  ```
+  
+  - *Type:* <a href="#cdktf.OssAssumeRole">OssAssumeRole</a>
+  
+  ---
+  
+  ## `EcsRoleName`<sup>Optional</sup> <a name="EcsRoleName" id="cdktf.DataTerraformRemoteStateOssConfig.property.ecsRoleName"></a>
+  
+  ```go
+  EcsRoleName *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Encrypt`<sup>Optional</sup> <a name="Encrypt" id="cdktf.DataTerraformRemoteStateOssConfig.property.encrypt"></a>
+  
+  ```go
+  Encrypt *bool
+  ```
+  
+  - *Type:* *bool
+  
+  ---
+  
+  ## `Endpoint`<sup>Optional</sup> <a name="Endpoint" id="cdktf.DataTerraformRemoteStateOssConfig.property.endpoint"></a>
+  
+  ```go
+  Endpoint *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateOssConfig.property.key"></a>
+  
+  ```go
+  Key *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateOssConfig.property.prefix"></a>
+  
+  ```go
+  Prefix *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Profile`<sup>Optional</sup> <a name="Profile" id="cdktf.DataTerraformRemoteStateOssConfig.property.profile"></a>
+  
+  ```go
+  Profile *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `Region`<sup>Optional</sup> <a name="Region" id="cdktf.DataTerraformRemoteStateOssConfig.property.region"></a>
+  
+  ```go
+  Region *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `SecretKey`<sup>Optional</sup> <a name="SecretKey" id="cdktf.DataTerraformRemoteStateOssConfig.property.secretKey"></a>
+  
+  ```go
+  SecretKey *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `SecurityToken`<sup>Optional</sup> <a name="SecurityToken" id="cdktf.DataTerraformRemoteStateOssConfig.property.securityToken"></a>
+  
+  ```go
+  SecurityToken *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `SharedCredentialsFile`<sup>Optional</sup> <a name="SharedCredentialsFile" id="cdktf.DataTerraformRemoteStateOssConfig.property.sharedCredentialsFile"></a>
+  
+  ```go
+  SharedCredentialsFile *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `TablestoreEndpoint`<sup>Optional</sup> <a name="TablestoreEndpoint" id="cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreEndpoint"></a>
+  
+  ```go
+  TablestoreEndpoint *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  
+  ## `TablestoreTable`<sup>Optional</sup> <a name="TablestoreTable" id="cdktf.DataTerraformRemoteStateOssConfig.property.tablestoreTable"></a>
+  
+  ```go
+  TablestoreTable *string
+  ```
+  
+  - *Type:* *string
+  
+  ---
+  

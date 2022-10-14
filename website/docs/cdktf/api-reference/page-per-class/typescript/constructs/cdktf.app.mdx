@@ -1,220 +1,231 @@
- App <a name="App" id="cdktf.App"></a>
-
-Represents a cdktf application.
-
-# Initializers <a name="Initializers" id="cdktf.App.Initializer"></a>
-
-```typescript
-import { App } from 'cdktf'
-
-new App(options?: AppOptions)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.App.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.AppOptions">AppOptions</a></code> | configuration options. |
-
+---
+page_title: API Reference for cdktf.App
+description: >-
+  The CDKTF Core API Reference for cdktf.App.
 ---
 
-## `options`<sup>Optional</sup> <a name="options" id="cdktf.App.Initializer.parameter.options"></a>
-
-- *Type:* <a href="#cdktf.AppOptions">AppOptions</a>
-
-configuration options.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.App.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.App.crossStackReference">crossStackReference</a></code> | Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources. |
-| <code><a href="#cdktf.App.synth">synth</a></code> | Synthesizes all resources to the output directory. |
-
----
-
-## `toString` <a name="toString" id="cdktf.App.toString"></a>
-
-```typescript
-public toString(): string
-```
-
-Returns a string representation of this construct.
-
-## `crossStackReference` <a name="crossStackReference" id="cdktf.App.crossStackReference"></a>
-
-```typescript
-public crossStackReference(fromStack: TerraformStack, toStack: TerraformStack, identifier: string): string
-```
-
-Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources.
-
-### `fromStack`<sup>Required</sup> <a name="fromStack" id="cdktf.App.crossStackReference.parameter.fromStack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `toStack`<sup>Required</sup> <a name="toStack" id="cdktf.App.crossStackReference.parameter.toStack"></a>
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.App.crossStackReference.parameter.identifier"></a>
-
-- *Type:* string
-
----
-
-## `synth` <a name="synth" id="cdktf.App.synth"></a>
-
-```typescript
-public synth(): void
-```
-
-Synthesizes all resources to the output directory.
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.App.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.App.isApp">isApp</a></code> | *No description.* |
-| <code><a href="#cdktf.App.of">of</a></code> | *No description.* |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.App.isConstruct"></a>
-
-```typescript
-import { App } from 'cdktf'
-
-App.isConstruct(x: any)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isConstruct.parameter.x"></a>
-
-- *Type:* any
-
-Any object.
-
----
-
-## `isApp` <a name="isApp" id="cdktf.App.isApp"></a>
-
-```typescript
-import { App } from 'cdktf'
-
-App.isApp(x: any)
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isApp.parameter.x"></a>
-
-- *Type:* any
-
----
-
-## `of` <a name="of" id="cdktf.App.of"></a>
-
-```typescript
-import { App } from 'cdktf'
-
-App.of(construct: IConstruct)
-```
-
-### `construct`<sup>Required</sup> <a name="construct" id="cdktf.App.of.parameter.construct"></a>
-
-- *Type:* constructs.IConstruct
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.App.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.App.property.manifest">manifest</a></code> | <code><a href="#cdktf.Manifest">Manifest</a></code> | *No description.* |
-| <code><a href="#cdktf.App.property.outdir">outdir</a></code> | <code>string</code> | The output directory into which resources will be synthesized. |
-| <code><a href="#cdktf.App.property.skipValidation">skipValidation</a></code> | <code>boolean</code> | Whether to skip the validation during synthesis of the app. |
-| <code><a href="#cdktf.App.property.targetStackId">targetStackId</a></code> | <code>string</code> | The stack which will be synthesized. |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.App.property.node"></a>
-
-```typescript
-public readonly node: Node;
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `manifest`<sup>Required</sup> <a name="manifest" id="cdktf.App.property.manifest"></a>
-
-```typescript
-public readonly manifest: Manifest;
-```
-
-- *Type:* <a href="#cdktf.Manifest">Manifest</a>
-
----
-
-## `outdir`<sup>Required</sup> <a name="outdir" id="cdktf.App.property.outdir"></a>
-
-```typescript
-public readonly outdir: string;
-```
-
-- *Type:* string
-
-The output directory into which resources will be synthesized.
-
----
-
-## `skipValidation`<sup>Optional</sup> <a name="skipValidation" id="cdktf.App.property.skipValidation"></a>
-
-```typescript
-public readonly skipValidation: boolean;
-```
-
-- *Type:* boolean
-
-Whether to skip the validation during synthesis of the app.
-
----
-
-## `targetStackId`<sup>Optional</sup> <a name="targetStackId" id="cdktf.App.property.targetStackId"></a>
-
-```typescript
-public readonly targetStackId: string;
-```
-
-- *Type:* string
-
-The stack which will be synthesized.
-
-If not set, all stacks will be synthesized.
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.App
+
+   App <a name="App" id="cdktf.App"></a>
+  
+  Represents a cdktf application.
+  
+  # Initializers <a name="Initializers" id="cdktf.App.Initializer"></a>
+  
+  ```typescript
+  import { App } from 'cdktf'
+  
+  new App(options?: AppOptions)
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.App.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.AppOptions">AppOptions</a></code> | configuration options. |
+  
+  ---
+  
+  ## `options`<sup>Optional</sup> <a name="options" id="cdktf.App.Initializer.parameter.options"></a>
+  
+  - *Type:* <a href="#cdktf.AppOptions">AppOptions</a>
+  
+  configuration options.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.App.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.App.crossStackReference">crossStackReference</a></code> | Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources. |
+  | <code><a href="#cdktf.App.synth">synth</a></code> | Synthesizes all resources to the output directory. |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.App.toString"></a>
+  
+  ```typescript
+  public toString(): string
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `crossStackReference` <a name="crossStackReference" id="cdktf.App.crossStackReference"></a>
+  
+  ```typescript
+  public crossStackReference(fromStack: TerraformStack, toStack: TerraformStack, identifier: string): string
+  ```
+  
+  Creates a reference from one stack to another, invoked on prepareStack since it creates extra resources.
+  
+  ### `fromStack`<sup>Required</sup> <a name="fromStack" id="cdktf.App.crossStackReference.parameter.fromStack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `toStack`<sup>Required</sup> <a name="toStack" id="cdktf.App.crossStackReference.parameter.toStack"></a>
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.App.crossStackReference.parameter.identifier"></a>
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `synth` <a name="synth" id="cdktf.App.synth"></a>
+  
+  ```typescript
+  public synth(): void
+  ```
+  
+  Synthesizes all resources to the output directory.
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.App.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.App.isApp">isApp</a></code> | *No description.* |
+  | <code><a href="#cdktf.App.of">of</a></code> | *No description.* |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.App.isConstruct"></a>
+  
+  ```typescript
+  import { App } from 'cdktf'
+  
+  App.isConstruct(x: any)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isConstruct.parameter.x"></a>
+  
+  - *Type:* any
+  
+  Any object.
+  
+  ---
+  
+  ## `isApp` <a name="isApp" id="cdktf.App.isApp"></a>
+  
+  ```typescript
+  import { App } from 'cdktf'
+  
+  App.isApp(x: any)
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.App.isApp.parameter.x"></a>
+  
+  - *Type:* any
+  
+  ---
+  
+  ## `of` <a name="of" id="cdktf.App.of"></a>
+  
+  ```typescript
+  import { App } from 'cdktf'
+  
+  App.of(construct: IConstruct)
+  ```
+  
+  ### `construct`<sup>Required</sup> <a name="construct" id="cdktf.App.of.parameter.construct"></a>
+  
+  - *Type:* constructs.IConstruct
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.App.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.App.property.manifest">manifest</a></code> | <code><a href="#cdktf.Manifest">Manifest</a></code> | *No description.* |
+  | <code><a href="#cdktf.App.property.outdir">outdir</a></code> | <code>string</code> | The output directory into which resources will be synthesized. |
+  | <code><a href="#cdktf.App.property.skipValidation">skipValidation</a></code> | <code>boolean</code> | Whether to skip the validation during synthesis of the app. |
+  | <code><a href="#cdktf.App.property.targetStackId">targetStackId</a></code> | <code>string</code> | The stack which will be synthesized. |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.App.property.node"></a>
+  
+  ```typescript
+  public readonly node: Node;
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `manifest`<sup>Required</sup> <a name="manifest" id="cdktf.App.property.manifest"></a>
+  
+  ```typescript
+  public readonly manifest: Manifest;
+  ```
+  
+  - *Type:* <a href="#cdktf.Manifest">Manifest</a>
+  
+  ---
+  
+  ## `outdir`<sup>Required</sup> <a name="outdir" id="cdktf.App.property.outdir"></a>
+  
+  ```typescript
+  public readonly outdir: string;
+  ```
+  
+  - *Type:* string
+  
+  The output directory into which resources will be synthesized.
+  
+  ---
+  
+  ## `skipValidation`<sup>Optional</sup> <a name="skipValidation" id="cdktf.App.property.skipValidation"></a>
+  
+  ```typescript
+  public readonly skipValidation: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  Whether to skip the validation during synthesis of the app.
+  
+  ---
+  
+  ## `targetStackId`<sup>Optional</sup> <a name="targetStackId" id="cdktf.App.property.targetStackId"></a>
+  
+  ```typescript
+  public readonly targetStackId: string;
+  ```
+  
+  - *Type:* string
+  
+  The stack which will be synthesized.
+  
+  If not set, all stacks will be synthesized.
+  
+  ---
+  
+  

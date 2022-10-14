@@ -1,387 +1,398 @@
- HttpBackend <a name="HttpBackend" id="cdktf.HttpBackend"></a>
-
-# Initializers <a name="Initializers" id="cdktf.HttpBackend.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.HttpBackend(
-  scope: Construct,
-  address: str,
-  lock_address: str = None,
-  lock_method: str = None,
-  password: str = None,
-  retry_max: typing.Union[int, float] = None,
-  retry_wait_max: typing.Union[int, float] = None,
-  retry_wait_min: typing.Union[int, float] = None,
-  skip_cert_verification: bool = None,
-  unlock_address: str = None,
-  unlock_method: str = None,
-  update_method: str = None,
-  username: str = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.address">address</a></code> | <code>str</code> | (Required) The address of the REST endpoint. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.lockAddress">lock_address</a></code> | <code>str</code> | (Optional) The address of the lock REST endpoint. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.lockMethod">lock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when locking. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password for HTTP basic authentication. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryMax">retry_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The number of HTTP request retries. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryWaitMax">retry_wait_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryWaitMin">retry_wait_min</a></code> | <code>typing.Union[int, float]</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.skipCertVerification">skip_cert_verification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.unlockAddress">unlock_address</a></code> | <code>str</code> | (Optional) The address of the unlock REST endpoint. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.unlockMethod">unlock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when unlocking. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.updateMethod">update_method</a></code> | <code>str</code> | (Optional) HTTP method to use when updating state. |
-| <code><a href="#cdktf.HttpBackend.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username for HTTP basic authentication. |
-
+---
+page_title: API Reference for cdktf.HttpBackend
+description: >-
+  The CDKTF Core API Reference for cdktf.HttpBackend.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.HttpBackend.Initializer.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-## `address`<sup>Required</sup> <a name="address" id="cdktf.HttpBackend.Initializer.parameter.address"></a>
-
-- *Type:* str
-
-(Required) The address of the REST endpoint.
-
----
-
-## `lock_address`<sup>Optional</sup> <a name="lock_address" id="cdktf.HttpBackend.Initializer.parameter.lockAddress"></a>
-
-- *Type:* str
-
-(Optional) The address of the lock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `lock_method`<sup>Optional</sup> <a name="lock_method" id="cdktf.HttpBackend.Initializer.parameter.lockMethod"></a>
-
-- *Type:* str
-
-(Optional) The HTTP method to use when locking.
-
-Defaults to LOCK.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.HttpBackend.Initializer.parameter.password"></a>
-
-- *Type:* str
-
-(Optional) The password for HTTP basic authentication.
-
----
-
-## `retry_max`<sup>Optional</sup> <a name="retry_max" id="cdktf.HttpBackend.Initializer.parameter.retryMax"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The number of HTTP request retries.
-
-Defaults to 2.
-
----
-
-## `retry_wait_max`<sup>Optional</sup> <a name="retry_wait_max" id="cdktf.HttpBackend.Initializer.parameter.retryWaitMax"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The maximum time in seconds to wait between HTTP request attempts.
-
-Defaults to 30.
-
----
-
-## `retry_wait_min`<sup>Optional</sup> <a name="retry_wait_min" id="cdktf.HttpBackend.Initializer.parameter.retryWaitMin"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The minimum time in seconds to wait between HTTP request attempts.
-
-Defaults to 1.
-
----
-
-## `skip_cert_verification`<sup>Optional</sup> <a name="skip_cert_verification" id="cdktf.HttpBackend.Initializer.parameter.skipCertVerification"></a>
-
-- *Type:* bool
-
-(Optional) Whether to skip TLS verification.
-
-Defaults to false.
-
----
-
-## `unlock_address`<sup>Optional</sup> <a name="unlock_address" id="cdktf.HttpBackend.Initializer.parameter.unlockAddress"></a>
-
-- *Type:* str
-
-(Optional) The address of the unlock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `unlock_method`<sup>Optional</sup> <a name="unlock_method" id="cdktf.HttpBackend.Initializer.parameter.unlockMethod"></a>
-
-- *Type:* str
-
-(Optional) The HTTP method to use when unlocking.
-
-Defaults to UNLOCK.
-
----
-
-## `update_method`<sup>Optional</sup> <a name="update_method" id="cdktf.HttpBackend.Initializer.parameter.updateMethod"></a>
-
-- *Type:* str
-
-(Optional) HTTP method to use when updating state.
-
-Defaults to POST.
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.HttpBackend.Initializer.parameter.username"></a>
-
-- *Type:* str
-
-(Optional) The username for HTTP basic authentication.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.HttpBackend.toString">to_string</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.HttpBackend.addOverride">add_override</a></code> | *No description.* |
-| <code><a href="#cdktf.HttpBackend.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.HttpBackend.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.HttpBackend.toMetadata">to_metadata</a></code> | *No description.* |
-| <code><a href="#cdktf.HttpBackend.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.HttpBackend.getRemoteStateDataSource">get_remote_state_data_source</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
-
----
-
-## `to_string` <a name="to_string" id="cdktf.HttpBackend.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Returns a string representation of this construct.
-
-## `add_override` <a name="add_override" id="cdktf.HttpBackend.addOverride"></a>
-
-```python
-def add_override(
-  path: str,
-  value: typing.Any
-) -> None
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.HttpBackend.addOverride.parameter.path"></a>
-
-- *Type:* str
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.HttpBackend.addOverride.parameter.value"></a>
-
-- *Type:* typing.Any
-
----
-
-## `override_logical_id` <a name="override_logical_id" id="cdktf.HttpBackend.overrideLogicalId"></a>
-
-```python
-def override_logical_id(
-  new_logical_id: str
-) -> None
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.HttpBackend.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* str
-
-The new logical ID to use for this stack element.
-
----
-
-## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.HttpBackend.resetOverrideLogicalId"></a>
-
-```python
-def reset_override_logical_id() -> None
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `to_metadata` <a name="to_metadata" id="cdktf.HttpBackend.toMetadata"></a>
-
-```python
-def to_metadata() -> typing.Any
-```
-
-## `to_terraform` <a name="to_terraform" id="cdktf.HttpBackend.toTerraform"></a>
-
-```python
-def to_terraform() -> typing.Any
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get_remote_state_data_source` <a name="get_remote_state_data_source" id="cdktf.HttpBackend.getRemoteStateDataSource"></a>
-
-```python
-def get_remote_state_data_source(
-  scope: Construct,
-  name: str,
-  _fromstack: str
-) -> TerraformRemoteState
-```
-
-Creates a TerraformRemoteState resource that accesses this backend.
-
-### `scope`<sup>Required</sup> <a name="scope" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-### `name`<sup>Required</sup> <a name="name" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter.name"></a>
-
-- *Type:* str
-
----
-
-### `_fromstack`<sup>Required</sup> <a name="_fromstack" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter._fromStack"></a>
-
-- *Type:* str
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.HttpBackend.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.HttpBackend.isBackend">is_backend</a></code> | *No description.* |
-
----
-
-## `is_construct` <a name="is_construct" id="cdktf.HttpBackend.isConstruct"></a>
-
-```python
-import cdktf
-
-cdktf.HttpBackend.is_construct(
-  x: typing.Any
-)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.HttpBackend.isConstruct.parameter.x"></a>
-
-- *Type:* typing.Any
-
-Any object.
-
----
-
-## `is_backend` <a name="is_backend" id="cdktf.HttpBackend.isBackend"></a>
-
-```python
-import cdktf
-
-cdktf.HttpBackend.is_backend(
-  x: typing.Any
-)
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.HttpBackend.isBackend.parameter.x"></a>
-
-- *Type:* typing.Any
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.HttpBackend.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.HttpBackend.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.HttpBackend.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.HttpBackend.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.HttpBackend.property.node"></a>
-
-```python
-node: Node
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.HttpBackend.property.cdktfStack"></a>
-
-```python
-cdktf_stack: TerraformStack
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.HttpBackend.property.fqn"></a>
-
-```python
-fqn: str
-```
-
-- *Type:* str
-
----
-
-## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.HttpBackend.property.friendlyUniqueId"></a>
-
-```python
-friendly_unique_id: str
-```
-
-- *Type:* str
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.HttpBackend
+
+   HttpBackend <a name="HttpBackend" id="cdktf.HttpBackend"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.HttpBackend.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.HttpBackend(
+    scope: Construct,
+    address: str,
+    lock_address: str = None,
+    lock_method: str = None,
+    password: str = None,
+    retry_max: typing.Union[int, float] = None,
+    retry_wait_max: typing.Union[int, float] = None,
+    retry_wait_min: typing.Union[int, float] = None,
+    skip_cert_verification: bool = None,
+    unlock_address: str = None,
+    unlock_method: str = None,
+    update_method: str = None,
+    username: str = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.address">address</a></code> | <code>str</code> | (Required) The address of the REST endpoint. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.lockAddress">lock_address</a></code> | <code>str</code> | (Optional) The address of the lock REST endpoint. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.lockMethod">lock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when locking. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password for HTTP basic authentication. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryMax">retry_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The number of HTTP request retries. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryWaitMax">retry_wait_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.retryWaitMin">retry_wait_min</a></code> | <code>typing.Union[int, float]</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.skipCertVerification">skip_cert_verification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.unlockAddress">unlock_address</a></code> | <code>str</code> | (Optional) The address of the unlock REST endpoint. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.unlockMethod">unlock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when unlocking. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.updateMethod">update_method</a></code> | <code>str</code> | (Optional) HTTP method to use when updating state. |
+  | <code><a href="#cdktf.HttpBackend.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username for HTTP basic authentication. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.HttpBackend.Initializer.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ## `address`<sup>Required</sup> <a name="address" id="cdktf.HttpBackend.Initializer.parameter.address"></a>
+  
+  - *Type:* str
+  
+  (Required) The address of the REST endpoint.
+  
+  ---
+  
+  ## `lock_address`<sup>Optional</sup> <a name="lock_address" id="cdktf.HttpBackend.Initializer.parameter.lockAddress"></a>
+  
+  - *Type:* str
+  
+  (Optional) The address of the lock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `lock_method`<sup>Optional</sup> <a name="lock_method" id="cdktf.HttpBackend.Initializer.parameter.lockMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) The HTTP method to use when locking.
+  
+  Defaults to LOCK.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.HttpBackend.Initializer.parameter.password"></a>
+  
+  - *Type:* str
+  
+  (Optional) The password for HTTP basic authentication.
+  
+  ---
+  
+  ## `retry_max`<sup>Optional</sup> <a name="retry_max" id="cdktf.HttpBackend.Initializer.parameter.retryMax"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The number of HTTP request retries.
+  
+  Defaults to 2.
+  
+  ---
+  
+  ## `retry_wait_max`<sup>Optional</sup> <a name="retry_wait_max" id="cdktf.HttpBackend.Initializer.parameter.retryWaitMax"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The maximum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 30.
+  
+  ---
+  
+  ## `retry_wait_min`<sup>Optional</sup> <a name="retry_wait_min" id="cdktf.HttpBackend.Initializer.parameter.retryWaitMin"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The minimum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 1.
+  
+  ---
+  
+  ## `skip_cert_verification`<sup>Optional</sup> <a name="skip_cert_verification" id="cdktf.HttpBackend.Initializer.parameter.skipCertVerification"></a>
+  
+  - *Type:* bool
+  
+  (Optional) Whether to skip TLS verification.
+  
+  Defaults to false.
+  
+  ---
+  
+  ## `unlock_address`<sup>Optional</sup> <a name="unlock_address" id="cdktf.HttpBackend.Initializer.parameter.unlockAddress"></a>
+  
+  - *Type:* str
+  
+  (Optional) The address of the unlock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `unlock_method`<sup>Optional</sup> <a name="unlock_method" id="cdktf.HttpBackend.Initializer.parameter.unlockMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) The HTTP method to use when unlocking.
+  
+  Defaults to UNLOCK.
+  
+  ---
+  
+  ## `update_method`<sup>Optional</sup> <a name="update_method" id="cdktf.HttpBackend.Initializer.parameter.updateMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) HTTP method to use when updating state.
+  
+  Defaults to POST.
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.HttpBackend.Initializer.parameter.username"></a>
+  
+  - *Type:* str
+  
+  (Optional) The username for HTTP basic authentication.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.HttpBackend.toString">to_string</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.HttpBackend.addOverride">add_override</a></code> | *No description.* |
+  | <code><a href="#cdktf.HttpBackend.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.HttpBackend.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.HttpBackend.toMetadata">to_metadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.HttpBackend.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.HttpBackend.getRemoteStateDataSource">get_remote_state_data_source</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
+  
+  ---
+  
+  ## `to_string` <a name="to_string" id="cdktf.HttpBackend.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `add_override` <a name="add_override" id="cdktf.HttpBackend.addOverride"></a>
+  
+  ```python
+  def add_override(
+    path: str,
+    value: typing.Any
+ ) - > None
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.HttpBackend.addOverride.parameter.path"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.HttpBackend.addOverride.parameter.value"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  ## `override_logical_id` <a name="override_logical_id" id="cdktf.HttpBackend.overrideLogicalId"></a>
+  
+  ```python
+  def override_logical_id(
+    new_logical_id: str
+ ) - > None
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.HttpBackend.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* str
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.HttpBackend.resetOverrideLogicalId"></a>
+  
+  ```python
+ def reset_override_logical_id() - > None
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `to_metadata` <a name="to_metadata" id="cdktf.HttpBackend.toMetadata"></a>
+  
+  ```python
+ def to_metadata() - > typing.Any
+  ```
+  
+  ## `to_terraform` <a name="to_terraform" id="cdktf.HttpBackend.toTerraform"></a>
+  
+  ```python
+ def to_terraform() - > typing.Any
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get_remote_state_data_source` <a name="get_remote_state_data_source" id="cdktf.HttpBackend.getRemoteStateDataSource"></a>
+  
+  ```python
+  def get_remote_state_data_source(
+    scope: Construct,
+    name: str,
+    _fromstack: str
+ ) - > TerraformRemoteState
+  ```
+  
+  Creates a TerraformRemoteState resource that accesses this backend.
+  
+  ### `scope`<sup>Required</sup> <a name="scope" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ### `name`<sup>Required</sup> <a name="name" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter.name"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ### `_fromstack`<sup>Required</sup> <a name="_fromstack" id="cdktf.HttpBackend.getRemoteStateDataSource.parameter._fromStack"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.HttpBackend.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.HttpBackend.isBackend">is_backend</a></code> | *No description.* |
+  
+  ---
+  
+  ## `is_construct` <a name="is_construct" id="cdktf.HttpBackend.isConstruct"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.HttpBackend.is_construct(
+    x: typing.Any
+  )
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.HttpBackend.isConstruct.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  Any object.
+  
+  ---
+  
+  ## `is_backend` <a name="is_backend" id="cdktf.HttpBackend.isBackend"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.HttpBackend.is_backend(
+    x: typing.Any
+  )
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.HttpBackend.isBackend.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.HttpBackend.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.HttpBackend.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.HttpBackend.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.HttpBackend.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.HttpBackend.property.node"></a>
+  
+  ```python
+  node: Node
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.HttpBackend.property.cdktfStack"></a>
+  
+  ```python
+  cdktf_stack: TerraformStack
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.HttpBackend.property.fqn"></a>
+  
+  ```python
+  fqn: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.HttpBackend.property.friendlyUniqueId"></a>
+  
+  ```python
+  friendly_unique_id: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  

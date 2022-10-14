@@ -1,102 +1,113 @@
- FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
-
-The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
-
-The file provisioner supports both ssh and winrm type connections.
-
-See {@link https://www.terraform.io/language/resources/provisioners/file file}
-
-# Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.FileProvisioner;
-
-FileProvisioner.builder()
-    .destination(java.lang.String)
-    .type(java.lang.String)
-//  .connection(SSHProvisionerConnection)
-//  .connection(WinrmProvisionerConnection)
-//  .content(java.lang.String)
-//  .source(java.lang.String)
-    .build();
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.FileProvisioner.property.destination">destination</a></code> | <code>java.lang.String</code> | The source file or directory. |
-| <code><a href="#cdktf.FileProvisioner.property.type">type</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.FileProvisioner.property.connection">connection</a></code> | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
-| <code><a href="#cdktf.FileProvisioner.property.content">content</a></code> | <code>java.lang.String</code> | The destination path to write to on the remote system. |
-| <code><a href="#cdktf.FileProvisioner.property.source">source</a></code> | <code>java.lang.String</code> | The direct content to copy on the destination. |
-
+---
+page_title: API Reference for cdktf.FileProvisioner
+description: >-
+  The CDKTF Core API Reference for cdktf.FileProvisioner.
 ---
 
-## `destination`<sup>Required</sup> <a name="destination" id="cdktf.FileProvisioner.property.destination"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```java
-public java.lang.String getDestination();
-```
+# API Reference for cdktf.FileProvisioner
 
-- *Type:* java.lang.String
-
-The source file or directory.
-
-Specify it either relative to the current working directory or as an absolute path.
-This argument cannot be combined with content.
-
----
-
-## `type`<sup>Required</sup> <a name="type" id="cdktf.FileProvisioner.property.type"></a>
-
-```java
-public java.lang.String getType();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `connection`<sup>Optional</sup> <a name="connection" id="cdktf.FileProvisioner.property.connection"></a>
-
-```java
-public java.lang.Object getConnection();
-```
-
-- *Type:* <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
-
-Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
-
----
-
-## `content`<sup>Optional</sup> <a name="content" id="cdktf.FileProvisioner.property.content"></a>
-
-```java
-public java.lang.String getContent();
-```
-
-- *Type:* java.lang.String
-
-The destination path to write to on the remote system.
-
-See Destination Paths below for more information.
-
----
-
-## `source`<sup>Optional</sup> <a name="source" id="cdktf.FileProvisioner.property.source"></a>
-
-```java
-public java.lang.String getSource();
-```
-
-- *Type:* java.lang.String
-
-The direct content to copy on the destination.
-
-If destination is a file, the content will be written on that file.
-In case of a directory, a file named tf-file-content is created inside that directory.
-We recommend using a file as the destination when using content.
-This argument cannot be combined with source.
-
----
+   FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
+  
+  The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+  
+  The file provisioner supports both ssh and winrm type connections.
+  
+  See {@link https://www.terraform.io/language/resources/provisioners/file file}
+  
+  # Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.FileProvisioner;
+  
+  FileProvisioner.builder()
+      .destination(java.lang.String)
+      .type(java.lang.String)
+  //  .connection(SSHProvisionerConnection)
+  //  .connection(WinrmProvisionerConnection)
+  //  .content(java.lang.String)
+  //  .source(java.lang.String)
+      .build();
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.FileProvisioner.property.destination">destination</a></code> | <code>java.lang.String</code> | The source file or directory. |
+  | <code><a href="#cdktf.FileProvisioner.property.type">type</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.FileProvisioner.property.connection">connection</a></code> | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+  | <code><a href="#cdktf.FileProvisioner.property.content">content</a></code> | <code>java.lang.String</code> | The destination path to write to on the remote system. |
+  | <code><a href="#cdktf.FileProvisioner.property.source">source</a></code> | <code>java.lang.String</code> | The direct content to copy on the destination. |
+  
+  ---
+  
+  ## `destination`<sup>Required</sup> <a name="destination" id="cdktf.FileProvisioner.property.destination"></a>
+  
+  ```java
+  public java.lang.String getDestination();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  The source file or directory.
+  
+  Specify it either relative to the current working directory or as an absolute path.
+  This argument cannot be combined with content.
+  
+  ---
+  
+  ## `type`<sup>Required</sup> <a name="type" id="cdktf.FileProvisioner.property.type"></a>
+  
+  ```java
+  public java.lang.String getType();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `connection`<sup>Optional</sup> <a name="connection" id="cdktf.FileProvisioner.property.connection"></a>
+  
+  ```java
+  public java.lang.Object getConnection();
+  ```
+  
+  - *Type:* <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
+  
+  Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+  
+  ---
+  
+  ## `content`<sup>Optional</sup> <a name="content" id="cdktf.FileProvisioner.property.content"></a>
+  
+  ```java
+  public java.lang.String getContent();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  The destination path to write to on the remote system.
+  
+  See Destination Paths below for more information.
+  
+  ---
+  
+  ## `source`<sup>Optional</sup> <a name="source" id="cdktf.FileProvisioner.property.source"></a>
+  
+  ```java
+  public java.lang.String getSource();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  The direct content to copy on the destination.
+  
+  If destination is a file, the content will be written on that file.
+  In case of a directory, a file named tf-file-content is created inside that directory.
+  We recommend using a file as the destination when using content.
+  This argument cannot be combined with source.
+  
+  ---
+  

@@ -1,157 +1,168 @@
- DataTerraformRemoteStateEtcdV3Config <a name="DataTerraformRemoteStateEtcdV3Config" id="cdktf.DataTerraformRemoteStateEtcdV3Config"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateEtcdV3Config.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateEtcdV3Config;
-
-DataTerraformRemoteStateEtcdV3Config.builder()
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .endpoints(java.util.List<java.lang.String>)
-//  .cacertPath(java.lang.String)
-//  .certPath(java.lang.String)
-//  .keyPath(java.lang.String)
-//  .lock(java.lang.Boolean)
-//  .password(java.lang.String)
-//  .prefix(java.lang.String)
-//  .username(java.lang.String)
-    .build();
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints">endpoints</a></code> | <code>java.util.List<java.lang.String></code> | (Required) The list of 'etcd' endpoints which to connect to. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath">cacertPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath">certPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath">keyPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded key to provide to etcd for secure client identification. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock">lock</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to lock state access. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.password">password</a></code> | <code>java.lang.String</code> | (Optional) Password used to connect to the etcd cluster. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) An optional prefix to be added to keys when to storing state in etcd. |
-| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.username">username</a></code> | <code>java.lang.String</code> | (Optional) Username used to connect to the etcd cluster. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateEtcdV3Config
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateEtcdV3Config.
 ---
 
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```java
-public java.util.Map<java.lang.String, java.lang.Object> getDefaults();
-```
+# API Reference for cdktf.DataTerraformRemoteStateEtcdV3Config
 
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace"></a>
-
-```java
-public java.lang.String getWorkspace();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints"></a>
-
-```java
-public java.util.List<java.lang.String> getEndpoints();
-```
-
-- *Type:* java.util.List<java.lang.String>
-
-(Required) The list of 'etcd' endpoints which to connect to.
-
----
-
-## `cacertPath`<sup>Optional</sup> <a name="cacertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath"></a>
-
-```java
-public java.lang.String getCacertPath();
-```
-
-- *Type:* java.lang.String
-
-(Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers.
-
----
-
-## `certPath`<sup>Optional</sup> <a name="certPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath"></a>
-
-```java
-public java.lang.String getCertPath();
-```
-
-- *Type:* java.lang.String
-
-(Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification.
-
----
-
-## `keyPath`<sup>Optional</sup> <a name="keyPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath"></a>
-
-```java
-public java.lang.String getKeyPath();
-```
-
-- *Type:* java.lang.String
-
-(Optional) The path to a PEM-encoded key to provide to etcd for secure client identification.
-
----
-
-## `lock`<sup>Optional</sup> <a name="lock" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock"></a>
-
-```java
-public java.lang.Boolean getLock();
-```
-
-- *Type:* java.lang.Boolean
-
-(Optional) Whether to lock state access.
-
-Defaults to true.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.password"></a>
-
-```java
-public java.lang.String getPassword();
-```
-
-- *Type:* java.lang.String
-
-(Optional) Password used to connect to the etcd cluster.
-
----
-
-## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix"></a>
-
-```java
-public java.lang.String getPrefix();
-```
-
-- *Type:* java.lang.String
-
-(Optional) An optional prefix to be added to keys when to storing state in etcd.
-
-Defaults to "".
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.username"></a>
-
-```java
-public java.lang.String getUsername();
-```
-
-- *Type:* java.lang.String
-
-(Optional) Username used to connect to the etcd cluster.
-
----
+   DataTerraformRemoteStateEtcdV3Config <a name="DataTerraformRemoteStateEtcdV3Config" id="cdktf.DataTerraformRemoteStateEtcdV3Config"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateEtcdV3Config.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateEtcdV3Config;
+  
+  DataTerraformRemoteStateEtcdV3Config.builder()
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .endpoints(java.util.List< java.lang.String >)
+  //  .cacertPath(java.lang.String)
+  //  .certPath(java.lang.String)
+  //  .keyPath(java.lang.String)
+  //  .lock(java.lang.Boolean)
+  //  .password(java.lang.String)
+  //  .prefix(java.lang.String)
+  //  .username(java.lang.String)
+      .build();
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints">endpoints</a></code> | <code>java.util.List< java.lang.String ></code> | (Required) The list of 'etcd' endpoints which to connect to. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath">cacertPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath">certPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath">keyPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded key to provide to etcd for secure client identification. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock">lock</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to lock state access. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.password">password</a></code> | <code>java.lang.String</code> | (Optional) Password used to connect to the etcd cluster. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) An optional prefix to be added to keys when to storing state in etcd. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.username">username</a></code> | <code>java.lang.String</code> | (Optional) Username used to connect to the etcd cluster. |
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults"></a>
+  
+  ```java
+  public java.util.Map< java.lang.String, java.lang.Object > getDefaults();
+  ```
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace"></a>
+  
+  ```java
+  public java.lang.String getWorkspace();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getEndpoints();
+  ```
+  
+  - *Type:* java.util.List< java.lang.String >
+  
+  (Required) The list of 'etcd' endpoints which to connect to.
+  
+  ---
+  
+  ## `cacertPath`<sup>Optional</sup> <a name="cacertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath"></a>
+  
+  ```java
+  public java.lang.String getCacertPath();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers.
+  
+  ---
+  
+  ## `certPath`<sup>Optional</sup> <a name="certPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath"></a>
+  
+  ```java
+  public java.lang.String getCertPath();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification.
+  
+  ---
+  
+  ## `keyPath`<sup>Optional</sup> <a name="keyPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath"></a>
+  
+  ```java
+  public java.lang.String getKeyPath();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The path to a PEM-encoded key to provide to etcd for secure client identification.
+  
+  ---
+  
+  ## `lock`<sup>Optional</sup> <a name="lock" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock"></a>
+  
+  ```java
+  public java.lang.Boolean getLock();
+  ```
+  
+  - *Type:* java.lang.Boolean
+  
+  (Optional) Whether to lock state access.
+  
+  Defaults to true.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.password"></a>
+  
+  ```java
+  public java.lang.String getPassword();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) Password used to connect to the etcd cluster.
+  
+  ---
+  
+  ## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix"></a>
+  
+  ```java
+  public java.lang.String getPrefix();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) An optional prefix to be added to keys when to storing state in etcd.
+  
+  Defaults to "".
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.username"></a>
+  
+  ```java
+  public java.lang.String getUsername();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) Username used to connect to the etcd cluster.
+  
+  ---
+  

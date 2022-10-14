@@ -1,97 +1,108 @@
- Annotations <a name="Annotations" id="cdktf.Annotations"></a>
-
-Includes API for attaching annotations such as warning messages to constructs.
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Annotations.addError">addError</a></code> | Adds an { "error": <message> } metadata entry to this construct. |
-| <code><a href="#cdktf.Annotations.addInfo">addInfo</a></code> | Adds an info metadata entry to this construct. |
-| <code><a href="#cdktf.Annotations.addWarning">addWarning</a></code> | Adds a warning metadata entry to this construct. |
-
+---
+page_title: API Reference for cdktf.Annotations
+description: >-
+  The CDKTF Core API Reference for cdktf.Annotations.
 ---
 
-## `addError` <a name="addError" id="cdktf.Annotations.addError"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```typescript
-public addError(message: string): void
-```
+# API Reference for cdktf.Annotations
 
-Adds an { "error": <message> } metadata entry to this construct.
-
-The toolkit will fail synthesis when errors are reported.
-
-### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addError.parameter.message"></a>
-
-- *Type:* string
-
-The error message.
-
----
-
-## `addInfo` <a name="addInfo" id="cdktf.Annotations.addInfo"></a>
-
-```typescript
-public addInfo(message: string): void
-```
-
-Adds an info metadata entry to this construct.
-
-The CLI will display the info message when apps are synthesized.
-
-### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addInfo.parameter.message"></a>
-
-- *Type:* string
-
-The info message.
-
----
-
-## `addWarning` <a name="addWarning" id="cdktf.Annotations.addWarning"></a>
-
-```typescript
-public addWarning(message: string): void
-```
-
-Adds a warning metadata entry to this construct.
-
-The CLI will display the warning when an app is synthesized.
-In a future release the CLI might introduce a --strict flag which
-will then fail the synthesis if it encounters a warning.
-
-### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addWarning.parameter.message"></a>
-
-- *Type:* string
-
-The warning message.
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.Annotations.of">of</a></code> | Returns the annotations API for a construct scope. |
-
----
-
-## `of` <a name="of" id="cdktf.Annotations.of"></a>
-
-```typescript
-import { Annotations } from 'cdktf'
-
-Annotations.of(scope: IConstruct)
-```
-
-Returns the annotations API for a construct scope.
-
-### `scope`<sup>Required</sup> <a name="scope" id="cdktf.Annotations.of.parameter.scope"></a>
-
-- *Type:* constructs.IConstruct
-
-The scope.
-
----
-
-
+   Annotations <a name="Annotations" id="cdktf.Annotations"></a>
+  
+  Includes API for attaching annotations such as warning messages to constructs.
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Annotations.addError">addError</a></code> | Adds an { "error": < message > } metadata entry to this construct. |
+  | <code><a href="#cdktf.Annotations.addInfo">addInfo</a></code> | Adds an info metadata entry to this construct. |
+  | <code><a href="#cdktf.Annotations.addWarning">addWarning</a></code> | Adds a warning metadata entry to this construct. |
+  
+  ---
+  
+  ## `addError` <a name="addError" id="cdktf.Annotations.addError"></a>
+  
+  ```typescript
+  public addError(message: string): void
+  ```
+  
+  Adds an { "error": < message > } metadata entry to this construct.
+  
+  The toolkit will fail synthesis when errors are reported.
+  
+  ### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addError.parameter.message"></a>
+  
+  - *Type:* string
+  
+  The error message.
+  
+  ---
+  
+  ## `addInfo` <a name="addInfo" id="cdktf.Annotations.addInfo"></a>
+  
+  ```typescript
+  public addInfo(message: string): void
+  ```
+  
+  Adds an info metadata entry to this construct.
+  
+  The CLI will display the info message when apps are synthesized.
+  
+  ### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addInfo.parameter.message"></a>
+  
+  - *Type:* string
+  
+  The info message.
+  
+  ---
+  
+  ## `addWarning` <a name="addWarning" id="cdktf.Annotations.addWarning"></a>
+  
+  ```typescript
+  public addWarning(message: string): void
+  ```
+  
+  Adds a warning metadata entry to this construct.
+  
+  The CLI will display the warning when an app is synthesized.
+  In a future release the CLI might introduce a --strict flag which
+  will then fail the synthesis if it encounters a warning.
+  
+  ### `message`<sup>Required</sup> <a name="message" id="cdktf.Annotations.addWarning.parameter.message"></a>
+  
+  - *Type:* string
+  
+  The warning message.
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.Annotations.of">of</a></code> | Returns the annotations API for a construct scope. |
+  
+  ---
+  
+  ## `of` <a name="of" id="cdktf.Annotations.of"></a>
+  
+  ```typescript
+  import { Annotations } from 'cdktf'
+  
+  Annotations.of(scope: IConstruct)
+  ```
+  
+  Returns the annotations API for a construct scope.
+  
+  ### `scope`<sup>Required</sup> <a name="scope" id="cdktf.Annotations.of.parameter.scope"></a>
+  
+  - *Type:* constructs.IConstruct
+  
+  The scope.
+  
+  ---
+  
+  
+  

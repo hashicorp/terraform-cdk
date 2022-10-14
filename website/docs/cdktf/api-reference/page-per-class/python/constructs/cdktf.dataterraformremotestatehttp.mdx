@@ -1,455 +1,466 @@
- DataTerraformRemoteStateHttp <a name="DataTerraformRemoteStateHttp" id="cdktf.DataTerraformRemoteStateHttp"></a>
-
-# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateHttp.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.DataTerraformRemoteStateHttp(
-  scope: Construct,
-  id: str,
-  defaults: typing.Mapping[typing.Any] = None,
-  workspace: str = None,
-  address: str,
-  lock_address: str = None,
-  lock_method: str = None,
-  password: str = None,
-  retry_max: typing.Union[int, float] = None,
-  retry_wait_max: typing.Union[int, float] = None,
-  retry_wait_min: typing.Union[int, float] = None,
-  skip_cert_verification: bool = None,
-  unlock_address: str = None,
-  unlock_method: str = None,
-  update_method: str = None,
-  username: str = None
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace">workspace</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address">address</a></code> | <code>str</code> | (Required) The address of the REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress">lock_address</a></code> | <code>str</code> | (Optional) The address of the lock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod">lock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when locking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password for HTTP basic authentication. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax">retry_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The number of HTTP request retries. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax">retry_wait_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin">retry_wait_min</a></code> | <code>typing.Union[int, float]</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification">skip_cert_verification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress">unlock_address</a></code> | <code>str</code> | (Optional) The address of the unlock REST endpoint. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod">unlock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when unlocking. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod">update_method</a></code> | <code>str</code> | (Optional) HTTP method to use when updating state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username for HTTP basic authentication. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateHttp
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateHttp.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope"></a>
-
-- *Type:* constructs.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id"></a>
-
-- *Type:* str
-
----
-
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults"></a>
-
-- *Type:* typing.Mapping[typing.Any]
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace"></a>
-
-- *Type:* str
-
----
-
-## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address"></a>
-
-- *Type:* str
-
-(Required) The address of the REST endpoint.
-
----
-
-## `lock_address`<sup>Optional</sup> <a name="lock_address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress"></a>
-
-- *Type:* str
-
-(Optional) The address of the lock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `lock_method`<sup>Optional</sup> <a name="lock_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod"></a>
-
-- *Type:* str
-
-(Optional) The HTTP method to use when locking.
-
-Defaults to LOCK.
-
----
-
-## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password"></a>
-
-- *Type:* str
-
-(Optional) The password for HTTP basic authentication.
-
----
-
-## `retry_max`<sup>Optional</sup> <a name="retry_max" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The number of HTTP request retries.
-
-Defaults to 2.
-
----
-
-## `retry_wait_max`<sup>Optional</sup> <a name="retry_wait_max" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The maximum time in seconds to wait between HTTP request attempts.
-
-Defaults to 30.
-
----
-
-## `retry_wait_min`<sup>Optional</sup> <a name="retry_wait_min" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin"></a>
-
-- *Type:* typing.Union[int, float]
-
-(Optional) The minimum time in seconds to wait between HTTP request attempts.
-
-Defaults to 1.
-
----
-
-## `skip_cert_verification`<sup>Optional</sup> <a name="skip_cert_verification" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification"></a>
-
-- *Type:* bool
-
-(Optional) Whether to skip TLS verification.
-
-Defaults to false.
-
----
-
-## `unlock_address`<sup>Optional</sup> <a name="unlock_address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress"></a>
-
-- *Type:* str
-
-(Optional) The address of the unlock REST endpoint.
-
-Defaults to disabled.
-
----
-
-## `unlock_method`<sup>Optional</sup> <a name="unlock_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod"></a>
-
-- *Type:* str
-
-(Optional) The HTTP method to use when unlocking.
-
-Defaults to UNLOCK.
-
----
-
-## `update_method`<sup>Optional</sup> <a name="update_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod"></a>
-
-- *Type:* str
-
-(Optional) HTTP method to use when updating state.
-
-Defaults to POST.
-
----
-
-## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username"></a>
-
-- *Type:* str
-
-(Optional) The username for HTTP basic authentication.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toString">to_string</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.addOverride">add_override</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toMetadata">to_metadata</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.get">get</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getBoolean">get_boolean</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getList">get_list</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getNumber">get_number</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.getString">get_string</a></code> | *No description.* |
-
----
-
-## `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateHttp.toString"></a>
-
-```python
-def to_string() -> str
-```
-
-Returns a string representation of this construct.
-
-## `add_override` <a name="add_override" id="cdktf.DataTerraformRemoteStateHttp.addOverride"></a>
-
-```python
-def add_override(
-  path: str,
-  value: typing.Any
-) -> None
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.path"></a>
-
-- *Type:* str
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.value"></a>
-
-- *Type:* typing.Any
-
----
-
-## `override_logical_id` <a name="override_logical_id" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId"></a>
-
-```python
-def override_logical_id(
-  new_logical_id: str
-) -> None
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* str
-
-The new logical ID to use for this stack element.
-
----
-
-## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId"></a>
-
-```python
-def reset_override_logical_id() -> None
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateHttp.toMetadata"></a>
-
-```python
-def to_metadata() -> typing.Any
-```
-
-## `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateHttp.toTerraform"></a>
-
-```python
-def to_terraform() -> typing.Any
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get` <a name="get" id="cdktf.DataTerraformRemoteStateHttp.get"></a>
-
-```python
-def get(
-  output: str
-) -> IResolvable
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.get.parameter.output"></a>
-
-- *Type:* str
-
----
-
-## `get_boolean` <a name="get_boolean" id="cdktf.DataTerraformRemoteStateHttp.getBoolean"></a>
-
-```python
-def get_boolean(
-  output: str
-) -> IResolvable
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getBoolean.parameter.output"></a>
-
-- *Type:* str
-
----
-
-## `get_list` <a name="get_list" id="cdktf.DataTerraformRemoteStateHttp.getList"></a>
-
-```python
-def get_list(
-  output: str
-) -> typing.List[str]
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getList.parameter.output"></a>
-
-- *Type:* str
-
----
-
-## `get_number` <a name="get_number" id="cdktf.DataTerraformRemoteStateHttp.getNumber"></a>
-
-```python
-def get_number(
-  output: str
-) -> typing.Union[int, float]
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getNumber.parameter.output"></a>
-
-- *Type:* str
-
----
-
-## `get_string` <a name="get_string" id="cdktf.DataTerraformRemoteStateHttp.getString"></a>
-
-```python
-def get_string(
-  output: str
-) -> str
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getString.parameter.output"></a>
-
-- *Type:* str
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `is_construct` <a name="is_construct" id="cdktf.DataTerraformRemoteStateHttp.isConstruct"></a>
-
-```python
-import cdktf
-
-cdktf.DataTerraformRemoteStateHttp.is_construct(
-  x: typing.Any
-)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateHttp.isConstruct.parameter.x"></a>
-
-- *Type:* typing.Any
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateHttp.property.node"></a>
-
-```python
-node: Node
-```
-
-- *Type:* constructs.Node
-
-The tree node.
-
----
-
-## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.DataTerraformRemoteStateHttp.property.cdktfStack"></a>
-
-```python
-cdktf_stack: TerraformStack
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateHttp.property.fqn"></a>
-
-```python
-fqn: str
-```
-
-- *Type:* str
-
----
-
-## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId"></a>
-
-```python
-friendly_unique_id: str
-```
-
-- *Type:* str
-
----
-
-# Constants <a name="Constants" id="Constants"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.tfResourceType">tfResourceType</a></code> | <code>str</code> | *No description.* |
-
----
-
-## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateHttp.property.tfResourceType"></a>
-
-```python
-tfResourceType: str
-```
-
-- *Type:* str
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateHttp
+
+   DataTerraformRemoteStateHttp <a name="DataTerraformRemoteStateHttp" id="cdktf.DataTerraformRemoteStateHttp"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateHttp.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.DataTerraformRemoteStateHttp(
+    scope: Construct,
+    id: str,
+    defaults: typing.Mapping[typing.Any] = None,
+    workspace: str = None,
+    address: str,
+    lock_address: str = None,
+    lock_method: str = None,
+    password: str = None,
+    retry_max: typing.Union[int, float] = None,
+    retry_wait_max: typing.Union[int, float] = None,
+    retry_wait_min: typing.Union[int, float] = None,
+    skip_cert_verification: bool = None,
+    unlock_address: str = None,
+    unlock_method: str = None,
+    update_method: str = None,
+    username: str = None
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace">workspace</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address">address</a></code> | <code>str</code> | (Required) The address of the REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress">lock_address</a></code> | <code>str</code> | (Optional) The address of the lock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod">lock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when locking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password">password</a></code> | <code>str</code> | (Optional) The password for HTTP basic authentication. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax">retry_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The number of HTTP request retries. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax">retry_wait_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin">retry_wait_min</a></code> | <code>typing.Union[int, float]</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification">skip_cert_verification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress">unlock_address</a></code> | <code>str</code> | (Optional) The address of the unlock REST endpoint. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod">unlock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when unlocking. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod">update_method</a></code> | <code>str</code> | (Optional) HTTP method to use when updating state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username">username</a></code> | <code>str</code> | (Optional) The username for HTTP basic authentication. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.scope"></a>
+  
+  - *Type:* constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.id"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.defaults"></a>
+  
+  - *Type:* typing.Mapping[typing.Any]
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.workspace"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.address"></a>
+  
+  - *Type:* str
+  
+  (Required) The address of the REST endpoint.
+  
+  ---
+  
+  ## `lock_address`<sup>Optional</sup> <a name="lock_address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockAddress"></a>
+  
+  - *Type:* str
+  
+  (Optional) The address of the lock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `lock_method`<sup>Optional</sup> <a name="lock_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.lockMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) The HTTP method to use when locking.
+  
+  Defaults to LOCK.
+  
+  ---
+  
+  ## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.password"></a>
+  
+  - *Type:* str
+  
+  (Optional) The password for HTTP basic authentication.
+  
+  ---
+  
+  ## `retry_max`<sup>Optional</sup> <a name="retry_max" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryMax"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The number of HTTP request retries.
+  
+  Defaults to 2.
+  
+  ---
+  
+  ## `retry_wait_max`<sup>Optional</sup> <a name="retry_wait_max" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMax"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The maximum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 30.
+  
+  ---
+  
+  ## `retry_wait_min`<sup>Optional</sup> <a name="retry_wait_min" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.retryWaitMin"></a>
+  
+  - *Type:* typing.Union[int, float]
+  
+  (Optional) The minimum time in seconds to wait between HTTP request attempts.
+  
+  Defaults to 1.
+  
+  ---
+  
+  ## `skip_cert_verification`<sup>Optional</sup> <a name="skip_cert_verification" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.skipCertVerification"></a>
+  
+  - *Type:* bool
+  
+  (Optional) Whether to skip TLS verification.
+  
+  Defaults to false.
+  
+  ---
+  
+  ## `unlock_address`<sup>Optional</sup> <a name="unlock_address" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockAddress"></a>
+  
+  - *Type:* str
+  
+  (Optional) The address of the unlock REST endpoint.
+  
+  Defaults to disabled.
+  
+  ---
+  
+  ## `unlock_method`<sup>Optional</sup> <a name="unlock_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.unlockMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) The HTTP method to use when unlocking.
+  
+  Defaults to UNLOCK.
+  
+  ---
+  
+  ## `update_method`<sup>Optional</sup> <a name="update_method" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.updateMethod"></a>
+  
+  - *Type:* str
+  
+  (Optional) HTTP method to use when updating state.
+  
+  Defaults to POST.
+  
+  ---
+  
+  ## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttp.Initializer.parameter.username"></a>
+  
+  - *Type:* str
+  
+  (Optional) The username for HTTP basic authentication.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toString">to_string</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.addOverride">add_override</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toMetadata">to_metadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.get">get</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getBoolean">get_boolean</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getList">get_list</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getNumber">get_number</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.getString">get_string</a></code> | *No description.* |
+  
+  ---
+  
+  ## `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateHttp.toString"></a>
+  
+  ```python
+ def to_string() - > str
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `add_override` <a name="add_override" id="cdktf.DataTerraformRemoteStateHttp.addOverride"></a>
+  
+  ```python
+  def add_override(
+    path: str,
+    value: typing.Any
+ ) - > None
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.path"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateHttp.addOverride.parameter.value"></a>
+  
+  - *Type:* typing.Any
+  
+  ---
+  
+  ## `override_logical_id` <a name="override_logical_id" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId"></a>
+  
+  ```python
+  def override_logical_id(
+    new_logical_id: str
+ ) - > None
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.DataTerraformRemoteStateHttp.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* str
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateHttp.resetOverrideLogicalId"></a>
+  
+  ```python
+ def reset_override_logical_id() - > None
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateHttp.toMetadata"></a>
+  
+  ```python
+ def to_metadata() - > typing.Any
+  ```
+  
+  ## `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateHttp.toTerraform"></a>
+  
+  ```python
+ def to_terraform() - > typing.Any
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get` <a name="get" id="cdktf.DataTerraformRemoteStateHttp.get"></a>
+  
+  ```python
+  def get(
+    output: str
+ ) - > IResolvable
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.get.parameter.output"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `get_boolean` <a name="get_boolean" id="cdktf.DataTerraformRemoteStateHttp.getBoolean"></a>
+  
+  ```python
+  def get_boolean(
+    output: str
+ ) - > IResolvable
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getBoolean.parameter.output"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `get_list` <a name="get_list" id="cdktf.DataTerraformRemoteStateHttp.getList"></a>
+  
+  ```python
+  def get_list(
+    output: str
+ ) - > typing.List[str]
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getList.parameter.output"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `get_number` <a name="get_number" id="cdktf.DataTerraformRemoteStateHttp.getNumber"></a>
+  
+  ```python
+  def get_number(
+    output: str
+ ) - > typing.Union[int, float]
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getNumber.parameter.output"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `get_string` <a name="get_string" id="cdktf.DataTerraformRemoteStateHttp.getString"></a>
+  
+  ```python
+  def get_string(
+    output: str
+ ) - > str
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateHttp.getString.parameter.output"></a>
+  
+  - *Type:* str
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `is_construct` <a name="is_construct" id="cdktf.DataTerraformRemoteStateHttp.isConstruct"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.DataTerraformRemoteStateHttp.is_construct(
+    x: typing.Any
+  )
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateHttp.isConstruct.parameter.x"></a>
+  
+  - *Type:* typing.Any
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateHttp.property.node"></a>
+  
+  ```python
+  node: Node
+  ```
+  
+  - *Type:* constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.DataTerraformRemoteStateHttp.property.cdktfStack"></a>
+  
+  ```python
+  cdktf_stack: TerraformStack
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateHttp.property.fqn"></a>
+  
+  ```python
+  fqn: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  ## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.DataTerraformRemoteStateHttp.property.friendlyUniqueId"></a>
+  
+  ```python
+  friendly_unique_id: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  
+  # Constants <a name="Constants" id="Constants"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateHttp.property.tfResourceType">tfResourceType</a></code> | <code>str</code> | *No description.* |
+  
+  ---
+  
+  ## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateHttp.property.tfResourceType"></a>
+  
+  ```python
+  tfResourceType: str
+  ```
+  
+  - *Type:* str
+  
+  ---
+  

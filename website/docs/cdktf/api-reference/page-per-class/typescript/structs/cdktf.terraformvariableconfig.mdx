@@ -1,108 +1,119 @@
- TerraformVariableConfig <a name="TerraformVariableConfig" id="cdktf.TerraformVariableConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.TerraformVariableConfig.Initializer"></a>
-
-```typescript
-import { TerraformVariableConfig } from 'cdktf'
-
-const terraformVariableConfig: TerraformVariableConfig = { ... }
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code> | <code>any</code> | *No description.* |
-| <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code> | <code>boolean</code> | *No description.* |
-| <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code> | <code>string</code> | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
-| <code><a href="#cdktf.TerraformVariableConfig.property.validation">validation</a></code> | <code><a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
-
+---
+page_title: API Reference for cdktf.TerraformVariableConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.TerraformVariableConfig.
 ---
 
-## `default`<sup>Optional</sup> <a name="default" id="cdktf.TerraformVariableConfig.property.default"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```typescript
-public readonly default: any;
-```
+# API Reference for cdktf.TerraformVariableConfig
 
-- *Type:* any
-
----
-
-## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformVariableConfig.property.description"></a>
-
-```typescript
-public readonly description: string;
-```
-
-- *Type:* string
-
----
-
-## `nullable`<sup>Optional</sup> <a name="nullable" id="cdktf.TerraformVariableConfig.property.nullable"></a>
-
-```typescript
-public readonly nullable: boolean;
-```
-
-- *Type:* boolean
-
----
-
-## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformVariableConfig.property.sensitive"></a>
-
-```typescript
-public readonly sensitive: boolean;
-```
-
-- *Type:* boolean
-
----
-
-## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>
-
-```typescript
-public readonly type: string;
-```
-
-- *Type:* string
-
-The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.
-
-If no type constraint is set then a value of any type is accepted.
-
-While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.
-
-Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:
-
-- string
-- number
-- bool
-
-The type constructors allow you to specify complex types such as collections:
-
-- list(\<TYPE\>)
-- set(\<TYPE\>)
-- map(\<TYPE\>)
-- object({\<ATTR NAME\> = \<TYPE\>, ... })
-- tuple([\<TYPE\>, ...])
-
-The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
-
-If both the type and default arguments are specified, the given default value must be convertible to the specified type.
-
----
-
-## `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>
-
-```typescript
-public readonly validation: TerraformVariableValidationConfig[];
-```
-
-- *Type:* <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]
-
-Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
-
----
+   TerraformVariableConfig <a name="TerraformVariableConfig" id="cdktf.TerraformVariableConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.TerraformVariableConfig.Initializer"></a>
+  
+  ```typescript
+  import { TerraformVariableConfig } from 'cdktf'
+  
+  const terraformVariableConfig: TerraformVariableConfig = { ... }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.default">default</a></code> | <code>any</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.description">description</a></code> | <code>string</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.nullable">nullable</a></code> | <code>boolean</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.sensitive">sensitive</a></code> | <code>boolean</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.type">type</a></code> | <code>string</code> | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+  | <code><a href="#cdktf.TerraformVariableConfig.property.validation">validation</a></code> | <code><a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
+  
+  ---
+  
+  ## `default`<sup>Optional</sup> <a name="default" id="cdktf.TerraformVariableConfig.property.default"></a>
+  
+  ```typescript
+  public readonly default: any;
+  ```
+  
+  - *Type:* any
+  
+  ---
+  
+  ## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformVariableConfig.property.description"></a>
+  
+  ```typescript
+  public readonly description: string;
+  ```
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `nullable`<sup>Optional</sup> <a name="nullable" id="cdktf.TerraformVariableConfig.property.nullable"></a>
+  
+  ```typescript
+  public readonly nullable: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  ---
+  
+  ## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformVariableConfig.property.sensitive"></a>
+  
+  ```typescript
+  public readonly sensitive: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  ---
+  
+  ## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariableConfig.property.type"></a>
+  
+  ```typescript
+  public readonly type: string;
+  ```
+  
+  - *Type:* string
+  
+  The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.
+  
+  If no type constraint is set then a value of any type is accepted.
+  
+  While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.
+  
+  Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:
+  
+  - string
+  - number
+  - bool
+  
+  The type constructors allow you to specify complex types such as collections:
+  
+  - list(\< TYPE\ >)
+  - set(\< TYPE\ >)
+  - map(\< TYPE\ >)
+  - object({\< ATTR NAME\ > = \< TYPE\ >, ... })
+  - tuple([\< TYPE\ >, ...])
+  
+  The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
+  
+  If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+  
+  ---
+  
+  ## `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariableConfig.property.validation"></a>
+  
+  ```typescript
+  public readonly validation: TerraformVariableValidationConfig[];
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>[]
+  
+  Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+  
+  ---
+  

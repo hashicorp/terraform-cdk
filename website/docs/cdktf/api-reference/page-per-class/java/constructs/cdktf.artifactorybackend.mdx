@@ -1,287 +1,298 @@
- ArtifactoryBackend <a name="ArtifactoryBackend" id="cdktf.ArtifactoryBackend"></a>
-
-# Initializers <a name="Initializers" id="cdktf.ArtifactoryBackend.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.ArtifactoryBackend;
-
-ArtifactoryBackend.Builder.create(Construct scope)
-    .password(java.lang.String)
-    .repo(java.lang.String)
-    .subpath(java.lang.String)
-    .url(java.lang.String)
-    .username(java.lang.String)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Required) - The password. |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.repo">repo</a></code> | <code>java.lang.String</code> | (Required) - The repository name. |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.subpath">subpath</a></code> | <code>java.lang.String</code> | (Required) - Path within the repository. |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.url">url</a></code> | <code>java.lang.String</code> | (Required) - The URL. |
-| <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Required) - The username. |
-
+---
+page_title: API Reference for cdktf.ArtifactoryBackend
+description: >-
+  The CDKTF Core API Reference for cdktf.ArtifactoryBackend.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.ArtifactoryBackend.Initializer.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-## `password`<sup>Required</sup> <a name="password" id="cdktf.ArtifactoryBackend.Initializer.parameter.password"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The password.
-
----
-
-## `repo`<sup>Required</sup> <a name="repo" id="cdktf.ArtifactoryBackend.Initializer.parameter.repo"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The repository name.
-
----
-
-## `subpath`<sup>Required</sup> <a name="subpath" id="cdktf.ArtifactoryBackend.Initializer.parameter.subpath"></a>
-
-- *Type:* java.lang.String
-
-(Required) - Path within the repository.
-
----
-
-## `url`<sup>Required</sup> <a name="url" id="cdktf.ArtifactoryBackend.Initializer.parameter.url"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The URL.
-
-Note that this is the base url to artifactory not the full repo and subpath.
-
----
-
-## `username`<sup>Required</sup> <a name="username" id="cdktf.ArtifactoryBackend.Initializer.parameter.username"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The username.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.ArtifactoryBackend.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.ArtifactoryBackend.addOverride">addOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.ArtifactoryBackend.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.ArtifactoryBackend.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.ArtifactoryBackend.toMetadata">toMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.ArtifactoryBackend.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.ArtifactoryBackend.getRemoteStateDataSource">getRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
-
----
-
-## `toString` <a name="toString" id="cdktf.ArtifactoryBackend.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-## `addOverride` <a name="addOverride" id="cdktf.ArtifactoryBackend.addOverride"></a>
-
-```java
-public void addOverride(java.lang.String path, java.lang.Object value)
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.ArtifactoryBackend.addOverride.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.ArtifactoryBackend.addOverride.parameter.value"></a>
-
-- *Type:* java.lang.Object
-
----
-
-## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId"></a>
-
-```java
-public void overrideLogicalId(java.lang.String newLogicalId)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* java.lang.String
-
-The new logical ID to use for this stack element.
-
----
-
-## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.ArtifactoryBackend.resetOverrideLogicalId"></a>
-
-```java
-public void resetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `toMetadata` <a name="toMetadata" id="cdktf.ArtifactoryBackend.toMetadata"></a>
-
-```java
-public java.lang.Object toMetadata()
-```
-
-## `toTerraform` <a name="toTerraform" id="cdktf.ArtifactoryBackend.toTerraform"></a>
-
-```java
-public java.lang.Object toTerraform()
-```
-
-Adds this resource to the terraform JSON output.
-
-## `getRemoteStateDataSource` <a name="getRemoteStateDataSource" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource"></a>
-
-```java
-public TerraformRemoteState getRemoteStateDataSource(Construct scope, java.lang.String name, java.lang.String _fromStack)
-```
-
-Creates a TerraformRemoteState resource that accesses this backend.
-
-### `scope`<sup>Required</sup> <a name="scope" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-### `name`<sup>Required</sup> <a name="name" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter.name"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `_fromStack`<sup>Required</sup> <a name="_fromStack" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter._fromStack"></a>
-
-- *Type:* java.lang.String
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.ArtifactoryBackend.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-| <code><a href="#cdktf.ArtifactoryBackend.isBackend">isBackend</a></code> | *No description.* |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.ArtifactoryBackend.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.ArtifactoryBackend;
-
-ArtifactoryBackend.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.ArtifactoryBackend.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-## `isBackend` <a name="isBackend" id="cdktf.ArtifactoryBackend.isBackend"></a>
-
-```java
-import com.hashicorp.cdktf.ArtifactoryBackend;
-
-ArtifactoryBackend.isBackend(java.lang.Object x)
-```
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.ArtifactoryBackend.isBackend.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.ArtifactoryBackend.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.ArtifactoryBackend.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.ArtifactoryBackend.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.ArtifactoryBackend.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.ArtifactoryBackend.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.ArtifactoryBackend.property.cdktfStack"></a>
-
-```java
-public TerraformStack getCdktfStack();
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ArtifactoryBackend.property.fqn"></a>
-
-```java
-public java.lang.String getFqn();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.ArtifactoryBackend.property.friendlyUniqueId"></a>
-
-```java
-public java.lang.String getFriendlyUniqueId();
-```
-
-- *Type:* java.lang.String
-
----
-
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.ArtifactoryBackend
+
+   ArtifactoryBackend <a name="ArtifactoryBackend" id="cdktf.ArtifactoryBackend"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.ArtifactoryBackend.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.ArtifactoryBackend;
+  
+  ArtifactoryBackend.Builder.create(Construct scope)
+      .password(java.lang.String)
+      .repo(java.lang.String)
+      .subpath(java.lang.String)
+      .url(java.lang.String)
+      .username(java.lang.String)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Required) - The password. |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.repo">repo</a></code> | <code>java.lang.String</code> | (Required) - The repository name. |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.subpath">subpath</a></code> | <code>java.lang.String</code> | (Required) - Path within the repository. |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.url">url</a></code> | <code>java.lang.String</code> | (Required) - The URL. |
+  | <code><a href="#cdktf.ArtifactoryBackend.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Required) - The username. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.ArtifactoryBackend.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `password`<sup>Required</sup> <a name="password" id="cdktf.ArtifactoryBackend.Initializer.parameter.password"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The password.
+  
+  ---
+  
+  ## `repo`<sup>Required</sup> <a name="repo" id="cdktf.ArtifactoryBackend.Initializer.parameter.repo"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The repository name.
+  
+  ---
+  
+  ## `subpath`<sup>Required</sup> <a name="subpath" id="cdktf.ArtifactoryBackend.Initializer.parameter.subpath"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - Path within the repository.
+  
+  ---
+  
+  ## `url`<sup>Required</sup> <a name="url" id="cdktf.ArtifactoryBackend.Initializer.parameter.url"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The URL.
+  
+  Note that this is the base url to artifactory not the full repo and subpath.
+  
+  ---
+  
+  ## `username`<sup>Required</sup> <a name="username" id="cdktf.ArtifactoryBackend.Initializer.parameter.username"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The username.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.ArtifactoryBackend.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.ArtifactoryBackend.addOverride">addOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.ArtifactoryBackend.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.ArtifactoryBackend.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.ArtifactoryBackend.toMetadata">toMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.ArtifactoryBackend.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.ArtifactoryBackend.getRemoteStateDataSource">getRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.ArtifactoryBackend.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `addOverride` <a name="addOverride" id="cdktf.ArtifactoryBackend.addOverride"></a>
+  
+  ```java
+  public void addOverride(java.lang.String path, java.lang.Object value)
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.ArtifactoryBackend.addOverride.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.ArtifactoryBackend.addOverride.parameter.value"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  ## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId"></a>
+  
+  ```java
+  public void overrideLogicalId(java.lang.String newLogicalId)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* java.lang.String
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.ArtifactoryBackend.resetOverrideLogicalId"></a>
+  
+  ```java
+  public void resetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `toMetadata` <a name="toMetadata" id="cdktf.ArtifactoryBackend.toMetadata"></a>
+  
+  ```java
+  public java.lang.Object toMetadata()
+  ```
+  
+  ## `toTerraform` <a name="toTerraform" id="cdktf.ArtifactoryBackend.toTerraform"></a>
+  
+  ```java
+  public java.lang.Object toTerraform()
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `getRemoteStateDataSource` <a name="getRemoteStateDataSource" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource"></a>
+  
+  ```java
+  public TerraformRemoteState getRemoteStateDataSource(Construct scope, java.lang.String name, java.lang.String _fromStack)
+  ```
+  
+  Creates a TerraformRemoteState resource that accesses this backend.
+  
+  ### `scope`<sup>Required</sup> <a name="scope" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ### `name`<sup>Required</sup> <a name="name" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter.name"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `_fromStack`<sup>Required</sup> <a name="_fromStack" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource.parameter._fromStack"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.ArtifactoryBackend.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  | <code><a href="#cdktf.ArtifactoryBackend.isBackend">isBackend</a></code> | *No description.* |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.ArtifactoryBackend.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.ArtifactoryBackend;
+  
+  ArtifactoryBackend.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.ArtifactoryBackend.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  ## `isBackend` <a name="isBackend" id="cdktf.ArtifactoryBackend.isBackend"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.ArtifactoryBackend;
+  
+  ArtifactoryBackend.isBackend(java.lang.Object x)
+  ```
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.ArtifactoryBackend.isBackend.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.ArtifactoryBackend.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.ArtifactoryBackend.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.ArtifactoryBackend.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.ArtifactoryBackend.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.ArtifactoryBackend.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.ArtifactoryBackend.property.cdktfStack"></a>
+  
+  ```java
+  public TerraformStack getCdktfStack();
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ArtifactoryBackend.property.fqn"></a>
+  
+  ```java
+  public java.lang.String getFqn();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.ArtifactoryBackend.property.friendlyUniqueId"></a>
+  
+  ```java
+  public java.lang.String getFriendlyUniqueId();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  

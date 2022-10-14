@@ -1,178 +1,189 @@
- TerraformAsset <a name="TerraformAsset" id="cdktf.TerraformAsset"></a>
-
-# Initializers <a name="Initializers" id="cdktf.TerraformAsset.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.TerraformAsset;
-
-TerraformAsset.Builder.create(Construct scope, java.lang.String id)
-    .path(java.lang.String)
-//  .assetHash(java.lang.String)
-//  .type(AssetType)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.path">path</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.assetHash">assetHash</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.Initializer.parameter.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.TerraformAsset
+description: >-
+  The CDKTF Core API Reference for cdktf.TerraformAsset.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformAsset.Initializer.parameter.scope"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-- *Type:* software.constructs.Construct
+# API Reference for cdktf.TerraformAsset
 
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformAsset.Initializer.parameter.id"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.Initializer.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `assetHash`<sup>Optional</sup> <a name="assetHash" id="cdktf.TerraformAsset.Initializer.parameter.assetHash"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformAsset.Initializer.parameter.type"></a>
-
-- *Type:* <a href="#cdktf.AssetType">AssetType</a>
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformAsset.toString">toString</a></code> | Returns a string representation of this construct. |
-
----
-
-## `toString` <a name="toString" id="cdktf.TerraformAsset.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.TerraformAsset.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.TerraformAsset.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.TerraformAsset;
-
-TerraformAsset.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformAsset.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.TerraformAsset.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.TerraformAsset.property.fileName">fileName</a></code> | <code>java.lang.String</code> | Name of the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.path">path</a></code> | <code>java.lang.String</code> | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
-| <code><a href="#cdktf.TerraformAsset.property.assetHash">assetHash</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.TerraformAsset.property.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformAsset.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `fileName`<sup>Required</sup> <a name="fileName" id="cdktf.TerraformAsset.property.fileName"></a>
-
-```java
-public java.lang.String getFileName();
-```
-
-- *Type:* java.lang.String
-
-Name of the asset.
-
----
-
-## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.property.path"></a>
-
-```java
-public java.lang.String getPath();
-```
-
-- *Type:* java.lang.String
-
-The path relative to the root of the terraform directory in posix format Use this property to reference the asset.
-
----
-
-## `assetHash`<sup>Required</sup> <a name="assetHash" id="cdktf.TerraformAsset.property.assetHash"></a>
-
-```java
-public java.lang.String getAssetHash();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `type`<sup>Required</sup> <a name="type" id="cdktf.TerraformAsset.property.type"></a>
-
-```java
-public AssetType getType();
-```
-
-- *Type:* <a href="#cdktf.AssetType">AssetType</a>
-
----
-
+   TerraformAsset <a name="TerraformAsset" id="cdktf.TerraformAsset"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.TerraformAsset.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.TerraformAsset;
+  
+  TerraformAsset.Builder.create(Construct scope, java.lang.String id)
+      .path(java.lang.String)
+  //  .assetHash(java.lang.String)
+  //  .type(AssetType)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.path">path</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.assetHash">assetHash</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.Initializer.parameter.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformAsset.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformAsset.Initializer.parameter.id"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.Initializer.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `assetHash`<sup>Optional</sup> <a name="assetHash" id="cdktf.TerraformAsset.Initializer.parameter.assetHash"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformAsset.Initializer.parameter.type"></a>
+  
+  - *Type:* <a href="#cdktf.AssetType">AssetType</a>
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.toString">toString</a></code> | Returns a string representation of this construct. |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.TerraformAsset.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.TerraformAsset.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.TerraformAsset;
+  
+  TerraformAsset.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformAsset.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.TerraformAsset.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.TerraformAsset.property.fileName">fileName</a></code> | <code>java.lang.String</code> | Name of the asset. |
+  | <code><a href="#cdktf.TerraformAsset.property.path">path</a></code> | <code>java.lang.String</code> | The path relative to the root of the terraform directory in posix format Use this property to reference the asset. |
+  | <code><a href="#cdktf.TerraformAsset.property.assetHash">assetHash</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.TerraformAsset.property.type">type</a></code> | <code><a href="#cdktf.AssetType">AssetType</a></code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformAsset.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `fileName`<sup>Required</sup> <a name="fileName" id="cdktf.TerraformAsset.property.fileName"></a>
+  
+  ```java
+  public java.lang.String getFileName();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  Name of the asset.
+  
+  ---
+  
+  ## `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformAsset.property.path"></a>
+  
+  ```java
+  public java.lang.String getPath();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  The path relative to the root of the terraform directory in posix format Use this property to reference the asset.
+  
+  ---
+  
+  ## `assetHash`<sup>Required</sup> <a name="assetHash" id="cdktf.TerraformAsset.property.assetHash"></a>
+  
+  ```java
+  public java.lang.String getAssetHash();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `type`<sup>Required</sup> <a name="type" id="cdktf.TerraformAsset.property.type"></a>
+  
+  ```java
+  public AssetType getType();
+  ```
+  
+  - *Type:* <a href="#cdktf.AssetType">AssetType</a>
+  
+  ---
+  
+  

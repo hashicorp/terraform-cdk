@@ -1,101 +1,112 @@
- IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
-
-- *Implemented By:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
-Current resolution context for tokens.
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.IResolveContext.registerPostProcessor">registerPostProcessor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
-| <code><a href="#cdktf.IResolveContext.resolve">resolve</a></code> | Resolve an inner object. |
-
+---
+page_title: API Reference for cdktf.IResolveContext
+description: >-
+  The CDKTF Core API Reference for cdktf.IResolveContext.
 ---
 
-## `registerPostProcessor` <a name="registerPostProcessor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```typescript
-public registerPostProcessor(postProcessor: IPostProcessor): void
-```
+# API Reference for cdktf.IResolveContext
 
-Use this postprocessor after the entire token structure has been resolved.
-
-### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
-
-- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-## `resolve` <a name="resolve" id="cdktf.IResolveContext.resolve"></a>
-
-```typescript
-public resolve(x: any): any
-```
-
-Resolve an inner object.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.IResolveContext.resolve.parameter.x"></a>
-
-- *Type:* any
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code> | <code>boolean</code> | True when we are still preparing, false if we're rendering the final output. |
-| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code> | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated. |
-| <code><a href="#cdktf.IResolveContext.property.iteratorContext">iteratorContext</a></code> | <code>string</code> | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
-| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code> | <code>boolean</code> | True when ${} should be ommitted (because already inside them), false otherwise. |
-
----
-
-## `preparing`<sup>Required</sup> <a name="preparing" id="cdktf.IResolveContext.property.preparing"></a>
-
-```typescript
-public readonly preparing: boolean;
-```
-
-- *Type:* boolean
-
-True when we are still preparing, false if we're rendering the final output.
-
----
-
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.IResolveContext.property.scope"></a>
-
-```typescript
-public readonly scope: IConstruct;
-```
-
-- *Type:* constructs.IConstruct
-
-The scope from which resolution has been initiated.
-
----
-
-## `iteratorContext`<sup>Optional</sup> <a name="iteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
-
-```typescript
-public readonly iteratorContext: string;
-```
-
-- *Type:* string
-
-TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
-
----
-
-## `suppressBraces`<sup>Optional</sup> <a name="suppressBraces" id="cdktf.IResolveContext.property.suppressBraces"></a>
-
-```typescript
-public readonly suppressBraces: boolean;
-```
-
-- *Type:* boolean
-
-True when ${} should be ommitted (because already inside them), false otherwise.
-
----
+   IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
+  
+  - *Implemented By:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  Current resolution context for tokens.
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.IResolveContext.registerPostProcessor">registerPostProcessor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
+  | <code><a href="#cdktf.IResolveContext.resolve">resolve</a></code> | Resolve an inner object. |
+  
+  ---
+  
+  ## `registerPostProcessor` <a name="registerPostProcessor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+  
+  ```typescript
+  public registerPostProcessor(postProcessor: IPostProcessor): void
+  ```
+  
+  Use this postprocessor after the entire token structure has been resolved.
+  
+  ### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
+  
+  - *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+  
+  ---
+  
+  ## `resolve` <a name="resolve" id="cdktf.IResolveContext.resolve"></a>
+  
+  ```typescript
+  public resolve(x: any): any
+  ```
+  
+  Resolve an inner object.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.IResolveContext.resolve.parameter.x"></a>
+  
+  - *Type:* any
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code> | <code>boolean</code> | True when we are still preparing, false if we're rendering the final output. |
+  | <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code> | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated. |
+  | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iteratorContext</a></code> | <code>string</code> | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+  | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code> | <code>boolean</code> | True when ${} should be ommitted (because already inside them), false otherwise. |
+  
+  ---
+  
+  ## `preparing`<sup>Required</sup> <a name="preparing" id="cdktf.IResolveContext.property.preparing"></a>
+  
+  ```typescript
+  public readonly preparing: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  True when we are still preparing, false if we're rendering the final output.
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.IResolveContext.property.scope"></a>
+  
+  ```typescript
+  public readonly scope: IConstruct;
+  ```
+  
+  - *Type:* constructs.IConstruct
+  
+  The scope from which resolution has been initiated.
+  
+  ---
+  
+  ## `iteratorContext`<sup>Optional</sup> <a name="iteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
+  
+  ```typescript
+  public readonly iteratorContext: string;
+  ```
+  
+  - *Type:* string
+  
+  TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
+  
+  ---
+  
+  ## `suppressBraces`<sup>Optional</sup> <a name="suppressBraces" id="cdktf.IResolveContext.property.suppressBraces"></a>
+  
+  ```typescript
+  public readonly suppressBraces: boolean;
+  ```
+  
+  - *Type:* boolean
+  
+  True when ${} should be ommitted (because already inside them), false otherwise.
+  
+  ---
+  

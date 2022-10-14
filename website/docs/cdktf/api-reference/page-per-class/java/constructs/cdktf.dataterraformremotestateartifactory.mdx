@@ -1,350 +1,361 @@
- DataTerraformRemoteStateArtifactory <a name="DataTerraformRemoteStateArtifactory" id="cdktf.DataTerraformRemoteStateArtifactory"></a>
-
-# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateArtifactory;
-
-DataTerraformRemoteStateArtifactory.Builder.create(Construct scope, java.lang.String id)
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .password(java.lang.String)
-    .repo(java.lang.String)
-    .subpath(java.lang.String)
-    .url(java.lang.String)
-    .username(java.lang.String)
-    .build();
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Required) - The password. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.repo">repo</a></code> | <code>java.lang.String</code> | (Required) - The repository name. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.subpath">subpath</a></code> | <code>java.lang.String</code> | (Required) - Path within the repository. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.url">url</a></code> | <code>java.lang.String</code> | (Required) - The URL. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Required) - The username. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateArtifactory
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateArtifactory.
 ---
 
-## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.scope"></a>
-
-- *Type:* software.constructs.Construct
-
----
-
-## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.id"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.defaults"></a>
-
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.workspace"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `password`<sup>Required</sup> <a name="password" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.password"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The password.
-
----
-
-## `repo`<sup>Required</sup> <a name="repo" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.repo"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The repository name.
-
----
-
-## `subpath`<sup>Required</sup> <a name="subpath" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.subpath"></a>
-
-- *Type:* java.lang.String
-
-(Required) - Path within the repository.
-
----
-
-## `url`<sup>Required</sup> <a name="url" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.url"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The URL.
-
-Note that this is the base url to artifactory not the full repo and subpath.
-
----
-
-## `username`<sup>Required</sup> <a name="username" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.username"></a>
-
-- *Type:* java.lang.String
-
-(Required) - The username.
-
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toString">toString</a></code> | Returns a string representation of this construct. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.addOverride">addOverride</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toMetadata">toMetadata</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.get">get</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getBoolean">getBoolean</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getList">getList</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getNumber">getNumber</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getString">getString</a></code> | *No description.* |
-
----
-
-## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateArtifactory.toString"></a>
-
-```java
-public java.lang.String toString()
-```
-
-Returns a string representation of this construct.
-
-## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride"></a>
-
-```java
-public void addOverride(java.lang.String path, java.lang.Object value)
-```
-
-### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride.parameter.path"></a>
-
-- *Type:* java.lang.String
-
----
-
-### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride.parameter.value"></a>
-
-- *Type:* java.lang.Object
-
----
-
-## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId"></a>
-
-```java
-public void overrideLogicalId(java.lang.String newLogicalId)
-```
-
-Overrides the auto-generated logical ID with a specific ID.
-
-### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId.parameter.newLogicalId"></a>
-
-- *Type:* java.lang.String
-
-The new logical ID to use for this stack element.
-
----
-
-## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId"></a>
-
-```java
-public void resetOverrideLogicalId()
-```
-
-Resets a previously passed logical Id to use the auto-generated logical id again.
-
-## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateArtifactory.toMetadata"></a>
-
-```java
-public java.lang.Object toMetadata()
-```
-
-## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateArtifactory.toTerraform"></a>
-
-```java
-public java.lang.Object toTerraform()
-```
-
-Adds this resource to the terraform JSON output.
-
-## `get` <a name="get" id="cdktf.DataTerraformRemoteStateArtifactory.get"></a>
-
-```java
-public IResolvable get(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.get.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean"></a>
-
-```java
-public IResolvable getBoolean(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateArtifactory.getList"></a>
-
-```java
-public java.util.List<java.lang.String> getList(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getList.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber"></a>
-
-```java
-public java.lang.Number getNumber(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateArtifactory.getString"></a>
-
-```java
-public java.lang.String getString(java.lang.String output)
-```
-
-### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getString.parameter.output"></a>
-
-- *Type:* java.lang.String
-
----
-
-# Static Functions <a name="Static Functions" id="Static Functions"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
-
----
-
-## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateArtifactory;
-
-DataTerraformRemoteStateArtifactory.isConstruct(java.lang.Object x)
-```
-
-Checks if `x` is a construct.
-
-Use this method instead of `instanceof` to properly detect `Construct`
-instances, even when the construct library is symlinked.
-
-Explanation: in JavaScript, multiple copies of the `constructs` library on
-disk are seen as independent, completely different libraries. As a
-consequence, the class `Construct` in each copy of the `constructs` library
-is seen as a different class, and an instance of one class will not test as
-`instanceof` the other class. `npm install` will not create installations
-like this, but users may manually symlink construct libraries together or
-use a monorepo tool: in those cases, multiple copies of the `constructs`
-library can be accidentally installed, and `instanceof` will behave
-unpredictably. It is safest to avoid using `instanceof`, and using
-this type-testing method instead.
-
-### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct.parameter.x"></a>
-
-- *Type:* java.lang.Object
-
-Any object.
-
----
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateArtifactory.property.node"></a>
-
-```java
-public Node getNode();
-```
-
-- *Type:* software.constructs.Node
-
-The tree node.
-
----
-
-## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack"></a>
-
-```java
-public TerraformStack getCdktfStack();
-```
-
-- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
-
----
-
-## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateArtifactory.property.fqn"></a>
-
-```java
-public java.lang.String getFqn();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId"></a>
-
-```java
-public java.lang.String getFriendlyUniqueId();
-```
-
-- *Type:* java.lang.String
-
----
-
-# Constants <a name="Constants" id="Constants"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
-
----
-
-## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType"></a>
-
-```java
-public java.lang.String getTfResourceType();
-```
-
-- *Type:* java.lang.String
-
----
+<!-- This file is generated through yarn generate-docs -->
+
+# API Reference for cdktf.DataTerraformRemoteStateArtifactory
+
+   DataTerraformRemoteStateArtifactory <a name="DataTerraformRemoteStateArtifactory" id="cdktf.DataTerraformRemoteStateArtifactory"></a>
+  
+  # Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateArtifactory;
+  
+  DataTerraformRemoteStateArtifactory.Builder.create(Construct scope, java.lang.String id)
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .password(java.lang.String)
+      .repo(java.lang.String)
+      .subpath(java.lang.String)
+      .url(java.lang.String)
+      .username(java.lang.String)
+      .build();
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Required) - The password. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.repo">repo</a></code> | <code>java.lang.String</code> | (Required) - The repository name. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.subpath">subpath</a></code> | <code>java.lang.String</code> | (Required) - Path within the repository. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.url">url</a></code> | <code>java.lang.String</code> | (Required) - The URL. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Required) - The username. |
+  
+  ---
+  
+  ## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.scope"></a>
+  
+  - *Type:* software.constructs.Construct
+  
+  ---
+  
+  ## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.id"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.defaults"></a>
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.workspace"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `password`<sup>Required</sup> <a name="password" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.password"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The password.
+  
+  ---
+  
+  ## `repo`<sup>Required</sup> <a name="repo" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.repo"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The repository name.
+  
+  ---
+  
+  ## `subpath`<sup>Required</sup> <a name="subpath" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.subpath"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - Path within the repository.
+  
+  ---
+  
+  ## `url`<sup>Required</sup> <a name="url" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.url"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The URL.
+  
+  Note that this is the base url to artifactory not the full repo and subpath.
+  
+  ---
+  
+  ## `username`<sup>Required</sup> <a name="username" id="cdktf.DataTerraformRemoteStateArtifactory.Initializer.parameter.username"></a>
+  
+  - *Type:* java.lang.String
+  
+  (Required) - The username.
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toString">toString</a></code> | Returns a string representation of this construct. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.addOverride">addOverride</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toMetadata">toMetadata</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.get">get</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getBoolean">getBoolean</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getList">getList</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getNumber">getNumber</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.getString">getString</a></code> | *No description.* |
+  
+  ---
+  
+  ## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateArtifactory.toString"></a>
+  
+  ```java
+  public java.lang.String toString()
+  ```
+  
+  Returns a string representation of this construct.
+  
+  ## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride"></a>
+  
+  ```java
+  public void addOverride(java.lang.String path, java.lang.Object value)
+  ```
+  
+  ### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride.parameter.path"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride.parameter.value"></a>
+  
+  - *Type:* java.lang.Object
+  
+  ---
+  
+  ## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId"></a>
+  
+  ```java
+  public void overrideLogicalId(java.lang.String newLogicalId)
+  ```
+  
+  Overrides the auto-generated logical ID with a specific ID.
+  
+  ### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId.parameter.newLogicalId"></a>
+  
+  - *Type:* java.lang.String
+  
+  The new logical ID to use for this stack element.
+  
+  ---
+  
+  ## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId"></a>
+  
+  ```java
+  public void resetOverrideLogicalId()
+  ```
+  
+  Resets a previously passed logical Id to use the auto-generated logical id again.
+  
+  ## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateArtifactory.toMetadata"></a>
+  
+  ```java
+  public java.lang.Object toMetadata()
+  ```
+  
+  ## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateArtifactory.toTerraform"></a>
+  
+  ```java
+  public java.lang.Object toTerraform()
+  ```
+  
+  Adds this resource to the terraform JSON output.
+  
+  ## `get` <a name="get" id="cdktf.DataTerraformRemoteStateArtifactory.get"></a>
+  
+  ```java
+  public IResolvable get(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.get.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean"></a>
+  
+  ```java
+  public IResolvable getBoolean(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateArtifactory.getList"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getList(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getList.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber"></a>
+  
+  ```java
+  public java.lang.Number getNumber(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateArtifactory.getString"></a>
+  
+  ```java
+  public java.lang.String getString(java.lang.String output)
+  ```
+  
+  ### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateArtifactory.getString.parameter.output"></a>
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Static Functions <a name="Static Functions" id="Static Functions"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+  
+  ---
+  
+  ## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateArtifactory;
+  
+  DataTerraformRemoteStateArtifactory.isConstruct(java.lang.Object x)
+  ```
+  
+  Checks if `x` is a construct.
+  
+  Use this method instead of `instanceof` to properly detect `Construct`
+  instances, even when the construct library is symlinked.
+  
+  Explanation: in JavaScript, multiple copies of the `constructs` library on
+  disk are seen as independent, completely different libraries. As a
+  consequence, the class `Construct` in each copy of the `constructs` library
+  is seen as a different class, and an instance of one class will not test as
+  `instanceof` the other class. `npm install` will not create installations
+  like this, but users may manually symlink construct libraries together or
+  use a monorepo tool: in those cases, multiple copies of the `constructs`
+  library can be accidentally installed, and `instanceof` will behave
+  unpredictably. It is safest to avoid using `instanceof`, and using
+  this type-testing method instead.
+  
+  ### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct.parameter.x"></a>
+  
+  - *Type:* java.lang.Object
+  
+  Any object.
+  
+  ---
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateArtifactory.property.node"></a>
+  
+  ```java
+  public Node getNode();
+  ```
+  
+  - *Type:* software.constructs.Node
+  
+  The tree node.
+  
+  ---
+  
+  ## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack"></a>
+  
+  ```java
+  public TerraformStack getCdktfStack();
+  ```
+  
+  - *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+  
+  ---
+  
+  ## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateArtifactory.property.fqn"></a>
+  
+  ```java
+  public java.lang.String getFqn();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId"></a>
+  
+  ```java
+  public java.lang.String getFriendlyUniqueId();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  # Constants <a name="Constants" id="Constants"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+  
+  ---
+  
+  ## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType"></a>
+  
+  ```java
+  public java.lang.String getTfResourceType();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  

@@ -1,121 +1,132 @@
- LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
-
-The local-exec provisioner invokes a local executable after a resource is created.
-
-This invokes a process on the machine running Terraform, not on the resource.
-
-See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
-
-# Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-new LocalExecProvisioner {
-    string Command,
-    string Type,
-    System.Collections.Generic.IDictionary<string, string> Environment = null,
-    string[] Interpreter = null,
-    string When = null,
-    string WorkingDir = null
-};
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.LocalExecProvisioner.property.command">Command</a></code> | <code>string</code> | This is the command to execute. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.type">Type</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#cdktf.LocalExecProvisioner.property.environment">Environment</a></code> | <code>System.Collections.Generic.IDictionary<string, string></code> | A record of key value pairs representing the environment of the executed command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">Interpreter</a></code> | <code>string[]</code> | If provided, this is a list of interpreter arguments used to execute the command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.when">When</a></code> | <code>string</code> | If provided, specifies when Terraform will execute the command. |
-| <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">WorkingDir</a></code> | <code>string</code> | If provided, specifies the working directory where command will be executed. |
-
+---
+page_title: API Reference for cdktf.LocalExecProvisioner
+description: >-
+  The CDKTF Core API Reference for cdktf.LocalExecProvisioner.
 ---
 
-## `Command`<sup>Required</sup> <a name="Command" id="cdktf.LocalExecProvisioner.property.command"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```csharp
-public string Command { get; set; }
-```
+# API Reference for cdktf.LocalExecProvisioner
 
-- *Type:* string
-
-This is the command to execute.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-It is evaluated in a shell, and can use environment variables or Terraform variables.
-
----
-
-## `Type`<sup>Required</sup> <a name="Type" id="cdktf.LocalExecProvisioner.property.type"></a>
-
-```csharp
-public string Type { get; set; }
-```
-
-- *Type:* string
-
----
-
-## `Environment`<sup>Optional</sup> <a name="Environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
-
-```csharp
-public System.Collections.Generic.IDictionary<string, string> Environment { get; set; }
-```
-
-- *Type:* System.Collections.Generic.IDictionary<string, string>
-
-A record of key value pairs representing the environment of the executed command.
-
-It inherits the current process environment.
-
----
-
-## `Interpreter`<sup>Optional</sup> <a name="Interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
-
-```csharp
-public string[] Interpreter { get; set; }
-```
-
-- *Type:* string[]
-
-If provided, this is a list of interpreter arguments used to execute the command.
-
-The first argument is the interpreter itself.
-It can be provided as a relative path to the current working directory or as an absolute path
-The remaining arguments are appended prior to the command.
-This allows building command lines of the form "/bin/bash", "-c", "echo foo".
-If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
-
----
-
-## `When`<sup>Optional</sup> <a name="When" id="cdktf.LocalExecProvisioner.property.when"></a>
-
-```csharp
-public string When { get; set; }
-```
-
-- *Type:* string
-
-If provided, specifies when Terraform will execute the command.
-
-For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
-
----
-
-## `WorkingDir`<sup>Optional</sup> <a name="WorkingDir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
-
-```csharp
-public string WorkingDir { get; set; }
-```
-
-- *Type:* string
-
-If provided, specifies the working directory where command will be executed.
-
-It can be provided as a relative path to the current working directory or as an absolute path.
-The directory must exist.
-
----
+   LocalExecProvisioner <a name="LocalExecProvisioner" id="cdktf.LocalExecProvisioner"></a>
+  
+  The local-exec provisioner invokes a local executable after a resource is created.
+  
+  This invokes a process on the machine running Terraform, not on the resource.
+  
+  See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+  
+  # Initializer <a name="Initializer" id="cdktf.LocalExecProvisioner.Initializer"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  new LocalExecProvisioner {
+      string Command,
+      string Type,
+      System.Collections.Generic.IDictionary< string, string > Environment = null,
+      string[] Interpreter = null,
+      string When = null,
+      string WorkingDir = null
+  };
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.command">Command</a></code> | <code>string</code> | This is the command to execute. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.type">Type</a></code> | <code>string</code> | *No description.* |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.environment">Environment</a></code> | <code>System.Collections.Generic.IDictionary< string, string ></code> | A record of key value pairs representing the environment of the executed command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.interpreter">Interpreter</a></code> | <code>string[]</code> | If provided, this is a list of interpreter arguments used to execute the command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.when">When</a></code> | <code>string</code> | If provided, specifies when Terraform will execute the command. |
+  | <code><a href="#cdktf.LocalExecProvisioner.property.workingDir">WorkingDir</a></code> | <code>string</code> | If provided, specifies the working directory where command will be executed. |
+  
+  ---
+  
+  ## `Command`<sup>Required</sup> <a name="Command" id="cdktf.LocalExecProvisioner.property.command"></a>
+  
+  ```csharp
+  public string Command { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  This is the command to execute.
+  
+  It can be provided as a relative path to the current working directory or as an absolute path.
+  It is evaluated in a shell, and can use environment variables or Terraform variables.
+  
+  ---
+  
+  ## `Type`<sup>Required</sup> <a name="Type" id="cdktf.LocalExecProvisioner.property.type"></a>
+  
+  ```csharp
+  public string Type { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `Environment`<sup>Optional</sup> <a name="Environment" id="cdktf.LocalExecProvisioner.property.environment"></a>
+  
+  ```csharp
+  public System.Collections.Generic.IDictionary< string, string > Environment { get; set; }
+  ```
+  
+  - *Type:* System.Collections.Generic.IDictionary< string, string >
+  
+  A record of key value pairs representing the environment of the executed command.
+  
+  It inherits the current process environment.
+  
+  ---
+  
+  ## `Interpreter`<sup>Optional</sup> <a name="Interpreter" id="cdktf.LocalExecProvisioner.property.interpreter"></a>
+  
+  ```csharp
+  public string[] Interpreter { get; set; }
+  ```
+  
+  - *Type:* string[]
+  
+  If provided, this is a list of interpreter arguments used to execute the command.
+  
+  The first argument is the interpreter itself.
+  It can be provided as a relative path to the current working directory or as an absolute path
+  The remaining arguments are appended prior to the command.
+  This allows building command lines of the form "/bin/bash", "-c", "echo foo".
+  If interpreter is unspecified, sensible defaults will be chosen based on the system OS.
+  
+  ---
+  
+  ## `When`<sup>Optional</sup> <a name="When" id="cdktf.LocalExecProvisioner.property.when"></a>
+  
+  ```csharp
+  public string When { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  If provided, specifies when Terraform will execute the command.
+  
+  For example, when = destroy specifies that the provisioner will run when the associated resource is destroyed
+  
+  ---
+  
+  ## `WorkingDir`<sup>Optional</sup> <a name="WorkingDir" id="cdktf.LocalExecProvisioner.property.workingDir"></a>
+  
+  ```csharp
+  public string WorkingDir { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  If provided, specifies the working directory where command will be executed.
+  
+  It can be provided as a relative path to the current working directory or as an absolute path.
+  The directory must exist.
+  
+  ---
+  

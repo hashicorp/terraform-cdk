@@ -1,153 +1,164 @@
- DataTerraformRemoteStateGcsConfig <a name="DataTerraformRemoteStateGcsConfig" id="cdktf.DataTerraformRemoteStateGcsConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateGcsConfig.Initializer"></a>
-
-```java
-import com.hashicorp.cdktf.DataTerraformRemoteStateGcsConfig;
-
-DataTerraformRemoteStateGcsConfig.builder()
-//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
-//  .workspace(java.lang.String)
-    .bucket(java.lang.String)
-//  .accessToken(java.lang.String)
-//  .credentials(java.lang.String)
-//  .encryptionKey(java.lang.String)
-//  .impersonateServiceAccount(java.lang.String)
-//  .impersonateServiceAccountDelegates(java.util.List<java.lang.String>)
-//  .prefix(java.lang.String)
-    .build();
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.bucket">bucket</a></code> | <code>java.lang.String</code> | (Required) The name of the GCS bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.credentials">credentials</a></code> | <code>java.lang.String</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey">encryptionKey</a></code> | <code>java.lang.String</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount">impersonateServiceAccount</a></code> | <code>java.lang.String</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates">impersonateServiceAccountDelegates</a></code> | <code>java.util.List<java.lang.String></code> | (Optional) The delegation chain for an impersonating a service account. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) GCS prefix inside the bucket. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateGcsConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateGcsConfig.
 ---
 
-## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateGcsConfig.property.defaults"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```java
-public java.util.Map<java.lang.String, java.lang.Object> getDefaults();
-```
+# API Reference for cdktf.DataTerraformRemoteStateGcsConfig
 
-- *Type:* java.util.Map<java.lang.String, java.lang.Object>
-
----
-
-## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateGcsConfig.property.workspace"></a>
-
-```java
-public java.lang.String getWorkspace();
-```
-
-- *Type:* java.lang.String
-
----
-
-## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateGcsConfig.property.bucket"></a>
-
-```java
-public java.lang.String getBucket();
-```
-
-- *Type:* java.lang.String
-
-(Required) The name of the GCS bucket.
-
-This name must be globally unique.
-
----
-
-## `accessToken`<sup>Optional</sup> <a name="accessToken" id="cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken"></a>
-
-```java
-public java.lang.String getAccessToken();
-```
-
-- *Type:* java.lang.String
-
-(Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
-
----
-
-## `credentials`<sup>Optional</sup> <a name="credentials" id="cdktf.DataTerraformRemoteStateGcsConfig.property.credentials"></a>
-
-```java
-public java.lang.String getCredentials();
-```
-
-- *Type:* java.lang.String
-
-(Optional) Local path to Google Cloud Platform account credentials in JSON format.
-
-If unset, Google Application Default Credentials are used.
-The provided credentials must have Storage Object Admin role on the bucket.
-
-Warning: if using the Google Cloud Platform provider as well,
-it will also pick up the GOOGLE_CREDENTIALS environment variable.
-
----
-
-## `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey"></a>
-
-```java
-public java.lang.String getEncryptionKey();
-```
-
-- *Type:* java.lang.String
-
-(Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
-
----
-
-## `impersonateServiceAccount`<sup>Optional</sup> <a name="impersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount"></a>
-
-```java
-public java.lang.String getImpersonateServiceAccount();
-```
-
-- *Type:* java.lang.String
-
-(Optional) The service account to impersonate for accessing the State Bucket.
-
-You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
-If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
-Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
-
----
-
-## `impersonateServiceAccountDelegates`<sup>Optional</sup> <a name="impersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates"></a>
-
-```java
-public java.util.List<java.lang.String> getImpersonateServiceAccountDelegates();
-```
-
-- *Type:* java.util.List<java.lang.String>
-
-(Optional) The delegation chain for an impersonating a service account.
-
----
-
-## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateGcsConfig.property.prefix"></a>
-
-```java
-public java.lang.String getPrefix();
-```
-
-- *Type:* java.lang.String
-
-(Optional) GCS prefix inside the bucket.
-
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
-
----
+   DataTerraformRemoteStateGcsConfig <a name="DataTerraformRemoteStateGcsConfig" id="cdktf.DataTerraformRemoteStateGcsConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateGcsConfig.Initializer"></a>
+  
+  ```java
+  import com.hashicorp.cdktf.DataTerraformRemoteStateGcsConfig;
+  
+  DataTerraformRemoteStateGcsConfig.builder()
+  //  .defaults(java.util.Map< java.lang.String, java.lang.Object >)
+  //  .workspace(java.lang.String)
+      .bucket(java.lang.String)
+  //  .accessToken(java.lang.String)
+  //  .credentials(java.lang.String)
+  //  .encryptionKey(java.lang.String)
+  //  .impersonateServiceAccount(java.lang.String)
+  //  .impersonateServiceAccountDelegates(java.util.List< java.lang.String >)
+  //  .prefix(java.lang.String)
+      .build();
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.defaults">defaults</a></code> | <code>java.util.Map< java.lang.String, java.lang.Object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.bucket">bucket</a></code> | <code>java.lang.String</code> | (Required) The name of the GCS bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.credentials">credentials</a></code> | <code>java.lang.String</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey">encryptionKey</a></code> | <code>java.lang.String</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount">impersonateServiceAccount</a></code> | <code>java.lang.String</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates">impersonateServiceAccountDelegates</a></code> | <code>java.util.List< java.lang.String ></code> | (Optional) The delegation chain for an impersonating a service account. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) GCS prefix inside the bucket. |
+  
+  ---
+  
+  ## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateGcsConfig.property.defaults"></a>
+  
+  ```java
+  public java.util.Map< java.lang.String, java.lang.Object > getDefaults();
+  ```
+  
+  - *Type:* java.util.Map< java.lang.String, java.lang.Object >
+  
+  ---
+  
+  ## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateGcsConfig.property.workspace"></a>
+  
+  ```java
+  public java.lang.String getWorkspace();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  ---
+  
+  ## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateGcsConfig.property.bucket"></a>
+  
+  ```java
+  public java.lang.String getBucket();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Required) The name of the GCS bucket.
+  
+  This name must be globally unique.
+  
+  ---
+  
+  ## `accessToken`<sup>Optional</sup> <a name="accessToken" id="cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken"></a>
+  
+  ```java
+  public java.lang.String getAccessToken();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
+  
+  ---
+  
+  ## `credentials`<sup>Optional</sup> <a name="credentials" id="cdktf.DataTerraformRemoteStateGcsConfig.property.credentials"></a>
+  
+  ```java
+  public java.lang.String getCredentials();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) Local path to Google Cloud Platform account credentials in JSON format.
+  
+  If unset, Google Application Default Credentials are used.
+  The provided credentials must have Storage Object Admin role on the bucket.
+  
+  Warning: if using the Google Cloud Platform provider as well,
+  it will also pick up the GOOGLE_CREDENTIALS environment variable.
+  
+  ---
+  
+  ## `encryptionKey`<sup>Optional</sup> <a name="encryptionKey" id="cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey"></a>
+  
+  ```java
+  public java.lang.String getEncryptionKey();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
+  
+  ---
+  
+  ## `impersonateServiceAccount`<sup>Optional</sup> <a name="impersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount"></a>
+  
+  ```java
+  public java.lang.String getImpersonateServiceAccount();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) The service account to impersonate for accessing the State Bucket.
+  
+  You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
+  If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
+  Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
+  
+  ---
+  
+  ## `impersonateServiceAccountDelegates`<sup>Optional</sup> <a name="impersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates"></a>
+  
+  ```java
+  public java.util.List< java.lang.String > getImpersonateServiceAccountDelegates();
+  ```
+  
+  - *Type:* java.util.List< java.lang.String >
+  
+  (Optional) The delegation chain for an impersonating a service account.
+  
+  ---
+  
+  ## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateGcsConfig.property.prefix"></a>
+  
+  ```java
+  public java.lang.String getPrefix();
+  ```
+  
+  - *Type:* java.lang.String
+  
+  (Optional) GCS prefix inside the bucket.
+  
+  Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
+  
+  ---
+  

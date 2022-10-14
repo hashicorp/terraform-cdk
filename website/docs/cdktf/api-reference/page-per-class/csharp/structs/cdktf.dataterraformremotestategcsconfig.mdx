@@ -1,153 +1,164 @@
- DataTerraformRemoteStateGcsConfig <a name="DataTerraformRemoteStateGcsConfig" id="cdktf.DataTerraformRemoteStateGcsConfig"></a>
-
-# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateGcsConfig.Initializer"></a>
-
-```csharp
-using HashiCorp.Cdktf;
-
-new DataTerraformRemoteStateGcsConfig {
-    System.Collections.Generic.IDictionary<string, object> Defaults = null,
-    string Workspace = null,
-    string Bucket,
-    string AccessToken = null,
-    string Credentials = null,
-    string EncryptionKey = null,
-    string ImpersonateServiceAccount = null,
-    string[] ImpersonateServiceAccountDelegates = null,
-    string Prefix = null
-};
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.defaults">Defaults</a></code> | <code>System.Collections.Generic.IDictionary<string, object></code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.workspace">Workspace</a></code> | <code>string</code> | *No description.* |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.bucket">Bucket</a></code> | <code>string</code> | (Required) The name of the GCS bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken">AccessToken</a></code> | <code>string</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.credentials">Credentials</a></code> | <code>string</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey">EncryptionKey</a></code> | <code>string</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount">ImpersonateServiceAccount</a></code> | <code>string</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates">ImpersonateServiceAccountDelegates</a></code> | <code>string[]</code> | (Optional) The delegation chain for an impersonating a service account. |
-| <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.prefix">Prefix</a></code> | <code>string</code> | (Optional) GCS prefix inside the bucket. |
-
+---
+page_title: API Reference for cdktf.DataTerraformRemoteStateGcsConfig
+description: >-
+  The CDKTF Core API Reference for cdktf.DataTerraformRemoteStateGcsConfig.
 ---
 
-## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateGcsConfig.property.defaults"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```csharp
-public System.Collections.Generic.IDictionary<string, object> Defaults { get; set; }
-```
+# API Reference for cdktf.DataTerraformRemoteStateGcsConfig
 
-- *Type:* System.Collections.Generic.IDictionary<string, object>
-
----
-
-## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateGcsConfig.property.workspace"></a>
-
-```csharp
-public string Workspace { get; set; }
-```
-
-- *Type:* string
-
----
-
-## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.DataTerraformRemoteStateGcsConfig.property.bucket"></a>
-
-```csharp
-public string Bucket { get; set; }
-```
-
-- *Type:* string
-
-(Required) The name of the GCS bucket.
-
-This name must be globally unique.
-
----
-
-## `AccessToken`<sup>Optional</sup> <a name="AccessToken" id="cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken"></a>
-
-```csharp
-public string AccessToken { get; set; }
-```
-
-- *Type:* string
-
-(Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
-
----
-
-## `Credentials`<sup>Optional</sup> <a name="Credentials" id="cdktf.DataTerraformRemoteStateGcsConfig.property.credentials"></a>
-
-```csharp
-public string Credentials { get; set; }
-```
-
-- *Type:* string
-
-(Optional) Local path to Google Cloud Platform account credentials in JSON format.
-
-If unset, Google Application Default Credentials are used.
-The provided credentials must have Storage Object Admin role on the bucket.
-
-Warning: if using the Google Cloud Platform provider as well,
-it will also pick up the GOOGLE_CREDENTIALS environment variable.
-
----
-
-## `EncryptionKey`<sup>Optional</sup> <a name="EncryptionKey" id="cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey"></a>
-
-```csharp
-public string EncryptionKey { get; set; }
-```
-
-- *Type:* string
-
-(Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
-
----
-
-## `ImpersonateServiceAccount`<sup>Optional</sup> <a name="ImpersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount"></a>
-
-```csharp
-public string ImpersonateServiceAccount { get; set; }
-```
-
-- *Type:* string
-
-(Optional) The service account to impersonate for accessing the State Bucket.
-
-You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
-If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
-Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
-
----
-
-## `ImpersonateServiceAccountDelegates`<sup>Optional</sup> <a name="ImpersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates"></a>
-
-```csharp
-public string[] ImpersonateServiceAccountDelegates { get; set; }
-```
-
-- *Type:* string[]
-
-(Optional) The delegation chain for an impersonating a service account.
-
----
-
-## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateGcsConfig.property.prefix"></a>
-
-```csharp
-public string Prefix { get; set; }
-```
-
-- *Type:* string
-
-(Optional) GCS prefix inside the bucket.
-
-Named states for workspaces are stored in an object called <prefix>/<name>.tfstate.
-
----
+   DataTerraformRemoteStateGcsConfig <a name="DataTerraformRemoteStateGcsConfig" id="cdktf.DataTerraformRemoteStateGcsConfig"></a>
+  
+  # Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateGcsConfig.Initializer"></a>
+  
+  ```csharp
+  using HashiCorp.Cdktf;
+  
+  new DataTerraformRemoteStateGcsConfig {
+      System.Collections.Generic.IDictionary< string, object > Defaults = null,
+      string Workspace = null,
+      string Bucket,
+      string AccessToken = null,
+      string Credentials = null,
+      string EncryptionKey = null,
+      string ImpersonateServiceAccount = null,
+      string[] ImpersonateServiceAccountDelegates = null,
+      string Prefix = null
+  };
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.defaults">Defaults</a></code> | <code>System.Collections.Generic.IDictionary< string, object ></code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.workspace">Workspace</a></code> | <code>string</code> | *No description.* |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.bucket">Bucket</a></code> | <code>string</code> | (Required) The name of the GCS bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken">AccessToken</a></code> | <code>string</code> | (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.credentials">Credentials</a></code> | <code>string</code> | (Optional) Local path to Google Cloud Platform account credentials in JSON format. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey">EncryptionKey</a></code> | <code>string</code> | (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount">ImpersonateServiceAccount</a></code> | <code>string</code> | (Optional) The service account to impersonate for accessing the State Bucket. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates">ImpersonateServiceAccountDelegates</a></code> | <code>string[]</code> | (Optional) The delegation chain for an impersonating a service account. |
+  | <code><a href="#cdktf.DataTerraformRemoteStateGcsConfig.property.prefix">Prefix</a></code> | <code>string</code> | (Optional) GCS prefix inside the bucket. |
+  
+  ---
+  
+  ## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateGcsConfig.property.defaults"></a>
+  
+  ```csharp
+  public System.Collections.Generic.IDictionary< string, object > Defaults { get; set; }
+  ```
+  
+  - *Type:* System.Collections.Generic.IDictionary< string, object >
+  
+  ---
+  
+  ## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateGcsConfig.property.workspace"></a>
+  
+  ```csharp
+  public string Workspace { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  ---
+  
+  ## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.DataTerraformRemoteStateGcsConfig.property.bucket"></a>
+  
+  ```csharp
+  public string Bucket { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Required) The name of the GCS bucket.
+  
+  This name must be globally unique.
+  
+  ---
+  
+  ## `AccessToken`<sup>Optional</sup> <a name="AccessToken" id="cdktf.DataTerraformRemoteStateGcsConfig.property.accessToken"></a>
+  
+  ```csharp
+  public string AccessToken { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Optional) A temporary [OAuth 2.0 access token] obtained from the Google Authorization server, i.e. the Authorization: Bearer token used to authenticate HTTP requests to GCP APIs. This is an alternative to credentials. If both are specified, access_token will be used over the credentials field.
+  
+  ---
+  
+  ## `Credentials`<sup>Optional</sup> <a name="Credentials" id="cdktf.DataTerraformRemoteStateGcsConfig.property.credentials"></a>
+  
+  ```csharp
+  public string Credentials { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Optional) Local path to Google Cloud Platform account credentials in JSON format.
+  
+  If unset, Google Application Default Credentials are used.
+  The provided credentials must have Storage Object Admin role on the bucket.
+  
+  Warning: if using the Google Cloud Platform provider as well,
+  it will also pick up the GOOGLE_CREDENTIALS environment variable.
+  
+  ---
+  
+  ## `EncryptionKey`<sup>Optional</sup> <a name="EncryptionKey" id="cdktf.DataTerraformRemoteStateGcsConfig.property.encryptionKey"></a>
+  
+  ```csharp
+  public string EncryptionKey { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Optional) A 32 byte base64 encoded 'customer supplied encryption key' used to encrypt all state.
+  
+  ---
+  
+  ## `ImpersonateServiceAccount`<sup>Optional</sup> <a name="ImpersonateServiceAccount" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccount"></a>
+  
+  ```csharp
+  public string ImpersonateServiceAccount { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Optional) The service account to impersonate for accessing the State Bucket.
+  
+  You must have roles/iam.serviceAccountTokenCreator role on that account for the impersonation to succeed.
+  If you are using a delegation chain, you can specify that using the impersonate_service_account_delegates field.
+  Alternatively, this can be specified using the GOOGLE_IMPERSONATE_SERVICE_ACCOUNT environment variable.
+  
+  ---
+  
+  ## `ImpersonateServiceAccountDelegates`<sup>Optional</sup> <a name="ImpersonateServiceAccountDelegates" id="cdktf.DataTerraformRemoteStateGcsConfig.property.impersonateServiceAccountDelegates"></a>
+  
+  ```csharp
+  public string[] ImpersonateServiceAccountDelegates { get; set; }
+  ```
+  
+  - *Type:* string[]
+  
+  (Optional) The delegation chain for an impersonating a service account.
+  
+  ---
+  
+  ## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateGcsConfig.property.prefix"></a>
+  
+  ```csharp
+  public string Prefix { get; set; }
+  ```
+  
+  - *Type:* string
+  
+  (Optional) GCS prefix inside the bucket.
+  
+  Named states for workspaces are stored in an object called < prefix >/< name >.tfstate.
+  
+  ---
+  

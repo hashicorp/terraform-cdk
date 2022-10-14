@@ -1,154 +1,165 @@
- CosBackendProps <a name="CosBackendProps" id="cdktf.CosBackendProps"></a>
-
-Stores the state as an object in a configurable prefix in a given bucket on Tencent Cloud Object Storage (COS).
-
-This backend supports state locking.
-
-Warning! It is highly recommended that you enable Object Versioning on the COS bucket to allow for state recovery in the case of accidental deletions and human error.
-
-Read more about this backend in the Terraform docs:
-https://www.terraform.io/language/settings/backends/cos
-
-# Initializer <a name="Initializer" id="cdktf.CosBackendProps.Initializer"></a>
-
-```go
-import "github.com/hashicorp/terraform-cdk-go/cdktf"
-
-&cdktf.CosBackendProps {
-	Bucket: *string,
-	Acl: *string,
-	Encrypt: *bool,
-	Key: *string,
-	Prefix: *string,
-	Region: *string,
-	SecretId: *string,
-	SecretKey: *string,
-}
-```
-
-# Properties <a name="Properties" id="Properties"></a>
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.CosBackendProps.property.bucket">Bucket</a></code> | <code>*string</code> | (Required) The name of the COS bucket. |
-| <code><a href="#cdktf.CosBackendProps.property.acl">Acl</a></code> | <code>*string</code> | (Optional) Object ACL to be applied to the state file, allows private and public-read. |
-| <code><a href="#cdktf.CosBackendProps.property.encrypt">Encrypt</a></code> | <code>*bool</code> | (Optional) Whether to enable server side encryption of the state file. |
-| <code><a href="#cdktf.CosBackendProps.property.key">Key</a></code> | <code>*string</code> | (Optional) The path for saving the state file in bucket. |
-| <code><a href="#cdktf.CosBackendProps.property.prefix">Prefix</a></code> | <code>*string</code> | (Optional) The directory for saving the state file in bucket. |
-| <code><a href="#cdktf.CosBackendProps.property.region">Region</a></code> | <code>*string</code> | (Optional) The region of the COS bucket. |
-| <code><a href="#cdktf.CosBackendProps.property.secretId">SecretId</a></code> | <code>*string</code> | (Optional) Secret id of Tencent Cloud. |
-| <code><a href="#cdktf.CosBackendProps.property.secretKey">SecretKey</a></code> | <code>*string</code> | (Optional) Secret key of Tencent Cloud. |
-
+---
+page_title: API Reference for cdktf.CosBackendProps
+description: >-
+  The CDKTF Core API Reference for cdktf.CosBackendProps.
 ---
 
-## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.CosBackendProps.property.bucket"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```go
-Bucket *string
-```
+# API Reference for cdktf.CosBackendProps
 
-- *Type:* *string
-
-(Required) The name of the COS bucket.
-
-You shall manually create it first.
-
----
-
-## `Acl`<sup>Optional</sup> <a name="Acl" id="cdktf.CosBackendProps.property.acl"></a>
-
-```go
-Acl *string
-```
-
-- *Type:* *string
-
-(Optional) Object ACL to be applied to the state file, allows private and public-read.
-
-Defaults to private.
-
----
-
-## `Encrypt`<sup>Optional</sup> <a name="Encrypt" id="cdktf.CosBackendProps.property.encrypt"></a>
-
-```go
-Encrypt *bool
-```
-
-- *Type:* *bool
-
-(Optional) Whether to enable server side encryption of the state file.
-
-If it is true, COS will use 'AES256' encryption algorithm to encrypt state file.
-
----
-
-## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.CosBackendProps.property.key"></a>
-
-```go
-Key *string
-```
-
-- *Type:* *string
-
-(Optional) The path for saving the state file in bucket.
-
-Defaults to terraform.tfstate.
-
----
-
-## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.CosBackendProps.property.prefix"></a>
-
-```go
-Prefix *string
-```
-
-- *Type:* *string
-
-(Optional) The directory for saving the state file in bucket.
-
-Default to "env:".
-
----
-
-## `Region`<sup>Optional</sup> <a name="Region" id="cdktf.CosBackendProps.property.region"></a>
-
-```go
-Region *string
-```
-
-- *Type:* *string
-
-(Optional) The region of the COS bucket.
-
-It supports environment variables TENCENTCLOUD_REGION.
-
----
-
-## `SecretId`<sup>Optional</sup> <a name="SecretId" id="cdktf.CosBackendProps.property.secretId"></a>
-
-```go
-SecretId *string
-```
-
-- *Type:* *string
-
-(Optional) Secret id of Tencent Cloud.
-
-It supports environment variables TENCENTCLOUD_SECRET_ID.
-
----
-
-## `SecretKey`<sup>Optional</sup> <a name="SecretKey" id="cdktf.CosBackendProps.property.secretKey"></a>
-
-```go
-SecretKey *string
-```
-
-- *Type:* *string
-
-(Optional) Secret key of Tencent Cloud.
-
-It supports environment variables TENCENTCLOUD_SECRET_KEY.
-
----
+   CosBackendProps <a name="CosBackendProps" id="cdktf.CosBackendProps"></a>
+  
+  Stores the state as an object in a configurable prefix in a given bucket on Tencent Cloud Object Storage (COS).
+  
+  This backend supports state locking.
+  
+  Warning! It is highly recommended that you enable Object Versioning on the COS bucket to allow for state recovery in the case of accidental deletions and human error.
+  
+  Read more about this backend in the Terraform docs:
+  https://www.terraform.io/language/settings/backends/cos
+  
+  # Initializer <a name="Initializer" id="cdktf.CosBackendProps.Initializer"></a>
+  
+  ```go
+  import "github.com/hashicorp/terraform-cdk-go/cdktf"
+  
+  &cdktf.CosBackendProps {
+  	Bucket: *string,
+  	Acl: *string,
+  	Encrypt: *bool,
+  	Key: *string,
+  	Prefix: *string,
+  	Region: *string,
+  	SecretId: *string,
+  	SecretKey: *string,
+  }
+  ```
+  
+  # Properties <a name="Properties" id="Properties"></a>
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.CosBackendProps.property.bucket">Bucket</a></code> | <code>*string</code> | (Required) The name of the COS bucket. |
+  | <code><a href="#cdktf.CosBackendProps.property.acl">Acl</a></code> | <code>*string</code> | (Optional) Object ACL to be applied to the state file, allows private and public-read. |
+  | <code><a href="#cdktf.CosBackendProps.property.encrypt">Encrypt</a></code> | <code>*bool</code> | (Optional) Whether to enable server side encryption of the state file. |
+  | <code><a href="#cdktf.CosBackendProps.property.key">Key</a></code> | <code>*string</code> | (Optional) The path for saving the state file in bucket. |
+  | <code><a href="#cdktf.CosBackendProps.property.prefix">Prefix</a></code> | <code>*string</code> | (Optional) The directory for saving the state file in bucket. |
+  | <code><a href="#cdktf.CosBackendProps.property.region">Region</a></code> | <code>*string</code> | (Optional) The region of the COS bucket. |
+  | <code><a href="#cdktf.CosBackendProps.property.secretId">SecretId</a></code> | <code>*string</code> | (Optional) Secret id of Tencent Cloud. |
+  | <code><a href="#cdktf.CosBackendProps.property.secretKey">SecretKey</a></code> | <code>*string</code> | (Optional) Secret key of Tencent Cloud. |
+  
+  ---
+  
+  ## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.CosBackendProps.property.bucket"></a>
+  
+  ```go
+  Bucket *string
+  ```
+  
+  - *Type:* *string
+  
+  (Required) The name of the COS bucket.
+  
+  You shall manually create it first.
+  
+  ---
+  
+  ## `Acl`<sup>Optional</sup> <a name="Acl" id="cdktf.CosBackendProps.property.acl"></a>
+  
+  ```go
+  Acl *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) Object ACL to be applied to the state file, allows private and public-read.
+  
+  Defaults to private.
+  
+  ---
+  
+  ## `Encrypt`<sup>Optional</sup> <a name="Encrypt" id="cdktf.CosBackendProps.property.encrypt"></a>
+  
+  ```go
+  Encrypt *bool
+  ```
+  
+  - *Type:* *bool
+  
+  (Optional) Whether to enable server side encryption of the state file.
+  
+  If it is true, COS will use 'AES256' encryption algorithm to encrypt state file.
+  
+  ---
+  
+  ## `Key`<sup>Optional</sup> <a name="Key" id="cdktf.CosBackendProps.property.key"></a>
+  
+  ```go
+  Key *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) The path for saving the state file in bucket.
+  
+  Defaults to terraform.tfstate.
+  
+  ---
+  
+  ## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.CosBackendProps.property.prefix"></a>
+  
+  ```go
+  Prefix *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) The directory for saving the state file in bucket.
+  
+  Default to "env:".
+  
+  ---
+  
+  ## `Region`<sup>Optional</sup> <a name="Region" id="cdktf.CosBackendProps.property.region"></a>
+  
+  ```go
+  Region *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) The region of the COS bucket.
+  
+  It supports environment variables TENCENTCLOUD_REGION.
+  
+  ---
+  
+  ## `SecretId`<sup>Optional</sup> <a name="SecretId" id="cdktf.CosBackendProps.property.secretId"></a>
+  
+  ```go
+  SecretId *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) Secret id of Tencent Cloud.
+  
+  It supports environment variables TENCENTCLOUD_SECRET_ID.
+  
+  ---
+  
+  ## `SecretKey`<sup>Optional</sup> <a name="SecretKey" id="cdktf.CosBackendProps.property.secretKey"></a>
+  
+  ```go
+  SecretKey *string
+  ```
+  
+  - *Type:* *string
+  
+  (Optional) Secret key of Tencent Cloud.
+  
+  It supports environment variables TENCENTCLOUD_SECRET_KEY.
+  
+  ---
+  

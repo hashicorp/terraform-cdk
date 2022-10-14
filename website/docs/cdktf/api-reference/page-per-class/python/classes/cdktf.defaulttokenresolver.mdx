@@ -1,167 +1,178 @@
- DefaultTokenResolver <a name="DefaultTokenResolver" id="cdktf.DefaultTokenResolver"></a>
-
-- *Implements:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
-
-Default resolver implementation.
-
-# Initializers <a name="Initializers" id="cdktf.DefaultTokenResolver.Initializer"></a>
-
-```python
-import cdktf
-
-cdktf.DefaultTokenResolver(
-  concat: IFragmentConcatenator
-)
-```
-
-| **Name** | **Type** | **Description** |
-| --- | --- | --- |
-| <code><a href="#cdktf.DefaultTokenResolver.Initializer.parameter.concat">concat</a></code> | <code><a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a></code> | *No description.* |
-
+---
+page_title: API Reference for cdktf.DefaultTokenResolver
+description: >-
+  The CDKTF Core API Reference for cdktf.DefaultTokenResolver.
 ---
 
-## `concat`<sup>Required</sup> <a name="concat" id="cdktf.DefaultTokenResolver.Initializer.parameter.concat"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-- *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+# API Reference for cdktf.DefaultTokenResolver
 
----
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolve_list</a></code> | Resolves a list of string. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolve_map</a></code> | Resolves a map token. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolves a list of numbers. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveString">resolve_string</a></code> | Resolve string fragments to Tokens. |
-| <code><a href="#cdktf.DefaultTokenResolver.resolveToken">resolve_token</a></code> | Default Token resolution. |
-
----
-
-## `resolve_list` <a name="resolve_list" id="cdktf.DefaultTokenResolver.resolveList"></a>
-
-```python
-def resolve_list(
-  xs: typing.List[str],
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolves a list of string.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
-
-- *Type:* typing.List[str]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_map` <a name="resolve_map" id="cdktf.DefaultTokenResolver.resolveMap"></a>
-
-```python
-def resolve_map(
-  xs: typing.Mapping[typing.Any],
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolves a map token.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
-
-- *Type:* typing.Mapping[typing.Any]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveMap.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_number_list` <a name="resolve_number_list" id="cdktf.DefaultTokenResolver.resolveNumberList"></a>
-
-```python
-def resolve_number_list(
-  xs: typing.List[typing.Union[int, float]],
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolves a list of numbers.
-
-### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
-
-- *Type:* typing.List[typing.Union[int, float]]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_string` <a name="resolve_string" id="cdktf.DefaultTokenResolver.resolveString"></a>
-
-```python
-def resolve_string(
-  fragments: TokenizedStringFragments,
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolve string fragments to Tokens.
-
-### `fragments`<sup>Required</sup> <a name="fragments" id="cdktf.DefaultTokenResolver.resolveString.parameter.fragments"></a>
-
-- *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveString.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_token` <a name="resolve_token" id="cdktf.DefaultTokenResolver.resolveToken"></a>
-
-```python
-def resolve_token(
-  t: IResolvable,
-  context: IResolveContext,
-  post_processor: IPostProcessor
-) -> typing.Any
-```
-
-Default Token resolution.
-
-Resolve the Token, recurse into whatever it returns,
-then finally post-process it.
-
-### `t`<sup>Required</sup> <a name="t" id="cdktf.DefaultTokenResolver.resolveToken.parameter.t"></a>
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveToken.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.DefaultTokenResolver.resolveToken.parameter.postProcessor"></a>
-
-- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
-
-
+   DefaultTokenResolver <a name="DefaultTokenResolver" id="cdktf.DefaultTokenResolver"></a>
+  
+  - *Implements:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+  
+  Default resolver implementation.
+  
+  # Initializers <a name="Initializers" id="cdktf.DefaultTokenResolver.Initializer"></a>
+  
+  ```python
+  import cdktf
+  
+  cdktf.DefaultTokenResolver(
+    concat: IFragmentConcatenator
+  )
+  ```
+  
+  | **Name** | **Type** | **Description** |
+  | --- | --- | --- |
+  | <code><a href="#cdktf.DefaultTokenResolver.Initializer.parameter.concat">concat</a></code> | <code><a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a></code> | *No description.* |
+  
+  ---
+  
+  ## `concat`<sup>Required</sup> <a name="concat" id="cdktf.DefaultTokenResolver.Initializer.parameter.concat"></a>
+  
+  - *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+  
+  ---
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveList">resolve_list</a></code> | Resolves a list of string. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveMap">resolve_map</a></code> | Resolves a map token. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolves a list of numbers. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveString">resolve_string</a></code> | Resolve string fragments to Tokens. |
+  | <code><a href="#cdktf.DefaultTokenResolver.resolveToken">resolve_token</a></code> | Default Token resolution. |
+  
+  ---
+  
+  ## `resolve_list` <a name="resolve_list" id="cdktf.DefaultTokenResolver.resolveList"></a>
+  
+  ```python
+  def resolve_list(
+    xs: typing.List[str],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolves a list of string.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveList.parameter.xs"></a>
+  
+  - *Type:* typing.List[str]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_map` <a name="resolve_map" id="cdktf.DefaultTokenResolver.resolveMap"></a>
+  
+  ```python
+  def resolve_map(
+    xs: typing.Mapping[typing.Any],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolves a map token.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveMap.parameter.xs"></a>
+  
+  - *Type:* typing.Mapping[typing.Any]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveMap.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_number_list` <a name="resolve_number_list" id="cdktf.DefaultTokenResolver.resolveNumberList"></a>
+  
+  ```python
+  def resolve_number_list(
+    xs: typing.List[typing.Union[int, float]],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolves a list of numbers.
+  
+  ### `xs`<sup>Required</sup> <a name="xs" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.xs"></a>
+  
+  - *Type:* typing.List[typing.Union[int, float]]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveNumberList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_string` <a name="resolve_string" id="cdktf.DefaultTokenResolver.resolveString"></a>
+  
+  ```python
+  def resolve_string(
+    fragments: TokenizedStringFragments,
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolve string fragments to Tokens.
+  
+  ### `fragments`<sup>Required</sup> <a name="fragments" id="cdktf.DefaultTokenResolver.resolveString.parameter.fragments"></a>
+  
+  - *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveString.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_token` <a name="resolve_token" id="cdktf.DefaultTokenResolver.resolveToken"></a>
+  
+  ```python
+  def resolve_token(
+    t: IResolvable,
+    context: IResolveContext,
+    post_processor: IPostProcessor
+ ) - > typing.Any
+  ```
+  
+  Default Token resolution.
+  
+  Resolve the Token, recurse into whatever it returns,
+  then finally post-process it.
+  
+  ### `t`<sup>Required</sup> <a name="t" id="cdktf.DefaultTokenResolver.resolveToken.parameter.t"></a>
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.DefaultTokenResolver.resolveToken.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.DefaultTokenResolver.resolveToken.parameter.postProcessor"></a>
+  
+  - *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+  
+  ---
+  
+  
+  
+  

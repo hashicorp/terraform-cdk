@@ -1,142 +1,153 @@
- ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
-
-- *Implemented By:* <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
-
-How to resolve tokens.
-
-# Methods <a name="Methods" id="Methods"></a>
-
-| **Name** | **Description** |
-| --- | --- |
-| <code><a href="#cdktf.ITokenResolver.resolveList">resolve_list</a></code> | Resolve a tokenized list. |
-| <code><a href="#cdktf.ITokenResolver.resolveMap">resolve_map</a></code> | Resolve a tokenized map. |
-| <code><a href="#cdktf.ITokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolve a tokenized number list. |
-| <code><a href="#cdktf.ITokenResolver.resolveString">resolve_string</a></code> | Resolve a string with at least one stringified token in it. |
-| <code><a href="#cdktf.ITokenResolver.resolveToken">resolve_token</a></code> | Resolve a single token. |
-
+---
+page_title: API Reference for cdktf.ITokenResolver
+description: >-
+  The CDKTF Core API Reference for cdktf.ITokenResolver.
 ---
 
-## `resolve_list` <a name="resolve_list" id="cdktf.ITokenResolver.resolveList"></a>
+<!-- This file is generated through yarn generate-docs -->
 
-```python
-def resolve_list(
-  l: typing.List[str],
-  context: IResolveContext
-) -> typing.Any
-```
+# API Reference for cdktf.ITokenResolver
 
-Resolve a tokenized list.
-
-### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
-
-- *Type:* typing.List[str]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_map` <a name="resolve_map" id="cdktf.ITokenResolver.resolveMap"></a>
-
-```python
-def resolve_map(
-  m: typing.Mapping[typing.Any],
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolve a tokenized map.
-
-### `m`<sup>Required</sup> <a name="m" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
-
-- *Type:* typing.Mapping[typing.Any]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_number_list` <a name="resolve_number_list" id="cdktf.ITokenResolver.resolveNumberList"></a>
-
-```python
-def resolve_number_list(
-  l: typing.List[typing.Union[int, float]],
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolve a tokenized number list.
-
-### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
-
-- *Type:* typing.List[typing.Union[int, float]]
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_string` <a name="resolve_string" id="cdktf.ITokenResolver.resolveString"></a>
-
-```python
-def resolve_string(
-  s: TokenizedStringFragments,
-  context: IResolveContext
-) -> typing.Any
-```
-
-Resolve a string with at least one stringified token in it.
-
-(May use concatenation)
-
-### `s`<sup>Required</sup> <a name="s" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
-
-- *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-## `resolve_token` <a name="resolve_token" id="cdktf.ITokenResolver.resolveToken"></a>
-
-```python
-def resolve_token(
-  t: IResolvable,
-  context: IResolveContext,
-  post_processor: IPostProcessor
-) -> typing.Any
-```
-
-Resolve a single token.
-
-### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
-
-- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
-
----
-
-### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
-
-- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
-
----
-
-### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
-
-- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
-
----
-
+   ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
+  
+  - *Implemented By:* <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+  
+  How to resolve tokens.
+  
+  # Methods <a name="Methods" id="Methods"></a>
+  
+  | **Name** | **Description** |
+  | --- | --- |
+  | <code><a href="#cdktf.ITokenResolver.resolveList">resolve_list</a></code> | Resolve a tokenized list. |
+  | <code><a href="#cdktf.ITokenResolver.resolveMap">resolve_map</a></code> | Resolve a tokenized map. |
+  | <code><a href="#cdktf.ITokenResolver.resolveNumberList">resolve_number_list</a></code> | Resolve a tokenized number list. |
+  | <code><a href="#cdktf.ITokenResolver.resolveString">resolve_string</a></code> | Resolve a string with at least one stringified token in it. |
+  | <code><a href="#cdktf.ITokenResolver.resolveToken">resolve_token</a></code> | Resolve a single token. |
+  
+  ---
+  
+  ## `resolve_list` <a name="resolve_list" id="cdktf.ITokenResolver.resolveList"></a>
+  
+  ```python
+  def resolve_list(
+    l: typing.List[str],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolve a tokenized list.
+  
+  ### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
+  
+  - *Type:* typing.List[str]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_map` <a name="resolve_map" id="cdktf.ITokenResolver.resolveMap"></a>
+  
+  ```python
+  def resolve_map(
+    m: typing.Mapping[typing.Any],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolve a tokenized map.
+  
+  ### `m`<sup>Required</sup> <a name="m" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
+  
+  - *Type:* typing.Mapping[typing.Any]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_number_list` <a name="resolve_number_list" id="cdktf.ITokenResolver.resolveNumberList"></a>
+  
+  ```python
+  def resolve_number_list(
+    l: typing.List[typing.Union[int, float]],
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolve a tokenized number list.
+  
+  ### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
+  
+  - *Type:* typing.List[typing.Union[int, float]]
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_string` <a name="resolve_string" id="cdktf.ITokenResolver.resolveString"></a>
+  
+  ```python
+  def resolve_string(
+    s: TokenizedStringFragments,
+    context: IResolveContext
+ ) - > typing.Any
+  ```
+  
+  Resolve a string with at least one stringified token in it.
+  
+  (May use concatenation)
+  
+  ### `s`<sup>Required</sup> <a name="s" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
+  
+  - *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ## `resolve_token` <a name="resolve_token" id="cdktf.ITokenResolver.resolveToken"></a>
+  
+  ```python
+  def resolve_token(
+    t: IResolvable,
+    context: IResolveContext,
+    post_processor: IPostProcessor
+ ) - > typing.Any
+  ```
+  
+  Resolve a single token.
+  
+  ### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
+  
+  - *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+  
+  ---
+  
+  ### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
+  
+  - *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+  
+  ---
+  
+  ### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
+  
+  - *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+  
+  ---
+  
+  
