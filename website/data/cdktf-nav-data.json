@@ -154,7 +154,7 @@
             "routes": [
               {
                 "title": "Typescript",
-                "path": "api-reference/page-per-group/typescript/index"
+                "path": "api-reference/page-per-group/typescript"
               },
               {
                 "title": "Constructs",
@@ -183,7 +183,7 @@
             "routes": [
               {
                 "title": "Python",
-                "path": "api-reference/page-per-group/python/index"
+                "path": "api-reference/page-per-group/python"
               },
               {
                 "title": "Constructs",
@@ -212,7 +212,7 @@
             "routes": [
               {
                 "title": "Java",
-                "path": "api-reference/page-per-group/java/index"
+                "path": "api-reference/page-per-group/java"
               },
               {
                 "title": "Constructs",
@@ -241,7 +241,7 @@
             "routes": [
               {
                 "title": "CSharp",
-                "path": "api-reference/page-per-group/csharp/index"
+                "path": "api-reference/page-per-group/csharp"
               },
               {
                 "title": "Constructs",
@@ -270,7 +270,7 @@
             "routes": [
               {
                 "title": "Go",
-                "path": "api-reference/page-per-group/go/index"
+                "path": "api-reference/page-per-group/go"
               },
               {
                 "title": "Constructs",
@@ -305,14 +305,14 @@
             "routes": [
               {
                 "title": "Typescript",
-                "path": "api-reference/page-per-class/typescript/index"
+                "path": "api-reference/page-per-class/typescript"
               },
               {
                 "title": "Constructs",
                 "routes": [
                   {
                     "title": "Typescript",
-                    "path": "api-reference/page-per-class/typescript/constructs/index"
+                    "path": "api-reference/page-per-class/typescript/constructs"
                   },
                   {
                     "title": "cdktf.App",
@@ -505,7 +505,7 @@
                 "routes": [
                   {
                     "title": "Typescript",
-                    "path": "api-reference/page-per-class/typescript/structs/index"
+                    "path": "api-reference/page-per-class/typescript/structs"
                   },
                   {
                     "title": "cdktf.AppOptions",
@@ -766,7 +766,7 @@
                 "routes": [
                   {
                     "title": "Typescript",
-                    "path": "api-reference/page-per-class/typescript/classes/index"
+                    "path": "api-reference/page-per-class/typescript/classes"
                   },
                   {
                     "title": "cdktf.Annotations",
@@ -915,7 +915,7 @@
                 "routes": [
                   {
                     "title": "Typescript",
-                    "path": "api-reference/page-per-class/typescript/protocols/index"
+                    "path": "api-reference/page-per-class/typescript/protocols"
                   },
                   {
                     "title": "cdktf.IAnyProducer",
@@ -1016,7 +1016,7 @@
                 "routes": [
                   {
                     "title": "Typescript",
-                    "path": "api-reference/page-per-class/typescript/enums/index"
+                    "path": "api-reference/page-per-class/typescript/enums"
                   },
                   {
                     "title": "cdktf.AnnotationMetadataEntryType",
@@ -1035,14 +1035,14 @@
             "routes": [
               {
                 "title": "Python",
-                "path": "api-reference/page-per-class/python/index"
+                "path": "api-reference/page-per-class/python"
               },
               {
                 "title": "Constructs",
                 "routes": [
                   {
                     "title": "Python",
-                    "path": "api-reference/page-per-class/python/constructs/index"
+                    "path": "api-reference/page-per-class/python/constructs"
                   },
                   {
                     "title": "cdktf.App",
@@ -1235,7 +1235,7 @@
                 "routes": [
                   {
                     "title": "Python",
-                    "path": "api-reference/page-per-class/python/structs/index"
+                    "path": "api-reference/page-per-class/python/structs"
                   },
                   {
                     "title": "cdktf.AppOptions",
@@ -1496,7 +1496,7 @@
                 "routes": [
                   {
                     "title": "Python",
-                    "path": "api-reference/page-per-class/python/classes/index"
+                    "path": "api-reference/page-per-class/python/classes"
                   },
                   {
                     "title": "cdktf.Annotations",
@@ -1645,7 +1645,7 @@
                 "routes": [
                   {
                     "title": "Python",
-                    "path": "api-reference/page-per-class/python/protocols/index"
+                    "path": "api-reference/page-per-class/python/protocols"
                   },
                   {
                     "title": "cdktf.IAnyProducer",
@@ -1746,7 +1746,7 @@
                 "routes": [
                   {
                     "title": "Python",
-                    "path": "api-reference/page-per-class/python/enums/index"
+                    "path": "api-reference/page-per-class/python/enums"
                   },
                   {
                     "title": "cdktf.AnnotationMetadataEntryType",
@@ -1765,14 +1765,14 @@
             "routes": [
               {
                 "title": "Java",
-                "path": "api-reference/page-per-class/java/index"
+                "path": "api-reference/page-per-class/java"
               },
               {
                 "title": "Constructs",
                 "routes": [
                   {
                     "title": "Java",
-                    "path": "api-reference/page-per-class/java/constructs/index"
+                    "path": "api-reference/page-per-class/java/constructs"
                   },
                   {
                     "title": "cdktf.App",
@@ -1965,7 +1965,7 @@
                 "routes": [
                   {
                     "title": "Java",
-                    "path": "api-reference/page-per-class/java/structs/index"
+                    "path": "api-reference/page-per-class/java/structs"
                   },
                   {
                     "title": "cdktf.AppOptions",
@@ -2226,7 +2226,7 @@
                 "routes": [
                   {
                     "title": "Java",
-                    "path": "api-reference/page-per-class/java/classes/index"
+                    "path": "api-reference/page-per-class/java/classes"
                   },
                   {
                     "title": "cdktf.Annotations",
@@ -2375,7 +2375,7 @@
                 "routes": [
                   {
                     "title": "Java",
-                    "path": "api-reference/page-per-class/java/protocols/index"
+                    "path": "api-reference/page-per-class/java/protocols"
                   },
                   {
                     "title": "cdktf.IAnyProducer",
@@ -2476,7 +2476,7 @@
                 "routes": [
                   {
                     "title": "Java",
-                    "path": "api-reference/page-per-class/java/enums/index"
+                    "path": "api-reference/page-per-class/java/enums"
                   },
                   {
                     "title": "cdktf.AnnotationMetadataEntryType",
@@ -2495,14 +2495,14 @@
             "routes": [
               {
                 "title": "CSharp",
-                "path": "api-reference/page-per-class/csharp/index"
+                "path": "api-reference/page-per-class/csharp"
               },
               {
                 "title": "Constructs",
                 "routes": [
                   {
                     "title": "CSharp",
-                    "path": "api-reference/page-per-class/csharp/constructs/index"
+                    "path": "api-reference/page-per-class/csharp/constructs"
                   },
                   {
                     "title": "cdktf.App",
@@ -2695,7 +2695,7 @@
                 "routes": [
                   {
                     "title": "CSharp",
-                    "path": "api-reference/page-per-class/csharp/structs/index"
+                    "path": "api-reference/page-per-class/csharp/structs"
                   },
                   {
                     "title": "cdktf.AppOptions",
@@ -2956,7 +2956,7 @@
                 "routes": [
                   {
                     "title": "CSharp",
-                    "path": "api-reference/page-per-class/csharp/classes/index"
+                    "path": "api-reference/page-per-class/csharp/classes"
                   },
                   {
                     "title": "cdktf.Annotations",
@@ -3105,7 +3105,7 @@
                 "routes": [
                   {
                     "title": "CSharp",
-                    "path": "api-reference/page-per-class/csharp/protocols/index"
+                    "path": "api-reference/page-per-class/csharp/protocols"
                   },
                   {
                     "title": "cdktf.IAnyProducer",
@@ -3206,7 +3206,7 @@
                 "routes": [
                   {
                     "title": "CSharp",
-                    "path": "api-reference/page-per-class/csharp/enums/index"
+                    "path": "api-reference/page-per-class/csharp/enums"
                   },
                   {
                     "title": "cdktf.AnnotationMetadataEntryType",
@@ -3225,14 +3225,14 @@
             "routes": [
               {
                 "title": "Go",
-                "path": "api-reference/page-per-class/go/index"
+                "path": "api-reference/page-per-class/go"
               },
               {
                 "title": "Constructs",
                 "routes": [
                   {
                     "title": "Go",
-                    "path": "api-reference/page-per-class/go/constructs/index"
+                    "path": "api-reference/page-per-class/go/constructs"
                   },
                   {
                     "title": "cdktf.App",
@@ -3425,7 +3425,7 @@
                 "routes": [
                   {
                     "title": "Go",
-                    "path": "api-reference/page-per-class/go/structs/index"
+                    "path": "api-reference/page-per-class/go/structs"
                   },
                   {
                     "title": "cdktf.AppOptions",
@@ -3686,7 +3686,7 @@
                 "routes": [
                   {
                     "title": "Go",
-                    "path": "api-reference/page-per-class/go/classes/index"
+                    "path": "api-reference/page-per-class/go/classes"
                   },
                   {
                     "title": "cdktf.Annotations",
@@ -3835,7 +3835,7 @@
                 "routes": [
                   {
                     "title": "Go",
-                    "path": "api-reference/page-per-class/go/protocols/index"
+                    "path": "api-reference/page-per-class/go/protocols"
                   },
                   {
                     "title": "cdktf.IAnyProducer",
@@ -3936,7 +3936,7 @@
                 "routes": [
                   {
                     "title": "Go",
-                    "path": "api-reference/page-per-class/go/enums/index"
+                    "path": "api-reference/page-per-class/go/enums"
                   },
                   {
                     "title": "cdktf.AnnotationMetadataEntryType",
