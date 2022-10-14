@@ -155,6 +155,10 @@
             "routes": [
               {
                 "title": "Typescript",
+                "path": "api-reference/page-per-group/typescript/index"
+              },
+              {
+                "title": "Typescript",
                 "path": "api-reference/page-per-group/typescript/constructs"
               },
               {
@@ -179,6 +183,10 @@
             "title": "Python",
             "path": "api-reference/page-per-group/python",
             "routes": [
+              {
+                "title": "Python",
+                "path": "api-reference/page-per-group/python/index"
+              },
               {
                 "title": "Python",
                 "path": "api-reference/page-per-group/python/constructs"
@@ -207,6 +215,10 @@
             "routes": [
               {
                 "title": "Java",
+                "path": "api-reference/page-per-group/java/index"
+              },
+              {
+                "title": "Java",
                 "path": "api-reference/page-per-group/java/constructs"
               },
               {
@@ -233,6 +245,10 @@
             "routes": [
               {
                 "title": "CSharp",
+                "path": "api-reference/page-per-group/csharp/index"
+              },
+              {
+                "title": "CSharp",
                 "path": "api-reference/page-per-group/csharp/constructs"
               },
               {
@@ -257,6 +273,10 @@
             "title": "Go",
             "path": "api-reference/page-per-group/go",
             "routes": [
+              {
+                "title": "Go",
+                "path": "api-reference/page-per-group/go/index"
+              },
               {
                 "title": "Go",
                 "path": "api-reference/page-per-group/go/constructs"
@@ -291,8 +311,16 @@
             "routes": [
               {
                 "title": "Typescript",
+                "path": "api-reference/page-per-class/typescript/index"
+              },
+              {
+                "title": "Typescript",
                 "path": "api-reference/page-per-class/typescript/constructs",
                 "routes": [
+                  {
+                    "title": "Typescript",
+                    "path": "api-reference/page-per-class/typescript/constructs/index"
+                  },
                   {
                     "title": "Typescript",
                     "path": "api-reference/page-per-class/typescript/constructs/cdktf.app"
@@ -483,6 +511,10 @@
                 "title": "Typescript",
                 "path": "api-reference/page-per-class/typescript/structs",
                 "routes": [
+                  {
+                    "title": "Typescript",
+                    "path": "api-reference/page-per-class/typescript/structs/index"
+                  },
                   {
                     "title": "Typescript",
                     "path": "api-reference/page-per-class/typescript/structs/cdktf.appoptions"
@@ -743,6 +775,10 @@
                 "routes": [
                   {
                     "title": "Typescript",
+                    "path": "api-reference/page-per-class/typescript/classes/index"
+                  },
+                  {
+                    "title": "Typescript",
                     "path": "api-reference/page-per-class/typescript/classes/cdktf.annotations"
                   },
                   {
@@ -889,6 +925,10 @@
                 "routes": [
                   {
                     "title": "Typescript",
+                    "path": "api-reference/page-per-class/typescript/protocols/index"
+                  },
+                  {
+                    "title": "Typescript",
                     "path": "api-reference/page-per-class/typescript/protocols/cdktf.ianyproducer"
                   },
                   {
@@ -987,6 +1027,10 @@
                 "routes": [
                   {
                     "title": "Typescript",
+                    "path": "api-reference/page-per-class/typescript/enums/index"
+                  },
+                  {
+                    "title": "Typescript",
                     "path": "api-reference/page-per-class/typescript/enums/cdktf.annotationmetadataentrytype"
                   },
                   {
@@ -1003,8 +1047,16 @@
             "routes": [
               {
                 "title": "Python",
+                "path": "api-reference/page-per-class/python/index"
+              },
+              {
+                "title": "Python",
                 "path": "api-reference/page-per-class/python/constructs",
                 "routes": [
+                  {
+                    "title": "Python",
+                    "path": "api-reference/page-per-class/python/constructs/index"
+                  },
                   {
                     "title": "Python",
                     "path": "api-reference/page-per-class/python/constructs/cdktf.app"
@@ -1195,6 +1247,10 @@
                 "title": "Python",
                 "path": "api-reference/page-per-class/python/structs",
                 "routes": [
+                  {
+                    "title": "Python",
+                    "path": "api-reference/page-per-class/python/structs/index"
+                  },
                   {
                     "title": "Python",
                     "path": "api-reference/page-per-class/python/structs/cdktf.appoptions"
@@ -1455,6 +1511,10 @@
                 "routes": [
                   {
                     "title": "Python",
+                    "path": "api-reference/page-per-class/python/classes/index"
+                  },
+                  {
+                    "title": "Python",
                     "path": "api-reference/page-per-class/python/classes/cdktf.annotations"
                   },
                   {
@@ -1601,6 +1661,10 @@
                 "routes": [
                   {
                     "title": "Python",
+                    "path": "api-reference/page-per-class/python/protocols/index"
+                  },
+                  {
+                    "title": "Python",
                     "path": "api-reference/page-per-class/python/protocols/cdktf.ianyproducer"
                   },
                   {
@@ -1699,6 +1763,10 @@
                 "routes": [
                   {
                     "title": "Python",
+                    "path": "api-reference/page-per-class/python/enums/index"
+                  },
+                  {
+                    "title": "Python",
                     "path": "api-reference/page-per-class/python/enums/cdktf.annotationmetadataentrytype"
                   },
                   {
@@ -1715,8 +1783,16 @@
             "routes": [
               {
                 "title": "Java",
+                "path": "api-reference/page-per-class/java/index"
+              },
+              {
+                "title": "Java",
                 "path": "api-reference/page-per-class/java/constructs",
                 "routes": [
+                  {
+                    "title": "Java",
+                    "path": "api-reference/page-per-class/java/constructs/index"
+                  },
                   {
                     "title": "Java",
                     "path": "api-reference/page-per-class/java/constructs/cdktf.app"
@@ -1907,6 +1983,10 @@
                 "title": "Java",
                 "path": "api-reference/page-per-class/java/structs",
                 "routes": [
+                  {
+                    "title": "Java",
+                    "path": "api-reference/page-per-class/java/structs/index"
+                  },
                   {
                     "title": "Java",
                     "path": "api-reference/page-per-class/java/structs/cdktf.appoptions"
@@ -2167,6 +2247,10 @@
                 "routes": [
                   {
                     "title": "Java",
+                    "path": "api-reference/page-per-class/java/classes/index"
+                  },
+                  {
+                    "title": "Java",
                     "path": "api-reference/page-per-class/java/classes/cdktf.annotations"
                   },
                   {
@@ -2313,6 +2397,10 @@
                 "routes": [
                   {
                     "title": "Java",
+                    "path": "api-reference/page-per-class/java/protocols/index"
+                  },
+                  {
+                    "title": "Java",
                     "path": "api-reference/page-per-class/java/protocols/cdktf.ianyproducer"
                   },
                   {
@@ -2411,6 +2499,10 @@
                 "routes": [
                   {
                     "title": "Java",
+                    "path": "api-reference/page-per-class/java/enums/index"
+                  },
+                  {
+                    "title": "Java",
                     "path": "api-reference/page-per-class/java/enums/cdktf.annotationmetadataentrytype"
                   },
                   {
@@ -2427,8 +2519,16 @@
             "routes": [
               {
                 "title": "CSharp",
+                "path": "api-reference/page-per-class/csharp/index"
+              },
+              {
+                "title": "CSharp",
                 "path": "api-reference/page-per-class/csharp/constructs",
                 "routes": [
+                  {
+                    "title": "CSharp",
+                    "path": "api-reference/page-per-class/csharp/constructs/index"
+                  },
                   {
                     "title": "CSharp",
                     "path": "api-reference/page-per-class/csharp/constructs/cdktf.app"
@@ -2619,6 +2719,10 @@
                 "title": "CSharp",
                 "path": "api-reference/page-per-class/csharp/structs",
                 "routes": [
+                  {
+                    "title": "CSharp",
+                    "path": "api-reference/page-per-class/csharp/structs/index"
+                  },
                   {
                     "title": "CSharp",
                     "path": "api-reference/page-per-class/csharp/structs/cdktf.appoptions"
@@ -2879,6 +2983,10 @@
                 "routes": [
                   {
                     "title": "CSharp",
+                    "path": "api-reference/page-per-class/csharp/classes/index"
+                  },
+                  {
+                    "title": "CSharp",
                     "path": "api-reference/page-per-class/csharp/classes/cdktf.annotations"
                   },
                   {
@@ -3025,6 +3133,10 @@
                 "routes": [
                   {
                     "title": "CSharp",
+                    "path": "api-reference/page-per-class/csharp/protocols/index"
+                  },
+                  {
+                    "title": "CSharp",
                     "path": "api-reference/page-per-class/csharp/protocols/cdktf.ianyproducer"
                   },
                   {
@@ -3123,6 +3235,10 @@
                 "routes": [
                   {
                     "title": "CSharp",
+                    "path": "api-reference/page-per-class/csharp/enums/index"
+                  },
+                  {
+                    "title": "CSharp",
                     "path": "api-reference/page-per-class/csharp/enums/cdktf.annotationmetadataentrytype"
                   },
                   {
@@ -3139,8 +3255,16 @@
             "routes": [
               {
                 "title": "Go",
+                "path": "api-reference/page-per-class/go/index"
+              },
+              {
+                "title": "Go",
                 "path": "api-reference/page-per-class/go/constructs",
                 "routes": [
+                  {
+                    "title": "Go",
+                    "path": "api-reference/page-per-class/go/constructs/index"
+                  },
                   {
                     "title": "Go",
                     "path": "api-reference/page-per-class/go/constructs/cdktf.app"
@@ -3331,6 +3455,10 @@
                 "title": "Go",
                 "path": "api-reference/page-per-class/go/structs",
                 "routes": [
+                  {
+                    "title": "Go",
+                    "path": "api-reference/page-per-class/go/structs/index"
+                  },
                   {
                     "title": "Go",
                     "path": "api-reference/page-per-class/go/structs/cdktf.appoptions"
@@ -3591,6 +3719,10 @@
                 "routes": [
                   {
                     "title": "Go",
+                    "path": "api-reference/page-per-class/go/classes/index"
+                  },
+                  {
+                    "title": "Go",
                     "path": "api-reference/page-per-class/go/classes/cdktf.annotations"
                   },
                   {
@@ -3737,6 +3869,10 @@
                 "routes": [
                   {
                     "title": "Go",
+                    "path": "api-reference/page-per-class/go/protocols/index"
+                  },
+                  {
+                    "title": "Go",
                     "path": "api-reference/page-per-class/go/protocols/cdktf.ianyproducer"
                   },
                   {
@@ -3833,6 +3969,10 @@
                 "title": "Go",
                 "path": "api-reference/page-per-class/go/enums",
                 "routes": [
+                  {
+                    "title": "Go",
+                    "path": "api-reference/page-per-class/go/enums/index"
+                  },
                   {
                     "title": "Go",
                     "path": "api-reference/page-per-class/go/enums/cdktf.annotationmetadataentrytype"

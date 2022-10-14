@@ -168,6 +168,10 @@ Documentation.forProject(
       path: `api-reference/page-per-group/${lang.toLowerCase()}`,
       routes: groupRoutes,
     });
+    groupRoutes.push({
+      title: lang,
+      path: `api-reference/page-per-group/${lang.toLowerCase()}/index`,
+    });
     fs.writeFileSync(
       path.resolve(
         targetFolder,
@@ -201,6 +205,10 @@ Documentation.forProject(
       path: `api-reference/page-per-class/${lang.toLowerCase()}`,
       routes: classRoutes,
     });
+    classRoutes.push({
+      title: lang,
+      path: `api-reference/page-per-class/${lang.toLowerCase()}/index`,
+    });
     fs.mkdirpSync(
       path.resolve(targetFolder, "page-per-class", lang.toLowerCase())
     );
@@ -230,6 +238,10 @@ Documentation.forProject(
         title: lang,
         path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
         routes: groupRoutes,
+      });
+      groupRoutes.push({
+        title: lang,
+        path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}/index`,
       });
       fs.writeFileSync(
         path.resolve(
