@@ -60,12 +60,12 @@ function indexPage(name) {
 // { title: string, path: string }[]
 const navigationEntries = [];
 const pagePerGroupRoutes = [
-  { title: "Index", path: `api-reference/page-per-group/` },
+  { title: "Overview", path: `api-reference/page-per-group` },
 ];
 const pagePerClassRoutes = [
   {
-    title: "Index",
-    path: `api-reference/page-per-class/`,
+    title: "Overview",
+    path: `api-reference/page-per-class`,
   },
 ];
 navigationEntries.push(
