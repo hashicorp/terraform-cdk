@@ -194,6 +194,10 @@
     {
       "source": "/.well-known/prebuilt-providers.json",
       "destination": "https://raw.githubusercontent.com/hashicorp/cdktf-repository-manager/main/provider.json"
+    },
+    {
+      "source": "/troubleshooting/cdktf-version-mismatch",
+      "destination": "https://developer.hashicorp.com/terraform/cdktf/test/debugging#cdktf-cli-and-library-on-different-versions" 
     }
   ]
 }
