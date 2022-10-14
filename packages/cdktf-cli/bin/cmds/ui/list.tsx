@@ -23,7 +23,7 @@ export const List = ({
         {status.type === "done" ? (
           <Box>
             <Fragment>
-              <Box flexDirection="column" width={80}>
+              <Box flexDirection="column">
                 <Box>
                   <Box width="40%">
                     <Text bold>Stack name</Text>
