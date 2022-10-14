@@ -34,7 +34,7 @@ export const List = ({
                 </Box>
                 {returnValue!.map((stack) => (
                   <Box key={stack.name}>
-                    <Box width="40%">
+                    <Box width="40%" paddingRight={1}>
                       <Text>{stack.name}</Text>
                     </Box>
                     <Box width="60%">
