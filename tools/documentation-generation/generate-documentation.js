@@ -165,7 +165,6 @@ Documentation.forProject(
     const groupRoutes = [];
     pagePerGroupRoutes.push({
       title: lang,
-      path: `api-reference/page-per-group/${lang.toLowerCase()}`,
       routes: groupRoutes,
     });
     groupRoutes.push({
@@ -194,7 +193,7 @@ Documentation.forProject(
       );
 
       groupRoutes.push({
-        title: lang,
+        title: group.id,
         path: `api-reference/page-per-group/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
       });
     }
@@ -202,7 +201,6 @@ Documentation.forProject(
     const classRoutes = [];
     pagePerClassRoutes.push({
       title: lang,
-      path: `api-reference/page-per-class/${lang.toLowerCase()}`,
       routes: classRoutes,
     });
     classRoutes.push({
@@ -235,8 +233,7 @@ Documentation.forProject(
 
       const groupRoutes = [];
       classRoutes.push({
-        title: lang,
-        path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
+        title: group.id,
         routes: groupRoutes,
       });
       groupRoutes.push({
@@ -267,7 +264,7 @@ Documentation.forProject(
         );
 
         groupRoutes.push({
-          title: lang,
+          title: section.id,
           path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}/${section.id.toLowerCase()}`,
         });
       }
