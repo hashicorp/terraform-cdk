@@ -59,17 +59,22 @@ function indexPage(name) {
 
 // { title: string, path: string }[]
 const navigationEntries = [];
-const pagePerGroupRoutes = [];
-const pagePerClassRoutes = [];
+const pagePerGroupRoutes = [
+  { title: "Index", path: `api-reference/page-per-group/` },
+];
+const pagePerClassRoutes = [
+  {
+    title: "Index",
+    path: `api-reference/page-per-class/`,
+  },
+];
 navigationEntries.push(
   {
     title: "Page per Group",
-    path: `api-reference/page-per-group/`,
     routes: pagePerGroupRoutes,
   },
   {
     title: "Page per Class",
-    path: `api-reference/page-per-class/`,
     routes: pagePerClassRoutes,
   }
 );

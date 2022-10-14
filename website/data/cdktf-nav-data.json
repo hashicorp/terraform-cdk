@@ -147,8 +147,11 @@
     "routes": [
       {
         "title": "Page per Group",
-        "path": "api-reference/page-per-group/",
         "routes": [
+          {
+            "title": "Index",
+            "path": "api-reference/page-per-group/"
+          },
           {
             "title": "Typescript",
             "routes": [
@@ -298,8 +301,11 @@
       },
       {
         "title": "Page per Class",
-        "path": "api-reference/page-per-class/",
         "routes": [
+          {
+            "title": "Index",
+            "path": "api-reference/page-per-class/"
+          },
           {
             "title": "Typescript",
             "routes": [
