@@ -14,22 +14,20 @@ import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
 
 public class MainFunction extends TerraformStack {
 
-    public MainFunction(Construct scope, String id){
+    public MainFunction(Construct scope, String id) {
         super(scope, id);
 
         // DOCS_BLOCK_START:functions-usage-example
 
-        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", DataAwsAvailabilityZonesConfig.builder()
-                .state("available")
-                .build()
-        );
+        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones",
+                DataAwsAvailabilityZonesConfig.builder()
+                        .state("available")
+                        .build());
 
         new TerraformOutput(this, "first-zone", TerraformOutputConfig.builder()
                 .value(Fn.element(zones.getNames(), 0))
-                .build()
-        );
+                .build());
         // DOCS_BLOCK_END:functions-usage-example
-
 
     }
 }

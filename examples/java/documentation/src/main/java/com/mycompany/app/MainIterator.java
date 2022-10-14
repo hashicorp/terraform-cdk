@@ -63,6 +63,5 @@ public class MainIterator extends TerraformStack {
                 .forEach(terraformIterator)
                 .build());
         // DOCS_BLOCK_END:iterators-define-iterators
-
     }
 }

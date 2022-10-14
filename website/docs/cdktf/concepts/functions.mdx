@@ -53,15 +53,14 @@ import com.hashicorp.cdktf.TerraformOutputConfig;
 import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
 import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
 
-        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", DataAwsAvailabilityZonesConfig.builder()
-                .state("available")
-                .build()
-        );
+        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones",
+                DataAwsAvailabilityZonesConfig.builder()
+                        .state("available")
+                        .build());
 
         new TerraformOutput(this, "first-zone", TerraformOutputConfig.builder()
                 .value(Fn.element(zones.getNames(), 0))
-                .build()
-        );
+                .build());
 ```
 
 ```csharp

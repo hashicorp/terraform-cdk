@@ -13,7 +13,6 @@ import imports.aws.dynamodb_table.DynamodbTableConfig;
 // DOCS_BLOCK_START:resources-escape-hatch-dynamic-block
 import imports.aws.security_group.*;
 // DOCS_BLOCK_END:resources-escape-hatch-dynamic-block
-
 import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
@@ -27,6 +26,8 @@ import imports.kubernetes.namespace.NamespaceConfig;
 import imports.kubernetes.namespace.NamespaceMetadata;
 // DOCS_BLOCK_END:resources-references
 
+import imports.aws.sns_topic.SnsTopic;
+import imports.aws.sns_topic.SnsTopicConfig;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
