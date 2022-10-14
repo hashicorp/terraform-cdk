@@ -1,0 +1,126 @@
+ Resource <a name="Resource" id="cdktf.Resource"></a>
+
+- *Implements:* <a href="#cdktf.IResource">IResource</a>
+
+A construct which represents a resource.
+
+# Initializers <a name="Initializers" id="cdktf.Resource.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewResource(scope Construct, id *string) Resource
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Resource.Initializer.parameter.scope">scope</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Construct</code> | *No description.* |
+| <code><a href="#cdktf.Resource.Initializer.parameter.id">id</a></code> | <code>*string</code> | *No description.* |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.Resource.Initializer.parameter.scope"></a>
+
+- *Type:* github.com/aws/constructs-go/constructs/v10.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.Resource.Initializer.parameter.id"></a>
+
+- *Type:* *string
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Resource.toString">ToString</a></code> | Returns a string representation of this construct. |
+
+---
+
+## ~~`ToString`~~ <a name="ToString" id="cdktf.Resource.toString"></a>
+
+```go
+func ToString() *string
+```
+
+Returns a string representation of this construct.
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Resource.isConstruct">IsConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.Resource.isConstruct"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Resource_IsConstruct(x interface{}) *bool
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.Resource.isConstruct.parameter.x"></a>
+
+- *Type:* interface{}
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Resource.property.node">Node</a></code> | <code>github.com/aws/constructs-go/constructs/v10.Node</code> | The tree node. |
+| <code><a href="#cdktf.Resource.property.stack">Stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined. |
+
+---
+
+## ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.Resource.property.node"></a>
+
+- *Deprecated:* - Please use Construct from the constructs package instead.
+
+```go
+func Node() Node
+```
+
+- *Type:* github.com/aws/constructs-go/constructs/v10.Node
+
+The tree node.
+
+---
+
+## ~~`Stack`~~<sup>Required</sup> <a name="Stack" id="cdktf.Resource.property.stack"></a>
+
+- *Deprecated:* - Please use Construct from the constructs package instead.
+
+```go
+func Stack() TerraformStack
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+The stack in which this resource is defined.
+
+---
+

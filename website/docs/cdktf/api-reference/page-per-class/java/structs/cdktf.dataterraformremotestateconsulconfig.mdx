@@ -1,0 +1,206 @@
+ DataTerraformRemoteStateConsulConfig <a name="DataTerraformRemoteStateConsulConfig" id="cdktf.DataTerraformRemoteStateConsulConfig"></a>
+
+# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateConsulConfig.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.DataTerraformRemoteStateConsulConfig;
+
+DataTerraformRemoteStateConsulConfig.builder()
+//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
+//  .workspace(java.lang.String)
+    .accessToken(java.lang.String)
+    .path(java.lang.String)
+//  .address(java.lang.String)
+//  .caFile(java.lang.String)
+//  .certFile(java.lang.String)
+//  .datacenter(java.lang.String)
+//  .gzip(java.lang.Boolean)
+//  .httpAuth(java.lang.String)
+//  .keyFile(java.lang.String)
+//  .lock(java.lang.Boolean)
+//  .scheme(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Required) Access token. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.path">path</a></code> | <code>java.lang.String</code> | (Required) Path in the Consul KV store. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.address">address</a></code> | <code>java.lang.String</code> | (Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.caFile">caFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.certFile">certFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded certificate provided to the remote agent; |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.datacenter">datacenter</a></code> | <code>java.lang.String</code> | (Optional) The datacenter to use. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.gzip">gzip</a></code> | <code>java.lang.Boolean</code> | (Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.httpAuth">httpAuth</a></code> | <code>java.lang.String</code> | (Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.keyFile">keyFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded private key, required if cert_file is specified. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.lock">lock</a></code> | <code>java.lang.Boolean</code> | (Optional) false to disable locking. |
+| <code><a href="#cdktf.DataTerraformRemoteStateConsulConfig.property.scheme">scheme</a></code> | <code>java.lang.String</code> | (Optional) Specifies what protocol to use when talking to the given address,either http or https. |
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateConsulConfig.property.defaults"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Object> getDefaults();
+```
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateConsulConfig.property.workspace"></a>
+
+```java
+public java.lang.String getWorkspace();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `accessToken`<sup>Required</sup> <a name="accessToken" id="cdktf.DataTerraformRemoteStateConsulConfig.property.accessToken"></a>
+
+```java
+public java.lang.String getAccessToken();
+```
+
+- *Type:* java.lang.String
+
+(Required) Access token.
+
+---
+
+## `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateConsulConfig.property.path"></a>
+
+```java
+public java.lang.String getPath();
+```
+
+- *Type:* java.lang.String
+
+(Required) Path in the Consul KV store.
+
+---
+
+## `address`<sup>Optional</sup> <a name="address" id="cdktf.DataTerraformRemoteStateConsulConfig.property.address"></a>
+
+```java
+public java.lang.String getAddress();
+```
+
+- *Type:* java.lang.String
+
+(Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port.
+
+Defaults to the local agent HTTP listener.
+
+---
+
+## `caFile`<sup>Optional</sup> <a name="caFile" id="cdktf.DataTerraformRemoteStateConsulConfig.property.caFile"></a>
+
+```java
+public java.lang.String getCaFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate.
+
+---
+
+## `certFile`<sup>Optional</sup> <a name="certFile" id="cdktf.DataTerraformRemoteStateConsulConfig.property.certFile"></a>
+
+```java
+public java.lang.String getCertFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded certificate provided to the remote agent;
+
+requires use of key_file.
+
+---
+
+## `datacenter`<sup>Optional</sup> <a name="datacenter" id="cdktf.DataTerraformRemoteStateConsulConfig.property.datacenter"></a>
+
+```java
+public java.lang.String getDatacenter();
+```
+
+- *Type:* java.lang.String
+
+(Optional) The datacenter to use.
+
+Defaults to that of the agent.
+
+---
+
+## `gzip`<sup>Optional</sup> <a name="gzip" id="cdktf.DataTerraformRemoteStateConsulConfig.property.gzip"></a>
+
+```java
+public java.lang.Boolean getGzip();
+```
+
+- *Type:* java.lang.Boolean
+
+(Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed.
+
+---
+
+## `httpAuth`<sup>Optional</sup> <a name="httpAuth" id="cdktf.DataTerraformRemoteStateConsulConfig.property.httpAuth"></a>
+
+```java
+public java.lang.String getHttpAuth();
+```
+
+- *Type:* java.lang.String
+
+(Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass.
+
+---
+
+## `keyFile`<sup>Optional</sup> <a name="keyFile" id="cdktf.DataTerraformRemoteStateConsulConfig.property.keyFile"></a>
+
+```java
+public java.lang.String getKeyFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded private key, required if cert_file is specified.
+
+---
+
+## `lock`<sup>Optional</sup> <a name="lock" id="cdktf.DataTerraformRemoteStateConsulConfig.property.lock"></a>
+
+```java
+public java.lang.Boolean getLock();
+```
+
+- *Type:* java.lang.Boolean
+
+(Optional) false to disable locking.
+
+This defaults to true, but will require session permissions with Consul and
+at least kv write permissions on $path/.lock to perform locking.
+
+---
+
+## `scheme`<sup>Optional</sup> <a name="scheme" id="cdktf.DataTerraformRemoteStateConsulConfig.property.scheme"></a>
+
+```java
+public java.lang.String getScheme();
+```
+
+- *Type:* java.lang.String
+
+(Optional) Specifies what protocol to use when talking to the given address,either http or https.
+
+SSL support can also be triggered by setting then environment variable CONSUL_HTTP_SSL to true.
+
+---

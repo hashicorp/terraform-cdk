@@ -1,0 +1,442 @@
+ TerraformHclModule <a name="TerraformHclModule" id="cdktf.TerraformHclModule"></a>
+
+# Initializers <a name="Initializers" id="cdktf.TerraformHclModule.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformHclModule;
+
+TerraformHclModule.Builder.create(Construct scope, java.lang.String id)
+//  .dependsOn(java.util.List<ITerraformDependable>)
+//  .forEach(ITerraformIterator)
+//  .providers(java.util.List<TerraformProvider)
+//  .providers(TerraformModuleProvider>)
+//  .skipAssetCreationFromLocalModules(java.lang.Boolean)
+    .source(java.lang.String)
+//  .version(java.lang.String)
+//  .variables(java.util.Map<java.lang.String, java.lang.Object>)
+    .build();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.dependsOn">dependsOn</a></code> | <code>java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.forEach">forEach</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.providers">providers</a></code> | <code>java.util.List<<a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.source">source</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.version">version</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.variables">variables</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformHclModule.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformHclModule.Initializer.parameter.id"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModule.Initializer.parameter.dependsOn"></a>
+
+- *Type:* java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>>
+
+---
+
+## `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModule.Initializer.parameter.forEach"></a>
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModule.Initializer.parameter.providers"></a>
+
+- *Type:* java.util.List<<a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>>
+
+---
+
+## `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModule.Initializer.parameter.skipAssetCreationFromLocalModules"></a>
+
+- *Type:* java.lang.Boolean
+
+---
+
+## `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModule.Initializer.parameter.source"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModule.Initializer.parameter.version"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModule.Initializer.parameter.variables"></a>
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformHclModule.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.TerraformHclModule.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.TerraformHclModule.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.TerraformHclModule.toMetadata">toMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.toTerraform">toTerraform</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.addProvider">addProvider</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.getString">getString</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.interpolationForOutput">interpolationForOutput</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.get">get</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.getBoolean">getBoolean</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.getList">getList</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.getNumber">getNumber</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.set">set</a></code> | *No description.* |
+
+---
+
+## `toString` <a name="toString" id="cdktf.TerraformHclModule.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addOverride` <a name="addOverride" id="cdktf.TerraformHclModule.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformHclModule.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformHclModule.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.TerraformHclModule.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.TerraformHclModule.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.TerraformHclModule.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `toMetadata` <a name="toMetadata" id="cdktf.TerraformHclModule.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+## `toTerraform` <a name="toTerraform" id="cdktf.TerraformHclModule.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+## `addProvider` <a name="addProvider" id="cdktf.TerraformHclModule.addProvider"></a>
+
+```java
+public void addProvider(TerraformProvider OR TerraformModuleProvider provider)
+```
+
+### `provider`<sup>Required</sup> <a name="provider" id="cdktf.TerraformHclModule.addProvider.parameter.provider"></a>
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>
+
+---
+
+## `getString` <a name="getString" id="cdktf.TerraformHclModule.getString"></a>
+
+```java
+public java.lang.String getString(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getString.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `interpolationForOutput` <a name="interpolationForOutput" id="cdktf.TerraformHclModule.interpolationForOutput"></a>
+
+```java
+public IResolvable interpolationForOutput(java.lang.String moduleOutput)
+```
+
+### `moduleOutput`<sup>Required</sup> <a name="moduleOutput" id="cdktf.TerraformHclModule.interpolationForOutput.parameter.moduleOutput"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `get` <a name="get" id="cdktf.TerraformHclModule.get"></a>
+
+```java
+public java.lang.Object get(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.get.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getBoolean` <a name="getBoolean" id="cdktf.TerraformHclModule.getBoolean"></a>
+
+```java
+public IResolvable getBoolean(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getBoolean.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getList` <a name="getList" id="cdktf.TerraformHclModule.getList"></a>
+
+```java
+public java.util.List<java.lang.String> getList(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getList.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getNumber` <a name="getNumber" id="cdktf.TerraformHclModule.getNumber"></a>
+
+```java
+public java.lang.Number getNumber(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.TerraformHclModule.getNumber.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `set` <a name="set" id="cdktf.TerraformHclModule.set"></a>
+
+```java
+public void set(java.lang.String variable, java.lang.Object value)
+```
+
+### `variable`<sup>Required</sup> <a name="variable" id="cdktf.TerraformHclModule.set.parameter.variable"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformHclModule.set.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformHclModule.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.TerraformHclModule.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformHclModule;
+
+TerraformHclModule.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformHclModule.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformHclModule.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.TerraformHclModule.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.source">source</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.providers">providers</a></code> | <code>java.util.List<<a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.version">version</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.dependsOn">dependsOn</a></code> | <code>java.util.List<java.lang.String></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.forEach">forEach</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformHclModule.property.variables">variables</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformHclModule.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.TerraformHclModule.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.TerraformHclModule.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.TerraformHclModule.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModule.property.source"></a>
+
+```java
+public java.lang.String getSource();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModule.property.providers"></a>
+
+```java
+public java.lang.Object getProviders();
+```
+
+- *Type:* java.util.List<<a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>>
+
+---
+
+## `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModule.property.skipAssetCreationFromLocalModules"></a>
+
+```java
+public java.lang.Boolean getSkipAssetCreationFromLocalModules();
+```
+
+- *Type:* java.lang.Boolean
+
+---
+
+## `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModule.property.version"></a>
+
+```java
+public java.lang.String getVersion();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModule.property.dependsOn"></a>
+
+```java
+public java.util.List<java.lang.String> getDependsOn();
+```
+
+- *Type:* java.util.List<java.lang.String>
+
+---
+
+## `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModule.property.forEach"></a>
+
+```java
+public ITerraformIterator getForEach();
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModule.property.variables"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Object> getVariables();
+```
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+

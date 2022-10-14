@@ -1,0 +1,169 @@
+ DataTerraformRemoteStateCosConfig <a name="DataTerraformRemoteStateCosConfig" id="cdktf.DataTerraformRemoteStateCosConfig"></a>
+
+# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateCosConfig.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateCosConfig(
+  defaults: typing.Mapping[typing.Any] = None,
+  workspace: str = None,
+  bucket: str,
+  acl: str = None,
+  encrypt: bool = None,
+  key: str = None,
+  prefix: str = None,
+  region: str = None,
+  secret_id: str = None,
+  secret_key: str = None
+)
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.workspace">workspace</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.bucket">bucket</a></code> | <code>str</code> | (Required) The name of the COS bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.acl">acl</a></code> | <code>str</code> | (Optional) Object ACL to be applied to the state file, allows private and public-read. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.encrypt">encrypt</a></code> | <code>bool</code> | (Optional) Whether to enable server side encryption of the state file. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.key">key</a></code> | <code>str</code> | (Optional) The path for saving the state file in bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.prefix">prefix</a></code> | <code>str</code> | (Optional) The directory for saving the state file in bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.region">region</a></code> | <code>str</code> | (Optional) The region of the COS bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.secretId">secret_id</a></code> | <code>str</code> | (Optional) Secret id of Tencent Cloud. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCosConfig.property.secretKey">secret_key</a></code> | <code>str</code> | (Optional) Secret key of Tencent Cloud. |
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateCosConfig.property.defaults"></a>
+
+```python
+defaults: typing.Mapping[typing.Any]
+```
+
+- *Type:* typing.Mapping[typing.Any]
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateCosConfig.property.workspace"></a>
+
+```python
+workspace: str
+```
+
+- *Type:* str
+
+---
+
+## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateCosConfig.property.bucket"></a>
+
+```python
+bucket: str
+```
+
+- *Type:* str
+
+(Required) The name of the COS bucket.
+
+You shall manually create it first.
+
+---
+
+## `acl`<sup>Optional</sup> <a name="acl" id="cdktf.DataTerraformRemoteStateCosConfig.property.acl"></a>
+
+```python
+acl: str
+```
+
+- *Type:* str
+
+(Optional) Object ACL to be applied to the state file, allows private and public-read.
+
+Defaults to private.
+
+---
+
+## `encrypt`<sup>Optional</sup> <a name="encrypt" id="cdktf.DataTerraformRemoteStateCosConfig.property.encrypt"></a>
+
+```python
+encrypt: bool
+```
+
+- *Type:* bool
+
+(Optional) Whether to enable server side encryption of the state file.
+
+If it is true, COS will use 'AES256' encryption algorithm to encrypt state file.
+
+---
+
+## `key`<sup>Optional</sup> <a name="key" id="cdktf.DataTerraformRemoteStateCosConfig.property.key"></a>
+
+```python
+key: str
+```
+
+- *Type:* str
+
+(Optional) The path for saving the state file in bucket.
+
+Defaults to terraform.tfstate.
+
+---
+
+## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateCosConfig.property.prefix"></a>
+
+```python
+prefix: str
+```
+
+- *Type:* str
+
+(Optional) The directory for saving the state file in bucket.
+
+Default to "env:".
+
+---
+
+## `region`<sup>Optional</sup> <a name="region" id="cdktf.DataTerraformRemoteStateCosConfig.property.region"></a>
+
+```python
+region: str
+```
+
+- *Type:* str
+
+(Optional) The region of the COS bucket.
+
+It supports environment variables TENCENTCLOUD_REGION.
+
+---
+
+## `secret_id`<sup>Optional</sup> <a name="secret_id" id="cdktf.DataTerraformRemoteStateCosConfig.property.secretId"></a>
+
+```python
+secret_id: str
+```
+
+- *Type:* str
+
+(Optional) Secret id of Tencent Cloud.
+
+It supports environment variables TENCENTCLOUD_SECRET_ID.
+
+---
+
+## `secret_key`<sup>Optional</sup> <a name="secret_key" id="cdktf.DataTerraformRemoteStateCosConfig.property.secretKey"></a>
+
+```python
+secret_key: str
+```
+
+- *Type:* str
+
+(Optional) Secret key of Tencent Cloud.
+
+It supports environment variables TENCENTCLOUD_SECRET_KEY.
+
+---

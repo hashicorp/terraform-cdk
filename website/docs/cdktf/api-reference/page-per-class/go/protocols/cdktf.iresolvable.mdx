@@ -1,0 +1,62 @@
+ IResolvable <a name="IResolvable" id="cdktf.IResolvable"></a>
+
+- *Implemented By:* <a href="#cdktf.AnyMap">AnyMap</a>, <a href="#cdktf.AnyMapList">AnyMapList</a>, <a href="#cdktf.BooleanMap">BooleanMap</a>, <a href="#cdktf.BooleanMapList">BooleanMapList</a>, <a href="#cdktf.ComplexComputedList">ComplexComputedList</a>, <a href="#cdktf.ComplexList">ComplexList</a>, <a href="#cdktf.ComplexMap">ComplexMap</a>, <a href="#cdktf.ComplexObject">ComplexObject</a>, <a href="#cdktf.LazyBase">LazyBase</a>, <a href="#cdktf.NumberMap">NumberMap</a>, <a href="#cdktf.NumberMapList">NumberMapList</a>, <a href="#cdktf.StringMap">StringMap</a>, <a href="#cdktf.StringMapList">StringMapList</a>, <a href="#cdktf.IResolvable">IResolvable</a>
+
+Interface for values that can be resolvable later.
+
+Tokens are special objects that participate in synthesis.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.IResolvable.resolve">Resolve</a></code> | Produce the Token's value at resolution time. |
+| <code><a href="#cdktf.IResolvable.toString">ToString</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+## `Resolve` <a name="Resolve" id="cdktf.IResolvable.resolve"></a>
+
+```go
+func Resolve(context IResolveContext) interface{}
+```
+
+Produce the Token's value at resolution time.
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.IResolvable.resolve.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ToString` <a name="ToString" id="cdktf.IResolvable.toString"></a>
+
+```go
+func ToString() *string
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.IResolvable.property.creationStack">CreationStack</a></code> | <code>*[]*string</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+
+---
+
+## `CreationStack`<sup>Required</sup> <a name="CreationStack" id="cdktf.IResolvable.property.creationStack"></a>
+
+```go
+func CreationStack() *[]*string
+```
+
+- *Type:* *[]*string
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---

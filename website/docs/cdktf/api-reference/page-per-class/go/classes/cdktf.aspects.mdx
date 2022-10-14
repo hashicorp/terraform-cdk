@@ -1,0 +1,74 @@
+ Aspects <a name="Aspects" id="cdktf.Aspects"></a>
+
+Aspects can be applied to CDK tree scopes and can operate on the tree before synthesis.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Aspects.add">Add</a></code> | Adds an aspect to apply this scope before synthesis. |
+
+---
+
+## `Add` <a name="Add" id="cdktf.Aspects.add"></a>
+
+```go
+func Add(aspect IAspect)
+```
+
+Adds an aspect to apply this scope before synthesis.
+
+### `aspect`<sup>Required</sup> <a name="aspect" id="cdktf.Aspects.add.parameter.aspect"></a>
+
+- *Type:* <a href="#cdktf.IAspect">IAspect</a>
+
+The aspect to add.
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Aspects.of">Of</a></code> | Returns the `Aspects` object associated with a construct scope. |
+
+---
+
+## `Of` <a name="Of" id="cdktf.Aspects.of"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Aspects_Of(scope IConstruct) Aspects
+```
+
+Returns the `Aspects` object associated with a construct scope.
+
+### `scope`<sup>Required</sup> <a name="scope" id="cdktf.Aspects.of.parameter.scope"></a>
+
+- *Type:* github.com/aws/constructs-go/constructs/v10.IConstruct
+
+The scope for which these aspects will apply.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Aspects.property.all">All</a></code> | <code>*[]<a href="#cdktf.IAspect">IAspect</a></code> | The list of aspects which were directly applied on this scope. |
+
+---
+
+## `All`<sup>Required</sup> <a name="All" id="cdktf.Aspects.property.all"></a>
+
+```go
+func All() *[]IAspect
+```
+
+- *Type:* *[]<a href="#cdktf.IAspect">IAspect</a>
+
+The list of aspects which were directly applied on this scope.
+
+---
+

@@ -1,0 +1,67 @@
+ ResolveOptions <a name="ResolveOptions" id="cdktf.ResolveOptions"></a>
+
+Options to the resolve() operation.
+
+NOT the same as the ResolveContext; ResolveContext is exposed to Token
+implementors and resolution hooks, whereas this struct is just to bundle
+a number of things that would otherwise be arguments to resolve() in a
+readable way.
+
+# Initializer <a name="Initializer" id="cdktf.ResolveOptions.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.ResolveOptions;
+
+ResolveOptions.builder()
+    .resolver(ITokenResolver)
+    .scope(IConstruct)
+//  .preparing(java.lang.Boolean)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ResolveOptions.property.resolver">resolver</a></code> | <code><a href="#cdktf.ITokenResolver">ITokenResolver</a></code> | The resolver to apply to any resolvable tokens found. |
+| <code><a href="#cdktf.ResolveOptions.property.scope">scope</a></code> | <code>software.constructs.IConstruct</code> | The scope from which resolution is performed. |
+| <code><a href="#cdktf.ResolveOptions.property.preparing">preparing</a></code> | <code>java.lang.Boolean</code> | Whether the resolution is being executed during the prepare phase or not. |
+
+---
+
+## `resolver`<sup>Required</sup> <a name="resolver" id="cdktf.ResolveOptions.property.resolver"></a>
+
+```java
+public ITokenResolver getResolver();
+```
+
+- *Type:* <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+
+The resolver to apply to any resolvable tokens found.
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.ResolveOptions.property.scope"></a>
+
+```java
+public IConstruct getScope();
+```
+
+- *Type:* software.constructs.IConstruct
+
+The scope from which resolution is performed.
+
+---
+
+## `preparing`<sup>Optional</sup> <a name="preparing" id="cdktf.ResolveOptions.property.preparing"></a>
+
+```java
+public java.lang.Boolean getPreparing();
+```
+
+- *Type:* java.lang.Boolean
+- *Default:* false
+
+Whether the resolution is being executed during the prepare phase or not.
+
+---

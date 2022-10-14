@@ -1,0 +1,101 @@
+ LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>
+
+- *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+# Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.LazyBase()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.LazyBase.addPostProcessor">add_post_processor</a></code> | *No description.* |
+| <code><a href="#cdktf.LazyBase.resolve">resolve</a></code> | Produce the Token's value at resolution time. |
+| <code><a href="#cdktf.LazyBase.toJSON">to_jso_n</a></code> | Turn this Token into JSON. |
+| <code><a href="#cdktf.LazyBase.toString">to_string</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+## `add_post_processor` <a name="add_post_processor" id="cdktf.LazyBase.addPostProcessor"></a>
+
+```python
+def add_post_processor(
+  post_processor: IPostProcessor
+) -> None
+```
+
+### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.LazyBase.addPostProcessor.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+## `resolve` <a name="resolve" id="cdktf.LazyBase.resolve"></a>
+
+```python
+def resolve(
+  context: IResolveContext
+) -> typing.Any
+```
+
+Produce the Token's value at resolution time.
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.LazyBase.resolve.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `to_jso_n` <a name="to_jso_n" id="cdktf.LazyBase.toJSON"></a>
+
+```python
+def to_jso_n() -> typing.Any
+```
+
+Turn this Token into JSON.
+
+Called automatically when JSON.stringify() is called on a Token.
+
+## `to_string` <a name="to_string" id="cdktf.LazyBase.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.LazyBase.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+
+---
+
+## `creation_stack`<sup>Required</sup> <a name="creation_stack" id="cdktf.LazyBase.property.creationStack"></a>
+
+```python
+creation_stack: typing.List[str]
+```
+
+- *Type:* typing.List[str]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+

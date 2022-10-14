@@ -1,0 +1,102 @@
+ ArtifactoryBackendProps <a name="ArtifactoryBackendProps" id="cdktf.ArtifactoryBackendProps"></a>
+
+Stores the state as an artifact in a given repository in Artifactory.
+
+Generic HTTP repositories are supported, and state from different configurations
+may be kept at different subpaths within the repository.
+
+Note: The URL must include the path to the Artifactory installation.
+It will likely end in /artifactory.
+
+This backend does not support state locking.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/artifactory
+
+# Initializer <a name="Initializer" id="cdktf.ArtifactoryBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.ArtifactoryBackendProps;
+
+ArtifactoryBackendProps.builder()
+    .password(java.lang.String)
+    .repo(java.lang.String)
+    .subpath(java.lang.String)
+    .url(java.lang.String)
+    .username(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ArtifactoryBackendProps.property.password">password</a></code> | <code>java.lang.String</code> | (Required) - The password. |
+| <code><a href="#cdktf.ArtifactoryBackendProps.property.repo">repo</a></code> | <code>java.lang.String</code> | (Required) - The repository name. |
+| <code><a href="#cdktf.ArtifactoryBackendProps.property.subpath">subpath</a></code> | <code>java.lang.String</code> | (Required) - Path within the repository. |
+| <code><a href="#cdktf.ArtifactoryBackendProps.property.url">url</a></code> | <code>java.lang.String</code> | (Required) - The URL. |
+| <code><a href="#cdktf.ArtifactoryBackendProps.property.username">username</a></code> | <code>java.lang.String</code> | (Required) - The username. |
+
+---
+
+## `password`<sup>Required</sup> <a name="password" id="cdktf.ArtifactoryBackendProps.property.password"></a>
+
+```java
+public java.lang.String getPassword();
+```
+
+- *Type:* java.lang.String
+
+(Required) - The password.
+
+---
+
+## `repo`<sup>Required</sup> <a name="repo" id="cdktf.ArtifactoryBackendProps.property.repo"></a>
+
+```java
+public java.lang.String getRepo();
+```
+
+- *Type:* java.lang.String
+
+(Required) - The repository name.
+
+---
+
+## `subpath`<sup>Required</sup> <a name="subpath" id="cdktf.ArtifactoryBackendProps.property.subpath"></a>
+
+```java
+public java.lang.String getSubpath();
+```
+
+- *Type:* java.lang.String
+
+(Required) - Path within the repository.
+
+---
+
+## `url`<sup>Required</sup> <a name="url" id="cdktf.ArtifactoryBackendProps.property.url"></a>
+
+```java
+public java.lang.String getUrl();
+```
+
+- *Type:* java.lang.String
+
+(Required) - The URL.
+
+Note that this is the base url to artifactory not the full repo and subpath.
+
+---
+
+## `username`<sup>Required</sup> <a name="username" id="cdktf.ArtifactoryBackendProps.property.username"></a>
+
+```java
+public java.lang.String getUsername();
+```
+
+- *Type:* java.lang.String
+
+(Required) - The username.
+
+---

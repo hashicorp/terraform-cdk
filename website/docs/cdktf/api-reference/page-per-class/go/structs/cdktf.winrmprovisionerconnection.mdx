@@ -1,0 +1,188 @@
+ WinrmProvisionerConnection <a name="WinrmProvisionerConnection" id="cdktf.WinrmProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+# Initializer <a name="Initializer" id="cdktf.WinrmProvisionerConnection.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.WinrmProvisionerConnection {
+	Host: *string,
+	Type: *string,
+	Cacert: *string,
+	Https: *bool,
+	Insecure: *bool,
+	Password: *string,
+	Port: *f64,
+	ScriptPath: *string,
+	Timeout: *string,
+	UseNtlm: *bool,
+	User: *string,
+}
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.host">Host</a></code> | <code>*string</code> | The address of the resource to connect to. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.type">Type</a></code> | <code>*string</code> | The connection type. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.cacert">Cacert</a></code> | <code>*string</code> | The CA certificate to validate against. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.https">Https</a></code> | <code>*bool</code> | Set to true to connect using HTTPS instead of HTTP. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.insecure">Insecure</a></code> | <code>*bool</code> | Set to true to skip validating the HTTPS certificate chain. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.password">Password</a></code> | <code>*string</code> | The password to use for the connection. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.port">Port</a></code> | <code>*f64</code> | The port to connect to. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.scriptPath">ScriptPath</a></code> | <code>*string</code> | The path used to copy scripts meant for remote execution. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.timeout">Timeout</a></code> | <code>*string</code> | The timeout to wait for the connection to become available. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.useNtlm">UseNtlm</a></code> | <code>*bool</code> | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.user">User</a></code> | <code>*string</code> | The user to use for the connection. |
+
+---
+
+## `Host`<sup>Required</sup> <a name="Host" id="cdktf.WinrmProvisionerConnection.property.host"></a>
+
+```go
+Host *string
+```
+
+- *Type:* *string
+
+The address of the resource to connect to.
+
+---
+
+## `Type`<sup>Required</sup> <a name="Type" id="cdktf.WinrmProvisionerConnection.property.type"></a>
+
+```go
+Type *string
+```
+
+- *Type:* *string
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+## `Cacert`<sup>Optional</sup> <a name="Cacert" id="cdktf.WinrmProvisionerConnection.property.cacert"></a>
+
+```go
+Cacert *string
+```
+
+- *Type:* *string
+
+The CA certificate to validate against.
+
+---
+
+## `Https`<sup>Optional</sup> <a name="Https" id="cdktf.WinrmProvisionerConnection.property.https"></a>
+
+```go
+Https *bool
+```
+
+- *Type:* *bool
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+## `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.WinrmProvisionerConnection.property.insecure"></a>
+
+```go
+Insecure *bool
+```
+
+- *Type:* *bool
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+## `Password`<sup>Optional</sup> <a name="Password" id="cdktf.WinrmProvisionerConnection.property.password"></a>
+
+```go
+Password *string
+```
+
+- *Type:* *string
+
+The password to use for the connection.
+
+---
+
+## `Port`<sup>Optional</sup> <a name="Port" id="cdktf.WinrmProvisionerConnection.property.port"></a>
+
+```go
+Port *f64
+```
+
+- *Type:* *f64
+- *Default:* 22
+
+The port to connect to.
+
+---
+
+## `ScriptPath`<sup>Optional</sup> <a name="ScriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>
+
+```go
+ScriptPath *string
+```
+
+- *Type:* *string
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+## `Timeout`<sup>Optional</sup> <a name="Timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>
+
+```go
+Timeout *string
+```
+
+- *Type:* *string
+- *Default:* 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+## `UseNtlm`<sup>Optional</sup> <a name="UseNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>
+
+```go
+UseNtlm *bool
+```
+
+- *Type:* *bool
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+## `User`<sup>Optional</sup> <a name="User" id="cdktf.WinrmProvisionerConnection.property.user"></a>
+
+```go
+User *string
+```
+
+- *Type:* *string
+- *Default:* root
+
+The user to use for the connection.
+
+---

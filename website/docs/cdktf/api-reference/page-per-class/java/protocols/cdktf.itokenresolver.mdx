@@ -1,0 +1,126 @@
+ ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
+
+- *Implemented By:* <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+
+How to resolve tokens.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.ITokenResolver.resolveList">resolveList</a></code> | Resolve a tokenized list. |
+| <code><a href="#cdktf.ITokenResolver.resolveMap">resolveMap</a></code> | Resolve a tokenized map. |
+| <code><a href="#cdktf.ITokenResolver.resolveNumberList">resolveNumberList</a></code> | Resolve a tokenized number list. |
+| <code><a href="#cdktf.ITokenResolver.resolveString">resolveString</a></code> | Resolve a string with at least one stringified token in it. |
+| <code><a href="#cdktf.ITokenResolver.resolveToken">resolveToken</a></code> | Resolve a single token. |
+
+---
+
+## `resolveList` <a name="resolveList" id="cdktf.ITokenResolver.resolveList"></a>
+
+```java
+public java.lang.Object resolveList(java.util.List<java.lang.String> l, IResolveContext context)
+```
+
+Resolve a tokenized list.
+
+### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
+
+- *Type:* java.util.List<java.lang.String>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `resolveMap` <a name="resolveMap" id="cdktf.ITokenResolver.resolveMap"></a>
+
+```java
+public java.lang.Object resolveMap(java.util.Map<java.lang.String, java.lang.Object> m, IResolveContext context)
+```
+
+Resolve a tokenized map.
+
+### `m`<sup>Required</sup> <a name="m" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `resolveNumberList` <a name="resolveNumberList" id="cdktf.ITokenResolver.resolveNumberList"></a>
+
+```java
+public java.lang.Object resolveNumberList(java.util.List<java.lang.Number> l, IResolveContext context)
+```
+
+Resolve a tokenized number list.
+
+### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
+
+- *Type:* java.util.List<java.lang.Number>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `resolveString` <a name="resolveString" id="cdktf.ITokenResolver.resolveString"></a>
+
+```java
+public java.lang.Object resolveString(TokenizedStringFragments s, IResolveContext context)
+```
+
+Resolve a string with at least one stringified token in it.
+
+(May use concatenation)
+
+### `s`<sup>Required</sup> <a name="s" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
+
+- *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `resolveToken` <a name="resolveToken" id="cdktf.ITokenResolver.resolveToken"></a>
+
+```java
+public java.lang.Object resolveToken(IResolvable t, IResolveContext context, IPostProcessor postProcessor)
+```
+
+Resolve a single token.
+
+### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+

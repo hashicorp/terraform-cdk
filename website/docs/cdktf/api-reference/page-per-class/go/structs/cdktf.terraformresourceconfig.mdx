@@ -1,0 +1,125 @@
+ TerraformResourceConfig <a name="TerraformResourceConfig" id="cdktf.TerraformResourceConfig"></a>
+
+# Initializer <a name="Initializer" id="cdktf.TerraformResourceConfig.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.TerraformResourceConfig {
+	Connection: interface{},
+	Count: *f64,
+	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
+	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
+	Lifecycle: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformResourceLifecycle,
+	Provider: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformProvider,
+	Provisioners: *[]interface{},
+	TerraformResourceType: *string,
+	TerraformGeneratorMetadata: github.com/hashicorp/terraform-cdk-go/cdktf.TerraformProviderGeneratorMetadata,
+}
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">Connection</a></code> | <code>interface{}</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.count">Count</a></code> | <code>*f64</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">DependsOn</a></code> | <code>*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">ForEach</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">Lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provider">Provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">Provisioners</a></code> | <code>*[]interface{}</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">TerraformResourceType</a></code> | <code>*string</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">TerraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | *No description.* |
+
+---
+
+## `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.TerraformResourceConfig.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- *Type:* interface{}
+
+---
+
+## `Count`<sup>Optional</sup> <a name="Count" id="cdktf.TerraformResourceConfig.property.count"></a>
+
+```go
+Count *f64
+```
+
+- *Type:* *f64
+
+---
+
+## `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformResourceConfig.property.dependsOn"></a>
+
+```go
+DependsOn *[]ITerraformDependable
+```
+
+- *Type:* *[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>
+
+---
+
+## `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformResourceConfig.property.forEach"></a>
+
+```go
+ForEach ITerraformIterator
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `Lifecycle`<sup>Optional</sup> <a name="Lifecycle" id="cdktf.TerraformResourceConfig.property.lifecycle"></a>
+
+```go
+Lifecycle TerraformResourceLifecycle
+```
+
+- *Type:* <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+## `Provider`<sup>Optional</sup> <a name="Provider" id="cdktf.TerraformResourceConfig.property.provider"></a>
+
+```go
+Provider TerraformProvider
+```
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+## `Provisioners`<sup>Optional</sup> <a name="Provisioners" id="cdktf.TerraformResourceConfig.property.provisioners"></a>
+
+```go
+Provisioners *[]interface{}
+```
+
+- *Type:* *[]interface{}
+
+---
+
+## `TerraformResourceType`<sup>Required</sup> <a name="TerraformResourceType" id="cdktf.TerraformResourceConfig.property.terraformResourceType"></a>
+
+```go
+TerraformResourceType *string
+```
+
+- *Type:* *string
+
+---
+
+## `TerraformGeneratorMetadata`<sup>Optional</sup> <a name="TerraformGeneratorMetadata" id="cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata"></a>
+
+```go
+TerraformGeneratorMetadata TerraformProviderGeneratorMetadata
+```
+
+- *Type:* <a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a>
+
+---

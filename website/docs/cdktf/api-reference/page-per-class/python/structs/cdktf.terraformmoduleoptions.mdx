@@ -1,0 +1,89 @@
+ TerraformModuleOptions <a name="TerraformModuleOptions" id="cdktf.TerraformModuleOptions"></a>
+
+# Initializer <a name="Initializer" id="cdktf.TerraformModuleOptions.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformModuleOptions(
+  depends_on: typing.List[ITerraformDependable] = None,
+  for_each: ITerraformIterator = None,
+  providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
+  skip_asset_creation_from_local_modules: bool = None,
+  source: str,
+  version: str = None
+)
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformModuleOptions.property.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformModuleOptions.property.forEach">for_each</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformModuleOptions.property.providers">providers</a></code> | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.TerraformModuleOptions.property.source">source</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformModuleOptions.property.version">version</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.TerraformModuleOptions.property.dependsOn"></a>
+
+```python
+depends_on: typing.List[ITerraformDependable]
+```
+
+- *Type:* typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]
+
+---
+
+## `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.TerraformModuleOptions.property.forEach"></a>
+
+```python
+for_each: ITerraformIterator
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformModuleOptions.property.providers"></a>
+
+```python
+providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
+```
+
+- *Type:* typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]
+
+---
+
+## `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+
+```python
+skip_asset_creation_from_local_modules: bool
+```
+
+- *Type:* bool
+
+---
+
+## `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformModuleOptions.property.source"></a>
+
+```python
+source: str
+```
+
+- *Type:* str
+
+---
+
+## `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformModuleOptions.property.version"></a>
+
+```python
+version: str
+```
+
+- *Type:* str
+
+---

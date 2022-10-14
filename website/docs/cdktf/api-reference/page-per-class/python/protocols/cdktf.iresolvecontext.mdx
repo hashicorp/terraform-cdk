@@ -1,0 +1,105 @@
+ IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
+
+- *Implemented By:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+Current resolution context for tokens.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.IResolveContext.registerPostProcessor">register_post_processor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
+| <code><a href="#cdktf.IResolveContext.resolve">resolve</a></code> | Resolve an inner object. |
+
+---
+
+## `register_post_processor` <a name="register_post_processor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+
+```python
+def register_post_processor(
+  post_processor: IPostProcessor
+) -> None
+```
+
+Use this postprocessor after the entire token structure has been resolved.
+
+### `post_processor`<sup>Required</sup> <a name="post_processor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+## `resolve` <a name="resolve" id="cdktf.IResolveContext.resolve"></a>
+
+```python
+def resolve(
+  x: typing.Any
+) -> typing.Any
+```
+
+Resolve an inner object.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.IResolveContext.resolve.parameter.x"></a>
+
+- *Type:* typing.Any
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code> | <code>bool</code> | True when we are still preparing, false if we're rendering the final output. |
+| <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code> | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated. |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code> | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code> | <code>bool</code> | True when ${} should be ommitted (because already inside them), false otherwise. |
+
+---
+
+## `preparing`<sup>Required</sup> <a name="preparing" id="cdktf.IResolveContext.property.preparing"></a>
+
+```python
+preparing: bool
+```
+
+- *Type:* bool
+
+True when we are still preparing, false if we're rendering the final output.
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.IResolveContext.property.scope"></a>
+
+```python
+scope: IConstruct
+```
+
+- *Type:* constructs.IConstruct
+
+The scope from which resolution has been initiated.
+
+---
+
+## `iterator_context`<sup>Optional</sup> <a name="iterator_context" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```python
+iterator_context: str
+```
+
+- *Type:* str
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
+
+---
+
+## `suppress_braces`<sup>Optional</sup> <a name="suppress_braces" id="cdktf.IResolveContext.property.suppressBraces"></a>
+
+```python
+suppress_braces: bool
+```
+
+- *Type:* bool
+
+True when ${} should be ommitted (because already inside them), false otherwise.
+
+---

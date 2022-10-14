@@ -1,0 +1,187 @@
+ ConsulBackendProps <a name="ConsulBackendProps" id="cdktf.ConsulBackendProps"></a>
+
+Stores the state in the Consul KV store at a given path. This backend supports state locking.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/consul
+
+# Initializer <a name="Initializer" id="cdktf.ConsulBackendProps.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.ConsulBackendProps {
+	AccessToken: *string,
+	Path: *string,
+	Address: *string,
+	CaFile: *string,
+	CertFile: *string,
+	Datacenter: *string,
+	Gzip: *bool,
+	HttpAuth: *string,
+	KeyFile: *string,
+	Lock: *bool,
+	Scheme: *string,
+}
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ConsulBackendProps.property.accessToken">AccessToken</a></code> | <code>*string</code> | (Required) Access token. |
+| <code><a href="#cdktf.ConsulBackendProps.property.path">Path</a></code> | <code>*string</code> | (Required) Path in the Consul KV store. |
+| <code><a href="#cdktf.ConsulBackendProps.property.address">Address</a></code> | <code>*string</code> | (Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port. |
+| <code><a href="#cdktf.ConsulBackendProps.property.caFile">CaFile</a></code> | <code>*string</code> | (Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate. |
+| <code><a href="#cdktf.ConsulBackendProps.property.certFile">CertFile</a></code> | <code>*string</code> | (Optional) A path to a PEM-encoded certificate provided to the remote agent; |
+| <code><a href="#cdktf.ConsulBackendProps.property.datacenter">Datacenter</a></code> | <code>*string</code> | (Optional) The datacenter to use. |
+| <code><a href="#cdktf.ConsulBackendProps.property.gzip">Gzip</a></code> | <code>*bool</code> | (Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed. |
+| <code><a href="#cdktf.ConsulBackendProps.property.httpAuth">HttpAuth</a></code> | <code>*string</code> | (Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass. |
+| <code><a href="#cdktf.ConsulBackendProps.property.keyFile">KeyFile</a></code> | <code>*string</code> | (Optional) A path to a PEM-encoded private key, required if cert_file is specified. |
+| <code><a href="#cdktf.ConsulBackendProps.property.lock">Lock</a></code> | <code>*bool</code> | (Optional) false to disable locking. |
+| <code><a href="#cdktf.ConsulBackendProps.property.scheme">Scheme</a></code> | <code>*string</code> | (Optional) Specifies what protocol to use when talking to the given address,either http or https. |
+
+---
+
+## `AccessToken`<sup>Required</sup> <a name="AccessToken" id="cdktf.ConsulBackendProps.property.accessToken"></a>
+
+```go
+AccessToken *string
+```
+
+- *Type:* *string
+
+(Required) Access token.
+
+---
+
+## `Path`<sup>Required</sup> <a name="Path" id="cdktf.ConsulBackendProps.property.path"></a>
+
+```go
+Path *string
+```
+
+- *Type:* *string
+
+(Required) Path in the Consul KV store.
+
+---
+
+## `Address`<sup>Optional</sup> <a name="Address" id="cdktf.ConsulBackendProps.property.address"></a>
+
+```go
+Address *string
+```
+
+- *Type:* *string
+
+(Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port.
+
+Defaults to the local agent HTTP listener.
+
+---
+
+## `CaFile`<sup>Optional</sup> <a name="CaFile" id="cdktf.ConsulBackendProps.property.caFile"></a>
+
+```go
+CaFile *string
+```
+
+- *Type:* *string
+
+(Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate.
+
+---
+
+## `CertFile`<sup>Optional</sup> <a name="CertFile" id="cdktf.ConsulBackendProps.property.certFile"></a>
+
+```go
+CertFile *string
+```
+
+- *Type:* *string
+
+(Optional) A path to a PEM-encoded certificate provided to the remote agent;
+
+requires use of key_file.
+
+---
+
+## `Datacenter`<sup>Optional</sup> <a name="Datacenter" id="cdktf.ConsulBackendProps.property.datacenter"></a>
+
+```go
+Datacenter *string
+```
+
+- *Type:* *string
+
+(Optional) The datacenter to use.
+
+Defaults to that of the agent.
+
+---
+
+## `Gzip`<sup>Optional</sup> <a name="Gzip" id="cdktf.ConsulBackendProps.property.gzip"></a>
+
+```go
+Gzip *bool
+```
+
+- *Type:* *bool
+
+(Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed.
+
+---
+
+## `HttpAuth`<sup>Optional</sup> <a name="HttpAuth" id="cdktf.ConsulBackendProps.property.httpAuth"></a>
+
+```go
+HttpAuth *string
+```
+
+- *Type:* *string
+
+(Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass.
+
+---
+
+## `KeyFile`<sup>Optional</sup> <a name="KeyFile" id="cdktf.ConsulBackendProps.property.keyFile"></a>
+
+```go
+KeyFile *string
+```
+
+- *Type:* *string
+
+(Optional) A path to a PEM-encoded private key, required if cert_file is specified.
+
+---
+
+## `Lock`<sup>Optional</sup> <a name="Lock" id="cdktf.ConsulBackendProps.property.lock"></a>
+
+```go
+Lock *bool
+```
+
+- *Type:* *bool
+
+(Optional) false to disable locking.
+
+This defaults to true, but will require session permissions with Consul and
+at least kv write permissions on $path/.lock to perform locking.
+
+---
+
+## `Scheme`<sup>Optional</sup> <a name="Scheme" id="cdktf.ConsulBackendProps.property.scheme"></a>
+
+```go
+Scheme *string
+```
+
+- *Type:* *string
+
+(Optional) Specifies what protocol to use when talking to the given address,either http or https.
+
+SSL support can also be triggered by setting then environment variable CONSUL_HTTP_SSL to true.
+
+---

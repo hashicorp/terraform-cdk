@@ -1,0 +1,101 @@
+ IResolveContext <a name="IResolveContext" id="cdktf.IResolveContext"></a>
+
+- *Implemented By:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+Current resolution context for tokens.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.IResolveContext.registerPostProcessor">RegisterPostProcessor</a></code> | Use this postprocessor after the entire token structure has been resolved. |
+| <code><a href="#cdktf.IResolveContext.resolve">Resolve</a></code> | Resolve an inner object. |
+
+---
+
+## `RegisterPostProcessor` <a name="RegisterPostProcessor" id="cdktf.IResolveContext.registerPostProcessor"></a>
+
+```csharp
+private void RegisterPostProcessor(IPostProcessor PostProcessor)
+```
+
+Use this postprocessor after the entire token structure has been resolved.
+
+### `PostProcessor`<sup>Required</sup> <a name="PostProcessor" id="cdktf.IResolveContext.registerPostProcessor.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+## `Resolve` <a name="Resolve" id="cdktf.IResolveContext.resolve"></a>
+
+```csharp
+private object Resolve(object X)
+```
+
+Resolve an inner object.
+
+### `X`<sup>Required</sup> <a name="X" id="cdktf.IResolveContext.resolve.parameter.x"></a>
+
+- *Type:* object
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code> | <code>bool</code> | True when we are still preparing, false if we're rendering the final output. |
+| <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code> | <code>Constructs.IConstruct</code> | The scope from which resolution has been initiated. |
+| <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>string</code> | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
+| <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code> | <code>bool</code> | True when ${} should be ommitted (because already inside them), false otherwise. |
+
+---
+
+## `Preparing`<sup>Required</sup> <a name="Preparing" id="cdktf.IResolveContext.property.preparing"></a>
+
+```csharp
+public bool Preparing { get; }
+```
+
+- *Type:* bool
+
+True when we are still preparing, false if we're rendering the final output.
+
+---
+
+## `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.IResolveContext.property.scope"></a>
+
+```csharp
+public IConstruct Scope { get; }
+```
+
+- *Type:* Constructs.IConstruct
+
+The scope from which resolution has been initiated.
+
+---
+
+## `IteratorContext`<sup>Optional</sup> <a name="IteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
+
+```csharp
+public string IteratorContext { get; set; }
+```
+
+- *Type:* string
+
+TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key.
+
+---
+
+## `SuppressBraces`<sup>Optional</sup> <a name="SuppressBraces" id="cdktf.IResolveContext.property.suppressBraces"></a>
+
+```csharp
+public bool SuppressBraces { get; set; }
+```
+
+- *Type:* bool
+
+True when ${} should be ommitted (because already inside them), false otherwise.
+
+---

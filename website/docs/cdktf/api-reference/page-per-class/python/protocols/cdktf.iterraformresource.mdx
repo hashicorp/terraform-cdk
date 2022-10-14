@@ -1,0 +1,120 @@
+ ITerraformResource <a name="ITerraformResource" id="cdktf.ITerraformResource"></a>
+
+- *Implemented By:* <a href="#cdktf.TerraformDataSource">TerraformDataSource</a>, <a href="#cdktf.TerraformResource">TerraformResource</a>, <a href="#cdktf.ITerraformResource">ITerraformResource</a>
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.ITerraformResource.interpolationForAttribute">interpolation_for_attribute</a></code> | *No description.* |
+
+---
+
+## `interpolation_for_attribute` <a name="interpolation_for_attribute" id="cdktf.ITerraformResource.interpolationForAttribute"></a>
+
+```python
+def interpolation_for_attribute(
+  terraform_attribute: str
+) -> IResolvable
+```
+
+### `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ITerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* str
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ITerraformResource.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.terraformResourceType">terraform_resource_type</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.count">count</a></code> | <code>typing.Union[int, float]</code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.dependsOn">depends_on</a></code> | <code>typing.List[str]</code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.forEach">for_each</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.lifecycle">lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | *No description.* |
+| <code><a href="#cdktf.ITerraformResource.property.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | *No description.* |
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ITerraformResource.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+
+## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.ITerraformResource.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- *Type:* str
+
+---
+
+## `terraform_resource_type`<sup>Required</sup> <a name="terraform_resource_type" id="cdktf.ITerraformResource.property.terraformResourceType"></a>
+
+```python
+terraform_resource_type: str
+```
+
+- *Type:* str
+
+---
+
+## `count`<sup>Optional</sup> <a name="count" id="cdktf.ITerraformResource.property.count"></a>
+
+```python
+count: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+---
+
+## `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.ITerraformResource.property.dependsOn"></a>
+
+```python
+depends_on: typing.List[str]
+```
+
+- *Type:* typing.List[str]
+
+---
+
+## `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.ITerraformResource.property.forEach"></a>
+
+```python
+for_each: ITerraformIterator
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `lifecycle`<sup>Optional</sup> <a name="lifecycle" id="cdktf.ITerraformResource.property.lifecycle"></a>
+
+```python
+lifecycle: TerraformResourceLifecycle
+```
+
+- *Type:* <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+## `provider`<sup>Optional</sup> <a name="provider" id="cdktf.ITerraformResource.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---

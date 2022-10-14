@@ -1,0 +1,126 @@
+ Resource <a name="Resource" id="cdktf.Resource"></a>
+
+- *Implements:* <a href="#cdktf.IResource">IResource</a>
+
+A construct which represents a resource.
+
+# Initializers <a name="Initializers" id="cdktf.Resource.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new Resource(Construct Scope, string Id);
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Resource.Initializer.parameter.scope">Scope</a></code> | <code>Constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.Resource.Initializer.parameter.id">Id</a></code> | <code>string</code> | *No description.* |
+
+---
+
+## `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.Resource.Initializer.parameter.scope"></a>
+
+- *Type:* Constructs.Construct
+
+---
+
+## `Id`<sup>Required</sup> <a name="Id" id="cdktf.Resource.Initializer.parameter.id"></a>
+
+- *Type:* string
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Resource.toString">ToString</a></code> | Returns a string representation of this construct. |
+
+---
+
+## ~~`ToString`~~ <a name="ToString" id="cdktf.Resource.toString"></a>
+
+```csharp
+private string ToString()
+```
+
+Returns a string representation of this construct.
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Resource.isConstruct">IsConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.Resource.isConstruct"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Resource.IsConstruct(object X);
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `X`<sup>Required</sup> <a name="X" id="cdktf.Resource.isConstruct.parameter.x"></a>
+
+- *Type:* object
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Resource.property.node">Node</a></code> | <code>Constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.Resource.property.stack">Stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | The stack in which this resource is defined. |
+
+---
+
+## ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.Resource.property.node"></a>
+
+- *Deprecated:* - Please use Construct from the constructs package instead.
+
+```csharp
+public Node Node { get; }
+```
+
+- *Type:* Constructs.Node
+
+The tree node.
+
+---
+
+## ~~`Stack`~~<sup>Required</sup> <a name="Stack" id="cdktf.Resource.property.stack"></a>
+
+- *Deprecated:* - Please use Construct from the constructs package instead.
+
+```csharp
+public TerraformStack Stack { get; }
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+The stack in which this resource is defined.
+
+---
+

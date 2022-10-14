@@ -1,0 +1,278 @@
+ TerraformStack <a name="TerraformStack" id="cdktf.TerraformStack"></a>
+
+# Initializers <a name="Initializers" id="cdktf.TerraformStack.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformStack;
+
+new TerraformStack(Construct scope, java.lang.String id);
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformStack.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformStack.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformStack.Initializer.parameter.id"></a>
+
+- *Type:* java.lang.String
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformStack.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.TerraformStack.addDependency">addDependency</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.allProviders">allProviders</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.dependsOn">dependsOn</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.ensureBackendExists">ensureBackendExists</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.getLogicalId">getLogicalId</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.prepareStack">prepareStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.registerIncomingCrossStackReference">registerIncomingCrossStackReference</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.registerOutgoingCrossStackReference">registerOutgoingCrossStackReference</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.runAllValidations">runAllValidations</a></code> | Run all validations on the stack. |
+| <code><a href="#cdktf.TerraformStack.toTerraform">toTerraform</a></code> | *No description.* |
+
+---
+
+## `toString` <a name="toString" id="cdktf.TerraformStack.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addDependency` <a name="addDependency" id="cdktf.TerraformStack.addDependency"></a>
+
+```java
+public void addDependency(TerraformStack dependency)
+```
+
+### `dependency`<sup>Required</sup> <a name="dependency" id="cdktf.TerraformStack.addDependency.parameter.dependency"></a>
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `addOverride` <a name="addOverride" id="cdktf.TerraformStack.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformStack.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformStack.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `allProviders` <a name="allProviders" id="cdktf.TerraformStack.allProviders"></a>
+
+```java
+public java.util.List<TerraformProvider> allProviders()
+```
+
+## `dependsOn` <a name="dependsOn" id="cdktf.TerraformStack.dependsOn"></a>
+
+```java
+public java.lang.Boolean dependsOn(TerraformStack stack)
+```
+
+### `stack`<sup>Required</sup> <a name="stack" id="cdktf.TerraformStack.dependsOn.parameter.stack"></a>
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `ensureBackendExists` <a name="ensureBackendExists" id="cdktf.TerraformStack.ensureBackendExists"></a>
+
+```java
+public TerraformBackend ensureBackendExists()
+```
+
+## `getLogicalId` <a name="getLogicalId" id="cdktf.TerraformStack.getLogicalId"></a>
+
+```java
+public java.lang.String getLogicalId(TerraformElement OR Node tfElement)
+```
+
+### `tfElement`<sup>Required</sup> <a name="tfElement" id="cdktf.TerraformStack.getLogicalId.parameter.tfElement"></a>
+
+- *Type:* <a href="#cdktf.TerraformElement">TerraformElement</a> OR software.constructs.Node
+
+---
+
+## `prepareStack` <a name="prepareStack" id="cdktf.TerraformStack.prepareStack"></a>
+
+```java
+public void prepareStack()
+```
+
+## `registerIncomingCrossStackReference` <a name="registerIncomingCrossStackReference" id="cdktf.TerraformStack.registerIncomingCrossStackReference"></a>
+
+```java
+public TerraformRemoteState registerIncomingCrossStackReference(TerraformStack fromStack)
+```
+
+### `fromStack`<sup>Required</sup> <a name="fromStack" id="cdktf.TerraformStack.registerIncomingCrossStackReference.parameter.fromStack"></a>
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `registerOutgoingCrossStackReference` <a name="registerOutgoingCrossStackReference" id="cdktf.TerraformStack.registerOutgoingCrossStackReference"></a>
+
+```java
+public TerraformOutput registerOutgoingCrossStackReference(java.lang.String identifier)
+```
+
+### `identifier`<sup>Required</sup> <a name="identifier" id="cdktf.TerraformStack.registerOutgoingCrossStackReference.parameter.identifier"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `runAllValidations` <a name="runAllValidations" id="cdktf.TerraformStack.runAllValidations"></a>
+
+```java
+public void runAllValidations()
+```
+
+Run all validations on the stack.
+
+## `toTerraform` <a name="toTerraform" id="cdktf.TerraformStack.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformStack.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#cdktf.TerraformStack.isStack">isStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.of">of</a></code> | *No description.* |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.TerraformStack.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformStack;
+
+TerraformStack.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformStack.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+## `isStack` <a name="isStack" id="cdktf.TerraformStack.isStack"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformStack;
+
+TerraformStack.isStack(java.lang.Object x)
+```
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformStack.isStack.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `of` <a name="of" id="cdktf.TerraformStack.of"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformStack;
+
+TerraformStack.of(IConstruct construct)
+```
+
+### `construct`<sup>Required</sup> <a name="construct" id="cdktf.TerraformStack.of.parameter.construct"></a>
+
+- *Type:* software.constructs.IConstruct
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformStack.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.TerraformStack.property.dependencies">dependencies</a></code> | <code>java.util.List<<a href="#cdktf.TerraformStack">TerraformStack</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformStack.property.synthesizer">synthesizer</a></code> | <code><a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a></code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformStack.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `dependencies`<sup>Required</sup> <a name="dependencies" id="cdktf.TerraformStack.property.dependencies"></a>
+
+```java
+public java.util.List<TerraformStack> getDependencies();
+```
+
+- *Type:* java.util.List<<a href="#cdktf.TerraformStack">TerraformStack</a>>
+
+---
+
+## `synthesizer`<sup>Required</sup> <a name="synthesizer" id="cdktf.TerraformStack.property.synthesizer"></a>
+
+```java
+public IStackSynthesizer getSynthesizer();
+```
+
+- *Type:* <a href="#cdktf.IStackSynthesizer">IStackSynthesizer</a>
+
+---
+

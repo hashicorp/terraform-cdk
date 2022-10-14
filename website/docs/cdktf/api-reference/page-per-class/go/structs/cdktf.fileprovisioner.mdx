@@ -1,0 +1,101 @@
+ FileProvisioner <a name="FileProvisioner" id="cdktf.FileProvisioner"></a>
+
+The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
+
+The file provisioner supports both ssh and winrm type connections.
+
+See {@link https://www.terraform.io/language/resources/provisioners/file file}
+
+# Initializer <a name="Initializer" id="cdktf.FileProvisioner.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.FileProvisioner {
+	Destination: *string,
+	Type: *string,
+	Connection: interface{},
+	Content: *string,
+	Source: *string,
+}
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.FileProvisioner.property.destination">Destination</a></code> | <code>*string</code> | The source file or directory. |
+| <code><a href="#cdktf.FileProvisioner.property.type">Type</a></code> | <code>*string</code> | *No description.* |
+| <code><a href="#cdktf.FileProvisioner.property.connection">Connection</a></code> | <code>interface{}</code> | Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect. |
+| <code><a href="#cdktf.FileProvisioner.property.content">Content</a></code> | <code>*string</code> | The destination path to write to on the remote system. |
+| <code><a href="#cdktf.FileProvisioner.property.source">Source</a></code> | <code>*string</code> | The direct content to copy on the destination. |
+
+---
+
+## `Destination`<sup>Required</sup> <a name="Destination" id="cdktf.FileProvisioner.property.destination"></a>
+
+```go
+Destination *string
+```
+
+- *Type:* *string
+
+The source file or directory.
+
+Specify it either relative to the current working directory or as an absolute path.
+This argument cannot be combined with content.
+
+---
+
+## `Type`<sup>Required</sup> <a name="Type" id="cdktf.FileProvisioner.property.type"></a>
+
+```go
+Type *string
+```
+
+- *Type:* *string
+
+---
+
+## `Connection`<sup>Optional</sup> <a name="Connection" id="cdktf.FileProvisioner.property.connection"></a>
+
+```go
+Connection interface{}
+```
+
+- *Type:* interface{}
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+---
+
+## `Content`<sup>Optional</sup> <a name="Content" id="cdktf.FileProvisioner.property.content"></a>
+
+```go
+Content *string
+```
+
+- *Type:* *string
+
+The destination path to write to on the remote system.
+
+See Destination Paths below for more information.
+
+---
+
+## `Source`<sup>Optional</sup> <a name="Source" id="cdktf.FileProvisioner.property.source"></a>
+
+```go
+Source *string
+```
+
+- *Type:* *string
+
+The direct content to copy on the destination.
+
+If destination is a file, the content will be written on that file.
+In case of a directory, a file named tf-file-content is created inside that directory.
+We recommend using a file as the destination when using content.
+This argument cannot be combined with source.
+
+---

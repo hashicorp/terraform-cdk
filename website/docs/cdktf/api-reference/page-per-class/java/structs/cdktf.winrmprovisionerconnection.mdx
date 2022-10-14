@@ -1,0 +1,188 @@
+ WinrmProvisionerConnection <a name="WinrmProvisionerConnection" id="cdktf.WinrmProvisionerConnection"></a>
+
+Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
+
+See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+
+# Initializer <a name="Initializer" id="cdktf.WinrmProvisionerConnection.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.WinrmProvisionerConnection;
+
+WinrmProvisionerConnection.builder()
+    .host(java.lang.String)
+    .type(java.lang.String)
+//  .cacert(java.lang.String)
+//  .https(java.lang.Boolean)
+//  .insecure(java.lang.Boolean)
+//  .password(java.lang.String)
+//  .port(java.lang.Number)
+//  .scriptPath(java.lang.String)
+//  .timeout(java.lang.String)
+//  .useNtlm(java.lang.Boolean)
+//  .user(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.host">host</a></code> | <code>java.lang.String</code> | The address of the resource to connect to. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.type">type</a></code> | <code>java.lang.String</code> | The connection type. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.cacert">cacert</a></code> | <code>java.lang.String</code> | The CA certificate to validate against. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.https">https</a></code> | <code>java.lang.Boolean</code> | Set to true to connect using HTTPS instead of HTTP. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.insecure">insecure</a></code> | <code>java.lang.Boolean</code> | Set to true to skip validating the HTTPS certificate chain. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.password">password</a></code> | <code>java.lang.String</code> | The password to use for the connection. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.port">port</a></code> | <code>java.lang.Number</code> | The port to connect to. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.scriptPath">scriptPath</a></code> | <code>java.lang.String</code> | The path used to copy scripts meant for remote execution. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.timeout">timeout</a></code> | <code>java.lang.String</code> | The timeout to wait for the connection to become available. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.useNtlm">useNtlm</a></code> | <code>java.lang.Boolean</code> | Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest. |
+| <code><a href="#cdktf.WinrmProvisionerConnection.property.user">user</a></code> | <code>java.lang.String</code> | The user to use for the connection. |
+
+---
+
+## `host`<sup>Required</sup> <a name="host" id="cdktf.WinrmProvisionerConnection.property.host"></a>
+
+```java
+public java.lang.String getHost();
+```
+
+- *Type:* java.lang.String
+
+The address of the resource to connect to.
+
+---
+
+## `type`<sup>Required</sup> <a name="type" id="cdktf.WinrmProvisionerConnection.property.type"></a>
+
+```java
+public java.lang.String getType();
+```
+
+- *Type:* java.lang.String
+
+The connection type.
+
+Valid values are "ssh" and "winrm".
+Provisioners typically assume that the remote system runs Microsoft Windows when using WinRM.
+Behaviors based on the SSH target_platform will force Windows-specific behavior for WinRM, unless otherwise specified.
+
+---
+
+## `cacert`<sup>Optional</sup> <a name="cacert" id="cdktf.WinrmProvisionerConnection.property.cacert"></a>
+
+```java
+public java.lang.String getCacert();
+```
+
+- *Type:* java.lang.String
+
+The CA certificate to validate against.
+
+---
+
+## `https`<sup>Optional</sup> <a name="https" id="cdktf.WinrmProvisionerConnection.property.https"></a>
+
+```java
+public java.lang.Boolean getHttps();
+```
+
+- *Type:* java.lang.Boolean
+
+Set to true to connect using HTTPS instead of HTTP.
+
+---
+
+## `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.WinrmProvisionerConnection.property.insecure"></a>
+
+```java
+public java.lang.Boolean getInsecure();
+```
+
+- *Type:* java.lang.Boolean
+
+Set to true to skip validating the HTTPS certificate chain.
+
+---
+
+## `password`<sup>Optional</sup> <a name="password" id="cdktf.WinrmProvisionerConnection.property.password"></a>
+
+```java
+public java.lang.String getPassword();
+```
+
+- *Type:* java.lang.String
+
+The password to use for the connection.
+
+---
+
+## `port`<sup>Optional</sup> <a name="port" id="cdktf.WinrmProvisionerConnection.property.port"></a>
+
+```java
+public java.lang.Number getPort();
+```
+
+- *Type:* java.lang.Number
+- *Default:* 22
+
+The port to connect to.
+
+---
+
+## `scriptPath`<sup>Optional</sup> <a name="scriptPath" id="cdktf.WinrmProvisionerConnection.property.scriptPath"></a>
+
+```java
+public java.lang.String getScriptPath();
+```
+
+- *Type:* java.lang.String
+
+The path used to copy scripts meant for remote execution.
+
+Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+
+---
+
+## `timeout`<sup>Optional</sup> <a name="timeout" id="cdktf.WinrmProvisionerConnection.property.timeout"></a>
+
+```java
+public java.lang.String getTimeout();
+```
+
+- *Type:* java.lang.String
+- *Default:* 5m
+
+The timeout to wait for the connection to become available.
+
+Should be provided as a string (e.g., "30s" or "5m".)
+
+---
+
+## `useNtlm`<sup>Optional</sup> <a name="useNtlm" id="cdktf.WinrmProvisionerConnection.property.useNtlm"></a>
+
+```java
+public java.lang.Boolean getUseNtlm();
+```
+
+- *Type:* java.lang.Boolean
+
+Set to true to use NTLM authentication rather than default (basic authentication), removing the requirement for basic authentication to be enabled within the target guest.
+
+Refer to Authentication for Remote Connections in the Windows App Development documentation for more details.
+
+---
+
+## `user`<sup>Optional</sup> <a name="user" id="cdktf.WinrmProvisionerConnection.property.user"></a>
+
+```java
+public java.lang.String getUser();
+```
+
+- *Type:* java.lang.String
+- *Default:* root
+
+The user to use for the connection.
+
+---

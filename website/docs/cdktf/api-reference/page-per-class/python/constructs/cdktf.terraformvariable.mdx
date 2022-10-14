@@ -1,0 +1,433 @@
+ TerraformVariable <a name="TerraformVariable" id="cdktf.TerraformVariable"></a>
+
+- *Implements:* <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>
+
+# Initializers <a name="Initializers" id="cdktf.TerraformVariable.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformVariable(
+  scope: Construct,
+  id: str,
+  default: typing.Any = None,
+  description: str = None,
+  nullable: bool = None,
+  sensitive: bool = None,
+  type: str = None,
+  validation: typing.List[TerraformVariableValidationConfig] = None
+)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.default">default</a></code> | <code>typing.Any</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.description">description</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.nullable">nullable</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.sensitive">sensitive</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.type">type</a></code> | <code>str</code> | The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable. |
+| <code><a href="#cdktf.TerraformVariable.Initializer.parameter.validation">validation</a></code> | <code>typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]</code> | Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block. |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformVariable.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformVariable.Initializer.parameter.id"></a>
+
+- *Type:* str
+
+---
+
+## `default`<sup>Optional</sup> <a name="default" id="cdktf.TerraformVariable.Initializer.parameter.default"></a>
+
+- *Type:* typing.Any
+
+---
+
+## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformVariable.Initializer.parameter.description"></a>
+
+- *Type:* str
+
+---
+
+## `nullable`<sup>Optional</sup> <a name="nullable" id="cdktf.TerraformVariable.Initializer.parameter.nullable"></a>
+
+- *Type:* bool
+
+---
+
+## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformVariable.Initializer.parameter.sensitive"></a>
+
+- *Type:* bool
+
+---
+
+## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariable.Initializer.parameter.type"></a>
+
+- *Type:* str
+
+The type argument in a variable block allows you to restrict the type of value that will be accepted as the value for a variable.
+
+If no type constraint is set then a value of any type is accepted.
+
+While type constraints are optional, we recommend specifying them; they serve as easy reminders for users of the module, and allow Terraform to return a helpful error message if the wrong type is used.
+
+Type constraints are created from a mixture of type keywords and type constructors. The supported type keywords are:
+
+* string
+* number
+* bool
+
+The type constructors allow you to specify complex types such as collections:
+
+* list(<TYPE>)
+* set(<TYPE>)
+* map(<TYPE>)
+* object({<ATTR NAME> = <TYPE>, ... })
+* tuple([<TYPE>, ...])
+
+The keyword any may be used to indicate that any type is acceptable. For more information on the meaning and behavior of these different types, as well as detailed information about automatic conversion of complex types, see {@link https://www.terraform.io/docs/configuration/types.html|Type Constraints}.
+
+If both the type and default arguments are specified, the given default value must be convertible to the specified type.
+
+---
+
+## `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariable.Initializer.parameter.validation"></a>
+
+- *Type:* typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]
+
+Specify arbitrary custom validation rules for a particular variable using a validation block nested within the corresponding variable block.
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformVariable.toString">to_string</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.TerraformVariable.addOverride">add_override</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.TerraformVariable.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.TerraformVariable.toMetadata">to_metadata</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.toTerraform">to_terraform</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.addValidation">add_validation</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.synthesizeAttributes">synthesize_attributes</a></code> | *No description.* |
+
+---
+
+## `to_string` <a name="to_string" id="cdktf.TerraformVariable.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Returns a string representation of this construct.
+
+## `add_override` <a name="add_override" id="cdktf.TerraformVariable.addOverride"></a>
+
+```python
+def add_override(
+  path: str,
+  value: typing.Any
+) -> None
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformVariable.addOverride.parameter.path"></a>
+
+- *Type:* str
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformVariable.addOverride.parameter.value"></a>
+
+- *Type:* typing.Any
+
+---
+
+## `override_logical_id` <a name="override_logical_id" id="cdktf.TerraformVariable.overrideLogicalId"></a>
+
+```python
+def override_logical_id(
+  new_logical_id: str
+) -> None
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.TerraformVariable.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* str
+
+The new logical ID to use for this stack element.
+
+---
+
+## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.TerraformVariable.resetOverrideLogicalId"></a>
+
+```python
+def reset_override_logical_id() -> None
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `to_metadata` <a name="to_metadata" id="cdktf.TerraformVariable.toMetadata"></a>
+
+```python
+def to_metadata() -> typing.Any
+```
+
+## `to_terraform` <a name="to_terraform" id="cdktf.TerraformVariable.toTerraform"></a>
+
+```python
+def to_terraform() -> typing.Any
+```
+
+## `add_validation` <a name="add_validation" id="cdktf.TerraformVariable.addValidation"></a>
+
+```python
+def add_validation(
+  condition: typing.Any,
+  error_message: str
+) -> None
+```
+
+### `condition`<sup>Required</sup> <a name="condition" id="cdktf.TerraformVariable.addValidation.parameter.condition"></a>
+
+- *Type:* typing.Any
+
+---
+
+### `error_message`<sup>Required</sup> <a name="error_message" id="cdktf.TerraformVariable.addValidation.parameter.errorMessage"></a>
+
+- *Type:* str
+
+---
+
+## `synthesize_attributes` <a name="synthesize_attributes" id="cdktf.TerraformVariable.synthesizeAttributes"></a>
+
+```python
+def synthesize_attributes() -> typing.Mapping[typing.Any]
+```
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformVariable.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `is_construct` <a name="is_construct" id="cdktf.TerraformVariable.isConstruct"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformVariable.is_construct(
+  x: typing.Any
+)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformVariable.isConstruct.parameter.x"></a>
+
+- *Type:* typing.Any
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformVariable.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.TerraformVariable.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.booleanValue">boolean_value</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.listValue">list_value</a></code> | <code>typing.List[str]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.numberValue">number_value</a></code> | <code>typing.Union[int, float]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.stringValue">string_value</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.value">value</a></code> | <code>typing.Any</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.default">default</a></code> | <code>typing.Any</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.description">description</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.nullable">nullable</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.sensitive">sensitive</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.type">type</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformVariable.property.validation">validation</a></code> | <code>typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformVariable.property.node"></a>
+
+```python
+node: Node
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.TerraformVariable.property.cdktfStack"></a>
+
+```python
+cdktf_stack: TerraformStack
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.TerraformVariable.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+
+## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.TerraformVariable.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- *Type:* str
+
+---
+
+## `boolean_value`<sup>Required</sup> <a name="boolean_value" id="cdktf.TerraformVariable.property.booleanValue"></a>
+
+```python
+boolean_value: IResolvable
+```
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `list_value`<sup>Required</sup> <a name="list_value" id="cdktf.TerraformVariable.property.listValue"></a>
+
+```python
+list_value: typing.List[str]
+```
+
+- *Type:* typing.List[str]
+
+---
+
+## `number_value`<sup>Required</sup> <a name="number_value" id="cdktf.TerraformVariable.property.numberValue"></a>
+
+```python
+number_value: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+---
+
+## `string_value`<sup>Required</sup> <a name="string_value" id="cdktf.TerraformVariable.property.stringValue"></a>
+
+```python
+string_value: str
+```
+
+- *Type:* str
+
+---
+
+## `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformVariable.property.value"></a>
+
+```python
+value: typing.Any
+```
+
+- *Type:* typing.Any
+
+---
+
+## `default`<sup>Optional</sup> <a name="default" id="cdktf.TerraformVariable.property.default"></a>
+
+```python
+default: typing.Any
+```
+
+- *Type:* typing.Any
+
+---
+
+## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformVariable.property.description"></a>
+
+```python
+description: str
+```
+
+- *Type:* str
+
+---
+
+## `nullable`<sup>Optional</sup> <a name="nullable" id="cdktf.TerraformVariable.property.nullable"></a>
+
+```python
+nullable: bool
+```
+
+- *Type:* bool
+
+---
+
+## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformVariable.property.sensitive"></a>
+
+```python
+sensitive: bool
+```
+
+- *Type:* bool
+
+---
+
+## `type`<sup>Optional</sup> <a name="type" id="cdktf.TerraformVariable.property.type"></a>
+
+```python
+type: str
+```
+
+- *Type:* str
+
+---
+
+## `validation`<sup>Optional</sup> <a name="validation" id="cdktf.TerraformVariable.property.validation"></a>
+
+```python
+validation: typing.List[TerraformVariableValidationConfig]
+```
+
+- *Type:* typing.List[<a href="#cdktf.TerraformVariableValidationConfig">TerraformVariableValidationConfig</a>]
+
+---
+

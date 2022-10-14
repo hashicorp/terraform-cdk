@@ -1,0 +1,394 @@
+ DataTerraformRemoteStateCos <a name="DataTerraformRemoteStateCos" id="cdktf.DataTerraformRemoteStateCos"></a>
+
+# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateCos.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.DataTerraformRemoteStateCos;
+
+DataTerraformRemoteStateCos.Builder.create(Construct scope, java.lang.String id)
+//  .defaults(java.util.Map<java.lang.String, java.lang.Object>)
+//  .workspace(java.lang.String)
+    .bucket(java.lang.String)
+//  .acl(java.lang.String)
+//  .encrypt(java.lang.Boolean)
+//  .key(java.lang.String)
+//  .prefix(java.lang.String)
+//  .region(java.lang.String)
+//  .secretId(java.lang.String)
+//  .secretKey(java.lang.String)
+    .build();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.defaults">defaults</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.workspace">workspace</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.bucket">bucket</a></code> | <code>java.lang.String</code> | (Required) The name of the COS bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.acl">acl</a></code> | <code>java.lang.String</code> | (Optional) Object ACL to be applied to the state file, allows private and public-read. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.encrypt">encrypt</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to enable server side encryption of the state file. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.key">key</a></code> | <code>java.lang.String</code> | (Optional) The path for saving the state file in bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) The directory for saving the state file in bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.region">region</a></code> | <code>java.lang.String</code> | (Optional) The region of the COS bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.secretId">secretId</a></code> | <code>java.lang.String</code> | (Optional) Secret id of Tencent Cloud. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.Initializer.parameter.secretKey">secretKey</a></code> | <code>java.lang.String</code> | (Optional) Secret key of Tencent Cloud. |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.id"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.defaults"></a>
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.workspace"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.bucket"></a>
+
+- *Type:* java.lang.String
+
+(Required) The name of the COS bucket.
+
+You shall manually create it first.
+
+---
+
+## `acl`<sup>Optional</sup> <a name="acl" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.acl"></a>
+
+- *Type:* java.lang.String
+
+(Optional) Object ACL to be applied to the state file, allows private and public-read.
+
+Defaults to private.
+
+---
+
+## `encrypt`<sup>Optional</sup> <a name="encrypt" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.encrypt"></a>
+
+- *Type:* java.lang.Boolean
+
+(Optional) Whether to enable server side encryption of the state file.
+
+If it is true, COS will use 'AES256' encryption algorithm to encrypt state file.
+
+---
+
+## `key`<sup>Optional</sup> <a name="key" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.key"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The path for saving the state file in bucket.
+
+Defaults to terraform.tfstate.
+
+---
+
+## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.prefix"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The directory for saving the state file in bucket.
+
+Default to "env:".
+
+---
+
+## `region`<sup>Optional</sup> <a name="region" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.region"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The region of the COS bucket.
+
+It supports environment variables TENCENTCLOUD_REGION.
+
+---
+
+## `secretId`<sup>Optional</sup> <a name="secretId" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.secretId"></a>
+
+- *Type:* java.lang.String
+
+(Optional) Secret id of Tencent Cloud.
+
+It supports environment variables TENCENTCLOUD_SECRET_ID.
+
+---
+
+## `secretKey`<sup>Optional</sup> <a name="secretKey" id="cdktf.DataTerraformRemoteStateCos.Initializer.parameter.secretKey"></a>
+
+- *Type:* java.lang.String
+
+(Optional) Secret key of Tencent Cloud.
+
+It supports environment variables TENCENTCLOUD_SECRET_KEY.
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.toMetadata">toMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.get">get</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.getBoolean">getBoolean</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.getList">getList</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.getNumber">getNumber</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.getString">getString</a></code> | *No description.* |
+
+---
+
+## `toString` <a name="toString" id="cdktf.DataTerraformRemoteStateCos.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addOverride` <a name="addOverride" id="cdktf.DataTerraformRemoteStateCos.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateCos.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateCos.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.DataTerraformRemoteStateCos.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.DataTerraformRemoteStateCos.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateCos.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `toMetadata` <a name="toMetadata" id="cdktf.DataTerraformRemoteStateCos.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+## `toTerraform` <a name="toTerraform" id="cdktf.DataTerraformRemoteStateCos.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+Adds this resource to the terraform JSON output.
+
+## `get` <a name="get" id="cdktf.DataTerraformRemoteStateCos.get"></a>
+
+```java
+public IResolvable get(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.get.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getBoolean` <a name="getBoolean" id="cdktf.DataTerraformRemoteStateCos.getBoolean"></a>
+
+```java
+public IResolvable getBoolean(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getBoolean.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getList` <a name="getList" id="cdktf.DataTerraformRemoteStateCos.getList"></a>
+
+```java
+public java.util.List<java.lang.String> getList(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getList.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getNumber` <a name="getNumber" id="cdktf.DataTerraformRemoteStateCos.getNumber"></a>
+
+```java
+public java.lang.Number getNumber(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getNumber.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getString` <a name="getString" id="cdktf.DataTerraformRemoteStateCos.getString"></a>
+
+```java
+public java.lang.String getString(java.lang.String output)
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateCos.getString.parameter.output"></a>
+
+- *Type:* java.lang.String
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.DataTerraformRemoteStateCos.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.DataTerraformRemoteStateCos;
+
+DataTerraformRemoteStateCos.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateCos.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateCos.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.DataTerraformRemoteStateCos.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateCos.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.DataTerraformRemoteStateCos.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- *Type:* java.lang.String
+
+---
+
+# Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateCos.property.tfResourceType">tfResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+
+---
+
+## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateCos.property.tfResourceType"></a>
+
+```java
+public java.lang.String getTfResourceType();
+```
+
+- *Type:* java.lang.String
+
+---

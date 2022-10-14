@@ -1,0 +1,97 @@
+ Annotations <a name="Annotations" id="cdktf.Annotations"></a>
+
+Includes API for attaching annotations such as warning messages to constructs.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Annotations.addError">AddError</a></code> | Adds an { "error": <message> } metadata entry to this construct. |
+| <code><a href="#cdktf.Annotations.addInfo">AddInfo</a></code> | Adds an info metadata entry to this construct. |
+| <code><a href="#cdktf.Annotations.addWarning">AddWarning</a></code> | Adds a warning metadata entry to this construct. |
+
+---
+
+## `AddError` <a name="AddError" id="cdktf.Annotations.addError"></a>
+
+```csharp
+private void AddError(string Message)
+```
+
+Adds an { "error": <message> } metadata entry to this construct.
+
+The toolkit will fail synthesis when errors are reported.
+
+### `Message`<sup>Required</sup> <a name="Message" id="cdktf.Annotations.addError.parameter.message"></a>
+
+- *Type:* string
+
+The error message.
+
+---
+
+## `AddInfo` <a name="AddInfo" id="cdktf.Annotations.addInfo"></a>
+
+```csharp
+private void AddInfo(string Message)
+```
+
+Adds an info metadata entry to this construct.
+
+The CLI will display the info message when apps are synthesized.
+
+### `Message`<sup>Required</sup> <a name="Message" id="cdktf.Annotations.addInfo.parameter.message"></a>
+
+- *Type:* string
+
+The info message.
+
+---
+
+## `AddWarning` <a name="AddWarning" id="cdktf.Annotations.addWarning"></a>
+
+```csharp
+private void AddWarning(string Message)
+```
+
+Adds a warning metadata entry to this construct.
+
+The CLI will display the warning when an app is synthesized.
+In a future release the CLI might introduce a --strict flag which
+will then fail the synthesis if it encounters a warning.
+
+### `Message`<sup>Required</sup> <a name="Message" id="cdktf.Annotations.addWarning.parameter.message"></a>
+
+- *Type:* string
+
+The warning message.
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Annotations.of">Of</a></code> | Returns the annotations API for a construct scope. |
+
+---
+
+## `Of` <a name="Of" id="cdktf.Annotations.of"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Annotations.Of(IConstruct Scope);
+```
+
+Returns the annotations API for a construct scope.
+
+### `Scope`<sup>Required</sup> <a name="Scope" id="cdktf.Annotations.of.parameter.scope"></a>
+
+- *Type:* Constructs.IConstruct
+
+The scope.
+
+---
+
+

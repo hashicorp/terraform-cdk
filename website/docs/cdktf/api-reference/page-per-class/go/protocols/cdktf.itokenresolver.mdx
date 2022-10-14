@@ -1,0 +1,126 @@
+ ITokenResolver <a name="ITokenResolver" id="cdktf.ITokenResolver"></a>
+
+- *Implemented By:* <a href="#cdktf.DefaultTokenResolver">DefaultTokenResolver</a>, <a href="#cdktf.ITokenResolver">ITokenResolver</a>
+
+How to resolve tokens.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.ITokenResolver.resolveList">ResolveList</a></code> | Resolve a tokenized list. |
+| <code><a href="#cdktf.ITokenResolver.resolveMap">ResolveMap</a></code> | Resolve a tokenized map. |
+| <code><a href="#cdktf.ITokenResolver.resolveNumberList">ResolveNumberList</a></code> | Resolve a tokenized number list. |
+| <code><a href="#cdktf.ITokenResolver.resolveString">ResolveString</a></code> | Resolve a string with at least one stringified token in it. |
+| <code><a href="#cdktf.ITokenResolver.resolveToken">ResolveToken</a></code> | Resolve a single token. |
+
+---
+
+## `ResolveList` <a name="ResolveList" id="cdktf.ITokenResolver.resolveList"></a>
+
+```go
+func ResolveList(l *[]*string, context IResolveContext) interface{}
+```
+
+Resolve a tokenized list.
+
+### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveList.parameter.l"></a>
+
+- *Type:* *[]*string
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveList.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ResolveMap` <a name="ResolveMap" id="cdktf.ITokenResolver.resolveMap"></a>
+
+```go
+func ResolveMap(m *map[string]interface{}, context IResolveContext) interface{}
+```
+
+Resolve a tokenized map.
+
+### `m`<sup>Required</sup> <a name="m" id="cdktf.ITokenResolver.resolveMap.parameter.m"></a>
+
+- *Type:* *map[string]interface{}
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveMap.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ResolveNumberList` <a name="ResolveNumberList" id="cdktf.ITokenResolver.resolveNumberList"></a>
+
+```go
+func ResolveNumberList(l *[]*f64, context IResolveContext) interface{}
+```
+
+Resolve a tokenized number list.
+
+### `l`<sup>Required</sup> <a name="l" id="cdktf.ITokenResolver.resolveNumberList.parameter.l"></a>
+
+- *Type:* *[]*f64
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveNumberList.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ResolveString` <a name="ResolveString" id="cdktf.ITokenResolver.resolveString"></a>
+
+```go
+func ResolveString(s TokenizedStringFragments, context IResolveContext) interface{}
+```
+
+Resolve a string with at least one stringified token in it.
+
+(May use concatenation)
+
+### `s`<sup>Required</sup> <a name="s" id="cdktf.ITokenResolver.resolveString.parameter.s"></a>
+
+- *Type:* <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveString.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ResolveToken` <a name="ResolveToken" id="cdktf.ITokenResolver.resolveToken"></a>
+
+```go
+func ResolveToken(t IResolvable, context IResolveContext, postProcessor IPostProcessor) interface{}
+```
+
+Resolve a single token.
+
+### `t`<sup>Required</sup> <a name="t" id="cdktf.ITokenResolver.resolveToken.parameter.t"></a>
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.ITokenResolver.resolveToken.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+### `postProcessor`<sup>Required</sup> <a name="postProcessor" id="cdktf.ITokenResolver.resolveToken.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+

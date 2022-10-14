@@ -1,0 +1,517 @@
+ TerraformResource <a name="TerraformResource" id="cdktf.TerraformResource"></a>
+
+- *Implements:* <a href="#cdktf.ITerraformResource">ITerraformResource</a>, <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>, <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+
+# Initializers <a name="Initializers" id="cdktf.TerraformResource.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformResource;
+
+TerraformResource.Builder.create(Construct scope, java.lang.String id)
+//  .connection(SSHProvisionerConnection)
+//  .connection(WinrmProvisionerConnection)
+//  .count(java.lang.Number)
+//  .dependsOn(java.util.List<ITerraformDependable>)
+//  .forEach(ITerraformIterator)
+//  .lifecycle(TerraformResourceLifecycle)
+//  .provider(TerraformProvider)
+//  .provisioners(java.util.List<FileProvisioner)
+//  .provisioners(LocalExecProvisioner)
+//  .provisioners(RemoteExecProvisioner>)
+    .terraformResourceType(java.lang.String)
+//  .terraformGeneratorMetadata(TerraformProviderGeneratorMetadata)
+    .build();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.connection">connection</a></code> | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.count">count</a></code> | <code>java.lang.Number</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.dependsOn">dependsOn</a></code> | <code>java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.forEach">forEach</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.lifecycle">lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.provisioners">provisioners</a></code> | <code>java.util.List<<a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformResourceType">terraformResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | *No description.* |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformResource.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformResource.Initializer.parameter.id"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.Initializer.parameter.connection"></a>
+
+- *Type:* <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
+
+---
+
+## `count`<sup>Optional</sup> <a name="count" id="cdktf.TerraformResource.Initializer.parameter.count"></a>
+
+- *Type:* java.lang.Number
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformResource.Initializer.parameter.dependsOn"></a>
+
+- *Type:* java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>>
+
+---
+
+## `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformResource.Initializer.parameter.forEach"></a>
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `lifecycle`<sup>Optional</sup> <a name="lifecycle" id="cdktf.TerraformResource.Initializer.parameter.lifecycle"></a>
+
+- *Type:* <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+## `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResource.Initializer.parameter.provider"></a>
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+## `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.Initializer.parameter.provisioners"></a>
+
+- *Type:* java.util.List<<a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
+
+---
+
+## `terraformResourceType`<sup>Required</sup> <a name="terraformResourceType" id="cdktf.TerraformResource.Initializer.parameter.terraformResourceType"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `terraformGeneratorMetadata`<sup>Optional</sup> <a name="terraformGeneratorMetadata" id="cdktf.TerraformResource.Initializer.parameter.terraformGeneratorMetadata"></a>
+
+- *Type:* <a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a>
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformResource.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.TerraformResource.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.TerraformResource.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.TerraformResource.toMetadata">toMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+| <code><a href="#cdktf.TerraformResource.getAnyMapAttribute">getAnyMapAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getBooleanAttribute">getBooleanAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getBooleanMapAttribute">getBooleanMapAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getListAttribute">getListAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getNumberAttribute">getNumberAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getNumberListAttribute">getNumberListAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getNumberMapAttribute">getNumberMapAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getStringAttribute">getStringAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.getStringMapAttribute">getStringMapAttribute</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.interpolationForAttribute">interpolationForAttribute</a></code> | *No description.* |
+
+---
+
+## `toString` <a name="toString" id="cdktf.TerraformResource.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addOverride` <a name="addOverride" id="cdktf.TerraformResource.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformResource.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformResource.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.TerraformResource.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.TerraformResource.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.TerraformResource.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `toMetadata` <a name="toMetadata" id="cdktf.TerraformResource.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+## `toTerraform` <a name="toTerraform" id="cdktf.TerraformResource.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+Adds this resource to the terraform JSON output.
+
+## `getAnyMapAttribute` <a name="getAnyMapAttribute" id="cdktf.TerraformResource.getAnyMapAttribute"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Object> getAnyMapAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getAnyMapAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getBooleanAttribute` <a name="getBooleanAttribute" id="cdktf.TerraformResource.getBooleanAttribute"></a>
+
+```java
+public IResolvable getBooleanAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getBooleanAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getBooleanMapAttribute` <a name="getBooleanMapAttribute" id="cdktf.TerraformResource.getBooleanMapAttribute"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Boolean> getBooleanMapAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getBooleanMapAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getListAttribute` <a name="getListAttribute" id="cdktf.TerraformResource.getListAttribute"></a>
+
+```java
+public java.util.List<java.lang.String> getListAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getListAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getNumberAttribute` <a name="getNumberAttribute" id="cdktf.TerraformResource.getNumberAttribute"></a>
+
+```java
+public java.lang.Number getNumberAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getNumberAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getNumberListAttribute` <a name="getNumberListAttribute" id="cdktf.TerraformResource.getNumberListAttribute"></a>
+
+```java
+public java.util.List<java.lang.Number> getNumberListAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getNumberListAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getNumberMapAttribute` <a name="getNumberMapAttribute" id="cdktf.TerraformResource.getNumberMapAttribute"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Number> getNumberMapAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getNumberMapAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getStringAttribute` <a name="getStringAttribute" id="cdktf.TerraformResource.getStringAttribute"></a>
+
+```java
+public java.lang.String getStringAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getStringAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `getStringMapAttribute` <a name="getStringMapAttribute" id="cdktf.TerraformResource.getStringMapAttribute"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.String> getStringMapAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.getStringMapAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `interpolationForAttribute` <a name="interpolationForAttribute" id="cdktf.TerraformResource.interpolationForAttribute"></a>
+
+```java
+public IResolvable interpolationForAttribute(java.lang.String terraformAttribute)
+```
+
+### `terraformAttribute`<sup>Required</sup> <a name="terraformAttribute" id="cdktf.TerraformResource.interpolationForAttribute.parameter.terraformAttribute"></a>
+
+- *Type:* java.lang.String
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformResource.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.TerraformResource.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformResource;
+
+TerraformResource.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformResource.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformResource.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.TerraformResource.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.terraformMetaArguments">terraformMetaArguments</a></code> | <code>java.util.Map<java.lang.String, java.lang.Object></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.terraformResourceType">terraformResourceType</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.terraformGeneratorMetadata">terraformGeneratorMetadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.connection">connection</a></code> | <code><a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.count">count</a></code> | <code>java.lang.Number</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.dependsOn">dependsOn</a></code> | <code>java.util.List<java.lang.String></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.forEach">forEach</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.lifecycle">lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResource.property.provisioners">provisioners</a></code> | <code>java.util.List<<a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>></code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformResource.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.TerraformResource.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.TerraformResource.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.TerraformResource.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `terraformMetaArguments`<sup>Required</sup> <a name="terraformMetaArguments" id="cdktf.TerraformResource.property.terraformMetaArguments"></a>
+
+```java
+public java.util.Map<java.lang.String, java.lang.Object> getTerraformMetaArguments();
+```
+
+- *Type:* java.util.Map<java.lang.String, java.lang.Object>
+
+---
+
+## `terraformResourceType`<sup>Required</sup> <a name="terraformResourceType" id="cdktf.TerraformResource.property.terraformResourceType"></a>
+
+```java
+public java.lang.String getTerraformResourceType();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `terraformGeneratorMetadata`<sup>Optional</sup> <a name="terraformGeneratorMetadata" id="cdktf.TerraformResource.property.terraformGeneratorMetadata"></a>
+
+```java
+public TerraformProviderGeneratorMetadata getTerraformGeneratorMetadata();
+```
+
+- *Type:* <a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a>
+
+---
+
+## `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResource.property.connection"></a>
+
+```java
+public java.lang.Object getConnection();
+```
+
+- *Type:* <a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a> OR <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>
+
+---
+
+## `count`<sup>Optional</sup> <a name="count" id="cdktf.TerraformResource.property.count"></a>
+
+```java
+public java.lang.Number getCount();
+```
+
+- *Type:* java.lang.Number
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformResource.property.dependsOn"></a>
+
+```java
+public java.util.List<java.lang.String> getDependsOn();
+```
+
+- *Type:* java.util.List<java.lang.String>
+
+---
+
+## `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformResource.property.forEach"></a>
+
+```java
+public ITerraformIterator getForEach();
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `lifecycle`<sup>Optional</sup> <a name="lifecycle" id="cdktf.TerraformResource.property.lifecycle"></a>
+
+```java
+public TerraformResourceLifecycle getLifecycle();
+```
+
+- *Type:* <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+## `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResource.property.provider"></a>
+
+```java
+public TerraformProvider getProvider();
+```
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+## `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResource.property.provisioners"></a>
+
+```java
+public java.lang.Object getProvisioners();
+```
+
+- *Type:* java.util.List<<a href="#cdktf.FileProvisioner">FileProvisioner</a> OR <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a> OR <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>>
+
+---
+
