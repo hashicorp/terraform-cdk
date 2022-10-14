@@ -1,0 +1,80 @@
+ EtcdBackendProps <a name="EtcdBackendProps" id="cdktf.EtcdBackendProps"></a>
+
+Stores the state in etcd 2.x at a given path.
+
+This backend does not support state locking.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/etcd
+
+# Initializer <a name="Initializer" id="cdktf.EtcdBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.EtcdBackendProps;
+
+EtcdBackendProps.builder()
+    .endpoints(java.lang.String)
+    .path(java.lang.String)
+//  .password(java.lang.String)
+//  .username(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.EtcdBackendProps.property.endpoints">endpoints</a></code> | <code>java.lang.String</code> | (Required) A space-separated list of the etcd endpoints. |
+| <code><a href="#cdktf.EtcdBackendProps.property.path">path</a></code> | <code>java.lang.String</code> | (Required) The path where to store the state. |
+| <code><a href="#cdktf.EtcdBackendProps.property.password">password</a></code> | <code>java.lang.String</code> | (Optional) The password. |
+| <code><a href="#cdktf.EtcdBackendProps.property.username">username</a></code> | <code>java.lang.String</code> | (Optional) The username. |
+
+---
+
+## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.EtcdBackendProps.property.endpoints"></a>
+
+```java
+public java.lang.String getEndpoints();
+```
+
+- *Type:* java.lang.String
+
+(Required) A space-separated list of the etcd endpoints.
+
+---
+
+## `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdBackendProps.property.path"></a>
+
+```java
+public java.lang.String getPath();
+```
+
+- *Type:* java.lang.String
+
+(Required) The path where to store the state.
+
+---
+
+## `password`<sup>Optional</sup> <a name="password" id="cdktf.EtcdBackendProps.property.password"></a>
+
+```java
+public java.lang.String getPassword();
+```
+
+- *Type:* java.lang.String
+
+(Optional) The password.
+
+---
+
+## `username`<sup>Optional</sup> <a name="username" id="cdktf.EtcdBackendProps.property.username"></a>
+
+```java
+public java.lang.String getUsername();
+```
+
+- *Type:* java.lang.String
+
+(Optional) The username.
+
+---

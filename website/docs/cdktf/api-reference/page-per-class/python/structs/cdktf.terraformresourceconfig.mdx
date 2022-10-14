@@ -1,0 +1,125 @@
+ TerraformResourceConfig <a name="TerraformResourceConfig" id="cdktf.TerraformResourceConfig"></a>
+
+# Initializer <a name="Initializer" id="cdktf.TerraformResourceConfig.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TerraformResourceConfig(
+  connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection] = None,
+  count: typing.Union[int, float] = None,
+  depends_on: typing.List[ITerraformDependable] = None,
+  for_each: ITerraformIterator = None,
+  lifecycle: TerraformResourceLifecycle = None,
+  provider: TerraformProvider = None,
+  provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]] = None,
+  terraform_resource_type: str,
+  terraform_generator_metadata: TerraformProviderGeneratorMetadata = None
+)
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformResourceConfig.property.connection">connection</a></code> | <code>typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.count">count</a></code> | <code>typing.Union[int, float]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.dependsOn">depends_on</a></code> | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.forEach">for_each</a></code> | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.lifecycle">lifecycle</a></code> | <code><a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provider">provider</a></code> | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.provisioners">provisioners</a></code> | <code>typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformResourceType">terraform_resource_type</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata">terraform_generator_metadata</a></code> | <code><a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a></code> | *No description.* |
+
+---
+
+## `connection`<sup>Optional</sup> <a name="connection" id="cdktf.TerraformResourceConfig.property.connection"></a>
+
+```python
+connection: typing.Union[SSHProvisionerConnection, WinrmProvisionerConnection]
+```
+
+- *Type:* typing.Union[<a href="#cdktf.SSHProvisionerConnection">SSHProvisionerConnection</a>, <a href="#cdktf.WinrmProvisionerConnection">WinrmProvisionerConnection</a>]
+
+---
+
+## `count`<sup>Optional</sup> <a name="count" id="cdktf.TerraformResourceConfig.property.count"></a>
+
+```python
+count: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+---
+
+## `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.TerraformResourceConfig.property.dependsOn"></a>
+
+```python
+depends_on: typing.List[ITerraformDependable]
+```
+
+- *Type:* typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]
+
+---
+
+## `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.TerraformResourceConfig.property.forEach"></a>
+
+```python
+for_each: ITerraformIterator
+```
+
+- *Type:* <a href="#cdktf.ITerraformIterator">ITerraformIterator</a>
+
+---
+
+## `lifecycle`<sup>Optional</sup> <a name="lifecycle" id="cdktf.TerraformResourceConfig.property.lifecycle"></a>
+
+```python
+lifecycle: TerraformResourceLifecycle
+```
+
+- *Type:* <a href="#cdktf.TerraformResourceLifecycle">TerraformResourceLifecycle</a>
+
+---
+
+## `provider`<sup>Optional</sup> <a name="provider" id="cdktf.TerraformResourceConfig.property.provider"></a>
+
+```python
+provider: TerraformProvider
+```
+
+- *Type:* <a href="#cdktf.TerraformProvider">TerraformProvider</a>
+
+---
+
+## `provisioners`<sup>Optional</sup> <a name="provisioners" id="cdktf.TerraformResourceConfig.property.provisioners"></a>
+
+```python
+provisioners: typing.List[typing.Union[FileProvisioner, LocalExecProvisioner, RemoteExecProvisioner]]
+```
+
+- *Type:* typing.List[typing.Union[<a href="#cdktf.FileProvisioner">FileProvisioner</a>, <a href="#cdktf.LocalExecProvisioner">LocalExecProvisioner</a>, <a href="#cdktf.RemoteExecProvisioner">RemoteExecProvisioner</a>]]
+
+---
+
+## `terraform_resource_type`<sup>Required</sup> <a name="terraform_resource_type" id="cdktf.TerraformResourceConfig.property.terraformResourceType"></a>
+
+```python
+terraform_resource_type: str
+```
+
+- *Type:* str
+
+---
+
+## `terraform_generator_metadata`<sup>Optional</sup> <a name="terraform_generator_metadata" id="cdktf.TerraformResourceConfig.property.terraformGeneratorMetadata"></a>
+
+```python
+terraform_generator_metadata: TerraformProviderGeneratorMetadata
+```
+
+- *Type:* <a href="#cdktf.TerraformProviderGeneratorMetadata">TerraformProviderGeneratorMetadata</a>
+
+---

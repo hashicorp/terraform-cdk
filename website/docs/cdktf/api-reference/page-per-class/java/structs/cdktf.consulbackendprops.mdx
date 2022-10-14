@@ -1,0 +1,187 @@
+ ConsulBackendProps <a name="ConsulBackendProps" id="cdktf.ConsulBackendProps"></a>
+
+Stores the state in the Consul KV store at a given path. This backend supports state locking.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/consul
+
+# Initializer <a name="Initializer" id="cdktf.ConsulBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.ConsulBackendProps;
+
+ConsulBackendProps.builder()
+    .accessToken(java.lang.String)
+    .path(java.lang.String)
+//  .address(java.lang.String)
+//  .caFile(java.lang.String)
+//  .certFile(java.lang.String)
+//  .datacenter(java.lang.String)
+//  .gzip(java.lang.Boolean)
+//  .httpAuth(java.lang.String)
+//  .keyFile(java.lang.String)
+//  .lock(java.lang.Boolean)
+//  .scheme(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ConsulBackendProps.property.accessToken">accessToken</a></code> | <code>java.lang.String</code> | (Required) Access token. |
+| <code><a href="#cdktf.ConsulBackendProps.property.path">path</a></code> | <code>java.lang.String</code> | (Required) Path in the Consul KV store. |
+| <code><a href="#cdktf.ConsulBackendProps.property.address">address</a></code> | <code>java.lang.String</code> | (Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port. |
+| <code><a href="#cdktf.ConsulBackendProps.property.caFile">caFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate. |
+| <code><a href="#cdktf.ConsulBackendProps.property.certFile">certFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded certificate provided to the remote agent; |
+| <code><a href="#cdktf.ConsulBackendProps.property.datacenter">datacenter</a></code> | <code>java.lang.String</code> | (Optional) The datacenter to use. |
+| <code><a href="#cdktf.ConsulBackendProps.property.gzip">gzip</a></code> | <code>java.lang.Boolean</code> | (Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed. |
+| <code><a href="#cdktf.ConsulBackendProps.property.httpAuth">httpAuth</a></code> | <code>java.lang.String</code> | (Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass. |
+| <code><a href="#cdktf.ConsulBackendProps.property.keyFile">keyFile</a></code> | <code>java.lang.String</code> | (Optional) A path to a PEM-encoded private key, required if cert_file is specified. |
+| <code><a href="#cdktf.ConsulBackendProps.property.lock">lock</a></code> | <code>java.lang.Boolean</code> | (Optional) false to disable locking. |
+| <code><a href="#cdktf.ConsulBackendProps.property.scheme">scheme</a></code> | <code>java.lang.String</code> | (Optional) Specifies what protocol to use when talking to the given address,either http or https. |
+
+---
+
+## `accessToken`<sup>Required</sup> <a name="accessToken" id="cdktf.ConsulBackendProps.property.accessToken"></a>
+
+```java
+public java.lang.String getAccessToken();
+```
+
+- *Type:* java.lang.String
+
+(Required) Access token.
+
+---
+
+## `path`<sup>Required</sup> <a name="path" id="cdktf.ConsulBackendProps.property.path"></a>
+
+```java
+public java.lang.String getPath();
+```
+
+- *Type:* java.lang.String
+
+(Required) Path in the Consul KV store.
+
+---
+
+## `address`<sup>Optional</sup> <a name="address" id="cdktf.ConsulBackendProps.property.address"></a>
+
+```java
+public java.lang.String getAddress();
+```
+
+- *Type:* java.lang.String
+
+(Optional) DNS name and port of your Consul endpoint specified in the format dnsname:port.
+
+Defaults to the local agent HTTP listener.
+
+---
+
+## `caFile`<sup>Optional</sup> <a name="caFile" id="cdktf.ConsulBackendProps.property.caFile"></a>
+
+```java
+public java.lang.String getCaFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded certificate authority used to verify the remote agent's certificate.
+
+---
+
+## `certFile`<sup>Optional</sup> <a name="certFile" id="cdktf.ConsulBackendProps.property.certFile"></a>
+
+```java
+public java.lang.String getCertFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded certificate provided to the remote agent;
+
+requires use of key_file.
+
+---
+
+## `datacenter`<sup>Optional</sup> <a name="datacenter" id="cdktf.ConsulBackendProps.property.datacenter"></a>
+
+```java
+public java.lang.String getDatacenter();
+```
+
+- *Type:* java.lang.String
+
+(Optional) The datacenter to use.
+
+Defaults to that of the agent.
+
+---
+
+## `gzip`<sup>Optional</sup> <a name="gzip" id="cdktf.ConsulBackendProps.property.gzip"></a>
+
+```java
+public java.lang.Boolean getGzip();
+```
+
+- *Type:* java.lang.Boolean
+
+(Optional) true to compress the state data using gzip, or false (the default) to leave it uncompressed.
+
+---
+
+## `httpAuth`<sup>Optional</sup> <a name="httpAuth" id="cdktf.ConsulBackendProps.property.httpAuth"></a>
+
+```java
+public java.lang.String getHttpAuth();
+```
+
+- *Type:* java.lang.String
+
+(Optional) HTTP Basic Authentication credentials to be used when communicating with Consul, in the format of either user or user:pass.
+
+---
+
+## `keyFile`<sup>Optional</sup> <a name="keyFile" id="cdktf.ConsulBackendProps.property.keyFile"></a>
+
+```java
+public java.lang.String getKeyFile();
+```
+
+- *Type:* java.lang.String
+
+(Optional) A path to a PEM-encoded private key, required if cert_file is specified.
+
+---
+
+## `lock`<sup>Optional</sup> <a name="lock" id="cdktf.ConsulBackendProps.property.lock"></a>
+
+```java
+public java.lang.Boolean getLock();
+```
+
+- *Type:* java.lang.Boolean
+
+(Optional) false to disable locking.
+
+This defaults to true, but will require session permissions with Consul and
+at least kv write permissions on $path/.lock to perform locking.
+
+---
+
+## `scheme`<sup>Optional</sup> <a name="scheme" id="cdktf.ConsulBackendProps.property.scheme"></a>
+
+```java
+public java.lang.String getScheme();
+```
+
+- *Type:* java.lang.String
+
+(Optional) Specifies what protocol to use when talking to the given address,either http or https.
+
+SSL support can also be triggered by setting then environment variable CONSUL_HTTP_SSL to true.
+
+---

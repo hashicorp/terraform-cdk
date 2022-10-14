@@ -1,0 +1,110 @@
+ ComplexMap <a name="ComplexMap" id="cdktf.ComplexMap"></a>
+
+- *Implements:* <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>, <a href="#cdktf.IResolvable">IResolvable</a>
+
+# Initializers <a name="Initializers" id="cdktf.ComplexMap.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.ComplexMap(
+  terraform_resource: IInterpolatingParent,
+  terraform_attribute: str
+)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ComplexMap.Initializer.parameter.terraformResource">terraform_resource</a></code> | <code><a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a></code> | *No description.* |
+| <code><a href="#cdktf.ComplexMap.Initializer.parameter.terraformAttribute">terraform_attribute</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `terraform_resource`<sup>Required</sup> <a name="terraform_resource" id="cdktf.ComplexMap.Initializer.parameter.terraformResource"></a>
+
+- *Type:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+
+---
+
+## `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.ComplexMap.Initializer.parameter.terraformAttribute"></a>
+
+- *Type:* str
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.ComplexMap.computeFqn">compute_fqn</a></code> | *No description.* |
+| <code><a href="#cdktf.ComplexMap.resolve">resolve</a></code> | Produce the Token's value at resolution time. |
+| <code><a href="#cdktf.ComplexMap.toString">to_string</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+## `compute_fqn` <a name="compute_fqn" id="cdktf.ComplexMap.computeFqn"></a>
+
+```python
+def compute_fqn() -> str
+```
+
+## `resolve` <a name="resolve" id="cdktf.ComplexMap.resolve"></a>
+
+```python
+def resolve(
+  _context: IResolveContext
+) -> typing.Any
+```
+
+Produce the Token's value at resolution time.
+
+### `_context`<sup>Required</sup> <a name="_context" id="cdktf.ComplexMap.resolve.parameter._context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `to_string` <a name="to_string" id="cdktf.ComplexMap.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.ComplexMap.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+| <code><a href="#cdktf.ComplexMap.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `creation_stack`<sup>Required</sup> <a name="creation_stack" id="cdktf.ComplexMap.property.creationStack"></a>
+
+```python
+creation_stack: typing.List[str]
+```
+
+- *Type:* typing.List[str]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.ComplexMap.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+

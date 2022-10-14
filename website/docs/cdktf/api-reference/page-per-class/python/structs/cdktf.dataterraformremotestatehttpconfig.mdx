@@ -1,0 +1,227 @@
+ DataTerraformRemoteStateHttpConfig <a name="DataTerraformRemoteStateHttpConfig" id="cdktf.DataTerraformRemoteStateHttpConfig"></a>
+
+# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateHttpConfig.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateHttpConfig(
+  defaults: typing.Mapping[typing.Any] = None,
+  workspace: str = None,
+  address: str,
+  lock_address: str = None,
+  lock_method: str = None,
+  password: str = None,
+  retry_max: typing.Union[int, float] = None,
+  retry_wait_max: typing.Union[int, float] = None,
+  retry_wait_min: typing.Union[int, float] = None,
+  skip_cert_verification: bool = None,
+  unlock_address: str = None,
+  unlock_method: str = None,
+  update_method: str = None,
+  username: str = None
+)
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.workspace">workspace</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.address">address</a></code> | <code>str</code> | (Required) The address of the REST endpoint. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress">lock_address</a></code> | <code>str</code> | (Optional) The address of the lock REST endpoint. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod">lock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when locking. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.password">password</a></code> | <code>str</code> | (Optional) The password for HTTP basic authentication. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax">retry_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The number of HTTP request retries. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax">retry_wait_max</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin">retry_wait_min</a></code> | <code>typing.Union[int, float]</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification">skip_cert_verification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress">unlock_address</a></code> | <code>str</code> | (Optional) The address of the unlock REST endpoint. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod">unlock_method</a></code> | <code>str</code> | (Optional) The HTTP method to use when unlocking. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod">update_method</a></code> | <code>str</code> | (Optional) HTTP method to use when updating state. |
+| <code><a href="#cdktf.DataTerraformRemoteStateHttpConfig.property.username">username</a></code> | <code>str</code> | (Optional) The username for HTTP basic authentication. |
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateHttpConfig.property.defaults"></a>
+
+```python
+defaults: typing.Mapping[typing.Any]
+```
+
+- *Type:* typing.Mapping[typing.Any]
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateHttpConfig.property.workspace"></a>
+
+```python
+workspace: str
+```
+
+- *Type:* str
+
+---
+
+## `address`<sup>Required</sup> <a name="address" id="cdktf.DataTerraformRemoteStateHttpConfig.property.address"></a>
+
+```python
+address: str
+```
+
+- *Type:* str
+
+(Required) The address of the REST endpoint.
+
+---
+
+## `lock_address`<sup>Optional</sup> <a name="lock_address" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockAddress"></a>
+
+```python
+lock_address: str
+```
+
+- *Type:* str
+
+(Optional) The address of the lock REST endpoint.
+
+Defaults to disabled.
+
+---
+
+## `lock_method`<sup>Optional</sup> <a name="lock_method" id="cdktf.DataTerraformRemoteStateHttpConfig.property.lockMethod"></a>
+
+```python
+lock_method: str
+```
+
+- *Type:* str
+
+(Optional) The HTTP method to use when locking.
+
+Defaults to LOCK.
+
+---
+
+## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateHttpConfig.property.password"></a>
+
+```python
+password: str
+```
+
+- *Type:* str
+
+(Optional) The password for HTTP basic authentication.
+
+---
+
+## `retry_max`<sup>Optional</sup> <a name="retry_max" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryMax"></a>
+
+```python
+retry_max: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+(Optional) The number of HTTP request retries.
+
+Defaults to 2.
+
+---
+
+## `retry_wait_max`<sup>Optional</sup> <a name="retry_wait_max" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMax"></a>
+
+```python
+retry_wait_max: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+(Optional) The maximum time in seconds to wait between HTTP request attempts.
+
+Defaults to 30.
+
+---
+
+## `retry_wait_min`<sup>Optional</sup> <a name="retry_wait_min" id="cdktf.DataTerraformRemoteStateHttpConfig.property.retryWaitMin"></a>
+
+```python
+retry_wait_min: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+(Optional) The minimum time in seconds to wait between HTTP request attempts.
+
+Defaults to 1.
+
+---
+
+## `skip_cert_verification`<sup>Optional</sup> <a name="skip_cert_verification" id="cdktf.DataTerraformRemoteStateHttpConfig.property.skipCertVerification"></a>
+
+```python
+skip_cert_verification: bool
+```
+
+- *Type:* bool
+
+(Optional) Whether to skip TLS verification.
+
+Defaults to false.
+
+---
+
+## `unlock_address`<sup>Optional</sup> <a name="unlock_address" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockAddress"></a>
+
+```python
+unlock_address: str
+```
+
+- *Type:* str
+
+(Optional) The address of the unlock REST endpoint.
+
+Defaults to disabled.
+
+---
+
+## `unlock_method`<sup>Optional</sup> <a name="unlock_method" id="cdktf.DataTerraformRemoteStateHttpConfig.property.unlockMethod"></a>
+
+```python
+unlock_method: str
+```
+
+- *Type:* str
+
+(Optional) The HTTP method to use when unlocking.
+
+Defaults to UNLOCK.
+
+---
+
+## `update_method`<sup>Optional</sup> <a name="update_method" id="cdktf.DataTerraformRemoteStateHttpConfig.property.updateMethod"></a>
+
+```python
+update_method: str
+```
+
+- *Type:* str
+
+(Optional) HTTP method to use when updating state.
+
+Defaults to POST.
+
+---
+
+## `username`<sup>Optional</sup> <a name="username" id="cdktf.DataTerraformRemoteStateHttpConfig.property.username"></a>
+
+```python
+username: str
+```
+
+- *Type:* str
+
+(Optional) The username for HTTP basic authentication.
+
+---

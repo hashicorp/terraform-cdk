@@ -1,0 +1,332 @@
+ Token <a name="Token" id="cdktf.Token"></a>
+
+Represents a special or lazily-evaluated value.
+
+Can be used to delay evaluation of a certain value in case, for example,
+that it requires some context or late-bound data. Can also be used to
+mark values that need special processing at document rendering time.
+
+Tokens can be embedded into strings while retaining their original
+semantics.
+
+# Initializers <a name="Initializers" id="cdktf.Token.Initializer"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+new Token()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Token.asAny">asAny</a></code> | Return a resolvable representation of the given value. |
+| <code><a href="#cdktf.Token.asAnyMap">asAnyMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asBooleanMap">asBooleanMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asList">asList</a></code> | Return a reversible list representation of this token. |
+| <code><a href="#cdktf.Token.asMap">asMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asNumber">asNumber</a></code> | Return a reversible number representation of this token. |
+| <code><a href="#cdktf.Token.asNumberList">asNumberList</a></code> | Return a reversible list representation of this token. |
+| <code><a href="#cdktf.Token.asNumberMap">asNumberMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asString">asString</a></code> | Return a reversible string representation of this token. |
+| <code><a href="#cdktf.Token.asStringMap">asStringMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.isUnresolved">isUnresolved</a></code> | Returns true if obj represents an unresolved value. |
+
+---
+
+## `asAny` <a name="asAny" id="cdktf.Token.asAny"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asAny(value: any)
+```
+
+Return a resolvable representation of the given value.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAny.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `asAnyMap` <a name="asAnyMap" id="cdktf.Token.asAnyMap"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asAnyMap(value: any, options?: EncodingOptions)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAnyMap.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asAnyMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asBooleanMap` <a name="asBooleanMap" id="cdktf.Token.asBooleanMap"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asBooleanMap(value: any, options?: EncodingOptions)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asBooleanMap.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asBooleanMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asList` <a name="asList" id="cdktf.Token.asList"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asList(value: any, options?: EncodingOptions)
+```
+
+Return a reversible list representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asList.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asList.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asMap` <a name="asMap" id="cdktf.Token.asMap"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asMap(value: any, mapValue: any, options?: EncodingOptions)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asMap.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `mapValue`<sup>Required</sup> <a name="mapValue" id="cdktf.Token.asMap.parameter.mapValue"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asNumber` <a name="asNumber" id="cdktf.Token.asNumber"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asNumber(value: any)
+```
+
+Return a reversible number representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumber.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `asNumberList` <a name="asNumberList" id="cdktf.Token.asNumberList"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asNumberList(value: any)
+```
+
+Return a reversible list representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberList.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `asNumberMap` <a name="asNumberMap" id="cdktf.Token.asNumberMap"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asNumberMap(value: any, options?: EncodingOptions)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberMap.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asNumberMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asString` <a name="asString" id="cdktf.Token.asString"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asString(value: any, options?: EncodingOptions)
+```
+
+Return a reversible string representation of this token.
+
+If the Token is initialized with a literal, the stringified value of the
+literal is returned. Otherwise, a special quoted string representation
+of the Token is returned that can be embedded into other strings.
+
+Strings with quoted Tokens in them can be restored back into
+complex values with the Tokens restored by calling `resolve()`
+on the string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asString.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asString.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asStringMap` <a name="asStringMap" id="cdktf.Token.asStringMap"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.asStringMap(value: any, options?: EncodingOptions)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asStringMap.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asStringMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `isUnresolved` <a name="isUnresolved" id="cdktf.Token.isUnresolved"></a>
+
+```typescript
+import { Token } from 'cdktf'
+
+Token.isUnresolved(obj: any)
+```
+
+Returns true if obj represents an unresolved value.
+
+One of these must be true:
+
+- `obj` is an IResolvable
+- `obj` is a string containing at least one encoded `IResolvable`
+- `obj` is either an encoded number or list
+
+This does NOT recurse into lists or objects to see if they
+containing resolvables.
+
+### `obj`<sup>Required</sup> <a name="obj" id="cdktf.Token.isUnresolved.parameter.obj"></a>
+
+- *Type:* any
+
+The object to test.
+
+---
+
+
+# Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code> | <code>string</code> | Any map token representation. |
+| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>number</code> | Number Map token value representation. |
+| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>string</code> | String Map token value representation. |
+
+---
+
+## `ANY_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="ANY_MAP_TOKEN_VALUE" id="cdktf.Token.property.ANY_MAP_TOKEN_VALUE"></a>
+
+```typescript
+public readonly ANY_MAP_TOKEN_VALUE: string;
+```
+
+- *Type:* string
+
+Any map token representation.
+
+---
+
+## `NUMBER_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="NUMBER_MAP_TOKEN_VALUE" id="cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE"></a>
+
+```typescript
+public readonly NUMBER_MAP_TOKEN_VALUE: number;
+```
+
+- *Type:* number
+
+Number Map token value representation.
+
+---
+
+## `STRING_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="STRING_MAP_TOKEN_VALUE" id="cdktf.Token.property.STRING_MAP_TOKEN_VALUE"></a>
+
+```typescript
+public readonly STRING_MAP_TOKEN_VALUE: string;
+```
+
+- *Type:* string
+
+String Map token value representation.
+
+---

@@ -1,0 +1,51 @@
+ LocalBackendProps <a name="LocalBackendProps" id="cdktf.LocalBackendProps"></a>
+
+The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/local
+
+# Initializer <a name="Initializer" id="cdktf.LocalBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.LocalBackendProps;
+
+LocalBackendProps.builder()
+//  .path(java.lang.String)
+//  .workspaceDir(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.LocalBackendProps.property.path">path</a></code> | <code>java.lang.String</code> | Path where the state file is stored. |
+| <code><a href="#cdktf.LocalBackendProps.property.workspaceDir">workspaceDir</a></code> | <code>java.lang.String</code> | (Optional) The path to non-default workspaces. |
+
+---
+
+## `path`<sup>Optional</sup> <a name="path" id="cdktf.LocalBackendProps.property.path"></a>
+
+```java
+public java.lang.String getPath();
+```
+
+- *Type:* java.lang.String
+- *Default:* defaults to terraform.${stackId}.tfstate
+
+Path where the state file is stored.
+
+---
+
+## `workspaceDir`<sup>Optional</sup> <a name="workspaceDir" id="cdktf.LocalBackendProps.property.workspaceDir"></a>
+
+```java
+public java.lang.String getWorkspaceDir();
+```
+
+- *Type:* java.lang.String
+
+(Optional) The path to non-default workspaces.
+
+---

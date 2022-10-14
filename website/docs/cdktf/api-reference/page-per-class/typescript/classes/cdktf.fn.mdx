@@ -1,0 +1,2190 @@
+ Fn <a name="Fn" id="cdktf.Fn"></a>
+
+# Initializers <a name="Initializers" id="cdktf.Fn.Initializer"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+new Fn()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Fn.abs">abs</a></code> | {@link https://www.terraform.io/docs/language/functions/abs.html abs} returns the absolute value of the given number. |
+| <code><a href="#cdktf.Fn.abspath">abspath</a></code> | {@link https://www.terraform.io/docs/language/functions/abspath.html abspath} takes a string containing a filesystem path and converts it to an absolute path. |
+| <code><a href="#cdktf.Fn.alltrue">alltrue</a></code> | {@link https://www.terraform.io/docs/language/functions/alltrue.html alltrue} returns true if all elements in a given collection are true or "true". |
+| <code><a href="#cdktf.Fn.anytrue">anytrue</a></code> | {@link https://www.terraform.io/docs/language/functions/anytrue.html anytrue} returns true if any element in a given collection is true or "true". |
+| <code><a href="#cdktf.Fn.base64decode">base64decode</a></code> | {@link https://www.terraform.io/docs/language/functions/base64decode.html base64decode} takes a string containing a Base64 character sequence and returns the original string. |
+| <code><a href="#cdktf.Fn.base64encode">base64encode</a></code> | {@link https://www.terraform.io/docs/language/functions/base64encode.html base64encode} takes a string containing a Base64 character sequence and returns the original string. |
+| <code><a href="#cdktf.Fn.base64gzip">base64gzip</a></code> | {@link https://www.terraform.io/docs/language/functions/base64gzip.html base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding. |
+| <code><a href="#cdktf.Fn.base64sha256">base64sha256</a></code> | {@link https://www.terraform.io/docs/language/functions/base64sha256.html base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. |
+| <code><a href="#cdktf.Fn.base64sha512">base64sha512</a></code> | {@link https://www.terraform.io/docs/language/functions/base64sha512.html base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. |
+| <code><a href="#cdktf.Fn.basename">basename</a></code> | {@link https://www.terraform.io/docs/language/functions/basename.html basename} takes a string containing a filesystem path and removes all except the last portion from it. |
+| <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code> | {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in the Modular Crypt Format usually expected in the shadow password file on many Unix systems. |
+| <code><a href="#cdktf.Fn.can">can</a></code> | {@link https://www.terraform.io/docs/language/functions/can.html can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors. |
+| <code><a href="#cdktf.Fn.ceil">ceil</a></code> | {@link https://www.terraform.io/docs/language/functions/ceil.html ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction. |
+| <code><a href="#cdktf.Fn.chomp">chomp</a></code> | {@link https://www.terraform.io/docs/language/functions/chomp.html chomp} removes newline characters at the end of a string. |
+| <code><a href="#cdktf.Fn.chunklist">chunklist</a></code> | {@link https://www.terraform.io/docs/language/functions/chunklist.html chunklist} splits a single list into fixed-size chunks, returning a list of lists. |
+| <code><a href="#cdktf.Fn.cidrhost">cidrhost</a></code> | {@link https://www.terraform.io/docs/language/functions/cidrhost.html cidrhost} calculates a full host IP address for a given host number within a given IP network address prefix. |
+| <code><a href="#cdktf.Fn.cidrnetmask">cidrnetmask</a></code> | {@link https://www.terraform.io/docs/language/functions/cidrnetmask.html cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address. |
+| <code><a href="#cdktf.Fn.cidrsubnet">cidrsubnet</a></code> | {@link https://www.terraform.io/docs/language/functions/cidrsubnet.html cidrsubnet} calculates a subnet address within given IP network address prefix. |
+| <code><a href="#cdktf.Fn.cidrsubnets">cidrsubnets</a></code> | {@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix. |
+| <code><a href="#cdktf.Fn.coalesce">coalesce</a></code> | {@link https://www.terraform.io/docs/language/functions/coalesce.html coalesce} takes any number of arguments and returns the first one that isn't null or an empty string. |
+| <code><a href="#cdktf.Fn.coalescelist">coalescelist</a></code> | {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn't empty. |
+| <code><a href="#cdktf.Fn.compact">compact</a></code> | {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed. |
+| <code><a href="#cdktf.Fn.concat">concat</a></code> | {@link https://www.terraform.io/docs/language/functions/concat.html concat} takes two or more lists and combines them into a single list. |
+| <code><a href="#cdktf.Fn.contains">contains</a></code> | {@link https://www.terraform.io/docs/language/functions/contains.html contains} determines whether a given list or set contains a given single value as one of its elements. |
+| <code><a href="#cdktf.Fn.csvdecode">csvdecode</a></code> | {@link https://www.terraform.io/docs/language/functions/csvdecode.html csvdecode} decodes a string containing CSV-formatted data and produces a list of maps representing that data. |
+| <code><a href="#cdktf.Fn.dirname">dirname</a></code> | {@link https://www.terraform.io/docs/language/functions/dirname.html dirname} takes a string containing a filesystem path and removes the last portion from it. |
+| <code><a href="#cdktf.Fn.distinct">distinct</a></code> | {@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed. |
+| <code><a href="#cdktf.Fn.element">element</a></code> | {@link https://www.terraform.io/docs/language/functions/element.html element} retrieves a single element from a list. |
+| <code><a href="#cdktf.Fn.file">file</a></code> | {@link https://www.terraform.io/docs/language/functions/file.html file} takes a string containing a filesystem path and removes all except the last portion from it. |
+| <code><a href="#cdktf.Fn.filebase64">filebase64</a></code> | {@link https://www.terraform.io/docs/language/functions/filebase64.html filebase64} reads the contents of a file at the given path and returns them as a base64-encoded string. |
+| <code><a href="#cdktf.Fn.filebase64sha256">filebase64sha256</a></code> | {@link https://www.terraform.io/docs/language/functions/filebase64sha256.html filebase64sha256} is a variant of base64sha256 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.filebase64sha512">filebase64sha512</a></code> | {@link https://www.terraform.io/docs/language/functions/filebase64sha512.html filebase64sha512} is a variant of base64sha512 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.fileexists">fileexists</a></code> | {@link https://www.terraform.io/docs/language/functions/fileexists.html fileexists} determines whether a file exists at a given path. |
+| <code><a href="#cdktf.Fn.filemd5">filemd5</a></code> | {@link https://www.terraform.io/docs/language/functions/filemd5.html filemd5} is a variant of md5 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.fileset">fileset</a></code> | {@link https://www.terraform.io/docs/language/functions/fileset.html fileset} enumerates a set of regular file names given a path and pattern. |
+| <code><a href="#cdktf.Fn.filesha1">filesha1</a></code> | {@link https://www.terraform.io/docs/language/functions/filesha1.html filesha1} is a variant of sha1 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.filesha256">filesha256</a></code> | {@link https://www.terraform.io/docs/language/functions/filesha256.html filesha256} is a variant of sha256 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.filesha512">filesha512</a></code> | {@link https://www.terraform.io/docs/language/functions/filesha512.html filesha512} is a variant of sha512 that hashes the contents of a given file rather than a literal string. |
+| <code><a href="#cdktf.Fn.flatten">flatten</a></code> | {@link https://www.terraform.io/docs/language/functions/flatten.html flatten} takes a list and replaces any elements that are lists with a flattened sequence of the list contents. |
+| <code><a href="#cdktf.Fn.floor">floor</a></code> | {@link https://www.terraform.io/docs/language/functions/floor.html floor} returns the closest whole number that is less than or equal to the given value, which may be a fraction. |
+| <code><a href="#cdktf.Fn.format">format</a></code> | {@link https://www.terraform.io/docs/language/functions/format.html format} produces a string by formatting a number of other values according to a specification string. |
+| <code><a href="#cdktf.Fn.formatdate">formatdate</a></code> | {@link https://www.terraform.io/docs/language/functions/formatdate.html formatdate} converts a timestamp into a different time format. |
+| <code><a href="#cdktf.Fn.formatlist">formatlist</a></code> | {@link https://www.terraform.io/docs/language/functions/formatlist.html formatlist} produces a list of strings by formatting a number of other values according to a specification string. |
+| <code><a href="#cdktf.Fn.indent">indent</a></code> | {@link https://www.terraform.io/docs/language/functions/indent.html indent} adds a given number of spaces to the beginnings of all but the first line in a given multi-line string. |
+| <code><a href="#cdktf.Fn.index">index</a></code> | {@link https://www.terraform.io/docs/language/functions/index.html index} finds the element index for a given value in a list. |
+| <code><a href="#cdktf.Fn.join">join</a></code> | {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter. |
+| <code><a href="#cdktf.Fn.jsondecode">jsondecode</a></code> | {@link https://www.terraform.io/docs/language/functions/jsondecode.html jsondecode} interprets a given string as JSON, returning a representation of the result of decoding that string. |
+| <code><a href="#cdktf.Fn.jsonencode">jsonencode</a></code> | {@link https://www.terraform.io/docs/language/functions/jsonencode.html jsonencode} encodes a given value to a string using JSON syntax. |
+| <code><a href="#cdktf.Fn.keys">keys</a></code> | {@link https://www.terraform.io/docs/language/functions/keys.html keys} takes a map and returns a list containing the keys from that map. |
+| <code><a href="#cdktf.Fn.lengthOf">lengthOf</a></code> | {@link https://www.terraform.io/docs/language/functions/length.html length} determines the length of a given list, map, or string. |
+| <code><a href="#cdktf.Fn.log">log</a></code> | {@link https://www.terraform.io/docs/language/functions/log.html log} returns the logarithm of a given number in a given base. |
+| <code><a href="#cdktf.Fn.lookup">lookup</a></code> | {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead. |
+| <code><a href="#cdktf.Fn.lower">lower</a></code> | {@link https://www.terraform.io/docs/language/functions/lower.html lower} converts all cased letters in the given string to lowercase. |
+| <code><a href="#cdktf.Fn.matchkeys">matchkeys</a></code> | {@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list. |
+| <code><a href="#cdktf.Fn.max">max</a></code> | {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set. |
+| <code><a href="#cdktf.Fn.md5">md5</a></code> | {@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits. |
+| <code><a href="#cdktf.Fn.mergeLists">mergeLists</a></code> | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments. |
+| <code><a href="#cdktf.Fn.mergeMaps">mergeMaps</a></code> | {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments. |
+| <code><a href="#cdktf.Fn.min">min</a></code> | {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set. |
+| <code><a href="#cdktf.Fn.nonsensitive">nonsensitive</a></code> | {@link https://www.terraform.io/docs/language/functions/nonsensitive.html nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value. |
+| <code><a href="#cdktf.Fn.one">one</a></code> | {@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements. |
+| <code><a href="#cdktf.Fn.parseInt">parseInt</a></code> | {@link https://www.terraform.io/docs/language/functions/parseint.html parseInt} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive. |
+| <code><a href="#cdktf.Fn.pathexpand">pathexpand</a></code> | {@link https://www.terraform.io/docs/language/functions/pathexpand.html pathexpand} takes a string containing a filesystem path and removes the last portion from it. |
+| <code><a href="#cdktf.Fn.pow">pow</a></code> | {@link https://www.terraform.io/docs/language/functions/pow.html pow} calculates an exponent, by raising its first argument to the power of the second argument. |
+| <code><a href="#cdktf.Fn.range">range</a></code> | {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value. |
+| <code><a href="#cdktf.Fn.rawString">rawString</a></code> | Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string). |
+| <code><a href="#cdktf.Fn.regex">regex</a></code> | {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a regular expression to a string and returns the matching substrings in pattern. |
+| <code><a href="#cdktf.Fn.regexall">regexall</a></code> | {@link https://www.terraform.io/docs/language/functions/regexall.html regexall} applies a regular expression to a string and returns a list of all matches. |
+| <code><a href="#cdktf.Fn.replace">replace</a></code> | {@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string. |
+| <code><a href="#cdktf.Fn.reverse">reverse</a></code> | {@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order. |
+| <code><a href="#cdktf.Fn.rsadecrypt">rsadecrypt</a></code> | {@link https://www.terraform.io/docs/language/functions/rsadecrypt.html rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext. |
+| <code><a href="#cdktf.Fn.sensitive">sensitive</a></code> | {@link https://www.terraform.io/docs/language/functions/sensitive.html sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for sensitive input variables. |
+| <code><a href="#cdktf.Fn.setintersection">setintersection</a></code> | {@link https://www.terraform.io/docs/language/functions/setintersection.html setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. |
+| <code><a href="#cdktf.Fn.setproduct">setproduct</a></code> | {@link https://www.terraform.io/docs/language/functions/setproduct.html setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the Cartesian product. |
+| <code><a href="#cdktf.Fn.setsubtract">setsubtract</a></code> | {@link https://www.terraform.io/docs/language/functions/slice.html setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. |
+| <code><a href="#cdktf.Fn.setunion">setunion</a></code> | {@link https://www.terraform.io/docs/language/functions/setunion.html setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets. |
+| <code><a href="#cdktf.Fn.sha1">sha1</a></code> | {@link https://www.terraform.io/docs/language/functions/sha1.html sha1} computes the SHA1 hash of a given string and encodes it with hexadecimal digits. |
+| <code><a href="#cdktf.Fn.sha256">sha256</a></code> | {@link https://www.terraform.io/docs/language/functions/sha256.html sha256} computes the SHA256 hash of a given string and encodes it with hexadecimal digits. |
+| <code><a href="#cdktf.Fn.sha512">sha512</a></code> | {@link https://www.terraform.io/docs/language/functions/sha512.html sha512} computes the SHA512 hash of a given string and encodes it with hexadecimal digits. |
+| <code><a href="#cdktf.Fn.signum">signum</a></code> | {@link https://www.terraform.io/docs/language/functions/signum.html signum} determines the sign of a number, returning a number between -1 and 1 to represent the sign. |
+| <code><a href="#cdktf.Fn.slice">slice</a></code> | {@link https://www.terraform.io/docs/language/functions/slice.html slice} extracts some consecutive elements from within a list. |
+| <code><a href="#cdktf.Fn.sort">sort</a></code> | {@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically. |
+| <code><a href="#cdktf.Fn.split">split</a></code> | {@link https://www.terraform.io/docs/language/functions/split.html split} produces a list by dividing a given string at all occurrences of a given separator. |
+| <code><a href="#cdktf.Fn.strrev">strrev</a></code> | {@link https://www.terraform.io/docs/language/functions/strrev.html strrev} reverses the characters in a string. |
+| <code><a href="#cdktf.Fn.substr">substr</a></code> | {@link https://www.terraform.io/docs/language/functions/substr.html substr} extracts a substring from a given string by offset and length. |
+| <code><a href="#cdktf.Fn.sum">sum</a></code> | {@link https://www.terraform.io/docs/language/functions/sum.html sum} takes a list or set of numbers and returns the sum of those numbers. |
+| <code><a href="#cdktf.Fn.templatefile">templatefile</a></code> | {@link https://www.terraform.io/docs/language/functions/templatefile.html templatefile} reads the file at the given path and renders its content as a template using a supplied set of template variables. |
+| <code><a href="#cdktf.Fn.textdecodebase64">textdecodebase64</a></code> | {@link https://www.terraform.io/docs/language/functions/textdecodebase64.html textdecodebase64} function decodes a string that was previously Base64-encoded, and then interprets the result as characters in a specified character encoding. |
+| <code><a href="#cdktf.Fn.textencodebase64">textencodebase64</a></code> | {@link https://www.terraform.io/docs/language/functions/textencodebase64.html textencodebase64}  encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters. |
+| <code><a href="#cdktf.Fn.timeadd">timeadd</a></code> | {@link https://www.terraform.io/docs/language/functions/timeadd.html timeadd} adds a duration to a timestamp, returning a new timestamp. |
+| <code><a href="#cdktf.Fn.timestamp">timestamp</a></code> | {@link https://www.terraform.io/docs/language/functions/timestamp.html timestamp} returns a UTC timestamp string in RFC 3339 format. |
+| <code><a href="#cdktf.Fn.title">title</a></code> | {@link https://www.terraform.io/docs/language/functions/title.html title} converts the first letter of each word in the given string to uppercase. |
+| <code><a href="#cdktf.Fn.tobool">tobool</a></code> | {@link https://www.terraform.io/docs/language/functions/tobool.html tobool} converts its argument to a boolean value. |
+| <code><a href="#cdktf.Fn.tolist">tolist</a></code> | {@link https://www.terraform.io/docs/language/functions/tolist.html tolist} converts its argument to a list value. |
+| <code><a href="#cdktf.Fn.tomap">tomap</a></code> | {@link https://www.terraform.io/docs/language/functions/tomap.html tomap} converts its argument to a map value. |
+| <code><a href="#cdktf.Fn.tonumber">tonumber</a></code> | {@link https://www.terraform.io/docs/language/functions/tonumber.html tonumber} converts its argument to a number value. |
+| <code><a href="#cdktf.Fn.toset">toset</a></code> | {@link https://www.terraform.io/docs/language/functions/toset.html toset} converts its argument to a set value. |
+| <code><a href="#cdktf.Fn.tostring">tostring</a></code> | {@link https://www.terraform.io/docs/language/functions/tostring.html tostring} converts its argument to a string value. |
+| <code><a href="#cdktf.Fn.transpose">transpose</a></code> | {@link https://www.terraform.io/docs/language/functions/transpose.html transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings. |
+| <code><a href="#cdktf.Fn.trim">trim</a></code> | {@link https://www.terraform.io/docs/language/functions/trim.html trim} removes the specified characters from the start and end of the given string. |
+| <code><a href="#cdktf.Fn.trimprefix">trimprefix</a></code> | {@link https://www.terraform.io/docs/language/functions/trimprefix.html trimprefix} removes the specified prefix from the start of the given string. |
+| <code><a href="#cdktf.Fn.trimspace">trimspace</a></code> | {@link https://www.terraform.io/docs/language/functions/trimspace.html trimspace} removes any space characters from the start and end of the given string. |
+| <code><a href="#cdktf.Fn.trimsuffix">trimsuffix</a></code> | {@link https://www.terraform.io/docs/language/functions/trimsuffix.html trimsuffix} removes the specified suffix from the end of the given string. |
+| <code><a href="#cdktf.Fn.try">try</a></code> | {@link https://www.terraform.io/docs/language/functions/try.html try} evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors. |
+| <code><a href="#cdktf.Fn.upper">upper</a></code> | {@link https://www.terraform.io/docs/language/functions/upper.html upper} converts all cased letters in the given string to uppercase. |
+| <code><a href="#cdktf.Fn.urlencode">urlencode</a></code> | {@link https://www.terraform.io/docs/language/functions/urlencode.html urlencode} applies URL encoding to a given string. |
+| <code><a href="#cdktf.Fn.uuid">uuid</a></code> | {@link https://www.terraform.io/docs/language/functions/uuid.html uuid} generates a unique identifier string. |
+| <code><a href="#cdktf.Fn.uuidv5">uuidv5</a></code> | {@link https://www.terraform.io/docs/language/functions/uuidv5.html uuidv5} generates a unique identifier string. |
+| <code><a href="#cdktf.Fn.values">values</a></code> | {@link https://www.terraform.io/docs/language/functions/values.html values} takes a map and returns a list containing the values of the elements in that map. |
+| <code><a href="#cdktf.Fn.yamldecode">yamldecode</a></code> | {@link https://www.terraform.io/docs/language/functions/yamldecode.html yamldecode} parses a string as a subset of YAML, and produces a representation of its value. |
+| <code><a href="#cdktf.Fn.yamlencode">yamlencode</a></code> | {@link https://www.terraform.io/docs/language/functions/yamlencode.html yamlencode} encodes a given value to a string using JSON syntax. |
+| <code><a href="#cdktf.Fn.zipmap">zipmap</a></code> | {@link https://www.terraform.io/docs/language/functions/zipmap.html zipmap} constructs a map from a list of keys and a corresponding list of values. |
+
+---
+
+## `abs` <a name="abs" id="cdktf.Fn.abs"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.abs(value: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/abs.html abs} returns the absolute value of the given number.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.abs.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+## `abspath` <a name="abspath" id="cdktf.Fn.abspath"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.abspath(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/abspath.html abspath} takes a string containing a filesystem path and converts it to an absolute path.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.abspath.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `alltrue` <a name="alltrue" id="cdktf.Fn.alltrue"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.alltrue(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/alltrue.html alltrue} returns true if all elements in a given collection are true or "true".
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.alltrue.parameter.values"></a>
+
+- *Type:* any[]
+
+---
+
+## `anytrue` <a name="anytrue" id="cdktf.Fn.anytrue"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.anytrue(value: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/anytrue.html anytrue} returns true if any element in a given collection is true or "true".
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.anytrue.parameter.value"></a>
+
+- *Type:* any[]
+
+---
+
+## `base64decode` <a name="base64decode" id="cdktf.Fn.base64decode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.base64decode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/base64decode.html base64decode} takes a string containing a Base64 character sequence and returns the original string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.base64decode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `base64encode` <a name="base64encode" id="cdktf.Fn.base64encode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.base64encode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/base64encode.html base64encode} takes a string containing a Base64 character sequence and returns the original string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.base64encode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `base64gzip` <a name="base64gzip" id="cdktf.Fn.base64gzip"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.base64gzip(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/base64gzip.html base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.base64gzip.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `base64sha256` <a name="base64sha256" id="cdktf.Fn.base64sha256"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.base64sha256(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/base64sha256.html base64sha256} computes the SHA256 hash of a given string and encodes it with Base64.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.base64sha256.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `base64sha512` <a name="base64sha512" id="cdktf.Fn.base64sha512"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.base64sha512(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/base64sha512.html base64sha512} computes the SHA512 hash of a given string and encodes it with Base64.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.base64sha512.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `basename` <a name="basename" id="cdktf.Fn.basename"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.basename(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/basename.html basename} takes a string containing a filesystem path and removes all except the last portion from it.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.basename.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `bcrypt` <a name="bcrypt" id="cdktf.Fn.bcrypt"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.bcrypt(value: string, cost?: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in the Modular Crypt Format usually expected in the shadow password file on many Unix systems.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.bcrypt.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `cost`<sup>Optional</sup> <a name="cost" id="cdktf.Fn.bcrypt.parameter.cost"></a>
+
+- *Type:* number
+
+---
+
+## `can` <a name="can" id="cdktf.Fn.can"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.can(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/can.html can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.can.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `ceil` <a name="ceil" id="cdktf.Fn.ceil"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.ceil(value: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/ceil.html ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.ceil.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+## `chomp` <a name="chomp" id="cdktf.Fn.chomp"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.chomp(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/chomp.html chomp} removes newline characters at the end of a string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.chomp.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `chunklist` <a name="chunklist" id="cdktf.Fn.chunklist"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.chunklist(value: any[], chunkSize: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/chunklist.html chunklist} splits a single list into fixed-size chunks, returning a list of lists.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.chunklist.parameter.value"></a>
+
+- *Type:* any[]
+
+---
+
+### `chunkSize`<sup>Required</sup> <a name="chunkSize" id="cdktf.Fn.chunklist.parameter.chunkSize"></a>
+
+- *Type:* number
+
+---
+
+## `cidrhost` <a name="cidrhost" id="cdktf.Fn.cidrhost"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.cidrhost(prefix: string, hostnum: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/cidrhost.html cidrhost} calculates a full host IP address for a given host number within a given IP network address prefix.
+
+### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.cidrhost.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+### `hostnum`<sup>Required</sup> <a name="hostnum" id="cdktf.Fn.cidrhost.parameter.hostnum"></a>
+
+- *Type:* number
+
+---
+
+## `cidrnetmask` <a name="cidrnetmask" id="cdktf.Fn.cidrnetmask"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.cidrnetmask(prefix: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/cidrnetmask.html cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.
+
+### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.cidrnetmask.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+## `cidrsubnet` <a name="cidrsubnet" id="cdktf.Fn.cidrsubnet"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.cidrsubnet(prefix: string, newbits: number, netnum: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/cidrsubnet.html cidrsubnet} calculates a subnet address within given IP network address prefix.
+
+### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.cidrsubnet.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+### `newbits`<sup>Required</sup> <a name="newbits" id="cdktf.Fn.cidrsubnet.parameter.newbits"></a>
+
+- *Type:* number
+
+---
+
+### `netnum`<sup>Required</sup> <a name="netnum" id="cdktf.Fn.cidrsubnet.parameter.netnum"></a>
+
+- *Type:* number
+
+---
+
+## `cidrsubnets` <a name="cidrsubnets" id="cdktf.Fn.cidrsubnets"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.cidrsubnets(prefix: string, newbits: number[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.
+
+### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.cidrsubnets.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+### `newbits`<sup>Required</sup> <a name="newbits" id="cdktf.Fn.cidrsubnets.parameter.newbits"></a>
+
+- *Type:* number[]
+
+---
+
+## `coalesce` <a name="coalesce" id="cdktf.Fn.coalesce"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.coalesce(value: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/coalesce.html coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.coalesce.parameter.value"></a>
+
+- *Type:* any[]
+
+Arguments are passed in an array.
+
+---
+
+## `coalescelist` <a name="coalescelist" id="cdktf.Fn.coalescelist"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.coalescelist(value: any[][])
+```
+
+{@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn't empty.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.coalescelist.parameter.value"></a>
+
+- *Type:* any[][]
+
+Arguments are passed in an array.
+
+---
+
+## `compact` <a name="compact" id="cdktf.Fn.compact"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.compact(value: string[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.compact.parameter.value"></a>
+
+- *Type:* string[]
+
+---
+
+## `concat` <a name="concat" id="cdktf.Fn.concat"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.concat(value: any[][])
+```
+
+{@link https://www.terraform.io/docs/language/functions/concat.html concat} takes two or more lists and combines them into a single list.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.concat.parameter.value"></a>
+
+- *Type:* any[][]
+
+---
+
+## `contains` <a name="contains" id="cdktf.Fn.contains"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.contains(list: any[] | IResolvable, value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/contains.html contains} determines whether a given list or set contains a given single value as one of its elements.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.contains.parameter.list"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.contains.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `csvdecode` <a name="csvdecode" id="cdktf.Fn.csvdecode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.csvdecode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/csvdecode.html csvdecode} decodes a string containing CSV-formatted data and produces a list of maps representing that data.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.csvdecode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `dirname` <a name="dirname" id="cdktf.Fn.dirname"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.dirname(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/dirname.html dirname} takes a string containing a filesystem path and removes the last portion from it.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.dirname.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `distinct` <a name="distinct" id="cdktf.Fn.distinct"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.distinct(list: any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.distinct.parameter.list"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `element` <a name="element" id="cdktf.Fn.element"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.element(list: any[] | IResolvable, index: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/element.html element} retrieves a single element from a list.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.element.parameter.list"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `index`<sup>Required</sup> <a name="index" id="cdktf.Fn.element.parameter.index"></a>
+
+- *Type:* number
+
+---
+
+## `file` <a name="file" id="cdktf.Fn.file"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.file(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/file.html file} takes a string containing a filesystem path and removes all except the last portion from it.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.file.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filebase64` <a name="filebase64" id="cdktf.Fn.filebase64"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filebase64(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filebase64.html filebase64} reads the contents of a file at the given path and returns them as a base64-encoded string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filebase64.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filebase64sha256` <a name="filebase64sha256" id="cdktf.Fn.filebase64sha256"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filebase64sha256(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filebase64sha256.html filebase64sha256} is a variant of base64sha256 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filebase64sha256.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filebase64sha512` <a name="filebase64sha512" id="cdktf.Fn.filebase64sha512"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filebase64sha512(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filebase64sha512.html filebase64sha512} is a variant of base64sha512 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filebase64sha512.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `fileexists` <a name="fileexists" id="cdktf.Fn.fileexists"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.fileexists(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/fileexists.html fileexists} determines whether a file exists at a given path.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.fileexists.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filemd5` <a name="filemd5" id="cdktf.Fn.filemd5"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filemd5(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filemd5.html filemd5} is a variant of md5 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filemd5.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `fileset` <a name="fileset" id="cdktf.Fn.fileset"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.fileset(path: string, pattern: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/fileset.html fileset} enumerates a set of regular file names given a path and pattern.
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.fileset.parameter.path"></a>
+
+- *Type:* string
+
+---
+
+### `pattern`<sup>Required</sup> <a name="pattern" id="cdktf.Fn.fileset.parameter.pattern"></a>
+
+- *Type:* string
+
+---
+
+## `filesha1` <a name="filesha1" id="cdktf.Fn.filesha1"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filesha1(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filesha1.html filesha1} is a variant of sha1 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filesha1.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filesha256` <a name="filesha256" id="cdktf.Fn.filesha256"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filesha256(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filesha256.html filesha256} is a variant of sha256 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filesha256.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `filesha512` <a name="filesha512" id="cdktf.Fn.filesha512"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.filesha512(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/filesha512.html filesha512} is a variant of sha512 that hashes the contents of a given file rather than a literal string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.filesha512.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `flatten` <a name="flatten" id="cdktf.Fn.flatten"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.flatten(list: any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/flatten.html flatten} takes a list and replaces any elements that are lists with a flattened sequence of the list contents.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.flatten.parameter.list"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `floor` <a name="floor" id="cdktf.Fn.floor"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.floor(value: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/floor.html floor} returns the closest whole number that is less than or equal to the given value, which may be a fraction.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.floor.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+## `format` <a name="format" id="cdktf.Fn.format"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.format(spec: string, values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/format.html format} produces a string by formatting a number of other values according to a specification string.
+
+### `spec`<sup>Required</sup> <a name="spec" id="cdktf.Fn.format.parameter.spec"></a>
+
+- *Type:* string
+
+---
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.format.parameter.values"></a>
+
+- *Type:* any[]
+
+---
+
+## `formatdate` <a name="formatdate" id="cdktf.Fn.formatdate"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.formatdate(spec: string, timestamp: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/formatdate.html formatdate} converts a timestamp into a different time format.
+
+### `spec`<sup>Required</sup> <a name="spec" id="cdktf.Fn.formatdate.parameter.spec"></a>
+
+- *Type:* string
+
+---
+
+### `timestamp`<sup>Required</sup> <a name="timestamp" id="cdktf.Fn.formatdate.parameter.timestamp"></a>
+
+- *Type:* string
+
+---
+
+## `formatlist` <a name="formatlist" id="cdktf.Fn.formatlist"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.formatlist(spec: string, values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/formatlist.html formatlist} produces a list of strings by formatting a number of other values according to a specification string.
+
+### `spec`<sup>Required</sup> <a name="spec" id="cdktf.Fn.formatlist.parameter.spec"></a>
+
+- *Type:* string
+
+---
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.formatlist.parameter.values"></a>
+
+- *Type:* any[]
+
+---
+
+## `indent` <a name="indent" id="cdktf.Fn.indent"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.indent(indentation: number, value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/indent.html indent} adds a given number of spaces to the beginnings of all but the first line in a given multi-line string.
+
+### `indentation`<sup>Required</sup> <a name="indentation" id="cdktf.Fn.indent.parameter.indentation"></a>
+
+- *Type:* number
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.indent.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `index` <a name="index" id="cdktf.Fn.index"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.index(list: any[] | IResolvable, value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/index.html index} finds the element index for a given value in a list.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.index.parameter.list"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.index.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `join` <a name="join" id="cdktf.Fn.join"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.join(separator: string, value: string[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
+
+### `separator`<sup>Required</sup> <a name="separator" id="cdktf.Fn.join.parameter.separator"></a>
+
+- *Type:* string
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.join.parameter.value"></a>
+
+- *Type:* string[]
+
+---
+
+## `jsondecode` <a name="jsondecode" id="cdktf.Fn.jsondecode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.jsondecode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/jsondecode.html jsondecode} interprets a given string as JSON, returning a representation of the result of decoding that string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.jsondecode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `jsonencode` <a name="jsonencode" id="cdktf.Fn.jsonencode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.jsonencode(value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/jsonencode.html jsonencode} encodes a given value to a string using JSON syntax.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.jsonencode.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `keys` <a name="keys" id="cdktf.Fn.keys"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.keys(map: IResolvable | {[ key: string ]: any})
+```
+
+{@link https://www.terraform.io/docs/language/functions/keys.html keys} takes a map and returns a list containing the keys from that map.
+
+### `map`<sup>Required</sup> <a name="map" id="cdktf.Fn.keys.parameter.map"></a>
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a> | {[ key: string ]: any}
+
+---
+
+## `lengthOf` <a name="lengthOf" id="cdktf.Fn.lengthOf"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.lengthOf(value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/length.html length} determines the length of a given list, map, or string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.lengthOf.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `log` <a name="log" id="cdktf.Fn.log"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.log(value: number, base: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/log.html log} returns the logarithm of a given number in a given base.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.log.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+### `base`<sup>Required</sup> <a name="base" id="cdktf.Fn.log.parameter.base"></a>
+
+- *Type:* number
+
+---
+
+## `lookup` <a name="lookup" id="cdktf.Fn.lookup"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.lookup(value: any, key: any, defaultValue: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.lookup.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+### `key`<sup>Required</sup> <a name="key" id="cdktf.Fn.lookup.parameter.key"></a>
+
+- *Type:* any
+
+---
+
+### `defaultValue`<sup>Required</sup> <a name="defaultValue" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
+
+- *Type:* any
+
+---
+
+## `lower` <a name="lower" id="cdktf.Fn.lower"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.lower(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/lower.html lower} converts all cased letters in the given string to lowercase.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.lower.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `matchkeys` <a name="matchkeys" id="cdktf.Fn.matchkeys"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.matchkeys(valuesList: string | any[] | IResolvable, keysList: string | any[] | IResolvable, searchSet: string | any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.
+
+### `valuesList`<sup>Required</sup> <a name="valuesList" id="cdktf.Fn.matchkeys.parameter.valuesList"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `keysList`<sup>Required</sup> <a name="keysList" id="cdktf.Fn.matchkeys.parameter.keysList"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `searchSet`<sup>Required</sup> <a name="searchSet" id="cdktf.Fn.matchkeys.parameter.searchSet"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `max` <a name="max" id="cdktf.Fn.max"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.max(values: number[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.max.parameter.values"></a>
+
+- *Type:* number[]
+
+---
+
+## `md5` <a name="md5" id="cdktf.Fn.md5"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.md5(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.md5.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `mergeLists` <a name="mergeLists" id="cdktf.Fn.mergeLists"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.mergeLists(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeLists.parameter.values"></a>
+
+- *Type:* any[]
+
+Arguments are passed in an array.
+
+---
+
+## `mergeMaps` <a name="mergeMaps" id="cdktf.Fn.mergeMaps"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.mergeMaps(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.mergeMaps.parameter.values"></a>
+
+- *Type:* any[]
+
+Arguments are passed in an array.
+
+---
+
+## `min` <a name="min" id="cdktf.Fn.min"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.min(values: number[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.min.parameter.values"></a>
+
+- *Type:* number[]
+
+---
+
+## `nonsensitive` <a name="nonsensitive" id="cdktf.Fn.nonsensitive"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.nonsensitive(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/nonsensitive.html nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.nonsensitive.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `one` <a name="one" id="cdktf.Fn.one"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.one(list: string | any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.one.parameter.list"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `parseInt` <a name="parseInt" id="cdktf.Fn.parseInt"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.parseInt(value: string, base: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/parseint.html parseInt} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.parseInt.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `base`<sup>Required</sup> <a name="base" id="cdktf.Fn.parseInt.parameter.base"></a>
+
+- *Type:* number
+
+---
+
+## `pathexpand` <a name="pathexpand" id="cdktf.Fn.pathexpand"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.pathexpand(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/pathexpand.html pathexpand} takes a string containing a filesystem path and removes the last portion from it.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.pathexpand.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `pow` <a name="pow" id="cdktf.Fn.pow"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.pow(value: number, power: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/pow.html pow} calculates an exponent, by raising its first argument to the power of the second argument.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.pow.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+### `power`<sup>Required</sup> <a name="power" id="cdktf.Fn.pow.parameter.power"></a>
+
+- *Type:* number
+
+---
+
+## `range` <a name="range" id="cdktf.Fn.range"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.range(start: number, limit: number, step?: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
+
+### `start`<sup>Required</sup> <a name="start" id="cdktf.Fn.range.parameter.start"></a>
+
+- *Type:* number
+
+---
+
+### `limit`<sup>Required</sup> <a name="limit" id="cdktf.Fn.range.parameter.limit"></a>
+
+- *Type:* number
+
+---
+
+### `step`<sup>Optional</sup> <a name="step" id="cdktf.Fn.range.parameter.step"></a>
+
+- *Type:* number
+
+---
+
+## `rawString` <a name="rawString" id="cdktf.Fn.rawString"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.rawString(str: string)
+```
+
+Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string).
+
+### `str`<sup>Required</sup> <a name="str" id="cdktf.Fn.rawString.parameter.str"></a>
+
+- *Type:* string
+
+---
+
+## `regex` <a name="regex" id="cdktf.Fn.regex"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.regex(pattern: string, value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a regular expression to a string and returns the matching substrings in pattern.
+
+### `pattern`<sup>Required</sup> <a name="pattern" id="cdktf.Fn.regex.parameter.pattern"></a>
+
+- *Type:* string
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.regex.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `regexall` <a name="regexall" id="cdktf.Fn.regexall"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.regexall(pattern: string, value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/regexall.html regexall} applies a regular expression to a string and returns a list of all matches.
+
+### `pattern`<sup>Required</sup> <a name="pattern" id="cdktf.Fn.regexall.parameter.pattern"></a>
+
+- *Type:* string
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.regexall.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `replace` <a name="replace" id="cdktf.Fn.replace"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.replace(value: string, substring: string, replacement: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.replace.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `substring`<sup>Required</sup> <a name="substring" id="cdktf.Fn.replace.parameter.substring"></a>
+
+- *Type:* string
+
+---
+
+### `replacement`<sup>Required</sup> <a name="replacement" id="cdktf.Fn.replace.parameter.replacement"></a>
+
+- *Type:* string
+
+---
+
+## `reverse` <a name="reverse" id="cdktf.Fn.reverse"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.reverse(values: any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.reverse.parameter.values"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `rsadecrypt` <a name="rsadecrypt" id="cdktf.Fn.rsadecrypt"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.rsadecrypt(ciphertext: string, privatekey: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/rsadecrypt.html rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.
+
+### `ciphertext`<sup>Required</sup> <a name="ciphertext" id="cdktf.Fn.rsadecrypt.parameter.ciphertext"></a>
+
+- *Type:* string
+
+---
+
+### `privatekey`<sup>Required</sup> <a name="privatekey" id="cdktf.Fn.rsadecrypt.parameter.privatekey"></a>
+
+- *Type:* string
+
+---
+
+## `sensitive` <a name="sensitive" id="cdktf.Fn.sensitive"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sensitive(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sensitive.html sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for sensitive input variables.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.sensitive.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `setintersection` <a name="setintersection" id="cdktf.Fn.setintersection"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.setintersection(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/setintersection.html setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.setintersection.parameter.values"></a>
+
+- *Type:* any[]
+
+---
+
+## `setproduct` <a name="setproduct" id="cdktf.Fn.setproduct"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.setproduct(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/setproduct.html setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the Cartesian product.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.setproduct.parameter.values"></a>
+
+- *Type:* any[]
+
+---
+
+## `setsubtract` <a name="setsubtract" id="cdktf.Fn.setsubtract"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.setsubtract(minuend: string | any[] | IResolvable, subtrahend: string | any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/slice.html setsubtract} function returns a new set containing the elements from the first set that are not present in the second set.
+
+### `minuend`<sup>Required</sup> <a name="minuend" id="cdktf.Fn.setsubtract.parameter.minuend"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `subtrahend`<sup>Required</sup> <a name="subtrahend" id="cdktf.Fn.setsubtract.parameter.subtrahend"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `setunion` <a name="setunion" id="cdktf.Fn.setunion"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.setunion(values: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/setunion.html setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets.
+
+### `values`<sup>Required</sup> <a name="values" id="cdktf.Fn.setunion.parameter.values"></a>
+
+- *Type:* any[]
+
+Arguments are passed in an array.
+
+---
+
+## `sha1` <a name="sha1" id="cdktf.Fn.sha1"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sha1(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sha1.html sha1} computes the SHA1 hash of a given string and encodes it with hexadecimal digits.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.sha1.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `sha256` <a name="sha256" id="cdktf.Fn.sha256"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sha256(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sha256.html sha256} computes the SHA256 hash of a given string and encodes it with hexadecimal digits.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.sha256.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `sha512` <a name="sha512" id="cdktf.Fn.sha512"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sha512(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sha512.html sha512} computes the SHA512 hash of a given string and encodes it with hexadecimal digits.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.sha512.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `signum` <a name="signum" id="cdktf.Fn.signum"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.signum(value: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/signum.html signum} determines the sign of a number, returning a number between -1 and 1 to represent the sign.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.signum.parameter.value"></a>
+
+- *Type:* number
+
+---
+
+## `slice` <a name="slice" id="cdktf.Fn.slice"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.slice(list: string | any[] | IResolvable, startindex: number, endindex: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/slice.html slice} extracts some consecutive elements from within a list.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.slice.parameter.list"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `startindex`<sup>Required</sup> <a name="startindex" id="cdktf.Fn.slice.parameter.startindex"></a>
+
+- *Type:* number
+
+---
+
+### `endindex`<sup>Required</sup> <a name="endindex" id="cdktf.Fn.slice.parameter.endindex"></a>
+
+- *Type:* number
+
+---
+
+## `sort` <a name="sort" id="cdktf.Fn.sort"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sort(list: string | any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.sort.parameter.list"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `split` <a name="split" id="cdktf.Fn.split"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.split(seperator: string, value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/split.html split} produces a list by dividing a given string at all occurrences of a given separator.
+
+### `seperator`<sup>Required</sup> <a name="seperator" id="cdktf.Fn.split.parameter.seperator"></a>
+
+- *Type:* string
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.split.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `strrev` <a name="strrev" id="cdktf.Fn.strrev"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.strrev(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/strrev.html strrev} reverses the characters in a string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.strrev.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `substr` <a name="substr" id="cdktf.Fn.substr"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.substr(value: string, offset: number, length: number)
+```
+
+{@link https://www.terraform.io/docs/language/functions/substr.html substr} extracts a substring from a given string by offset and length.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.substr.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `offset`<sup>Required</sup> <a name="offset" id="cdktf.Fn.substr.parameter.offset"></a>
+
+- *Type:* number
+
+---
+
+### `length`<sup>Required</sup> <a name="length" id="cdktf.Fn.substr.parameter.length"></a>
+
+- *Type:* number
+
+---
+
+## `sum` <a name="sum" id="cdktf.Fn.sum"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.sum(list: string | any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/sum.html sum} takes a list or set of numbers and returns the sum of those numbers.
+
+### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.sum.parameter.list"></a>
+
+- *Type:* string | any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+## `templatefile` <a name="templatefile" id="cdktf.Fn.templatefile"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.templatefile(path: string, vars: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/templatefile.html templatefile} reads the file at the given path and renders its content as a template using a supplied set of template variables.
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.templatefile.parameter.path"></a>
+
+- *Type:* string
+
+---
+
+### `vars`<sup>Required</sup> <a name="vars" id="cdktf.Fn.templatefile.parameter.vars"></a>
+
+- *Type:* any
+
+---
+
+## `textdecodebase64` <a name="textdecodebase64" id="cdktf.Fn.textdecodebase64"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.textdecodebase64(value: string, encodingName: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/textdecodebase64.html textdecodebase64} function decodes a string that was previously Base64-encoded, and then interprets the result as characters in a specified character encoding.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.textdecodebase64.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `encodingName`<sup>Required</sup> <a name="encodingName" id="cdktf.Fn.textdecodebase64.parameter.encodingName"></a>
+
+- *Type:* string
+
+---
+
+## `textencodebase64` <a name="textencodebase64" id="cdktf.Fn.textencodebase64"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.textencodebase64(value: string, encodingName: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/textencodebase64.html textencodebase64}  encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.textencodebase64.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `encodingName`<sup>Required</sup> <a name="encodingName" id="cdktf.Fn.textencodebase64.parameter.encodingName"></a>
+
+- *Type:* string
+
+---
+
+## `timeadd` <a name="timeadd" id="cdktf.Fn.timeadd"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.timeadd(timestamp: string, duration: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/timeadd.html timeadd} adds a duration to a timestamp, returning a new timestamp.
+
+### `timestamp`<sup>Required</sup> <a name="timestamp" id="cdktf.Fn.timeadd.parameter.timestamp"></a>
+
+- *Type:* string
+
+---
+
+### `duration`<sup>Required</sup> <a name="duration" id="cdktf.Fn.timeadd.parameter.duration"></a>
+
+- *Type:* string
+
+---
+
+## `timestamp` <a name="timestamp" id="cdktf.Fn.timestamp"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.timestamp()
+```
+
+{@link https://www.terraform.io/docs/language/functions/timestamp.html timestamp} returns a UTC timestamp string in RFC 3339 format.
+
+## `title` <a name="title" id="cdktf.Fn.title"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.title(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/title.html title} converts the first letter of each word in the given string to uppercase.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.title.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `tobool` <a name="tobool" id="cdktf.Fn.tobool"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.tobool(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/tobool.html tobool} converts its argument to a boolean value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.tobool.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `tolist` <a name="tolist" id="cdktf.Fn.tolist"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.tolist(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/tolist.html tolist} converts its argument to a list value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.tolist.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `tomap` <a name="tomap" id="cdktf.Fn.tomap"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.tomap(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/tomap.html tomap} converts its argument to a map value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.tomap.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `tonumber` <a name="tonumber" id="cdktf.Fn.tonumber"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.tonumber(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/tonumber.html tonumber} converts its argument to a number value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.tonumber.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `toset` <a name="toset" id="cdktf.Fn.toset"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.toset(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/toset.html toset} converts its argument to a set value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.toset.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `tostring` <a name="tostring" id="cdktf.Fn.tostring"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.tostring(expression: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/tostring.html tostring} converts its argument to a string value.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.tostring.parameter.expression"></a>
+
+- *Type:* any
+
+---
+
+## `transpose` <a name="transpose" id="cdktf.Fn.transpose"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.transpose(value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/transpose.html transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.transpose.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `trim` <a name="trim" id="cdktf.Fn.trim"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.trim(value: string, replacement: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/trim.html trim} removes the specified characters from the start and end of the given string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.trim.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `replacement`<sup>Required</sup> <a name="replacement" id="cdktf.Fn.trim.parameter.replacement"></a>
+
+- *Type:* string
+
+---
+
+## `trimprefix` <a name="trimprefix" id="cdktf.Fn.trimprefix"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.trimprefix(value: string, prefix: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/trimprefix.html trimprefix} removes the specified prefix from the start of the given string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.trimprefix.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.trimprefix.parameter.prefix"></a>
+
+- *Type:* string
+
+---
+
+## `trimspace` <a name="trimspace" id="cdktf.Fn.trimspace"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.trimspace(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/trimspace.html trimspace} removes any space characters from the start and end of the given string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.trimspace.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `trimsuffix` <a name="trimsuffix" id="cdktf.Fn.trimsuffix"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.trimsuffix(value: string, suffix: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/trimsuffix.html trimsuffix} removes the specified suffix from the end of the given string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.trimsuffix.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+### `suffix`<sup>Required</sup> <a name="suffix" id="cdktf.Fn.trimsuffix.parameter.suffix"></a>
+
+- *Type:* string
+
+---
+
+## `try` <a name="try" id="cdktf.Fn.try"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.try(expression: any[])
+```
+
+{@link https://www.terraform.io/docs/language/functions/try.html try} evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors.
+
+### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Fn.try.parameter.expression"></a>
+
+- *Type:* any[]
+
+---
+
+## `upper` <a name="upper" id="cdktf.Fn.upper"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.upper(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/upper.html upper} converts all cased letters in the given string to uppercase.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.upper.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `urlencode` <a name="urlencode" id="cdktf.Fn.urlencode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.urlencode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/urlencode.html urlencode} applies URL encoding to a given string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.urlencode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `uuid` <a name="uuid" id="cdktf.Fn.uuid"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.uuid()
+```
+
+{@link https://www.terraform.io/docs/language/functions/uuid.html uuid} generates a unique identifier string.
+
+## `uuidv5` <a name="uuidv5" id="cdktf.Fn.uuidv5"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.uuidv5(namespace: string, name: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/uuidv5.html uuidv5} generates a unique identifier string.
+
+### `namespace`<sup>Required</sup> <a name="namespace" id="cdktf.Fn.uuidv5.parameter.namespace"></a>
+
+- *Type:* string
+
+---
+
+### `name`<sup>Required</sup> <a name="name" id="cdktf.Fn.uuidv5.parameter.name"></a>
+
+- *Type:* string
+
+---
+
+## `values` <a name="values" id="cdktf.Fn.values"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.values(value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/values.html values} takes a map and returns a list containing the values of the elements in that map.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.values.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `yamldecode` <a name="yamldecode" id="cdktf.Fn.yamldecode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.yamldecode(value: string)
+```
+
+{@link https://www.terraform.io/docs/language/functions/yamldecode.html yamldecode} parses a string as a subset of YAML, and produces a representation of its value.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.yamldecode.parameter.value"></a>
+
+- *Type:* string
+
+---
+
+## `yamlencode` <a name="yamlencode" id="cdktf.Fn.yamlencode"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.yamlencode(value: any)
+```
+
+{@link https://www.terraform.io/docs/language/functions/yamlencode.html yamlencode} encodes a given value to a string using JSON syntax.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Fn.yamlencode.parameter.value"></a>
+
+- *Type:* any
+
+---
+
+## `zipmap` <a name="zipmap" id="cdktf.Fn.zipmap"></a>
+
+```typescript
+import { Fn } from 'cdktf'
+
+Fn.zipmap(keyslist: any[] | IResolvable, valueslist: any[] | IResolvable)
+```
+
+{@link https://www.terraform.io/docs/language/functions/zipmap.html zipmap} constructs a map from a list of keys and a corresponding list of values.
+
+### `keyslist`<sup>Required</sup> <a name="keyslist" id="cdktf.Fn.zipmap.parameter.keyslist"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+### `valueslist`<sup>Required</sup> <a name="valueslist" id="cdktf.Fn.zipmap.parameter.valueslist"></a>
+
+- *Type:* any[] | <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+

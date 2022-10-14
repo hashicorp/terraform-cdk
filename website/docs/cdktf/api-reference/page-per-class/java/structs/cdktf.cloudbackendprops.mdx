@@ -1,0 +1,83 @@
+ CloudBackendProps <a name="CloudBackendProps" id="cdktf.CloudBackendProps"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+https://www.terraform.io/cli/cloud/settings#arguments
+
+# Initializer <a name="Initializer" id="cdktf.CloudBackendProps.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.CloudBackendProps;
+
+CloudBackendProps.builder()
+    .organization(java.lang.String)
+    .workspaces(NamedCloudWorkspace)
+    .workspaces(TaggedCloudWorkspaces)
+//  .hostname(java.lang.String)
+//  .token(java.lang.String)
+    .build();
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.CloudBackendProps.property.organization">organization</a></code> | <code>java.lang.String</code> | The name of the organization containing the workspace(s) the current configuration should use. |
+| <code><a href="#cdktf.CloudBackendProps.property.workspaces">workspaces</a></code> | <code><a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a></code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackendProps.property.hostname">hostname</a></code> | <code>java.lang.String</code> | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise. |
+| <code><a href="#cdktf.CloudBackendProps.property.token">token</a></code> | <code>java.lang.String</code> | The token used to authenticate with Terraform Cloud. |
+
+---
+
+## `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackendProps.property.organization"></a>
+
+```java
+public java.lang.String getOrganization();
+```
+
+- *Type:* java.lang.String
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+## `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackendProps.property.workspaces"></a>
+
+```java
+public java.lang.Object getWorkspaces();
+```
+
+- *Type:* <a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a> OR <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+## `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendProps.property.hostname"></a>
+
+```java
+public java.lang.String getHostname();
+```
+
+- *Type:* java.lang.String
+- *Default:* app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+## `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendProps.property.token"></a>
+
+```java
+public java.lang.String getToken();
+```
+
+- *Type:* java.lang.String
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
+
+---

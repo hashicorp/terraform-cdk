@@ -1,0 +1,319 @@
+ EtcdV3Backend <a name="EtcdV3Backend" id="cdktf.EtcdV3Backend"></a>
+
+# Initializers <a name="Initializers" id="cdktf.EtcdV3Backend.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.EtcdV3Backend;
+
+EtcdV3Backend.Builder.create(Construct scope)
+    .endpoints(java.util.List<java.lang.String>)
+//  .cacertPath(java.lang.String)
+//  .certPath(java.lang.String)
+//  .keyPath(java.lang.String)
+//  .lock(java.lang.Boolean)
+//  .password(java.lang.String)
+//  .prefix(java.lang.String)
+//  .username(java.lang.String)
+    .build();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.endpoints">endpoints</a></code> | <code>java.util.List<java.lang.String></code> | (Required) The list of 'etcd' endpoints which to connect to. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.cacertPath">cacertPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.certPath">certPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.keyPath">keyPath</a></code> | <code>java.lang.String</code> | (Optional) The path to a PEM-encoded key to provide to etcd for secure client identification. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.lock">lock</a></code> | <code>java.lang.Boolean</code> | (Optional) Whether to lock state access. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.password">password</a></code> | <code>java.lang.String</code> | (Optional) Password used to connect to the etcd cluster. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.prefix">prefix</a></code> | <code>java.lang.String</code> | (Optional) An optional prefix to be added to keys when to storing state in etcd. |
+| <code><a href="#cdktf.EtcdV3Backend.Initializer.parameter.username">username</a></code> | <code>java.lang.String</code> | (Optional) Username used to connect to the etcd cluster. |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdV3Backend.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `endpoints`<sup>Required</sup> <a name="endpoints" id="cdktf.EtcdV3Backend.Initializer.parameter.endpoints"></a>
+
+- *Type:* java.util.List<java.lang.String>
+
+(Required) The list of 'etcd' endpoints which to connect to.
+
+---
+
+## `cacertPath`<sup>Optional</sup> <a name="cacertPath" id="cdktf.EtcdV3Backend.Initializer.parameter.cacertPath"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers.
+
+---
+
+## `certPath`<sup>Optional</sup> <a name="certPath" id="cdktf.EtcdV3Backend.Initializer.parameter.certPath"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification.
+
+---
+
+## `keyPath`<sup>Optional</sup> <a name="keyPath" id="cdktf.EtcdV3Backend.Initializer.parameter.keyPath"></a>
+
+- *Type:* java.lang.String
+
+(Optional) The path to a PEM-encoded key to provide to etcd for secure client identification.
+
+---
+
+## `lock`<sup>Optional</sup> <a name="lock" id="cdktf.EtcdV3Backend.Initializer.parameter.lock"></a>
+
+- *Type:* java.lang.Boolean
+
+(Optional) Whether to lock state access.
+
+Defaults to true.
+
+---
+
+## `password`<sup>Optional</sup> <a name="password" id="cdktf.EtcdV3Backend.Initializer.parameter.password"></a>
+
+- *Type:* java.lang.String
+
+(Optional) Password used to connect to the etcd cluster.
+
+---
+
+## `prefix`<sup>Optional</sup> <a name="prefix" id="cdktf.EtcdV3Backend.Initializer.parameter.prefix"></a>
+
+- *Type:* java.lang.String
+
+(Optional) An optional prefix to be added to keys when to storing state in etcd.
+
+Defaults to "".
+
+---
+
+## `username`<sup>Optional</sup> <a name="username" id="cdktf.EtcdV3Backend.Initializer.parameter.username"></a>
+
+- *Type:* java.lang.String
+
+(Optional) Username used to connect to the etcd cluster.
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.EtcdV3Backend.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.EtcdV3Backend.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.EtcdV3Backend.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.EtcdV3Backend.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.EtcdV3Backend.toMetadata">toMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.EtcdV3Backend.toTerraform">toTerraform</a></code> | Adds this resource to the terraform JSON output. |
+| <code><a href="#cdktf.EtcdV3Backend.getRemoteStateDataSource">getRemoteStateDataSource</a></code> | Creates a TerraformRemoteState resource that accesses this backend. |
+
+---
+
+## `toString` <a name="toString" id="cdktf.EtcdV3Backend.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addOverride` <a name="addOverride" id="cdktf.EtcdV3Backend.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.EtcdV3Backend.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.EtcdV3Backend.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.EtcdV3Backend.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.EtcdV3Backend.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.EtcdV3Backend.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `toMetadata` <a name="toMetadata" id="cdktf.EtcdV3Backend.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+## `toTerraform` <a name="toTerraform" id="cdktf.EtcdV3Backend.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+Adds this resource to the terraform JSON output.
+
+## `getRemoteStateDataSource` <a name="getRemoteStateDataSource" id="cdktf.EtcdV3Backend.getRemoteStateDataSource"></a>
+
+```java
+public TerraformRemoteState getRemoteStateDataSource(Construct scope, java.lang.String name, java.lang.String _fromStack)
+```
+
+Creates a TerraformRemoteState resource that accesses this backend.
+
+### `scope`<sup>Required</sup> <a name="scope" id="cdktf.EtcdV3Backend.getRemoteStateDataSource.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+### `name`<sup>Required</sup> <a name="name" id="cdktf.EtcdV3Backend.getRemoteStateDataSource.parameter.name"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `_fromStack`<sup>Required</sup> <a name="_fromStack" id="cdktf.EtcdV3Backend.getRemoteStateDataSource.parameter._fromStack"></a>
+
+- *Type:* java.lang.String
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.EtcdV3Backend.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#cdktf.EtcdV3Backend.isBackend">isBackend</a></code> | *No description.* |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.EtcdV3Backend.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.EtcdV3Backend;
+
+EtcdV3Backend.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdV3Backend.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+## `isBackend` <a name="isBackend" id="cdktf.EtcdV3Backend.isBackend"></a>
+
+```java
+import com.hashicorp.cdktf.EtcdV3Backend;
+
+EtcdV3Backend.isBackend(java.lang.Object x)
+```
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.EtcdV3Backend.isBackend.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.EtcdV3Backend.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.EtcdV3Backend.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.EtcdV3Backend.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.EtcdV3Backend.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.EtcdV3Backend.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.EtcdV3Backend.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.EtcdV3Backend.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.EtcdV3Backend.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- *Type:* java.lang.String
+
+---
+

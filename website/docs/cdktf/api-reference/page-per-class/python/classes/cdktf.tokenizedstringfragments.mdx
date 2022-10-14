@@ -1,0 +1,203 @@
+ TokenizedStringFragments <a name="TokenizedStringFragments" id="cdktf.TokenizedStringFragments"></a>
+
+Fragments of a concatenated string containing stringified Tokens.
+
+# Initializers <a name="Initializers" id="cdktf.TokenizedStringFragments.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.TokenizedStringFragments()
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">add_intrinsic</a></code> | Adds an intrinsic fragment. |
+| <code><a href="#cdktf.TokenizedStringFragments.addLiteral">add_literal</a></code> | Adds a literal fragment. |
+| <code><a href="#cdktf.TokenizedStringFragments.addToken">add_token</a></code> | Adds a token fragment. |
+| <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code> | Combine the string fragments using the given joiner. |
+| <code><a href="#cdktf.TokenizedStringFragments.mapTokens">map_tokens</a></code> | Apply a transformation function to all tokens in the string. |
+
+---
+
+## `add_intrinsic` <a name="add_intrinsic" id="cdktf.TokenizedStringFragments.addIntrinsic"></a>
+
+```python
+def add_intrinsic(
+  value: typing.Any
+) -> None
+```
+
+Adds an intrinsic fragment.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TokenizedStringFragments.addIntrinsic.parameter.value"></a>
+
+- *Type:* typing.Any
+
+the intrinsic value to add.
+
+---
+
+## `add_literal` <a name="add_literal" id="cdktf.TokenizedStringFragments.addLiteral"></a>
+
+```python
+def add_literal(
+  lit: typing.Any
+) -> None
+```
+
+Adds a literal fragment.
+
+### `lit`<sup>Required</sup> <a name="lit" id="cdktf.TokenizedStringFragments.addLiteral.parameter.lit"></a>
+
+- *Type:* typing.Any
+
+the literal to add.
+
+---
+
+## `add_token` <a name="add_token" id="cdktf.TokenizedStringFragments.addToken"></a>
+
+```python
+def add_token(
+  token: IResolvable
+) -> None
+```
+
+Adds a token fragment.
+
+### `token`<sup>Required</sup> <a name="token" id="cdktf.TokenizedStringFragments.addToken.parameter.token"></a>
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+the token to add.
+
+---
+
+## `join` <a name="join" id="cdktf.TokenizedStringFragments.join"></a>
+
+```python
+def join(
+  concat: IFragmentConcatenator
+) -> typing.Any
+```
+
+Combine the string fragments using the given joiner.
+
+If there are any
+
+### `concat`<sup>Required</sup> <a name="concat" id="cdktf.TokenizedStringFragments.join.parameter.concat"></a>
+
+- *Type:* <a href="#cdktf.IFragmentConcatenator">IFragmentConcatenator</a>
+
+---
+
+## `map_tokens` <a name="map_tokens" id="cdktf.TokenizedStringFragments.mapTokens"></a>
+
+```python
+def map_tokens(
+  mapper: ITokenMapper
+) -> TokenizedStringFragments
+```
+
+Apply a transformation function to all tokens in the string.
+
+### `mapper`<sup>Required</sup> <a name="mapper" id="cdktf.TokenizedStringFragments.mapTokens.parameter.mapper"></a>
+
+- *Type:* <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+
+---
+
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">first_value</a></code> | <code>typing.Any</code> | Returns the first value. |
+| <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code> | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all intrinsic fragments from this string. |
+| <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code> | <code>typing.Union[int, float]</code> | Returns the number of fragments. |
+| <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code> | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all literals from this string. |
+| <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code> | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all Tokens from this string. |
+| <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">first_token</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code> | Returns the first token. |
+
+---
+
+## `first_value`<sup>Required</sup> <a name="first_value" id="cdktf.TokenizedStringFragments.property.firstValue"></a>
+
+```python
+first_value: typing.Any
+```
+
+- *Type:* typing.Any
+
+Returns the first value.
+
+---
+
+## `intrinsic`<sup>Required</sup> <a name="intrinsic" id="cdktf.TokenizedStringFragments.property.intrinsic"></a>
+
+```python
+intrinsic: typing.List[IResolvable]
+```
+
+- *Type:* typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]
+
+Return all intrinsic fragments from this string.
+
+---
+
+## `length`<sup>Required</sup> <a name="length" id="cdktf.TokenizedStringFragments.property.length"></a>
+
+```python
+length: typing.Union[int, float]
+```
+
+- *Type:* typing.Union[int, float]
+
+Returns the number of fragments.
+
+---
+
+## `literals`<sup>Required</sup> <a name="literals" id="cdktf.TokenizedStringFragments.property.literals"></a>
+
+```python
+literals: typing.List[IResolvable]
+```
+
+- *Type:* typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]
+
+Return all literals from this string.
+
+---
+
+## `tokens`<sup>Required</sup> <a name="tokens" id="cdktf.TokenizedStringFragments.property.tokens"></a>
+
+```python
+tokens: typing.List[IResolvable]
+```
+
+- *Type:* typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]
+
+Return all Tokens from this string.
+
+---
+
+## `first_token`<sup>Optional</sup> <a name="first_token" id="cdktf.TokenizedStringFragments.property.firstToken"></a>
+
+```python
+first_token: IResolvable
+```
+
+- *Type:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+Returns the first token.
+
+---
+

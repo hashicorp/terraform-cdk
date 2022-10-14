@@ -1,0 +1,97 @@
+ LazyBase <a name="LazyBase" id="cdktf.LazyBase"></a>
+
+- *Implements:* <a href="#cdktf.IResolvable">IResolvable</a>
+
+# Initializers <a name="Initializers" id="cdktf.LazyBase.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new LazyBase();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.LazyBase.addPostProcessor">AddPostProcessor</a></code> | *No description.* |
+| <code><a href="#cdktf.LazyBase.resolve">Resolve</a></code> | Produce the Token's value at resolution time. |
+| <code><a href="#cdktf.LazyBase.toJSON">ToJSON</a></code> | Turn this Token into JSON. |
+| <code><a href="#cdktf.LazyBase.toString">ToString</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+## `AddPostProcessor` <a name="AddPostProcessor" id="cdktf.LazyBase.addPostProcessor"></a>
+
+```csharp
+private void AddPostProcessor(IPostProcessor PostProcessor)
+```
+
+### `PostProcessor`<sup>Required</sup> <a name="PostProcessor" id="cdktf.LazyBase.addPostProcessor.parameter.postProcessor"></a>
+
+- *Type:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+---
+
+## `Resolve` <a name="Resolve" id="cdktf.LazyBase.resolve"></a>
+
+```csharp
+private object Resolve(IResolveContext Context)
+```
+
+Produce the Token's value at resolution time.
+
+### `Context`<sup>Required</sup> <a name="Context" id="cdktf.LazyBase.resolve.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `ToJSON` <a name="ToJSON" id="cdktf.LazyBase.toJSON"></a>
+
+```csharp
+private object ToJSON()
+```
+
+Turn this Token into JSON.
+
+Called automatically when JSON.stringify() is called on a Token.
+
+## `ToString` <a name="ToString" id="cdktf.LazyBase.toString"></a>
+
+```csharp
+private string ToString()
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.LazyBase.property.creationStack">CreationStack</a></code> | <code>string[]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+
+---
+
+## `CreationStack`<sup>Required</sup> <a name="CreationStack" id="cdktf.LazyBase.property.creationStack"></a>
+
+```csharp
+public string[] CreationStack { get; }
+```
+
+- *Type:* string[]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+

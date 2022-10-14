@@ -1,0 +1,498 @@
+ S3BackendProps <a name="S3BackendProps" id="cdktf.S3BackendProps"></a>
+
+Stores the state as a given key in a given bucket on Amazon S3.
+
+This backend
+also supports state locking and consistency checking via Dynamo DB, which
+can be enabled by setting the dynamodb_table field to an existing DynamoDB
+table name. A single DynamoDB table can be used to lock multiple remote
+state files. Terraform generates key names that include the values of the
+bucket and key variables.
+
+Warning! It is highly recommended that you enable Bucket Versioning on the
+S3 bucket to allow for state recovery in the case of accidental deletions
+and human error.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/s3
+
+# Initializer <a name="Initializer" id="cdktf.S3BackendProps.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new S3BackendProps {
+    string Bucket,
+    string Key,
+    string AccessKey = null,
+    string Acl = null,
+    string AssumeRolePolicy = null,
+    string[] AssumeRolePolicyArns = null,
+    System.Collections.Generic.IDictionary<string, string> AssumeRoleTags = null,
+    string[] AssumeRoleTransitiveTagKeys = null,
+    string DynamodbEndpoint = null,
+    string DynamodbTable = null,
+    bool Encrypt = null,
+    string Endpoint = null,
+    string ExternalId = null,
+    bool ForcePathStyle = null,
+    string IamEndpoint = null,
+    string KmsKeyId = null,
+    double MaxRetries = null,
+    string Profile = null,
+    string Region = null,
+    string RoleArn = null,
+    string SecretKey = null,
+    string SessionName = null,
+    string SharedCredentialsFile = null,
+    bool SkipCredentialsValidation = null,
+    bool SkipMetadataApiCheck = null,
+    bool SkipRegionValidation = null,
+    string SseCustomerKey = null,
+    string StsEndpoint = null,
+    string Token = null,
+    string WorkspaceKeyPrefix = null
+};
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.S3BackendProps.property.bucket">Bucket</a></code> | <code>string</code> | Name of the S3 Bucket. |
+| <code><a href="#cdktf.S3BackendProps.property.key">Key</a></code> | <code>string</code> | Path to the state file inside the S3 Bucket. |
+| <code><a href="#cdktf.S3BackendProps.property.accessKey">AccessKey</a></code> | <code>string</code> | (Optional) AWS access key. |
+| <code><a href="#cdktf.S3BackendProps.property.acl">Acl</a></code> | <code>string</code> | (Optional) Canned ACL to be applied to the state file. |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicy">AssumeRolePolicy</a></code> | <code>string</code> | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed. |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRolePolicyArns">AssumeRolePolicyArns</a></code> | <code>string[]</code> | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed. |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTags">AssumeRoleTags</a></code> | <code>System.Collections.Generic.IDictionary<string, string></code> | (Optional) Map of assume role session tags. |
+| <code><a href="#cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys">AssumeRoleTransitiveTagKeys</a></code> | <code>string[]</code> | (Optional) Set of assume role session tag keys to pass to any subsequent sessions. |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbEndpoint">DynamodbEndpoint</a></code> | <code>string</code> | (Optional) Custom endpoint for the AWS DynamoDB API. |
+| <code><a href="#cdktf.S3BackendProps.property.dynamodbTable">DynamodbTable</a></code> | <code>string</code> | (Optional) Name of DynamoDB Table to use for state locking and consistency. |
+| <code><a href="#cdktf.S3BackendProps.property.encrypt">Encrypt</a></code> | <code>bool</code> | (Optional) Enable server side encryption of the state file. |
+| <code><a href="#cdktf.S3BackendProps.property.endpoint">Endpoint</a></code> | <code>string</code> | (Optional) Custom endpoint for the AWS S3 API. |
+| <code><a href="#cdktf.S3BackendProps.property.externalId">ExternalId</a></code> | <code>string</code> | (Optional) External identifier to use when assuming the role. |
+| <code><a href="#cdktf.S3BackendProps.property.forcePathStyle">ForcePathStyle</a></code> | <code>bool</code> | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>). |
+| <code><a href="#cdktf.S3BackendProps.property.iamEndpoint">IamEndpoint</a></code> | <code>string</code> | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API. |
+| <code><a href="#cdktf.S3BackendProps.property.kmsKeyId">KmsKeyId</a></code> | <code>string</code> | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state. |
+| <code><a href="#cdktf.S3BackendProps.property.maxRetries">MaxRetries</a></code> | <code>double</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure. |
+| <code><a href="#cdktf.S3BackendProps.property.profile">Profile</a></code> | <code>string</code> | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.S3BackendProps.property.region">Region</a></code> | <code>string</code> | AWS Region of the S3 Bucket and DynamoDB Table (if used). |
+| <code><a href="#cdktf.S3BackendProps.property.roleArn">RoleArn</a></code> | <code>string</code> | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume. |
+| <code><a href="#cdktf.S3BackendProps.property.secretKey">SecretKey</a></code> | <code>string</code> | (Optional) AWS secret access key. |
+| <code><a href="#cdktf.S3BackendProps.property.sessionName">SessionName</a></code> | <code>string</code> | (Optional) Session name to use when assuming the role. |
+| <code><a href="#cdktf.S3BackendProps.property.sharedCredentialsFile">SharedCredentialsFile</a></code> | <code>string</code> | (Optional) Path to the AWS shared credentials file. |
+| <code><a href="#cdktf.S3BackendProps.property.skipCredentialsValidation">SkipCredentialsValidation</a></code> | <code>bool</code> | (Optional) Skip credentials validation via the STS API. |
+| <code><a href="#cdktf.S3BackendProps.property.skipMetadataApiCheck">SkipMetadataApiCheck</a></code> | <code>bool</code> | (Optional) Skip usage of EC2 Metadata API. |
+| <code><a href="#cdktf.S3BackendProps.property.skipRegionValidation">SkipRegionValidation</a></code> | <code>bool</code> | (Optional) Skip validation of provided region name. |
+| <code><a href="#cdktf.S3BackendProps.property.sseCustomerKey">SseCustomerKey</a></code> | <code>string</code> | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C). |
+| <code><a href="#cdktf.S3BackendProps.property.stsEndpoint">StsEndpoint</a></code> | <code>string</code> | (Optional) Custom endpoint for the AWS Security Token Service (STS) API. |
+| <code><a href="#cdktf.S3BackendProps.property.token">Token</a></code> | <code>string</code> | (Optional) Multi-Factor Authentication (MFA) token. |
+| <code><a href="#cdktf.S3BackendProps.property.workspaceKeyPrefix">WorkspaceKeyPrefix</a></code> | <code>string</code> | (Optional) Prefix applied to the state path inside the bucket. |
+
+---
+
+## `Bucket`<sup>Required</sup> <a name="Bucket" id="cdktf.S3BackendProps.property.bucket"></a>
+
+```csharp
+public string Bucket { get; set; }
+```
+
+- *Type:* string
+
+Name of the S3 Bucket.
+
+---
+
+## `Key`<sup>Required</sup> <a name="Key" id="cdktf.S3BackendProps.property.key"></a>
+
+```csharp
+public string Key { get; set; }
+```
+
+- *Type:* string
+
+Path to the state file inside the S3 Bucket.
+
+When using a non-default workspace, the state path will be /workspace_key_prefix/workspace_name/key
+
+---
+
+## `AccessKey`<sup>Optional</sup> <a name="AccessKey" id="cdktf.S3BackendProps.property.accessKey"></a>
+
+```csharp
+public string AccessKey { get; set; }
+```
+
+- *Type:* string
+
+(Optional) AWS access key.
+
+If configured, must also configure secret_key.
+This can also be sourced from
+the AWS_ACCESS_KEY_ID environment variable,
+AWS shared credentials file (e.g. ~/.aws/credentials),
+or AWS shared configuration file (e.g. ~/.aws/config).
+
+---
+
+## `Acl`<sup>Optional</sup> <a name="Acl" id="cdktf.S3BackendProps.property.acl"></a>
+
+```csharp
+public string Acl { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Canned ACL to be applied to the state file.
+
+---
+
+## `AssumeRolePolicy`<sup>Optional</sup> <a name="AssumeRolePolicy" id="cdktf.S3BackendProps.property.assumeRolePolicy"></a>
+
+```csharp
+public string AssumeRolePolicy { get; set; }
+```
+
+- *Type:* string
+
+(Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+## `AssumeRolePolicyArns`<sup>Optional</sup> <a name="AssumeRolePolicyArns" id="cdktf.S3BackendProps.property.assumeRolePolicyArns"></a>
+
+```csharp
+public string[] AssumeRolePolicyArns { get; set; }
+```
+
+- *Type:* string[]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+## `AssumeRoleTags`<sup>Optional</sup> <a name="AssumeRoleTags" id="cdktf.S3BackendProps.property.assumeRoleTags"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary<string, string> AssumeRoleTags { get; set; }
+```
+
+- *Type:* System.Collections.Generic.IDictionary<string, string>
+
+(Optional) Map of assume role session tags.
+
+---
+
+## `AssumeRoleTransitiveTagKeys`<sup>Optional</sup> <a name="AssumeRoleTransitiveTagKeys" id="cdktf.S3BackendProps.property.assumeRoleTransitiveTagKeys"></a>
+
+```csharp
+public string[] AssumeRoleTransitiveTagKeys { get; set; }
+```
+
+- *Type:* string[]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
+
+---
+
+## `DynamodbEndpoint`<sup>Optional</sup> <a name="DynamodbEndpoint" id="cdktf.S3BackendProps.property.dynamodbEndpoint"></a>
+
+```csharp
+public string DynamodbEndpoint { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Custom endpoint for the AWS DynamoDB API.
+
+This can also be sourced from the AWS_DYNAMODB_ENDPOINT environment variable.
+
+---
+
+## `DynamodbTable`<sup>Optional</sup> <a name="DynamodbTable" id="cdktf.S3BackendProps.property.dynamodbTable"></a>
+
+```csharp
+public string DynamodbTable { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Name of DynamoDB Table to use for state locking and consistency.
+
+The table must have a partition key named LockID with type of String.
+If not configured, state locking will be disabled.
+
+---
+
+## `Encrypt`<sup>Optional</sup> <a name="Encrypt" id="cdktf.S3BackendProps.property.encrypt"></a>
+
+```csharp
+public bool Encrypt { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Enable server side encryption of the state file.
+
+---
+
+## `Endpoint`<sup>Optional</sup> <a name="Endpoint" id="cdktf.S3BackendProps.property.endpoint"></a>
+
+```csharp
+public string Endpoint { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Custom endpoint for the AWS S3 API.
+
+This can also be sourced from the AWS_S3_ENDPOINT environment variable.
+
+---
+
+## `ExternalId`<sup>Optional</sup> <a name="ExternalId" id="cdktf.S3BackendProps.property.externalId"></a>
+
+```csharp
+public string ExternalId { get; set; }
+```
+
+- *Type:* string
+
+(Optional) External identifier to use when assuming the role.
+
+---
+
+## `ForcePathStyle`<sup>Optional</sup> <a name="ForcePathStyle" id="cdktf.S3BackendProps.property.forcePathStyle"></a>
+
+```csharp
+public bool ForcePathStyle { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+
+---
+
+## `IamEndpoint`<sup>Optional</sup> <a name="IamEndpoint" id="cdktf.S3BackendProps.property.iamEndpoint"></a>
+
+```csharp
+public string IamEndpoint { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.
+
+This can also be sourced from the AWS_IAM_ENDPOINT environment variable.
+
+---
+
+## `KmsKeyId`<sup>Optional</sup> <a name="KmsKeyId" id="cdktf.S3BackendProps.property.kmsKeyId"></a>
+
+```csharp
+public string KmsKeyId { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.
+
+Note that if this value is specified,
+Terraform will need kms:Encrypt, kms:Decrypt and kms:GenerateDataKey permissions on this KMS key.
+
+---
+
+## `MaxRetries`<sup>Optional</sup> <a name="MaxRetries" id="cdktf.S3BackendProps.property.maxRetries"></a>
+
+```csharp
+public double MaxRetries { get; set; }
+```
+
+- *Type:* double
+
+(Optional) The maximum number of times an AWS API request is retried on retryable failure.
+
+Defaults to 5.
+
+---
+
+## `Profile`<sup>Optional</sup> <a name="Profile" id="cdktf.S3BackendProps.property.profile"></a>
+
+```csharp
+public string Profile { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable.
+
+---
+
+## `Region`<sup>Optional</sup> <a name="Region" id="cdktf.S3BackendProps.property.region"></a>
+
+```csharp
+public string Region { get; set; }
+```
+
+- *Type:* string
+
+AWS Region of the S3 Bucket and DynamoDB Table (if used).
+
+This can also
+be sourced from the AWS_DEFAULT_REGION and AWS_REGION environment
+variables.
+
+---
+
+## `RoleArn`<sup>Optional</sup> <a name="RoleArn" id="cdktf.S3BackendProps.property.roleArn"></a>
+
+```csharp
+public string RoleArn { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Amazon Resource Name (ARN) of the IAM Role to assume.
+
+---
+
+## `SecretKey`<sup>Optional</sup> <a name="SecretKey" id="cdktf.S3BackendProps.property.secretKey"></a>
+
+```csharp
+public string SecretKey { get; set; }
+```
+
+- *Type:* string
+
+(Optional) AWS secret access key.
+
+If configured, must also configure access_key.
+This can also be sourced from
+the AWS_SECRET_ACCESS_KEY environment variable,
+AWS shared credentials file (e.g. ~/.aws/credentials),
+or AWS shared configuration file (e.g. ~/.aws/config)
+
+---
+
+## `SessionName`<sup>Optional</sup> <a name="SessionName" id="cdktf.S3BackendProps.property.sessionName"></a>
+
+```csharp
+public string SessionName { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Session name to use when assuming the role.
+
+---
+
+## `SharedCredentialsFile`<sup>Optional</sup> <a name="SharedCredentialsFile" id="cdktf.S3BackendProps.property.sharedCredentialsFile"></a>
+
+```csharp
+public string SharedCredentialsFile { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Path to the AWS shared credentials file.
+
+Defaults to ~/.aws/credentials.
+
+---
+
+## `SkipCredentialsValidation`<sup>Optional</sup> <a name="SkipCredentialsValidation" id="cdktf.S3BackendProps.property.skipCredentialsValidation"></a>
+
+```csharp
+public bool SkipCredentialsValidation { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Skip credentials validation via the STS API.
+
+---
+
+## `SkipMetadataApiCheck`<sup>Optional</sup> <a name="SkipMetadataApiCheck" id="cdktf.S3BackendProps.property.skipMetadataApiCheck"></a>
+
+```csharp
+public bool SkipMetadataApiCheck { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Skip usage of EC2 Metadata API.
+
+---
+
+## `SkipRegionValidation`<sup>Optional</sup> <a name="SkipRegionValidation" id="cdktf.S3BackendProps.property.skipRegionValidation"></a>
+
+```csharp
+public bool SkipRegionValidation { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Skip validation of provided region name.
+
+---
+
+## `SseCustomerKey`<sup>Optional</sup> <a name="SseCustomerKey" id="cdktf.S3BackendProps.property.sseCustomerKey"></a>
+
+```csharp
+public string SseCustomerKey { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).
+
+This is the base64-encoded value of the key, which must decode to 256 bits.
+This can also be sourced from the AWS_SSE_CUSTOMER_KEY environment variable,
+which is recommended due to the sensitivity of the value.
+Setting it inside a terraform file will cause it to be persisted to disk in terraform.tfstate.
+
+---
+
+## `StsEndpoint`<sup>Optional</sup> <a name="StsEndpoint" id="cdktf.S3BackendProps.property.stsEndpoint"></a>
+
+```csharp
+public string StsEndpoint { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Custom endpoint for the AWS Security Token Service (STS) API.
+
+This can also be sourced from the AWS_STS_ENDPOINT environment variable.
+
+---
+
+## `Token`<sup>Optional</sup> <a name="Token" id="cdktf.S3BackendProps.property.token"></a>
+
+```csharp
+public string Token { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Multi-Factor Authentication (MFA) token.
+
+This can also be sourced from the AWS_SESSION_TOKEN environment variable.
+
+---
+
+## `WorkspaceKeyPrefix`<sup>Optional</sup> <a name="WorkspaceKeyPrefix" id="cdktf.S3BackendProps.property.workspaceKeyPrefix"></a>
+
+```csharp
+public string WorkspaceKeyPrefix { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Prefix applied to the state path inside the bucket.
+
+This is only relevant when using a non-default workspace. Defaults to env:
+
+---

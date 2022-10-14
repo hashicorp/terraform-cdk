@@ -1,0 +1,311 @@
+ TerraformOutput <a name="TerraformOutput" id="cdktf.TerraformOutput"></a>
+
+# Initializers <a name="Initializers" id="cdktf.TerraformOutput.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformOutput;
+
+TerraformOutput.Builder.create(Construct scope, java.lang.String id)
+    .value(java.lang.Object)
+//  .dependsOn(java.util.List<ITerraformDependable>)
+//  .description(java.lang.String)
+//  .sensitive(java.lang.Boolean)
+//  .staticId(java.lang.Boolean)
+    .build();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.scope">scope</a></code> | <code>software.constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.id">id</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.value">value</a></code> | <code>java.lang.Object</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.dependsOn">dependsOn</a></code> | <code>java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.description">description</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.sensitive">sensitive</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.Initializer.parameter.staticId">staticId</a></code> | <code>java.lang.Boolean</code> | If set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId). |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.TerraformOutput.Initializer.parameter.scope"></a>
+
+- *Type:* software.constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.TerraformOutput.Initializer.parameter.id"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformOutput.Initializer.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformOutput.Initializer.parameter.dependsOn"></a>
+
+- *Type:* java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>>
+
+---
+
+## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformOutput.Initializer.parameter.description"></a>
+
+- *Type:* java.lang.String
+
+---
+
+## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformOutput.Initializer.parameter.sensitive"></a>
+
+- *Type:* java.lang.Boolean
+
+---
+
+## `staticId`<sup>Optional</sup> <a name="staticId" id="cdktf.TerraformOutput.Initializer.parameter.staticId"></a>
+
+- *Type:* java.lang.Boolean
+- *Default:* false
+
+If set to true the synthesized Terraform Output will be named after the `id` passed to the constructor instead of the default (TerraformOutput.friendlyUniqueId).
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformOutput.toString">toString</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.TerraformOutput.addOverride">addOverride</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.overrideLogicalId">overrideLogicalId</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.TerraformOutput.resetOverrideLogicalId">resetOverrideLogicalId</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.TerraformOutput.toMetadata">toMetadata</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.toTerraform">toTerraform</a></code> | *No description.* |
+
+---
+
+## `toString` <a name="toString" id="cdktf.TerraformOutput.toString"></a>
+
+```java
+public java.lang.String toString()
+```
+
+Returns a string representation of this construct.
+
+## `addOverride` <a name="addOverride" id="cdktf.TerraformOutput.addOverride"></a>
+
+```java
+public void addOverride(java.lang.String path, java.lang.Object value)
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.TerraformOutput.addOverride.parameter.path"></a>
+
+- *Type:* java.lang.String
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformOutput.addOverride.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `overrideLogicalId` <a name="overrideLogicalId" id="cdktf.TerraformOutput.overrideLogicalId"></a>
+
+```java
+public void overrideLogicalId(java.lang.String newLogicalId)
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `newLogicalId`<sup>Required</sup> <a name="newLogicalId" id="cdktf.TerraformOutput.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* java.lang.String
+
+The new logical ID to use for this stack element.
+
+---
+
+## `resetOverrideLogicalId` <a name="resetOverrideLogicalId" id="cdktf.TerraformOutput.resetOverrideLogicalId"></a>
+
+```java
+public void resetOverrideLogicalId()
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `toMetadata` <a name="toMetadata" id="cdktf.TerraformOutput.toMetadata"></a>
+
+```java
+public java.lang.Object toMetadata()
+```
+
+## `toTerraform` <a name="toTerraform" id="cdktf.TerraformOutput.toTerraform"></a>
+
+```java
+public java.lang.Object toTerraform()
+```
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.TerraformOutput.isConstruct">isConstruct</a></code> | Checks if `x` is a construct. |
+| <code><a href="#cdktf.TerraformOutput.isTerrafromOutput">isTerrafromOutput</a></code> | *No description.* |
+
+---
+
+## `isConstruct` <a name="isConstruct" id="cdktf.TerraformOutput.isConstruct"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformOutput;
+
+TerraformOutput.isConstruct(java.lang.Object x)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isConstruct.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+Any object.
+
+---
+
+## `isTerrafromOutput` <a name="isTerrafromOutput" id="cdktf.TerraformOutput.isTerrafromOutput"></a>
+
+```java
+import com.hashicorp.cdktf.TerraformOutput;
+
+TerraformOutput.isTerrafromOutput(java.lang.Object x)
+```
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isTerrafromOutput.parameter.x"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.TerraformOutput.property.node">node</a></code> | <code>software.constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.TerraformOutput.property.cdktfStack">cdktfStack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.fqn">fqn</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.friendlyUniqueId">friendlyUniqueId</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.staticId">staticId</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.value">value</a></code> | <code>java.lang.Object</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.dependsOn">dependsOn</a></code> | <code>java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.description">description</a></code> | <code>java.lang.String</code> | *No description.* |
+| <code><a href="#cdktf.TerraformOutput.property.sensitive">sensitive</a></code> | <code>java.lang.Boolean</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.TerraformOutput.property.node"></a>
+
+```java
+public Node getNode();
+```
+
+- *Type:* software.constructs.Node
+
+The tree node.
+
+---
+
+## `cdktfStack`<sup>Required</sup> <a name="cdktfStack" id="cdktf.TerraformOutput.property.cdktfStack"></a>
+
+```java
+public TerraformStack getCdktfStack();
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.TerraformOutput.property.fqn"></a>
+
+```java
+public java.lang.String getFqn();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `friendlyUniqueId`<sup>Required</sup> <a name="friendlyUniqueId" id="cdktf.TerraformOutput.property.friendlyUniqueId"></a>
+
+```java
+public java.lang.String getFriendlyUniqueId();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `staticId`<sup>Required</sup> <a name="staticId" id="cdktf.TerraformOutput.property.staticId"></a>
+
+```java
+public java.lang.Boolean getStaticId();
+```
+
+- *Type:* java.lang.Boolean
+
+---
+
+## `value`<sup>Required</sup> <a name="value" id="cdktf.TerraformOutput.property.value"></a>
+
+```java
+public java.lang.Object getValue();
+```
+
+- *Type:* java.lang.Object
+
+---
+
+## `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformOutput.property.dependsOn"></a>
+
+```java
+public java.util.List<ITerraformDependable> getDependsOn();
+```
+
+- *Type:* java.util.List<<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>>
+
+---
+
+## `description`<sup>Optional</sup> <a name="description" id="cdktf.TerraformOutput.property.description"></a>
+
+```java
+public java.lang.String getDescription();
+```
+
+- *Type:* java.lang.String
+
+---
+
+## `sensitive`<sup>Optional</sup> <a name="sensitive" id="cdktf.TerraformOutput.property.sensitive"></a>
+
+```java
+public java.lang.Boolean getSensitive();
+```
+
+- *Type:* java.lang.Boolean
+
+---
+

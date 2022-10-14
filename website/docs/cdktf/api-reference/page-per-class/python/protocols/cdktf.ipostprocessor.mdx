@@ -1,0 +1,37 @@
+ IPostProcessor <a name="IPostProcessor" id="cdktf.IPostProcessor"></a>
+
+- *Implemented By:* <a href="#cdktf.IPostProcessor">IPostProcessor</a>
+
+A Token that can post-process the complete resolved value, after resolve() has recursed over it.
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.IPostProcessor.postProcess">post_process</a></code> | Process the completely resolved value, after full recursion/resolution has happened. |
+
+---
+
+## `post_process` <a name="post_process" id="cdktf.IPostProcessor.postProcess"></a>
+
+```python
+def post_process(
+  input: typing.Any,
+  context: IResolveContext
+) -> typing.Any
+```
+
+Process the completely resolved value, after full recursion/resolution has happened.
+
+### `input`<sup>Required</sup> <a name="input" id="cdktf.IPostProcessor.postProcess.parameter.input"></a>
+
+- *Type:* typing.Any
+
+---
+
+### `context`<sup>Required</sup> <a name="context" id="cdktf.IPostProcessor.postProcess.parameter.context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+

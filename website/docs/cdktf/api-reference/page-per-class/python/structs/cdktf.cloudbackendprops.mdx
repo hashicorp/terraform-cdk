@@ -1,0 +1,82 @@
+ CloudBackendProps <a name="CloudBackendProps" id="cdktf.CloudBackendProps"></a>
+
+The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}. The cloud block is a nested block within the top-level terraform settings block. It specifies which Terraform Cloud workspaces to use for the current working directory. The cloud block only affects Terraform CLI's behavior. When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
+
+https://www.terraform.io/cli/cloud/settings#arguments
+
+# Initializer <a name="Initializer" id="cdktf.CloudBackendProps.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.CloudBackendProps(
+  organization: str,
+  workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces],
+  hostname: str = None,
+  token: str = None
+)
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.CloudBackendProps.property.organization">organization</a></code> | <code>str</code> | The name of the organization containing the workspace(s) the current configuration should use. |
+| <code><a href="#cdktf.CloudBackendProps.property.workspaces">workspaces</a></code> | <code>typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]</code> | A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration. |
+| <code><a href="#cdktf.CloudBackendProps.property.hostname">hostname</a></code> | <code>str</code> | The hostname of a Terraform Enterprise installation, if using Terraform Enterprise. |
+| <code><a href="#cdktf.CloudBackendProps.property.token">token</a></code> | <code>str</code> | The token used to authenticate with Terraform Cloud. |
+
+---
+
+## `organization`<sup>Required</sup> <a name="organization" id="cdktf.CloudBackendProps.property.organization"></a>
+
+```python
+organization: str
+```
+
+- *Type:* str
+
+The name of the organization containing the workspace(s) the current configuration should use.
+
+---
+
+## `workspaces`<sup>Required</sup> <a name="workspaces" id="cdktf.CloudBackendProps.property.workspaces"></a>
+
+```python
+workspaces: typing.Union[NamedCloudWorkspace, TaggedCloudWorkspaces]
+```
+
+- *Type:* typing.Union[<a href="#cdktf.NamedCloudWorkspace">NamedCloudWorkspace</a>, <a href="#cdktf.TaggedCloudWorkspaces">TaggedCloudWorkspaces</a>]
+
+A nested block that specifies which remote Terraform Cloud workspaces to use for the current configuration.
+
+The workspaces block must contain exactly one of the following arguments, each denoting a strategy for how workspaces should be mapped:
+
+---
+
+## `hostname`<sup>Optional</sup> <a name="hostname" id="cdktf.CloudBackendProps.property.hostname"></a>
+
+```python
+hostname: str
+```
+
+- *Type:* str
+- *Default:* app.terraform.io
+
+The hostname of a Terraform Enterprise installation, if using Terraform Enterprise.
+
+---
+
+## `token`<sup>Optional</sup> <a name="token" id="cdktf.CloudBackendProps.property.token"></a>
+
+```python
+token: str
+```
+
+- *Type:* str
+
+The token used to authenticate with Terraform Cloud.
+
+We recommend omitting the token from the configuration, and instead using terraform login or manually configuring credentials in the CLI config file.
+
+---

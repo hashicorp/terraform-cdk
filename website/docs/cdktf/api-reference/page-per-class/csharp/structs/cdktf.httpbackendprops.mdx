@@ -1,0 +1,217 @@
+ HttpBackendProps <a name="HttpBackendProps" id="cdktf.HttpBackendProps"></a>
+
+Stores the state using a simple REST client.
+
+State will be fetched via GET, updated via POST, and purged with DELETE.
+The method used for updating is configurable.
+
+This backend optionally supports state locking.
+When locking support is enabled it will use LOCK and UNLOCK requests providing the lock info in the body.
+The endpoint should return a 423: Locked or 409: Conflict with the holding lock info when
+it's already taken, 200: OK for success. Any other status will be considered an error.
+The ID of the holding lock info will be added as a query parameter to state updates requests.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/http
+
+# Initializer <a name="Initializer" id="cdktf.HttpBackendProps.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new HttpBackendProps {
+    string Address,
+    string LockAddress = null,
+    string LockMethod = null,
+    string Password = null,
+    double RetryMax = null,
+    double RetryWaitMax = null,
+    double RetryWaitMin = null,
+    bool SkipCertVerification = null,
+    string UnlockAddress = null,
+    string UnlockMethod = null,
+    string UpdateMethod = null,
+    string Username = null
+};
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.HttpBackendProps.property.address">Address</a></code> | <code>string</code> | (Required) The address of the REST endpoint. |
+| <code><a href="#cdktf.HttpBackendProps.property.lockAddress">LockAddress</a></code> | <code>string</code> | (Optional) The address of the lock REST endpoint. |
+| <code><a href="#cdktf.HttpBackendProps.property.lockMethod">LockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when locking. |
+| <code><a href="#cdktf.HttpBackendProps.property.password">Password</a></code> | <code>string</code> | (Optional) The password for HTTP basic authentication. |
+| <code><a href="#cdktf.HttpBackendProps.property.retryMax">RetryMax</a></code> | <code>double</code> | (Optional) The number of HTTP request retries. |
+| <code><a href="#cdktf.HttpBackendProps.property.retryWaitMax">RetryWaitMax</a></code> | <code>double</code> | (Optional) The maximum time in seconds to wait between HTTP request attempts. |
+| <code><a href="#cdktf.HttpBackendProps.property.retryWaitMin">RetryWaitMin</a></code> | <code>double</code> | (Optional) The minimum time in seconds to wait between HTTP request attempts. |
+| <code><a href="#cdktf.HttpBackendProps.property.skipCertVerification">SkipCertVerification</a></code> | <code>bool</code> | (Optional) Whether to skip TLS verification. |
+| <code><a href="#cdktf.HttpBackendProps.property.unlockAddress">UnlockAddress</a></code> | <code>string</code> | (Optional) The address of the unlock REST endpoint. |
+| <code><a href="#cdktf.HttpBackendProps.property.unlockMethod">UnlockMethod</a></code> | <code>string</code> | (Optional) The HTTP method to use when unlocking. |
+| <code><a href="#cdktf.HttpBackendProps.property.updateMethod">UpdateMethod</a></code> | <code>string</code> | (Optional) HTTP method to use when updating state. |
+| <code><a href="#cdktf.HttpBackendProps.property.username">Username</a></code> | <code>string</code> | (Optional) The username for HTTP basic authentication. |
+
+---
+
+## `Address`<sup>Required</sup> <a name="Address" id="cdktf.HttpBackendProps.property.address"></a>
+
+```csharp
+public string Address { get; set; }
+```
+
+- *Type:* string
+
+(Required) The address of the REST endpoint.
+
+---
+
+## `LockAddress`<sup>Optional</sup> <a name="LockAddress" id="cdktf.HttpBackendProps.property.lockAddress"></a>
+
+```csharp
+public string LockAddress { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The address of the lock REST endpoint.
+
+Defaults to disabled.
+
+---
+
+## `LockMethod`<sup>Optional</sup> <a name="LockMethod" id="cdktf.HttpBackendProps.property.lockMethod"></a>
+
+```csharp
+public string LockMethod { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The HTTP method to use when locking.
+
+Defaults to LOCK.
+
+---
+
+## `Password`<sup>Optional</sup> <a name="Password" id="cdktf.HttpBackendProps.property.password"></a>
+
+```csharp
+public string Password { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The password for HTTP basic authentication.
+
+---
+
+## `RetryMax`<sup>Optional</sup> <a name="RetryMax" id="cdktf.HttpBackendProps.property.retryMax"></a>
+
+```csharp
+public double RetryMax { get; set; }
+```
+
+- *Type:* double
+
+(Optional) The number of HTTP request retries.
+
+Defaults to 2.
+
+---
+
+## `RetryWaitMax`<sup>Optional</sup> <a name="RetryWaitMax" id="cdktf.HttpBackendProps.property.retryWaitMax"></a>
+
+```csharp
+public double RetryWaitMax { get; set; }
+```
+
+- *Type:* double
+
+(Optional) The maximum time in seconds to wait between HTTP request attempts.
+
+Defaults to 30.
+
+---
+
+## `RetryWaitMin`<sup>Optional</sup> <a name="RetryWaitMin" id="cdktf.HttpBackendProps.property.retryWaitMin"></a>
+
+```csharp
+public double RetryWaitMin { get; set; }
+```
+
+- *Type:* double
+
+(Optional) The minimum time in seconds to wait between HTTP request attempts.
+
+Defaults to 1.
+
+---
+
+## `SkipCertVerification`<sup>Optional</sup> <a name="SkipCertVerification" id="cdktf.HttpBackendProps.property.skipCertVerification"></a>
+
+```csharp
+public bool SkipCertVerification { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Whether to skip TLS verification.
+
+Defaults to false.
+
+---
+
+## `UnlockAddress`<sup>Optional</sup> <a name="UnlockAddress" id="cdktf.HttpBackendProps.property.unlockAddress"></a>
+
+```csharp
+public string UnlockAddress { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The address of the unlock REST endpoint.
+
+Defaults to disabled.
+
+---
+
+## `UnlockMethod`<sup>Optional</sup> <a name="UnlockMethod" id="cdktf.HttpBackendProps.property.unlockMethod"></a>
+
+```csharp
+public string UnlockMethod { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The HTTP method to use when unlocking.
+
+Defaults to UNLOCK.
+
+---
+
+## `UpdateMethod`<sup>Optional</sup> <a name="UpdateMethod" id="cdktf.HttpBackendProps.property.updateMethod"></a>
+
+```csharp
+public string UpdateMethod { get; set; }
+```
+
+- *Type:* string
+
+(Optional) HTTP method to use when updating state.
+
+Defaults to POST.
+
+---
+
+## `Username`<sup>Optional</sup> <a name="Username" id="cdktf.HttpBackendProps.property.username"></a>
+
+```csharp
+public string Username { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The username for HTTP basic authentication.
+
+---

@@ -1,0 +1,157 @@
+ DataTerraformRemoteStateEtcdV3Config <a name="DataTerraformRemoteStateEtcdV3Config" id="cdktf.DataTerraformRemoteStateEtcdV3Config"></a>
+
+# Initializer <a name="Initializer" id="cdktf.DataTerraformRemoteStateEtcdV3Config.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new DataTerraformRemoteStateEtcdV3Config {
+    System.Collections.Generic.IDictionary<string, object> Defaults = null,
+    string Workspace = null,
+    string[] Endpoints,
+    string CacertPath = null,
+    string CertPath = null,
+    string KeyPath = null,
+    bool Lock = null,
+    string Password = null,
+    string Prefix = null,
+    string Username = null
+};
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults">Defaults</a></code> | <code>System.Collections.Generic.IDictionary<string, object></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace">Workspace</a></code> | <code>string</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints">Endpoints</a></code> | <code>string[]</code> | (Required) The list of 'etcd' endpoints which to connect to. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath">CacertPath</a></code> | <code>string</code> | (Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath">CertPath</a></code> | <code>string</code> | (Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath">KeyPath</a></code> | <code>string</code> | (Optional) The path to a PEM-encoded key to provide to etcd for secure client identification. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock">Lock</a></code> | <code>bool</code> | (Optional) Whether to lock state access. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.password">Password</a></code> | <code>string</code> | (Optional) Password used to connect to the etcd cluster. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix">Prefix</a></code> | <code>string</code> | (Optional) An optional prefix to be added to keys when to storing state in etcd. |
+| <code><a href="#cdktf.DataTerraformRemoteStateEtcdV3Config.property.username">Username</a></code> | <code>string</code> | (Optional) Username used to connect to the etcd cluster. |
+
+---
+
+## `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary<string, object> Defaults { get; set; }
+```
+
+- *Type:* System.Collections.Generic.IDictionary<string, object>
+
+---
+
+## `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace"></a>
+
+```csharp
+public string Workspace { get; set; }
+```
+
+- *Type:* string
+
+---
+
+## `Endpoints`<sup>Required</sup> <a name="Endpoints" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints"></a>
+
+```csharp
+public string[] Endpoints { get; set; }
+```
+
+- *Type:* string[]
+
+(Required) The list of 'etcd' endpoints which to connect to.
+
+---
+
+## `CacertPath`<sup>Optional</sup> <a name="CacertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath"></a>
+
+```csharp
+public string CacertPath { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The path to a PEM-encoded CA bundle with which to verify certificates of TLS-enabled etcd servers.
+
+---
+
+## `CertPath`<sup>Optional</sup> <a name="CertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath"></a>
+
+```csharp
+public string CertPath { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The path to a PEM-encoded certificate to provide to etcd for secure client identification.
+
+---
+
+## `KeyPath`<sup>Optional</sup> <a name="KeyPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath"></a>
+
+```csharp
+public string KeyPath { get; set; }
+```
+
+- *Type:* string
+
+(Optional) The path to a PEM-encoded key to provide to etcd for secure client identification.
+
+---
+
+## `Lock`<sup>Optional</sup> <a name="Lock" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock"></a>
+
+```csharp
+public bool Lock { get; set; }
+```
+
+- *Type:* bool
+
+(Optional) Whether to lock state access.
+
+Defaults to true.
+
+---
+
+## `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.password"></a>
+
+```csharp
+public string Password { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Password used to connect to the etcd cluster.
+
+---
+
+## `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix"></a>
+
+```csharp
+public string Prefix { get; set; }
+```
+
+- *Type:* string
+
+(Optional) An optional prefix to be added to keys when to storing state in etcd.
+
+Defaults to "".
+
+---
+
+## `Username`<sup>Optional</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.username"></a>
+
+```csharp
+public string Username { get; set; }
+```
+
+- *Type:* string
+
+(Optional) Username used to connect to the etcd cluster.
+
+---

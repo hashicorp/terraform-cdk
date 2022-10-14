@@ -1,0 +1,125 @@
+ NumberMap <a name="NumberMap" id="cdktf.NumberMap"></a>
+
+- *Implements:* <a href="#cdktf.ITerraformAddressable">ITerraformAddressable</a>, <a href="#cdktf.IResolvable">IResolvable</a>
+
+# Initializers <a name="Initializers" id="cdktf.NumberMap.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.NumberMap(
+  terraform_resource: IInterpolatingParent,
+  terraform_attribute: str
+)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.NumberMap.Initializer.parameter.terraformResource">terraform_resource</a></code> | <code><a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a></code> | *No description.* |
+| <code><a href="#cdktf.NumberMap.Initializer.parameter.terraformAttribute">terraform_attribute</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `terraform_resource`<sup>Required</sup> <a name="terraform_resource" id="cdktf.NumberMap.Initializer.parameter.terraformResource"></a>
+
+- *Type:* <a href="#cdktf.IInterpolatingParent">IInterpolatingParent</a>
+
+---
+
+## `terraform_attribute`<sup>Required</sup> <a name="terraform_attribute" id="cdktf.NumberMap.Initializer.parameter.terraformAttribute"></a>
+
+- *Type:* str
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.NumberMap.computeFqn">compute_fqn</a></code> | *No description.* |
+| <code><a href="#cdktf.NumberMap.lookup">lookup</a></code> | *No description.* |
+| <code><a href="#cdktf.NumberMap.resolve">resolve</a></code> | Produce the Token's value at resolution time. |
+| <code><a href="#cdktf.NumberMap.toString">to_string</a></code> | Return a string representation of this resolvable object. |
+
+---
+
+## `compute_fqn` <a name="compute_fqn" id="cdktf.NumberMap.computeFqn"></a>
+
+```python
+def compute_fqn() -> str
+```
+
+## `lookup` <a name="lookup" id="cdktf.NumberMap.lookup"></a>
+
+```python
+def lookup(
+  key: str
+) -> typing.Union[int, float]
+```
+
+### `key`<sup>Required</sup> <a name="key" id="cdktf.NumberMap.lookup.parameter.key"></a>
+
+- *Type:* str
+
+---
+
+## `resolve` <a name="resolve" id="cdktf.NumberMap.resolve"></a>
+
+```python
+def resolve(
+  _context: IResolveContext
+) -> typing.Any
+```
+
+Produce the Token's value at resolution time.
+
+### `_context`<sup>Required</sup> <a name="_context" id="cdktf.NumberMap.resolve.parameter._context"></a>
+
+- *Type:* <a href="#cdktf.IResolveContext">IResolveContext</a>
+
+---
+
+## `to_string` <a name="to_string" id="cdktf.NumberMap.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Return a string representation of this resolvable object.
+
+Returns a reversible string representation.
+
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.NumberMap.property.creationStack">creation_stack</a></code> | <code>typing.List[str]</code> | The creation stack of this resolvable which will be appended to errors thrown during resolution. |
+| <code><a href="#cdktf.NumberMap.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `creation_stack`<sup>Required</sup> <a name="creation_stack" id="cdktf.NumberMap.property.creationStack"></a>
+
+```python
+creation_stack: typing.List[str]
+```
+
+- *Type:* typing.List[str]
+
+The creation stack of this resolvable which will be appended to errors thrown during resolution.
+
+If this returns an empty array the stack will not be attached.
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.NumberMap.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+

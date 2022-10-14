@@ -1,0 +1,662 @@
+ DataTerraformRemoteStateS3 <a name="DataTerraformRemoteStateS3" id="cdktf.DataTerraformRemoteStateS3"></a>
+
+# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateS3.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateS3(
+  scope: Construct,
+  id: str,
+  defaults: typing.Mapping[typing.Any] = None,
+  workspace: str = None,
+  bucket: str,
+  key: str,
+  access_key: str = None,
+  acl: str = None,
+  assume_role_policy: str = None,
+  assume_role_policy_arns: typing.List[str] = None,
+  assume_role_tags: typing.Mapping[str] = None,
+  assume_role_transitive_tag_keys: typing.List[str] = None,
+  dynamodb_endpoint: str = None,
+  dynamodb_table: str = None,
+  encrypt: bool = None,
+  endpoint: str = None,
+  external_id: str = None,
+  force_path_style: bool = None,
+  iam_endpoint: str = None,
+  kms_key_id: str = None,
+  max_retries: typing.Union[int, float] = None,
+  profile: str = None,
+  region: str = None,
+  role_arn: str = None,
+  secret_key: str = None,
+  session_name: str = None,
+  shared_credentials_file: str = None,
+  skip_credentials_validation: bool = None,
+  skip_metadata_api_check: bool = None,
+  skip_region_validation: bool = None,
+  sse_customer_key: str = None,
+  sts_endpoint: str = None,
+  token: str = None,
+  workspace_key_prefix: str = None
+)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace">workspace</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket">bucket</a></code> | <code>str</code> | Name of the S3 Bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key">key</a></code> | <code>str</code> | Path to the state file inside the S3 Bucket. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey">access_key</a></code> | <code>str</code> | (Optional) AWS access key. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl">acl</a></code> | <code>str</code> | (Optional) Canned ACL to be applied to the state file. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy">assume_role_policy</a></code> | <code>str</code> | (Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns">assume_role_policy_arns</a></code> | <code>typing.List[str]</code> | (Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags">assume_role_tags</a></code> | <code>typing.Mapping[str]</code> | (Optional) Map of assume role session tags. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys">assume_role_transitive_tag_keys</a></code> | <code>typing.List[str]</code> | (Optional) Set of assume role session tag keys to pass to any subsequent sessions. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint">dynamodb_endpoint</a></code> | <code>str</code> | (Optional) Custom endpoint for the AWS DynamoDB API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable">dynamodb_table</a></code> | <code>str</code> | (Optional) Name of DynamoDB Table to use for state locking and consistency. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt">encrypt</a></code> | <code>bool</code> | (Optional) Enable server side encryption of the state file. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint">endpoint</a></code> | <code>str</code> | (Optional) Custom endpoint for the AWS S3 API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId">external_id</a></code> | <code>str</code> | (Optional) External identifier to use when assuming the role. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle">force_path_style</a></code> | <code>bool</code> | (Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>). |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint">iam_endpoint</a></code> | <code>str</code> | (Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId">kms_key_id</a></code> | <code>str</code> | (Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries">max_retries</a></code> | <code>typing.Union[int, float]</code> | (Optional) The maximum number of times an AWS API request is retried on retryable failure. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile">profile</a></code> | <code>str</code> | (Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region">region</a></code> | <code>str</code> | AWS Region of the S3 Bucket and DynamoDB Table (if used). |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn">role_arn</a></code> | <code>str</code> | (Optional) Amazon Resource Name (ARN) of the IAM Role to assume. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey">secret_key</a></code> | <code>str</code> | (Optional) AWS secret access key. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName">session_name</a></code> | <code>str</code> | (Optional) Session name to use when assuming the role. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile">shared_credentials_file</a></code> | <code>str</code> | (Optional) Path to the AWS shared credentials file. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation">skip_credentials_validation</a></code> | <code>bool</code> | (Optional) Skip credentials validation via the STS API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck">skip_metadata_api_check</a></code> | <code>bool</code> | (Optional) Skip usage of EC2 Metadata API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation">skip_region_validation</a></code> | <code>bool</code> | (Optional) Skip validation of provided region name. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey">sse_customer_key</a></code> | <code>str</code> | (Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C). |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint">sts_endpoint</a></code> | <code>str</code> | (Optional) Custom endpoint for the AWS Security Token Service (STS) API. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token">token</a></code> | <code>str</code> | (Optional) Multi-Factor Authentication (MFA) token. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix">workspace_key_prefix</a></code> | <code>str</code> | (Optional) Prefix applied to the state path inside the bucket. |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.id"></a>
+
+- *Type:* str
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.defaults"></a>
+
+- *Type:* typing.Mapping[typing.Any]
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspace"></a>
+
+- *Type:* str
+
+---
+
+## `bucket`<sup>Required</sup> <a name="bucket" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.bucket"></a>
+
+- *Type:* str
+
+Name of the S3 Bucket.
+
+---
+
+## `key`<sup>Required</sup> <a name="key" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.key"></a>
+
+- *Type:* str
+
+Path to the state file inside the S3 Bucket.
+
+When using a non-default workspace, the state path will be /workspace_key_prefix/workspace_name/key
+
+---
+
+## `access_key`<sup>Optional</sup> <a name="access_key" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.accessKey"></a>
+
+- *Type:* str
+
+(Optional) AWS access key.
+
+If configured, must also configure secret_key.
+This can also be sourced from
+the AWS_ACCESS_KEY_ID environment variable,
+AWS shared credentials file (e.g. ~/.aws/credentials),
+or AWS shared configuration file (e.g. ~/.aws/config).
+
+---
+
+## `acl`<sup>Optional</sup> <a name="acl" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.acl"></a>
+
+- *Type:* str
+
+(Optional) Canned ACL to be applied to the state file.
+
+---
+
+## `assume_role_policy`<sup>Optional</sup> <a name="assume_role_policy" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicy"></a>
+
+- *Type:* str
+
+(Optional) IAM Policy JSON describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+## `assume_role_policy_arns`<sup>Optional</sup> <a name="assume_role_policy_arns" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRolePolicyArns"></a>
+
+- *Type:* typing.List[str]
+
+(Optional) Set of Amazon Resource Names (ARNs) of IAM Policies describing further restricting permissions for the IAM Role being assumed.
+
+---
+
+## `assume_role_tags`<sup>Optional</sup> <a name="assume_role_tags" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTags"></a>
+
+- *Type:* typing.Mapping[str]
+
+(Optional) Map of assume role session tags.
+
+---
+
+## `assume_role_transitive_tag_keys`<sup>Optional</sup> <a name="assume_role_transitive_tag_keys" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.assumeRoleTransitiveTagKeys"></a>
+
+- *Type:* typing.List[str]
+
+(Optional) Set of assume role session tag keys to pass to any subsequent sessions.
+
+---
+
+## `dynamodb_endpoint`<sup>Optional</sup> <a name="dynamodb_endpoint" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbEndpoint"></a>
+
+- *Type:* str
+
+(Optional) Custom endpoint for the AWS DynamoDB API.
+
+This can also be sourced from the AWS_DYNAMODB_ENDPOINT environment variable.
+
+---
+
+## `dynamodb_table`<sup>Optional</sup> <a name="dynamodb_table" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.dynamodbTable"></a>
+
+- *Type:* str
+
+(Optional) Name of DynamoDB Table to use for state locking and consistency.
+
+The table must have a partition key named LockID with type of String.
+If not configured, state locking will be disabled.
+
+---
+
+## `encrypt`<sup>Optional</sup> <a name="encrypt" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.encrypt"></a>
+
+- *Type:* bool
+
+(Optional) Enable server side encryption of the state file.
+
+---
+
+## `endpoint`<sup>Optional</sup> <a name="endpoint" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.endpoint"></a>
+
+- *Type:* str
+
+(Optional) Custom endpoint for the AWS S3 API.
+
+This can also be sourced from the AWS_S3_ENDPOINT environment variable.
+
+---
+
+## `external_id`<sup>Optional</sup> <a name="external_id" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.externalId"></a>
+
+- *Type:* str
+
+(Optional) External identifier to use when assuming the role.
+
+---
+
+## `force_path_style`<sup>Optional</sup> <a name="force_path_style" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.forcePathStyle"></a>
+
+- *Type:* bool
+
+(Optional) Enable path-style S3 URLs (https://<HOST>/<BUCKET> instead of https://<BUCKET>.<HOST>).
+
+---
+
+## `iam_endpoint`<sup>Optional</sup> <a name="iam_endpoint" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.iamEndpoint"></a>
+
+- *Type:* str
+
+(Optional) Custom endpoint for the AWS Identity and Access Management (IAM) API.
+
+This can also be sourced from the AWS_IAM_ENDPOINT environment variable.
+
+---
+
+## `kms_key_id`<sup>Optional</sup> <a name="kms_key_id" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.kmsKeyId"></a>
+
+- *Type:* str
+
+(Optional) Amazon Resource Name (ARN) of a Key Management Service (KMS) Key to use for encrypting the state.
+
+Note that if this value is specified,
+Terraform will need kms:Encrypt, kms:Decrypt and kms:GenerateDataKey permissions on this KMS key.
+
+---
+
+## `max_retries`<sup>Optional</sup> <a name="max_retries" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.maxRetries"></a>
+
+- *Type:* typing.Union[int, float]
+
+(Optional) The maximum number of times an AWS API request is retried on retryable failure.
+
+Defaults to 5.
+
+---
+
+## `profile`<sup>Optional</sup> <a name="profile" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.profile"></a>
+
+- *Type:* str
+
+(Optional) Name of AWS profile in AWS shared credentials file (e.g. ~/.aws/credentials) or AWS shared configuration file (e.g. ~/.aws/config) to use for credentials and/or configuration. This can also be sourced from the AWS_PROFILE environment variable.
+
+---
+
+## `region`<sup>Optional</sup> <a name="region" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.region"></a>
+
+- *Type:* str
+
+AWS Region of the S3 Bucket and DynamoDB Table (if used).
+
+This can also
+be sourced from the AWS_DEFAULT_REGION and AWS_REGION environment
+variables.
+
+---
+
+## `role_arn`<sup>Optional</sup> <a name="role_arn" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.roleArn"></a>
+
+- *Type:* str
+
+(Optional) Amazon Resource Name (ARN) of the IAM Role to assume.
+
+---
+
+## `secret_key`<sup>Optional</sup> <a name="secret_key" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.secretKey"></a>
+
+- *Type:* str
+
+(Optional) AWS secret access key.
+
+If configured, must also configure access_key.
+This can also be sourced from
+the AWS_SECRET_ACCESS_KEY environment variable,
+AWS shared credentials file (e.g. ~/.aws/credentials),
+or AWS shared configuration file (e.g. ~/.aws/config)
+
+---
+
+## `session_name`<sup>Optional</sup> <a name="session_name" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sessionName"></a>
+
+- *Type:* str
+
+(Optional) Session name to use when assuming the role.
+
+---
+
+## `shared_credentials_file`<sup>Optional</sup> <a name="shared_credentials_file" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sharedCredentialsFile"></a>
+
+- *Type:* str
+
+(Optional) Path to the AWS shared credentials file.
+
+Defaults to ~/.aws/credentials.
+
+---
+
+## `skip_credentials_validation`<sup>Optional</sup> <a name="skip_credentials_validation" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipCredentialsValidation"></a>
+
+- *Type:* bool
+
+(Optional) Skip credentials validation via the STS API.
+
+---
+
+## `skip_metadata_api_check`<sup>Optional</sup> <a name="skip_metadata_api_check" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipMetadataApiCheck"></a>
+
+- *Type:* bool
+
+(Optional) Skip usage of EC2 Metadata API.
+
+---
+
+## `skip_region_validation`<sup>Optional</sup> <a name="skip_region_validation" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.skipRegionValidation"></a>
+
+- *Type:* bool
+
+(Optional) Skip validation of provided region name.
+
+---
+
+## `sse_customer_key`<sup>Optional</sup> <a name="sse_customer_key" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.sseCustomerKey"></a>
+
+- *Type:* str
+
+(Optional) The key to use for encrypting state with Server-Side Encryption with Customer-Provided Keys (SSE-C).
+
+This is the base64-encoded value of the key, which must decode to 256 bits.
+This can also be sourced from the AWS_SSE_CUSTOMER_KEY environment variable,
+which is recommended due to the sensitivity of the value.
+Setting it inside a terraform file will cause it to be persisted to disk in terraform.tfstate.
+
+---
+
+## `sts_endpoint`<sup>Optional</sup> <a name="sts_endpoint" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.stsEndpoint"></a>
+
+- *Type:* str
+
+(Optional) Custom endpoint for the AWS Security Token Service (STS) API.
+
+This can also be sourced from the AWS_STS_ENDPOINT environment variable.
+
+---
+
+## `token`<sup>Optional</sup> <a name="token" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.token"></a>
+
+- *Type:* str
+
+(Optional) Multi-Factor Authentication (MFA) token.
+
+This can also be sourced from the AWS_SESSION_TOKEN environment variable.
+
+---
+
+## `workspace_key_prefix`<sup>Optional</sup> <a name="workspace_key_prefix" id="cdktf.DataTerraformRemoteStateS3.Initializer.parameter.workspaceKeyPrefix"></a>
+
+- *Type:* str
+
+(Optional) Prefix applied to the state path inside the bucket.
+
+This is only relevant when using a non-default workspace. Defaults to env:
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.toString">to_string</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.addOverride">add_override</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.toMetadata">to_metadata</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.get">get</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.getBoolean">get_boolean</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.getList">get_list</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.getNumber">get_number</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.getString">get_string</a></code> | *No description.* |
+
+---
+
+## `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateS3.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Returns a string representation of this construct.
+
+## `add_override` <a name="add_override" id="cdktf.DataTerraformRemoteStateS3.addOverride"></a>
+
+```python
+def add_override(
+  path: str,
+  value: typing.Any
+) -> None
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateS3.addOverride.parameter.path"></a>
+
+- *Type:* str
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateS3.addOverride.parameter.value"></a>
+
+- *Type:* typing.Any
+
+---
+
+## `override_logical_id` <a name="override_logical_id" id="cdktf.DataTerraformRemoteStateS3.overrideLogicalId"></a>
+
+```python
+def override_logical_id(
+  new_logical_id: str
+) -> None
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.DataTerraformRemoteStateS3.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* str
+
+The new logical ID to use for this stack element.
+
+---
+
+## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateS3.resetOverrideLogicalId"></a>
+
+```python
+def reset_override_logical_id() -> None
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateS3.toMetadata"></a>
+
+```python
+def to_metadata() -> typing.Any
+```
+
+## `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateS3.toTerraform"></a>
+
+```python
+def to_terraform() -> typing.Any
+```
+
+Adds this resource to the terraform JSON output.
+
+## `get` <a name="get" id="cdktf.DataTerraformRemoteStateS3.get"></a>
+
+```python
+def get(
+  output: str
+) -> IResolvable
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.get.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_boolean` <a name="get_boolean" id="cdktf.DataTerraformRemoteStateS3.getBoolean"></a>
+
+```python
+def get_boolean(
+  output: str
+) -> IResolvable
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getBoolean.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_list` <a name="get_list" id="cdktf.DataTerraformRemoteStateS3.getList"></a>
+
+```python
+def get_list(
+  output: str
+) -> typing.List[str]
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getList.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_number` <a name="get_number" id="cdktf.DataTerraformRemoteStateS3.getNumber"></a>
+
+```python
+def get_number(
+  output: str
+) -> typing.Union[int, float]
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getNumber.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_string` <a name="get_string" id="cdktf.DataTerraformRemoteStateS3.getString"></a>
+
+```python
+def get_string(
+  output: str
+) -> str
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateS3.getString.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `is_construct` <a name="is_construct" id="cdktf.DataTerraformRemoteStateS3.isConstruct"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateS3.is_construct(
+  x: typing.Any
+)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateS3.isConstruct.parameter.x"></a>
+
+- *Type:* typing.Any
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateS3.property.node"></a>
+
+```python
+node: Node
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.DataTerraformRemoteStateS3.property.cdktfStack"></a>
+
+```python
+cdktf_stack: TerraformStack
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateS3.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+
+## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.DataTerraformRemoteStateS3.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- *Type:* str
+
+---
+
+# Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateS3.property.tfResourceType">tfResourceType</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateS3.property.tfResourceType"></a>
+
+```python
+tfResourceType: str
+```
+
+- *Type:* str
+
+---

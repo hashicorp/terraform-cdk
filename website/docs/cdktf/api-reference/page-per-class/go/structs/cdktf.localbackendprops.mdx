@@ -1,0 +1,51 @@
+ LocalBackendProps <a name="LocalBackendProps" id="cdktf.LocalBackendProps"></a>
+
+The local backend stores state on the local filesystem, locks that state using system APIs, and performs operations locally.
+
+Read more about this backend in the Terraform docs:
+https://www.terraform.io/language/settings/backends/local
+
+# Initializer <a name="Initializer" id="cdktf.LocalBackendProps.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+&cdktf.LocalBackendProps {
+	Path: *string,
+	WorkspaceDir: *string,
+}
+```
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.LocalBackendProps.property.path">Path</a></code> | <code>*string</code> | Path where the state file is stored. |
+| <code><a href="#cdktf.LocalBackendProps.property.workspaceDir">WorkspaceDir</a></code> | <code>*string</code> | (Optional) The path to non-default workspaces. |
+
+---
+
+## `Path`<sup>Optional</sup> <a name="Path" id="cdktf.LocalBackendProps.property.path"></a>
+
+```go
+Path *string
+```
+
+- *Type:* *string
+- *Default:* defaults to terraform.${stackId}.tfstate
+
+Path where the state file is stored.
+
+---
+
+## `WorkspaceDir`<sup>Optional</sup> <a name="WorkspaceDir" id="cdktf.LocalBackendProps.property.workspaceDir"></a>
+
+```go
+WorkspaceDir *string
+```
+
+- *Type:* *string
+
+(Optional) The path to non-default workspaces.
+
+---

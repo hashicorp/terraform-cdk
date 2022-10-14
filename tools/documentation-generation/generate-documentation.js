@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const fs = require("fs");
-const { Documentation, Language } = require("jsii-docgen");
+const fs = require("fs-extra");
+const { Documentation, Language } = require("../../../jsii-docgen");
 const path = require("path");
 
 const targetFolder = path.resolve(
@@ -47,6 +47,27 @@ function replaceAngleBracketsInDocumentation(docs) {
   return sanitizedLines.join("\n");
 }
 
+// { title: string, path: string }[]
+const navigationEntries = [];
+
+function updateNavigationEntries() {
+  const navDataPath = path.resolve(
+    __dirname,
+    "..",
+    "..",
+    "website",
+    "data",
+    "cdktf-nav-data.json"
+  );
+  const input = JSON.parse(fs.readFileSync(navDataPath, "utf-8"));
+
+  // TODO: we need to have an overview page for each language / etc
+  input.find((item) => item.title === "API Reference").routes =
+    navigationEntries;
+
+  fs.writeFileSync(navDataPath, JSON.stringify(input, null, 2));
+}
+
 Documentation.forProject(
   path.resolve(__dirname, "..", "..", "packages", "cdktf"),
   {
@@ -61,6 +82,7 @@ Documentation.forProject(
     Go: Language.GO,
   };
 
+  // Current one page per language implementation
   for ([lang, key] of Object.entries(languages)) {
     const markdown = await docs.toMarkdown({
       language: key,
@@ -92,5 +114,64 @@ ${replaceAngleBracketsInDocumentation(
       composed,
       "utf-8"
     );
+    navigationEntries.push({
+      title: lang,
+      path: `api-reference/${lang.toLowerCase()}`,
+    });
+
+    const content = markdown.sections[0];
+    // One page per group
+    fs.mkdirpSync(
+      path.resolve(targetFolder, "page-per-group", lang.toLowerCase())
+    );
+    const groups = content.sections;
+    for (const group of groups) {
+      fs.writeFileSync(
+        path.resolve(
+          targetFolder,
+          "page-per-group",
+          lang.toLowerCase(),
+          `${group.id.toLowerCase()}.mdx`
+        ),
+        group.render()
+      );
+
+      navigationEntries.push({
+        title: lang,
+        path: `api-reference/page-per-group/${lang.toLowerCase()}/${group.id.toLowerCase()}`,
+      });
+    }
+
+    // One page per class
+
+    for (const group of groups) {
+      fs.mkdirpSync(
+        path.resolve(
+          targetFolder,
+          "page-per-class",
+          lang.toLowerCase(),
+          group.id.toLowerCase()
+        )
+      );
+      for (const section of group.sections) {
+        fs.writeFileSync(
+          path.resolve(
+            targetFolder,
+            "page-per-class",
+            lang.toLowerCase(),
+            group.id.toLowerCase(),
+            `${section.id.toLowerCase()}.mdx`
+          ),
+          section.render()
+        );
+
+        navigationEntries.push({
+          title: lang,
+          path: `api-reference/page-per-class/${lang.toLowerCase()}/${group.id.toLowerCase()}/${section.id.toLowerCase()}`,
+        });
+      }
+    }
   }
+
+  updateNavigationEntries();
 });

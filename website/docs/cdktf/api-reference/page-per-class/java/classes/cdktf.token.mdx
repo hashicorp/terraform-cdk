@@ -1,0 +1,332 @@
+ Token <a name="Token" id="cdktf.Token"></a>
+
+Represents a special or lazily-evaluated value.
+
+Can be used to delay evaluation of a certain value in case, for example,
+that it requires some context or late-bound data. Can also be used to
+mark values that need special processing at document rendering time.
+
+Tokens can be embedded into strings while retaining their original
+semantics.
+
+# Initializers <a name="Initializers" id="cdktf.Token.Initializer"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+new Token();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Token.asAny">asAny</a></code> | Return a resolvable representation of the given value. |
+| <code><a href="#cdktf.Token.asAnyMap">asAnyMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asBooleanMap">asBooleanMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asList">asList</a></code> | Return a reversible list representation of this token. |
+| <code><a href="#cdktf.Token.asMap">asMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asNumber">asNumber</a></code> | Return a reversible number representation of this token. |
+| <code><a href="#cdktf.Token.asNumberList">asNumberList</a></code> | Return a reversible list representation of this token. |
+| <code><a href="#cdktf.Token.asNumberMap">asNumberMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.asString">asString</a></code> | Return a reversible string representation of this token. |
+| <code><a href="#cdktf.Token.asStringMap">asStringMap</a></code> | Return a reversible map representation of this token. |
+| <code><a href="#cdktf.Token.isUnresolved">isUnresolved</a></code> | Returns true if obj represents an unresolved value. |
+
+---
+
+## `asAny` <a name="asAny" id="cdktf.Token.asAny"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asAny(java.lang.Object value)
+```
+
+Return a resolvable representation of the given value.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAny.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `asAnyMap` <a name="asAnyMap" id="cdktf.Token.asAnyMap"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asAnyMap(java.lang.Object value),Token.asAnyMap(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asAnyMap.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asAnyMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asBooleanMap` <a name="asBooleanMap" id="cdktf.Token.asBooleanMap"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asBooleanMap(java.lang.Object value),Token.asBooleanMap(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asBooleanMap.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asBooleanMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asList` <a name="asList" id="cdktf.Token.asList"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asList(java.lang.Object value),Token.asList(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible list representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asList.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asList.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asMap` <a name="asMap" id="cdktf.Token.asMap"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asMap(java.lang.Object value, java.lang.Object mapValue),Token.asMap(java.lang.Object value, java.lang.Object mapValue, EncodingOptions options)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asMap.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `mapValue`<sup>Required</sup> <a name="mapValue" id="cdktf.Token.asMap.parameter.mapValue"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asNumber` <a name="asNumber" id="cdktf.Token.asNumber"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asNumber(java.lang.Object value)
+```
+
+Return a reversible number representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumber.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `asNumberList` <a name="asNumberList" id="cdktf.Token.asNumberList"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asNumberList(java.lang.Object value)
+```
+
+Return a reversible list representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberList.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+## `asNumberMap` <a name="asNumberMap" id="cdktf.Token.asNumberMap"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asNumberMap(java.lang.Object value),Token.asNumberMap(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asNumberMap.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asNumberMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asString` <a name="asString" id="cdktf.Token.asString"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asString(java.lang.Object value),Token.asString(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible string representation of this token.
+
+If the Token is initialized with a literal, the stringified value of the
+literal is returned. Otherwise, a special quoted string representation
+of the Token is returned that can be embedded into other strings.
+
+Strings with quoted Tokens in them can be restored back into
+complex values with the Tokens restored by calling `resolve()`
+on the string.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asString.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asString.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `asStringMap` <a name="asStringMap" id="cdktf.Token.asStringMap"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.asStringMap(java.lang.Object value),Token.asStringMap(java.lang.Object value, EncodingOptions options)
+```
+
+Return a reversible map representation of this token.
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.Token.asStringMap.parameter.value"></a>
+
+- *Type:* java.lang.Object
+
+---
+
+### `options`<sup>Optional</sup> <a name="options" id="cdktf.Token.asStringMap.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.EncodingOptions">EncodingOptions</a>
+
+---
+
+## `isUnresolved` <a name="isUnresolved" id="cdktf.Token.isUnresolved"></a>
+
+```java
+import com.hashicorp.cdktf.Token;
+
+Token.isUnresolved(java.lang.Object obj)
+```
+
+Returns true if obj represents an unresolved value.
+
+One of these must be true:
+
+* `obj` is an IResolvable
+* `obj` is a string containing at least one encoded `IResolvable`
+* `obj` is either an encoded number or list
+
+This does NOT recurse into lists or objects to see if they
+containing resolvables.
+
+### `obj`<sup>Required</sup> <a name="obj" id="cdktf.Token.isUnresolved.parameter.obj"></a>
+
+- *Type:* java.lang.Object
+
+The object to test.
+
+---
+
+
+# Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.Token.property.ANY_MAP_TOKEN_VALUE">ANY_MAP_TOKEN_VALUE</a></code> | <code>java.lang.String</code> | Any map token representation. |
+| <code><a href="#cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE">NUMBER_MAP_TOKEN_VALUE</a></code> | <code>java.lang.Number</code> | Number Map token value representation. |
+| <code><a href="#cdktf.Token.property.STRING_MAP_TOKEN_VALUE">STRING_MAP_TOKEN_VALUE</a></code> | <code>java.lang.String</code> | String Map token value representation. |
+
+---
+
+## `ANY_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="ANY_MAP_TOKEN_VALUE" id="cdktf.Token.property.ANY_MAP_TOKEN_VALUE"></a>
+
+```java
+public java.lang.String getAnyMapTokenValue();
+```
+
+- *Type:* java.lang.String
+
+Any map token representation.
+
+---
+
+## `NUMBER_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="NUMBER_MAP_TOKEN_VALUE" id="cdktf.Token.property.NUMBER_MAP_TOKEN_VALUE"></a>
+
+```java
+public java.lang.Number getNumberMapTokenValue();
+```
+
+- *Type:* java.lang.Number
+
+Number Map token value representation.
+
+---
+
+## `STRING_MAP_TOKEN_VALUE`<sup>Required</sup> <a name="STRING_MAP_TOKEN_VALUE" id="cdktf.Token.property.STRING_MAP_TOKEN_VALUE"></a>
+
+```java
+public java.lang.String getStringMapTokenValue();
+```
+
+- *Type:* java.lang.String
+
+String Map token value representation.
+
+---

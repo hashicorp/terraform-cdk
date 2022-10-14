@@ -1,0 +1,533 @@
+ DataTerraformRemoteStateSwift <a name="DataTerraformRemoteStateSwift" id="cdktf.DataTerraformRemoteStateSwift"></a>
+
+# Initializers <a name="Initializers" id="cdktf.DataTerraformRemoteStateSwift.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateSwift(
+  scope: Construct,
+  id: str,
+  defaults: typing.Mapping[typing.Any] = None,
+  workspace: str = None,
+  container: str,
+  application_credential_id: str = None,
+  application_credential_name: str = None,
+  application_credential_secret: str = None,
+  archive_container: str = None,
+  auth_url: str = None,
+  cacert_file: str = None,
+  cert: str = None,
+  cloud: str = None,
+  default_domain: str = None,
+  domain_id: str = None,
+  domain_name: str = None,
+  expire_after: str = None,
+  insecure: bool = None,
+  key: str = None,
+  password: str = None,
+  project_domain_id: str = None,
+  project_domain_name: str = None,
+  region_name: str = None,
+  state_name: str = None,
+  tenant_id: str = None,
+  tenant_name: str = None,
+  token: str = None,
+  user_domain_id: str = None,
+  user_domain_name: str = None,
+  user_id: str = None,
+  user_name: str = None
+)
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.scope">scope</a></code> | <code>constructs.Construct</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.id">id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.defaults">defaults</a></code> | <code>typing.Mapping[typing.Any]</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.workspace">workspace</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.container">container</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialId">application_credential_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialName">application_credential_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialSecret">application_credential_secret</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.archiveContainer">archive_container</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.authUrl">auth_url</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cacertFile">cacert_file</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cert">cert</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cloud">cloud</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.defaultDomain">default_domain</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.domainId">domain_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.domainName">domain_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.expireAfter">expire_after</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.insecure">insecure</a></code> | <code>bool</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.key">key</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.password">password</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.projectDomainId">project_domain_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.projectDomainName">project_domain_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.regionName">region_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.stateName">state_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.tenantId">tenant_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.tenantName">tenant_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.token">token</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userDomainId">user_domain_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userDomainName">user_domain_name</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userId">user_id</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userName">user_name</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `scope`<sup>Required</sup> <a name="scope" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.scope"></a>
+
+- *Type:* constructs.Construct
+
+---
+
+## `id`<sup>Required</sup> <a name="id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.id"></a>
+
+- *Type:* str
+
+---
+
+## `defaults`<sup>Optional</sup> <a name="defaults" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.defaults"></a>
+
+- *Type:* typing.Mapping[typing.Any]
+
+---
+
+## `workspace`<sup>Optional</sup> <a name="workspace" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.workspace"></a>
+
+- *Type:* str
+
+---
+
+## `container`<sup>Required</sup> <a name="container" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.container"></a>
+
+- *Type:* str
+
+---
+
+## `application_credential_id`<sup>Optional</sup> <a name="application_credential_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialId"></a>
+
+- *Type:* str
+
+---
+
+## `application_credential_name`<sup>Optional</sup> <a name="application_credential_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialName"></a>
+
+- *Type:* str
+
+---
+
+## `application_credential_secret`<sup>Optional</sup> <a name="application_credential_secret" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.applicationCredentialSecret"></a>
+
+- *Type:* str
+
+---
+
+## `archive_container`<sup>Optional</sup> <a name="archive_container" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.archiveContainer"></a>
+
+- *Type:* str
+
+---
+
+## `auth_url`<sup>Optional</sup> <a name="auth_url" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.authUrl"></a>
+
+- *Type:* str
+
+---
+
+## `cacert_file`<sup>Optional</sup> <a name="cacert_file" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cacertFile"></a>
+
+- *Type:* str
+
+---
+
+## `cert`<sup>Optional</sup> <a name="cert" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cert"></a>
+
+- *Type:* str
+
+---
+
+## `cloud`<sup>Optional</sup> <a name="cloud" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.cloud"></a>
+
+- *Type:* str
+
+---
+
+## `default_domain`<sup>Optional</sup> <a name="default_domain" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.defaultDomain"></a>
+
+- *Type:* str
+
+---
+
+## `domain_id`<sup>Optional</sup> <a name="domain_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.domainId"></a>
+
+- *Type:* str
+
+---
+
+## `domain_name`<sup>Optional</sup> <a name="domain_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.domainName"></a>
+
+- *Type:* str
+
+---
+
+## `expire_after`<sup>Optional</sup> <a name="expire_after" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.expireAfter"></a>
+
+- *Type:* str
+
+---
+
+## `insecure`<sup>Optional</sup> <a name="insecure" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.insecure"></a>
+
+- *Type:* bool
+
+---
+
+## `key`<sup>Optional</sup> <a name="key" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.key"></a>
+
+- *Type:* str
+
+---
+
+## `password`<sup>Optional</sup> <a name="password" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.password"></a>
+
+- *Type:* str
+
+---
+
+## `project_domain_id`<sup>Optional</sup> <a name="project_domain_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.projectDomainId"></a>
+
+- *Type:* str
+
+---
+
+## `project_domain_name`<sup>Optional</sup> <a name="project_domain_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.projectDomainName"></a>
+
+- *Type:* str
+
+---
+
+## `region_name`<sup>Optional</sup> <a name="region_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.regionName"></a>
+
+- *Type:* str
+
+---
+
+## `state_name`<sup>Optional</sup> <a name="state_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.stateName"></a>
+
+- *Type:* str
+
+---
+
+## `tenant_id`<sup>Optional</sup> <a name="tenant_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.tenantId"></a>
+
+- *Type:* str
+
+---
+
+## `tenant_name`<sup>Optional</sup> <a name="tenant_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.tenantName"></a>
+
+- *Type:* str
+
+---
+
+## `token`<sup>Optional</sup> <a name="token" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.token"></a>
+
+- *Type:* str
+
+---
+
+## `user_domain_id`<sup>Optional</sup> <a name="user_domain_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userDomainId"></a>
+
+- *Type:* str
+
+---
+
+## `user_domain_name`<sup>Optional</sup> <a name="user_domain_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userDomainName"></a>
+
+- *Type:* str
+
+---
+
+## `user_id`<sup>Optional</sup> <a name="user_id" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userId"></a>
+
+- *Type:* str
+
+---
+
+## `user_name`<sup>Optional</sup> <a name="user_name" id="cdktf.DataTerraformRemoteStateSwift.Initializer.parameter.userName"></a>
+
+- *Type:* str
+
+---
+
+# Methods <a name="Methods" id="Methods"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.toString">to_string</a></code> | Returns a string representation of this construct. |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.addOverride">add_override</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.overrideLogicalId">override_logical_id</a></code> | Overrides the auto-generated logical ID with a specific ID. |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.resetOverrideLogicalId">reset_override_logical_id</a></code> | Resets a previously passed logical Id to use the auto-generated logical id again. |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.toMetadata">to_metadata</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.toTerraform">to_terraform</a></code> | Adds this resource to the terraform JSON output. |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.get">get</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.getBoolean">get_boolean</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.getList">get_list</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.getNumber">get_number</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.getString">get_string</a></code> | *No description.* |
+
+---
+
+## `to_string` <a name="to_string" id="cdktf.DataTerraformRemoteStateSwift.toString"></a>
+
+```python
+def to_string() -> str
+```
+
+Returns a string representation of this construct.
+
+## `add_override` <a name="add_override" id="cdktf.DataTerraformRemoteStateSwift.addOverride"></a>
+
+```python
+def add_override(
+  path: str,
+  value: typing.Any
+) -> None
+```
+
+### `path`<sup>Required</sup> <a name="path" id="cdktf.DataTerraformRemoteStateSwift.addOverride.parameter.path"></a>
+
+- *Type:* str
+
+---
+
+### `value`<sup>Required</sup> <a name="value" id="cdktf.DataTerraformRemoteStateSwift.addOverride.parameter.value"></a>
+
+- *Type:* typing.Any
+
+---
+
+## `override_logical_id` <a name="override_logical_id" id="cdktf.DataTerraformRemoteStateSwift.overrideLogicalId"></a>
+
+```python
+def override_logical_id(
+  new_logical_id: str
+) -> None
+```
+
+Overrides the auto-generated logical ID with a specific ID.
+
+### `new_logical_id`<sup>Required</sup> <a name="new_logical_id" id="cdktf.DataTerraformRemoteStateSwift.overrideLogicalId.parameter.newLogicalId"></a>
+
+- *Type:* str
+
+The new logical ID to use for this stack element.
+
+---
+
+## `reset_override_logical_id` <a name="reset_override_logical_id" id="cdktf.DataTerraformRemoteStateSwift.resetOverrideLogicalId"></a>
+
+```python
+def reset_override_logical_id() -> None
+```
+
+Resets a previously passed logical Id to use the auto-generated logical id again.
+
+## `to_metadata` <a name="to_metadata" id="cdktf.DataTerraformRemoteStateSwift.toMetadata"></a>
+
+```python
+def to_metadata() -> typing.Any
+```
+
+## `to_terraform` <a name="to_terraform" id="cdktf.DataTerraformRemoteStateSwift.toTerraform"></a>
+
+```python
+def to_terraform() -> typing.Any
+```
+
+Adds this resource to the terraform JSON output.
+
+## `get` <a name="get" id="cdktf.DataTerraformRemoteStateSwift.get"></a>
+
+```python
+def get(
+  output: str
+) -> IResolvable
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.get.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_boolean` <a name="get_boolean" id="cdktf.DataTerraformRemoteStateSwift.getBoolean"></a>
+
+```python
+def get_boolean(
+  output: str
+) -> IResolvable
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getBoolean.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_list` <a name="get_list" id="cdktf.DataTerraformRemoteStateSwift.getList"></a>
+
+```python
+def get_list(
+  output: str
+) -> typing.List[str]
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getList.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_number` <a name="get_number" id="cdktf.DataTerraformRemoteStateSwift.getNumber"></a>
+
+```python
+def get_number(
+  output: str
+) -> typing.Union[int, float]
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getNumber.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+## `get_string` <a name="get_string" id="cdktf.DataTerraformRemoteStateSwift.getString"></a>
+
+```python
+def get_string(
+  output: str
+) -> str
+```
+
+### `output`<sup>Required</sup> <a name="output" id="cdktf.DataTerraformRemoteStateSwift.getString.parameter.output"></a>
+
+- *Type:* str
+
+---
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.isConstruct">is_construct</a></code> | Checks if `x` is a construct. |
+
+---
+
+## `is_construct` <a name="is_construct" id="cdktf.DataTerraformRemoteStateSwift.isConstruct"></a>
+
+```python
+import cdktf
+
+cdktf.DataTerraformRemoteStateSwift.is_construct(
+  x: typing.Any
+)
+```
+
+Checks if `x` is a construct.
+
+Use this method instead of `instanceof` to properly detect `Construct`
+instances, even when the construct library is symlinked.
+
+Explanation: in JavaScript, multiple copies of the `constructs` library on
+disk are seen as independent, completely different libraries. As a
+consequence, the class `Construct` in each copy of the `constructs` library
+is seen as a different class, and an instance of one class will not test as
+`instanceof` the other class. `npm install` will not create installations
+like this, but users may manually symlink construct libraries together or
+use a monorepo tool: in those cases, multiple copies of the `constructs`
+library can be accidentally installed, and `instanceof` will behave
+unpredictably. It is safest to avoid using `instanceof`, and using
+this type-testing method instead.
+
+### `x`<sup>Required</sup> <a name="x" id="cdktf.DataTerraformRemoteStateSwift.isConstruct.parameter.x"></a>
+
+- *Type:* typing.Any
+
+Any object.
+
+---
+
+# Properties <a name="Properties" id="Properties"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.property.node">node</a></code> | <code>constructs.Node</code> | The tree node. |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.property.cdktfStack">cdktf_stack</a></code> | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.property.fqn">fqn</a></code> | <code>str</code> | *No description.* |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `node`<sup>Required</sup> <a name="node" id="cdktf.DataTerraformRemoteStateSwift.property.node"></a>
+
+```python
+node: Node
+```
+
+- *Type:* constructs.Node
+
+The tree node.
+
+---
+
+## `cdktf_stack`<sup>Required</sup> <a name="cdktf_stack" id="cdktf.DataTerraformRemoteStateSwift.property.cdktfStack"></a>
+
+```python
+cdktf_stack: TerraformStack
+```
+
+- *Type:* <a href="#cdktf.TerraformStack">TerraformStack</a>
+
+---
+
+## `fqn`<sup>Required</sup> <a name="fqn" id="cdktf.DataTerraformRemoteStateSwift.property.fqn"></a>
+
+```python
+fqn: str
+```
+
+- *Type:* str
+
+---
+
+## `friendly_unique_id`<sup>Required</sup> <a name="friendly_unique_id" id="cdktf.DataTerraformRemoteStateSwift.property.friendlyUniqueId"></a>
+
+```python
+friendly_unique_id: str
+```
+
+- *Type:* str
+
+---
+
+# Constants <a name="Constants" id="Constants"></a>
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+| <code><a href="#cdktf.DataTerraformRemoteStateSwift.property.tfResourceType">tfResourceType</a></code> | <code>str</code> | *No description.* |
+
+---
+
+## `tfResourceType`<sup>Required</sup> <a name="tfResourceType" id="cdktf.DataTerraformRemoteStateSwift.property.tfResourceType"></a>
+
+```python
+tfResourceType: str
+```
+
+- *Type:* str
+
+---

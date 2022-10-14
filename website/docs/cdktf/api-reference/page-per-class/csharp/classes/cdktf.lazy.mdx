@@ -1,0 +1,129 @@
+ Lazy <a name="Lazy" id="cdktf.Lazy"></a>
+
+Lazily produce a value.
+
+Can be used to return a string, list or numeric value whose actual value
+will only be calculated later, during synthesis.
+
+# Initializers <a name="Initializers" id="cdktf.Lazy.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new Lazy();
+```
+
+| **Name** | **Type** | **Description** |
+| --- | --- | --- |
+
+---
+
+
+# Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name** | **Description** |
+| --- | --- |
+| <code><a href="#cdktf.Lazy.anyValue">AnyValue</a></code> | Produces a lazy token from an untyped value. |
+| <code><a href="#cdktf.Lazy.listValue">ListValue</a></code> | Returns a list-ified token for a lazy value. |
+| <code><a href="#cdktf.Lazy.numberValue">NumberValue</a></code> | Returns a numberified token for a lazy value. |
+| <code><a href="#cdktf.Lazy.stringValue">StringValue</a></code> | Returns a stringified token for a lazy value. |
+
+---
+
+## `AnyValue` <a name="AnyValue" id="cdktf.Lazy.anyValue"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Lazy.AnyValue(IAnyProducer Producer, LazyAnyValueOptions Options = null);
+```
+
+Produces a lazy token from an untyped value.
+
+### `Producer`<sup>Required</sup> <a name="Producer" id="cdktf.Lazy.anyValue.parameter.producer"></a>
+
+- *Type:* <a href="#cdktf.IAnyProducer">IAnyProducer</a>
+
+The lazy producer.
+
+---
+
+### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.Lazy.anyValue.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.LazyAnyValueOptions">LazyAnyValueOptions</a>
+
+Options.
+
+---
+
+## `ListValue` <a name="ListValue" id="cdktf.Lazy.listValue"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Lazy.ListValue(IListProducer Producer, LazyListValueOptions Options = null);
+```
+
+Returns a list-ified token for a lazy value.
+
+### `Producer`<sup>Required</sup> <a name="Producer" id="cdktf.Lazy.listValue.parameter.producer"></a>
+
+- *Type:* <a href="#cdktf.IListProducer">IListProducer</a>
+
+The producer.
+
+---
+
+### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.Lazy.listValue.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.LazyListValueOptions">LazyListValueOptions</a>
+
+Options.
+
+---
+
+## `NumberValue` <a name="NumberValue" id="cdktf.Lazy.numberValue"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Lazy.NumberValue(INumberProducer Producer);
+```
+
+Returns a numberified token for a lazy value.
+
+### `Producer`<sup>Required</sup> <a name="Producer" id="cdktf.Lazy.numberValue.parameter.producer"></a>
+
+- *Type:* <a href="#cdktf.INumberProducer">INumberProducer</a>
+
+The producer.
+
+---
+
+## `StringValue` <a name="StringValue" id="cdktf.Lazy.stringValue"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Lazy.StringValue(IStringProducer Producer, LazyStringValueOptions Options = null);
+```
+
+Returns a stringified token for a lazy value.
+
+### `Producer`<sup>Required</sup> <a name="Producer" id="cdktf.Lazy.stringValue.parameter.producer"></a>
+
+- *Type:* <a href="#cdktf.IStringProducer">IStringProducer</a>
+
+The producer.
+
+---
+
+### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.Lazy.stringValue.parameter.options"></a>
+
+- *Type:* <a href="#cdktf.LazyStringValueOptions">LazyStringValueOptions</a>
+
+Options.
+
+---
+
+
