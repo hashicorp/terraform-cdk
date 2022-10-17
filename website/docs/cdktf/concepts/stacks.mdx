@@ -52,15 +52,26 @@ app.synth();
 ```
 
 ```python
+stack.add_override("terraform.backend",{
+    "remote": {
+        "organization": "test",
+        "workspaces": {
+            "name": "test"
+        }
+    }
+})
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -123,15 +134,19 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -214,15 +229,19 @@ app.synth();
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -252,15 +271,19 @@ this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceF
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>
@@ -295,15 +318,19 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```python
+
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

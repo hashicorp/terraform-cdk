@@ -1,3 +1,6 @@
+from my_constructs import KubernetesWebAppDeployment
+import imports.kubernetes as kubernetes
+import os
 from imports.aws.provider import AwsProvider
 from imports.aws.s3_bucket import S3Bucket, S3BucketWebsite
 
@@ -5,28 +8,31 @@ from imports.aws.s3_bucket import S3Bucket, S3BucketWebsite
 from constructs import Construct
 from cdktf import App, TerraformStack
 
+
 class PublicS3Bucket(Construct):
 
     bucket: S3Bucket
-    
+
     def __init__(self, scope: Construct, name: str):
-        super().__init__(scope, name) # This creates a new scope since we extend from construct
+        # This creates a new scope since we extend from construct
+        super().__init__(scope, name)
 
         AwsProvider(self, "aws",
-            region = "us-east-1"
-        )
+                    region="us-east-1"
+                    )
 
         # This bucket is in a different scope than the buckets
         # defined in `MyStack`. Therefore, it does not need a unique name.
         self.bucket = S3Bucket(self, "bucket",
-            bucket_prefix = name,
-            website = S3BucketWebsite(
-                index_document = "index.html",
-                error_document = "5xx.html",
-            )
-        )
+                               bucket_prefix=name,
+                               website=S3BucketWebsite(
+                                   index_document="index.html",
+                                   error_document="5xx.html",
+                               )
+                               )
 
-class MyStack(TerraformStack):
+
+class MyS3BucketStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -34,20 +40,23 @@ class MyStack(TerraformStack):
         # the same scope. Therefore, their names must be unique.
         PublicS3Bucket(self, "first-bucket")
         PublicS3Bucket(self, "second-bucket")
+
+
+app = App()
+MyS3BucketStack(app, "s3-stack")
+app.synth()
 # DOCS_BLOCK_END:constructs-scope
 
-# DOCS_BLOCK_START:constructs-use-constructs
-import os
-import imports.kubernetes as kubernetes
-from my_constructs import KubernetesWebAppDeployment
+# DOCS_BLOCK_START:constructs
 
-class MyStack(TerraformStack):
+
+class MyKubernetesStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
         kubernetes.provider.KubernetesProvider(self, "kind",
-                                      config_path=os.path.join(os.path.dirname(
-                                          __file__), '..', 'kubeconfig.yaml')
-                                      )
+                                               config_path=os.path.join(os.path.dirname(
+                                                   __file__), '..', 'kubeconfig.yaml')
+                                               )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",
@@ -59,7 +68,6 @@ class MyStack(TerraformStack):
 
 
 app = App()
-MyStack(app, "demo")
+MyKubernetesStack(app, "demo")
 app.synth()
-# DOCS_BLOCK_END:constructs-use-constructs
-
+# DOCS_BLOCK_END:constructs

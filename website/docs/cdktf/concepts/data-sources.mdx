@@ -40,23 +40,26 @@ export class HelloTerraform extends TerraformStack {
 ```
 
 ```python
+from cdktf import TerraformStack, App
 from cdktf import DataTerraformRemoteState
-from imports.aws.instance import Instance
 
-class HelloTerraform(TerraformStack):
+
+class HelloTerraformRemoteState(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        #.....
+        # .....
         remoteState = DataTerraformRemoteState(self,
-            organization = "hashicorp",
-            workspace = 'vpc-prod'
-        )
+                                               organization="hashicorp",
+                                               workspace='vpc-prod'
+                                               )
 
         Instance(self, "foo",
-            #.....
-            subnet_id = remoteState.get('subnet_id')
-        )
+                 # .....
+                 subnet_id=remoteState.get('subnet_id')
+                 )
+
+
 ```
 
 ```java

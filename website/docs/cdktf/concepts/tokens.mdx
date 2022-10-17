@@ -49,15 +49,32 @@ new Eks(this, "EksModule", {
 ```
 
 ```python
+        log_retention = TerraformVariable(self, "logRetentionInDays",
+            type = "number"
+        )
+
+        vpc = Vpc(self, "vpcName",
+            name = "vpcName",
+            public_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+        )
+
+        Eks(self, "EksModules",
+            cluster_name = "my-kubernetes-cluster",
+            subnets = Token.as_list(vpc.public_subnets_output),
+            cluster_create_timeout = log_retention.number_value
+        )
 ```
 
 ```java
+
 ```
 
 ```csharp
+
 ```
 
 ```go
+
 ```
 
 </CodeTabs>

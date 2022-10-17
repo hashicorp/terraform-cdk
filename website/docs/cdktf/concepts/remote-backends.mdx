@@ -57,7 +57,12 @@ new Mystack(app, "hello-terraform");
 ```
 
 ```python
-
+stack.add_override("terraform.backend",{
+    "atlas": {
+        "name": "example_corp/networking-prod",
+        "address": "https://app.terraform.io"
+    }
+})
 ```
 
 ```java
