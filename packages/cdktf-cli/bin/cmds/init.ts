@@ -61,6 +61,8 @@ class Command extends BaseCommand {
   public async handleCommand(argv: any) {
     Errors.setScope("init");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
+    console.log("INIT ARGS");
+    console.log(argv);
     const api = requireHandlers();
     await api.init(argv);
   }

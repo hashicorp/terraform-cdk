@@ -37,6 +37,7 @@ import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
 import { CdktfConfig } from "../../../lib/cdktf-config";
+import { providerAdd } from "../handlers";
 
 const chalkColour = new chalk.Instance();
 
@@ -63,6 +64,7 @@ type Options = {
   projectDescription?: string;
   cdktfVersion?: string;
   dist?: string;
+  providers?: string[];
   destination: string;
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
@@ -163,7 +165,6 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const combinedTfFile = getTerraformConfigFromDir(importPath);
 
-    // Fetch all provider requirements from the project
     const providerRequirements = await parseProviderRequirements(
       combinedTfFile
     );
@@ -192,7 +193,6 @@ This means that your Terraform state file will be stored locally on disk in a fi
     cdktfVersion: argv.cdktfVersion,
     destination,
     dist: argv.dist,
-    providers: argv.providers,
     projectId,
     projectInfo,
     templatePath: templateInfo.Path,
@@ -232,6 +232,14 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
 
     telemetryData.conversionStats = stats;
+  }
+
+  if (argv.providers) {
+    for (const provider of argv.providers) {
+      await providerAdd({
+        provider: [provider],
+      });
+    }
   }
 
   if (templateInfo.cleanupTemporaryFiles) {

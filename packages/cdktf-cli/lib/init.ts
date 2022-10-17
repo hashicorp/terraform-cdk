@@ -7,6 +7,7 @@ import { Errors } from "./errors";
 
 import { sscaff } from "sscaff";
 import { FUTURE_FLAGS } from "cdktf/lib/features";
+import { execSync } from "child_process";
 
 const pkg = readPackageJson();
 const constructsVersion = pkg.dependencies.constructs;
@@ -33,11 +34,14 @@ export type InitArgs = {
   sendCrashReports: boolean;
 };
 
+/**
+ * What is needed for adding the providers here?
+ * - Might just be altering our template
+ */
 export async function init({
   cdktfVersion,
   destination,
   dist,
-  providers,
   projectId,
   projectInfo,
   templatePath,
