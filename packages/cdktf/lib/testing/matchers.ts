@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import * as path from "path";
-import { execSync } from "child_process";
+import { execSync, SpawnSyncReturns } from "child_process";
 import { snakeCase, terraformBinaryName } from "../util";
 
 // TerraformConstructor is class with the static property 'tfResourceType'
@@ -211,6 +211,30 @@ export function getToHaveResourceWithProperties(
     );
   };
 }
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+const isExecSpawnError = (err: any): err is Error & SpawnSyncReturns<any> =>
+  "output" in err &&
+  Array.isArray(err.output) &&
+  err.output.some((buf: any) => buf instanceof Buffer);
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+const withProcessOutput = (message: string, err: unknown) => {
+  let output = "";
+
+  if (isExecSpawnError(err)) {
+    output =
+      err.output
+        ?.map((buffer: Buffer) => buffer?.toString("utf8"))
+        .filter(Boolean)
+        .join("\n") ?? "";
+  }
+
+  const appendix = output.length ? `. Output: ${output}` : "";
+
+  return `${message}: ${err}${appendix}.`;
+};
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
@@ -255,7 +279,7 @@ export function toBeValidTerraform(received: string): AssertionReturn {
     );
   } catch (e) {
     return new AssertionReturn(
-      `Expected subject to be a valid terraform stack: ${e}`,
+      withProcessOutput(`Expected subject to be a valid terraform stack`, e),
       false
     );
   }
@@ -299,7 +323,7 @@ export function toPlanSuccessfully(received: string): AssertionReturn {
     );
   } catch (e) {
     return new AssertionReturn(
-      `Expected subject to plan successfully: ${e}`,
+      withProcessOutput(`Expected subject to plan successfully`, e),
       false
     );
   }
