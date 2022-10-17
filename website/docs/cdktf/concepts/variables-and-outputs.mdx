@@ -75,7 +75,7 @@ class Consumer(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        CloudBackend(self,
+        CloudBackend(self, 
             organization = "hashicorp",
             workspaces = NamedCloudWorkspace("consumer")
         )

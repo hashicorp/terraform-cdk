@@ -120,7 +120,7 @@ import imports.aws.s3_bucket_object.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-
+        
         AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
 
         S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")

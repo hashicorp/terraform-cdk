@@ -61,7 +61,7 @@ new Eks(this, "EksModule", {
         Eks(self, "EksModules",
             cluster_name = "my-kubernetes-cluster",
             subnets = Token.as_list(vpc.public_subnets_output),
-            cluster_create_timeout = log_retention.number_value
+            cluster_create_timeout = log_retention.number_value 
         )
 ```
 

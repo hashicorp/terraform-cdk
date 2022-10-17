@@ -66,6 +66,7 @@ import * as path from "path";
 import { KubernetesWebAppDeployment } from "./custom-constructs";
 import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 
+
 class MyStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
@@ -146,7 +147,7 @@ import imports.kubernetes.provider.*;
 public class Main extends TerraformStack {
     public Main(final Construct scope, final String name) {
         super(scope, name);
-
+        
         KubernetesProvider.Builder.create(this, "kind")
                 .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
                 .build();

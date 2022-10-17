@@ -3,7 +3,7 @@ from constructs import Construct
 import imports.github as github
 # DOCS_BLOCK_START:iterators-define-iterators,iterators-iterators-complex-types
 import imports.aws as aws
-from cdktf import TerraformIterator, TerraformVariable
+from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 # DOCS_BLOCK_END:iterators-define-iterators,iterators-iterators-complex-types
 
 
@@ -12,23 +12,25 @@ class TestStack(TerraformStack):
         super().__init__(scope, id)
 
         # DOCS_BLOCK_START:iterators-iterators-complex-types
+        list = TerraformLocal(self, "my-list", [
+            {
+                "name": "website-static-files",
+                "tags": {"app": "website"}
+            },
+            {
+                "name": "images",
+                "tags": {"app": "image-converter"}
+            }
+        ])
+
         iterator = TerraformIterator.from_list(
-            list=[
-                {
-                    "name": "website-static-files",
-                    "tags": {"app": "website"}
-                },
-                {
-                    "name": "images",
-                    "tags": {"app": "image-converter"}
-                }
-            ]
+            list=list
         )
 
-        s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
+        s3Bucket = aws.s3_bucket.S3Bucket(self, "s3-bucket",
                                           for_each=iterator,
-                                          name=iterator.getString("name"),
-                                          tags=iterator.getString("tags")
+                                          bucket=iterator.get_string("name"),
+                                          tags=iterator.get_map("tags")
                                           )
         # DOCS_BLOCK_END:iterators-iterators-complex-types
 
@@ -41,7 +43,8 @@ class TestStack(TerraformStack):
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
                                           for_each=iterator,
-                                          name=iterator.value
+                                          bucket=Token.as_string(
+                                              iterator.value)
                                           )
         # DOCS_BLOCK_END:iterators-define-iterators
 
