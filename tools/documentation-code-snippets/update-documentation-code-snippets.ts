@@ -18,7 +18,7 @@ const DOCS_DIRECTORY = resolveRepoPath("website/docs");
 const createCodeBlockRegex = () =>
   /<!--\s*#NEXT_CODE_BLOCK_SOURCE:(?<language>[\w]*)\s*(?<sourcePath>[^#]*)#(?<snippetId>[^ ]*)\s*-->/g;
 const createCodeSnippetRegex = (language: string) =>
-  new RegExp(`\`\`\`${language}.*?\`\`\``, "s"); // s lets . match newlines as well, ? makes it non greedy to only match until the next "```"
+  new RegExp(`\`\`\`${language}.*?\`\`\``, "sg"); // s lets . match newlines as well, ? makes it non greedy to only match until the next "```", g = global allows starting at a given index
 
 type CodeBlockTarget = {
   language: string; // as used in the next codeblock e.g. "```ts"
