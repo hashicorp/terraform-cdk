@@ -1,3 +1,23 @@
+## 0.13.1
+
+### feat
+
+- feat(cli): Add support for terraform's parallelism flag [\#2107](https://github.com/hashicorp/terraform-cdk/pull/2107)
+- feat: add redirect link to pre-built providers json file [\#2180](https://github.com/hashicorp/terraform-cdk/pull/2180)
+- feat(cli): link to troubleshooting page for error [\#2192](https://github.com/hashicorp/terraform-cdk/pull/2192)
+
+### fix
+
+- fix(provider-generator): change Static resource class to StaticResource as their namespace 'static' is not valid in TypeScript re-exports [\#2168](https://github.com/hashicorp/terraform-cdk/pull/2168)
+- fix(cli): dont wrap list terminal output [\#2188](https://github.com/hashicorp/terraform-cdk/pull/2188)
+- fix(cli): handle missing package versions for non-npm packages [\#2177](https://github.com/hashicorp/terraform-cdk/pull/2177)
+- fix(docs): Fix upgrade guide imports for Python [\#2171](https://github.com/hashicorp/terraform-cdk/pull/2171)
+- fix(docs): update old config key [\#2195](https://github.com/hashicorp/terraform-cdk/pull/2195)
+
+### chore
+
+- chore: Update link to blogpost [\#2176](https://github.com/hashicorp/terraform-cdk/pull/2176)
+
 ## 0.13.0
 
 **Breaking Changes**
