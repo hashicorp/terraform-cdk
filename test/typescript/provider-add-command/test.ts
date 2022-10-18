@@ -42,12 +42,8 @@ describe("provider add command", () => {
       );
       expect(res.stdout).toContain(`Package installed.`);
 
-      const packageJson = JSON.parse(driver.readLocalFile("package.json"));
-
-      expect(packageJson.dependencies).toEqual(
-        expect.objectContaining({
-          "@cdktf/provider-random": expect.any(String),
-        })
+      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
+        expect.any(String)
       );
     }, 120_000);
   });
