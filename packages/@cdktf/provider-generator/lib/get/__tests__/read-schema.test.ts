@@ -1,3 +1,4 @@
+import * as path from "path";
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import {
@@ -54,6 +55,28 @@ describe("readSchema", () => {
     const module = new TerraformModuleConstraint(
       "terraform-aws-modules/eks/aws@7.0.1"
     );
+    const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
+    const result = await readModuleSchema(target);
+    expect(result).toMatchSnapshot();
+  });
+
+  it("generates a local module", async () => {
+    const module = new TerraformModuleConstraint({
+      name: "local_module",
+      fqn: "local_module",
+      source: path.resolve(__dirname, "fixtures", "local-module"),
+    });
+    const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
+    const result = await readModuleSchema(target);
+    expect(result).toMatchSnapshot();
+  });
+
+  it("generates a local json module", async () => {
+    const module = new TerraformModuleConstraint({
+      name: "local_module",
+      fqn: "local_module",
+      source: path.resolve(__dirname, "fixtures", "local-json-module"),
+    });
     const target = new ConstructsMakerModuleTarget(module, Language.TYPESCRIPT);
     const result = await readModuleSchema(target);
     expect(result).toMatchSnapshot();
