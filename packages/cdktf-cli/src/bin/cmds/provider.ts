@@ -8,7 +8,10 @@ class Command implements yargs.CommandModule {
     "A set of subcommands that facilitates provider management";
 
   public readonly builder = (args: yargs.Argv) =>
-    args.command(require("./get")).command(require("./provider-add"));
+    args
+      .command(require("./get"))
+      .command(require("./provider-add"))
+      .command(require("./provider-upgrade"));
 
   public readonly handler = () => {
     yargs.showHelp();

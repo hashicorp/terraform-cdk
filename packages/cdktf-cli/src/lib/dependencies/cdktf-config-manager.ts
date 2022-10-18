@@ -17,7 +17,7 @@ export class CdktfConfigManager {
     );
   }
 
-  public async addProvider(constraint: ProviderConstraint): Promise<void> {
+  private async setProvider(constraint: ProviderConstraint): Promise<void> {
     // excluding the constraint to be added (if it already existed)
     const currentProviders = this.config.terraformProviders.filter(
       (provider) =>
@@ -35,5 +35,13 @@ export class CdktfConfigManager {
 
     currentProviders.push(provider);
     this.config.writeTerraformProviders(currentProviders);
+  }
+
+  public async addProvider(constraint: ProviderConstraint): Promise<void> {
+    await this.setProvider(constraint);
+  }
+
+  public async updateProvider(constraint: ProviderConstraint): Promise<void> {
+    await this.setProvider(constraint);
   }
 }

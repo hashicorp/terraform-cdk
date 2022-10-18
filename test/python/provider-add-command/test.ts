@@ -22,12 +22,13 @@ describe("provider add command", () => {
         expect(res.stdout).toContain("cdktf: 0.10.4");
       });
 
-      test("installs pre-built provider using pipenb", async () => {
+      test("installs pre-built provider using pipenv", async () => {
         const res = await driver.exec("cdktf", [
           "provider",
           "add",
           "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
         ]);
+
         expect(res.stdout).toContain(
           `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pipenv.`
         );
@@ -58,12 +59,13 @@ describe("provider add command", () => {
         expect(res.stdout).toContain("cdktf: 0.10.4");
       });
 
-      test("installs pre-built provider using pipenb", async () => {
+      test("installs pre-built provider using pipenv", async () => {
         const res = await driver.exec("cdktf", [
           "provider",
           "add",
           "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
         ]);
+
         expect(res.stdout).toContain(
           `Installing package cdktf-cdktf-provider-random @ 0.2.55 using pip.`
         );

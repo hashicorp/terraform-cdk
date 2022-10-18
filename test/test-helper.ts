@@ -115,6 +115,12 @@ export class TestDriver {
     }
   }
 
+  npmPackageVersion = (packageName: string) => {
+    const packageJson = JSON.parse(this.readLocalFile("package.json"));
+
+    return packageJson?.dependencies?.[packageName];
+  };
+
   switchToTempDir = () => {
     const pathName = path.join(os.tmpdir(), "test");
     this.workingDirectory = fs.mkdtempSync(pathName);
