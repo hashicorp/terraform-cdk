@@ -132,13 +132,16 @@ interface ModuleIndex {
   Modules: ModuleIndexItem[];
 }
 
+const unwrapIfArray = <T>(item: T | T[]): T =>
+  Array.isArray(item) ? item[0] : item;
+
 const transformVariables = (variables: any) => {
   const result: Input[] = [];
 
   if (!variables) return result;
 
   for (const name of Object.keys(variables)) {
-    const variable = variables[name][0];
+    const variable = unwrapIfArray(variables[name]);
     let variableType: string;
 
     if (
@@ -185,7 +188,7 @@ const transformOutputs = (outputs: any) => {
 
   if (outputs) {
     for (const name of Object.keys(outputs)) {
-      const output = outputs[name][0];
+      const output = unwrapIfArray(outputs[name]);
 
       const item: any = {
         name,
