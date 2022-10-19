@@ -43,11 +43,8 @@ import {
 } from "./helper/check-environment";
 import { collectDebugInformation, getPackageVersion } from "../../lib/debug";
 import { initializErrorReporting } from "../../lib/error-reporting";
-import {
-  DependencyManager,
-  ProviderConstraint,
-} from "../../lib/dependencies/dependency-manager";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
+import { providerAdd as providerAddLib } from "../../lib/provider-add";
 import { logger } from "../../lib/logging";
 
 const chalkColour = new chalk.Instance();
@@ -389,7 +386,7 @@ export async function debug(argv: any) {
 
 export async function providerAdd(argv: any) {
   const config = CdktfConfig.read();
-
+  console.log(argv);
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
 
@@ -398,27 +395,13 @@ export async function providerAdd(argv: any) {
       "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
     );
 
-  const manager = new DependencyManager(
+  const needsGet = await providerAddLib(
+    argv.provider,
     language,
     cdktfVersion,
-    config.projectDirectory
+    config.projectDirectory,
+    argv.forceLocal
   );
-
-  let needsGet = false;
-
-  for (const provider of argv.provider) {
-    const constraint = ProviderConstraint.fromConfigEntry(provider);
-
-    if (argv.forceLocal) {
-      needsGet = true;
-      await manager.addLocalProvider(constraint);
-    } else {
-      const { addedLocalProvider } = await manager.addProvider(constraint);
-      if (addedLocalProvider) {
-        needsGet = true;
-      }
-    }
-  }
 
   if (needsGet) {
     console.log(

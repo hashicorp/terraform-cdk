@@ -7,7 +7,6 @@ import { Errors } from "./errors";
 
 import { sscaff } from "sscaff";
 import { FUTURE_FLAGS } from "cdktf/lib/features";
-import { execSync } from "child_process";
 
 const pkg = readPackageJson();
 const constructsVersion = pkg.dependencies.constructs;
@@ -28,6 +27,7 @@ export type InitArgs = {
   destination: string;
   dist?: string;
   providers?: string[];
+  providersForceLocal?: boolean;
   projectId: string;
   projectInfo: Project;
   templatePath: string;

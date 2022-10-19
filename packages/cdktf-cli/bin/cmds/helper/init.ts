@@ -37,7 +37,8 @@ import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
 import { CdktfConfig } from "../../../lib/cdktf-config";
-import { providerAdd } from "../handlers";
+import { providerAdd } from "../../../lib/provider-add";
+import { getAllPrebuiltProviders } from "../../../lib/dependencies/prebuilt-providers";
 
 const chalkColour = new chalk.Instance();
 
@@ -65,6 +66,7 @@ type Options = {
   cdktfVersion?: string;
   dist?: string;
   providers?: string[];
+  providersForceLocal?: boolean;
   destination: string;
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
@@ -234,24 +236,46 @@ This means that your Terraform state file will be stored locally on disk in a fi
     telemetryData.conversionStats = stats;
   }
 
-  if (argv.providers) {
-    for (const provider of argv.providers) {
-      await providerAdd({
-        provider: [provider],
-      });
-    }
-  }
-
   if (templateInfo.cleanupTemporaryFiles) {
     await templateInfo.cleanupTemporaryFiles();
   }
 
   const cdktfConfig = CdktfConfig.read(destination);
+  let needsGet = false;
+  const providers = argv.providers?.length
+    ? argv.providers
+    : await getProviders();
+  if (providers) {
+    needsGet = await providerAdd(
+      providers,
+      cdktfConfig.language,
+      destination,
+      argv.cdktfVersion,
+      argv.providersForceLocal
+    );
+    if (needsGet) {
+      execSync("npm run get", { cwd: destination });
+    }
+  }
 
   await sendTelemetry("init", {
     ...telemetryData,
     language: cdktfConfig.language,
   });
+}
+
+async function getProviders() {
+  const options = Object.keys(await getAllPrebuiltProviders());
+  const { providers: selection } = await inquirer.prompt([
+    {
+      type: "checkbox",
+      name: "providers",
+      message: "What providers do you want to use?",
+      choices: options,
+    },
+  ]);
+
+  return selection;
 }
 
 function copyLocalModules(

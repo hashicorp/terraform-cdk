@@ -56,6 +56,10 @@ class Command extends BaseCommand {
         type: "array",
         default: [],
       })
+      .option("providers-force-local", {
+        type: "boolean",
+        desc: "Force local installation of provider specified in init",
+      })
       .strict();
 
   public async handleCommand(argv: any) {
