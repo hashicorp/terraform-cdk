@@ -75,7 +75,8 @@ import cdktf
 import imports.aws as aws
 import os
 
-class MyStack(cdktf.TerraformStack):
+
+class MyAssetStack(cdktf.TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -90,13 +91,14 @@ class MyStack(cdktf.TerraformStack):
                                      )
 
         aws.s3_bucket_object.S3BucketObject(self, "lambda-archive",
-                              bucket=bucket.bucket,
-                              key=asset.file_name,
-                              source=asset.path
-                              )
+                                            bucket=bucket.bucket,
+                                            key=asset.file_name,
+                                            source=asset.path
+                                            )
+
 
 app = cdktf.App()
-MyStack(app, "demo")
+MyAssetStack(app, "demo")
 
 app.synth()
 ```

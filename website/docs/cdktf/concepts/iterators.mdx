@@ -44,26 +44,26 @@ const s3Bucket = new S3Bucket(this, "bucket", {
         org_name = "my-org"
 
         github.provider.GithubProvider(self, "github",
-            organization=org_name
-        )
+                                       organization=org_name
+                                       )
 
         github_team = github.team.Team(self, "core-team",
-            name="core"
-        )
+                                       name="core"
+                                       )
 
         org_members = github.data_github_organization.DataGithubOrganization(self, "org",
-            name=org_name
-        )
+                                                                             name=org_name
+                                                                             )
 
         org_member_iterator = TerraformIterator.from_list(org_members.members)
 
         github.team_members.TeamMembers(self, "members",
-            team_id=github_team.id,
-            members=org_member_iterator.dynamic({
-                "username": Token().as_string(org_member_iterator.value),
-                "role": "maintainer"
-            })
-        )
+                                        team_id=github_team.id,
+                                        members=org_member_iterator.dynamic({
+                                            "username": Token().as_string(org_member_iterator.value),
+                                            "role": "maintainer"
+                                        })
+                                        )
 ```
 
 ```java
