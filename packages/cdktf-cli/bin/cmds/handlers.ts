@@ -386,7 +386,6 @@ export async function debug(argv: any) {
 
 export async function providerAdd(argv: any) {
   const config = CdktfConfig.read();
-  console.log(argv);
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
 
