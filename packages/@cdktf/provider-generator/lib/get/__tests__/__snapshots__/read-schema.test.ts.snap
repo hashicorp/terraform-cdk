@@ -1,5 +1,72 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`readSchema generates a local json module 1`] = `
+Object {
+  "local_module": Object {
+    "inputs": Array [
+      Object {
+        "default": "module",
+        "description": "Name of the DigitalOcean static site",
+        "name": "name",
+        "required": false,
+        "type": "any",
+      },
+      Object {
+        "default": "ams",
+        "description": "Region to deploy the app to",
+        "name": "region",
+        "required": false,
+        "type": "any",
+      },
+    ],
+    "name": "local_module",
+    "outputs": Array [
+      Object {
+        "description": undefined,
+        "name": "uri",
+      },
+    ],
+  },
+}
+`;
+
+exports[`readSchema generates a local module 1`] = `
+Object {
+  "local_module": Object {
+    "inputs": Array [
+      Object {
+        "description": "Name of the s3 bucket. Must be unique.",
+        "name": "bucket_name",
+        "required": true,
+        "type": "string",
+      },
+      Object {
+        "default": Object {},
+        "description": "Tags to set on the bucket.",
+        "name": "tags",
+        "required": false,
+        "type": "map(string)",
+      },
+    ],
+    "name": "local_module",
+    "outputs": Array [
+      Object {
+        "description": "ARN of the bucket",
+        "name": "arn",
+      },
+      Object {
+        "description": "Domain name of the bucket",
+        "name": "domain",
+      },
+      Object {
+        "description": "Name (id) of the bucket",
+        "name": "name",
+      },
+    ],
+  },
+}
+`;
+
 exports[`readSchema generates a more complex schema 1`] = `
 Object {
   "terraform-aws-modules_eks_aws": Object {
