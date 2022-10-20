@@ -5,7 +5,7 @@ import { CdktfProject, init, Language, get } from "../../lib/index";
 import { exec } from "cdktf-cli/src/lib/util";
 
 jest.mock("cdktf-cli/src/lib/util", () => {
-  const originalModule = jest.requireActual("cdktf-cli/lib/util");
+  const originalModule = jest.requireActual("cdktf-cli/src/lib/util");
 
   return {
     __esmodule: true,
