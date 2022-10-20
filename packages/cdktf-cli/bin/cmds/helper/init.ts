@@ -241,12 +241,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   const cdktfConfig = CdktfConfig.read(destination);
-  let needsGet = false;
+
   const providers = argv.providers?.length
     ? argv.providers
     : await getProviders();
   if (providers) {
-    needsGet = await providerAdd(
+    const needsGet = await providerAdd(
       providers,
       cdktfConfig.language,
       destination,
@@ -264,7 +264,10 @@ This means that your Terraform state file will be stored locally on disk in a fi
   });
 }
 
-async function getProviders() {
+async function getProviders(): Promise<string[] | undefined> {
+  if (!isInteractiveTerminal()) {
+    return Promise.resolve(undefined);
+  }
   const options = Object.keys(await getAllPrebuiltProviders());
   const { providers: selection } = await inquirer.prompt([
     {
