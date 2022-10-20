@@ -22,18 +22,21 @@ describe("convert command", () => {
         cwd,
         input,
       });
+
+      const trimmedStdout = result.stdout.replace(/\n\s*/g, "");
       expect(result.stderr).toEqual("");
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+      expect(trimmedStdout).toContain(
+        `new NullProvider.resource.Resource(this,"dummy",{});`
       );
     });
   }, 30_000);
+
   it("reads provider version from existing cdktf.json", async () => {
     await mkdtemp(async (cwd) => {
       await fs.writeFile(
@@ -45,15 +48,16 @@ describe("convert command", () => {
         cwd,
         input,
       });
+      const trimmedStdout = result.stdout.replace(/\n\s*/g, "");
       expect(result.stderr).toEqual("");
-      expect(result.stdout).not.toContain(
+      expect(trimmedStdout).not.toContain(
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+      expect(trimmedStdout).toContain(
+        `new NullProvider.resource.Resource(this,"dummy",{});`
       );
     });
   }, 30_000);
@@ -64,15 +68,16 @@ describe("convert command", () => {
         cwd,
         input,
       });
+      const trimmedStdout = result.stdout.replace(/\n\s*/g, "");
       expect(result.stderr).toEqual("");
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `import * as NullProvider from "./.gen/providers/null";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+      expect(trimmedStdout).toContain(
+        `new NullProvider.resource.Resource(this,"dummy",{});`
       );
     });
   }, 30_000);
@@ -129,17 +134,18 @@ describe("convert command", () => {
           }`,
         }
       );
+      const trimmedStdout = result.stdout.replace(/\n\s*/g, "");
       expect(result.stderr).toEqual("");
-      expect(result.stdout).not.toContain(
+      expect(trimmedStdout).not.toContain(
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `import * as kubernetes from "./.gen/providers/kubernetes";`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `new kubernetes.deployment.Deployment(this, "myapp", {`
       );
-      expect(result.stdout).toContain(`template: {`);
+      expect(trimmedStdout).toContain(`template: {`);
     });
   }, 30_000);
 
@@ -195,17 +201,18 @@ describe("convert command", () => {
           }`,
         }
       );
+      const trimmedStdout = result.stdout.replace(/\n\s*/g, "");
       expect(result.stderr).toEqual("");
-      expect(result.stdout).not.toContain(
+      expect(trimmedStdout).not.toContain(
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `import * as kubernetes from "./.gen/providers/kubernetes";`
       );
-      expect(result.stdout).toContain(
+      expect(trimmedStdout).toContain(
         `new kubernetes.deployment.Deployment(this, "myapp", {`
       );
-      expect(result.stdout).toContain(`template: {`);
+      expect(trimmedStdout).toContain(`template: {`);
     });
   }, 30_000);
 });
