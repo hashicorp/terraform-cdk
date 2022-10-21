@@ -1,9 +1,13 @@
 FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node14
 
+USER root
+
 ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
 
-RUN yum install -y unzip jq gcc gcc-c++ time && curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
+
+RUN apt-get update -y && apt-get install -y unzip jq build-essential time
+RUN curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 RUN npm install -g @sentry/cli --unsafe-perm
 
 ENV TF_PLUGIN_CACHE_DIR="/root/.terraform.d/plugin-cache"           \
