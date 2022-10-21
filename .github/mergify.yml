@@ -1,0 +1,52 @@
+shared:
+  # sharing this configuration: https://docs.mergify.com/configuration/#shared
+  ci: &ci_checks
+    # We need to replicate the ignore-paths here as well
+    # examples.yml
+    - or:
+        # Either none of the files are modified
+        - -files~=^(examples/|packages/|.terraform.versions.json|package.json)
+        # Or we need the check to succeed
+        - status-success=examples_done
+    # unit.yml
+    - or:
+        # Either none of the files are modified
+        - -files~=^(packages/|.terraform.versions.json|package.json|tools/build-unit-test-matrix.sh)
+        # Or we need the check to succeed
+        - status-success=examples_done
+    # integration.yml
+    - or:
+        # Either none of the files are modified
+        - -files~=^(test/|packages/|.terraform.versions.json|package.json|tools/build-test-matrix.sh)
+        # Or we need the checks to succeed
+        - and:
+            - status-success=linux_integration_done
+            - status-success=windows_integration_done
+      # provider.yml
+    - or:
+        # Either none of the files are modified
+        - -files~=^(test/provider-tests/|packages/@cdktf/provider-generator/**|package.json|tools/build-provider-test-matrix.sh)
+        # Or we need the checks to succeed
+        - and:
+            - status-success=linux_provider_done
+            - status-success=windows_provider_done
+
+    - status-success=unit_tests_done
+
+queue_rules:
+  - name: default
+    conditions:
+      - "#approved-reviews-by>=1"
+      - -label~=(blocked/do-not-merge )
+      - and: *ci_checks
+pull_request_rules:
+  - name: Automatic merge on approval and successful build
+    actions:
+      delete_head_branch: {}
+      queue:
+        method: rebase
+        name: default
+    conditions:
+      - "#approved-reviews-by>=1"
+      - -label~=(blocked/do-not-merge )
+      - and: *ci_checks

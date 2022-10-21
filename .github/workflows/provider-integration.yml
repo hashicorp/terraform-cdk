@@ -4,6 +4,8 @@ on:
     paths:
       - "packages/@cdktf/provider-generator/**"
       - "test/provider-tests/**"
+      - "package.json"
+      - "tools/build-provider-test-matrix.sh"
 
 concurrency:
   group: provider-${{ github.head_ref }}

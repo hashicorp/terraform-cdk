@@ -1,12 +1,12 @@
 name: Unit Tests
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      - "packages/**"
+      - "tools/build-unit-test-matrix.sh"
+      - "package.json"
+      - ".terraform.versions.json"
+
   workflow_call:
     inputs:
       concurrency_group_prefix:

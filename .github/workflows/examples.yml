@@ -1,12 +1,11 @@
 name: Examples Integration
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      - "examples/**"
+      - "packages/**"
+      - ".terraform.versions.json"
+      - "package.json"
 
 concurrency:
   group: examples-${{ github.head_ref }}

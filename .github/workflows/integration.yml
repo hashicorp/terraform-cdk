@@ -1,12 +1,12 @@
 name: Integration Tests
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      - "test/**"
+      - "packages/**"
+      - "./tools/build-test-matrix.sh"
+      - ".terraform.versions.json"
+      - "package.json"
   workflow_call:
     inputs:
       skip_setup:
