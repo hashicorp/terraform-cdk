@@ -68,3 +68,4 @@ jobs:
           npx lerna run --scope '${{ matrix.target }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.yarn-cache-dir-path.outputs.dir }}/terraform-plugins
