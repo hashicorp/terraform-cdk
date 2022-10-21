@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-example-matrix:
+  build_example_matrix:
     runs-on: ubuntu-latest
     outputs:
       examples: ${{ steps.set-examples.outputs.examples }}
@@ -28,11 +28,11 @@ jobs:
           echo "::set-output name=examples::$examples"
 
   examples:
-    needs: build-example-matrix
+    needs: build_example_matrix
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
+      matrix: ${{fromJSON(needs.build_example_matrix.outputs.examples)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -58,3 +58,10 @@ jobs:
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
+
+  examples_done:
+    needs: [examples]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'

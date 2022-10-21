@@ -10,7 +10,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-provider-tests:
+  prepare_provider_tests:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-provider-test-matrix.outputs.tests }}
@@ -48,11 +48,11 @@ jobs:
           ./tools/build-provider-test-matrix.sh
 
   linux_provider:
-    needs: prepare-provider-tests
+    needs: prepare_provider_tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-provider-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare_provider_tests.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -75,12 +75,19 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
 
+  linux_provider_done:
+    needs: [linux_provider]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'
+
   windows_provider:
-    needs: prepare-provider-tests
+    needs: prepare_provider_tests
     runs-on: windows-2019
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-provider-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare_provider_tests.outputs.tests)}}
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
@@ -114,3 +121,10 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
+
+  windows_provider_done:
+    needs: [windows_provider]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'

@@ -19,7 +19,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build-test-matrix:
+  build_test_matrix:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
@@ -31,7 +31,7 @@ jobs:
         run: |
           ./tools/build-unit-test-matrix.sh
 
-  unit-tests:
+  unit_tests:
     needs: build-test-matrix
     runs-on: ubuntu-latest
     strategy:
@@ -68,3 +68,10 @@ jobs:
           npx lerna run --scope '${{ matrix.target }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+
+  unit_tests_done:
+    needs: [unit_tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'

@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prepare-integration-tests:
+  prepare_integration_tests:
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
@@ -78,11 +78,11 @@ jobs:
           ./tools/build-test-matrix.sh
 
   linux_integration:
-    needs: prepare-integration-tests
+    needs: prepare_integration_tests
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare_integration_tests.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -112,12 +112,19 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
 
+  linux_integration_done:
+    needs: [linux_integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'
+
   windows_integration:
-    needs: prepare-integration-tests
+    needs: prepare_integration_tests
     runs-on: windows-2019
     strategy:
       fail-fast: false
-      matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
+      matrix: ${{fromJSON(needs.prepare_integration_tests.outputs.tests)}}
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
@@ -157,3 +164,10 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=7168"
+
+  windows_integration_done:
+    needs: [windows_integration]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Done
+        run: echo 'done'
