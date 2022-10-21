@@ -38,6 +38,13 @@ queue_rules:
       - -label~=(blocked/do-not-merge )
       - and: *ci_checks
 pull_request_rules:
+  - name: Trigger CI once the PR is not in draft
+    actions:
+      label:
+        add: ci/run
+    conditions:
+      - -conflict
+      - -draft
   - name: Automatic merge on approval and successful build
     actions:
       delete_head_branch: {}

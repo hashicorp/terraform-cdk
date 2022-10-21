@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   build_example_matrix:
+    if: contains(github.event.pull_request.labels.*.name, 'ci/run')
     runs-on: ubuntu-latest
     outputs:
       examples: ${{ steps.set-examples.outputs.examples }}

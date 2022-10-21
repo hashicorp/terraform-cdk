@@ -13,6 +13,7 @@ concurrency:
 
 jobs:
   prepare_provider_tests:
+    if: contains(github.event.pull_request.labels.*.name, 'ci/run')
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-provider-test-matrix.outputs.tests }}

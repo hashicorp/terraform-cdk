@@ -25,6 +25,7 @@ concurrency:
 
 jobs:
   prepare_integration_tests:
+    if: contains(github.event.pull_request.labels.*.name, 'ci/run')
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
