@@ -1,6 +1,7 @@
 name: Integration Tests
 on:
   pull_request:
+    # This needs to be in sync with the mergify.yml
     paths:
       - "test/**"
       - "packages/**"

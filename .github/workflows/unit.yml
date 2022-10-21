@@ -1,6 +1,7 @@
 name: Unit Tests
 on:
   pull_request:
+    # This needs to be in sync with the mergify.yml
     paths:
       - "packages/**"
       - "tools/build-unit-test-matrix.sh"

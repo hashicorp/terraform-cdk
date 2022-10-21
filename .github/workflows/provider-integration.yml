@@ -1,6 +1,7 @@
 name: Provider Integration Tests
 on:
   pull_request:
+    # This needs to be in sync with the mergify.yml
     paths:
       - "packages/@cdktf/provider-generator/**"
       - "test/provider-tests/**"

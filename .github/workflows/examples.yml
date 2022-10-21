@@ -1,6 +1,7 @@
 name: Examples Integration
 on:
   pull_request:
+    # This needs to be in sync with the mergify.yml
     paths:
       - "examples/**"
       - "packages/**"
