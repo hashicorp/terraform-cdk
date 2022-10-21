@@ -1,4 +1,4 @@
-FROM docker.mirror.hashicorp.services/jsii/superchain:node14
+FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node14
 
 ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
