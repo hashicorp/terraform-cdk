@@ -69,7 +69,7 @@ jobs:
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
 
-  unit_tests_done:
+  unit_tests_success:
     needs: [unit_tests]
     runs-on: ubuntu-latest
     steps:

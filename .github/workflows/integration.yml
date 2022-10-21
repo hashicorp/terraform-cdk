@@ -112,7 +112,7 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
 
-  linux_integration_done:
+  linux_integration_success:
     needs: [linux_integration]
     runs-on: ubuntu-latest
     steps:
@@ -165,7 +165,7 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=7168"
 
-  windows_integration_done:
+  windows_integration_success:
     needs: [windows_integration]
     runs-on: ubuntu-latest
     steps:

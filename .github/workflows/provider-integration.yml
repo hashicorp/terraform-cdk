@@ -77,7 +77,7 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
 
-  linux_provider_done:
+  linux_provider_success:
     needs: [linux_provider]
     runs-on: ubuntu-latest
     steps:
@@ -124,7 +124,7 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
 
-  windows_provider_done:
+  windows_provider_success:
     needs: [windows_provider]
     runs-on: ubuntu-latest
     steps:

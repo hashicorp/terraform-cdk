@@ -58,7 +58,7 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
 
-  examples_done:
+  examples_success:
     needs: [examples]
     runs-on: ubuntu-latest
     steps:
