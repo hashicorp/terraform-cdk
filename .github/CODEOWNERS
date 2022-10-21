@@ -15,3 +15,11 @@
 # We need to include the CDKTF team as well to ensure Laura
 # is not the only one notified.
 website/docs/ @hashicorp/cdktf @laurapacilio
+
+# No codeowners for these files, as they are generated.
+# This way, Laura does not get notified if only these files changed.
+website/docs/cdktf/api-reference/typescript.mdx
+website/docs/cdktf/api-reference/python.mdx
+website/docs/cdktf/api-reference/java.mdx
+website/docs/cdktf/api-reference/csharp.mdx
+website/docs/cdktf/api-reference/go.mdx
