@@ -30,6 +30,27 @@ shared:
         - and:
             - status-success=linux_provider_success
             - status-success=windows_provider_success
+  list_of_reviewers: &list_of_reviewers
+    - ansgarm
+    - DanielMSchmidt
+    - mutahhir
+  hashi_contributor: &hashi_contributor
+    - or:
+        - author=ansgarm
+        - author=DanielMSchmidt
+        - author=Maed223
+        - author=mutahhir
+        - author=xiehan
+  outside_contributor: &outside_contributor
+    - author=jsteinich
+  core_contributor: &core_contributor
+    - or:
+        - *hashi_contributor
+        - *outside_contributor
+  external_contributor: &external_contributor
+    - not:
+      or:
+        - *core_contributor
 
 queue_rules:
   - name: default
@@ -38,13 +59,54 @@ queue_rules:
       - -label~=(blocked/do-not-merge )
       - and: *ci_checks
 pull_request_rules:
-  - name: Trigger CI once the PR is not in draft
+  - name: Trigger CI once the PR
     actions:
       label:
         add: ci/run
     conditions:
       - -conflict
+      - or:
+          - -draft
+          - *external_contributor
+
+  - name: Assign reviewers if CI succeeds
+    actions:
+      request_reviews:
+        users: *list_of_reviewers
+        random_count: 1
+      label:
+        add:
+          - ready-for-review
+    conditions:
+      - -conflict
+      - "#approved-reviews-by<1"
+      - and: *ci_checks
+
+  - name: Ping on failing CI
+    actions:
+      label:
+        remove:
+          - ready-for-review
+      comment:
+        message: This PR fails CI. Could you fix it @{{author}}? 🙏
+    conditions:
+      - not: *ci_checks
+      - and: *hashi_contributor # Restrict to Hashicorp folks for now
+
+  - name: Ping on conflict
+    actions:
+      label:
+        remove:
+          - ready-for-review
+        add:
+          - merge-conflict
+      comment:
+        message: This PR has merge conflicts. Could you fix it @{{author}}? 🙏
+    conditions:
       - -draft
+      - conflict
+      - and: *hashi_contributor # Restrict to Hashicorp folks for now
+
   - name: Automatic merge on approval and successful build
     actions:
       delete_head_branch: {}
