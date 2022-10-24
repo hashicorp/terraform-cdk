@@ -9,7 +9,14 @@ describe("Templates", () => {
     it("main.ts should contain the '// define resources here' mark", () => {
       expect(
         readFileSync(
-          path.resolve(__dirname, "..", "templates", "typescript", "main.ts"),
+          path.resolve(
+            __dirname,
+            "..",
+            "..",
+            "templates",
+            "typescript",
+            "main.ts"
+          ),
           "utf8"
         )
       ).toContain(CODE_MARKER);

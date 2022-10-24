@@ -2,10 +2,10 @@ import path from "path";
 import * as fs from "fs-extra";
 import os from "os";
 import { CdktfProject, init, Language, get } from "../../lib/index";
-import { exec } from "cdktf-cli/lib/util";
+import { exec } from "cdktf-cli/src/lib/util";
 
-jest.mock("cdktf-cli/lib/util", () => {
-  const originalModule = jest.requireActual("cdktf-cli/lib/util");
+jest.mock("cdktf-cli/src/lib/util", () => {
+  const originalModule = jest.requireActual("cdktf-cli/src/lib/util");
 
   return {
     __esmodule: true,
@@ -51,14 +51,14 @@ describe("terraform parallelism", () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
       destination: workingDirectory,
-      templatePath: path.join(__dirname, "../../templates/typescript"),
+      templatePath: path.join(__dirname, "../../../templates/typescript"),
       projectId: "test",
       projectInfo: {
         Description: "cdktf-api-test",
         Name: "cdktf-api-test",
       },
       sendCrashReports: false,
-      dist: path.join(__dirname, "../../../../dist"),
+      dist: path.join(__dirname, "../../../../../dist"),
     });
 
     fs.copyFileSync(

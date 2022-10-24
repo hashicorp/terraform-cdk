@@ -7,7 +7,7 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "lib": [
-      "es2018"
+      "es2020"
     ],
     "module": "CommonJS",
     "noEmitOnError": false,
@@ -24,20 +24,19 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
-    "incremental": true,
+    "incremental": false,
     "esModuleInterop": true
   },
   "files": [
-    "lib/ambient.d.ts"
+    "src/lib/ambient.d.ts"
   ],
   "include": [
-    "**/*.ts",
-    "test/ui/deploy.test.tsx"
+    "src/**/*.ts",
+    "src/test/ui/deploy.test.tsx"
   ],
   "exclude": [
     "node_modules",
     "../../node_modules/**",
-    "templates/**/*.ts",
     "**/*.d.ts",
     "**/*.test.tsx"
   ],
