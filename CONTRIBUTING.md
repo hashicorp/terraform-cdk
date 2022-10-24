@@ -62,6 +62,8 @@ $ yarn watch
 
 This will watch for changes in all packages.
 
+**Note (for cdktf-cli only):** We're using [esbuild](https://esbuild.github.io/) for transpilation and bundling of the Typescript code. However, `esbuild` only transpiles, but doesn't do any type checking. That's why we've added an extra step as a pre-commit hook which transpiles the code with `tsc` to ensure commits don't have type errors.
+
 ### CLI changes
 
 If your changes target only CLI and packages used by the CLI, running `yarn watch` will be sufficient. Although it's technically a bit different from what we ship you should be able to use a direct path to our binary entry point to execute commands. You can put this in a shell alias like this:
