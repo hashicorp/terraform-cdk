@@ -30,7 +30,11 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(
+  this,
+  "dummy",
+  {}
+);`
       );
     });
   }, 30_000);
@@ -53,7 +57,11 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(
+  this,
+  "dummy",
+  {}
+);`
       );
     });
   }, 30_000);
@@ -72,7 +80,11 @@ describe("convert command", () => {
         `import * as NullProvider from "./.gen/providers/null";`
       );
       expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
+        `new NullProvider.resource.Resource(
+  this,
+  "dummy",
+  {}
+);`
       );
     });
   }, 30_000);
