@@ -155,8 +155,8 @@ describe("prebuilt-providers", () => {
 
   describe("getNpmPackageName", () => {
     it("fails when connection error", async () => {
-      nock("https://raw.githubusercontent.com/")
-        .get("/hashicorp/cdktf-repository-manager/main/provider.json")
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
@@ -164,9 +164,28 @@ describe("prebuilt-providers", () => {
       ).rejects.toThrowError("Connection error");
     });
 
-    it("succeeds when connection works", async () => {
+    it("succeeds when cdk.tf redirect and Github work", async () => {
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
+        .reply(307, undefined, {
+          Location:
+            "https://raw.githubusercontent.com/cdktf/cdktf-repository-manager/main/provider.json",
+        });
+
       nock("https://raw.githubusercontent.com/")
-        .get("/hashicorp/cdktf-repository-manager/main/provider.json")
+        .get("/cdktf/cdktf-repository-manager/main/provider.json")
+        .reply(200, {
+          test: "hashicorp/test@~> 0.3.3",
+        });
+
+      await expect(
+        getNpmPackageName(ProviderConstraint.fromConfigEntry("test"))
+      ).resolves.toEqual("@cdktf/provider-test");
+    });
+
+    it("succeeds when cdk.tf directly returns result", async () => {
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
         .reply(200, {
           test: "hashicorp/test@~> 0.3.3",
         });
@@ -179,8 +198,8 @@ describe("prebuilt-providers", () => {
 
   describe("getPrebuiltProviderVersion", () => {
     it("returns null on connection error with github", async () => {
-      nock("https://raw.githubusercontent.com/")
-        .get("/hashicorp/cdktf-repository-manager/main/provider.json")
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
         .replyWithError({ code: "ETIMEDOUT" });
 
       await expect(
@@ -192,8 +211,8 @@ describe("prebuilt-providers", () => {
     });
 
     it("returns null on connection error with npm", async () => {
-      nock("https://raw.githubusercontent.com/")
-        .get("/hashicorp/cdktf-repository-manager/main/provider.json")
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
         .reply(200, {
           test: "hashicorp/test@~> 0.3.3",
         });
@@ -210,9 +229,9 @@ describe("prebuilt-providers", () => {
       ).rejects.toThrowError("Connection error");
     });
 
-    it("succeeds when both github and npm work", async () => {
-      nock("https://raw.githubusercontent.com/")
-        .get("/hashicorp/cdktf-repository-manager/main/provider.json")
+    it("succeeds when both cdk.tf and npm work", async () => {
+      nock("https://www.cdk.tf/")
+        .get("/.well-known/prebuilt-providers.json")
         .reply(200, {
           test: "hashicorp/test@~> 0.3.3",
         });
