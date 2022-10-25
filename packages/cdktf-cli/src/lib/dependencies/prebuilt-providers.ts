@@ -1,6 +1,5 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-// TODO: introduce caching for the calls to NPM
 
 import { HttpsProxyAgent } from "https-proxy-agent";
 import fetch from "node-fetch";
@@ -16,7 +15,7 @@ if (proxy) {
 }
 
 // uses https://github.com/hashicorp/cdktf-repository-manager/blob/main/provider.json
-const providersMapUrl = `https://raw.githubusercontent.com/hashicorp/cdktf-repository-manager/main/provider.json`;
+const providersMapUrl = `https://www.cdk.tf/.well-known/prebuilt-providers.json`;
 type ProvidersMap = {
   [name: string]: string;
 };
