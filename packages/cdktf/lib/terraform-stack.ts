@@ -33,6 +33,7 @@ export interface TerraformStackMetadata {
   readonly stackName: string;
   readonly version: string;
   readonly backend: string;
+  readonly cloud?: string;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -224,6 +225,7 @@ export class TerraformStack extends Construct {
       version: this.cdktfVersion,
       stackName: this.node.id,
       backend: "local", // overwritten by backend implementations if used
+      cloud: undefined, // overwritten by cloud and remote backend implementations
       ...(Object.keys(this.rawOverrides).length > 0
         ? { overrides: { stack: Object.keys(this.rawOverrides) } }
         : {}),

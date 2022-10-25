@@ -18,6 +18,13 @@ export class RemoteBackend extends TerraformBackend {
     return keysToSnakeCase({ ...this.props });
   }
 
+  public toMetadata() {
+    const cloud = [undefined, "app.terraform.io"].includes(this.props.hostname)
+      ? "tfc"
+      : "tfe";
+    return { ...super.toMetadata(), cloud };
+  }
+
   public getRemoteStateDataSource(
     scope: Construct,
     name: string,

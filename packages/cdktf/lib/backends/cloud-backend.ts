@@ -40,6 +40,13 @@ export class CloudBackend extends TerraformBackend {
     };
   }
 
+  public toMetadata() {
+    const cloud = [undefined, "app.terraform.io"].includes(this.props.hostname)
+      ? "tfc"
+      : "tfe";
+    return { ...super.toMetadata(), cloud };
+  }
+
   protected synthesizeAttributes(): { [name: string]: any } {
     return keysToSnakeCase({
       ...this.props,
