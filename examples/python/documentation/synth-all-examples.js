@@ -1,26 +1,28 @@
 const fs = require("fs");
 const path = require("path");
-const exec = require("child_process").execSync;
+const exec = require("child_process").exec;
 
-// find all main.py files
-const files = fs.readdirSync(path.resolve(__dirname))
+(async function () {
+  // find all main.py files
+  const files = fs.readdirSync(path.resolve(__dirname));
 
-const targets = files.filter(file => file.startsWith("main-") && file.endsWith(".py"))
+  const targets = files.filter(
+    (file) => file.startsWith("main-") && file.endsWith(".py")
+  );
 
-console.log(targets)
-let failed = false;
-// synth each main.py file
-for (const target of targets){
-    try{
-        exec(`cdktf synth --app "pipenv run python ${target}"`)
-    } catch(e){
-        console.error(e.message)
-        failed = true;
-    }
-    
-}
-
-if(failed){
-    console.error("One or more examples failed to synth")
-    process.exit(1)
-}
+  console.log(targets);
+  // synth each main.py file
+  try {
+    await Promise.all(
+      targets.map((target) =>
+        exec(`cdktf synth --app "pipenv run python ${target}"`, {
+          cwd: path.resolve(__dirname),
+          shell: true,
+        })
+      )
+    );
+  } catch (e) {
+    console.error("One or more examples failed to synth");
+    process.exit(1);
+  }
+})();
