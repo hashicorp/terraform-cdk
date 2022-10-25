@@ -27,13 +27,13 @@ jobs:
       - id: tf-version
         run: |
           DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
-          echo "::set-output name=default::$DEFAULT_TERRAFORM_VERSION"
+          echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v2
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
@@ -81,7 +81,7 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -121,7 +121,7 @@ jobs:
         name: Find mutations
         run: |
           git add .
-          git diff --cached --exit-code || echo "::set-output name=self_mutation_happened::true"
+          git diff --cached --exit-code || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
 
       - name: Commit changes
         if: steps.self_mutation.outputs.self_mutation_happened
@@ -170,7 +170,7 @@ jobs:
 
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
       - uses: actions/cache@v2
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
@@ -211,7 +211,7 @@ jobs:
         shell: bash # run in Git bash shell (makes '||' work)
         run: |
           git add .
-          git diff --cached --exit-code || echo "::set-output name=self_mutation_happened::true"
+          git diff --cached --exit-code || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
 
       - name: Commit changes
         if: steps.self_mutation.outputs.self_mutation_happened
