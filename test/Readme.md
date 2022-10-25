@@ -20,7 +20,7 @@ $ yarn install
 $ yarn build
 $ yarn run package # creates "dist/"
 $ cd test
-$ yarn edgeprovider:install
+$ yarn edge:install
 $ ./run-against-dist npx jest --runInBand
 ```
 

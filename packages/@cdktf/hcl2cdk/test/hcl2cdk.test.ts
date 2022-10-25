@@ -27,7 +27,7 @@ enum Synth {
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
-const cdktfBin = path.join(__dirname, "../../../cdktf-cli/bin/cdktf");
+const cdktfBin = path.join(__dirname, "../../../cdktf-cli/bundle/bin/cdktf");
 const cdktfDist = path.join(__dirname, "../../../../dist");
 
 const createTestCase =

@@ -34,7 +34,12 @@ async function get(url: string, token: string) {
   return new Promise<any>((ok, ko) => {
     const req = https.request(
       format(url),
-      { headers: { Authorization: `Bearer ${token}` } },
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "User-Agent": "HashiCorp/cdktf-cli",
+        },
+      },
       (res) => {
         if (res.statusCode !== 200) {
           if (res.statusCode === 401) {
@@ -70,6 +75,7 @@ async function post(url: string, token: string, data: string) {
           Authorization: `Bearer ${token}`,
           "Content-Type": "application/vnd.api+json",
           "Content-Length": data.length,
+          "User-Agent": "HashiCorp/cdktf-cli",
         },
         method: "POST",
       },

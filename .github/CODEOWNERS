@@ -1,0 +1,25 @@
+# We use this for automatic PR review assignment within Github.
+# We don't intent to gatekeep certain parts of the codebase and
+# won't use it in branch protection rules.
+# If individual users are specified in this file, this is mainly to
+# inform them of certain PRs and we don't require a review from them
+# to be able to merge PRs.
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence, 
+# they will be requested for review when someone opens a 
+# pull request.
+*       @hashicorp/cdktf
+
+# Laura likes to get notifications if changes happen to docs.
+# We need to include the CDKTF team as well to ensure Laura
+# is not the only one notified.
+website/docs/ @hashicorp/cdktf @laurapacilio
+
+# No codeowners for these files, as they are generated.
+# This way, Laura does not get notified if only these files changed.
+website/docs/cdktf/api-reference/typescript.mdx
+website/docs/cdktf/api-reference/python.mdx
+website/docs/cdktf/api-reference/java.mdx
+website/docs/cdktf/api-reference/csharp.mdx
+website/docs/cdktf/api-reference/go.mdx
