@@ -4,12 +4,14 @@ exports[`full integration test main.ts is valid 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as Test from \\"./.gen/modules/modules/test\\";
 
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Construct } from \\"constructs\\";
 import { App, TerraformStack } from \\"cdktf\\";
 
 class MyStack extends TerraformStack {
-  constructor(scope: Construct, name: string) {
-    super(scope, name);
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
     const test = new Test.Test(this, \\"test\\", {});
     new cdktf.TerraformOutput(this, \\"module_value\\", {
