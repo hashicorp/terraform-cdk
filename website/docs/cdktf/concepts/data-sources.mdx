@@ -41,23 +41,20 @@ export class HelloTerraform extends TerraformStack {
 
 ```python
 from cdktf import TerraformStack, App
-from cdktf import DataTerraformRemoteState
+from imports.aws.data_aws_region import DataAwsRegion
+from imports.aws.provider import AwsProvider
 
 
-class HelloTerraformRemoteState(TerraformStack):
+class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        # .....
-        remoteState = DataTerraformRemoteState(self,
-                                               organization="hashicorp",
-                                               workspace='vpc-prod'
-                                               )
+        AwsProvider(self, "temp",
+                    region="us-east-1"
+                    )
 
-        Instance(self, "foo",
-                 # .....
-                 subnet_id=remoteState.get('subnet_id')
-                 )
+        # .....
+        region = DataAwsRegion(self, "region")
 
 
 ```
@@ -111,6 +108,25 @@ export class HelloTerraform extends TerraformStack {
 ```
 
 ```python
+from cdktf import TerraformStack, App
+from cdktf import DataTerraformRemoteState
+
+
+class HelloTerraformRemoteState(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        # .....
+        remoteState = DataTerraformRemoteState(self,
+                                               organization="hashicorp",
+                                               workspace='vpc-prod'
+                                               )
+
+        Instance(self, "foo",
+                 # .....
+                 subnet_id=remoteState.get('subnet_id')
+                 )
+
 
 ```
 

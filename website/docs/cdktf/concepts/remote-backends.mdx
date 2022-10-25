@@ -57,12 +57,25 @@ new Mystack(app, "hello-terraform");
 ```
 
 ```python
-stack.add_override("terraform.backend",{
-    "atlas": {
-        "name": "example_corp/networking-prod",
-        "address": "https://app.terraform.io"
-    }
-})
+from constructs import Construct
+from cdktf import App, CloudBackend, NamedCloudWorkspace, TerraformStack, TerraformOutput
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        CloudBackend(self,
+            hostname = "app.terraform.io",
+            organization = "company",
+            workspaces = NamedCloudWorkspace("my-app-prod")
+        )
+
+        TerraformOutput(self, "dns-server",
+            value = "hello-world"
+        )
+
+app = App()
+MyStack(app, "hello-terraform")
+app.synth
 ```
 
 ```java
@@ -143,7 +156,12 @@ new CloudBackend(stack, {
 ```
 
 ```python
-
+stack = Stack(App(), "hi-terraform")
+        CloudBackend(self,
+            hostname = "app.terraform.io",
+            organization = "company",
+            workspaces = NamedCloudWorkspace("my-app-prod")
+        )
 ```
 
 ```java
@@ -289,7 +307,12 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```python
-
+stack.add_override("terraform.backend",{
+    "atlas": {
+        "name": "example_corp/networking-prod",
+        "address": "https://app.terraform.io"
+    }
+})
 ```
 
 ```java
