@@ -11,7 +11,7 @@ Terraform stores [state](/language/state) about managed infrastructure to map re
 
 By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
 
-You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](/cloud), another Terraform [supported backend](#supported-backends), or a custom location.
+You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform Cloud](https://cloud.hashicorp.com/products/terraform), another Terraform [supported backend](#supported-backends), or a custom location.
 
 ## When to Use Remote Backends
 
@@ -216,7 +216,7 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new LocalBackend(stack, {...});
   ```
-- [artifactory](/language/settings/backends/artifactory)
+- [artifactory](/language/v1.2.x/settings/backends/artifactory)
   ```typescript
   new ArtifactoryBackend(stack, {...});
   ```
@@ -232,11 +232,11 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new CosBackend(stack, {...});
   ```
-- [etcd](/language/settings/backends/etcd)
+- [etcd](/language/v1.2.x/settings/backends/etcd)
   ```typescript
   new EtcdBackend(stack, {...});
   ```
-- [etcdv3](/language/settings/backends/etcdv3)
+- [etcdv3](/language/v1.2.x/settings/backends/etcdv3)
   ```typescript
   new EtcdV3Backend(stack, {...});
   ```
@@ -248,7 +248,7 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new HttpBackend(stack, {...});
   ```
-- [manta](/language/settings/backends/manta)
+- [manta](/language/v1.2.x/settings/backends/manta)
   ```typescript
   new MantaBackend(stack, {...});
   ```
@@ -264,7 +264,7 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new S3Backend(stack, {...});
   ```
-- [swift](/language/settings/backends/swift)
+- [swift](/language/v1.2.x/settings/backends/swift)
   ```typescript
   new SwiftBackend(stack, {...});
   ```

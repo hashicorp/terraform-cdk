@@ -139,9 +139,9 @@ new Deployment(this, "nginx-deployment", {
 
 ## Provisioners
 
-Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](https://www.terraform.io/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
+Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
 
-If you need to use the special [`self` object](https://www.terraform.io/language/resources/provisioners/syntax#the-self-object) that can only be used in `provisioner` and `connection` blocks to refer to the parent resource you can use the `TerraformSelf` class like this: `TerraformSelf.getString("public_ip")`.
+If you need to use the special [`self` object](/language/resources/provisioners/syntax#the-self-object) that can only be used in `provisioner` and `connection` blocks to refer to the parent resource you can use the `TerraformSelf` class like this: `TerraformSelf.getString("public_ip")`.
 
 ## Escape Hatch
 
