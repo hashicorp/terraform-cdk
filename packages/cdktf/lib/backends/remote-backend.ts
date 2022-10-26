@@ -19,7 +19,11 @@ export class RemoteBackend extends TerraformBackend {
   }
 
   public toMetadata() {
-    const cloud = [undefined, "app.terraform.io"].includes(this.props.hostname)
+    const cloud = [
+      undefined,
+      "app.terraform.io",
+      "app.terraform.io:80",
+    ].includes(this.props.hostname)
       ? "tfc"
       : "tfe";
     return { ...super.toMetadata(), cloud };
