@@ -453,7 +453,7 @@ export async function providerUpgrade(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed."
     );
 
   const manager = new DependencyManager(

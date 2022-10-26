@@ -275,7 +275,7 @@ class PythonPackageManager extends PackageManager {
         .find((line) => line.includes(packageName));
 
       logger.debug(
-        `Read requirements file and found line including ${packageName}: ${requirementLine}`
+        `Read requirements.txt file and found line including ${packageName}: ${requirementLine}`
       );
 
       if (requirementLine) {
@@ -583,7 +583,6 @@ class MavenPackageManager extends PackageManager {
       const pom = await fs.readFile(pomPath, "utf8");
       const pomXml = (await xml2js(pom, {})) as Element;
 
-      // Dependencies
       const dependencies =
         pomXml.elements
           ?.find((el) => el.name === "project")

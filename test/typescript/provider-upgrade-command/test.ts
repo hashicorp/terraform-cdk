@@ -36,7 +36,7 @@ describe("provider upgrade command", () => {
       );
     });
 
-    it("can update withing the same cdktf version to the latest version", async () => {
+    it("can update within the same cdktf version to the latest version", async () => {
       expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
         "^0.2.55"
       );
@@ -91,7 +91,7 @@ describe("provider upgrade command", () => {
     });
 
     onWindows(
-      "adds local provider on windows",
+      "upgrade local provider on windows",
       async () => {
         await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
