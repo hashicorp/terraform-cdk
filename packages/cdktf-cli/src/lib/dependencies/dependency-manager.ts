@@ -161,7 +161,7 @@ export class DependencyManager {
       return { addedLocalProvider: true };
     } else {
       throw Errors.Usage(
-        `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add" to add it.`
+        `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
       );
     }
   }
@@ -169,7 +169,7 @@ export class DependencyManager {
   async getCurrentlyInstalledVersion(constraint: ProviderConstraint) {
     console.log(`Checking if ${constraint.simplifiedName} is installed...`);
     const packageName = await this.getPackageName(constraint);
-    logger.debug(`Expecting package ${packageName} to be installed`);
+    logger.debug(`Expecting package ${packageName} to be installed if provider is installed as pre-built one`);
 
     let installedPackages;
     try {
@@ -202,7 +202,7 @@ export class DependencyManager {
       await this.packageManager.addPackage(packageName, packageVersion);
     } else {
       console.log(
-        `The latest version of ${packageName} is the currently installed version (${packageVersion}).`
+        `The latest version of ${packageName} is already installed: ${packageVersion}`
       );
     }
   }

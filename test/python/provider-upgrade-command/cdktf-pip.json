@@ -1,7 +1,7 @@
 {
   "language": "python",
   "app": "python3 ./main.py",
-  "terraformProviders": ["hashicorp/null@~> 3.1.0"],
+  "terraformProviders": [],
   "terraformModules": [],
   "codeMakerOutput": "imports",
   "context": {
