@@ -219,7 +219,6 @@ export async function get(argv: {
 }
 
 export async function init(argv: any) {
-  console.log(argv);
   await terraformCheck();
   await displayVersionMessage();
   await checkEnvironment();
@@ -393,14 +392,13 @@ export async function providerAdd(argv: any) {
     throw Errors.External(
       "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
     );
-
-  const needsGet = await providerAddLib(
-    argv.provider,
-    language,
-    cdktfVersion,
-    config.projectDirectory,
-    argv.forceLocal
-  );
+  const needsGet = await providerAddLib({
+    providers: argv.provider,
+    language: language,
+    projectDirectory: config.projectDirectory,
+    cdktfVersion: cdktfVersion,
+    forceLocal: argv.forceLocal,
+  });
 
   if (needsGet) {
     console.log(

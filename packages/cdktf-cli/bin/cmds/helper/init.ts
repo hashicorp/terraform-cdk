@@ -245,14 +245,14 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const providers = argv.providers?.length
     ? argv.providers
     : await getProviders();
-  if (providers) {
-    const needsGet = await providerAdd(
-      providers,
-      cdktfConfig.language,
-      destination,
-      argv.cdktfVersion,
-      argv.providersForceLocal
-    );
+  if (providers?.length) {
+    const needsGet = await providerAdd({
+      providers: providers,
+      language: cdktfConfig.language,
+      projectDirectory: destination,
+      cdktfVersion: argv.cdktfVersion,
+      forceLocal: argv.providersForceLocal,
+    });
     if (needsGet) {
       execSync("npm run get", { cwd: destination });
     }
@@ -268,7 +268,8 @@ async function getProviders(): Promise<string[] | undefined> {
   if (!isInteractiveTerminal()) {
     return Promise.resolve(undefined);
   }
-  const options = Object.keys(await getAllPrebuiltProviders());
+  const prebulitProviders = await getAllPrebuiltProviders();
+  const options = Object.keys(prebulitProviders);
   const { providers: selection } = await inquirer.prompt([
     {
       type: "checkbox",
@@ -277,8 +278,9 @@ async function getProviders(): Promise<string[] | undefined> {
       choices: options,
     },
   ]);
-
-  return selection;
+  return Object.entries(prebulitProviders)
+    .filter((provider) => selection.includes(provider[0]))
+    .map((provider) => provider[1]);
 }
 
 function copyLocalModules(

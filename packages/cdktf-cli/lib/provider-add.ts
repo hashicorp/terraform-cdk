@@ -5,13 +5,21 @@ import {
 } from "./dependencies/dependency-manager";
 import { determineDeps } from "./init";
 
-export async function providerAdd(
-  providers: string[],
-  language: Language,
-  projectDirectory: string,
-  cdktfVersion?: string,
-  forceLocal?: boolean
-): Promise<boolean> {
+export type ProviderAddArgs = {
+  providers: string[];
+  language: Language;
+  projectDirectory: string;
+  cdktfVersion?: string;
+  forceLocal?: boolean;
+};
+
+export async function providerAdd({
+  providers,
+  language,
+  projectDirectory,
+  cdktfVersion,
+  forceLocal,
+}: ProviderAddArgs): Promise<boolean> {
   const version =
     cdktfVersion || (await determineDeps(cdktfVersion)).cdktf_version;
 
@@ -21,7 +29,6 @@ export async function providerAdd(
 
   for (const provider of providers) {
     const constraint = ProviderConstraint.fromConfigEntry(provider);
-
     if (forceLocal) {
       needsGet = true;
       await manager.addLocalProvider(constraint);
