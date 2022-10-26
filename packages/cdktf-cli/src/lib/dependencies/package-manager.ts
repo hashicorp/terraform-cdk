@@ -280,7 +280,7 @@ class PythonPackageManager extends PackageManager {
 
       if (requirementLine) {
         if (packageVersion ? requirementLine.includes(packageVersion) : true) {
-          console.log(
+          logger.info(
             `Package ${packageName} already installed. Skipping installation.`
           );
           return;
@@ -460,6 +460,11 @@ class NugetPackageManager extends PackageManager {
       return stdout
         .split("\n")
         .map((line) => {
+          // Example output:
+          // Project 'MyTerraformStack' has the following package references
+          //  [netcoreapp3.1]:
+          //  Top-level Package      Requested   Resolved
+          //  > HashiCorp.Cdktf      0.0.0       0.0.0
           // match[0] = full match
           // match[1] = package name
           // match[2] = a weird artifact I could not figure out how to exclude (last letter of the name)
@@ -714,6 +719,7 @@ class GoPackageManager extends PackageManager {
             );
           }
 
+          // part[0] could be github.com/aws/constructs-go/constructs/v10
           const name = parts[0].split("/").slice(0, 4).join("/");
 
           const version = parts[1].split("/")[0];
