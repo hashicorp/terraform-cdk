@@ -167,16 +167,17 @@ export class DependencyManager {
   }
 
   async getCurrentlyInstalledVersion(constraint: ProviderConstraint) {
-    console.log(`Checking if ${constraint.simplifiedName} is installed...`);
+    logger.info(`Checking if ${constraint.simplifiedName} is installed...`);
     const packageName = await this.getPackageName(constraint);
-    logger.debug(`Expecting package ${packageName} to be installed if provider is installed as pre-built one`);
+    logger.debug(
+      `Expecting package ${packageName} to be installed if provider is installed as pre-built one`
+    );
 
     let installedPackages;
     try {
       installedPackages = await this.packageManager.listProviderPackages();
     } catch (e) {
-      logger.debug(`Failed to list packages: ${e}`);
-      return undefined;
+      throw new Error(`Failed to list packages: ${e}`);
     }
 
     logger.debug(
