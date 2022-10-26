@@ -5,7 +5,7 @@ import path from "path";
 import { promises as fs } from "fs";
 import { mkdtemp } from "../../lib/util";
 
-const cdktfBin = path.resolve(__dirname, "../../bin/cdktf");
+const cdktfBin = path.resolve(__dirname, "../../../bundle/bin/cdktf");
 const input = `
 resource "null_resource" "dummy" {}
 `;

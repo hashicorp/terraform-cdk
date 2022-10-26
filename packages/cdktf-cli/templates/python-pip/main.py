@@ -4,8 +4,8 @@ from cdktf import App, TerraformStack
 
 
 class MyStack(TerraformStack):
-    def __init__(self, scope: Construct, ns: str):
-        super().__init__(scope, ns)
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
 
         # define resources here
 

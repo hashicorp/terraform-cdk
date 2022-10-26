@@ -11,7 +11,7 @@ Both lists and maps now allow accessing all computed attributes of an assignable
 
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
-These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](https://www.terraform.io/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
+These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
 
 ### Environment variable and CLI option changes
 

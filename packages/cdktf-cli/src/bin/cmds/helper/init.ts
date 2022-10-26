@@ -305,7 +305,7 @@ async function gatherInfo(
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
-  const questions = [];
+  const questions: any = [];
   if (!projectName) {
     questions.push({
       name: "projectName",
@@ -343,7 +343,7 @@ async function gatherInfo(
       token
     );
     const organizationData = organizationNames.data;
-    const organizationOptions = [];
+    const organizationOptions: string[] = [];
     for (const organization of organizationData) {
       organizationOptions.push(organization.id);
     }

@@ -31,7 +31,7 @@ function installFixturesInWorkingDirectory(
   return { outDir, workingDirectory };
 }
 
-jest.setTimeout(30000);
+jest.setTimeout(120_000);
 describe("CdktfProject", () => {
   let inNewWorkingDirectory: () => {
     workingDirectory: string;
@@ -41,14 +41,14 @@ describe("CdktfProject", () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
       destination: workingDirectory,
-      templatePath: path.join(__dirname, "../../templates/typescript"),
+      templatePath: path.join(__dirname, "../../../templates/typescript"),
       projectId: "test",
       projectInfo: {
         Description: "cdktf-api-test",
         Name: "cdktf-api-test",
       },
       sendCrashReports: false,
-      dist: path.join(__dirname, "../../../../dist"),
+      dist: path.join(__dirname, "../../../../../dist"),
     });
 
     fs.copyFileSync(
@@ -86,7 +86,7 @@ describe("CdktfProject", () => {
         outDir,
       };
     };
-  });
+  }, 100_000);
 
   it("should be able to create a CdktfProject", () => {
     const cdktfProject = new CdktfProject({

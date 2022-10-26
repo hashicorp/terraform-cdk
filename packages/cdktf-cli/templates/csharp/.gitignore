@@ -1,0 +1,5 @@
+# This gitignore file is used for development
+#
+# The "{{}}.gitignore" file is the one used in the
+# new CDKTF project created from this template
+obj/

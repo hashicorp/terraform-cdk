@@ -122,13 +122,13 @@ export async function verifySimilarLibraryVersion() {
 
   if (semver.major(libVersion) !== semver.major(cliVersion)) {
     throw Errors.Usage(
-      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers.`
+      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
     );
   }
 
   if (semver.minor(libVersion) !== semver.minor(cliVersion)) {
     throw Errors.Usage(
-      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers.`
+      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
     );
   }
 }
