@@ -190,6 +190,10 @@
     {
       "source": "/crash-reporting",
       "destination": "https://www.terraform.io/cdktf/telemetry#crash-reporting"
+    },
+    {
+      "source": "/.well-known/prebuilt-providers.json",
+      "destination": "https://raw.githubusercontent.com/hashicorp/cdktf-repository-manager/main/provider.json"
     }
   ]
 }
