@@ -162,10 +162,9 @@ export class Testing {
         const symbol = isLast ? "└" : "├";
         prefix = `${spaces}${symbol}── `;
       }
-      const name =
-        construct instanceof App
-          ? "App"
-          : `${construct.node.id} (${construct.constructor.name})`;
+      const name = App.isApp(construct)
+        ? "App"
+        : `${construct.node.id} (${construct.constructor.name})`;
       return `${prefix}${name}\n${construct.node.children
         .map((child, idx, arr) => {
           const isLast = idx === arr.length - 1;
