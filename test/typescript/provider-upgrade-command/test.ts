@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver, onPosix, onWindows } from "../../test-helper";
+import {
+  TestDriver,
+  onPosix,
+  onWindows,
+  packageJsonWithDependency,
+} from "../../test-helper";
 
 describe("provider upgrade command", () => {
   let driver: TestDriver;
@@ -25,35 +30,35 @@ describe("provider upgrade command", () => {
     });
 
     it("can update withing the same cdktf version to a specific version", async () => {
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "^0.2.55"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "^0.2.55")
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
 
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "^0.2.64"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "^0.2.64")
       );
     });
 
     it("can update within the same cdktf version to the latest version", async () => {
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "^0.2.55"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "^0.2.55")
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random"]);
 
       // Assert that we have version 0.2.64
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "^0.2.64"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "^0.2.64")
       );
     });
 
     it("can update withing the same cdktf version to the latest version in yarn", async () => {
       // Pin random provider version so that the upgrade can do anything
       await driver.exec("yarn", ["add", "@cdktf/provider-random@0.2.55"]);
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "0.2.55"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
       );
       await driver.exec("rm", ["-rf", "node_modules"]);
       await driver.exec("rm", ["package-lock.json"]);
@@ -61,8 +66,8 @@ describe("provider upgrade command", () => {
       await driver.exec("cdktf", ["provider", "upgrade", "random"]);
 
       // Assert that we have version 0.2.64
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        "0.2.64"
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
       );
     });
   });
