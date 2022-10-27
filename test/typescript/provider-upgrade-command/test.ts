@@ -97,7 +97,6 @@ describe("provider upgrade command", () => {
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
         Array [
-          "null@ ~> 3.1.0",
           "hashicorp/random@=3.2.0",
         ]
       `);
