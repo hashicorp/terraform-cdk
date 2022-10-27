@@ -2,7 +2,7 @@ from cdktf import TerraformStack, TerraformLocal, TerraformVariable, CloudBacken
 import imports.aws as aws
 from constructs import Construct
 
-class TestStack(TerraformStack):
+class VariablesOutputsDefineLocalStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
         #DOCS_BLOCK_START:var-out-define-local
@@ -31,23 +31,28 @@ class TestStack(TerraformStack):
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 
-class MyStackProps:
+class OutputValuesProps:
     myDomain: str
     def __init__(self, myDomain: str):
         self.myDomain = myDomain
 
-class MyStack(TerraformStack):
-    def __init__(self, scope: Construct, name: str, props: MyStackProps):
+class OutputValuesStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str, props: OutputValuesProps):
         super().__init__(scope, name)
 
         TerraformOutput(self, "my-domain",
             value = props.myDomain
         )
 
+#DOCS_BLOCK_END:var-out-output-values
+
+'''
+#DOCS_BLOCK_START:var-out-output-values
 app = App()
-MyStack(app, "cdktf-producer", MyStackProps(myDomain = "example.com"))
+OutputValuesStack(app, "cdktf-producer", OutputValuesProps(myDomain = "example.com"))
 app.synth()
 #DOCS_BLOCK_END:var-out-output-values
+'''
 
 #DOCS_BLOCK_START:var-out-define-output-values
 import imports.random as random
@@ -55,7 +60,7 @@ import imports.random as random
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 
-class MyStack(TerraformStack):
+class DefineOutputStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -66,11 +71,15 @@ class MyStack(TerraformStack):
             value = pet.id
         )
 
-app = App()
-MyStack(app, "cdktf-demo")
-app.synth()
 #DOCS_BLOCK_END:var-out-define-output-values
 
+'''
+#DOCS_BLOCK_START:var-out-define-output-values
+app = App()
+DefineOutputStack(app, "cdktf-demo")
+app.synth()
+#DOCS_BLOCK_END:var-out-define-output-values
+'''
 
 #DOCS_BLOCK_START:var-out-define-reference-remote-state
 import imports.random as random
@@ -112,8 +121,13 @@ class Consumer(TerraformStack):
             value = remoteState.get_string("random-pet")
         )
 
+#DOCS_BLOCK_END:var-out-define-reference-remote-state
+
+'''
+#DOCS_BLOCK_START:var-out-define-reference-remote-state
 app = App()
 Producer(app, "cdktf-producer")
 Consumer(app, "cdktf-consumer")
 app.synth()
 #DOCS_BLOCK_END:var-out-define-reference-remote-state
+'''

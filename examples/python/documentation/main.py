@@ -9,6 +9,9 @@ from modules import ModuleStack, HclModuleStack, ModuleWithOutputStack
 from providers import SimpleProviderStack, ProviderStack
 from remote_backend import RemoteBackendStack
 from resources import ResourceStack, ReferencesStack, EscapeHatch, ResourceOverrideStack, EscapeHatchDynamicStack, EscapeThroughLoopsStack
+from stacks import MySingleStack, MyMultipleStacks, MyMultipleStacksConfig, VPCStack, BackendStack, BackendStackConfig
+from tokens import TokenStack
+from variables_outputs import VariablesOutputsDefineLocalStack, OutputValuesStack, OutputValuesProps, DefineOutputStack, Producer, Consumer
 
 app = App()
 MyAssetStack(app, "assets")
@@ -34,4 +37,23 @@ EscapeHatch(app, "escape-hatch")
 ResourceOverrideStack(app, "resource-override")
 EscapeHatchDynamicStack(app, "escape-hatch-dynamic")
 EscapeThroughLoopsStack(app, "escape-through-loops")
+MySingleStack(app, "a-single-stack")
+MyMultipleStacks(app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
+MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
+MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
+origin = VPCStack(app, "origin-stack")
+BackendStack(app, "target-stack",
+    BackendStackConfig(
+        region = origin.region,
+        vpc_id = origin.vpc.vpc_id_output,
+        docker_image = "org/my-image:latest"
+    )
+)
+VariablesOutputsDefineLocalStack(app, "var-out-define-local")
+OutputValuesStack(app, "output-values-stack", OutputValuesProps(myDomain = "example.com"))
+DefineOutputStack(app, "define-output")
+Producer(app, "cdktf-producer")
+Consumer(app, "cdktf-consumer")
+TokenStack(app, "tokens")
+
 app.synth()

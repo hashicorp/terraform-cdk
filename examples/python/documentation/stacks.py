@@ -3,7 +3,7 @@ from constructs import Construct
 from cdktf import App, TerraformStack
 import imports.aws as aws
 
-class MyStack(TerraformStack):
+class MySingleStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -16,17 +16,22 @@ class MyStack(TerraformStack):
             instance_type = "t2.micro"
         )
 
+#DOCS_BLOCK_END:single-stack
+
+'''
+#DOCS_BLOCK_START:single-stack
 app = App()
-MyStack(app, "a-single-stack")
+MySingleStack(app, "a-single-stack")
 app.synth
 #DOCS_BLOCK_END:single-stack
+'''
 
 #DOCS_BLOCK_START:multiple-stacks
 from constructs import Construct
 from cdktf import App, TerraformStack
 import imports.aws as aws
 
-class MyStackConfig:
+class MyMultipleStacksConfig:
     environment: str
     region: str = None
     def __init__(self, environment: str, region: str = None):
@@ -34,8 +39,8 @@ class MyStackConfig:
         self.region = region
 
 
-class MyStack(TerraformStack):
-    def __init__(self, scope: Construct, id: str, config: MyStackConfig):
+class MyMultipleStacks(TerraformStack):
+    def __init__(self, scope: Construct, id: str, config: MyMultipleStacksConfig):
         super().__init__(scope, id)
 
         region = "us-east-1" if config.region == None else config.region
@@ -52,13 +57,18 @@ class MyStack(TerraformStack):
             }
         )
 
+#DOCS_BLOCK_END:multiple-stacks
+
+'''
+#DOCS_BLOCK_START:multiple-stacks
 app = App()
-MyStack(app, "multiple-stacks-dev", MyStackConfig(environment = "dev"))
-MyStack(app, "multiple-stacks-staging", MyStackConfig(environment = "staging"))
-MyStack(app, "multiple-stacks-production-us", MyStackConfig(environment = "staging", region = "eu-central-1"))
+MyMultipleStacks(app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
+MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
+MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
 
 app.synth
 #DOCS_BLOCK_END:multiple-stacks
+'''
 
 #DOCS_BLOCK_START:cross-stack-reference
 from constructs import Construct
@@ -101,6 +111,10 @@ class BackendStack(TerraformStack):
             docker_image = config.docker_image 
         )
 
+#DOCS_BLOCK_END:cross-stack-reference
+
+'''
+#DOCS_BLOCK_START:cross-stack-reference
 app = App()
 origin = VPCStack(app, "origin-stack")
 BackendStack(app, "target-stack",
@@ -113,12 +127,15 @@ BackendStack(app, "target-stack",
 
 app.synth()
 #DOCS_BLOCK_END:cross-stack-reference
+'''
 
-if False:
-    #DOCS_BLOCK_START:stack-dependencies
-    self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
-    #DOCS_BLOCK_END:stack-dependencies
+'''
+#DOCS_BLOCK_START:stack-dependencies
+self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
+#DOCS_BLOCK_END:stack-dependencies
+'''
 
+app = App()
 stack = TerraformStack(app, "temp")
 #DOCS_BLOCK_START:stack-escape-hatches
 stack.add_override("terraform.backend",{

@@ -3,7 +3,7 @@ from constructs import Construct
 from imports.vpc import Vpc
 from imports.eks import Eks
 
-class TestStack(TerraformStack):
+class TokenStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
         #DOCS_BLOCK_START:tokens
