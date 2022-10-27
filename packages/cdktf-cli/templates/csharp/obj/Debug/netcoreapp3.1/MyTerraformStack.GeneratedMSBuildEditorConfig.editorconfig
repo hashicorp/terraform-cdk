@@ -1,3 +1,0 @@
-is_global = true
-build_property.RootNamespace = MyTerraformStack
-build_property.ProjectDir = /Users/markdecrane/terraform-cdk/packages/cdktf-cli/templates/csharp/
