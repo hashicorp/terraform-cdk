@@ -16,7 +16,6 @@ export interface TerraformElementMetadata {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformElement extends Construct {
-  public readonly cdktfStack: TerraformStack;
   protected readonly rawOverrides: any = {};
 
   /**
@@ -44,7 +43,10 @@ export class TerraformElement extends Construct {
     }
 
     this.node.addMetadata("stacktrace", "trace");
-    this.cdktfStack = TerraformStack.of(this);
+  }
+
+  public get cdktfStack(): TerraformStack {
+    return TerraformStack.of(this);
   }
 
   public static isTerraformElement(x: any): x is TerraformElement {
