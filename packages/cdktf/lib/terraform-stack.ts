@@ -117,16 +117,14 @@ export class TerraformStack extends Construct {
     }
   }
 
-  private findAll<T>({
-    byPredicate,
-  }: {
-    byPredicate: (node: unknown) => boolean;
-  }): T[] {
+  private findAll<T extends IConstruct>(
+    predicate: (node: unknown) => node is T
+  ): T[] {
     const items: T[] = [];
 
     const visit = async (node: IConstruct) => {
-      if (byPredicate(node)) {
-        items.push(node as unknown as T);
+      if (predicate(node)) {
+        items.push(node);
       }
 
       for (const child of node.node.children) {
@@ -211,16 +209,11 @@ export class TerraformStack extends Construct {
   }
 
   public allProviders(): TerraformProvider[] {
-    return this.findAll({
-      byPredicate: (item: unknown) =>
-        TerraformProvider.isTerraformProvider(item),
-    });
+    return this.findAll(TerraformProvider.isTerraformProvider);
   }
 
   public ensureBackendExists(): TerraformBackend {
-    const backends = this.findAll<TerraformBackend>({
-      byPredicate: (item: unknown) => TerraformBackend.isBackend(item),
-    });
+    const backends = this.findAll(TerraformBackend.isBackend);
     return backends[0] || new LocalBackend(this, {});
   }
 
