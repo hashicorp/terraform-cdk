@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver, onPosix, onWindows } from "../../test-helper";
+import {
+  TestDriver,
+  onPosix,
+  onWindows,
+  packageJsonWithDependency,
+} from "../../test-helper";
 
 describe("provider add command", () => {
   describe("pre-built", () => {
@@ -42,8 +47,8 @@ describe("provider add command", () => {
       );
       expect(res.stdout).toContain(`Package installed.`);
 
-      expect(driver.npmPackageVersion("@cdktf/provider-random")).toEqual(
-        expect.any(String)
+      expect(driver.packageJson()).toEqual(
+        packageJsonWithDependency("@cdktf/provider-random")
       );
     }, 120_000);
   });

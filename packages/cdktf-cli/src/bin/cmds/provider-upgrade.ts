@@ -13,7 +13,7 @@ class Command extends BaseCommand {
   public readonly builder = (args: yargs.Argv) =>
     args.showHelpOnFail(true).positional("provider", {
       type: "string",
-      desc: "Name of the provider to add. Can include a version constraint (e.g. aws@~>4.0).",
+      desc: "Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).",
       required: true,
     });
 

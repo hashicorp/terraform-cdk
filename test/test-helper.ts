@@ -21,6 +21,12 @@ function execSyncLogErrors(...args: Parameters<typeof execSync>) {
   }
 }
 
+export function packageJsonWithDependency(name: string, version?: string) {
+  return expect.objectContaining({
+    [name]: version || expect.any(String),
+  });
+}
+
 export class QueryableStack {
   private readonly stack: Record<string, any>;
   constructor(stackInput: string) {
@@ -115,10 +121,8 @@ export class TestDriver {
     }
   }
 
-  npmPackageVersion = (packageName: string) => {
-    const packageJson = JSON.parse(this.readLocalFile("package.json"));
-
-    return packageJson?.dependencies?.[packageName];
+  packageJson = () => {
+    return JSON.parse(this.readLocalFile("package.json"));
   };
 
   switchToTempDir = () => {
