@@ -59,7 +59,7 @@ new Mystack(app, "hello-terraform");
 ```python
 from constructs import Construct
 from cdktf import App, CloudBackend, NamedCloudWorkspace, TerraformStack, TerraformOutput
-class MyStack(TerraformStack):
+class RemoteBackendStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -74,8 +74,8 @@ class MyStack(TerraformStack):
         )
 
 app = App()
-MyStack(app, "hello-terraform")
-app.synth
+RemoteBackendStack(app, "hello-terraform")
+app.synth()
 ```
 
 ```java

@@ -32,7 +32,6 @@ app.synth()
 DOCS_BLOCK_END:modules-install-modules
 '''
 
-# DOCS_BLOCK_END:modules-install-modules
 
 # DOCS_BLOCK_START:modules-create-modules
 class HclModuleStack(TerraformStack):

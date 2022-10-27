@@ -60,7 +60,7 @@ from constructs import Construct
 from cdktf import App, TerraformStack
 import imports.aws as aws
 
-class MyStack(TerraformStack):
+class SimpleProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -74,8 +74,8 @@ class MyStack(TerraformStack):
         )
 
 app = App()
-MyStack(app, "hello-terraform")
-app.synth
+SimpleProviderStack(app, "provider-stack")
+app.synth()
 ```
 
 ```java
@@ -174,7 +174,7 @@ from cdktf import App, TerraformStack, Token
 import imports.aws as aws
 import imports.dnsimple as dnsimple
 
-class MyStack(TerraformStack):
+class ProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -200,8 +200,8 @@ class MyStack(TerraformStack):
         )
 
 app = App()
-MyStack(app, "hello-terraform")
-app.synth
+ProviderStack(app, "provider-stack")
+app.synth()
 ```
 
 ```java

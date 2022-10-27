@@ -37,8 +37,6 @@ DOCS_BLOCK_END:data-sources-define-data-sources
 
 
 # DOCS_BLOCK_START:data-sources-remote-state-data-source
-
-
 class HelloTerraformRemoteState(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
@@ -57,7 +55,7 @@ class HelloTerraformRemoteState(TerraformStack):
                  # .....
                  subnet_id=remoteState.get_string('subnet_id')
                  )
-
+# DOCS_BLOCK_END:data-sources-remote-state-data-source
 
 
 '''

@@ -47,7 +47,7 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
                                  type="list(string)"
                                  )
 
-        iterator = TerraformIterator.from_list(list.list_value)
+        iterator = TerraformIterator.from_list(list=list.as_list)
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
                                           for_each=iterator,
@@ -114,7 +114,7 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
         ])
 
         iterator = TerraformIterator.from_list(
-            list=list
+            list=list.as_list
         )
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "s3-bucket",

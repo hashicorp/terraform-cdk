@@ -96,10 +96,8 @@ class MyAssetStack(cdktf.TerraformStack):
                                             source=asset.path
                                             )
 
-
 app = cdktf.App()
 MyAssetStack(app, "demo")
-
 app.synth()
 ```
 
