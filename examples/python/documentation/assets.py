@@ -25,9 +25,12 @@ class MyAssetStack(cdktf.TerraformStack):
                                             source=asset.path
                                             )
 
+# DOCS_BLOCK_END:assets
 
+'''
+DOCS_BLOCK_START:assets
 app = cdktf.App()
 MyAssetStack(app, "demo")
-
 app.synth()
-# DOCS_BLOCK_END:assets
+DOCS_BLOCK_END:assets
+'''

@@ -1,8 +1,9 @@
 from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
 # DOCS_BLOCK_START:data-sources-define-data-sources,data-sources-remote-state-data-source
 from cdktf import TerraformStack, App
 # DOCS_BLOCK_END:data-sources-define-data-sources
-from cdktf import DataTerraformRemoteState
+from cdktf import DataTerraformRemoteState, NamedRemoteWorkspace
 # DOCS_BLOCK_END:data-sources-remote-state-data-source
 from constructs import Construct
 
@@ -15,7 +16,7 @@ class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
-        AwsProvider(self, "temp",
+        AwsProvider(self, "aws",
                     region="us-east-1"
                     )
 
@@ -24,9 +25,15 @@ class HelloTerraform(TerraformStack):
 
 
 # DOCS_BLOCK_END:data-sources-define-data-sources
+
+'''
+DOCS_BLOCK_START:data-sources-define-data-sources
 app = App()
 HelloTerraform(app, "data-sources")
 app.synth()
+DOCS_BLOCK_END:data-sources-define-data-sources
+'''
+
 
 
 # DOCS_BLOCK_START:data-sources-remote-state-data-source
@@ -36,19 +43,27 @@ class HelloTerraformRemoteState(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
+        AwsProvider(self, "aws",
+                    region="us-east-1"
+                    )
+
         # .....
-        remoteState = DataTerraformRemoteState(self,
+        remoteState = DataTerraformRemoteState(self, "vpc-prod-remote-state",
                                                organization="hashicorp",
-                                               workspace='vpc-prod'
+                                               workspaces=NamedRemoteWorkspace(name='vpc-prod')
                                                )
 
         Instance(self, "foo",
                  # .....
-                 subnet_id=remoteState.get('subnet_id')
+                 subnet_id=remoteState.get_string('subnet_id')
                  )
 
 
-# DOCS_BLOCK_END:data-sources-remote-state-data-source
+
+'''
+DOCS_BLOCK_START:data-sources-define-data-sources
 app = App()
-HelloTerraform(app, "terraform-remotes-state")
+HelloTerraformRemoteState(app, "terraform-remotes-state")
 app.synth()
+DOCS_BLOCK_END:data-sources-define-data-sources
+'''

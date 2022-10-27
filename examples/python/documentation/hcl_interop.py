@@ -4,7 +4,7 @@ from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
 import imports.random as random
 
 
-class MyStack(TerraformStack):
+class HclInteropStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -22,9 +22,12 @@ class MyStack(TerraformStack):
         TerraformOutput(self, "name",
                         value=myPet.id
                         )
-
-
-app = App()
-MyStack(app, "random-pet-module")
-app.synth()
 # DOCS_BLOCK_END:hcl-interop
+'''
+DOCS_BLOCK_START:hcl-interop
+# app = App()
+# HclInteropStack(app, "random-pet-module")
+# app.synth()
+DOCS_BLOCK_END:hcl-interop
+'''
+

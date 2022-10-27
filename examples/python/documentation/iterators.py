@@ -7,9 +7,10 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 # DOCS_BLOCK_END:iterators-define-iterators,iterators-iterators-complex-types
 
 
-class TestStack(TerraformStack):
+class IteratorStackOne(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
+        aws.provider.AwsProvider(self, "aws", region="us-east-1")
 
         # DOCS_BLOCK_START:iterators-iterators-complex-types
         list = TerraformLocal(self, "my-list", [
@@ -24,7 +25,7 @@ class TestStack(TerraformStack):
         ])
 
         iterator = TerraformIterator.from_list(
-            list=list
+            list=list.as_list
         )
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "s3-bucket",
@@ -34,12 +35,17 @@ class TestStack(TerraformStack):
                                           )
         # DOCS_BLOCK_END:iterators-iterators-complex-types
 
+class IteratorStackTwo(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+        aws.provider.AwsProvider(self, "aws", region="us-east-1")
+        github.provider.GithubProvider(self, "gh")
         # DOCS_BLOCK_START:iterators-define-iterators
         list = TerraformVariable(self, "list",
                                  type="list(string)"
                                  )
 
-        iterator = TerraformIterator.from_list(list.list_value)
+        iterator = TerraformIterator.from_list(list=list.as_list)
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
                                           for_each=iterator,
@@ -74,7 +80,3 @@ class TestStack(TerraformStack):
                                         )
         # DOCS_BLOCK_END:iterators-list-attributes
 
-
-app = App()
-TestStack(app, "iterators")
-app.synth()

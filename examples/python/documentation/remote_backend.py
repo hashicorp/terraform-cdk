@@ -12,7 +12,7 @@ stack = Stack(App(), "hi-terraform")
 # DOCS_BLOCK_END:remote-backend-migrate
 
 # DOCS_BLOCK_START:remote-backend-define
-class MyStack(TerraformStack):
+class RemoteBackendStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
         
@@ -32,10 +32,14 @@ class MyStack(TerraformStack):
             value = "hello-world"
         )
 
-app = App()
-MyStack(app, "hello-terraform")
-app.synth
 # DOCS_BLOCK_END:remote-backend-define
+'''
+DOCS_BLOCK_START:remote-backend-define
+app = App()
+RemoteBackendStack(app, "hello-terraform")
+app.synth()
+DOCS_BLOCK_END:remote-backend-define
+'''
 
 # DOCS_BLOCK_START:remote-backend-escape-hatches
 stack.add_override("terraform.backend",{

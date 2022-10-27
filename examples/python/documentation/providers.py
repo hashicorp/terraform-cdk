@@ -3,7 +3,7 @@ from constructs import Construct
 from cdktf import App, TerraformStack
 import imports.aws as aws
 
-class MyStack(TerraformStack):
+class SimpleProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -16,10 +16,14 @@ class MyStack(TerraformStack):
             instance_type = "t2.micro",
         )
 
-app = App()
-MyStack(app, "hello-terraform")
-app.synth
 # DOCS_BLOCK_END:providers-import-providers
+'''
+DOCS_BLOCK_START:providers-import-providers
+app = App()
+SimpleProviderStack(app, "provider-stack")
+app.synth()
+DOCS_BLOCK_END:providers-import-providers
+'''
 
 # DOCS_BLOCK_START:providers-import-classes
 import os
@@ -28,7 +32,7 @@ from cdktf import App, TerraformStack, Token
 import imports.aws as aws
 import imports.dnsimple as dnsimple
 
-class MyStack(TerraformStack):
+class ProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
@@ -53,7 +57,11 @@ class MyStack(TerraformStack):
             type = "A"
         )
 
-app = App()
-MyStack(app, "hello-terraform")
-app.synth
 # DOCS_BLOCK_END:providers-import-classes
+'''
+DOCS_BLOCK_START:providers-import-classes
+app = App()
+ProviderStack(app, "provider-stack")
+app.synth()
+DOCS_BLOCK_END:providers-import-classes
+'''

@@ -41,11 +41,14 @@ class MyS3BucketStack(TerraformStack):
         PublicS3Bucket(self, "first-bucket")
         PublicS3Bucket(self, "second-bucket")
 
-
+# DOCS_BLOCK_END:constructs-scope
+'''
+DOCS_BLOCK_START:constructs-scope
 app = App()
 MyS3BucketStack(app, "s3-stack")
 app.synth()
-# DOCS_BLOCK_END:constructs-scope
+DOCS_BLOCK_END:constructs-scope
+'''
 
 # DOCS_BLOCK_START:constructs-use-constructs
 
@@ -67,7 +70,12 @@ class MyKubernetesStack(TerraformStack):
                                    )
 
 
+
+# DOCS_BLOCK_END:constructs-use-constructs
+'''
+DOCS_BLOCK_START:constructs-use-constructs
 app = App()
 MyKubernetesStack(app, "demo")
 app.synth()
-# DOCS_BLOCK_END:constructs-use-constructs
+DOCS_BLOCK_END:constructs-use-constructs
+'''
