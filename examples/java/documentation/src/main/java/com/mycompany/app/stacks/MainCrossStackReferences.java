@@ -70,7 +70,9 @@ public class MainCrossStackReferences extends TerraformStack {
             );
         }
     }
-
+    // DOCS_BLOCK_END:cross-stack-reference
+    /**
+    // DOCS_BLOCK_START:cross-stack-reference
     public static void main(String[] args) {
         final App app = new App();
         VPCStack origin = new VPCStack(app, "origin-stack");
@@ -81,5 +83,8 @@ public class MainCrossStackReferences extends TerraformStack {
         );
         app.synth();
     }
+    // DOCS_BLOCK_END:cross-stack-reference
+     */
+    // DOCS_BLOCK_START:cross-stack-reference
 }
 // DOCS_BLOCK_END:cross-stack-reference

@@ -32,11 +32,17 @@ public class MainHCL extends TerraformStack {
                 .value(myPet.getId())
                 .build());
     }
+    // DOCS_BLOCK_END:hcl-interop
+    /**
+    // DOCS_BLOCK_START:hcl-interop
 
     public static void main(String[] args) {
         final App app = new App();
         new MainHCL(app, "random-pet-module");
         app.synth();
     }
+    // DOCS_BLOCK_END:hcl-interop
+     */
+    // DOCS_BLOCK_START:hcl-interop
 }
 // DOCS_BLOCK_END:hcl-interop

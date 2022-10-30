@@ -29,6 +29,7 @@ public class MainToken extends TerraformStack {
         );
 
         new Eks(this, "EksModules", EksOptions.builder()
+                .vpcId(vpc.getVpcIdOutput())
                 .clusterName("my-kubernetes-cluster")
                 .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
                 .clusterCreateTimeout(logRetention.getNumberValue())

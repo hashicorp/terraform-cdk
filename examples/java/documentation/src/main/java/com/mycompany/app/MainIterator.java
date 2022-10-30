@@ -1,14 +1,11 @@
 package com.mycompany.app;
 
-import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.*;
 
-import com.hashicorp.cdktf.TerraformVariable;
-import com.hashicorp.cdktf.TerraformVariableConfig;
 import software.constructs.Construct;
 // DOCS_BLOCK_START:iterators-iterators-complex-types
 import imports.aws.s3_bucket.S3Bucket;
 import imports.aws.s3_bucket.S3BucketConfig;
-import com.hashicorp.cdktf.TerraformIterator;
 
 // DOCS_BLOCK_END:iterators-iterators-complex-types
 
@@ -23,45 +20,35 @@ public class MainIterator extends TerraformStack {
         super(scope, id);
 
         // DOCS_BLOCK_START:iterators-iterators-complex-types
-        TerraformIterator iterator = TerraformIterator.fromList(
-                Arrays.asList(
-                        new HashMap() {
+        TerraformLocal myList = new TerraformLocal(this, "my-list", Arrays.asList(
+                new HashMap() {
+                    {
+                        put("name", "website-static-files");
+                        put("tags", new HashMap<String, String>() {
                             {
-                                put("name", "website-static-files");
-                                put("tags", new HashMap<String, String>() {
-                                    {
-                                        put("app", "website");
-                                    }
-                                });
+                                put("app", "website");
                             }
-                        },
-                        new HashMap() {
+                        });
+                    }
+                },
+                new HashMap() {
+                    {
+                        put("name", "images");
+                        put("tags", new HashMap<String, String>() {
                             {
-                                put("name", "images");
-                                put("tags", new HashMap<String, String>() {
-                                    {
-                                        put("app", "image-converter");
-                                    }
-                                });
+                                put("app", "image-converter");
                             }
-                        }));
+                        });
+                    }
+                }));
+
+        TerraformIterator iterator = TerraformIterator.fromList(myList.getAsList());
 
         S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
                 .forEach(iterator)
+                .bucket(iterator.getString("name"))
                 .tags(iterator.getStringMap("tags"))
                 .build());
         // DOCS_BLOCK_END:iterators-iterators-complex-types
-
-        // DOCS_BLOCK_START:iterators-define-iterators
-        TerraformVariable list = new TerraformVariable(this, "list", TerraformVariableConfig.builder()
-                .type("list(string)")
-                .build());
-
-        TerraformIterator terraformIterator = TerraformIterator.fromList(list.getListValue());
-
-        S3Bucket awsS3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
-                .forEach(terraformIterator)
-                .build());
-        // DOCS_BLOCK_END:iterators-define-iterators
     }
 }

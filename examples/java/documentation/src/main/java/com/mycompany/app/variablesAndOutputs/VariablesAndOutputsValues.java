@@ -24,11 +24,17 @@ public class VariablesAndOutputsValues extends TerraformStack {
             this.myDomain = myDomain;
         }
     }
+    // DOCS_BLOCK_END:var-out-output-values
+    /**
+    // DOCS_BLOCK_START:var-out-output-values
 
     public static void main(String[] args) {
         final App app = new App();
         new VariablesAndOutputsValues(app, "cdktf-producer", new VariablesAndOutputsValuesProps("example.com"));
         app.synth();
     }
+    // DOCS_BLOCK_END:var-out-output-values
+     */
+    // DOCS_BLOCK_START:var-out-output-values
 }
 // DOCS_BLOCK_END:var-out-output-values

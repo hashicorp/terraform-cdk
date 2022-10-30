@@ -1,8 +1,8 @@
-package main.java.com.mycompany.app;
+package com.mycompany.app;
 
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
-import com.mycompany.app.assets.MainAssets;
+import com.mycompany.app.assets.MyAssetStack;
 import com.mycompany.app.constructs.MainConstructScope;
 import com.mycompany.app.constructs.MainUseConstructs;
 import com.mycompany.app.dataSources.DataSourcesDefine;
@@ -34,11 +34,12 @@ public class Main extends TerraformStack {
 
     public static void main(String[] args) {
         App app = new App();
-        new MainAssets(app, "assets");
+        new MyAssetStack(app, "assets");
         new MainConstructScope(app, "constructs-scope");
         new MainUseConstructs(app, "use-constructs");
         new DataSourcesDefine(app, "data-sources-define");
-        new DataSourcesRemoteState(app, "data-sources-remote-state");
+        // TODO: fix this one -> requires workspaces?
+        // new DataSourcesRemoteState(app, "data-sources-remote-state");
         new MainCreateModules(app, "create-modules");
         new MainInstallModules(app, "install-modules");
         new MainModuleExample(app, "module-example");
@@ -48,18 +49,26 @@ public class Main extends TerraformStack {
         new MainRemoteBackendDefine(app, "remote-backend-define");
         new MainResources(app, "resources");
         new MainResourcesDefine(app, "resources-define");
-        new MainCrossStackReferences(app, "cross-stack-references");
-        new MainMultipleStacks(app, "multiple-stacks", new MainMultipleStacks.MultipleStacksConfig());
+        MainCrossStackReferences.VPCStack origin = new MainCrossStackReferences.VPCStack(app, "origin-stack");
+        new MainCrossStackReferences.BackendStack(app, "target-stack", new MainCrossStackReferences.BackendStackConfig()
+                .setRegion(origin.region)
+                .setVpcId(origin.vpc.getId())
+                .setDockerImage("org/my-image:latest"));
+        new MainMultipleStacks(app, "multiple-stacks-production-us",
+                new MainMultipleStacks.MultipleStacksConfig().setEnvironment("staging").setRegion("eu-central-1"));
         new MainSingleStack(app, "single-stack");
         new MainStacks(app, "stacks");
-        new VariablesAndOutputs(app, "var-and-outs");
+        // TODO: fix this one -> Trouble getting expression out of TerraformLocal
+        // new VariablesAndOutputs(app, "var-and-outs");
         new VariablesAndOutputsDefineValues(app, "var-and-outs-define");
-        new VariablesAndOutputsRemoteState();
+        new VariablesAndOutputsRemoteState.Producer(app, "cdktf-producer");
+        new VariablesAndOutputsRemoteState.Consumer(app, "cdktf-consumer");
         new VariablesAndOutputsValues(app, "var-and-outs-values",
                 new VariablesAndOutputsValues.VariablesAndOutputsValuesProps("domain"));
         new MainFunction(app, "main-function");
         new MainHCL(app, "main-hcl");
         new MainIterator(app, "main-iterator");
+        new MainIterator2(app, "main-iterator2");
         new MainToken(app, "main-token");
 
     }

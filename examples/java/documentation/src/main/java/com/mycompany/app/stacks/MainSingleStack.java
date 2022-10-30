@@ -23,11 +23,17 @@ public class MainSingleStack extends TerraformStack {
                 .instanceType("t2.micro")
                 .build());
     }
+    // DOCS_BLOCK_END:single-stack
+    /**
+    // DOCS_BLOCK_START:single-stack
 
     public static void main(String[] args) {
         final App app = new App();
         new MainSingleStack(app, "a-single-stack");
         app.synth();
     }
+    // DOCS_BLOCK_END:single-stack
+     */
+    // DOCS_BLOCK_START:single-stack
 }
 // DOCS_BLOCK_END:single-stack

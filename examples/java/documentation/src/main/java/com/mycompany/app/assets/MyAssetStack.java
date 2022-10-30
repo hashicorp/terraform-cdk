@@ -2,7 +2,6 @@ package com.mycompany.app.assets;
 
 // DOCS_BLOCK_START:assets
 import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.TerraformAssetConfig;
@@ -16,8 +15,8 @@ import imports.aws.s3_bucket_object.S3BucketObjectConfig;
 
 import java.nio.file.Paths;
 
-public class MainAssets extends TerraformStack {
-    public MainAssets(Construct scope, String name){
+public class MyAssetStack extends TerraformStack {
+    public MyAssetStack(Construct scope, String name){
         super(scope, name);
 
         new AwsProvider(this,"aws", AwsProviderConfig.builder()
@@ -45,10 +44,17 @@ public class MainAssets extends TerraformStack {
 
     }
 
+    // DOCS_BLOCK_END:assets
+
+    /**
+    // DOCS_BLOCK_START:assets
     public static void main(String[] args) {
         final App app = new App();
-        new MainAssets(app, "demo");
+        new MyAssetStack(app, "demo");
         app.synth();
     }
+    // DOCS_BLOCK_END:assets
+     */
+// DOCS_BLOCK_START:assets
 }
 // DOCS_BLOCK_END:assets

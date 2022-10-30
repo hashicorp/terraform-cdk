@@ -57,6 +57,9 @@ public class VariablesAndOutputsRemoteState {
             );
         }
     }
+    // DOCS_BLOCK_END:var-out-define-reference-remote-state
+    /**
+    // DOCS_BLOCK_START:var-out-define-reference-remote-state
 
     public static void main(String[] args) {
         final App app = new App();
@@ -64,5 +67,8 @@ public class VariablesAndOutputsRemoteState {
         new Consumer(app, "cdktf-consumer");
         app.synth();
     }
+    // DOCS_BLOCK_END:var-out-define-reference-remote-state
+     */
+    // DOCS_BLOCK_START:var-out-define-reference-remote-state
 }
 // DOCS_BLOCK_END:var-out-define-reference-remote-state

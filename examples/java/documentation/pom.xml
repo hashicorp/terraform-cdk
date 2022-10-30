@@ -3,8 +3,8 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mycompany.app</groupId>
-  <artifactId>aws</artifactId>
-  <name>aws</name>
+  <artifactId>java-docs</artifactId>
+  <name>java-docs</name>
   <version>0.1</version>
 
   <properties>
@@ -27,7 +27,7 @@
   </dependencies>
 
   <build>
-    <sourceDirectory>src/main/java</sourceDirectory>
+    <sourceDirectory>src/main/java/</sourceDirectory>
     <testSourceDirectory>src/test/java</testSourceDirectory>
 
     <plugins>

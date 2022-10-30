@@ -50,6 +50,9 @@ public class MainMultipleStacks extends TerraformStack {
             return this;
         }
     }
+    // DOCS_BLOCK_END:multiple-stacks
+    /**
+    // DOCS_BLOCK_START:multiple-stacks
 
     public static void main(String[] args) {
         final App app = new App();
@@ -62,5 +65,8 @@ public class MainMultipleStacks extends TerraformStack {
 
         app.synth();
     }
+    // DOCS_BLOCK_END:multiple-stacks
+     */
+    // DOCS_BLOCK_START:multiple-stacks
 }
 // DOCS_BLOCK_END:multiple-stacks

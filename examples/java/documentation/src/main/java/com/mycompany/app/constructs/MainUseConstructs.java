@@ -2,7 +2,7 @@ package com.mycompany.app.constructs;
 
 
 import com.hashicorp.cdktf.App;
-import com.mycompany.app.assets.MainAssets;
+import com.mycompany.app.assets.MyAssetStack;
 
 import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
@@ -35,10 +35,16 @@ public class MainUseConstructs extends TerraformStack {
         );
     }
 
+    // DOCS_BLOCK_END:constructs-use-constructs
+    /**
+    // DOCS_BLOCK_START:constructs-use-constructs
     public static void main(String[] args) {
         final App app = new App();
-        new MainAssets(app, "demo");
+        new MainUseConstructs(app, "demo");
         app.synth();
     }
+    // DOCS_BLOCK_END:constructs-use-constructs
+     */
+    // DOCS_BLOCK_START:constructs-use-constructs
 }
 // DOCS_BLOCK_END:constructs-use-constructs

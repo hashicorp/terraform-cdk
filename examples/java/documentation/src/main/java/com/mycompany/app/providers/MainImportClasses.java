@@ -45,10 +45,16 @@ public class MainImportClasses extends TerraformStack {
         );
     }
 
+    // DOCS_BLOCK_END:providers-import-classes
+    /**
+    // DOCS_BLOCK_START:providers-import-classes
     public static void main(String[] args) {
         final App app = new App();
         new MainImportClasses(app, "hello-terraform");
         app.synth();
     }
+    // DOCS_BLOCK_END:providers-import-classes
+     */
+    // DOCS_BLOCK_START:providers-import-classes
 }
 // DOCS_BLOCK_END:providers-import-classes

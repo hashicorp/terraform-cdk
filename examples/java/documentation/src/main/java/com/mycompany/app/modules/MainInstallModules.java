@@ -32,10 +32,16 @@ public class MainInstallModules extends TerraformStack {
         );
     }
 
+    // DOCS_BLOCK_END:modules-install-modules
+    /**
+    // DOCS_BLOCK_START:modules-install-modules
     public static void main(String[] args) {
         final App app = new App();
         new MainInstallModules(app, "hello-terraform");
         app.synth();
     }
+    // DOCS_BLOCK_END:modules-install-modules
+     */
+    // DOCS_BLOCK_START:modules-install-modules
 }
 // DOCS_BLOCK_END:modules-install-modules

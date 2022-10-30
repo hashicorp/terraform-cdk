@@ -107,7 +107,6 @@ app.synth()
 
 ```java
 import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformAsset;
 import com.hashicorp.cdktf.TerraformAssetConfig;
@@ -121,8 +120,8 @@ import imports.aws.s3_bucket_object.S3BucketObjectConfig;
 
 import java.nio.file.Paths;
 
-public class MainAssets extends TerraformStack {
-    public MainAssets(Construct scope, String name){
+public class MyAssetStack extends TerraformStack {
+    public MyAssetStack(Construct scope, String name){
         super(scope, name);
 
         new AwsProvider(this,"aws", AwsProviderConfig.builder()
@@ -152,7 +151,7 @@ public class MainAssets extends TerraformStack {
 
     public static void main(String[] args) {
         final App app = new App();
-        new MainAssets(app, "demo");
+        new MyAssetStack(app, "demo");
         app.synth();
     }
 }

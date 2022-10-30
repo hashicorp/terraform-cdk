@@ -13,14 +13,12 @@ import imports.aws.dynamodb_table.DynamodbTableConfig;
 // DOCS_BLOCK_START:resources-escape-hatch-dynamic-block
 import imports.aws.security_group.*;
 // DOCS_BLOCK_END:resources-escape-hatch-dynamic-block
+import imports.kubernetes.deployment.*;
 import software.constructs.Construct;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 
 // DOCS_BLOCK_START:resources-references
-import imports.kubernetes.deployment.Deployment;
-import imports.kubernetes.deployment.DeploymentConfig;
-import imports.kubernetes.deployment.DeploymentMetadata;
 import imports.kubernetes.namespace.Namespace;
 import imports.kubernetes.namespace.NamespaceConfig;
 import imports.kubernetes.namespace.NamespaceMetadata;
@@ -59,6 +57,34 @@ public class MainResources extends TerraformStack {
                                                         }
                                                 })
                                                 .build())
+                                .spec(DeploymentSpec.builder()
+                                        .selector(DeploymentSpecSelector.builder()
+                                                .matchLabels(new HashMap<String, String>(){{
+                                                        put("app", app.toString());
+                                                }})
+                                                .build()
+                                        )
+                                        .replicas("1")
+                                        .template(DeploymentSpecTemplate.builder()
+                                                .metadata(DeploymentSpecTemplateMetadata.builder()
+                                                        .labels(new HashMap<String, String>(){{
+                                                                put("app", app.toString());
+                                                        }})
+                                                        .build()
+                                                )
+                                                .spec(DeploymentSpecTemplateSpec.builder()
+                                                        .container(Arrays.asList(DeploymentSpecTemplateSpecContainer.builder()
+                                                                        .image("nginx:1.7.9")
+                                                                        .name("nginx")
+                                                                        .build()
+                                                                )
+                                                        )
+                                                        .build()
+                                                )
+                                                .build()
+                                        )
+                                        .build()
+                                )
                                 .build());
                 // DOCS_BLOCK_END:resources-references
 
