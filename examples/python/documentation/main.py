@@ -21,9 +21,8 @@ HelloTerraform(app, "data-sources")
 HelloTerraformRemoteState(app, "data-sources-terraform-remotes-state")
 FunctionsStack(app, "functions")
 HclInteropStack(app, "hcl-interop")
-# TODO: Fix these
 IteratorStackOne(app, "iterator-1")
-# IteratorStackTwo(app, "iterator-2")
+IteratorStackTwo(app, "iterator-2")
 ModuleStack(app, "module")
 HclModuleStack(app, "hcl-module")
 ModuleWithOutputStack(app, "module-with-output")
@@ -32,7 +31,6 @@ ProviderStack(app, "provider")
 RemoteBackendStack(app, "remote-backend")
 ResourceStack(app, "resource")
 ReferencesStack(app, "references")
-# TODO: Fix this one
 EscapeHatch(app, "escape-hatch")
 ResourceOverrideStack(app, "resource-override")
 EscapeHatchDynamicStack(app, "escape-hatch-dynamic")
@@ -49,7 +47,8 @@ BackendStack(app, "target-stack",
         docker_image = "org/my-image:latest"
     )
 )
-VariablesOutputsDefineLocalStack(app, "var-out-define-local")
+# TODO: Fix this one - trouble accessing "expression" of TerraformLocal var "commonTags"
+#VariablesOutputsDefineLocalStack(app, "var-out-define-local")
 OutputValuesStack(app, "output-values-stack", OutputValuesProps(myDomain = "example.com"))
 DefineOutputStack(app, "define-output")
 Producer(app, "cdktf-producer")

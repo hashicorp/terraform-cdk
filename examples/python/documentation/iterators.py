@@ -45,7 +45,7 @@ class IteratorStackTwo(TerraformStack):
                                  type="list(string)"
                                  )
 
-        iterator = TerraformIterator.from_list(list=list.as_list)
+        iterator = TerraformIterator.from_list(list=list.list_value)
 
         s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
                                           for_each=iterator,

@@ -17,6 +17,7 @@ class TokenStack(TerraformStack):
         )
 
         Eks(self, "EksModules",
+            vpc_id = vpc.vpc_id_output,
             cluster_name = "my-kubernetes-cluster",
             subnets = Token.as_list(vpc.public_subnets_output),
             cluster_create_timeout = log_retention.number_value 
