@@ -241,7 +241,18 @@ export async function init(argv: any) {
 
   checkForEmptyDirectory(".");
 
-  await runInit(argv);
+  const {needsGet, codeMakerOutput, language} = await runInit(argv);
+
+  if (needsGet) {
+    console.log(
+      "Local providers have been updated. Running cdktf get to update..."
+    );
+    await get({
+      language,
+      output: codeMakerOutput,
+      parallelism: 1,
+    });
+  }
 }
 
 export async function list(argv: any) {

@@ -241,35 +241,39 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   const cdktfConfig = CdktfConfig.read(destination);
-
+  let needsGet = false;
   const providers = argv.providers?.length
     ? argv.providers
     : await getProviders();
   if (providers?.length) {
-    const needsGet = await providerAdd({
+    needsGet = await providerAdd({
       providers: providers,
       language: cdktfConfig.language,
       projectDirectory: destination,
       cdktfVersion: argv.cdktfVersion,
       forceLocal: argv.providersForceLocal,
     });
-    if (needsGet) {
-      execSync("npm run get", { cwd: destination });
-    }
+    telemetryData.addedProviders = providers;
   }
 
   await sendTelemetry("init", {
     ...telemetryData,
     language: cdktfConfig.language,
   });
+
+  return {
+    needsGet,
+    codeMakerOutput: cdktfConfig.codeMakerOutput,
+    language: cdktfConfig.language,
+  }
 }
 
 async function getProviders(): Promise<string[] | undefined> {
   if (!isInteractiveTerminal()) {
     return Promise.resolve(undefined);
   }
-  const prebulitProviders = await getAllPrebuiltProviders();
-  const options = Object.keys(prebulitProviders);
+  const prebuiltProviders = await getAllPrebuiltProviders();
+  const options = Object.keys(prebuiltProviders);
   const { providers: selection } = await inquirer.prompt([
     {
       type: "checkbox",
@@ -278,7 +282,7 @@ async function getProviders(): Promise<string[] | undefined> {
       choices: options,
     },
   ]);
-  return Object.entries(prebulitProviders)
+  return Object.entries(prebuiltProviders)
     .filter((provider) => selection.includes(provider[0]))
     .map((provider) => provider[1]);
 }
@@ -305,7 +309,7 @@ async function gatherInfo(
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
-  const questions: any = [];
+  const questions = [];
   if (!projectName) {
     questions.push({
       name: "projectName",
