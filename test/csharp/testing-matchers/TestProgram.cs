@@ -8,6 +8,7 @@ using docker.Container;
 using docker.DataDockerImage;
 using docker.DataDockerNetwork;
 using docker.Config;
+using docker.Provider;
 
 namespace MyCompany.MyApp{
 
@@ -67,6 +68,13 @@ namespace MyCompany.MyApp{
         public void hasDataWithPropertiesFail(){
             Assert.False(Testing.ToHaveDataSourceWithProperties(synthesized, DataDockerImage.TfResourceType, new Dictionary<String, Object>(){
                 {"name", "wrong"}
+            }) );
+        }
+
+        [Fact]
+        public void hasProviderWithPropertiesPass(){
+            Assert.True(Testing.ToHaveProviderWithProperties(synthesized, DockerProvider.TfResourceType, new Dictionary<String, Object>(){
+                {"id", "provider"}
             }) );
         }
 
