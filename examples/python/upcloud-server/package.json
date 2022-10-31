@@ -1,0 +1,10 @@
+{
+  "name": "@examples/python-upcloud-server",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "rm Pipfile.lock && pipenv --rm && pipenv install",
+    "build": "cdktf get",
+    "synth": "cdktf synth"
+  }
+}
