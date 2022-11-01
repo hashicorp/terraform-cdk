@@ -156,14 +156,15 @@ export class DependencyManager {
     if (prebuiltVersion) {
       await this.upgradePrebuiltProvider(constraint, prebuiltVersion);
       return { addedLocalProvider: false };
-    } else if (await cdktfJson.hasProvider(constraint)) {
+    }
+    if (await cdktfJson.hasProvider(constraint)) {
       await cdktfJson.updateProvider(constraint);
       return { addedLocalProvider: true };
-    } else {
-      throw Errors.Usage(
-        `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
-      );
     }
+
+    throw Errors.Usage(
+      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
+    );
   }
 
   async getCurrentlyInstalledVersion(constraint: ProviderConstraint) {
@@ -181,7 +182,7 @@ export class DependencyManager {
     }
 
     logger.debug(
-      `Installed packages: ${JSON.stringify(installedPackages, null, 2)}`
+      `Installed packages found: ${JSON.stringify(installedPackages, null, 2)}`
     );
 
     return installedPackages.find((pkg) => pkg.name === packageName)?.version;
