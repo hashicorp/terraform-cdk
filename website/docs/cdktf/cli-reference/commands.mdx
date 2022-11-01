@@ -693,7 +693,9 @@ $ cdktf provider add --help
 ```
 cdktf provider upgrade <provider...>
 
-Upgrade one or more Terraform providers in your project.
+Upgrade one or more Terraform providers in your project to the newest version compatible with your CDKTF version.
+
+If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json configuration file and generates local provider bindings.
 
 Positionals:
   provider  Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).
