@@ -1,3 +1,27 @@
+## 0.13.2
+
+### fix
+
+- fix(provider-generator): don't require arrays wrapping variable / output declarations [\#2199](https://github.com/hashicorp/terraform-cdk/pull/2199)
+- fix(cli): Use 'id' as argument name for all templates [\#2119](https://github.com/hashicorp/terraform-cdk/pull/2119)
+- fix(cli): use a custom user-agent when talking to TFC [\#2210](https://github.com/hashicorp/terraform-cdk/pull/2210)
+- fix(cli): Ignore local obj/ dir in C# template [\#2217](https://github.com/hashicorp/terraform-cdk/pull/2217)
+- fix(deps): Use apt instead of yum, since base image is debian based now [\#2216](https://github.com/hashicorp/terraform-cdk/pull/2216)
+- fix: correctly denote all of our redirects as temporary because they might change [\#2218](https://github.com/hashicorp/terraform-cdk/pull/2218)
+
+### chore
+
+- chore: Update Go to version 1.18 on windows workflows [\#2219](https://github.com/hashicorp/terraform-cdk/pull/2219)
+- chore: Update Digital Team Files [\#2203](https://github.com/hashicorp/terraform-cdk/pull/2203)
+- chore(cli): change url to pre-built providers to one we control [\#2181](https://github.com/hashicorp/terraform-cdk/pull/2181)
+- chore(cli): Move things to src/ folder [\#2130](https://github.com/hashicorp/terraform-cdk/pull/2130)
+- chore(deps): Update docker image to use new jsii/superchain tag [\#2214](https://github.com/hashicorp/terraform-cdk/pull/2214)
+- chore(docs): rewrite internal redirects [\#2204](https://github.com/hashicorp/terraform-cdk/pull/2204)
+
+### feat
+
+- feat: add CODEOWNERS file for automatic PR review assignment [\#2212](https://github.com/hashicorp/terraform-cdk/pull/2212)
+
 ## 0.13.1
 
 ### feat
