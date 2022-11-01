@@ -244,6 +244,9 @@ describe("matchers", () => {
           "There are some problems with the configuration, described below."
         )
       );
+      expect(res.message).toEqual(
+        expect.stringContaining("Error: Extraneous data after value")
+      );
     });
   });
 

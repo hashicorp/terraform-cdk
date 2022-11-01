@@ -212,13 +212,24 @@ export function getToHaveResourceWithProperties(
   };
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * A helper util to verify wether an Error was caused by the Nodejs `process.spawn` API.
+ *
+ * @param   {Error}   err The Error object to verify
+ * @returns {Boolean}     A bool indicating wether the input Error is containing process.spawn output.
+ */
 const isExecSpawnError = (err: any): err is Error & SpawnSyncReturns<any> =>
   "output" in err &&
   Array.isArray(err.output) &&
   err.output.some((buf: any) => buf instanceof Buffer);
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * A helper util to append `process.spawn` output to assertion messages to improve developer expirience.
+ *
+ * @param   {String} message The message to optionally append process output to.
+ * @param   {Error}  err     The error from which the `process.spawn` output should be retreived from.
+ * @returns {String}         The finalized assertion message decorated with the `process.spawn` output.
+ */
 const withProcessOutput = (message: string, err: unknown) => {
   let output = "";
 
