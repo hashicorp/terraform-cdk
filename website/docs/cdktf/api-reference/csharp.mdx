@@ -10133,17 +10133,21 @@ Any object.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                    | **Type**                                                        | **Description**   |
-| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                             | _No description._ |
+| **Name**                                                                                    | **Type**                                                              | **Description**   |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                          | The tree node.    |
+| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">AsAnyMap</a></code>                 | <code>System.Collections.Generic.IDictionary< string, object ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>             | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">AsBooleanMap</a></code>         | <code>System.Collections.Generic.IDictionary< string, bool ></code>   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">AsNumberMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, double ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">AsStringMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, string ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                                   | _No description._ |
 
 ---
 
@@ -10189,6 +10193,16 @@ public string FriendlyUniqueId { get; }
 
 ---
 
+##### `AsAnyMap`<sup>Required</sup> <a name="AsAnyMap" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, object > AsAnyMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
 ##### `AsBoolean`<sup>Required</sup> <a name="AsBoolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```csharp
@@ -10196,6 +10210,16 @@ public IResolvable AsBoolean { get; }
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `AsBooleanMap`<sup>Required</sup> <a name="AsBooleanMap" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, bool > AsBooleanMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, bool >
 
 ---
 
@@ -10219,6 +10243,16 @@ public double AsNumber { get; }
 
 ---
 
+##### `AsNumberMap`<sup>Required</sup> <a name="AsNumberMap" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, double > AsNumberMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, double >
+
+---
+
 ##### `AsString`<sup>Required</sup> <a name="AsString" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```csharp
@@ -10226,6 +10260,16 @@ public string AsString { get; }
 ```
 
 - _Type:_ string
+
+---
+
+##### `AsStringMap`<sup>Required</sup> <a name="AsStringMap" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, string > AsStringMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, string >
 
 ---
 

@@ -47,8 +47,7 @@ BackendStack(app, "target-stack",
         docker_image = "org/my-image:latest"
     )
 )
-# TODO: Fix this one - trouble accessing "expression" of TerraformLocal var "commonTags"
-#VariablesOutputsDefineLocalStack(app, "var-out-define-local")
+VariablesOutputsDefineLocalStack(app, "var-out-define-local")
 OutputValuesStack(app, "output-values-stack", OutputValuesProps(myDomain = "example.com"))
 DefineOutputStack(app, "define-output")
 Producer(app, "cdktf-producer")

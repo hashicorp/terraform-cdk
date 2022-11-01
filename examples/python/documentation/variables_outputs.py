@@ -5,6 +5,7 @@ from constructs import Construct
 class VariablesOutputsDefineLocalStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
+        aws.provider.AwsProvider(self, "aws", region="us-east-1")
         #DOCS_BLOCK_START:var-out-define-local
         commonTags = TerraformLocal(self, "common_tags", {
             "service": "service_name",
@@ -12,7 +13,7 @@ class VariablesOutputsDefineLocalStack(TerraformStack):
         })
 
         aws.instance.Instance(self, "example",
-            tags = commonTags.expression
+            tags = commonTags.as_string_map
         )
         #DOCS_BLOCK_END:var-out-define-local
         #DOCS_BLOCK_START:var-out-input-variables

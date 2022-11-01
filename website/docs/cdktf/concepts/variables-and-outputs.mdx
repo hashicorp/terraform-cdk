@@ -111,7 +111,7 @@ new Instance(this, "example", {
         })
 
         aws.instance.Instance(self, "example",
-            tags = commonTags.expression
+            tags = commonTags.as_string_map
         )
 ```
 
@@ -195,13 +195,13 @@ app.synth();
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 
-class MyStackProps:
+class OutputValuesProps:
     myDomain: str
     def __init__(self, myDomain: str):
         self.myDomain = myDomain
 
-class MyStack(TerraformStack):
-    def __init__(self, scope: Construct, name: str, props: MyStackProps):
+class OutputValuesStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str, props: OutputValuesProps):
         super().__init__(scope, name)
 
         TerraformOutput(self, "my-domain",
@@ -209,7 +209,7 @@ class MyStack(TerraformStack):
         )
 
 app = App()
-MyStack(app, "cdktf-producer", MyStackProps(myDomain = "example.com"))
+OutputValuesStack(app, "cdktf-producer", OutputValuesProps(myDomain = "example.com"))
 app.synth()
 ```
 
@@ -269,7 +269,7 @@ import imports.random as random
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 
-class MyStack(TerraformStack):
+class DefineOutputStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -281,7 +281,7 @@ class MyStack(TerraformStack):
         )
 
 app = App()
-MyStack(app, "cdktf-demo")
+DefineOutputStack(app, "cdktf-demo")
 app.synth()
 ```
 

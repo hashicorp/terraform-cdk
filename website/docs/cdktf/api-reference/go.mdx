@@ -10139,10 +10139,14 @@ Any object.
 | <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                           | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                           | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">AsAnyMap</a></code>                 | <code>\*map[string]interface{}</code>                           | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">AsBooleanMap</a></code>         | <code>*map[string]*bool</code>                                  | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>*[]*string</code>                                         | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>\*f64</code>                                              | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">AsNumberMap</a></code>           | <code>*map[string]*f64</code>                                   | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>\*string</code>                                           | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">AsStringMap</a></code>           | <code>*map[string]*string</code>                                | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>interface{}</code>                                        | _No description._ |
 
 ---
@@ -10189,6 +10193,16 @@ func FriendlyUniqueId() *string
 
 ---
 
+##### `AsAnyMap`<sup>Required</sup> <a name="AsAnyMap" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```go
+func AsAnyMap() *map[string]interface{}
+```
+
+- _Type:_ \*map[string]interface{}
+
+---
+
 ##### `AsBoolean`<sup>Required</sup> <a name="AsBoolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```go
@@ -10196,6 +10210,16 @@ func AsBoolean() IResolvable
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `AsBooleanMap`<sup>Required</sup> <a name="AsBooleanMap" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```go
+func AsBooleanMap() *map[string]*bool
+```
+
+- _Type:_ *map[string]*bool
 
 ---
 
@@ -10219,6 +10243,16 @@ func AsNumber() *f64
 
 ---
 
+##### `AsNumberMap`<sup>Required</sup> <a name="AsNumberMap" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```go
+func AsNumberMap() *map[string]*f64
+```
+
+- _Type:_ *map[string]*f64
+
+---
+
 ##### `AsString`<sup>Required</sup> <a name="AsString" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```go
@@ -10226,6 +10260,16 @@ func AsString() *string
 ```
 
 - _Type:_ \*string
+
+---
+
+##### `AsStringMap`<sup>Required</sup> <a name="AsStringMap" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```go
+func AsStringMap() *map[string]*string
+```
+
+- _Type:_ *map[string]*string
 
 ---
 
