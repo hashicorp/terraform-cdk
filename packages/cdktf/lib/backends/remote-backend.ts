@@ -7,6 +7,7 @@ import {
   TerraformRemoteState,
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
+import { getHostNameType } from "./cloud-backend";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class RemoteBackend extends TerraformBackend {
@@ -19,13 +20,7 @@ export class RemoteBackend extends TerraformBackend {
   }
 
   public toMetadata() {
-    const cloud = [
-      undefined,
-      "app.terraform.io",
-      "app.terraform.io:80",
-    ].includes(this.props.hostname)
-      ? "tfc"
-      : "tfe";
+    const cloud = getHostNameType(this.props.hostname);
     return { ...super.toMetadata(), cloud };
   }
 
