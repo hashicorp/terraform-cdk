@@ -679,7 +679,9 @@ $ cdktf provider add registry.example.com/acme/my-provider
 
 ## provider add
 
-This command facilitates upgrading Terraform providers in a CDKTF project. If a [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) for the requested provider is installed we will update it to the newest version matching the version constraint and your `cdktf` version. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
+This command lets you upgrade Terraform providers in a CDKTF project to the newest version compatible with your `cdktf` version. You can also optionally add a version constraint.
+
+If your project has the associated [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the provider to the `cdktf.json` configuration file and invokes `cdktf get` to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
 
 ```sh
 $ cdktf provider add --help
