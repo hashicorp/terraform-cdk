@@ -245,7 +245,9 @@ describe("matchers", () => {
         )
       );
       expect(res.message).toEqual(
-        expect.stringContaining("Error: Extraneous data after value")
+        expect.stringContaining(
+          "Expected subject to be a valid terraform stack"
+        )
       );
     });
   });
