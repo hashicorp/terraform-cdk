@@ -17,6 +17,8 @@ import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
 import assert = require("assert");
 
+const TERRAFORM_DATA_SOURCE_SYMBOL = Symbol.for("cdktf/TerraformDataSource");
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformDataSource
   extends TerraformElement
@@ -35,6 +37,7 @@ export class TerraformDataSource
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, `data.${config.terraformResourceType}`);
+    Object.defineProperty(this, TERRAFORM_DATA_SOURCE_SYMBOL, { value: true });
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
@@ -47,6 +50,12 @@ export class TerraformDataSource
     this.provider = config.provider;
     this.lifecycle = config.lifecycle;
     this.forEach = config.forEach;
+  }
+
+  public static isTerraformDataSource(x: any): x is TerraformDataSource {
+    return (
+      x !== null && typeof x === "object" && TERRAFORM_DATA_SOURCE_SYMBOL in x
+    );
   }
 
   public getStringAttribute(terraformAttribute: string) {

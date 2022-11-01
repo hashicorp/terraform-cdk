@@ -21,6 +21,8 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 
+const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
+
 export interface ITerraformResource {
   readonly terraformResourceType: string;
   readonly fqn: string;
@@ -86,6 +88,7 @@ export class TerraformResource
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
+    Object.defineProperty(this, TERRAFORM_RESOURCE_SYMBOL, { value: true });
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
@@ -100,6 +103,12 @@ export class TerraformResource
     this.forEach = config.forEach;
     this.provisioners = config.provisioners;
     this.connection = config.connection;
+  }
+
+  public static isTerraformResource(x: any): x is TerraformResource {
+    return (
+      x !== null && typeof x === "object" && TERRAFORM_RESOURCE_SYMBOL in x
+    );
   }
 
   public getStringAttribute(terraformAttribute: string) {

@@ -6,6 +6,8 @@ import { Token } from ".";
 import { TerraformStack } from "./terraform-stack";
 import { ref } from "./tfExpression";
 
+const TERRAFORM_ELEMENT_SYMBOL = Symbol.for("cdktf/TerraformElement");
+
 export interface TerraformElementMetadata {
   readonly path: string;
   readonly uniqueId: string;
@@ -14,7 +16,6 @@ export interface TerraformElementMetadata {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformElement extends Construct {
-  public readonly cdktfStack: TerraformStack;
   protected readonly rawOverrides: any = {};
 
   /**
@@ -32,6 +33,7 @@ export class TerraformElement extends Construct {
 
   constructor(scope: Construct, id: string, elementType?: string) {
     super(scope, id);
+    Object.defineProperty(this, TERRAFORM_ELEMENT_SYMBOL, { value: true });
     this._elementType = elementType;
 
     if (Token.isUnresolved(id)) {
@@ -41,7 +43,14 @@ export class TerraformElement extends Construct {
     }
 
     this.node.addMetadata("stacktrace", "trace");
-    this.cdktfStack = TerraformStack.of(this);
+  }
+
+  public get cdktfStack(): TerraformStack {
+    return TerraformStack.of(this);
+  }
+
+  public static isTerraformElement(x: any): x is TerraformElement {
+    return x !== null && typeof x === "object" && TERRAFORM_ELEMENT_SYMBOL in x;
   }
 
   public toTerraform(): any {
