@@ -59,7 +59,8 @@
     "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint",
-      "jsdoc"
+      "jsdoc",
+      "no-instanceof"
     ],
     "extends": [
       "eslint:recommended",
@@ -73,7 +74,15 @@
       "@typescript-eslint/no-empty-interface": 0,
       "@typescript-eslint/explicit-module-boundary-types": 0,
       "no-sequences": "error",
-      "jsdoc/require-jsdoc": ["error", { "contexts": ["ClassDeclaration"] }]
+      "jsdoc/require-jsdoc": [
+        "error",
+        {
+          "contexts": [
+            "ClassDeclaration"
+          ]
+        }
+      ],
+      "no-instanceof/no-instanceof": "error"
     },
     "ignorePatterns": [
       "node_modules",
@@ -94,6 +103,7 @@
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
+    "eslint-plugin-no-instanceof": "1.0.1",
     "jest": "^26.6.3",
     "jsii": "^1.68.0",
     "jsii-docgen": "^7.0.95",

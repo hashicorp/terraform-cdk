@@ -29,15 +29,15 @@ export class ValidateProviderPresence implements IValidation {
    */
   public check(node: IConstruct) {
     if (
-      node instanceof TerraformResource ||
-      node instanceof TerraformDataSource
+      TerraformResource.isTerraformResource(node) ||
+      TerraformDataSource.isTerraformDataSource(node)
     ) {
       if (node.terraformGeneratorMetadata) {
         this.providerNames.add(node.terraformGeneratorMetadata.providerName);
       }
     }
 
-    if (node instanceof TerraformProvider) {
+    if (TerraformProvider.isTerraformProvider(node)) {
       this.foundProviders.push(node);
     }
 
