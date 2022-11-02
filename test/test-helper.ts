@@ -23,7 +23,9 @@ function execSyncLogErrors(...args: Parameters<typeof execSync>) {
 
 export function packageJsonWithDependency(name: string, version?: string) {
   return expect.objectContaining({
-    [name]: version || expect.any(String),
+    dependencies: expect.objectContaining({
+      [name]: version || expect.any(String),
+    }),
   });
 }
 
