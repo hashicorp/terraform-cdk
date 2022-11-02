@@ -298,7 +298,7 @@ export class TerraformCloud implements Terraform {
     const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
-    const pendingStates = ["pending", "plan_queued", "planning"];
+    const pendingStates = ["pending", "plan_queued", "planning", "cost_estimating", "policy_checking"];
 
     while (pendingStates.includes(result.attributes.status)) {
       result = await this.update(this.client, result.id, "plan");
