@@ -21227,7 +21227,8 @@ using HashiCorp.Cdktf;
 new TerraformStackMetadata {
     string Backend,
     string StackName,
-    string Version
+    string Version,
+    string Cloud = null
 };
 ```
 
@@ -21238,6 +21239,7 @@ new TerraformStackMetadata {
 | <code><a href="#cdktf.TerraformStackMetadata.property.backend">Backend</a></code>     | <code>string</code> | _No description._ |
 | <code><a href="#cdktf.TerraformStackMetadata.property.stackName">StackName</a></code> | <code>string</code> | _No description._ |
 | <code><a href="#cdktf.TerraformStackMetadata.property.version">Version</a></code>     | <code>string</code> | _No description._ |
+| <code><a href="#cdktf.TerraformStackMetadata.property.cloud">Cloud</a></code>         | <code>string</code> | _No description._ |
 
 ---
 
@@ -21265,6 +21267,16 @@ public string StackName { get; set; }
 
 ```csharp
 public string Version { get; set; }
+```
+
+- _Type:_ string
+
+---
+
+##### `Cloud`<sup>Optional</sup> <a name="Cloud" id="cdktf.TerraformStackMetadata.property.cloud"></a>
+
+```csharp
+public string Cloud { get; set; }
 ```
 
 - _Type:_ string

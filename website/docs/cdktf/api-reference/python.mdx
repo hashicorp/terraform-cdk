@@ -26012,7 +26012,8 @@ import cdktf
 cdktf.TerraformStackMetadata(
   backend: str,
   stack_name: str,
-  version: str
+  version: str,
+  cloud: str = None
 )
 ```
 
@@ -26023,6 +26024,7 @@ cdktf.TerraformStackMetadata(
 | <code><a href="#cdktf.TerraformStackMetadata.property.backend">backend</a></code>      | <code>str</code> | _No description._ |
 | <code><a href="#cdktf.TerraformStackMetadata.property.stackName">stack_name</a></code> | <code>str</code> | _No description._ |
 | <code><a href="#cdktf.TerraformStackMetadata.property.version">version</a></code>      | <code>str</code> | _No description._ |
+| <code><a href="#cdktf.TerraformStackMetadata.property.cloud">cloud</a></code>          | <code>str</code> | _No description._ |
 
 ---
 
@@ -26050,6 +26052,16 @@ stack_name: str
 
 ```python
 version: str
+```
+
+- _Type:_ str
+
+---
+
+##### `cloud`<sup>Optional</sup> <a name="cloud" id="cdktf.TerraformStackMetadata.property.cloud"></a>
+
+```python
+cloud: str
 ```
 
 - _Type:_ str
