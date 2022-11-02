@@ -400,7 +400,10 @@ export async function debug(argv: any) {
   }
 }
 
-export async function providerAdd(argv: any) {
+export async function providerAdd(argv: {
+  provider: string[];
+  forceLocal?: boolean;
+}) {
   const config = CdktfConfig.read();
 
   const language = config.language;
@@ -417,21 +420,29 @@ export async function providerAdd(argv: any) {
     config.projectDirectory
   );
 
-  let needsGet = false;
-
-  for (const provider of argv.provider) {
+  const providerAddPromises = argv.provider.map(async (provider: string) => {
     const constraint = ProviderConstraint.fromConfigEntry(provider);
 
     if (argv.forceLocal) {
-      needsGet = true;
       await manager.addLocalProvider(constraint);
+      return true;
     } else {
       const { addedLocalProvider } = await manager.addProvider(constraint);
-      if (addedLocalProvider) {
-        needsGet = true;
-      }
+      return addedLocalProvider;
     }
-  }
+  });
+
+  // We need to use allSettled, because in case of an error we don't want the first one, but all of them
+  const results = await Promise.allSettled(providerAddPromises);
+  const errors = results.reduce((errorMessage, item) => {
+    if (item.status === "rejected") {
+      return `${errorMessage}\n\n- ${item.reason.message}`;
+    }
+    return errorMessage;
+  }, "");
+  const needsGet = results.some(
+    (item) => item.status === "fulfilled" && item.value === true
+  );
 
   if (needsGet) {
     console.log(
@@ -442,6 +453,10 @@ export async function providerAdd(argv: any) {
       output: config.codeMakerOutput,
       parallelism: 1,
     });
+  }
+
+  if (errors !== "") {
+    throw Errors.Usage(`Error adding one or more providers: \n ${errors}`);
   }
 }
 
