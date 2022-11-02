@@ -81,6 +81,45 @@ const wait = (ms = 1000) => {
   });
 };
 
+const EXCLUDED_KEYS = ["Authorization"];
+/**
+ * Same as `JSON.stringify` except for Axios errors. For Axios Errors, fields included in the
+ * `EXCLUDED_KEYS` array will be replaced with `REDACTED`. Otherwise behaves the same as
+ * `JSON.stringify`
+ * @param error Error thrown by Axios
+ * @returns JSON stringified string with sensitive fields replaced by "REDACTED"
+ */
+function safeStringifyError(error: AxiosError): string {
+  if (!(error as AxiosError)?.isAxiosError) {
+    return JSON.stringify(error);
+  }
+
+  return JSON.stringify(error, function (key: string, value: string) {
+    if (EXCLUDED_KEYS.includes(key)) return "REDACTED";
+    return value;
+  });
+}
+
+// Exporting for testing purposes only
+export function LogBetterErrorAndThrow(name: string, e: AxiosError) {
+  if (e.response && e.response.status >= 400 && e.response.status <= 599) {
+    logger.error(`Error in ${name}: ${safeStringifyError(e)}`);
+
+    const errors = e.response.data?.errors as
+      | Record<string, unknown>[]
+      | undefined;
+    if (errors) {
+      throw new Error(
+        `${name}: Request to Terraform Cloud failed with status ${
+          e.response.status
+        }: ${errors.map((e) => JSON.stringify(e)).join(", ")}`
+      );
+    }
+  } else {
+    logger.warn(`Error in ${name}: ${JSON.stringify(e)}`);
+  }
+}
+
 function BeautifyErrors(name: string) {
   return (target: any, propertyKey: string, descriptor: PropertyDescriptor) => {
     const isMethod = descriptor && descriptor.value instanceof Function;
@@ -93,25 +132,7 @@ function BeautifyErrors(name: string) {
       try {
         return await originalMethod.apply(this, args);
       } catch (e) {
-        if (
-          e.response &&
-          e.response.status >= 400 &&
-          e.response.status <= 599
-        ) {
-          const errors = e.response.data?.errors as
-            | Record<string, unknown>[]
-            | undefined;
-          logger.error(`Error in ${name}: ${JSON.stringify(e)}`);
-          if (errors) {
-            throw new Error(
-              `${name}: Request to Terraform Cloud failed with status ${
-                e.response.status
-              }: ${errors.map((e) => JSON.stringify(e)).join(", ")}`
-            );
-          }
-        } else {
-          logger.warn(`Error in ${name}: ${JSON.stringify(e)}`);
-        }
+        LogBetterErrorAndThrow(name, e as AxiosError);
         throw e;
       }
     };
