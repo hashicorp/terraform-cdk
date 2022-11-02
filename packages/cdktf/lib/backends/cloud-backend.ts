@@ -9,6 +9,17 @@ import { TerraformBackend } from "../terraform-backend";
 import { ValidateBinaryVersion } from "../validations";
 
 /**
+ * checks whether the given hostname belongs to tfc or (else) to tfe
+ * If no hostname is given, it will return tfc, as that's the default in backends.
+ * @param hostname e.g. app.terraform.io, app.terraform.io:80, tfe.myorg.org
+ * @returns "tfc" or "tfe"
+ */
+export function getHostNameType(hostname?: string): "tfc" | "tfe" {
+  if (!hostname) return "tfc"; // default is tfc when not passing a hostname to backends
+  return hostname.startsWith("app.terraform.io") ? "tfc" : "tfe";
+}
+
+/**
  * The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}.
  * The cloud block is a nested block within the top-level terraform settings block.
  * It specifies which Terraform Cloud workspaces to use for the current working directory.
@@ -38,6 +49,11 @@ export class CloudBackend extends TerraformBackend {
         cloud: deepMerge(this.synthesizeAttributes(), this.rawOverrides),
       },
     };
+  }
+
+  public toMetadata() {
+    const cloud = getHostNameType(this.props.hostname);
+    return { ...super.toMetadata(), cloud };
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
