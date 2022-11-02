@@ -112,11 +112,11 @@ export function LogBetterErrorAndThrow(name: string, e: AxiosError) {
       throw new Error(
         `${name}: Request to Terraform Cloud failed with status ${
           e.response.status
-        }: ${errors.map((e) => JSON.stringify(e)).join(", ")}`
+        }: ${errors.map((subError) => JSON.stringify(subError)).join(", ")}`
       );
     }
   } else {
-    logger.warn(`Error in ${name}: ${JSON.stringify(e)}`);
+    logger.warn(`Error in ${name}: ${safeStringifyError(e)}`);
   }
 }
 
