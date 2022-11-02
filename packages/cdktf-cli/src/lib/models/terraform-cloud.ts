@@ -101,7 +101,7 @@ function safeStringifyError(error: AxiosError): string {
 }
 
 // Exporting for testing purposes only
-export function LogBetterErrorAndThrow(name: string, e: AxiosError) {
+export function logBetterErrorAndThrow(name: string, e: AxiosError) {
   if (e.response && e.response.status >= 400 && e.response.status <= 599) {
     logger.error(`Error in ${name}: ${safeStringifyError(e)}`);
 
@@ -132,7 +132,7 @@ function BeautifyErrors(name: string) {
       try {
         return await originalMethod.apply(this, args);
       } catch (e) {
-        LogBetterErrorAndThrow(name, e as AxiosError);
+        logBetterErrorAndThrow(name, e as AxiosError);
         throw e;
       }
     };

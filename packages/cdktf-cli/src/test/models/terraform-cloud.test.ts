@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { logger } from "../../lib/logging";
-import { LogBetterErrorAndThrow } from "../../lib/models/terraform-cloud";
+import { logBetterErrorAndThrow } from "../../lib/models/terraform-cloud";
 jest.mock("../../lib/logging");
 
 describe("BeautifyErrors", () => {
@@ -11,7 +11,7 @@ describe("BeautifyErrors", () => {
   });
 
   it("beautifies errors", () => {
-    LogBetterErrorAndThrow("test", {
+    logBetterErrorAndThrow("test", {
       isAxiosError: true,
       response: {
         status: 404,
@@ -26,7 +26,7 @@ describe("BeautifyErrors", () => {
   });
 
   it("doesn't print sensitive headers", () => {
-    LogBetterErrorAndThrow("test", {
+    logBetterErrorAndThrow("test", {
       isAxiosError: true,
       response: {
         status: 404,
