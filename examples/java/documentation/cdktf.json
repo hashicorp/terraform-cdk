@@ -1,6 +1,7 @@
 {
   "language": "java",
   "app": "mvn -e -q compile exec:java",
+  "codeMakerOutput": "src/main/java/imports",
   "terraformProviders": [
     "aws@~> 3.0",
     "kubernetes@~> 2.0",
@@ -23,5 +24,9 @@
       "name": "my_local_module",
       "source": "./local_module/"
     }
-  ]
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
 }

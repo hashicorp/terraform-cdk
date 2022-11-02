@@ -1,6 +1,8 @@
 package com.mycompany.app;
 
 import com.hashicorp.cdktf.TerraformStack;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 
 import software.constructs.Construct;
 
@@ -16,6 +18,11 @@ public class MainFunction extends TerraformStack {
 
     public MainFunction(Construct scope, String id) {
         super(scope, id);
+
+        AwsProvider provider = new AwsProvider(this, "provider", AwsProviderConfig.builder()
+            .region("us-east-1")
+            .build()
+        );
 
         // DOCS_BLOCK_START:functions-usage-example
 

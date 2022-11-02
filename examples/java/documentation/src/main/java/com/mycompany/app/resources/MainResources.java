@@ -23,7 +23,10 @@ import imports.kubernetes.namespace.Namespace;
 import imports.kubernetes.namespace.NamespaceConfig;
 import imports.kubernetes.namespace.NamespaceMetadata;
 // DOCS_BLOCK_END:resources-references
-
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.kubernetes.provider.KubernetesProvider;
+import imports.kubernetes.provider.KubernetesProviderConfig;
 import imports.aws.sns_topic.SnsTopic;
 import imports.aws.sns_topic.SnsTopicConfig;
 import java.util.ArrayList;
@@ -38,6 +41,13 @@ public class MainResources extends TerraformStack {
         public MainResources(Construct scope, String id) {
                 super(scope, id);
 
+                AwsProvider provider = new AwsProvider(this, "provider", AwsProviderConfig.builder()
+                        .region("us-east-1")
+                        .build()
+                );
+                new KubernetesProvider(this, "kind", KubernetesProviderConfig.builder()
+                        .build()
+                );
                 App app = new App();
                 // DOCS_BLOCK_START:resources-references
                 Namespace exampleNamespace = new Namespace(this, "tf-cdk-example", NamespaceConfig.builder()

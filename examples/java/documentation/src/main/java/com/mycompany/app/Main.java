@@ -38,8 +38,7 @@ public class Main extends TerraformStack {
         new MainConstructScope(app, "constructs-scope");
         new MainUseConstructs(app, "use-constructs");
         new DataSourcesDefine(app, "data-sources-define");
-        // TODO: fix this one -> requires workspaces?
-        // new DataSourcesRemoteState(app, "data-sources-remote-state");
+        new DataSourcesRemoteState(app, "data-sources-remote-state");
         new MainCreateModules(app, "create-modules");
         new MainInstallModules(app, "install-modules");
         new MainModuleExample(app, "module-example");
@@ -58,7 +57,8 @@ public class Main extends TerraformStack {
                 new MainMultipleStacks.MultipleStacksConfig().setEnvironment("staging").setRegion("eu-central-1"));
         new MainSingleStack(app, "single-stack");
         new MainStacks(app, "stacks");
-        // TODO: fix this one -> Trouble getting expression out of TerraformLocal
+        // TODO: fix this one -> Trouble getting expression out of TerraformLocal ->
+        // wait for fix to merge
         // new VariablesAndOutputs(app, "var-and-outs");
         new VariablesAndOutputsDefineValues(app, "var-and-outs-define");
         new VariablesAndOutputsRemoteState.Producer(app, "cdktf-producer");
@@ -70,6 +70,6 @@ public class Main extends TerraformStack {
         new MainIterator(app, "main-iterator");
         new MainIterator2(app, "main-iterator2");
         new MainToken(app, "main-token");
-
+        app.synth();
     }
 }

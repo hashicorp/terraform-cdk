@@ -1,7 +1,8 @@
 package com.mycompany.app;
 
 import com.hashicorp.cdktf.*;
-
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 import software.constructs.Construct;
 // DOCS_BLOCK_START:iterators-iterators-complex-types
 import imports.aws.s3_bucket.S3Bucket;
@@ -19,6 +20,11 @@ public class MainIterator extends TerraformStack {
     public MainIterator(Construct scope, String id) {
         super(scope, id);
 
+        AwsProvider provider = new AwsProvider(this, "provider", AwsProviderConfig.builder()
+            .region("us-east-1")
+            .build()
+        );
+        
         // DOCS_BLOCK_START:iterators-iterators-complex-types
         TerraformLocal myList = new TerraformLocal(this, "my-list", Arrays.asList(
                 new HashMap() {

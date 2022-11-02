@@ -1,5 +1,6 @@
 package com.mycompany.app.variablesAndOutputs;
-
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 import com.hashicorp.cdktf.TerraformLocal;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformVariable;
@@ -15,6 +16,11 @@ public class VariablesAndOutputs extends TerraformStack {
 
     public VariablesAndOutputs(Construct scope, String id){
         super(scope, id);
+
+        AwsProvider provider = new AwsProvider(this, "provider", AwsProviderConfig.builder()
+            .region("us-east-1")
+            .build()
+        );
 
         // DOCS_BLOCK_START:var-out-define-local
         TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new HashMap<String, String>(){{
