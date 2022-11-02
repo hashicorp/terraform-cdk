@@ -20,6 +20,23 @@ import { Errors } from "../errors";
 import * as agent from "tunnel-agent";
 import { URL } from "url";
 
+type AxiosError = Partial<{
+  message: string;
+  name: string;
+  code: string;
+  request: any;
+  status: number;
+  isAxiosError: boolean;
+  response: {
+    data?: any;
+    status: number;
+    statusText?: string;
+    headers: Record<string, string>;
+    config?: any;
+    request?: any;
+  };
+}>;
+
 export class TerraformCloudPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
