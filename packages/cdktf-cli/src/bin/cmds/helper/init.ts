@@ -244,7 +244,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
   let needsGet = false;
   const providers = argv.providers?.length
     ? argv.providers
-    : await getProviders();
+    : await askForProviders();
   if (providers?.length) {
     needsGet = await providerAdd({
       providers: providers,
@@ -268,12 +268,13 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 }
 
-async function getProviders(): Promise<string[] | undefined> {
+async function askForProviders(): Promise<string[] | undefined> {
   if (!isInteractiveTerminal()) {
     return Promise.resolve(undefined);
   }
   const prebuiltProviders = await getAllPrebuiltProviders();
   const options = Object.keys(prebuiltProviders);
+  console.log(chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`)
   const { providers: selection } = await inquirer.prompt([
     {
       type: "checkbox",
@@ -284,7 +285,7 @@ async function getProviders(): Promise<string[] | undefined> {
   ]);
   return Object.entries(prebuiltProviders)
     .filter((provider) => selection.includes(provider[0]))
-    .map((provider) => provider[1]);
+    .map((provider) => provider[1].split("@")[0]);
 }
 
 function copyLocalModules(
