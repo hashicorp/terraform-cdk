@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [0.13.3](https://github.com/hashicorp/terraform-cdk/compare/v0.13.2...v0.13.3) (2022-11-03)
 
+### fix
+
+- fix: Redact authorization header when error logging from TFC/TFE [\#2241](https://github.com/hashicorp/terraform-cdk/pull/2241)
+
 ## 0.13.2
 
 ### fix
