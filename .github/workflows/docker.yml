@@ -34,8 +34,8 @@ jobs:
         run: |
           DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
           AVAILABLE_TERRAFORM_VERSIONS=$(cat .terraform.versions.json | jq -r '.available | join(" ")')
-          echo "::set-output name=default::$DEFAULT_TERRAFORM_VERSION"
-          echo "::set-output name=available::$AVAILABLE_TERRAFORM_VERSIONS"
+          echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
+          echo "available=$AVAILABLE_TERRAFORM_VERSIONS" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
