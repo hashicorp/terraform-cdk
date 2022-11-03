@@ -80,3 +80,13 @@ test("extract escape sequences", () => {
     expect.arrayContaining(["foo-", "-bar"])
   );
 });
+
+test("extract escape sequences followed directly by tokens", () => {
+  const tokenString = TokenString.forString("${${TfToken[TOKEN.0]}-bar}", true);
+  const resolvable = new TestResolvable();
+
+  const splitTokens = tokenString.split(() => resolvable);
+
+  expect(splitTokens.tokens[0]).toEqual(resolvable);
+  expect(splitTokens.literals).toEqual(expect.arrayContaining(["-bar"]));
+});
