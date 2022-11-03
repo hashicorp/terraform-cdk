@@ -476,3 +476,22 @@ export async function providerUpgrade(argv: any) {
     });
   }
 }
+
+export async function providerList() {
+  const config = CdktfConfig.read();
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  console.log("Todo");
+}
