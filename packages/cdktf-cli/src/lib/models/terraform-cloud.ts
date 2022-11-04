@@ -354,9 +354,22 @@ export class TerraformCloud implements Terraform {
     }
 
     sendLog(`Getting plan output`);
-    const plan = await this.client.Plans.jsonOutput(
-      result.relationships.plan.data.id
-    );
+    let plan;
+    try {
+      plan = await this.client.Plans.jsonOutput(
+        result.relationships.plan.data.id
+      );
+    } catch (e) {
+      if (
+        e.response &&
+        (e.response.status === 404 || e.response.status === 401)
+      ) {
+        // We may have a token without admin privileges
+        sendLog(
+          `Cannot get plan output due to token without administator scope. To view plan output visit:\n\n${url}`
+        );
+      }
+    }
 
     this.run = result;
     return new TerraformCloudPlan(
