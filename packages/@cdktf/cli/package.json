@@ -1,0 +1,163 @@
+{
+  "name": "@cdktf/cli",
+  "version": "0.0.0",
+  "description": "CDK for Terraform CLI",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "pretest": "yarn build",
+    "pretest:ci": "yarn build",
+    "test": "yarn lint && jest",
+    "test:ci": "yarn lint && jest --ci",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "main": "src/lib/index.js",
+  "types": "src/lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/cli"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@cdktf/commons": "0.0.0",
+    "@cdktf/hcl2cdk": "0.0.0",
+    "@cdktf/hcl2json": "0.0.0",
+    "@sentry/node": "^6.19.7",
+    "@types/yargs": "^17.0.13",
+    "cdktf": "0.0.0",
+    "codemaker": "^1.68.0",
+    "constructs": "^10.0.25",
+    "cross-spawn": "^7.0.3",
+    "https-proxy-agent": "^5.0.1",
+    "ink-select-input": "^4.2.1",
+    "jsii": "^1.68.0",
+    "jsii-pacmak": "^1.68.0",
+    "minimatch": "^5.1.0",
+    "node-abort-controller": "^3.0.1",
+    "node-fetch": "^2.6.7",
+    "tunnel-agent": "^0.6.0",
+    "xml-js": "^1.6.11",
+    "yargs": "^17.5",
+    "yoga-layout-prebuilt": "^1.10.0",
+    "zod": "^1.11.17"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-var-requires": 0,
+      "react/no-unescaped-entities": 0,
+      "no-sequences": "error",
+      "no-irregular-whitespace": [
+        "error",
+        {
+          "skipTemplates": true
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tsc-files src/lib/ambient.d.ts --noEmit"
+  },
+  "devDependencies": {
+    "@cdktf/provider-generator": "0.0.0",
+    "@npmcli/ci-detect": "^1.4.0",
+    "@skorfmann/ink-confirm-input": "^3.0.0",
+    "@skorfmann/terraform-cloud": "^1.15.0",
+    "@types/archiver": "^5.3.1",
+    "@types/cross-spawn": "^6.0.2",
+    "@types/detect-port": "^1.3.2",
+    "@types/follow-redirects": "^1.14.1",
+    "@types/fs-extra": "^8.1.2",
+    "@types/ink": "^2.0.3",
+    "@types/ink-spinner": "^3.0.1",
+    "@types/inquirer": "^7.3.3",
+    "@types/jest": "^25.2.3",
+    "@types/json-schema": "^7.0.11",
+    "@types/lodash.isequal": "^4.5.6",
+    "@types/nock": "^11.1.0",
+    "@types/node": "^14.18.30",
+    "@types/parse-gitignore": "^1.0.0",
+    "@types/react": "18.0.21",
+    "@types/semver": "^7.3.12",
+    "@types/stream-buffers": "^3.0.4",
+    "@types/uuid": "^8.3.4",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "archiver": "^5.3.1",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "cli-spinners": "2.7.0",
+    "codemaker": "^1.68.0",
+    "cross-fetch": "^3.1.5",
+    "detect-port": "^1.5.1",
+    "esbuild": "^0.15.9",
+    "esbuild-jest": "^0.5.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-react": "^7.31.8",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "execa": "^5.1.1",
+    "extract-zip": "^2.0.1",
+    "follow-redirects": "^1.15.2",
+    "fs-extra": "^8.1.0",
+    "indent-string": "^4.0.0",
+    "ink": "^3.2.0",
+    "ink-spinner": "^4.0.3",
+    "ink-testing-library": "^2.1.0",
+    "ink-use-stdout-dimensions": "^1.0.5",
+    "inquirer": "^8.2.4",
+    "jest": "^26.6.3",
+    "jsii-srcmak": "^0.1.686",
+    "lodash.isequal": "^4.5.0",
+    "log4js": "^6.6.1",
+    "nock": "^13.2.9",
+    "open": "^7.4.2",
+    "parse-gitignore": "^1.0.1",
+    "pkg-up": "^3.1.0",
+    "react": "^18.2.0",
+    "semver": "^7.3.7",
+    "sscaff": "^1.2.274",
+    "stream-buffers": "^3.0.2",
+    "strip-ansi": "^6.0.1",
+    "ts-jest": "^26.5.6",
+    "tsc-files": "^1.1.3",
+    "typescript": "^3.9.10",
+    "utility-types": "^3.10.0",
+    "uuid": "^8.3.2"
+  }
+}

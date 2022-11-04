@@ -2,14 +2,18 @@ import React, { Fragment } from "react";
 
 import { Text, Box, useApp, Newline } from "ink";
 import Spinner from "ink-spinner";
-import { Language, GetOptions, config } from "@cdktf/provider-generator";
-import { sendTelemetry } from "../../../lib/checkpoint";
-import { get, GetStatus as Status } from "../../../lib";
+import { GetOptions } from "@cdktf/provider-generator";
+import {
+  Language,
+  sendTelemetry,
+  TerraformDependencyConstraint,
+} from "@cdktf/commons";
+import { get, GetStatus as Status } from "@cdktf/cli";
 
 interface GetConfig {
   codeMakerOutput: string;
   language: Language;
-  constraints: config.TerraformDependencyConstraint[];
+  constraints: TerraformDependencyConstraint[];
   parallelism: number;
   force?: boolean;
 }

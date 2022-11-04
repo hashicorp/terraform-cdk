@@ -7,13 +7,23 @@ import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
-  LANGUAGES,
-  config as cfg,
-  Language,
   GetOptions,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
 } from "@cdktf/provider-generator";
+
+import {
+  LANGUAGES,
+  Language,
+  readConfigSync,
+  sendTelemetry,
+  Errors,
+  IsErrorType,
+  logger,
+  collectDebugInformation,
+  getPackageVersion,
+  TerraformDependencyConstraint,
+} from "@cdktf/commons";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
 import { renderInk } from "./helper/render-ink";
@@ -31,32 +41,27 @@ import { List } from "./ui/list";
 import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
 
-import { sendTelemetry } from "../../lib/checkpoint";
-import { Errors, IsErrorType } from "../../lib/errors";
-import { Output } from "./ui/output";
 import {
   NestedTerraformOutputs,
   saveOutputs,
   normalizeOutputPath,
-} from "../../lib/output";
+  initializErrorReporting,
+  DependencyManager,
+  ProviderConstraint,
+  CdktfConfig,
+  ProviderDependencySpec,
+  get as getLib,
+  providerAdd as providerAddLib,
+} from "@cdktf/cli";
+import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
-import { collectDebugInformation, getPackageVersion } from "../../lib/debug";
-import { initializErrorReporting } from "../../lib/error-reporting";
-import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
-import { providerAdd as providerAddLib } from "../../lib/provider-add";
-import { logger } from "../../lib/logging";
-import {
-  DependencyManager,
-  ProviderConstraint,
-} from "../../lib/dependencies/dependency-manager";
-import { get as getLib } from "../../lib/get";
 
 const chalkColour = new chalk.Instance();
-const config = cfg.readConfigSync();
+const config = readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
   let providersFromConfig: (string | ProviderDependencySpec)[] = [];
@@ -83,7 +88,7 @@ export async function convert({ language, provider }: any) {
   const { providerSchema } = await readSchema(
     providerRequirements.map((spec) =>
       ConstructsMakerProviderTarget.from(
-        new cfg.TerraformProviderConstraint(spec),
+        new TerraformProviderConstraint(spec),
         LANGUAGES[0]
       )
     )
@@ -210,12 +215,12 @@ export async function get(argv: {
   await initializErrorReporting(true);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
-  const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+  const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
   const { output, language, parallelism, force } = argv;
 
-  const constraints: cfg.TerraformDependencyConstraint[] = [
+  const constraints: TerraformDependencyConstraint[] = [
     ...providers.map((c) => new TerraformProviderConstraint(c)),
     ...modules.map((c) => new TerraformModuleConstraint(c)),
   ];
@@ -482,7 +487,7 @@ export async function providerUpgrade(argv: any) {
       } been updated. Running cdktf get to update...`
     );
 
-    const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+    const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];
 
@@ -492,7 +497,7 @@ export async function providerUpgrade(argv: any) {
       jsiiParallelism: 1,
     };
 
-    const constraints: cfg.TerraformDependencyConstraint[] = [
+    const constraints: TerraformDependencyConstraint[] = [
       ...providers,
       ...modules,
     ];

@@ -4,7 +4,7 @@ import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
 import { downcaseFirst, uppercaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
-import { logger } from "../../../config";
+import { logger } from "@cdktf/commons";
 
 function titleCase(value: string) {
   return value[0].toUpperCase() + value.slice(1);

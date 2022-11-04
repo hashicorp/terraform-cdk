@@ -1,12 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TerraformCli } from "../../../lib/models/terraform-cli";
+import { TerraformCli, SynthesizedStack } from "@cdktf/cli";
+import { logger } from "@cdktf/commons";
 import * as semver from "semver";
-import { SynthesizedStack } from "../../../lib/synth-stack";
 import { existsSync } from "fs-extra";
 import * as path from "path";
 import { AbortController } from "node-abort-controller"; // polyfill until we update to node 14
-import { logger } from "../../../lib/logging";
 
 const MIN_SUPPORTED_VERSION = "1.0.0";
 const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/;

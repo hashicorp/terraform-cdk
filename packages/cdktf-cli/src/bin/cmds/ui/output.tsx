@@ -1,6 +1,6 @@
 /* eslint-disable no-control-regex */
 import React from "react";
-import { NestedTerraformOutputs } from "../../../lib/output";
+import { NestedTerraformOutputs } from "@cdktf/cli";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView, OutputsBottomBar, StatusBottomBar } from "./components";
 

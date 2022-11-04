@@ -33,6 +33,8 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
+    "@cdktf/cli": "0.0.0",
+    "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
     "@sentry/node": "^6.19.7",
@@ -94,17 +96,17 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "tsc-files src/lib/ambient.d.ts --noEmit"
+    "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
   },
   "devDependencies": {
     "@cdktf/provider-generator": "0.0.0",
+    "@cdktf/cli": "0.0.0",
     "@npmcli/ci-detect": "^1.4.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.15.0",
     "@types/archiver": "^5.3.1",
     "@types/cross-spawn": "^6.0.2",
     "@types/detect-port": "^1.3.2",
-    "@types/follow-redirects": "^1.14.1",
     "@types/fs-extra": "^8.1.2",
     "@types/ink": "^2.0.3",
     "@types/ink-spinner": "^3.0.1",
@@ -121,7 +123,6 @@
     "@types/uuid": "^8.3.4",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
-    "archiver": "^5.3.1",
     "chalk": "^4.1.2",
     "chokidar": "^3.5.3",
     "cli-spinners": "2.7.0",
@@ -136,7 +137,6 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "execa": "^5.1.1",
     "extract-zip": "^2.0.1",
-    "follow-redirects": "^1.15.2",
     "fs-extra": "^8.1.0",
     "indent-string": "^4.0.0",
     "ink": "^3.2.0",

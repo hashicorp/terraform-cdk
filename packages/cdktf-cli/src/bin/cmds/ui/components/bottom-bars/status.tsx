@@ -2,8 +2,7 @@ import React from "react";
 import { Text, Box } from "ink";
 import Spinner from "ink-spinner";
 import { Status } from "../../hooks/cdktf-project";
-import { WatchState } from "../../../../../lib";
-import { CdktfStack } from "../../../../../lib/cdktf-stack";
+import { WatchState, CdktfStack } from "@cdktf/cli";
 
 type Props = {
   status: Status;
