@@ -11,9 +11,14 @@ import * as path from "path";
 
 import * as terraformCloudClient from "../helper/terraform-cloud-client";
 
-import { downloadFile, HttpError } from "../../../lib/util";
-import { logFileName, logger } from "../../../lib/logging";
-import { Errors } from "../../../lib/errors";
+import {
+  init,
+  Project,
+  askForCrashReportingConsent,
+  CdktfConfig,
+  providerAdd,
+  getAllPrebuiltProviders,
+} from "@cdktf/cli";
 import {
   convertProject,
   getTerraformConfigFromDir,
@@ -21,24 +26,26 @@ import {
 } from "@cdktf/hcl2cdk";
 import { isLocalModule } from "@cdktf/provider-generator";
 import { execSync } from "child_process";
-import { sendTelemetry } from "../../../lib/checkpoint";
 import { v4 as uuid } from "uuid";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
-  LANGUAGES,
-  config,
 } from "@cdktf/provider-generator";
+import {
+  LANGUAGES,
+  TerraformProviderConstraint,
+  downloadFile,
+  HttpError,
+  logFileName,
+  logger,
+  Errors,
+  sendTelemetry,
+} from "@cdktf/commons";
 import { templates, templatesDir } from "./init-templates";
-import { init, Project } from "../../../lib";
-import { askForCrashReportingConsent } from "../../../lib/error-reporting";
 import ciDetect from "@npmcli/ci-detect";
 import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
-import { CdktfConfig } from "../../../lib/cdktf-config";
-import { providerAdd } from "../../../lib/provider-add";
-import { getAllPrebuiltProviders } from "../../../lib/dependencies/prebuilt-providers";
 
 const chalkColour = new chalk.Instance();
 
@@ -175,7 +182,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     const { providerSchema } = await readSchema(
       Object.entries(providerRequirements).map(([name, version]) =>
         ConstructsMakerProviderTarget.from(
-          new config.TerraformProviderConstraint(`${name}@ ${version}`),
+          new TerraformProviderConstraint(`${name}@ ${version}`),
           LANGUAGES[0]
         )
       )

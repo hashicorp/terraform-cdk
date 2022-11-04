@@ -8,7 +8,7 @@ import {
   DeployingResourceApplyState,
   PlannedResourceAction,
   TerraformOutput,
-} from "../../lib/models/terraform";
+} from "@cdktf/cli";
 
 test("DeploySummary", async () => {
   const resource: DeployingResource = {

@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { CodeMaker, toCamelCase } from "codemaker";
+import { LANGUAGES, logger, TerraformProviderConstraint } from "@cdktf/commons";
 import { ProviderSchema } from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
@@ -8,9 +9,8 @@ import { ResourceEmitter, StructEmitter } from "./emitter";
 import {
   ConstructsMakerProviderTarget,
   ConstructsMakerTarget,
-  LANGUAGES,
 } from "../constructs-maker";
-import { logger, TerraformProviderConstraint } from "../../config";
+
 interface ProviderData {
   name: string;
   source: string;

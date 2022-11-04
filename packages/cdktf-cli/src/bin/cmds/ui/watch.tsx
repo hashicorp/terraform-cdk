@@ -1,6 +1,6 @@
 import { AbortController } from "node-abort-controller";
 import React, { useEffect, useState } from "react";
-import { watch, WatchState } from "../../../lib/";
+import { watch, WatchState } from "@cdktf/cli";
 import { StreamView, WatchStatusBottomBar } from "./components";
 import { LogEntry } from "./hooks/cdktf-project";
 

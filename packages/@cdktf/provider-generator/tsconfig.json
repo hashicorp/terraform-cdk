@@ -7,7 +7,7 @@
     "inlineSourceMap": true,
     "inlineSources": true,
     "lib": [
-      "es2018"
+      "es2020"
     ],
     "module": "CommonJS",
     "noEmitOnError": false,
@@ -27,8 +27,11 @@
     "incremental": true,
     "esModuleInterop": true
   },
+  "files": [
+    "ambient.d.ts"
+  ],
   "include": [
-    "**/*.ts",
+    "lib/**/*.ts", "../commons/src/config.test.ts",
   ],
   "exclude": [
     "node_modules",

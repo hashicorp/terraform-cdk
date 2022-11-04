@@ -31,6 +31,7 @@
     "@babel/generator": "^7.19.0",
     "@babel/template": "^7.18.10",
     "@babel/types": "^7.19.0",
+    "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
     "camelcase": "^6.3.0",

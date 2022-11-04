@@ -3,7 +3,7 @@ import { Text } from "ink";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView } from "./components";
-import { SynthesizedStack } from "../../../lib";
+import { SynthesizedStack } from "@cdktf/cli";
 import { StatusBottomBar } from "./components/bottom-bars/status";
 
 interface CommonSynthConfig {
