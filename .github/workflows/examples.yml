@@ -40,6 +40,16 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
       - name: installing dependencies
         run: |
           yarn install
@@ -58,3 +68,5 @@ jobs:
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
