@@ -28,6 +28,7 @@ jobs:
           scopes: |
             lib
             cli
+            api
             hcl2json
             hcl2cdk
             provider-generator

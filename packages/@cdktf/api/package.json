@@ -1,0 +1,116 @@
+{
+  "name": "@cdktf/api",
+  "version": "0.0.0",
+  "description": "Cloud Development Kit for Terraform API",
+  "scripts": {
+    "build": "jsii --silence-warnings reserved-word",
+    "postbuild": "yarn run docs && node ./scripts/generate-example.js",
+    "docs": "jsii-docgen",
+    "watch": "jsii -w --silence-warnings reserved-word",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "package": "jsii-pacmak",
+    "package:python": "jsii-pacmak --targets python",
+    "package:java": "jsii-pacmak --targets java",
+    "package:dotnet": "jsii-pacmak --targets dotnet",
+    "package:js": "jsii-pacmak --targets js",
+    "package:go": "jsii-pacmak --targets go",
+    "lint": "eslint . --ext .ts",
+    "test": "jest --passWithNoTests && yarn lint",
+    "test:ci": "jest --ci --passWithNoTests && yarn lint",
+    "dist-clean": "rm -rf dist"
+  },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "jsii": {
+    "outdir": "dist",
+    "versionFormat": "short",
+    "targets": {
+      "python": {
+        "distName": "cdktf_api",
+        "module": "cdktf_api"
+      },
+      "java": {
+        "package": "com.hashicorp.cdktf_api",
+        "maven": {
+          "groupId": "com.hashicorp",
+          "artifactId": "cdktf_api"
+        }
+      },
+      "dotnet": {
+        "packageId": "HashiCorp.CdktfApi",
+        "namespace": "HashiCorp.CdktfApi"
+      },
+      "go": {
+        "moduleName": "github.com/hashicorp/terraform-cdk-go",
+        "packageName": "cdktf_api"
+      }
+    }
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "homepage": "https://github.com/hashicorp/terraform-cdk",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/cdktf"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint",
+      "jsdoc",
+      "no-instanceof"
+    ],
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/no-empty-interface": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "no-sequences": "error",
+      "jsdoc/require-jsdoc": [
+        "error",
+        {
+          "contexts": [
+            "ClassDeclaration"
+          ]
+        }
+      ],
+      "no-instanceof/no-instanceof": "error"
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage",
+      "test",
+      "*.test*.ts"
+    ]
+  },
+  "license": "MPL-2.0",
+  "devDependencies": {
+    "@types/jest": "^25.2.3",
+    "@types/json-stable-stringify": "^1.0.34",
+    "@types/node": "^14.18.30",
+    "@types/semver": "^7.3.12",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "constructs": "^10.0.25",
+    "eslint": "^7.32.0",
+    "eslint-plugin-jsdoc": "^39.3.6",
+    "eslint-plugin-no-instanceof": "1.0.1",
+    "jest": "^26.6.3",
+    "jsii": "^1.68.0",
+    "jsii-docgen": "^7.0.95",
+    "jsii-pacmak": "^1.68.0",
+    "ts-jest": "^26.5.6",
+    "typescript": "^3.9.10"
+  },
+  "stability": "experimental"
+}
