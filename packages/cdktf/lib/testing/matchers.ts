@@ -221,7 +221,7 @@ export function getToHaveResourceWithProperties(
 const isExecSpawnError = (err: any): err is Error & SpawnSyncReturns<any> =>
   "output" in err &&
   Array.isArray(err.output) &&
-  err.output.some((buf: any) => buf instanceof Buffer);
+  err.output.some((buf: any) => Buffer.isBuffer(buf));
 
 /**
  * A helper util to append `process.spawn` output to assertion messages to improve developer expirience.
