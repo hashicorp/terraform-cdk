@@ -101,7 +101,7 @@ export abstract class TerraformModule
         source: this.source,
         version: this.version,
         providers: this._providers?.reduce((a, p) => {
-          if (p instanceof TerraformProvider) {
+          if (TerraformProvider.isTerraformProvider(p)) {
             return { ...a, [p.terraformResourceType]: p.fqn };
           } else {
             return {
@@ -140,7 +140,7 @@ export abstract class TerraformModule
 
   private validateIfProvidersHaveUniqueKeys(): void {
     const moduleAliases = this._providers?.map((p) => {
-      if (p instanceof TerraformProvider) {
+      if (TerraformProvider.isTerraformProvider(p)) {
         return p.terraformResourceType;
       } else {
         return `${p.provider.terraformResourceType}.${p.moduleAlias}`;

@@ -219,6 +219,9 @@ export async function getPrebuiltProviderVersions(
   }
 
   const versions = await getAllPrebuiltProviderVersions(providerName);
+  logger.debug(
+    `Found versions for ${providerName}: ${JSON.stringify(versions, null, 2)}`
+  );
 
   // find first the version that matches the requested provider version and cdktf version
   const matchingVersions = versions.filter((v) => {

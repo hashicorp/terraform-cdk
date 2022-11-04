@@ -6,6 +6,8 @@ import { TerraformElement } from "./terraform-element";
 import { TerraformProviderGeneratorMetadata } from "./terraform-resource";
 import { keysToSnakeCase, deepMerge, processDynamicAttributes } from "./util";
 
+const TERRAFORM_PROVIDER_SYMBOL = Symbol.for("cdktf/TerraformProvider");
+
 export interface TerraformProviderConfig {
   readonly terraformResourceType: string;
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
@@ -20,10 +22,17 @@ export abstract class TerraformProvider extends TerraformElement {
 
   constructor(scope: Construct, id: string, config: TerraformProviderConfig) {
     super(scope, id);
+    Object.defineProperty(this, TERRAFORM_PROVIDER_SYMBOL, { value: true });
 
     this.terraformResourceType = config.terraformResourceType;
     this.terraformGeneratorMetadata = config.terraformGeneratorMetadata;
     this.terraformProviderSource = config.terraformProviderSource;
+  }
+
+  public static isTerraformProvider(x: any): x is TerraformProvider {
+    return (
+      x !== null && typeof x === "object" && TERRAFORM_PROVIDER_SYMBOL in x
+    );
   }
 
   public get alias(): string | undefined {

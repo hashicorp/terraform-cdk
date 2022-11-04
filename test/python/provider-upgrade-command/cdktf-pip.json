@@ -1,0 +1,10 @@
+{
+  "language": "python",
+  "app": "python3 ./main.py",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "codeMakerOutput": "imports",
+  "context": {
+    "excludeStackIdFromLogicalIds": "true"
+  }
+}

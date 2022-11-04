@@ -11,17 +11,18 @@ The CDK for Terraform CLI has the following commands:
 
 - [completion](/cdktf/cli-reference/commands#completion)
 - [convert](/cdktf/cli-reference/commands#convert)
+- [debug](/cdktf/cli-reference/commands#debug)
 - [deploy](/cdktf/cli-reference/commands#deploy)
 - [destroy](/cdktf/cli-reference/commands#destroy)
 - [diff](/cdktf/cli-reference/commands#diff)
 - [get](/cdktf/cli-reference/commands#get)
 - [init](/cdktf/cli-reference/commands#init)
 - [login](/cdktf/cli-reference/commands#login)
+- [output](/cdktf/cli-reference/commands#output)
+- [provider add](/cdktf/cli-reference/commands#provider-add)
+- [provider upgrade](/cdktf/cli-reference/commands#provider-upgrade)
 - [synth](/cdktf/cli-reference/commands#synth)
 - [watch](/cdktf/cli-reference/commands#watch)
-- [output](/cdktf/cli-reference/commands#output)
-- [debug](/cdktf/cli-reference/commands#debug)
-- [provider add](/cdktf/cli-reference/commands#provider-add)
 
 ## completion
 
@@ -675,4 +676,57 @@ Add a provider from a private registry to the project.
 
 ```bash
 $ cdktf provider add registry.example.com/acme/my-provider
+```
+
+## provider upgrade
+
+This command lets you upgrade Terraform providers in a CDKTF project to the newest version compatible with your `cdktf` version. You can also optionally add a version constraint.
+
+If your project has the associated [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the provider to the `cdktf.json` configuration file and invokes `cdktf get` to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
+
+```sh
+$ cdktf provider add --help
+```
+
+**Help Output**
+
+```
+cdktf provider upgrade <provider...>
+
+Upgrade one or more Terraform providers in your project to the newest version compatible with your CDKTF version.
+
+If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json configuration file and generates local provider bindings.
+
+Positionals:
+  provider  Name of the provider to upgrade. Can include a version constraint (e.g. aws@~>4.0).
+                                                                     [array] [required] [default: []]
+
+Options:
+      --version                   Show version number                                       [boolean]
+      --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the
+                                  plugin cache is configured differently. Supported using the env
+                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.          [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the
+                                  env CDKTF_LOG_LEVEL                                        [string]
+  -h, --help                      Show help                                                 [boolean]
+```
+
+**Examples**
+
+Upgrade the `aws` provider to the newest version available for your `cdktf` version.
+
+```bash
+$ cdktf provider add aws
+```
+
+Upgrade the `aws` provider to the newest version available for your `cdktf` version and at version `4` of the provider version.
+
+```bash
+$ cdktf provider add aws@~>4.0
+```
+
+Upgrade multiple providers to the latest version available for your `cdktf` version.
+
+```bash
+$ cdktf provider add kreuzwerker/docker google
 ```

@@ -436,3 +436,42 @@ export async function providerAdd(argv: any) {
     });
   }
 }
+
+export async function providerUpgrade(argv: any) {
+  const config = CdktfConfig.read();
+
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  let needsGet = false;
+
+  for (const provider of argv.provider) {
+    const constraint = ProviderConstraint.fromConfigEntry(provider);
+    const { addedLocalProvider } = await manager.upgradeProvider(constraint);
+    if (addedLocalProvider) {
+      needsGet = true;
+    }
+  }
+
+  if (needsGet) {
+    console.log(
+      "Local providers have been updated. Running cdktf get to update..."
+    );
+    await get({
+      language: language,
+      output: config.codeMakerOutput,
+      parallelism: 1,
+    });
+  }
+}

@@ -149,6 +149,66 @@ export class DependencyManager {
     }
   }
 
+  async upgradeProvider(constraint: ProviderConstraint) {
+    console.log(`Upgrading ${constraint.simplifiedName}...`);
+    const cdktfJson = new CdktfConfigManager();
+    const prebuiltVersion = await this.getCurrentlyInstalledVersion(constraint);
+    if (prebuiltVersion) {
+      await this.upgradePrebuiltProvider(constraint, prebuiltVersion);
+      return { addedLocalProvider: false };
+    }
+    if (await cdktfJson.hasProvider(constraint)) {
+      await cdktfJson.updateProvider(constraint);
+      return { addedLocalProvider: true };
+    }
+
+    throw Errors.Usage(
+      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
+    );
+  }
+
+  async getCurrentlyInstalledVersion(constraint: ProviderConstraint) {
+    logger.info(`Checking if ${constraint.simplifiedName} is installed...`);
+    const packageName = await this.getPackageName(constraint);
+    logger.debug(
+      `Expecting package ${packageName} to be installed if provider is installed as pre-built one`
+    );
+
+    let installedPackages;
+    try {
+      installedPackages = await this.packageManager.listProviderPackages();
+    } catch (e) {
+      throw new Error(`Failed to list packages: ${e}`);
+    }
+
+    logger.debug(
+      `Installed packages found: ${JSON.stringify(installedPackages, null, 2)}`
+    );
+
+    return installedPackages.find((pkg) => pkg.name === packageName)?.version;
+  }
+
+  async upgradePrebuiltProvider(
+    constraint: ProviderConstraint,
+    currentVersion: string
+  ) {
+    logger.debug(
+      `Searching for latest matching version of ${constraint.simplifiedName}`
+    );
+
+    const packageName = await this.getPackageName(constraint);
+    const packageVersion = await this.getMatchingProviderVersion(constraint);
+
+    logger.debug(`Found package ${packageName}@${packageVersion}`);
+    if (packageVersion !== currentVersion) {
+      await this.packageManager.addPackage(packageName, packageVersion);
+    } else {
+      console.log(
+        `The latest version of ${packageName} is already installed: ${packageVersion}`
+      );
+    }
+  }
+
   async hasPrebuiltProvider(constraint: ProviderConstraint): Promise<boolean> {
     logger.debug(
       `determining whether pre-built provider exists for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
@@ -185,11 +245,9 @@ export class DependencyManager {
     return exists;
   }
 
-  async addPrebuiltProvider(constraint: ProviderConstraint) {
-    logger.debug(
-      `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`
-    );
-
+  private async getPackageName(
+    constraint: ProviderConstraint
+  ): Promise<string> {
     const npmPackageName = await getNpmPackageName(constraint);
 
     if (!npmPackageName) {
@@ -197,6 +255,16 @@ export class DependencyManager {
         `Could not find pre-built provider for ${constraint.source}`
       );
     }
+
+    const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
+      npmPackageName
+    );
+
+    return this.convertPackageName(npmPackageName, prebuiltProviderRepository);
+  }
+
+  async getMatchingProviderVersion(constraint: ProviderConstraint) {
+    const packageName = await this.getPackageName(constraint);
 
     const prebuiltProviderNpmVersions = await getPrebuiltProviderVersions(
       constraint,
@@ -208,13 +276,6 @@ export class DependencyManager {
       );
     }
 
-    const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
-      npmPackageName
-    );
-    const packageName = this.convertPackageName(
-      npmPackageName,
-      prebuiltProviderRepository
-    );
     const packageVersion = await this.getLanguageSpecificPackageVersion(
       packageName,
       prebuiltProviderNpmVersions
@@ -226,6 +287,16 @@ export class DependencyManager {
       );
     }
 
+    return packageVersion;
+  }
+
+  async addPrebuiltProvider(constraint: ProviderConstraint) {
+    logger.debug(
+      `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`
+    );
+
+    const packageName = await this.getPackageName(constraint);
+    const packageVersion = await this.getMatchingProviderVersion(constraint);
     await this.packageManager.addPackage(packageName, packageVersion);
 
     // TODO: more debug logs
