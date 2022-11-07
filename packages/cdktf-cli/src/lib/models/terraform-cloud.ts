@@ -48,6 +48,15 @@ export class TerraformCloudPlan
   ) {
     super(planFile, plan.resourceChanges, plan.outputChanges);
   }
+
+  public get needsApply(): boolean {
+    // When jsonOutput isn't available due to lack of resources, use the plan information
+    if (this.plan?.attributes?.hasChanges) {
+      return true;
+    }
+
+    return super.needsApply;
+  }
 }
 
 export interface TerraformCredentialsItem {
@@ -140,6 +149,13 @@ function BeautifyErrors(name: string) {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     Object.defineProperty(target, propertyKey, descriptor!);
   };
+}
+
+function isPermissionLackingError(error: any) {
+  return (
+    error.response &&
+    (error.response.status === 404 || error.response.status === 401)
+  );
 }
 export class TerraformCloud implements Terraform {
   private readonly terraformConfigFilePath = path.join(
@@ -360,14 +376,24 @@ export class TerraformCloud implements Terraform {
         result.relationships.plan.data.id
       );
     } catch (e) {
-      if (
-        e.response &&
-        (e.response.status === 404 || e.response.status === 401)
-      ) {
+      if (isPermissionLackingError(e)) {
         // We may have a token without admin privileges
         sendLog(
           `Cannot get plan output due to token without administator scope. To view plan output visit:\n\n${url}`
         );
+
+        try {
+          plan = await this.client.Plans.show(
+            result.relationships.plan.data.id
+          );
+
+          console.log(JSON.stringify(plan, null, 2));
+        } catch (e) {
+          if (isPermissionLackingError(e)) {
+            // This shouldn't happen, since we had enough permissions to create a plan
+            throw e;
+          }
+        }
       }
     }
 
@@ -422,7 +448,18 @@ export class TerraformCloud implements Terraform {
     const deployingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
     sendLog(`Deploying Terraform Cloud run`);
-    await this.client.Runs.action("apply", runId);
+    try {
+      await this.client.Runs.action("apply", runId);
+    } catch (e) {
+      if (isPermissionLackingError(e)) {
+        // We may have a token without admin privileges
+        sendLog(
+          `Failed to apply Terraform run. This may be due to lacking permissions.`
+        );
+      }
+      throw e;
+    }
+
     let result = await this.client.Runs.show(runId);
 
     while (deployingStates.includes(result.attributes.status)) {
@@ -483,28 +520,36 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Output")
-  public async output(): Promise<{ [key: string]: TerraformOutput }> {
+  public async output(): Promise<Record<string, TerraformOutput>> {
     const sendLog = this.createTerraformLogHandler("output");
     sendLog("Fetching Terraform Cloud outputs");
-    const stateVersion = await this.client.StateVersions.current(
-      (
-        await this.workspace()
-      ).id,
-      true
-    );
-    if (!stateVersion.included) return {};
+    try {
+      const stateVersion = await this.client.StateVersions.current(
+        (
+          await this.workspace()
+        ).id,
+        true
+      );
+      if (!stateVersion.included) return {};
 
-    const outputs = stateVersion.included.reduce((acc, output) => {
-      acc[output.attributes.name] = {
-        sensitive: output.attributes.sensitive,
-        type: output.attributes.type,
-        value: output.attributes.value,
-      };
+      const outputs = stateVersion.included.reduce((acc, output) => {
+        acc[output.attributes.name] = {
+          sensitive: output.attributes.sensitive,
+          type: output.attributes.type,
+          value: output.attributes.value,
+        };
 
-      return acc;
-    }, {} as { [key: string]: TerraformOutput });
+        return acc;
+      }, {} as { [key: string]: TerraformOutput });
 
-    return outputs;
+      return outputs;
+    } catch (e) {
+      if (isPermissionLackingError(e)) {
+        return {};
+      }
+
+      throw e;
+    }
   }
 
   @BeautifyErrors("Workspace")
