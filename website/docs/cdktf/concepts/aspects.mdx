@@ -18,35 +18,44 @@ Everything within a CDKTF application descends from the `Construct` class, so yo
 
 The following TypeScript example defines an aspect to add tags to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#aspect -->
+
+<CodeTabs>
 ```typescript
 import { IConstruct } from "constructs";
 import { Aspects, IAspect } from "cdktf";
 
 // Not all constructs are taggable, so we need to filter it
 type TaggableConstruct = IConstruct & {
-  tags?: { [key: string]: string };
-  tagsInput?: { [key: string]: string };
+tags?: { [key: string]: string };
+tagsInput?: { [key: string]: string };
 };
 function isTaggableConstruct(x: IConstruct): x is TaggableConstruct {
-  return "tags" in x && "tagsInput" in x;
+return "tags" in x && "tagsInput" in x;
 }
 
 export class TagsAddingAspect implements IAspect {
   constructor(private tagsToAdd: Record<string, string>) {}
 
-  // This method is called on every Construct within the specified scope (resources, data sources, etc.).
-  visit(node: IConstruct) {
-    if (isTaggableConstruct(node)) {
-      // We need to take the input value to not create a circular reference
-      const currentTags = node.tagsInput || {};
-      node.tags = { ...this.tagsToAdd, ...currentTags };
-    }
-  }
+// This method is called on every Construct within the specified scope (resources, data sources, etc.).
+visit(node: IConstruct) {
+if (isTaggableConstruct(node)) {
+// We need to take the input value to not create a circular reference
+const currentTags = node.tagsInput || {};
+node.tags = { ...this.tagsToAdd, ...currentTags };
+}
+}
 }
 
 // Add tags to every resource defined within `myStack`.
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
-```
+
+````
+
+```csharp
+````
+
+</CodeTabs>
 
 You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
 
