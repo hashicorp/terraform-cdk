@@ -8,10 +8,8 @@ using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.S3Bucket;
 using aws.S3BucketObject;
-using kubernetes.Provider;
-using MyConstructs;
 
-namespace MyCompany.MyAssetStack
+namespace Examples
 {
     class MyAssetStack : TerraformStack
     {

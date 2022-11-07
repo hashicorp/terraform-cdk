@@ -165,13 +165,13 @@ using Constructs;
 using HashiCorp.Cdktf;
 using kubernetes.Provider;
 using MyConstructs;
-namespace MyCompany.MyApp
-{
-    class MyApp : TerraformStack
-    {
-        public MyApp(Construct scope, string name) : base(scope, name)
-        {
 
+namespace Examples
+{
+    class MyConstructsStack : TerraformStack
+    {
+        public MyConstructsStack(Construct scope, string name) : base(scope, name)
+        {
             new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
                 ConfigPath = Path.Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
             });
@@ -182,14 +182,6 @@ namespace MyCompany.MyApp
                 { "component", "frontend" },
                 { "environment", "dev" }
             });
-        }
-
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new MyApp(app, "demo");
-            app.Synth();
-            Console.WriteLine("App synth complete");
         }
     }
 }

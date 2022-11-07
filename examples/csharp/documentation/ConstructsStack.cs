@@ -8,7 +8,7 @@ using HashiCorp.Cdktf;
 using kubernetes.Provider;
 using MyConstructs;
 
-namespace MyCompany.MyConstructsStack
+namespace Examples
 {
     class MyConstructsStack : TerraformStack
     {
