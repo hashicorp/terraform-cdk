@@ -94,6 +94,12 @@
     ]
   },
   "license": "MPL-2.0",
+  "dependencies": {
+    "cdktf": "0.0.0"
+  },
+  "peerDependencies": {
+    "cdktf": "0.0.0"
+  },
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",
@@ -101,6 +107,7 @@
     "@types/semver": "^7.3.12",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
+    "cdktf": "0.0.0",
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
