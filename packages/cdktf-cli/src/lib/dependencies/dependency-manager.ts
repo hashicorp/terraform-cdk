@@ -6,7 +6,7 @@ import { ProviderDependencySpec } from "../cdktf-config";
 import { Errors } from "../errors";
 import { logger } from "../logging";
 import { CdktfConfigManager } from "./cdktf-config-manager";
-import { PackageManager } from "./package-manager";
+import { PackageConstraint, PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
   getPrebuiltProviderRepositoryName,
@@ -31,11 +31,6 @@ function normalizeProviderSource(source: string) {
       return source;
   }
 }
-
-export type PackageConstraint = {
-  name: string;
-  version: string;
-};
 
 export class ProviderConstraint {
   /**
@@ -142,9 +137,7 @@ export class DependencyManager {
     );
   }
 
-  async addProvider(
-    constraint: ProviderConstraint
-  ): Promise<{
+  async addProvider(constraint: ProviderConstraint): Promise<{
     addedLocalProvider: boolean;
     prebuiltProviderToAdd?: PackageConstraint;
   }> {
@@ -209,7 +202,9 @@ export class DependencyManager {
 
     logger.debug(`Found package ${packageName}@${packageVersion}`);
     if (packageVersion !== currentVersion) {
-      await this.packageManager.addPackage(packageName, packageVersion);
+      await this.packageManager.addPackages([
+        { name: packageName, version: packageVersion },
+      ]);
     } else {
       console.log(
         `The latest version of ${packageName} is already installed: ${packageVersion}`
@@ -312,9 +307,7 @@ export class DependencyManager {
   }
 
   async installPrebuiltProviders(packages: PackageConstraint[]) {
-    for (const pkg of packages) {
-      await this.packageManager.addPackage(pkg.name, pkg.version);
-    }
+    await this.packageManager.addPackages(packages);
   }
 
   // The version we use for npm might differ from other registries

@@ -12,6 +12,11 @@ import fetch from "node-fetch";
 import * as z from "zod";
 import { logger } from "../logging";
 
+export type PackageConstraint = {
+  name: string;
+  version?: string;
+};
+
 // {
 //   "version": "1.0.0",
 //   "name": "testUSHasF",
@@ -106,10 +111,7 @@ export abstract class PackageManager {
     }
   }
 
-  public abstract addPackage(
-    packageName: string,
-    packageVersion?: string
-  ): Promise<void>;
+  public abstract addPackages(packages: PackageConstraint[]): Promise<void>;
   // add check if package exists already. might query version in the future and offer to upgrade?
 
   public abstract isNpmVersionAvailable(
@@ -127,11 +129,12 @@ class NodePackageManager extends PackageManager {
     return existsSync(path.join(this.workingDirectory, "yarn.lock"));
   }
 
-  public async addPackage(
-    packageName: string,
-    packageVersion?: string
-  ): Promise<void> {
-    console.log(`Adding package ${packageName} @ ${packageVersion}`);
+  public async addPackages(packages: PackageConstraint[]): Promise<void> {
+    console.log(
+      `Adding packages ${packages
+        .map((p) => `${p.name}@${p.version}`)
+        .join(", ")}`
+    );
 
     // probe for package-lock.json or yarn.lock
     let command = "npm";
@@ -141,9 +144,10 @@ class NodePackageManager extends PackageManager {
       command = "yarn";
       args = ["add"];
     }
-    args.push(
-      packageVersion ? packageName + "@" + packageVersion : packageName
-    );
+
+    for (const pkg of packages) {
+      args.push(pkg.version ? pkg.name + "@" + pkg.version : pkg.name);
+    }
 
     // Install exact version
     // Yarn: https://classic.yarnpkg.com/lang/en/docs/cli/add/#toc-yarn-add-exact-e
@@ -151,12 +155,14 @@ class NodePackageManager extends PackageManager {
     args.push("-E");
 
     logger.debug(
-      `Installing package ${packageName} @ ${packageVersion} using ${command}.`
+      `Installing package ${packages
+        .map((p) => `${p.name}@${p.version}`)
+        .join(", ")} using ${command}.`
     );
 
     await exec(command, args, { cwd: this.workingDirectory });
 
-    console.log("Package installed.");
+    console.log("Packages installed.");
   }
 
   public async isNpmVersionAvailable(
@@ -238,30 +244,35 @@ class PythonPackageManager extends PackageManager {
     }
   }
 
-  public async addPackage(
-    packageName: string,
-    packageVersion?: string
-  ): Promise<void> {
+  public async addPackages(packages: PackageConstraint[]): Promise<void> {
     const usePipenv = this.appCommand.includes("pipenv");
 
     if (usePipenv) {
       console.log(
-        `Installing package ${packageName} @ ${packageVersion} using pipenv.`
+        `Installing package ${packages
+          .map((p) => `${p.name}@${p.version}`)
+          .join(", ")} using pipenv.`
       );
 
-      await exec("pipenv", ["install", `${packageName}~=${packageVersion}`], {
-        cwd: this.workingDirectory,
-        env: {
-          ...process.env,
-          PIPENV_QUIET: "1",
-        },
-        stdio: ["inherit", 1, 1],
-      });
+      await exec(
+        "pipenv",
+        ["install", ...packages.map((pkg) => `${pkg.name}~=${pkg.version}`)],
+        {
+          cwd: this.workingDirectory,
+          env: {
+            ...process.env,
+            PIPENV_QUIET: "1",
+          },
+          stdio: ["inherit", 1, 1],
+        }
+      );
 
       console.log("Package installed.");
     } else {
       console.log(
-        `Installing package ${packageName} @ ${packageVersion} using pip.`
+        `Installing package ${packages
+          .map((p) => `${p.name}@${p.version}`)
+          .join(", ")} using pip.`
       );
 
       const requirementsFilePath = path.join(
@@ -274,42 +285,45 @@ class PythonPackageManager extends PackageManager {
         );
       }
 
-      const requirements = await fs.readFile(requirementsFilePath, "utf8");
-      const requirementLine = requirements
-        .split("\n")
-        .find((line) => line.includes(packageName));
+      let requirements = await fs.readFile(requirementsFilePath, "utf8");
+      for (const pkg of packages) {
+        const requirementLine = requirements
+          .split("\n")
+          .find((line) => line.includes(pkg.name));
 
-      logger.debug(
-        `Read requirements.txt file and found line including ${packageName}: ${requirementLine}`
-      );
+        logger.debug(
+          `Read requirements.txt file and found line including ${pkg.name}: ${requirementLine}`
+        );
 
-      if (requirementLine) {
-        if (packageVersion ? requirementLine.includes(packageVersion) : true) {
-          logger.info(
-            `Package ${packageName} already installed. Skipping installation.`
-          );
-          return;
-        } else {
-          logger.debug(
-            `Found the package but with a different version, continuing`
-          );
+        if (requirementLine) {
+          if (pkg.version ? requirementLine.includes(pkg.version) : true) {
+            logger.info(
+              `Package ${pkg.name} already installed. Skipping installation.`
+            );
+            break;
+          } else {
+            logger.debug(
+              `Found the package but with a different version, continuing`
+            );
+          }
         }
+
+        requirements =
+          requirements
+            .split("\n")
+            .filter((line) => !line.startsWith(pkg.name))
+            .join("\n") +
+          `\n${pkg.name}${pkg.version ? `~=${pkg.version}` : ""}`;
       }
 
-      const newRequirements =
-        requirements
-          .split("\n")
-          .filter((line) => !line.startsWith(packageName))
-          .join("\n") +
-        `\n${packageName}${packageVersion ? `~=${packageVersion}` : ""}`;
-      await fs.writeFile(requirementsFilePath, newRequirements, "utf8");
+      await fs.writeFile(requirementsFilePath, requirements, "utf8");
 
       await exec("pip", ["install", "-r", "requirements.txt"], {
         cwd: this.workingDirectory,
         stdio: ["inherit", 1, 1],
       });
 
-      console.log("Package installed.");
+      console.log("Packages installed.");
     }
   }
 
@@ -398,22 +412,21 @@ class PythonPackageManager extends PackageManager {
 }
 
 class NugetPackageManager extends PackageManager {
-  public async addPackage(
-    packageName: string,
-    packageVersion?: string
-  ): Promise<void> {
-    const command = "dotnet";
-    const args = ["add", "package", packageName];
-    if (packageVersion) {
-      args.push("--version", packageVersion);
-    }
-    console.log(
-      `Installing package ${packageName} @ ${packageVersion} using "${command} ${args.join(
-        " "
-      )}".`
-    );
+  public async addPackages(packages: PackageConstraint[]): Promise<void> {
+    for (const pkg of packages) {
+      const command = "dotnet";
+      const args = ["add", "package", pkg.name];
+      if (pkg.version) {
+        args.push("--version", pkg.version);
+      }
+      logger.debug(
+        `Installing package ${pkg.name} @ ${
+          pkg.version
+        } using "${command} ${args.join(" ")}".`
+      );
 
-    await exec(command, args, { cwd: this.workingDirectory });
+      await exec(command, args, { cwd: this.workingDirectory });
+    }
 
     console.log("Package installed.");
   }
@@ -489,11 +502,12 @@ class NugetPackageManager extends PackageManager {
 }
 
 class MavenPackageManager extends PackageManager {
-  public async addPackage(
-    packageName: string,
-    packageVersion = "LATEST" // the latest option is deprecated in maven 3.5
-  ): Promise<void> {
-    console.log(`Adding ${packageName} @ ${packageVersion} to pom.xml`);
+  public async addPackages(packages: PackageConstraint[]): Promise<void> {
+    console.log(
+      `Adding ${packages
+        .map((p) => `${p.name}@${p.version || "LATEST"}`)
+        .join(", ")} to pom.xml`
+    );
     // Assert pom.xml exists
     const pomPath = path.join(this.workingDirectory, "pom.xml");
     if (!existsSync(pomPath)) {
@@ -505,39 +519,43 @@ class MavenPackageManager extends PackageManager {
     const pom = await fs.readFile(pomPath, "utf8");
     const pomXml = (await xml2js(pom, {})) as Element;
 
-    // Mutate dependencies
-    const nameParts = packageName.split(".");
-    const groupId = nameParts.slice(0, nameParts.length - 1).join(".");
-    const artifactId = nameParts[nameParts.length - 1];
+    for (const pkg of packages) {
+      // Mutate dependencies
+      const nameParts = pkg.name.split(".");
+      const groupId = nameParts.slice(0, nameParts.length - 1).join(".");
+      const artifactId = nameParts[nameParts.length - 1];
 
-    const newDependency = (await xml2js(
-      `<dependency>
+      const newDependency = (await xml2js(
+        `<dependency>
     <groupId>${groupId}</groupId>
     <artifactId>${artifactId}</artifactId>
-    <version>${packageVersion}</version>
+    <version>${pkg.version || "LATEST"}</version>
 </dependency>`
-    )) as Element;
+      )) as Element;
 
-    const dependencies = pomXml.elements
-      ?.find((el) => el.name === "project")
-      ?.elements?.find((el) => el.name === "dependencies");
+      const dependencies = pomXml.elements
+        ?.find((el) => el.name === "project")
+        ?.elements?.find((el) => el.name === "dependencies");
 
-    if (!dependencies) {
-      throw Errors.Usage(`Could not find dependencies section in the pom.xml`);
+      if (!dependencies) {
+        throw Errors.Usage(
+          `Could not find dependencies section in the pom.xml`
+        );
+      }
+      dependencies.elements = (dependencies?.elements || []).filter(
+        (el) =>
+          el.elements?.some(
+            (group) =>
+              group.name === "groupId" && group.elements?.[0].text !== groupId
+          ) ||
+          el.elements?.some(
+            (artifact) =>
+              artifact.name === "artifactId" &&
+              artifact.elements?.[0].text !== artifactId
+          )
+      );
+      dependencies?.elements?.push(newDependency.elements![0]);
     }
-    dependencies.elements = (dependencies?.elements || []).filter(
-      (el) =>
-        el.elements?.some(
-          (group) =>
-            group.name === "groupId" && group.elements?.[0].text !== groupId
-        ) ||
-        el.elements?.some(
-          (artifact) =>
-            artifact.name === "artifactId" &&
-            artifact.elements?.[0].text !== artifactId
-        )
-    );
-    dependencies?.elements?.push(newDependency.elements![0]);
 
     // Write new pom.xml
     await fs.writeFile(pomPath, js2xml(pomXml, { spaces: 2 }));
@@ -620,32 +638,35 @@ class MavenPackageManager extends PackageManager {
 }
 
 class GoPackageManager extends PackageManager {
-  public async addPackage(
-    packageName: string,
-    packageVersion?: string
-  ): Promise<void> {
-    console.log(`Adding package ${packageName} @ ${packageVersion}`);
-
-    const majorVersion: number | undefined = packageVersion
-      ? semver.major(packageVersion)
-      : undefined;
-
-    let versionPackageSuffix = "";
-    if (typeof majorVersion === "number" && majorVersion > 1) {
-      versionPackageSuffix = `/v${majorVersion}`;
-    }
-
-    logger.debug(
-      `Running 'go get ${packageName}${versionPackageSuffix}@v${packageVersion}'`
+  public async addPackages(packages: PackageConstraint[]): Promise<void> {
+    console.log(
+      `Adding package ${packages
+        .map((p) => `${p.name}@${p.version}`)
+        .join(", ")}`
     );
-    // Install
-    await exec(
-      "go",
-      ["get", `${packageName}${versionPackageSuffix}@v${packageVersion}`],
-      {
-        cwd: this.workingDirectory,
+
+    for (const pkg of packages) {
+      const majorVersion: number | undefined = pkg.version
+        ? semver.major(pkg.version)
+        : undefined;
+
+      let versionPackageSuffix = "";
+      if (typeof majorVersion === "number" && majorVersion > 1) {
+        versionPackageSuffix = `/v${majorVersion}`;
       }
-    );
+
+      logger.debug(
+        `Running 'go get ${pkg.name}${versionPackageSuffix}@v${pkg.version}'`
+      );
+      // Install
+      await exec(
+        "go",
+        ["get", `${pkg.name}${versionPackageSuffix}@v${pkg.version}`],
+        {
+          cwd: this.workingDirectory,
+        }
+      );
+    }
 
     console.log("Package installed.");
   }

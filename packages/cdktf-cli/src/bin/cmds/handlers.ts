@@ -49,7 +49,7 @@ import {
 } from "../../lib/dependencies/dependency-manager";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { logger } from "../../lib/logging";
-import { PackageConstraint } from "../../lib/dependencies/dependency-manager";
+import { PackageConstraint } from "../../lib/dependencies/package-manager";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
