@@ -46,6 +46,7 @@ import { initializErrorReporting } from "../../lib/error-reporting";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { providerAdd as providerAddLib } from "../../lib/provider-add";
 import { logger } from "../../lib/logging";
+import { DependencyManager, ProviderConstraint } from "../../lib/dependencies/dependency-manager";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
