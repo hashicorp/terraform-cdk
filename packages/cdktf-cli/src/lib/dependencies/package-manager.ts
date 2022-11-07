@@ -150,7 +150,7 @@ class NodePackageManager extends PackageManager {
     // Npm: https://docs.npmjs.com/cli/v8/commands/npm-install#save-exact
     args.push("-E");
 
-    console.log(
+    logger.debug(
       `Installing package ${packageName} @ ${packageVersion} using ${command}.`
     );
 

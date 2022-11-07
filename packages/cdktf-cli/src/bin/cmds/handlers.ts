@@ -49,6 +49,7 @@ import {
 } from "../../lib/dependencies/dependency-manager";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { logger } from "../../lib/logging";
+import { PackageConstraint } from "../../lib/dependencies/dependency-manager";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -425,10 +426,14 @@ export async function providerAdd(argv: {
 
     if (argv.forceLocal) {
       await manager.addLocalProvider(constraint);
-      return true;
+      return { addedLocalProvider: true };
     } else {
-      const { addedLocalProvider } = await manager.addProvider(constraint);
-      return addedLocalProvider;
+      // addProvider does not do the installation, if it adds a local version we need to run
+      // get afterwards, if it adds a pre-built version we need to run install afterwards
+      const { addedLocalProvider, prebuiltProviderToAdd } =
+        await manager.addProvider(constraint);
+
+      return { addedLocalProvider, prebuiltProviderToAdd };
     }
   });
 
@@ -440,20 +445,40 @@ export async function providerAdd(argv: {
     }
     return errorMessage;
   }, "");
-  const needsGet = results.some(
-    (item) => item.status === "fulfilled" && item.value === true
-  );
 
+  const needsGet = results.some(
+    (item) =>
+      item.status === "fulfilled" && item.value.addedLocalProvider === true
+  );
+  const packagesToInstall = results.reduce((packages, item) => {
+    if (item.status === "fulfilled" && item.value.prebuiltProviderToAdd) {
+      return [...packages, item.value.prebuiltProviderToAdd];
+    }
+    return packages;
+  }, [] as PackageConstraint[]);
+
+  const sideEffects: Promise<unknown>[] = [];
   if (needsGet) {
     console.log(
       "Local providers have been updated. Running cdktf get to update..."
     );
-    await get({
-      language: language,
-      output: config.codeMakerOutput,
-      parallelism: 1,
-    });
+    sideEffects.push(
+      get({
+        language: language,
+        output: config.codeMakerOutput,
+        parallelism: 1,
+      })
+    );
   }
+
+  if (packagesToInstall.length > 0) {
+    console.log(
+      "Prebuilt providers have been added. Running package manager to install..."
+    );
+    sideEffects.push(manager.installPrebuiltProviders(packagesToInstall));
+  }
+
+  await Promise.all(sideEffects);
 
   if (errors !== "") {
     throw Errors.Usage(`Error adding one or more providers: \n ${errors}`);

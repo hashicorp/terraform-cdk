@@ -32,6 +32,11 @@ function normalizeProviderSource(source: string) {
   }
 }
 
+export type PackageConstraint = {
+  name: string;
+  version: string;
+};
+
 export class ProviderConstraint {
   /**
    * normalized source of the provider
@@ -139,10 +144,13 @@ export class DependencyManager {
 
   async addProvider(
     constraint: ProviderConstraint
-  ): Promise<{ addedLocalProvider: boolean }> {
+  ): Promise<{
+    addedLocalProvider: boolean;
+    prebuiltProviderToAdd?: PackageConstraint;
+  }> {
     if (await this.hasPrebuiltProvider(constraint)) {
-      await this.addPrebuiltProvider(constraint);
-      return { addedLocalProvider: false };
+      const prebuiltProviderToAdd = await this.addPrebuiltProvider(constraint);
+      return { addedLocalProvider: false, prebuiltProviderToAdd };
     } else {
       await this.addLocalProvider(constraint);
       return { addedLocalProvider: true };
@@ -290,16 +298,23 @@ export class DependencyManager {
     return packageVersion;
   }
 
-  async addPrebuiltProvider(constraint: ProviderConstraint) {
+  async addPrebuiltProvider(
+    constraint: ProviderConstraint
+  ): Promise<PackageConstraint> {
     logger.debug(
       `adding pre-built provider ${constraint.source} with version constraint ${constraint.version} for cdktf version ${this.cdktfVersion}`
     );
 
     const packageName = await this.getPackageName(constraint);
     const packageVersion = await this.getMatchingProviderVersion(constraint);
-    await this.packageManager.addPackage(packageName, packageVersion);
 
-    // TODO: more debug logs
+    return { name: packageName, version: packageVersion };
+  }
+
+  async installPrebuiltProviders(packages: PackageConstraint[]) {
+    for (const pkg of packages) {
+      await this.packageManager.addPackage(pkg.name, pkg.version);
+    }
   }
 
   // The version we use for npm might differ from other registries
