@@ -11,6 +11,7 @@ import {
   config as cfg,
   Language,
 } from "@cdktf/provider-generator";
+import Table from "cli-table";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
 import { renderInk } from "./helper/render-ink";
@@ -497,5 +498,37 @@ export async function providerList(argv: any) {
 
   if (argv.json) {
     console.log(JSON.stringify(allProviders));
+    return;
   }
+  const renderedTable = new Table({
+    head: [
+      "Provider Name",
+      "Provider Version",
+      "CDKTF",
+      "Constraint",
+      "Package Name",
+      "Package Version",
+    ],
+  });
+
+  for (const provider of allProviders.local) {
+    renderedTable.push([
+      provider.providerName || "",
+      "",
+      "",
+      provider.providerVersion || "",
+      "",
+    ]);
+  }
+  for (const provider of allProviders.prebuilt) {
+    renderedTable.push([
+      provider.providerName || "",
+      provider.providerVersion || "",
+      provider.cdktfVersion || "",
+      "",
+      provider.packageName || "",
+      provider.packageVersion || "",
+    ]);
+  }
+  console.log(renderedTable.toString());
 }
