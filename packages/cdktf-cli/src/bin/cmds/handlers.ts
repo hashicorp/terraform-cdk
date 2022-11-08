@@ -477,7 +477,7 @@ export async function providerUpgrade(argv: any) {
   }
 }
 
-export async function providerList() {
+export async function providerList(argv: any) {
   const config = CdktfConfig.read();
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
@@ -493,5 +493,9 @@ export async function providerList() {
     config.projectDirectory
   );
 
-  console.log("Todo");
+  const allProviders = await manager.allProviders();
+
+  if (argv.json) {
+    console.log(JSON.stringify(allProviders));
+  }
 }
