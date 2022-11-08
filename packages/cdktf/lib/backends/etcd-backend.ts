@@ -8,7 +8,9 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the etcd backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class EtcdBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: EtcdBackendProps) {
     super(scope, "backend", "etcd");
@@ -27,7 +29,9 @@ export class EtcdBackend extends TerraformBackend {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the etcd backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
   constructor(
     scope: Construct,
@@ -44,6 +48,8 @@ export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
  *
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/etcd
+ *
+ * @deprecated the etcd backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
  */
 export interface EtcdBackendProps {
   /**
@@ -64,6 +70,9 @@ export interface EtcdBackendProps {
   readonly password?: string;
 }
 
+/**
+ * @deprecated the etcd backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export interface DataTerraformRemoteStateEtcdConfig
   extends DataTerraformRemoteStateConfig,
     EtcdBackendProps {}

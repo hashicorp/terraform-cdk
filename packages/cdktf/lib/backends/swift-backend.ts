@@ -8,7 +8,9 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class SwiftBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: SwiftBackendProps) {
     super(scope, "backend", "swift");
@@ -27,7 +29,9 @@ export class SwiftBackend extends TerraformBackend {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
   constructor(
     scope: Construct,
@@ -38,6 +42,9 @@ export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
   }
 }
 
+/**
+ * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export interface SwiftBackendProps {
   readonly authUrl?: string;
   readonly cloud?: string;
@@ -68,6 +75,9 @@ export interface SwiftBackendProps {
   readonly expireAfter?: string;
 }
 
+/**
+ * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export interface DataTerraformRemoteStateSwiftConfig
   extends DataTerraformRemoteStateConfig,
     SwiftBackendProps {}

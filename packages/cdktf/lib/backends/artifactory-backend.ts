@@ -8,7 +8,9 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class ArtifactoryBackend extends TerraformBackend {
   constructor(
     scope: Construct,
@@ -30,7 +32,9 @@ export class ArtifactoryBackend extends TerraformBackend {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
   constructor(
     scope: Construct,
@@ -52,6 +56,8 @@ export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
  *
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/artifactory
+ *
+ * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
  */
 export interface ArtifactoryBackendProps {
   /**
@@ -78,6 +84,9 @@ export interface ArtifactoryBackendProps {
   readonly subpath: string;
 }
 
+/**
+ * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ */
 export interface DataTerraformRemoteStateArtifactoryConfig
   extends DataTerraformRemoteStateConfig,
     ArtifactoryBackendProps {}
