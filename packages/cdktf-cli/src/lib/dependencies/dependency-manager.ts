@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Language } from "@cdktf/provider-generator";
-import { toPascalCase } from "codemaker";
+import { toPascalCase, toSnakeCase } from "codemaker";
 import { ProviderDependencySpec } from "../cdktf-config";
 import { Errors } from "../errors";
 import { logger } from "../logging";
@@ -10,6 +10,7 @@ import { PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
   getPrebuiltProviderRepositoryName,
+  getPrebuiltProviderVersionInformation,
   getPrebuiltProviderVersions,
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
@@ -383,5 +384,80 @@ export class DependencyManager {
           `converting package name for language ${this.targetLanguage} not implemented yet`
         );
     }
+  }
+
+  /**
+   * Converts an package name of a pre-built provider package in target language to the name in npm
+   * Inverse of: `convertPackageName`
+   */
+  private convertFromPackageNameToNpm(name: string): string {
+    const npmPackagePrefix = "@cdktf/provider-";
+    const regexes = {
+      [Language.GO]: /github.com\/(cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
+      [Language.TYPESCRIPT]: /(.+)/i,
+      [Language.CSHARP]: /HashiCorp\.Cdktf\.Provider\.(.+)/i,
+      [Language.JAVA]: /com\.hashicorp\.cdktf-provider-(.+)/i,
+      [Language.PYTHON]: /cdktf-cdktf-provider-(.+)/i,
+    };
+    const regex = regexes[this.targetLanguage];
+    if (!regex) {
+      throw new Error("Language not supported for pre-built providers");
+    }
+
+    const match = regex.exec(name);
+    if (!match) {
+      throw new Error(`Package name is not in expected format: ${name}`);
+    }
+
+    switch (this.targetLanguage) {
+      case Language.GO: // e.g. github.com/cdktf/cdktf-provider-opentelekomcloud-go/opentelekomcloud
+        return npmPackagePrefix + match[1];
+      case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
+        return match[1]; // already the correct name
+      case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
+        return npmPackagePrefix + toSnakeCase(match[1]);
+      case Language.JAVA: // e.g. com.hashicorp.opentelekomcloud
+        return npmPackagePrefix + match[1];
+      case Language.PYTHON: // e.g. cdktf-cdktf-provider-opentelekomcloud
+        return npmPackagePrefix + match[1];
+      default:
+        throw new Error(
+          `converting package name for language ${this.targetLanguage} not implemented yet`
+        );
+    }
+  }
+
+  public async allProviders() {
+    const cdktfJson = new CdktfConfigManager();
+
+    const localProviderConfigs = cdktfJson.listProviders();
+    const prebuiltProviderConfigs =
+      await this.packageManager.listProviderPackages();
+
+    const localProvidersInfo = localProviderConfigs.map((configEntry) =>
+      ProviderConstraint.fromConfigEntry(configEntry)
+    );
+
+    const prebuiltProvidersInfo = [];
+
+    for (const prebuiltProviderConfig of prebuiltProviderConfigs) {
+      const packageName = await this.convertFromPackageNameToNpm(
+        prebuiltProviderConfig.name
+      );
+      const providerInformation = await getPrebuiltProviderVersionInformation(
+        packageName,
+        prebuiltProviderConfig.version
+      );
+
+      prebuiltProvidersInfo.push(providerInformation);
+    }
+
+    return {
+      local: localProvidersInfo.map((constraint) => ({
+        providerName: constraint.simplifiedName,
+        providerVersion: constraint.version,
+      })),
+      prebuilt: prebuiltProvidersInfo,
+    };
   }
 }
