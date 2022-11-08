@@ -147,6 +147,9 @@ type NpmPackageSingleVersionResult = {
       version: string;
     };
   };
+  peerDependencies: {
+    [name: string]: string;
+  };
 };
 
 type PrebuiltProviderVersion = {
@@ -265,6 +268,7 @@ export async function getPrebuiltProviderVersionInformation(
   let providerName = result.cdktf.provider.name;
   if (providerName) {
     providerName = providerName.replace("registry.terraform.io/", "");
+    providerName = providerName.replace("hashicorp/", "");
   }
 
   return {
@@ -272,5 +276,6 @@ export async function getPrebuiltProviderVersionInformation(
     packageVersion: result.version,
     providerName,
     providerVersion: result.cdktf.provider.version,
+    cdktfVersion: result.peerDependencies["cdktf"],
   };
 }
