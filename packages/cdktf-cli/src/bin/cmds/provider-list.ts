@@ -6,11 +6,15 @@ import { Errors } from "../../lib/errors";
 import { BaseCommand } from "./helper/base-command";
 
 class ProviderListCommand extends BaseCommand {
-  public readonly command = "list";
+  public readonly command = "list [flags]";
   public readonly describe = "List installed providers";
 
-  public readonly builder = (args: yargs.Argv) => args.showHelpOnFail(true);
-
+  public readonly builder = (args: yargs.Argv) =>
+    args.showHelpOnFail(true).option("json", {
+      type: "boolean",
+      default: false,
+      desc: "get providers list as json",
+    });
   public async handleCommand(argv: any) {
     Errors.setScope("provider list");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
