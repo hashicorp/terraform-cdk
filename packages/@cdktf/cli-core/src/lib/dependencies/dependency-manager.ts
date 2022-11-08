@@ -410,7 +410,7 @@ export class DependencyManager {
     };
     const regex = regexes[this.targetLanguage];
     if (!regex) {
-      throw new Error("Language not supported for pre-built providers");
+      throw Errors.Usage("Language not supported for pre-built providers");
     }
 
     const match = regex.exec(name);
