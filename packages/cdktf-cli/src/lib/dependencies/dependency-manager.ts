@@ -393,7 +393,8 @@ export class DependencyManager {
   private convertFromPackageNameToNpm(name: string): string {
     const npmPackagePrefix = "@cdktf/provider-";
     const regexes = {
-      [Language.GO]: /github.com\/(cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
+      [Language.GO]:
+        /github.com\/(?:cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
       [Language.TYPESCRIPT]: /(.+)/i,
       [Language.CSHARP]: /HashiCorp\.Cdktf\.Provider\.(.+)/i,
       [Language.JAVA]: /com\.hashicorp\.cdktf-provider-(.+)/i,
@@ -444,6 +445,7 @@ export class DependencyManager {
       const packageName = await this.convertFromPackageNameToNpm(
         prebuiltProviderConfig.name
       );
+
       const providerInformation = await getPrebuiltProviderVersionInformation(
         packageName,
         prebuiltProviderConfig.version
