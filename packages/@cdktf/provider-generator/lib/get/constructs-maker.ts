@@ -36,9 +36,11 @@ export const LANGUAGES = [
   Language.GO,
 ];
 
-export async function generateJsiiLanguage(
+export async function generateAndCopyJsiiLanguage(
   code: CodeMaker,
-  opts: srcmak.Options
+  opts: srcmak.Options,
+  versionsFilePath: string,
+  outputPath: string
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
@@ -46,6 +48,10 @@ export async function generateJsiiLanguage(
     // into our project.
     await code.save(staging);
     await srcmak.srcmak(staging, opts);
+    await fs.copyFile(
+      path.join(staging, versionsFilePath),
+      path.resolve(outputPath, versionsFilePath)
+    );
   });
 }
 
@@ -216,6 +222,7 @@ export class ConstructsMaker {
   private readonly code: CodeMaker;
   private readonly targets: ConstructsMakerTarget[];
   private versions: { [providerName: string]: string | undefined };
+  private versionsFilePath = "versions.json";
 
   constructor(
     private readonly options: GetOptions,
@@ -274,11 +281,10 @@ export class ConstructsMaker {
 
   // emits a versions.json file with a map of the used version for each provider fqpn
   private emitVersionsFile() {
-    const filePath = "versions.json";
-    this.code.openFile(filePath);
+    this.code.openFile(this.versionsFilePath);
     this.code.line(JSON.stringify(this.versions, null, 2));
-    this.code.closeFile(filePath);
-    return filePath;
+    this.code.closeFile(this.versionsFilePath);
+    return this.versionsFilePath;
   }
 
   private async generateJsiiLanguage(target: ConstructsMakerTarget) {
@@ -297,11 +303,13 @@ export class ConstructsMaker {
       opts.jsii = { path: this.options.outputJsii };
     }
 
+    let destinationVersionFilePath = "";
     if (this.isPythonTarget) {
       opts.python = {
         outdir: this.codeMakerOutdir,
         moduleName: target.srcMakName,
       };
+      destinationVersionFilePath = this.codeMakerOutdir;
     }
 
     if (this.isJavaTarget) {
@@ -309,6 +317,7 @@ export class ConstructsMaker {
         outdir: ".", // generated java files aren't packaged, so just include directly in app
         package: `imports.${target.srcMakName}`,
       };
+      destinationVersionFilePath = "./src/main/java/imports";
     }
 
     if (this.isCsharpTarget) {
@@ -316,6 +325,7 @@ export class ConstructsMaker {
         outdir: this.codeMakerOutdir,
         namespace: target.srcMakName,
       };
+      destinationVersionFilePath = this.codeMakerOutdir;
     }
 
     if (this.isGoTarget) {
@@ -331,6 +341,7 @@ export class ConstructsMaker {
         moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
         packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
       };
+      destinationVersionFilePath = path.join(outdir, "..");
     }
 
     if (
@@ -348,7 +359,12 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
-    await generateJsiiLanguage(this.code, opts);
+    await generateAndCopyJsiiLanguage(
+      this.code,
+      opts,
+      this.versionsFilePath,
+      destinationVersionFilePath
+    );
     jsiiTimer();
   }
 
