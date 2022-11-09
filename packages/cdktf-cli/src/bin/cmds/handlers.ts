@@ -46,7 +46,10 @@ import { initializErrorReporting } from "../../lib/error-reporting";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { providerAdd as providerAddLib } from "../../lib/provider-add";
 import { logger } from "../../lib/logging";
-import { DependencyManager, ProviderConstraint } from "../../lib/dependencies/dependency-manager";
+import {
+  DependencyManager,
+  ProviderConstraint,
+} from "../../lib/dependencies/dependency-manager";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -196,6 +199,7 @@ export async function get(argv: {
   output: string;
   language: Language;
   parallelism: number;
+  force?: boolean;
 }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
@@ -205,7 +209,7 @@ export async function get(argv: {
   const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language, parallelism } = argv;
+  const { output, language, parallelism, force } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
     ...providers,
@@ -225,6 +229,7 @@ export async function get(argv: {
       language: language,
       constraints,
       parallelism,
+      force,
     })
   );
 }
@@ -242,7 +247,7 @@ export async function init(argv: any) {
 
   checkForEmptyDirectory(".");
 
-  const {needsGet, codeMakerOutput, language} = await runInit(argv);
+  const { needsGet, codeMakerOutput, language } = await runInit(argv);
 
   if (needsGet) {
     console.log(
