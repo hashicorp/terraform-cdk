@@ -9,7 +9,7 @@ import {
 } from "../terraform-remote-state";
 
 /**
- * @deprecated the etcdv3 backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
 export class EtcdV3Backend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: EtcdV3BackendProps) {
@@ -33,7 +33,7 @@ export class EtcdV3Backend extends TerraformBackend {
 }
 
 /**
- * @deprecated the etcdv3 backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
 export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {
   constructor(
@@ -52,7 +52,7 @@ export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/etcdv3
  *
- * @deprecated the etcdv3 backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
 export interface EtcdV3BackendProps {
   /**
@@ -93,7 +93,7 @@ export interface EtcdV3BackendProps {
 }
 
 /**
- * @deprecated the etcdv3 backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
 export interface DataTerraformRemoteStateEtcdV3Config
   extends DataTerraformRemoteStateConfig,

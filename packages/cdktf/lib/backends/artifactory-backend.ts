@@ -9,7 +9,7 @@ import {
 } from "../terraform-remote-state";
 
 /**
- * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
  */
 export class ArtifactoryBackend extends TerraformBackend {
   constructor(
@@ -33,7 +33,7 @@ export class ArtifactoryBackend extends TerraformBackend {
 }
 
 /**
- * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
  */
 export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
   constructor(
@@ -57,7 +57,7 @@ export class DataTerraformRemoteStateArtifactory extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/artifactory
  *
- * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
  */
 export interface ArtifactoryBackendProps {
   /**
@@ -85,7 +85,7 @@ export interface ArtifactoryBackendProps {
 }
 
 /**
- * @deprecated the artifactory backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
  */
 export interface DataTerraformRemoteStateArtifactoryConfig
   extends DataTerraformRemoteStateConfig,

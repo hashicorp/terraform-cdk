@@ -9,7 +9,7 @@ import {
 } from "../terraform-remote-state";
 
 /**
- * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
  */
 export class SwiftBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: SwiftBackendProps) {
@@ -30,7 +30,7 @@ export class SwiftBackend extends TerraformBackend {
 }
 
 /**
- * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
  */
 export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
   constructor(
@@ -43,7 +43,7 @@ export class DataTerraformRemoteStateSwift extends TerraformRemoteState {
 }
 
 /**
- * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
  */
 export interface SwiftBackendProps {
   readonly authUrl?: string;
@@ -76,7 +76,7 @@ export interface SwiftBackendProps {
 }
 
 /**
- * @deprecated the swift backend has been deprecated in Terraform v1.2.3 and was removed in Terraform v1.3
+ * @deprecated CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
  */
 export interface DataTerraformRemoteStateSwiftConfig
   extends DataTerraformRemoteStateConfig,
