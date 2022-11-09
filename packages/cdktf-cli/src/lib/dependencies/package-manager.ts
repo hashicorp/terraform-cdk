@@ -145,6 +145,11 @@ class NodePackageManager extends PackageManager {
       packageVersion ? packageName + "@" + packageVersion : packageName
     );
 
+    // Install exact version
+    // Yarn: https://classic.yarnpkg.com/lang/en/docs/cli/add/#toc-yarn-add-exact-e
+    // Npm: https://docs.npmjs.com/cli/v8/commands/npm-install#save-exact
+    args.push("-E");
+
     console.log(
       `Installing package ${packageName} @ ${packageVersion} using ${command}.`
     );

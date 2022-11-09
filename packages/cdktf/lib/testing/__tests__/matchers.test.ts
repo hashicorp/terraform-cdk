@@ -239,6 +239,16 @@ describe("matchers", () => {
           "Expected subject to be a valid terraform stack"
         )
       );
+      expect(res.message).toEqual(
+        expect.stringContaining(
+          "There are some problems with the configuration, described below."
+        )
+      );
+      expect(res.message).toEqual(
+        expect.stringContaining(
+          "Expected subject to be a valid terraform stack"
+        )
+      );
     });
   });
 
@@ -259,6 +269,7 @@ describe("matchers", () => {
       new DockerImage(stack, "test", { name: "test" });
 
       const res = toPlanSuccessfully(Testing.fullSynth(stack));
+
       expect(res.pass).toBeTruthy();
       expect(res.message).toMatchInlineSnapshot(
         `"Expected subject not to plan successfully"`

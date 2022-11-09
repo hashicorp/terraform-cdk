@@ -9,6 +9,7 @@ import * as os from "os";
 import * as semver from "semver";
 import { promisify } from "util";
 import { DISPLAY_VERSION } from "../../../lib/version";
+import { DISABLE_VERSION_CHECK } from "../../../lib/environment";
 
 const ONE_DAY_IN_SECONDS = 1 * 24 * 60 * 60;
 
@@ -95,7 +96,7 @@ export async function latestVersionIfHigher(
 }
 
 export async function displayVersionMessage(): Promise<void> {
-  if (!process.stdout.isTTY) {
+  if (!process.stdout.isTTY || DISABLE_VERSION_CHECK) {
     return;
   }
 
