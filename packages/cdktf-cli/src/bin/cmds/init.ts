@@ -51,6 +51,15 @@ class Command extends BaseCommand {
         type: "boolean",
         desc: "Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details",
       })
+      .option("providers", {
+        describe: "Providers to add to your project",
+        type: "array",
+        default: [],
+      })
+      .option("providers-force-local", {
+        type: "boolean",
+        desc: "Force local installation of provider specified in init",
+      })
       .strict();
 
   public async handleCommand(argv: any) {

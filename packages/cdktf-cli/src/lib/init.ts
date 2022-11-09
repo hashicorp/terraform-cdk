@@ -26,6 +26,8 @@ export type InitArgs = {
   cdktfVersion?: string;
   destination: string;
   dist?: string;
+  providers?: string[];
+  providersForceLocal?: boolean;
   projectId: string;
   projectInfo: Project;
   templatePath: string;
