@@ -98,11 +98,9 @@ func TestToHaveDataWithPropertiesFail(t *testing.T) {
 	}
 }
 
-func TestToHaveProviderWithPropertiesPass(t *testing.T) {
-	properties := map[string]interface{}{
-		"id": "provider",
-	}
-	assertion := cdktf.Testing_ToHaveProviderWithProperties(synth, docker.DockerProvider_TfResourceType(), &properties)
+func TestToHaveProviderPass(t *testing.T) {
+
+	assertion := cdktf.Testing_ToHaveProvider(synth, docker.DockerProvider_TfResourceType())
 
 	if !*assertion {
 		t.Error("Assertion Failed")

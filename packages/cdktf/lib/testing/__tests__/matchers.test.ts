@@ -130,7 +130,7 @@ describe("matchers", () => {
 
       expect(res.pass).toBeTruthy();
       expect(res.message).toMatchInlineSnapshot(`
-        "Expected no test_resource with properties {} to be present in synthesised stack.
+        "Expected no test_resource with properties {} to be present in synthesized stack.
         Found 1 test_resource resources instead:
         [
           {
@@ -151,7 +151,7 @@ describe("matchers", () => {
 
       expect(res.pass).toBeFalsy();
       expect(res.message).toMatchInlineSnapshot(`
-        "Expected test_data_source with properties {} to be present in synthesised stack.
+        "Expected test_data_source with properties {} to be present in synthesized stack.
         Found no test_data_source resources instead"
       `);
     });

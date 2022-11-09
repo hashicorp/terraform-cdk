@@ -82,12 +82,7 @@ public class MainTest {
 
     @Test
     void hasProviderWithPropsPass() {
-        assertTrue(Testing.toHaveProviderWithProperties(synthesized, DockerProvider.TF_RESOURCE_TYPE,
-                new HashMap<String, Object>() {
-                    {
-                        put("id", "provider");
-                    }
-                }));
+        assertTrue(Testing.toHaveProvider(synthesized, DockerProvider.TF_RESOURCE_TYPE));
     }
 
     @Test

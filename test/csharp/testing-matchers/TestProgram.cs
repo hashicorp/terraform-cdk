@@ -73,9 +73,7 @@ namespace MyCompany.MyApp{
 
         [Fact]
         public void hasProviderWithPropertiesPass(){
-            Assert.True(Testing.ToHaveProviderWithProperties(synthesized, DockerProvider.TfResourceType, new Dictionary<String, Object>(){
-                {"id", "provider"}
-            }) );
+            Assert.True(Testing.ToHaveProvider(synthesized, DockerProvider.TfResourceType));
         }
 
         [Fact]
