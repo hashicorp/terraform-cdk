@@ -75,6 +75,4 @@ class TestAssertions:
         assert Testing.to_be_valid_terraform(synthed)  is False
 
     def test_has_provider_with_properties(self):
-        assert Testing.to_have_provider_with_properties(self.synthesized, DockerProvider.TF_RESOURCE_TYPE, {
-            "id": "provider"
-        })
+        assert Testing.to_have_provider(self.synthesized, DockerProvider.TF_RESOURCE_TYPE)
