@@ -37,8 +37,8 @@ test("generates a versions file", async () => {
       version: "2.16.0",
     },
   ];
-  const constructMaker = new ConstructsMaker(options, constraints);
-  await constructMaker.generate();
+  const constructMaker = new ConstructsMaker(options);
+  await constructMaker.generate(constraints);
 
   const output = fs.readFileSync(path.join(workdir, "versions.json"), "utf-8");
   expect(Object.keys(JSON.parse(output))).toEqual(

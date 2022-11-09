@@ -29,6 +29,11 @@ class Command extends BaseCommand {
         alias: "l",
         choices: LANGUAGES,
       })
+      .option("force", {
+        default: false,
+        type: "boolean",
+        desc: "Regenerates all generated constructs",
+      })
       .option("parallelism", {
         type: "number",
         required: false,
