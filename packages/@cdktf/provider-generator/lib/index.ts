@@ -19,7 +19,7 @@ import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
 import deepmerge from "deepmerge";
 import {
-  generateJsiiLanguage,
+  generateAndCopyJsiiLanguage,
   ConstructsMakerTarget,
 } from "./get/constructs-maker";
 export { escapeAttributeName } from "./get/generator/models";
@@ -29,6 +29,7 @@ import {
   readModuleSchema,
   readProviderSchema,
 } from "./get/generator/provider-schema";
+import path from "path";
 
 export { setLogger } from "./config";
 export { TerraformProviderGenerator, CodeMaker };
@@ -46,7 +47,12 @@ export async function generateProviderBindingsFromSchema(
   await code.save(targetPath);
 
   if (options) {
-    await generateJsiiLanguage(code, options);
+    await generateAndCopyJsiiLanguage(
+      code,
+      options,
+      "versions.json",
+      path.join(targetPath, "versions.json")
+    );
   }
 }
 
