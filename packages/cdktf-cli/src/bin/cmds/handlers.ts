@@ -50,6 +50,8 @@ import {
   DependencyManager,
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
+import { get as getLib } from "../../lib/get";
+import { GetOptions } from "../../../../@cdktf/provider-generator/lib/get/constructs-maker";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -460,24 +462,41 @@ export async function providerUpgrade(argv: any) {
     config.projectDirectory
   );
 
-  let needsGet = false;
+  const constraintsToUpdate: ProviderConstraint[] = [];
 
   for (const provider of argv.provider) {
     const constraint = ProviderConstraint.fromConfigEntry(provider);
     const { addedLocalProvider } = await manager.upgradeProvider(constraint);
     if (addedLocalProvider) {
-      needsGet = true;
+      constraintsToUpdate.push(constraint);
     }
   }
 
-  if (needsGet) {
+  if (constraintsToUpdate.length > 0) {
     console.log(
-      "Local providers have been updated. Running cdktf get to update..."
+      `${constraintsToUpdate.length} local provider${
+        constraintsToUpdate.length === 1 ? "" : "s"
+      } have been updated. Running cdktf get to update...`
     );
-    await get({
-      language: language,
-      output: config.codeMakerOutput,
-      parallelism: 1,
+    const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+    const providers = config.terraformProviders ?? [];
+    const modules = config.terraformModules ?? [];
+
+    const constructsOptions: GetOptions = {
+      codeMakerOutput: config.codeMakerOutput,
+      targetLanguage: language,
+      jsiiParallelism: 1,
+    };
+
+    const constraints: cfg.TerraformDependencyConstraint[] = [
+      ...providers,
+      ...modules,
+    ];
+    await getLib({
+      constructsOptions,
+      constraints,
+      cleanDirectory: false,
+      constraintsToGenerate: constraintsToUpdate.map((c) => c.toString()),
     });
   }
 }
