@@ -86,12 +86,12 @@ public class MainTest {
     }
 
     @Test
-    void isValidTerrformPass() {
+    void isValidTerraformPass() {
         assertTrue(Testing.toBeValidTerraform(fullSynthesized));
     }
 
     @Test
-    void isValidTerrformFail() {
+    void isValidTerraformFail() {
         assertFalse(Testing.toBeValidTerraform(fullSynthesizedInvalidTerraform));
     }
 
