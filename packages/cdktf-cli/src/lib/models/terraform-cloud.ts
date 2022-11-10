@@ -386,8 +386,6 @@ export class TerraformCloud implements Terraform {
           plan = await this.client.Plans.show(
             result.relationships.plan.data.id
           );
-
-          console.log(JSON.stringify(plan, null, 2));
         } catch (e) {
           if (isPermissionLackingError(e)) {
             // This shouldn't happen, since we had enough permissions to create a plan
