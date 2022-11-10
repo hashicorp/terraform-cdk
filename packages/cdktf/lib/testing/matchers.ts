@@ -264,7 +264,7 @@ const isExecSpawnError = (err: any): err is Error & SpawnSyncReturns<any> =>
  * @param   {Error}  err     The error from which the `process.spawn` output should be retreived from.
  * @returns {String}         The finalized assertion message decorated with the `process.spawn` output.
  */
-const withProcessOutput = (message: string, err: unknown) => {
+ const withProcessOutput = (message: string, err: unknown) => {
   let output = "";
 
   if (isExecSpawnError(err)) {
