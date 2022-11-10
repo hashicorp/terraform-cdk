@@ -29,7 +29,6 @@ import {
   readModuleSchema,
   readProviderSchema,
 } from "./get/generator/provider-schema";
-import path from "path";
 
 export { setLogger } from "./config";
 export { TerraformProviderGenerator, CodeMaker };
@@ -47,12 +46,9 @@ export async function generateProviderBindingsFromSchema(
   await code.save(targetPath);
 
   if (options) {
-    await generateAndCopyJsiiLanguage(
-      code,
-      options,
-      "versions.json",
-      path.join(targetPath, "versions.json")
-    );
+    // Since we're not generating the versions.json file here
+    // we'll prevent it from being copied
+    await generateAndCopyJsiiLanguage(code, options, false);
   }
 }
 
