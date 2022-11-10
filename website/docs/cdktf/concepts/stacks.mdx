@@ -51,10 +51,6 @@ new MyStack(app, "a-single-stack");
 app.synth();
 ```
 
-```python
-
-```
-
 ```java
 stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>(){{
     put("remote", new HashMap<String, Object>(){{
@@ -64,14 +60,6 @@ stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Objec
         }});
     }});
 }});
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>
@@ -133,19 +121,7 @@ new MyStack(app, "multiple-stacks-production-eu", {
 app.synth();
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 
@@ -228,19 +204,7 @@ new BackendStack(app, "target-stack", {
 app.synth();
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 
@@ -270,19 +234,7 @@ If you want to keep the result of the function attached to one stack and save it
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 
@@ -317,19 +269,7 @@ stack.addOverride("terraform.backend", {
 });
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 

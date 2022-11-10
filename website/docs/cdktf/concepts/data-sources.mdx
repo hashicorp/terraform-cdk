@@ -39,10 +39,6 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
-```python
-
-```
-
 ```java
 import com.hashicorp.cdktf.DataTerraformRemoteState;
 import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
@@ -51,31 +47,22 @@ import imports.aws.instance.InstanceConfig;
 
 public class DataSourcesRemoteState extends TerraformStack {
 
-    public DataSourcesRemoteState(Construct scope, String id){
+    public DataSourcesRemoteState(Construct scope, String id) {
         super(scope, id);
 
-        //....
-        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "state", DataTerraformRemoteStateRemoteConfig.builder()
-                .organization("hashicorp")
-                .workspace("vpc-prod")
-                .build()
-        );
+        // ....
+        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "state",
+                DataTerraformRemoteStateRemoteConfig.builder()
+                        .organization("hashicorp")
+                        .workspaces(new NamedRemoteWorkspace("vpc-prod"))
+                        .build());
 
         new Instance(this, "foo", InstanceConfig.builder()
-                //....
+                // ....
                 .subnetId(remoteState.getString("subnet_id"))
-                .build()
-        );
+                .build());
     }
 }
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>
@@ -114,19 +101,7 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 

@@ -48,10 +48,6 @@ new Eks(this, "EksModule", {
 });
 ```
 
-```python
-
-```
-
 ```java
         TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", TerraformVariableConfig.builder()
                 .type("number")
@@ -71,14 +67,6 @@ new Eks(this, "EksModule", {
                 .clusterCreateTimeout(logRetention.getNumberValue())
                 .build()
         );
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>

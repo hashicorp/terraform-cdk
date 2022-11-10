@@ -40,10 +40,6 @@ const s3Bucket = new S3Bucket(this, "bucket", {
 });
 ```
 
-```python
-
-```
-
 ```java
 import imports.aws.s3_bucket.S3Bucket;
 import imports.aws.s3_bucket.S3BucketConfig;
@@ -79,14 +75,6 @@ import imports.aws.s3_bucket.S3BucketConfig;
                 .build());
 ```
 
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
@@ -118,19 +106,7 @@ const s3Bucket = new S3Bucket(this, "bucket", {
 });
 ```
 
-```python
-
-```
-
 ```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 
