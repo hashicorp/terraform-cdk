@@ -449,7 +449,10 @@ export class DependencyManager {
         prebuiltProviderConfig.version
       );
 
-      prebuiltProvidersInfo.push(providerInformation);
+      prebuiltProvidersInfo.push({
+        ...providerInformation,
+        packageName: prebuiltProviderConfig.name,
+      });
     }
 
     const localProvidersInfo = [];
