@@ -12,8 +12,10 @@ from resources import ResourceStack, ReferencesStack, EscapeHatch, ResourceOverr
 from stacks import MySingleStack, MyMultipleStacks, MyMultipleStacksConfig, VPCStack, BackendStack, BackendStackConfig
 from tokens import TokenStack
 from variables_outputs import VariablesOutputsDefineLocalStack, OutputValuesStack, OutputValuesProps, DefineOutputStack, Producer, Consumer
+from aspects import runAll
 
 app = App()
+'''
 MyAssetStack(app, "assets")
 MyS3BucketStack(app, "constructs-s3")
 MyKubernetesStack(app, "constructs-k8s")
@@ -53,5 +55,6 @@ DefineOutputStack(app, "define-output")
 Producer(app, "cdktf-producer")
 Consumer(app, "cdktf-consumer")
 TokenStack(app, "tokens")
-
+'''
+runAll()
 app.synth()

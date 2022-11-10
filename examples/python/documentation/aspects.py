@@ -27,37 +27,45 @@ export class TagsAddingAspect implements IAspect {
 // Add tags to every resource defined within `myStack`.
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 '''
-from typing import Dict, Mapping
+from typing import Dict, Mapping, TypedDict
 
 from constructs import IConstruct
 from cdktf import Aspects, IAspect, TerraformStack, App
 
-from examples.python.documentation.imports.aws.s3_bucket import S3Bucket
+from imports.aws.s3_bucket import S3Bucket
 
 myStack = TerraformStack(App(), "my-stack")
 
 # Not all constructs are taggable, so we need to filter it
+class TaggableConstruct(TypedDict):
+  construct: IConstruct
+  tags: dict
+  tagsInput: dict
+
+'''
 class TaggableConstruct:
-    tags: Dict[str : str]
-    tagsInput: Dict[str : str]
+    tags: Dict
+    tagsInput: Dict
     def __init__(self, x: IConstruct):
         self.tags = x.tags if x.tags else None
         self.tagsInput = x.tagsInput if x.tagsInput else None
+'''
 
 def isTaggableConstruct(x: TaggableConstruct):
-    return x.tags and x.tagsInput
+    return x.tags is not None and x.tagsInput is not None
 
 class TagsAddingAspect(IAspect):
-    def __init__(self, tagsToAdd: Mapping[str:str]):
+    def __init__(self, tagsToAdd):
         self.tagsToAdd = tagsToAdd
     
     def visit(self, node: IConstruct):
-        if(isTaggableConstruct(TaggableConstruct(node))):
-            currentTags = node.tagsInput if node.tagsInput else {}
+        if(isTaggableConstruct(TaggableConstruct(node, node.tags, node.tags_input))):
+            currentTags = node.tags_input if node.tags_input is not None else {}
             node.tags = {**self.tagsToAdd, **currentTags}
 
+def runAll():
+  Aspects.of(myStack).add(TagsAddingAspect({ "createdBy" : "cdktf"}))
 
-Aspects.of(myStack).add({ "createdBy" : "cdktf"})
 
 '''
 import { IConstruct } from "constructs";
@@ -84,6 +92,8 @@ export class ValidateS3IsPrefixed implements IAspect {
 // Check the prefix for every resource within `myStack`.
 Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 '''
+
+
 from constructs import IConstruct
 from cdktf import Aspects, IAspect, Annotations
 import imports.aws as aws
@@ -93,5 +103,8 @@ class ValidateS3IsPrefixed(IAspect):
         self.prefix = prefix
 
     def visit(self, node: IConstruct):
-        if(typeof(node) is S3Bucket):
-            if(node.)
+        if isinstance(node, S3Bucket):
+            if(node.bucket_input and not node.bucket_input.startswith(self.prefix)):
+              Annotations.of(node).add_error(
+                "Each S3 Bucket name needs to start with {}".format(self.prefix)
+              )
