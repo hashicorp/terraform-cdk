@@ -21,7 +21,9 @@ export enum GetStatus {
 type StringDependencyConstraint = string; // e.g. hashicorp/aws@ ~> 2.0
 type DependencyConstraint =
   | config.TerraformDependencyConstraint
-  | StringDependencyConstraint;
+  | StringDependencyConstraint
+  | config.TerraformModuleConstraint
+  | config.TerraformProviderConstraint;
 
 interface GetConfig {
   // All existing constraints (to be able to remove no longer used ones)
