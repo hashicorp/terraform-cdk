@@ -27,7 +27,7 @@ export class LocalProviderVersions {
       case Language.JAVA:
         return path.join("src", "main", "java", "imports", "versions.json");
       case Language.CSHARP:
-        return path.join("src", "main", "java", "imports", "versions.json");
+        return path.join(".gen", "versions.json");
       case Language.GO:
         return path.join("generated", "versions.json");
 
