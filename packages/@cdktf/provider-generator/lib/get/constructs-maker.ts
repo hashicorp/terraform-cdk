@@ -39,8 +39,7 @@ export const LANGUAGES = [
 export async function generateAndCopyJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options,
-  versionsFilePath: string,
-  outputPath: string
+  copyVersionsJson = true
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
@@ -48,10 +47,33 @@ export async function generateAndCopyJsiiLanguage(
     // into our project.
     await code.save(staging);
     await srcmak.srcmak(staging, opts);
-    await fs.copyFile(
-      path.join(staging, versionsFilePath),
-      path.resolve(outputPath, versionsFilePath)
-    );
+    if (copyVersionsJson) {
+      const source = path.join(staging, "versions.json");
+      if (opts.python) {
+        await fs.copyFile(
+          source,
+          path.resolve(opts.python.outdir, "versions.json")
+        );
+      }
+      if (opts.java) {
+        await fs.copyFile(
+          source,
+          path.resolve(opts.java.outdir, "src", "main", "java", "versions.json")
+        );
+      }
+      if (opts.csharp) {
+        await fs.copyFile(
+          source,
+          path.resolve(opts.csharp.outdir, "versions.json")
+        );
+      }
+      if (opts.golang) {
+        await fs.copyFile(
+          source,
+          path.resolve(opts.golang.outdir, "..", "versions.json")
+        );
+      }
+    }
   });
 }
 
@@ -303,13 +325,11 @@ export class ConstructsMaker {
       opts.jsii = { path: this.options.outputJsii };
     }
 
-    let destinationVersionFilePath = "";
     if (this.isPythonTarget) {
       opts.python = {
         outdir: this.codeMakerOutdir,
         moduleName: target.srcMakName,
       };
-      destinationVersionFilePath = this.codeMakerOutdir;
     }
 
     if (this.isJavaTarget) {
@@ -317,7 +337,6 @@ export class ConstructsMaker {
         outdir: ".", // generated java files aren't packaged, so just include directly in app
         package: `imports.${target.srcMakName}`,
       };
-      destinationVersionFilePath = "./src/main/java/imports";
     }
 
     if (this.isCsharpTarget) {
@@ -325,7 +344,6 @@ export class ConstructsMaker {
         outdir: this.codeMakerOutdir,
         namespace: target.srcMakName,
       };
-      destinationVersionFilePath = this.codeMakerOutdir;
     }
 
     if (this.isGoTarget) {
@@ -341,7 +359,6 @@ export class ConstructsMaker {
         moduleName: await determineGoModuleName(outdir), // e.g. `github.com/org/userproject/.gen/hashicorp`
         packageName: target.srcMakName, // package will be named e.g. random for hashicorp/random
       };
-      destinationVersionFilePath = path.join(outdir, "..");
     }
 
     if (
@@ -359,12 +376,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
-    await generateAndCopyJsiiLanguage(
-      this.code,
-      opts,
-      this.versionsFilePath,
-      destinationVersionFilePath
-    );
+    await generateAndCopyJsiiLanguage(this.code, opts);
     jsiiTimer();
   }
 
