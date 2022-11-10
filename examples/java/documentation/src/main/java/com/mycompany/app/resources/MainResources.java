@@ -56,7 +56,6 @@ public class MainResources extends TerraformStack {
                                                 .build())
                                 .build());
 
-                // labels attribute is wrong
                 new Deployment(this, "nginx-deployment", DeploymentConfig.builder()
                                 .metadata(DeploymentMetadata.builder()
                                                 .name("nginx")
@@ -126,7 +125,6 @@ public class MainResources extends TerraformStack {
                 // DOCS_BLOCK_END:resources-escape-hatch
 
                 // DOCS_BLOCK_START:resources-escape-hatch-dynamic-block
-                // default value might be array rather than list
                 TerraformVariable ports = new TerraformVariable(this, "ports", TerraformVariableConfig.builder()
                                 .type("list")
                                 .defaultValue(Arrays.asList(22, 80, 443, 5432))

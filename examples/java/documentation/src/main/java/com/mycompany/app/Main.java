@@ -57,9 +57,6 @@ public class Main extends TerraformStack {
                 new MainMultipleStacks.MultipleStacksConfig().setEnvironment("staging").setRegion("eu-central-1"));
         new MainSingleStack(app, "single-stack");
         new MainStacks(app, "stacks");
-        // TODO: fix this one -> Trouble getting expression out of TerraformLocal ->
-        // wait for fix to merge
-        // new VariablesAndOutputs(app, "var-and-outs");
         new VariablesAndOutputsDefineValues(app, "var-and-outs-define");
         new VariablesAndOutputsRemoteState.Producer(app, "cdktf-producer");
         new VariablesAndOutputsRemoteState.Consumer(app, "cdktf-consumer");
