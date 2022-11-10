@@ -44,8 +44,4 @@ export class CdktfConfigManager {
   public async updateProvider(constraint: ProviderConstraint): Promise<void> {
     await this.setProvider(constraint);
   }
-
-  public listProviders() {
-    return this.config.terraformProviders;
-  }
 }

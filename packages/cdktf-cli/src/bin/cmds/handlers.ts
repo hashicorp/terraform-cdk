@@ -47,7 +47,10 @@ import { initializErrorReporting } from "../../lib/error-reporting";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { providerAdd as providerAddLib } from "../../lib/provider-add";
 import { logger } from "../../lib/logging";
-import { DependencyManager, ProviderConstraint } from "../../lib/dependencies/dependency-manager";
+import {
+  DependencyManager,
+  ProviderConstraint,
+} from "../../lib/dependencies/dependency-manager";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -243,7 +246,7 @@ export async function init(argv: any) {
 
   checkForEmptyDirectory(".");
 
-  const {needsGet, codeMakerOutput, language} = await runInit(argv);
+  const { needsGet, codeMakerOutput, language } = await runInit(argv);
 
   if (needsGet) {
     console.log(
@@ -514,9 +517,9 @@ export async function providerList(argv: any) {
   for (const provider of allProviders.local) {
     renderedTable.push([
       provider.providerName || "",
-      "",
-      "",
       provider.providerVersion || "",
+      "",
+      provider.providerConstraint || "",
       "",
     ]);
   }

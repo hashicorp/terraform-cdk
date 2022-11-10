@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Language } from "@cdktf/provider-generator";
 import { toPascalCase, toSnakeCase } from "codemaker";
-import { ProviderDependencySpec } from "../cdktf-config";
+import { CdktfConfig, ProviderDependencySpec } from "../cdktf-config";
 import { Errors } from "../errors";
 import { logger } from "../logging";
 import { CdktfConfigManager } from "./cdktf-config-manager";
@@ -16,6 +16,7 @@ import {
 import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
 import * as semver from "semver";
+import { LocalProviderVersions } from "../local-provider-versions";
 
 // ref: https://www.terraform.io/language/providers/requirements#source-addresses
 const DEFAULT_HOSTNAME = "registry.terraform.io";
@@ -429,15 +430,12 @@ export class DependencyManager {
   }
 
   public async allProviders() {
-    const cdktfJson = new CdktfConfigManager();
+    const cdktfJson = CdktfConfig.read();
+    const localVersions = new LocalProviderVersions(cdktfJson.language);
 
-    const localProviderConfigs = cdktfJson.listProviders();
+    const localProviderConfigs = cdktfJson.terraformProviders;
     const prebuiltProviderConfigs =
       await this.packageManager.listProviderPackages();
-
-    const localProvidersInfo = localProviderConfigs.map((configEntry) =>
-      ProviderConstraint.fromConfigEntry(configEntry)
-    );
 
     const prebuiltProvidersInfo = [];
 
@@ -454,11 +452,22 @@ export class DependencyManager {
       prebuiltProvidersInfo.push(providerInformation);
     }
 
-    return {
-      local: localProvidersInfo.map((constraint) => ({
+    const localProvidersInfo = [];
+    for (const localProvider of localProviderConfigs) {
+      const constraint = ProviderConstraint.fromConfigEntry(localProvider);
+      const version = await localVersions.versionForProvider(
+        constraint.simplifiedName
+      );
+
+      localProvidersInfo.push({
         providerName: constraint.simplifiedName,
-        providerVersion: constraint.version,
-      })),
+        providerConstraint: constraint.version,
+        providerVersion: version,
+      });
+    }
+
+    return {
+      local: localProvidersInfo,
       prebuilt: prebuiltProvidersInfo,
     };
   }
