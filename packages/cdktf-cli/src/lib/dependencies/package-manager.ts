@@ -462,6 +462,9 @@ class NugetPackageManager extends PackageManager {
         `Listing pipenv packages using "dotnet list package": ${stdout}`
       );
 
+      const regex =
+        /^\s*>\s(HashiCorp\.Cdktf\.Providers\.[\w.]+)\s+((?:\d+\.){2}\d+(?:-\S+)?)\s+((?:\d+\.){2}\d+(?:-\S+)?)\s*$/;
+
       return stdout
         .split("\n")
         .map((line) => {
@@ -472,14 +475,12 @@ class NugetPackageManager extends PackageManager {
           //  > HashiCorp.Cdktf      0.0.0       0.0.0
           // match[0] = full match
           // match[1] = package name
-          // match[2] = a weird artifact I could not figure out how to exclude (last letter of the name)
-          // match[3] = requested version
-          // match[4] = resolved version
-          const regex = /\s*>\s((\w|\.)*)\s*(\d*\.\d*\.\d*)\s*(\d*\.\d*\.\d*)/g;
+          // match[2] = requested version
+          // match[3] = resolved version
           return regex.exec(line);
         })
-        .filter((match) => match && match.length === 5)
-        .map((match) => ({ name: match![1], version: match![4] }));
+        .filter((match) => !!match)
+        .map((match) => ({ name: match![1], version: match![3] }));
     } catch (e) {
       throw new Error(
         `Could not determine installed packages using 'dotnet list package': ${e.message}`
