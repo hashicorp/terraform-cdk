@@ -123,9 +123,7 @@ export class App extends Construct {
 
     const stacks = this.node
       .findAll()
-      .filter<TerraformStack>(
-        (c): c is TerraformStack => c instanceof TerraformStack
-      );
+      .filter<TerraformStack>(TerraformStack.isStack);
 
     stacks.forEach((stack) => stack.prepareStack());
     stacks.forEach((stack) => stack.synthesizer.synthesize(session));

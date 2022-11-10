@@ -6,10 +6,12 @@
     "cdktf": "bundle/bin/cdktf"
   },
   "scripts": {
-    "build": "tsc",
+    "compile-build-config": "tsc build.ts",
+    "prebuild": "yarn compile-build-config",
+    "build": "tsc --noEmit",
     "postbuild": "node build.js",
-    "watch": "tsc -w",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "watch": "yarn compile-build-config && node build.js --watch",
+    "watch-preserve-output": "yarn watch",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "pretest": "yarn build",
@@ -49,7 +51,8 @@
     "tunnel-agent": "^0.6.0",
     "xml-js": "^1.6.11",
     "yargs": "^17.5",
-    "yoga-layout-prebuilt": "^1.10.0"
+    "yoga-layout-prebuilt": "^1.10.0",
+    "zod": "^1.11.17"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
@@ -90,6 +93,9 @@
       "coverage"
     ]
   },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tsc-files src/lib/ambient.d.ts --noEmit"
+  },
   "devDependencies": {
     "@cdktf/provider-generator": "0.0.0",
     "@npmcli/ci-detect": "^1.4.0",
@@ -123,6 +129,7 @@
     "cross-fetch": "^3.1.5",
     "detect-port": "^1.5.1",
     "esbuild": "^0.15.9",
+    "esbuild-jest": "^0.5.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.31.8",
@@ -151,9 +158,9 @@
     "stream-buffers": "^3.0.2",
     "strip-ansi": "^6.0.1",
     "ts-jest": "^26.5.6",
+    "tsc-files": "^1.1.3",
     "typescript": "^3.9.10",
     "utility-types": "^3.10.0",
-    "uuid": "^8.3.2",
-    "zod": "^1.11.17"
+    "uuid": "^8.3.2"
   }
 }

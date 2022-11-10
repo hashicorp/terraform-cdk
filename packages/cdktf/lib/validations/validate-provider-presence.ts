@@ -4,6 +4,7 @@ import { IConstruct, IValidation, Node } from "constructs";
 import { TerraformProvider } from "../terraform-provider";
 import { TerraformResource } from "../terraform-resource";
 import { TerraformDataSource } from "../terraform-data-source";
+import { TerraformStack } from "../terraform-stack";
 
 /**
  * A validation that is added by default, ensuring that all providers
@@ -29,15 +30,15 @@ export class ValidateProviderPresence implements IValidation {
    */
   public check(node: IConstruct) {
     if (
-      node instanceof TerraformResource ||
-      node instanceof TerraformDataSource
+      TerraformResource.isTerraformResource(node) ||
+      TerraformDataSource.isTerraformDataSource(node)
     ) {
       if (node.terraformGeneratorMetadata) {
         this.providerNames.add(node.terraformGeneratorMetadata.providerName);
       }
     }
 
-    if (node instanceof TerraformProvider) {
+    if (TerraformProvider.isTerraformProvider(node)) {
       this.foundProviders.push(node);
     }
 
@@ -61,10 +62,11 @@ export class ValidateProviderPresence implements IValidation {
     if (missingProviders.length === 0) {
       return [];
     } else {
+      const stack = TerraformStack.of(this.host);
       return [
-        `Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack for the following providers: ${missingProviders.join(
-          ", "
-        )}`,
+        `Found resources without a matching provider construct. Please make sure to add provider constructs [e.g. new RandomProvider(...)] to your stack '${
+          stack.node.id
+        }' for the following providers: ${missingProviders.join(", ")}`,
       ];
     }
   }

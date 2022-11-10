@@ -1,0 +1,17 @@
+{
+  "output": {
+    "uri": {
+      "value": "${digitalocean_app.static_site}"
+    }
+  },
+  "variable": {
+    "name": {
+      "default": "module",
+      "description": "Name of the DigitalOcean static site"
+    },
+    "region": {
+      "default": "ams",
+      "description": "Region to deploy the app to"
+    }
+  }
+}

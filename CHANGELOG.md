@@ -1,3 +1,53 @@
+## 0.13.3
+
+### fix
+
+- fix: Redact authorization header when error logging from TFC/TFE [\#2241](https://github.com/hashicorp/terraform-cdk/pull/2241)
+
+## 0.13.2
+
+### fix
+
+- fix(provider-generator): don't require arrays wrapping variable / output declarations [\#2199](https://github.com/hashicorp/terraform-cdk/pull/2199)
+- fix(cli): Use 'id' as argument name for all templates [\#2119](https://github.com/hashicorp/terraform-cdk/pull/2119)
+- fix(cli): use a custom user-agent when talking to TFC [\#2210](https://github.com/hashicorp/terraform-cdk/pull/2210)
+- fix(cli): Ignore local obj/ dir in C# template [\#2217](https://github.com/hashicorp/terraform-cdk/pull/2217)
+- fix(deps): Use apt instead of yum, since base image is debian based now [\#2216](https://github.com/hashicorp/terraform-cdk/pull/2216)
+- fix: correctly denote all of our redirects as temporary because they might change [\#2218](https://github.com/hashicorp/terraform-cdk/pull/2218)
+
+### chore
+
+- chore: Update Go to version 1.18 on windows workflows [\#2219](https://github.com/hashicorp/terraform-cdk/pull/2219)
+- chore: Update Digital Team Files [\#2203](https://github.com/hashicorp/terraform-cdk/pull/2203)
+- chore(cli): change url to pre-built providers to one we control [\#2181](https://github.com/hashicorp/terraform-cdk/pull/2181)
+- chore(cli): Move things to src/ folder [\#2130](https://github.com/hashicorp/terraform-cdk/pull/2130)
+- chore(deps): Update docker image to use new jsii/superchain tag [\#2214](https://github.com/hashicorp/terraform-cdk/pull/2214)
+- chore(docs): rewrite internal redirects [\#2204](https://github.com/hashicorp/terraform-cdk/pull/2204)
+
+### feat
+
+- feat: add CODEOWNERS file for automatic PR review assignment [\#2212](https://github.com/hashicorp/terraform-cdk/pull/2212)
+
+## 0.13.1
+
+### feat
+
+- feat(cli): Add support for terraform's parallelism flag [\#2107](https://github.com/hashicorp/terraform-cdk/pull/2107)
+- feat: add redirect link to pre-built providers json file [\#2180](https://github.com/hashicorp/terraform-cdk/pull/2180)
+- feat(cli): link to troubleshooting page for error [\#2192](https://github.com/hashicorp/terraform-cdk/pull/2192)
+
+### fix
+
+- fix(provider-generator): change Static resource class to StaticResource as their namespace 'static' is not valid in TypeScript re-exports [\#2168](https://github.com/hashicorp/terraform-cdk/pull/2168)
+- fix(cli): dont wrap list terminal output [\#2188](https://github.com/hashicorp/terraform-cdk/pull/2188)
+- fix(cli): handle missing package versions for non-npm packages [\#2177](https://github.com/hashicorp/terraform-cdk/pull/2177)
+- fix(docs): Fix upgrade guide imports for Python [\#2171](https://github.com/hashicorp/terraform-cdk/pull/2171)
+- fix(docs): update old config key [\#2195](https://github.com/hashicorp/terraform-cdk/pull/2195)
+
+### chore
+
+- chore: Update link to blogpost [\#2176](https://github.com/hashicorp/terraform-cdk/pull/2176)
+
 ## 0.13.0
 
 **Breaking Changes**

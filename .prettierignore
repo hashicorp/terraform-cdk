@@ -21,3 +21,4 @@ test/edge-provider-bindings
 *.java
 *.go
 *.cs
+packages/cdktf-cli/src/lib/ambient.d.ts
