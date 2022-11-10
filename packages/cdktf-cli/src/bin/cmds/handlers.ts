@@ -549,9 +549,9 @@ export async function providerList(argv: any) {
   for (const provider of allProviders.local) {
     renderedTable.push([
       provider.providerName || "",
-      "",
-      "",
       provider.providerVersion || "",
+      "",
+      provider.providerConstraint || "",
       "",
     ]);
   }
