@@ -59,7 +59,8 @@ export class LocalProviderVersions {
         return [
           providerFqn
             .replace("registry.terraform.io/", "")
-            .replace("hashicorp/", ""),
+            .replace("hashicorp/", "")
+            .toLowerCase(),
           versions,
         ];
       })
@@ -85,7 +86,7 @@ export class LocalProviderVersions {
       return null;
     }
 
-    const providerVersion = versions[providerName];
+    const providerVersion = versions[providerName.toLowerCase()];
 
     if (!providerName) {
       return null;
