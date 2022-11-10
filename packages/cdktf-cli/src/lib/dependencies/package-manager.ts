@@ -709,6 +709,7 @@ class GoPackageManager extends PackageManager {
       }
 
       const goSum = await fs.readFile(goSumPath, "utf8");
+      const dedupedProviderNames = new Set();
 
       return goSum
         .split("\n")
@@ -730,11 +731,20 @@ class GoPackageManager extends PackageManager {
 
           const version = parts[1].split("/")[0];
 
+          if (dedupedProviderNames.has(name)) {
+            return { name: "", version: "" };
+          }
+
+          dedupedProviderNames.add(name);
+
           return {
             name,
             version,
           };
-        });
+        })
+        .filter(
+          (providerInfo) => !!providerInfo.name && !!providerInfo.version
+        );
     } catch (e) {
       throw new Error(
         `Could not determine installed packages reading the go.sum: ${e.message}`
