@@ -167,10 +167,6 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new LocalBackend(stack, {...});
   ```
-- [artifactory](/language/v1.2.x/settings/backends/artifactory)
-  ```typescript
-  new ArtifactoryBackend(stack, {...});
-  ```
 - [azurerm](/language/settings/backends/azurerm)
   ```typescript
   new AzurermBackend(stack, {...});
@@ -183,14 +179,6 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new CosBackend(stack, {...});
   ```
-- [etcd](/language/v1.2.x/settings/backends/etcd)
-  ```typescript
-  new EtcdBackend(stack, {...});
-  ```
-- [etcdv3](/language/v1.2.x/settings/backends/etcdv3)
-  ```typescript
-  new EtcdV3Backend(stack, {...});
-  ```
 - [gcs](/language/settings/backends/gcs)
   ```typescript
   new GcsBackend(stack, {...});
@@ -198,10 +186,6 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
 - [http](/language/settings/backends/http)
   ```typescript
   new HttpBackend(stack, {...});
-  ```
-- [manta](/language/v1.2.x/settings/backends/manta)
-  ```typescript
-  new MantaBackend(stack, {...});
   ```
 - [oss](/language/settings/backends/oss)
   ```typescript
@@ -215,10 +199,8 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   ```typescript
   new S3Backend(stack, {...});
   ```
-- [swift](/language/v1.2.x/settings/backends/swift)
-  ```typescript
-  new SwiftBackend(stack, {...});
-  ```
+
+->**Note**: CDK for Terraform v0.14 deprecated the artifactory, etcd, etcdv3, manta, and swift backends. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/language/v1.3.x/upgrade-guides).
 
 ## Escape Hatches
 

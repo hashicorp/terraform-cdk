@@ -273,7 +273,7 @@ cdktf.NewArtifactoryBackend(scope Construct, props ArtifactoryBackendProps) Arti
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.ArtifactoryBackend.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.ArtifactoryBackend.toString"></a>
 
 ```go
 func ToString() *string
@@ -281,7 +281,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.ArtifactoryBackend.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.ArtifactoryBackend.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -299,7 +299,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.ArtifactoryBackend.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -315,7 +315,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.ArtifactoryBackend.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.ArtifactoryBackend.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -323,13 +323,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.ArtifactoryBackend.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.ArtifactoryBackend.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.ArtifactoryBackend.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.ArtifactoryBackend.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -337,7 +337,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource"></a>
+##### ~~`GetRemoteStateDataSource`~~ <a name="GetRemoteStateDataSource" id="cdktf.ArtifactoryBackend.getRemoteStateDataSource"></a>
 
 ```go
 func GetRemoteStateDataSource(scope Construct, name *string, _fromStack *string) TerraformRemoteState
@@ -373,7 +373,7 @@ Creates a TerraformRemoteState resource that accesses this backend.
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.ArtifactoryBackend.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.ArtifactoryBackend.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -405,7 +405,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.ArtifactoryBackend.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.ArtifactoryBackend.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -419,7 +419,7 @@ cdktf.ArtifactoryBackend_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsBackend` <a name="IsBackend" id="cdktf.ArtifactoryBackend.isBackend"></a>
+##### ~~`IsBackend`~~ <a name="IsBackend" id="cdktf.ArtifactoryBackend.isBackend"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -444,7 +444,9 @@ cdktf.ArtifactoryBackend_IsBackend(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.ArtifactoryBackend.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.ArtifactoryBackend.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -456,7 +458,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.ArtifactoryBackend.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.ArtifactoryBackend.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -466,7 +470,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.ArtifactoryBackend.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.ArtifactoryBackend.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -476,7 +482,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.ArtifactoryBackend.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.ArtifactoryBackend.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -1870,7 +1878,7 @@ cdktf.NewDataTerraformRemoteStateArtifactory(scope Construct, id *string, config
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.DataTerraformRemoteStateArtifactory.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.DataTerraformRemoteStateArtifactory.toString"></a>
 
 ```go
 func ToString() *string
@@ -1878,7 +1886,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.DataTerraformRemoteStateArtifactory.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -1896,7 +1904,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -1912,7 +1920,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateArtifactory.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -1920,13 +1928,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateArtifactory.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateArtifactory.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateArtifactory.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateArtifactory.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -1934,7 +1942,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `Get` <a name="Get" id="cdktf.DataTerraformRemoteStateArtifactory.get"></a>
+##### ~~`Get`~~ <a name="Get" id="cdktf.DataTerraformRemoteStateArtifactory.get"></a>
 
 ```go
 func Get(output *string) IResolvable
@@ -1946,7 +1954,7 @@ func Get(output *string) IResolvable
 
 ---
 
-##### `GetBoolean` <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean"></a>
+##### ~~`GetBoolean`~~ <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateArtifactory.getBoolean"></a>
 
 ```go
 func GetBoolean(output *string) IResolvable
@@ -1958,7 +1966,7 @@ func GetBoolean(output *string) IResolvable
 
 ---
 
-##### `GetList` <a name="GetList" id="cdktf.DataTerraformRemoteStateArtifactory.getList"></a>
+##### ~~`GetList`~~ <a name="GetList" id="cdktf.DataTerraformRemoteStateArtifactory.getList"></a>
 
 ```go
 func GetList(output *string) *[]*string
@@ -1970,7 +1978,7 @@ func GetList(output *string) *[]*string
 
 ---
 
-##### `GetNumber` <a name="GetNumber" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber"></a>
+##### ~~`GetNumber`~~ <a name="GetNumber" id="cdktf.DataTerraformRemoteStateArtifactory.getNumber"></a>
 
 ```go
 func GetNumber(output *string) *f64
@@ -1982,7 +1990,7 @@ func GetNumber(output *string) *f64
 
 ---
 
-##### `GetString` <a name="GetString" id="cdktf.DataTerraformRemoteStateArtifactory.getString"></a>
+##### ~~`GetString`~~ <a name="GetString" id="cdktf.DataTerraformRemoteStateArtifactory.getString"></a>
 
 ```go
 func GetString(output *string) *string
@@ -2003,7 +2011,7 @@ func GetString(output *string) *string
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateArtifactory.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -2035,7 +2043,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateArtifactory.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateArtifactory.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -2060,7 +2068,9 @@ cdktf.DataTerraformRemoteStateArtifactory_IsTerraformElement(x interface{}) *boo
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateArtifactory.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateArtifactory.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -2072,7 +2082,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateArtifactory.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -2082,7 +2094,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateArtifactory.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateArtifactory.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -2092,7 +2106,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateArtifactory.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -2110,7 +2126,9 @@ func FriendlyUniqueId() *string
 
 ---
 
-##### `TfResourceType`<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType"></a>
+##### ~~`TfResourceType`~~<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateArtifactory.property.tfResourceType"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 func TfResourceType() *string
@@ -3086,7 +3104,7 @@ cdktf.NewDataTerraformRemoteStateEtcd(scope Construct, id *string, config DataTe
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.DataTerraformRemoteStateEtcd.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.DataTerraformRemoteStateEtcd.toString"></a>
 
 ```go
 func ToString() *string
@@ -3094,7 +3112,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.DataTerraformRemoteStateEtcd.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.DataTerraformRemoteStateEtcd.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -3112,7 +3130,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcd.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcd.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -3128,7 +3146,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcd.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcd.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -3136,13 +3154,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateEtcd.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateEtcd.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateEtcd.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateEtcd.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -3150,7 +3168,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `Get` <a name="Get" id="cdktf.DataTerraformRemoteStateEtcd.get"></a>
+##### ~~`Get`~~ <a name="Get" id="cdktf.DataTerraformRemoteStateEtcd.get"></a>
 
 ```go
 func Get(output *string) IResolvable
@@ -3162,7 +3180,7 @@ func Get(output *string) IResolvable
 
 ---
 
-##### `GetBoolean` <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateEtcd.getBoolean"></a>
+##### ~~`GetBoolean`~~ <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateEtcd.getBoolean"></a>
 
 ```go
 func GetBoolean(output *string) IResolvable
@@ -3174,7 +3192,7 @@ func GetBoolean(output *string) IResolvable
 
 ---
 
-##### `GetList` <a name="GetList" id="cdktf.DataTerraformRemoteStateEtcd.getList"></a>
+##### ~~`GetList`~~ <a name="GetList" id="cdktf.DataTerraformRemoteStateEtcd.getList"></a>
 
 ```go
 func GetList(output *string) *[]*string
@@ -3186,7 +3204,7 @@ func GetList(output *string) *[]*string
 
 ---
 
-##### `GetNumber` <a name="GetNumber" id="cdktf.DataTerraformRemoteStateEtcd.getNumber"></a>
+##### ~~`GetNumber`~~ <a name="GetNumber" id="cdktf.DataTerraformRemoteStateEtcd.getNumber"></a>
 
 ```go
 func GetNumber(output *string) *f64
@@ -3198,7 +3216,7 @@ func GetNumber(output *string) *f64
 
 ---
 
-##### `GetString` <a name="GetString" id="cdktf.DataTerraformRemoteStateEtcd.getString"></a>
+##### ~~`GetString`~~ <a name="GetString" id="cdktf.DataTerraformRemoteStateEtcd.getString"></a>
 
 ```go
 func GetString(output *string) *string
@@ -3219,7 +3237,7 @@ func GetString(output *string) *string
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateEtcd.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateEtcd.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -3251,7 +3269,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateEtcd.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateEtcd.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -3276,7 +3294,9 @@ cdktf.DataTerraformRemoteStateEtcd_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateEtcd.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateEtcd.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -3288,7 +3308,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateEtcd.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateEtcd.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -3298,7 +3320,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateEtcd.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateEtcd.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -3308,7 +3332,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateEtcd.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateEtcd.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -3326,7 +3352,9 @@ func FriendlyUniqueId() *string
 
 ---
 
-##### `TfResourceType`<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateEtcd.property.tfResourceType"></a>
+##### ~~`TfResourceType`~~<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateEtcd.property.tfResourceType"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func TfResourceType() *string
@@ -3390,7 +3418,7 @@ cdktf.NewDataTerraformRemoteStateEtcdV3(scope Construct, id *string, config Data
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.DataTerraformRemoteStateEtcdV3.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.DataTerraformRemoteStateEtcdV3.toString"></a>
 
 ```go
 func ToString() *string
@@ -3398,7 +3426,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.DataTerraformRemoteStateEtcdV3.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.DataTerraformRemoteStateEtcdV3.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -3416,7 +3444,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcdV3.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcdV3.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -3432,7 +3460,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcdV3.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateEtcdV3.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -3440,13 +3468,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateEtcdV3.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateEtcdV3.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateEtcdV3.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateEtcdV3.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -3454,7 +3482,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `Get` <a name="Get" id="cdktf.DataTerraformRemoteStateEtcdV3.get"></a>
+##### ~~`Get`~~ <a name="Get" id="cdktf.DataTerraformRemoteStateEtcdV3.get"></a>
 
 ```go
 func Get(output *string) IResolvable
@@ -3466,7 +3494,7 @@ func Get(output *string) IResolvable
 
 ---
 
-##### `GetBoolean` <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateEtcdV3.getBoolean"></a>
+##### ~~`GetBoolean`~~ <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateEtcdV3.getBoolean"></a>
 
 ```go
 func GetBoolean(output *string) IResolvable
@@ -3478,7 +3506,7 @@ func GetBoolean(output *string) IResolvable
 
 ---
 
-##### `GetList` <a name="GetList" id="cdktf.DataTerraformRemoteStateEtcdV3.getList"></a>
+##### ~~`GetList`~~ <a name="GetList" id="cdktf.DataTerraformRemoteStateEtcdV3.getList"></a>
 
 ```go
 func GetList(output *string) *[]*string
@@ -3490,7 +3518,7 @@ func GetList(output *string) *[]*string
 
 ---
 
-##### `GetNumber` <a name="GetNumber" id="cdktf.DataTerraformRemoteStateEtcdV3.getNumber"></a>
+##### ~~`GetNumber`~~ <a name="GetNumber" id="cdktf.DataTerraformRemoteStateEtcdV3.getNumber"></a>
 
 ```go
 func GetNumber(output *string) *f64
@@ -3502,7 +3530,7 @@ func GetNumber(output *string) *f64
 
 ---
 
-##### `GetString` <a name="GetString" id="cdktf.DataTerraformRemoteStateEtcdV3.getString"></a>
+##### ~~`GetString`~~ <a name="GetString" id="cdktf.DataTerraformRemoteStateEtcdV3.getString"></a>
 
 ```go
 func GetString(output *string) *string
@@ -3523,7 +3551,7 @@ func GetString(output *string) *string
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateEtcdV3.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateEtcdV3.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -3555,7 +3583,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateEtcdV3.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateEtcdV3.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -3580,7 +3608,9 @@ cdktf.DataTerraformRemoteStateEtcdV3_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateEtcdV3.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateEtcdV3.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -3592,7 +3622,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateEtcdV3.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateEtcdV3.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -3602,7 +3634,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateEtcdV3.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateEtcdV3.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -3612,7 +3646,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateEtcdV3.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateEtcdV3.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -3630,7 +3666,9 @@ func FriendlyUniqueId() *string
 
 ---
 
-##### `TfResourceType`<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateEtcdV3.property.tfResourceType"></a>
+##### ~~`TfResourceType`~~<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateEtcdV3.property.tfResourceType"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func TfResourceType() *string
@@ -4606,7 +4644,7 @@ cdktf.NewDataTerraformRemoteStateManta(scope Construct, id *string, config DataT
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.DataTerraformRemoteStateManta.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.DataTerraformRemoteStateManta.toString"></a>
 
 ```go
 func ToString() *string
@@ -4614,7 +4652,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.DataTerraformRemoteStateManta.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.DataTerraformRemoteStateManta.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -4632,7 +4670,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateManta.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateManta.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -4648,7 +4686,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateManta.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateManta.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -4656,13 +4694,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateManta.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateManta.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateManta.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateManta.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -4670,7 +4708,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `Get` <a name="Get" id="cdktf.DataTerraformRemoteStateManta.get"></a>
+##### ~~`Get`~~ <a name="Get" id="cdktf.DataTerraformRemoteStateManta.get"></a>
 
 ```go
 func Get(output *string) IResolvable
@@ -4682,7 +4720,7 @@ func Get(output *string) IResolvable
 
 ---
 
-##### `GetBoolean` <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateManta.getBoolean"></a>
+##### ~~`GetBoolean`~~ <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateManta.getBoolean"></a>
 
 ```go
 func GetBoolean(output *string) IResolvable
@@ -4694,7 +4732,7 @@ func GetBoolean(output *string) IResolvable
 
 ---
 
-##### `GetList` <a name="GetList" id="cdktf.DataTerraformRemoteStateManta.getList"></a>
+##### ~~`GetList`~~ <a name="GetList" id="cdktf.DataTerraformRemoteStateManta.getList"></a>
 
 ```go
 func GetList(output *string) *[]*string
@@ -4706,7 +4744,7 @@ func GetList(output *string) *[]*string
 
 ---
 
-##### `GetNumber` <a name="GetNumber" id="cdktf.DataTerraformRemoteStateManta.getNumber"></a>
+##### ~~`GetNumber`~~ <a name="GetNumber" id="cdktf.DataTerraformRemoteStateManta.getNumber"></a>
 
 ```go
 func GetNumber(output *string) *f64
@@ -4718,7 +4756,7 @@ func GetNumber(output *string) *f64
 
 ---
 
-##### `GetString` <a name="GetString" id="cdktf.DataTerraformRemoteStateManta.getString"></a>
+##### ~~`GetString`~~ <a name="GetString" id="cdktf.DataTerraformRemoteStateManta.getString"></a>
 
 ```go
 func GetString(output *string) *string
@@ -4739,7 +4777,7 @@ func GetString(output *string) *string
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateManta.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateManta.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -4771,7 +4809,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateManta.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateManta.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -4796,7 +4834,9 @@ cdktf.DataTerraformRemoteStateManta_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateManta.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateManta.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -4808,7 +4848,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateManta.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateManta.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -4818,7 +4860,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateManta.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateManta.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -4828,7 +4872,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateManta.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateManta.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -4846,7 +4892,9 @@ func FriendlyUniqueId() *string
 
 ---
 
-##### `TfResourceType`<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateManta.property.tfResourceType"></a>
+##### ~~`TfResourceType`~~<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateManta.property.tfResourceType"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func TfResourceType() *string
@@ -5822,7 +5870,7 @@ cdktf.NewDataTerraformRemoteStateSwift(scope Construct, id *string, config DataT
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.DataTerraformRemoteStateSwift.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.DataTerraformRemoteStateSwift.toString"></a>
 
 ```go
 func ToString() *string
@@ -5830,7 +5878,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.DataTerraformRemoteStateSwift.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.DataTerraformRemoteStateSwift.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -5848,7 +5896,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateSwift.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.DataTerraformRemoteStateSwift.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -5864,7 +5912,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateSwift.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.DataTerraformRemoteStateSwift.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -5872,13 +5920,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateSwift.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.DataTerraformRemoteStateSwift.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateSwift.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.DataTerraformRemoteStateSwift.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -5886,7 +5934,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `Get` <a name="Get" id="cdktf.DataTerraformRemoteStateSwift.get"></a>
+##### ~~`Get`~~ <a name="Get" id="cdktf.DataTerraformRemoteStateSwift.get"></a>
 
 ```go
 func Get(output *string) IResolvable
@@ -5898,7 +5946,7 @@ func Get(output *string) IResolvable
 
 ---
 
-##### `GetBoolean` <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateSwift.getBoolean"></a>
+##### ~~`GetBoolean`~~ <a name="GetBoolean" id="cdktf.DataTerraformRemoteStateSwift.getBoolean"></a>
 
 ```go
 func GetBoolean(output *string) IResolvable
@@ -5910,7 +5958,7 @@ func GetBoolean(output *string) IResolvable
 
 ---
 
-##### `GetList` <a name="GetList" id="cdktf.DataTerraformRemoteStateSwift.getList"></a>
+##### ~~`GetList`~~ <a name="GetList" id="cdktf.DataTerraformRemoteStateSwift.getList"></a>
 
 ```go
 func GetList(output *string) *[]*string
@@ -5922,7 +5970,7 @@ func GetList(output *string) *[]*string
 
 ---
 
-##### `GetNumber` <a name="GetNumber" id="cdktf.DataTerraformRemoteStateSwift.getNumber"></a>
+##### ~~`GetNumber`~~ <a name="GetNumber" id="cdktf.DataTerraformRemoteStateSwift.getNumber"></a>
 
 ```go
 func GetNumber(output *string) *f64
@@ -5934,7 +5982,7 @@ func GetNumber(output *string) *f64
 
 ---
 
-##### `GetString` <a name="GetString" id="cdktf.DataTerraformRemoteStateSwift.getString"></a>
+##### ~~`GetString`~~ <a name="GetString" id="cdktf.DataTerraformRemoteStateSwift.getString"></a>
 
 ```go
 func GetString(output *string) *string
@@ -5955,7 +6003,7 @@ func GetString(output *string) *string
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateSwift.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.DataTerraformRemoteStateSwift.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -5987,7 +6035,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateSwift.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.DataTerraformRemoteStateSwift.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6012,7 +6060,9 @@ cdktf.DataTerraformRemoteStateSwift_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateSwift.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.DataTerraformRemoteStateSwift.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -6024,7 +6074,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateSwift.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.DataTerraformRemoteStateSwift.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -6034,7 +6086,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateSwift.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.DataTerraformRemoteStateSwift.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -6044,7 +6098,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateSwift.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.DataTerraformRemoteStateSwift.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -6062,7 +6118,9 @@ func FriendlyUniqueId() *string
 
 ---
 
-##### `TfResourceType`<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateSwift.property.tfResourceType"></a>
+##### ~~`TfResourceType`~~<sup>Required</sup> <a name="TfResourceType" id="cdktf.DataTerraformRemoteStateSwift.property.tfResourceType"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func TfResourceType() *string
@@ -6115,7 +6173,7 @@ cdktf.NewEtcdBackend(scope Construct, props EtcdBackendProps) EtcdBackend
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.EtcdBackend.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.EtcdBackend.toString"></a>
 
 ```go
 func ToString() *string
@@ -6123,7 +6181,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.EtcdBackend.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.EtcdBackend.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -6141,7 +6199,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.EtcdBackend.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.EtcdBackend.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -6157,7 +6215,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.EtcdBackend.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.EtcdBackend.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -6165,13 +6223,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.EtcdBackend.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.EtcdBackend.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.EtcdBackend.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.EtcdBackend.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -6179,7 +6237,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.EtcdBackend.getRemoteStateDataSource"></a>
+##### ~~`GetRemoteStateDataSource`~~ <a name="GetRemoteStateDataSource" id="cdktf.EtcdBackend.getRemoteStateDataSource"></a>
 
 ```go
 func GetRemoteStateDataSource(scope Construct, name *string, _fromStack *string) TerraformRemoteState
@@ -6215,7 +6273,7 @@ Creates a TerraformRemoteState resource that accesses this backend.
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.EtcdBackend.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.EtcdBackend.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6247,7 +6305,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.EtcdBackend.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.EtcdBackend.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6261,7 +6319,7 @@ cdktf.EtcdBackend_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsBackend` <a name="IsBackend" id="cdktf.EtcdBackend.isBackend"></a>
+##### ~~`IsBackend`~~ <a name="IsBackend" id="cdktf.EtcdBackend.isBackend"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6286,7 +6344,9 @@ cdktf.EtcdBackend_IsBackend(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.EtcdBackend.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.EtcdBackend.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -6298,7 +6358,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.EtcdBackend.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.EtcdBackend.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -6308,7 +6370,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.EtcdBackend.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.EtcdBackend.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -6318,7 +6382,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.EtcdBackend.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.EtcdBackend.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -6371,7 +6437,7 @@ cdktf.NewEtcdV3Backend(scope Construct, props EtcdV3BackendProps) EtcdV3Backend
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.EtcdV3Backend.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.EtcdV3Backend.toString"></a>
 
 ```go
 func ToString() *string
@@ -6379,7 +6445,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.EtcdV3Backend.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.EtcdV3Backend.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -6397,7 +6463,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.EtcdV3Backend.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.EtcdV3Backend.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -6413,7 +6479,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.EtcdV3Backend.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.EtcdV3Backend.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -6421,13 +6487,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.EtcdV3Backend.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.EtcdV3Backend.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.EtcdV3Backend.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.EtcdV3Backend.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -6435,7 +6501,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.EtcdV3Backend.getRemoteStateDataSource"></a>
+##### ~~`GetRemoteStateDataSource`~~ <a name="GetRemoteStateDataSource" id="cdktf.EtcdV3Backend.getRemoteStateDataSource"></a>
 
 ```go
 func GetRemoteStateDataSource(scope Construct, name *string, _fromStack *string) TerraformRemoteState
@@ -6471,7 +6537,7 @@ Creates a TerraformRemoteState resource that accesses this backend.
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.EtcdV3Backend.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.EtcdV3Backend.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6503,7 +6569,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.EtcdV3Backend.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.EtcdV3Backend.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6517,7 +6583,7 @@ cdktf.EtcdV3Backend_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsBackend` <a name="IsBackend" id="cdktf.EtcdV3Backend.isBackend"></a>
+##### ~~`IsBackend`~~ <a name="IsBackend" id="cdktf.EtcdV3Backend.isBackend"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -6542,7 +6608,9 @@ cdktf.EtcdV3Backend_IsBackend(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.EtcdV3Backend.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.EtcdV3Backend.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -6554,7 +6622,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.EtcdV3Backend.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.EtcdV3Backend.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -6564,7 +6634,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.EtcdV3Backend.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.EtcdV3Backend.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -6574,7 +6646,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.EtcdV3Backend.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.EtcdV3Backend.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -7395,7 +7469,7 @@ cdktf.NewMantaBackend(scope Construct, props MantaBackendProps) MantaBackend
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.MantaBackend.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.MantaBackend.toString"></a>
 
 ```go
 func ToString() *string
@@ -7403,7 +7477,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.MantaBackend.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.MantaBackend.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -7421,7 +7495,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.MantaBackend.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.MantaBackend.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -7437,7 +7511,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.MantaBackend.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.MantaBackend.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -7445,13 +7519,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.MantaBackend.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.MantaBackend.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.MantaBackend.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.MantaBackend.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -7459,7 +7533,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.MantaBackend.getRemoteStateDataSource"></a>
+##### ~~`GetRemoteStateDataSource`~~ <a name="GetRemoteStateDataSource" id="cdktf.MantaBackend.getRemoteStateDataSource"></a>
 
 ```go
 func GetRemoteStateDataSource(scope Construct, name *string, _fromStack *string) TerraformRemoteState
@@ -7495,7 +7569,7 @@ Creates a TerraformRemoteState resource that accesses this backend.
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.MantaBackend.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.MantaBackend.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -7527,7 +7601,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.MantaBackend.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.MantaBackend.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -7541,7 +7615,7 @@ cdktf.MantaBackend_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsBackend` <a name="IsBackend" id="cdktf.MantaBackend.isBackend"></a>
+##### ~~`IsBackend`~~ <a name="IsBackend" id="cdktf.MantaBackend.isBackend"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -7566,7 +7640,9 @@ cdktf.MantaBackend_IsBackend(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.MantaBackend.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.MantaBackend.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -7578,7 +7654,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.MantaBackend.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.MantaBackend.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -7588,7 +7666,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.MantaBackend.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.MantaBackend.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -7598,7 +7678,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.MantaBackend.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.MantaBackend.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -8801,7 +8883,7 @@ cdktf.NewSwiftBackend(scope Construct, props SwiftBackendProps) SwiftBackend
 
 ---
 
-##### `ToString` <a name="ToString" id="cdktf.SwiftBackend.toString"></a>
+##### ~~`ToString`~~ <a name="ToString" id="cdktf.SwiftBackend.toString"></a>
 
 ```go
 func ToString() *string
@@ -8809,7 +8891,7 @@ func ToString() *string
 
 Returns a string representation of this construct.
 
-##### `AddOverride` <a name="AddOverride" id="cdktf.SwiftBackend.addOverride"></a>
+##### ~~`AddOverride`~~ <a name="AddOverride" id="cdktf.SwiftBackend.addOverride"></a>
 
 ```go
 func AddOverride(path *string, value interface{})
@@ -8827,7 +8909,7 @@ func AddOverride(path *string, value interface{})
 
 ---
 
-##### `OverrideLogicalId` <a name="OverrideLogicalId" id="cdktf.SwiftBackend.overrideLogicalId"></a>
+##### ~~`OverrideLogicalId`~~ <a name="OverrideLogicalId" id="cdktf.SwiftBackend.overrideLogicalId"></a>
 
 ```go
 func OverrideLogicalId(newLogicalId *string)
@@ -8843,7 +8925,7 @@ The new logical ID to use for this stack element.
 
 ---
 
-##### `ResetOverrideLogicalId` <a name="ResetOverrideLogicalId" id="cdktf.SwiftBackend.resetOverrideLogicalId"></a>
+##### ~~`ResetOverrideLogicalId`~~ <a name="ResetOverrideLogicalId" id="cdktf.SwiftBackend.resetOverrideLogicalId"></a>
 
 ```go
 func ResetOverrideLogicalId()
@@ -8851,13 +8933,13 @@ func ResetOverrideLogicalId()
 
 Resets a previously passed logical Id to use the auto-generated logical id again.
 
-##### `ToMetadata` <a name="ToMetadata" id="cdktf.SwiftBackend.toMetadata"></a>
+##### ~~`ToMetadata`~~ <a name="ToMetadata" id="cdktf.SwiftBackend.toMetadata"></a>
 
 ```go
 func ToMetadata() interface{}
 ```
 
-##### `ToTerraform` <a name="ToTerraform" id="cdktf.SwiftBackend.toTerraform"></a>
+##### ~~`ToTerraform`~~ <a name="ToTerraform" id="cdktf.SwiftBackend.toTerraform"></a>
 
 ```go
 func ToTerraform() interface{}
@@ -8865,7 +8947,7 @@ func ToTerraform() interface{}
 
 Adds this resource to the terraform JSON output.
 
-##### `GetRemoteStateDataSource` <a name="GetRemoteStateDataSource" id="cdktf.SwiftBackend.getRemoteStateDataSource"></a>
+##### ~~`GetRemoteStateDataSource`~~ <a name="GetRemoteStateDataSource" id="cdktf.SwiftBackend.getRemoteStateDataSource"></a>
 
 ```go
 func GetRemoteStateDataSource(scope Construct, name *string, _fromStack *string) TerraformRemoteState
@@ -8901,7 +8983,7 @@ Creates a TerraformRemoteState resource that accesses this backend.
 
 ---
 
-##### `IsConstruct` <a name="IsConstruct" id="cdktf.SwiftBackend.isConstruct"></a>
+##### ~~`IsConstruct`~~ <a name="IsConstruct" id="cdktf.SwiftBackend.isConstruct"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -8933,7 +9015,7 @@ Any object.
 
 ---
 
-##### `IsTerraformElement` <a name="IsTerraformElement" id="cdktf.SwiftBackend.isTerraformElement"></a>
+##### ~~`IsTerraformElement`~~ <a name="IsTerraformElement" id="cdktf.SwiftBackend.isTerraformElement"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -8947,7 +9029,7 @@ cdktf.SwiftBackend_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsBackend` <a name="IsBackend" id="cdktf.SwiftBackend.isBackend"></a>
+##### ~~`IsBackend`~~ <a name="IsBackend" id="cdktf.SwiftBackend.isBackend"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -8972,7 +9054,9 @@ cdktf.SwiftBackend_IsBackend(x interface{}) *bool
 
 ---
 
-##### `Node`<sup>Required</sup> <a name="Node" id="cdktf.SwiftBackend.property.node"></a>
+##### ~~`Node`~~<sup>Required</sup> <a name="Node" id="cdktf.SwiftBackend.property.node"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func Node() Node
@@ -8984,7 +9068,9 @@ The tree node.
 
 ---
 
-##### `CdktfStack`<sup>Required</sup> <a name="CdktfStack" id="cdktf.SwiftBackend.property.cdktfStack"></a>
+##### ~~`CdktfStack`~~<sup>Required</sup> <a name="CdktfStack" id="cdktf.SwiftBackend.property.cdktfStack"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func CdktfStack() TerraformStack
@@ -8994,7 +9080,9 @@ func CdktfStack() TerraformStack
 
 ---
 
-##### `Fqn`<sup>Required</sup> <a name="Fqn" id="cdktf.SwiftBackend.property.fqn"></a>
+##### ~~`Fqn`~~<sup>Required</sup> <a name="Fqn" id="cdktf.SwiftBackend.property.fqn"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func Fqn() *string
@@ -9004,7 +9092,9 @@ func Fqn() *string
 
 ---
 
-##### `FriendlyUniqueId`<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.SwiftBackend.property.friendlyUniqueId"></a>
+##### ~~`FriendlyUniqueId`~~<sup>Required</sup> <a name="FriendlyUniqueId" id="cdktf.SwiftBackend.property.friendlyUniqueId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 func FriendlyUniqueId() *string
@@ -13253,7 +13343,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Password`<sup>Required</sup> <a name="Password" id="cdktf.ArtifactoryBackendProps.property.password"></a>
+##### ~~`Password`~~<sup>Required</sup> <a name="Password" id="cdktf.ArtifactoryBackendProps.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -13265,7 +13357,9 @@ Password *string
 
 ---
 
-##### `Repo`<sup>Required</sup> <a name="Repo" id="cdktf.ArtifactoryBackendProps.property.repo"></a>
+##### ~~`Repo`~~<sup>Required</sup> <a name="Repo" id="cdktf.ArtifactoryBackendProps.property.repo"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Repo *string
@@ -13277,7 +13371,9 @@ Repo *string
 
 ---
 
-##### `Subpath`<sup>Required</sup> <a name="Subpath" id="cdktf.ArtifactoryBackendProps.property.subpath"></a>
+##### ~~`Subpath`~~<sup>Required</sup> <a name="Subpath" id="cdktf.ArtifactoryBackendProps.property.subpath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Subpath *string
@@ -13289,7 +13385,9 @@ Subpath *string
 
 ---
 
-##### `Url`<sup>Required</sup> <a name="Url" id="cdktf.ArtifactoryBackendProps.property.url"></a>
+##### ~~`Url`~~<sup>Required</sup> <a name="Url" id="cdktf.ArtifactoryBackendProps.property.url"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Url *string
@@ -13303,7 +13401,9 @@ Note that this is the base url to artifactory not the full repo and subpath.
 
 ---
 
-##### `Username`<sup>Required</sup> <a name="Username" id="cdktf.ArtifactoryBackendProps.property.username"></a>
+##### ~~`Username`~~<sup>Required</sup> <a name="Username" id="cdktf.ArtifactoryBackendProps.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -14166,7 +14266,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.defaults"></a>
+##### ~~`Defaults`~~<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.defaults"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Defaults *map[string]interface{}
@@ -14176,7 +14278,9 @@ Defaults *map[string]interface{}
 
 ---
 
-##### `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.workspace"></a>
+##### ~~`Workspace`~~<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.workspace"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Workspace *string
@@ -14186,7 +14290,9 @@ Workspace *string
 
 ---
 
-##### `Password`<sup>Required</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.password"></a>
+##### ~~`Password`~~<sup>Required</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -14198,7 +14304,9 @@ Password *string
 
 ---
 
-##### `Repo`<sup>Required</sup> <a name="Repo" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.repo"></a>
+##### ~~`Repo`~~<sup>Required</sup> <a name="Repo" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.repo"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Repo *string
@@ -14210,7 +14318,9 @@ Repo *string
 
 ---
 
-##### `Subpath`<sup>Required</sup> <a name="Subpath" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.subpath"></a>
+##### ~~`Subpath`~~<sup>Required</sup> <a name="Subpath" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.subpath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Subpath *string
@@ -14222,7 +14332,9 @@ Subpath *string
 
 ---
 
-##### `Url`<sup>Required</sup> <a name="Url" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.url"></a>
+##### ~~`Url`~~<sup>Required</sup> <a name="Url" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.url"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Url *string
@@ -14236,7 +14348,9 @@ Note that this is the base url to artifactory not the full repo and subpath.
 
 ---
 
-##### `Username`<sup>Required</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.username"></a>
+##### ~~`Username`~~<sup>Required</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateArtifactoryConfig.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the artifactory backend. Terraform deprecated artifactory in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -15101,7 +15215,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.defaults"></a>
+##### ~~`Defaults`~~<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.defaults"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Defaults *map[string]interface{}
@@ -15111,7 +15227,9 @@ Defaults *map[string]interface{}
 
 ---
 
-##### `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.workspace"></a>
+##### ~~`Workspace`~~<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.workspace"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Workspace *string
@@ -15121,7 +15239,9 @@ Workspace *string
 
 ---
 
-##### `Endpoints`<sup>Required</sup> <a name="Endpoints" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.endpoints"></a>
+##### ~~`Endpoints`~~<sup>Required</sup> <a name="Endpoints" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.endpoints"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Endpoints *string
@@ -15133,7 +15253,9 @@ Endpoints *string
 
 ---
 
-##### `Path`<sup>Required</sup> <a name="Path" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.path"></a>
+##### ~~`Path`~~<sup>Required</sup> <a name="Path" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.path"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Path *string
@@ -15145,7 +15267,9 @@ Path *string
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -15157,7 +15281,9 @@ Password *string
 
 ---
 
-##### `Username`<sup>Optional</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.username"></a>
+##### ~~`Username`~~<sup>Optional</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateEtcdConfig.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -15207,7 +15333,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults"></a>
+##### ~~`Defaults`~~<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.defaults"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Defaults *map[string]interface{}
@@ -15217,7 +15345,9 @@ Defaults *map[string]interface{}
 
 ---
 
-##### `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace"></a>
+##### ~~`Workspace`~~<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.workspace"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Workspace *string
@@ -15227,7 +15357,9 @@ Workspace *string
 
 ---
 
-##### `Endpoints`<sup>Required</sup> <a name="Endpoints" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints"></a>
+##### ~~`Endpoints`~~<sup>Required</sup> <a name="Endpoints" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.endpoints"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Endpoints *[]*string
@@ -15239,7 +15371,9 @@ Endpoints *[]*string
 
 ---
 
-##### `CacertPath`<sup>Optional</sup> <a name="CacertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath"></a>
+##### ~~`CacertPath`~~<sup>Optional</sup> <a name="CacertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.cacertPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 CacertPath *string
@@ -15251,7 +15385,9 @@ CacertPath *string
 
 ---
 
-##### `CertPath`<sup>Optional</sup> <a name="CertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath"></a>
+##### ~~`CertPath`~~<sup>Optional</sup> <a name="CertPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.certPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 CertPath *string
@@ -15263,7 +15399,9 @@ CertPath *string
 
 ---
 
-##### `KeyPath`<sup>Optional</sup> <a name="KeyPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath"></a>
+##### ~~`KeyPath`~~<sup>Optional</sup> <a name="KeyPath" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.keyPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyPath *string
@@ -15275,7 +15413,9 @@ KeyPath *string
 
 ---
 
-##### `Lock`<sup>Optional</sup> <a name="Lock" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock"></a>
+##### ~~`Lock`~~<sup>Optional</sup> <a name="Lock" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.lock"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Lock *bool
@@ -15289,7 +15429,9 @@ Defaults to true.
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -15301,7 +15443,9 @@ Password *string
 
 ---
 
-##### `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix"></a>
+##### ~~`Prefix`~~<sup>Optional</sup> <a name="Prefix" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.prefix"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Prefix *string
@@ -15315,7 +15459,9 @@ Defaults to "".
 
 ---
 
-##### `Username`<sup>Optional</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.username"></a>
+##### ~~`Username`~~<sup>Optional</sup> <a name="Username" id="cdktf.DataTerraformRemoteStateEtcdV3Config.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -15818,7 +15964,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateMantaConfig.property.defaults"></a>
+##### ~~`Defaults`~~<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateMantaConfig.property.defaults"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Defaults *map[string]interface{}
@@ -15828,7 +15976,9 @@ Defaults *map[string]interface{}
 
 ---
 
-##### `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateMantaConfig.property.workspace"></a>
+##### ~~`Workspace`~~<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateMantaConfig.property.workspace"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Workspace *string
@@ -15838,7 +15988,9 @@ Workspace *string
 
 ---
 
-##### `Account`<sup>Required</sup> <a name="Account" id="cdktf.DataTerraformRemoteStateMantaConfig.property.account"></a>
+##### ~~`Account`~~<sup>Required</sup> <a name="Account" id="cdktf.DataTerraformRemoteStateMantaConfig.property.account"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Account *string
@@ -15848,7 +16000,9 @@ Account *string
 
 ---
 
-##### `KeyId`<sup>Required</sup> <a name="KeyId" id="cdktf.DataTerraformRemoteStateMantaConfig.property.keyId"></a>
+##### ~~`KeyId`~~<sup>Required</sup> <a name="KeyId" id="cdktf.DataTerraformRemoteStateMantaConfig.property.keyId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyId *string
@@ -15858,7 +16012,9 @@ KeyId *string
 
 ---
 
-##### `Path`<sup>Required</sup> <a name="Path" id="cdktf.DataTerraformRemoteStateMantaConfig.property.path"></a>
+##### ~~`Path`~~<sup>Required</sup> <a name="Path" id="cdktf.DataTerraformRemoteStateMantaConfig.property.path"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Path *string
@@ -15868,7 +16024,9 @@ Path *string
 
 ---
 
-##### `InsecureSkipTlsVerify`<sup>Optional</sup> <a name="InsecureSkipTlsVerify" id="cdktf.DataTerraformRemoteStateMantaConfig.property.insecureSkipTlsVerify"></a>
+##### ~~`InsecureSkipTlsVerify`~~<sup>Optional</sup> <a name="InsecureSkipTlsVerify" id="cdktf.DataTerraformRemoteStateMantaConfig.property.insecureSkipTlsVerify"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 InsecureSkipTlsVerify *bool
@@ -15878,7 +16036,9 @@ InsecureSkipTlsVerify *bool
 
 ---
 
-##### `KeyMaterial`<sup>Optional</sup> <a name="KeyMaterial" id="cdktf.DataTerraformRemoteStateMantaConfig.property.keyMaterial"></a>
+##### ~~`KeyMaterial`~~<sup>Optional</sup> <a name="KeyMaterial" id="cdktf.DataTerraformRemoteStateMantaConfig.property.keyMaterial"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyMaterial *string
@@ -15888,7 +16048,9 @@ KeyMaterial *string
 
 ---
 
-##### `ObjectName`<sup>Optional</sup> <a name="ObjectName" id="cdktf.DataTerraformRemoteStateMantaConfig.property.objectName"></a>
+##### ~~`ObjectName`~~<sup>Optional</sup> <a name="ObjectName" id="cdktf.DataTerraformRemoteStateMantaConfig.property.objectName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 ObjectName *string
@@ -15898,7 +16060,9 @@ ObjectName *string
 
 ---
 
-##### `Url`<sup>Optional</sup> <a name="Url" id="cdktf.DataTerraformRemoteStateMantaConfig.property.url"></a>
+##### ~~`Url`~~<sup>Optional</sup> <a name="Url" id="cdktf.DataTerraformRemoteStateMantaConfig.property.url"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Url *string
@@ -15908,7 +16072,9 @@ Url *string
 
 ---
 
-##### `User`<sup>Optional</sup> <a name="User" id="cdktf.DataTerraformRemoteStateMantaConfig.property.user"></a>
+##### ~~`User`~~<sup>Optional</sup> <a name="User" id="cdktf.DataTerraformRemoteStateMantaConfig.property.user"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 User *string
@@ -16903,7 +17069,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Defaults`<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults"></a>
+##### ~~`Defaults`~~<sup>Optional</sup> <a name="Defaults" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaults"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Defaults *map[string]interface{}
@@ -16913,7 +17081,9 @@ Defaults *map[string]interface{}
 
 ---
 
-##### `Workspace`<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace"></a>
+##### ~~`Workspace`~~<sup>Optional</sup> <a name="Workspace" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.workspace"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Workspace *string
@@ -16923,7 +17093,9 @@ Workspace *string
 
 ---
 
-##### `Container`<sup>Required</sup> <a name="Container" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.container"></a>
+##### ~~`Container`~~<sup>Required</sup> <a name="Container" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.container"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Container *string
@@ -16933,7 +17105,9 @@ Container *string
 
 ---
 
-##### `ApplicationCredentialId`<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId"></a>
+##### ~~`ApplicationCredentialId`~~<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialId *string
@@ -16943,7 +17117,9 @@ ApplicationCredentialId *string
 
 ---
 
-##### `ApplicationCredentialName`<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName"></a>
+##### ~~`ApplicationCredentialName`~~<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialName *string
@@ -16953,7 +17129,9 @@ ApplicationCredentialName *string
 
 ---
 
-##### `ApplicationCredentialSecret`<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret"></a>
+##### ~~`ApplicationCredentialSecret`~~<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.applicationCredentialSecret"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialSecret *string
@@ -16963,7 +17141,9 @@ ApplicationCredentialSecret *string
 
 ---
 
-##### `ArchiveContainer`<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer"></a>
+##### ~~`ArchiveContainer`~~<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.archiveContainer"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ArchiveContainer *string
@@ -16973,7 +17153,9 @@ ArchiveContainer *string
 
 ---
 
-##### `AuthUrl`<sup>Optional</sup> <a name="AuthUrl" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl"></a>
+##### ~~`AuthUrl`~~<sup>Optional</sup> <a name="AuthUrl" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.authUrl"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 AuthUrl *string
@@ -16983,7 +17165,9 @@ AuthUrl *string
 
 ---
 
-##### `CacertFile`<sup>Optional</sup> <a name="CacertFile" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile"></a>
+##### ~~`CacertFile`~~<sup>Optional</sup> <a name="CacertFile" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cacertFile"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 CacertFile *string
@@ -16993,7 +17177,9 @@ CacertFile *string
 
 ---
 
-##### `Cert`<sup>Optional</sup> <a name="Cert" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cert"></a>
+##### ~~`Cert`~~<sup>Optional</sup> <a name="Cert" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cert"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Cert *string
@@ -17003,7 +17189,9 @@ Cert *string
 
 ---
 
-##### `Cloud`<sup>Optional</sup> <a name="Cloud" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud"></a>
+##### ~~`Cloud`~~<sup>Optional</sup> <a name="Cloud" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.cloud"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Cloud *string
@@ -17013,7 +17201,9 @@ Cloud *string
 
 ---
 
-##### `DefaultDomain`<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain"></a>
+##### ~~`DefaultDomain`~~<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.defaultDomain"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DefaultDomain *string
@@ -17023,7 +17213,9 @@ DefaultDomain *string
 
 ---
 
-##### `DomainId`<sup>Optional</sup> <a name="DomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId"></a>
+##### ~~`DomainId`~~<sup>Optional</sup> <a name="DomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DomainId *string
@@ -17033,7 +17225,9 @@ DomainId *string
 
 ---
 
-##### `DomainName`<sup>Optional</sup> <a name="DomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName"></a>
+##### ~~`DomainName`~~<sup>Optional</sup> <a name="DomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.domainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DomainName *string
@@ -17043,7 +17237,9 @@ DomainName *string
 
 ---
 
-##### `ExpireAfter`<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter"></a>
+##### ~~`ExpireAfter`~~<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.expireAfter"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ExpireAfter *string
@@ -17053,7 +17249,9 @@ ExpireAfter *string
 
 ---
 
-##### `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure"></a>
+##### ~~`Insecure`~~<sup>Optional</sup> <a name="Insecure" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.insecure"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Insecure *bool
@@ -17063,7 +17261,9 @@ Insecure *bool
 
 ---
 
-##### `Key`<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.key"></a>
+##### ~~`Key`~~<sup>Optional</sup> <a name="Key" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.key"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Key *string
@@ -17073,7 +17273,9 @@ Key *string
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -17083,7 +17285,9 @@ Password *string
 
 ---
 
-##### `ProjectDomainId`<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId"></a>
+##### ~~`ProjectDomainId`~~<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ProjectDomainId *string
@@ -17093,7 +17297,9 @@ ProjectDomainId *string
 
 ---
 
-##### `ProjectDomainName`<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName"></a>
+##### ~~`ProjectDomainName`~~<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.projectDomainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ProjectDomainName *string
@@ -17103,7 +17309,9 @@ ProjectDomainName *string
 
 ---
 
-##### `RegionName`<sup>Optional</sup> <a name="RegionName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName"></a>
+##### ~~`RegionName`~~<sup>Optional</sup> <a name="RegionName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.regionName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 RegionName *string
@@ -17113,7 +17321,9 @@ RegionName *string
 
 ---
 
-##### `StateName`<sup>Optional</sup> <a name="StateName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName"></a>
+##### ~~`StateName`~~<sup>Optional</sup> <a name="StateName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.stateName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 StateName *string
@@ -17123,7 +17333,9 @@ StateName *string
 
 ---
 
-##### `TenantId`<sup>Optional</sup> <a name="TenantId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId"></a>
+##### ~~`TenantId`~~<sup>Optional</sup> <a name="TenantId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 TenantId *string
@@ -17133,7 +17345,9 @@ TenantId *string
 
 ---
 
-##### `TenantName`<sup>Optional</sup> <a name="TenantName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName"></a>
+##### ~~`TenantName`~~<sup>Optional</sup> <a name="TenantName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.tenantName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 TenantName *string
@@ -17143,7 +17357,9 @@ TenantName *string
 
 ---
 
-##### `Token`<sup>Optional</sup> <a name="Token" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.token"></a>
+##### ~~`Token`~~<sup>Optional</sup> <a name="Token" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.token"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Token *string
@@ -17153,7 +17369,9 @@ Token *string
 
 ---
 
-##### `UserDomainId`<sup>Optional</sup> <a name="UserDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId"></a>
+##### ~~`UserDomainId`~~<sup>Optional</sup> <a name="UserDomainId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserDomainId *string
@@ -17163,7 +17381,9 @@ UserDomainId *string
 
 ---
 
-##### `UserDomainName`<sup>Optional</sup> <a name="UserDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName"></a>
+##### ~~`UserDomainName`~~<sup>Optional</sup> <a name="UserDomainName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userDomainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserDomainName *string
@@ -17173,7 +17393,9 @@ UserDomainName *string
 
 ---
 
-##### `UserId`<sup>Optional</sup> <a name="UserId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userId"></a>
+##### ~~`UserId`~~<sup>Optional</sup> <a name="UserId" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserId *string
@@ -17183,7 +17405,9 @@ UserId *string
 
 ---
 
-##### `UserName`<sup>Optional</sup> <a name="UserName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userName"></a>
+##### ~~`UserName`~~<sup>Optional</sup> <a name="UserName" id="cdktf.DataTerraformRemoteStateSwiftConfig.property.userName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserName *string
@@ -17261,7 +17485,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Endpoints`<sup>Required</sup> <a name="Endpoints" id="cdktf.EtcdBackendProps.property.endpoints"></a>
+##### ~~`Endpoints`~~<sup>Required</sup> <a name="Endpoints" id="cdktf.EtcdBackendProps.property.endpoints"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Endpoints *string
@@ -17273,7 +17499,9 @@ Endpoints *string
 
 ---
 
-##### `Path`<sup>Required</sup> <a name="Path" id="cdktf.EtcdBackendProps.property.path"></a>
+##### ~~`Path`~~<sup>Required</sup> <a name="Path" id="cdktf.EtcdBackendProps.property.path"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Path *string
@@ -17285,7 +17513,9 @@ Path *string
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.EtcdBackendProps.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.EtcdBackendProps.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -17297,7 +17527,9 @@ Password *string
 
 ---
 
-##### `Username`<sup>Optional</sup> <a name="Username" id="cdktf.EtcdBackendProps.property.username"></a>
+##### ~~`Username`~~<sup>Optional</sup> <a name="Username" id="cdktf.EtcdBackendProps.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -17350,7 +17582,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Endpoints`<sup>Required</sup> <a name="Endpoints" id="cdktf.EtcdV3BackendProps.property.endpoints"></a>
+##### ~~`Endpoints`~~<sup>Required</sup> <a name="Endpoints" id="cdktf.EtcdV3BackendProps.property.endpoints"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Endpoints *[]*string
@@ -17362,7 +17596,9 @@ Endpoints *[]*string
 
 ---
 
-##### `CacertPath`<sup>Optional</sup> <a name="CacertPath" id="cdktf.EtcdV3BackendProps.property.cacertPath"></a>
+##### ~~`CacertPath`~~<sup>Optional</sup> <a name="CacertPath" id="cdktf.EtcdV3BackendProps.property.cacertPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 CacertPath *string
@@ -17374,7 +17610,9 @@ CacertPath *string
 
 ---
 
-##### `CertPath`<sup>Optional</sup> <a name="CertPath" id="cdktf.EtcdV3BackendProps.property.certPath"></a>
+##### ~~`CertPath`~~<sup>Optional</sup> <a name="CertPath" id="cdktf.EtcdV3BackendProps.property.certPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 CertPath *string
@@ -17386,7 +17624,9 @@ CertPath *string
 
 ---
 
-##### `KeyPath`<sup>Optional</sup> <a name="KeyPath" id="cdktf.EtcdV3BackendProps.property.keyPath"></a>
+##### ~~`KeyPath`~~<sup>Optional</sup> <a name="KeyPath" id="cdktf.EtcdV3BackendProps.property.keyPath"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyPath *string
@@ -17398,7 +17638,9 @@ KeyPath *string
 
 ---
 
-##### `Lock`<sup>Optional</sup> <a name="Lock" id="cdktf.EtcdV3BackendProps.property.lock"></a>
+##### ~~`Lock`~~<sup>Optional</sup> <a name="Lock" id="cdktf.EtcdV3BackendProps.property.lock"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Lock *bool
@@ -17412,7 +17654,9 @@ Defaults to true.
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.EtcdV3BackendProps.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.EtcdV3BackendProps.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -17424,7 +17668,9 @@ Password *string
 
 ---
 
-##### `Prefix`<sup>Optional</sup> <a name="Prefix" id="cdktf.EtcdV3BackendProps.property.prefix"></a>
+##### ~~`Prefix`~~<sup>Optional</sup> <a name="Prefix" id="cdktf.EtcdV3BackendProps.property.prefix"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Prefix *string
@@ -17438,7 +17684,9 @@ Defaults to "".
 
 ---
 
-##### `Username`<sup>Optional</sup> <a name="Username" id="cdktf.EtcdV3BackendProps.property.username"></a>
+##### ~~`Username`~~<sup>Optional</sup> <a name="Username" id="cdktf.EtcdV3BackendProps.property.username"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
 
 ```go
 Username *string
@@ -18255,7 +18503,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Account`<sup>Required</sup> <a name="Account" id="cdktf.MantaBackendProps.property.account"></a>
+##### ~~`Account`~~<sup>Required</sup> <a name="Account" id="cdktf.MantaBackendProps.property.account"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Account *string
@@ -18265,7 +18515,9 @@ Account *string
 
 ---
 
-##### `KeyId`<sup>Required</sup> <a name="KeyId" id="cdktf.MantaBackendProps.property.keyId"></a>
+##### ~~`KeyId`~~<sup>Required</sup> <a name="KeyId" id="cdktf.MantaBackendProps.property.keyId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyId *string
@@ -18275,7 +18527,9 @@ KeyId *string
 
 ---
 
-##### `Path`<sup>Required</sup> <a name="Path" id="cdktf.MantaBackendProps.property.path"></a>
+##### ~~`Path`~~<sup>Required</sup> <a name="Path" id="cdktf.MantaBackendProps.property.path"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Path *string
@@ -18285,7 +18539,9 @@ Path *string
 
 ---
 
-##### `InsecureSkipTlsVerify`<sup>Optional</sup> <a name="InsecureSkipTlsVerify" id="cdktf.MantaBackendProps.property.insecureSkipTlsVerify"></a>
+##### ~~`InsecureSkipTlsVerify`~~<sup>Optional</sup> <a name="InsecureSkipTlsVerify" id="cdktf.MantaBackendProps.property.insecureSkipTlsVerify"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 InsecureSkipTlsVerify *bool
@@ -18295,7 +18551,9 @@ InsecureSkipTlsVerify *bool
 
 ---
 
-##### `KeyMaterial`<sup>Optional</sup> <a name="KeyMaterial" id="cdktf.MantaBackendProps.property.keyMaterial"></a>
+##### ~~`KeyMaterial`~~<sup>Optional</sup> <a name="KeyMaterial" id="cdktf.MantaBackendProps.property.keyMaterial"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 KeyMaterial *string
@@ -18305,7 +18563,9 @@ KeyMaterial *string
 
 ---
 
-##### `ObjectName`<sup>Optional</sup> <a name="ObjectName" id="cdktf.MantaBackendProps.property.objectName"></a>
+##### ~~`ObjectName`~~<sup>Optional</sup> <a name="ObjectName" id="cdktf.MantaBackendProps.property.objectName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 ObjectName *string
@@ -18315,7 +18575,9 @@ ObjectName *string
 
 ---
 
-##### `Url`<sup>Optional</sup> <a name="Url" id="cdktf.MantaBackendProps.property.url"></a>
+##### ~~`Url`~~<sup>Optional</sup> <a name="Url" id="cdktf.MantaBackendProps.property.url"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 Url *string
@@ -18325,7 +18587,9 @@ Url *string
 
 ---
 
-##### `User`<sup>Optional</sup> <a name="User" id="cdktf.MantaBackendProps.property.user"></a>
+##### ~~`User`~~<sup>Optional</sup> <a name="User" id="cdktf.MantaBackendProps.property.user"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
 
 ```go
 User *string
@@ -20038,7 +20302,9 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 ---
 
-##### `Container`<sup>Required</sup> <a name="Container" id="cdktf.SwiftBackendProps.property.container"></a>
+##### ~~`Container`~~<sup>Required</sup> <a name="Container" id="cdktf.SwiftBackendProps.property.container"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Container *string
@@ -20048,7 +20314,9 @@ Container *string
 
 ---
 
-##### `ApplicationCredentialId`<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.SwiftBackendProps.property.applicationCredentialId"></a>
+##### ~~`ApplicationCredentialId`~~<sup>Optional</sup> <a name="ApplicationCredentialId" id="cdktf.SwiftBackendProps.property.applicationCredentialId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialId *string
@@ -20058,7 +20326,9 @@ ApplicationCredentialId *string
 
 ---
 
-##### `ApplicationCredentialName`<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.SwiftBackendProps.property.applicationCredentialName"></a>
+##### ~~`ApplicationCredentialName`~~<sup>Optional</sup> <a name="ApplicationCredentialName" id="cdktf.SwiftBackendProps.property.applicationCredentialName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialName *string
@@ -20068,7 +20338,9 @@ ApplicationCredentialName *string
 
 ---
 
-##### `ApplicationCredentialSecret`<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.SwiftBackendProps.property.applicationCredentialSecret"></a>
+##### ~~`ApplicationCredentialSecret`~~<sup>Optional</sup> <a name="ApplicationCredentialSecret" id="cdktf.SwiftBackendProps.property.applicationCredentialSecret"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ApplicationCredentialSecret *string
@@ -20078,7 +20350,9 @@ ApplicationCredentialSecret *string
 
 ---
 
-##### `ArchiveContainer`<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.SwiftBackendProps.property.archiveContainer"></a>
+##### ~~`ArchiveContainer`~~<sup>Optional</sup> <a name="ArchiveContainer" id="cdktf.SwiftBackendProps.property.archiveContainer"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ArchiveContainer *string
@@ -20088,7 +20362,9 @@ ArchiveContainer *string
 
 ---
 
-##### `AuthUrl`<sup>Optional</sup> <a name="AuthUrl" id="cdktf.SwiftBackendProps.property.authUrl"></a>
+##### ~~`AuthUrl`~~<sup>Optional</sup> <a name="AuthUrl" id="cdktf.SwiftBackendProps.property.authUrl"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 AuthUrl *string
@@ -20098,7 +20374,9 @@ AuthUrl *string
 
 ---
 
-##### `CacertFile`<sup>Optional</sup> <a name="CacertFile" id="cdktf.SwiftBackendProps.property.cacertFile"></a>
+##### ~~`CacertFile`~~<sup>Optional</sup> <a name="CacertFile" id="cdktf.SwiftBackendProps.property.cacertFile"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 CacertFile *string
@@ -20108,7 +20386,9 @@ CacertFile *string
 
 ---
 
-##### `Cert`<sup>Optional</sup> <a name="Cert" id="cdktf.SwiftBackendProps.property.cert"></a>
+##### ~~`Cert`~~<sup>Optional</sup> <a name="Cert" id="cdktf.SwiftBackendProps.property.cert"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Cert *string
@@ -20118,7 +20398,9 @@ Cert *string
 
 ---
 
-##### `Cloud`<sup>Optional</sup> <a name="Cloud" id="cdktf.SwiftBackendProps.property.cloud"></a>
+##### ~~`Cloud`~~<sup>Optional</sup> <a name="Cloud" id="cdktf.SwiftBackendProps.property.cloud"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Cloud *string
@@ -20128,7 +20410,9 @@ Cloud *string
 
 ---
 
-##### `DefaultDomain`<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.SwiftBackendProps.property.defaultDomain"></a>
+##### ~~`DefaultDomain`~~<sup>Optional</sup> <a name="DefaultDomain" id="cdktf.SwiftBackendProps.property.defaultDomain"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DefaultDomain *string
@@ -20138,7 +20422,9 @@ DefaultDomain *string
 
 ---
 
-##### `DomainId`<sup>Optional</sup> <a name="DomainId" id="cdktf.SwiftBackendProps.property.domainId"></a>
+##### ~~`DomainId`~~<sup>Optional</sup> <a name="DomainId" id="cdktf.SwiftBackendProps.property.domainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DomainId *string
@@ -20148,7 +20434,9 @@ DomainId *string
 
 ---
 
-##### `DomainName`<sup>Optional</sup> <a name="DomainName" id="cdktf.SwiftBackendProps.property.domainName"></a>
+##### ~~`DomainName`~~<sup>Optional</sup> <a name="DomainName" id="cdktf.SwiftBackendProps.property.domainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 DomainName *string
@@ -20158,7 +20446,9 @@ DomainName *string
 
 ---
 
-##### `ExpireAfter`<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.SwiftBackendProps.property.expireAfter"></a>
+##### ~~`ExpireAfter`~~<sup>Optional</sup> <a name="ExpireAfter" id="cdktf.SwiftBackendProps.property.expireAfter"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ExpireAfter *string
@@ -20168,7 +20458,9 @@ ExpireAfter *string
 
 ---
 
-##### `Insecure`<sup>Optional</sup> <a name="Insecure" id="cdktf.SwiftBackendProps.property.insecure"></a>
+##### ~~`Insecure`~~<sup>Optional</sup> <a name="Insecure" id="cdktf.SwiftBackendProps.property.insecure"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Insecure *bool
@@ -20178,7 +20470,9 @@ Insecure *bool
 
 ---
 
-##### `Key`<sup>Optional</sup> <a name="Key" id="cdktf.SwiftBackendProps.property.key"></a>
+##### ~~`Key`~~<sup>Optional</sup> <a name="Key" id="cdktf.SwiftBackendProps.property.key"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Key *string
@@ -20188,7 +20482,9 @@ Key *string
 
 ---
 
-##### `Password`<sup>Optional</sup> <a name="Password" id="cdktf.SwiftBackendProps.property.password"></a>
+##### ~~`Password`~~<sup>Optional</sup> <a name="Password" id="cdktf.SwiftBackendProps.property.password"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Password *string
@@ -20198,7 +20494,9 @@ Password *string
 
 ---
 
-##### `ProjectDomainId`<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.SwiftBackendProps.property.projectDomainId"></a>
+##### ~~`ProjectDomainId`~~<sup>Optional</sup> <a name="ProjectDomainId" id="cdktf.SwiftBackendProps.property.projectDomainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ProjectDomainId *string
@@ -20208,7 +20506,9 @@ ProjectDomainId *string
 
 ---
 
-##### `ProjectDomainName`<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.SwiftBackendProps.property.projectDomainName"></a>
+##### ~~`ProjectDomainName`~~<sup>Optional</sup> <a name="ProjectDomainName" id="cdktf.SwiftBackendProps.property.projectDomainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 ProjectDomainName *string
@@ -20218,7 +20518,9 @@ ProjectDomainName *string
 
 ---
 
-##### `RegionName`<sup>Optional</sup> <a name="RegionName" id="cdktf.SwiftBackendProps.property.regionName"></a>
+##### ~~`RegionName`~~<sup>Optional</sup> <a name="RegionName" id="cdktf.SwiftBackendProps.property.regionName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 RegionName *string
@@ -20228,7 +20530,9 @@ RegionName *string
 
 ---
 
-##### `StateName`<sup>Optional</sup> <a name="StateName" id="cdktf.SwiftBackendProps.property.stateName"></a>
+##### ~~`StateName`~~<sup>Optional</sup> <a name="StateName" id="cdktf.SwiftBackendProps.property.stateName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 StateName *string
@@ -20238,7 +20542,9 @@ StateName *string
 
 ---
 
-##### `TenantId`<sup>Optional</sup> <a name="TenantId" id="cdktf.SwiftBackendProps.property.tenantId"></a>
+##### ~~`TenantId`~~<sup>Optional</sup> <a name="TenantId" id="cdktf.SwiftBackendProps.property.tenantId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 TenantId *string
@@ -20248,7 +20554,9 @@ TenantId *string
 
 ---
 
-##### `TenantName`<sup>Optional</sup> <a name="TenantName" id="cdktf.SwiftBackendProps.property.tenantName"></a>
+##### ~~`TenantName`~~<sup>Optional</sup> <a name="TenantName" id="cdktf.SwiftBackendProps.property.tenantName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 TenantName *string
@@ -20258,7 +20566,9 @@ TenantName *string
 
 ---
 
-##### `Token`<sup>Optional</sup> <a name="Token" id="cdktf.SwiftBackendProps.property.token"></a>
+##### ~~`Token`~~<sup>Optional</sup> <a name="Token" id="cdktf.SwiftBackendProps.property.token"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 Token *string
@@ -20268,7 +20578,9 @@ Token *string
 
 ---
 
-##### `UserDomainId`<sup>Optional</sup> <a name="UserDomainId" id="cdktf.SwiftBackendProps.property.userDomainId"></a>
+##### ~~`UserDomainId`~~<sup>Optional</sup> <a name="UserDomainId" id="cdktf.SwiftBackendProps.property.userDomainId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserDomainId *string
@@ -20278,7 +20590,9 @@ UserDomainId *string
 
 ---
 
-##### `UserDomainName`<sup>Optional</sup> <a name="UserDomainName" id="cdktf.SwiftBackendProps.property.userDomainName"></a>
+##### ~~`UserDomainName`~~<sup>Optional</sup> <a name="UserDomainName" id="cdktf.SwiftBackendProps.property.userDomainName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserDomainName *string
@@ -20288,7 +20602,9 @@ UserDomainName *string
 
 ---
 
-##### `UserId`<sup>Optional</sup> <a name="UserId" id="cdktf.SwiftBackendProps.property.userId"></a>
+##### ~~`UserId`~~<sup>Optional</sup> <a name="UserId" id="cdktf.SwiftBackendProps.property.userId"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserId *string
@@ -20298,7 +20614,9 @@ UserId *string
 
 ---
 
-##### `UserName`<sup>Optional</sup> <a name="UserName" id="cdktf.SwiftBackendProps.property.userName"></a>
+##### ~~`UserName`~~<sup>Optional</sup> <a name="UserName" id="cdktf.SwiftBackendProps.property.userName"></a>
+
+- _Deprecated:_ CDK for Terraform no longer supports the swift backend. Terraform deprecated swift in v1.2.3 and removed it in v1.3.
 
 ```go
 UserName *string
