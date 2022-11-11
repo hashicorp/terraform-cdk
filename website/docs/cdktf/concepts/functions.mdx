@@ -22,10 +22,11 @@ The following example uses a Data Source from the AWS Provider to fetch the Avai
 The `element` function gets the first element from the list of Availability Zone names.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-usage-example -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Fn, TerraformOutput } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 
@@ -54,7 +55,39 @@ from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
         TerraformOutput(self, 'first-zone',
             value=Fn.element(zones.names, 0)
         )
+```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.DataAwsAvailabilityZones;
+
+namespace Examples
+{
+    class FunctionStack : TerraformStack
+    {
+        public FunctionStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
+                State = "available"
+            });
+
+            new TerraformOutput(this, "first-zone", new TerraformOutputConfig {
+                Value = Fn.Element(zones.Names, 0)
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>
