@@ -473,11 +473,13 @@ export async function providerUpgrade(argv: any) {
   }
 
   if (constraintsToUpdate.length > 0) {
+    const singular = constraintsToUpdate.length === 1;
     console.log(
       `${constraintsToUpdate.length} local provider${
-        constraintsToUpdate.length === 1 ? "" : "s"
-      } have been updated. Running cdktf get to update...`
+        singular ? " has" : "s have"
+      } been updated. Running cdktf get to update...`
     );
+
     const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
     const providers = config.terraformProviders ?? [];
     const modules = config.terraformModules ?? [];
