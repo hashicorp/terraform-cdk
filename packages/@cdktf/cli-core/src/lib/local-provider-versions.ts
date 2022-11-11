@@ -1,8 +1,9 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Language, Errors, logger } from "@cdktf/commons";
+import { Errors, logger } from "@cdktf/commons";
 import fs from "fs-extra";
 import path from "path";
+import { CdktfConfig } from "./cdktf-config";
 
 /**
  * Internal class to help with reading `versions.json` file
@@ -12,26 +13,13 @@ export class LocalProviderVersions {
   private versions: Record<string, string> | undefined;
   private versionsJsonPath: string;
 
-  constructor(private forLanguage: Language) {
-    this.versionsJsonPath = this.versionsJsonPathForLanguage(forLanguage);
+  constructor() {
+    this.versionsJsonPath = this.versionsJsonPathForLanguage();
   }
 
-  private versionsJsonPathForLanguage(language: Language): string {
-    switch (this.forLanguage) {
-      case Language.TYPESCRIPT:
-        return path.join(".gen", "versions.json");
-      case Language.PYTHON:
-        return path.join("imports", "versions.json");
-      case Language.JAVA:
-        return path.join("src", "main", "java", "imports", "versions.json");
-      case Language.CSHARP:
-        return path.join(".gen", "versions.json");
-      case Language.GO:
-        return path.join("generated", "versions.json");
-
-      default:
-        throw Errors.Internal(`Unexpected language: ${language}`);
-    }
+  private versionsJsonPathForLanguage(): string {
+    const config = CdktfConfig.read();
+    return path.resolve(config.codeMakerOutput, "versions.json");
   }
 
   private async readLocalVersionsJson(): Promise<void> {
