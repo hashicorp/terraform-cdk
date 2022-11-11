@@ -303,9 +303,9 @@ $ cdktf diff
 This command downloads the providers and modules for an application and
 generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers and modules.
 This command only generates currently missing provider bindings, so it is very fast if nothing changed.
-The command does not update the version when you specify loose version constraints in your `cdktf.json` file and have already generated an existing version locally. To update the version anyway, run `cdktf get --force` to recreate all bindings. 
+The command does not update the version when you specify loose version constraints in your `cdktf.json` file and have already generated an existing version locally. To update the version anyway, run `cdktf get --force` to recreate all bindings.
 
-When you change a version constraint, the `cdktf get` command recreates the bindings for that provider. 
+When you change a version constraint, the `cdktf get` command recreates the bindings for that provider.
 
 ```bash
 $ cdktf get --help
