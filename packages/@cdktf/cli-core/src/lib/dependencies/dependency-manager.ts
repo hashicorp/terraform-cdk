@@ -15,6 +15,7 @@ import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
 import * as semver from "semver";
 import { LocalProviderVersions } from "../local-provider-versions";
+import { LocalProviderConstraints } from "../local-provider-constraints";
 
 // ref: https://www.terraform.io/language/providers/requirements#source-addresses
 const DEFAULT_HOSTNAME = "registry.terraform.io";
@@ -440,7 +441,7 @@ export class DependencyManager {
 
   public async allProviders() {
     const cdktfJson = CdktfConfig.read();
-    const localVersions = new LocalProviderVersions(cdktfJson.language);
+    const localVersions = new LocalProviderVersions();
 
     const localProviderConfigs = cdktfJson.terraformProviders;
     const prebuiltProviderConfigs =
@@ -465,15 +466,19 @@ export class DependencyManager {
     }
 
     const localProvidersInfo = [];
+    const constraints = new LocalProviderConstraints();
     for (const localProvider of localProviderConfigs) {
       const constraint = ProviderConstraint.fromConfigEntry(localProvider);
       const version = await localVersions.versionForProvider(
         constraint.simplifiedName
       );
+      const constraintValue = await constraints.constraintForProvider(
+        constraint.simplifiedName
+      );
 
       localProvidersInfo.push({
         providerName: constraint.simplifiedName,
-        providerConstraint: constraint.version,
+        providerConstraint: constraintValue,
         providerVersion: version,
       });
     }

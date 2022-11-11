@@ -6,18 +6,13 @@ import path from "path";
 import { CdktfConfig } from "./cdktf-config";
 
 /**
- * Internal class to help with reading `versions.json` file
+ * Class to help with reading `versions.json` file
  * published by `provider get` or `provider add` commands
  */
 export class LocalProviderVersions {
   private versions: Record<string, string> | undefined;
-  private versionsJsonPath: string;
 
-  constructor() {
-    this.versionsJsonPath = this.versionsJsonPathForLanguage();
-  }
-
-  private versionsJsonPathForLanguage(): string {
+  private get jsonFilePath(): string {
     const config = CdktfConfig.read();
     return path.resolve(config.codeMakerOutput, "versions.json");
   }
@@ -25,7 +20,7 @@ export class LocalProviderVersions {
   private async readLocalVersionsJson(): Promise<void> {
     let versionsJson;
     try {
-      versionsJson = await fs.readFile(this.versionsJsonPath, "utf8");
+      versionsJson = await fs.readFile(this.jsonFilePath, "utf8");
     } catch (e) {
       // If we cannot read the versions.json file, it may not exist
       logger.debug("versions.json file reading error: ", e);
@@ -75,7 +70,6 @@ export class LocalProviderVersions {
     }
 
     const providerVersion = versions[providerName.toLowerCase()];
-
     if (!providerName) {
       return null;
     }
