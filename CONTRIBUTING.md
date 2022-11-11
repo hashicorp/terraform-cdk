@@ -245,6 +245,10 @@ reset the `FEATURE_FLAGS` map for the next cycle.
 
 We recommend enabling logging when you develop new features. To get detailed information about CDKTF operations, set `CDKTF_LOG_LEVEL` to `debug`.
 
+### JSII
+
+To enable debug output of JSII, set `JSII_DEBUG` to e.g. `1`. There's also `JSII_DEBUG_TIMING` which can be set to e.g. `1` as well.
+
 ## Releasing
 
 ### Steps
