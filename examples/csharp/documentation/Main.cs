@@ -19,6 +19,8 @@ namespace MyCompany.MyApp
         public static void Main(string[] args)
         {
             App app = new App();
+            new Examples.MyAspectsStack(app, "aspects");
+            new Examples.MyAspectsValidationStack(app, "aspectsValidation");
             new Examples.MyAssetStack(app, "assets");
             new Examples.MyConstructsStack(app, "constructs");
             app.Synth();
