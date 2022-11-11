@@ -22,10 +22,11 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#datasources -->
 
 <CodeTabs>
 
-```typescript
+```ts
 // .....
 import { DataAwsRegion } from "./gen/providers/aws/data-aws-region";
 
@@ -59,6 +60,35 @@ class HelloTerraform(TerraformStack):
 app = App()
 HelloTerraform(app, "data-sources")
 app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.DataAwsRegion;
+
+namespace Examples
+{
+    class DataSourceStack : TerraformStack
+    {
+        public DataSourceStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataAwsRegion region = new DataAwsRegion(this, "region", new DataAwsRegionConfig {
+                Name = "eu-central-1"
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>
