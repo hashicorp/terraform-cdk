@@ -67,18 +67,6 @@ class ResourceStack(TerraformStack):
                                          )
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
@@ -151,18 +139,6 @@ new Deployment(this, "nginx-deployment", {
         )
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 ## Provisioners
@@ -219,18 +195,6 @@ table.addOverride("provisioner", [
         ])
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
@@ -281,18 +245,6 @@ topic.addOverride("display_name", "my-topic");
                                        )
 
         topic.add_override("display_name", "my-topic")
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>
@@ -391,18 +343,6 @@ sg.addOverride("dynamic.ingress", {
         })
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
@@ -460,18 +400,6 @@ new SecurityGroup(this, "sec1grp", {
                 ) for port in ports
             ]
         )
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>

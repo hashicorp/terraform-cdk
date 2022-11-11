@@ -78,18 +78,6 @@ RemoteBackendStack(app, "hello-terraform")
 app.synth()
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
@@ -164,19 +152,7 @@ stack = Stack(App(), "hi-terraform")
         )
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
-   </CodeTabs>
+</CodeTabs>
 
 1. Run `cdktf synth` to generate the Terraform configuration file.
 
@@ -313,18 +289,6 @@ stack.add_override("terraform.backend",{
         "address": "https://app.terraform.io"
     }
 })
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>

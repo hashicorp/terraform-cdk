@@ -74,18 +74,6 @@ MySingleStack(app, "a-single-stack")
 app.synth
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 ## Multiple Stacks
@@ -182,18 +170,6 @@ MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environm
 MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
 
 app.synth
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>
@@ -329,18 +305,6 @@ BackendStack(app, "target-stack",
 app.synth()
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
@@ -361,6 +325,8 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
+
 <CodeTabs>
 
 ```typescript
@@ -368,18 +334,6 @@ this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceF
 ```
 
 ```python
-
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
 
 ```
 
@@ -423,18 +377,6 @@ stack.add_override("terraform.backend",{
         }
     }
 })
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>

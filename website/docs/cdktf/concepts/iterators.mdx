@@ -56,18 +56,6 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
                                           )
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
 
 You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
@@ -122,18 +110,6 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
                                           bucket=iterator.get_string("name"),
                                           tags=iterator.get_map("tags")
                                           )
-```
-
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
 ```
 
 </CodeTabs>

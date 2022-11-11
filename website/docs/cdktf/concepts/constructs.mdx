@@ -48,7 +48,7 @@ Constructs also provide a way to logically structure a set of resources, but you
 
 You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project’s programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
-The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
+The following example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-use-constructs -->
@@ -241,8 +241,6 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
-UPDATE DOC EXAMPLES
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
 
 <CodeTabs>
@@ -324,20 +322,7 @@ MyS3BucketStack(app, "s3-stack")
 app.synth()
 ```
 
-```java
-
-```
-
-```csharp
-
-```
-
-```go
-
-```
-
 </CodeTabs>
-UPDATE DOC EXAMPLES
 
 ### Aspects
 

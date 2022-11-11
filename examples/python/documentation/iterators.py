@@ -41,6 +41,7 @@ class IteratorStackTwo(TerraformStack):
         aws.provider.AwsProvider(self, "aws", region="us-east-1")
         github.provider.GithubProvider(self, "gh")
         # DOCS_BLOCK_START:iterators-define-iterators
+        
         list = TerraformVariable(self, "list",
                                  type="list(string)"
                                  )
