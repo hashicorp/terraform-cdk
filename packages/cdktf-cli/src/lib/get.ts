@@ -6,7 +6,7 @@ import {
   config,
   Language,
 } from "@cdktf/provider-generator";
-import {} from "@cdktf/provider-generator/lib/config";
+import { TerraformProviderConstraint } from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
 import { logger } from "./logging";
 import * as path from "path";
@@ -67,20 +67,21 @@ export async function get({
       );
     }
   }
+  const dependencyConstraintsToGenerate = constraintsToGenerate?.map(
+    (c) => new TerraformProviderConstraint(c)
+  );
+  const dependencyConstraints = constraints.map(
+    (c) => new TerraformProviderConstraint(c)
+  );
 
   // Filter constraints to generate
   const toGenerate =
-    (constraintsToGenerate as config.TerraformDependencyConstraint[]) ||
-    (await constructsMaker.filterAlreadyGenerated(
-      constraints as config.TerraformDependencyConstraint[]
-    ));
+    dependencyConstraintsToGenerate ||
+    (await constructsMaker.filterAlreadyGenerated(dependencyConstraints));
 
   onUpdate(GetStatus.DOWNLOADING);
   logger.debug("Generating provider bindings");
-  await constructsMaker.generate(
-    constraints as config.TerraformDependencyConstraint[], // ConstructsMaker handles both string and extended form, but is not consistent type wise
-    toGenerate
-  );
+  await constructsMaker.generate(dependencyConstraints, toGenerate);
   logger.debug("Provider bindings generated");
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
