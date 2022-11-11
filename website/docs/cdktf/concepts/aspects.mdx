@@ -18,6 +18,8 @@ Everything within a CDKTF application descends from the `Construct` class, so yo
 
 The following TypeScript example defines an aspect to add tags to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#define-aspects -->
+
 <CodeTabs>
 
 ```typescript
@@ -51,12 +53,37 @@ Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
 ```java
+    public class ValidateS3IsPrefixed implements IAspect {
 
+        private final String prefix;
+
+        public ValidateS3IsPrefixed(String prefix) {
+            this.prefix = prefix;
+        }
+
+        // This method is called on every Construct within the defined scope (resource,
+        // data sources, etc.).
+        public void visit(IConstruct node) {
+            if (node instanceof S3Bucket) {
+                if (((S3Bucket) node).getBucketInput() != null && !((S3Bucket) node).getBucketInput().startsWith(this.prefix)) {
+                    // You can include `addInfo`, `addWarning`, and `addError`.
+                    // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
+                    Annotations.of(node).addError(
+                            "Each S3 Bucket name needs to start with " + this.prefix);
+                }
+            }
+        }
+    }
+
+        // Check the prefix for every resource within `myStack`.
+        Aspects.of(bucket).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
 
 </CodeTabs>
 
 You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#aspects-validation -->
 
 <CodeTabs>
 

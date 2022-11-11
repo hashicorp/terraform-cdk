@@ -3,6 +3,7 @@ package com.mycompany.app;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
 import com.mycompany.app.assets.MyAssetStack;
+import com.mycompany.app.aspects.MainAspects;
 import com.mycompany.app.constructs.MainConstructScope;
 import com.mycompany.app.constructs.MainUseConstructs;
 import com.mycompany.app.dataSources.DataSourcesDefine;
@@ -67,6 +68,7 @@ public class Main extends TerraformStack {
         new MainIterator(app, "main-iterator");
         new MainIterator2(app, "main-iterator2");
         new MainToken(app, "main-token");
+        new MainAspects(app, "main-aspects");
         app.synth();
     }
 }
