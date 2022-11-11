@@ -175,10 +175,10 @@ app.synth();
 
 From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
 Accessing a value from a different stack causes the value to be exported as `TerraformOutput` in the origin stack.
-The value is than accessed through a `TerraformRemoteState` in the target stack.
+The value is then accessed through a `TerraformRemoteState` in the target stack.
 Both are automatically added to the respective stacks to make the process seemless.
 
-When you are using Terraform Cloud it's necessary for each stack to be it's own workspace.
+When you are using Terraform Cloud, each stack must be its own workspace.
 This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/cloud-docs/workspaces/state#remote-state-access-controls).
 
 ### Stack Dependencies
