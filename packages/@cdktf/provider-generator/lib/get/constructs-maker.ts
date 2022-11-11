@@ -49,7 +49,14 @@ export async function generateJsiiLanguage(
     await code.save(staging);
     await srcmak.srcmak(staging, opts);
     ["versions.json", "constraints.json"].forEach((file) => {
-      fs.copySync(path.resolve(staging, file), path.resolve(outputPath, file));
+      try {
+        fs.copySync(
+          path.resolve(staging, file),
+          path.resolve(outputPath, file)
+        );
+      } catch (e) {
+        logger.debug(`Failed to copy ${file}: ${e}`);
+      }
     });
   });
 }

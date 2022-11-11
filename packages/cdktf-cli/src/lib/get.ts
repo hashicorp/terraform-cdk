@@ -6,7 +6,6 @@ import {
   config,
   Language,
 } from "@cdktf/provider-generator";
-import { TerraformProviderConstraint } from "@cdktf/provider-generator/lib/config";
 import * as fs from "fs-extra";
 import { logger } from "./logging";
 import * as path from "path";
@@ -18,18 +17,16 @@ export enum GetStatus {
   ERROR = "error",
 }
 
-type StringDependencyConstraint = string; // e.g. hashicorp/aws@ ~> 2.0
-type DependencyConstraint =
-  | config.TerraformDependencyConstraint
-  | StringDependencyConstraint
+type ParsedDependencyConstraint =
   | config.TerraformModuleConstraint
-  | config.TerraformProviderConstraint;
+  | config.TerraformProviderConstraint
+  | config.TerraformDependencyConstraint;
 
 interface GetConfig {
   // All existing constraints (to be able to remove no longer used ones)
-  constraints: DependencyConstraint[];
+  constraints: ParsedDependencyConstraint[];
   // The constraints that should be generated
-  constraintsToGenerate?: DependencyConstraint[];
+  constraintsToGenerate?: ParsedDependencyConstraint[];
   constructsOptions: GetOptions;
   cleanDirectory?: boolean;
   onUpdate?: (payload: GetStatus) => void;
@@ -57,9 +54,7 @@ export async function get({
     await fs.remove(constructsOptions.codeMakerOutput);
   } else {
     // Remove all providers that are not in the new list
-    await constructsMaker.removeFoldersThatShouldNotExist(
-      constraints as config.TerraformDependencyConstraint[]
-    );
+    await constructsMaker.removeFoldersThatShouldNotExist(constraints);
     if (constructsOptions.targetLanguage === Language.TYPESCRIPT) {
       // Remove all modules
       await fs.remove(
@@ -67,21 +62,15 @@ export async function get({
       );
     }
   }
-  const dependencyConstraintsToGenerate = constraintsToGenerate?.map(
-    (c) => new TerraformProviderConstraint(c)
-  );
-  const dependencyConstraints = constraints.map(
-    (c) => new TerraformProviderConstraint(c)
-  );
 
   // Filter constraints to generate
   const toGenerate =
-    dependencyConstraintsToGenerate ||
-    (await constructsMaker.filterAlreadyGenerated(dependencyConstraints));
+    constraintsToGenerate ||
+    (await constructsMaker.filterAlreadyGenerated(constraints));
 
   onUpdate(GetStatus.DOWNLOADING);
   logger.debug("Generating provider bindings");
-  await constructsMaker.generate(dependencyConstraints, toGenerate);
+  await constructsMaker.generate(constraints, toGenerate);
   logger.debug("Provider bindings generated");
 
   if (!(await fs.pathExists(constructsOptions.codeMakerOutput))) {
