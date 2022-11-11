@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Constructs;
 using HashiCorp.Cdktf;
 using aws.S3Bucket;
+using aws.Provider;
 using Amazon.JSII.Runtime;
 
 namespace Examples
 {
-    public class TagsAddingAspect: IAspect, Amazon.Jsii.Runtime.Deputy.DeputyBase
+    public class TagsAddingAspect: Amazon.JSII.Runtime.Deputy.DeputyBase, IAspect
     {
         private readonly IDictionary<string, string> tagsToAdd;
 
@@ -48,6 +49,9 @@ namespace Examples
     {
         public MyAspectsStack(Construct scope, string name) : base(scope, name)
         {   
+            new AwsProvider(this, "Aws", new AwsProviderConfig {
+                Region = "us-east-1"
+            });
             S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
                 Bucket = "demo"
             });
