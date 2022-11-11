@@ -52,6 +52,10 @@ import {
 } from "../../lib/dependencies/dependency-manager";
 import { get as getLib } from "../../lib/get";
 import { GetOptions } from "../../../../@cdktf/provider-generator/lib/get/constructs-maker";
+import {
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
+} from "../../../../@cdktf/provider-generator/lib/config";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -214,8 +218,8 @@ export async function get(argv: {
   const { output, language, parallelism, force } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
-    ...providers,
-    ...modules,
+    ...providers.map((c) => new TerraformProviderConstraint(c)),
+    ...modules.map((c) => new TerraformModuleConstraint(c)),
   ];
 
   if (constraints.length === 0) {
@@ -498,7 +502,9 @@ export async function providerUpgrade(argv: any) {
       constructsOptions,
       constraints,
       cleanDirectory: false,
-      constraintsToGenerate: constraintsToUpdate.map((c) => c.toString()),
+      constraintsToGenerate: constraintsToUpdate.map(
+        (c) => new TerraformProviderConstraint(c)
+      ),
     });
   }
 }
