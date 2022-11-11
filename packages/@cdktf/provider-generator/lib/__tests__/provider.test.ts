@@ -28,6 +28,10 @@ function directorySnapshot(root: string) {
 
     if (path.extname(filePath) === ".json") {
       content = fs.readJsonSync(filePath);
+
+      if (path.basename(filePath) === "constraints.json") {
+        delete content.cdktf;
+      }
     } else {
       content = fs.readFileSync(filePath, "utf-8");
     }
