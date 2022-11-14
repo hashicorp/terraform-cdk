@@ -31,26 +31,26 @@ describe("provider upgrade command", () => {
 
     it("can update withing the same cdktf version to a specific version", async () => {
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "^0.2.55")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
 
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "^0.2.64")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
       );
     });
 
     it("can update within the same cdktf version to the latest version", async () => {
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "^0.2.55")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.55")
       );
 
       await driver.exec("cdktf", ["provider", "upgrade", "random"]);
 
       // Assert that we have version 0.2.64
       expect(driver.packageJson()).toEqual(
-        packageJsonWithDependency("@cdktf/provider-random", "^0.2.64")
+        packageJsonWithDependency("@cdktf/provider-random", "0.2.64")
       );
     });
 

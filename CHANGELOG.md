@@ -1,3 +1,9 @@
+## 0.13.3
+
+### fix
+
+- fix: Redact authorization header when error logging from TFC/TFE [\#2241](https://github.com/hashicorp/terraform-cdk/pull/2241)
+
 ## 0.13.2
 
 ### fix
