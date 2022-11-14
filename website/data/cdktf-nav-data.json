@@ -73,7 +73,7 @@
   },
   { "title": "Examples and Guides", "path": "examples" },
   {
-    "title": "Create and Deploy",
+    "title": "Create and Deploy Applications",
     "routes": [
       { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
       {
@@ -100,6 +100,18 @@
       {
         "title": "AWS Adapter [preview]",
         "path": "create-and-deploy/aws-adapter"
+      }
+    ]
+  },
+  {
+    "title": "Develop Custom Constructs",
+    "routes": [
+      {
+        "title": "Design",
+        "path": "develop-custom-constructs/construct-design"
+      }, {
+        "title": "Publishing and Distribution",
+        "path": "develop-custom-constructs/publishing-and-distribution"
       }
     ]
   },
