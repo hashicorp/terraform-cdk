@@ -66,7 +66,8 @@ export class TerraformCli implements Terraform {
   public async plan(
     destroy = false,
     refreshOnly = false,
-    parallelism = -1
+    parallelism = -1,
+    noColor = false,
   ): Promise<TerraformPlan> {
     const planFile = "plan";
     const options = ["plan", "-input=false", "-out", planFile];
@@ -78,6 +79,9 @@ export class TerraformCli implements Terraform {
     }
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
+    }
+    if(noColor) {
+      options.push("-no-color");
     }
     await this.setUserAgent();
     await exec(
@@ -107,7 +111,8 @@ export class TerraformCli implements Terraform {
     planFile: string,
     refreshOnly = false,
     parallelism = -1,
-    extraOptions: string[] = []
+    noColor = false,
+    extraOptions: string[] = [],
   ): Promise<void> {
     await this.setUserAgent();
     await exec(
@@ -120,6 +125,7 @@ export class TerraformCli implements Terraform {
         ...extraOptions,
         ...(refreshOnly ? ["-refresh-only"] : []),
         ...(parallelism > -1 ? [`-parallelism=${parallelism}`] : []),
+        ...(noColor ? ["--no-color"] : []),
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),

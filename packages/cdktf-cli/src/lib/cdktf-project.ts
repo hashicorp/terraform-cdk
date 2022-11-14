@@ -294,6 +294,7 @@ export type MutationOptions = MultipleStackOptions &
     ignoreMissingStackDependencies?: boolean;
     parallelism?: number;
     terraformParallelism?: number;
+    noColor?: boolean;
   };
 
 type LogMessage = {
@@ -550,7 +551,7 @@ export class CdktfProject {
         method === "deploy"
           ? nextRunningExecutor.deploy(
               opts.refreshOnly,
-              opts.terraformParallelism
+              opts.terraformParallelism,
             )
           : nextRunningExecutor.destroy(opts.terraformParallelism);
       } catch (e) {

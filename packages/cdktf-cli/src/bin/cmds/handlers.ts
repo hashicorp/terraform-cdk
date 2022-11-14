@@ -125,6 +125,7 @@ export async function deploy(argv: any) {
   const ignoreMissingStackDependencies =
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
+  const noColor = argv.noColor;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -148,6 +149,7 @@ export async function deploy(argv: any) {
       parallelism,
       refreshOnly,
       terraformParallelism,
+      noColor,
     })
   );
 }
