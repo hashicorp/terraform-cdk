@@ -42,12 +42,12 @@ jobs:
         id: get_version
         run: |
           version=$(node -p "require('./package.json').version")
-          echo "::set-output name=version::${version}"
+          echo "version=${version}" >> $GITHUB_OUTPUT
       - name: release status
         id: get_release_status
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
-          echo "::set-output name=release::${status}"
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -223,12 +223,12 @@ jobs:
         id: get_version
         run: |
           version=$(node -p "require('./package.json').version")
-          echo "::set-output name=version::${version}"
+          echo "version=${version}" >> $GITHUB_OUTPUT
       - name: release status
         id: get_release_status
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
-          echo "::set-output name=release::${status}"
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release

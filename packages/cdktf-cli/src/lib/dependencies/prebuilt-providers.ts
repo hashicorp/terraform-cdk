@@ -78,10 +78,14 @@ async function fetchWrapped<T>(url: string): Promise<T> {
   return response.json() as Promise<T>;
 }
 
+export async function getAllPrebuiltProviders() {
+  return cachedFetch<ProvidersMap>(providersMapUrl);
+}
+
 export async function getNpmPackageName(
   constraint: ProviderConstraint
 ): Promise<string | undefined> {
-  const providers = await cachedFetch<ProvidersMap>(providersMapUrl);
+  const providers = await getAllPrebuiltProviders();
 
   const entry = Object.entries(providers).find(
     ([, p]) =>
@@ -215,6 +219,9 @@ export async function getPrebuiltProviderVersions(
   }
 
   const versions = await getAllPrebuiltProviderVersions(providerName);
+  logger.debug(
+    `Found versions for ${providerName}: ${JSON.stringify(versions, null, 2)}`
+  );
 
   // find first the version that matches the requested provider version and cdktf version
   const matchingVersions = versions.filter((v) => {

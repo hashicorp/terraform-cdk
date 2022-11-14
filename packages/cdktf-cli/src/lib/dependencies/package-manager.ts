@@ -9,7 +9,74 @@ import { Errors } from "../errors";
 import * as fs from "fs-extra";
 import * as semver from "semver";
 import fetch from "node-fetch";
+import * as z from "zod";
 import { logger } from "../logging";
+
+// {
+//   "version": "1.0.0",
+//   "name": "testUSHasF",
+//   "problems": [
+//     "extraneous: archiver-utils@2.1.0 /private/var/folders/z_/v03l33d55fb57nrr3b1q03ch0000gq/T/testUSHasF/node_modules/archiver-utils",
+//   ],
+//   "dependencies": {
+//     "@cdktf/provider-random": {
+//       "version": "3.0.11",
+//       "resolved": "https://registry.npmjs.org/@cdktf/provider-random/-/provider-random-3.0.11.tgz"
+//     },
+const npmListSchema = z
+  .object({
+    dependencies: z.record(
+      z
+        .object({
+          version: z.string(),
+        })
+        .nonstrict()
+    ),
+  })
+  .deepPartial()
+  .nonstrict();
+
+// {
+//   "type": "tree",
+//   "data": {
+//     "type": "list",
+//     "trees": [
+//       {
+//         "name": "@cdktf/provider-random@3.0.11",
+//         "children": [],
+//         "hint": null,
+//         "color": "bold",
+//         "depth": 0
+//       }
+//     ]
+//   }
+// }
+const yarnListSchema = z
+  .object({
+    data: z
+      .object({
+        trees: z.array(
+          z
+            .object({
+              name: z.string(),
+            })
+            .nonstrict()
+        ),
+      })
+      .nonstrict(),
+  })
+  .deepPartial()
+  .nonstrict();
+
+// [
+//   {
+//     "name": "appdirs",
+//     "version": "1.4.4"
+//   },
+//   {
+const pipPackageSchema = z.array(
+  z.object({ name: z.string(), version: z.string() }).nonstrict()
+);
 
 /**
  * manages installing, updating, and removing dependencies
@@ -43,13 +110,16 @@ export abstract class PackageManager {
     packageName: string,
     packageVersion?: string
   ): Promise<void>;
-  // public abstract listPackages(): Promise<todo>; future stuff..
   // add check if package exists already. might query version in the future and offer to upgrade?
 
   public abstract isNpmVersionAvailable(
     packageName: string,
     packageVersion: string
   ): Promise<boolean>;
+
+  public abstract listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  >;
 }
 
 class NodePackageManager extends PackageManager {
@@ -75,6 +145,11 @@ class NodePackageManager extends PackageManager {
       packageVersion ? packageName + "@" + packageVersion : packageName
     );
 
+    // Install exact version
+    // Yarn: https://classic.yarnpkg.com/lang/en/docs/cli/add/#toc-yarn-add-exact-e
+    // Npm: https://docs.npmjs.com/cli/v8/commands/npm-install#save-exact
+    args.push("-E");
+
     console.log(
       `Installing package ${packageName} @ ${packageVersion} using ${command}.`
     );
@@ -90,6 +165,60 @@ class NodePackageManager extends PackageManager {
   ): Promise<boolean> {
     // We get the list of available versions from npm, no need to check here
     return true;
+  }
+
+  private async listYarnPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const stdout = await exec("yarn", ["list", "--json"], {
+        cwd: this.workingDirectory,
+      });
+
+      logger.debug(`Listing yarn packages using "yarn list --json": ${stdout}`);
+
+      const json = yarnListSchema.parse(JSON.parse(stdout));
+
+      return (json?.data?.trees || [])
+        .filter((dep: any) => dep.name.startsWith("@cdktf/provider-"))
+        .map((dep: any) => ({
+          name: `@${dep.name.split("@")[1]}`,
+          version: dep.name.split("@")[2],
+        }));
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages using 'yarn list --json': ${e.message}`
+      );
+    }
+  }
+
+  private async listNpmPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const stdout = await exec("npm", ["list", "--json"], {
+        cwd: this.workingDirectory,
+      });
+
+      logger.debug(`Listing npm packages using "npm list --json": ${stdout}`);
+      const json = npmListSchema.parse(JSON.parse(stdout));
+
+      return Object.entries(json?.dependencies || {})
+        .filter(([depName]) => depName.startsWith("@cdktf/provider-"))
+        .map(([name, dep]) => ({ name, version: dep.version }));
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages using 'npm list --json': ${e.message}`
+      );
+    }
+  }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    return this.hasYarnLockfile()
+      ? this.listYarnPackages()
+      : this.listNpmPackages();
   }
 }
 
@@ -146,15 +275,32 @@ class PythonPackageManager extends PackageManager {
       }
 
       const requirements = await fs.readFile(requirementsFilePath, "utf8");
-      if (requirements.includes(packageName)) {
-        console.log(
-          `Package ${packageName} already installed. Skipping installation.`
-        );
-        return;
+      const requirementLine = requirements
+        .split("\n")
+        .find((line) => line.includes(packageName));
+
+      logger.debug(
+        `Read requirements.txt file and found line including ${packageName}: ${requirementLine}`
+      );
+
+      if (requirementLine) {
+        if (packageVersion ? requirementLine.includes(packageVersion) : true) {
+          logger.info(
+            `Package ${packageName} already installed. Skipping installation.`
+          );
+          return;
+        } else {
+          logger.debug(
+            `Found the package but with a different version, continuing`
+          );
+        }
       }
 
       const newRequirements =
-        requirements +
+        requirements
+          .split("\n")
+          .filter((line) => !line.startsWith(packageName))
+          .join("\n") +
         `\n${packageName}${packageVersion ? `~=${packageVersion}` : ""}`;
       await fs.writeFile(requirementsFilePath, newRequirements, "utf8");
 
@@ -194,6 +340,60 @@ class PythonPackageManager extends PackageManager {
       );
       return false;
     }
+  }
+
+  public async listPipenvPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const stdout = await exec(
+        "pipenv",
+        ["run", "pip", "list", "--format=json"],
+        {
+          cwd: this.workingDirectory,
+        }
+      );
+      logger.debug(
+        `Listing pipenv packages using "pipenv run pip list --format=json": ${stdout}`
+      );
+
+      const list = pipPackageSchema.parse(JSON.parse(stdout));
+      return list.filter((item) =>
+        item.name.startsWith("cdktf-cdktf-provider")
+      );
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages using 'pipenv run pip list --format=json': ${e.message}`
+      );
+    }
+  }
+
+  public async listPipPackages(): Promise<{ name: string; version: string }[]> {
+    try {
+      const stdout = await exec("pip", ["list", "--format=json"], {
+        cwd: this.workingDirectory,
+      });
+      logger.debug(
+        `Listing pipenv packages using "pip list --format=json": ${stdout}`
+      );
+
+      const list = pipPackageSchema.parse(JSON.parse(stdout));
+      return list.filter((item) =>
+        item.name.startsWith("cdktf-cdktf-provider")
+      );
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages using 'pip list --format=json': ${e.message}`
+      );
+    }
+  }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    return this.appCommand.includes("pipenv")
+      ? this.listPipenvPackages()
+      : this.listPipPackages();
   }
 }
 
@@ -250,6 +450,42 @@ class NugetPackageManager extends PackageManager {
 
     return packageVersions.some((v) => v.version === packageVersion);
   }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const stdout = await exec("dotnet", ["list", "package"], {
+        cwd: this.workingDirectory,
+      });
+      logger.debug(
+        `Listing pipenv packages using "dotnet list package": ${stdout}`
+      );
+
+      return stdout
+        .split("\n")
+        .map((line) => {
+          // Example output:
+          // Project 'MyTerraformStack' has the following package references
+          //  [netcoreapp3.1]:
+          //  Top-level Package      Requested   Resolved
+          //  > HashiCorp.Cdktf      0.0.0       0.0.0
+          // match[0] = full match
+          // match[1] = package name
+          // match[2] = a weird artifact I could not figure out how to exclude (last letter of the name)
+          // match[3] = requested version
+          // match[4] = resolved version
+          const regex = /\s*>\s((\w|\.)*)\s*(\d*\.\d*\.\d*)\s*(\d*\.\d*\.\d*)/g;
+          return regex.exec(line);
+        })
+        .filter((match) => match && match.length === 5)
+        .map((match) => ({ name: match![1], version: match![4] }));
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages using 'dotnet list package': ${e.message}`
+      );
+    }
+  }
 }
 
 class MavenPackageManager extends PackageManager {
@@ -282,10 +518,26 @@ class MavenPackageManager extends PackageManager {
 </dependency>`
     )) as Element;
 
-    pomXml.elements
+    const dependencies = pomXml.elements
       ?.find((el) => el.name === "project")
-      ?.elements?.find((el) => el.name === "dependencies")
-      ?.elements?.push(newDependency.elements![0]);
+      ?.elements?.find((el) => el.name === "dependencies");
+
+    if (!dependencies) {
+      throw Errors.Usage(`Could not find dependencies section in the pom.xml`);
+    }
+    dependencies.elements = (dependencies?.elements || []).filter(
+      (el) =>
+        el.elements?.some(
+          (group) =>
+            group.name === "groupId" && group.elements?.[0].text !== groupId
+        ) ||
+        el.elements?.some(
+          (artifact) =>
+            artifact.name === "artifactId" &&
+            artifact.elements?.[0].text !== artifactId
+        )
+    );
+    dependencies?.elements?.push(newDependency.elements![0]);
 
     // Write new pom.xml
     await fs.writeFile(pomPath, js2xml(pomXml, { spaces: 2 }));
@@ -326,6 +578,45 @@ class MavenPackageManager extends PackageManager {
 
     return (json?.response?.numFound ?? 0) > 0;
   }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const pomPath = path.join(this.workingDirectory, "pom.xml");
+      if (!existsSync(pomPath)) {
+        throw Errors.Usage(
+          "No pom.xml found in current working directory. Please run the command from the root of your project."
+        );
+      }
+
+      const pom = await fs.readFile(pomPath, "utf8");
+      const pomXml = (await xml2js(pom, {})) as Element;
+
+      const dependencies =
+        pomXml.elements
+          ?.find((el) => el.name === "project")
+          ?.elements?.find((el) => el.name === "dependencies")?.elements ?? [];
+
+      return dependencies
+        .map((dep) => ({
+          name: `${
+            dep.elements?.find((el) => el.name === "groupId")?.elements?.[0]
+              .text
+          }.${
+            dep.elements?.find((el) => el.name === "artifactId")?.elements?.[0]
+              .text
+          }`,
+          version: dep.elements?.find((el) => el.name === "version")
+            ?.elements?.[0].text as string,
+        }))
+        .filter((dep) => dep.name.startsWith("com.hashicorp.cdktf-provider-"));
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages reading the pom.xml: ${e.message}`
+      );
+    }
+  }
 }
 
 class GoPackageManager extends PackageManager {
@@ -344,6 +635,9 @@ class GoPackageManager extends PackageManager {
       versionPackageSuffix = `/v${majorVersion}`;
     }
 
+    logger.debug(
+      `Running 'go get ${packageName}${versionPackageSuffix}@v${packageVersion}'`
+    );
     // Install
     await exec(
       "go",
@@ -400,5 +694,50 @@ class GoPackageManager extends PackageManager {
     );
 
     return false;
+  }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    try {
+      const goSumPath = path.join(this.workingDirectory, "go.sum");
+      if (!existsSync(goSumPath)) {
+        throw Errors.Usage(
+          "No go.sum found in current working directory. Please run the command from the root of your project."
+        );
+      }
+
+      const goSum = await fs.readFile(goSumPath, "utf8");
+
+      return goSum
+        .split("\n")
+        .filter(
+          (line) =>
+            line.startsWith("github.com/hashicorp/cdktf-provider") ||
+            line.startsWith("github.com/cdktf/cdktf-provider")
+        )
+        .map((line) => {
+          const parts = line.split(" ");
+          if (parts.length !== 3) {
+            throw Errors.Internal(
+              `Expected line in go.sum to be in the format of '<package> <version> <checksum>', got: ${line}`
+            );
+          }
+
+          // part[0] could be github.com/aws/constructs-go/constructs/v10
+          const name = parts[0].split("/").slice(0, 4).join("/");
+
+          const version = parts[1].split("/")[0];
+
+          return {
+            name,
+            version,
+          };
+        });
+    } catch (e) {
+      throw new Error(
+        `Could not determine installed packages reading the go.sum: ${e.message}`
+      );
+    }
   }
 }

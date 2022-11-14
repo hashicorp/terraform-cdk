@@ -46,7 +46,7 @@ export async function generateProviderBindingsFromSchema(
   await code.save(targetPath);
 
   if (options) {
-    await generateJsiiLanguage(code, options);
+    await generateJsiiLanguage(code, options, targetPath);
   }
 }
 

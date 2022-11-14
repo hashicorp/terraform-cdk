@@ -43,12 +43,19 @@ import {
 } from "./helper/check-environment";
 import { collectDebugInformation, getPackageVersion } from "../../lib/debug";
 import { initializErrorReporting } from "../../lib/error-reporting";
+import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
+import { providerAdd as providerAddLib } from "../../lib/provider-add";
+import { logger } from "../../lib/logging";
 import {
   DependencyManager,
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
-import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
-import { logger } from "../../lib/logging";
+import { get as getLib } from "../../lib/get";
+import { GetOptions } from "../../../../@cdktf/provider-generator/lib/get/constructs-maker";
+import {
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
+} from "../../../../@cdktf/provider-generator/lib/config";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -198,6 +205,7 @@ export async function get(argv: {
   output: string;
   language: Language;
   parallelism: number;
+  force?: boolean;
 }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
@@ -207,11 +215,11 @@ export async function get(argv: {
   const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language, parallelism } = argv;
+  const { output, language, parallelism, force } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
-    ...providers,
-    ...modules,
+    ...providers.map((c) => new TerraformProviderConstraint(c)),
+    ...modules.map((c) => new TerraformModuleConstraint(c)),
   ];
 
   if (constraints.length === 0) {
@@ -227,6 +235,7 @@ export async function get(argv: {
       language: language,
       constraints,
       parallelism,
+      force,
     })
   );
 }
@@ -244,7 +253,18 @@ export async function init(argv: any) {
 
   checkForEmptyDirectory(".");
 
-  await runInit(argv);
+  const { needsGet, codeMakerOutput, language } = await runInit(argv);
+
+  if (needsGet) {
+    console.log(
+      "Local providers have been updated. Running cdktf get to update..."
+    );
+    await get({
+      language,
+      output: codeMakerOutput,
+      parallelism: 1,
+    });
+  }
 }
 
 export async function list(argv: any) {
@@ -402,7 +422,6 @@ export async function debug(argv: any) {
 
 export async function providerAdd(argv: any) {
   const config = CdktfConfig.read();
-
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
 
@@ -410,28 +429,13 @@ export async function providerAdd(argv: any) {
     throw Errors.External(
       "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
     );
-
-  const manager = new DependencyManager(
-    language,
-    cdktfVersion,
-    config.projectDirectory
-  );
-
-  let needsGet = false;
-
-  for (const provider of argv.provider) {
-    const constraint = ProviderConstraint.fromConfigEntry(provider);
-
-    if (argv.forceLocal) {
-      needsGet = true;
-      await manager.addLocalProvider(constraint);
-    } else {
-      const { addedLocalProvider } = await manager.addProvider(constraint);
-      if (addedLocalProvider) {
-        needsGet = true;
-      }
-    }
-  }
+  const needsGet = await providerAddLib({
+    providers: argv.provider,
+    language: language,
+    projectDirectory: config.projectDirectory,
+    cdktfVersion: cdktfVersion,
+    forceLocal: argv.forceLocal,
+  });
 
   if (needsGet) {
     console.log(
@@ -441,6 +445,66 @@ export async function providerAdd(argv: any) {
       language: language,
       output: config.codeMakerOutput,
       parallelism: 1,
+    });
+  }
+}
+
+export async function providerUpgrade(argv: any) {
+  const config = CdktfConfig.read();
+
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  const constraintsToUpdate: ProviderConstraint[] = [];
+
+  for (const provider of argv.provider) {
+    const constraint = ProviderConstraint.fromConfigEntry(provider);
+    const { addedLocalProvider } = await manager.upgradeProvider(constraint);
+    if (addedLocalProvider) {
+      constraintsToUpdate.push(constraint);
+    }
+  }
+
+  if (constraintsToUpdate.length > 0) {
+    const singular = constraintsToUpdate.length === 1;
+    console.log(
+      `${constraintsToUpdate.length} local provider${
+        singular ? " has" : "s have"
+      } been updated. Running cdktf get to update...`
+    );
+
+    const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+    const providers = config.terraformProviders ?? [];
+    const modules = config.terraformModules ?? [];
+
+    const constructsOptions: GetOptions = {
+      codeMakerOutput: config.codeMakerOutput,
+      targetLanguage: language,
+      jsiiParallelism: 1,
+    };
+
+    const constraints: cfg.TerraformDependencyConstraint[] = [
+      ...providers,
+      ...modules,
+    ];
+    await getLib({
+      constructsOptions,
+      constraints,
+      cleanDirectory: false,
+      constraintsToGenerate: constraintsToUpdate.map(
+        (c) => new TerraformProviderConstraint(c)
+      ),
     });
   }
 }

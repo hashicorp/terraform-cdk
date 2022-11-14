@@ -37,6 +37,8 @@ import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
 import { CdktfConfig } from "../../../lib/cdktf-config";
+import { providerAdd } from "../../../lib/provider-add";
+import { getAllPrebuiltProviders } from "../../../lib/dependencies/prebuilt-providers";
 
 const chalkColour = new chalk.Instance();
 
@@ -63,6 +65,8 @@ type Options = {
   projectDescription?: string;
   cdktfVersion?: string;
   dist?: string;
+  providers?: string[];
+  providersForceLocal?: boolean;
   destination: string;
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
@@ -163,7 +167,6 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     const combinedTfFile = getTerraformConfigFromDir(importPath);
 
-    // Fetch all provider requirements from the project
     const providerRequirements = await parseProviderRequirements(
       combinedTfFile
     );
@@ -238,11 +241,53 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   const cdktfConfig = CdktfConfig.read(destination);
+  let needsGet = false;
+  const providers = argv.providers?.length
+    ? argv.providers
+    : await askForProviders();
+  if (providers?.length) {
+    needsGet = await providerAdd({
+      providers: providers,
+      language: cdktfConfig.language,
+      projectDirectory: destination,
+      cdktfVersion: argv.cdktfVersion,
+      forceLocal: argv.providersForceLocal,
+    });
+    telemetryData.addedProviders = providers;
+  }
 
   await sendTelemetry("init", {
     ...telemetryData,
     language: cdktfConfig.language,
   });
+
+  return {
+    needsGet,
+    codeMakerOutput: cdktfConfig.codeMakerOutput,
+    language: cdktfConfig.language,
+  };
+}
+
+async function askForProviders(): Promise<string[] | undefined> {
+  if (!isInteractiveTerminal()) {
+    return Promise.resolve(undefined);
+  }
+  const prebuiltProviders = await getAllPrebuiltProviders();
+  const options = Object.keys(prebuiltProviders);
+  console.log(
+    chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`
+  );
+  const { providers: selection } = await inquirer.prompt([
+    {
+      type: "checkbox",
+      name: "providers",
+      message: "What providers do you want to use?",
+      choices: options,
+    },
+  ]);
+  return Object.entries(prebuiltProviders)
+    .filter((provider) => selection.includes(provider[0]))
+    .map((provider) => provider[1].split("@")[0]);
 }
 
 function copyLocalModules(
@@ -305,7 +350,7 @@ async function gatherInfo(
       token
     );
     const organizationData = organizationNames.data;
-    const organizationOptions = [];
+    const organizationOptions: string[] = [];
     for (const organization of organizationData) {
       organizationOptions.push(organization.id);
     }
