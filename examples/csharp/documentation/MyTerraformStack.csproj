@@ -22,4 +22,7 @@
     <ProjectReference Include=".gen\kubernetes\kubernetes.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include=".gen\random\random.csproj" />
+  </ItemGroup>
 </Project>
