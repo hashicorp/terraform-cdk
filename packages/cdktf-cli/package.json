@@ -96,7 +96,10 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
+    "src/**/*.{ts,tsx}": [
+      "tsc-files src/lib/ambient.d.ts --noEmit",
+      "eslint"
+    ]
   },
   "devDependencies": {
     "@cdktf/provider-generator": "0.0.0",
