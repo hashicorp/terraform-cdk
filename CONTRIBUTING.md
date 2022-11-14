@@ -187,6 +187,22 @@ $ yarn link "cdktf"
 
 From here on both, the `cli` and the `cdktf` packages are linked and changes will be reflected immediatlely.
 
+### Known errors
+
+#### Python
+
+If you get this error message when trying to use a local build of `cdktf`:
+
+> ERROR: THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package versions, please update the hashes. Otherwise, examine the package contents carefully; someone may have tampered with them.
+
+Run:
+
+```
+./tools/align-version.sh -dev.111212112 && yarn build && yarn package
+```
+
+This builds a package with a development version which skips the tamper check in Python. (We once accidentally released `cdktf 0.0.0` which is the reason why Python knows some valid hashes for that `0.0.0` version and will fail as they won't match.)
+
 ## Rebasing contributions against main
 
 PRs in this repo are merged using the [`rebase`](https://git-scm.com/docs/git-rebase) method. This keeps
