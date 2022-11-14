@@ -22,7 +22,7 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 	})
 
 	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("null"), &optionalattributeresource.OptionalAttributeResourceConfig{
-		Bool: Token_NullValue(),
+		Bool: cdktf.Token_NullValue(),
 	})
 
 	res := optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("test"), &optionalattributeresource.OptionalAttributeResourceConfig{})
