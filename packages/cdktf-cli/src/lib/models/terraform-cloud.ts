@@ -166,7 +166,7 @@ export class TerraformCloud implements Terraform {
     private readonly createTerraformLogHandler = (_phase: string) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
-    if (!config.workspaces.name)
+    if (!config.workspaces?.name)
       throw new Error("Please provide a workspace name for Terraform Cloud");
     if (!config.organization)
       throw new Error("Please provide an organization for Terraform Cloud");
