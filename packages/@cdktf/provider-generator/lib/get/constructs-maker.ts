@@ -429,7 +429,7 @@ export class ConstructsMaker {
       }
 
       return acc;
-    }, this.versions);
+    }, {});
 
     logger.debug(
       `Writing versions file (${filePath}): ${JSON.stringify(
@@ -440,7 +440,7 @@ export class ConstructsMaker {
     );
 
     this.code.openFile(filePath);
-    this.code.line(JSON.stringify(versions, null, 2));
+    this.code.line(JSON.stringify({ ...versions, ...this.versions }, null, 2));
     this.code.closeFile(filePath);
     return filePath;
   }
