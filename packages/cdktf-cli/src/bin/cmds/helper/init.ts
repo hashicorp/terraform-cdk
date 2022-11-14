@@ -265,7 +265,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     needsGet,
     codeMakerOutput: cdktfConfig.codeMakerOutput,
     language: cdktfConfig.language,
-  }
+  };
 }
 
 async function askForProviders(): Promise<string[] | undefined> {
@@ -274,7 +274,9 @@ async function askForProviders(): Promise<string[] | undefined> {
   }
   const prebuiltProviders = await getAllPrebuiltProviders();
   const options = Object.keys(prebuiltProviders);
-  console.log(chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`)
+  console.log(
+    chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`
+  );
   const { providers: selection } = await inquirer.prompt([
     {
       type: "checkbox",
