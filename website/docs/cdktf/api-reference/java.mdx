@@ -32639,6 +32639,10 @@ Token.nullValue()
 
 Return a Token containing a `null` value.
 
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
+
 #### Constants <a name="Constants" id="Constants"></a>
 
 | **Name**                                                                                       | **Type**                      | **Description**                        |
