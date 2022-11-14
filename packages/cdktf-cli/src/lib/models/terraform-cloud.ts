@@ -377,7 +377,7 @@ export class TerraformCloud implements Terraform {
       );
     } catch (e) {
       if (isPermissionLackingError(e)) {
-        // We may have a token without admin privileges
+        // We may have a token without admin permissions
         sendLog(
           `Cannot get plan output due to token without administator scope. To view plan output visit:\n\n${url}`
         );
@@ -450,7 +450,7 @@ export class TerraformCloud implements Terraform {
       await this.client.Runs.action("apply", runId);
     } catch (e) {
       if (isPermissionLackingError(e)) {
-        // We may have a token without admin privileges
+        // We may have a token without apply permissions
         sendLog(
           `Failed to apply Terraform run. This may be due to lacking permissions.`
         );
@@ -543,6 +543,9 @@ export class TerraformCloud implements Terraform {
       return outputs;
     } catch (e) {
       if (isPermissionLackingError(e)) {
+        logger.info(
+          "Unable to obtain state versions since the token supplied lacks permission, proceeding without outputs"
+        );
         return {};
       }
 
