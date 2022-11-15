@@ -7,4 +7,3 @@ verify_ssl = true
 python_version = "3"
 
 [packages]
-cdktf = {path = "./../../../dist/python/cdktf-0.0.0-py3-none-any.whl"}
