@@ -21,6 +21,10 @@ func NewReferenceStack(scope constructs.Construct, id string) cdktf.TerraformSta
 		Reqbool: jsii.Bool(true),
 	})
 
+	optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("null"), &optionalattributeresource.OptionalAttributeResourceConfig{
+		Bool: cdktf.Token_NullValue(),
+	})
+
 	res := optionalattributeresource.NewOptionalAttributeResource(stack, jsii.String("test"), &optionalattributeresource.OptionalAttributeResourceConfig{})
 
 	list := listblockresource.NewListBlockResource(stack, jsii.String("list"), &listblockresource.ListBlockResourceConfig{

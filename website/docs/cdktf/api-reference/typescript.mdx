@@ -27598,6 +27598,7 @@ new Token();
 | <code><a href="#cdktf.Token.asString">asString</a></code>         | Return a reversible string representation of this token. |
 | <code><a href="#cdktf.Token.asStringMap">asStringMap</a></code>   | Return a reversible map representation of this token.    |
 | <code><a href="#cdktf.Token.isUnresolved">isUnresolved</a></code> | Returns true if obj represents an unresolved value.      |
+| <code><a href="#cdktf.Token.nullValue">nullValue</a></code>       | Return a Token containing a `null` value.                |
 
 ---
 
@@ -27843,6 +27844,20 @@ containing resolvables.
 The object to test.
 
 ---
+
+##### `nullValue` <a name="nullValue" id="cdktf.Token.nullValue"></a>
+
+```typescript
+import { Token } from "cdktf";
+
+Token.nullValue();
+```
+
+Return a Token containing a `null` value.
+
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
 
 #### Constants <a name="Constants" id="Constants"></a>
 
