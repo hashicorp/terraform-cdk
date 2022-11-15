@@ -7,105 +7,105 @@ import { IResolvable } from "./tokens/resolvable";
  */
 export class Op {
   /**
-   * Renders !expr
+   * Renders !expression
    */
   public static not(expression: Expression): IResolvable {
     return new OperatorExpression("!", expression);
   }
 
   /**
-   * Renders -expr
+   * Renders -expression
    */
   public static negate(expression: Expression): IResolvable {
     return new OperatorExpression("-", expression);
   }
 
   /**
-   * Renders expr1 * expr2
+   * Renders left * right
    */
   public static mul(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("*", left, right);
   }
 
   /**
-   * Renders expr1 / expr2
+   * Renders left / right
    */
   public static div(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("/", left, right);
   }
 
   /**
-   * Renders expr1 % expr2
+   * Renders left % right
    */
   public static mod(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("%", left, right);
   }
 
   /**
-   * Renders expr1 + expr2
+   * Renders left + right
    */
   public static add(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("+", left, right);
   }
 
   /**
-   * Renders expr1 - expr2
+   * Renders left - right
    */
   public static sub(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("-", left, right);
   }
 
   /**
-   * Renders expr1 > expr2
+   * Renders left > right
    */
   public static gt(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression(">", left, right);
   }
 
   /**
-   * Renders expr1 >= expr2
+   * Renders left >= right
    */
   public static gte(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression(">=", left, right);
   }
 
   /**
-   * Renders expr1 < expr2
+   * Renders left < right
    */
   public static lt(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("<", left, right);
   }
 
   /**
-   * Renders expr1 <= expr2
+   * Renders left <= right
    */
   public static lte(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("<=", left, right);
   }
 
   /**
-   * Renders expr1 == expr2
+   * Renders left == right
    */
   public static eq(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("==", left, right);
   }
 
   /**
-   * Renders expr1 != expr2
+   * Renders left != right
    */
   public static neq(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("!=", left, right);
   }
 
   /**
-   * Renders expr1 && expr2
+   * Renders left && right
    */
   public static and(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("&&", left, right);
   }
 
   /**
-   * Renders expr1 || expr2
+   * Renders left || right
    */
   public static or(left: Expression, right: Expression): IResolvable {
     return new OperatorExpression("||", left, right);

@@ -32691,23 +32691,23 @@ cdktf.Op()
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                           | **Description**           |
-| -------------------------------------------------- | ------------------------- |
-| <code><a href="#cdktf.Op.add">add</a></code>       | Renders expr1 + expr2.    |
-| <code><a href="#cdktf.Op.and">and</a></code>       | Renders expr1 && expr2.   |
-| <code><a href="#cdktf.Op.div">div</a></code>       | Renders expr1 / expr2.    |
-| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders expr1 == expr2.   |
-| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders expr1 > expr2.    |
-| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders expr1 >= expr2.   |
-| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders expr1 < expr2.    |
-| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders expr1 < = expr2.  |
-| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders expr1 % expr2.    |
-| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders expr1 \* expr2.   |
-| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expr.            |
-| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders expr1 != expr2.   |
-| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expr.            |
-| <code><a href="#cdktf.Op.or">or</a></code>         | Renders expr1 \|\| expr2. |
-| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders expr1 - expr2.    |
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">and</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders left - right.    |
 
 ---
 
@@ -32722,7 +32722,7 @@ cdktf.Op.add(
 )
 ```
 
-Renders expr1 + expr2.
+Renders left + right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
 
@@ -32747,7 +32747,7 @@ cdktf.Op.and(
 )
 ```
 
-Renders expr1 && expr2.
+Renders left && right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
 
@@ -32772,7 +32772,7 @@ cdktf.Op.div(
 )
 ```
 
-Renders expr1 / expr2.
+Renders left / right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
 
@@ -32797,7 +32797,7 @@ cdktf.Op.eq(
 )
 ```
 
-Renders expr1 == expr2.
+Renders left == right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
 
@@ -32822,7 +32822,7 @@ cdktf.Op.gt(
 )
 ```
 
-Renders expr1 > expr2.
+Renders left > right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
 
@@ -32847,7 +32847,7 @@ cdktf.Op.gte(
 )
 ```
 
-Renders expr1 >= expr2.
+Renders left >= right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
 
@@ -32872,7 +32872,7 @@ cdktf.Op.lt(
 )
 ```
 
-Renders expr1 < expr2.
+Renders left < right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
 
@@ -32897,7 +32897,7 @@ cdktf.Op.lte(
 )
 ```
 
-Renders expr1 < = expr2.
+Renders left < = right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
 
@@ -32922,7 +32922,7 @@ cdktf.Op.mod(
 )
 ```
 
-Renders expr1 % expr2.
+Renders left % right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
 
@@ -32947,7 +32947,7 @@ cdktf.Op.mul(
 )
 ```
 
-Renders expr1 \* expr2.
+Renders left \* right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
 
@@ -32971,7 +32971,7 @@ cdktf.Op.negate(
 )
 ```
 
-Renders -expr.
+Renders -expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
 
@@ -32990,7 +32990,7 @@ cdktf.Op.neq(
 )
 ```
 
-Renders expr1 != expr2.
+Renders left != right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
 
@@ -33014,7 +33014,7 @@ cdktf.Op.not(
 )
 ```
 
-Renders !expr.
+Renders !expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
 
@@ -33033,7 +33033,7 @@ cdktf.Op.or(
 )
 ```
 
-Renders expr1 || expr2.
+Renders left || right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
 
@@ -33058,7 +33058,7 @@ cdktf.Op.sub(
 )
 ```
 
-Renders expr1 - expr2.
+Renders left - right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
 

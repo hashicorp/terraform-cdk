@@ -27158,23 +27158,23 @@ cdktf.NewOp() Op
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                           | **Description**           |
-| -------------------------------------------------- | ------------------------- |
-| <code><a href="#cdktf.Op.add">Add</a></code>       | Renders expr1 + expr2.    |
-| <code><a href="#cdktf.Op.and">And</a></code>       | Renders expr1 && expr2.   |
-| <code><a href="#cdktf.Op.div">Div</a></code>       | Renders expr1 / expr2.    |
-| <code><a href="#cdktf.Op.eq">Eq</a></code>         | Renders expr1 == expr2.   |
-| <code><a href="#cdktf.Op.gt">Gt</a></code>         | Renders expr1 > expr2.    |
-| <code><a href="#cdktf.Op.gte">Gte</a></code>       | Renders expr1 >= expr2.   |
-| <code><a href="#cdktf.Op.lt">Lt</a></code>         | Renders expr1 < expr2.    |
-| <code><a href="#cdktf.Op.lte">Lte</a></code>       | Renders expr1 < = expr2.  |
-| <code><a href="#cdktf.Op.mod">Mod</a></code>       | Renders expr1 % expr2.    |
-| <code><a href="#cdktf.Op.mul">Mul</a></code>       | Renders expr1 \* expr2.   |
-| <code><a href="#cdktf.Op.negate">Negate</a></code> | Renders -expr.            |
-| <code><a href="#cdktf.Op.neq">Neq</a></code>       | Renders expr1 != expr2.   |
-| <code><a href="#cdktf.Op.not">Not</a></code>       | Renders !expr.            |
-| <code><a href="#cdktf.Op.or">Or</a></code>         | Renders expr1 \|\| expr2. |
-| <code><a href="#cdktf.Op.sub">Sub</a></code>       | Renders expr1 - expr2.    |
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">Add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">And</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">Div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">Eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">Gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">Gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">Lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">Lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">Mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">Mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">Negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">Neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">Not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">Or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">Sub</a></code>       | Renders left - right.    |
 
 ---
 
@@ -27186,7 +27186,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Add(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 + expr2.
+Renders left + right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
 
@@ -27208,7 +27208,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_And(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 && expr2.
+Renders left && right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
 
@@ -27230,7 +27230,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Div(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 / expr2.
+Renders left / right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
 
@@ -27252,7 +27252,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Eq(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 == expr2.
+Renders left == right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
 
@@ -27274,7 +27274,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Gt(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 > expr2.
+Renders left > right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
 
@@ -27296,7 +27296,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Gte(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 >= expr2.
+Renders left >= right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
 
@@ -27318,7 +27318,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Lt(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 < expr2.
+Renders left < right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
 
@@ -27340,7 +27340,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Lte(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 < = expr2.
+Renders left < = right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
 
@@ -27362,7 +27362,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Mod(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 % expr2.
+Renders left % right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
 
@@ -27384,7 +27384,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Mul(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 \* expr2.
+Renders left \* right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
 
@@ -27406,7 +27406,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Negate(expression interface{}) IResolvable
 ```
 
-Renders -expr.
+Renders -expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
 
@@ -27422,7 +27422,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Neq(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 != expr2.
+Renders left != right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
 
@@ -27444,7 +27444,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Not(expression interface{}) IResolvable
 ```
 
-Renders !expr.
+Renders !expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
 
@@ -27460,7 +27460,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Or(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 || expr2.
+Renders left || right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
 
@@ -27482,7 +27482,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 cdktf.Op_Sub(left interface{}, right interface{}) IResolvable
 ```
 
-Renders expr1 - expr2.
+Renders left - right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
 

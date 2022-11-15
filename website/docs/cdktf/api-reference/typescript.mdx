@@ -26573,23 +26573,23 @@ new Op();
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                           | **Description**           |
-| -------------------------------------------------- | ------------------------- |
-| <code><a href="#cdktf.Op.add">add</a></code>       | Renders expr1 + expr2.    |
-| <code><a href="#cdktf.Op.and">and</a></code>       | Renders expr1 && expr2.   |
-| <code><a href="#cdktf.Op.div">div</a></code>       | Renders expr1 / expr2.    |
-| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders expr1 == expr2.   |
-| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders expr1 > expr2.    |
-| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders expr1 >= expr2.   |
-| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders expr1 < expr2.    |
-| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders expr1 < = expr2.  |
-| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders expr1 % expr2.    |
-| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders expr1 \* expr2.   |
-| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expr.            |
-| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders expr1 != expr2.   |
-| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expr.            |
-| <code><a href="#cdktf.Op.or">or</a></code>         | Renders expr1 \|\| expr2. |
-| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders expr1 - expr2.    |
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">and</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders left - right.    |
 
 ---
 
@@ -26601,7 +26601,7 @@ import { Op } from 'cdktf'
 Op.add(left: any, right: any)
 ```
 
-Renders expr1 + expr2.
+Renders left + right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
 
@@ -26623,7 +26623,7 @@ import { Op } from 'cdktf'
 Op.and(left: any, right: any)
 ```
 
-Renders expr1 && expr2.
+Renders left && right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
 
@@ -26645,7 +26645,7 @@ import { Op } from 'cdktf'
 Op.div(left: any, right: any)
 ```
 
-Renders expr1 / expr2.
+Renders left / right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
 
@@ -26667,7 +26667,7 @@ import { Op } from 'cdktf'
 Op.eq(left: any, right: any)
 ```
 
-Renders expr1 == expr2.
+Renders left == right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
 
@@ -26689,7 +26689,7 @@ import { Op } from 'cdktf'
 Op.gt(left: any, right: any)
 ```
 
-Renders expr1 > expr2.
+Renders left > right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
 
@@ -26711,7 +26711,7 @@ import { Op } from 'cdktf'
 Op.gte(left: any, right: any)
 ```
 
-Renders expr1 >= expr2.
+Renders left >= right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
 
@@ -26733,7 +26733,7 @@ import { Op } from 'cdktf'
 Op.lt(left: any, right: any)
 ```
 
-Renders expr1 < expr2.
+Renders left < right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
 
@@ -26755,7 +26755,7 @@ import { Op } from 'cdktf'
 Op.lte(left: any, right: any)
 ```
 
-Renders expr1 < = expr2.
+Renders left < = right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
 
@@ -26777,7 +26777,7 @@ import { Op } from 'cdktf'
 Op.mod(left: any, right: any)
 ```
 
-Renders expr1 % expr2.
+Renders left % right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
 
@@ -26799,7 +26799,7 @@ import { Op } from 'cdktf'
 Op.mul(left: any, right: any)
 ```
 
-Renders expr1 \* expr2.
+Renders left \* right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
 
@@ -26821,7 +26821,7 @@ import { Op } from 'cdktf'
 Op.negate(expression: any)
 ```
 
-Renders -expr.
+Renders -expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
 
@@ -26837,7 +26837,7 @@ import { Op } from 'cdktf'
 Op.neq(left: any, right: any)
 ```
 
-Renders expr1 != expr2.
+Renders left != right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
 
@@ -26859,7 +26859,7 @@ import { Op } from 'cdktf'
 Op.not(expression: any)
 ```
 
-Renders !expr.
+Renders !expression.
 
 ###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
 
@@ -26875,7 +26875,7 @@ import { Op } from 'cdktf'
 Op.or(left: any, right: any)
 ```
 
-Renders expr1 || expr2.
+Renders left || right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
 
@@ -26897,7 +26897,7 @@ import { Op } from 'cdktf'
 Op.sub(left: any, right: any)
 ```
 
-Renders expr1 - expr2.
+Renders left - right.
 
 ###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
 
