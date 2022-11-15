@@ -37,3 +37,21 @@ new TerraformOutput(this, "first-zone", {
 
 // ...
 ```
+
+## Operators
+
+If you need to use Operators like `!`, `+`, `-`, etc. you can use the `Op` object.
+
+```typescript
+import { Fn, Op, TerraformOutput } from "cdktf";
+
+// ...
+
+const const zones = new DataAwsAvailabilityZones(this, "zones", {
+  state: "available",
+});
+
+new TerraformOutput(this, "half-of-the-zone", {
+  value: Op.div(Fn.length(zones.names), 2),
+});
+```
