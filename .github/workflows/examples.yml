@@ -53,10 +53,13 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install
+      - name: lint
+        run: yarn lint:examples
+      - name: align version (Python only)
+        if: startsWith(matrix.target, '@examples/python') # lint:examples ensures this prefix
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: compile
-        run: |
-          yarn lint:examples
-          yarn build
+        run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
       - name: create bundle

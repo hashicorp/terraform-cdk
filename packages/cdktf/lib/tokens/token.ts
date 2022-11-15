@@ -171,6 +171,21 @@ export class Token {
   public static asAny(value: any): IResolvable {
     return Tokenization.isResolvable(value) ? value : new Intrinsic(value);
   }
+
+  /**
+   * Return a Token containing a `null` value
+   *
+   * Note: This is different than `undefined`, `nil`, `None` or similar
+   * as it will end up in the Terraform config and can be used to explicitly
+   * not set an attribute (which is sometimes required by Terraform providers)
+   *
+   * @returns a Token resolving to `null` as understood by Terraform
+   */
+  public static nullValue(): IResolvable {
+    // passing null works in Typescript, this is why we can do this here
+    // but users wouldn't be able to call e.g. Token.as_any(None) in Python
+    return Token.asAny(null);
+  }
 }
 
 /**

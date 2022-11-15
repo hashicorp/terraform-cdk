@@ -28,6 +28,10 @@ function directorySnapshot(root: string) {
 
     if (path.extname(filePath) === ".json") {
       content = fs.readJsonSync(filePath);
+
+      if (path.basename(filePath) === "constraints.json") {
+        delete content.cdktf;
+      }
     } else {
       content = fs.readFileSync(filePath, "utf-8");
     }
@@ -45,15 +49,12 @@ describe("Provider", () => {
     );
     return await mkdtemp(async (workdir) => {
       const jsiiPath = path.join(workdir, ".jsii");
-      const maker = new ConstructsMaker(
-        {
-          codeMakerOutput: workdir,
-          outputJsii: jsiiPath,
-          targetLanguage: Language.TYPESCRIPT,
-        },
-        [constraint]
-      );
-      await maker.generate();
+      const maker = new ConstructsMaker({
+        codeMakerOutput: workdir,
+        outputJsii: jsiiPath,
+        targetLanguage: Language.TYPESCRIPT,
+      });
+      await maker.generate([constraint]);
       const snapshot = directorySnapshot(workdir);
       expect(snapshot).toMatchSnapshot();
     });

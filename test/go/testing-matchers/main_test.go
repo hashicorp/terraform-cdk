@@ -7,6 +7,7 @@ import (
 	"cdk.tf/go/stack/generated/kreuzwerker/docker/datadockernetwork"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	docker "cdk.tf/go/stack/generated/kreuzwerker/docker/provider"
 	"testing"
 )
 
@@ -96,6 +97,16 @@ func TestToHaveDataWithPropertiesFail(t *testing.T) {
 		t.Error("Assertion Failed")
 	}
 }
+
+func TestToHaveProviderPass(t *testing.T) {
+
+	assertion := cdktf.Testing_ToHaveProvider(synth, docker.DockerProvider_TfResourceType())
+
+	if !*assertion {
+		t.Error("Assertion Failed")
+	}
+}
+
 func TestToBeValidTerraformPass(t *testing.T) {
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynth)
 

@@ -9,6 +9,9 @@ import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
 import { Errors } from "./errors";
+import * as fs from "fs";
+import * as path from "path";
+import { ProviderConstraint } from "./dependencies/dependency-manager";
 
 export type StackUpdate =
   | {
@@ -140,9 +143,11 @@ export class CdktfStack {
   public stopped = false;
   public currentWorkPromise: Promise<void> | undefined;
   public readonly currentState: CdktfStackStates = "idle";
+  private readonly parsedContent: any;
 
   constructor(public options: CdktfStackOptions) {
     this.stack = options.stack;
+    this.parsedContent = JSON.parse(this.stack.content);
   }
 
   public get isPending(): boolean {
@@ -233,9 +238,74 @@ export class CdktfStack {
       this.createTerraformLogHandler.bind(this)
     );
 
-    await terraform.init();
+    const needsUpgrade = await this.checkLockFile();
+
+    await terraform.init(needsUpgrade);
 
     return terraform;
+  }
+
+  private async checkLockFile(): Promise<boolean> {
+    const lockFilePath = path.join(
+      this.stack.workingDirectory,
+      ".terraform.lock.hcl"
+    );
+    try {
+      const lockFile = (await fs.promises.readFile(lockFilePath)).toString();
+
+      let currentProvider: string | undefined;
+      const lockedProviders: ProviderConstraint[] = [];
+
+      lockFile.split(/\r\n|\r|\n/).forEach((line) => {
+        if (currentProvider) {
+          const constraintMatch = line.match(/constraints\s= "(.*)"/);
+          if (constraintMatch) {
+            lockedProviders.push(
+              new ProviderConstraint(currentProvider, constraintMatch[1])
+            );
+            currentProvider = undefined;
+          }
+        } else {
+          const providerMatch = line.match(/provider "(.*)"/);
+          if (providerMatch) {
+            currentProvider = providerMatch[1];
+          }
+        }
+      });
+
+      const requiredProviders = this.parsedContent.terraform.required_providers;
+      const providers = Object.values(requiredProviders).reduce<
+        Record<string, ProviderConstraint>
+      >((acc, obj) => {
+        const constraint = new ProviderConstraint(
+          (obj as any).source,
+          (obj as any).version
+        );
+        acc[constraint.source] = constraint;
+        return acc;
+      }, {});
+
+      // check if any provider contained in `providers` violates constraints in `lockedProviders`
+      const providerMatches = lockedProviders.map((lockedProvider) => {
+        const provider = providers[lockedProvider.source];
+        if (provider) {
+          return lockedProvider.matchesVersion(provider.version ?? ">0");
+        }
+        // else no longer using this provider, so won't cause problems
+
+        return true;
+      });
+      // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
+
+      // Upgrade if some provider constraint not met
+      return providerMatches.some((m) => !m);
+    } catch (err) {
+      // ignore as this most likely means the file doesn't exist
+      // if it is some other error, Terraform will mention it later
+    }
+
+    // Don't upgrade if something went wrong
+    return false;
   }
 
   private async run(cb: () => Promise<void>) {

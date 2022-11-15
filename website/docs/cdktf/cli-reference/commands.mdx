@@ -1,5 +1,5 @@
 ---
-page_title: CLI Commands
+page_title: CLI Commands - CDK for Terraform
 description: >-
   Use the CLI to initialize a new project, deploy your CDKTF app, generate
   Terraform configuration files, and more.
@@ -302,6 +302,10 @@ $ cdktf diff
 
 This command downloads the providers and modules for an application and
 generates CDK constructs for them. It can use the `cdktf.json` configuration file to read the list of providers and modules.
+This command only generates currently missing provider bindings, so it is very fast if nothing changed.
+The command does not update the version when you specify loose version constraints in your `cdktf.json` file and have already generated an existing version locally. To update the version anyway, run `cdktf get --force` to recreate all bindings.
+
+When you change a version constraint, the `cdktf get` command recreates the bindings for that provider.
 
 ```bash
 $ cdktf get --help
@@ -315,15 +319,16 @@ cdktf get [OPTIONS]
 Generate CDK Constructs for Terraform providers and modules.
 
 Options:
-      --version                   Show version number                                                                                                                                                                [boolean]
+      --version                   Show version number                                                                                                                                                              [boolean]
       --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env CDKTF_DISABLE_PLUGIN_CACHE_ENV.
-                                                                                                                                                                                                    [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                               [string]
-  -o, --output                    Output directory for generated Constructs                                                                                                                      [string] [default: "imports"]
-  -l, --language                  Output programming language                                                                [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "python"]
+                                                                                                                                                                                                  [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                                                             [string]
+  -o, --output                    Output directory for generated Constructs                                                                                                                       [string] [default: ".gen"]
+  -l, --language                  Output programming language                                                          [string] [required] [choices: "typescript", "python", "java", "csharp", "go"] [default: "typescript"]
+      --force                     Regenerates all generated constructs                                                                                                                            [boolean] [default: false]
       --parallelism               Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII). Defaults to infinity, denoted by -1
-                                                                                                                                                                                                        [number] [default: -1]
-  -h, --help                      Show help                                                                                                                                                                          [boolean]
+                                                                                                                                                                                                      [number] [default: -1]
+  -h, --help                      Show help                                                                                                                                                                        [boolean]
 ```
 
 **Examples**
