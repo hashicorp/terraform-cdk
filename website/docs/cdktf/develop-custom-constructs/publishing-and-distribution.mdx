@@ -56,7 +56,6 @@ app.synth();
 
 Follow the [Terraform module publishing requirements and instructions](https://developer.hashicorp.com/terraform/registry/modules/publish). You can use the [projen-cdktf-hybrid-construct](https://github.com/cdktf/projen-cdktf-hybrid-construct) to make this workflow easier. Refer to the [CDK Day 2022 talk](https://cdk.tf/cdk-day-2022-hybrid-modules) on this topic for more details.
 
-
 ## Publish Constructs with Projen
 
 We recommend using the [`cdktf-construct` projen template](https://github.com/projen/projen/blob/main/src/cdktf/cdktf-construct.ts) to package and publish your constructs to either public or private registries. [Projen](https://github.com/projen/projen) synthesizes files and directories into different target languages based on a Javascript or Typescript file. The process is similar to how CDKTF synthesizes code into JSON configuration files for Terraform.
@@ -134,10 +133,10 @@ Rung `npm run projen` to generate the setup and workflow files for your project 
 
 The GitHub Action requires the following environment variables for credentials.
 
-`NPM_TOKEN`: An [npm API token](https://docs.npmjs.com/cli/v7/commands/npm-token) or a token for the registry of your choice
-`TWINE_USERNAME`: The username to use for PyPi, if using a token it should be "**token**"
-`TWINE_PASSWORD`: [The PyPi API token](https://pypi.org/manage/account/token/) to authenticate against PyPi or the registry of your choice
-`NUGET_API_KEY`: The API key to authenticate against NuGet
+- `NPM_TOKEN`: An [npm API token](https://docs.npmjs.com/cli/v7/commands/npm-token) or a token for the registry of your choice
+- `TWINE_USERNAME`: The username to use for PyPi, if using a token it should be "**token**"
+- `TWINE_PASSWORD`: [The PyPi API token](https://pypi.org/manage/account/token/) to authenticate against PyPi or the registry of your choice
+- `NUGET_API_KEY`: The API key to authenticate against NuGet
 
 The following environment variables are for Maven credentials:
 
