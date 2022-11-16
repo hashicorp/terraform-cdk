@@ -3,50 +3,108 @@
 
 // import { App } from "cdktf";
 type App = any;
-export interface ICdktfApplicationOptions {
-  /**
-   * Produce a cdktf program, forbidden if cwd is provided?
-   */
-  program?(app: App): void; // TODO: can this be Promise<void>?
+export interface ICdktfApplicationOptions {}
 
+export interface IInlineProgram extends ICdktfApplicationOptions {
   /**
-   * Path to cdktf directory (optional if program is provided)
+   * Produce a cdktf program
    */
-  cwd?: string;
+  program: IProgramProducer;
+}
+
+export interface ILocalProgram extends ICdktfApplicationOptions {
+  /**
+   * Path to cdktf directory
+   */
+  cwd: string;
 }
 
 /**
  * Controls synth / plan / deploy for a CDKTF application
  */
 export class CdktfApplication {
-  constructor(private opts: ICdktfApplicationOptions) {
+  constructor(private opts: IProgramProducer | ILocalProgram) {
     console.log(this.opts);
   }
 
-  public synth(): SynthesizedApplication {
-    return new SynthesizedApplication({});
+  public synth(): Promise<SynthesizedApplication> {
+    return Promise.resolve(new SynthesizedApplication({}));
   }
 }
 
 export interface IResult {}
 export interface ISynthesizedApplicationOptions {}
+type StackName = string;
+
 /**
- * Controls synth / plan / deploy for a CDKTF application
+ * Represents a synthesized CDKTF application
  */
 export class SynthesizedApplication {
+  public readonly stacks: Record<StackName, SynthesizedStack> = {
+    "my-stack": new SynthesizedStack({}),
+  };
+
   constructor(private opts: ISynthesizedApplicationOptions) {
     console.log(this.opts);
   }
+}
 
-  public plan(): boolean {
-    return true;
+export interface ISynthesizedStackOptions {}
+export interface ITerraformPlan {}
+
+/**
+ * Represents a synthesized CDKTF stack
+ */
+export class SynthesizedStack {
+  constructor(private opts: ISynthesizedStackOptions) {
+    console.log(this.opts);
   }
 
-  public deploy(): boolean {
-    return true;
+  public plan(): Promise<ITerraformPlan> {
+    return Promise.resolve({});
   }
 
-  public destroy(): boolean {
-    return true;
+  public deploy(): Promise<void> {
+    return Promise.resolve();
+  }
+
+  public destroy(): Promise<void> {
+    return Promise.resolve();
+  }
+}
+
+export interface IProviderConstraint {}
+export interface IModuleConstraint {}
+export interface IProgramProducer {
+  produce(app: App): void;
+}
+
+/**
+ * API for interacting with Terraform CDK
+ */
+export class Api {
+  /**
+   * Create a new CDKTF application
+   */
+  public static localApp(cwd: string): CdktfApplication {
+    return new CdktfApplication({ cwd });
+  }
+
+  /**
+   * Create a new CDKTF application
+   */
+  public static inlineApp({ produce }: IProgramProducer): CdktfApplication {
+    return new CdktfApplication({ produce });
+  }
+
+  /**
+   * Generate cdktf bindings
+   */
+  public static get(
+    providers: Array<string | IProviderConstraint>,
+    modules: Array<string | IModuleConstraint>
+  ): Promise<void> {
+    console.log(providers, modules);
+    return Promise.resolve();
   }
 }

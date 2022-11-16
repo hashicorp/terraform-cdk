@@ -8,27 +8,37 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, TerraformOutput } from "cdktf";
-import { CdktfApplication } from "./lib";
+import { Api } from "./lib";
 
-const dirApp = new CdktfApplication({
-  cwd: process.cwd(),
+const dirApp = Api.localApp(process.cwd());
+
+dirApp.synth().then(async (synthedDirApp) => {
+  const stack = synthedDirApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
 });
 
-const synthedDirApp = dirApp.synth();
-synthedDirApp.plan();
-synthedDirApp.deploy();
-
-const inlineApp = new CdktfApplication({
-  program(app) {
+const inlineApp = Api.inlineApp({
+  produce(app) {
     const stack = new TerraformStack(app, "my-stack");
     new TerraformOutput(stack, "my-output", {
       value: "my-value",
     });
   },
 });
-const synthedInlineApp = inlineApp.synth();
-synthedInlineApp.plan();
-synthedInlineApp.deploy();
+
+inlineApp.synth().then(async (synthedInlineApp) => {
+  const stack = synthedInlineApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+
+  // Run some tests
+  await stack.destroy();
+});
 ```
 
 ## Python
@@ -37,26 +47,36 @@ synthedInlineApp.deploy();
 # Copyright (c) HashiCorp, Inc
 # SPDX-License-Identifier: MPL-2.0
 from cdktf import TerraformStack, TerraformOutput
-from cdktf_api import CdktfApplication
+from cdktf_api import Api
 
-dir_app = CdktfApplication({
-    "cwd": process.cwd()
-})
+dir_app = Api.local_app(process.cwd())
 
-synthed_dir_app = dir_app.synth()
-synthed_dir_app.plan()
-synthed_dir_app.deploy()
+dir_app.synth().then(async (synthedDirApp) => {
+      const stack = synthedDirApp.stacks["my-stack"];
 
-inline_app = CdktfApplication({
-    def program(app):
+      const plan = await stack.plan();
+      console.log(plan);
+      await stack.deploy();
+    })
+
+inline_app = Api.inline_app({
+    def produce(app):
         stack = TerraformStack(app, "my-stack")
         TerraformOutput(stack, "my-output",
             "value"="my-value"
         )
 })
-synthed_inline_app = inline_app.synth()
-synthed_inline_app.plan()
-synthed_inline_app.deploy()
+
+inline_app.synth().then(async (synthedInlineApp) => {
+      const stack = synthedInlineApp.stacks["my-stack"];
+
+      const plan = await stack.plan();
+      console.log(plan);
+      await stack.deploy();
+
+      // Run some tests
+      await stack.destroy();
+    })
 ```
 
 ## Java
@@ -66,25 +86,36 @@ synthed_inline_app.deploy()
 // SPDX-License-Identifier: MPL-2.0
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformOutput;
-import com.hashicorp.cdktf_api.CdktfApplication;
+import com.hashicorp.cdktf_api.Api;
 
-CdktfApplication dirApp = new CdktfApplication(Map.of(
-        "cwd", process.cwd()));
+CdktfApplication dirApp = Api.localApp(process.cwd());
 
-SynthesizedApplication synthedDirApp = dirApp.synth();
-synthedDirApp.plan();
-synthedDirApp.deploy();
+dirApp.synth().then(async (synthedDirApp) => {
+  const stack = synthedDirApp.stacks["my-stack"];
 
-CdktfApplication inlineApp = new CdktfApplication(Map.of(
-        public void program(Object app) {
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+});
+
+CdktfApplication inlineApp = Api.inlineApp(Map.of(
+        public void produce(Object app) {
             TerraformStack stack = new TerraformStack(app, "my-stack");
             TerraformOutput.Builder.create(stack, "my-output")
                     "value", "my-value"
                     .build();
         }));
-SynthesizedApplication synthedInlineApp = inlineApp.synth();
-synthedInlineApp.plan();
-synthedInlineApp.deploy();
+
+inlineApp.synth().then(async (synthedInlineApp) => {
+  const stack = synthedInlineApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+
+  // Run some tests
+  await stack.destroy();
+});
 ```
 
 ## C#
@@ -95,16 +126,18 @@ synthedInlineApp.deploy();
 using HashiCorp.Cdktf;
 using HashiCorp.CdktfApi;
 
-CdktfApplication dirApp = new CdktfApplication(new Dictionary<string, string?> {
-    { "cwd", process.Cwd() }
+CdktfApplication dirApp = Api.LocalApp(process.Cwd());
+
+dirApp.Synth().Then(async (synthedDirApp) => {
+  const stack = synthedDirApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
 });
 
-SynthesizedApplication synthedDirApp = dirApp.Synth();
-synthedDirApp.Plan();
-synthedDirApp.Deploy();
-
-CdktfApplication inlineApp = new CdktfApplication(new Dictionary<string, object> {
-    public void Program(void app)
+CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, object> {
+    public void Produce(void app)
     {
         TerraformStack stack = new TerraformStack(app, "my-stack");
         new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
@@ -112,9 +145,17 @@ CdktfApplication inlineApp = new CdktfApplication(new Dictionary<string, object>
         });
     }
 });
-SynthesizedApplication synthedInlineApp = inlineApp.Synth();
-synthedInlineApp.Plan();
-synthedInlineApp.Deploy();
+
+inlineApp.Synth().Then(async (synthedInlineApp) => {
+  const stack = synthedInlineApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+
+  // Run some tests
+  await stack.destroy();
+});
 ```
 
 ## Go
@@ -125,16 +166,18 @@ synthedInlineApp.Deploy();
 using HashiCorp.Cdktf;
 using HashiCorp.CdktfApi;
 
-CdktfApplication dirApp = new CdktfApplication(new Dictionary<string, string?> {
-    { "cwd", process.Cwd() }
+CdktfApplication dirApp = Api.LocalApp(process.Cwd());
+
+dirApp.Synth().Then(async (synthedDirApp) => {
+  const stack = synthedDirApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
 });
 
-SynthesizedApplication synthedDirApp = dirApp.Synth();
-synthedDirApp.Plan();
-synthedDirApp.Deploy();
-
-CdktfApplication inlineApp = new CdktfApplication(new Dictionary<string, object> {
-    public void Program(void app)
+CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, object> {
+    public void Produce(void app)
     {
         TerraformStack stack = new TerraformStack(app, "my-stack");
         new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
@@ -142,7 +185,15 @@ CdktfApplication inlineApp = new CdktfApplication(new Dictionary<string, object>
         });
     }
 });
-SynthesizedApplication synthedInlineApp = inlineApp.Synth();
-synthedInlineApp.Plan();
-synthedInlineApp.Deploy();
+
+inlineApp.Synth().Then(async (synthedInlineApp) => {
+  const stack = synthedInlineApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+
+  // Run some tests
+  await stack.destroy();
+});
 ```

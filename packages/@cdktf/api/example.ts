@@ -1,24 +1,34 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, TerraformOutput } from "cdktf";
-import { CdktfApplication } from "./lib";
+import { Api } from "./lib";
 
-const dirApp = new CdktfApplication({
-  cwd: process.cwd(),
+const dirApp = Api.localApp(process.cwd());
+
+dirApp.synth().then(async (synthedDirApp) => {
+  const stack = synthedDirApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
 });
 
-const synthedDirApp = dirApp.synth();
-synthedDirApp.plan();
-synthedDirApp.deploy();
-
-const inlineApp = new CdktfApplication({
-  program(app) {
+const inlineApp = Api.inlineApp({
+  produce(app) {
     const stack = new TerraformStack(app, "my-stack");
     new TerraformOutput(stack, "my-output", {
       value: "my-value",
     });
   },
 });
-const synthedInlineApp = inlineApp.synth();
-synthedInlineApp.plan();
-synthedInlineApp.deploy();
+
+inlineApp.synth().then(async (synthedInlineApp) => {
+  const stack = synthedInlineApp.stacks["my-stack"];
+
+  const plan = await stack.plan();
+  console.log(plan);
+  await stack.deploy();
+
+  // Run some tests
+  await stack.destroy();
+});
