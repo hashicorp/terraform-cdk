@@ -54,6 +54,13 @@ export class TokenString {
   }
 
   /**
+   * Returns a `TokenString` for this string that has escape sequences.
+   */
+  public static forEscape(s: string) {
+    return new TokenString(s, ESCAPE_TOKEN_BEGIN_REGEX, 1, true);
+  }
+
+  /**
    * Returns a `TokenString` for this string (must be the first string element of the list)
    */
   public static forListToken(s: string) {

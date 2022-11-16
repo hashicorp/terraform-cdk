@@ -6,6 +6,7 @@ import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
+import { TokenString } from "./tokens/private/encoding";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
@@ -85,23 +86,13 @@ class TFExpression extends Intrinsic implements IResolvable {
         }
 
         // if left is only a token, needs to be wrapped as terraform expression
-        if (
-          leftTokenList.literals.length === 0 &&
-          leftTokenList.escapes.length === 0 &&
-          leftTokenCount === 1
-        ) {
+        if (leftTokenList.literals.length === 0 && leftTokenCount === 1) {
           leftValue = `\${${leftTokens[0]}}`;
-        }
-
-        if (leftTokenList.escapes.length === 1 && leftTokenCount === 0) {
-          leftValue = `${leftTokenList.escapes[0]}`;
         }
 
         const rightValue =
           rightTokens.length === 0
             ? this.escapeString(right)
-            : leftTokenList.escapes.length > 0
-            ? rightTokens[0]
             : `\${${rightTokens[0]}}`;
 
         return `${leftValue}${rightValue}`;
@@ -335,6 +326,13 @@ class FunctionCall extends TFExpression {
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
       .join(", ");
+
+    const escapeRegex = TokenString.forEscape(serializedArgs);
+    if (escapeRegex.test()) {
+      throw new Error(
+        "Cannot use terraform escape sequences within CDKTF Functions. Please use the escape sequence at the beginning and use terraform functions directly"
+      );
+    }
 
     const expr = `${this.name}(${serializedArgs})`;
 

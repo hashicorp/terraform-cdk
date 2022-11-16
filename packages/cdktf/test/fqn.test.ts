@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Testing, TerraformStack, Fn } from "../lib";
+import { Testing, TerraformStack, Fn, mulOperation } from "../lib";
 import { TestProvider, TestResource } from "./helper";
 
 test("able to use fqn on an element", () => {
@@ -301,7 +301,7 @@ test("works with functions", () => {
   );
 });
 
-test("works with functions containing escapes", () => {
+test("throws error when escapes are nested with functions", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -324,15 +324,70 @@ test("works with functions containing escapes", () => {
     },
   });
 
-  // secondResource.addOverride("name", `${firstResource.fqn}-second`);
+  expect(() => {
+    Testing.synth(stack);
+  }).toThrow();
+});
+
+test("does not throw error when tokens are nested with functions", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const otherResource = new TestResource(stack, "other-resource", {
+    name: "baz",
+  });
+
+  new TestResource(stack, "second-resource", {
+    name: "bar",
+    tags: {
+      firstResourceName: Fn.lookup(otherResource.fqn, "name", "--"),
+    },
+  });
 
   const res = JSON.parse(Testing.synth(stack));
 
   const expected = {
-    name: "${test_resource.first-resource}-second",
+    name: "bar",
     tags: {
       firstResourceName:
-        '${lookup(test_resource.other-resource, "name", test_resource.other-resource.name)}',
+        '${lookup(test_resource.other-resource, "name", "--")}',
+    },
+  };
+
+  expect(res).toHaveProperty(
+    "resource.test_resource.second-resource",
+    expected
+  );
+});
+
+test("allows interpolation within functions", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const otherResource = new TestResource(stack, "other-resource", {
+    name: "baz",
+  });
+
+  new TestResource(stack, "second-resource", {
+    name: "bar",
+    tags: {
+      firstResourceName: Fn.lookup(
+        otherResource.fqn,
+        "name",
+        mulOperation(2, 33)
+      ),
+    },
+  });
+
+  const res = JSON.parse(Testing.synth(stack));
+
+  const expected = {
+    name: "bar",
+    tags: {
+      firstResourceName:
+        '${lookup(test_resource.other-resource, "name", "--")}',
     },
   };
 

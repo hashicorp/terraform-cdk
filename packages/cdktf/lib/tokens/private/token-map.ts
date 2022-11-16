@@ -155,7 +155,7 @@ export class TokenMap {
    * Split a string into literals and Tokens
    */
   public splitString(s: string): TokenizedStringFragments {
-    const str = TokenString.forString(s, true);
+    const str = TokenString.forString(s);
     return str.split(this.lookupToken.bind(this));
   }
 
