@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.13.3",
+  "version": "0.14.1",
   "private": true,
   "scripts": {
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
@@ -11,12 +11,13 @@
     "package:dotnet": "lerna run package:dotnet && tools/collect-dist.sh",
     "package:js": "lerna run package:js && tools/collect-dist.sh",
     "package-windows": "lerna run package && tools\\collect-dist.bat",
-    "pretest": "yarn lint:workspace && prettier --check .",
+    "pretest": "yarn lint:workspace && yarn lint:prettier",
     "test": "lerna run --scope 'cdktf*' --scope @cdktf/* test",
     "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
     "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
     "lint:workspace": "eslint .",
+    "lint:prettier": "prettier --check .",
     "lint:examples": "node tools/lint-examples.js",
     "link-packages": "lerna exec --scope 'cdktf*' --scope @cdktf/* yarn link",
     "integration": "cd test && yarn edge:install && ./run-against-dist npx jest --runInBand",

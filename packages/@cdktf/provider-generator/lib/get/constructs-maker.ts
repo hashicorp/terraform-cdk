@@ -3,7 +3,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import { CodeMaker } from "codemaker";
-import { mkdtemp } from "../util";
+import { DISPLAY_VERSION, mkdtemp } from "../util";
 import * as srcmak from "jsii-srcmak";
 import {
   TerraformModuleConstraint,
@@ -19,7 +19,6 @@ import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
 import { logTimespan } from "../config";
-import { DISPLAY_VERSION } from "../../../../cdktf-cli/src/lib/version";
 
 export enum Language {
   TYPESCRIPT = "typescript",

@@ -1,0 +1,153 @@
+---
+page_title: Construct Design | CDK for Terraform
+description: |-
+  Write highly configurable construct classes that provide guidance for a wide range of use cases.
+---
+
+# Construct Design
+
+Custom construct classes are reusable infrastructure configurations written in a programming language.
+
+Similar to [Terraform modules](/language/modules), constructs let you reuse configurations, enforce infrastructure best practices, and abstract configuration details away from users. For example, you might create a construct that configures a Kubernetes deployment.
+
+Constructs can also use programming functionality to provide more customization and guidance than a Terraform module. Users only customize modules through inputs, so complex modules can expose hundreds of options. Even if the module provides valid defaults, users must determine which inputs are relevant to their use case and how to configure them. Constructs are much more flexible. For example, a construct can dynamically build defaults from non-input values and let users override methods that create infrastructure objects.
+
+## Choosing a Language
+
+You can write a custom construct in any language CDKTF supports.
+
+### Creating Constructs for a Single Language
+
+You can write `Construct` classes and store them locally, either within your CDKTF application or in a separate, shared directory. We recommend storing constructs in a separate directory when you have multiple CDKTF applications in a monorepo setup.
+
+When you write constructs in the same language as your CDKTF application, you can use the same importing mechanisms you use with other applications. Refer to [Constructs](/cdktf/concepts/constructs) in the CDKTF Concepts documentation for more details about using constructs.
+
+### Creating Constructs for Multiple Languages
+
+You have two options for writing constructs for users to consume in multiple programming languages.
+
+The first option is writing your construct in Typescript and using [`jsii`](https://aws.github.io/jsii/) to translate it to other languages. This approach requires some setup and configuration. Refer to the [JSII getting started guide](https://aws.github.io/jsii/user-guides/lib-author/quick-start/set-up/) for details. You can also use the `cdktf-construct` projen template to get started more quickly. Refer to [Publish to Public or Private Registries](/develop-custom-constructs/publish-and-distribute#publish-to-public-or-private-registries) for details.
+
+The second option is using Terraform Modules as an intermediate layer. You can use the [cdktf-tf-module-stack](https://github.com/cdktf/cdktf-tf-module-stack) to transform your code into a Terraform module, import the module into any CDKTF application, and let CDKTF [generate the local code bindings](/cdktf/concepts/modules#add-module-to-cdktf-json) required to use it. This approach lets you write your construct in any language and requires less setup than using `jsii`. However, you are limited to the structure and functionality available in a Terraform module. For example, you cannot use programming functionality like enums or methods to provide advanced configuration options.
+
+## Design Best Practices
+
+Use the following best practices to guide construct development.
+
+### Make Your Construct Highly Configurable
+
+Let users overwrite attributes when possible. This prevents users from having to overwrite or modify your construct’s outputs if they need to change your defaults.
+
+You can also consider organizing logic into methods that users can overwrite through inheritance. This approach is similar to the template method pattern popular in Object-Oriented Programming (OOP) languages. For example, you might create methods for tasks like getting a secret from a source or accessing all available regions.
+
+The following example shows how template methods can let users customize which secrets their application retrieves for a docker container.
+
+```typescript
+class LocalDockerDeployment extends Construct {
+  constructor(scope: Construct, name: string, options: Options) {
+    // …
+
+    new DockerContainer(this, "container", {
+      image: options.image,
+      environment: this.getSecrets(options.secrets),
+    });
+  }
+
+  /*
+   * Load my secrets from Terraform variables
+   */
+  getSecrets(secrets: string[]) {
+    return secrets.map(
+      (secret) =>
+        new TerraformVariable(this, secret, { sensitive: true }).stringValue
+    );
+  }
+}
+
+class ProductionDockerDeployment extends LocalDockerDeployment {
+  /*
+   * Load production secrets from Vault
+   */
+  getSecrets(secrets: string[]) {
+    return secrets.map(
+      (secret) =>
+        new DataVaultGenericSecret(this, secret, { path: secret }).data
+    );
+  }
+}
+```
+
+### Encourage Correct Configuration
+
+Provide good defaults when possible. Also consider adding sets of defaults for multiple use cases. This helps users gain the necessary context for working with the construct.
+
+The following example contains a static function that provides an alternative way to use and configure the construct.
+
+```typescript
+class MyVpc extends Construct {
+  constructor(scope: Construct, name: string, options: Options) {
+    const optionsToUse = {
+      ...myDefaultOptions,
+      ...options,
+    };
+    // …
+
+    function createSecuredVpc(
+      scope: Construct,
+      name: string,
+      options: Options
+    ): MyVpc {
+      return new MyVpc(scope, name, {
+        ...mySecureDefaultOptions,
+        ...options,
+      });
+    }
+  }
+}
+```
+
+You should also include enums to help users understand which configuration options are available for each attribute. Using methods to build functionality can also provide additional guidance. For example, creating a method called `addAIComputingNode` helps the user understand the code's function much more than requiring the user to configure a single key in an array for AI workloads.
+
+The following example shows how you can use these principles to help users add a node to a Kubernetes cluster. In the first section, the user must configure the node without any guidance about valid values or how to configure the node for their use case. The second section uses methods and interfaces to surface the difference between node architecture and sizes.
+
+```typescript
+// Hard to get right
+interface NodeOptions {
+  nodeSize: string;
+  nodeArchitecture: string;
+  nodeId: string;
+}
+interface Options {
+  name: string,
+  vpcId: string,
+  nodes: NodeOptions[];
+}
+class ConfigurationBasedKubernetesCluster extends Construct {
+  constructor(scope: Construct, name: string, options: Options) {
+    // …
+  }
+}
+
+// Easy to get right
+enum IntelNodeSize {
+  Normal = "t3.medium",
+  Large = "t3.2xlarge",
+}
+enum AmdNodeSize {
+  Normal = "t3a.medium"
+  Large = "t3a.2xlarge"
+}
+interface Options {
+  name: string,
+  vpcId: string,
+}
+
+class MethodBasedKubernetesCluster extends Construct {
+  constructor(scope: Construct, name: string, options: Options) {
+    // …
+  }
+
+  addIntelNode(name: string, size: IntelNodeSize) {}
+  addAmdNode(name: string, size: AmdlNodeSize) {}
+}
+```

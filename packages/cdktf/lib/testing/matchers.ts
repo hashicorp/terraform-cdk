@@ -13,15 +13,28 @@ export interface TerraformConstructor {
 export type SynthesizedStack = {
   resource: Record<string, any>;
   data: Record<string, any>;
+  provider: Record<string, any>;
 };
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Class representing the contents of a return by an assertion
+ */
 export class AssertionReturn {
+  /**
+   * Create an AssertionReturn
+   * @param message - String message containing information about the result of the assertion
+   * @param pass - Boolean pass denoting the success of the assertion
+   */
   constructor(public readonly message: string, public readonly pass: boolean) {}
 }
 
 export type MatcherReturnJest = { message: () => string; pass: boolean };
-// eslint-disable-next-line jsdoc/require-jsdoc
+
+/**
+ * Reformats the contents of the base testing matcher return type AssertionReturn into type useable by jest
+ * @param toReturn
+ * @returns {MatcherReturnJest}
+ */
 export function returnMatcherToJest(
   toReturn: AssertionReturn
 ): MatcherReturnJest {
@@ -100,7 +113,7 @@ function isAsymmetric(obj: any) {
   return !!obj && typeof obj === "object" && "asymmetricMatch" in obj;
 }
 // You can use expect.Anything(), expect.ObjectContaining, etc in jest, this makes it nicer to read
-// when we print error mesages
+// when we print error messages
 // eslint-disable-next-line jsdoc/require-jsdoc
 function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
   return isAsymmetric(value) ? `expect.${value.toString()}` : value;
@@ -137,7 +150,6 @@ function getAssertElementWithProperties(
           )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
       ) || []; // get a list of all configs of that type
     const pass = passEvaluation(items, properties);
-
     if (pass) {
       return new AssertionReturn(
         `Expected no ${
@@ -145,7 +157,7 @@ function getAssertElementWithProperties(
         } with properties ${JSON.stringify(
           properties,
           jestAsymetricMatcherStringifyReplacer
-        )} to be present in synthesised stack.
+        )} to be present in synthesized stack.
 Found ${items.length === 0 ? "no" : items.length} ${
           itemType.tfResourceType
         } resources instead${
@@ -158,7 +170,7 @@ Found ${items.length === 0 ? "no" : items.length} ${
         `Expected ${itemType.tfResourceType} with properties ${JSON.stringify(
           properties,
           jestAsymetricMatcherStringifyReplacer
-        )} to be present in synthesised stack.
+        )} to be present in synthesized stack.
 Found ${items.length === 0 ? "no" : items.length} ${
           itemType.tfResourceType
         } resources instead${
@@ -170,13 +182,24 @@ Found ${items.length === 0 ? "no" : items.length} ${
   };
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Returns the function toHaveDataSourceWithProperties using the evaluation properties of customPassEvaluation
+ * @param customPassEvaluation
+ * @returns {getToHaveDataSourceWithProperties~toHaveDataSourceWithProperties}
+ */
 export function getToHaveDataSourceWithProperties(
   customPassEvaluation?: (
     items: any,
     assertedProperties: Record<string, any>
   ) => boolean
 ) {
+  /**
+   * Evaluates the received stack to have the data source resourceType containing specified properties
+   * @param received
+   * @param resourceType
+   * @param properties
+   * @returns {AssertionReturn}
+   */
   return function toHaveDataSourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
@@ -191,13 +214,24 @@ export function getToHaveDataSourceWithProperties(
   };
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Returns the function toHaveResourceWithProperties using the evaluation properties of customPassEvaluation
+ * @param customPassEvaluation
+ * @returns
+ */
 export function getToHaveResourceWithProperties(
   customPassEvaluation?: (
     items: any,
     assertedProperties: Record<string, any>
   ) => boolean
 ) {
+  /**
+   * Evaluates the received stack to have the resource resourceType containing specified properties
+   * @param received
+   * @param resourceType
+   * @param properties
+   * @returns {AssertionReturn}
+   */
   return function toHaveResourceWithProperties(
     received: string,
     resourceType: TerraformConstructor,
@@ -246,7 +280,43 @@ const withProcessOutput = (message: string, err: unknown) => {
   return `${message}: ${err}${appendix}.`;
 };
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Returns the function toHaveProviderWithProperties using the evaluation properties of customPassEvaluation
+ * @param customPassEvaluation
+ * @returns {getToHaveProviderWithProperties~toHaveProviderWithProperties}
+ */
+export function getToHaveProviderWithProperties(
+  customPassEvaluation?: (
+    items: any,
+    assertedProperties: Record<string, any>
+  ) => boolean
+) {
+  /**
+   * Evaluates the received stack to have the provider resourceType containing specified properties
+   * @param received
+   * @param resourceType
+   * @param properties
+   * @returns {AssertionReturn}
+   */
+  return function toHaveProviderWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): AssertionReturn {
+    return getAssertElementWithProperties(customPassEvaluation)(
+      "provider",
+      received,
+      resourceType,
+      properties
+    );
+  };
+}
+
+/**
+ * Evaluates the validity of the received stack
+ * @param received
+ * @returns {AssertionReturn}
+ */
 export function toBeValidTerraform(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {
@@ -296,7 +366,11 @@ export function toBeValidTerraform(received: string): AssertionReturn {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * Evaluates the ability for the received stack to successfully plan
+ * @param received
+ * @returns {AssertionReturn}
+ */
 export function toPlanSuccessfully(received: string): AssertionReturn {
   try {
     if (!fs.statSync(received).isDirectory()) {

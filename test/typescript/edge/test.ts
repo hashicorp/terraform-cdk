@@ -218,6 +218,12 @@ describe("edge provider test", () => {
         "${list_block_resource.list.computedListOfObject[5].str}"
       );
     });
+
+    it("allows passing null as an attribute", () => {
+      const item = stack.byId("null");
+
+      expect(item.bool).toEqual(null);
+    });
   });
 
   describe("IteratorStack", () => {

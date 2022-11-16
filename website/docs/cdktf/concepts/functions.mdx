@@ -42,6 +42,7 @@ new TerraformOutput(this, "first-zone", {
 // ...
 ```
 
+
 ```python
 from cdktf import Fn, TerraformOutput
 from imports.aws.provider import AwsProvider
@@ -61,3 +62,21 @@ app.synth()
 ```
 
 </CodeTabs>
+
+## Operators
+
+Use the `Op` object to include operators like `!`, `+`, and `-`.
+
+```typescript
+import { Fn, Op, TerraformOutput } from "cdktf";
+
+// ...
+
+const const zones = new DataAwsAvailabilityZones(this, "zones", {
+  state: "available",
+});
+
+new TerraformOutput(this, "half-of-the-zone", {
+  value: Op.div(Fn.length(zones.names), 2),
+});
+```

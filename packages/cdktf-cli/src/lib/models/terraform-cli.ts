@@ -42,11 +42,17 @@ export class TerraformCli implements Terraform {
       createTerraformLogHandler(phase)(stderr.toString(), true);
   }
 
-  public async init(): Promise<void> {
+  public async init(needsUpgrade: boolean): Promise<void> {
     await this.setUserAgent();
+
+    const args = ["init", "-input=false"];
+    if (needsUpgrade) {
+      args.push("-upgrade");
+    }
+
     await exec(
       terraformBinaryName,
-      ["init", "-input=false"],
+      args,
       {
         cwd: this.workdir,
         env: process.env,
