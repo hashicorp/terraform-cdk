@@ -1,5 +1,5 @@
 ---
-page_title: Functions
+page_title: Functions - CDK for Terraform
 description: Learn when to use built-in Terraform functions to transform or combine values.
 ---
 
@@ -60,3 +60,22 @@ import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
 ```
 
 </CodeTabs>
+
+## Operators
+
+Use the `Op` object to include operators like `!`, `+`, and `-`.
+
+```typescript
+import { Fn, Op, TerraformOutput } from "cdktf";
+
+// ...
+
+const const zones = new DataAwsAvailabilityZones(this, "zones", {
+  state: "available",
+});
+
+new TerraformOutput(this, "half-of-the-zone", {
+  value: Op.div(Fn.length(zones.names), 2),
+});
+```
+

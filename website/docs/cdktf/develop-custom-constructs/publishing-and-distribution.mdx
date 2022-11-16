@@ -1,0 +1,149 @@
+---
+page_title: Distributing and Consuming Constructs | CDK for Terraform
+description: |-
+  Translate custom constructs to multiple languages. Use the projen project to quickly package and distribute constructs to public or private registries.
+---
+
+# Construct Publishing and Distribution
+
+Custom construct classes are reusable infrastructure configurations written in a programming language. After you [write a custom construct](/developing-custom-constructs/construct-design), you can translate it to multiple languages and publish it for others to import and use in CDK for Terraform (CDKTF) applications.
+
+## Translate Constructs to Terraform Modules
+
+You can write a CDKTF construct class and then synthesize the code into an HCL [Terraform module](/language/modules). When you use this approach, you are limited to the structure and functionality available in a Terraform module. For example, you cannot use enums or methods to provide advanced configuration options.
+
+Use the [cdktf-tf-module-stack](https://github.com/cdktf/cdktf-tf-module-stack) to transform your code into a Terraform module. This library exposes `TFModuleStack`, `TFModuleVariable`, `TFModuleOutput` constructs that you can use as replacements for `TerraformStack`, `TerraformVariable`, `TerraformOutput`.
+
+The library also offers a `ProviderRequirement` construct that replaces the provider construct you typically use in CDKTF applications. Typical provider constructs pin a specific provider version, but the `ProviderRequirement `construct lets you select a version range. This behavior more closely matches how many modules specify provider versions.
+
+The following example shows a CDKTF program written using the `cdktf-tf-module-stack` library. CDKTF could then [synthesize](/cdktf/cli-reference/commands#synth) this code into a `cdktf.tf.json` file to use with Terraform. If you want to use this module, you need to list the full path to the folder containing the synthesized file, such as `../my-cdktf-application/cdktf.out/stacks/my-awesome-module`.
+
+```typescript
+import { App } from "cdktf";
+import {
+  TFModuleStack,
+  TFModuleVariable,
+  TFModuleOutput,
+  ProviderRequirement,
+} from "cdktf-tf-module-stack";
+import { Resource } from "@cdktf/provider-null";
+
+class MyAwesomeModule extends TFModuleStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new ProviderRequirement(this, "null", "~> 2.0");
+    const resource = new Resource(this, "resource");
+
+    new TFModuleVariable(this, "my_var", {
+      type: "string",
+      description: "A variable",
+      default: "default",
+    });
+
+    new TFModuleOutput(this, "my_output", {
+      value: resource.id,
+    });
+  }
+}
+
+const app = new App();
+new MyAwesomeModule(app, "my-awesome-module");
+app.synth();
+```
+
+### Publish Translated HCL Modules
+
+Follow the [Terraform module publishing requirements and instructions](https://developer.hashicorp.com/terraform/registry/modules/publish). You can use the [projen-cdktf-hybrid-construct](https://github.com/cdktf/projen-cdktf-hybrid-construct) to make this workflow easier. Refer to the [CDK Day 2022 talk](https://cdk.tf/cdk-day-2022-hybrid-modules) on this topic for more details.
+
+## Publish Constructs with Projen
+
+We recommend using the [`cdktf-construct` projen template](https://github.com/projen/projen/blob/main/src/cdktf/cdktf-construct.ts) to package and publish your constructs to either public or private registries. [Projen](https://github.com/projen/projen) synthesizes files and directories into different target languages based on a Javascript or Typescript file. The process is similar to how CDKTF synthesizes code into JSON configuration files for Terraform.
+
+The projen deployment mechanism uses GitHub Actions, so `cdktf-construct` expects GitHub to host the Git repository for your construct package. If you prefer to use a different CI provider, you can use projen to bootstrap the project, run `yarn run eject` to opt out of projen, and then customize the CI implementation.
+
+Use the following steps to publish your constructs with the `cdktf-construct` projen template.
+
+### Initialize Construct Package
+
+Navigate into your construct directory and run `npx projen new cdktf-construct` to initialize a new construct package. The script creates a new project that you can configure and then deploy to private or public registries.
+
+### Configure the Construct Project
+
+Projen manages all non-code files, like the package.json or JSII configuration, so must modify the `.projenrc.js` configuration to include your construct's code files.
+
+The following example shows how to configure your `.projenrc.js` file to publish your project to public or private registries.
+
+```typescript
+const { cdktf } = require("projen");
+const project = new cdktf.ConstructLibraryCdktf({
+  author: "Your Name",
+  authorAddress: "your-name@company.com",
+  cdktfVersion: "0.13.0",
+  defaultReleaseBranch: "main",
+  name: "your-project-name",
+  repositoryUrl: "https://github.com/your-org/your-project-name.git",
+  prettier: true, // optional, but convenient
+
+  // Release Configuration
+
+  // Requires "NPM_TOKEN" secret to be set in the secrets of the Github repository
+  releaseToNpm: true,
+  npmRegistryUrl: "https://npm.pkg.your-company.com", // When omitted it will release to the public NPM registry
+
+  // Requires "TWINE_USERNAME" & "TWINE_PASSWORD" secret to be set in the repository
+  publishToPypi: {
+    distName: "your-project-name",
+    module: "your_project_name",
+    twineRegistryUrl: "https://pypi.your-company.com", // When omitted it will release to the public PyPi registry
+  },
+
+  // Requires "MAVEN_GPG_PRIVATE_KEY", "MAVEN_GPG_PRIVATE_KEY_PASSPHRASE", "MAVEN_PASSWORD",
+  // "MAVEN_USERNAME", and "MAVEN_STAGING_PROFILE_ID" to be set.
+  publishToMaven: {
+    javaPackage: "com.your-org.your-project-name ",
+    mavenGroupId: "com.your-org",
+    mavenArtifactId: "your-project-name",
+    mavenRepositoryUrl:
+      "https://maven.your-company.com/repository/your-project", // When omitted, the project releases to Maven Central
+  },
+
+  // Requires "NUGET_API_KEY" to be set.
+  publishToNuget: {
+    dotNetNamespace: "YourOrg.YourProjectName",
+    packageId: "YourOrg.YourProjectName",
+    nugetServer: "https://nuget.your-company.com", // When omitted it will release to the public Nuget registry
+  },
+});
+
+// You should use pre-built providers as peer dependencies so your
+// package manager can warn you if you have incompatible versions
+project.addPeerDeps(
+  "@cdktf/provider-aws@10.x", // You want to pin the major version to stay
+  "@cdktf/provider-pagerduty@3.x", // compatible with the current cdktf version
+  "@cdktf/provider-datadog@3.x"
+);
+
+project.synth();
+```
+
+Rung `npm run projen` to generate the setup and workflow files for your project You must do this every time you change the `.projenrc.js` file.
+
+### Set GitHub Actions Secrets
+
+The GitHub Action requires the following environment variables for credentials.
+
+- `NPM_TOKEN`: An [npm API token](https://docs.npmjs.com/cli/v7/commands/npm-token) or a token for the registry of your choice
+- `TWINE_USERNAME`: The username to use for PyPi, if using a token it should be "**token**"
+- `TWINE_PASSWORD`: [The PyPi API token](https://pypi.org/manage/account/token/) to authenticate against PyPi or the registry of your choice
+- `NUGET_API_KEY`: The API key to authenticate against NuGet
+
+The following environment variables are for Maven credentials:
+
+- `MAVEN_GPG_PRIVATE_KEY`
+- `MAVEN_GPG_PRIVATE_KEY_PASSPHRASE`
+- `MAVEN_PASSWORD`
+- `MAVEN_USERNAME`
+- `MAVEN_STAGING_PROFILE_ID`
+
+This configuration creates new releases when you push a new commit to the repository. The version numbers follow [semantic versioning specifications](https://semver.org/).

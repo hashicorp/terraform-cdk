@@ -1,3 +1,54 @@
+## 0.14.1
+
+A broken import that only appeared in the bundled `cdktf-cli` that we publish broke the `0.14.0` release. This patch release fixes this.
+
+### fix
+
+- fix(provider-generator): fix cross package import which breaks the cdktf-cli release bundle [\#2302](https://github.com/hashicorp/terraform-cdk/pull/2302)
+
+### chore
+
+- chore: document authoring cdktf constructs [\#2287](https://github.com/hashicorp/terraform-cdk/pull/2287)
+
+## 0.14.0
+
+**Breaking changes**
+Back in October, we [announced significant performance improvements with CDKTF version 0.13](https://www.hashicorp.com/blog/cdk-for-terraform-0-13-significantly-improves-performance). These improvements required breaking changes for which we provided backward-compatible provider bindings in version 0.13. As announced, the 0.12 (non-namespaced) provider bindings will no longer work starting with CDKTF 0.14. Refer to the [upgrade guide for 0.13](https://developer.hashicorp.com/terraform/cdktf/release/upgrade-guide-v0-13) to learn how to update your imports for these changes.
+
+### feat
+
+- feat(cli): add provider upgrade command [\#2202](https://github.com/hashicorp/terraform-cdk/pull/2202)
+- feat(cli): Add option to select providers to add with init [\#2184](https://github.com/hashicorp/terraform-cdk/pull/2184)
+- feat(cli): only re-generate provider bindings on get if necessary [\#2266](https://github.com/hashicorp/terraform-cdk/pull/2266)
+- feat(lib): expose operators on their own API class [\#2292](https://github.com/hashicorp/terraform-cdk/pull/2292)
+- feat(lib): Introduce `Token.nullValue()` that allows to pass null to Terraform configurations in languages other than TypeScript [\#2284](https://github.com/hashicorp/terraform-cdk/pull/2284)
+- feat(cli): Automatically Update Locked Providers [\#2020](https://github.com/hashicorp/terraform-cdk/pull/2020)
+- feat(lib): Added testing matchers for Providers [\#2154](https://github.com/hashicorp/terraform-cdk/pull/2154)
+- feat(lib): adds failed process output to test matcher APIs #1953 [\#2196](https://github.com/hashicorp/terraform-cdk/pull/2196)
+
+### fix
+
+- fix(cli): do not check for version when DISABLE_VERSION_CHECK [\#2257](https://github.com/hashicorp/terraform-cdk/pull/2257)
+- fix(docs): fix module code example [\#2256](https://github.com/hashicorp/terraform-cdk/pull/2256)
+- fix(docs): fix links to pre-built provider repositories [\#2264](https://github.com/hashicorp/terraform-cdk/pull/2264)
+- fix(docs): fix a couple of typos in stacks.mdx [\#2269](https://github.com/hashicorp/terraform-cdk/pull/2269)
+- fix(examples): fix CI for Python examples [\#2291](https://github.com/hashicorp/terraform-cdk/pull/2291)
+- fix: set global flag to be able to start search for code blocks at an index [\#2274](https://github.com/hashicorp/terraform-cdk/pull/2274)
+
+### chore
+
+- chore(docs): Add CDK for Terraform to page titles [\#2278](https://github.com/hashicorp/terraform-cdk/pull/2278)
+- chore: document Python hash error in local development [\#2272](https://github.com/hashicorp/terraform-cdk/pull/2272)
+- chore: document JSII debug flags in contribution guide [\#2271](https://github.com/hashicorp/terraform-cdk/pull/2271)
+- chore: update LICENSE [\#2268](https://github.com/hashicorp/terraform-cdk/pull/2268)
+- chore(cli): Prevent minification when watching cdktf-cli [\#2262](https://github.com/hashicorp/terraform-cdk/pull/2262)
+- chore(lib): Add deprecation notices to backends that were deprecated in Terraform v1.2.3 and removed in TF 1.3 [\#2261](https://github.com/hashicorp/terraform-cdk/pull/2261)
+- chore: adding mgarrell777 to docs codeowners to be notified for docs changes [\#2259](https://github.com/hashicorp/terraform-cdk/pull/2259)
+- chore: add ecs-microservices example [\#2252](https://github.com/hashicorp/terraform-cdk/pull/2252)
+- chore: sync version and changelog from the 0.13.3 backported release [\#2251](https://github.com/hashicorp/terraform-cdk/pull/2251)
+- chore: install pre-built provider with exact version [\#2249](https://github.com/hashicorp/terraform-cdk/pull/2249)
+- chore: cache examples and terraform plugins [\#2213](https://github.com/hashicorp/terraform-cdk/pull/2213)
+
 ## 0.13.3
 
 ### fix

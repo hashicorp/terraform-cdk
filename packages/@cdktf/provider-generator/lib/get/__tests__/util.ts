@@ -33,11 +33,11 @@ export function expectModuleToMatchSnapshot(
       fs.mkdirSync("work");
       const workdir = path.join(curdir, "work");
 
-      const maker = new ConstructsMaker(
-        { codeMakerOutput: workdir, targetLanguage: Language.TYPESCRIPT },
-        [constraint]
-      );
-      await maker.generate();
+      const maker = new ConstructsMaker({
+        codeMakerOutput: workdir,
+        targetLanguage: Language.TYPESCRIPT,
+      });
+      await maker.generate([constraint]);
 
       const output = fs.readFileSync(
         path.join(workdir, "modules/module.ts"),

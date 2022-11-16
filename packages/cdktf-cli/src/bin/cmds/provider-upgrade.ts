@@ -8,7 +8,7 @@ import { BaseCommand } from "./helper/base-command";
 class Command extends BaseCommand {
   public readonly command = "upgrade <provider...>";
   public readonly describe = `Upgrade one or more Terraform providers in your project to the newest version compatible with your CDKTF version.
-    If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json configuration file and generates local provider bindings.`
+    If your project has the associated pre-built provider already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the specified provider to the cdktf.json configuration file and generates local provider bindings.`;
 
   public readonly builder = (args: yargs.Argv) =>
     args.showHelpOnFail(true).positional("provider", {

@@ -8,7 +8,9 @@ import {
   DataTerraformRemoteStateConfig,
 } from "../terraform-remote-state";
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
+ */
 export class MantaBackend extends TerraformBackend {
   constructor(scope: Construct, private readonly props: MantaBackendProps) {
     super(scope, "backend", "manta");
@@ -30,7 +32,9 @@ export class MantaBackend extends TerraformBackend {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
+/**
+ * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
+ */
 export class DataTerraformRemoteStateManta extends TerraformRemoteState {
   constructor(
     scope: Construct,
@@ -41,6 +45,9 @@ export class DataTerraformRemoteStateManta extends TerraformRemoteState {
   }
 }
 
+/**
+ * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
+ */
 export interface MantaBackendProps {
   readonly account: string;
   readonly user?: string;
@@ -52,6 +59,9 @@ export interface MantaBackendProps {
   readonly objectName?: string;
 }
 
+/**
+ * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
+ */
 export interface DataTerraformRemoteStateMantaConfig
   extends DataTerraformRemoteStateConfig,
     MantaBackendProps {}
