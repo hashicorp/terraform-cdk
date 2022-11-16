@@ -34,10 +34,16 @@ new Api();
 ```typescript
 import { Api } from '@cdktf/api'
 
-Api.get(providers: string | IProviderConstraint[], modules: string | IModuleConstraint[])
+Api.get(targetDirectory: string, providers: string | IProviderConstraint[], modules: string | IModuleConstraint[])
 ```
 
 Generate cdktf bindings.
+
+###### `targetDirectory`<sup>Required</sup> <a name="targetDirectory" id="@cdktf/api.Api.get.parameter.targetDirectory"></a>
+
+- _Type:_ string
+
+---
 
 ###### `providers`<sup>Required</sup> <a name="providers" id="@cdktf/api.Api.get.parameter.providers"></a>
 
@@ -444,10 +450,21 @@ public produce(app: any): void
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                               | **Type**                                                         | **Description**   |
-| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ----------------- |
-| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._ |
-| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                             | _No description._ |
+| **Name**                                                                                                   | **Type**                                                         | **Description**   |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ----------------- |
+| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.cdktfSynthDir">cdktfSynthDir</a></code> | <code>string</code>                                              | _No description._ |
+| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logCallback">logCallback</a></code>     | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._ |
+| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logToStdOut">logToStdOut</a></code>     | <code>boolean</code>                                             | _No description._ |
+
+---
+
+##### `cdktfSynthDir`<sup>Required</sup> <a name="cdktfSynthDir" id="@cdktf/api.ISynthesizedApplicationOptions.property.cdktfSynthDir"></a>
+
+```typescript
+public readonly cdktfSynthDir: string;
+```
+
+- _Type:_ string
 
 ---
 

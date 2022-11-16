@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 // import { App } from "cdktf";
+import { InlineApp } from "./InlineApp";
 type App = any;
 
 export interface IMetadata {
@@ -39,7 +40,24 @@ export class CdktfApplication {
   }
 
   public synth(): Promise<SynthesizedApplication> {
-    return Promise.resolve(new SynthesizedApplication({}));
+    let cdktfSynthDir: string | undefined;
+    if ("produce" in this.opts) {
+      const app = new InlineApp();
+      cdktfSynthDir = app.outdir;
+      this.opts.produce(app);
+      app.synth();
+    }
+
+    if ("cwd" in this.opts) {
+      cdktfSynthDir = this.opts.cwd;
+      // TODO: execute cdktf synth
+    }
+
+    if (!cdktfSynthDir) {
+      throw new Error("Invalid");
+    }
+
+    return Promise.resolve(new SynthesizedApplication({ cdktfSynthDir }));
   }
 }
 
@@ -47,6 +65,7 @@ export interface IResult {}
 export interface ISynthesizedApplicationOptions {
   readonly logCallback?: ILogCallback;
   readonly logToStdOut?: boolean;
+  readonly cdktfSynthDir: string;
 }
 type StackName = string;
 
@@ -143,10 +162,11 @@ export class Api {
    * Generate cdktf bindings
    */
   public static get(
+    targetDirectory: string,
     providers: Array<string | IProviderConstraint>,
     modules: Array<string | IModuleConstraint>
   ): Promise<void> {
-    console.log(providers, modules);
+    console.log(targetDirectory, providers, modules);
     return Promise.resolve();
   }
 }
