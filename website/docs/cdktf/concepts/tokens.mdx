@@ -18,6 +18,7 @@ You may need to use Tokens for:
 - [Module outputs](/cdktf/concepts/modules) for boolean, string, lists, maps, and other complex types.
 - Resource attributes (such as `id`).
 - Terraform outputs based on resource attributes.
+- Using Terraforms `null` type.
 
 ### Example
 
@@ -105,3 +106,35 @@ Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public
 ```
 
 Refer to the [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) for more detailed information about tokens.
+
+### Using Terraform's `null` value
+
+Some edge cases require passing the Terraform `null` value to for example an attribute of a resource.
+
+<CodeTabs>
+```typescript
+import { Token } from "cdktf";
+Token.nullValue()
+```
+
+```python
+from cdktf import Token
+Token.null_value()
+```
+
+```java
+import com.hashicorp.cdktf.Token;
+Token.nullValue()
+```
+
+```csharp
+using HashiCorp.Cdktf;
+Token.NullValue()
+```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+cdktf.Token_NullValue()
+```
+
+</CodeTabs>
