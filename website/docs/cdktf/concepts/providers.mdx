@@ -19,7 +19,7 @@ You can install pre-built providers, import providers from the Terraform Registr
 
 You can also use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to add providers to your CDKTF application. It will automatically try to install a pre-built provider if available and fall back to generating bindings locally if none was found.
 
-### Import Providers
+## Import Providers
 
 CDK for Terraform lets you import Terraform [providers](/language/providers) to your project.
 
@@ -51,7 +51,7 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-#### Add Provider to `cdktf.json`
+### Add Provider to `cdktf.json`
 
 To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/cdktf/create-and-deploy/configuration-file).
 
@@ -65,7 +65,7 @@ The following example adds the [DNS Simple](https://registry.terraform.io/provid
 }
 ```
 
-#### Generate Classes
+### Generate Classes
 
 Go to the working directory and run `cdktf get` to create the appropriate TypeScript classes for the provider automatically.
 
@@ -78,7 +78,7 @@ cdktf get
 Generated typescript constructs in the output directory: .gen
 ```
 
-#### Import Classes
+### Import Classes
 
 Import and use the generated classes in your application. The following example imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
 
@@ -193,7 +193,7 @@ cdktf synth --json
 
 ```
 
-### Install Pre-built Providers
+## Install Pre-built Providers
 
 It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include:
 
@@ -213,17 +213,17 @@ npm install @cdktf/provider-aws
 
 When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
 
-### Provider Caching
+## Provider Caching
 
 Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/cdktf/concepts/stacks) within one application.
 
-#### Set the Caching Directory
+### Set the Caching Directory
 
 Refer to the Terraform documentation about [how to configure your plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
-### Use a Local Provider
+## Use a Local Provider
 
 Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 
