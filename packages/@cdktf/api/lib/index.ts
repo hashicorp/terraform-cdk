@@ -3,20 +3,31 @@
 
 // import { App } from "cdktf";
 type App = any;
-export interface ICdktfApplicationOptions {}
+
+export interface IMetadata {
+  stack?: string;
+}
+export interface ILogCallback {
+  (message: string, metadata: IMetadata): void;
+}
+
+export interface ICdktfApplicationOptions {
+  readonly logCallback?: ILogCallback;
+  readonly logToStdOut?: boolean;
+}
 
 export interface IInlineProgram extends ICdktfApplicationOptions {
   /**
    * Produce a cdktf program
    */
-  program: IProgramProducer;
+  readonly program: IProgramProducer;
 }
 
 export interface ILocalProgram extends ICdktfApplicationOptions {
   /**
    * Path to cdktf directory
    */
-  cwd: string;
+  readonly cwd: string;
 }
 
 /**
@@ -33,42 +44,67 @@ export class CdktfApplication {
 }
 
 export interface IResult {}
-export interface ISynthesizedApplicationOptions {}
+export interface ISynthesizedApplicationOptions {
+  readonly logCallback?: ILogCallback;
+  readonly logToStdOut?: boolean;
+}
 type StackName = string;
 
 /**
  * Represents a synthesized CDKTF application
  */
 export class SynthesizedApplication {
-  public readonly stacks: Record<StackName, SynthesizedStack> = {
-    "my-stack": new SynthesizedStack({}),
-  };
+  public readonly stacks: Record<StackName, SynthesizedStack> = {};
 
   constructor(private opts: ISynthesizedApplicationOptions) {
     console.log(this.opts);
+    this.stacks["my-stack"] = new SynthesizedStack({
+      name: "my-stack",
+      logCallback: this.opts.logCallback,
+    });
   }
 }
 
-export interface ISynthesizedStackOptions {}
+export interface ISynthesizedStackOptions {
+  readonly name: string;
+  readonly logCallback?: ILogCallback;
+  readonly logToStdOut?: boolean;
+}
+// TODO: should a plan be a second phase?
 export interface ITerraformPlan {}
 
 /**
  * Represents a synthesized CDKTF stack
  */
 export class SynthesizedStack {
+  public readonly name: string;
   constructor(private opts: ISynthesizedStackOptions) {
     console.log(this.opts);
+    this.name = opts.name;
+  }
+
+  private log(message: string) {
+    if (this.opts.logCallback) {
+      this.opts.logCallback(message, { stack: this.name });
+    }
+
+    if (this.opts.logToStdOut) {
+      console.log(`[${this.name}]: ${message}`);
+    }
   }
 
   public plan(): Promise<ITerraformPlan> {
+    this.log("planning");
     return Promise.resolve({});
   }
 
   public deploy(): Promise<void> {
+    this.log("deploying");
     return Promise.resolve();
   }
 
   public destroy(): Promise<void> {
+    this.log("destroying");
     return Promise.resolve();
   }
 }
@@ -84,17 +120,23 @@ export interface IProgramProducer {
  */
 export class Api {
   /**
-   * Create a new CDKTF application
+   * Create a new CDKTF application from a local directory including a cdktf.json
    */
-  public static localApp(cwd: string): CdktfApplication {
-    return new CdktfApplication({ cwd });
+  public static localApp(
+    cwd: string,
+    opts: ICdktfApplicationOptions = {}
+  ): CdktfApplication {
+    return new CdktfApplication({ cwd, ...opts });
   }
 
   /**
-   * Create a new CDKTF application
+   * Create a new CDKTF application from an inline program
    */
-  public static inlineApp({ produce }: IProgramProducer): CdktfApplication {
-    return new CdktfApplication({ produce });
+  public static inlineApp(
+    { produce }: IProgramProducer,
+    opts: ICdktfApplicationOptions = {}
+  ): CdktfApplication {
+    return new CdktfApplication({ produce, ...opts });
   }
 
   /**

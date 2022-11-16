@@ -21,11 +21,11 @@ new Api();
 
 #### Static Functions <a name="Static Functions" id="Static Functions"></a>
 
-| **Name**                                                       | **Description**                 |
-| -------------------------------------------------------------- | ------------------------------- |
-| <code><a href="#@cdktf/api.Api.get">get</a></code>             | Generate cdktf bindings.        |
-| <code><a href="#@cdktf/api.Api.inlineApp">inlineApp</a></code> | Create a new CDKTF application. |
-| <code><a href="#@cdktf/api.Api.localApp">localApp</a></code>   | Create a new CDKTF application. |
+| **Name**                                                       | **Description**                                                               |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+| <code><a href="#@cdktf/api.Api.get">get</a></code>             | Generate cdktf bindings.                                                      |
+| <code><a href="#@cdktf/api.Api.inlineApp">inlineApp</a></code> | Create a new CDKTF application from an inline program.                        |
+| <code><a href="#@cdktf/api.Api.localApp">localApp</a></code>   | Create a new CDKTF application from a local directory including a cdktf.json. |
 
 ---
 
@@ -56,14 +56,20 @@ Generate cdktf bindings.
 ```typescript
 import { Api } from '@cdktf/api'
 
-Api.inlineApp(__0: IProgramProducer)
+Api.inlineApp(__0: IProgramProducer, opts?: ICdktfApplicationOptions)
 ```
 
-Create a new CDKTF application.
+Create a new CDKTF application from an inline program.
 
 ###### `__0`<sup>Required</sup> <a name="__0" id="@cdktf/api.Api.inlineApp.parameter.__0"></a>
 
 - _Type:_ <a href="#@cdktf/api.IProgramProducer">IProgramProducer</a>
+
+---
+
+###### `opts`<sup>Optional</sup> <a name="opts" id="@cdktf/api.Api.inlineApp.parameter.opts"></a>
+
+- _Type:_ <a href="#@cdktf/api.ICdktfApplicationOptions">ICdktfApplicationOptions</a>
 
 ---
 
@@ -72,14 +78,20 @@ Create a new CDKTF application.
 ```typescript
 import { Api } from '@cdktf/api'
 
-Api.localApp(cwd: string)
+Api.localApp(cwd: string, opts?: ICdktfApplicationOptions)
 ```
 
-Create a new CDKTF application.
+Create a new CDKTF application from a local directory including a cdktf.json.
 
 ###### `cwd`<sup>Required</sup> <a name="cwd" id="@cdktf/api.Api.localApp.parameter.cwd"></a>
 
 - _Type:_ string
+
+---
+
+###### `opts`<sup>Optional</sup> <a name="opts" id="@cdktf/api.Api.localApp.parameter.opts"></a>
+
+- _Type:_ <a href="#@cdktf/api.ICdktfApplicationOptions">ICdktfApplicationOptions</a>
 
 ---
 
@@ -215,11 +227,58 @@ public destroy(): void
 public plan(): ITerraformPlan
 ```
 
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                   | **Type**            | **Description**   |
+| -------------------------------------------------------------------------- | ------------------- | ----------------- |
+| <code><a href="#@cdktf/api.SynthesizedStack.property.name">name</a></code> | <code>string</code> | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="@cdktf/api.SynthesizedStack.property.name"></a>
+
+```typescript
+public readonly name: string;
+```
+
+- _Type:_ string
+
+---
+
 ## Protocols <a name="Protocols" id="Protocols"></a>
 
 ### ICdktfApplicationOptions <a name="ICdktfApplicationOptions" id="@cdktf/api.ICdktfApplicationOptions"></a>
 
 - _Implemented By:_ <a href="#@cdktf/api.ICdktfApplicationOptions">ICdktfApplicationOptions</a>, <a href="#@cdktf/api.IInlineProgram">IInlineProgram</a>, <a href="#@cdktf/api.ILocalProgram">ILocalProgram</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                         | **Type**                                                         | **Description**   |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ----------------- |
+| <code><a href="#@cdktf/api.ICdktfApplicationOptions.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._ |
+| <code><a href="#@cdktf/api.ICdktfApplicationOptions.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                             | _No description._ |
+
+---
+
+##### `logCallback`<sup>Optional</sup> <a name="logCallback" id="@cdktf/api.ICdktfApplicationOptions.property.logCallback"></a>
+
+```typescript
+public readonly logCallback: ILogCallback;
+```
+
+- _Type:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+---
+
+##### `logToStdOut`<sup>Optional</sup> <a name="logToStdOut" id="@cdktf/api.ICdktfApplicationOptions.property.logToStdOut"></a>
+
+```typescript
+public readonly logToStdOut: boolean;
+```
+
+- _Type:_ boolean
+
+---
 
 ### IInlineProgram <a name="IInlineProgram" id="@cdktf/api.IInlineProgram"></a>
 
@@ -229,9 +288,31 @@ public plan(): ITerraformPlan
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                       | **Type**                                                                 | **Description**          |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------ | ------------------------ |
-| <code><a href="#@cdktf/api.IInlineProgram.property.program">program</a></code> | <code><a href="#@cdktf/api.IProgramProducer">IProgramProducer</a></code> | Produce a cdktf program. |
+| **Name**                                                                               | **Type**                                                                 | **Description**          |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------ |
+| <code><a href="#@cdktf/api.IInlineProgram.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code>         | _No description._        |
+| <code><a href="#@cdktf/api.IInlineProgram.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                                     | _No description._        |
+| <code><a href="#@cdktf/api.IInlineProgram.property.program">program</a></code>         | <code><a href="#@cdktf/api.IProgramProducer">IProgramProducer</a></code> | Produce a cdktf program. |
+
+---
+
+##### `logCallback`<sup>Optional</sup> <a name="logCallback" id="@cdktf/api.IInlineProgram.property.logCallback"></a>
+
+```typescript
+public readonly logCallback: ILogCallback;
+```
+
+- _Type:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+---
+
+##### `logToStdOut`<sup>Optional</sup> <a name="logToStdOut" id="@cdktf/api.IInlineProgram.property.logToStdOut"></a>
+
+```typescript
+public readonly logToStdOut: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -255,9 +336,31 @@ Produce a cdktf program.
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                              | **Type**            | **Description**          |
-| --------------------------------------------------------------------- | ------------------- | ------------------------ |
-| <code><a href="#@cdktf/api.ILocalProgram.property.cwd">cwd</a></code> | <code>string</code> | Path to cdktf directory. |
+| **Name**                                                                              | **Type**                                                         | **Description**          |
+| ------------------------------------------------------------------------------------- | ---------------------------------------------------------------- | ------------------------ |
+| <code><a href="#@cdktf/api.ILocalProgram.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._        |
+| <code><a href="#@cdktf/api.ILocalProgram.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                             | _No description._        |
+| <code><a href="#@cdktf/api.ILocalProgram.property.cwd">cwd</a></code>                 | <code>string</code>                                              | Path to cdktf directory. |
+
+---
+
+##### `logCallback`<sup>Optional</sup> <a name="logCallback" id="@cdktf/api.ILocalProgram.property.logCallback"></a>
+
+```typescript
+public readonly logCallback: ILogCallback;
+```
+
+- _Type:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+---
+
+##### `logToStdOut`<sup>Optional</sup> <a name="logToStdOut" id="@cdktf/api.ILocalProgram.property.logToStdOut"></a>
+
+```typescript
+public readonly logToStdOut: boolean;
+```
+
+- _Type:_ boolean
 
 ---
 
@@ -270,6 +373,32 @@ public readonly cwd: string;
 - _Type:_ string
 
 Path to cdktf directory.
+
+---
+
+### ILogCallback <a name="ILogCallback" id="@cdktf/api.ILogCallback"></a>
+
+- _Implemented By:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+### IMetadata <a name="IMetadata" id="@cdktf/api.IMetadata"></a>
+
+- _Implemented By:_ <a href="#@cdktf/api.IMetadata">IMetadata</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                              | **Type**            | **Description**   |
+| --------------------------------------------------------------------- | ------------------- | ----------------- |
+| <code><a href="#@cdktf/api.IMetadata.property.stack">stack</a></code> | <code>string</code> | _No description._ |
+
+---
+
+##### `stack`<sup>Optional</sup> <a name="stack" id="@cdktf/api.IMetadata.property.stack"></a>
+
+```typescript
+public readonly stack: string;
+```
+
+- _Type:_ string
 
 ---
 
@@ -313,9 +442,78 @@ public produce(app: any): void
 
 - _Implemented By:_ <a href="#@cdktf/api.ISynthesizedApplicationOptions">ISynthesizedApplicationOptions</a>
 
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                               | **Type**                                                         | **Description**   |
+| ------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ----------------- |
+| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._ |
+| <code><a href="#@cdktf/api.ISynthesizedApplicationOptions.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                             | _No description._ |
+
+---
+
+##### `logCallback`<sup>Optional</sup> <a name="logCallback" id="@cdktf/api.ISynthesizedApplicationOptions.property.logCallback"></a>
+
+```typescript
+public readonly logCallback: ILogCallback;
+```
+
+- _Type:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+---
+
+##### `logToStdOut`<sup>Optional</sup> <a name="logToStdOut" id="@cdktf/api.ISynthesizedApplicationOptions.property.logToStdOut"></a>
+
+```typescript
+public readonly logToStdOut: boolean;
+```
+
+- _Type:_ boolean
+
+---
+
 ### ISynthesizedStackOptions <a name="ISynthesizedStackOptions" id="@cdktf/api.ISynthesizedStackOptions"></a>
 
 - _Implemented By:_ <a href="#@cdktf/api.ISynthesizedStackOptions">ISynthesizedStackOptions</a>
+
+#### Properties <a name="Properties" id="Properties"></a>
+
+| **Name**                                                                                         | **Type**                                                         | **Description**   |
+| ------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- | ----------------- |
+| <code><a href="#@cdktf/api.ISynthesizedStackOptions.property.name">name</a></code>               | <code>string</code>                                              | _No description._ |
+| <code><a href="#@cdktf/api.ISynthesizedStackOptions.property.logCallback">logCallback</a></code> | <code><a href="#@cdktf/api.ILogCallback">ILogCallback</a></code> | _No description._ |
+| <code><a href="#@cdktf/api.ISynthesizedStackOptions.property.logToStdOut">logToStdOut</a></code> | <code>boolean</code>                                             | _No description._ |
+
+---
+
+##### `name`<sup>Required</sup> <a name="name" id="@cdktf/api.ISynthesizedStackOptions.property.name"></a>
+
+```typescript
+public readonly name: string;
+```
+
+- _Type:_ string
+
+---
+
+##### `logCallback`<sup>Optional</sup> <a name="logCallback" id="@cdktf/api.ISynthesizedStackOptions.property.logCallback"></a>
+
+```typescript
+public readonly logCallback: ILogCallback;
+```
+
+- _Type:_ <a href="#@cdktf/api.ILogCallback">ILogCallback</a>
+
+---
+
+##### `logToStdOut`<sup>Optional</sup> <a name="logToStdOut" id="@cdktf/api.ISynthesizedStackOptions.property.logToStdOut"></a>
+
+```typescript
+public readonly logToStdOut: boolean;
+```
+
+- _Type:_ boolean
+
+---
 
 ### ITerraformPlan <a name="ITerraformPlan" id="@cdktf/api.ITerraformPlan"></a>
 
