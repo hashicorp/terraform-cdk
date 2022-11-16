@@ -12,8 +12,6 @@ Construct is a general term that you can use to describe parts of your CDK for T
 
 You can also import custom construct classes that represent infrastructure configurations written in your programming language. Custom constructs are helpful because they enforce configuration best practices, they let you reuse configurations rather than rewriting them multiple times, and they abstract some configuration details away. For example, you might import a construct that configures a Kubernetes deployment. When you create a new instance in your application, you can customize the deployment via the exposed properties without learning all of the implementation details.
 
-This page explains how to think about and use constructs within your CDKTF project. It also provides some recommendations for publishing custom constructs.
-
 ## Construct Types
 
 Construct classes define system state at various levels of granularity. For example, you can write a custom construct that defines and configures a single Elastic Cloud Compute resource or one that defines and configures an entire deployment with multiple resources from different providers.
@@ -46,7 +44,7 @@ Constructs also provide a way to logically structure a set of resources, but you
 
 > **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial to use a custom construct. It includes the example code below.
 
-You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project’s programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
+You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project's programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
 The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
