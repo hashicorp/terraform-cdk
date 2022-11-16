@@ -22,7 +22,7 @@ class FunctionsStack(TerraformStack):
                         value=Fn.element(zones.names, 0)
                         )
 
-# DOCS_BLOCK_END:functions-usage-example
+        # DOCS_BLOCK_END:functions-usage-example
 '''
 DOCS_BLOCK_START:functions-usage-example
 app = App()
