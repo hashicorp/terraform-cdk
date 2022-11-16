@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Testing, TerraformStack, Fn, mulOperation } from "../lib";
+import { Testing, TerraformStack, Fn } from "../lib";
 import { TestProvider, TestResource } from "./helper";
 
 test("able to use fqn on an element", () => {
@@ -361,7 +361,7 @@ test("does not throw error when tokens are nested with functions", () => {
   );
 });
 
-test("allows interpolation within functions", () => {
+test("allows functions within functions", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -376,7 +376,7 @@ test("allows interpolation within functions", () => {
       firstResourceName: Fn.lookup(
         otherResource.fqn,
         "name",
-        mulOperation(2, 33)
+        Fn.upper(Fn.lookup(otherResource.fqn, "name", ""))
       ),
     },
   });
@@ -387,7 +387,7 @@ test("allows interpolation within functions", () => {
     name: "bar",
     tags: {
       firstResourceName:
-        '${lookup(test_resource.other-resource, "name", "--")}',
+        '${lookup(test_resource.other-resource, "name", upper(lookup(test_resource.other-resource, "name", "")))}',
     },
   };
 
