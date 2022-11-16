@@ -313,7 +313,7 @@ test("works with functions containing escapes", () => {
     name: "baz",
   });
 
-  const secondResource = new TestResource(stack, "second-resource", {
+  new TestResource(stack, "second-resource", {
     name: "bar",
     tags: {
       firstResourceName: Fn.lookup(
@@ -324,7 +324,7 @@ test("works with functions containing escapes", () => {
     },
   });
 
-  secondResource.addOverride("name", `${firstResource.fqn}-second`);
+  // secondResource.addOverride("name", `${firstResource.fqn}-second`);
 
   const res = JSON.parse(Testing.synth(stack));
 
@@ -332,7 +332,7 @@ test("works with functions containing escapes", () => {
     name: "${test_resource.first-resource}-second",
     tags: {
       firstResourceName:
-        'simple-test-${test_resource.first-resource.name}-${lookup(test_resource.other-resource, "name", "")}',
+        '${lookup(test_resource.other-resource, "name", test_resource.other-resource.name)}',
     },
   };
 

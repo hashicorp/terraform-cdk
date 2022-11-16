@@ -132,7 +132,8 @@ export class TokenizedStringFragments {
     const ret = new Array<IResolvable>();
     for (const f of this.fragments) {
       if (f.type === "escape") {
-        ret.push(f.kind as any);
+        if (f.kind === "open") ret.push("${" as any);
+        else ret.push("}" as any);
       }
     }
     return ret;
@@ -144,6 +145,7 @@ export class TokenizedStringFragments {
   public mapTokens(context: IResolveContext): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
     let escapeDepth = 0;
+    const originalSupressBraces = context.suppressBraces;
 
     for (const f of this.fragments) {
       switch (f.type) {
@@ -151,12 +153,24 @@ export class TokenizedStringFragments {
           ret.addLiteral(f.lit);
           break;
         case "escape":
-          ret.addEscape(f.kind);
-          escapeDepth = f.kind === "open" ? escapeDepth + 1 : escapeDepth - 1;
+          if (f.kind === "open") {
+            if (!context.suppressBraces) {
+              ret.addEscape(f.kind);
+            }
+            escapeDepth = escapeDepth + 1;
+            break;
+          }
+
+          escapeDepth = escapeDepth - 1;
+
+          if (!originalSupressBraces) ret.addEscape(f.kind);
+
+          if (escapeDepth <= 0) {
+            context.suppressBraces = originalSupressBraces;
+          }
+
           break;
         case "token":
-          // eslint-disable-next-line no-case-declarations
-          const supressBraces = context.suppressBraces;
           if (escapeDepth > 0) {
             context.suppressBraces = true;
           }
@@ -167,8 +181,6 @@ export class TokenizedStringFragments {
           } else {
             ret.addIntrinsic(mapped);
           }
-          context.suppressBraces = supressBraces;
-
           break;
         case "intrinsic":
           ret.addIntrinsic(f.value);

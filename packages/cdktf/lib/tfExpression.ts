@@ -85,13 +85,23 @@ class TFExpression extends Intrinsic implements IResolvable {
         }
 
         // if left is only a token, needs to be wrapped as terraform expression
-        if (leftTokenList.literals.length === 0 && leftTokenCount === 1) {
+        if (
+          leftTokenList.literals.length === 0 &&
+          leftTokenList.escapes.length === 0 &&
+          leftTokenCount === 1
+        ) {
           leftValue = `\${${leftTokens[0]}}`;
+        }
+
+        if (leftTokenList.escapes.length === 1 && leftTokenCount === 0) {
+          leftValue = `${leftTokenList.escapes[0]}`;
         }
 
         const rightValue =
           rightTokens.length === 0
             ? this.escapeString(right)
+            : leftTokenList.escapes.length > 0
+            ? rightTokens[0]
             : `\${${rightTokens[0]}}`;
 
         return `${leftValue}${rightValue}`;
