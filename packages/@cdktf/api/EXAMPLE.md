@@ -21,11 +21,13 @@ dirApp.synth().then(async (synthedDirApp) => {
 });
 
 const inlineApp = Api.inlineApp({
-  produce(app) {
-    const stack = new TerraformStack(app, "my-stack");
-    new TerraformOutput(stack, "my-output", {
-      value: "my-value",
-    });
+  program: {
+    produce(app) {
+      const stack = new TerraformStack(app, "my-stack");
+      new TerraformOutput(stack, "my-output", {
+        value: "my-value",
+      });
+    },
   },
 });
 
@@ -60,11 +62,13 @@ dir_app.synth().then(async (synthedDirApp) => {
     })
 
 inline_app = Api.inline_app({
-    def produce(app):
-        stack = TerraformStack(app, "my-stack")
-        TerraformOutput(stack, "my-output",
-            "value"="my-value"
-        )
+    "program": {
+        def produce(app):
+            stack = TerraformStack(app, "my-stack")
+            TerraformOutput(stack, "my-output",
+                "value"="my-value"
+            )
+    }
 })
 
 inline_app.synth().then(async (synthedInlineApp) => {
@@ -99,12 +103,13 @@ dirApp.synth().then(async (synthedDirApp) => {
 });
 
 CdktfApplication inlineApp = Api.inlineApp(Map.of(
-        public void produce(Object app) {
-            TerraformStack stack = new TerraformStack(app, "my-stack");
-            TerraformOutput.Builder.create(stack, "my-output")
-                    "value", "my-value"
-                    .build();
-        }));
+        "program", Map.of(
+                public void produce(Object app) {
+                    TerraformStack stack = new TerraformStack(app, "my-stack");
+                    TerraformOutput.Builder.create(stack, "my-output")
+                            "value", "my-value"
+                            .build();
+                })));
 
 inlineApp.synth().then(async (synthedInlineApp) => {
   const stack = synthedInlineApp.stacks["my-stack"];
@@ -136,14 +141,16 @@ dirApp.Synth().Then(async (synthedDirApp) => {
   await stack.deploy();
 });
 
-CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, object> {
-    public void Produce(void app)
-    {
-        TerraformStack stack = new TerraformStack(app, "my-stack");
-        new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
-            { "value", "my-value" }
-        });
-    }
+CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, IProgramProducer> {
+    { "program", new Dictionary<string, object> {
+        public void Produce(void app)
+        {
+            TerraformStack stack = new TerraformStack(app, "my-stack");
+            new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
+                { "value", "my-value" }
+            });
+        }
+    } }
 });
 
 inlineApp.Synth().Then(async (synthedInlineApp) => {
@@ -176,14 +183,16 @@ dirApp.Synth().Then(async (synthedDirApp) => {
   await stack.deploy();
 });
 
-CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, object> {
-    public void Produce(void app)
-    {
-        TerraformStack stack = new TerraformStack(app, "my-stack");
-        new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
-            { "value", "my-value" }
-        });
-    }
+CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, IProgramProducer> {
+    { "program", new Dictionary<string, object> {
+        public void Produce(void app)
+        {
+            TerraformStack stack = new TerraformStack(app, "my-stack");
+            new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
+                { "value", "my-value" }
+            });
+        }
+    } }
 });
 
 inlineApp.Synth().Then(async (synthedInlineApp) => {

@@ -151,11 +151,9 @@ export class Api {
   /**
    * Create a new CDKTF application from an inline program
    */
-  public static inlineApp(
-    { produce }: IProgramProducer,
-    opts: ICdktfApplicationOptions = {}
-  ): CdktfApplication {
-    return new CdktfApplication({ produce, ...opts });
+  public static inlineApp(config: IInlineProgram): CdktfApplication {
+    const { program, ...opts } = config;
+    return new CdktfApplication({ produce: program.produce, ...opts });
   }
 
   /**

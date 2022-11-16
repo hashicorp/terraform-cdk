@@ -62,20 +62,14 @@ Generate cdktf bindings.
 ```typescript
 import { Api } from '@cdktf/api'
 
-Api.inlineApp(__0: IProgramProducer, opts?: ICdktfApplicationOptions)
+Api.inlineApp(config: IInlineProgram)
 ```
 
 Create a new CDKTF application from an inline program.
 
-###### `__0`<sup>Required</sup> <a name="__0" id="@cdktf/api.Api.inlineApp.parameter.__0"></a>
+###### `config`<sup>Required</sup> <a name="config" id="@cdktf/api.Api.inlineApp.parameter.config"></a>
 
-- _Type:_ <a href="#@cdktf/api.IProgramProducer">IProgramProducer</a>
-
----
-
-###### `opts`<sup>Optional</sup> <a name="opts" id="@cdktf/api.Api.inlineApp.parameter.opts"></a>
-
-- _Type:_ <a href="#@cdktf/api.ICdktfApplicationOptions">ICdktfApplicationOptions</a>
+- _Type:_ <a href="#@cdktf/api.IInlineProgram">IInlineProgram</a>
 
 ---
 

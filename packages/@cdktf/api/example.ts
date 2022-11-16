@@ -14,11 +14,13 @@ dirApp.synth().then(async (synthedDirApp) => {
 });
 
 const inlineApp = Api.inlineApp({
-  produce(app) {
-    const stack = new TerraformStack(app, "my-stack");
-    new TerraformOutput(stack, "my-output", {
-      value: "my-value",
-    });
+  program: {
+    produce(app) {
+      const stack = new TerraformStack(app, "my-stack");
+      new TerraformOutput(stack, "my-output", {
+        value: "my-value",
+      });
+    },
   },
 });
 
