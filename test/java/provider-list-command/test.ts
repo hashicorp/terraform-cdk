@@ -21,7 +21,13 @@ describe("provider list command", () => {
         "provider",
         "add",
         "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
-        "Backblaze/b2@=0.8.1",
+      ]);
+
+      await driver.exec("cdktf", [
+        "provider",
+        "add",
+        "local@=2.2.3",
+        "--force-local",
       ]);
     });
 
@@ -37,9 +43,9 @@ describe("provider list command", () => {
 
       expect(output.local[0]).toEqual(
         expect.objectContaining({
-          providerName: "Backblaze/b2",
-          providerConstraint: "=0.8.1",
-          providerVersion: "0.8.1",
+          providerName: "local",
+          providerConstraint: "=2.2.3",
+          providerVersion: "2.2.3",
         })
       );
 
