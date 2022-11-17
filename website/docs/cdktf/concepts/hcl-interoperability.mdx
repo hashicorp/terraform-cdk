@@ -20,6 +20,10 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 
 The following TypeScript example is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#hcl-interop -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
@@ -51,6 +55,37 @@ const app = new App();
 new MyStack(app, "random-pet-module");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
+import imports.random as random
+
+
+class HclInteropStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        random.provider.RandomProvider(self, "default")
+        petNameLength = TerraformVariable(self, "petNameLength",
+                                          type="number",
+                                          default=2,
+                                          description="Pet name length"
+                                          )
+
+        myPet = random.pet.Pet(self, "example",
+                               length=petNameLength.number_value
+                               )
+
+        TerraformOutput(self, "name",
+                        value=myPet.id
+                        )
+# app = App()
+# HclInteropStack(app, "random-pet-module")
+# app.synth()
+```
+
+</CodeTabs>
 
 To use this as a Terraform module, run `cdktf synth` and copy the resulting `cdktf.out/stacks/random-pet-module/cdktf.json` file out to the module directory in your HCL project.
 

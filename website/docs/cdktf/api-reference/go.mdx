@@ -10784,10 +10784,14 @@ cdktf.TerraformLocal_IsTerraformElement(x interface{}) *bool
 | <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>\*string</code>                                           | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>\*string</code>                                           | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">AsAnyMap</a></code>                 | <code>\*map[string]interface{}</code>                           | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">AsBooleanMap</a></code>         | <code>*map[string]*bool</code>                                  | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>*[]*string</code>                                         | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>\*f64</code>                                              | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">AsNumberMap</a></code>           | <code>*map[string]*f64</code>                                   | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>\*string</code>                                           | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">AsStringMap</a></code>           | <code>*map[string]*string</code>                                | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>interface{}</code>                                        | _No description._ |
 
 ---
@@ -10834,6 +10838,16 @@ func FriendlyUniqueId() *string
 
 ---
 
+##### `AsAnyMap`<sup>Required</sup> <a name="AsAnyMap" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```go
+func AsAnyMap() *map[string]interface{}
+```
+
+- _Type:_ \*map[string]interface{}
+
+---
+
 ##### `AsBoolean`<sup>Required</sup> <a name="AsBoolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```go
@@ -10841,6 +10855,16 @@ func AsBoolean() IResolvable
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `AsBooleanMap`<sup>Required</sup> <a name="AsBooleanMap" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```go
+func AsBooleanMap() *map[string]*bool
+```
+
+- _Type:_ *map[string]*bool
 
 ---
 
@@ -10864,6 +10888,16 @@ func AsNumber() *f64
 
 ---
 
+##### `AsNumberMap`<sup>Required</sup> <a name="AsNumberMap" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```go
+func AsNumberMap() *map[string]*f64
+```
+
+- _Type:_ *map[string]*f64
+
+---
+
 ##### `AsString`<sup>Required</sup> <a name="AsString" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```go
@@ -10871,6 +10905,16 @@ func AsString() *string
 ```
 
 - _Type:_ \*string
+
+---
+
+##### `AsStringMap`<sup>Required</sup> <a name="AsStringMap" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```go
+func AsStringMap() *map[string]*string
+```
+
+- _Type:_ *map[string]*string
 
 ---
 
@@ -22454,6 +22498,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```go
@@ -22462,10 +22508,10 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf/testingmatchers"
 testingmatchers.NewAssertionReturn(message *string, pass *bool) AssertionReturn
 ```
 
-| **Name**                                                                                                | **Type**              | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | --------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>\*string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>\*bool</code>   | _No description._ |
+| **Name**                                                                                                | **Type**              | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | --------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>\*string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>\*bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22473,20 +22519,24 @@ testingmatchers.NewAssertionReturn(message *string, pass *bool) AssertionReturn
 
 - _Type:_ \*string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ \*bool
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**              | **Description**   |
-| ------------------------------------------------------------------------------------------ | --------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>\*string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>\*bool</code>   | _No description._ |
+| **Name**                                                                                   | **Type**              | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | --------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>\*string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>\*bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22498,6 +22548,8 @@ func Message() *string
 
 - _Type:_ \*string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -22507,6 +22559,8 @@ func Pass() *bool
 ```
 
 - _Type:_ \*bool
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -28260,6 +28314,8 @@ cdktf.NewTesting() Testing
 | <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code>                         | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code>                             | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">ToHaveProvider</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">ToHaveProviderWithProperties</a></code>     | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code>                                 | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
@@ -28450,6 +28506,52 @@ cdktf.Testing_ToHaveDataSourceWithProperties(received *string, resourceType *str
 ---
 
 ###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ \*map[string]interface{}
+
+---
+
+##### `ToHaveProvider` <a name="ToHaveProvider" id="cdktf.Testing.toHaveProvider"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveProvider(received *string, resourceType *string) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+##### `ToHaveProviderWithProperties` <a name="ToHaveProviderWithProperties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Testing_ToHaveProviderWithProperties(received *string, resourceType *string, properties *map[string]interface{}) *bool
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ \*string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
 
 - _Type:_ \*map[string]interface{}
 

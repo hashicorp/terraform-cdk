@@ -25,6 +25,10 @@ CDK for Terraform lets you import Terraform [providers](/language/providers) to 
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-providers -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
@@ -50,6 +54,31 @@ const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+import imports.aws as aws
+
+class SimpleProviderStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        aws.provider.AwsProvider(self, "aws",
+            region = "us-east-1",
+        )
+
+        aws.instance.Instance(self, "hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro",
+        )
+
+app = App()
+SimpleProviderStack(app, "provider-stack")
+app.synth()
+```
+
+</CodeTabs>
 
 #### Add Provider to `cdktf.json`
 
@@ -81,6 +110,10 @@ Generated typescript constructs in the output directory: .gen
 #### Import Classes
 
 Import and use the generated classes in your application. The following TypeScript example imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-classes -->
+
+<CodeTabs>
 
 ```typescript
 import { Construct } from "constructs";
@@ -121,6 +154,45 @@ const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
 ```
+
+```python
+import os
+from constructs import Construct
+from cdktf import App, TerraformStack, Token
+import imports.aws as aws
+import imports.dnsimple as dnsimple
+
+class ProviderStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        aws.provider.AwsProvider(self, "aws",
+            region = "us-east-1",
+        )
+
+        instance = aws.instance.Instance(self, "Hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro",
+        )
+
+        dnsimple.provider.DnsimpleProvider(self, "dnsimple",
+            token = Token.as_string(os.getenv("DNSIMPLE_TOKEN")),
+            account = Token.as_string(os.getenv("DNSIMPLE_ACCOUNT")),
+        )
+
+        dnsimple.record.Record(self, "web-www",
+            domain = "example.com",
+            name = "web",
+            value = instance.public_ip,
+            type = "A"
+        )
+
+app = App()
+ProviderStack(app, "provider-stack")
+app.synth()
+```
+
+</CodeTabs>
 
 Use the `synth` command to convert your code into a JSON Terraform configuration file.
 

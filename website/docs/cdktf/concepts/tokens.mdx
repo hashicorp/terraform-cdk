@@ -27,6 +27,10 @@ To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` 
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
+
+<CodeTabs>
+
 ```typescript
 const logRetention = new TerraformVariable(this, "logRetentionInDays", {
   type: "number",
@@ -43,6 +47,26 @@ new Eks(this, "EksModule", {
   clusterLogRetentionInDays: logRetention.numberValue,
 });
 ```
+
+```python
+        log_retention = TerraformVariable(self, "logRetentionInDays",
+            type = "number"
+        )
+
+        vpc = Vpc(self, "vpcName",
+            name = "vpcName",
+            public_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+        )
+
+        Eks(self, "EksModules",
+            vpc_id = vpc.vpc_id_output,
+            cluster_name = "my-kubernetes-cluster",
+            subnets = Token.as_list(vpc.public_subnets_output),
+            cluster_create_timeout = log_retention.number_value
+        )
+```
+
+</CodeTabs>
 
 Initially, CDKTF will resolve `Token.asList(vpc.publicSubnetsOutput)` to `["#{TOKEN[TOKEN.9]}"]` and `logRetention.numberValue` to a big negative number like `-123828381238238`.
 Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public_subnets}` and `${var.logRetentionInDays}`.

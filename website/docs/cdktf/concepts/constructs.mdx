@@ -46,10 +46,10 @@ Constructs also provide a way to logically structure a set of resources, but you
 
 You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project's programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
-The following TypeScript example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
+The following example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-use-constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
@@ -88,20 +88,15 @@ app.synth();
 ```
 
 ```python
-from constructs import Construct
-import cdktf
-import os
-from imports.kubernetes.provider import KubernetesProvider
-from my_constructs import KubernetesWebAppDeployment
 
 
-class MyStack(cdktf.TerraformStack):
+class MyKubernetesStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
-        KubernetesProvider(self, "kind",
-                           config_path=os.path.join(os.path.dirname(
-                               __file__), '..', 'kubeconfig.yaml')
-                           )
+        kubernetes.provider.KubernetesProvider(self, "kind",
+                                               config_path=os.path.join(os.path.dirname(
+                                                   __file__), '..', 'kubeconfig.yaml')
+                                               )
 
         KubernetesWebAppDeployment(self, "deployment",
                                    image="nginx:latest",
@@ -112,9 +107,9 @@ class MyStack(cdktf.TerraformStack):
                                    )
 
 
-app = cdktf.App()
-MyStack(app, "demo")
 
+app = App()
+MyKubernetesStack(app, "demo")
 app.synth()
 ```
 
@@ -236,6 +231,10 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
@@ -270,6 +269,50 @@ class MyStack extends TerraformStack {
   }
 }
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+
+
+class PublicS3Bucket(Construct):
+
+    bucket: S3Bucket
+
+    def __init__(self, scope: Construct, name: str):
+        # This creates a new scope since we extend from construct
+        super().__init__(scope, name)
+
+        AwsProvider(self, "aws",
+                    region="us-east-1"
+                    )
+
+        # This bucket is in a different scope than the buckets
+        # defined in `MyStack`. Therefore, it does not need a unique name.
+        self.bucket = S3Bucket(self, "bucket",
+                               bucket_prefix=name,
+                               website=S3BucketWebsite(
+                                   index_document="index.html",
+                                   error_document="5xx.html",
+                               )
+                               )
+
+
+class MyS3BucketStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        # Both buckets are inside of the same stack, meaning they share
+        # the same scope. Therefore, their names must be unique.
+        PublicS3Bucket(self, "first-bucket")
+        PublicS3Bucket(self, "second-bucket")
+
+app = App()
+MyS3BucketStack(app, "s3-stack")
+app.synth()
+```
+
+</CodeTabs>
 
 ### Aspects
 

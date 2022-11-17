@@ -10778,17 +10778,21 @@ TerraformLocal.IsTerraformElement(object X);
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                    | **Type**                                                        | **Description**   |
-| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                             | _No description._ |
+| **Name**                                                                                    | **Type**                                                              | **Description**   |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                          | The tree node.    |
+| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">AsAnyMap</a></code>                 | <code>System.Collections.Generic.IDictionary< string, object ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>             | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">AsBooleanMap</a></code>         | <code>System.Collections.Generic.IDictionary< string, bool ></code>   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">AsNumberMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, double ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">AsStringMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, string ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                                   | _No description._ |
 
 ---
 
@@ -10834,6 +10838,16 @@ public string FriendlyUniqueId { get; }
 
 ---
 
+##### `AsAnyMap`<sup>Required</sup> <a name="AsAnyMap" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, object > AsAnyMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
 ##### `AsBoolean`<sup>Required</sup> <a name="AsBoolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```csharp
@@ -10841,6 +10855,16 @@ public IResolvable AsBoolean { get; }
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `AsBooleanMap`<sup>Required</sup> <a name="AsBooleanMap" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, bool > AsBooleanMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, bool >
 
 ---
 
@@ -10864,6 +10888,16 @@ public double AsNumber { get; }
 
 ---
 
+##### `AsNumberMap`<sup>Required</sup> <a name="AsNumberMap" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, double > AsNumberMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, double >
+
+---
+
 ##### `AsString`<sup>Required</sup> <a name="AsString" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```csharp
@@ -10871,6 +10905,16 @@ public string AsString { get; }
 ```
 
 - _Type:_ string
+
+---
+
+##### `AsStringMap`<sup>Required</sup> <a name="AsStringMap" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, string > AsStringMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, string >
 
 ---
 
@@ -22454,6 +22498,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```csharp
@@ -22462,10 +22508,10 @@ using HashiCorp.Cdktf;
 new AssertionReturn(string Message, bool Pass);
 ```
 
-| **Name**                                                                                                | **Type**            | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | ------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">Message</a></code> | <code>string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">Pass</a></code>       | <code>bool</code>   | _No description._ |
+| **Name**                                                                                                | **Type**            | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">Message</a></code> | <code>string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">Pass</a></code>       | <code>bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22473,20 +22519,24 @@ new AssertionReturn(string Message, bool Pass);
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ bool
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**            | **Description**   |
-| ------------------------------------------------------------------------------------------ | ------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>bool</code>   | _No description._ |
+| **Name**                                                                                   | **Type**            | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | ------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22498,6 +22548,8 @@ public string Message { get; }
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -22507,6 +22559,8 @@ public bool Pass { get; }
 ```
 
 - _Type:_ bool
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -28260,6 +28314,8 @@ new Testing();
 | <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code>                         | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code>                             | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">ToHaveProvider</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">ToHaveProviderWithProperties</a></code>     | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code>                                 | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
@@ -28450,6 +28506,52 @@ Testing.ToHaveDataSourceWithProperties(string Received, string ResourceType, Sys
 ---
 
 ###### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
+##### `ToHaveProvider` <a name="ToHaveProvider" id="cdktf.Testing.toHaveProvider"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Testing.ToHaveProvider(string Received, string ResourceType);
+```
+
+###### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+##### `ToHaveProviderWithProperties` <a name="ToHaveProviderWithProperties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Testing.ToHaveProviderWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary< string, object > Properties = null);
+```
+
+###### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+###### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
 
 - _Type:_ System.Collections.Generic.IDictionary< string, object >
 

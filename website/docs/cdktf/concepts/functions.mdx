@@ -21,6 +21,10 @@ The following TypeScript example uses a Data Source from the AWS Provider to fet
 
 The `element` function gets the first element from the list of Availability Zone names.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-usage-example -->
+
+<CodeTabs>
+
 ```typescript
 import { Fn, TerraformOutput } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
@@ -37,6 +41,26 @@ new TerraformOutput(this, "first-zone", {
 
 // ...
 ```
+
+```python
+from cdktf import Fn, TerraformOutput
+from imports.aws.provider import AwsProvider
+from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
+
+        zones = DataAwsAvailabilityZones(self, 'zones',
+                                         state="available",
+                                         )
+
+        TerraformOutput(self, 'first-zone',
+                        value=Fn.element(zones.names, 0)
+                        )
+
+app = App()
+FunctionsStack(app, "functions")
+app.synth()
+```
+
+</CodeTabs>
 
 ## Operators
 

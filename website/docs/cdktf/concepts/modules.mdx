@@ -17,6 +17,10 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the following TypeScript project has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-install-modules -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
@@ -47,6 +51,36 @@ new MyStack(app, "hello-terraform");
 app.synth();
 
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+import imports.aws as aws
+from imports.vpc import Vpc
+
+class ModuleStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        aws.provider.AwsProvider(self, "aws",
+            region = "us-east-1",
+        )
+
+        Vpc(self, "MyVpc",
+            name = "my-vpc",
+            cidr = "10.0.0.0/16",
+            azs = ['us-west-2a', 'us-west-2b', 'us-west-2c'],
+            private_subnets = ['10.0.1.0/24', '10.0.2.0/24', '10.0.3.0/24'],
+            public_subnets = ['10.0.101.0/24', '10.0.102.0/24', '10.0.103.0/24'],
+            enable_nat_gateway = True
+        )
+
+app = App()
+ModuleStack(app, "hello-terraform")
+app.synth()
+```
+
+</CodeTabs>
 
 ### Add Module to `cdktf.json`
 
@@ -105,6 +139,10 @@ Modules often return data that you can use as inputs to other modules or resourc
 
 The following TypeScript example uses a local module and references its output as a Terraform output.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-examples -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
@@ -126,30 +164,36 @@ class MyStack extends TerraformStack {
 }
 ```
 
-The following Python example uses a local module and references its output as a Terraform output.
-
 ```python
-#!/usr/bin/env python
-
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 # This module can come from a registry or through a local / remote reference
 from imports.my_local_module import MyLocalModule
 
 
-class MyStack(TerraformStack):
+class ModuleWithOutputStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
 
         localModule = MyLocalModule(self, "local-module", ip_address='127.0.0.1')
         TerraformOutput(self, "dns-server", value=localModule.dns_server_output)
+
+app = App()
+ModuleWithOutputStack(app, "hello-terraform")
+app.synth()
 ```
+
+</CodeTabs>
 
 ## Create Modules
 
 While we generally recommend generating code bindings for modules, you can also use the `TerraformHclModule` class to reference any module that Terraform supports. Both methods create identical synthesized Terraform configuration files, but using `TerraformHclModule` does not generate any types or type-safe inputs or outputs.
 
 The following TypeScript example uses `TerraformHclModule` to import an AWS module.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-create-modules -->
+
+<CodeTabs>
 
 ```typescript
 const provider = new AwsProvider(stack, "provider", {
@@ -171,3 +215,34 @@ const module = new TerraformHclModule(stack, "Vpc", {
   providers: [provider],
 });
 ```
+
+```python
+class HclModuleStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        provider = aws.provider.AwsProvider(self, "provider",
+            region = "us-east-1",
+        )
+
+        module = TerraformHclModule(self, "Vpc",
+            source = "terraform-aws-modules/vpc/aws",
+            # variables takes any input - please consult the docs of the module
+            # to ensure the arguments are correct
+            variables = {
+                "name": "my-vpc",
+                "cidr": "10.0.0.0/16",
+                "azs": ["us-west-2a", "us-west-2b", "us-west-2c"],
+                "privateSubnets": ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+                "publicSubnets": ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+                "enableNatGateway": True,
+            },
+            providers = [provider]
+        )
+
+app = App()
+HclModuleStack(app, "hello-terraform")
+app.synth()
+```
+
+</CodeTabs>

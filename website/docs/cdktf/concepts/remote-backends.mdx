@@ -26,6 +26,10 @@ with a `TerraformBackend` subclass or a JSON configuration file.
 
 The following TypeScript example uses the `TerraformBackend` subclass `CloudBackend`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
+
+<CodeTabs>
+
 ```typescript
 import { Construct } from "constructs";
 import { App, CloudBackend, TerraformStack, TerraformOutput } from "cdktf";
@@ -51,6 +55,30 @@ class MyStack extends TerraformStack {
 const app = new App();
 new Mystack(app, "hello-terraform");
 ```
+
+```python
+from constructs import Construct
+from cdktf import App, CloudBackend, NamedCloudWorkspace, TerraformStack, TerraformOutput
+class RemoteBackendStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        CloudBackend(self,
+            hostname = "app.terraform.io",
+            organization = "company",
+            workspaces = NamedCloudWorkspace("my-app-prod")
+        )
+
+        TerraformOutput(self, "dns-server",
+            value = "hello-world"
+        )
+
+app = App()
+RemoteBackendStack(app, "hello-terraform")
+app.synth()
+```
+
+</CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
 
@@ -100,26 +128,41 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Navigate into the main project directory.
 
-1. Use `CloudBackend` to add a new remote backend.
+2. Use `CloudBackend` to add a new remote backend.
 
-   ```typescript
-   const stack = new MyStack(app, "hello-terraform");
-   new CloudBackend(stack, {
-     hostname: "app.terraform.io",
-     organization: "company",
-     workspaces: new NamedCloudWorkspace("my-app-prod"),
-   });
-   ```
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
 
-1. Run `cdktf synth` to generate the Terraform configuration file.
+<CodeTabs>
 
-1. Move the Terraform state file into the output directory.
+```typescript
+const stack = new MyStack(app, "hello-terraform");
+new CloudBackend(stack, {
+  hostname: "app.terraform.io",
+  organization: "company",
+  workspaces: new NamedCloudWorkspace("my-app-prod"),
+});
+```
+
+```python
+stack = Stack(App(), "hi-terraform")
+        CloudBackend(self,
+            hostname = "app.terraform.io",
+            organization = "company",
+            workspaces = NamedCloudWorkspace("my-app-prod")
+        )
+```
+
+</CodeTabs>
+
+3. Run `cdktf synth` to generate the Terraform configuration file.
+
+4. Move the Terraform state file into the output directory.
 
    ```bash
    mv terraform.hello-terraform.tfstate cdktf.out/stacks/hello-terraform
    ```
 
-1. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
+5. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
 
    ```
    Initializing the backend...
@@ -148,7 +191,7 @@ Consider an example project called `hello-terraform` that is using local storage
 
    ```
 
-1. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
+6. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
 
    ```bash
    Stack: hello-terraform
@@ -208,6 +251,10 @@ Escape hatches can add to or override existing resources, and you can use them f
 
 The following example uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
+
+<CodeTabs>
+
 ```typescript
 stack.addOverride("terraform.backend", {
   atlas: {
@@ -216,3 +263,14 @@ stack.addOverride("terraform.backend", {
   },
 });
 ```
+
+```python
+stack.add_override("terraform.backend",{
+    "atlas": {
+        "name": "example_corp/networking-prod",
+        "address": "https://app.terraform.io"
+    }
+})
+```
+
+</CodeTabs>
