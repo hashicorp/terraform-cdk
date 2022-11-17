@@ -10,6 +10,9 @@ import {
   LANGUAGES,
   config as cfg,
   Language,
+  GetOptions,
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
 } from "@cdktf/provider-generator";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
@@ -51,11 +54,6 @@ import {
   ProviderConstraint,
 } from "../../lib/dependencies/dependency-manager";
 import { get as getLib } from "../../lib/get";
-import { GetOptions } from "../../../../@cdktf/provider-generator/lib/get/constructs-maker";
-import {
-  TerraformModuleConstraint,
-  TerraformProviderConstraint,
-} from "../../../../@cdktf/provider-generator/lib/config";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
