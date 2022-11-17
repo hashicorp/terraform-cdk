@@ -70,21 +70,18 @@ describe("provider add command", () => {
           `Local providers have been updated. Running cdktf get to update...`
         );
 
-        // This file currently is only created for TypeScript targets
-        // we need to make "generateJsiiLanguage" copy that file to
-        // the target directory for this to work
-        // const genVersionsFile = JSON.parse(
-        //   driver.readLocalFile("generated/versions.json")
-        // );
-        // expect(
-        //   genVersionsFile["registry.terraform.io/hashicorp/local"]
-        // ).toEqual("2.2.3");
+        const genVersionsFile = JSON.parse(
+          driver.readLocalFile("generated/versions.json")
+        );
+        expect(
+          genVersionsFile["registry.terraform.io/hashicorp/local"]
+        ).toEqual("2.2.3");
       },
       120_000
     );
   });
 
-  describe.skip("pre-built", () => {
+  describe("pre-built", () => {
     let driver: TestDriver;
 
     beforeEach(async () => {
@@ -93,56 +90,50 @@ describe("provider add command", () => {
         DISABLE_VERSION_CHECK: "true",
       }); // reset CDKTF_DIST set by run-against-dist script & disable version check as we have to use an older version of cdktf-cli
       await driver.setupGoProject({
-        init: { additionalOptions: "--cdktf-version 0.12.0" },
+        init: { additionalOptions: "--cdktf-version 0.13.0" },
       });
     });
 
     it("detects correct cdktf version", async () => {
       const res = await driver.exec("cdktf", ["debug"]);
-      expect(res.stdout).toContain("cdktf: 0.12.0");
+      expect(res.stdout).toContain("cdktf: 0.13.0");
     });
 
     test("installs pre-built provider using go get", async () => {
       const res = await driver.exec("cdktf", [
         "provider",
         "add",
-        "random@=3.3.2", // this won't always be the latest version, but theres v2.0.12 of the pre-built provider resulting in exactly this package
+        "random@=3.4.3", // this won't always be the latest version, but theres v3.0.11 of the pre-built provider resulting in exactly this package
       ]);
-      // TODO: this will fail as soon as we release a new pre-built provider version for that exact version of the TF provider
-      // until there is a newer version of that TF provider, cdktf provider add will always pick the latest and hence v2.0.12 will change
-      // this will settle as soon as we release cdktf 0.13 or a "random@>3.3.2" comes out and no newer pre-built provider versions will
-      // be published for v3.3.2. We could skip this test in the meantime. Unfortunately we can't test against an older version as Go pre-built
-      // providers where only supported as of cdktf 0.12 🙈
-      // Update: this now fails and is disabled for a bit.
 
       // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
       // change in the future and would break this test
       expect(sanitizeTimestamps(res.stdout))
         .toContain(`Checking whether pre-built provider exists for the following constraints:
   provider: random
-  version : =3.3.2
+  version : =3.4.3
   language: go
-  cdktf   : 0.12.0
+  cdktf   : 0.13.0
 
 
 Found pre-built provider.
 
-Adding package github.com/hashicorp/cdktf-provider-random-go/random @ 2.0.12`);
+Adding package github.com/cdktf/cdktf-provider-random-go/random @ 3.0.11`);
 
       expect(sanitizeTimestamps(res.stdout)).toContain(
-        "go get: added github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
       );
       expect(sanitizeTimestamps(res.stdout)).toContain("Package installed.");
 
       // go also prints to stderr, weird but 🤷
       expect(res.stderr).toContain(
-        "go get: added github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+        "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
       );
 
       const goMod = driver.readLocalFile("go.mod");
 
       expect(goMod).toContain(
-        "github.com/hashicorp/cdktf-provider-random-go/random/v2 v2.0.12"
+        "github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"
       );
     }, 180_000);
   });

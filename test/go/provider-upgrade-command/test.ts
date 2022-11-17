@@ -16,10 +16,7 @@ describe("provider upgrade command", () => {
       });
     });
 
-    // This test can not work since new release could have come in the mean time.
-    // We can not use an older provider version since the org move made older versions unusable.
-    // This can be set with better values once 0.14 releases.
-    test.skip("installs pre-built provider using go get", async () => {
+    test("installs pre-built provider using go get", async () => {
       await driver.exec("go", [
         "get",
         "github.com/cdktf/cdktf-provider-random-go/random/v3@v3.0.2",
