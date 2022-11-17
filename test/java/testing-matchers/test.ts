@@ -10,15 +10,20 @@ describe("java testing assertions", () => {
     await driver.setupJavaProject();
     await driver.copyFile(
       "MainTest.java",
-      "src/main/java/com/mycompany/app/MainTest.java"
+      "src/test/java/com/company/app/MainTest.java"
     );
   }, 6000000);
 
   async function runTests() {
-    await driver.exec('mvn test -Dtest="MainTest"');
+    console.log(driver.workingDirectory);
+    const out = await driver.exec('mvn test -Dtest="MainTest"');
+    console.log(out.stdout);
+    return out;
   }
 
   test("run java testing suite", async () => {
-    await expect(runTests()).resolves.not.toThrow();
+    const output = await runTests();
+    expect(output.stdout).toEqual(expect.stringContaining("Errors: 0"));
+    expect(output.stdout).toEqual(expect.stringContaining("Tests run: 11"));
   }, 6000000);
 });

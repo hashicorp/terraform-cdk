@@ -3,7 +3,11 @@
 export * from "./get/constructs-maker";
 export * as config from "./config";
 export { isRegistryModule } from "./get/module";
-export { TerraformModuleConstraint, isLocalModule } from "./config";
+export {
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
+  isLocalModule,
+} from "./config";
 export {
   readProviderSchema,
   readModuleSchema,
@@ -46,7 +50,7 @@ export async function generateProviderBindingsFromSchema(
   await code.save(targetPath);
 
   if (options) {
-    await generateJsiiLanguage(code, options);
+    await generateJsiiLanguage(code, options, targetPath);
   }
 }
 

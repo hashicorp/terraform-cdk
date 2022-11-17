@@ -26554,6 +26554,363 @@ public readonly fqn: string;
 
 ---
 
+### Op <a name="Op" id="cdktf.Op"></a>
+
+This class contains static functions for all arithmetical and logical operators in the Terraform configutation language.
+
+#### Initializers <a name="Initializers" id="cdktf.Op.Initializer"></a>
+
+```typescript
+import { Op } from "cdktf";
+
+new Op();
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">and</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders left - right.    |
+
+---
+
+##### `add` <a name="add" id="cdktf.Op.add"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.add(left: any, right: any)
+```
+
+Renders left + right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.add.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `and` <a name="and" id="cdktf.Op.and"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.and(left: any, right: any)
+```
+
+Renders left && right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.and.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `div` <a name="div" id="cdktf.Op.div"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.div(left: any, right: any)
+```
+
+Renders left / right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.div.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `eq` <a name="eq" id="cdktf.Op.eq"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.eq(left: any, right: any)
+```
+
+Renders left == right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.eq.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `gt` <a name="gt" id="cdktf.Op.gt"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.gt(left: any, right: any)
+```
+
+Renders left > right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gt.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `gte` <a name="gte" id="cdktf.Op.gte"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.gte(left: any, right: any)
+```
+
+Renders left >= right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gte.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `lt` <a name="lt" id="cdktf.Op.lt"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.lt(left: any, right: any)
+```
+
+Renders left < right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lt.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `lte` <a name="lte" id="cdktf.Op.lte"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.lte(left: any, right: any)
+```
+
+Renders left < = right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lte.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `mod` <a name="mod" id="cdktf.Op.mod"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.mod(left: any, right: any)
+```
+
+Renders left % right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mod.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `mul` <a name="mul" id="cdktf.Op.mul"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.mul(left: any, right: any)
+```
+
+Renders left \* right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mul.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `negate` <a name="negate" id="cdktf.Op.negate"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.negate(expression: any)
+```
+
+Renders -expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
+
+- _Type:_ any
+
+---
+
+##### `neq` <a name="neq" id="cdktf.Op.neq"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.neq(left: any, right: any)
+```
+
+Renders left != right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.neq.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `not` <a name="not" id="cdktf.Op.not"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.not(expression: any)
+```
+
+Renders !expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
+
+- _Type:_ any
+
+---
+
+##### `or` <a name="or" id="cdktf.Op.or"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.or(left: any, right: any)
+```
+
+Renders left || right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.or.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
+##### `sub` <a name="sub" id="cdktf.Op.sub"></a>
+
+```typescript
+import { Op } from 'cdktf'
+
+Op.sub(left: any, right: any)
+```
+
+Renders left - right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
+
+- _Type:_ any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.sub.parameter.right"></a>
+
+- _Type:_ any
+
+---
+
 ### PrefixedRemoteWorkspaces <a name="PrefixedRemoteWorkspaces" id="cdktf.PrefixedRemoteWorkspaces"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -27598,6 +27955,7 @@ new Token();
 | <code><a href="#cdktf.Token.asString">asString</a></code>         | Return a reversible string representation of this token. |
 | <code><a href="#cdktf.Token.asStringMap">asStringMap</a></code>   | Return a reversible map representation of this token.    |
 | <code><a href="#cdktf.Token.isUnresolved">isUnresolved</a></code> | Returns true if obj represents an unresolved value.      |
+| <code><a href="#cdktf.Token.nullValue">nullValue</a></code>       | Return a Token containing a `null` value.                |
 
 ---
 
@@ -27843,6 +28201,20 @@ containing resolvables.
 The object to test.
 
 ---
+
+##### `nullValue` <a name="nullValue" id="cdktf.Token.nullValue"></a>
+
+```typescript
+import { Token } from "cdktf";
+
+Token.nullValue();
+```
+
+Return a Token containing a `null` value.
+
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
 
 #### Constants <a name="Constants" id="Constants"></a>
 

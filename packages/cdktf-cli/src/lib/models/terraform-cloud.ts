@@ -218,7 +218,7 @@ export class TerraformCloud implements Terraform {
   }
 
   @BeautifyErrors("Init")
-  public async init(): Promise<void> {
+  public async init(needsUpgrade: boolean): Promise<void> {
     const sendLog = this.createTerraformLogHandler("init");
     if (
       fs.existsSync(
@@ -250,6 +250,11 @@ export class TerraformCloud implements Terraform {
     );
 
     this.removeLocalTerraformDirectory();
+
+    if (needsUpgrade) {
+      // Most likely this file doesn't exist, but try removing since init upgrade isn't possible in TFC/E
+      this.removeLocalLockFile();
+    }
 
     sendLog(`Zipping up the directory ${this.workDir}`);
     const zipBuffer = await zipDirectory(this.workDir);
@@ -589,6 +594,16 @@ export class TerraformCloud implements Terraform {
       });
     } catch (error) {
       logger.debug(`Could not remove .terraform folder`, error);
+    }
+  }
+
+  private removeLocalLockFile() {
+    try {
+      fs.rmSync(
+        path.resolve(this.stack.workingDirectory, ".terraform.lock.hcl")
+      );
+    } catch (error) {
+      logger.debug(`Could not remove ".terraform.lock.hcl" file`, error);
     }
   }
 }

@@ -3,7 +3,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import { CodeMaker } from "codemaker";
-import { mkdtemp } from "../util";
+import { DISPLAY_VERSION, mkdtemp } from "../util";
 import * as srcmak from "jsii-srcmak";
 import {
   TerraformModuleConstraint,
@@ -38,7 +38,8 @@ export const LANGUAGES = [
 
 export async function generateJsiiLanguage(
   code: CodeMaker,
-  opts: srcmak.Options
+  opts: srcmak.Options,
+  outputPath: string
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
@@ -46,8 +47,20 @@ export async function generateJsiiLanguage(
     // into our project.
     await code.save(staging);
     await srcmak.srcmak(staging, opts);
+    ["versions.json", "constraints.json"].forEach((file) => {
+      try {
+        fs.copySync(
+          path.resolve(staging, file),
+          path.resolve(outputPath, file)
+        );
+      } catch (e) {
+        logger.debug(`Failed to copy ${file}: ${e}`);
+      }
+    });
   });
 }
+
+type ConstraintFile = { providers: Record<string, string>; cdktf: string };
 
 export interface GetOptions {
   readonly targetLanguage: Language;
@@ -214,20 +227,15 @@ export class ConstructsMakerProviderTarget extends ConstructsMakerTarget {
 export class ConstructsMaker {
   private readonly codeMakerOutdir: string;
   private readonly code: CodeMaker;
-  private readonly targets: ConstructsMakerTarget[];
   private versions: { [providerName: string]: string | undefined };
 
   constructor(
     private readonly options: GetOptions,
-    private readonly constraints: TerraformDependencyConstraint[],
     private readonly reportTelemetry: (params: any) => void = () => {}
   ) {
     this.codeMakerOutdir = path.resolve(this.options.codeMakerOutput);
     fs.mkdirpSync(this.codeMakerOutdir);
     this.code = new CodeMaker();
-    this.targets = this.constraints.map((constraint) =>
-      ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
-    );
     this.versions = {};
   }
   private async generateTypescriptProvider(
@@ -243,6 +251,106 @@ export class ConstructsMaker {
 
     this.versions = { ...this.versions, ...generator.versions };
     endTSTimer();
+  }
+
+  public async filterAlreadyGenerated(
+    constraints: TerraformDependencyConstraint[]
+  ) {
+    let constraintsFile = "{}";
+    try {
+      constraintsFile = await fs.readFile(
+        path.join(this.codeMakerOutdir, "constraints.json"),
+        "utf8"
+      );
+    } catch (e) {
+      logger.info(
+        `Could not find constraints.json file while filtering: ${e}. This means no providers were generated, so all constraints need to be generated.`
+      );
+      return constraints;
+    }
+    logger.debug(`Found constraints.json file: ${constraintsFile}`);
+
+    let previousConstraints: Partial<ConstraintFile> = {};
+    try {
+      previousConstraints = JSON.parse(constraintsFile);
+    } catch (e) {
+      logger.info(
+        `Could not parse constraints.json file while filtering: ${e}. Generating all constraints.`
+      );
+      return constraints;
+    }
+
+    logger.debug(
+      `Found previous constraints: ${JSON.stringify(
+        previousConstraints,
+        null,
+        2
+      )}`
+    );
+
+    if (
+      !previousConstraints.providers ||
+      typeof previousConstraints.providers !== "object"
+    ) {
+      logger.info(
+        `Could not find providers in constraints.json file, generating all constraints. The constraints file was ${JSON.stringify(
+          previousConstraints,
+          null,
+          2
+        )}`
+      );
+      return constraints;
+    }
+
+    if (previousConstraints.cdktf !== DISPLAY_VERSION) {
+      logger.info(
+        `The CDKTF version has changed, generating all constraints. The previous version was ${previousConstraints.cdktf}, the current version is ${DISPLAY_VERSION}`
+      );
+      return constraints;
+    }
+
+    const constraintsToGenerate = constraints.filter((constraint) => {
+      const constraintMatches =
+        previousConstraints.providers![constraint.fqn] === constraint.version;
+      let providerFolderExists = false;
+
+      switch (this.options.targetLanguage) {
+        case Language.TYPESCRIPT:
+          providerFolderExists = fs.existsSync(
+            path.join(this.codeMakerOutdir, "providers", constraint.name)
+          );
+          break;
+        case Language.PYTHON:
+        case Language.JAVA:
+        case Language.CSHARP:
+          providerFolderExists = fs.existsSync(
+            path.join(this.codeMakerOutdir, constraint.name)
+          );
+          break;
+        case Language.GO:
+          providerFolderExists = fs.existsSync(
+            path.join(
+              this.codeMakerOutdir,
+              constraint.namespace || "hashicorp",
+              constraint.name
+            )
+          );
+          break;
+      }
+
+      const providerExists = constraintMatches && providerFolderExists;
+      return !providerExists;
+    });
+
+    logger.debug(
+      `Constraints to generate: ${JSON.stringify(
+        constraintsToGenerate,
+        null,
+        2
+      )}`
+    );
+
+    return constraintsToGenerate;
   }
 
   private async generateTypescriptModule(target: ConstructsMakerModuleTarget) {
@@ -273,10 +381,137 @@ export class ConstructsMaker {
   }
 
   // emits a versions.json file with a map of the used version for each provider fqpn
-  private emitVersionsFile() {
+  private updateVersionsFile(
+    allowedConstraints: TerraformDependencyConstraint[]
+  ) {
+    logger.debug(
+      `Updating versions file with generated versions ${JSON.stringify(
+        this.versions,
+        null,
+        2
+      )} with allowed constraints ${JSON.stringify(
+        allowedConstraints,
+        null,
+        2
+      )}`
+    );
     const filePath = "versions.json";
+    let previousVersions: Record<string, string> = {};
+    try {
+      previousVersions = JSON.parse(
+        fs.readFileSync(path.resolve(this.codeMakerOutdir, filePath), "utf8")
+      );
+
+      logger.debug(
+        `Read existing versions file: ${JSON.stringify(
+          previousVersions,
+          null,
+          2
+        )}`
+      );
+    } catch (e) {
+      // ignore
+      logger.debug(
+        `Could not read versions file, this is expected if there are no pre-existing local providers: ${e}`
+      );
+    }
+
+    const versions = allowedConstraints.reduce((acc, constraint) => {
+      const provider = Object.entries(previousVersions).find(([name]) =>
+        // This could be more refined, but it's good enough for now
+        name.endsWith(constraint.fqn)
+      );
+
+      if (provider) {
+        const [name, version] = provider;
+        return { ...acc, [name]: version };
+      }
+
+      return acc;
+    }, {});
+
+    logger.debug(
+      `Writing versions file (${filePath}): ${JSON.stringify(
+        versions,
+        null,
+        2
+      )}`
+    );
+
     this.code.openFile(filePath);
-    this.code.line(JSON.stringify(this.versions, null, 2));
+    this.code.line(JSON.stringify({ ...versions, ...this.versions }, null, 2));
+    this.code.closeFile(filePath);
+    return filePath;
+  }
+
+  public async removeFoldersThatShouldNotExist(
+    constraintsThatShouldExist: TerraformDependencyConstraint[]
+  ) {
+    logger.debug(
+      `Removing providers except for ${JSON.stringify(
+        constraintsThatShouldExist,
+        null,
+        2
+      )}`
+    );
+
+    // All languages besides TS keep their providers in the same folders as modules
+    // this makes it impossible for us to distinguish a no longer required provider
+    // from a manually written construct or a module
+    if (!this.isJavascriptTarget) {
+      return;
+    }
+
+    let filesInProviders: string[] = [];
+    const providersFolder = path.resolve(this.codeMakerOutdir, "providers");
+    try {
+      filesInProviders = await fs.readdir(providersFolder);
+    } catch (e) {
+      logger.debug(
+        `Error listing files in providers folder '${providersFolder}': ${e}`
+      );
+    }
+
+    const folders = filesInProviders.filter((file) =>
+      fs
+        .statSync(path.resolve(this.codeMakerOutdir, "providers", file))
+        .isDirectory()
+    );
+
+    return folders.forEach((folder) => {
+      const shouldExist = constraintsThatShouldExist.some(
+        (constraint) => constraint.name === folder
+      );
+
+      if (!shouldExist) {
+        logger.debug(`Removing folder ${folder} from providers`);
+        fs.removeSync(path.resolve(this.codeMakerOutdir, "providers", folder));
+      }
+    });
+  }
+
+  // emits a constraints.json file with a map of the used provider fqpns and version constraints
+  // this is used for caching purposes
+  private emitConstraintsFile(
+    allowedConstraints: TerraformDependencyConstraint[]
+  ) {
+    const filePath = "constraints.json";
+
+    const content: ConstraintFile = {
+      cdktf: DISPLAY_VERSION,
+      providers: allowedConstraints
+        .sort((a, b) => a.fqn.localeCompare(b.fqn))
+        .reduce(
+          (carry, item) => ({
+            ...carry,
+            [item.fqn]: item.version,
+          }),
+          {}
+        ),
+    };
+
+    this.code.openFile(filePath);
+    this.code.line(JSON.stringify(content, null, 2));
     this.code.closeFile(filePath);
     return filePath;
   }
@@ -348,18 +583,23 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
-    await generateJsiiLanguage(this.code, opts);
+    await generateJsiiLanguage(this.code, opts, this.codeMakerOutdir);
     jsiiTimer();
   }
 
-  public async generate() {
-    const endGenerateTimer = logTimespan("Generate TS");
-    await Promise.all(
-      this.targets.map((target) => this.generateTypescript(target))
+  public async generate(
+    allConstraints: TerraformDependencyConstraint[],
+    constraintsToGenerate = allConstraints
+  ) {
+    const targets = constraintsToGenerate.map((constraint) =>
+      ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
     );
+    const endGenerateTimer = logTimespan("Generate TS");
+    await Promise.all(targets.map((target) => this.generateTypescript(target)));
     endGenerateTimer();
 
-    this.emitVersionsFile();
+    this.updateVersionsFile(allConstraints);
+    this.emitConstraintsFile(allConstraints);
 
     if (this.isJavascriptTarget) {
       await this.save();
@@ -369,11 +609,11 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       const numberOfWorkers = Math.max(
         1,
         this.options.jsiiParallelism === -1
-          ? this.targets.length
+          ? targets.length
           : this.options.jsiiParallelism || 1
       );
 
-      const work = [...this.targets];
+      const work = [...targets];
       const workers = new Array(numberOfWorkers).fill(async () => {
         let target: ConstructsMakerTarget | undefined;
         while ((target = work.pop())) {
@@ -388,7 +628,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       await Promise.all(workers.map((fn) => fn()));
     }
 
-    for (const target of this.targets) {
+    for (const target of targets) {
       await this.reportTelemetry({
         payload: target.trackingPayload,
         language: target.targetLanguage,

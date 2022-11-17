@@ -10,6 +10,9 @@ import {
   LANGUAGES,
   config as cfg,
   Language,
+  GetOptions,
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
 } from "@cdktf/provider-generator";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
@@ -46,7 +49,11 @@ import { initializErrorReporting } from "../../lib/error-reporting";
 import { CdktfConfig, ProviderDependencySpec } from "../../lib/cdktf-config";
 import { providerAdd as providerAddLib } from "../../lib/provider-add";
 import { logger } from "../../lib/logging";
-import { DependencyManager, ProviderConstraint } from "../../lib/dependencies/dependency-manager";
+import {
+  DependencyManager,
+  ProviderConstraint,
+} from "../../lib/dependencies/dependency-manager";
+import { get as getLib } from "../../lib/get";
 
 const chalkColour = new chalk.Instance();
 const config = cfg.readConfigSync();
@@ -196,6 +203,7 @@ export async function get(argv: {
   output: string;
   language: Language;
   parallelism: number;
+  force?: boolean;
 }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
@@ -205,11 +213,11 @@ export async function get(argv: {
   const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
   const providers = config.terraformProviders ?? [];
   const modules = config.terraformModules ?? [];
-  const { output, language, parallelism } = argv;
+  const { output, language, parallelism, force } = argv;
 
   const constraints: cfg.TerraformDependencyConstraint[] = [
-    ...providers,
-    ...modules,
+    ...providers.map((c) => new TerraformProviderConstraint(c)),
+    ...modules.map((c) => new TerraformModuleConstraint(c)),
   ];
 
   if (constraints.length === 0) {
@@ -225,6 +233,7 @@ export async function get(argv: {
       language: language,
       constraints,
       parallelism,
+      force,
     })
   );
 }
@@ -242,7 +251,7 @@ export async function init(argv: any) {
 
   checkForEmptyDirectory(".");
 
-  const {needsGet, codeMakerOutput, language} = await runInit(argv);
+  const { needsGet, codeMakerOutput, language } = await runInit(argv);
 
   if (needsGet) {
     console.log(
@@ -455,24 +464,45 @@ export async function providerUpgrade(argv: any) {
     config.projectDirectory
   );
 
-  let needsGet = false;
+  const constraintsToUpdate: ProviderConstraint[] = [];
 
   for (const provider of argv.provider) {
     const constraint = ProviderConstraint.fromConfigEntry(provider);
     const { addedLocalProvider } = await manager.upgradeProvider(constraint);
     if (addedLocalProvider) {
-      needsGet = true;
+      constraintsToUpdate.push(constraint);
     }
   }
 
-  if (needsGet) {
+  if (constraintsToUpdate.length > 0) {
+    const singular = constraintsToUpdate.length === 1;
     console.log(
-      "Local providers have been updated. Running cdktf get to update..."
+      `${constraintsToUpdate.length} local provider${
+        singular ? " has" : "s have"
+      } been updated. Running cdktf get to update...`
     );
-    await get({
-      language: language,
-      output: config.codeMakerOutput,
-      parallelism: 1,
+
+    const config = cfg.readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+    const providers = config.terraformProviders ?? [];
+    const modules = config.terraformModules ?? [];
+
+    const constructsOptions: GetOptions = {
+      codeMakerOutput: config.codeMakerOutput,
+      targetLanguage: language,
+      jsiiParallelism: 1,
+    };
+
+    const constraints: cfg.TerraformDependencyConstraint[] = [
+      ...providers,
+      ...modules,
+    ];
+    await getLib({
+      constructsOptions,
+      constraints,
+      cleanDirectory: false,
+      constraintsToGenerate: constraintsToUpdate.map(
+        (c) => new TerraformProviderConstraint(c)
+      ),
     });
   }
 }

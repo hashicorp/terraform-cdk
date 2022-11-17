@@ -262,8 +262,12 @@ export type Operator =
   | "!="
   | "&&"
   | "||";
-// eslint-disable-next-line jsdoc/require-jsdoc
-class OperatorExpression extends TFExpression {
+
+/**
+ * Base class for Operator Expressions
+ * @internal
+ */
+export class OperatorExpression extends TFExpression {
   constructor(
     private operator: Operator,
     private left: Expression,
@@ -304,80 +308,6 @@ class OperatorExpression extends TFExpression {
   }
 }
 
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function notOperation(expression: Expression) {
-  return new OperatorExpression("!", expression) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function negateOperation(expression: Expression) {
-  return new OperatorExpression("-", expression) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function mulOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("*", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function divOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("/", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function modOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("%", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function addOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("+", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function subOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("-", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function gtOperation(left: Expression, right: Expression) {
-  return new OperatorExpression(">", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function gteOperation(left: Expression, right: Expression) {
-  return new OperatorExpression(">=", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function ltOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("<", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function lteOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("<=", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function eqOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("==", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function neqOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("!=", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function andOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("&&", left, right) as IResolvable;
-}
-
-// eslint-disable-next-line jsdoc/require-jsdoc
-export function orOperation(left: Expression, right: Expression) {
-  return new OperatorExpression("||", left, right) as IResolvable;
-}
 // eslint-disable-next-line jsdoc/require-jsdoc
 class FunctionCall extends TFExpression {
   constructor(private name: string, private args: Expression[]) {
