@@ -27540,6 +27540,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```python
@@ -27551,10 +27553,10 @@ testingMatchers.AssertionReturn(
 )
 ```
 
-| **Name**                                                                                                | **Type**          | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>str</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+| **Name**                                                                                                | **Type**          | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>str</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>bool</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -27562,20 +27564,24 @@ testingMatchers.AssertionReturn(
 
 - _Type:_ str
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ bool
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**          | **Description**   |
-| ------------------------------------------------------------------------------------------ | ----------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>str</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+| **Name**                                                                                   | **Type**          | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | ----------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>str</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>bool</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -27587,6 +27593,8 @@ message: str
 
 - _Type:_ str
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -27596,6 +27604,8 @@ pass: bool
 ```
 
 - _Type:_ bool
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -33938,6 +33948,8 @@ cdktf.Testing()
 | <code><a href="#cdktf.Testing.toBeValidTerraform">to_be_valid_terraform</a></code>                           | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">to_have_data_source</a></code>                               | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">to_have_data_source_with_properties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">to_have_provider</a></code>                                    | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">to_have_provider_with_properties</a></code>      | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">to_have_resource</a></code>                                    | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">to_have_resource_with_properties</a></code>      | _No description._                                                                           |
 
@@ -34182,6 +34194,59 @@ cdktf.Testing.to_have_data_source_with_properties(
 ---
 
 ###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
+##### `to_have_provider` <a name="to_have_provider" id="cdktf.Testing.toHaveProvider"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_provider(
+  received: str,
+  resource_type: str
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+##### `to_have_provider_with_properties` <a name="to_have_provider_with_properties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_provider_with_properties(
+  received: str,
+  resource_type: str,
+  properties: typing.Mapping[typing.Any] = None
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
 
 - _Type:_ typing.Mapping[typing.Any]
 

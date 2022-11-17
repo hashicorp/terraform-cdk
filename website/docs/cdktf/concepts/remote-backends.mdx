@@ -128,11 +128,11 @@ Consider an example project called `hello-terraform` that is using local storage
 
 1. Navigate into the main project directory.
 
-1. Use `CloudBackend` to add a new remote backend.
+2. Use `CloudBackend` to add a new remote backend.
 
-  <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
 
-  <CodeTabs>
+<CodeTabs>
 
 ```typescript
 const stack = new MyStack(app, "hello-terraform");
@@ -154,15 +154,15 @@ stack = Stack(App(), "hi-terraform")
 
 </CodeTabs>
 
-1. Run `cdktf synth` to generate the Terraform configuration file.
+3. Run `cdktf synth` to generate the Terraform configuration file.
 
-1. Move the Terraform state file into the output directory.
+4. Move the Terraform state file into the output directory.
 
    ```bash
    mv terraform.hello-terraform.tfstate cdktf.out/stacks/hello-terraform
    ```
 
-1. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
+5. Navigate to `cdktf.out/stacks/hello-terraform` and run `terraform init`. CDKTF prints the following output:
 
    ```
    Initializing the backend...
@@ -191,7 +191,7 @@ stack = Stack(App(), "hi-terraform")
 
    ```
 
-1. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
+6. Run`cdktf diff` in the root `hello-terraform` directory to validate state migration. CDKTF prints the following output:
 
    ```bash
    Stack: hello-terraform

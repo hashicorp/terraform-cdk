@@ -21913,6 +21913,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```typescript
@@ -21921,10 +21923,10 @@ import { testingMatchers } from 'cdktf'
 new testingMatchers.AssertionReturn(message: string, pass: boolean)
 ```
 
-| **Name**                                                                                                | **Type**             | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | -------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>string</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>boolean</code> | _No description._ |
+| **Name**                                                                                                | **Type**             | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | -------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>string</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>boolean</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -21932,20 +21934,24 @@ new testingMatchers.AssertionReturn(message: string, pass: boolean)
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ boolean
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**             | **Description**   |
-| ------------------------------------------------------------------------------------------ | -------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>string</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>boolean</code> | _No description._ |
+| **Name**                                                                                   | **Type**             | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | -------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>string</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>boolean</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -21957,6 +21963,8 @@ public readonly message: string;
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -21966,6 +21974,8 @@ public readonly pass: boolean;
 ```
 
 - _Type:_ boolean
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -27719,6 +27729,8 @@ new Testing();
 | <code><a href="#cdktf.Testing.toBeValidTerraform">toBeValidTerraform</a></code>                         | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">toHaveDataSource</a></code>                             | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">toHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">toHaveProvider</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">toHaveProviderWithProperties</a></code>     | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">toHaveResource</a></code>                                 | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">toHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
@@ -27909,6 +27921,52 @@ Testing.toHaveDataSourceWithProperties(received: string, resourceType: string, p
 ---
 
 ###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveDataSourceWithProperties.parameter.properties"></a>
+
+- _Type:_ {[ key: string ]: any}
+
+---
+
+##### `toHaveProvider` <a name="toHaveProvider" id="cdktf.Testing.toHaveProvider"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveProvider(received: string, resourceType: string)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+##### `toHaveProviderWithProperties` <a name="toHaveProviderWithProperties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```typescript
+import { Testing } from 'cdktf'
+
+Testing.toHaveProviderWithProperties(received: string, resourceType: string, properties?: {[ key: string ]: any})
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `resourceType`<sup>Required</sup> <a name="resourceType" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
 
 - _Type:_ {[ key: string ]: any}
 
