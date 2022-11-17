@@ -301,7 +301,7 @@ test("works with functions", () => {
   );
 });
 
-test("throws error when escapes are nested with functions", () => {
+test("doesn't throw error when escapes are nested with functions", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -324,9 +324,20 @@ test("throws error when escapes are nested with functions", () => {
     },
   });
 
-  expect(() => {
-    Testing.synth(stack);
-  }).toThrow();
+  const res = JSON.parse(Testing.synth(stack));
+
+  const expected = {
+    name: "bar",
+    tags: {
+      firstResourceName:
+        '${lookup(test_resource.other-resource, "name", "$${${test_resource.first-resource}.name}")}',
+    },
+  };
+
+  expect(res).toHaveProperty(
+    "resource.test_resource.second-resource",
+    expected
+  );
 });
 
 test("does not throw error when tokens are nested with functions", () => {

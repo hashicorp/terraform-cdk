@@ -144,7 +144,6 @@ export class TokenizedStringFragments {
    */
   public mapTokens(context: IResolveContext): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
-    let escapeDepth = 0;
     const originalSupressBraces = context.suppressBraces;
 
     for (const f of this.fragments) {
@@ -153,27 +152,19 @@ export class TokenizedStringFragments {
           ret.addLiteral(f.lit);
           break;
         case "escape":
-          if (f.kind === "open") {
-            if (!context.suppressBraces) {
-              ret.addEscape(f.kind);
-            }
-            escapeDepth = escapeDepth + 1;
+          if (context.ignoreEscapes) {
+            ret.addLiteral(f.kind === "open" ? "${" : "}");
             break;
           }
 
-          escapeDepth = escapeDepth - 1;
-
-          if (!originalSupressBraces) ret.addEscape(f.kind);
-
-          if (escapeDepth <= 0) {
+          ret.addEscape(f.kind);
+          if (f.kind === "open") {
+            context.suppressBraces = true;
+          } else {
             context.suppressBraces = originalSupressBraces;
           }
-
           break;
         case "token":
-          if (escapeDepth > 0) {
-            context.suppressBraces = true;
-          }
           // eslint-disable-next-line no-case-declarations
           const mapped = context.resolve(f.token);
           if (Tokenization.isResolvable(mapped)) {

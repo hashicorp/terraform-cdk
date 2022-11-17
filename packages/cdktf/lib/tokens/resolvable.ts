@@ -26,6 +26,11 @@ export interface IResolveContext {
   suppressBraces?: boolean;
 
   /**
+   * True when ${} should not be parsed, and treated as literals
+   */
+  ignoreEscapes?: boolean;
+
+  /**
    * TerraformIterators can be passed for block attributes and normal list attributes
    * both require different handling when the iterable variable is accessed
    * e.g. a dynamic block needs each.key while a for expression just needs key

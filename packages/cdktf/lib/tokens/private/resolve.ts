@@ -65,6 +65,7 @@ export function resolve(obj: any, options: IResolveOptions): any {
       preparing: options.preparing,
       scope: options.scope,
       suppressBraces: options.previousContext?.suppressBraces,
+      ignoreEscapes: options.previousContext?.ignoreEscapes,
       iteratorContext: options.previousContext?.iteratorContext,
       registerPostProcessor(pp) {
         postProcessor = pp;
@@ -143,7 +144,10 @@ export function resolve(obj: any, options: IResolveOptions): any {
 
     let str: string = obj;
 
-    const tokenStr = TokenString.forString(str, true);
+    const tokenStr = TokenString.forString(
+      str,
+      !makeContext()[0].ignoreEscapes
+    );
     if (tokenStr.test()) {
       const fragments = tokenStr.split(tokenMap.lookupToken.bind(tokenMap));
       str = options.resolver.resolveString(fragments, makeContext()[0]);

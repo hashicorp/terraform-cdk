@@ -6,7 +6,6 @@ import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
-import { TokenString } from "./tokens/private/encoding";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
@@ -322,17 +321,11 @@ class FunctionCall extends TFExpression {
   public resolve(context: IResolveContext): string {
     const suppressBraces = context.suppressBraces;
     context.suppressBraces = true;
+    context.ignoreEscapes = true;
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
       .join(", ");
-
-    const escapeRegex = TokenString.forEscape(serializedArgs);
-    if (escapeRegex.test()) {
-      throw new Error(
-        "Cannot use terraform escape sequences within CDKTF Functions. Please use the escape sequence at the beginning and use terraform functions directly"
-      );
-    }
 
     const expr = `${this.name}(${serializedArgs})`;
 
