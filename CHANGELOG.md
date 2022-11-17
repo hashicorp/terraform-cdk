@@ -1,3 +1,15 @@
+## 0.14.1
+
+A broken import that only appeared in the bundled `cdktf-cli` that we publish broke the `0.14.0` release. This patch release fixes this.
+
+### fix
+
+- fix(provider-generator): fix cross package import which breaks the cdktf-cli release bundle [\#2302](https://github.com/hashicorp/terraform-cdk/pull/2302)
+
+### chore
+
+- chore: document authoring cdktf constructs [\#2287](https://github.com/hashicorp/terraform-cdk/pull/2287)
+
 ## 0.14.0
 
 **Breaking changes**
