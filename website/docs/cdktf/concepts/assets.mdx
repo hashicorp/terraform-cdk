@@ -71,30 +71,31 @@ app.synth();
 
 ```python
 from constructs import Construct
-import cdktf
-import imports.aws as aws
+from cdktf import TerraformAsset, TerraformStack, AssetType
+from imports.aws.provider import AwsProvider
+from imports.aws.s3_bucket import S3Bucket
+from imports.aws.s3_bucket_object import S3BucketObject
 import os
 
 
-class MyAssetStack(cdktf.TerraformStack):
+class MyAssetStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        aws.provider.AwsProvider(self, 'aws', region='eu-central-1')
+        AwsProvider(self, 'aws', region='eu-central-1')
 
-        bucket = aws.s3_bucket.S3Bucket(self, "bucket", bucket="demo")
+        bucket = S3Bucket(self, "bucket", bucket="demo")
 
-        asset = cdktf.TerraformAsset(self, "lambda-asset",
-                                     path=os.path.join(os.path.dirname(
-                                         __file__), 'lambda'),
-                                     type=cdktf.AssetType.ARCHIVE
-                                     )
+        asset = TerraformAsset(self, "lambda-asset",
+                    path=os.path.join(os.path.dirname(__file__), 'lambda'),
+                    type=AssetType.ARCHIVE
+                )
 
-        aws.s3_bucket_object.S3BucketObject(self, "lambda-archive",
-                                            bucket=bucket.bucket,
-                                            key=asset.file_name,
-                                            source=asset.path
-                                            )
+        S3BucketObject(self, "lambda-archive",
+            bucket=bucket.bucket,
+            key=asset.file_name,
+            source=asset.path
+        )
 
 app = cdktf.App()
 MyAssetStack(app, "demo")

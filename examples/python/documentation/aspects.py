@@ -50,8 +50,8 @@ class MainAspects(TerraformStack):
         super().__init__(scope, id)
 
         AwsProvider(self, "aws",
-                    region="us-east-1"
-                    )
+          region="us-east-1"
+        )
         myStack = S3Bucket(self, "bucket", 
           tags = {"owner" : "cdktf"}
         )

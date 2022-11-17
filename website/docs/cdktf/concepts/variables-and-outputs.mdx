@@ -55,7 +55,7 @@ imageId = TerraformVariable(self, "imageId",
     default = "ami-abcde123",
     description = "What AMI to use to create an instance"
 )
-aws.instance.Instance(self, "hello",
+Instance(self, "hello",
     ami = imageId.string_value,
     instance_type = "t2.micro"
 )
@@ -98,7 +98,7 @@ new Instance(this, "example", {
             "owner": "owner"
         })
 
-        aws.instance.Instance(self, "example",
+        Instance(self, "example",
             tags = commonTags.as_string_map
         )
 ```
@@ -228,7 +228,7 @@ app.synth();
 ```
 
 ```python
-import imports.random as random
+from imports.random.provider import RandomProvider
 
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
@@ -237,7 +237,7 @@ class DefineOutputStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        random.provider.RandomProvider(self, "random")
+        RandomProvider(self, "random")
         pet = random.pet.Pet(self, "pet")
 
         TerraformOutput(self, "random-pet",

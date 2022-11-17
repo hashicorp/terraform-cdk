@@ -48,12 +48,12 @@ from imports.aws.provider import AwsProvider
 from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
 
         zones = DataAwsAvailabilityZones(self, 'zones',
-                                         state="available",
-                                         )
+                    state="available",
+                )
 
         TerraformOutput(self, 'first-zone',
-                        value=Fn.element(zones.names, 0)
-                        )
+            value=Fn.element(zones.names, 0)
+        )
 
 app = App()
 FunctionsStack(app, "functions")

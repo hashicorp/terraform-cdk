@@ -11,7 +11,6 @@ from constructs import Construct
 from imports.aws.data_aws_region import DataAwsRegion
 from imports.aws.provider import AwsProvider
 
-
 class HelloTerraform(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
@@ -42,19 +41,19 @@ class HelloTerraformRemoteState(TerraformStack):
         super().__init__(scope, id)
 
         AwsProvider(self, "aws",
-                    region="us-east-1"
-                    )
+            region="us-east-1"
+        )
 
         # .....
         remoteState = DataTerraformRemoteState(self, "vpc-prod-remote-state",
-                                               organization="hashicorp",
-                                               workspaces=NamedRemoteWorkspace(name='vpc-prod')
-                                               )
+                            organization="hashicorp",
+                            workspaces=NamedRemoteWorkspace(name='vpc-prod')
+                        )
 
         Instance(self, "foo",
-                 # .....
-                 subnet_id=remoteState.get_string('subnet_id')
-                 )
+            # .....
+            subnet_id=remoteState.get_string('subnet_id')
+        )
 # DOCS_BLOCK_END:data-sources-remote-state-data-source
 
 

@@ -1,18 +1,20 @@
 from cdktf import TerraformStack, TerraformLocal, TerraformVariable, CloudBackend, NamedCloudWorkspace
-import imports.aws as aws
+from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
+
 from constructs import Construct
 
 class VariablesOutputsDefineLocalStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
-        aws.provider.AwsProvider(self, "aws", region="us-east-1")
+        AwsProvider(self, "aws", region="us-east-1")
         #DOCS_BLOCK_START:var-out-define-local
         commonTags = TerraformLocal(self, "common_tags", {
             "service": "service_name",
             "owner": "owner"
         })
 
-        aws.instance.Instance(self, "example",
+        Instance(self, "example",
             tags = commonTags.as_string_map
         )
         #DOCS_BLOCK_END:var-out-define-local
@@ -22,7 +24,7 @@ class VariablesOutputsDefineLocalStack(TerraformStack):
             default = "ami-abcde123",
             description = "What AMI to use to create an instance"
         )
-        aws.instance.Instance(self, "hello",
+        Instance(self, "hello",
             ami = imageId.string_value,
             instance_type = "t2.micro"
         )
@@ -56,7 +58,7 @@ app.synth()
 '''
 
 #DOCS_BLOCK_START:var-out-define-output-values
-import imports.random as random
+from imports.random.provider import RandomProvider
 
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
@@ -65,7 +67,7 @@ class DefineOutputStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
-        random.provider.RandomProvider(self, "random")
+        RandomProvider(self, "random")
         pet = random.pet.Pet(self, "pet")
 
         TerraformOutput(self, "random-pet", 

@@ -16,15 +16,15 @@ class MyAssetStack(TerraformStack):
         bucket = S3Bucket(self, "bucket", bucket="demo")
 
         asset = TerraformAsset(self, "lambda-asset",
-                                     path=os.path.join(os.path.dirname(__file__), 'lambda'),
-                                     type=AssetType.ARCHIVE
-                                     )
+                    path=os.path.join(os.path.dirname(__file__), 'lambda'),
+                    type=AssetType.ARCHIVE
+                )
 
         S3BucketObject(self, "lambda-archive",
-                                            bucket=bucket.bucket,
-                                            key=asset.file_name,
-                                            source=asset.path
-                                            )
+            bucket=bucket.bucket,
+            key=asset.file_name,
+            source=asset.path
+        )
 
 # DOCS_BLOCK_END:assets
 

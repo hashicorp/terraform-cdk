@@ -1,21 +1,20 @@
 from cdktf import TerraformStack, Token, App
 from constructs import Construct
-from imports.aws.s3_bucket import S3Bucket
+from imports.aws.provider import AwsProvider
 from imports.github.data_github_organization import DataGithubOrganization
 from imports.github.provider import GithubProvider
 from imports.github.team import Team
 from imports.github.team_members import TeamMembers
 
 # DOCS_BLOCK_START:iterators-define-iterators,iterators-iterators-complex-types
-import imports.aws as aws
+from imports.aws.s3_bucket import S3Bucket
 from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 # DOCS_BLOCK_END:iterators-define-iterators,iterators-iterators-complex-types
-
 
 class IteratorStackOne(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
-        aws.provider.AwsProvider(self, "aws", region="us-east-1")
+        AwsProvider(self, "aws", region="us-east-1")
 
         # DOCS_BLOCK_START:iterators-iterators-complex-types
         list = TerraformLocal(self, "my-list", [
@@ -43,7 +42,7 @@ class IteratorStackOne(TerraformStack):
 class IteratorStackTwo(TerraformStack):
     def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
-        aws.provider.AwsProvider(self, "aws", region="us-east-1")
+        AwsProvider(self, "aws", region="us-east-1")
         GithubProvider(self, "gh")
         # DOCS_BLOCK_START:iterators-define-iterators
         
@@ -53,10 +52,10 @@ class IteratorStackTwo(TerraformStack):
 
         iterator = TerraformIterator.from_list(list=list.list_value)
 
-        s3Bucket = aws.s3_bucket.S3Bucket(self, "bucket",
+        s3Bucket = S3Bucket(self, "bucket",
             for_each=iterator,
             bucket=Token.as_string(iterator.value)
-            )
+        )
         # DOCS_BLOCK_END:iterators-define-iterators
 
         # DOCS_BLOCK_START:iterators-list-attributes
