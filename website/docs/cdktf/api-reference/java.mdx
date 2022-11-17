@@ -34198,6 +34198,7 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------ | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>             | <code>java.lang.Boolean</code>              | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                     | <code>software.constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignoreEscapes</a></code>     | <code>java.lang.Boolean</code>              | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iteratorContext</a></code> | <code>java.lang.String</code>               | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code>   | <code>java.lang.Boolean</code>              | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
@@ -34224,6 +34225,18 @@ public IConstruct getScope();
 - _Type:_ software.constructs.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `ignoreEscapes`<sup>Optional</sup> <a name="ignoreEscapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```java
+public java.lang.Boolean getIgnoreEscapes();
+```
+
+- _Type:_ java.lang.Boolean
+
+True when ${} should not be parsed, and treated as literals.
 
 ---
 

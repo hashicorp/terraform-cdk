@@ -29414,6 +29414,7 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>             | <code>boolean</code>               | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                     | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignoreEscapes</a></code>     | <code>boolean</code>               | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iteratorContext</a></code> | <code>string</code>                | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppressBraces</a></code>   | <code>boolean</code>               | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
@@ -29440,6 +29441,18 @@ public readonly scope: IConstruct;
 - _Type:_ constructs.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `ignoreEscapes`<sup>Optional</sup> <a name="ignoreEscapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```typescript
+public readonly ignoreEscapes: boolean;
+```
+
+- _Type:_ boolean
+
+True when ${} should not be parsed, and treated as literals.
 
 ---
 

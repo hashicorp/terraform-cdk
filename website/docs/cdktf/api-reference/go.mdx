@@ -29999,6 +29999,7 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code>             | <code>\*bool</code>                                                 | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code>                     | <code>github.com/aws/constructs-go/constructs/v10.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">IgnoreEscapes</a></code>     | <code>\*bool</code>                                                 | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>\*string</code>                                               | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code>   | <code>\*bool</code>                                                 | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
@@ -30025,6 +30026,18 @@ func Scope() IConstruct
 - _Type:_ github.com/aws/constructs-go/constructs/v10.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `IgnoreEscapes`<sup>Optional</sup> <a name="IgnoreEscapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```go
+func IgnoreEscapes() *bool
+```
+
+- _Type:_ \*bool
+
+True when ${} should not be parsed, and treated as literals.
 
 ---
 

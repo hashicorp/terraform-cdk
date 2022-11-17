@@ -35834,6 +35834,7 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>              | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                      | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignore_escapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code>                   | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
 
@@ -35860,6 +35861,18 @@ scope: IConstruct
 - _Type:_ constructs.IConstruct
 
 The scope from which resolution has been initiated.
+
+---
+
+##### `ignore_escapes`<sup>Optional</sup> <a name="ignore_escapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```python
+ignore_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be parsed, and treated as literals.
 
 ---
 
