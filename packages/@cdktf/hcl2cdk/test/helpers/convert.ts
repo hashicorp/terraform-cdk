@@ -218,24 +218,24 @@ const createTestCase =
     }
 
     const testBody = () => {
-      it("snapshot", async () => {
+      let convertResult: any;
+      beforeAll(async () => {
         const { providerSchema } = await getProviderSchema(providers);
-        const { all } = await convert(hcl, {
+        convertResult = await convert(hcl, {
           language: "typescript",
           providerSchema,
         });
-        expect(all).toMatchSnapshot();
+      }, 500_000);
+
+      it("snapshot", async () => {
+        expect(convertResult.all).toMatchSnapshot();
       }, 500_000);
 
       if (shouldSynth === Synth.yes) {
         it("synth", async () => {
-          const { providerSchema } = await getProviderSchema(providers);
           const filename = name.replace(/\s/g, "-");
           const projectDirPromise = getProjectDirectory(providers);
-          const { imports, code } = await convert(hcl, {
-            language: "typescript",
-            providerSchema,
-          });
+          const { imports, code } = convertResult;
           const projectDir = await projectDirPromise;
           // Have a before all somewhere above bootstrap a TS project
           // __dirname should be replaceed by the bootstrapped directory
