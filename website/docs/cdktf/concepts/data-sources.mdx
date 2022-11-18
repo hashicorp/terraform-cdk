@@ -39,7 +39,7 @@ export class HelloTerraform extends TerraformStack {
 
 The [`terraform_remote_state` data source](/language/state/remote-state-data) retrieves state data from a remote [Terraform backend](/language/settings/backends/configuration). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure. Refer to the [Remote Backends page](/cdktf/concepts/remote-backends) for more details.
 
-The following TypeScript example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
+The following example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
 ```typescript
 // .....
