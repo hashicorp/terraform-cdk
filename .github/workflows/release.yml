@@ -15,6 +15,10 @@ env:
   SENTRY_ORG: hashicorp
   SENTRY_PROJECT: cdktf-cli
 
+concurrency:
+  group: release
+  cancel-in-progress: true
+
 jobs:
   prepare-release:
     if: github.repository == 'hashicorp/terraform-cdk'
