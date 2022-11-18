@@ -12,8 +12,6 @@ on:
 
 jobs:
   unit_test:
-    needs:
-      - prepare-release
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
