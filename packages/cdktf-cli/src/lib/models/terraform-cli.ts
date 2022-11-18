@@ -49,8 +49,8 @@ export class TerraformCli implements Terraform {
     if (needsUpgrade) {
       args.push("-upgrade");
     }
-    if(noColor){
-      args.push("-no-color")
+    if (noColor) {
+      args.push("-no-color");
     }
 
     await exec(
@@ -70,7 +70,7 @@ export class TerraformCli implements Terraform {
     destroy = false,
     refreshOnly = false,
     parallelism = -1,
-    noColor = false,
+    noColor = false
   ): Promise<TerraformPlan> {
     const planFile = "plan";
     const options = ["plan", "-input=false", "-out", planFile];
@@ -83,7 +83,7 @@ export class TerraformCli implements Terraform {
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
     }
-    if(noColor) {
+    if (noColor) {
       options.push("-no-color");
     }
     await this.setUserAgent();
@@ -115,7 +115,7 @@ export class TerraformCli implements Terraform {
     refreshOnly = false,
     parallelism = -1,
     noColor = false,
-    extraOptions: string[] = [],
+    extraOptions: string[] = []
   ): Promise<void> {
     await this.setUserAgent();
     await exec(

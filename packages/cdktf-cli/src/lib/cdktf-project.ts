@@ -516,7 +516,11 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff(opts?.refreshOnly, opts?.terraformParallelism, opts?.noColor);
+    await stack.diff(
+      opts?.refreshOnly,
+      opts?.terraformParallelism,
+      opts?.noColor
+    );
     if (!stack.currentPlan)
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -603,7 +607,7 @@ export class CdktfProject {
             this.stacksToRun.filter((stack) => stack.isPending)[0]
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
-    
+
     await this.execute("deploy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(

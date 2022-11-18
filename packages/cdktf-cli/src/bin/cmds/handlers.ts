@@ -200,7 +200,7 @@ export async function diff(argv: any) {
       targetStack: stack,
       synthCommand: command,
       terraformParallelism,
-      noColor
+      noColor,
     })
   );
 }

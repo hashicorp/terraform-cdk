@@ -71,7 +71,7 @@ export const Deploy = ({
   parallelism,
   refreshOnly,
   terraformParallelism,
-  noColor
+  noColor,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -84,7 +84,7 @@ export const Deploy = ({
         parallelism,
         refreshOnly,
         terraformParallelism,
-        noColor
+        noColor,
       });
 
       if (onOutputsRetrieved) {

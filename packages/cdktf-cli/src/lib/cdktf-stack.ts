@@ -228,7 +228,7 @@ export class CdktfStack {
 
   private async initalizeTerraform({
     isSpeculative,
-    noColor
+    noColor,
   }: {
     isSpeculative: boolean;
     noColor?: boolean;
@@ -328,10 +328,17 @@ export class CdktfStack {
     this.currentWorkPromise = undefined;
   }
 
-  public async diff(refreshOnly?: boolean, terraformParallelism?: number, noColor?: boolean) {
+  public async diff(
+    refreshOnly?: boolean,
+    terraformParallelism?: number,
+    noColor?: boolean
+  ) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: true, noColor });
+      const terraform = await this.initalizeTerraform({
+        isSpeculative: true,
+        noColor,
+      });
 
       const plan = await terraform.plan(
         false,
@@ -344,10 +351,17 @@ export class CdktfStack {
     });
   }
 
-  public async deploy(refreshOnly?: boolean, terraformParallelism?: number, noColor?: boolean) {
+  public async deploy(
+    refreshOnly?: boolean,
+    terraformParallelism?: number,
+    noColor?: boolean
+  ) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false, noColor});
+      const terraform = await this.initalizeTerraform({
+        isSpeculative: false,
+        noColor,
+      });
       const plan = await terraform.plan(
         false,
         refreshOnly,
