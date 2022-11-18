@@ -16,8 +16,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        terraform_version:
-          - "1.2.8"
+        terraform_version: ["1.2.8"]
     with:
       concurrency_group_prefix: release
       package: "@cdktf/hcl2json"
