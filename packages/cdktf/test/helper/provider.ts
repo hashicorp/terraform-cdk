@@ -50,13 +50,16 @@ export class TestProvider extends TerraformProvider {
 
 // Generated Docker provider to test real-world scenarios
 export class DockerProvider extends TerraformProvider {
+  public static readonly tfResourceType: string = "docker";
+  public _alias: string;
+  public _ssh_opts?: [string];
   public constructor(
     scope: Construct,
     id: string,
     public config: Record<string, any>
   ) {
     super(scope, id, {
-      terraformResourceType: "docker",
+      terraformResourceType: DockerProvider.tfResourceType,
       terraformGeneratorMetadata: {
         providerName: "docker",
         providerVersionConstraint: "~> 2.0",
@@ -64,9 +67,19 @@ export class DockerProvider extends TerraformProvider {
       terraformProviderSource: "kreuzwerker/docker",
     });
 
+    this._alias = config.alias;
+    this._ssh_opts = config.ssh_opts;
+
     // Windows needs the special docker host configuration to work
     if (process.platform === "win32") {
       this.addOverride("host", "npipe:////.//pipe//docker_engine");
     }
+  }
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      alias: this._alias,
+      ssh_opts: this._ssh_opts,
+    };
   }
 }

@@ -30,6 +30,7 @@ export * from "./synthesize";
 export * from "./annotations";
 export * from "./aspect";
 export * from "./terraform-functions";
+export * from "./terraform-operators";
 export * from "./tfExpression";
 export * from "./terraform-addressable";
 export * from "./terraform-iterator";

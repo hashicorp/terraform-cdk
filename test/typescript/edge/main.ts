@@ -7,6 +7,7 @@ import {
   TerraformIterator,
   TerraformOutput,
   TerraformStack,
+  Token,
 } from "cdktf";
 import * as edge from "./.gen/providers/edge";
 
@@ -18,6 +19,10 @@ export class ReferenceStack extends TerraformStack {
       reqstr: "reqstr",
       reqnum: 123,
       reqbool: true,
+    });
+
+    new edge.optionalAttributeResource.OptionalAttributeResource(this, "null", {
+      bool: Token.nullValue(),
     });
 
     const res = new edge.optionalAttributeResource.OptionalAttributeResource(

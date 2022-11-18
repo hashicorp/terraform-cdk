@@ -35,10 +35,13 @@ jobs:
         run: |
           version=$(node -p "require('./package.json').version")
           echo "version=${version}" >> $GITHUB_OUTPUT
+      - name: "Allow git access for Sentry CLI running in Docker" # https://github.com/actions/checkout/issues/760
+        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: release status
         id: get_release_status
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          echo "Sentry returned: ${status}"
           echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}

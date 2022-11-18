@@ -27139,6 +27139,363 @@ func Fqn() *string
 
 ---
 
+### Op <a name="Op" id="cdktf.Op"></a>
+
+This class contains static functions for all arithmetical and logical operators in the Terraform configutation language.
+
+#### Initializers <a name="Initializers" id="cdktf.Op.Initializer"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.NewOp() Op
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">Add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">And</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">Div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">Eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">Gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">Gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">Lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">Lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">Mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">Mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">Negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">Neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">Not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">Or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">Sub</a></code>       | Renders left - right.    |
+
+---
+
+##### `Add` <a name="Add" id="cdktf.Op.add"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Add(left interface{}, right interface{}) IResolvable
+```
+
+Renders left + right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.add.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `And` <a name="And" id="cdktf.Op.and"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_And(left interface{}, right interface{}) IResolvable
+```
+
+Renders left && right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.and.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Div` <a name="Div" id="cdktf.Op.div"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Div(left interface{}, right interface{}) IResolvable
+```
+
+Renders left / right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.div.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Eq` <a name="Eq" id="cdktf.Op.eq"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Eq(left interface{}, right interface{}) IResolvable
+```
+
+Renders left == right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.eq.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Gt` <a name="Gt" id="cdktf.Op.gt"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Gt(left interface{}, right interface{}) IResolvable
+```
+
+Renders left > right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gt.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Gte` <a name="Gte" id="cdktf.Op.gte"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Gte(left interface{}, right interface{}) IResolvable
+```
+
+Renders left >= right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gte.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Lt` <a name="Lt" id="cdktf.Op.lt"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Lt(left interface{}, right interface{}) IResolvable
+```
+
+Renders left < right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lt.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Lte` <a name="Lte" id="cdktf.Op.lte"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Lte(left interface{}, right interface{}) IResolvable
+```
+
+Renders left < = right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lte.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Mod` <a name="Mod" id="cdktf.Op.mod"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Mod(left interface{}, right interface{}) IResolvable
+```
+
+Renders left % right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mod.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Mul` <a name="Mul" id="cdktf.Op.mul"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Mul(left interface{}, right interface{}) IResolvable
+```
+
+Renders left \* right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mul.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Negate` <a name="Negate" id="cdktf.Op.negate"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Negate(expression interface{}) IResolvable
+```
+
+Renders -expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Neq` <a name="Neq" id="cdktf.Op.neq"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Neq(left interface{}, right interface{}) IResolvable
+```
+
+Renders left != right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.neq.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Not` <a name="Not" id="cdktf.Op.not"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Not(expression interface{}) IResolvable
+```
+
+Renders !expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Or` <a name="Or" id="cdktf.Op.or"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Or(left interface{}, right interface{}) IResolvable
+```
+
+Renders left || right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.or.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
+##### `Sub` <a name="Sub" id="cdktf.Op.sub"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Op_Sub(left interface{}, right interface{}) IResolvable
+```
+
+Renders left - right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
+
+- _Type:_ interface{}
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.sub.parameter.right"></a>
+
+- _Type:_ interface{}
+
+---
+
 ### PrefixedRemoteWorkspaces <a name="PrefixedRemoteWorkspaces" id="cdktf.PrefixedRemoteWorkspaces"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -28183,6 +28540,7 @@ cdktf.NewToken() Token
 | <code><a href="#cdktf.Token.asString">AsString</a></code>         | Return a reversible string representation of this token. |
 | <code><a href="#cdktf.Token.asStringMap">AsStringMap</a></code>   | Return a reversible map representation of this token.    |
 | <code><a href="#cdktf.Token.isUnresolved">IsUnresolved</a></code> | Returns true if obj represents an unresolved value.      |
+| <code><a href="#cdktf.Token.nullValue">NullValue</a></code>       | Return a Token containing a `null` value.                |
 
 ---
 
@@ -28428,6 +28786,20 @@ containing resolvables.
 The object to test.
 
 ---
+
+##### `NullValue` <a name="NullValue" id="cdktf.Token.nullValue"></a>
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+
+cdktf.Token_NullValue() IResolvable
+```
+
+Return a Token containing a `null` value.
+
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
 
 #### Constants <a name="Constants" id="Constants"></a>
 
