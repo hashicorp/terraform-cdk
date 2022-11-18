@@ -91,6 +91,14 @@ jobs:
       concurrency_group_prefix: release-next
     secrets: inherit
 
+  linting:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/linting.yml
+    with:
+      concurrency_group_prefix: release-next
+    secrets: inherit
+
   integration_test:
     needs:
       - prepare-release
