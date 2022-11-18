@@ -1,45 +1,24 @@
-name: Unit Tests
+name: Unit Test Run
 on:
-  pull_request:
-    paths:
-      # This workflow
-      - ".github/workflows/unit.yml"
-      # All packages under test
-      - "packages/**"
-      # Prettier related config files
-      - ".prettier*"
-      # Version changes might introduce bugs
-      - "package.json"
-      # All scripts we use
-      - "tools/build-unit-test-matrix.sh"
-      - "tools/align-version.sh"
-
   workflow_call:
     inputs:
       concurrency_group_prefix:
         default: pr
         required: false
         type: string
+      package:
+        required: true
+        type: string
+      terraform_version:
+        required: true
+        type: string
 
 concurrency:
-  group: ${{ inputs.concurrency_group_prefix }}-unit-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-unit-${{ inputs.package }}-${{ inputs.terraform_version }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  build-test-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      tests: ${{ steps.build-test-matrix.outputs.tests }}
-    container:
-      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
-    steps:
-      - uses: actions/checkout@v2
-      - id: build-test-matrix
-        run: |
-          ./tools/build-unit-test-matrix.sh
-
-  unit-tests:
-    needs: build-test-matrix
+  unit-test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -72,8 +51,8 @@ jobs:
           yarn package
       - name: test
         run: |
-          npx lerna run --scope '${{ matrix.target }}' test:ci
+          npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache

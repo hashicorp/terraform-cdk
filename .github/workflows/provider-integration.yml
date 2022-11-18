@@ -1,5 +1,8 @@
 name: Provider Integration Tests
 on:
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - "packages/@cdktf/provider-generator/**"
