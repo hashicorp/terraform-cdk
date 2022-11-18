@@ -228,8 +228,10 @@ export class CdktfStack {
 
   private async initalizeTerraform({
     isSpeculative,
+    noColor
   }: {
     isSpeculative: boolean;
+    noColor?: boolean;
   }) {
     const terraform = await getTerraformClient(
       this.options.abortSignal,
@@ -239,9 +241,7 @@ export class CdktfStack {
     );
 
     const needsUpgrade = await this.checkLockFile();
-
-    await terraform.init(needsUpgrade);
-
+    await terraform.init(needsUpgrade, noColor);
     return terraform;
   }
 
@@ -328,30 +328,31 @@ export class CdktfStack {
     this.currentWorkPromise = undefined;
   }
 
-  public async diff(refreshOnly?: boolean, terraformParallelism?: number) {
+  public async diff(refreshOnly?: boolean, terraformParallelism?: number, noColor?: boolean) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: true });
+      const terraform = await this.initalizeTerraform({ isSpeculative: true, noColor });
 
       const plan = await terraform.plan(
         false,
         refreshOnly,
-        terraformParallelism
+        terraformParallelism,
+        noColor
       );
       this.currentPlan = plan;
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
     });
   }
 
-  public async deploy(refreshOnly?: boolean, terraformParallelism?: number) {
+  public async deploy(refreshOnly?: boolean, terraformParallelism?: number, noColor?: boolean) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
-
+      const terraform = await this.initalizeTerraform({ isSpeculative: false, noColor});
       const plan = await terraform.plan(
         false,
         refreshOnly,
-        terraformParallelism
+        terraformParallelism,
+        noColor
       );
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
@@ -369,7 +370,8 @@ export class CdktfStack {
         await terraform.deploy(
           plan.planFile,
           refreshOnly,
-          terraformParallelism
+          terraformParallelism,
+          noColor
         );
       }
 

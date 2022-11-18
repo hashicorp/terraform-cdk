@@ -78,9 +78,9 @@ class Command extends BaseCommand {
       })
       .option("no-color", {
         type: "boolean",
+        default: false,
         required: false,
         desc: "Disables terminal formatting sequences in the output.",
-        default: false,
       })
       .showHelpOnFail(true);
 

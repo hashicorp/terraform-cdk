@@ -191,6 +191,7 @@ export async function diff(argv: any) {
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
   const terraformParallelism = argv.terraformParallelism;
+  const noColor = argv.noColor;
 
   await renderInk(
     React.createElement(Diff, {
@@ -199,6 +200,7 @@ export async function diff(argv: any) {
       targetStack: stack,
       synthCommand: command,
       terraformParallelism,
+      noColor
     })
   );
 }

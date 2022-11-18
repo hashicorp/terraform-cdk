@@ -109,6 +109,9 @@ yargs
     desc: "Used internally for env variable",
   })
   .completion("completion", customCompletion) // outputs completion script on "cdktf completion"
+  .parserConfiguration({
+    "boolean-negation": false
+  })
   .command({
     command: "*", // catches everything not previously matched
     handler: (argv) => {

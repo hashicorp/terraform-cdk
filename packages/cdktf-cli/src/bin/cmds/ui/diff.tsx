@@ -9,6 +9,7 @@ interface DiffConfig {
   synthCommand: string;
   refreshOnly?: boolean;
   terraformParallelism?: number;
+  noColor?: boolean;
 }
 
 export const Diff = ({
@@ -17,6 +18,7 @@ export const Diff = ({
   synthCommand,
   refreshOnly,
   terraformParallelism,
+  noColor
 }: DiffConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -25,6 +27,7 @@ export const Diff = ({
         stackName: targetStack,
         refreshOnly,
         terraformParallelism,
+        noColor
       })
   );
 

@@ -42,12 +42,15 @@ export class TerraformCli implements Terraform {
       createTerraformLogHandler(phase)(stderr.toString(), true);
   }
 
-  public async init(needsUpgrade: boolean): Promise<void> {
+  public async init(needsUpgrade: boolean, noColor?: boolean): Promise<void> {
     await this.setUserAgent();
 
     const args = ["init", "-input=false"];
     if (needsUpgrade) {
       args.push("-upgrade");
+    }
+    if(noColor){
+      args.push("-no-color")
     }
 
     await exec(
@@ -125,7 +128,7 @@ export class TerraformCli implements Terraform {
         ...extraOptions,
         ...(refreshOnly ? ["-refresh-only"] : []),
         ...(parallelism > -1 ? [`-parallelism=${parallelism}`] : []),
-        ...(noColor ? ["--no-color"] : []),
+        ...(noColor ? ["-no-color"] : []),
         // only appends planFile if not empty
         // this allows deploying without a plan (as used in watch)
         ...(planFile ? [planFile] : []),
