@@ -10,21 +10,21 @@ on:
       - reopened
 
 jobs:
-  unit_test:
+  unit_test_for_prs:
     if: contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
       matrix:
         package:
-          - cdktf
-          - cdktf-cli
-          - "@cdktf/hcl2cdk"
-          - "@cdktf/hcl2json"
-          - "@cdktf/provider-generator"
-        terraform_version:
-          - "1.1.9"
-          - "1.2.8"
+          [
+            cdktf,
+            cdktf-cli,
+            "@cdktf/hcl2cdk",
+            "@cdktf/hcl2json",
+            "@cdktf/provider-generator",
+          ]
+        terraform_version: ["1.1.9", "1.2.8"]
     with:
       concurrency_group_prefix: unit-all
       package: ${{ matrix.package }}
