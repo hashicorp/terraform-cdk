@@ -55,9 +55,6 @@ from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
             value=Fn.element(zones.names, 0)
         )
 
-app = App()
-FunctionsStack(app, "functions")
-app.synth()
 ```
 
 </CodeTabs>

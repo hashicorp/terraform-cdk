@@ -24,11 +24,4 @@ class FunctionsStack(TerraformStack):
         )
 
         # DOCS_BLOCK_END:functions-usage-example
-'''
-DOCS_BLOCK_START:functions-usage-example
-app = App()
-FunctionsStack(app, "functions")
-app.synth()
-DOCS_BLOCK_END:functions-usage-example
-'''
 
