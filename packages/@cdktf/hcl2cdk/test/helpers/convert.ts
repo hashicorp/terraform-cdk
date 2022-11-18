@@ -35,6 +35,11 @@ type ProviderDefinition = {
   path: PathToCopy;
 };
 
+type SchemaFilter = {
+  resources?: string[];
+  dataSources?: string[];
+};
+
 const cdktfBin = path.join(__dirname, "../../../../cdktf-cli/bundle/bin/cdktf");
 const cdktfDist = path.join(__dirname, "../../../../../dist");
 
@@ -204,13 +209,52 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
   ]) as any;
 }
 
+function filterSchema(providerSchema: any, schemaFilter: SchemaFilter) {
+  if (!schemaFilter) return providerSchema;
+
+  const { resources, dataSources } = schemaFilter;
+
+  const providerSchemaKey = Object.keys(providerSchema.provider_schemas)[0];
+  const actualSchema = providerSchema.provider_schemas[providerSchemaKey];
+
+  let filteredDataSourceSchemas = {};
+  let filteredResourceSchemas = {};
+
+  if (resources && resources.length > 0) {
+    filteredResourceSchemas = Object.fromEntries(
+      Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
+        resources?.includes(resourceName)
+      )
+    );
+  }
+
+  if (dataSources && dataSources.length > 0) {
+    filteredDataSourceSchemas = Object.fromEntries(
+      Object.entries(actualSchema.data_source_schemas).filter(
+        ([dataSourceName]) => dataSources?.includes(dataSourceName)
+      )
+    );
+  }
+
+  return {
+    provider_schemas: {
+      [providerSchemaKey]: {
+        provider: providerSchema.provider_schemas[providerSchemaKey].provider,
+        resource_schemas: filteredResourceSchemas,
+        data_source_schemas: filteredDataSourceSchemas,
+      },
+    },
+  };
+}
+
 const createTestCase =
   (opts: { skip?: true; only?: true }) =>
   (
     name: string,
     hcl: string,
     providers: ProviderDefinition[],
-    shouldSynth: Synth
+    shouldSynth: Synth,
+    schemaFilter?: SchemaFilter
   ) => {
     if (opts.skip) {
       describe.skip(name, () => {});
@@ -220,7 +264,10 @@ const createTestCase =
     const testBody = () => {
       let convertResult: any;
       beforeAll(async () => {
-        const { providerSchema } = await getProviderSchema(providers);
+        let { providerSchema } = await getProviderSchema(providers);
+        if (schemaFilter) {
+          providerSchema = filterSchema(providerSchema, schemaFilter);
+        }
         convertResult = await convert(hcl, {
           language: "typescript",
           providerSchema,
