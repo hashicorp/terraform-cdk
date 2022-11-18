@@ -1,21 +1,19 @@
 name: Integration Tests
 on:
-  pull_request:
-    paths:
-      # This workflow
-      - ".github/workflows/integration.yml"
-      # All packages under test
-      - "packages/**"
-      # Version changes might introduce bugs
-      - "package.json"
-      # All integration test changes
-      - "test/**"
-      # All scripts we use
-      - "tools/align-version.sh"
-      - "tools/build-test-matrix.sh"
-
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
   workflow_call:
     inputs:
+      is_workflow_call:
+        description: Only true if called by a workflow call, undefined otherwise
+        default: true
+        required: false
+        type: boolean
       skip_setup:
         description: Skip the version and build step and use parent
         default: false
@@ -32,6 +30,7 @@ concurrency:
 
 jobs:
   prepare-integration-tests:
+    if: inputs.is_workflow_call || github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'ci/run-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}

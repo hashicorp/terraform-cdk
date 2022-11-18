@@ -1,26 +1,31 @@
 name: Examples Integration
 on:
-  pull_request:
-    paths:
-      # This workflow
-      - ".github/workflows/examples.yml"
-      # All packages under test
-      - "packages/**"
-      # Version changes might introduce bugs
-      - "package.json"
-      # All examples
-      - "examples/**"
-      # All scripts we use
-      - "tools/align-version.sh"
-      - "test/run-against-dist*"
-      - "tools/build-example.js"
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
+  workflow_call:
+    inputs:
+      is_workflow_call:
+        description: Only true if called by a workflow call, undefined otherwise
+        default: true
+        required: false
+        type: boolean
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: examples-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-examples-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
   build-example-matrix:
+    if: inputs.is_workflow_call || github.ref == 'refs/heads/main' || contains(github.event.pull_request.labels.*.name, 'ci/run-examples') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
     runs-on: ubuntu-latest
     outputs:
       examples: ${{ steps.set-examples.outputs.examples }}

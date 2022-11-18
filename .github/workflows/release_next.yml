@@ -87,8 +87,22 @@ jobs:
     needs:
       - prepare-release
     uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - cdktf
+          - cdktf-cli
+          - "@cdktf/hcl2cdk"
+          - "@cdktf/hcl2json"
+          - "@cdktf/provider-generator"
+        terraform_version:
+          - "1.1.9"
+          - "1.2.8"
     with:
       concurrency_group_prefix: release-next
+      package: ${{ matrix.package }}
+      terraform_version: ${{ matrix.terraform_version }}
     secrets: inherit
 
   linting:
@@ -105,6 +119,14 @@ jobs:
     uses: ./.github/workflows/integration.yml
     with:
       skip_setup: true
+      concurrency_group_prefix: release-next
+    secrets: inherit
+
+  examples:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/examples.yml
+    with:
       concurrency_group_prefix: release-next
     secrets: inherit
 
@@ -244,3 +266,31 @@ jobs:
         run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
+
+  report:
+    name: Report status
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    needs:
+      - examples
+      - integration_test
+      - linting
+      - prepare-release
+      - release_golang
+      - release_maven
+      - release_npm
+      - release_nuget
+      - release_pypi
+      - release_sentry
+      - unit_test
+    steps:
+      - name: Send failures to Slack
+        uses: slackapi/slack-github-action@v1.21.0
+        with:
+          payload: |
+            {
+              "provider_name": "CDKTF(next)",
+              "run_url": "https://github.com/hashicorp/terraform-cdk/actions/runs/${{ github.run_id }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }
