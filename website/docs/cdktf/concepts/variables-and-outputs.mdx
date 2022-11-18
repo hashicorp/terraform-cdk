@@ -60,7 +60,7 @@ const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
   description: "Node group configuration",
 });
 
-new TerraformResource(this, "hello", {
+new TerraformResource(this, "resource", {
   nodeGroupConfig: nodeGroupConfig.value,
 });
 ```
