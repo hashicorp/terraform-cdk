@@ -44,6 +44,26 @@ new Instance(this, "hello", {
   instanceType: "t2.micro",
 });
 ```
+### Define Complex Input Variables
+```typescript
+const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
+  type: VariableType.object(
+    {   
+      node_group_name: VariableType.STRING, 
+      instance_types: VariableType.list(VariableType.STRING),
+      min_size: VariableType.NUMBER,
+      desired_size: VariableType.NUMBER,
+      max_size: VariableType.NUMBER,
+    }    
+  ),
+  nullable: false,
+  description: "Node group configuration",
+});
+
+new TerraformResource(this, "hello", {
+  nodeGroupConfig: nodeGroupConfig.value,
+});
+```
 
 ## Local Values
 
