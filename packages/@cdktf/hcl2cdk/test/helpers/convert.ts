@@ -35,7 +35,7 @@ type ProviderDefinition = {
   path: PathToCopy;
 };
 
-const cdktfBin = path.join(__dirname, "../../../../cdktf-cli/bin/cdktf");
+const cdktfBin = path.join(__dirname, "../../../../cdktf-cli/bundle/bin/cdktf");
 const cdktfDist = path.join(__dirname, "../../../../../dist");
 
 export const binding = {
