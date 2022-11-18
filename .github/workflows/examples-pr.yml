@@ -1,5 +1,6 @@
 name: Examples - PR
 on:
+  pull_request: {}
   pull_request_target:
     types:
       - opened
