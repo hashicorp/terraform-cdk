@@ -330,7 +330,7 @@ jobs:
           payload: |
             {
               "provider_name": "CDKTF",
-              "run_url": "https://github.com/hashicorp/cdktf/actions/runs/${{ github.run_id }}"
+              "run_url": "https://github.com/hashicorp/terraform-cdk/actions/runs/${{ github.run_id }}"
             }
         env:
-          SLACK_WEBHOOK_URL: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }
+          SLACK_WEBHOOK_URL: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }}
