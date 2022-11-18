@@ -4,6 +4,7 @@ from cdktf import Testing
 from imports.docker.config import Config
 from imports.docker.container import Container
 from imports.docker.data_docker_image import DataDockerImage
+from imports.docker.provider import DockerProvider
 from imports.docker.data_docker_network import DataDockerNetwork
 
 class TestAssertions:
@@ -72,3 +73,6 @@ class TestAssertions:
         stack = MyStackInvalidTerraform(app, "stack")
         synthed = Testing.full_synth(stack)
         assert Testing.to_be_valid_terraform(synthed)  is False
+
+    def test_has_provider_with_properties(self):
+        assert Testing.to_have_provider(self.synthesized, DockerProvider.TF_RESOURCE_TYPE)

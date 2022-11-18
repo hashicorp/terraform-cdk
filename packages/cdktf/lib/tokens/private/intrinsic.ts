@@ -14,6 +14,7 @@ import { captureStackTrace } from "./stack-trace";
  * This class will disappear in a future release and should not be used.
  *
  * @experimental
+ * @internal
  */
 export class Intrinsic implements IResolvable {
   /**

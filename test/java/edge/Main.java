@@ -22,6 +22,8 @@ class ReferenceStack extends TerraformStack {
                 .reqbool(true)
                 .build();
 
+        OptionalAttributeResource.Builder.create(this, "null").bool(Token.nullValue()).build();
+
         List<ListBlockResourceReq> arrlist = new ArrayList<ListBlockResourceReq>();
         arrlist.add(ListBlockResourceReq.builder().reqbool(true).reqnum(1).reqstr("reqstr").build());
         arrlist.add(ListBlockResourceReq.builder().reqbool(false).reqnum(0).reqstr("reqstr2").build());

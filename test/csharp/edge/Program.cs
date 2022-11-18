@@ -24,6 +24,8 @@ namespace MyCompany.MyApp
                 Reqbool = true
             });
 
+            new OptionalAttributeResource(this, "null", new OptionalAttributeResourceConfig { Bool = Token.NullValue() });
+
             var res = new OptionalAttributeResource(this, "test", new OptionalAttributeResourceConfig { });
             var list = new ListBlockResource(this, "list", new ListBlockResourceConfig {
                 Req = new [] { new ListBlockResourceReq { Reqbool = true, Reqnum = 1, Reqstr = "reqstr" }, new ListBlockResourceReq { Reqbool = false, Reqnum = 0, Reqstr = "reqstr2" } },

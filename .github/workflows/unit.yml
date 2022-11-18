@@ -19,6 +19,28 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: run prettier
+        run: |
+          yarn lint:prettier
+
+  lin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: run prettier
+        run: |
+          yarn lint:workspace
+
   build-test-matrix:
     runs-on: ubuntu-latest
     outputs:
