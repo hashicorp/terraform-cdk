@@ -1,19 +1,7 @@
 name: Examples Integration
 on:
-  pull_request_target:
-    types:
-      - opened
-      - edited
-      - synchronize
-      - labeled
-      - reopened
   workflow_call:
     inputs:
-      is_workflow_call:
-        description: Only true if called by a workflow call, undefined otherwise
-        default: true
-        required: false
-        type: boolean
       concurrency_group_prefix:
         default: pr
         required: false
