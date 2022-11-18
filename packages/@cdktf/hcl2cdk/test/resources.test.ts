@@ -11,7 +11,10 @@ describe("resources", () => {
       cidr_block = "10.0.0.0/16"
     }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_vpc"],
+    }
   );
 
   testCase.test(
@@ -125,7 +128,10 @@ describe("resources", () => {
       }
     }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_cloudfront_distribution"],
+    }
   );
 
   testCase.test(
@@ -138,7 +144,10 @@ describe("resources", () => {
       vpc_id = "subnet_id"
     }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      dataSources: ["aws_subnet"],
+    }
   );
 
   testCase.test(
@@ -184,7 +193,10 @@ describe("resources", () => {
     }
   }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_security_group"],
+    }
   );
 
   testCase.test(
@@ -211,7 +223,10 @@ describe("resources", () => {
   }
   `,
     [binding.google],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["google_compute_autoscaler"],
+    }
   );
 
   testCase.test(
@@ -232,7 +247,10 @@ describe("resources", () => {
   }
   `,
     [binding.kubernetes],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["kubernetes_secret"],
+    }
   );
 
   testCase.test(
@@ -253,7 +271,10 @@ resource "kubernetes_secret" "secrets-xxx" {
 }
 `,
     [binding.kubernetes],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["kubernetes_secret"],
+    }
   );
 
   testCase.test(
@@ -310,7 +331,10 @@ resource "kubernetes_secret" "secrets-xxx" {
     }
       `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_guardduty_filter"],
+    }
   );
 
   testCase.test(
@@ -341,6 +365,9 @@ resource "kubernetes_secret" "secrets-xxx" {
     }
       `,
     [binding.aws],
-    Synth.never
+    Synth.never,
+    {
+      resources: ["aws_instance"],
+    }
   );
 });

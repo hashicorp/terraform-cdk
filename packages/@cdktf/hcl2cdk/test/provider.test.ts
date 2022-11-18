@@ -32,7 +32,8 @@ describe("provider", () => {
     }
   `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {}
   );
 
   testCase.test(
@@ -61,7 +62,10 @@ describe("provider", () => {
     }        
     `,
     [binding.aws, binding.awsVpc],
-    Synth.never
+    Synth.never,
+    {
+      resources: ["aws_instance"],
+    }
   );
 
   testCase.test(
@@ -86,6 +90,7 @@ describe("provider", () => {
       }
       `,
     [binding.auth0],
-    Synth.yes
+    Synth.yes,
+    {}
   );
 });

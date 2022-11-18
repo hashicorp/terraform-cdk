@@ -41,7 +41,10 @@ describe("tfExpressions", () => {
               kms_key_id = aws_kms_key.examplekms.arn
             }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket", "aws_kms_key", "aws_s3_bucket_object"],
+    }
   );
 
   testCase.test(
@@ -115,7 +118,10 @@ describe("tfExpressions", () => {
               type    = "metric alert"
             }`,
     [binding.datadog],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["datadog_monitor"],
+    }
   );
 
   testCase.test(
@@ -134,7 +140,10 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket"],
+    }
   );
 
   testCase.test(
@@ -153,7 +162,10 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket"],
+    }
   );
 
   testCase.test(
@@ -188,6 +200,9 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.google],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["google_compute_instance"],
+    }
   );
 });

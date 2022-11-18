@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { testCase, Synth, binding } from "./helpers/convert";
 
 describe("iteration", () => {
@@ -33,7 +35,10 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_kms_key", "aws_s3_bucket", "aws_s3_bucket_object"],
+    }
   );
 
   testCase.test(
@@ -57,7 +62,10 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_iam_user"],
+    }
   );
 
   testCase.test(
@@ -80,7 +88,10 @@ describe("iteration", () => {
               }
             }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_iam_user"],
+    }
   );
 
   testCase.test(
@@ -101,7 +112,10 @@ describe("iteration", () => {
         }
         `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_instance"],
+    }
   );
 
   testCase.test(
@@ -133,7 +147,10 @@ describe("iteration", () => {
             }
           }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_elastic_beanstalk_environment"],
+    }
   );
 
   testCase.test(
@@ -188,7 +205,16 @@ describe("iteration", () => {
               
       `,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: [
+        "aws_lb_listener",
+        "aws_acm_certificate_validation",
+        "aws_route53_record",
+        "aws_acm_certificate",
+      ],
+      dataSources: ["aws_route53_zone"],
+    }
   );
 
   testCase.test(
@@ -217,6 +243,9 @@ describe("iteration", () => {
           }
           `,
     [binding.azuread],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["azuread_user"],
+    }
   );
 });
