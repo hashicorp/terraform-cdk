@@ -1,12 +1,19 @@
 name: Examples Integration
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      # This workflow
+      - ".github/workflows/examples.yml"
+      # All packages under test
+      - "packages/**"
+      # Version changes might introduce bugs
+      - "package.json"
+      # All examples
+      - "examples/**"
+      # All scripts we use
+      - "tools/align-version.sh"
+      - "test/run-against-dist*"
+      - "tools/build-example.js"
 
 concurrency:
   group: examples-${{ github.head_ref }}

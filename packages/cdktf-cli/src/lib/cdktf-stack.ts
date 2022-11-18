@@ -5,13 +5,13 @@ import { Terraform, TerraformPlan } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger } from "./logging";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
-import { TerraformJson } from "./terraform-json";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";
 import { Errors } from "./errors";
 import * as fs from "fs";
 import * as path from "path";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
+import { terraformJsonSchema, TerraformStack } from "./terraform-json";
 
 export type StackUpdate =
   | {
@@ -83,7 +83,7 @@ async function getTerraformClient(
     phase: string
   ) => (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
-  const parsedStack = JSON.parse(stack.content) as TerraformJson;
+  const parsedStack = terraformJsonSchema.parse(JSON.parse(stack.content));
 
   if (parsedStack.terraform?.backend?.remote) {
     const tfClient = new TerraformCloud(
@@ -99,7 +99,7 @@ async function getTerraformClient(
   }
 
   if (parsedStack.terraform?.cloud) {
-    const workspaces = parsedStack.terraform.cloud.workspaces;
+    const workspaces = parsedStack.terraform.cloud.workspaces || {};
     if (!("name" in workspaces)) {
       throw Errors.Usage(
         "The Cloud backend can not used with the cdktf-cli unless specified with a workspace name."
@@ -143,11 +143,13 @@ export class CdktfStack {
   public stopped = false;
   public currentWorkPromise: Promise<void> | undefined;
   public readonly currentState: CdktfStackStates = "idle";
-  private readonly parsedContent: any;
+  private readonly parsedContent: TerraformStack;
 
   constructor(public options: CdktfStackOptions) {
     this.stack = options.stack;
-    this.parsedContent = JSON.parse(this.stack.content);
+    this.parsedContent = terraformJsonSchema.parse(
+      JSON.parse(this.stack.content)
+    );
   }
 
   public get isPending(): boolean {
@@ -273,32 +275,28 @@ export class CdktfStack {
         }
       });
 
-      const requiredProviders = this.parsedContent.terraform.required_providers;
-      const providers = Object.values(requiredProviders).reduce<
+      const requiredProviders =
+        this.parsedContent.terraform?.required_providers;
+      const providers = Object.values(requiredProviders || {}).reduce<
         Record<string, ProviderConstraint>
       >((acc, obj) => {
-        const constraint = new ProviderConstraint(
-          (obj as any).source,
-          (obj as any).version
-        );
+        const constraint = new ProviderConstraint(obj.source, obj.version);
         acc[constraint.source] = constraint;
         return acc;
       }, {});
 
-      // check if any provider contained in `providers` violates constraints in `lockedProviders`
-      const providerMatches = lockedProviders.map((lockedProvider) => {
+      // Check if any provider contained in `providers` violates constraints in `lockedProviders`
+      // Upgrade if some provider constraint not met
+      // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
+      return lockedProviders.some((lockedProvider) => {
         const provider = providers[lockedProvider.source];
         if (provider) {
-          return lockedProvider.matchesVersion(provider.version ?? ">0");
+          return !lockedProvider.matchesVersion(provider.version ?? ">0");
         }
+
         // else no longer using this provider, so won't cause problems
-
-        return true;
+        return false;
       });
-      // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
-
-      // Upgrade if some provider constraint not met
-      return providerMatches.some((m) => !m);
     } catch (err) {
       // ignore as this most likely means the file doesn't exist
       // if it is some other error, Terraform will mention it later
