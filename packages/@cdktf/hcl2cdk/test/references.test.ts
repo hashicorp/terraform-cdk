@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { testCase, Synth, binding } from "./helpers/convert";
 
 describe("references", () => {
@@ -24,7 +26,10 @@ describe("references", () => {
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
+    }
   );
 
   testCase.test(
@@ -43,7 +48,10 @@ describe("references", () => {
           acl    = "private"
         }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket"],
+    }
   );
 
   testCase.test(
@@ -62,7 +70,10 @@ describe("references", () => {
           acl    = "private"
         }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket"],
+    }
   );
 
   testCase.test(
@@ -86,7 +97,10 @@ describe("references", () => {
           source     = "index.html"
         }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket", "aws_s3_bucket_object"],
+    }
   );
 
   testCase.test(
@@ -108,7 +122,10 @@ describe("references", () => {
           }
         }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket"],
+    }
   );
 
   testCase.test(
@@ -134,7 +151,10 @@ describe("references", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
     [binding.aws],
-    Synth.yes
+    Synth.yes,
+    {
+      resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
+    }
   );
 
   testCase.test(
@@ -150,7 +170,8 @@ describe("references", () => {
     }
     `,
     [binding.auth0],
-    Synth.yes
+    Synth.yes,
+    { resources: [] }
   );
 
   testCase.test(
@@ -162,7 +183,10 @@ describe("references", () => {
     }
     `,
     [binding.local],
-    Synth.yes
+    Synth.yes,
+    {
+      dataSources: ["local_file"],
+    }
   );
 
   testCase.test(
@@ -191,6 +215,7 @@ describe("references", () => {
     }
     `,
     [binding.auth0],
-    Synth.yes
+    Synth.yes,
+    { resources: [] }
   );
 });
