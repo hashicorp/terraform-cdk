@@ -1,12 +1,19 @@
 name: Unit Tests
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      # This workflow
+      - ".github/workflows/unit.yml"
+      # All packages under test
+      - "packages/**"
+      # Prettier related config files
+      - ".prettier*"
+      # Version changes might introduce bugs
+      - "package.json"
+      # All scripts we use
+      - "tools/build-unit-test-matrix.sh"
+      - "tools/align-version.sh"
+
   workflow_call:
     inputs:
       concurrency_group_prefix:
@@ -19,28 +26,6 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: installing dependencies
-        run: |
-          yarn install
-      - name: run prettier
-        run: |
-          yarn lint:prettier
-
-  lin:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: installing dependencies
-        run: |
-          yarn install
-      - name: run prettier
-        run: |
-          yarn lint:workspace
-
   build-test-matrix:
     runs-on: ubuntu-latest
     outputs:

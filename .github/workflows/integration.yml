@@ -1,12 +1,19 @@
 name: Integration Tests
 on:
   pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      # This workflow
+      - ".github/workflows/integration.yml"
+      # All packages under test
+      - "packages/**"
+      # Version changes might introduce bugs
+      - "package.json"
+      # All integration test changes
+      - "test/**"
+      # All scripts we use
+      - "tools/align-version.sh"
+      - "tools/build-test-matrix.sh"
+
   workflow_call:
     inputs:
       skip_setup:

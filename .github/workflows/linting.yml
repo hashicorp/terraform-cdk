@@ -1,0 +1,36 @@
+name: Linting
+on:
+  pull_request: {} # All changes need linting
+  workflow_call:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
+
+concurrency:
+  group: ${{ inputs.concurrency_group_prefix }}-linting-${{ github.head_ref }}
+  cancel-in-progress: true
+
+jobs:
+  prettier:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: run prettier
+        run: |
+          yarn lint:prettier
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: installing dependencies
+        run: |
+          yarn install
+      - name: run workspace linting
+        run: |
+          yarn lint:workspace
