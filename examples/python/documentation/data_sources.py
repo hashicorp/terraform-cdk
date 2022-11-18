@@ -58,9 +58,9 @@ class HelloTerraformRemoteState(TerraformStack):
 
 
 '''
-DOCS_BLOCK_START:data-sources-define-data-sources
+DOCS_BLOCK_START:data-sources-remote-state-data-source
 app = App()
 HelloTerraformRemoteState(app, "terraform-remotes-state")
 app.synth()
-DOCS_BLOCK_END:data-sources-define-data-sources
+DOCS_BLOCK_END:data-sources-remote-state-data-source
 '''
