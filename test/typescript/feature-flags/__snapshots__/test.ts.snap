@@ -8,13 +8,11 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {
-    }
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
-      {
-      }
+      {}
     ]
   },
   \\"resource\\": {
@@ -41,12 +39,6 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
       \\"local\\": {
         \\"path\\": \\"terraform.tfstate\\"
       }
-    },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"null\\",
-        \\"version\\": \\"3.2.1\\"
-      }
     }
   }
 }"
@@ -60,13 +52,11 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {
-    }
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
-      {
-      }
+      {}
     ]
   },
   \\"resource\\": {
@@ -93,12 +83,6 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
       \\"local\\": {
         \\"path\\": \\"terraform.tfstate\\"
       }
-    },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"null\\",
-        \\"version\\": \\"3.2.1\\"
-      }
     }
   }
 }"
@@ -112,13 +96,11 @@ exports[`full integration test without features 1`] = `
       \\"stackName\\": \\"hello-deploy\\",
       \\"version\\": \\"stubbed\\"
     },
-    \\"outputs\\": {
-    }
+    \\"outputs\\": {}
   },
   \\"provider\\": {
     \\"null\\": [
-      {
-      }
+      {}
     ]
   },
   \\"resource\\": {
@@ -144,12 +126,6 @@ exports[`full integration test without features 1`] = `
     \\"backend\\": {
       \\"local\\": {
         \\"path\\": \\"terraform.tfstate\\"
-      }
-    },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"null\\",
-        \\"version\\": \\"3.2.1\\"
       }
     }
   }
