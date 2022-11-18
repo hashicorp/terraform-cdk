@@ -59,9 +59,6 @@ class HelloTerraform(TerraformStack):
 app = App()
 HelloTerraform(app, "data-sources")
 app.synth()
-app = App()
-HelloTerraformRemoteState(app, "terraform-remotes-state")
-app.synth()
 ```
 
 </CodeTabs>
@@ -121,6 +118,9 @@ class HelloTerraformRemoteState(TerraformStack):
             # .....
             subnet_id=remoteState.get_string('subnet_id')
         )
+app = App()
+HelloTerraformRemoteState(app, "terraform-remotes-state")
+app.synth()
 ```
 
 </CodeTabs>
