@@ -52,7 +52,7 @@ import {
   ProviderDependencySpec,
   get as getLib,
   providerAdd as providerAddLib,
-} from "@cdktf/cli";
+} from "@cdktf/cli-core";
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import {

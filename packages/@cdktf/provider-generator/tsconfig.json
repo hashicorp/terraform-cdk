@@ -31,7 +31,7 @@
     "ambient.d.ts"
   ],
   "include": [
-    "lib/**/*.ts", "../commons/src/config.test.ts",
+    "lib/**/*.ts"
   ],
   "exclude": [
     "node_modules",

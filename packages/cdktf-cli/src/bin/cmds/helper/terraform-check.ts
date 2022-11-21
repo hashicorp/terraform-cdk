@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TerraformCli, SynthesizedStack } from "@cdktf/cli";
+import { TerraformCli, SynthesizedStack } from "@cdktf/cli-core";
 import { logger } from "@cdktf/commons";
 import * as semver from "semver";
 import { existsSync } from "fs-extra";

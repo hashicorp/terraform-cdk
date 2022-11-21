@@ -1,7 +1,7 @@
 {
-  "name": "@cdktf/cli",
+  "name": "@cdktf/cli-core",
   "version": "0.0.0",
-  "description": "CDK for Terraform CLI",
+  "description": "CDK for Terraform CLI Core, meant for internal use only",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
@@ -21,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "git://github.com/hashicorp/terraform-cdk.git",
-    "directory": "packages/@cdktf/cli"
+    "directory": "packages/@cdktf/cli-core"
   },
   "author": {
     "name": "HashiCorp",

@@ -1,3 +1,8 @@
+## 0.15.0 (unreleased)
+
+**Breaking changes**
+We split up our `cdktf-cli` package into `cdktf-cli` for the UI parts, utilizing `@cdktf/cli-core` for the functionality. If you previously relied on the internal `cdktf-cli/lib` entrypoint you should switch to `@cdktf/cli-core`.
+
 ## 0.14.1
 
 A broken import that only appeared in the bundled `cdktf-cli` that we publish broke the `0.14.0` release. This patch release fixes this.

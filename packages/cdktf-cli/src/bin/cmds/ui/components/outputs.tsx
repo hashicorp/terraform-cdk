@@ -4,7 +4,7 @@ import {
   NestedTerraformOutputs,
   TerraformOutput,
   isTerraformOutput,
-} from "@cdktf/cli";
+} from "@cdktf/cli-core";
 
 export interface OutputsConfig {
   outputs: NestedTerraformOutputs;

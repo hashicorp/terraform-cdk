@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { useApp } from "ink";
 import { useEffect, useState } from "react";
-import { CdktfProject, ProjectUpdate, CdktfStack } from "@cdktf/cli";
+import { CdktfProject, ProjectUpdate, CdktfStack } from "@cdktf/cli-core";
 
 export type LogEntry = {
   content: string;
