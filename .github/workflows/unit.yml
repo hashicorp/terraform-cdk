@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install
       - name: Create Terraform Plugin Cache Directory (if missing)
         run: mkdir -p ${{steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
       - name: compile
