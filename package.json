@@ -3,9 +3,9 @@
   "version": "0.14.1",
   "private": true,
   "scripts": {
-    "build": "lerna run --parallel --scope 'cdktf*' --scope @cdktf/* build",
+    "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
     "format": "prettier --write .",
-    "package": "lerna run --parallel package && tools/collect-dist.sh",
+    "package": "lerna run package && tools/collect-dist.sh",
     "package:python": "lerna run package:python && tools/collect-dist.sh",
     "package:java": "lerna run package:java && tools/collect-dist.sh",
     "package:dotnet": "lerna run package:dotnet && tools/collect-dist.sh",

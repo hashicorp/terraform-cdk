@@ -47,7 +47,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: installing dependencies
         run: |
-          yarn install --frozen-lockfile --prefer-offline
+          yarn install --frozen-lockfile
       - name: compile
         run: |
           tools/align-version.sh
