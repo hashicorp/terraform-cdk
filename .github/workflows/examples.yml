@@ -51,7 +51,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)
