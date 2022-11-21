@@ -42,7 +42,7 @@ jobs:
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: installing dependencies
