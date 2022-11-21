@@ -55,7 +55,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           tools/align-version.sh
           yarn build
           yarn package
@@ -139,7 +139,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile
       - name: Download build artifacts
         uses: actions/download-artifact@v1
         with:

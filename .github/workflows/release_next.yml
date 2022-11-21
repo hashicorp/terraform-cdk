@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: 0 # gives standard-version access to all previous commits
       - name: installing dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Configure git user
         run: |
           git config user.name github-team-tf-cdk
@@ -55,7 +55,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn build
           yarn package
         env:
