@@ -102,6 +102,6 @@ jobs:
           title: "chore: npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
-          labels: dependencies,auto-approve
+          labels: dependencies,auto-approve,ci/run-all
           team-reviewers: cdktf
           token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
