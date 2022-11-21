@@ -1,12 +1,5 @@
 name: Integration Tests
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
   workflow_call:
     inputs:
       skip_setup:

@@ -31,7 +31,7 @@ If you plan to use CDKTF to manage your infrastructure, we recommend using your 
 
 You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](/language/values/variables#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](/language/values/variables#environment-variables).
 
-The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
+The following example uses `TerraformVariable` to provide inputs to resources.
 
 ```typescript
 const imageId = new TerraformVariable(this, "imageId", {
@@ -79,7 +79,7 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ### Define Local Values
 
-The following TypeScript example uses `TerraformLocal` to create a local value.
+The following example uses `TerraformLocal` to create a local value.
 
 ```typescript
 const commonTags = new TerraformLocal(this, "common_tags", {
@@ -121,7 +121,7 @@ Use outputs to make data from [Terraform resources](/cdktf/concepts/resources) a
 
 When values are available before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using the functionality in your preferred programming language to supply this data as direct inputs.
 
-The following TypeScript example uses a `TerraformOutput` to create an output.
+The following example uses a `TerraformOutput` to create an output.
 
 ```typescript
 import { Construct } from "constructs";
@@ -206,7 +206,7 @@ Output: random-pet = choice-haddock
 
 ### Define & Reference Outputs via Remote State
 
-The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+The following example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
 
 ```typescript
 import { RandomProvider } from "@cdktf/provider-random/lib/provider";

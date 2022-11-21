@@ -56,10 +56,14 @@ describe("full integration test", () => {
   };
 
   const loadStackJson = (workingDir, stackName) => {
-    return fs.readFileSync(
+    const stack = fs.readFileSync(
       path.join(workingDir, "cdktf.out", "stacks", stackName, "cdk.tf.json"),
       "utf-8"
     );
+
+    const json = JSON.parse(stack);
+    delete json.terraform.required_providers;
+    return JSON.stringify(json, null, 2);
   };
 
   const writeConfig = (workingDir, json) => {
