@@ -1,50 +1,61 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-export interface TerraformJsonMetadata {
-  version: string;
-  stackName: string;
-}
-export interface TerraformJsonRootComment {
-  metadata: TerraformJsonMetadata;
-}
+import * as z from "zod";
 
-export interface TerraformJsonConfigBackendRemoteWorkspace {
-  name?: string;
-  prefix?: string;
-}
+const remote = z
+  .object({
+    organization: z.string(),
+    hostname: z.string().optional(),
+    token: z.string().optional(),
+    workspaces: z.object({
+      name: z.string().optional(),
+      prefix: z.string().optional(),
+    }),
+  })
+  .deepPartial();
 
-export interface TerraformJsonConfigBackendRemote {
-  organization: string;
-  hostname?: string;
-  token?: string;
-  workspaces: TerraformJsonConfigBackendRemoteWorkspace;
-}
+export const terraformJsonSchema = z
+  .object({
+    "//": z
+      .object({
+        metadata: z
+          .object({
+            version: z.string(),
+            stackName: z.string(),
+            backend: z.string(),
+          })
+          .nonstrict(),
+        outputs: z.record(z.any()),
+      })
+      .nonstrict(),
+    terraform: z.object({
+      backend: z
+        .object({
+          // All other backends are here as well, but we don't read them right now
+          remote,
+        })
+        .nonstrict(),
+      cloud: z
+        .object({
+          organization: z.string(),
+          hostname: z.string().optional(),
+          token: z.string().optional(),
+          workspaces: z.union([
+            z.object({ name: z.string() }),
+            z.object({ tags: z.array(z.string()) }),
+          ]),
+        })
+        .nonstrict(),
+      required_providers: z.record(
+        z.object({ source: z.string(), version: z.string() }).nonstrict()
+      ),
+    }),
+    data: z.record(z.any()),
+    provider: z.record(z.any()),
+    resource: z.record(z.any()),
+  })
+  .deepPartial()
+  .nonstrict();
 
-export interface TerraformJsonConfigCloudWorkspaceByName {
-  name?: string;
-}
-
-export interface TerraformJsonConfigCloudWorkspaceByTags {
-  tags?: string[];
-}
-export interface TerraformJsonConfigCloud {
-  organization: string;
-  hostname?: string;
-  token?: string;
-  workspaces:
-    | TerraformJsonConfigCloudWorkspaceByName
-    | TerraformJsonConfigCloudWorkspaceByTags;
-}
-
-export interface TerraformJsonConfigBackend {
-  remote?: TerraformJsonConfigBackendRemote;
-}
-export interface TerraformJsonConfig {
-  backend?: TerraformJsonConfigBackend;
-  cloud?: TerraformJsonConfigCloud;
-}
-export interface TerraformJson {
-  "//": TerraformJsonRootComment;
-  resource: { [key: string]: any };
-  terraform?: TerraformJsonConfig;
-}
+export type TerraformStack = z.infer<typeof terraformJsonSchema>;
+export type TerraformJsonConfigBackendRemote = z.infer<typeof remote>;

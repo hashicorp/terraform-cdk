@@ -16,7 +16,7 @@ To create an aspect, you must import the `Aspects` class and the `IAspect` inter
 
 Everything within a CDKTF application descends from the `Construct` class, so you could call the construct on any instantiated element. This includes the entire application, a particular [stack](/cdktf/concepts/stacks), or all of the resources for a specific [provider](/cdktf/concepts/providers). When you call the aspect, CDKTF applies its methods to all of the the constructs that fall within the specified scope.
 
-The following TypeScript example defines an aspect to add tags to resources.
+The following example defines an aspect to add tags to resources.
 
 ```typescript
 import { IConstruct } from "constructs";
@@ -48,7 +48,7 @@ export class TagsAddingAspect implements IAspect {
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
-You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+You can also use aspects for validation. The following example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
 
 ```typescript
 import { IConstruct } from "constructs";
