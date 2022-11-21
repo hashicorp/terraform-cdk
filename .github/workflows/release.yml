@@ -15,6 +15,9 @@ env:
   SENTRY_ORG: hashicorp
   SENTRY_PROJECT: cdktf-cli
 
+concurrency:
+  group: release
+
 jobs:
   prepare-release:
     if: github.repository == 'hashicorp/terraform-cdk'
@@ -42,7 +45,7 @@ jobs:
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
-          echo "release=${status}" >> $GITHUB_OUTPUT
+          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -273,7 +276,8 @@ jobs:
         id: get_release_status
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
-          echo "release=${status}" >> $GITHUB_OUTPUT
+          echo "Sentry returned: ${status}"
+          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
