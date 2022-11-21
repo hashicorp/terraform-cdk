@@ -43,7 +43,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: installing dependencies and build
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn build
           yarn package
       - name: Upload dist # needed for running the integration tests on windows
@@ -98,7 +98,7 @@ jobs:
 
       - name: installing dependencies and build
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn build
           yarn package
 

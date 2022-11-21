@@ -19,7 +19,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile
       - name: run prettier
         run: |
           yarn lint:prettier
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile
       - name: run workspace linting
         run: |
           yarn lint:workspace

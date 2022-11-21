@@ -54,7 +54,7 @@ jobs:
           lerna exec --parallel ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn update" to run)
       - name: Run "yarn install"
-        run: yarn install
+        run: yarn install --frozen-lockfile
 
       - name: Run "yarn upgrade"
         run: yarn upgrade
