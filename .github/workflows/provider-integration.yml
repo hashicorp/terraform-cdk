@@ -41,7 +41,7 @@ jobs:
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: installing dependencies and build
         run: |
-          yarn install --frozen-lockfile
+          yarn install --frozen-lockfile --prefer-offline
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
