@@ -41,6 +41,10 @@ jobs:
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
         uses: actions/upload-artifact@v2
         with:
@@ -77,6 +81,8 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
 
   windows_provider:
     needs: prepare-provider-tests
@@ -117,3 +123,5 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache

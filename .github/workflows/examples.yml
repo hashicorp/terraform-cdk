@@ -61,6 +61,8 @@ jobs:
         run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: create bundle
         run: yarn package
       - name: examples integration tests
