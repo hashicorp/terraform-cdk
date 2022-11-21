@@ -5,11 +5,11 @@ description: >-
   providers in a CDK for Terraform application.
 ---
 
-# Providers 
+# Providers
 
-A [provider](/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers. 
+A [provider](/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers.
 
-You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.  
+You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.
 
 ## What Are Providers?
 
@@ -18,7 +18,6 @@ Provider plugins like the [AWS provider](https://registry.terraform.io/providers
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
 Terraform uses providers to provision [resources](/language/resources), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
-
 
 ## Install Pre-Built Providers
 
@@ -42,7 +41,7 @@ When you use `npm install` to install a pre-built provider, you should not defin
 
 ## Add Providers with CLI
 
-Use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to automatically install a pre-built provider if available. If a pre-built provider is not available, CDKTF uses local provider bindings. 
+Use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to automatically install a pre-built provider if available. If a pre-built provider is not available, CDKTF uses local provider bindings.
 
 ## Import Providers
 
