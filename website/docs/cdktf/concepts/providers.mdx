@@ -7,9 +7,9 @@ description: >-
 
 # Providers 
 
-A [provider](/language/providers) is a Terraform plugin that allows users to manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers. 
+A [provider](/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers. 
 
-You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and manually generate the required code bindings. To use providers in your application, you can import them from the Terraform Registry or from your local machine.  
+You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.  
 
 ## What Are Providers?
 
@@ -22,7 +22,7 @@ Terraform uses providers to provision [resources](/language/resources), which de
 
 ## Install Pre-Built Providers
 
-It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include:
+It can take several minutes for CDKTF to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include the following options:
 
 - [AWS Provider](https://cdk.tf/provider/aws)
 - [Google Provider](https://cdk.tf/provider/google)
@@ -32,13 +32,13 @@ It can take several minutes to generate the code bindings for providers with ver
 - [Github Provider](https://cdk.tf/provider/github)
 - [Null Provider](https://cdk.tf/provider/null)
 
-These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
+We regularly publish these packages to NPM / PyPi, and you can treat them like any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
 
 ```
 npm install @cdktf/provider-aws
 ```
 
-When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
+When you use `npm install` to install a pre-built provider, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and run `cdktf synth` again.
 
 ## Add Providers with CLI
 
