@@ -43,8 +43,6 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile --prefer-offline
