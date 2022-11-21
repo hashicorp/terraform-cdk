@@ -48,6 +48,8 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile --prefer-offline
+      - name: Create Terraform Plugin Cache Directory (if missing)
+        run: mkdir -p ${{steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
       - name: compile
         run: |
           tools/align-version.sh
