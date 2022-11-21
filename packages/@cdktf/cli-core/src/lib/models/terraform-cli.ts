@@ -8,6 +8,7 @@ import {
   AbstractTerraformPlan,
 } from "./terraform";
 import { SynthesizedStack } from "../synth-stack";
+import { terraformJsonSchema } from "../terraform-json";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -83,7 +84,7 @@ export class TerraformCli implements Terraform {
   }
 
   private get isTFCPlan(): boolean {
-    const content = JSON.parse(this.stack.content) as TerraformJson;
+    const content = terraformJsonSchema.parse(JSON.parse(this.stack.content));
     if (content.terraform?.backend?.remote) {
       return true;
     }
