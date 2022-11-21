@@ -1,7 +1,7 @@
 /* eslint-disable no-control-regex */
 import React, { useState } from "react";
 import { Text, Box } from "ink";
-import { DeployingResource, NestedTerraformOutputs } from "@cdktf/cli";
+import { DeployingResource, NestedTerraformOutputs } from "@cdktf/cli-core";
 import { useCdktfProject } from "./hooks/cdktf-project";
 import {
   StreamView,

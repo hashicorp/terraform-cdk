@@ -18,7 +18,7 @@ import {
   CdktfConfig,
   providerAdd,
   getAllPrebuiltProviders,
-} from "@cdktf/cli";
+} from "@cdktf/cli-core";
 import {
   convertProject,
   getTerraformConfigFromDir,

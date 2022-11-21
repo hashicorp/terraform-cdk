@@ -8,7 +8,7 @@ import {
   sendTelemetry,
   TerraformDependencyConstraint,
 } from "@cdktf/commons";
-import { get, GetStatus as Status } from "@cdktf/cli";
+import { get, GetStatus as Status } from "@cdktf/cli-core";
 
 interface GetConfig {
   codeMakerOutput: string;

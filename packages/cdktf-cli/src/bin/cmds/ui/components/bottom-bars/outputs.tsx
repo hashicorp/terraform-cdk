@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Box } from "ink";
 import { Outputs } from "../outputs";
-import { NestedTerraformOutputs } from "@cdktf/cli";
+import { NestedTerraformOutputs } from "@cdktf/cli-core";
 
 type Props = {
   outputs?: NestedTerraformOutputs;
