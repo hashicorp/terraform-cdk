@@ -22,7 +22,7 @@ jobs:
     runs-on:
       - custom
       - linux
-      - custom-linux-large
+      - custom-linux-xlarge
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
