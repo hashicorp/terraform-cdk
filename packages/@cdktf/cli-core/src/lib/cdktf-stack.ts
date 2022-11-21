@@ -76,7 +76,6 @@ export type StackApprovalUpdate = {
 async function getTerraformClient(
   abortSignal: AbortSignal,
   stack: SynthesizedStack,
-  _isSpeculative: boolean, // TODO: remove
   createTerraformLogHandler: (
     phase: string
   ) => (message: string, isError?: boolean) => void
@@ -191,15 +190,10 @@ export class CdktfStack {
     });
   }
 
-  private async initalizeTerraform({
-    isSpeculative,
-  }: {
-    isSpeculative: boolean;
-  }) {
+  private async initalizeTerraform() {
     const terraform = await getTerraformClient(
       this.options.abortSignal,
       this.options.stack,
-      isSpeculative,
       this.createTerraformLogHandler.bind(this)
     );
 
@@ -292,7 +286,7 @@ export class CdktfStack {
   public async diff(refreshOnly?: boolean, terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: true });
+      const terraform = await this.initalizeTerraform();
 
       const plan = await terraform.plan(
         false,
@@ -307,7 +301,7 @@ export class CdktfStack {
   public async deploy(refreshOnly?: boolean, terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+      const terraform = await this.initalizeTerraform();
 
       const plan = await terraform.plan(
         false,
@@ -352,7 +346,7 @@ export class CdktfStack {
   public async destroy(terraformParallelism?: number) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+      const terraform = await this.initalizeTerraform();
 
       const plan = await terraform.plan(true);
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
@@ -377,7 +371,7 @@ export class CdktfStack {
 
   public async fetchOutputs() {
     await this.run(async () => {
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
+      const terraform = await this.initalizeTerraform();
 
       const outputs = await terraform.output();
       const outputsByConstructId = getConstructIdsForOutputs(
