@@ -94,7 +94,7 @@ describe("convert", () => {
 
     expect(stats).toMatchInlineSnapshot(`
       Object {
-        "convertedLines": 55,
+        "convertedLines": 54,
         "data": Object {},
         "language": "typescript",
         "numberOfModules": 0,

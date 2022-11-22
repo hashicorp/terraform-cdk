@@ -59,7 +59,7 @@ export const binding = {
     path: "providers/docker",
   },
   null: {
-    fqn: "hashicorp/null@ ~>3.1.0",
+    fqn: "hashicorp/null@ ~>3.2.1",
     type: ProviderType.provider,
     path: "providers/null",
   },
