@@ -45,7 +45,7 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --prefer-offline
       - name: compile
         run: |
           tools/align-version.sh
@@ -60,3 +60,5 @@ jobs:
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
