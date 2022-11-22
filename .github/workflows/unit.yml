@@ -20,9 +20,6 @@ concurrency:
 jobs:
   unit-test:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
