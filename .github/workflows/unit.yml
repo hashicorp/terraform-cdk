@@ -31,6 +31,10 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - name: ensure all plugin directories exist
+        run: |
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - uses: actions/cache@v3
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
