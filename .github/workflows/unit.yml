@@ -53,8 +53,8 @@ jobs:
           yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: terraform-plugin-cache
+          GOCACHE: go-package-cache
       - name: test
         run: |
           npx lerna run --scope '${{ inputs.package }}' test:ci
