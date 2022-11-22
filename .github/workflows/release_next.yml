@@ -98,6 +98,8 @@ jobs:
             "@cdktf/hcl2cdk",
             "@cdktf/hcl2json",
             "@cdktf/provider-generator",
+            "@cdktf/commons",
+            "@cdktf/cli-core",
           ]
         terraform_version: ["1.1.9", "1.2.8"]
     with:
