@@ -10,8 +10,8 @@ on:
       - reopened
 
 jobs:
-  unit_test_for_prs:
-    if: contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
+  all_unit_tests:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
