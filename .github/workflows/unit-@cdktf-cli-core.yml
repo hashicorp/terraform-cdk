@@ -1,11 +1,11 @@
-name: Unit Tests - @cdktf/api-core
+name: Unit Tests - @cdktf/cli-core
 on:
   pull_request:
     paths:
       # This workflow
-      - ".github/workflows/unit-@cdktf-api-core.yml"
+      - ".github/workflows/unit-@cdktf-cli-core.yml"
       # All packages under test
-      - "packages/@cdktf/api-core/**"
+      - "packages/@cdktf/cli-core/**"
       # All scripts we use
       - "tools/build-unit-test-matrix.sh"
       - "tools/align-version.sh"
@@ -18,7 +18,7 @@ jobs:
       matrix:
         terraform_version: ["1.2.8"]
     with:
-      concurrency_group_prefix: pr-cdktf-core
-      package: "@cdktf/api-core"
+      concurrency_group_prefix: release
+      package: "@cdktf/cli-core"
       terraform_version: ${{ matrix.terraform_version }}
     secrets: inherit
