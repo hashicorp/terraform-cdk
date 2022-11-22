@@ -7,11 +7,15 @@ import * as os from "os";
 import { execSync } from "child_process";
 import execa from "execa";
 import {
-  readSchema,
-  ConstructsMakerProviderTarget,
   LANGUAGES,
-  config,
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
+} from "@cdktf/commons";
+import {
+  ConstructsMakerProviderTarget,
+  readSchema,
 } from "@cdktf/provider-generator";
+
 import deepmerge from "deepmerge";
 
 // Polyfill for older TS versions
@@ -190,8 +194,8 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
     const providerSchema = readSchema([
       ConstructsMakerProviderTarget.from(
         ProviderType.provider === provider.type
-          ? new config.TerraformProviderConstraint(provider.fqn)
-          : new config.TerraformModuleConstraint(provider.fqn),
+          ? new TerraformProviderConstraint(provider.fqn)
+          : new TerraformModuleConstraint(provider.fqn),
         LANGUAGES[0]
       ),
     ]);
