@@ -87,8 +87,6 @@ jobs:
         run: git push --follow-tags
 
   unit_test:
-    needs:
-      - prepare-release
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
@@ -109,8 +107,6 @@ jobs:
     secrets: inherit
 
   linting:
-    needs:
-      - prepare-release
     uses: ./.github/workflows/linting.yml
     with:
       concurrency_group_prefix: release-next
@@ -126,8 +122,6 @@ jobs:
     secrets: inherit
 
   examples:
-    needs:
-      - prepare-release
     uses: ./.github/workflows/examples.yml
     with:
       concurrency_group_prefix: release-next
