@@ -10,12 +10,6 @@ on:
       - reopened
 
 jobs:
-  debugging:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "Debug"
-        run: echo hi
-
   all_unit_tests:
     if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
     uses: ./.github/workflows/unit.yml
