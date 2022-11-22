@@ -1,8 +1,8 @@
-ci/run-unit/@cdktf/api-core:
+ci/run-unit/@cdktf/cli-core:
   # The workflow used
   - ".github/workflows/unit.yml"
   # All packages under test
-  - "packages/@cdktf/api-core/**"
+  - "packages/@cdktf/cli-core/**"
   # All scripts we use
   - "tools/align-version.sh"
 
