@@ -3,7 +3,7 @@
 import { SynthesizedStack } from "./synth-stack";
 import { Terraform, TerraformPlan } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
-import { logger, Errors } from "@cdktf/commons";
+import { logger } from "@cdktf/commons";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformCli } from "./models/terraform-cli";
 import * as fs from "fs";
