@@ -18,7 +18,7 @@ jobs:
       matrix:
         terraform_version: ["1.2.8"]
     with:
-      concurrency_group_prefix: release
+      concurrency_group_prefix: pr-cdktf-hcl2cdk
       package: "@cdktf/hcl2cdk"
       terraform_version: ${{ matrix.terraform_version }}
     secrets: inherit
