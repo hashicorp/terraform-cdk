@@ -95,11 +95,13 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
+    "@cdktf/cli-core": "0.0.0",
     "cdktf": "0.0.0"
   },
   "peerDependencies": {
     "cdktf": "0.0.0"
   },
+  "bundleDependencies": ["@cdktf/cli-core"],
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",

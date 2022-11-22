@@ -1,6 +1,6 @@
 # Example
 
-**Generated from ./example.ts**
+__Generated from ./example.ts__
 
 ## Typescript
 
@@ -41,6 +41,7 @@ inlineApp.synth().then(async (synthedInlineApp) => {
   // Run some tests
   await stack.destroy();
 });
+
 ```
 
 ## Python
@@ -164,6 +165,7 @@ inlineApp.Synth().Then(async (synthedInlineApp) => {
   await stack.destroy();
 });
 ```
+
 
 ## Go
 

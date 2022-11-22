@@ -1,9 +1,10 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 
-// import { App } from "cdktf";
+import * as core from "@cdktf/cli-core";
 import { InlineApp } from "./InlineApp";
-type App = any;
+
+export { InlineApp };
 
 export interface IMetadata {
   stack?: string;
@@ -131,7 +132,7 @@ export class SynthesizedStack {
 export interface IProviderConstraint {}
 export interface IModuleConstraint {}
 export interface IProgramProducer {
-  produce(app: App): void;
+  produce(app: InlineApp): void;
 }
 
 /**
