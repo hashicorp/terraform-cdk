@@ -4,12 +4,11 @@ on:
     branches:
       - main
       - backport-release-*
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      - "packages/**"
+      - "tools/**"
+      - "package.json"
+      - "yarn.lock"
 
 env:
   SENTRY_ORG: hashicorp
