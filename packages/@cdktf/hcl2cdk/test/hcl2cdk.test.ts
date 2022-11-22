@@ -6,9 +6,8 @@ import * as path from "path";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
-  LANGUAGES,
-  config,
 } from "@cdktf/provider-generator";
+import { LANGUAGES, TerraformProviderConstraint } from "@cdktf/commons";
 import { execSync } from "child_process";
 const providers = [
   "hashicorp/aws@ ~>3.74.0",
@@ -104,7 +103,7 @@ describe("convert", () => {
     const schemaPromise = readSchema(
       providers.map((spec) =>
         ConstructsMakerProviderTarget.from(
-          new config.TerraformProviderConstraint(spec),
+          new TerraformProviderConstraint(spec),
           LANGUAGES[0]
         )
       )

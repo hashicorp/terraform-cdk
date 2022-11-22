@@ -4,7 +4,7 @@ import yargs from "yargs";
 
 import { templates } from "./helper/init-templates";
 import { readPackageJson, requireHandlers } from "./helper/utilities";
-import { Errors } from "../../lib/errors";
+import { Errors } from "@cdktf/commons";
 import { BaseCommand } from "./helper/base-command";
 
 const pkg = readPackageJson();

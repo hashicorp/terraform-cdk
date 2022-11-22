@@ -1,16 +1,17 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as semver from "semver";
+
 import {
+  Errors,
   getGoVersion,
   getLanguage,
   getNodeVersion,
   getPackageVersion,
-} from "../../../lib/debug";
-import { Errors } from "../../../lib/errors";
-import { logger } from "../../../lib/logging";
-import { DISPLAY_VERSION } from "../../../lib/version";
-import { DISABLE_VERSION_CHECK } from "../../../lib/environment";
+  logger,
+  DISPLAY_VERSION,
+  DISABLE_VERSION_CHECK,
+} from "@cdktf/commons";
 
 function throwIfLowerVersion(
   language: string,

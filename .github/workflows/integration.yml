@@ -1,19 +1,5 @@
 name: Integration Tests
 on:
-  pull_request:
-    paths:
-      # This workflow
-      - ".github/workflows/integration.yml"
-      # All packages under test
-      - "packages/**"
-      # Version changes might introduce bugs
-      - "package.json"
-      # All integration test changes
-      - "test/**"
-      # All scripts we use
-      - "tools/align-version.sh"
-      - "tools/build-test-matrix.sh"
-
   workflow_call:
     inputs:
       skip_setup:
@@ -65,6 +51,8 @@ jobs:
           yarn package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
         uses: actions/upload-artifact@v2
         if: ${{ !inputs.skip_setup }}
@@ -129,6 +117,7 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
 
   windows_integration:
     needs: prepare-integration-tests

@@ -1,0 +1,24 @@
+name: GitHub Actions Version Updater
+
+on:
+  schedule:
+    # Every monday at 13:37 UTC
+    - cron: 37 13 * * 1
+  workflow_dispatch: {}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
+
+      - name: Run GitHub Actions Version Updater
+        uses: saadmk11/github-actions-version-updater@v0.7.1
+        with:
+          token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
+          commit_message: "chore: update github workflow actions"
+          pull_request_title: "chore: update github workflow actions"
+          pull_request_team_reviewers: cdktf

@@ -27,6 +27,9 @@
     "incremental": true,
     "esModuleInterop": true
   },
+  "files": [
+    "ambient.d.ts"
+  ],
   "include": [
     "**/*.ts",
   ],

@@ -41,8 +41,6 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 
-export { setLogger } from "./utils";
-
 export const CODE_MARKER = "// define resources here";
 
 export async function getParsedHcl(hcl: string) {

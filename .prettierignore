@@ -22,4 +22,5 @@ website/website-preview
 *.java
 *.go
 *.cs
-packages/cdktf-cli/src/lib/ambient.d.ts
+packages/cdktf-cli/ambient.d.ts
+

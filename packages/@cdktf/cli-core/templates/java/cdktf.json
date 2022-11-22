@@ -1,0 +1,12 @@
+{
+  "language": "java",
+  "app": "mvn -e -q compile exec:java",
+  "projectId": "{{projectId}}",
+  "sendCrashReports": "{{sendCrashReports}}",
+  "codeMakerOutput": "src/main/java/imports",
+  "terraformProviders": [],
+  "terraformModules": [],
+  "context": {
+{{futureFlags}}
+  }
+}

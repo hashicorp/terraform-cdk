@@ -1,0 +1,35 @@
+========================================================================================================
+
+  Your cdktf Python project is ready!
+
+  cat help                Prints this message
+
+  Compile:
+    python3 ./main.py     Compile and run the python code.
+
+  Synthesize:
+    cdktf synth [stack]   Synthesize Terraform resources to cdktf.out/
+
+  Diff:
+    cdktf diff [stack]    Perform a diff (terraform plan) for the given stack
+
+  Deploy:
+    cdktf deploy [stack]  Deploy the given stack
+
+  Destroy:
+    cdktf destroy [stack] Destroy the given stack
+
+  Learn more about using modules and providers https://cdk.tf/modules-and-providers
+
+Use Providers:
+
+  Use the add command to add both prebuilt providers (if available) or locally generated providers:
+  
+  cdktf provider add "aws@~>3.0" null kreuzwerker/docker
+
+  You can find all prebuilt providers on PyPI: https://pypi.org/user/cdktf-team/
+  You can also add these providers directly to your requirements.txt file.
+
+  You can also build any module or provider locally. Learn more: https://cdk.tf/modules-and-providers
+
+========================================================================================================

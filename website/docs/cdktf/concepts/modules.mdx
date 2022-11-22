@@ -137,7 +137,7 @@ Modules often return data that you can use as inputs to other modules or resourc
 
 ### Examples
 
-The following TypeScript example uses a local module and references its output as a Terraform output.
+The following example uses a local module and references its output as a Terraform output.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-examples -->
 
@@ -189,7 +189,7 @@ app.synth()
 
 While we generally recommend generating code bindings for modules, you can also use the `TerraformHclModule` class to reference any module that Terraform supports. Both methods create identical synthesized Terraform configuration files, but using `TerraformHclModule` does not generate any types or type-safe inputs or outputs.
 
-The following TypeScript example uses `TerraformHclModule` to import an AWS module.
+The following example uses `TerraformHclModule` to import an AWS module.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-create-modules -->
 
