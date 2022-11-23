@@ -126,6 +126,7 @@ jobs:
   examples:
     uses: ./.github/workflows/examples.yml
     with:
+      skip_setup: true
       concurrency_group_prefix: release-next
     secrets: inherit
 
