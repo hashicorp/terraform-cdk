@@ -11,7 +11,7 @@ on:
 
 jobs:
   prepare-unit-tests:
-    if: ${{contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')}}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
     runs-on: ubuntu-latest
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
@@ -56,7 +56,7 @@ jobs:
 
   unit_test_for_prs:
     needs: prepare-unit-tests
-    if: ${{contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')}}
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
