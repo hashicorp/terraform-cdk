@@ -2,6 +2,11 @@ name: Examples Integration
 on:
   workflow_call:
     inputs:
+      skip_setup:
+        description: Skip the version and build step and use parent
+        default: false
+        required: false
+        type: boolean
       concurrency_group_prefix:
         default: pr
         required: false
@@ -16,9 +21,46 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       examples: ${{ steps.set-examples.outputs.examples }}
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 60
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: install dependencies
+        run: yarn install
+      - name: lint
+        run: yarn lint:examples
+      - name: align version (Python only)
+        if: ${{ !inputs.skip_setup && startsWith(matrix.target, '@examples/python') }}# lint:examples ensures this prefix
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
+      - name: build and package
+        if: ${{ !inputs.skip_setup }}
+        run: |
+          yarn build
+          yarn package
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+      - name: Upload dist
+        uses: actions/upload-artifact@v2
+        if: ${{ !inputs.skip_setup }}
+        with:
+          name: dist
+          path: dist
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
@@ -52,19 +94,11 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install
-      - name: lint
-        run: yarn lint:examples
-      - name: align version (Python only)
-        if: startsWith(matrix.target, '@examples/python') # lint:examples ensures this prefix
-        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
-      - name: compile
-        run: yarn build
-        env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
-      - name: create bundle
-        run: yarn package
+      - name: Download dist
+        uses: actions/download-artifact@v2
+        with:
+          name: dist
+          path: dist
       - name: examples integration tests
         run: test/run-against-dist node tools/build-example.js ${TEST_TARGET}
         env:
