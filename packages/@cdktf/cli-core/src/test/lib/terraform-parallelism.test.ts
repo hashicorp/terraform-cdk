@@ -4,8 +4,8 @@ import os from "os";
 import { CdktfProject, init, get } from "../../lib/index";
 import { exec, Language } from "@cdktf/commons";
 
-jest.mock("../../lib/util", () => {
-  const originalModule = jest.requireActual("../../lib/util");
+jest.mock("@cdktf/commons", () => {
+  const originalModule = jest.requireActual("@cdktf/commons");
 
   return {
     __esmodule: true,
