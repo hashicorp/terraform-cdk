@@ -58,7 +58,7 @@ describe("terraform parallelism", () => {
         Name: "cdktf-api-test",
       },
       sendCrashReports: false,
-      dist: path.join(__dirname, "../../../../../dist"),
+      dist: path.join(__dirname, "../../../../../../dist"),
     });
 
     fs.copyFileSync(
