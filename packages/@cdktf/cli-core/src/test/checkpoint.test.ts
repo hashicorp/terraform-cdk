@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { ReportRequest, ReportParams } from "@cdktf/commons";
-import nock from "nock";
+import nock = require("nock");
 
 describe("ReportRequest", () => {
   const reportParams: ReportParams = {

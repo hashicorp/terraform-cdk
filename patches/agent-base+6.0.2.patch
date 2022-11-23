@@ -1,0 +1,15 @@
+diff --git a/node_modules/agent-base/dist/src/index.d.ts b/node_modules/agent-base/dist/src/index.d.ts
+index bc4ab74..71a7405 100644
+--- a/node_modules/agent-base/dist/src/index.d.ts
++++ b/node_modules/agent-base/dist/src/index.d.ts
+@@ -1,7 +1,7 @@
+ /// <reference types="node" />
+-import net from 'net';
+-import http from 'http';
+-import https from 'https';
++import * as net from 'net';
++import * as http from 'http';
++import * as https from 'https';
+ import { Duplex } from 'stream';
+ import { EventEmitter } from 'events';
+ declare function createAgent(opts?: createAgent.AgentOptions): createAgent.Agent;

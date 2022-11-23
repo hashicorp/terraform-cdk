@@ -1,0 +1,24 @@
+diff --git a/node_modules/https-proxy-agent/dist/agent.d.ts b/node_modules/https-proxy-agent/dist/agent.d.ts
+index 4f1c636..115b9e8 100644
+--- a/node_modules/https-proxy-agent/dist/agent.d.ts
++++ b/node_modules/https-proxy-agent/dist/agent.d.ts
+@@ -1,5 +1,5 @@
+ /// <reference types="node" />
+-import net from 'net';
++import * as net from 'net';
+ import { Agent, ClientRequest, RequestOptions } from 'agent-base';
+ import { HttpsProxyAgentOptions } from '.';
+ /**
+diff --git a/node_modules/https-proxy-agent/dist/index.d.ts b/node_modules/https-proxy-agent/dist/index.d.ts
+index 0d60062..87a5c29 100644
+--- a/node_modules/https-proxy-agent/dist/index.d.ts
++++ b/node_modules/https-proxy-agent/dist/index.d.ts
+@@ -1,6 +1,6 @@
+ /// <reference types="node" />
+-import net from 'net';
+-import tls from 'tls';
++import * as net from 'net';
++import * as tls from 'tls';
+ import { Url } from 'url';
+ import { AgentOptions } from 'agent-base';
+ import { OutgoingHttpHeaders } from 'http';

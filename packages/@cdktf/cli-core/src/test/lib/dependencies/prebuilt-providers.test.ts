@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import nock from "nock";
+import nock = require("nock");
 import { ProviderConstraint } from "../../../lib/dependencies/dependency-manager";
 import {
   getNpmPackageName,
