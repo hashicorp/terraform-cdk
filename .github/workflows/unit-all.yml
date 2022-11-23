@@ -10,8 +10,53 @@ on:
       - reopened
 
 jobs:
+  prepare-unit-tests:
+    if: ${{contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')}}
+    runs-on: ubuntu-latest
+    outputs:
+      tests: ${{ steps.build-test-matrix.outputs.tests }}
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 60
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@v3
+        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: install dependencies
+        run: yarn install
+      - name: build and package
+        run: |
+          yarn build
+          yarn package
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+      - name: Upload dist
+        uses: actions/upload-artifact@v2
+        with:
+          name: dist
+          path: dist
+      - name: Upload edge-provider bindings
+        uses: actions/upload-artifact@v2
+        with:
+          name: edge-provider-bindings
+          path: packages/@cdktf/provider-generator/edge-provider-bindings
+
   unit_test_for_prs:
-    if: contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
+    needs: prepare-unit-tests
+    if: ${{contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')}}
     uses: ./.github/workflows/unit.yml
     strategy:
       fail-fast: false
@@ -28,6 +73,7 @@ jobs:
           ]
         terraform_version: ["1.1.9", "1.2.8"]
     with:
+      skip_setup: true
       concurrency_group_prefix: pr-all
       package: ${{ matrix.package }}
       terraform_version: ${{ matrix.terraform_version }}
