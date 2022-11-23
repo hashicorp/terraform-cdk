@@ -49,7 +49,7 @@ describe("CdktfProject", () => {
         Name: "cdktf-api-test",
       },
       sendCrashReports: false,
-      dist: path.join(__dirname, "../../../../../dist"),
+      dist: path.join(__dirname, "../../../../../../dist"),
     });
 
     fs.copyFileSync(
