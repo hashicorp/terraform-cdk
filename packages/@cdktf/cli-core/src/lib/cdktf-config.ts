@@ -1,8 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
+import * as path from "path";
 import { Language, Errors, CONFIG_DEFAULTS } from "@cdktf/commons";
-import path from "path";
 import { logger } from "@cdktf/commons";
 
 export type ProviderDependencySpec = {

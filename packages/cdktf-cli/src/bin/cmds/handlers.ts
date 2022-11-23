@@ -45,7 +45,6 @@ import {
   NestedTerraformOutputs,
   saveOutputs,
   normalizeOutputPath,
-  initializErrorReporting,
   DependencyManager,
   ProviderConstraint,
   CdktfConfig,
@@ -59,6 +58,7 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
+import { initializErrorReporting } from "./helper/error-reporting";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();

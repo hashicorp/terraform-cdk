@@ -46,7 +46,15 @@ export function persistReportCrashReportDecision(
   );
 }
 
-export async function askForCrashReportingConsent() {
+function isPromise(p: any): p is Promise<any> {
+  return (
+    typeof p === "object" &&
+    typeof p.then === "function" &&
+    typeof p.catch === "function"
+  );
+}
+
+async function askForCrashReportingConsent() {
   const answer: { reportCrash: boolean } = await inquirer.prompt({
     name: "reportCrash",
     message:
@@ -56,14 +64,6 @@ export async function askForCrashReportingConsent() {
   });
 
   return answer.reportCrash;
-}
-
-function isPromise(p: any): p is Promise<any> {
-  return (
-    typeof p === "object" &&
-    typeof p.then === "function" &&
-    typeof p.catch === "function"
-  );
 }
 
 export async function initializErrorReporting(askForConsent = false) {

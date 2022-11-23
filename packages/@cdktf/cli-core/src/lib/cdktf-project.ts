@@ -7,7 +7,7 @@ import { printAnnotations } from "./synth";
 import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
 import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
-import minimatch from "minimatch";
+import minimatch = require("minimatch");
 import { createEnhanceLogMessage } from "./execution-logs";
 
 type MultiStackApprovalUpdate = {

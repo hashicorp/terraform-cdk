@@ -25,7 +25,7 @@
     "stripInternal": true,
     "target": "ES2018",
     "incremental": false,
-    "esModuleInterop": true
+    "esModuleInterop": false
   },
   "files": [
     "ambient.d.ts"

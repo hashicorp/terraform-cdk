@@ -3,7 +3,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as chalk from "chalk";
-import indentString from "indent-string";
+import indentString = require("indent-string");
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
 import { logger, sendTelemetry, shell } from "@cdktf/commons";

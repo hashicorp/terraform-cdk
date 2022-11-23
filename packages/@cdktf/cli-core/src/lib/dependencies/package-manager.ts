@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Language, exec, Errors, logger } from "@cdktf/commons";
 import { existsSync } from "fs-extra";
-import path from "path";
+import * as path from "path";
 import { xml2js, js2xml, Element } from "xml-js";
 import * as fs from "fs-extra";
 import * as semver from "semver";

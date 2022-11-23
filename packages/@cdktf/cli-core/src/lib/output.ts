@@ -3,7 +3,7 @@
 import * as z from "zod";
 import * as fs from "fs";
 import * as path from "path";
-import stripAnsi from "strip-ansi";
+import stripAnsi = require("strip-ansi");
 
 import { logger } from "@cdktf/commons";
 import { ActionTypes, schema } from "./models/schema";
