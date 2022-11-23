@@ -291,6 +291,20 @@ Most of our tests are automated but there are some workflows we need to manually
 - Update the learn examples and the end to end examples
 - Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
 
+#### Retrying a broken deployment
+
+The release workflow uses sentry as the source of truth for releases. The downside of that, however, is that if the release is broken at some point and a new release is required, it will not be possible to run the release workflow. In order to work around that, the sentry release needs to be reverted.
+
+```sh
+# Install Sentry CLI and login
+npm i -g @sentry/cli
+sentry-cli login
+# List all releases (optional)
+sentry-cli releases list --org hashicorp
+# Delete the release, Note: there will be no confirmation for deleting the release!
+sentry-cli releases delete --org hashicorp <release> # e.g. cdktf-cli-0.14.0
+```
+
 ### Repositories to update
 
 - [Docker E2E](https://github.com/hashicorp/docker-on-aws-ecs-with-terraform-cdk-using-typescript)
