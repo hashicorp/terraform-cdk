@@ -21,9 +21,6 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 The following example is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#hcl-interop -->
-
-<CodeTabs>
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#hcl-interop -->
 
 <CodeTabs>
@@ -60,6 +57,35 @@ new MyStack(app, "random-pet-module");
 app.synth();
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
+from imports.random.pet import Pet
+from imports.random.provider import RandomProvider
+
+class HclInteropStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        RandomProvider(self, "default")
+        petNameLength = TerraformVariable(self, "petNameLength",
+                            type="number",
+                            default=2,
+                            description="Pet name length"
+                        )
+
+        myPet = Pet(self, "example",
+                    length=petNameLength.number_value
+                )
+
+        TerraformOutput(self, "name",
+            value=myPet.id
+        )
+# app = App()
+# HclInteropStack(app, "random-pet-module")
+# app.synth()
+```
+
 ```csharp
 using System;
 using System.IO;
@@ -94,37 +120,6 @@ namespace Examples
         }
     }
 }
-```
-
-</CodeTabs>
-
-```python
-from constructs import Construct
-from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
-from imports.random.pet import Pet
-from imports.random.provider import RandomProvider
-
-class HclInteropStack(TerraformStack):
-    def __init__(self, scope: Construct, name: str):
-        super().__init__(scope, name)
-
-        RandomProvider(self, "default")
-        petNameLength = TerraformVariable(self, "petNameLength",
-                            type="number",
-                            default=2,
-                            description="Pet name length"
-                        )
-
-        myPet = Pet(self, "example",
-                    length=petNameLength.number_value
-                )
-
-        TerraformOutput(self, "name",
-            value=myPet.id
-        )
-# app = App()
-# HclInteropStack(app, "random-pet-module")
-# app.synth()
 ```
 
 </CodeTabs>
