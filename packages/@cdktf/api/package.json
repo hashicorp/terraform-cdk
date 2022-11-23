@@ -95,11 +95,11 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/cli-core": "0.0.0",
-    "cdktf": "0.0.0"
+    "@cdktf/cli-core": "0.0.0"
   },
   "peerDependencies": {
-    "cdktf": "0.0.0"
+    "cdktf": "0.0.0",
+    "constructs": "^10.0.25"
   },
   "bundleDependencies": ["@cdktf/cli-core"],
   "devDependencies": {
@@ -110,7 +110,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "cdktf": "0.0.0",
-    "constructs": "^10.0.25",
+    "constructs": "10.0.25",
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
     "eslint-plugin-no-instanceof": "1.0.1",
