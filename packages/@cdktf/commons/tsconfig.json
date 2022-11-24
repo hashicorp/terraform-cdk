@@ -24,8 +24,9 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
-    "incremental": false,
-    "esModuleInterop": true
+    "incremental": true,
+    "esModuleInterop": true,
+    "composite": true,
   },
   "files": [
     "ambient.d.ts"

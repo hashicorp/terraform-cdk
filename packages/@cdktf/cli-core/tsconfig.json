@@ -24,11 +24,23 @@
     "strictPropertyInitialization": true,
     "stripInternal": true,
     "target": "ES2018",
-    "incremental": false,
-    "esModuleInterop": false
+    "esModuleInterop": false,
+    "composite": true,
+    "incremental": true,
   },
   "files": [
     "ambient.d.ts"
+  ],
+  "references": [
+    {
+      "path": "../commons"
+    },{
+      "path": "../hcl2cdk"
+    }, {
+      "path": "../hcl2json"
+    }, {
+      "path": "../provider-generator"
+    }
   ],
   "include": [
     "src/**/*.ts",

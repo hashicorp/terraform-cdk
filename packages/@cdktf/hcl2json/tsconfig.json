@@ -27,7 +27,8 @@
     "incremental": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "checkJs": false
+    "checkJs": false,
+    "composite": true,
   },
   "include": [
     "lib/**/*.ts",
