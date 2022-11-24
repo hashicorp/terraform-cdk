@@ -42,6 +42,67 @@ const s3Bucket = new S3Bucket(this, "bucket", {
 ```
 
 ```java
+        TerraformVariable list = new TerraformVariable(this, "list", TerraformVariableConfig.builder()
+                .type("list(string)")
+                .build());
+
+        TerraformIterator terraformIterator = TerraformIterator.fromList(list.getListValue());
+
+        S3Bucket awsS3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                .forEach(terraformIterator)
+                .bucket(Token.asString(terraformIterator.getString("")))
+                .build());
+```
+
+```python
+from imports.aws.s3_bucket import S3Bucket
+from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
+
+        list = TerraformVariable(self, "list",
+            type="list(string)"
+        )
+
+        iterator = TerraformIterator.from_list(list=list.list_value)
+
+        s3Bucket = S3Bucket(self, "bucket",
+            for_each=iterator,
+            bucket=Token.as_string(iterator.value)
+        )
+```
+
+</CodeTabs>
+
+You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
+
+## Using Iterators on Complex Types
+
+The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
+
+<CodeTabs>
+
+```typescript
+const iterator = TerraformIterator.fromList([
+  {
+    name: "website-static-files",
+    tags: { app: "website" },
+  },
+  {
+    name: "images",
+    tags: { app: "image-converter" },
+  },
+] as any);
+
+const s3Bucket = new S3Bucket(this, "bucket", {
+  forEach: iterator,
+  name: iterator.getString("name"),
+  tags: iterator.getStringMap("tags"),
+});
+```
+
+```java
 import imports.aws.s3_bucket.S3Bucket;
 import imports.aws.s3_bucket.S3BucketConfig;
 
@@ -79,59 +140,6 @@ import imports.aws.s3_bucket.S3BucketConfig;
 ```python
 from imports.aws.s3_bucket import S3Bucket
 from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
-
-        list = TerraformVariable(self, "list",
-            type="list(string)"
-        )
-
-        iterator = TerraformIterator.from_list(list=list.list_value)
-
-        s3Bucket = S3Bucket(self, "bucket",
-            for_each=iterator,
-            bucket=Token.as_string(iterator.value)
-        )
-
-```
-
-</CodeTabs>
-
-You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
-
-## Using Iterators on Complex Types
-
-The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
-
-<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
-
-<CodeTabs>
-
-```typescript
-const iterator = TerraformIterator.fromList([
-  {
-    name: "website-static-files",
-    tags: { app: "website" },
-  },
-  {
-    name: "images",
-    tags: { app: "image-converter" },
-  },
-] as any);
-
-const s3Bucket = new S3Bucket(this, "bucket", {
-  forEach: iterator,
-  name: iterator.getString("name"),
-  tags: iterator.getStringMap("tags"),
-});
-```
-
-```java
-
-```
-
-```python
-from imports.aws.s3_bucket import S3Bucket
-from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
         list = TerraformLocal(self, "my-list", [
             {
                 "name": "website-static-files",
@@ -152,7 +160,6 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
             bucket=iterator.get_string("name"),
             tags=iterator.get_map("tags")
         )
-
 ```
 
 </CodeTabs>

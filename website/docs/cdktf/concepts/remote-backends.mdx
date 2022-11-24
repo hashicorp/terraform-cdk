@@ -59,16 +59,33 @@ new Mystack(app, "hello-terraform");
 ```
 
 ```java
-stack.addOverride("terraform.backend", new HashMap<String, HashMap>() {
-    {
-        put("atlas", new HashMap<String, String>() {
-            {
-                put("name", "example_corp/networking-prod");
-                put("address", "https://app.terraform.io");
-            }
-        });
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.CloudBackend;
+import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+
+public class MainRemoteBackendDefine extends TerraformStack {
+
+    public MainRemoteBackendDefine(Construct scope, String id) {
+        super(scope, id);
+
+        new CloudBackend(this, CloudBackendProps.builder()
+                .hostname("app.terraform.io")
+                .organization("company")
+                .workspaces(new NamedCloudWorkspace("my-app-prod"))
+                .build()
+        );
+
+        new TerraformOutput(this, "dns-server", TerraformOutputConfig.builder()
+                .value("hello-world")
+                .build()
+        );
     }
-});
+}
 ```
 
 ```python
@@ -281,7 +298,16 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```java
-
+stack.addOverride("terraform.backend", new HashMap<String, HashMap>() {
+    {
+        put("atlas", new HashMap<String, String>() {
+            {
+                put("name", "example_corp/networking-prod");
+                put("address", "https://app.terraform.io");
+            }
+        });
+    }
+});
 ```
 
 ```python

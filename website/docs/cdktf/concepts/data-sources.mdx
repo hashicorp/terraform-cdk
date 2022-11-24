@@ -41,27 +41,21 @@ export class HelloTerraform extends TerraformStack {
 ```
 
 ```java
-import com.hashicorp.cdktf.DataTerraformRemoteState;
-import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
-import imports.aws.instance.Instance;
-import imports.aws.instance.InstanceConfig;
+import imports.aws.data_aws_region.DataAwsRegion;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
 
-public class DataSourcesRemoteState extends TerraformStack {
+public class DataSourcesDefine extends TerraformStack {
 
-    public DataSourcesRemoteState(Construct scope, String id) {
+    public DataSourcesDefine(Construct scope, String id){
         super(scope, id);
 
-        // ....
-        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "state",
-                DataTerraformRemoteStateRemoteConfig.builder()
-                        .organization("hashicorp")
-                        .workspaces(new NamedRemoteWorkspace("vpc-prod"))
-                        .build());
-
-        new Instance(this, "foo", InstanceConfig.builder()
-                // ....
-                .subnetId(remoteState.getString("subnet_id"))
-                .build());
+        new AwsProvider(this, "temp", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+        //......
+        DataAwsRegion region = new DataAwsRegion(this, "region");
     }
 }
 ```
@@ -86,7 +80,6 @@ class HelloTerraform(TerraformStack):
 app = App()
 HelloTerraform(app, "data-sources")
 app.synth()
-
 ```
 
 </CodeTabs>
@@ -128,7 +121,29 @@ export class HelloTerraform extends TerraformStack {
 ```
 
 ```java
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
+import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
 
+public class DataSourcesRemoteState extends TerraformStack {
+
+    public DataSourcesRemoteState(Construct scope, String id) {
+        super(scope, id);
+
+        // ....
+        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "state",
+                DataTerraformRemoteStateRemoteConfig.builder()
+                        .organization("hashicorp")
+                        .workspaces(new NamedRemoteWorkspace("vpc-prod"))
+                        .build());
+
+        new Instance(this, "foo", InstanceConfig.builder()
+                // ....
+                .subnetId(remoteState.getString("subnet_id"))
+                .build());
+    }
+}
 ```
 
 ```python

@@ -55,30 +55,72 @@ Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
 ```java
-    public class ValidateS3IsPrefixed implements IAspect {
+    public class TagsAddingAspect implements IAspect {
+        private final Map<String, String> tags;
 
-        private final String prefix;
+        public TagsAddingAspect(Map<String, String> tags) {
+            this.tags = tags;
+        }
 
-        public ValidateS3IsPrefixed(String prefix) {
-            this.prefix = prefix;
+        public Method getInputTags(IConstruct node) {
+            Method getTagsInput;
+            try {
+                getTagsInput = node.getClass().getDeclaredMethod("getTagsInput");
+            } catch (NoSuchMethodException e) {
+                // Not all constructs are taggable, so we need to filter it
+                throw new RuntimeException("Resource " + node.getClass() + " is un-taggable");
+            }
+            getTagsInput.setAccessible(true);
+            return getTagsInput;
+        }
+
+        public Method getTagsSet(IConstruct node) {
+            Method setTags;
+            try {
+                setTags = node.getClass().getDeclaredMethod("setTags", Map.class);
+            } catch (NoSuchMethodException e) {
+                // Not all constructs are taggable, so we need to filter it
+                throw new RuntimeException("Resource " + node.getClass() + " is un-taggable");
+            }
+            setTags.setAccessible(true);
+            return setTags;
         }
 
         // This method is called on every Construct within the defined scope (resource,
         // data sources, etc.).
         public void visit(IConstruct node) {
-            if (node instanceof S3Bucket) {
-                if (((S3Bucket) node).getBucketInput() != null && !((S3Bucket) node).getBucketInput().startsWith(this.prefix)) {
-                    // You can include `addInfo`, `addWarning`, and `addError`.
-                    // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
-                    Annotations.of(node).addError(
-                            "Each S3 Bucket name needs to start with " + this.prefix);
+            Method getTagsInput = getInputTags(node);
+            Method setTags = getTagsSet(node);
+            Map<String, String> currentTags;
+            try {
+                // We need to take the input value to not create a circular reference
+                currentTags = (Map<String, String>) getTagsInput.invoke(node);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                HashMap<String, String> newTags = new HashMap<>();
+                newTags.putAll(this.tags);
+                if (currentTags != null) {
+                    newTags.putAll(currentTags);
                 }
+                setTags.invoke(node, newTags);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
             }
         }
     }
 
-        // Check the prefix for every resource within `myStack`.
-        Aspects.of(bucket).add(new ValidateS3IsPrefixed("myPrefix"));
+        // Add tags to every resource defined within `myStack`.
+        Aspects.of(bucket).add(new TagsAddingAspect(new HashMap<String, String>() {
+            {
+                put("createdBy", "cdktf");
+            }
+        }));
 ```
 
 ```python
@@ -100,7 +142,6 @@ class TagsAddingAspect:
 
         # Add tags to every resource defined within `myStack`.
         Aspects.of(myStack).add(TagsAddingAspect({ "createdBy": "cdktf" }))
-
 ```
 
 </CodeTabs>
@@ -140,7 +181,30 @@ Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
 
 ```java
+    public class ValidateS3IsPrefixed implements IAspect {
 
+        private final String prefix;
+
+        public ValidateS3IsPrefixed(String prefix) {
+            this.prefix = prefix;
+        }
+
+        // This method is called on every Construct within the defined scope (resource,
+        // data sources, etc.).
+        public void visit(IConstruct node) {
+            if (node instanceof S3Bucket) {
+                if (((S3Bucket) node).getBucketInput() != null && !((S3Bucket) node).getBucketInput().startsWith(this.prefix)) {
+                    // You can include `addInfo`, `addWarning`, and `addError`.
+                    // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
+                    Annotations.of(node).addError(
+                            "Each S3 Bucket name needs to start with " + this.prefix);
+                }
+            }
+        }
+    }
+
+        // Check the prefix for every resource within `myStack`.
+        Aspects.of(bucket).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
 
 ```python

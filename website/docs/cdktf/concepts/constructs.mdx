@@ -49,7 +49,7 @@ You can import any [CDKTF-compatible](#available-constructs) construct that is a
 The following example instantiates a construct called `KubernetesWebAppDeployment` and uses the available arguments to specify that the deployment will have two replicas.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-use-constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-use-constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
@@ -111,41 +111,37 @@ app.synth()
 ```
 
 ```java
-import software.constructs.Construct;
-import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.App;
-public class MainConstructScope extends TerraformStack {
+import java.nio.file.Paths;
+import imports.kubernetes.provider.KubernetesProvider;
+import imports.kubernetes.provider.KubernetesProviderConfig;
+import com.mycompany.app.myconstructs.KubernetesWebAppDeployment;
+import com.mycompany.app.myconstructs.KubernetesWebAppDeploymentConfig;
 
-    public MainConstructScope(Construct scope, String name){
+
+public class MainUseConstructs extends TerraformStack {
+
+    public MainUseConstructs(Construct scope, String name){
         super(scope, name);
 
-        new MainConstructScope.PublicS3Bucket(this, "first-bucket");
-        new MainConstructScope.PublicS3Bucket(this, "second-bucket");
+        new KubernetesProvider(this, "kind", KubernetesProviderConfig.builder()
+                .configPath(Paths.get(System.getProperty("user.dir"), "..", "kubeconfig.yaml").toString())
+                .build()
+        );
 
+        new KubernetesWebAppDeployment(this, "deployment",  KubernetesWebAppDeploymentConfig.builder()
+                .image("nginx:latest")
+                .replicas(2)
+                .app("myapp")
+                .components("frontend")
+                .environments("dev")
+                .build()
+        );
     }
 
-    static class PublicS3Bucket extends Construct{
-
-        public S3Bucket bucket;
-
-        public PublicS3Bucket(Construct scope, String name){
-            super(scope, name);
-
-            new AwsProvider(this, "aws", AwsProviderConfig.builder()
-                    .region("us-east-1")
-                    .build()
-            );
-
-            this.bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
-                    .bucketPrefix(name)
-                    .website(S3BucketWebsite.builder()
-                            .indexDocument("index.html")
-                            .errorDocument("5xx.html")
-                            .build()
-                    )
-                    .build()
-            );
-        }
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainUseConstructs(app, "demo");
+        app.synth();
     }
 }
 ```
@@ -307,12 +303,49 @@ class MyS3BucketStack(TerraformStack):
         PublicS3Bucket(self, "first-bucket")
         PublicS3Bucket(self, "second-bucket")
 
-```
-
-```java
 app = App()
 MyS3BucketStack(app, "s3-stack")
 app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+public class MainConstructScope extends TerraformStack {
+
+    public MainConstructScope(Construct scope, String name){
+        super(scope, name);
+
+        new MainConstructScope.PublicS3Bucket(this, "first-bucket");
+        new MainConstructScope.PublicS3Bucket(this, "second-bucket");
+
+    }
+
+    static class PublicS3Bucket extends Construct{
+
+        public S3Bucket bucket;
+
+        public PublicS3Bucket(Construct scope, String name){
+            super(scope, name);
+
+            new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                    .region("us-east-1")
+                    .build()
+            );
+
+            this.bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                    .bucketPrefix(name)
+                    .website(S3BucketWebsite.builder()
+                            .indexDocument("index.html")
+                            .errorDocument("5xx.html")
+                            .build()
+                    )
+                    .build()
+            );
+        }
+    }
+}
 ````
 
 </CodeTabs>

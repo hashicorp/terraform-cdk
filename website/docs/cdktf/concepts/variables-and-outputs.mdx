@@ -52,71 +52,18 @@ new Instance(this, "hello", {
 ```
 
 ```java
-import imports.random.provider.RandomProvider;
-import imports.random.pet.Pet;
+        TerraformVariable imageId = new TerraformVariable(this, "imageId", TerraformVariableConfig.builder()
+                .type("string")
+                .defaultValue("ami-abcde123")
+                .description("What AMI to use to create an instance")
+                .build()
+        );
 
-import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
-import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.TerraformOutput;
-import com.hashicorp.cdktf.TerraformOutputConfig;
-import com.hashicorp.cdktf.CloudBackend;
-import com.hashicorp.cdktf.CloudBackendProps;
-import com.hashicorp.cdktf.NamedCloudWorkspace;
-import com.hashicorp.cdktf.NamedRemoteWorkspace;
-import com.hashicorp.cdktf.DataTerraformRemoteState;
-import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
-
-public class VariablesAndOutputsRemoteState {
-
-    public static class Producer extends TerraformStack{
-
-        public Producer(Construct scope, String id){
-            super(scope, id);
-
-            new CloudBackend(this, CloudBackendProps.builder()
-                    .organization("hashicorp")
-                    .workspaces(new NamedCloudWorkspace("producer"))
-                    .build()
-            );
-
-            new RandomProvider(this, "random");
-            Pet pet = new Pet(this, "pet");
-
-            new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
-                    .value(pet.getId())
-                    .build()
-            );
-        }
-    }
-
-    public static class Consumer extends TerraformStack{
-
-        public Consumer(Construct scope, String id){
-            super(scope, id);
-
-            new CloudBackend(this, CloudBackendProps.builder()
-                    .organization("hashicorp")
-                    .workspaces(new NamedCloudWorkspace("consumer"))
-                    .build()
-            );
-
-            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-pet", DataTerraformRemoteStateRemoteConfig.builder()
-                    .organization("hashicorp")
-                    .workspaces(new NamedRemoteWorkspace("producer"))
-                    .build()
-            );
-        }
-    }
-
-    public static void main(String[] args) {
-        final App app = new App();
-        new Producer(app, "cdktf-producer");
-        new Consumer(app, "cdktf-consumer");
-        app.synth();
-    }
-}
-
+        new Instance(this, "hello", InstanceConfig.builder()
+                .ami(imageId.getStringValue())
+                .instanceType("t2.micro")
+                .build()
+        );
 ```
 
 ```python
@@ -165,7 +112,15 @@ new Instance(this, "example", {
 ```
 
 ```java
+        TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new HashMap<String, String>(){{
+            put("service", "service_name");
+            put("owner", "owner");
+        }});
 
+        new Instance(this, "example", InstanceConfig.builder()
+                .tags((Map<String, String>) commonTags.getExpression())
+                .build()
+        );
 ```
 
 ```python
@@ -246,7 +201,36 @@ app.synth();
 ```
 
 ```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
 
+public class VariablesAndOutputsValues extends TerraformStack {
+
+    public VariablesAndOutputsValues(Construct scope, String id, VariablesAndOutputsValuesProps props){
+        super(scope, id);
+
+        new TerraformOutput(this, "my-domain", TerraformOutputConfig.builder()
+                .value(props.myDomain)
+                .build()
+        );
+    }
+
+    public static class VariablesAndOutputsValuesProps {
+        public String myDomain;
+        public VariablesAndOutputsValuesProps(String myDomain){
+            this.myDomain = myDomain;
+        }
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new VariablesAndOutputsValues(app, "cdktf-producer", new VariablesAndOutputsValuesProps("example.com"));
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -312,7 +296,33 @@ app.synth();
 ```
 
 ```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import imports.random.pet.Pet;
+import imports.random.provider.RandomProvider;
 
+public class VariablesAndOutputsDefineValues extends TerraformStack {
+
+    public VariablesAndOutputsDefineValues(Construct scope, String id) {
+        super(scope, id);
+
+        new RandomProvider(this, "random");
+
+        Pet pet = new Pet(this, "pet");
+
+        new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
+                .value(pet.getId())
+                .build());
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new VariablesAndOutputsDefineValues(app, "cdktf-demo");
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -430,7 +440,70 @@ app.synth();
 ```
 
 ```java
+import imports.random.provider.RandomProvider;
+import imports.random.pet.Pet;
 
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import com.hashicorp.cdktf.CloudBackend;
+import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+import com.hashicorp.cdktf.NamedRemoteWorkspace;
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
+
+public class VariablesAndOutputsRemoteState {
+
+    public static class Producer extends TerraformStack{
+
+        public Producer(Construct scope, String id){
+            super(scope, id);
+
+            new CloudBackend(this, CloudBackendProps.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("producer"))
+                    .build()
+            );
+
+            new RandomProvider(this, "random");
+            Pet pet = new Pet(this, "pet");
+
+            new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
+                    .value(pet.getId())
+                    .build()
+            );
+        }
+    }
+
+    public static class Consumer extends TerraformStack{
+
+        public Consumer(Construct scope, String id){
+            super(scope, id);
+
+            new CloudBackend(this, CloudBackendProps.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("consumer"))
+                    .build()
+            );
+
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-pet", DataTerraformRemoteStateRemoteConfig.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedRemoteWorkspace("producer"))
+                    .build()
+            );
+        }
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new Producer(app, "cdktf-producer");
+        new Consumer(app, "cdktf-consumer");
+        app.synth();
+    }
+}
 ```
 
 ```python

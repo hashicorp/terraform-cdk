@@ -54,24 +54,41 @@ app.synth();
 ```
 
 ```java
-        AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.vpc.Vpc;
+import imports.vpc.VpcOptions;
+
+public class MainInstallModules extends TerraformStack {
+
+    public MainInstallModules(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "aws", AwsProviderConfig.builder()
                 .region("us-east-1")
                 .build()
         );
 
-        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
-                .source("terraform-aws-modules/vpc/aws")
-                .variables(new HashMap<String, Object>(){{
-                    put("name", "my-vpc");
-                    put("cidr", "10.0.0.0/16");
-                    put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
-                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
-                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
-                    put("enableNatGateway", true);
-                }})
-                .providers(Arrays.asList(provider))
+        new Vpc(this, "myVpc", VpcOptions.builder()
+                .name("my-vpc")
+                .cidr("10.0.0.0/16")
+                .azs(Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"))
+                .privateSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"))
+                .publicSubnets(Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"))
+                .enableNatGateway(true)
                 .build()
         );
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainInstallModules(app, "hello-terraform");
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -202,13 +219,35 @@ class ModuleWithOutputStack(TerraformStack):
         localModule = MyLocalModule(self, "local-module", ip_address='127.0.0.1')
         TerraformOutput(self, "dns-server", value=localModule.dns_server_output)
 
-```
-
-```java
-
 app = App()
 ModuleWithOutputStack(app, "hello-terraform")
 app.synth()
+```
+
+```java
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
+import imports.my_local_module.MyLocalModule;
+import imports.my_local_module.MyLocalModuleOptions;
+public class MainModuleExample extends TerraformStack {
+
+    public MainModuleExample(Construct scope, String id){
+        super(scope, id);
+
+        MyLocalModule localModule = new MyLocalModule(this, "local-module", MyLocalModuleOptions.builder()
+                .ipAddress("127.0.0.1")
+                .build()
+        );
+
+        new TerraformOutput(this, "dns-server", TerraformOutputConfig.builder()
+                .value(localModule.getDnsServerOutputOutput())
+                .build()
+        );
+
+    }
+}
 ```
 
 </CodeTabs>
@@ -250,7 +289,24 @@ const module = new TerraformHclModule(stack, "Vpc", {
 
 
 ```java
+        AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
 
+        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
+                .source("terraform-aws-modules/vpc/aws")
+                .variables(new HashMap<String, Object>(){{
+                    put("name", "my-vpc");
+                    put("cidr", "10.0.0.0/16");
+                    put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
+                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enableNatGateway", true);
+                }})
+                .providers(Arrays.asList(provider))
+                .build()
+        );
 ```
 
 
@@ -281,7 +337,6 @@ class HclModuleStack(TerraformStack):
 app = App()
 HclModuleStack(app, "hello-terraform")
 app.synth()
-
 ```
 
 </CodeTabs>
