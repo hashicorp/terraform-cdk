@@ -53,3 +53,9 @@ ci/run-unit/cdktf:
   - "packages/cdktf/**"
   # All scripts we use
   - "tools/align-version.sh"
+
+ci/run-examples:
+  # The workflow used
+  - ".github/workflows/unit.yml"
+  # The examples
+  - "examples/**"
