@@ -77,6 +77,24 @@ const list_block_resource = new S()
     computed: true,
     optional: false,
   })
+  .attribute({
+    name: "computedListOfMapOfObject",
+    type: [
+      "list",
+      [
+        "map",
+        [
+          "object",
+          {
+            str: "string",
+            other: "string",
+          },
+        ],
+      ],
+    ],
+    computed: true,
+    optional: false,
+  })
   .build();
 
 const map_resource = new S()
