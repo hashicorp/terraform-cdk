@@ -205,7 +205,7 @@ class MyStack extends TerraformStack {
 }
 ```
 
-````python
+```python
 from constructs import Construct
 from cdktf import App, TerraformStack, TerraformOutput
 # This module can come from a registry or through a local / remote reference
@@ -258,8 +258,6 @@ While we generally recommend generating code bindings for modules, you can also 
 
 The following example uses `TerraformHclModule` to import an AWS module.
 
-
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#modules-create-modules -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-create-modules -->
 
@@ -286,8 +284,6 @@ const module = new TerraformHclModule(stack, "Vpc", {
 });
 ```
 
-
-
 ```java
         AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
                 .region("us-east-1")
@@ -308,7 +304,6 @@ const module = new TerraformHclModule(stack, "Vpc", {
                 .build()
         );
 ```
-
 
 ```python
 class HclModuleStack(TerraformStack):
@@ -341,4 +336,6 @@ app.synth()
 
 </CodeTabs>
 
-````
+```
+
+```
