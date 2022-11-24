@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.JSII.Runtime" Version="1.71.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include=".gen\aws\aws.csproj" />
   </ItemGroup>
 
