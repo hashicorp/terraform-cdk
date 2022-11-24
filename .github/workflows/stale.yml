@@ -17,8 +17,8 @@ jobs:
           stale-issue-message: "Hi there! 👋 We haven't heard from you in 30 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
           close-issue-message: "I'm closing this issue because we haven't heard back in 60 days. ⌛️ If you still need help, feel free to comment or reopen the issue!"
           days-before-issue-stale: 30
-          days-before-issue-close: 60
-          stale-issue-label: ""
+          days-before-issue-close: 30
+          stale-issue-label: stale
           only-issue-labels: waiting-on-answer
           # The above only applies to issues where maintainers manually added the label "waiting-on-answer"
 
