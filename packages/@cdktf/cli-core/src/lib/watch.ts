@@ -9,6 +9,7 @@ import {
 import * as fs from "fs";
 import * as chokidar from "chokidar";
 import { logger, Errors } from "@cdktf/commons";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 import { CdktfStack } from "./cdktf-stack";
 
 // In this very first iteration we will find out which files to watch by asking the user to provide the files

@@ -4,6 +4,7 @@ import { SynthesizedStack } from "./synth-stack";
 import { Terraform, TerraformPlan } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger, Errors } from "@cdktf/commons";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformCloud } from "./models/terraform-cloud";
 import { TerraformCli } from "./models/terraform-cli";

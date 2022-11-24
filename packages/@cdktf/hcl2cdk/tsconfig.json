@@ -33,6 +33,7 @@
   ],
   "include": [
     "**/*.ts",
+    "**/*.json",
   ],
   "exclude": [
     "node_modules",
