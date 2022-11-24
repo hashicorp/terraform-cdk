@@ -23,10 +23,11 @@ In the following TypeScript example, a Terraform data source fetches the AWS reg
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#datasources -->
 
 <CodeTabs>
 
-```typescript
+```ts
 // .....
 import { DataAwsRegion } from "./gen/providers/aws/data-aws-region";
 
@@ -82,6 +83,35 @@ HelloTerraform(app, "data-sources")
 app.synth()
 ```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.DataAwsRegion;
+
+namespace Examples
+{
+    class DataSourceStack : TerraformStack
+    {
+        public DataSourceStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataAwsRegion region = new DataAwsRegion(this, "region", new DataAwsRegionConfig {
+                Name = "eu-central-1"
+            });
+        }
+    }
+}
+```
+
 </CodeTabs>
 
 ## Remote State Data Source
@@ -91,12 +121,13 @@ The [`terraform_remote_state` data source](/language/state/remote-state-data) re
 The following example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-state-datasources -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-remote-state-data-source -->
 
 <CodeTabs>
 
-```typescript
+```ts
 // .....
 import { DataTerraformRemoteState } from 'cdktf';
 
@@ -170,6 +201,41 @@ class HelloTerraformRemoteState(TerraformStack):
 app = App()
 HelloTerraformRemoteState(app, "terraform-remotes-state")
 app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+
+namespace Examples
+{
+    class RemoteStateDataSourceStack : TerraformStack
+    {
+        public RemoteStateDataSourceStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remoteState", new DataTerraformRemoteStateRemoteConfig {
+                Organization = "hashicorp",
+                Workspaces = new NamedRemoteWorkspace("vpc-prod")
+            });
+
+            new Instance(this, "foo", new InstanceConfig {
+                // ....
+                SubnetId = remoteState.GetString("subnet_id")
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>
