@@ -3,11 +3,8 @@
   "version": "0.0.0",
   "description": "CDK for Terraform CLI Core, meant for internal use only",
   "scripts": {
-    "compile-build-config": "tsc build.ts",
-    "prebuild": "yarn compile-build-config",
-    "build": "tsc --noEmit",
-    "postbuild": "node build.js",
-    "watch": "yarn compile-build-config && node build.js --watch",
+    "build": "tsc",
+    "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
@@ -19,7 +16,7 @@
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
   },
-  "main": "bundle/lib/index.js",
+  "main": "src/lib/index.js",
   "types": "src/lib/index.d.ts",
   "repository": {
     "type": "git",

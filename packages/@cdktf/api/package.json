@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "description": "Cloud Development Kit for Terraform API",
   "scripts": {
-    "build": "jsii --silence-warnings reserved-word",
+    "build": "jsii --silence-warnings reserved-word --project-references=../../cdktf --project-references=../cli-core",
     "postbuild": "yarn run docs && node ./scripts/generate-example.js",
     "docs": "jsii-docgen",
     "watch": "jsii -w --silence-warnings reserved-word",
