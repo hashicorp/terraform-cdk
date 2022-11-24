@@ -1,12 +1,15 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
-import { config as cfg } from "@cdktf/provider-generator";
+import {
+  Errors,
+  readConfigSync,
+  shouldCheckCodeMakerOutput,
+} from "@cdktf/commons";
 import { requireHandlers } from "./helper/utilities";
-import { Errors } from "../../lib/errors";
 import { BaseCommand } from "./helper/base-command";
 
-const config = cfg.readConfigSync();
+const config = readConfigSync();
 
 class Command extends BaseCommand {
   public readonly command = "synth";
@@ -29,7 +32,7 @@ class Command extends BaseCommand {
       .option("check-code-maker-output", {
         type: "boolean",
         desc: "Should `codeMakerOutput` existence check be performed? By default it will be checked if providers or modules are configured.",
-        default: cfg.shouldCheckCodeMakerOutput(config),
+        default: shouldCheckCodeMakerOutput(config),
       })
       .showHelpOnFail(true);
 

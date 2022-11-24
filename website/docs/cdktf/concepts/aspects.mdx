@@ -16,7 +16,9 @@ To create an aspect, you must import the `Aspects` class and the `IAspect` inter
 
 Everything within a CDKTF application descends from the `Construct` class, so you could call the construct on any instantiated element. This includes the entire application, a particular [stack](/cdktf/concepts/stacks), or all of the resources for a specific [provider](/cdktf/concepts/providers). When you call the aspect, CDKTF applies its methods to all of the the constructs that fall within the specified scope.
 
-The following TypeScript example defines an aspect to add tags to resources.
+The following example defines an aspect to add tags to resources.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#define-aspects -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#define-aspects -->
 
@@ -79,9 +81,33 @@ Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
         Aspects.of(bucket).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
 
+```python
+from constructs import IConstruct
+from cdktf import Aspects, IAspect
+
+@jsii.implements(IAspect)
+class TagsAddingAspect:
+    def __init__(self, tagsToAdd):
+        self.tagsToAdd = tagsToAdd
+
+    # This method is called on every Construct within the specified scope (resources, data sources, etc.).
+    def visit(self, node: IConstruct):
+        # Not all constructs are taggable, so we need to check
+        if(hasattr(node, "tags") and hasattr(node, "tags_input")):
+            # We need to take the input value to not create a circular reference
+            currentTags = node.tags_input if node.tags_input is not None else {}
+            node.tags = {**self.tagsToAdd, **currentTags}
+
+        # Add tags to every resource defined within `myStack`.
+        Aspects.of(myStack).add(TagsAddingAspect({ "createdBy": "cdktf" }))
+
+```
+
 </CodeTabs>
 
-You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+You can also use aspects for validation. The following example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#aspects-validation -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#aspects-validation -->
 
@@ -115,6 +141,30 @@ Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 
 ```java
 
+```
+
+```python
+from constructs import IConstruct
+from cdktf import Aspects, IAspect, Annotations
+from imports.aws.s3_bucket import S3Bucket
+
+@jsii.implements(IAspect)
+class ValidateS3IsPrefixed:
+    def __init__(self, prefix: str):
+        self.prefix = prefix
+
+    # This method is called on every Construct within the defined scope (resource, data sources, etc.).
+    def visit(self, node: IConstruct):
+        if isinstance(node, S3Bucket):
+            if(node.bucket_input and not node.bucket_input.startswith(self.prefix)):
+              # You can include `addInfo`, `addWarning`, and `addError`.
+              # CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
+              Annotations.of(node).add_error(
+                "Each S3 Bucket name needs to start with {}".format(self.prefix)
+              )
+
+        # Check the prefix for every resource within `myStack`.
+        Aspects.of(myStack).add(ValidateS3IsPrefixed("myPrefix"))
 ```
 
 </CodeTabs>

@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { AttributeTypeModel } from "./attribute-type-model";
-import { logger } from "../../../config";
+import { logger } from "@cdktf/commons";
 
 export type GetterType =
   | { _type: "plain" }

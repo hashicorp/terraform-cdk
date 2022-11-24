@@ -28,6 +28,7 @@ requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast 
 output as a list of strings.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#tokens -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
 
 <CodeTabs>
 
@@ -67,6 +68,24 @@ new Eks(this, "EksModule", {
                 .clusterCreateTimeout(logRetention.getNumberValue())
                 .build()
         );
+```
+
+```python
+        log_retention = TerraformVariable(self, "logRetentionInDays",
+            type = "number"
+        )
+
+        vpc = Vpc(self, "vpcName",
+            name = "vpcName",
+            public_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
+        )
+
+        Eks(self, "EksModules",
+            vpc_id = vpc.vpc_id_output,
+            cluster_name = "my-kubernetes-cluster",
+            subnets = Token.as_list(vpc.public_subnets_output),
+            cluster_create_timeout = log_retention.number_value
+        )
 ```
 
 </CodeTabs>

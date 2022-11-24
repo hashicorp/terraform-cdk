@@ -1,0 +1,18 @@
+name: Examples - PR
+on:
+  pull_request: {}
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
+
+jobs:
+  examples:
+    if: contains(github.event.pull_request.labels.*.name, 'ci/run-examples') || contains(github.event.pull_request.labels.*.name, 'ci/run-all')
+    uses: ./.github/workflows/examples.yml
+    with:
+      concurrency_group_prefix: pr
+    secrets: inherit

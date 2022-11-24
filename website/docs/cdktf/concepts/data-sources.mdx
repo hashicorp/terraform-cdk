@@ -22,6 +22,7 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
 
 <CodeTabs>
 
@@ -65,13 +66,38 @@ public class DataSourcesRemoteState extends TerraformStack {
 }
 ```
 
+```python
+from cdktf import TerraformStack, App
+from imports.aws.data_aws_region import DataAwsRegion
+from imports.aws.provider import AwsProvider
+
+class HelloTerraform(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+                    region="us-east-1"
+                    )
+
+        # .....
+        region = DataAwsRegion(self, "region")
+
+
+app = App()
+HelloTerraform(app, "data-sources")
+app.synth()
+
+```
+
 </CodeTabs>
 
 ## Remote State Data Source
 
 The [`terraform_remote_state` data source](/language/state/remote-state-data) retrieves state data from a remote [Terraform backend](/language/settings/backends/configuration). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure. Refer to the [Remote Backends page](/cdktf/concepts/remote-backends) for more details.
 
-The following TypeScript example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
+The following example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-remote-state-data-source -->
 
@@ -103,6 +129,32 @@ export class HelloTerraform extends TerraformStack {
 
 ```java
 
+```
+
+```python
+from cdktf import TerraformStack, App
+from cdktf import DataTerraformRemoteState, NamedRemoteWorkspace
+class HelloTerraformRemoteState(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        # .....
+        remoteState = DataTerraformRemoteState(self, "vpc-prod-remote-state",
+                            organization="hashicorp",
+                            workspaces=NamedRemoteWorkspace(name='vpc-prod')
+                        )
+
+        Instance(self, "foo",
+            # .....
+            subnet_id=remoteState.get_string('subnet_id')
+        )
+app = App()
+HelloTerraformRemoteState(app, "terraform-remotes-state")
+app.synth()
 ```
 
 </CodeTabs>

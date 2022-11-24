@@ -18,11 +18,14 @@ globalThis.performance = {
 	},
 };
 
-const crypto = require("crypto");
-globalThis.crypto = {
-	getRandomValues(b) {
-		crypto.randomFillSync(b);
-	},
-};
+// Node >= 19 has a crypto function object, lower node versions need this polyfill
+if (!globalThis.crypto) { 
+	const crypto = require("crypto");
+	globalThis.crypto = {
+		getRandomValues(b) {
+			crypto.randomFillSync(b);
+		},
+	};
+}
 
 require("./wasm_exec");

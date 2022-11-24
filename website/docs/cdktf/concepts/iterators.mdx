@@ -21,6 +21,7 @@ Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` 
 The following example uses an iterator to create a unique name for each new S3 bucket.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-define-iterators -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
 
 <CodeTabs>
 
@@ -75,6 +76,23 @@ import imports.aws.s3_bucket.S3BucketConfig;
                 .build());
 ```
 
+```python
+from imports.aws.s3_bucket import S3Bucket
+from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
+
+        list = TerraformVariable(self, "list",
+            type="list(string)"
+        )
+
+        iterator = TerraformIterator.from_list(list=list.list_value)
+
+        s3Bucket = S3Bucket(self, "bucket",
+            for_each=iterator,
+            bucket=Token.as_string(iterator.value)
+        )
+
+```
+
 </CodeTabs>
 
 You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
@@ -84,6 +102,7 @@ You cannot access the index of items when iterating over lists. This is because 
 The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
 
 <CodeTabs>
 
@@ -110,6 +129,32 @@ const s3Bucket = new S3Bucket(this, "bucket", {
 
 ```
 
+```python
+from imports.aws.s3_bucket import S3Bucket
+from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
+        list = TerraformLocal(self, "my-list", [
+            {
+                "name": "website-static-files",
+                "tags": {"app": "website"}
+            },
+            {
+                "name": "images",
+                "tags": {"app": "image-converter"}
+            }
+        ])
+
+        iterator = TerraformIterator.from_list(
+            list=list.as_list
+        )
+
+        s3Bucket = S3Bucket(self, "s3-bucket",
+            for_each=iterator,
+            bucket=iterator.get_string("name"),
+            tags=iterator.get_map("tags")
+        )
+
+```
+
 </CodeTabs>
 
 ## Using Iterators for List Attributes
@@ -119,6 +164,8 @@ You can also use iterators to create a list of objects based on each item in a l
 Use iterators for list attributes if the length of the list is not known before deploying. Otherwise, use native functions that are available in your language (e.g., `Array.map` in TypeScript).
 
 The following examples use an iterator to create a team containing each member of an organization.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
 
 <CodeTabs>
 
@@ -149,29 +196,29 @@ new TeamMembers(this, "members", {
 ```
 
 ```python
-org_name = "my-org"
+        org_name = "my-org"
 
-GithubProvider(self, "github",
-    organization=org_name
-)
+        GithubProvider(self, "github",
+            organization=org_name
+        )
 
-team = Team(self, "core-team",
-    name="core"
-)
+        github_team = Team(self, "core-team",
+            name="core"
+        )
 
-org_members = DataGithubOrganization(self, "org",
-    name=org_name
-)
+        org_members = DataGithubOrganization(self, "org",
+            name=org_name
+        )
 
-org_member_iterator = TerraformIterator.from_list(org_members.members)
+        org_member_iterator = TerraformIterator.from_list(org_members.members)
 
-github.TeamMembers(self, "members",
-    team_id=team.id,
-    members=org_member_iterator.dynamic({
-        "username": Token().as_string(org_member_iterator.value),
-        "role": "maintainer"
-    })
-)
+        TeamMembers(self, "members",
+            team_id=github_team.id,
+            members=org_member_iterator.dynamic({
+                "username": Token().as_string(org_member_iterator.value),
+                "role": "maintainer"
+            })
+        )
 ```
 
 ```java

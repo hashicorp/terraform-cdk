@@ -17,11 +17,12 @@ When inputs are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ## Usage Example
 
-The following TypeScript example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
+The following example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-usage-example -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-usage-example -->
 
 <CodeTabs>
 
@@ -59,6 +60,21 @@ import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
                 .build());
 ```
 
+```python
+from cdktf import Fn, TerraformOutput
+from imports.aws.provider import AwsProvider
+from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
+
+        zones = DataAwsAvailabilityZones(self, 'zones',
+                    state="available",
+                )
+
+        TerraformOutput(self, 'first-zone',
+            value=Fn.element(zones.names, 0)
+        )
+
+```
+
 </CodeTabs>
 
 ## Operators
@@ -78,4 +94,3 @@ new TerraformOutput(this, "half-of-the-zone", {
   value: Op.div(Fn.length(zones.names), 2),
 });
 ```
-

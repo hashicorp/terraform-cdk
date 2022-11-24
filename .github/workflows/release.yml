@@ -4,16 +4,18 @@ on:
     branches:
       - main
       - backport-release-*
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+    paths:
+      - "packages/**"
+      - "tools/**"
+      - "package.json"
+      - "yarn.lock"
 
 env:
   SENTRY_ORG: hashicorp
   SENTRY_PROJECT: cdktf-cli
+
+concurrency:
+  group: release
 
 jobs:
   prepare-release:
@@ -42,7 +44,7 @@ jobs:
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
-          echo "release=${status}" >> $GITHUB_OUTPUT
+          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -86,12 +88,38 @@ jobs:
       concurrency_group_prefix: release
     secrets: inherit
 
-  unit_test:
-    needs:
-      - prepare-release
-    uses: ./.github/workflows/unit.yml
+  examples:
+    uses: ./.github/workflows/examples.yml
     with:
       concurrency_group_prefix: release
+    secrets: inherit
+
+  linting:
+    uses: ./.github/workflows/linting.yml
+    with:
+      concurrency_group_prefix: release
+    secrets: inherit
+
+  unit_test:
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          [
+            cdktf,
+            cdktf-cli,
+            "@cdktf/hcl2cdk",
+            "@cdktf/hcl2json",
+            "@cdktf/provider-generator",
+            "@cdktf/commons",
+            "@cdktf/cli-core",
+          ]
+        terraform_version: ["1.1.9", "1.2.8"]
+    with:
+      concurrency_group_prefix: release
+      package: ${{ matrix.package }}
+      terraform_version: ${{ matrix.terraform_version }}
     secrets: inherit
 
   release_github:
@@ -243,7 +271,8 @@ jobs:
         id: get_release_status
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
-          echo "release=${status}" >> $GITHUB_OUTPUT
+          echo "Sentry returned: ${status}"
+          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -274,3 +303,33 @@ jobs:
           commit-message: cdktf ${{ steps.get_version.outputs.version }}
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}
+
+  report:
+    name: Report status
+    runs-on: ubuntu-latest
+    if: ${{ failure() }}
+    needs:
+      - examples
+      - integration_test
+      - linting
+      - prepare-release
+      - release_github
+      - release_golang
+      - release_homebrew
+      - release_maven
+      - release_npm
+      - release_nuget
+      - release_pypi
+      - release_sentry
+      - unit_test
+    steps:
+      - name: Send failures to Slack
+        uses: slackapi/slack-github-action@v1.21.0
+        with:
+          payload: |
+            {
+              "provider_name": "CDKTF",
+              "run_url": "https://github.com/hashicorp/terraform-cdk/actions/runs/${{ github.run_id }}"
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }}

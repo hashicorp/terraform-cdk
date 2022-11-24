@@ -22,6 +22,7 @@ Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for mo
 The following example generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#single-stack -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
 
 <CodeTabs>
 
@@ -62,6 +63,30 @@ stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Objec
 }});
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
+
+class MySingleStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region = "us-east-1"
+        )
+
+        Instance(self, "Hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro"
+        )
+
+app = App()
+MySingleStack(app, "a-single-stack")
+app.synth
+```
+
 </CodeTabs>
 
 ## Multiple Stacks
@@ -73,6 +98,7 @@ You can specify multiple stacks in your application. For example, you may want a
 The following example synthesizes multiple Terraform configurations in the configured output folder.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#multiple-stacks -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
 
 <CodeTabs>
 
@@ -125,6 +151,46 @@ app.synth();
 
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
+
+class MyMultipleStacksConfig:
+    environment: str
+    region: str = None
+    def __init__(self, environment: str, region: str = None):
+        self.environment = environment
+        self.region = region
+
+
+class MyMultipleStacks(TerraformStack):
+    def __init__(self, scope: Construct, id: str, config: MyMultipleStacksConfig):
+        super().__init__(scope, id)
+
+        region = "us-east-1" if config.region == None else config.region
+
+        AwsProvider(self, "aws",
+            region = region
+        )
+
+        Instance(self, "Hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro",
+            tags = {
+                "environment": config.environment,
+            }
+        )
+
+app = App()
+MyMultipleStacks(app, "multiple-stacks-dev", MyMultipleStacksConfig(environment = "dev"))
+MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environment = "staging"))
+MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
+
+app.synth
+```
+
 </CodeTabs>
 
 Running `cdktf synth` produces the following synthesized stacks.
@@ -148,6 +214,7 @@ Refer to [Best Practices](/cdktf/create-and-deploy/best-practices#separate-busin
 When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#cross-stack-reference -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
 
 <CodeTabs>
 
@@ -208,6 +275,61 @@ app.synth();
 
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
+from imports.vpc import Vpc
+from my_constructs import DockerBackend
+
+class VPCStack(TerraformStack):
+    vpc: Vpc
+    region = "us-east-1"
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region = self.region
+        )
+
+        self.vpc = Vpc(self, "vpc")
+
+class BackendStackConfig:
+    region: str
+    vpc_id: str
+    docker_image: str
+    def __init__(self, region: str, vpc_id: str, docker_image: str):
+        self.region = region
+        self.vpc_id = vpc_id
+        self.docker_image = docker_image
+
+class BackendStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str, config: BackendStackConfig):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region = config.region
+        )
+
+        DockerBackend(self, "docker-backend",
+            vpc_id = config.vpc_id,
+            docker_image = config.docker_image
+        )
+
+app = App()
+origin = VPCStack(app, "origin-stack")
+BackendStack(app, "target-stack",
+    BackendStackConfig(
+        region = origin.region,
+        vpc_id = origin.vpc.vpc_id_output,
+        docker_image = "org/my-image:latest"
+    )
+)
+
+app.synth()
+```
+
 </CodeTabs>
 
 From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
@@ -228,14 +350,21 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-dependencies -->
+
 <CodeTabs>
 
-```typescript
+```ts
 this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
 ```
 
 ```java
 
+```
+
+```python
+self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
 ```
 
 </CodeTabs>
@@ -255,6 +384,7 @@ For anything on the top-level `terraform` block that is not natively implemented
 The following example synthesizes a Terraform configuration with the `remote` backend included in the `terraform` block.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-escape-hatches -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
 
 <CodeTabs>
 
@@ -271,6 +401,17 @@ stack.addOverride("terraform.backend", {
 
 ```java
 
+```
+
+```python
+stack.add_override("terraform.backend",{
+    "remote": {
+        "organization": "test",
+        "workspaces": {
+            "name": "test"
+        }
+    }
+})
 ```
 
 </CodeTabs>

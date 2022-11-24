@@ -31,7 +31,9 @@ If you plan to use CDKTF to manage your infrastructure, we recommend using your 
 
 You must specify values in exactly the same way as you would in an HCL configuration file. Refer to the [Terraform variables documentation](/language/values/variables#variables-on-the-command-line) for details. The CDKTF CLI currently also supports configuration via [environment variables](/language/values/variables#environment-variables).
 
-The following TypeScript example uses `TerraformVariable` to provide inputs to resources.
+The following example uses `TerraformVariable` to provide inputs to resources.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
 
@@ -114,6 +116,19 @@ public class VariablesAndOutputsRemoteState {
         app.synth();
     }
 }
+
+```
+
+```python
+imageId = TerraformVariable(self, "imageId",
+    type = "string",
+    default = "ami-abcde123",
+    description = "What AMI to use to create an instance"
+)
+Instance(self, "hello",
+    ami = imageId.string_value,
+    instance_type = "t2.micro"
+)
 ```
 
 </CodeTabs>
@@ -130,7 +145,9 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ### Define Local Values
 
-The following TypeScript example uses `TerraformLocal` to create a local value.
+The following example uses `TerraformLocal` to create a local value.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
 
@@ -149,6 +166,17 @@ new Instance(this, "example", {
 
 ```java
 
+```
+
+```python
+        commonTags = TerraformLocal(self, "common_tags", {
+            "service": "service_name",
+            "owner": "owner"
+        })
+
+        Instance(self, "example",
+            tags = commonTags.as_string_map
+        )
 ```
 
 </CodeTabs>
@@ -182,7 +210,9 @@ Use outputs to make data from [Terraform resources](/cdktf/concepts/resources) a
 
 When values are available before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using the functionality in your preferred programming language to supply this data as direct inputs.
 
-The following TypeScript example uses a `TerraformOutput` to create an output.
+The following example uses a `TerraformOutput` to create an output.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
 
@@ -219,6 +249,28 @@ app.synth();
 
 ```
 
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput
+
+class OutputValuesProps:
+    myDomain: str
+    def __init__(self, myDomain: str):
+        self.myDomain = myDomain
+
+class OutputValuesStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str, props: OutputValuesProps):
+        super().__init__(scope, name)
+
+        TerraformOutput(self, "my-domain",
+            value = props.myDomain
+        )
+
+app = App()
+OutputValuesStack(app, "cdktf-producer", OutputValuesProps(myDomain = "example.com"))
+app.synth()
+```
+
 </CodeTabs>
 
 ### Define Output Values
@@ -230,6 +282,8 @@ Outputs return an HCL expression representing the underlying Terraform resource,
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
 
 <CodeTabs>
 
@@ -261,6 +315,28 @@ app.synth();
 
 ```
 
+```python
+from imports.random.provider import RandomProvider
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput
+
+class DefineOutputStack(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        RandomProvider(self, "random")
+        pet = random.pet.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value = pet.id
+        )
+
+app = App()
+DefineOutputStack(app, "cdktf-demo")
+app.synth()
+```
+
 </CodeTabs>
 
 When you run `cdktf synth`, CDKTF synthesizes the code to the following JSON configuration.
@@ -287,7 +363,9 @@ Output: random-pet = choice-haddock
 
 ### Define & Reference Outputs via Remote State
 
-The following TypeScript example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+The following example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-reference-remote-state -->
 
@@ -353,6 +431,52 @@ app.synth();
 
 ```java
 
+```
+
+```python
+import imports.random as random
+
+from constructs import Construct
+from cdktf import App, TerraformStack, TerraformOutput, CloudBackend, NamedRemoteWorkspace, DataTerraformRemoteState
+
+class Producer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("producer")
+        )
+
+        random.provider.RandomProvider(self, "random")
+        pet = random.pet.Pet(self, "pet")
+
+        TerraformOutput(self, "random-pet",
+            value = pet.id
+        )
+
+class Consumer(TerraformStack):
+    def __init__(self, scope: Construct, name: str):
+        super().__init__(scope, name)
+
+        CloudBackend(self,
+            organization = "hashicorp",
+            workspaces = NamedCloudWorkspace("consumer")
+        )
+
+        remoteState = DataTerraformRemoteState(self, "remote-pet",
+            organization = "hashicorp",
+            workspaces = NamedRemoteWorkspace(name = "producer")
+        )
+
+        TerraformOutput(self, "random-remote-pet",
+            value = remoteState.get_string("random-pet")
+        )
+
+app = App()
+Producer(app, "cdktf-producer")
+Consumer(app, "cdktf-consumer")
+app.synth()
 ```
 
 </CodeTabs>

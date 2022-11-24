@@ -23,7 +23,7 @@ A template can use substitutions for filenames and file content. To specify your
 
 These variables hold user input. For example, you can use them in project files like `package.json`. CDKTF collects the required data from users when they run `cdktf init` with the template.
 
-The following TypeScript example specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/cdktf/concepts/remote-backends).
+The following example specifies that `Name` and `Description` are mandatory, but `OrganizationName` and `WorkspaceName` will only be required for projects that are set up to use a Terraform Cloud [remote backend](/cdktf/concepts/remote-backends).
 
 ```typescript
 Name: string;
