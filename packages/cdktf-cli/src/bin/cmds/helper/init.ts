@@ -14,7 +14,6 @@ import * as terraformCloudClient from "../helper/terraform-cloud-client";
 import {
   init,
   Project,
-  askForCrashReportingConsent,
   CdktfConfig,
   providerAdd,
   getAllPrebuiltProviders,
@@ -46,6 +45,7 @@ import ciDetect from "@npmcli/ci-detect";
 import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
 import * as semver from "semver";
+import { askForCrashReportingConsent } from "./error-reporting";
 
 const chalkColour = new chalk.Instance();
 

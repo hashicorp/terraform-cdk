@@ -54,7 +54,7 @@ function isPromise(p: any): p is Promise<any> {
   );
 }
 
-async function askForCrashReportingConsent() {
+export async function askForCrashReportingConsent() {
   const answer: { reportCrash: boolean } = await inquirer.prompt({
     name: "reportCrash",
     message:

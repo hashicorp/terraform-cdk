@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "postinstall": "patch-package",
-    "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
+    "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build --include-dependencies",
     "format": "prettier --write .",
     "package": "lerna run package && tools/collect-dist.sh",
     "package:python": "lerna run package:python && tools/collect-dist.sh",
