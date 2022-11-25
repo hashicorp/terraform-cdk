@@ -18,6 +18,9 @@
   },
   "main": "src/lib/index.js",
   "types": "src/lib/index.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "git://github.com/hashicorp/terraform-cdk.git",
