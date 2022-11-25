@@ -21,10 +21,12 @@ This page shows how you can interoperate HCL and CDK for Terraform configuration
 The following example is a CDKTF application that uses the `hashicorp/random` provider to generate a random name.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#hcl-interop -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#hcl-interop -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#hcl-interop -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack, TerraformVariable } from "cdktf";
 import { Pet } from "./.gen/providers/random/pet";
@@ -56,6 +58,47 @@ new MyStack(app, "random-pet-module");
 app.synth();
 ```
 
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.TerraformVariableConfig;
+import com.hashicorp.cdktf.App;
+import imports.random.provider.RandomProvider;
+import imports.random.pet.Pet;
+import imports.random.pet.PetConfig;
+
+public class MainHCL extends TerraformStack {
+
+    public MainHCL(Construct scope, String id) {
+        super(scope, id);
+
+        new RandomProvider(this, "default");
+        TerraformVariable petNameLength = new TerraformVariable(this, "petNameLength", TerraformVariableConfig.builder()
+                .type("number")
+                .defaultValue(2)
+                .description("Pet name length")
+                .build());
+
+        Pet myPet = new Pet(this, "example", PetConfig.builder()
+                .length(petNameLength.getNumberValue())
+                .build());
+
+        new TerraformOutput(this, "name", TerraformOutputConfig.builder()
+                .value(myPet.getId())
+                .build());
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainHCL(app, "random-pet-module");
+        app.synth();
+    }
+}
+```
+
 ```python
 from constructs import Construct
 from cdktf import App, TerraformOutput, TerraformStack, TerraformVariable
@@ -83,6 +126,42 @@ class HclInteropStack(TerraformStack):
 # app = App()
 # HclInteropStack(app, "random-pet-module")
 # app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using random.Provider;
+using random.Pet;
+
+namespace Examples
+{
+    class HclInteropStack : TerraformStack
+    {
+        public HclInteropStack(Construct scope, string name) : base(scope, name)
+        {
+            new RandomProvider(this, "default", new RandomProviderConfig {});
+
+            var petNameLength = new TerraformVariable(this, "petNameLength", new TerraformVariableConfig {
+                Type = "number",
+                Default = 2,
+                Description = "Pet name length"
+            });
+
+            var myPet = new Pet(this, "example", new PetConfig {
+                Length = petNameLength.NumberValue
+            });
+
+            new TerraformOutput(this, "name", new TerraformOutputConfig {
+                Value = myPet.Id
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>

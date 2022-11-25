@@ -28,6 +28,8 @@ The following example uses the `TerraformBackend` subclass `CloudBackend`.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-define -->
+
 <CodeTabs>
 
 ```typescript
@@ -54,6 +56,36 @@ class MyStack extends TerraformStack {
 
 const app = new App();
 new Mystack(app, "hello-terraform");
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.CloudBackend;
+import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+
+public class MainRemoteBackendDefine extends TerraformStack {
+
+    public MainRemoteBackendDefine(Construct scope, String id) {
+        super(scope, id);
+
+        new CloudBackend(this, CloudBackendProps.builder()
+                .hostname("app.terraform.io")
+                .organization("company")
+                .workspaces(new NamedCloudWorkspace("my-app-prod"))
+                .build()
+        );
+
+        new TerraformOutput(this, "dns-server", TerraformOutputConfig.builder()
+                .value("hello-world")
+                .build()
+        );
+    }
+}
 ```
 
 ```python
@@ -243,7 +275,7 @@ In addition to Terraform Cloud, Terraform and CDKTF support the following backen
   new S3Backend(stack, {...});
   ```
 
-->**Note**: CDK for Terraform v0.14 deprecated the artifactory, etcd, etcdv3, manta, and swift backends. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/language/v1.3.x/upgrade-guides).
+-> **Note**: CDK for Terraform v0.14 deprecated the artifactory, etcd, etcdv3, manta, and swift backends. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/language/v1.3.x/upgrade-guides).
 
 ## Escape Hatches
 
@@ -251,6 +283,7 @@ Escape hatches can add to or override existing resources, and you can use them f
 
 The following example uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
 
 <CodeTabs>
@@ -261,6 +294,19 @@ stack.addOverride("terraform.backend", {
     name: "example_corp/networking-prod",
     address: "https://app.terraform.io",
   },
+});
+```
+
+```java
+stack.addOverride("terraform.backend", new HashMap<String, HashMap>() {
+    {
+        put("atlas", new HashMap<String, String>() {
+            {
+                put("name", "example_corp/networking-prod");
+                put("address", "https://app.terraform.io");
+            }
+        });
+    }
 });
 ```
 

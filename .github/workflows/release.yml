@@ -24,6 +24,7 @@ jobs:
     outputs:
       tests: ${{ steps.build-test-matrix.outputs.tests }}
       version: ${{ steps.get_version.outputs.version }}
+      release_status: ${{ steps.get_release_status.outputs.release }}
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -82,6 +83,7 @@ jobs:
   integration_test:
     needs:
       - prepare-release
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     uses: ./.github/workflows/integration.yml
     with:
       skip_setup: true
@@ -102,6 +104,7 @@ jobs:
 
   unit_test:
     uses: ./.github/workflows/unit.yml
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     strategy:
       fail-fast: false
       matrix:
@@ -124,6 +127,7 @@ jobs:
 
   release_github:
     name: Release to Github
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     needs:
       - prepare-release
       - integration_test
@@ -152,6 +156,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -171,6 +176,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -191,6 +197,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -216,6 +223,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -236,6 +244,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -258,6 +267,7 @@ jobs:
       - integration_test
       - unit_test
     runs-on: ubuntu-latest
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -283,8 +293,7 @@ jobs:
 
   release_homebrew:
     name: Release to Homebrew
-    # The branch or tag ref that triggered the workflow run.
-    if: startsWith(github.event.head_commit.message, 'Bump version')
+    if: jobs.prepare-release.outputs.release_status == 'unreleased'
     needs: release_npm
     runs-on: ubuntu-latest
     steps:

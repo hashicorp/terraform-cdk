@@ -1,71 +1,74 @@
-// DOCS_BLOCK_START:assets,constructs
 package com.mycompany.app;
-
-import java.nio.file.Paths;
 
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
+import com.mycompany.app.assets.MyAssetStack;
+import com.mycompany.app.aspects.MainAspects;
+import com.mycompany.app.constructs.MainConstructScope;
+import com.mycompany.app.constructs.MainUseConstructs;
+import com.mycompany.app.dataSources.DataSourcesDefine;
+import com.mycompany.app.dataSources.DataSourcesRemoteState;
+import com.mycompany.app.modules.MainCreateModules;
+import com.mycompany.app.modules.MainInstallModules;
+import com.mycompany.app.modules.MainModuleExample;
+import com.mycompany.app.providers.MainImportClasses;
+import com.mycompany.app.providers.MainImportProviders;
+import com.mycompany.app.remoteBackends.MainRemoteBackend;
+import com.mycompany.app.remoteBackends.MainRemoteBackendDefine;
+import com.mycompany.app.resources.MainResources;
+import com.mycompany.app.resources.MainResourcesDefine;
+import com.mycompany.app.stacks.MainCrossStackReferences;
+import com.mycompany.app.stacks.MainMultipleStacks;
+import com.mycompany.app.stacks.MainSingleStack;
+import com.mycompany.app.stacks.MainStacks;
+import com.mycompany.app.variablesAndOutputs.VariablesAndOutputs;
+import com.mycompany.app.variablesAndOutputs.VariablesAndOutputsDefineValues;
+import com.mycompany.app.variablesAndOutputs.VariablesAndOutputsRemoteState;
+import com.mycompany.app.variablesAndOutputs.VariablesAndOutputsValues;
 import software.constructs.Construct;
-// DOCS_BLOCK_END:assets,constructs
-
-// DOCS_BLOCK_START:assets
-import com.hashicorp.cdktf.TerraformAsset;
-import com.hashicorp.cdktf.AssetType;
-import imports.aws.provider.AwsProvider;
-import imports.aws.s3_bucket.*;
-import imports.aws.s3_bucket_object.*;
-// DOCS_BLOCK_END:assets
-
-// DOCS_BLOCK_START:constructs
-import java.util.*;
-import imports.kubernetes.provider.*;
-// DOCS_BLOCK_END:constructs
-
-// DOCS_BLOCK_START:assets,constructs
 
 public class Main extends TerraformStack {
-    public Main(final Construct scope, final String name) {
-        super(scope, name);
-        
-        // DOCS_BLOCK_END:assets,constructs
-        // DOCS_BLOCK_START:assets
-        AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
 
-        S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")
-                .bucket("demo")
-                .build();
-
-        TerraformAsset asset = TerraformAsset.Builder.create(this, "lambda-asset")
-                .path(Paths.get(System.getProperty("user.dir"), "lambda").toString())
-                .type(AssetType.ARCHIVE)
-                .build();
-
-        S3BucketObject.Builder.create(this, "lambda-archive")
-                .bucket(bucket.getBucket())
-                .key(asset.getFileName())
-                .source(asset.getPath())
-                .build();
-        // DOCS_BLOCK_END:assets
-        // DOCS_BLOCK_START:constructs
-        KubernetesProvider.Builder.create(this, "kind")
-                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
-                .build();
-
-        final HashMap<String, String> properties = new HashMap<>();
-        properties.put("image", "lambci/lambda:latest");
-        properties.put("replicas", "2");
-        properties.put("app", "myapp");
-        properties.put("component", "frontend");
-        properties.put("environment", "dev");
-
-        new KubernetesWebAppDeployment(this, "deployment", properties);
-        // DOCS_BLOCK_END:constructs
-        // DOCS_BLOCK_START:assets,constructs
+    public Main(Construct scope, String id) {
+        super(scope, id);
     }
+
     public static void main(String[] args) {
-        final App app = new App();
-        new Main(app, "demo");
+        App app = new App();
+        new MyAssetStack(app, "assets");
+        new MainConstructScope(app, "constructs-scope");
+        new MainUseConstructs(app, "use-constructs");
+        new DataSourcesDefine(app, "data-sources-define");
+        new DataSourcesRemoteState(app, "data-sources-remote-state");
+        new MainCreateModules(app, "create-modules");
+        new MainInstallModules(app, "install-modules");
+        new MainModuleExample(app, "module-example");
+        new MainImportClasses(app, "import-classes");
+        new MainImportProviders(app, "import-providers");
+        new MainRemoteBackend(app, "remote-backend");
+        new MainRemoteBackendDefine(app, "remote-backend-define");
+        new MainResources(app, "resources");
+        new MainResourcesDefine(app, "resources-define");
+        MainCrossStackReferences.VPCStack origin = new MainCrossStackReferences.VPCStack(app, "origin-stack");
+        new MainCrossStackReferences.BackendStack(app, "target-stack", new MainCrossStackReferences.BackendStackConfig()
+                .setRegion(origin.region)
+                .setVpcId(origin.vpc.getId())
+                .setDockerImage("org/my-image:latest"));
+        new MainMultipleStacks(app, "multiple-stacks-production-us",
+                new MainMultipleStacks.MultipleStacksConfig().setEnvironment("staging").setRegion("eu-central-1"));
+        new MainSingleStack(app, "single-stack");
+        new MainStacks(app, "stacks");
+        new VariablesAndOutputsDefineValues(app, "var-and-outs-define");
+        new VariablesAndOutputsRemoteState.Producer(app, "cdktf-producer");
+        new VariablesAndOutputsRemoteState.Consumer(app, "cdktf-consumer");
+        new VariablesAndOutputsValues(app, "var-and-outs-values",
+                new VariablesAndOutputsValues.VariablesAndOutputsValuesProps("domain"));
+        new MainFunction(app, "main-function");
+        new MainHCL(app, "main-hcl");
+        new MainIterator(app, "main-iterator");
+        new MainIterator2(app, "main-iterator2");
+        new MainToken(app, "main-token");
+        new MainAspects(app, "main-aspects");
         app.synth();
     }
 }
-// DOCS_BLOCK_END:assets,constructs

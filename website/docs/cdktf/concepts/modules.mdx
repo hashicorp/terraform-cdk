@@ -17,6 +17,7 @@ You can specify any existing public or private module in your `cdktf.json` file,
 
 You can use modules from the [Terraform Registry](https://registry.terraform.io/) and other sources like GitHub in your application. For example, the following TypeScript project has a `main.ts` file that defines AWS resources and uses the [AWS VPC module](https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest).
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#modules-install-modules -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-install-modules -->
 
 <CodeTabs>
@@ -50,6 +51,44 @@ const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
 
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.vpc.Vpc;
+import imports.vpc.VpcOptions;
+
+public class MainInstallModules extends TerraformStack {
+
+    public MainInstallModules(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        new Vpc(this, "myVpc", VpcOptions.builder()
+                .name("my-vpc")
+                .cidr("10.0.0.0/16")
+                .azs(Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"))
+                .privateSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"))
+                .publicSubnets(Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"))
+                .enableNatGateway(true)
+                .build()
+        );
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainInstallModules(app, "hello-terraform");
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -141,6 +180,8 @@ The following example uses a local module and references its output as a Terrafo
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-examples -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#modules-examples -->
+
 <CodeTabs>
 
 ```typescript
@@ -183,6 +224,32 @@ ModuleWithOutputStack(app, "hello-terraform")
 app.synth()
 ```
 
+```java
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import com.hashicorp.cdktf.TerraformStack;
+import software.constructs.Construct;
+import imports.my_local_module.MyLocalModule;
+import imports.my_local_module.MyLocalModuleOptions;
+public class MainModuleExample extends TerraformStack {
+
+    public MainModuleExample(Construct scope, String id){
+        super(scope, id);
+
+        MyLocalModule localModule = new MyLocalModule(this, "local-module", MyLocalModuleOptions.builder()
+                .ipAddress("127.0.0.1")
+                .build()
+        );
+
+        new TerraformOutput(this, "dns-server", TerraformOutputConfig.builder()
+                .value(localModule.getDnsServerOutputOutput())
+                .build()
+        );
+
+    }
+}
+```
+
 </CodeTabs>
 
 ## Create Modules
@@ -191,6 +258,7 @@ While we generally recommend generating code bindings for modules, you can also 
 
 The following example uses `TerraformHclModule` to import an AWS module.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#modules-create-modules -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-create-modules -->
 
 <CodeTabs>
@@ -214,6 +282,27 @@ const module = new TerraformHclModule(stack, "Vpc", {
   },
   providers: [provider],
 });
+```
+
+```java
+        AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
+                .source("terraform-aws-modules/vpc/aws")
+                .variables(new HashMap<String, Object>(){{
+                    put("name", "my-vpc");
+                    put("cidr", "10.0.0.0/16");
+                    put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
+                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enableNatGateway", true);
+                }})
+                .providers(Arrays.asList(provider))
+                .build()
+        );
 ```
 
 ```python
