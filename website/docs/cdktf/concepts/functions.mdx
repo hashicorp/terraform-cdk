@@ -21,6 +21,7 @@ The following example uses a Data Source from the AWS Provider to fetch the Avai
 
 The `element` function gets the first element from the list of Availability Zone names.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-usage-example -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-usage-example -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions -->
 
@@ -43,6 +44,23 @@ new TerraformOutput(this, "first-zone", {
 // ...
 ```
 
+```java
+import com.hashicorp.cdktf.Fn;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
+import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
+
+        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones",
+                DataAwsAvailabilityZonesConfig.builder()
+                        .state("available")
+                        .build());
+
+        new TerraformOutput(this, "first-zone", TerraformOutputConfig.builder()
+                .value(Fn.element(zones.getNames(), 0))
+                .build());
+```
+
 ```python
 from cdktf import Fn, TerraformOutput
 from imports.aws.provider import AwsProvider
@@ -55,6 +73,7 @@ from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
         TerraformOutput(self, 'first-zone',
             value=Fn.element(zones.names, 0)
         )
+
 ```
 
 ```csharp

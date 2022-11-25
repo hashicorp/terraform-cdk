@@ -9,10 +9,6 @@ import {
   getPrebuiltProviderRepositoryName,
   resetFetchCache,
 } from "../../../lib/dependencies/prebuilt-providers";
-import "../../../lib/logging";
-
-// Prevent logging outputs from polluting the test results
-jest.mock("../../../lib/logging");
 
 function buildNpmResponse(
   version = "0.0.0",
@@ -44,11 +40,15 @@ function buildNpmResponse(
 }
 
 describe("prebuilt-providers", () => {
+  const initialLogLevel = process.env.CDKTF_LOG_LEVEL;
   beforeAll(() => {
+    // Prevent logging outputs from polluting the test results
+    process.env.CDKTF_LOG_LEVEL = "error";
     nock.disableNetConnect();
   });
 
   afterAll(() => {
+    process.env.CDKTF_LOG_LEVEL = initialLogLevel;
     nock.cleanAll();
     nock.enableNetConnect();
   });

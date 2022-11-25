@@ -50,7 +50,7 @@ The following example instantiates a construct called `KubernetesWebAppDeploymen
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-use-constructs -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-use-constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#constructs -->
 
@@ -111,36 +111,36 @@ app.synth()
 ```
 
 ```java
-package com.mycompany.app;
-
 import java.nio.file.Paths;
+import imports.kubernetes.provider.KubernetesProvider;
+import imports.kubernetes.provider.KubernetesProviderConfig;
+import com.mycompany.app.myconstructs.KubernetesWebAppDeployment;
+import com.mycompany.app.myconstructs.KubernetesWebAppDeploymentConfig;
 
-import com.hashicorp.cdktf.App;
-import com.hashicorp.cdktf.TerraformStack;
-import software.constructs.Construct;
-import java.util.*;
-import imports.kubernetes.provider.*;
 
-public class Main extends TerraformStack {
-    public Main(final Construct scope, final String name) {
+public class MainUseConstructs extends TerraformStack {
+
+    public MainUseConstructs(Construct scope, String name){
         super(scope, name);
 
-        KubernetesProvider.Builder.create(this, "kind")
-                .configPath(Paths.get(System.getProperty("user.dir"), "kubeconfig.yaml").toString())
-                .build();
+        new KubernetesProvider(this, "kind", KubernetesProviderConfig.builder()
+                .configPath(Paths.get(System.getProperty("user.dir"), "..", "kubeconfig.yaml").toString())
+                .build()
+        );
 
-        final HashMap<String, String> properties = new HashMap<>();
-        properties.put("image", "lambci/lambda:latest");
-        properties.put("replicas", "2");
-        properties.put("app", "myapp");
-        properties.put("component", "frontend");
-        properties.put("environment", "dev");
-
-        new KubernetesWebAppDeployment(this, "deployment", properties);
+        new KubernetesWebAppDeployment(this, "deployment",  KubernetesWebAppDeploymentConfig.builder()
+                .image("nginx:latest")
+                .replicas(2)
+                .app("myapp")
+                .components("frontend")
+                .environments("dev")
+                .build()
+        );
     }
+
     public static void main(String[] args) {
         final App app = new App();
-        new Main(app, "demo");
+        new MainUseConstructs(app, "demo");
         app.synth();
     }
 }
@@ -228,6 +228,7 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-scope -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
 
 <CodeTabs>
@@ -305,6 +306,46 @@ class MyS3BucketStack(TerraformStack):
 app = App()
 MyS3BucketStack(app, "s3-stack")
 app.synth()
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+public class MainConstructScope extends TerraformStack {
+
+    public MainConstructScope(Construct scope, String name){
+        super(scope, name);
+
+        new MainConstructScope.PublicS3Bucket(this, "first-bucket");
+        new MainConstructScope.PublicS3Bucket(this, "second-bucket");
+
+    }
+
+    static class PublicS3Bucket extends Construct{
+
+        public S3Bucket bucket;
+
+        public PublicS3Bucket(Construct scope, String name){
+            super(scope, name);
+
+            new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                    .region("us-east-1")
+                    .build()
+            );
+
+            this.bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                    .bucketPrefix(name)
+                    .website(S3BucketWebsite.builder()
+                            .indexDocument("index.html")
+                            .errorDocument("5xx.html")
+                            .build()
+                    )
+                    .build()
+            );
+        }
+    }
+}
 ```
 
 </CodeTabs>

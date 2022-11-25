@@ -131,7 +131,7 @@ describe("parseConfig", () => {
       };
       const parsed: any = parseConfig(JSON.stringify(input));
       expect(parsed.terraformModules[0].localSource).toMatch(
-        "/packages/@cdktf/provider-generator/foo"
+        "/packages/@cdktf/commons/foo"
       );
     });
 
@@ -232,7 +232,7 @@ describe("parseConfig", () => {
 
       const parsed: any = parseConfig(JSON.stringify(input));
       expect(parsed.terraformModules[0].localSource).toMatch(
-        "/packages/@cdktf/provider-generator/consul"
+        "/packages/@cdktf/commons/consul"
       );
 
       expect(parsed.terraformModules[0].name).toMatch("consul");

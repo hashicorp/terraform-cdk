@@ -3,11 +3,6 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "packages/**"
-      - "tools/**"
-      - "package.json"
-      - "yarn.lock"
 
 env:
   SENTRY_ORG: hashicorp

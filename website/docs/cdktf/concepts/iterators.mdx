@@ -20,6 +20,7 @@ Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` 
 
 The following example uses an iterator to create a unique name for each new S3 bucket.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-define-iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
 
 <CodeTabs>
@@ -38,6 +39,19 @@ const s3Bucket = new S3Bucket(this, "bucket", {
   forEach: iterator,
   name: iterator.value,
 });
+```
+
+```java
+        TerraformVariable list = new TerraformVariable(this, "list", TerraformVariableConfig.builder()
+                .type("list(string)")
+                .build());
+
+        TerraformIterator terraformIterator = TerraformIterator.fromList(list.getListValue());
+
+        S3Bucket awsS3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                .forEach(terraformIterator)
+                .bucket(Token.asString(terraformIterator.getString("")))
+                .build());
 ```
 
 ```python
@@ -64,6 +78,7 @@ You cannot access the index of items when iterating over lists. This is because 
 
 The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
 
 <CodeTabs>
@@ -85,6 +100,41 @@ const s3Bucket = new S3Bucket(this, "bucket", {
   name: iterator.getString("name"),
   tags: iterator.getStringMap("tags"),
 });
+```
+
+```java
+import imports.aws.s3_bucket.S3Bucket;
+import imports.aws.s3_bucket.S3BucketConfig;
+
+        TerraformLocal myList = new TerraformLocal(this, "my-list", Arrays.asList(
+                new HashMap() {
+                    {
+                        put("name", "website-static-files");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "website");
+                            }
+                        });
+                    }
+                },
+                new HashMap() {
+                    {
+                        put("name", "images");
+                        put("tags", new HashMap<String, String>() {
+                            {
+                                put("app", "image-converter");
+                            }
+                        });
+                    }
+                }));
+
+        TerraformIterator iterator = TerraformIterator.fromList(myList.getAsList());
+
+        S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
+                .forEach(iterator)
+                .bucket(iterator.getString("name"))
+                .tags(iterator.getStringMap("tags"))
+                .build());
 ```
 
 ```python
