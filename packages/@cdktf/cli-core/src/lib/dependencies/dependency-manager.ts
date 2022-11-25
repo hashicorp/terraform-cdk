@@ -167,7 +167,10 @@ export class DependencyManager {
 
   async getCurrentlyInstalledVersion(constraint: ProviderConstraint) {
     logger.info(`Checking if ${constraint.simplifiedName} is installed...`);
-    const packageName = await this.getPackageName(constraint);
+    const packageName = await this.tryGetPackageName(constraint);
+
+    if (!packageName) return; // not available as pre-built provider, so can't be installed as such
+
     logger.debug(
       `Expecting package ${packageName} to be installed if provider is installed as pre-built one`
     );
@@ -243,22 +246,30 @@ export class DependencyManager {
     return exists;
   }
 
-  private async getPackageName(
+  private async tryGetPackageName(
     constraint: ProviderConstraint
-  ): Promise<string> {
+  ): Promise<string | undefined> {
     const npmPackageName = await getNpmPackageName(constraint);
 
-    if (!npmPackageName) {
-      throw Errors.Usage(
-        `Could not find pre-built provider for ${constraint.source}`
-      );
-    }
+    if (!npmPackageName) return;
 
     const prebuiltProviderRepository = await getPrebuiltProviderRepositoryName(
       npmPackageName
     );
 
     return this.convertPackageName(npmPackageName, prebuiltProviderRepository);
+  }
+
+  private async getPackageName(
+    constraint: ProviderConstraint
+  ): Promise<string> {
+    const packageName = await this.tryGetPackageName(constraint);
+    if (!packageName) {
+      throw Errors.Usage(
+        `Could not find pre-built provider for ${constraint.source}`
+      );
+    }
+    return packageName;
   }
 
   async getMatchingProviderVersion(constraint: ProviderConstraint) {
