@@ -356,12 +356,25 @@ export class TerraformCloud implements Terraform {
     const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
+    // the source of truth of all pending states are from
+    // https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run#run-states
+    // any state before `apply_queued` is considered pending unless it is specified as a final state
     const pendingStates = [
       "pending",
+      "fetching",
+      "fetching_completed",
+      "pre_plan_running",
+      "pre_plan_completed",
+      "queuing",
       "plan_queued",
       "planning",
       "cost_estimating",
+      "cost_estimated",
       "policy_checking",
+      "policy_override",
+      "policy_checked",
+      "post_plan_running",
+      "post_plan_completed",
     ];
 
     while (pendingStates.includes(result.attributes.status)) {
