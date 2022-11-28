@@ -15,3 +15,8 @@ cd ${scriptdir}/..
 suffix="${1:-}"
 version="$(node -p "require('./package.json').version")${suffix}"
 npx lerna version ${version} --yes --exact --force-publish=* --no-git-tag-version --no-push
+
+# Align @cdktf/api version with one cdktf version
+cdktf_api_package_json_path="$scriptdir/../packages/@cdktf/api/package.json"
+echo $(jq ".peerDependencies.cdktf=\"$version\"" $cdktf_api_package_json_path) > $cdktf_api_package_json_path
+npx prettier --write $cdktf_api_package_json_path
