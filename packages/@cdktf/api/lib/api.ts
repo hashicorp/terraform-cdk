@@ -92,7 +92,7 @@ export class SynthesizedApplication {
 }
 
 export interface ISynthesizedStackOptions {
-  readonly stack: core.SynthesizedStack;
+  readonly stack: any; // core.SynthesizedStack;
   readonly logCallback?: ILogCallback;
   readonly logToStdOut?: boolean;
 }
@@ -101,16 +101,16 @@ export interface ISynthesizedStackOptions {
  * Represents a synthesized CDKTF stack
  */
 export class SynthesizedStack {
-  public readonly stack: core.CdktfStack;
+  public readonly stack: any; // core.CdktfStack;
   public get name() {
     return this.stack.stack.name;
   }
-  public readonly logs: Array<core.StackUpdate | core.StackApprovalUpdate> = [];
+  public readonly events: Array<any> = [];
   constructor(private opts: ISynthesizedStackOptions) {
     this.stack = new core.CdktfStack({
       stack: opts.stack,
       onUpdate: (event) => {
-        this.logs.push(event);
+        this.events.push(event);
 
         switch (event.type) {
           // This case should not happen, we force auto-approve to prevent this friction

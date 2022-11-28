@@ -101,9 +101,11 @@
   },
   "peerDependencies": {
     "cdktf": "0.0.0",
-    "constructs": "^10.0.25"
+    "constructs": "^10.1.113"
   },
-  "bundleDependencies": ["@cdktf/cli-core"],
+  "bundleDependencies": [
+    "@cdktf/cli-core"
+  ],
   "devDependencies": {
     "@types/jest": "^25.2.3",
     "@types/json-stable-stringify": "^1.0.34",
@@ -112,7 +114,7 @@
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "cdktf": "0.0.0",
-    "constructs": "10.0.25",
+    "constructs": "10.1.113",
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.3.6",
     "eslint-plugin-no-instanceof": "1.0.1",

@@ -99,8 +99,8 @@
     "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
   },
   "devDependencies": {
-    "@cdktf/provider-generator": "0.0.0",
     "@cdktf/cli-core": "0.0.0",
+    "@cdktf/provider-generator": "0.0.0",
     "@npmcli/ci-detect": "^1.4.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.15.0",
