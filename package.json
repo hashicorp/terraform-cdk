@@ -16,6 +16,7 @@
     "test": "lerna run --scope 'cdktf*' --scope @cdktf/* test",
     "test:ci": "lerna run --scope 'cdktf*' --scope @cdktf/* test:ci",
     "test:update": "npx lerna exec --parallel --no-bail --scope 'cdktf*' --scope '@cdktf/*' npx 'jest -u'",
+    "prewatch": "yarn build",
     "watch": "lerna run --parallel  --stream --scope @cdktf/* --scope 'cdktf*' watch-preserve-output",
     "lint:workspace": "eslint .",
     "lint:prettier": "prettier --check .",

@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import * as core from "@cdktf/cli-core";
+import { AbortController } from "node-abort-controller";
 import { InlineApp } from "./InlineApp";
 
 export { InlineApp };
@@ -37,7 +38,7 @@ export interface ILocalProgram extends ICdktfApplicationOptions {
  */
 export class CdktfApplication {
   constructor(private opts: IProgramProducer | ILocalProgram) {
-    console.log(this.opts, core);
+    // this.abort = new AbortController();
   }
 
   public synth(): Promise<SynthesizedApplication> {
@@ -51,7 +52,7 @@ export class CdktfApplication {
 
     if ("cwd" in this.opts) {
       cdktfSynthDir = this.opts.cwd;
-      // TODO: execute cdktf synth
+      // TODO: support this using SynthStack.synth
     }
 
     if (!cdktfSynthDir) {
@@ -76,17 +77,20 @@ type StackName = string;
 export class SynthesizedApplication {
   public readonly stacks: Record<StackName, SynthesizedStack> = {};
 
-  constructor(private opts: ISynthesizedApplicationOptions) {
-    console.log(this.opts);
-    this.stacks["my-stack"] = new SynthesizedStack({
-      name: "my-stack",
-      logCallback: this.opts.logCallback,
-    });
+  constructor(public opts: ISynthesizedApplicationOptions) {
+    const stacks = core.SynthStack.loadStacksFromOutdir(opts.cdktfSynthDir);
+    this.stacks = stacks.reduce(
+      (acc, stack) => ({
+        ...acc,
+        [stack.name]: new SynthesizedStack({ stack }),
+      }),
+      {}
+    );
   }
 }
 
 export interface ISynthesizedStackOptions {
-  readonly name: string;
+  readonly stack: core.SynthesizedStack;
   readonly logCallback?: ILogCallback;
   readonly logToStdOut?: boolean;
 }
@@ -97,10 +101,20 @@ export interface ITerraformPlan {}
  * Represents a synthesized CDKTF stack
  */
 export class SynthesizedStack {
-  public readonly name: string;
+  public readonly stack: core.CdktfStack;
+  public get name() {
+    return this.stack.stack.name;
+  }
+  public readonly logs: Array<core.StackUpdate | core.StackApprovalUpdate> = [];
   constructor(private opts: ISynthesizedStackOptions) {
-    console.log(this.opts);
-    this.name = opts.name;
+    this.stack = new core.CdktfStack({
+      stack: opts.stack,
+      onUpdate: (event) => {
+        this.logs.push(event);
+      },
+      autoApprove: true,
+      abortSignal: new AbortController().signal,
+    });
   }
 
   private log(message: string) {
@@ -113,19 +127,19 @@ export class SynthesizedStack {
     }
   }
 
-  public plan(): Promise<ITerraformPlan> {
+  public async plan(): Promise<void> {
     this.log("planning");
-    return Promise.resolve({});
+    await this.stack.diff();
   }
 
-  public deploy(): Promise<void> {
+  public async deploy(): Promise<void> {
     this.log("deploying");
-    return Promise.resolve();
+    await this.stack.deploy();
   }
 
-  public destroy(): Promise<void> {
+  public async destroy(): Promise<void> {
     this.log("destroying");
-    return Promise.resolve();
+    await this.stack.destroy();
   }
 }
 

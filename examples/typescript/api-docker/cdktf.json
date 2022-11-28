@@ -1,0 +1,7 @@
+{
+  "language": "typescript",
+  "app": "echo 'this is an api example'",
+  "terraformProviders": [
+    "kreuzwerker/docker@~> 2.0"
+  ]
+}

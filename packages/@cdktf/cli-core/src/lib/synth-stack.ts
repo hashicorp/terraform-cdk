@@ -164,7 +164,26 @@ Command output on stdout:
 
     // end performance timer
     const endTime = performance.now();
+    const stacks = SynthStack.loadStacksFromOutdir(outdir);
+    await this.synthTelemetry(endTime - startTime, stacks, synthOrigin);
 
+    if (stacks.length === 0) {
+      logger.error("ERROR: No Terraform code synthesized.");
+    }
+
+    const stackNames = stacks.map((s) => s.name);
+    const orphanedDirectories = existingDirectories.filter(
+      (e) => !stackNames.includes(path.basename(e))
+    );
+
+    for (const orphanedDirectory of orphanedDirectories) {
+      fs.rmSync(orphanedDirectory, { recursive: true });
+    }
+
+    return stacks;
+  }
+
+  public static loadStacksFromOutdir(outdir: string): SynthesizedStack[] {
     const stacks: SynthesizedStack[] = [];
     const manifest = JSON.parse(
       fs.readFileSync(path.join(outdir, Manifest.fileName)).toString()
@@ -181,21 +200,6 @@ Command output on stdout:
         workingDirectory: path.join(outdir, stack.workingDirectory),
         content: JSON.stringify(jsonContent, null, 2),
       });
-    }
-
-    await this.synthTelemetry(endTime - startTime, stacks, synthOrigin);
-
-    if (stacks.length === 0) {
-      logger.error("ERROR: No Terraform code synthesized.");
-    }
-
-    const stackNames = stacks.map((s) => s.name);
-    const orphanedDirectories = existingDirectories.filter(
-      (e) => !stackNames.includes(path.basename(e))
-    );
-
-    for (const orphanedDirectory of orphanedDirectories) {
-      fs.rmSync(orphanedDirectory, { recursive: true });
     }
 
     return stacks;

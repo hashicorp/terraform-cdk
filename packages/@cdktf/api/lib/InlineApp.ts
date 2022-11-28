@@ -18,9 +18,8 @@ function createTmpDir() {
  */
 export class InlineApp extends App {
   constructor(options: AppOptions = {}) {
-    super(options);
-
-    // Hack to make this readonly property writable
-    (this.outdir as any) = options.outdir ?? createTmpDir();
+    // The cdktf lib can set this env var, we unset it here. Maybe adhering would be better?
+    delete process.env.CDKTF_OUTDIR;
+    super({ ...options, outdir: options.outdir ?? createTmpDir() });
   }
 }

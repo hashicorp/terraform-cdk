@@ -37,7 +37,9 @@ export class StackSynthesizer implements IStackSynthesizer {
       session.outdir,
       stackManifest.workingDirectory
     );
-    if (!fs.existsSync(workingDirectory)) fs.mkdirSync(workingDirectory);
+    if (!fs.existsSync(workingDirectory)) {
+      fs.mkdirSync(workingDirectory, { recursive: true });
+    }
 
     // call custom synthesis on child nodes (leafs first)
     this.stack.node
