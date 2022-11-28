@@ -29,4 +29,4 @@
 
 # app.synth()
 
-import cdktf_api
+from cdktf_api import Api

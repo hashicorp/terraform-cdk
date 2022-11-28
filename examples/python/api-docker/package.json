@@ -5,6 +5,6 @@
   "scripts": {
     "reinstall": "rm Pipfile.lock && PIPENV_IGNORE_VIRTUALENVS=1 pipenv install ./../../../dist/python/*.whl",
     "build": "cdktf get",
-    "synth": "pipenv run main.py"
+    "synth": "pipenv run python main.py"
   }
 }
