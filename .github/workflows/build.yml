@@ -41,4 +41,3 @@ jobs:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
-    
