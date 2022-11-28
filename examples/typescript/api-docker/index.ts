@@ -1,3 +1,5 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { Api } from "@cdktf/api";
 import { TerraformStack, TerraformOutput } from "cdktf";
 // You would normally try to use pre-built providers, but for this example we use
@@ -12,6 +14,7 @@ const dockerContainerImage = cliArgs[0] || "nginx";
 (async function () {
   // Declare an application inline
   const myApp = Api.inlineApp({
+    logToStdOut: true,
     program: {
       produce: (app) => {
         const stack = new TerraformStack(app, "my-docker-stack");
@@ -47,4 +50,12 @@ const dockerContainerImage = cliArgs[0] || "nginx";
       await stack.deploy();
     })
   );
+
+  const outputs = Object.entries(synthedApp.stacks).map(
+    async ([name, stack]) => {
+      console.log(`Getting outputs for stack: ${name}`);
+      return await stack.outputs();
+    }
+  );
+  console.log("Outputs:", await Promise.all(outputs));
 })();

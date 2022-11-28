@@ -59,7 +59,9 @@ export class CdktfApplication {
       throw new Error("Invalid");
     }
 
-    return Promise.resolve(new SynthesizedApplication({ cdktfSynthDir }));
+    return Promise.resolve(
+      new SynthesizedApplication({ ...this.opts, cdktfSynthDir })
+    );
   }
 }
 
@@ -82,7 +84,7 @@ export class SynthesizedApplication {
     this.stacks = stacks.reduce(
       (acc, stack) => ({
         ...acc,
-        [stack.name]: new SynthesizedStack({ stack }),
+        [stack.name]: new SynthesizedStack({ ...this.opts, stack }),
       }),
       {}
     );
@@ -94,8 +96,6 @@ export interface ISynthesizedStackOptions {
   readonly logCallback?: ILogCallback;
   readonly logToStdOut?: boolean;
 }
-// TODO: should a plan be a second phase?
-export interface ITerraformPlan {}
 
 /**
  * Represents a synthesized CDKTF stack
@@ -111,6 +111,18 @@ export class SynthesizedStack {
       stack: opts.stack,
       onUpdate: (event) => {
         this.logs.push(event);
+
+        switch (event.type) {
+          // This case should not happen, we force auto-approve to prevent this friction
+          case "waiting for stack approval":
+            this.log(`approval required, stopping execution`);
+            break;
+        }
+      },
+      onLog: (event) => {
+        event.isError
+          ? this.log(`ERR: ${event.message}`)
+          : this.log(event.message);
       },
       autoApprove: true,
       abortSignal: new AbortController().signal,
@@ -128,18 +140,19 @@ export class SynthesizedStack {
   }
 
   public async plan(): Promise<void> {
-    this.log("planning");
     await this.stack.diff();
   }
 
   public async deploy(): Promise<void> {
-    this.log("deploying");
     await this.stack.deploy();
   }
 
   public async destroy(): Promise<void> {
-    this.log("destroying");
     await this.stack.destroy();
+  }
+
+  public async outputs(): Promise<Record<string, any>> {
+    return (await this.stack.fetchOutputs()) || {};
   }
 }
 
