@@ -1,0 +1,8 @@
+{
+  "language": "python",
+  "app": "echo 'this is an api example'",
+  "terraformProviders": [
+    "kreuzwerker/docker@~> 2.0"
+  ],
+  "codeMakerOutput": "imports"
+}
