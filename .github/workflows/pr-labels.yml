@@ -11,7 +11,7 @@ jobs:
       - uses: actions/labeler@v4
         with:
           # The config file lives under .github/labeler.yml
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          repo-token: "${{ secrets.PULL_REQUEST_LABELER }}"
           sync-labels: false # If set to true we could not easily overwrite it individually
 
   pr_size:
@@ -20,7 +20,7 @@ jobs:
     steps:
       - uses: codelytv/pr-size-labeler@v1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_LABELER }}
           xs_label: "size/xs"
           xs_max_size: "10"
           s_label: "size/s"
