@@ -271,6 +271,7 @@ export class CdktfStack {
       await this.currentWorkPromise;
       this.updateState({ type: "done" });
     } catch (e) {
+      logger.trace("Error in currentWorkPromise", e);
       this.currentWorkPromise = undefined;
       this.updateState({
         type: "errored",
