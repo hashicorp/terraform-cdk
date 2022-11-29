@@ -8,7 +8,7 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/labeler@v4
+      - uses: actions/labeler@v4.0.2
         with:
           # The config file lives under .github/labeler.yml
           repo-token: "${{ secrets.PULL_REQUEST_LABELER }}"
@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Label the PR size
     steps:
-      - uses: codelytv/pr-size-labeler@v1
+      - uses: codelytv/pr-size-labeler@v1.8.1
         with:
           GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_LABELER }}
           xs_label: "size/xs"
