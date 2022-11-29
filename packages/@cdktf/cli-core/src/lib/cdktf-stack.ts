@@ -68,7 +68,6 @@ export type StackUpdate =
 export type StackApprovalUpdate = {
   type: "waiting for stack approval";
   stackName: string;
-  plan: TerraformPlan;
   approve: () => void;
   reject: () => void;
 };
@@ -174,12 +173,11 @@ export class CdktfStack {
     };
   }
 
-  private waitForApproval(plan: TerraformPlan) {
+  private waitForApproval() {
     return new Promise<boolean>((resolve) => {
       this.updateState({
         type: "waiting for stack approval",
         stackName: this.stack.name,
-        plan: plan,
         approve: () => {
           resolve(true);
         },
@@ -303,29 +301,36 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      const plan = await terraform.plan(
-        false,
+      this.updateState({ type: "deploying", stackName: this.stack.name });
+
+      const { needsApproval } = await terraform.deploy(
+        this.options.autoApprove,
         refreshOnly,
         terraformParallelism
-      );
-      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+      ); // TODO: change this to be not promise based
 
-      const approved = this.options.autoApprove
-        ? true
-        : await this.waitForApproval(plan);
-
-      if (!approved) {
-        this.updateState({ type: "dismissed", stackName: this.stack.name });
-        return;
-      }
-
-      this.updateState({ type: "deploying", stackName: this.stack.name });
-      if (plan.needsApply) {
-        await terraform.deploy(
-          plan.planFile,
-          refreshOnly,
-          terraformParallelism
-        );
+      if (needsApproval) {
+        const approved = await Promise.race([
+          this.waitForApproval(),
+          needsApproval.approvedInUI,
+        ]);
+        console.log("Promise.race done", approved);
+        // response in TFC UI beat the local response
+        if (typeof approved === "undefined") {
+          console.log(
+            "APPROVEDDDDDD IN UIIIIIII, not waiting for user reply. switching to deploying state again"
+          ); // TODO: handle rejects two?
+          this.updateState({ type: "deploying", stackName: this.stack.name });
+          // todo: wait for deploy to finish?
+          // dismissed via user replying no
+        } else if (!approved) {
+          await needsApproval.reject();
+          this.updateState({ type: "dismissed", stackName: this.stack.name });
+          return;
+          // user replied yes
+        } else {
+          await needsApproval.approve();
+        }
       }
 
       const outputs = await terraform.output();
@@ -343,30 +348,32 @@ export class CdktfStack {
     });
   }
 
+  // TODO: fix in the same way as deploy!
   public async destroy(terraformParallelism?: number) {
-    await this.run(async () => {
-      this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform();
+    terraformParallelism;
+    // await this.run(async () => {
+    //   this.updateState({ type: "planning", stackName: this.stack.name });
+    //   const terraform = await this.initalizeTerraform();
 
-      const plan = await terraform.plan(true);
-      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+    //   const plan = await terraform.plan(true);
+    //   this.updateState({ type: "planned", stackName: this.stack.name, plan });
 
-      const approved = this.options.autoApprove
-        ? true
-        : await this.waitForApproval(plan);
-      if (!approved) {
-        this.updateState({ type: "dismissed", stackName: this.stack.name });
-        return;
-      }
+    //   const approved = this.options.autoApprove
+    //     ? true
+    //     : await this.waitForApproval();
+    //   if (!approved) {
+    //     this.updateState({ type: "dismissed", stackName: this.stack.name });
+    //     return;
+    //   }
 
-      this.updateState({ type: "destroying", stackName: this.stack.name });
-      await terraform.destroy(terraformParallelism);
+    //   this.updateState({ type: "destroying", stackName: this.stack.name });
+    //   await terraform.destroy(terraformParallelism);
 
-      this.updateState({
-        type: "destroyed",
-        stackName: this.stack.name,
-      });
-    });
+    //   this.updateState({
+    //     type: "destroyed",
+    //     stackName: this.stack.name,
+    //   });
+    // });
   }
 
   public async fetchOutputs() {

@@ -5,7 +5,6 @@ import { Errors, ensureAllSettledBeforeThrowing, logger } from "@cdktf/commons";
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
 import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
-import { TerraformPlan } from "./models/terraform";
 import { NestedTerraformOutputs } from "./output";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
@@ -13,7 +12,6 @@ import { createEnhanceLogMessage } from "./execution-logs";
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
   stackName: string;
-  plan: TerraformPlan;
   approve: () => void;
   dismiss: () => void;
   stop: () => void;
@@ -427,7 +425,6 @@ export class CdktfProject {
         bufferableCb({
           type: "waiting for approval",
           stackName: update.stackName,
-          plan: update.plan,
           ...callbacks(update),
         });
       } else {

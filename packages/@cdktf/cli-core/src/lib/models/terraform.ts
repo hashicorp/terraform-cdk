@@ -121,10 +121,16 @@ export interface Terraform {
     parallelism?: number
   ) => Promise<TerraformPlan>;
   deploy(
-    planFile: string,
+    autoApprove?: boolean,
     refreshOnly?: boolean,
     parallelism?: number
-  ): Promise<void>;
+  ): Promise<{
+    needsApproval?: {
+      approve: () => Promise<void>;
+      reject: () => Promise<void>;
+      approvedInUI: Promise<void>;
+    };
+  }>;
   destroy(parallelism?: number): Promise<void>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
