@@ -144,7 +144,7 @@ export class TerraformCli implements Terraform {
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
     }
-    if(noColor){
+    if (noColor) {
       options.push("-no-color");
     }
 

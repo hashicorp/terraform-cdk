@@ -181,7 +181,7 @@ export async function destroy(argv: any) {
       ignoreMissingStackDependencies,
       parallelism,
       terraformParallelism,
-      noColor
+      noColor,
     })
   );
 }
