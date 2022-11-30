@@ -2,6 +2,32 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Struct } from "./struct";
 
+export interface NewAttributeTypeModel {}
+
+export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
+  constructor(public readonly type: string) {}
+}
+
+export class StructAttributeTypeModel implements NewAttributeTypeModel {
+  constructor(public readonly struct: Struct) {}
+}
+
+export interface CollectionAttributeTypeModel extends NewAttributeTypeModel {
+  elementType: NewAttributeTypeModel;
+}
+
+export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
+  constructor(public readonly elementType: NewAttributeTypeModel) {}
+}
+
+export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
+  constructor(public readonly elementType: NewAttributeTypeModel) {}
+}
+
+export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
+  constructor(public readonly elementType: NewAttributeTypeModel) {}
+}
+
 export interface AttributeTypeModelOptions {
   isBlock?: boolean;
   struct?: Struct;

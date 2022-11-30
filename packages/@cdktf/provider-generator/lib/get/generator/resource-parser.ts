@@ -17,6 +17,12 @@ import {
   Struct,
   Scope,
   AttributeModel,
+  NewAttributeTypeModel,
+  SimpleAttributeTypeModel,
+  ListAttributeTypeModel,
+  SetAttributeTypeModel,
+  MapAttributeTypeModel,
+  StructAttributeTypeModel,
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 
@@ -200,7 +206,7 @@ class Parser {
     scope: Scope[],
     attributeType: AttributeType | AttributeNestedType,
     parentKind?: string
-  ): AttributeTypeModel {
+  ): [AttributeTypeModel, NewAttributeTypeModel] {
     const parent = scope[scope.length - 1];
     const level = scope.length;
     const isComputed = !!scope.find((e) => e.isComputed === true);
@@ -210,34 +216,46 @@ class Parser {
     if (typeof attributeType === "string") {
       switch (attributeType) {
         case "bool":
-          return new AttributeTypeModel("boolean", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return [
+            new AttributeTypeModel("boolean", {
+              isComputed,
+              isOptional,
+              isRequired,
+              level,
+            }),
+            new SimpleAttributeTypeModel("boolean"),
+          ];
         case "string":
-          return new AttributeTypeModel("string", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return [
+            new AttributeTypeModel("string", {
+              isComputed,
+              isOptional,
+              isRequired,
+              level,
+            }),
+            new SimpleAttributeTypeModel("string"),
+          ];
         case "number":
-          return new AttributeTypeModel("number", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return [
+            new AttributeTypeModel("number", {
+              isComputed,
+              isOptional,
+              isRequired,
+              level,
+            }),
+            new SimpleAttributeTypeModel("number"),
+          ];
         case "dynamic":
-          return new AttributeTypeModel("any", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-            isMap: true,
-          });
+          return [
+            new AttributeTypeModel("any", {
+              isComputed,
+              isOptional,
+              isRequired,
+              level,
+              isMap: true,
+            }),
+            new SimpleAttributeTypeModel("any"),
+          ];
         default:
           throw new Error(`invalid primitive type ${attributeType}`);
       }
@@ -251,80 +269,37 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        if (type[0] === "map") {
-          // Create a new structure for this
-          const mapType = type[1];
-          const struct = this.addAnonymousStruct(
-            scope,
-            {
-              contents: {
-                type: mapType as AttributeType,
-              },
-            },
-            kind
-          );
-
-          const model = new AttributeTypeModel(struct.name, {
-            struct,
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
-
-          return model;
-        }
-        const listSetType = this.renderAttributeType(
+        const [attrType, elementType] = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        listSetType.isList = kind === "list";
-        listSetType.isSet = kind === "set";
-        listSetType.isComputed = isComputed;
-        listSetType.isOptional = isOptional;
-        listSetType.isRequired = isRequired;
-        listSetType.level = level;
-        return listSetType;
+        attrType.isList = kind === "list";
+        attrType.isSet = kind === "set";
+        attrType.isComputed = isComputed;
+        attrType.isOptional = isOptional;
+        attrType.isRequired = isRequired;
+        attrType.level = level;
+        return [
+          attrType,
+          kind === "list"
+            ? new ListAttributeTypeModel(elementType)
+            : new SetAttributeTypeModel(elementType),
+        ];
       }
 
       if (kind === "map") {
-        const newType = type[0] || type;
-        if (["list", "set"].includes(newType as string)) {
-          // Create a new structure for this
-          const listType = type[1];
-          const struct = this.addAnonymousStruct(
-            scope,
-            {
-              contents: {
-                type: listType as AttributeType,
-              },
-            },
-            kind
-          );
-
-          const model = new AttributeTypeModel(struct.name, {
-            struct,
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
-
-          return model;
-        }
-
-        const mapType = this.renderAttributeType(
+        const [valueType, newValueType] = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        mapType.isMap = true;
-        mapType.isComputed = isComputed;
-        mapType.isOptional = isOptional;
-        mapType.isRequired = isRequired;
-        mapType.level = level;
-        return mapType;
+        valueType.isMap = true;
+        valueType.isComputed = isComputed;
+        valueType.isOptional = isOptional;
+        valueType.isRequired = isRequired;
+        valueType.level = level;
+        return [valueType, new MapAttributeTypeModel(newValueType)];
       }
 
       if (kind === "object") {
@@ -345,7 +320,7 @@ class Parser {
           isRequired,
           level,
         });
-        return model;
+        return [model, new StructAttributeTypeModel(struct)];
       }
     }
 
@@ -353,17 +328,49 @@ class Parser {
       let isList = undefined;
       let isSet = undefined;
       let isMap = undefined;
+      let struct = undefined;
+      let newType = undefined;
       switch (attributeType.nesting_mode) {
         case "list":
           isList = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          newType = new ListAttributeTypeModel(
+            new StructAttributeTypeModel(struct)
+          );
           break;
         case "set":
           isSet = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          newType = new SetAttributeTypeModel(
+            new StructAttributeTypeModel(struct)
+          );
           break;
         case "map":
           isMap = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          newType = new MapAttributeTypeModel(
+            new StructAttributeTypeModel(struct)
+          );
           break;
         case "single":
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          newType = new StructAttributeTypeModel(struct);
           break;
         default: {
           throw new Error(
@@ -375,11 +382,6 @@ class Parser {
           );
         }
       }
-      const struct = this.addAnonymousStruct(
-        scope,
-        attributeType.attributes,
-        attributeType.nesting_mode
-      );
       const model = new AttributeTypeModel(struct.name, {
         struct,
         isComputed,
@@ -391,7 +393,7 @@ class Parser {
         isMap,
         isNested: true,
       });
-      return model;
+      return [model, newType];
     }
 
     throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
@@ -403,7 +405,7 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      const type = this.renderAttributeType(
+      const [type, newType] = this.renderAttributeType(
         [
           parentType,
           new Scope({
@@ -432,6 +434,7 @@ class Parser {
           type,
           provider: parentType.isProvider,
           required: !!att.required,
+          newType,
         })
       );
     }
@@ -511,6 +514,7 @@ class Parser {
             computed: false,
             provider: isProvider,
             required,
+            newType: new StructAttributeTypeModel(struct),
           });
 
         case "map":
@@ -529,6 +533,9 @@ class Parser {
             computed: false,
             provider: isProvider,
             required: false,
+            newType: new MapAttributeTypeModel(
+              new StructAttributeTypeModel(struct)
+            ),
           });
 
         case "list":
@@ -556,6 +563,14 @@ class Parser {
             computed: false,
             provider: isProvider,
             required,
+            newType:
+              blockType.nesting_mode === "list"
+                ? new ListAttributeTypeModel(
+                    new StructAttributeTypeModel(struct)
+                  )
+                : new SetAttributeTypeModel(
+                    new StructAttributeTypeModel(struct)
+                  ),
           });
       }
     }
@@ -579,6 +594,21 @@ class Parser {
         ? !!att.required
         : !!parent.isRequired;
       const name = toCamelCase(terraformName);
+      const [type, newType] = this.renderAttributeType(
+        [
+          ...scope,
+          new Scope({
+            name: terraformName,
+            parent,
+            isProvider: parent.isProvider,
+            isComputed: computed,
+            isOptional: optional,
+            isRequired: required,
+            isNestedType: parent.isNestedType,
+          }),
+        ],
+        att.type || att.nested_type
+      );
       attributes.push(
         new AttributeModel({
           name,
@@ -588,23 +618,10 @@ class Parser {
           optional: optional,
           terraformName,
           terraformFullName: parent.fullName(terraformName),
-          type: this.renderAttributeType(
-            [
-              ...scope,
-              new Scope({
-                name: terraformName,
-                parent,
-                isProvider: parent.isProvider,
-                isComputed: computed,
-                isOptional: optional,
-                isRequired: required,
-                isNestedType: parent.isNestedType,
-              }),
-            ],
-            att.type || att.nested_type
-          ),
+          type,
           provider: parent.isProvider,
           required: required,
+          newType,
         })
       );
     }

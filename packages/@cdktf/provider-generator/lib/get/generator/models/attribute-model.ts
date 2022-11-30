@@ -1,6 +1,9 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { AttributeTypeModel } from "./attribute-type-model";
+import {
+  AttributeTypeModel,
+  NewAttributeTypeModel,
+} from "./attribute-type-model";
 import { logger } from "@cdktf/commons";
 
 export type GetterType =
@@ -33,6 +36,7 @@ export interface AttributeModelOptions {
   getAttCall?: string;
   provider: boolean;
   required: boolean;
+  newType: NewAttributeTypeModel;
 }
 
 export function escapeAttributeName(name: string) {
@@ -62,6 +66,7 @@ export class AttributeModel {
   private _description?: string;
   public provider: boolean;
   public required: boolean;
+  public newType: NewAttributeTypeModel;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -74,6 +79,7 @@ export class AttributeModel {
     this._description = options.description;
     this.provider = options.provider;
     this.required = options.required;
+    this.newType = options.newType;
   }
 
   public get typeDefinition() {
