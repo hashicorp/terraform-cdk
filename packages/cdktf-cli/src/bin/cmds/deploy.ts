@@ -80,7 +80,7 @@ class Command extends BaseCommand {
       // causes colors to be disabled too for output that the cdktf-cli itself colors.
       .option("no-color", {
         type: "boolean",
-        default: false,
+        default: process.env.FORCE_COLOR === "0",
         required: false,
         desc: "Disables terminal formatting sequences in the output.",
       })
