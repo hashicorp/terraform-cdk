@@ -35,13 +35,13 @@
     "@npmcli/ci-detect": "^1.4.0",
     "@sentry/node": "^6.19.7",
     "cdktf": "0.0.0",
-    "codemaker": "^1.71.0",
+    "codemaker": "^1.68.0",
     "constructs": "^10.0.25",
     "cross-spawn": "^7.0.3",
     "follow-redirects": "^1.15.2",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
-    "log4js": "^6.7.0",
+    "log4js": "^6.6.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
