@@ -138,11 +138,14 @@ export class TerraformCli implements Terraform {
     );
   }
 
-  public async destroy(parallelism = -1): Promise<void> {
+  public async destroy(parallelism = -1, noColor = false): Promise<void> {
     await this.setUserAgent();
     const options = ["destroy", "-auto-approve", "-input=false"];
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
+    }
+    if(noColor){
+      options.push("-no-color");
     }
 
     await exec(

@@ -556,7 +556,10 @@ export class CdktfProject {
               opts.terraformParallelism,
               opts.noColor
             )
-          : nextRunningExecutor.destroy(opts.terraformParallelism);
+          : nextRunningExecutor.destroy(
+            opts.terraformParallelism,
+            opts.noColor
+          );
       } catch (e) {
         // await next() threw an error because a stack failed to apply/destroy
         // wait for all other currently running stacks to complete before propagating that error

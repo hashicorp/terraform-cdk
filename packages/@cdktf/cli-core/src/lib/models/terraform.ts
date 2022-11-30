@@ -127,7 +127,10 @@ export interface Terraform {
     parallelism?: number,
     noColor?: boolean
   ): Promise<void>;
-  destroy(parallelism?: number): Promise<void>;
+  destroy(
+    parallelism?: number,
+    noColor?: boolean
+  ): Promise<void>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
 }

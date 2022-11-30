@@ -55,6 +55,12 @@ class Command extends BaseCommand {
         // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
+      .option("no-color", {
+        type: "boolean",
+        default: process.env.FORCE_COLOR === "0",
+        required: false,
+        desc: "Disables terminal formatting sequences in the output.",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

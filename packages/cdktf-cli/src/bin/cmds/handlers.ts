@@ -170,6 +170,7 @@ export async function destroy(argv: any) {
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
   const terraformParallelism = argv.terraformParallelism;
+  const noColor = argv.noColor;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -180,6 +181,7 @@ export async function destroy(argv: any) {
       ignoreMissingStackDependencies,
       parallelism,
       terraformParallelism,
+      noColor
     })
   );
 }

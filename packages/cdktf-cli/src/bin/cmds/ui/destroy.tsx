@@ -16,6 +16,7 @@ interface DestroyConfig {
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
   terraformParallelism?: number;
+  noColor?: boolean;
 }
 
 export const Destroy = ({
@@ -26,6 +27,7 @@ export const Destroy = ({
   ignoreMissingStackDependencies,
   parallelism,
   terraformParallelism,
+  noColor
 }: DestroyConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -36,6 +38,7 @@ export const Destroy = ({
         ignoreMissingStackDependencies,
         parallelism,
         terraformParallelism,
+        noColor
       })
   );
 

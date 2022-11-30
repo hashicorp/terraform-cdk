@@ -401,14 +401,15 @@ export class CdktfStack {
     });
   }
 
-  public async destroy(terraformParallelism?: number) {
+  public async destroy(terraformParallelism?: number, noColor?: boolean) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform({ isSpeculative: false });
-
-      const plan = await terraform.plan(true);
+      const terraform = await this.initalizeTerraform({
+        isSpeculative: false,
+        noColor,
+      });
+      const plan = await terraform.plan(true, false, -1, noColor);
       this.updateState({ type: "planned", stackName: this.stack.name, plan });
-
       const approved = this.options.autoApprove
         ? true
         : await this.waitForApproval(plan);
@@ -418,8 +419,7 @@ export class CdktfStack {
       }
 
       this.updateState({ type: "destroying", stackName: this.stack.name });
-      await terraform.destroy(terraformParallelism);
-
+      await terraform.destroy(terraformParallelism, noColor);
       this.updateState({
         type: "destroyed",
         stackName: this.stack.name,
