@@ -1,5 +1,32 @@
 {
   "language": "java",
   "app": "mvn -e -q compile exec:java",
-  "terraformProviders": ["aws@~> 3.0", "kubernetes@~> 2.0"]
+  "codeMakerOutput": "src/main/java/imports",
+  "terraformProviders": [
+    "aws@~> 3.0",
+    "kubernetes@~> 2.0",
+    "hashicorp/random@~> 3.1",
+    "dnsimple/dnsimple",
+    "kreuzwerker/docker"
+  ],
+  "terraformModules": [
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "~> 3.0"
+    },
+    {
+      "name": "eks",
+      "source": "terraform-aws-modules/eks/aws",
+      "version": "~> 3.0"
+    },
+    {
+      "name": "my_local_module",
+      "source": "./local_module/"
+    }
+  ],
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
 }

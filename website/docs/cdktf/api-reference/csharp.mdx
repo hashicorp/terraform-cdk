@@ -10778,17 +10778,21 @@ TerraformLocal.IsTerraformElement(object X);
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                    | **Type**                                                        | **Description**   |
-| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                    | The tree node.    |
-| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                           | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                             | _No description._ |
-| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                             | _No description._ |
+| **Name**                                                                                    | **Type**                                                              | **Description**   |
+| ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformLocal.property.node">Node</a></code>                         | <code>Constructs.Node</code>                                          | The tree node.    |
+| <code><a href="#cdktf.TerraformLocal.property.cdktfStack">CdktfStack</a></code>             | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.fqn">Fqn</a></code>                           | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">FriendlyUniqueId</a></code> | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">AsAnyMap</a></code>                 | <code>System.Collections.Generic.IDictionary< string, object ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBoolean">AsBoolean</a></code>               | <code><a href="#cdktf.IResolvable">IResolvable</a></code>             | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">AsBooleanMap</a></code>         | <code>System.Collections.Generic.IDictionary< string, bool ></code>   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asList">AsList</a></code>                     | <code>string[]</code>                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumber">AsNumber</a></code>                 | <code>double</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">AsNumberMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, double ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asString">AsString</a></code>                 | <code>string</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">AsStringMap</a></code>           | <code>System.Collections.Generic.IDictionary< string, string ></code> | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.expression">Expression</a></code>             | <code>object</code>                                                   | _No description._ |
 
 ---
 
@@ -10834,6 +10838,16 @@ public string FriendlyUniqueId { get; }
 
 ---
 
+##### `AsAnyMap`<sup>Required</sup> <a name="AsAnyMap" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, object > AsAnyMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
 ##### `AsBoolean`<sup>Required</sup> <a name="AsBoolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```csharp
@@ -10841,6 +10855,16 @@ public IResolvable AsBoolean { get; }
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `AsBooleanMap`<sup>Required</sup> <a name="AsBooleanMap" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, bool > AsBooleanMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, bool >
 
 ---
 
@@ -10864,6 +10888,16 @@ public double AsNumber { get; }
 
 ---
 
+##### `AsNumberMap`<sup>Required</sup> <a name="AsNumberMap" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, double > AsNumberMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, double >
+
+---
+
 ##### `AsString`<sup>Required</sup> <a name="AsString" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```csharp
@@ -10871,6 +10905,16 @@ public string AsString { get; }
 ```
 
 - _Type:_ string
+
+---
+
+##### `AsStringMap`<sup>Required</sup> <a name="AsStringMap" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```csharp
+public System.Collections.Generic.IDictionary< string, string > AsStringMap { get; }
+```
+
+- _Type:_ System.Collections.Generic.IDictionary< string, string >
 
 ---
 
@@ -22454,6 +22498,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```csharp
@@ -22462,10 +22508,10 @@ using HashiCorp.Cdktf;
 new AssertionReturn(string Message, bool Pass);
 ```
 
-| **Name**                                                                                                | **Type**            | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | ------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">Message</a></code> | <code>string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">Pass</a></code>       | <code>bool</code>   | _No description._ |
+| **Name**                                                                                                | **Type**            | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | ------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">Message</a></code> | <code>string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">Pass</a></code>       | <code>bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22473,20 +22519,24 @@ new AssertionReturn(string Message, bool Pass);
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ bool
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**            | **Description**   |
-| ------------------------------------------------------------------------------------------ | ------------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>string</code> | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>bool</code>   | _No description._ |
+| **Name**                                                                                   | **Type**            | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | ------------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">Message</a></code> | <code>string</code> | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">Pass</a></code>       | <code>bool</code>   | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -22498,6 +22548,8 @@ public string Message { get; }
 
 - _Type:_ string
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `Pass`<sup>Required</sup> <a name="Pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -22507,6 +22559,8 @@ public bool Pass { get; }
 ```
 
 - _Type:_ bool
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -27139,6 +27193,363 @@ public string Fqn { get; }
 
 ---
 
+### Op <a name="Op" id="cdktf.Op"></a>
+
+This class contains static functions for all arithmetical and logical operators in the Terraform configutation language.
+
+#### Initializers <a name="Initializers" id="cdktf.Op.Initializer"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+new Op();
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">Add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">And</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">Div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">Eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">Gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">Gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">Lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">Lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">Mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">Mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">Negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">Neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">Not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">Or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">Sub</a></code>       | Renders left - right.    |
+
+---
+
+##### `Add` <a name="Add" id="cdktf.Op.add"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Add(object Left, object Right);
+```
+
+Renders left + right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.add.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.add.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `And` <a name="And" id="cdktf.Op.and"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.And(object Left, object Right);
+```
+
+Renders left && right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.and.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.and.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Div` <a name="Div" id="cdktf.Op.div"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Div(object Left, object Right);
+```
+
+Renders left / right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.div.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.div.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Eq` <a name="Eq" id="cdktf.Op.eq"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Eq(object Left, object Right);
+```
+
+Renders left == right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.eq.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.eq.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Gt` <a name="Gt" id="cdktf.Op.gt"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Gt(object Left, object Right);
+```
+
+Renders left > right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.gt.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.gt.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Gte` <a name="Gte" id="cdktf.Op.gte"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Gte(object Left, object Right);
+```
+
+Renders left >= right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.gte.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.gte.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Lt` <a name="Lt" id="cdktf.Op.lt"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Lt(object Left, object Right);
+```
+
+Renders left < right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.lt.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.lt.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Lte` <a name="Lte" id="cdktf.Op.lte"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Lte(object Left, object Right);
+```
+
+Renders left < = right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.lte.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.lte.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Mod` <a name="Mod" id="cdktf.Op.mod"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Mod(object Left, object Right);
+```
+
+Renders left % right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.mod.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.mod.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Mul` <a name="Mul" id="cdktf.Op.mul"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Mul(object Left, object Right);
+```
+
+Renders left \* right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.mul.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.mul.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Negate` <a name="Negate" id="cdktf.Op.negate"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Negate(object Expression);
+```
+
+Renders -expression.
+
+###### `Expression`<sup>Required</sup> <a name="Expression" id="cdktf.Op.negate.parameter.expression"></a>
+
+- _Type:_ object
+
+---
+
+##### `Neq` <a name="Neq" id="cdktf.Op.neq"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Neq(object Left, object Right);
+```
+
+Renders left != right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.neq.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.neq.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Not` <a name="Not" id="cdktf.Op.not"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Not(object Expression);
+```
+
+Renders !expression.
+
+###### `Expression`<sup>Required</sup> <a name="Expression" id="cdktf.Op.not.parameter.expression"></a>
+
+- _Type:_ object
+
+---
+
+##### `Or` <a name="Or" id="cdktf.Op.or"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Or(object Left, object Right);
+```
+
+Renders left || right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.or.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.or.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
+##### `Sub` <a name="Sub" id="cdktf.Op.sub"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Op.Sub(object Left, object Right);
+```
+
+Renders left - right.
+
+###### `Left`<sup>Required</sup> <a name="Left" id="cdktf.Op.sub.parameter.left"></a>
+
+- _Type:_ object
+
+---
+
+###### `Right`<sup>Required</sup> <a name="Right" id="cdktf.Op.sub.parameter.right"></a>
+
+- _Type:_ object
+
+---
+
 ### PrefixedRemoteWorkspaces <a name="PrefixedRemoteWorkspaces" id="cdktf.PrefixedRemoteWorkspaces"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -27903,6 +28314,8 @@ new Testing();
 | <code><a href="#cdktf.Testing.toBeValidTerraform">ToBeValidTerraform</a></code>                         | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">ToHaveDataSource</a></code>                             | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">ToHaveDataSourceWithProperties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">ToHaveProvider</a></code>                                 | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">ToHaveProviderWithProperties</a></code>     | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">ToHaveResource</a></code>                                 | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">ToHaveResourceWithProperties</a></code>     | _No description._                                                                           |
 
@@ -28098,6 +28511,52 @@ Testing.ToHaveDataSourceWithProperties(string Received, string ResourceType, Sys
 
 ---
 
+##### `ToHaveProvider` <a name="ToHaveProvider" id="cdktf.Testing.toHaveProvider"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Testing.ToHaveProvider(string Received, string ResourceType);
+```
+
+###### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+##### `ToHaveProviderWithProperties` <a name="ToHaveProviderWithProperties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Testing.ToHaveProviderWithProperties(string Received, string ResourceType, System.Collections.Generic.IDictionary< string, object > Properties = null);
+```
+
+###### `Received`<sup>Required</sup> <a name="Received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ string
+
+---
+
+###### `ResourceType`<sup>Required</sup> <a name="ResourceType" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ string
+
+---
+
+###### `Properties`<sup>Optional</sup> <a name="Properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
+
+- _Type:_ System.Collections.Generic.IDictionary< string, object >
+
+---
+
 ##### `ToHaveResource` <a name="ToHaveResource" id="cdktf.Testing.toHaveResource"></a>
 
 ```csharp
@@ -28183,6 +28642,7 @@ new Token();
 | <code><a href="#cdktf.Token.asString">AsString</a></code>         | Return a reversible string representation of this token. |
 | <code><a href="#cdktf.Token.asStringMap">AsStringMap</a></code>   | Return a reversible map representation of this token.    |
 | <code><a href="#cdktf.Token.isUnresolved">IsUnresolved</a></code> | Returns true if obj represents an unresolved value.      |
+| <code><a href="#cdktf.Token.nullValue">NullValue</a></code>       | Return a Token containing a `null` value.                |
 
 ---
 
@@ -28428,6 +28888,20 @@ containing resolvables.
 The object to test.
 
 ---
+
+##### `NullValue` <a name="NullValue" id="cdktf.Token.nullValue"></a>
+
+```csharp
+using HashiCorp.Cdktf;
+
+Token.NullValue();
+```
+
+Return a Token containing a `null` value.
+
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
 
 #### Constants <a name="Constants" id="Constants"></a>
 

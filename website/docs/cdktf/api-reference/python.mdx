@@ -15416,10 +15416,14 @@ cdktf.TerraformLocal.is_terraform_element(
 | <code><a href="#cdktf.TerraformLocal.property.cdktfStack">cdktf_stack</a></code>              | <code><a href="#cdktf.TerraformStack">TerraformStack</a></code> | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.fqn">fqn</a></code>                             | <code>str</code>                                                | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.friendlyUniqueId">friendly_unique_id</a></code> | <code>str</code>                                                | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asAnyMap">as_any_map</a></code>                 | <code>typing.Mapping[typing.Any]</code>                         | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asBoolean">as_boolean</a></code>                | <code><a href="#cdktf.IResolvable">IResolvable</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asBooleanMap">as_boolean_map</a></code>         | <code>typing.Mapping[bool]</code>                               | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asList">as_list</a></code>                      | <code>typing.List[str]</code>                                   | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asNumber">as_number</a></code>                  | <code>typing.Union[int, float]</code>                           | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asNumberMap">as_number_map</a></code>           | <code>typing.Mapping[typing.Union[int, float]]</code>           | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.asString">as_string</a></code>                  | <code>str</code>                                                | _No description._ |
+| <code><a href="#cdktf.TerraformLocal.property.asStringMap">as_string_map</a></code>           | <code>typing.Mapping[str]</code>                                | _No description._ |
 | <code><a href="#cdktf.TerraformLocal.property.expression">expression</a></code>               | <code>typing.Any</code>                                         | _No description._ |
 
 ---
@@ -15466,6 +15470,16 @@ friendly_unique_id: str
 
 ---
 
+##### `as_any_map`<sup>Required</sup> <a name="as_any_map" id="cdktf.TerraformLocal.property.asAnyMap"></a>
+
+```python
+as_any_map: typing.Mapping[typing.Any]
+```
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
 ##### `as_boolean`<sup>Required</sup> <a name="as_boolean" id="cdktf.TerraformLocal.property.asBoolean"></a>
 
 ```python
@@ -15473,6 +15487,16 @@ as_boolean: IResolvable
 ```
 
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
+
+---
+
+##### `as_boolean_map`<sup>Required</sup> <a name="as_boolean_map" id="cdktf.TerraformLocal.property.asBooleanMap"></a>
+
+```python
+as_boolean_map: typing.Mapping[bool]
+```
+
+- _Type:_ typing.Mapping[bool]
 
 ---
 
@@ -15496,6 +15520,16 @@ as_number: typing.Union[int, float]
 
 ---
 
+##### `as_number_map`<sup>Required</sup> <a name="as_number_map" id="cdktf.TerraformLocal.property.asNumberMap"></a>
+
+```python
+as_number_map: typing.Mapping[typing.Union[int, float]]
+```
+
+- _Type:_ typing.Mapping[typing.Union[int, float]]
+
+---
+
 ##### `as_string`<sup>Required</sup> <a name="as_string" id="cdktf.TerraformLocal.property.asString"></a>
 
 ```python
@@ -15503,6 +15537,16 @@ as_string: str
 ```
 
 - _Type:_ str
+
+---
+
+##### `as_string_map`<sup>Required</sup> <a name="as_string_map" id="cdktf.TerraformLocal.property.asStringMap"></a>
+
+```python
+as_string_map: typing.Mapping[str]
+```
+
+- _Type:_ typing.Mapping[str]
 
 ---
 
@@ -27496,6 +27540,8 @@ The list of aspects which were directly applied on this scope.
 
 ### AssertionReturn <a name="AssertionReturn" id="cdktf.testingMatchers.AssertionReturn"></a>
 
+Class representing the contents of a return by an assertion.
+
 #### Initializers <a name="Initializers" id="cdktf.testingMatchers.AssertionReturn.Initializer"></a>
 
 ```python
@@ -27507,10 +27553,10 @@ testingMatchers.AssertionReturn(
 )
 ```
 
-| **Name**                                                                                                | **Type**          | **Description**   |
-| ------------------------------------------------------------------------------------------------------- | ----------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>str</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+| **Name**                                                                                                | **Type**          | **Description**                                                            |
+| ------------------------------------------------------------------------------------------------------- | ----------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.message">message</a></code> | <code>str</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass">pass</a></code>       | <code>bool</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -27518,20 +27564,24 @@ testingMatchers.AssertionReturn(
 
 - _Type:_ str
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.Initializer.parameter.pass"></a>
 
 - _Type:_ bool
 
+Boolean pass denoting the success of the assertion.
+
 ---
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                   | **Type**          | **Description**   |
-| ------------------------------------------------------------------------------------------ | ----------------- | ----------------- |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>str</code>  | _No description._ |
-| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>bool</code> | _No description._ |
+| **Name**                                                                                   | **Type**          | **Description**                                                            |
+| ------------------------------------------------------------------------------------------ | ----------------- | -------------------------------------------------------------------------- |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.message">message</a></code> | <code>str</code>  | - String message containing information about the result of the assertion. |
+| <code><a href="#cdktf.testingMatchers.AssertionReturn.property.pass">pass</a></code>       | <code>bool</code> | - Boolean pass denoting the success of the assertion.                      |
 
 ---
 
@@ -27543,6 +27593,8 @@ message: str
 
 - _Type:_ str
 
+String message containing information about the result of the assertion.
+
 ---
 
 ##### `pass`<sup>Required</sup> <a name="pass" id="cdktf.testingMatchers.AssertionReturn.property.pass"></a>
@@ -27552,6 +27604,8 @@ pass: bool
 ```
 
 - _Type:_ bool
+
+Boolean pass denoting the success of the assertion.
 
 ---
 
@@ -32672,6 +32726,406 @@ fqn: str
 
 ---
 
+### Op <a name="Op" id="cdktf.Op"></a>
+
+This class contains static functions for all arithmetical and logical operators in the Terraform configutation language.
+
+#### Initializers <a name="Initializers" id="cdktf.Op.Initializer"></a>
+
+```python
+import cdktf
+
+cdktf.Op()
+```
+
+| **Name** | **Type** | **Description** |
+| -------- | -------- | --------------- |
+
+---
+
+#### Static Functions <a name="Static Functions" id="Static Functions"></a>
+
+| **Name**                                           | **Description**          |
+| -------------------------------------------------- | ------------------------ |
+| <code><a href="#cdktf.Op.add">add</a></code>       | Renders left + right.    |
+| <code><a href="#cdktf.Op.and">and</a></code>       | Renders left && right.   |
+| <code><a href="#cdktf.Op.div">div</a></code>       | Renders left / right.    |
+| <code><a href="#cdktf.Op.eq">eq</a></code>         | Renders left == right.   |
+| <code><a href="#cdktf.Op.gt">gt</a></code>         | Renders left > right.    |
+| <code><a href="#cdktf.Op.gte">gte</a></code>       | Renders left >= right.   |
+| <code><a href="#cdktf.Op.lt">lt</a></code>         | Renders left < right.    |
+| <code><a href="#cdktf.Op.lte">lte</a></code>       | Renders left < = right.  |
+| <code><a href="#cdktf.Op.mod">mod</a></code>       | Renders left % right.    |
+| <code><a href="#cdktf.Op.mul">mul</a></code>       | Renders left \* right.   |
+| <code><a href="#cdktf.Op.negate">negate</a></code> | Renders -expression.     |
+| <code><a href="#cdktf.Op.neq">neq</a></code>       | Renders left != right.   |
+| <code><a href="#cdktf.Op.not">not</a></code>       | Renders !expression.     |
+| <code><a href="#cdktf.Op.or">or</a></code>         | Renders left \|\| right. |
+| <code><a href="#cdktf.Op.sub">sub</a></code>       | Renders left - right.    |
+
+---
+
+##### `add` <a name="add" id="cdktf.Op.add"></a>
+
+```python
+import cdktf
+
+cdktf.Op.add(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left + right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.add.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.add.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `and` <a name="and" id="cdktf.Op.and"></a>
+
+```python
+import cdktf
+
+cdktf.Op.and(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left && right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.and.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.and.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `div` <a name="div" id="cdktf.Op.div"></a>
+
+```python
+import cdktf
+
+cdktf.Op.div(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left / right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.div.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.div.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `eq` <a name="eq" id="cdktf.Op.eq"></a>
+
+```python
+import cdktf
+
+cdktf.Op.eq(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left == right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.eq.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.eq.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `gt` <a name="gt" id="cdktf.Op.gt"></a>
+
+```python
+import cdktf
+
+cdktf.Op.gt(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left > right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gt.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gt.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `gte` <a name="gte" id="cdktf.Op.gte"></a>
+
+```python
+import cdktf
+
+cdktf.Op.gte(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left >= right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.gte.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.gte.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `lt` <a name="lt" id="cdktf.Op.lt"></a>
+
+```python
+import cdktf
+
+cdktf.Op.lt(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left < right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lt.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lt.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `lte` <a name="lte" id="cdktf.Op.lte"></a>
+
+```python
+import cdktf
+
+cdktf.Op.lte(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left < = right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.lte.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.lte.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `mod` <a name="mod" id="cdktf.Op.mod"></a>
+
+```python
+import cdktf
+
+cdktf.Op.mod(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left % right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mod.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mod.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `mul` <a name="mul" id="cdktf.Op.mul"></a>
+
+```python
+import cdktf
+
+cdktf.Op.mul(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left \* right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.mul.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.mul.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `negate` <a name="negate" id="cdktf.Op.negate"></a>
+
+```python
+import cdktf
+
+cdktf.Op.negate(
+  expression: typing.Any
+)
+```
+
+Renders -expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.negate.parameter.expression"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `neq` <a name="neq" id="cdktf.Op.neq"></a>
+
+```python
+import cdktf
+
+cdktf.Op.neq(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left != right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.neq.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.neq.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `not` <a name="not" id="cdktf.Op.not"></a>
+
+```python
+import cdktf
+
+cdktf.Op.not(
+  expression: typing.Any
+)
+```
+
+Renders !expression.
+
+###### `expression`<sup>Required</sup> <a name="expression" id="cdktf.Op.not.parameter.expression"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `or` <a name="or" id="cdktf.Op.or"></a>
+
+```python
+import cdktf
+
+cdktf.Op.or(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left || right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.or.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.or.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
+##### `sub` <a name="sub" id="cdktf.Op.sub"></a>
+
+```python
+import cdktf
+
+cdktf.Op.sub(
+  left: typing.Any,
+  right: typing.Any
+)
+```
+
+Renders left - right.
+
+###### `left`<sup>Required</sup> <a name="left" id="cdktf.Op.sub.parameter.left"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `right`<sup>Required</sup> <a name="right" id="cdktf.Op.sub.parameter.right"></a>
+
+- _Type:_ typing.Any
+
+---
+
 ### PrefixedRemoteWorkspaces <a name="PrefixedRemoteWorkspaces" id="cdktf.PrefixedRemoteWorkspaces"></a>
 
 - _Implements:_ <a href="#cdktf.IRemoteWorkspace">IRemoteWorkspace</a>
@@ -33494,6 +33948,8 @@ cdktf.Testing()
 | <code><a href="#cdktf.Testing.toBeValidTerraform">to_be_valid_terraform</a></code>                           | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSource">to_have_data_source</a></code>                               | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveDataSourceWithProperties">to_have_data_source_with_properties</a></code> | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProvider">to_have_provider</a></code>                                    | _No description._                                                                           |
+| <code><a href="#cdktf.Testing.toHaveProviderWithProperties">to_have_provider_with_properties</a></code>      | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResource">to_have_resource</a></code>                                    | _No description._                                                                           |
 | <code><a href="#cdktf.Testing.toHaveResourceWithProperties">to_have_resource_with_properties</a></code>      | _No description._                                                                           |
 
@@ -33743,6 +34199,59 @@ cdktf.Testing.to_have_data_source_with_properties(
 
 ---
 
+##### `to_have_provider` <a name="to_have_provider" id="cdktf.Testing.toHaveProvider"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_provider(
+  received: str,
+  resource_type: str
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProvider.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveProvider.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+##### `to_have_provider_with_properties` <a name="to_have_provider_with_properties" id="cdktf.Testing.toHaveProviderWithProperties"></a>
+
+```python
+import cdktf
+
+cdktf.Testing.to_have_provider_with_properties(
+  received: str,
+  resource_type: str,
+  properties: typing.Mapping[typing.Any] = None
+)
+```
+
+###### `received`<sup>Required</sup> <a name="received" id="cdktf.Testing.toHaveProviderWithProperties.parameter.received"></a>
+
+- _Type:_ str
+
+---
+
+###### `resource_type`<sup>Required</sup> <a name="resource_type" id="cdktf.Testing.toHaveProviderWithProperties.parameter.resourceType"></a>
+
+- _Type:_ str
+
+---
+
+###### `properties`<sup>Optional</sup> <a name="properties" id="cdktf.Testing.toHaveProviderWithProperties.parameter.properties"></a>
+
+- _Type:_ typing.Mapping[typing.Any]
+
+---
+
 ##### `to_have_resource` <a name="to_have_resource" id="cdktf.Testing.toHaveResource"></a>
 
 ```python
@@ -33835,6 +34344,7 @@ cdktf.Token()
 | <code><a href="#cdktf.Token.asString">as_string</a></code>          | Return a reversible string representation of this token. |
 | <code><a href="#cdktf.Token.asStringMap">as_string_map</a></code>   | Return a reversible map representation of this token.    |
 | <code><a href="#cdktf.Token.isUnresolved">is_unresolved</a></code>  | Returns true if obj represents an unresolved value.      |
+| <code><a href="#cdktf.Token.nullValue">null_value</a></code>        | Return a Token containing a `null` value.                |
 
 ---
 
@@ -34131,6 +34641,20 @@ containing resolvables.
 The object to test.
 
 ---
+
+##### `null_value` <a name="null_value" id="cdktf.Token.nullValue"></a>
+
+```python
+import cdktf
+
+cdktf.Token.null_value()
+```
+
+Return a Token containing a `null` value.
+
+Note: This is different than `undefined`, `nil`, `None` or similar
+as it will end up in the Terraform config and can be used to explicitly
+not set an attribute (which is sometimes required by Terraform providers)
 
 #### Constants <a name="Constants" id="Constants"></a>
 

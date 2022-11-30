@@ -1,0 +1,35 @@
+name: Close stale issues and PRs
+
+permissions:
+  issues: write
+
+on:
+  schedule:
+    - cron: "20 2 * * *"
+
+jobs:
+  stale:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/stale@v6
+        with:
+          # For issues: post a "warning" message after 30 days, then close if another 30 days pass without a response. In another workflow, issues closed for 30 days will be locked.
+          stale-issue-message: "Hi there! 👋 We haven't heard from you in 30 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
+          close-issue-message: "I'm closing this issue because we haven't heard back in 60 days. ⌛️ If you still need help, feel free to comment or reopen the issue!"
+          days-before-issue-stale: 30
+          days-before-issue-close: 30
+          stale-issue-label: stale
+          only-issue-labels: waiting-on-answer
+          # The above only applies to issues where maintainers manually added the label "waiting-on-answer"
+
+          # For PRs: post a "warning" message after 60 days, then close if another 30 days pass without a response. In another workflow, PRs closed for 30 days will be locked.
+          stale-pr-message: "Hi there! 👋 We haven't heard from you in 60 days and would like to know if you're still working on this or need help. If we don't hear from you before then, I'll auto-close this PR in 30 days."
+          close-pr-message: "I'm closing this pull request because we haven't heard back in 90 days. ⌛️ If you're still working on this, feel free to reopen the PR or create a new one!"
+          days-before-pr-stale: 60
+          days-before-pr-close: 30
+          stale-pr-label: stale
+          exempt-draft-pr: true
+
+          labels-to-remove-when-unstale: "waiting-on-answer,stale"
+          # For both issues and PRs, ignore anything that's been assigned to a milestone
+          exempt-all-milestones: true

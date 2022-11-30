@@ -54,11 +54,8 @@ const nativeNodeModulesPlugin = {
 
 (async () => {
   await esbuild.build({
-    entryPoints: [
-      "src/bin/cdktf.ts",
-      "src/lib/index.ts",
-      "src/bin/cmds/handlers.ts",
-    ],
+    entryPoints: ["src/bin/cdktf.ts", "src/bin/cmds/handlers.ts"],
+    outbase: "src",
     bundle: true,
     outdir: "./bundle",
     format: "cjs",

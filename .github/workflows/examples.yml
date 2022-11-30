@@ -1,15 +1,14 @@
 name: Examples Integration
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+  workflow_call:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: examples-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-examples-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -53,12 +52,17 @@ jobs:
       - name: installing dependencies
         run: |
           yarn install
+      - name: lint
+        run: yarn lint:examples
+      - name: align version (Python only)
+        if: startsWith(matrix.target, '@examples/python') # lint:examples ensures this prefix
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: compile
-        run: |
-          yarn lint:examples
-          yarn build
+        run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: create bundle
         run: yarn package
       - name: examples integration tests

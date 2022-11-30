@@ -6,11 +6,13 @@ import * as yargs from "yargs";
 import * as path from "path";
 import * as os from "os";
 import * as fs from "fs-extra";
-import { readCDKTFManifest } from "../lib/util";
-import { IsErrorType } from "../lib/errors";
-import { collectDebugInformation } from "../lib/debug";
-import { CDKTF_DISABLE_PLUGIN_CACHE_ENV } from "../lib/environment";
 import * as Sentry from "@sentry/node";
+import {
+  readCDKTFManifest,
+  IsErrorType,
+  collectDebugInformation,
+  CDKTF_DISABLE_PLUGIN_CACHE_ENV,
+} from "@cdktf/commons";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =

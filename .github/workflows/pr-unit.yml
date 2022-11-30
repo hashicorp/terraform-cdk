@@ -1,0 +1,124 @@
+name: Unit Tests - PR
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
+
+jobs:
+  all_unit_tests:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          [
+            cdktf,
+            cdktf-cli,
+            "@cdktf/hcl2cdk",
+            "@cdktf/hcl2json",
+            "@cdktf/provider-generator",
+            "@cdktf/commons",
+            "@cdktf/cli-core",
+          ]
+        terraform_version: ["1.1.9", "1.2.8"]
+    with:
+      concurrency_group_prefix: pr-all
+      package: ${{ matrix.package }}
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_cli_core:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/cli-core') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-cli-core
+      package: "@cdktf/cli-core"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_commons:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/commons') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-commons
+      package: "@cdktf/commons"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_hcl2cdk:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/hcl2cdk') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-hcl2cdk
+      package: "@cdktf/hcl2cdk"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_hcl2json:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/hcl2json') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-hcl2json
+      package: "@cdktf/hcl2json"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_provider_generator:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/@cdktf/provider-generator') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-provider-generator
+      package: "@cdktf/provider-generator"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf_cli:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/cdktf-cli') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf-cli
+      package: "cdktf-cli"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit
+
+  cdktf:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-unit/cdktf') }}
+    uses: ./.github/workflows/unit.yml
+    strategy:
+      fail-fast: false
+      matrix:
+        terraform_version: ["1.2.8"]
+    with:
+      concurrency_group_prefix: pr-cdktf
+      package: "cdktf"
+      terraform_version: ${{ matrix.terraform_version }}
+    secrets: inherit

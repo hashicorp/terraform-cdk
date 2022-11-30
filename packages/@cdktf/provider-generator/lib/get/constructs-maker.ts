@@ -9,7 +9,9 @@ import {
   TerraformModuleConstraint,
   TerraformDependencyConstraint,
   logger,
-} from "../config";
+  logTimespan,
+} from "@cdktf/commons";
+import { DISPLAY_VERSION, Language } from "@cdktf/commons";
 import {
   ProviderSchema,
   readProviderSchema,
@@ -18,24 +20,6 @@ import {
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
-import { logTimespan } from "../config";
-import { DISPLAY_VERSION } from "../../../../cdktf-cli/src/lib/version";
-
-export enum Language {
-  TYPESCRIPT = "typescript",
-  PYTHON = "python",
-  CSHARP = "csharp",
-  JAVA = "java",
-  GO = "go",
-}
-
-export const LANGUAGES = [
-  Language.TYPESCRIPT,
-  Language.PYTHON,
-  Language.JAVA,
-  Language.CSHARP,
-  Language.GO,
-];
 
 export async function generateJsiiLanguage(
   code: CodeMaker,

@@ -3,10 +3,10 @@
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
-import { TerraformDependencyConstraint } from "../../../config";
+import { Language, TerraformDependencyConstraint } from "@cdktf/commons";
 // Only imported for mocking purposes
 import "../../generator/provider-schema";
-import { ConstructsMaker, Language, GetOptions } from "../../constructs-maker";
+import { ConstructsMaker, GetOptions } from "../../constructs-maker";
 
 jest.mock("../../generator/provider-schema", () => {
   const schema = JSON.parse(

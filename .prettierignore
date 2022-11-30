@@ -17,4 +17,11 @@ test/edge-provider-bindings
 !tools/update-github-project-board/index.ts
 **/go.mod
 **/go.sum
+website/website-preview
+*.py
+*.java
+*.go
+*.cs
 packages/cdktf-cli/src/lib/ambient.d.ts
+packages/cdktf-cli/ambient.d.ts
+

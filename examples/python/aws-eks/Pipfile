@@ -8,4 +8,3 @@ python_version = "3.8"
 
 [packages]
 constructs = "~=3.0.0"
-cdktf = {path = "./../../../dist/python/cdktf-0.0.0-py3-none-any.whl"}

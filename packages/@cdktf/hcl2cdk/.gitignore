@@ -3,3 +3,4 @@
 tsconfig.tsbuildinfo
 !tsconfig.json
 cdktf-convert-*
+!ambient.d.ts

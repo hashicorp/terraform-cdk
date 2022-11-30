@@ -1,0 +1,17 @@
+name: Integration Tests - PR
+on:
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
+      - labeled
+      - reopened
+
+jobs:
+  integration_test:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'ci/run-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}
+    uses: ./.github/workflows/integration.yml
+    with:
+      concurrency_group_prefix: pr
+    secrets: inherit

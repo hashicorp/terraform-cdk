@@ -16,3 +16,5 @@ Build the package
 ```bash
 yarn build
 ```
+
+[Learn More](https://cdk.tf/docs)
