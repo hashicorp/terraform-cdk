@@ -4,7 +4,12 @@ import { AbortController } from "node-abort-controller"; // polyfill until we up
 import { Errors, ensureAllSettledBeforeThrowing, logger } from "@cdktf/commons";
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
-import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
+import {
+  CdktfStack,
+  ExternalStackApprovalUpdate,
+  StackApprovalUpdate,
+  StackUpdate,
+} from "./cdktf-stack";
 import { NestedTerraformOutputs } from "./output";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
@@ -369,7 +374,27 @@ export class CdktfProject {
     this.waitingForApproval = true;
   }
 
-  private resumeAfterApproval() {
+  private resumeAfterApproval(stackName: string) {
+    // remove waiting for approval event that should be resumed
+    this.eventBuffer = this.eventBuffer.filter(
+      (event) =>
+        !(
+          event.type === "projectUpdate" &&
+          event.value.type === "waiting for approval" &&
+          event.value.stackName === stackName
+        )
+    );
+
+    if (
+      this.eventBuffer.length &&
+      this.eventBuffer[0].type === "projectUpdate" &&
+      this.eventBuffer[0].value.type === "waiting for approval"
+    ) {
+      // we are still waiting on approval for the current stack
+      // we removed a future "waiting for approval" event for some other stack
+      return;
+    }
+
     // We first need to flush all events, we can not resume if there is a new waiting for approval update
     let event = this.eventBuffer.shift();
     while (event) {
@@ -392,7 +417,9 @@ export class CdktfProject {
   }
 
   private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
-    return (update: StackUpdate | StackApprovalUpdate) => {
+    return (
+      update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+    ) => {
       const bufferCb = (bufferedUpdate: ProjectUpdate) => {
         this.eventBuffer.push({
           cb,
@@ -400,33 +427,52 @@ export class CdktfProject {
           type: "projectUpdate",
         });
       };
+
+      if (update.type === "external stack approval reply") {
+        if (!update.approved) {
+          this.stopAllStacksThatCanNotRunWithout(update.stackName);
+        }
+        this.resumeAfterApproval(update.stackName);
+        return; // aka don't send this event to any buffer
+      }
+
       const bufferableCb = this.waitingForApproval ? bufferCb : cb;
 
       if (update.type === "waiting for stack approval") {
         const callbacks = (update: StackApprovalUpdate) => ({
           approve: () => {
             update.approve();
-            this.resumeAfterApproval();
+            this.resumeAfterApproval(update.stackName);
           },
           dismiss: () => {
             update.reject();
 
             this.stopAllStacksThatCanNotRunWithout(update.stackName);
-            this.resumeAfterApproval();
+            this.resumeAfterApproval(update.stackName);
           },
           stop: () => {
             update.reject();
             this.stopAllStacks();
-            this.resumeAfterApproval();
+            this.resumeAfterApproval(update.stackName);
           },
         });
-        this.waitForApproval();
 
-        bufferableCb({
+        // always send to buffer, as resumeAfterApproval() always expects a matching "waiting for approval" event
+        bufferCb({
           type: "waiting for approval",
           stackName: update.stackName,
           ...callbacks(update),
         });
+        // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
+        if (!this.waitingForApproval) {
+          cb({
+            type: "waiting for approval",
+            stackName: update.stackName,
+            ...callbacks(update),
+          });
+        }
+
+        this.waitForApproval();
       } else {
         bufferableCb(update);
       }

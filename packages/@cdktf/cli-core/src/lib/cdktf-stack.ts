@@ -71,6 +71,11 @@ export type StackApprovalUpdate = {
   approve: () => void;
   reject: () => void;
 };
+export type ExternalStackApprovalUpdate = {
+  type: "external stack approval reply";
+  stackName: string;
+  approved: boolean; // false = rejected
+};
 
 async function getTerraformClient(
   abortSignal: AbortSignal,
@@ -84,7 +89,9 @@ async function getTerraformClient(
 
 type CdktfStackOptions = {
   stack: SynthesizedStack;
-  onUpdate: (update: StackUpdate | StackApprovalUpdate) => void;
+  onUpdate: (
+    update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+  ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
   abortSignal: AbortSignal;
@@ -92,6 +99,7 @@ type CdktfStackOptions = {
 type CdktfStackStates =
   | StackUpdate["type"]
   | StackApprovalUpdate["type"]
+  | ExternalStackApprovalUpdate["type"]
   | "idle"
   | "done"
   | "error";
@@ -131,6 +139,7 @@ export class CdktfStack {
     update:
       | StackUpdate
       | StackApprovalUpdate
+      | ExternalStackApprovalUpdate
       | { type: "idle" }
       | { type: "done" }
       | { type: "error" }
@@ -171,21 +180,6 @@ export class CdktfStack {
         onLog({ message, isError });
       }
     };
-  }
-
-  private waitForApproval() {
-    return new Promise<boolean>((resolve) => {
-      this.updateState({
-        type: "waiting for stack approval",
-        stackName: this.stack.name,
-        approve: () => {
-          resolve(true);
-        },
-        reject: () => {
-          resolve(false);
-        },
-      });
-    });
   }
 
   private async initalizeTerraform() {
@@ -302,37 +296,38 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      this.updateState({ type: "deploying", stackName: this.stack.name });
-
-      const { needsApproval } = await terraform.deploy(
-        this.options.autoApprove,
-        refreshOnly,
-        terraformParallelism
-      ); // TODO: change this to be not promise based
-
-      if (needsApproval) {
-        const approved = await Promise.race([
-          this.waitForApproval(),
-          needsApproval.approvedInUI,
-        ]);
-        console.log("Promise.race done", approved);
-        // response in TFC UI beat the local response
-        if (typeof approved === "undefined") {
-          console.log(
-            "APPROVEDDDDDD IN UIIIIIII, not waiting for user reply. switching to deploying state again"
-          ); // TODO: handle rejects two?
-          this.updateState({ type: "deploying", stackName: this.stack.name });
-          // todo: wait for deploy to finish?
-          // dismissed via user replying no
-        } else if (!approved) {
-          await needsApproval.reject();
-          this.updateState({ type: "dismissed", stackName: this.stack.name });
-          return;
-          // user replied yes
-        } else {
-          await needsApproval.approve();
+      await terraform.deploy(
+        {
+          autoApprove: this.options.autoApprove,
+          refreshOnly,
+          parallelism: terraformParallelism,
+        },
+        (state) => {
+          // state updates while apply runs that affect the UI
+          if (state.type === "running") {
+            this.updateState({ type: "deploying", stackName: this.stack.name });
+          } else if (state.type === "waiting for approval") {
+            this.updateState({
+              type: "waiting for stack approval",
+              stackName: this.stack.name,
+              approve: state.approve,
+              reject: () => {
+                state.reject();
+                this.updateState({
+                  type: "dismissed",
+                  stackName: this.stack.name,
+                });
+              },
+            });
+          } else if (state.type === "external approval reply") {
+            this.updateState({
+              type: "external stack approval reply",
+              stackName: this.stack.name,
+              approved: state.approved,
+            });
+          }
         }
-      }
+      );
 
       const outputs = await terraform.output();
       const outputsByConstructId = getConstructIdsForOutputs(

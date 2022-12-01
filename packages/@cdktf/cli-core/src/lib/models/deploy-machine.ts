@@ -18,8 +18,11 @@ type DeployEvent =
   | { type: "STOP" }
   | { type: "SEND_INPUT"; input: string }
   | { type: "LINE_RECEIVED"; line: string } //TODO: output received, not really a line in practice
-  | { type: "APPROVED" }
-  | { type: "REJECTED" }
+  | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
+  | { type: "REJECTED_EXTERNALLY" }
+  | { type: "REQUEST_APPROVAL" }
+  | { type: "APPROVE" }
+  | { type: "REJECT" }
   | { type: "EXITED"; exitCode: number };
 
 export function isDeployEvent<DeployEventType extends DeployEvent["type"]>(
@@ -29,7 +32,7 @@ export function isDeployEvent<DeployEventType extends DeployEvent["type"]>(
   return event.type === type;
 }
 
-type DeployState =
+export type DeployState =
   | {
       value: "idle";
       context: DeployContext;
@@ -39,7 +42,7 @@ type DeployState =
       context: DeployContext & { pty: PtySpawnConfig };
     }
   | {
-      value: { running: "default" };
+      value: { running: "processing" };
       context: DeployContext & { pty: PtySpawnConfig };
     }
   | {
@@ -62,6 +65,7 @@ export const deployMachine = createMachine<
 >({
   context: {},
   initial: "idle",
+  id: "root",
   states: {
     idle: {
       on: {
@@ -74,7 +78,7 @@ export const deployMachine = createMachine<
         src: (_context, event) => (send, onReceive) => {
           if (event.type !== "START")
             throw Errors.Internal(
-              "Unexpected event invoking the running state."
+              `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
             );
           const { file, args, options } = event.pty;
           const p = pty.spawn(file, args, options);
@@ -87,13 +91,24 @@ export const deployMachine = createMachine<
 
           p.onData((line) => {
             send({ type: "LINE_RECEIVED", line });
+
+            // possible events based on line
+            if (line.includes("approved using the UI or API")) {
+              send({ type: "APPROVED_EXTERNALLY" });
+            } else if (line.includes("discarded using the UI or API")) {
+              send({ type: "REJECTED_EXTERNALLY" });
+            } else if (
+              line.includes("Do you want to perform these actions in workspace")
+            ) {
+              send({ type: "REQUEST_APPROVAL" });
+            }
           });
           p.onExit(({ exitCode }) => {
             send({ type: "EXITED", exitCode });
           });
 
           return () => {
-            console.log("CLEANUP PTY");
+            console.log("CLEANUP PTY"); // TODO: only if not exited yet?
             p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
             // TODO: is there a way to delay this? maybe go into a "killing" state first?
           };
@@ -103,40 +118,37 @@ export const deployMachine = createMachine<
         EXITED: "exited",
         STOP: "stopped",
       },
-      initial: "default",
+      initial: "processing",
       states: {
-        // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI?
-        default: {
+        // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI to show a good error?
+        processing: {
           on: {
-            LINE_RECEIVED: {
-              target: "awaiting_approval",
-              cond: (_, event) =>
-                event.line.includes(
-                  "Do you want to perform these actions in workspace"
-                ),
-            },
+            REQUEST_APPROVAL: "awaiting_approval",
           },
         },
         awaiting_approval: {
           on: {
-            LINE_RECEIVED: {
-              target: "default",
-              cond: (_, event) =>
-                event.line.includes("approved using the UI or API"), // TODO: confirm this works
+            APPROVED_EXTERNALLY: "processing",
+            REJECTED_EXTERNALLY: "#root.exited",
+            APPROVE: {
+              target: "processing",
+              actions: send(
+                { type: "SEND_INPUT", input: "yes\n" },
+                { to: "pty" }
+              ),
             },
-            APPROVED: {
-              target: "default",
-              actions: send({ type: "SEND_INPUT", input: "yes\n" }, { to: "pty" }),
-            },
-            REJECTED: {
-              target: "default",
-              actions: send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+            REJECT: {
+              target: "processing",
+              actions: send(
+                { type: "SEND_INPUT", input: "no\n" },
+                { to: "pty" }
+              ),
             },
           },
         },
       },
     },
-    exited: { type: "final" }, // TODO: how to best store exitcode in context?
+    exited: { type: "final" },
     stopped: { type: "final" },
   },
 });
