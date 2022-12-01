@@ -421,3 +421,34 @@ test("allows functions within functions", () => {
     expected
   );
 });
+
+test("allows operators within functions", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const otherResource = new TestResource(stack, "other-resource", {
+    name: "baz",
+  });
+
+  new TestResource(stack, "second-resource", {
+    name: "bar",
+    tags: {
+      halfNameLength: `\${length(${otherResource.fqn}.name) / 2}`,
+    },
+  });
+
+  const res = JSON.parse(Testing.synth(stack));
+
+  const expected = {
+    name: "bar",
+    tags: {
+      halfNameLength: "${length(test_resource.other-resource.name) / 2}",
+    },
+  };
+
+  expect(res).toHaveProperty(
+    "resource.test_resource.second-resource",
+    expected
+  );
+});
