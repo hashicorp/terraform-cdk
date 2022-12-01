@@ -41,7 +41,7 @@
     "follow-redirects": "^1.15.2",
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
-    "log4js": "^6.7.0",
+    "log4js": "^6.7.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
