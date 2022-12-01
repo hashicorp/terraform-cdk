@@ -27,7 +27,7 @@ jobs:
         with:
           fetch-depth: 0 # gives standard-version access to all previous commits
       - name: installing dependencies
-        run: yarn install --frozen-lockfile
+        run: yarn install --frozen-lockfile  && yarn run postinstall
       - name: Configure git user
         run: |
           git config user.name github-team-tf-cdk
