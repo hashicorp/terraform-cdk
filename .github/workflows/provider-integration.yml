@@ -1,15 +1,14 @@
 name: Provider Integration Tests
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    paths:
-      - "packages/@cdktf/provider-generator/**"
-      - "test/provider-tests/**"
+  workflow_call:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: provider-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-provider-integration-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
