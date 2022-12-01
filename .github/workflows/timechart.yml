@@ -29,7 +29,7 @@ jobs:
       # we can leverage it to provide a global status to mergify.
       - name: "mergify status"
         uses: actions/github-script@v6.3.3
-        if: steps.waitforstatuschecks.outputs.status != 'success'
+        if: ${{ steps.waitforstatuschecks.outputs.status != 'success' }}
         with:
           script: |
             core.setFailed('One of the Github Actions workflows failed for this PR')
