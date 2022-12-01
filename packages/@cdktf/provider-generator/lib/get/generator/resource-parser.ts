@@ -251,32 +251,80 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(
+        if (type[0] === "map") {
+          // Create a new structure for this
+          const mapType = type[1];
+          const struct = this.addAnonymousStruct(
+            scope,
+            {
+              contents: {
+                type: mapType as AttributeType,
+              },
+            },
+            kind
+          );
+
+          const model = new AttributeTypeModel(struct.name, {
+            struct,
+            isComputed,
+            isOptional,
+            isRequired,
+            level,
+          });
+
+          return model;
+        }
+        const listSetType = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        attrType.isList = kind === "list";
-        attrType.isSet = kind === "set";
-        attrType.isComputed = isComputed;
-        attrType.isOptional = isOptional;
-        attrType.isRequired = isRequired;
-        attrType.level = level;
-        return attrType;
+        listSetType.isList = kind === "list";
+        listSetType.isSet = kind === "set";
+        listSetType.isComputed = isComputed;
+        listSetType.isOptional = isOptional;
+        listSetType.isRequired = isRequired;
+        listSetType.level = level;
+        return listSetType;
       }
 
       if (kind === "map") {
-        const valueType = this.renderAttributeType(
+        const newType = type[0] || type;
+        if (["list", "set"].includes(newType as string)) {
+          // Create a new structure for this
+          const listType = type[1];
+          const struct = this.addAnonymousStruct(
+            scope,
+            {
+              contents: {
+                type: listType as AttributeType,
+              },
+            },
+            kind
+          );
+
+          const model = new AttributeTypeModel(struct.name, {
+            struct,
+            isComputed,
+            isOptional,
+            isRequired,
+            level,
+          });
+
+          return model;
+        }
+
+        const mapType = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        valueType.isMap = true;
-        valueType.isComputed = isComputed;
-        valueType.isOptional = isOptional;
-        valueType.isRequired = isRequired;
-        valueType.level = level;
-        return valueType;
+        mapType.isMap = true;
+        mapType.isComputed = isComputed;
+        mapType.isOptional = isOptional;
+        mapType.isRequired = isRequired;
+        mapType.level = level;
+        return mapType;
       }
 
       if (kind === "object") {

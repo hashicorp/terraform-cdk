@@ -97,6 +97,26 @@ const list_block_resource = new S()
   })
   .build();
 
+const another_resource = new S()
+  .attribute({
+    name: "foo",
+    type: [
+      "map",
+      [
+        "list",
+        [
+          "object",
+          {
+            hello: "string",
+          },
+        ],
+      ],
+    ],
+    computed: false,
+    optional: false,
+  })
+  .build();
+
 const map_resource = new S()
   .attribute({
     name: "optMap",
@@ -135,6 +155,7 @@ export const edgeSchema: ProviderSchema = schema({
     list_block_resource,
     map_resource,
     set_block_resource,
+    another_resource,
   },
   dataSources: {},
 });
