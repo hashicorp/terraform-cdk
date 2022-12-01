@@ -3,6 +3,7 @@
   "version": "0.14.1",
   "private": true,
   "scripts": {
+    "postinstall": "patch-package",
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
     "format": "prettier --write .",
     "package": "lerna run package && tools/collect-dist.sh",
@@ -117,5 +118,9 @@
       "*.d.ts",
       "*.js"
     ]
+  },
+  "dependencies": {
+    "patch-package": "^6.5.0",
+    "postinstall-postinstall": "^2.1.0"
   }
 }

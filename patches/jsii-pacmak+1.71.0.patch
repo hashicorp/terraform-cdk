@@ -1,0 +1,13 @@
+diff --git a/node_modules/jsii-pacmak/lib/targets/python/type-name.js b/node_modules/jsii-pacmak/lib/targets/python/type-name.js
+index d2a2207..fe33ee0 100644
+--- a/node_modules/jsii-pacmak/lib/targets/python/type-name.js
++++ b/node_modules/jsii-pacmak/lib/targets/python/type-name.js
+@@ -199,7 +199,7 @@ class UserType {
+         const type = typeResolver(__classPrivateFieldGet(this, _UserType_fqn, "f"));
+         const isStruct = (0, spec_1.isInterfaceType)(type) && !!type.datatype;
+         const wrapType = typeAnnotation && parameterType && isStruct
+-            ? (pyType) => `typing.Union[${pyType}, typing.Dict[str, typing.Any]]`
++            ? (pyType) => `typing.Union[${pyType}, typing.Dict[builtins.str, typing.Any]]`
+             : (pyType) => pyType;
+         if (assemblyName !== assembly.name) {
+             return {
