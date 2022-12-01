@@ -302,6 +302,19 @@ test("works with functions", () => {
 });
 
 test("doesn't throw error when escapes are nested with functions", () => {
+  /*
+    This test is a bit weird. The test shows the inability of the existing system
+    to handle both Fn.* methods as well as escapes. However, it's here to ensure that the
+    expectation that this is failing / awkward.
+
+    The reason for the inability is because we don't have quotes set up as a first class
+    syntax element during processing of input. Dealing with nested escapes and quotes is 
+    quite hard and awkward with just regexes, and requires a bit more context, which we don't have yet. 
+
+    As a follow up, depending on the customer feedback / requirements discovered, we can 
+    move the string parsing process to an actual parser that will understand the concept of 
+    nested quotes (multiple types) and interpolations.
+  */
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
@@ -330,6 +343,7 @@ test("doesn't throw error when escapes are nested with functions", () => {
     name: "bar",
     tags: {
       firstResourceName:
+        // Note: This is not valid terraform
         '${lookup(test_resource.other-resource, "name", "$${${test_resource.first-resource}.name}")}',
     },
   };
