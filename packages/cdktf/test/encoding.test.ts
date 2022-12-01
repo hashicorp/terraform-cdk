@@ -45,9 +45,7 @@ test("extract escapes without tokens", () => {
   const splitTokens = tokenString.split(() => resolvable);
 
   expect(splitTokens.tokens).toHaveLength(0);
-  expect(splitTokens.escapes).toEqual(
-    expect.arrayContaining(["open", "close"])
-  );
+  expect(splitTokens.escapes).toEqual(expect.arrayContaining(["${", "}"]));
   expect(splitTokens.literals).toEqual(expect.arrayContaining(["10"]));
 });
 
@@ -59,7 +57,7 @@ test("extract multiple escapes without tokens", () => {
 
   expect(splitTokens.tokens).toHaveLength(0);
   expect(splitTokens.escapes).toEqual(
-    expect.arrayContaining(["open", "open", "close", "close"])
+    expect.arrayContaining(["${", "${", "}", "}"])
   );
   expect(splitTokens.literals).toEqual(
     expect.arrayContaining(['"test-', "10", '"'])
