@@ -17,7 +17,7 @@
     "pretest": "yarn build",
     "pretest:ci": "yarn build",
     "test": "yarn lint && jest",
-    "test:ci": "yarn lint && jest --ci --updateSnapshot",
+    "test:ci": "yarn lint && jest --updateSnapshot",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
