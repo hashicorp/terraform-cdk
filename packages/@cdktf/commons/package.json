@@ -19,8 +19,8 @@
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
   },
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/hashicorp/terraform-cdk.git",
