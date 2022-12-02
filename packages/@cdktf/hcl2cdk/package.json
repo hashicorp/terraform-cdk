@@ -2,8 +2,8 @@
   "name": "@cdktf/hcl2cdk",
   "version": "0.0.0",
   "description": "Transform HCL into CDK",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
