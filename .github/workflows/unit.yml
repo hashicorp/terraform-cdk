@@ -60,7 +60,6 @@ jobs:
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Find mutations
         id: self_mutation
