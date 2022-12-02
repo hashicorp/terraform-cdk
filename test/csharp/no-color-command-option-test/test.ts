@@ -1,11 +1,10 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as execa from "execa";
+import * as hasAnsi from "has-ansi";
 import { TestDriver } from "../../test-helper";
 
 describe("no-color option for cdktf deploy, diff, destroy", () => {
-  let ansiRegex =
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
   let driver: TestDriver;
   beforeAll(async () => {
     driver = new TestDriver(__dirname);
@@ -21,14 +20,14 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
         cwd: driver.workingDirectory,
       }
     );
-    expect(result.stdout).not.toMatch(ansiRegex);
+    expect(hasAnsi(result.stdout)).toBe(false);
   });
   it("contains no color formatting in cdktf diff", async () => {
     const result = await execa("cdktf", ["diff", "--no-color"], {
       env: driver.env,
       cwd: driver.workingDirectory,
     });
-    expect(result.stdout).not.toMatch(ansiRegex);
+    expect(hasAnsi(result.stdout)).toBe(false);
   });
   it("contains no color formatting in cdktf destroy", async () => {
     const result = await execa(
@@ -39,6 +38,6 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
         cwd: driver.workingDirectory,
       }
     );
-    expect(result.stdout).not.toMatch(ansiRegex);
+    expect(hasAnsi(result.stdout)).toBe(false);
   });
 });
