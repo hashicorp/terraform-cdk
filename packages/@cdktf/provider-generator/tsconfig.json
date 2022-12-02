@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "build",
     "alwaysStrict": true,
     "charset": "utf8",
     "declaration": true,
