@@ -2,14 +2,33 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Struct } from "./struct";
 
-export interface NewAttributeTypeModel {}
+export interface NewAttributeTypeModel {
+  readonly struct?: Struct; // complex object type contained within the type
+  readonly isComplex: boolean; // basically the same as having a struct
+  readonly storedClassType: string; // this is the type of object used to keep track of references accessed
+  readonly inputTypeDefinition: string; // this is the type used for inputting values
+  readonly attributeAccessFunction: string; // this is for getting reference for simple types
+  readonly toTerraformFunction: string; // this is for converting input values to Terraform syntax
+}
 
 export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
   constructor(public readonly type: string) {}
+
+  get struct() {
+    return undefined;
+  }
+
+  get isComplex() {
+    return false;
+  }
 }
 
 export class StructAttributeTypeModel implements NewAttributeTypeModel {
   constructor(public readonly struct: Struct) {}
+
+  get isComplex() {
+    return true;
+  }
 }
 
 export interface CollectionAttributeTypeModel extends NewAttributeTypeModel {
@@ -18,14 +37,38 @@ export interface CollectionAttributeTypeModel extends NewAttributeTypeModel {
 
 export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(public readonly elementType: NewAttributeTypeModel) {}
+
+  get struct() {
+    return this.elementType.struct;
+  }
+
+  get isComplex() {
+    return this.elementType.isComplex;
+  }
 }
 
 export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(public readonly elementType: NewAttributeTypeModel) {}
+
+  get struct() {
+    return this.elementType.struct;
+  }
+
+  get isComplex() {
+    return this.elementType.isComplex;
+  }
 }
 
 export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(public readonly elementType: NewAttributeTypeModel) {}
+
+  get struct() {
+    return this.elementType.struct;
+  }
+
+  get isComplex() {
+    return this.elementType.isComplex;
+  }
 }
 
 export interface AttributeTypeModelOptions {
