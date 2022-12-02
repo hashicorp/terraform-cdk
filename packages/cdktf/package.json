@@ -14,8 +14,8 @@
     "package:js": "jsii-pacmak --targets js",
     "package:go": "jsii-pacmak --targets go",
     "lint": "eslint . --ext .ts",
-    "test": "jest --passWithNoTests && yarn lint",
-    "test:ci": "jest --ci --passWithNoTests && yarn lint",
+    "test": "yarn lint && jest --passWithNoTests",
+    "test:ci": " yarn lint && jest --passWithNoTests --updateSnapshot",
     "dist-clean": "rm -rf dist"
   },
   "main": "lib/index.js",

@@ -13,7 +13,7 @@
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",
-    "test:ci": "jest --ci",
+    "test:ci": "jest --updateSnapshot",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
