@@ -47,7 +47,8 @@
     "@types/cross-spawn": "^6.0.2",
     "@types/follow-redirects": "^1.14.1",
     "@types/fs-extra": "^8.1.2",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "eslint-plugin-react": "^7.31.11"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

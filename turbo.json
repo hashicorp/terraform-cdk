@@ -32,7 +32,7 @@
     },
 
     "test:ci": {
-      "dependsOn": ["build"],
+      "dependsOn": ["package"],
       "outputs": []
     },
 
