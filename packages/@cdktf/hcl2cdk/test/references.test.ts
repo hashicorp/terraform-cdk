@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { testCase, Synth, binding } from "./helpers/convert";
 
-describe("references", () => {
+describe.skip("references", () => {
   testCase.test(
     "resource references",
     `

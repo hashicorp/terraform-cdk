@@ -1,6 +1,6 @@
 import { testCase, Synth, binding } from "./helpers/convert";
 
-describe("provider", () => {
+describe.skip("provider", () => {
   testCase.test(
     "empty provider",
     `provider "docker" {}`,

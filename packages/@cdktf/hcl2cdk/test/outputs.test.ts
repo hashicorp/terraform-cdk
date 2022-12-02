@@ -1,6 +1,6 @@
 import { testCase, Synth } from "./helpers/convert";
 
-describe("outputs", () => {
+describe.skip("outputs", () => {
   testCase.test(
     "output",
     `

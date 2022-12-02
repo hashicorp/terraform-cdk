@@ -1,6 +1,8 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { testCase, Synth } from "./helpers/convert";
 
-describe("locals", () => {
+describe.skip("locals", () => {
   testCase.test(
     "locals",
     `
