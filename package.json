@@ -46,8 +46,7 @@
     "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
     "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api"
   },
-  "workspaces": {
-    "packages": [
+  "workspaces": [
       "packages/*",
       "packages/@cdktf/*",
       "examples/*",
@@ -56,22 +55,8 @@
       "examples/typescript/backends/*",
       "examples/java/*",
       "examples/csharp/*",
-      "examples/go/*",
-      ".yalc/*",
-      ".yalc/@*/*"
-    ],
-    "nohoist": [
-      "archiver",
-      "**/archiver",
-      "**/archiver/**",
-      "json-stable-stringify",
-      "**/json-stable-stringify",
-      "**/json-stable-stringify/**",
-      "semver",
-      "**/semver",
-      "**/semver/**"
-    ]
-  },
+      "examples/go/*"
+  ],
   "devDependencies": {
     "@types/prettier": "2.6.0",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
@@ -84,7 +69,8 @@
     "lerna": "^4.0.0",
     "lint-staged": ">=10",
     "prettier": "^2.7.1",
-    "standard-version": "^9.5.0"
+    "standard-version": "^9.5.0",
+    "turbo": "^1.6.3"
   },
   "lint-staged": {
     "packages/cdktf/**/*.ts": "yarn generate-docs:api",
