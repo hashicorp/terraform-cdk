@@ -36,11 +36,11 @@ if (!exampleToBuild) {
 }
 
 function runInExample(command) {
-  return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
+  return run(`npx turbo run --filter='${exampleToBuild}' ${command}`);
 }
 
 runInExample(`reinstall`);
-const getStats = runInExample(`build`);
+const getStats = runInExample(`get`);
 runInExample(`beforeSynth`);
 const synthStats = runInExample(`synth`);
 

@@ -6,7 +6,7 @@
   "scripts": {
     "//": "dotnet nuget locals -c all should be used if re-installing with the same version number",
     "reinstall": "dotnet restore",
-    "build": "cdktf get",
+    "get": "cdktf get",
     "synth": "cdktf synth"
   }
 }

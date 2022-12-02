@@ -5,7 +5,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "reinstall": "mvn install:install-file -Dfile=./../../../dist/java/com/hashicorp/cdktf/0.0.0/cdktf-0.0.0.jar -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=0.0.0 -Dpackaging=jar",
-    "build": "cdktf get --parallelism 1",
+    "get": "cdktf get --parallelism 1",
     "synth": "cdktf synth"
   }
 }

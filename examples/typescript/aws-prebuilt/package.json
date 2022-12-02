@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MPL-2.0",
   "scripts": {
-    "build": "tsc",
+    "get": "tsc",
     "compile": "tsc --pretty",
     "synth": "cdktf synth"
   },
