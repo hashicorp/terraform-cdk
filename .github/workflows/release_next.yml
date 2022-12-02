@@ -283,7 +283,7 @@ jobs:
         with:
           payload: |
             {
-              "provider_name": "CDKTF(next)",
+              "name": "next",
               "run_url": "https://github.com/hashicorp/terraform-cdk/actions/runs/${{ github.run_id }}"
             }
         env:
