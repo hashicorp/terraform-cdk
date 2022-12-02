@@ -10,6 +10,7 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
 } from "./terraform";
+import { AbortSignal } from "node-abort-controller";
 import { TerraformJsonConfigBackendRemote } from "../terraform-json";
 import * as TerraformCloudClient from "@skorfmann/terraform-cloud";
 import archiver from "archiver";

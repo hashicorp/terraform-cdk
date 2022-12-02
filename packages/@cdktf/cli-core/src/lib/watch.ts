@@ -6,6 +6,7 @@ import {
   CdktfProjectOptions,
   MutationOptions,
 } from "./cdktf-project";
+import { AbortSignal } from "node-abort-controller";
 import * as fs from "fs";
 import * as chokidar from "chokidar";
 import { logger, Errors } from "@cdktf/commons";
