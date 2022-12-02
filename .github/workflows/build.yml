@@ -39,5 +39,5 @@ jobs:
           yarn package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache

@@ -51,7 +51,7 @@ jobs:
           yarn package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
         uses: actions/upload-artifact@v2
@@ -116,7 +116,7 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
 
   windows_integration:
@@ -174,5 +174,5 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-windows
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache

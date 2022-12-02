@@ -61,7 +61,7 @@ jobs:
         run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: create bundle
         run: yarn package
@@ -72,5 +72,5 @@ jobs:
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
