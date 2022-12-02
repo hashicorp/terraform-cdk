@@ -65,7 +65,7 @@ jobs:
       - name: Find mutations
         id: self_mutation
         run: |-
-          git add .
+          git add ./**/*.snap
           git diff --staged --patch --exit-code > .repo.patch || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
       - name: Upload patch
         if: steps.self_mutation.outputs.self_mutation_happened
@@ -81,12 +81,12 @@ jobs:
           exit 1
 
   self-mutation:
-    needs: build
+    needs: unit-test
     runs-on: ubuntu-latest
     permissions:
       contents: write
       pull-requests: write
-    if: always() && needs.build.outputs.self_mutation_happened && !(github.event.pull_request.head.repo.full_name != github.repository)
+    if: ${{ always() && needs.build.outputs.self_mutation_happened }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
