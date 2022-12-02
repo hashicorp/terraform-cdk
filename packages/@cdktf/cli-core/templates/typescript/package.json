@@ -10,7 +10,7 @@
     "build": "tsc",
     "synth": "cdktf synth",
     "compile": "tsc --pretty",
-    "watch": "tsc -w",
+    "watch": "tsc -w --preserveWatchOutput",
     "test": "jest",
     "test:watch": "jest --watch",
     "upgrade": "npm i cdktf@latest cdktf-cli@latest",

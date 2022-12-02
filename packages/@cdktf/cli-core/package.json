@@ -4,15 +4,14 @@
   "description": "CDK for Terraform CLI Core, meant for internal use only",
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "watch": "tsc -w --preserveWatchOutput",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",
     "pretest": "yarn build",
     "pretest:ci": "yarn build",
     "test": "yarn lint && jest",
     "test:ci": "yarn lint && jest --ci",
-    "jest-watch": "jest --watch",
+    "test:watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
   },

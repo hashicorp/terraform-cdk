@@ -9,11 +9,10 @@
   },
   "scripts": {
     "build": "tsc && ./build-go.sh && cp -r wasm build/wasm",
-    "watch": "tsc -w",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "watch": "tsc -w --preserveWatchOutput",
     "test": "jest",
     "test:ci": "jest --ci",
-    "jest-watch": "jest --watch",
+    "test:watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist",
     "prebuild": "./prebuild.sh"

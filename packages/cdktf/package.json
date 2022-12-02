@@ -5,8 +5,8 @@
   "scripts": {
     "build": "jsii --silence-warnings reserved-word",
     "docs": "node ./scripts/generate-documentation.js",
-    "watch": "jsii -w --silence-warnings reserved-word",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "watch": "tsc -w --preserveWatchOutput",
+    "jsii:watch": "jsii -w --silence-warnings reserved-word",
     "package": "jsii-pacmak",
     "package:python": "jsii-pacmak --targets python",
     "package:java": "jsii-pacmak --targets java",

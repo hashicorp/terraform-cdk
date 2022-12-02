@@ -9,11 +9,10 @@
   },
   "scripts": {
     "build": "tsc",
-    "watch": "tsc -w",
-    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "watch": "tsc -w --preserveWatchOutput",
     "test": "jest",
-    "// skipped for now: test:ci": "jest --ci",
-    "jest-watch": "jest --watch",
+    "test:ci": "jest --ci",
+    "test:watch": "jest --watch",
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
   },
