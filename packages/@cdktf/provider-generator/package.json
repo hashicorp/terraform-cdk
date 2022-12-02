@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "postbuild": "node ./lib/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
+    "postbuild": "node ./build/__tests__/edge-provider-schema/cli.js ./edge-provider-bindings",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",
@@ -45,6 +45,7 @@
     "@types/reserved-words": "^0.1.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.6",
+    "ts-node": "^10.9.1",
     "typescript": "^3.9.10"
   }
 }
