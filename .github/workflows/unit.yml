@@ -43,21 +43,18 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
+      - name: Align Version
+        run: tools/align-version.sh
+      - name: Turbo pruning
+        run: npx turbo prune --scope="${{ inputs.package }}"
       - name: installing dependencies
+        working-directory: ./out
         run: |
           yarn install --frozen-lockfile --prefer-offline
-      - name: compile
-        run: |
-          tools/align-version.sh
-          yarn build
-          yarn package
-        env:
-          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: test
+        working-directory: ./out
         run: |
-          npx lerna run --scope '${{ inputs.package }}' test:ci
+          yarn turbo run --filter '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
