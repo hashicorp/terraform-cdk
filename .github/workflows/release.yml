@@ -280,12 +280,12 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          status=$(sentry-cli releases list --org hashicorp | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' | grep 'unreleased' > /dev/null && echo "unreleased" || echo "released")
           echo "Sentry returned: ${status}"
-          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-      - name: Create a release
+      - name: Finalize the release
         if: steps.get_release_status.outputs.release == 'unreleased'
         run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
