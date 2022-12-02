@@ -65,6 +65,10 @@ export function checkForEmptyDirectory(dir: string) {
   }
 }
 const tfeHostname = "app.terraform.io";
+type GatheredInfo = {
+  projectInfo: Project;
+  useTerraformCloud: boolean | undefined;
+}
 type Options = {
   local?: boolean;
   template?: string;
@@ -111,8 +115,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
   // Gather information about the template and the project
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
-
-  const projectInfo: Project = await gatherInfo(
+  
+  const {projectInfo, useTerraformCloud} = await gatherInfo(
     token,
     argv.projectName,
     argv.projectDescription
@@ -125,8 +129,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
     (templateInfo.Name === "typescript"
       ? await getTerraformProject()
       : undefined);
-
-  if (!argv.local) {
+  
+  
+  if (!argv.local && useTerraformCloud) {
     if (!("OrganizationName" in projectInfo)) {
       throw new Error(`Missing organization name in project info`);
     }
@@ -315,7 +320,7 @@ async function gatherInfo(
   token: string,
   projectName?: string,
   projectDescription?: string
-): Promise<Project> {
+): Promise<GatheredInfo> {
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
@@ -334,10 +339,19 @@ async function gatherInfo(
       default: projectDescriptionDefault,
     });
   }
+  if(token != ""){
+    questions.push({
+      name: "useTerraformCloud",
+      type: "confirm",
+      message: "Would you like to use Terraform Cloud?",
+      default: true
+    })
+  }
 
   const answers: {
     projectName?: string;
     projectDescription?: string;
+    useTerraformCloud?: boolean;
   } = questions.length > 0 ? await inquirer.prompt(questions) : {};
 
   const project: Project = {
@@ -347,7 +361,9 @@ async function gatherInfo(
     WorkspaceName: "",
   };
 
-  if (token != "") {
+  const isRemote = answers.useTerraformCloud;
+
+  if (token != "" && isRemote) {
     console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`);
     console.log(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
@@ -387,7 +403,10 @@ async function gatherInfo(
     project.WorkspaceName = workspaceName;
   }
 
-  return project;
+  return {
+    projectInfo: project, 
+    useTerraformCloud: isRemote
+  };
 }
 
 async function getTerraformProject(): Promise<string | undefined> {
