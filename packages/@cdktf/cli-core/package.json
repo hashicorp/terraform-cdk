@@ -16,8 +16,8 @@
     "package": "./package.sh",
     "dist-clean": "rm -rf dist"
   },
-  "main": "src/lib/index.js",
-  "types": "src/lib/index.d.ts",
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
