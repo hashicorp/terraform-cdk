@@ -36,6 +36,7 @@
     "jsii-srcmak": "^0.1.741"
   },
   "devDependencies": {
+    "@types/cross-spawn": "^6.0.2",
     "@types/deepmerge": "^2.2.0",
     "@types/fs-extra": "^8.1.2",
     "@types/glob": "^7.2.0",
