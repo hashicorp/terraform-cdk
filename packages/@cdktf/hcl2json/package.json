@@ -2,13 +2,13 @@
   "name": "@cdktf/hcl2json",
   "version": "0.0.0",
   "description": "Transform HCL into JSON",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "build/lib/index.js",
+  "types": "build/lib/index.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "scripts": {
-    "build": "tsc && ./build-go.sh",
+    "build": "tsc && ./build-go.sh && cp -r wasm build/wasm",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
     "test": "jest",
