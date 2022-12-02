@@ -37,8 +37,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: ensure all plugin directories exist
         run: |
-          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
-          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-windows
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: installing dependencies and build
         run: |
@@ -48,7 +47,7 @@ jobs:
           yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
         uses: actions/upload-artifact@v2
@@ -86,7 +85,7 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
 
   windows_provider:
@@ -128,5 +127,5 @@ jobs:
         env:
           TEST_TARGET: ${{ matrix.target }}
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins-linux
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
