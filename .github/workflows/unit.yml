@@ -110,4 +110,4 @@ jobs:
             git add .
             git commit -s -m "chore: update snapshots for unit test ${{ inputs.package }}"
             git push origin HEAD:${{ github.event.pull_request.head.ref }}-${{ inputs.package }}
-            gh pr create -f ${{ github.event.pull_request.head.ref }}-${{ inputs.package }}
+            gh pr create -f --head ${{ github.event.pull_request.head.ref }}-${{ inputs.package }} --base ${{ github.event.pull_request.head.ref }} -l ci/skip
