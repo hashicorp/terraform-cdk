@@ -68,7 +68,7 @@ const tfeHostname = "app.terraform.io";
 type GatheredInfo = {
   projectInfo: Project;
   useTerraformCloud: boolean | undefined;
-}
+};
 type Options = {
   local?: boolean;
   template?: string;
@@ -115,8 +115,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
   // Gather information about the template and the project
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
-  
-  const {projectInfo, useTerraformCloud} = await gatherInfo(
+
+  const { projectInfo, useTerraformCloud } = await gatherInfo(
     token,
     argv.projectName,
     argv.projectDescription
@@ -129,8 +129,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     (templateInfo.Name === "typescript"
       ? await getTerraformProject()
       : undefined);
-  
-  
+
   if (!argv.local && useTerraformCloud) {
     if (!("OrganizationName" in projectInfo)) {
       throw new Error(`Missing organization name in project info`);
@@ -339,13 +338,13 @@ async function gatherInfo(
       default: projectDescriptionDefault,
     });
   }
-  if(token != ""){
+  if (token != "") {
     questions.push({
       name: "useTerraformCloud",
       type: "confirm",
       message: "Would you like to use Terraform Cloud?",
-      default: true
-    })
+      default: true,
+    });
   }
 
   const answers: {
@@ -404,8 +403,8 @@ async function gatherInfo(
   }
 
   return {
-    projectInfo: project, 
-    useTerraformCloud: isRemote
+    projectInfo: project,
+    useTerraformCloud: isRemote,
   };
 }
 
