@@ -283,8 +283,8 @@ class Parser {
         return [
           attrType,
           kind === "list"
-            ? new ListAttributeTypeModel(elementType)
-            : new SetAttributeTypeModel(elementType),
+            ? new ListAttributeTypeModel(elementType, false, false)
+            : new SetAttributeTypeModel(elementType, false, false),
         ];
       }
 
@@ -339,7 +339,9 @@ class Parser {
             attributeType.nesting_mode
           );
           newType = new ListAttributeTypeModel(
-            new StructAttributeTypeModel(struct)
+            new StructAttributeTypeModel(struct),
+            false,
+            false
           );
           break;
         case "set":
@@ -350,7 +352,9 @@ class Parser {
             attributeType.nesting_mode
           );
           newType = new SetAttributeTypeModel(
-            new StructAttributeTypeModel(struct)
+            new StructAttributeTypeModel(struct),
+            false,
+            false
           );
           break;
         case "map":
@@ -566,10 +570,14 @@ class Parser {
             newType:
               blockType.nesting_mode === "list"
                 ? new ListAttributeTypeModel(
-                    new StructAttributeTypeModel(struct)
+                    new StructAttributeTypeModel(struct),
+                    blockType.max_items === 1,
+                    true
                   )
                 : new SetAttributeTypeModel(
-                    new StructAttributeTypeModel(struct)
+                    new StructAttributeTypeModel(struct),
+                    blockType.max_items === 1,
+                    true
                   ),
           });
       }
