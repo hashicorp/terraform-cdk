@@ -30,7 +30,7 @@ export class AttributesEmitter {
       );
     } else if (isStored) {
       this.code.line(
-        `private ${att.storageName}?: ${att.newType.inputTypeDefinition}; `
+        `private ${att.storageName}?: ${att.type.name}; ` //att.newType.inputTypeDefinition
       );
     }
 

@@ -23,8 +23,12 @@ export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
     return false;
   }
 
-  getStoredClassInitializer(_name: string) {
-    // Not actually used
+  getStoredClassInitializer(name: string) {
+    // Only used for "any"
+    if (this.type === "any") {
+      return `new cdktf.AnyMap(this, "${name}")`;
+    }
+
     return "";
   }
 
@@ -32,7 +36,7 @@ export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
     return "TODO"; //TODO implement
   }
 
-  getAttributeAccessFunction() {
+  getAttributeAccessFunction(name: string) {
     if (this.type === "any") {
       return `this.getAnyMapAttribute('${name}')`;
     } else {
@@ -64,7 +68,7 @@ export class StructAttributeTypeModel implements NewAttributeTypeModel {
     return "TODO"; //TODO implement
   }
 
-  getAttributeAccessFunction() {
+  getAttributeAccessFunction(name: string) {
     // This shouln't actually be called
     return `this.interpolationForAttribute('${name}')`;
   }
@@ -193,8 +197,13 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   getStoredClassInitializer(name: string) {
-    // This shouldn't actually be called when there isn't a struct
-    return `new ${this.struct?.mapName}(this, "${name}")`;
+    if (this.isComplex) {
+      return `new ${this.struct?.mapName}(this, "${name}")`;
+    } else {
+      return `new cdktf.${uppercaseFirst(
+        this.supportedMapType
+      )}Map(this, "${name}")`;
+    }
   }
 
   get inputTypeDefinition() {
