@@ -45,7 +45,7 @@ jobs:
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
-          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -118,6 +118,12 @@ jobs:
       concurrency_group_prefix: release-next
     secrets: inherit
 
+  provider_integration_test:
+    uses: ./.github/workflows/provider-integration.yml
+    with:
+      concurrency_group_prefix: release-next
+    secrets: inherit
+
   examples:
     uses: ./.github/workflows/examples.yml
     with:
@@ -129,6 +135,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
@@ -149,6 +156,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
@@ -169,6 +177,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
@@ -194,6 +203,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
@@ -214,6 +224,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
@@ -236,6 +247,7 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
       - release_npm
     runs-on: ubuntu-latest
