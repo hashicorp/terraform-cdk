@@ -59,3 +59,11 @@ ci/run-examples:
   - ".github/workflows/unit.yml"
   # The examples
   - "examples/**"
+
+ci/provider-integration:
+  # The workflow used
+  - ".github/workflows/provider-integration.yml"
+  # The provider generator
+  - "packages/@cdktf/provider-generator/**"
+  # The tests
+  - "test/provider-tests/**"

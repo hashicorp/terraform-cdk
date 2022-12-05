@@ -16,11 +16,11 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -52,9 +52,9 @@ jobs:
           lerna exec --parallel ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
           lerna exec --parallel ncu -- --upgrade --filter=typescript --target=patch
           lerna exec --parallel ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
-      # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn update" to run)
+      # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
-        run: yarn install
+        run: yarn install --prefer-offline
 
       - name: Run "yarn upgrade"
         run: yarn upgrade
@@ -66,7 +66,7 @@ jobs:
           git add .
           git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: upgrade.patch
           path: ./upgrade.patch
@@ -77,10 +77,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
 
       - name: Download patch
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3.0.1
         with:
           name: upgrade.patch
 
@@ -91,7 +91,7 @@ jobs:
         run: '[ -s ./upgrade.patch ] && rm ./upgrade.patch || echo "Empty patch. Skipping."'
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v4.2.3
         with:
           # Git commit details
           branch: automation/yarn-upgrade

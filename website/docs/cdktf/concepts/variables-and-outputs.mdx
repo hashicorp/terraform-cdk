@@ -80,6 +80,26 @@ Instance(self, "hello",
 
 </CodeTabs>
 
+### Define Complex Input Variables
+
+```typescript
+const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
+  type: VariableType.object({
+    node_group_name: VariableType.STRING,
+    instance_types: VariableType.list(VariableType.STRING),
+    min_size: VariableType.NUMBER,
+    desired_size: VariableType.NUMBER,
+    max_size: VariableType.NUMBER,
+  }),
+  nullable: false,
+  description: "Node group configuration",
+});
+
+new TerraformResource(this, "resource", {
+  nodeGroupConfig: nodeGroupConfig.value,
+});
+```
+
 ## Local Values
 
 A [Terraform local](/language/values/locals) assigns a name to an expression to allow repeated usage. They are similar to a local variables in a programming language.

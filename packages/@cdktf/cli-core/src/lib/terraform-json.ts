@@ -49,6 +49,7 @@ export const terraformJsonSchema = z
       required_providers: z.record(
         z.object({ source: z.string(), version: z.string() }).nonstrict()
       ),
+      required_version: z.string(),
     }),
     data: z.record(z.any()),
     provider: z.record(z.any()),
