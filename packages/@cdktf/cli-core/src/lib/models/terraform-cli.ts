@@ -9,7 +9,6 @@ import {
   TerraformDeployState,
 } from "./terraform";
 import { SynthesizedStack } from "../synth-stack";
-import { terraformJsonSchema } from "../terraform-json";
 import {
   createAndStartDeployService,
   DeployState,
