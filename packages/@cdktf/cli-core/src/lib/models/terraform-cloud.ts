@@ -443,10 +443,16 @@ export class TerraformCloud implements Terraform {
     _parallelism?: number
   ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
-    if (!this.run)
+    if (!this.run) {
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
       );
+    }
+
+    if (this.run.attributes.autoApply) {
+      logger.info("Auto apply is enabled, skipping confirming the deploy plan");
+      return;
+    }
 
     const deployingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
@@ -480,10 +486,20 @@ export class TerraformCloud implements Terraform {
 
   @BeautifyErrors("Destroy")
   public async destroy(): Promise<void> {
-    if (!this.run)
+    if (!this.run) {
       throw new Error(
         "Please create a ConfigurationVersion / Plan before destroying"
       );
+    }
+
+    // if the workspace has auto apply enabled and we attempt to confirm the plan
+    // it will result in 409 error
+    if (this.run.attributes.autoApply) {
+      logger.info(
+        "Auto apply is enabled, skipping confirming the destroy plan"
+      );
+      return;
+    }
 
     const sendLog = this.createTerraformLogHandler("destroy");
     const destroyingStates = ["confirmed", "apply_queued", "applying"];
