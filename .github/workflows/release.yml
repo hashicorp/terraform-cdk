@@ -81,10 +81,10 @@ jobs:
           path: packages/@cdktf/provider-generator/edge-provider-bindings
 
   integration_test:
+    uses: ./.github/workflows/integration.yml
     needs:
       - prepare-release
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
-    uses: ./.github/workflows/integration.yml
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
       skip_setup: true
       concurrency_group_prefix: release
@@ -104,7 +104,9 @@ jobs:
 
   unit_test:
     uses: ./.github/workflows/unit.yml
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    needs:
+      - prepare-release
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     strategy:
       fail-fast: false
       matrix:
@@ -127,12 +129,12 @@ jobs:
 
   release_github:
     name: Release to Github
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -151,12 +153,12 @@ jobs:
 
   release_npm:
     name: Release to Github Packages NPM regitry
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -171,12 +173,12 @@ jobs:
 
   release_pypi:
     name: Release to PyPi
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -192,12 +194,12 @@ jobs:
 
   release_maven:
     name: Release to Maven
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -218,12 +220,12 @@ jobs:
 
   release_nuget:
     name: Release to NuGet
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -239,12 +241,12 @@ jobs:
 
   release_golang:
     name: Release Go to Github Repo
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -262,12 +264,12 @@ jobs:
 
   release_sentry:
     name: Finalize the sentry release
+    runs-on: ubuntu-latest
     needs:
       - prepare-release
       - integration_test
       - unit_test
-    runs-on: ubuntu-latest
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
@@ -293,9 +295,11 @@ jobs:
 
   release_homebrew:
     name: Release to Homebrew
-    if: jobs.prepare-release.outputs.release_status == 'unreleased'
-    needs: release_npm
     runs-on: ubuntu-latest
+    needs:
+      - prepare-release
+      - release_npm
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     steps:
       # extract version number from package.json
       - uses: actions/checkout@v2
