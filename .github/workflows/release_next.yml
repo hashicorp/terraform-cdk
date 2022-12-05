@@ -43,7 +43,15 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          sentry_release=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ')
+          if test -z "$sentry_release"; then
+            # No sentry release found
+            status="unreleased"
+          else
+            # Sentry release, found check if unreleased
+            status=$(echo "$sentry_release" | grep -o 'unreleased' || echo 'released')
+          fi
+
           echo "Sentry returned: ${status}"
           echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
@@ -251,9 +259,17 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list --org hashicorp | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' | grep 'unreleased' > /dev/null && echo "unreleased" || echo "released")
+          sentry_release=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ')
+          if test -z "$sentry_release"; then
+            # No sentry release found
+            status="unreleased"
+          else
+            # Sentry release, found check if unreleased
+            status=$(echo "$sentry_release" | grep -o 'unreleased' || echo 'released')
+          fi
+
           echo "Sentry returned: ${status}"
-          echo "release=${status}" >> $GITHUB_OUTPUT
+          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Finalize the release
