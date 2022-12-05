@@ -96,6 +96,7 @@
     "examples/**": "yarn lint:examples"
   },
   "eslintConfig": {
+    "root": true,
     "parser": "@typescript-eslint/parser",
     "plugins": [
       "@typescript-eslint",
