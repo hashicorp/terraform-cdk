@@ -8,14 +8,14 @@ jobs:
     steps:
       - name: wait
         id: waitforstatuschecks
-        uses: "WyriHaximus/github-action-wait-for-status@v1.4.0"
+        uses: "WyriHaximus/github-action-wait-for-status@v1.7.1"
         with:
           ignoreActions: checkrun-timechart,update-snapshots-setup,update-snapshots-teardown,update-snapshots-linux,update-snapshots-windows,Vercel
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: checkrun-timechart
-        uses: urcomputeringpal/checkrun-timechart-action@v0.0.5
+        uses: urcomputeringpal/checkrun-timechart-action@v0.0.6
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
@@ -28,8 +28,8 @@ jobs:
       # knows all the statuses (see https://github.com/WyriHaximus/github-action-wait-for-status#output),
       # we can leverage it to provide a global status to mergify.
       - name: "mergify status"
-        uses: actions/github-script@v3
-        if: steps.waitforstatuschecks.outputs.status != 'success'
+        uses: actions/github-script@v6.3.3
+        if: ${{ steps.waitforstatuschecks.outputs.status != 'success' }}
         with:
           script: |
             core.setFailed('One of the Github Actions workflows failed for this PR')

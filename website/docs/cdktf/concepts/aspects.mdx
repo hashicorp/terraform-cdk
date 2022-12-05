@@ -16,9 +16,16 @@ To create an aspect, you must import the `Aspects` class and the `IAspect` inter
 
 Everything within a CDKTF application descends from the `Construct` class, so you could call the construct on any instantiated element. This includes the entire application, a particular [stack](/cdktf/concepts/stacks), or all of the resources for a specific [provider](/cdktf/concepts/providers). When you call the aspect, CDKTF applies its methods to all of the the constructs that fall within the specified scope.
 
-The following TypeScript example defines an aspect to add tags to resources.
+The following example defines an aspect to add tags to resources.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#define-aspects -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#aspect-tagging -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#define-aspects -->
+
+<CodeTabs>
+
+```ts
 import { IConstruct } from "constructs";
 import { Aspects, IAspect } from "cdktf";
 
@@ -48,9 +55,174 @@ export class TagsAddingAspect implements IAspect {
 Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
 ```
 
-You can also use aspects for validation. The following TypeScript example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+```java
+    public class TagsAddingAspect implements IAspect {
+        private final Map<String, String> tags;
 
-```typescript
+        public TagsAddingAspect(Map<String, String> tags) {
+            this.tags = tags;
+        }
+
+        public Method getInputTags(IConstruct node) {
+            Method getTagsInput;
+            try {
+                getTagsInput = node.getClass().getDeclaredMethod("getTagsInput");
+            } catch (NoSuchMethodException e) {
+                // Not all constructs are taggable, so we need to filter it
+                throw new RuntimeException("Resource " + node.getClass() + " is un-taggable");
+            }
+            getTagsInput.setAccessible(true);
+            return getTagsInput;
+        }
+
+        public Method getTagsSet(IConstruct node) {
+            Method setTags;
+            try {
+                setTags = node.getClass().getDeclaredMethod("setTags", Map.class);
+            } catch (NoSuchMethodException e) {
+                // Not all constructs are taggable, so we need to filter it
+                throw new RuntimeException("Resource " + node.getClass() + " is un-taggable");
+            }
+            setTags.setAccessible(true);
+            return setTags;
+        }
+
+        // This method is called on every Construct within the defined scope (resource,
+        // data sources, etc.).
+        public void visit(IConstruct node) {
+            Method getTagsInput = getInputTags(node);
+            Method setTags = getTagsSet(node);
+            Map<String, String> currentTags;
+            try {
+                // We need to take the input value to not create a circular reference
+                currentTags = (Map<String, String>) getTagsInput.invoke(node);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                HashMap<String, String> newTags = new HashMap<>();
+                newTags.putAll(this.tags);
+                if (currentTags != null) {
+                    newTags.putAll(currentTags);
+                }
+                setTags.invoke(node, newTags);
+            } catch (IllegalAccessException e) {
+                throw new RuntimeException(e);
+            } catch (InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+        // Add tags to every resource defined within `myStack`.
+        Aspects.of(bucket).add(new TagsAddingAspect(new HashMap<String, String>() {
+            {
+                put("createdBy", "cdktf");
+            }
+        }));
+```
+
+```python
+from constructs import IConstruct
+from cdktf import Aspects, IAspect
+
+@jsii.implements(IAspect)
+class TagsAddingAspect:
+    def __init__(self, tagsToAdd):
+        self.tagsToAdd = tagsToAdd
+
+    # This method is called on every Construct within the specified scope (resources, data sources, etc.).
+    def visit(self, node: IConstruct):
+        # Not all constructs are taggable, so we need to check
+        if(hasattr(node, "tags") and hasattr(node, "tags_input")):
+            # We need to take the input value to not create a circular reference
+            currentTags = node.tags_input if node.tags_input is not None else {}
+            node.tags = {**self.tagsToAdd, **currentTags}
+
+        # Add tags to every resource defined within `myStack`.
+        Aspects.of(myStack).add(TagsAddingAspect({ "createdBy": "cdktf" }))
+```
+
+```csharp
+using System.Collections.Generic;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.S3Bucket;
+using aws.Provider;
+using Amazon.JSII.Runtime;
+
+namespace Examples
+{
+    public class TagsAddingAspect: Amazon.JSII.Runtime.Deputy.DeputyBase, IAspect
+    {
+        private readonly IDictionary<string, string> tagsToAdd;
+
+        public TagsAddingAspect(IDictionary<string, string> tagsToAdd)
+        {
+            this.tagsToAdd = tagsToAdd;
+        }
+
+        public void Visit(IConstruct node)
+        {
+            var nodeType = node.GetType();
+            var tagsProperty = nodeType.GetProperty("Tags");
+            var tagsInputProperty = nodeType.GetProperty("TagsInput");
+            if (tagsProperty != null && tagsInputProperty != null)
+            {
+                var inputTags = (IDictionary<string, string>) tagsInputProperty.GetValue(node);
+
+                IDictionary<string, string> newTags;
+                if (inputTags == null)
+                {
+                    newTags = tagsToAdd;
+                }
+                else
+                {
+                    newTags = new Dictionary<string, string>(tagsToAdd);
+                    foreach ((string key, string value) in inputTags)
+                    {
+                        newTags[key] = value;
+                    }
+                }
+
+                tagsProperty.SetValue(node, newTags);
+            }
+        }
+    }
+
+    class MyAspectsStack : TerraformStack
+    {
+        public MyAspectsStack(Construct scope, string name) : base(scope, name)
+        {
+            new AwsProvider(this, "Aws", new AwsProviderConfig {
+                Region = "us-east-1"
+            });
+            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+                Bucket = "demo"
+            });
+
+            Aspects.Of(this).Add(new TagsAddingAspect(new Dictionary<string, string> {
+                { "createdBy", "cdktf" }
+            }));
+        }
+    }
+}
+```
+
+</CodeTabs>
+
+You can also use aspects for validation. The following example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#aspects-validation -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#aspect-validation -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#aspects-validation -->
+
+<CodeTabs>
+
+```ts
 import { IConstruct } from "constructs";
 import { Aspects, IAspect, Annotations } from "cdktf";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
@@ -75,3 +247,104 @@ export class ValidateS3IsPrefixed implements IAspect {
 // Check the prefix for every resource within `myStack`.
 Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
 ```
+
+```java
+    public class ValidateS3IsPrefixed implements IAspect {
+
+        private final String prefix;
+
+        public ValidateS3IsPrefixed(String prefix) {
+            this.prefix = prefix;
+        }
+
+        // This method is called on every Construct within the defined scope (resource,
+        // data sources, etc.).
+        public void visit(IConstruct node) {
+            if (node instanceof S3Bucket) {
+                if (((S3Bucket) node).getBucketInput() != null && !((S3Bucket) node).getBucketInput().startsWith(this.prefix)) {
+                    // You can include `addInfo`, `addWarning`, and `addError`.
+                    // CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
+                    Annotations.of(node).addError(
+                            "Each S3 Bucket name needs to start with " + this.prefix);
+                }
+            }
+        }
+    }
+
+        // Check the prefix for every resource within `myStack`.
+        Aspects.of(bucket).add(new ValidateS3IsPrefixed("myPrefix"));
+```
+
+```python
+from constructs import IConstruct
+from cdktf import Aspects, IAspect, Annotations
+from imports.aws.s3_bucket import S3Bucket
+
+@jsii.implements(IAspect)
+class ValidateS3IsPrefixed:
+    def __init__(self, prefix: str):
+        self.prefix = prefix
+
+    # This method is called on every Construct within the defined scope (resource, data sources, etc.).
+    def visit(self, node: IConstruct):
+        if isinstance(node, S3Bucket):
+            if(node.bucket_input and not node.bucket_input.startswith(self.prefix)):
+              # You can include `addInfo`, `addWarning`, and `addError`.
+              # CDKTF prints these messages when the user runs `synth`, `plan`, or `deploy`.
+              Annotations.of(node).add_error(
+                "Each S3 Bucket name needs to start with {}".format(self.prefix)
+              )
+
+        # Check the prefix for every resource within `myStack`.
+        Aspects.of(myStack).add(ValidateS3IsPrefixed("myPrefix"))
+```
+
+```csharp
+using System.Collections.Generic;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.S3Bucket;
+using aws.Provider;
+using Amazon.JSII.Runtime;
+
+namespace Examples
+{
+    public class ValidateS3IsPrefixed: Amazon.JSII.Runtime.Deputy.DeputyBase, IAspect
+    {
+        private readonly string prefix;
+
+        public ValidateS3IsPrefixed(string prefix)
+        {
+            this.prefix = prefix;
+        }
+
+        public void Visit(IConstruct node)
+        {
+            if (node is S3Bucket bucket)
+            {
+                if (bucket.BucketInput != null && !bucket.BucketInput.StartsWith(this.prefix))
+                {
+                    Annotations.Of(node).AddError($"Each S3 Bucket name needs to start with {this.prefix}");
+                }
+            }
+        }
+    }
+
+    class MyAspectsValidationStack : TerraformStack
+    {
+        public MyAspectsValidationStack(Construct scope, string name) : base(scope, name)
+        {
+            new AwsProvider(this, "Aws", new AwsProviderConfig {
+                Region = "us-east-1"
+            });
+            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+                Bucket = "myPrefixDemo"
+            });
+
+            Aspects.Of(this).Add(new ValidateS3IsPrefixed("myPrefix"));
+        }
+    }
+}
+```
+
+</CodeTabs>

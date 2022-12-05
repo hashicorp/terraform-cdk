@@ -1,13 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 export * from "./get/constructs-maker";
-export * as config from "./config";
-export { isRegistryModule } from "./get/module";
 export {
+  isRegistryModule,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
   isLocalModule,
-} from "./config";
+} from "@cdktf/commons";
 export {
   readProviderSchema,
   readModuleSchema,
@@ -34,7 +33,6 @@ import {
   readProviderSchema,
 } from "./get/generator/provider-schema";
 
-export { setLogger } from "./config";
 export { TerraformProviderGenerator, CodeMaker };
 
 // Used for testing only

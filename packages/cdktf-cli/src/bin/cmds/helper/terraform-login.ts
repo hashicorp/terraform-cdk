@@ -5,7 +5,7 @@ import * as inquirer from "inquirer";
 import * as open from "open";
 import * as chalk from "chalk";
 import * as terraformCloudClient from "./terraform-cloud-client";
-import { logger } from "../../../lib/logging";
+import { logger } from "@cdktf/commons";
 
 const chalkColour = new chalk.Instance();
 const homedir = require("os").homedir();

@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`modules all module types snapshot 1`] = `
+"import * as Consul from \\"./.gen/modules/consul\\";
+import * as TerraformConsulAws from \\"./.gen/modules/hashicorp/terraform-consul-aws\\";
+import * as Example from \\"./.gen/modules/hashicorp/example\\";
+import * as Example from \\"./.gen/modules/hashicorp/example\\";
+import * as K8SCluster from \\"./.gen/modules/example-corp/azurerm/k8s-cluster\\";
+import * as Consul from \\"./.gen/modules/hashicorp/aws/consul\\";
+import * as Storage from \\"./.gen/modules/storage\\";
+import * as Vpc from \\"./.gen/modules/vpc\\";
+new Consul.Consul(this, \\"consul\\", {});
+new TerraformConsulAws.TerraformConsulAws(this, \\"consul-butbucket\\", {});
+new Example.Example(this, \\"consul-git\\", {});
+new Example.Example(this, \\"consul-github\\", {});
+new K8SCluster.K8SCluster(this, \\"consul-hosted-registry\\", {});
+new Consul.Consul(this, \\"consul-registry\\", {});
+new Storage.Storage(this, \\"storage\\", {});
+new Vpc.Vpc(this, \\"vpc\\", {});
+"
+`;
+
+exports[`modules duplicate modules snapshot 1`] = `
+"import * as Vpc from \\"./.gen/modules/terraform-aws-modules/aws/vpc\\";
+new Vpc.Vpc(this, \\"vpca\\", {
+  name: \\"my-vpc-a\\",
+});
+new Vpc.Vpc(this, \\"vpcb\\", {
+  name: \\"my-vpc-b\\",
+});
+"
+`;
+
+exports[`modules local module snapshot 1`] = `
+"import * as AwsVpc from \\"./.gen/modules/aws_vpc\\";
+new AwsVpc.AwsVpc(this, \\"aws_vpc\\", {});
+"
+`;
+
+exports[`modules modules snapshot 1`] = `
+"import * as Vpc from \\"./.gen/modules/terraform-aws-modules/aws/vpc\\";
+new Vpc.Vpc(this, \\"vpc\\", {
+  azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+  cidr: \\"10.0.0.0/16\\",
+  enableNatGateway: true,
+  enableVpnGateway: true,
+  name: \\"my-vpc\\",
+  privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+  publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+  tags: {
+    Environment: \\"dev\\",
+    Terraform: \\"true\\",
+  },
+});
+"
+`;
+
+exports[`modules referenced modules snapshot 1`] = `
+"import * as cdktf from \\"cdktf\\";
+import * as Vpc from \\"./.gen/modules/terraform-aws-modules/aws/vpc\\";
+const vpc = new Vpc.Vpc(this, \\"vpc\\", {
+  azs: [\\"eu-west-1a\\", \\"eu-west-1b\\", \\"eu-west-1c\\"],
+  cidr: \\"10.0.0.0/16\\",
+  enableNatGateway: true,
+  enableVpnGateway: true,
+  name: \\"my-vpc\\",
+  privateSubnets: [\\"10.0.1.0/24\\", \\"10.0.2.0/24\\", \\"10.0.3.0/24\\"],
+  publicSubnets: [\\"10.0.101.0/24\\", \\"10.0.102.0/24\\", \\"10.0.103.0/24\\"],
+  tags: {
+    Environment: \\"dev\\",
+    Terraform: \\"true\\",
+  },
+});
+new cdktf.TerraformOutput(this, \\"subnet_ids\\", {
+  value: vpc.publicSubnetsOutput,
+});
+"
+`;
+
+exports[`modules terraform workspace snapshot 1`] = `
+"import * as MyModule from \\"./.gen/modules/my-module\\";
+new MyModule.MyModule(this, \\"example\\", {
+  namePrefix: \\"app-\${terraform.workspace}\\",
+});
+"
+`;

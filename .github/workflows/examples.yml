@@ -1,15 +1,14 @@
 name: Examples Integration
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
+  workflow_call:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
-  group: examples-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-examples-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
@@ -19,7 +18,7 @@ jobs:
       examples: ${{ steps.set-examples.outputs.examples }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
@@ -39,11 +38,11 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -52,7 +51,7 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --prefer-offline
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)
@@ -62,6 +61,8 @@ jobs:
         run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: create bundle
         run: yarn package
       - name: examples integration tests
