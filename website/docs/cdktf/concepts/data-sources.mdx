@@ -21,7 +21,13 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#datasources -->
+
+<CodeTabs>
+
+```ts
 // .....
 import { DataAwsRegion } from "./gen/providers/aws/data-aws-region";
 
@@ -35,13 +41,93 @@ export class HelloTerraform extends TerraformStack {
 }
 ```
 
+```java
+import imports.aws.data_aws_region.DataAwsRegion;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+
+public class DataSourcesDefine extends TerraformStack {
+
+    public DataSourcesDefine(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "temp", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+        //......
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+    }
+}
+```
+
+```python
+from cdktf import TerraformStack, App
+from imports.aws.data_aws_region import DataAwsRegion
+from imports.aws.provider import AwsProvider
+
+class HelloTerraform(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+                    region="us-east-1"
+                    )
+
+        # .....
+        region = DataAwsRegion(self, "region")
+
+
+app = App()
+HelloTerraform(app, "data-sources")
+app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.DataAwsRegion;
+
+namespace Examples
+{
+    class DataSourceStack : TerraformStack
+    {
+        public DataSourceStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataAwsRegion region = new DataAwsRegion(this, "region", new DataAwsRegionConfig {
+                Name = "eu-central-1"
+            });
+        }
+    }
+}
+```
+
+</CodeTabs>
+
 ## Remote State Data Source
 
 The [`terraform_remote_state` data source](/language/state/remote-state-data) retrieves state data from a remote [Terraform backend](/language/settings/backends/configuration). This allows you to use the root-level outputs of one or more Terraform configurations as input data for another configuration. For example, a core infrastructure team can handle building the core machines, networking, etc. and then expose some information to other teams that allows them to run their own infrastructure. Refer to the [Remote Backends page](/cdktf/concepts/remote-backends) for more details.
 
 The following example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-state-datasources -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-remote-state-data-source -->
+
+<CodeTabs>
+
+```ts
 // .....
 import { DataTerraformRemoteState } from 'cdktf';
 
@@ -64,3 +150,92 @@ export class HelloTerraform extends TerraformStack {
     }
 }
 ```
+
+```java
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
+import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
+
+public class DataSourcesRemoteState extends TerraformStack {
+
+    public DataSourcesRemoteState(Construct scope, String id) {
+        super(scope, id);
+
+        // ....
+        DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "state",
+                DataTerraformRemoteStateRemoteConfig.builder()
+                        .organization("hashicorp")
+                        .workspaces(new NamedRemoteWorkspace("vpc-prod"))
+                        .build());
+
+        new Instance(this, "foo", InstanceConfig.builder()
+                // ....
+                .subnetId(remoteState.getString("subnet_id"))
+                .build());
+    }
+}
+```
+
+```python
+from cdktf import TerraformStack, App
+from cdktf import DataTerraformRemoteState, NamedRemoteWorkspace
+class HelloTerraformRemoteState(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        # .....
+        remoteState = DataTerraformRemoteState(self, "vpc-prod-remote-state",
+                            organization="hashicorp",
+                            workspaces=NamedRemoteWorkspace(name='vpc-prod')
+                        )
+
+        Instance(self, "foo",
+            # .....
+            subnet_id=remoteState.get_string('subnet_id')
+        )
+app = App()
+HelloTerraformRemoteState(app, "terraform-remotes-state")
+app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+
+namespace Examples
+{
+    class RemoteStateDataSourceStack : TerraformStack
+    {
+        public RemoteStateDataSourceStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remoteState", new DataTerraformRemoteStateRemoteConfig {
+                Organization = "hashicorp",
+                Workspaces = new NamedRemoteWorkspace("vpc-prod")
+            });
+
+            new Instance(this, "foo", new InstanceConfig {
+                // ....
+                SubnetId = remoteState.GetString("subnet_id")
+            });
+        }
+    }
+}
+```
+
+</CodeTabs>

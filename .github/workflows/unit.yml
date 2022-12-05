@@ -19,10 +19,10 @@ concurrency:
 
 jobs:
   unit-test:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
+    runs-on:
+      - custom
+      - linux
+      - custom-linux-xl
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -30,25 +30,31 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - name: ensure all plugin directories exist
+        run: |
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --prefer-offline
       - name: compile
         run: |
           tools/align-version.sh
           yarn build
           yarn package
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: test
         run: |
           npx lerna run --scope '${{ inputs.package }}' test:ci

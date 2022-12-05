@@ -7,23 +7,52 @@ description: >-
 
 # Providers
 
-A [provider](/language/providers) is a Terraform plugin that allows users to manage an external API. Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
+A [provider](/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers.
+
+You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.
+
+## What Are Providers?
+
+Provider plugins like the [AWS provider](https://registry.terraform.io/providers/hashicorp/aws/latest) or the [cloud-init provider](https://registry.terraform.io/providers/hashicorp/cloudinit/latest/docs) act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
 Terraform uses providers to provision [resources](/language/resources), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
 
-In your CDK for Terraform (CDKTF) application, you will use your preferred programming language to define the resources you want Terraform to manage on one or more providers. This page explains how to install and use providers in your CDKTF application. Refer to [Resources](/cdktf/concepts/resources) for details about defining infrastructure resources and changing resource behavior.
+## Install Pre-Built Providers
 
-You can install pre-built providers, import providers from the Terraform Registry, or reference local providers to define resources for your application. CDKTF generates the required code bindings from the providers you define in [`cdktf.json`](/cdktf/create-and-deploy/configuration-file). This allows you to define resources for that provider in your preferred programming language.
+It can take several minutes for CDKTF to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include the following options:
 
-You can also use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to add providers to your CDKTF application. It will automatically try to install a pre-built provider if available and fall back to generating bindings locally if none was found.
+- [AWS Provider](https://cdk.tf/provider/aws)
+- [Google Provider](https://cdk.tf/provider/google)
+- [Azure Provider](https://cdk.tf/provider/azurerm)
+- [Kubernetes Provider](https://cdk.tf/provider/kubernetes)
+- [Docker Provider](https://cdk.tf/provider/docker)
+- [Github Provider](https://cdk.tf/provider/github)
+- [Null Provider](https://cdk.tf/provider/null)
 
-### Import Providers
+We regularly publish these packages to NPM / PyPi, and you can treat them like any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
+
+```
+npm install @cdktf/provider-aws
+```
+
+When you use `npm install` to install a pre-built provider, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and run `cdktf synth` again.
+
+## Add Providers with CLI
+
+Use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to automatically install a pre-built provider if available. If a pre-built provider is not available, CDKTF uses local provider bindings.
+
+## Import Providers
 
 CDK for Terraform lets you import Terraform [providers](/language/providers) to your project.
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-providers -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-providers -->
+
+<CodeTabs>
 
 ```typescript
 import { Construct } from "constructs";
@@ -51,7 +80,67 @@ new MyStack(app, "hello-terraform");
 app.synth();
 ```
 
-#### Add Provider to `cdktf.json`
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
+
+public class MainImportProviders extends TerraformStack {
+
+    public MainImportProviders(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        new Instance(this, "hello", InstanceConfig.builder()
+                .ami("ami-2757f631")
+                .instanceType("t2.micro")
+                .build()
+        );
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainImportProviders(app, "hello-terraform");
+        app.synth();
+    }
+}
+```
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from imports.aws.provider import AwsProvider
+from imports.aws.instance import Instance
+
+class SimpleProviderStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region = "us-east-1",
+        )
+
+        Instance(self, "hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro",
+        )
+
+app = App()
+SimpleProviderStack(app, "provider-stack")
+app.synth()
+```
+
+</CodeTabs>
+
+### Add Provider to `cdktf.json`
 
 To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/cdktf/create-and-deploy/configuration-file).
 
@@ -65,7 +154,7 @@ The following example adds the [DNS Simple](https://registry.terraform.io/provid
 }
 ```
 
-#### Generate Classes
+### Generate Classes
 
 Go to the working directory and run `cdktf get` to create the appropriate TypeScript classes for the provider automatically.
 
@@ -78,9 +167,15 @@ cdktf get
 Generated typescript constructs in the output directory: .gen
 ```
 
-#### Import Classes
+### Import Classes
 
 Import and use the generated classes in your application. The following example imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-classes -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-classes -->
+
+<CodeTabs>
 
 ```typescript
 import { Construct } from "constructs";
@@ -121,6 +216,99 @@ const app = new App();
 new MyStack(app, "hello-terraform");
 app.synth();
 ```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.Token;
+import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.dnsimple.provider.DnsimpleProvider;
+import imports.dnsimple.provider.DnsimpleProviderConfig;
+import imports.dnsimple.record.Record;
+import imports.dnsimple.record.RecordConfig;
+
+public class MainImportClasses extends TerraformStack {
+
+    public MainImportClasses(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        Instance instance = new Instance(this, "Hello", InstanceConfig.builder()
+                .ami("ami-2757f631")
+                .instanceType("t2.micro")
+                .build()
+        );
+
+        new DnsimpleProvider(this, "dnsimple", DnsimpleProviderConfig.builder()
+                .token(Token.asString(System.getenv("DNSIMPLE_TOKEN")))
+                .account(Token.asString(System.getenv("DNSIMPLE_ACCOUNT")))
+                .build()
+        );
+
+        new Record(this, "web-www", RecordConfig.builder()
+                .domain("example.com")
+                .name("web")
+                .value(instance.getPublicIp())
+                .type("A")
+                .build()
+        );
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new MainImportClasses(app, "hello-terraform");
+        app.synth();
+    }
+}
+```
+
+```python
+import os
+from constructs import Construct
+from cdktf import App, TerraformStack, Token
+from imports.aws.provider import AwsProvider
+from imports.dnsimple.provider import DnsimpleProvider
+from imports.dnsimple.record import Record
+
+class ProviderStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region = "us-east-1",
+        )
+
+        instance = Instance(self, "Hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro",
+        )
+
+        DnsimpleProvider(self, "dnsimple",
+            token = Token.as_string(os.getenv("DNSIMPLE_TOKEN")),
+            account = Token.as_string(os.getenv("DNSIMPLE_ACCOUNT")),
+        )
+
+        Record(self, "web-www",
+            domain = "example.com",
+            name = "web",
+            value = instance.public_ip,
+            type = "A"
+        )
+
+app = App()
+ProviderStack(app, "provider-stack")
+app.synth()
+```
+
+</CodeTabs>
 
 Use the `synth` command to convert your code into a JSON Terraform configuration file.
 
@@ -193,37 +381,17 @@ cdktf synth --json
 
 ```
 
-### Install Pre-built Providers
-
-It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a completely optional performance optimization, and you may prefer to generate the code bindings for these providers yourself. For example, you may want to use a different version of that provider than the one in the pre-built package. The [Terraform CDK Providers](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) page has a complete list, but available pre-built providers include:
-
-- [AWS Provider](https://cdk.tf/provider/aws)
-- [Google Provider](https://cdk.tf/provider/google)
-- [Azure Provider](https://cdk.tf/provider/azurerm)
-- [Kubernetes Provider](https://cdk.tf/provider/kubernetes)
-- [Docker Provider](https://cdk.tf/provider/docker)
-- [Github Provider](https://cdk.tf/provider/github)
-- [Null Provider](https://cdk.tf/provider/null)
-
-These packages are regularly published to NPM / PyPi, and you can treat them as you would any other dependency. The following example shows how to install the AWS provider in TypeScript / Node.
-
-```
-npm install @cdktf/provider-aws
-```
-
-When you choose to install a pre-built provider via `npm install`, you should not define that provider again in your `cdktf.json` file. If you receive errors while running `cdktf synth` because of duplicate providers, remove the duplicates from your `cdktf.json` file, delete `tsbuildinfo.json`, and try running `cdktf synth` again.
-
-### Provider Caching
+## Provider Caching
 
 Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/cdktf/concepts/stacks) within one application.
 
-#### Set the Caching Directory
+### Set the Caching Directory
 
 Refer to the Terraform documentation about [how to configure your plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
-### Use a Local Provider
+## Use a Local Provider
 
 Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 

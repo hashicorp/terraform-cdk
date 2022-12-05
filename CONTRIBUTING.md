@@ -5,7 +5,7 @@
 To build and install `terraform-cdk` locally you need to install:
 
 - Node version 14.0+
-- Go 1.16
+- Go 1.18
 - dotnet (v3.1.0)
 - mvn
 - pipenv
@@ -290,6 +290,20 @@ Most of our tests are automated but there are some workflows we need to manually
 - Update the prebuilt provider repository [like this](https://github.com/hashicorp/cdktf-repository-manager/pull/48) (If the release contains breaking changes the commit message needs to have a `!` after the scope so that the minor version is bumped. Example: `chore!: update cdktf version`) and run the [prebuilt provider upgrade workflow](https://github.com/hashicorp/cdktf-repository-manager/actions/workflows/upgrade-repositories.yml)
 - Update the learn examples and the end to end examples
 - Check if there are PRs left behind on our [triage board](https://github.com/orgs/hashicorp/projects/125/views/4)
+
+#### Retrying a broken deployment
+
+The release workflow uses sentry as the source of truth for releases. The downside of that, however, is that if the release is broken at some point and a new release is required, it will not be possible to run the release workflow. In order to work around that, the sentry release needs to be reverted.
+
+```sh
+# Install Sentry CLI and login
+npm i -g @sentry/cli
+sentry-cli login
+# List all releases (optional)
+sentry-cli releases list --org hashicorp
+# Delete the release, Note: there will be no confirmation for deleting the release!
+sentry-cli releases delete --org hashicorp <release> # e.g. cdktf-cli-0.14.0
+```
 
 ### Repositories to update
 

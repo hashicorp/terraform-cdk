@@ -40,6 +40,22 @@ export class TerraformLocal
     return Token.asList(this.interpolation());
   }
 
+  public get asStringMap(): { [key: string]: string } {
+    return Token.asStringMap(this.interpolation());
+  }
+
+  public get asNumberMap(): { [key: string]: number } {
+    return Token.asNumberMap(this.interpolation());
+  }
+
+  public get asBooleanMap(): { [key: string]: boolean } {
+    return Token.asBooleanMap(this.interpolation());
+  }
+
+  public get asAnyMap(): { [key: string]: any } {
+    return Token.asAnyMap(this.interpolation());
+  }
+
   public get asBoolean(): IResolvable {
     return this.interpolation();
   }

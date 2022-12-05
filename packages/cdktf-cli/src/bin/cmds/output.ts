@@ -1,12 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as yargs from "yargs";
-import { config as cfg } from "@cdktf/provider-generator";
+import { Errors, readConfigSync } from "@cdktf/commons";
 import { requireHandlers } from "./helper/utilities";
-import { Errors } from "../../lib/errors";
 import { BaseCommand } from "./helper/base-command";
 
-const config = cfg.readConfigSync();
+const config = readConfigSync();
 
 class Command extends BaseCommand {
   public readonly command = "output [stacks..]";
