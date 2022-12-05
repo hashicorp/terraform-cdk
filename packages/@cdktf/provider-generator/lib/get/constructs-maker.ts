@@ -3,13 +3,15 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import { CodeMaker } from "codemaker";
-import { DISPLAY_VERSION, mkdtemp } from "../util";
+import { mkdtemp } from "../util";
 import * as srcmak from "jsii-srcmak";
 import {
   TerraformModuleConstraint,
   TerraformDependencyConstraint,
   logger,
-} from "../config";
+  logTimespan,
+} from "@cdktf/commons";
+import { DISPLAY_VERSION, Language } from "@cdktf/commons";
 import {
   ProviderSchema,
   readProviderSchema,
@@ -18,23 +20,6 @@ import {
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
-import { logTimespan } from "../config";
-
-export enum Language {
-  TYPESCRIPT = "typescript",
-  PYTHON = "python",
-  CSHARP = "csharp",
-  JAVA = "java",
-  GO = "go",
-}
-
-export const LANGUAGES = [
-  Language.TYPESCRIPT,
-  Language.PYTHON,
-  Language.JAVA,
-  Language.CSHARP,
-  Language.GO,
-];
 
 export async function generateJsiiLanguage(
   code: CodeMaker,

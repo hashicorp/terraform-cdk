@@ -2,10 +2,9 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
 import { withTempDir } from "../../util";
-import { Language, ConstructsMaker } from "../constructs-maker";
+import { Language, TerraformModuleConstraint } from "@cdktf/commons";
+import { ConstructsMaker } from "../constructs-maker";
 import * as path from "path";
-
-import { TerraformModuleConstraint } from "../../config";
 
 export function expectModuleToMatchSnapshot(
   testName: string,

@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
-import { Errors } from "../../lib/errors";
+import { Errors } from "@cdktf/commons";
 import { BaseCommand } from "./helper/base-command";
 import { requireHandlers } from "./helper/utilities";
 import * as path from "path";

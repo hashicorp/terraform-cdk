@@ -17,11 +17,17 @@ When inputs are available before [synthesizing your code](/cdktf/cli-reference/c
 
 ## Usage Example
 
-The following TypeScript example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
+The following example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-usage-example -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-usage-example -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions -->
+
+<CodeTabs>
+
+```ts
 import { Fn, TerraformOutput } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 
@@ -37,6 +43,73 @@ new TerraformOutput(this, "first-zone", {
 
 // ...
 ```
+
+```java
+import com.hashicorp.cdktf.Fn;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
+import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZonesConfig;
+
+        DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones",
+                DataAwsAvailabilityZonesConfig.builder()
+                        .state("available")
+                        .build());
+
+        new TerraformOutput(this, "first-zone", TerraformOutputConfig.builder()
+                .value(Fn.element(zones.getNames(), 0))
+                .build());
+```
+
+```python
+from cdktf import Fn, TerraformOutput
+from imports.aws.provider import AwsProvider
+from imports.aws.data_aws_availability_zones import DataAwsAvailabilityZones
+
+        zones = DataAwsAvailabilityZones(self, 'zones',
+                    state="available",
+                )
+
+        TerraformOutput(self, 'first-zone',
+            value=Fn.element(zones.names, 0)
+        )
+
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.DataAwsAvailabilityZones;
+
+namespace Examples
+{
+    class FunctionStack : TerraformStack
+    {
+        public FunctionStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
+                State = "available"
+            });
+
+            new TerraformOutput(this, "first-zone", new TerraformOutputConfig {
+                Value = Fn.Element(zones.Names, 0)
+            });
+        }
+    }
+}
+```
+
+</CodeTabs>
 
 ## Operators
 

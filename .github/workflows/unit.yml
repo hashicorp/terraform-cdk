@@ -1,64 +1,28 @@
-name: Unit Tests
+name: Unit Test Run
 on:
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - "docs/**"
-      - "website/**"
-      - "cdk.tf/**"
-      - "tools/update-github-project-board/**"
   workflow_call:
     inputs:
       concurrency_group_prefix:
         default: pr
         required: false
         type: string
+      package:
+        required: true
+        type: string
+      terraform_version:
+        required: true
+        type: string
 
 concurrency:
-  group: ${{ inputs.concurrency_group_prefix }}-unit-${{ github.head_ref }}
+  group: ${{ inputs.concurrency_group_prefix }}-unit-${{ inputs.package }}-${{ inputs.terraform_version }}-${{ github.head_ref }}
   cancel-in-progress: true
 
 jobs:
-  prettier:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: installing dependencies
-        run: |
-          yarn install
-      - name: run prettier
-        run: |
-          yarn lint:prettier
-
-  lin:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: installing dependencies
-        run: |
-          yarn install
-      - name: run prettier
-        run: |
-          yarn lint:workspace
-
-  build-test-matrix:
-    runs-on: ubuntu-latest
-    outputs:
-      tests: ${{ steps.build-test-matrix.outputs.tests }}
-    container:
-      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
-    steps:
-      - uses: actions/checkout@v2
-      - id: build-test-matrix
-        run: |
-          ./tools/build-unit-test-matrix.sh
-
-  unit-tests:
-    needs: build-test-matrix
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix: ${{fromJSON(needs.build-test-matrix.outputs.tests)}}
+  unit-test:
+    runs-on:
+      - custom
+      - linux
+      - custom-linux-xl
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -66,29 +30,35 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - name: ensure all plugin directories exist
+        run: |
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --prefer-offline
       - name: compile
         run: |
           tools/align-version.sh
           yarn build
           yarn package
+        env:
+          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: test
         run: |
-          npx lerna run --scope '${{ matrix.target }}' test:ci
+          npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
-          TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
+          TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache

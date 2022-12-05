@@ -4,8 +4,8 @@ import * as path from "path";
 import * as fs from "fs-extra";
 import { glob } from "glob";
 import { mkdtemp } from "../util";
-import { ConstructsMaker, Language } from "../get/constructs-maker";
-import { TerraformProviderConstraint } from "../config";
+import { ConstructsMaker } from "../get/constructs-maker";
+import { Language, TerraformProviderConstraint } from "@cdktf/commons";
 
 interface SynthOutput {
   [filePath: string]: any;

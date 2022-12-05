@@ -18,7 +18,7 @@ Assets are especially useful for:
 
 > **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial. This tutorial guides you through using a `TerraformAsset` to archive a Lambda function, uploading the archive to an S3 bucket, then deploying the Lambda function.
 
-The following TypeScript example uses `TerraformAsset` to upload the contents of the specified directory into an S3 Bucket. The `TerraformAsset` is responsible for making sure the directory ends up in the correct output folder as a zip file that the `S3BucketObject` can reference.
+The following example uses `TerraformAsset` to upload the contents of the specified directory into an S3 Bucket. The `TerraformAsset` is responsible for making sure the directory ends up in the correct output folder as a zip file that the `S3BucketObject` can reference.
 
 The stack output directory in `cdktf.out` contains all of the assets that `TerraformAsset` needs. This is important for workflows where you use synthesized configurations with Terraform directly. For example, you would only need to upload the contents of the stack output folder to Terraform Cloud or Terraform Enterprise.
 
@@ -71,14 +71,14 @@ app.synth();
 
 ```python
 from constructs import Construct
-import cdktf
+from cdktf import TerraformAsset, TerraformStack, AssetType
 from imports.aws.provider import AwsProvider
 from imports.aws.s3_bucket import S3Bucket
 from imports.aws.s3_bucket_object import S3BucketObject
 import os
 
 
-class MyStack(cdktf.TerraformStack):
+class MyAssetStack(TerraformStack):
     def __init__(self, scope: Construct, name: str):
         super().__init__(scope, name)
 
@@ -86,63 +86,69 @@ class MyStack(cdktf.TerraformStack):
 
         bucket = S3Bucket(self, "bucket", bucket="demo")
 
-        asset = cdktf.TerraformAsset(self, "lambda-asset",
-                                     path=os.path.join(os.path.dirname(
-                                         __file__), 'lambda'),
-                                     type=cdktf.AssetType.ARCHIVE
-                                     )
+        asset = TerraformAsset(self, "lambda-asset",
+                    path=os.path.join(os.path.dirname(__file__), 'lambda'),
+                    type=AssetType.ARCHIVE
+                )
 
         S3BucketObject(self, "lambda-archive",
-                       bucket=bucket.bucket,
-                       key=asset.file_name,
-                       source=asset.path
-                       )
-
+            bucket=bucket.bucket,
+            key=asset.file_name,
+            source=asset.path
+        )
 
 app = cdktf.App()
-MyStack(app, "demo")
-
+MyAssetStack(app, "demo")
 app.synth()
 ```
 
 ```java
-package com.mycompany.app;
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformAsset;
+import com.hashicorp.cdktf.TerraformAssetConfig;
+import com.hashicorp.cdktf.AssetType;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import imports.aws.s3_bucket.S3Bucket;
+import imports.aws.s3_bucket.S3BucketConfig;
+import imports.aws.s3_bucket_object.S3BucketObject;
+import imports.aws.s3_bucket_object.S3BucketObjectConfig;
 
 import java.nio.file.Paths;
 
-import com.hashicorp.cdktf.App;
-import com.hashicorp.cdktf.TerraformStack;
-import software.constructs.Construct;
-import com.hashicorp.cdktf.TerraformAsset;
-import com.hashicorp.cdktf.AssetType;
-import imports.aws.provider.AwsProvider;
-import imports.aws.s3_bucket.*;
-import imports.aws.s3_bucket_object.*;
-
-public class Main extends TerraformStack {
-    public Main(final Construct scope, final String name) {
+public class MyAssetStack extends TerraformStack {
+    public MyAssetStack(Construct scope, String name){
         super(scope, name);
 
-        AwsProvider.Builder.create(this, "aws").region("eu-central-1").build();
+        new AwsProvider(this,"aws", AwsProviderConfig.builder()
+                .region("eu-central-1")
+                .build()
+        );
 
-        S3Bucket bucket = S3Bucket.Builder.create(this, "bucket")
+        S3Bucket bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
                 .bucket("demo")
-                .build();
+                .build()
+        );
 
-        TerraformAsset asset = TerraformAsset.Builder.create(this, "lambda-asset")
+        TerraformAsset asset = new TerraformAsset(this, "lambda-asset", TerraformAssetConfig.builder()
                 .path(Paths.get(System.getProperty("user.dir"), "lambda").toString())
                 .type(AssetType.ARCHIVE)
-                .build();
+                .build()
+        );
 
-        S3BucketObject.Builder.create(this, "lambda-archive")
+        new S3BucketObject(this, "lambda-archive", S3BucketObjectConfig.builder()
                 .bucket(bucket.getBucket())
                 .key(asset.getFileName())
                 .source(asset.getPath())
-                .build();
+                .build()
+        );
+
     }
+
     public static void main(String[] args) {
         final App app = new App();
-        new Main(app, "demo");
+        new MyAssetStack(app, "demo");
         app.synth();
     }
 }

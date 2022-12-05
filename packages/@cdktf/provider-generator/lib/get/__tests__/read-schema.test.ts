@@ -8,12 +8,12 @@ import {
 import {
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
-  Language,
 } from "../constructs-maker";
 import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
-} from "../../config";
+  Language,
+} from "@cdktf/commons";
 
 expect.addSnapshotSerializer({
   test: (value) => {

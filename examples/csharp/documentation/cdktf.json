@@ -1,7 +1,7 @@
 {
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
-  "terraformProviders": ["aws@~> 3.0", "kubernetes@~> 2.0"],
+  "terraformProviders": ["aws@~> 3.0", "kubernetes@~> 2.0", "random@~> 3.4"],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
   }

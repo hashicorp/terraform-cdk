@@ -14,7 +14,13 @@ In your CDK for Terraform (CDKTF) application, you will use your preferred progr
 
 Resource definitions and properties vary depending on the type of resource and the provider. Consult your provider's documentation for a full list of available resources and their configuration options.
 
-The following TypeScript example defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
+The following example defines a [DynamoDB table](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/dynamodb_table) resource on the AWS provider.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-define -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-define -->
+
+<CodeTabs>
 
 ```typescript
 export class HelloTerra extends TerraformStack {
@@ -37,6 +43,69 @@ export class HelloTerra extends TerraformStack {
 }
 ```
 
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import imports.aws.dynamodb_table.DynamodbTable;
+import imports.aws.dynamodb_table.DynamodbTableAttribute;
+import imports.aws.dynamodb_table.DynamodbTableConfig;
+
+
+import java.util.Arrays;
+
+public class MainResourcesDefine extends TerraformStack {
+
+    public MainResourcesDefine(Construct scope, String id){
+        super(scope, id);
+
+        new AwsProvider(this, "aws", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+        DataAwsRegion region = new DataAwsRegion(this, "region");
+
+        new DynamodbTable(this, "hello", DynamodbTableConfig.builder()
+                .name("my-first-table-"+region.getName())
+                .hashKey("temp")
+                .attribute(Arrays.asList(
+                        DynamodbTableAttribute.builder()
+                                .name("id")
+                                .type("S")
+                                .build()
+                        )
+                )
+                .billingMode("PAY_PER_REQUEST")
+                .build()
+        );
+    }
+}
+```
+
+```python
+from constructs import Construct
+from cdktf import TerraformStack
+
+class ResourceStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+
+        AwsProvider(self, "aws",
+            region="us-east-1"
+        )
+
+        region = DataAwsRegion(self, "region")
+
+        DynamodbTable(self, "Hello",
+            name="my-first-table-{}".format(region.name),
+            hash_key="temp",
+            attribute=[{"name": "id", "type": "S"}],
+            billing_mode="PAY_PER_REQUEST"
+        )
+```
+
+</CodeTabs>
+
 The [examples page](/cdktf/examples) contains multiple example projects for every supported programming language.
 
 ## Scope
@@ -51,10 +120,15 @@ You can reference resource properties throughout your configuration. For example
 
 To create references, call `myResource.<propertyName>` on the resource instance. For example, you could use `myResource.name` to retrieve the `name` property from `myResource`. Terraform does not support passing an entire block (e.g. `exampleNamespace.metadata`) into a resource or data source, so you must create a reference for each individual property.
 
-References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following TypeScript example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
+References are also useful when you need to track logical dependencies. For example, Kubernetes resources live in a namespace, so a namespace must exist before Terraform can provision the associated resources. The following example uses a reference for the namespace property in the the deployment. This reference tells Terraform that it needs to create the namespace before creating the resources.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-references -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-references -->
+
+<CodeTabs>
+
+```ts
 const exampleNamespace = new Namespace(this, "tf-cdk-example", {
   metadata: {
     name: "tf-cdk-example",
@@ -71,6 +145,91 @@ new Deployment(this, "nginx-deployment", {
   });
 ```
 
+```java
+import imports.kubernetes.namespace.Namespace;
+import imports.kubernetes.namespace.NamespaceConfig;
+import imports.kubernetes.namespace.NamespaceMetadata;
+                Namespace exampleNamespace = new Namespace(this, "tf-cdk-example", NamespaceConfig.builder()
+                                .metadata(NamespaceMetadata.builder()
+                                                .name("tf-cdk-example")
+                                                .build())
+                                .build());
+
+                new Deployment(this, "nginx-deployment", DeploymentConfig.builder()
+                                .metadata(DeploymentMetadata.builder()
+                                                .name("nginx")
+                                                .namespace(exampleNamespace.getMetadata().getName())
+                                                .labels(new HashMap<String, String>() {
+                                                        {
+                                                                put("app", app.toString());
+                                                        }
+                                                })
+                                                .build())
+                                .spec(DeploymentSpec.builder()
+                                        .selector(DeploymentSpecSelector.builder()
+                                                .matchLabels(new HashMap<String, String>(){{
+                                                        put("app", app.toString());
+                                                }})
+                                                .build()
+                                        )
+                                        .replicas("1")
+                                        .template(DeploymentSpecTemplate.builder()
+                                                .metadata(DeploymentSpecTemplateMetadata.builder()
+                                                        .labels(new HashMap<String, String>(){{
+                                                                put("app", app.toString());
+                                                        }})
+                                                        .build()
+                                                )
+                                                .spec(DeploymentSpecTemplateSpec.builder()
+                                                        .container(Arrays.asList(DeploymentSpecTemplateSpecContainer.builder()
+                                                                        .image("nginx:1.7.9")
+                                                                        .name("nginx")
+                                                                        .build()
+                                                                )
+                                                        )
+                                                        .build()
+                                                )
+                                                .build()
+                                        )
+                                        .build()
+                                )
+                                .build());
+```
+
+```python
+
+        exampleNamespace = Namespace(self, "tf-cdk-example",
+            metadata=NamespaceMetadata(name="tf-cdk-example")
+        )
+
+        Deployment(self, "nginx-deployment",
+            metadata=DeploymentMetadata(
+                name="nginx",
+                namespace=exampleNamespace.metadata.name,
+                labels={"app": app}
+            ),
+            spec=DeploymentSpec(
+                selector=DeploymentSpecSelector(
+                    match_labels={"app": app}
+                ),
+                replicas="1",
+                template=DeploymentSpecTemplate(
+                    metadata=DeploymentSpecTemplateMetadata(
+                        labels={"app": app}
+                    ),
+                    spec=DeploymentSpecTemplateSpec(
+                        container=[
+                            DeploymentSpecTemplateSpecContainer(
+                                image="nginx:1.7.9", name="nginx")
+                        ]
+                    )
+                )
+            )
+        )
+```
+
+</CodeTabs>
+
 ## Provisioners
 
 Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).
@@ -81,7 +240,13 @@ If you need to use the special [`self` object](/language/resources/provisioners/
 
 Terraform provides [meta-arguments](/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
 
-The following TypeScript example defines a provisioner for a resource using the `addOverride` method.
+The following example defines a provisioner for a resource using the `addOverride` method.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch -->
+
+<CodeTabs>
 
 ```typescript
 const tableName = "my-table";
@@ -100,6 +265,59 @@ table.addOverride("provisioner", [
   },
 ]);
 ```
+
+```java
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.TerraformVariableConfig;
+import imports.aws.dynamodb_table.DynamodbTable;
+import imports.aws.dynamodb_table.DynamodbTableAttribute;
+import imports.aws.dynamodb_table.DynamodbTableConfig;
+                String tableName = "my-table";
+
+                DynamodbTable table = new DynamodbTable(this, "Hello", DynamodbTableConfig.builder()
+                                .name(tableName)
+                                .hashKey("id")
+                                .attribute(Arrays.asList(
+                                                DynamodbTableAttribute.builder()
+                                                                .name("id")
+                                                                .type("S")
+                                                                .build()))
+                                .build());
+
+                table.addOverride("provisioner", Arrays.asList(
+                                new HashMap() {
+                                        {
+                                                put("local-exec", new HashMap<String, String>() {
+                                                        {
+                                                                put("command", "aws dynamodb create-backup --table-name "
+                                                                                + tableName + " --backup-name "
+                                                                                + tableName + "-backup");
+                                                        }
+                                                });
+                                        }
+                                }));
+```
+
+```python
+
+        tableName = "my-table"
+
+        table = DynamodbTable(self, "Hello",
+            name=tableName,
+            hash_key="id",
+            attribute=[{"name": "id", "type": "S"}]
+        )
+
+        table.add_override("provisioner.local-exec.command", [
+            {
+                "local-exec": {
+                    "command": f"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup"
+                }
+            }
+        ])
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
 
@@ -131,12 +349,34 @@ When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [
 
 To override an attribute, include the resource attribute key in `addOverride`. The attribute in the escape hatch is in snake case because the Terraform JSON configuration uses snake case instead of camel case.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-override-attribute -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-override-attribute -->
+
+<CodeTabs>
+
 ```typescript
 const topic = new SnsTopic(this, "Topic", {
   displayName: "will-be-overwritten",
 });
 topic.addOverride("display_name", "my-topic");
 ```
+
+```java
+new SnsTopic(this, "Topic", SnsTopicConfig.builder()
+                .displayName("will-be-overwritten")
+                .build()).addOverride("display_name", "my-topic");
+```
+
+```python
+
+        topic = SnsTopic(self, "Topic",
+                    display_name="will-be-overwritten"
+                )
+
+        topic.add_override("display_name", "my-topic")
+```
+
+</CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the value overwritten.
 
@@ -166,7 +406,12 @@ To use an escape hatch to loop over dynamic data, you must:
 - Create a `for_each` value for the second argument and set it to the list you want to iterate over.
 - Take the attribute as base for the reference when you reference values from the list. For example, use `"${<attribute_name>.value.nested_value}"`.
 
-The following TypeScript example adds ingress values by looping through the ports passed as `TerraformVariable`.
+The following example adds ingress values by looping through the ports passed as `TerraformVariable`.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch-dynamic-block -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch-dynamic-block -->
+
+<CodeTabs>
 
 ```typescript
 const ports = new TerraformVariable(this, "ports", {
@@ -197,11 +442,86 @@ sg.addOverride("dynamic.ingress", {
 });
 ```
 
+```java
+import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.TerraformVariableConfig;
+import imports.aws.security_group.*;
+                TerraformVariable ports = new TerraformVariable(this, "ports", TerraformVariableConfig.builder()
+                                .type("list")
+                                .defaultValue(Arrays.asList(22, 80, 443, 5432))
+                                .build());
+
+                SecurityGroup sq = new SecurityGroup(this, "sec1grp", SecurityGroupConfig.builder()
+                                .name("security1")
+                                .vpcId("vpcs")
+                                .egress(Arrays.asList(
+                                                SecurityGroupEgress.builder()
+                                                                .fromPort(0)
+                                                                .toPort(0)
+                                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                                .protocol("-1")
+                                                                .build()))
+                                .build());
+
+                sq.addOverride("dynamic.ingress", new HashMap<String, Object>() {
+                        {
+                                put("for_each", ports.getListValue());
+                                put("content", new HashMap<String, Object>() {
+                                        {
+                                                put("fromPort", "${ingress.value}");
+                                                put("toPort", "${ingress.value}");
+                                                put("cidrBlocks", Arrays.asList("0.0.0.0/0"));
+                                                put("protocal", "-1");
+                                        }
+                                });
+                        }
+                });
+```
+
+```python
+
+        ports = TerraformVariable(self, "ports",
+                    type="list",
+                    default=[22, 80, 443, 5432]
+                )
+
+        sq = SecurityGroup(self, "sec1grp",
+                name="security1",
+                vpc_id="vpcs",
+                egress=[
+                    {
+                        "fromPort": 0,
+                        "toPort": 0,
+                        "ciderBlocks": ["0.0.0.0/0"],
+                        "protocol": "-1"
+                    }
+                ]
+            )
+
+        sq.add_override("dynamic.ingress", {
+            "for_each": ports.list_value,
+            "content": {
+                "fromPort": "${ingress.value}",
+                "toPort": "${ingress.value}",
+                "ciderBlocks": ["0.0.0.0/0"],
+                "protocol": "-1"
+            }
+        })
+```
+
+</CodeTabs>
+
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
 
-The following TypeScript example loops through the ports without using an escape hatch.
+The following example loops through the ports without using an escape hatch.
 
-```typescript
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-loop-thru-ports -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-loop-thru-ports -->
+
+<CodeTabs>
+
+```ts
 const ports = [22, 80, 443, 5432];
 
 new SecurityGroup(this, "sec1grp", {
@@ -223,3 +543,55 @@ new SecurityGroup(this, "sec1grp", {
   })),
 });
 ```
+
+```java
+                List<Number> myPorts = Arrays.asList(22, 80, 443, 5432);
+                List<SecurityGroupIngress> ingress = new ArrayList();
+                myPorts.forEach(port -> ingress.add(
+                                SecurityGroupIngress.builder()
+                                                .toPort(port)
+                                                .fromPort(port)
+                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                .protocol("-1")
+                                                .build()));
+
+                new SecurityGroup(this, "sec2grp", SecurityGroupConfig.builder()
+                                .name("security1")
+                                .vpcId("vpcs")
+                                .egress(Arrays.asList(
+                                                SecurityGroupEgress.builder()
+                                                                .fromPort(0)
+                                                                .toPort(0)
+                                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                                .protocol("-1")
+                                                                .build()))
+                                .ingress(ingress)
+                                .build());
+```
+
+```python
+        ports = [22, 80, 443, 5432]
+
+        SecurityGroup(self, "sec1grp",
+            name="security1",
+            vpc_id="vpcs",
+            egress=[
+                {
+                    "fromPort": 0,
+                    "toPort": 0,
+                    "ciderBlocks": ["0.0.0.0/0"],
+                    "protocol": "-1"
+                }
+            ],
+            ingress=[
+                SecurityGroupIngress(
+                    from_port=port,
+                    to_port=port,
+                    protocol="-1",
+                    cidr_blocks=["0.0.0.0/0"]
+                ) for port in ports
+            ]
+        )
+```
+
+</CodeTabs>

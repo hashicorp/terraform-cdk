@@ -4,13 +4,12 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { execSync } from "child_process";
-import { convertProject, getTerraformConfigFromDir } from "../lib";
+import { LANGUAGES, TerraformProviderConstraint } from "@cdktf/commons";
 import {
   readSchema,
   ConstructsMakerProviderTarget,
-  LANGUAGES,
-  config,
 } from "@cdktf/provider-generator";
+import { convertProject, getTerraformConfigFromDir } from "../lib";
 
 const providerRequirements = ["kreuzwerker/docker@ ~>2.15.0"];
 const CDKTF_CLI = path.resolve(
@@ -176,7 +175,7 @@ describe.skip("convertProject", () => {
     const { providerSchema } = await readSchema(
       providerRequirements.map((spec) =>
         ConstructsMakerProviderTarget.from(
-          new config.TerraformProviderConstraint(spec),
+          new TerraformProviderConstraint(spec),
           LANGUAGES[0]
         )
       )
