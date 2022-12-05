@@ -33,6 +33,6 @@ jobs:
           labels-to-remove-when-unstale: "waiting-on-answer,stale"
           # For both issues and PRs, ignore anything that's been assigned to a milestone
           exempt-all-milestones: true
-          
+
           # Since we are on a GitHub Enterprise Server, we shouldn't have to worry about the rate limit
           operations-per-run: 200
