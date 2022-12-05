@@ -9,6 +9,7 @@ on:
       - "tools/**"
       - "package.json"
       - "yarn.lock"
+  workflow_dispatch: {}
 
 env:
   SENTRY_ORG: hashicorp
