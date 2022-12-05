@@ -39,3 +39,4 @@ tsconfig.tsbuildinfo
 examples/java/gradle-shared-module/.gradle/
 
 **/build
+out
