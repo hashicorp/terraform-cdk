@@ -51,8 +51,8 @@ jobs:
         # working-directory: ./out
         run: |
           yarn install --frozen-lockfile --prefer-offline
-      - name: Remove Root Config Files
-        run: rm package.json
+      # - name: Remove Root Config Files
+      #   run: rm package.json
       - name: test
         # working-directory: ./out
         run: |
