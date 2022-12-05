@@ -63,6 +63,7 @@ export const deployMachine = createMachine<
   DeployEvent,
   DeployState
 >({
+  predictableActionArguments: true,
   context: {},
   initial: "idle",
   id: "root",
