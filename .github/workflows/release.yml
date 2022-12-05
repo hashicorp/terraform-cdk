@@ -46,7 +46,7 @@ jobs:
         run: |
           status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
-          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
