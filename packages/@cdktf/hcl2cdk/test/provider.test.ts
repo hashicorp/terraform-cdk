@@ -1,20 +1,20 @@
 import { testCase, Synth, binding } from "./helpers/convert";
 
 describe("provider", () => {
-  testCase.test(
-    "empty provider",
-    `provider "docker" {}`,
-    [binding.docker],
-    Synth.yes
-  );
-  testCase.test(
-    "null provider",
-    `provider "null" {}
-  resource "null_resource" "test" {}
-  `,
-    [binding.null],
-    Synth.yes
-  );
+  // testCase.test(
+  //   "empty provider",
+  //   `provider "docker" {}`,
+  //   [binding.docker],
+  //   Synth.yes
+  // );
+  // testCase.test(
+  //   "null provider",
+  //   `provider "null" {}
+  // resource "null_resource" "test" {}
+  // `,
+  //   [binding.null],
+  //   Synth.yes
+  // );
 
   testCase.test(
     "provider with complex config",
@@ -68,29 +68,29 @@ describe("provider", () => {
     }
   );
 
-  testCase.test(
-    "required namespaced provider",
-    `
-      variable "domain" {
-        description = "A domain"
-      }
-      provider "auth0" {
-        domain = var.domain
-        client_id = "42"
-        client_secret = "secret"
-      }
-      
-      terraform {
-        required_providers {
-          auth0 = {
-            source  = "alexkappa/auth0"
-            version = "0.19.0"
-          }
-        }
-      }
-      `,
-    [binding.auth0],
-    Synth.yes,
-    {}
-  );
+  // testCase.test(
+  //   "required namespaced provider",
+  //   `
+  //     variable "domain" {
+  //       description = "A domain"
+  //     }
+  //     provider "auth0" {
+  //       domain = var.domain
+  //       client_id = "42"
+  //       client_secret = "secret"
+  //     }
+
+  //     terraform {
+  //       required_providers {
+  //         auth0 = {
+  //           source  = "alexkappa/auth0"
+  //           version = "0.19.0"
+  //         }
+  //       }
+  //     }
+  //     `,
+  //   [binding.auth0],
+  //   Synth.yes,
+  //   {}
+  // );
 });

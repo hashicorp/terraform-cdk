@@ -97,32 +97,32 @@ describe("tfExpressions", () => {
     Synth.yes
   );
 
-  testCase.test(
-    "for expression 3",
-    `
-            provider "datadog" {
-              api_key = "api_key"
-              app_key = "app_key"
-            }
-    
-            variable "users" {
-              type = list(object({
-                id = string
-              }))
-            }
-            
-            resource "datadog_monitor" "hard_query" {
-              name    = "queries are hard"
-              message = "here we go"
-              query   = join(" && ", [for o in var.users : "!(!\${o.id})"])
-              type    = "metric alert"
-            }`,
-    [binding.datadog],
-    Synth.yes,
-    {
-      resources: ["datadog_monitor"],
-    }
-  );
+  // testCase.test(
+  //   "for expression 3",
+  //   `
+  //           provider "datadog" {
+  //             api_key = "api_key"
+  //             app_key = "app_key"
+  //           }
+
+  //           variable "users" {
+  //             type = list(object({
+  //               id = string
+  //             }))
+  //           }
+
+  //           resource "datadog_monitor" "hard_query" {
+  //             name    = "queries are hard"
+  //             message = "here we go"
+  //             query   = join(" && ", [for o in var.users : "!(!\${o.id})"])
+  //             type    = "metric alert"
+  //           }`,
+  //   [binding.datadog],
+  //   Synth.yes,
+  //   {
+  //     resources: ["datadog_monitor"],
+  //   }
+  // );
 
   testCase.test(
     "property access through square brackets",
@@ -168,41 +168,41 @@ describe("tfExpressions", () => {
     }
   );
 
-  testCase.test(
-    "numeric property access",
-    `
-      provider "google" {
-        project = "my-project"
-        region  = "us-central1"
-      }
-      resource "google_compute_instance" "example" {
-        name          = "example"
-        machine_type  = "f1-micro"
-        zone          = "us-east1-b"
+  // testCase.test(
+  //   "numeric property access",
+  //   `
+  //     provider "google" {
+  //       project = "my-project"
+  //       region  = "us-central1"
+  //     }
+  //     resource "google_compute_instance" "example" {
+  //       name          = "example"
+  //       machine_type  = "f1-micro"
+  //       zone          = "us-east1-b"
 
-        boot_disk {
-          initialize_params {
-            image = "debian-cloud/debian-9"
-          }
-        }
+  //       boot_disk {
+  //         initialize_params {
+  //           image = "debian-cloud/debian-9"
+  //         }
+  //       }
 
-        network_interface {
-          network = "default"
+  //       network_interface {
+  //         network = "default"
 
-          access_config {
-            // Ephemeral IP
-          }
-        }
-      }
+  //         access_config {
+  //           // Ephemeral IP
+  //         }
+  //       }
+  //     }
 
-      output "public_ip" {
-        value = "\${google_compute_instance.example.network_interface.0.access_config.0.assigned_nat_ip}"
-      }
-      `,
-    [binding.google],
-    Synth.yes,
-    {
-      resources: ["google_compute_instance"],
-    }
-  );
+  //     output "public_ip" {
+  //       value = "\${google_compute_instance.example.network_interface.0.access_config.0.assigned_nat_ip}"
+  //     }
+  //     `,
+  //   [binding.google],
+  //   Synth.yes,
+  //   {
+  //     resources: ["google_compute_instance"],
+  //   }
+  // );
 });

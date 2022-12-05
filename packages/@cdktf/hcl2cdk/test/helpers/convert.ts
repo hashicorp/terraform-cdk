@@ -53,46 +53,46 @@ export const binding = {
     type: ProviderType.provider,
     path: "providers/aws",
   },
-  docker: {
-    fqn: "kreuzwerker/docker@ ~>2.15.0",
-    type: ProviderType.provider,
-    path: "providers/docker",
-  },
-  null: {
-    fqn: "hashicorp/null@ ~>3.2.1",
-    type: ProviderType.provider,
-    path: "providers/null",
-  },
-  google: {
-    fqn: "hashicorp/google@ ~>3.87.0",
-    type: ProviderType.provider,
-    path: "providers/google",
-  },
-  azuread: {
-    fqn: "hashicorp/azuread@ ~>2.17.0",
-    type: ProviderType.provider,
-    path: "providers/azuread",
-  },
-  local: {
-    fqn: "hashicorp/local@ ~>2.1.0",
-    type: ProviderType.provider,
-    path: "providers/local",
-  },
-  auth0: {
-    fqn: "alexkappa/auth0@ ~>0.26.2",
-    type: ProviderType.provider,
-    path: "providers/auth0",
-  },
-  datadog: {
-    fqn: "DataDog/datadog@ ~>3.8.1",
-    type: ProviderType.provider,
-    path: "providers/datadog",
-  },
-  kubernetes: {
-    fqn: "hashicorp/kubernetes@ ~>2.11.0",
-    type: ProviderType.provider,
-    path: "providers/kubernetes",
-  },
+  // docker: {
+  //   fqn: "kreuzwerker/docker@ ~>2.15.0",
+  //   type: ProviderType.provider,
+  //   path: "providers/docker",
+  // },
+  // null: {
+  //   fqn: "hashicorp/null@ ~>3.2.1",
+  //   type: ProviderType.provider,
+  //   path: "providers/null",
+  // },
+  // google: {
+  //   fqn: "hashicorp/google@ ~>3.87.0",
+  //   type: ProviderType.provider,
+  //   path: "providers/google",
+  // },
+  // azuread: {
+  //   fqn: "hashicorp/azuread@ ~>2.17.0",
+  //   type: ProviderType.provider,
+  //   path: "providers/azuread",
+  // },
+  // local: {
+  //   fqn: "hashicorp/local@ ~>2.1.0",
+  //   type: ProviderType.provider,
+  //   path: "providers/local",
+  // },
+  // auth0: {
+  //   fqn: "alexkappa/auth0@ ~>0.26.2",
+  //   type: ProviderType.provider,
+  //   path: "providers/auth0",
+  // },
+  // datadog: {
+  //   fqn: "DataDog/datadog@ ~>3.8.1",
+  //   type: ProviderType.provider,
+  //   path: "providers/datadog",
+  // },
+  // kubernetes: {
+  //   fqn: "hashicorp/kubernetes@ ~>2.11.0",
+  //   type: ProviderType.provider,
+  //   path: "providers/kubernetes",
+  // },
   awsVpc: {
     fqn: "terraform-aws-modules/vpc/aws@ ~>3.11.5",
     type: ProviderType.module,

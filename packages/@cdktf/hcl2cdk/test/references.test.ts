@@ -157,65 +157,65 @@ describe("references", () => {
     }
   );
 
-  testCase.test(
-    "provider with var reference",
-    `
-    variable "domain" {
-      description = "A domain"
-    }
-    provider "auth0" {
-      domain        = var.domain
-      client_id     = "client_id"
-      client_secret = "client_secret"
-    }
-    `,
-    [binding.auth0],
-    Synth.yes,
-    { resources: [] }
-  );
+  // testCase.test(
+  //   "provider with var reference",
+  //   `
+  //   variable "domain" {
+  //     description = "A domain"
+  //   }
+  //   provider "auth0" {
+  //     domain        = var.domain
+  //     client_id     = "client_id"
+  //     client_secret = "client_secret"
+  //   }
+  //   `,
+  //   [binding.auth0],
+  //   Synth.yes,
+  //   { resources: [] }
+  // );
 
-  testCase.test(
-    "data local_file",
-    `
-    provider "local" {}
-    data "local_file" "_01_please_verify" {
-      filename = "./email_templates/01_please_verify/template.html"
-    }
-    `,
-    [binding.local],
-    Synth.yes,
-    {
-      dataSources: ["local_file"],
-    }
-  );
+  // testCase.test(
+  //   "data local_file",
+  //   `
+  //   provider "local" {}
+  //   data "local_file" "_01_please_verify" {
+  //     filename = "./email_templates/01_please_verify/template.html"
+  //   }
+  //   `,
+  //   [binding.local],
+  //   Synth.yes,
+  //   {
+  //     dataSources: ["local_file"],
+  //   }
+  // );
 
-  testCase.test(
-    "aliased duplicate provider with var reference",
-    `
-    variable "domain" {
-      description = "A domain"
-    }
-    variable "client_id" {
-      description = "A client_id"
-    }
-    variable "client_secret" {
-      description = "A client_secret"
-    }
-    provider "auth0" {
-      domain        = var.domain
-      client_id     = var.client_id
-      client_secret = var.client_secret
-    }
-    provider "auth0" {
-      alias         = "private_auth0"
-      domain        = var.domain
-      client_id     = var.client_id
-      client_secret = var.client_secret
-      debug         = true
-    }
-    `,
-    [binding.auth0],
-    Synth.yes,
-    { resources: [] }
-  );
+  // testCase.test(
+  //   "aliased duplicate provider with var reference",
+  //   `
+  //   variable "domain" {
+  //     description = "A domain"
+  //   }
+  //   variable "client_id" {
+  //     description = "A client_id"
+  //   }
+  //   variable "client_secret" {
+  //     description = "A client_secret"
+  //   }
+  //   provider "auth0" {
+  //     domain        = var.domain
+  //     client_id     = var.client_id
+  //     client_secret = var.client_secret
+  //   }
+  //   provider "auth0" {
+  //     alias         = "private_auth0"
+  //     domain        = var.domain
+  //     client_id     = var.client_id
+  //     client_secret = var.client_secret
+  //     debug         = true
+  //   }
+  //   `,
+  //   [binding.auth0],
+  //   Synth.yes,
+  //   { resources: [] }
+  // );
 });
