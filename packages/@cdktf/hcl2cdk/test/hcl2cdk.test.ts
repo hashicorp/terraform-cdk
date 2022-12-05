@@ -5,7 +5,7 @@ import { convert } from "../lib/index";
 describe("convert", () => {
   const targetLanguages = ["typescript", "python", "csharp", "java"];
   describe("Cross-Language Support", () => {
-    it.each(targetLanguages)("supports %s", (language) => {
+    it.each(targetLanguages)("supports %s", async (language) => {
       const hcl = `
       resource "aws_kms_key" "examplekms" {
         description             = "KMS key 1"
@@ -25,10 +25,12 @@ describe("convert", () => {
       }
       `;
       expect(
-        convert(hcl, {
-          language: language as any,
-          providerSchema: {},
-        })
+        (
+          await convert(hcl, {
+            language: language as any,
+            providerSchema: {},
+          })
+        ).all
       ).toMatchSnapshot();
     });
   });
