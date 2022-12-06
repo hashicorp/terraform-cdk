@@ -43,7 +43,7 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          status=$(sentry-cli releases list | grep -q 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
           echo "release=${status}" >> $GITHUB_OUTPUT
         env:
@@ -263,7 +263,7 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list --org hashicorp | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' | grep 'unreleased' > /dev/null && echo "unreleased" || echo "released")
+          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' | grep -q 'unreleased' && echo "unreleased" || echo "released")
           echo "Sentry returned: ${status}"
           echo "release=${status}" >> $GITHUB_OUTPUT
         env:
