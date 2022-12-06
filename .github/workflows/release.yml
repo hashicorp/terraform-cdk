@@ -90,6 +90,7 @@ jobs:
     needs:
       - prepare-release
     uses: ./.github/workflows/provider-integration.yml
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
       concurrency_group_prefix: release
       skip_setup: true
@@ -97,12 +98,14 @@ jobs:
 
   examples:
     uses: ./.github/workflows/examples.yml
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
       concurrency_group_prefix: release
     secrets: inherit
 
   linting:
     uses: ./.github/workflows/linting.yml
+    if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
       concurrency_group_prefix: release
     secrets: inherit
