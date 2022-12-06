@@ -97,6 +97,8 @@ jobs:
     secrets: inherit
 
   examples:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/examples.yml
     if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
@@ -104,6 +106,8 @@ jobs:
     secrets: inherit
 
   linting:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/linting.yml
     if: needs.prepare-release.outputs.release_status == 'unreleased'
     with:
