@@ -167,7 +167,7 @@ const baseProjectPromise = new Promise<string>(async (resolve) => {
 
   resolve(projectDir);
 });
-getProviderSchema(Object.values(binding));
+// getProviderSchema(Object.values(binding));
 
 async function getProjectDirectory(providers: ProviderDefinition[]) {
   const baseDir = await baseProjectPromise;
