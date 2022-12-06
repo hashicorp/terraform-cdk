@@ -11,7 +11,7 @@ on:
 
 jobs:
   provider_integration_test:
-    if: "${{ contains(github.event.pull_request.labels.*.name, ci/provider-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}"
+    # if: "${{ contains(github.event.pull_request.labels.*.name, ci/provider-integration') || contains(github.event.pull_request.labels.*.name, 'ci/run-all') }}"
     uses: ./.github/workflows/provider-integration.yml
     with:
       concurrency_group_prefix: pr
