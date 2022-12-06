@@ -214,41 +214,43 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
 }
 
 function filterSchema(providerSchema: any, schemaFilter: SchemaFilter) {
-  if (!schemaFilter) return providerSchema;
+  return filterSchema;
 
-  const { resources, dataSources } = schemaFilter;
+  // if (!schemaFilter) return providerSchema;
 
-  const providerSchemaKey = Object.keys(providerSchema.provider_schemas)[0];
-  const actualSchema = providerSchema.provider_schemas[providerSchemaKey];
+  // const { resources, dataSources } = schemaFilter;
 
-  let filteredDataSourceSchemas = {};
-  let filteredResourceSchemas = {};
+  // const providerSchemaKey = Object.keys(providerSchema.provider_schemas)[0];
+  // const actualSchema = providerSchema.provider_schemas[providerSchemaKey];
 
-  if (resources && resources.length > 0) {
-    filteredResourceSchemas = Object.fromEntries(
-      Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
-        resources?.includes(resourceName)
-      )
-    );
-  }
+  // let filteredDataSourceSchemas = {};
+  // let filteredResourceSchemas = {};
 
-  if (dataSources && dataSources.length > 0) {
-    filteredDataSourceSchemas = Object.fromEntries(
-      Object.entries(actualSchema.data_source_schemas).filter(
-        ([dataSourceName]) => dataSources?.includes(dataSourceName)
-      )
-    );
-  }
+  // if (resources && resources.length > 0) {
+  //   filteredResourceSchemas = Object.fromEntries(
+  //     Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
+  //       resources?.includes(resourceName)
+  //     )
+  //   );
+  // }
 
-  return {
-    provider_schemas: {
-      [providerSchemaKey]: {
-        provider: providerSchema.provider_schemas[providerSchemaKey].provider,
-        resource_schemas: filteredResourceSchemas,
-        data_source_schemas: filteredDataSourceSchemas,
-      },
-    },
-  };
+  // if (dataSources && dataSources.length > 0) {
+  //   filteredDataSourceSchemas = Object.fromEntries(
+  //     Object.entries(actualSchema.data_source_schemas).filter(
+  //       ([dataSourceName]) => dataSources?.includes(dataSourceName)
+  //     )
+  //   );
+  // }
+
+  // return {
+  //   provider_schemas: {
+  //     [providerSchemaKey]: {
+  //       provider: providerSchema.provider_schemas[providerSchemaKey].provider,
+  //       resource_schemas: filteredResourceSchemas,
+  //       data_source_schemas: filteredDataSourceSchemas,
+  //     },
+  //   },
+  // };
 }
 
 const createTestCase =
