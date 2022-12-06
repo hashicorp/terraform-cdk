@@ -121,6 +121,7 @@ jobs:
   provider_integration_test:
     uses: ./.github/workflows/provider-integration.yml
     with:
+      skip_setup: true
       concurrency_group_prefix: release-next
     secrets: inherit
 

@@ -95,6 +95,7 @@ jobs:
     uses: ./.github/workflows/provider-integration.yml
     with:
       concurrency_group_prefix: release
+      skip_setup: true
     secrets: inherit
 
   examples:

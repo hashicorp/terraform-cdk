@@ -2,6 +2,11 @@ name: Provider Integration Tests
 on:
   workflow_call:
     inputs:
+      skip_setup:
+        description: Skip the version and build step and use parent
+        default: false
+        required: false
+        type: boolean
       concurrency_group_prefix:
         default: pr
         required: false
@@ -39,6 +44,7 @@ jobs:
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: installing dependencies and build
+        if: ${{ !inputs.skip_setup }}
         run: |
           yarn install --frozen-lockfile --prefer-offline
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
@@ -49,6 +55,7 @@ jobs:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
+        if: ${{ !inputs.skip_setup }}
         uses: actions/upload-artifact@v3.1.1
         with:
           name: dist
