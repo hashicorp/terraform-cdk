@@ -337,7 +337,7 @@ jobs:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}
 
   report:
-    name: Report status
+    name: Report status and clean up
     runs-on: ubuntu-latest
     if: ${{ failure() }}
     needs:
@@ -366,3 +366,7 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.FAILURE_SLACK_WEBHOOK_URL }}
+      - name: Remove stray sentry release
+        run: sentry-cli releases delete cdktf-cli-${{ steps.get_version.outputs.version }}
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
