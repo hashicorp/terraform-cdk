@@ -167,7 +167,7 @@ const baseProjectPromise = new Promise<string>(async (resolve) => {
 
   resolve(projectDir);
 });
-getProviderSchema(Object.values(binding));
+// getProviderSchema(Object.values(binding));
 
 async function getProjectDirectory(providers: ProviderDefinition[]) {
   const baseDir = await baseProjectPromise;
@@ -213,7 +213,10 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
   ]) as any;
 }
 
-function filterSchema(providerSchema: any, schemaFilter: SchemaFilter) {
+function filterSchema(
+  providerSchema: any,
+  schemaFilter: SchemaFilter | undefined
+) {
   if (!schemaFilter) return providerSchema;
 
   const { resources, dataSources } = schemaFilter;
@@ -270,7 +273,8 @@ const createTestCase =
       beforeAll(async () => {
         let { providerSchema } = await getProviderSchema(providers);
         if (schemaFilter) {
-          providerSchema = filterSchema(providerSchema, schemaFilter);
+          // TODO: Re-enable once we can trick Terraform CLI Checksums
+          providerSchema = filterSchema(providerSchema, undefined);
         }
         convertResult = await convert(hcl, {
           language: "typescript",
