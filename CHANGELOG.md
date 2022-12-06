@@ -1,3 +1,25 @@
+## 0.14.3
+
+### fix
+
+- fix: add completed tfc pending states [\#2398](https://github.com/hashicorp/terraform-cdk/pull/2398)
+- fix: skip confirming on auto-apply enabled tfc workspaces [\#2397](https://github.com/hashicorp/terraform-cdk/pull/2397)
+- fix(hcl2cdk): snapshot generated code instead of snapshotting that the function returns a promise [\#2392](https://github.com/hashicorp/terraform-cdk/pull/2392)
+- fix: add `required_version` to json schema [\#2355](https://github.com/hashicorp/terraform-cdk/pull/2355)
+
+### chore
+
+- chore: add provider-integration tests conditionally for PRs and to releases [\#2371](https://github.com/hashicorp/terraform-cdk/pull/2371)
+- chore: increase operations per run of stale workflow [\#2363](https://github.com/hashicorp/terraform-cdk/pull/2363)
+- chore: update github workflow actions [\#2361](https://github.com/hashicorp/terraform-cdk/pull/2361)
+- chore(docs): Add Example for Complex input variables [\#2309](https://github.com/hashicorp/terraform-cdk/pull/2309)
+- chore: add Terraform `1.3.4` to Docker container [\#2285](https://github.com/hashicorp/terraform-cdk/pull/2285)
+
+### feat
+
+- feat(cli): prompt added in init - asks to use TFC when credentials are present [\#2386](https://github.com/hashicorp/terraform-cdk/pull/2386)
+- feat(docs): document Token.nullValue() [\#2297](https://github.com/hashicorp/terraform-cdk/pull/2297)
+
 ## 0.14.2
 
 **Breaking changes**
