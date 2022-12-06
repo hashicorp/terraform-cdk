@@ -112,9 +112,10 @@ Refer to the [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guid
 Some edge cases require passing the Terraform `null` value to for example an attribute of a resource.
 
 <CodeTabs>
+
 ```typescript
 import { Token } from "cdktf";
-Token.nullValue()
+Token.nullValue();
 ```
 
 ```python
