@@ -2,6 +2,7 @@ import path from "path";
 import * as fs from "fs-extra";
 import os from "os";
 import { CdktfProject, init, get } from "../../lib/index";
+import { spawn } from "node-pty";
 import { exec, Language } from "@cdktf/commons";
 
 jest.mock("@cdktf/commons", () => {
@@ -11,35 +12,25 @@ jest.mock("@cdktf/commons", () => {
     __esmodule: true,
     ...originalModule,
     // exec: jest.fn().mockImplementation(originalModule.exec),
-    exec: jest.fn().mockImplementation(async (_binary, args) => {
-      // Fake "show" to ensure we perform apply TODO: this is not the case anymore!
-      if (args[0] !== "show") {
-        return Promise.resolve(JSON.stringify({}));
-      }
-      return Promise.resolve(
-        JSON.stringify({
-          resource_changes: [
-            {
-              address: "null_resource.first_test_83862C81",
-              mode: "managed",
-              type: "null_resource",
-              name: "first_test_83862C81",
-              provider_name: "registry.terraform.io/hashicorp/null",
-              change: {
-                actions: ["create"],
-                before: null,
-                after: { triggers: null },
-                after_unknown: { id: true },
-                before_sensitive: false,
-                after_sensitive: {},
-              },
-            },
-          ],
-        })
-      );
+    exec: jest.fn().mockImplementation(async (_binary, _args) => {
+      // Fake all commands that we invoke
+      return Promise.resolve(JSON.stringify({}));
     }),
   };
 });
+
+jest.mock("node-pty", () => {
+  return {
+    spawn: jest.fn().mockImplementation((_file, _args) => {
+      return {
+        onData: () => undefined,
+        onExit: (listener: any) => listener({ exitCode: 0 }), // immediately fake a successful termination
+        write: () => undefined,
+      };
+    }),
+  };
+});
+
 let inNewWorkingDirectory: () => {
   workingDirectory: string;
   outDir: string;
@@ -96,9 +87,10 @@ describe("terraform parallelism", () => {
         outDir,
       };
     };
-  });
+  }, 60_000);
   beforeEach(() => {
     (exec as jest.Mock).mockClear();
+    (spawn as jest.Mock).mockClear();
   });
   afterAll(() => {
     jest.resetModules();
@@ -125,10 +117,8 @@ describe("terraform parallelism", () => {
         terraformParallelism: 1,
       });
 
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const planCall = execCalls.find((call) => call[1][0] === "plan");
-      const applyCall = execCalls.find((call) => call[1][0] === "apply");
-      expect(planCall[1]).toContain("-parallelism=1");
+      const spawnCalls = (spawn as jest.Mock).mock.calls;
+      const applyCall = spawnCalls.find((call) => call[1][0] === "apply");
       expect(applyCall[1]).toContain("-parallelism=1");
     });
 
@@ -152,10 +142,8 @@ describe("terraform parallelism", () => {
         terraformParallelism: -1,
       });
 
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const planCall = execCalls.find((call) => call[1][0] === "plan");
-      const applyCall = execCalls.find((call) => call[1][0] === "apply");
-      expect(planCall[1]).not.toContain("-parallelism=-1");
+      const spawnCalls = (spawn as jest.Mock).mock.calls;
+      const applyCall = spawnCalls.find((call) => call[1][0] === "apply");
       expect(applyCall[1]).not.toContain("-parallelism=1");
     });
   });
@@ -178,8 +166,8 @@ describe("terraform parallelism", () => {
         terraformParallelism: 1,
       });
 
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const destroyCall = execCalls.find((call) => call[1][0] === "destroy");
+      const spawnCalls = (spawn as jest.Mock).mock.calls;
+      const destroyCall = spawnCalls.find((call) => call[1][0] === "destroy");
       expect(destroyCall[1]).toContain("-parallelism=1");
     });
 
@@ -200,8 +188,8 @@ describe("terraform parallelism", () => {
         terraformParallelism: -1,
       });
 
-      const execCalls = (exec as jest.Mock).mock.calls;
-      const destroyCall = execCalls.find((call) => call[1][0] === "destroy");
+      const spawnCalls = (spawn as jest.Mock).mock.calls;
+      const destroyCall = spawnCalls.find((call) => call[1][0] === "destroy");
       expect(destroyCall[1]).not.toContain("-parallelism=-1");
     });
   });
