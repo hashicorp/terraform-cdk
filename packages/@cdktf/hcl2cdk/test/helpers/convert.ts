@@ -213,7 +213,7 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
   ]) as any;
 }
 
-function filterSchema(providerSchema: any, schemaFilter: SchemaFilter) {
+function filterSchema(_providerSchema: any, _schemaFilter: SchemaFilter) {
   return filterSchema;
 
   // if (!schemaFilter) return providerSchema;
