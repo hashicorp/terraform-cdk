@@ -92,6 +92,8 @@ jobs:
     secrets: inherit
 
   provider_integration_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/provider-integration.yml
     with:
       concurrency_group_prefix: release

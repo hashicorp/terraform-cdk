@@ -119,6 +119,8 @@ jobs:
     secrets: inherit
 
   provider_integration_test:
+    needs:
+      - prepare-release
     uses: ./.github/workflows/provider-integration.yml
     with:
       skip_setup: true
