@@ -213,44 +213,45 @@ async function getProviderSchema(providers: ProviderDefinition[]) {
   ]) as any;
 }
 
-function filterSchema(_providerSchema: any, _schemaFilter: SchemaFilter) {
-  return filterSchema;
+function filterSchema(
+  providerSchema: any,
+  schemaFilter: SchemaFilter | undefined
+) {
+  if (!schemaFilter) return providerSchema;
 
-  // if (!schemaFilter) return providerSchema;
+  const { resources, dataSources } = schemaFilter;
 
-  // const { resources, dataSources } = schemaFilter;
+  const providerSchemaKey = Object.keys(providerSchema.provider_schemas)[0];
+  const actualSchema = providerSchema.provider_schemas[providerSchemaKey];
 
-  // const providerSchemaKey = Object.keys(providerSchema.provider_schemas)[0];
-  // const actualSchema = providerSchema.provider_schemas[providerSchemaKey];
+  let filteredDataSourceSchemas = {};
+  let filteredResourceSchemas = {};
 
-  // let filteredDataSourceSchemas = {};
-  // let filteredResourceSchemas = {};
+  if (resources && resources.length > 0) {
+    filteredResourceSchemas = Object.fromEntries(
+      Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
+        resources?.includes(resourceName)
+      )
+    );
+  }
 
-  // if (resources && resources.length > 0) {
-  //   filteredResourceSchemas = Object.fromEntries(
-  //     Object.entries(actualSchema.resource_schemas).filter(([resourceName]) =>
-  //       resources?.includes(resourceName)
-  //     )
-  //   );
-  // }
+  if (dataSources && dataSources.length > 0) {
+    filteredDataSourceSchemas = Object.fromEntries(
+      Object.entries(actualSchema.data_source_schemas).filter(
+        ([dataSourceName]) => dataSources?.includes(dataSourceName)
+      )
+    );
+  }
 
-  // if (dataSources && dataSources.length > 0) {
-  //   filteredDataSourceSchemas = Object.fromEntries(
-  //     Object.entries(actualSchema.data_source_schemas).filter(
-  //       ([dataSourceName]) => dataSources?.includes(dataSourceName)
-  //     )
-  //   );
-  // }
-
-  // return {
-  //   provider_schemas: {
-  //     [providerSchemaKey]: {
-  //       provider: providerSchema.provider_schemas[providerSchemaKey].provider,
-  //       resource_schemas: filteredResourceSchemas,
-  //       data_source_schemas: filteredDataSourceSchemas,
-  //     },
-  //   },
-  // };
+  return {
+    provider_schemas: {
+      [providerSchemaKey]: {
+        provider: providerSchema.provider_schemas[providerSchemaKey].provider,
+        resource_schemas: filteredResourceSchemas,
+        data_source_schemas: filteredDataSourceSchemas,
+      },
+    },
+  };
 }
 
 const createTestCase =
@@ -272,7 +273,8 @@ const createTestCase =
       beforeAll(async () => {
         let { providerSchema } = await getProviderSchema(providers);
         if (schemaFilter) {
-          providerSchema = filterSchema(providerSchema, schemaFilter);
+          // TODO: Re-enable once we can trick Terraform CLI Checksums
+          providerSchema = filterSchema(providerSchema, undefined);
         }
         convertResult = await convert(hcl, {
           language: "typescript",
