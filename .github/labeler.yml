@@ -56,7 +56,7 @@ ci/run-unit/cdktf:
 
 ci/run-examples:
   # The workflow used
-  - ".github/workflows/unit.yml"
+  - ".github/workflows/examples.yml"
   # The examples
   - "examples/**"
 
