@@ -344,32 +344,51 @@ export class CdktfStack {
     });
   }
 
-  // TODO: fix in the same way as deploy!
   public async destroy(terraformParallelism?: number) {
-    terraformParallelism;
-    // await this.run(async () => {
-    //   this.updateState({ type: "planning", stackName: this.stack.name });
-    //   const terraform = await this.initalizeTerraform();
+    await this.run(async () => {
+      this.updateState({ type: "planning", stackName: this.stack.name });
+      const terraform = await this.initalizeTerraform();
 
-    //   const plan = await terraform.plan(true);
-    //   this.updateState({ type: "planned", stackName: this.stack.name, plan });
+      await terraform.destroy(
+        {
+          autoApprove: this.options.autoApprove,
+          parallelism: terraformParallelism,
+        },
+        (state) => {
+          // state updates while apply runs that affect the UI
+          if (state.type === "running") {
+            this.updateState({
+              type: "destroying",
+              stackName: this.stack.name,
+            });
+          } else if (state.type === "waiting for approval") {
+            this.updateState({
+              type: "waiting for stack approval",
+              stackName: this.stack.name,
+              approve: state.approve,
+              reject: () => {
+                state.reject();
+                this.updateState({
+                  type: "dismissed",
+                  stackName: this.stack.name,
+                });
+              },
+            });
+          } else if (state.type === "external approval reply") {
+            this.updateState({
+              type: "external stack approval reply",
+              stackName: this.stack.name,
+              approved: state.approved,
+            });
+          }
+        }
+      );
 
-    //   const approved = this.options.autoApprove
-    //     ? true
-    //     : await this.waitForApproval();
-    //   if (!approved) {
-    //     this.updateState({ type: "dismissed", stackName: this.stack.name });
-    //     return;
-    //   }
-
-    //   this.updateState({ type: "destroying", stackName: this.stack.name });
-    //   await terraform.destroy(terraformParallelism);
-
-    //   this.updateState({
-    //     type: "destroyed",
-    //     stackName: this.stack.name,
-    //   });
-    // });
+      this.updateState({
+        type: "destroyed",
+        stackName: this.stack.name,
+      });
+    });
   }
 
   public async fetchOutputs() {

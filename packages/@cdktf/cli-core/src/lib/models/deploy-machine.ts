@@ -187,3 +187,35 @@ export function createAndStartDeployService(options: {
 
   return service;
 }
+
+export function createAndStartDestroyService(options: {
+  parallelism: number;
+  extraOptions: string[];
+  terraformBinaryName: string;
+  autoApprove?: boolean;
+  workdir: string;
+}) {
+  const service = interpret(deployMachine);
+
+  const config: PtySpawnConfig = {
+    file: options.terraformBinaryName,
+    args: [
+      "destroy",
+      ...(options.autoApprove ? ["-auto-approve"] : []),
+      // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
+
+      ...options.extraOptions,
+      ...(options.parallelism > -1
+        ? [`-parallelism=${options.parallelism}`]
+        : []),
+    ],
+    options: {
+      cwd: options.workdir,
+      env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever
+    },
+  };
+
+  service.send({ type: "START", pty: config });
+
+  return service;
+}

@@ -12,7 +12,7 @@ jest.mock("@cdktf/commons", () => {
     ...originalModule,
     // exec: jest.fn().mockImplementation(originalModule.exec),
     exec: jest.fn().mockImplementation(async (_binary, args) => {
-      // Fake "show" to ensure we perform apply
+      // Fake "show" to ensure we perform apply TODO: this is not the case anymore!
       if (args[0] !== "show") {
         return Promise.resolve(JSON.stringify({}));
       }

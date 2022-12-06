@@ -11,6 +11,7 @@ import {
 import { SynthesizedStack } from "../synth-stack";
 import {
   createAndStartDeployService,
+  createAndStartDestroyService,
   DeployState,
   isDeployEvent,
 } from "./deploy-machine";
@@ -145,7 +146,6 @@ export class TerraformCli implements Terraform {
     callback: (state: TerraformDeployState) => void
   ): Promise<void> {
     await this.setUserAgent();
-
     const service = createAndStartDeployService({
       terraformBinaryName,
       workdir: this.workdir,
@@ -154,7 +154,31 @@ export class TerraformCli implements Terraform {
       parallelism,
       extraOptions,
     });
+    await this.handleService("deploy", service, callback);
+  }
 
+  public async destroy(
+    { autoApprove = false, parallelism = -1, extraOptions = [] },
+    callback: (state: TerraformDeployState) => void
+  ): Promise<void> {
+    await this.setUserAgent();
+    const service = createAndStartDestroyService({
+      terraformBinaryName,
+      workdir: this.workdir,
+      autoApprove,
+      parallelism,
+      extraOptions,
+    });
+    await this.handleService("destroy", service, callback);
+  }
+
+  private async handleService(
+    type: "deploy" | "destroy",
+    service:
+      | ReturnType<typeof createAndStartDeployService>
+      | ReturnType<typeof createAndStartDestroyService>,
+    callback: (state: TerraformDeployState) => void
+  ): Promise<void> {
     // stop terraform apply if signaled as such from the outside (e.g. via ctrl+c)
     this.abortSignal.addEventListener(
       "abort",
@@ -167,7 +191,7 @@ export class TerraformCli implements Terraform {
     // relay logs to stdout
     service.onEvent((event) => {
       if (isDeployEvent(event, "LINE_RECEIVED"))
-        this.onStdout("deploy")(event.line);
+        this.onStdout(type)(event.line);
       else if (isDeployEvent(event, "APPROVED_EXTERNALLY"))
         callback({ type: "external approval reply", approved: true });
       else if (isDeployEvent(event, "REJECTED_EXTERNALLY"))
@@ -210,22 +234,6 @@ export class TerraformCli implements Terraform {
       // TODO: rejected through our UI shall not fail?
       throw `Invoking Terraform failed with exit code ${state.event.exitCode}`;
     }
-  }
-
-  public async destroy(parallelism = -1): Promise<void> {
-    await this.setUserAgent();
-    const options = ["destroy", "-auto-approve", "-input=false"];
-    if (parallelism > -1) {
-      options.push(`-parallelism=${parallelism}`);
-    }
-
-    await exec(
-      terraformBinaryName,
-      options,
-      { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      this.onStdout("destroy"),
-      this.onStderr("destroy")
-    );
   }
 
   public async version(): Promise<string> {
