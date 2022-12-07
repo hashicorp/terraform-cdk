@@ -369,12 +369,10 @@ export class TerraformCloud implements Terraform {
       "plan_queued",
       "planning",
       "cost_estimating",
-      "cost_estimated",
       "policy_checking",
       "policy_override",
       "policy_checked",
       "post_plan_running",
-      "post_plan_completed",
     ];
 
     while (pendingStates.includes(result.attributes.status)) {
