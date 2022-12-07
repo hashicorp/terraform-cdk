@@ -180,6 +180,7 @@ jobs:
         uses: actions/download-artifact@v3.0.1
         with:
           name: dist
+          path: dist
       - name: Release
         run: npx -p jsii-release jsii-release-npm
         env:
@@ -201,6 +202,7 @@ jobs:
         uses: actions/download-artifact@v3.0.1
         with:
           name: dist
+          path: dist
       - name: Release
         run: npx -p jsii-release jsii-release-pypi
         env:
