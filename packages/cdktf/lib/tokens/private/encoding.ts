@@ -48,16 +48,23 @@ const ESCAPE_TOKEN_END_REGEX = /\}/g;
 export class TokenString {
   /**
    * Returns a `TokenString` for this string.
+   *
+   * @param s The string to tokenize
+   * @param includeEscapeSequences Whether to include escape sequences in the tokenization
+   * @param warnIfEscapeSequences Whether to warn if escape sequences are found
    */
-  public static forString(s: string, includeEscapeSequences = false) {
-    return new TokenString(s, STRING_TOKEN_REGEX, 1, includeEscapeSequences);
-  }
-
-  /**
-   * Returns a `TokenString` for this string that has escape sequences.
-   */
-  public static forEscape(s: string) {
-    return new TokenString(s, ESCAPE_TOKEN_BEGIN_REGEX, 1, true);
+  public static forString(
+    s: string,
+    includeEscapeSequences = false,
+    warnIfEscapeSequences = false
+  ) {
+    return new TokenString(
+      s,
+      STRING_TOKEN_REGEX,
+      1,
+      includeEscapeSequences,
+      warnIfEscapeSequences
+    );
   }
 
   /**
@@ -85,8 +92,20 @@ export class TokenString {
     private readonly str: string,
     private readonly re: RegExp,
     private readonly regexMatchIndex: number = 1,
-    private readonly includeEscapeSequences: boolean = false
+    private readonly includeEscapeSequences: boolean = false,
+    private readonly warnIfEscapeSequences: boolean = false
   ) {}
+
+  private testForEscapeTokens(startIndex: number, maxIndex: number): boolean {
+    ESCAPE_TOKEN_BEGIN_REGEX.lastIndex = startIndex;
+    let startMatch = ESCAPE_TOKEN_BEGIN_REGEX.exec(this.str);
+
+    if (startMatch && startMatch.index >= maxIndex) {
+      startMatch = null;
+    }
+
+    return !!startMatch;
+  }
 
   private nextEscapeToken(
     fragments: TokenizedStringFragments,
@@ -264,6 +283,16 @@ export class TokenString {
 
     let index = 0;
     let escapeDepth = 0;
+    if (
+      this.warnIfEscapeSequences &&
+      this.testForEscapeTokens(0, this.str.length)
+    ) {
+      // Only print warning and act as if escape sequences are ignored
+      console.warn(
+        "You're using escape sequences (${...}) with CDKTF Built-in functions. This is not supported yet, and the output may be incorrect."
+      );
+      console.warn(this.str);
+    }
     while (index >= 0) {
       const iter = this.tokenizeNext(lookup, ret, index, escapeDepth);
       index = iter.index;

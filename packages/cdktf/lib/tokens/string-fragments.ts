@@ -86,6 +86,10 @@ export class TokenizedStringFragments {
     this.fragments.push({ type: "escape", kind });
   }
 
+  public concat(other: TokenizedStringFragments): void {
+    this.fragments.concat(other.fragments);
+  }
+
   /**
    * Return all Tokens from this string
    */

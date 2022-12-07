@@ -318,6 +318,7 @@ test("doesn't throw error when escapes are nested with functions", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
   new TestProvider(stack, "provider", {});
+  jest.spyOn(console, "warn").mockImplementation(() => {});
 
   const firstResource = new TestResource(stack, "first-resource", {
     name: "foo",
@@ -347,6 +348,9 @@ test("doesn't throw error when escapes are nested with functions", () => {
         '${lookup(test_resource.other-resource, "name", "$${${test_resource.first-resource}.name}")}',
     },
   };
+
+  expect(console.warn).toHaveBeenCalled();
+  (console.warn as jest.Mock).mockRestore();
 
   expect(res).toHaveProperty(
     "resource.test_resource.second-resource",

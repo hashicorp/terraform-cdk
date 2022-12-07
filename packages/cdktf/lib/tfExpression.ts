@@ -320,14 +320,21 @@ class FunctionCall extends TFExpression {
 
   public resolve(context: IResolveContext): string {
     const suppressBraces = context.suppressBraces;
+    const originalIgnoreEscapes = context.ignoreEscapes;
+    const originalWarnEscapes = context.warnEscapes;
+
     context.suppressBraces = true;
     context.ignoreEscapes = true;
+    context.warnEscapes = true;
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
       .join(", ");
 
     const expr = `${this.name}(${serializedArgs})`;
+
+    context.ignoreEscapes = originalIgnoreEscapes;
+    context.warnEscapes = originalWarnEscapes;
 
     return suppressBraces ? expr : `\${${expr}}`;
   }
