@@ -29169,6 +29169,7 @@ new TokenizedStringFragments();
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">AddIntrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">AddLiteral</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">AddToken</a></code>         | Adds a token fragment.                                       |
+| <code><a href="#cdktf.TokenizedStringFragments.concat">Concat</a></code>             | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.join">Join</a></code>                 | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">MapTokens</a></code>       | Apply a transformation function to all tokens in the string. |
 
@@ -29231,6 +29232,18 @@ Adds a token fragment.
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
 
 the token to add.
+
+---
+
+##### `Concat` <a name="Concat" id="cdktf.TokenizedStringFragments.concat"></a>
+
+```csharp
+private void Concat(TokenizedStringFragments Other)
+```
+
+###### `Other`<sup>Required</sup> <a name="Other" id="cdktf.TokenizedStringFragments.concat.parameter.other"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
 
 ---
 
@@ -30002,6 +30015,7 @@ Resolve an inner object.
 | <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">IgnoreEscapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>string</code>                | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">WarnEscapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
 
 ---
 
@@ -30062,6 +30076,20 @@ public bool SuppressBraces { get; set; }
 - _Type:_ bool
 
 True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `WarnEscapes`<sup>Optional</sup> <a name="WarnEscapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```csharp
+public bool WarnEscapes { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
 
 ---
 

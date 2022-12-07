@@ -34960,6 +34960,7 @@ cdktf.TokenizedStringFragments()
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">add_intrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">add_literal</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">add_token</a></code>         | Adds a token fragment.                                       |
+| <code><a href="#cdktf.TokenizedStringFragments.concat">concat</a></code>              | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code>                  | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">map_tokens</a></code>       | Apply a transformation function to all tokens in the string. |
 
@@ -35030,6 +35031,20 @@ Adds a token fragment.
 - _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>
 
 the token to add.
+
+---
+
+##### `concat` <a name="concat" id="cdktf.TokenizedStringFragments.concat"></a>
+
+```python
+def concat(
+  other: TokenizedStringFragments
+) - > None
+```
+
+###### `other`<sup>Required</sup> <a name="other" id="cdktf.TokenizedStringFragments.concat.parameter.other"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
 
 ---
 
@@ -35837,6 +35852,7 @@ Resolve an inner object.
 | <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignore_escapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code>                   | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">warn_escapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
 
 ---
 
@@ -35897,6 +35913,20 @@ suppress_braces: bool
 - _Type:_ bool
 
 True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `warn_escapes`<sup>Optional</sup> <a name="warn_escapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```python
+warn_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
 
 ---
 
