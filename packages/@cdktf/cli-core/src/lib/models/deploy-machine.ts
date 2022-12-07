@@ -99,7 +99,7 @@ export const deployMachine = createMachine<
             } else if (line.includes("discarded using the UI or API")) {
               send({ type: "REJECTED_EXTERNALLY" });
             } else if (
-              line.includes("Do you want to perform these actions in workspace")
+              line.includes("Do you want to perform these actions")
             ) {
               send({ type: "REQUEST_APPROVAL" });
             }
