@@ -56,7 +56,7 @@ refactoring-example    # aws_s3_bucket.new-bucket (new-bucket) will be created
 
 As you can see the old bucket is going to be destroyed and a new one is created to replace it. This can be harmful if there is already state in the resource (e.g. files in the bucket, data in the database, etc).
 
-To avoid the recreation of the resource you can use the [`terraform state mv`](https://developer.hashicorp.com/terraform/cli/commands/state/mv) command to move the state before the next apply.
+To avoid the recreation of the resource you can use the [`terraform state mv`](/cli/commands/state/mv) command to move the state before the next apply.
 
 ```shell-session
 # before the change, find the terraform name of the resource
@@ -109,3 +109,147 @@ refactoring-example  No changes. Your infrastructure matches the configuration.
 ```
 
 ### Why do I need to find the terraform name of the resource?
+
+If you use Constructs to organize your code you might have a level between the generated provider constructs and the `TerraformStack` construct for code organization purposes.
+This extra level adds a prefix to the name of the resource to ensure uniqueness. Read more about this in the [Constructs](/cdktf/concepts/constructs#scope) section.
+
+## Moving resources from one stack to another
+
+Let's say you have a stack deployed with an aws `S3Bucket` resource and you want to move it to another stack:
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
+
+class MyFirstStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    // Old Definition
+    // new S3Bucket(this, "my-bucket", {
+    //   bucketPrefix: "my-bucket",
+    // });
+  }
+}
+
+class MySecondStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    // New Definition
+    new S3Bucket(this, "my-other-bucket", {
+      bucketPrefix: "my-bucket",
+    });
+  }
+}
+
+const app = new App();
+new MyFirstStack(app, "refactoring-example-stack-move-1");
+new MySecondStack(app, "refactoring-example-stack-move-2");
+app.synth();
+```
+
+When we run a `cdktf deploy '*'` we will see the following output:
+
+```shell-session
+...
+refactoring-example-stack-move-1    # aws_s3_bucket.my-bucket will be destroyed
+                                    # (because aws_s3_bucket.my-bucket is not in configuration)
+                                    - resource "aws_s3_bucket" "my-bucket" {
+...
+refactoring-example-stack-move-2    # aws_s3_bucket.my-other-bucket (my-other-bucket) will be created
+...
+```
+
+If we want to preserve the state of the resource we need to move it from one stack to another. For this we need to use [`terraform import`](/cli/commands/import) and [`terraform state rm`](/cli/commands/state/rm).
+
+```shell-session
+# First we need to find the terraform name of the resource in the old stack
+# Run this before removing the resource from the old stack
+$ cat cdktf.out/stacks/refactoring-example-stack-move-1/cdk.tf.json | jq '.resource.aws_s3_bucket'
+{
+  "my-bucket": {
+    "//": {
+      "metadata": {
+        "path": "refactoring-example-stack-move-1/my-bucket",
+        "uniqueId": "my-bucket"
+      }
+    },
+    "bucket_prefix": "my-bucket"
+  }
+}
+
+$ cdktf synth # To ensure our synthesized stack is up to date
+
+# Now we need the name of the resource in the new stack to understand
+# where to move the resource to
+$ cat cdktf.out/stacks/refactoring-example-stack-move-2/cdk.tf.json | jq '.resource.aws_s3_bucket'
+{
+  "my-other-bucket": {
+    "//": {
+      "metadata": {
+        "path": "refactoring-example-stack-move-2/my-other-bucket",
+        "uniqueId": "my-other-bucket"
+      }
+    },
+    "bucket_prefix": "my-other-bucket"
+  }
+}
+
+# Now we need to find the provider-specific id of the resource
+$ cd cdktf.out/stacks/refactoring-example-stack-move-1/
+$ terraform init
+$ terraform state show aws_s3_bucket.my-bucket
+# aws_s3_bucket.my-bucket:
+resource "aws_s3_bucket" "my-bucket" {
+    arn                         = "arn:aws:s3:::my-bucket20221208141249058600000001"
+    bucket                      = "my-bucket20221208141249058600000001"
+    bucket_domain_name          = "my-bucket20221208141249058600000001.s3.amazonaws.com"
+    bucket_prefix               = "my-bucket"
+    bucket_regional_domain_name = "my-bucket20221208141249058600000001.s3.amazonaws.com"
+    force_destroy               = false
+    hosted_zone_id              = "Z3AQBSTGFYJSTF"
+    id                          = "my-bucket20221208141249058600000001"
+    object_lock_enabled         = false
+    region                      = "us-east-1"
+    request_payer               = "BucketOwner"
+    tags_all                    = {}
+
+    grant {
+        id          = "554912fda2704333d162d216be50aefb05562e0bf1709997f1d9417cf46087d5"
+        permissions = [
+            "FULL_CONTROL",
+        ]
+        type        = "CanonicalUser"
+    }
+
+    versioning {
+        enabled    = false
+        mfa_delete = false
+    }
+}
+
+# Now that we have the id ("my-bucket20221208141249058600000001") we can import it
+$ cd ../refactoring-example-stack-move-2
+$ terraform import aws_s3_bucket.my-other-bucket my-bucket20221208141249058600000001
+
+# Now we can remove the resource from the old stack
+$ cd ../refactoring-example-stack-move-1
+$ terraform state rm aws_s3_bucket.my-bucket
+
+$ cd ../../..
+
+# The next deploy should show no changes
+$ cdktf deploy '*'
+
+```
