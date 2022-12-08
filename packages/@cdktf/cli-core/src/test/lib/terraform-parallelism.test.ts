@@ -36,7 +36,7 @@ let inNewWorkingDirectory: () => {
   outDir: string;
 };
 
-jest.setTimeout(30000);
+jest.setTimeout(120_000);
 describe("terraform parallelism", () => {
   beforeAll(async () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
@@ -87,7 +87,7 @@ describe("terraform parallelism", () => {
         outDir,
       };
     };
-  }, 60_000);
+  }, 120_000);
   beforeEach(() => {
     (exec as jest.Mock).mockClear();
     (spawn as jest.Mock).mockClear();
