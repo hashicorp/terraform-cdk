@@ -335,6 +335,8 @@ jobs:
           formula-name: cdktf
           download-url: https://registry.npmjs.org/cdktf-cli/-/cdktf-cli-${{ steps.get_version.outputs.version }}.tgz
           commit-message: cdktf ${{ steps.get_version.outputs.version }}
+          base-branch: master # Branch in https://github.com/Homebrew/homebrew-core
+          tag-name: v${{ steps.get_version.outputs.version }}
         env:
           COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}
 
