@@ -35,6 +35,8 @@ The following example uses `TerraformVariable` to provide inputs to resources.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
+
 <CodeTabs>
 
 ```typescript
@@ -47,6 +49,21 @@ new Instance(this, "hello", {
   ami: imageId.value,
   instanceType: "t2.micro",
 });
+```
+
+```java
+        TerraformVariable imageId = new TerraformVariable(this, "imageId", TerraformVariableConfig.builder()
+                .type("string")
+                .defaultValue("ami-abcde123")
+                .description("What AMI to use to create an instance")
+                .build()
+        );
+
+        new Instance(this, "hello", InstanceConfig.builder()
+                .ami(imageId.getStringValue())
+                .instanceType("t2.micro")
+                .build()
+        );
 ```
 
 ```python
@@ -62,6 +79,26 @@ Instance(self, "hello",
 ```
 
 </CodeTabs>
+
+### Define Complex Input Variables
+
+```typescript
+const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
+  type: VariableType.object({
+    node_group_name: VariableType.STRING,
+    instance_types: VariableType.list(VariableType.STRING),
+    min_size: VariableType.NUMBER,
+    desired_size: VariableType.NUMBER,
+    max_size: VariableType.NUMBER,
+  }),
+  nullable: false,
+  description: "Node group configuration",
+});
+
+new TerraformResource(this, "resource", {
+  nodeGroupConfig: nodeGroupConfig.value,
+});
+```
 
 ## Local Values
 
@@ -79,6 +116,8 @@ The following example uses `TerraformLocal` to create a local value.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
+
 <CodeTabs>
 
 ```typescript
@@ -90,6 +129,18 @@ const commonTags = new TerraformLocal(this, "common_tags", {
 new Instance(this, "example", {
   tags: commonTags.expression,
 });
+```
+
+```java
+        TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new HashMap<String, String>(){{
+            put("service", "service_name");
+            put("owner", "owner");
+        }});
+
+        new Instance(this, "example", InstanceConfig.builder()
+                .tags((Map<String, String>) commonTags.getExpression())
+                .build()
+        );
 ```
 
 ```python
@@ -138,6 +189,8 @@ The following example uses a `TerraformOutput` to create an output.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
+
 <CodeTabs>
 
 ```typescript
@@ -165,6 +218,39 @@ new MyStack(app, "cdktf-producer", {
   myDomain: "example.com",
 });
 app.synth();
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+
+public class VariablesAndOutputsValues extends TerraformStack {
+
+    public VariablesAndOutputsValues(Construct scope, String id, VariablesAndOutputsValuesProps props){
+        super(scope, id);
+
+        new TerraformOutput(this, "my-domain", TerraformOutputConfig.builder()
+                .value(props.myDomain)
+                .build()
+        );
+    }
+
+    public static class VariablesAndOutputsValuesProps {
+        public String myDomain;
+        public VariablesAndOutputsValuesProps(String myDomain){
+            this.myDomain = myDomain;
+        }
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new VariablesAndOutputsValues(app, "cdktf-producer", new VariablesAndOutputsValuesProps("example.com"));
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -199,6 +285,8 @@ Outputs return an HCL expression representing the underlying Terraform resource,
 
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
+
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
 
 <CodeTabs>
@@ -225,6 +313,36 @@ class MyStack extends TerraformStack {
 const app = new App();
 new MyStack(app, "cdktf-demo");
 app.synth();
+```
+
+```java
+import software.constructs.Construct;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import imports.random.pet.Pet;
+import imports.random.provider.RandomProvider;
+
+public class VariablesAndOutputsDefineValues extends TerraformStack {
+
+    public VariablesAndOutputsDefineValues(Construct scope, String id) {
+        super(scope, id);
+
+        new RandomProvider(this, "random");
+
+        Pet pet = new Pet(this, "pet");
+
+        new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
+                .value(pet.getId())
+                .build());
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new VariablesAndOutputsDefineValues(app, "cdktf-demo");
+        app.synth();
+    }
+}
 ```
 
 ```python
@@ -278,6 +396,8 @@ Output: random-pet = choice-haddock
 The following example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-reference-remote-state -->
 
 <CodeTabs>
 
@@ -337,6 +457,73 @@ const app = new App();
 new Producer(app, "cdktf-producer");
 new Consumer(app, "cdktf-consumer");
 app.synth();
+```
+
+```java
+import imports.random.provider.RandomProvider;
+import imports.random.pet.Pet;
+
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.TerraformOutput;
+import com.hashicorp.cdktf.TerraformOutputConfig;
+import com.hashicorp.cdktf.CloudBackend;
+import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+import com.hashicorp.cdktf.NamedRemoteWorkspace;
+import com.hashicorp.cdktf.DataTerraformRemoteState;
+import com.hashicorp.cdktf.DataTerraformRemoteStateRemoteConfig;
+
+public class VariablesAndOutputsRemoteState {
+
+    public static class Producer extends TerraformStack{
+
+        public Producer(Construct scope, String id){
+            super(scope, id);
+
+            new CloudBackend(this, CloudBackendProps.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("producer"))
+                    .build()
+            );
+
+            new RandomProvider(this, "random");
+            Pet pet = new Pet(this, "pet");
+
+            new TerraformOutput(this, "random-pet", TerraformOutputConfig.builder()
+                    .value(pet.getId())
+                    .build()
+            );
+        }
+    }
+
+    public static class Consumer extends TerraformStack{
+
+        public Consumer(Construct scope, String id){
+            super(scope, id);
+
+            new CloudBackend(this, CloudBackendProps.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("consumer"))
+                    .build()
+            );
+
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-pet", DataTerraformRemoteStateRemoteConfig.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedRemoteWorkspace("producer"))
+                    .build()
+            );
+        }
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        new Producer(app, "cdktf-producer");
+        new Consumer(app, "cdktf-consumer");
+        app.synth();
+    }
+}
 ```
 
 ```python

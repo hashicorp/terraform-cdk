@@ -356,7 +356,26 @@ export class TerraformCloud implements Terraform {
     const url = `https://${this.hostname}/app/${this.organizationName}/workspaces/${this.workspaceName}/runs/${result.id}`;
     sendLog(`Created speculative Terraform Cloud run: ${url}`);
 
-    const pendingStates = ["pending", "plan_queued", "planning"];
+    // the source of truth of all pending states are from
+    // https://developer.hashicorp.com/terraform/cloud-docs/api-docs/run#run-states
+    // any state before `apply_queued` is considered pending unless it is specified as a final state
+    const pendingStates = [
+      "pending",
+      "fetching",
+      "fetching_completed",
+      "pre_plan_running",
+      "pre_plan_completed",
+      "queuing",
+      "plan_queued",
+      "planning",
+      "cost_estimating",
+      "cost_estimated",
+      "policy_checking",
+      "policy_override",
+      "policy_checked",
+      "post_plan_running",
+      "post_plan_completed",
+    ];
 
     while (pendingStates.includes(result.attributes.status)) {
       result = await this.update(this.client, result.id, "plan");
@@ -437,10 +456,16 @@ export class TerraformCloud implements Terraform {
     _parallelism?: number
   ): Promise<void> {
     const sendLog = this.createTerraformLogHandler("deploy");
-    if (!this.run)
+    if (!this.run) {
       throw new Error(
         "Please create a ConfigurationVersion / Plan before deploying"
       );
+    }
+
+    if (this.run.attributes.autoApply) {
+      logger.info("Auto apply is enabled, skipping confirming the deploy plan");
+      return;
+    }
 
     const deployingStates = ["confirmed", "apply_queued", "applying"];
     const runId = this.run.id;
@@ -474,10 +499,20 @@ export class TerraformCloud implements Terraform {
 
   @BeautifyErrors("Destroy")
   public async destroy(): Promise<void> {
-    if (!this.run)
+    if (!this.run) {
       throw new Error(
         "Please create a ConfigurationVersion / Plan before destroying"
       );
+    }
+
+    // if the workspace has auto apply enabled and we attempt to confirm the plan
+    // it will result in 409 error
+    if (this.run.attributes.autoApply) {
+      logger.info(
+        "Auto apply is enabled, skipping confirming the destroy plan"
+      );
+      return;
+    }
 
     const sendLog = this.createTerraformLogHandler("destroy");
     const destroyingStates = ["confirmed", "apply_queued", "applying"];

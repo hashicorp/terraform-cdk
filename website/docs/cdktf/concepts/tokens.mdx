@@ -18,6 +18,7 @@ You may need to use Tokens for:
 - [Module outputs](/cdktf/concepts/modules) for boolean, string, lists, maps, and other complex types.
 - Resource attributes (such as `id`).
 - Terraform outputs based on resource attributes.
+- Using Terraforms `null` type.
 
 ### Example
 
@@ -27,6 +28,7 @@ To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` 
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#tokens -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
 
 <CodeTabs>
@@ -46,6 +48,27 @@ new Eks(this, "EksModule", {
   subnets: Token.asList(vpc.publicSubnetsOutput),
   clusterLogRetentionInDays: logRetention.numberValue,
 });
+```
+
+```java
+        TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", TerraformVariableConfig.builder()
+                .type("number")
+                .build()
+        );
+
+        Vpc vpc = new Vpc(this, "vpcName", VpcOptions.builder()
+                .name("vpcName")
+                .publicSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24"))
+                .build()
+        );
+
+        new Eks(this, "EksModules", EksOptions.builder()
+                .vpcId(vpc.getVpcIdOutput())
+                .clusterName("my-kubernetes-cluster")
+                .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
+                .clusterCreateTimeout(logRetention.getNumberValue())
+                .build()
+        );
 ```
 
 ```python
@@ -83,3 +106,36 @@ Later in synthesis, CDKTF will resolve the token to `${module.<module id>.public
 ```
 
 Refer to the [AWS CDK documentation](https://docs.aws.amazon.com/cdk/latest/guide/tokens.html) for more detailed information about tokens.
+
+### Using Terraform's `null` value
+
+Some edge cases require passing the Terraform `null` value to for example an attribute of a resource.
+
+<CodeTabs>
+
+```typescript
+import { Token } from "cdktf";
+Token.nullValue();
+```
+
+```python
+from cdktf import Token
+Token.null_value()
+```
+
+```java
+import com.hashicorp.cdktf.Token;
+Token.nullValue()
+```
+
+```csharp
+using HashiCorp.Cdktf;
+Token.NullValue()
+```
+
+```go
+import "github.com/hashicorp/terraform-cdk-go/cdktf"
+cdktf.Token_NullValue()
+```
+
+</CodeTabs>

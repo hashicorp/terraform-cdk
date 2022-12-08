@@ -3,7 +3,7 @@
 
 import { logger } from "@cdktf/commons";
 import { logBetterErrorAndThrow } from "../../lib/models/terraform-cloud";
-jest.mock("../../lib/logging");
+jest.mock("@cdktf/commons");
 
 describe("BeautifyErrors", () => {
   afterEach(() => {

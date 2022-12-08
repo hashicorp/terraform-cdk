@@ -3,11 +3,7 @@ on:
   push:
     branches:
       - main
-    paths:
-      - "packages/**"
-      - "tools/**"
-      - "package.json"
-      - "yarn.lock"
+  workflow_dispatch: {}
 
 env:
   SENTRY_ORG: hashicorp
@@ -28,11 +24,11 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0 # gives standard-version access to all previous commits
       - name: installing dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile
       - name: Configure git user
         run: |
           git config user.name github-team-tf-cdk
@@ -48,9 +44,9 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          status=$(sentry-cli releases list | grep -q 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
           echo "Sentry returned: ${status}"
-          echo "release=$(echo $status | tr '\n' ' ')" >> $GITHUB_OUTPUT
+          echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Create a release
@@ -60,7 +56,7 @@ jobs:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: create bundle
         run: |
-          yarn install
+          yarn install --frozen-lockfile
           yarn build
           yarn package
         env:
@@ -73,12 +69,12 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3.1.1
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.1
         if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
@@ -123,6 +119,15 @@ jobs:
       concurrency_group_prefix: release-next
     secrets: inherit
 
+  provider_integration_test:
+    needs:
+      - prepare-release
+    uses: ./.github/workflows/provider-integration.yml
+    with:
+      skip_setup: true
+      concurrency_group_prefix: release-next
+    secrets: inherit
+
   examples:
     uses: ./.github/workflows/examples.yml
     with:
@@ -135,13 +140,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
       - name: Release
@@ -155,13 +161,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
       - name: Release
@@ -175,13 +182,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
           path: dist
@@ -200,13 +208,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
           path: dist
@@ -220,13 +229,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
           path: dist
@@ -242,13 +252,14 @@ jobs:
     needs:
       - prepare-release
       - integration_test
+      - provider_integration_test
       - unit_test
       - release_npm
     runs-on: ubuntu-latest
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
       - name: version
         id: get_version
         run: |
@@ -257,11 +268,12 @@ jobs:
       - name: release status
         id: get_release_status
         run: |
-          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' && echo 'released' || echo 'unreleased')
+          status=$(sentry-cli releases list | grep 'cdktf-cli-${{ steps.get_version.outputs.version }} ' | grep -q 'unreleased' && echo "unreleased" || echo "released")
+          echo "Sentry returned: ${status}"
           echo "release=${status}" >> $GITHUB_OUTPUT
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
-      - name: Create a release
+      - name: Finalize the release
         if: steps.get_release_status.outputs.release == 'unreleased'
         run: sentry-cli releases finalize cdktf-cli-${{ steps.get_version.outputs.version }}
         env:
@@ -285,11 +297,11 @@ jobs:
       - unit_test
     steps:
       - name: Send failures to Slack
-        uses: slackapi/slack-github-action@v1.21.0
+        uses: slackapi/slack-github-action@v1.23.0
         with:
           payload: |
             {
-              "provider_name": "CDKTF(next)",
+              "name": "next",
               "run_url": "https://github.com/hashicorp/terraform-cdk/actions/runs/${{ github.run_id }}"
             }
         env:
