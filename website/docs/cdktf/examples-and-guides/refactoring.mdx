@@ -1,0 +1,111 @@
+---
+page_title: Refactoring - CDK for Terraform
+description: >-
+  As your CDKTF application grows in size and complexity, the need to move resources between stacks becomes more common. This guide will walk you through the process of refactoring your stacks.
+---
+
+# Refactoring
+
+As your CDKTF application grows in size and complexity, the need to move resources between stacks becomes more common. This guide will walk you through the process of refactoring your stacks. In general you can change the names of stacks freely without an effect on the synthesized code. If you change the name of a resource this might lead to a re-creation of the resource, especially if you move the resource from one stack to another.
+
+## Moving resources inside a stack
+
+Let's say you have a stack deployed with an aws `S3Bucket` resource and you want to give it another name:
+
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    // Old S3Bucket definition
+    // new S3Bucket(this, "my-bucket", {
+    //   bucketPrefix: "my-bucket",
+    // });
+
+    // New S3Bucket definition
+    new S3Bucket(this, "new-bucket", {
+      bucketPrefix: "my-bucket",
+    });
+  }
+}
+
+const app = new App();
+new MyStack(app, "refactoring-example");
+app.synth();
+```
+
+When you run a `cdktf plan` you might see the following output:
+
+```shell-session
+refactoring-example    # aws_s3_bucket.my-bucket will be destroyed
+                       # (because aws_s3_bucket.my-bucket is not in configuration)
+                       - resource "aws_s3_bucket" "my-bucket" {
+...
+refactoring-example    # aws_s3_bucket.new-bucket (new-bucket) will be created
+                       + resource "aws_s3_bucket" "new-bucket" {
+```
+
+As you can see the old bucket is going to be destroyed and a new one is created to replace it. This can be harmful if there is already state in the resource (e.g. files in the bucket, data in the database, etc).
+
+To avoid the recreation of the resource you can use the [`terraform state mv`](https://developer.hashicorp.com/terraform/cli/commands/state/mv) command to move the state before the next apply.
+
+```shell-session
+# before the change, find the terraform name of the resource
+# the name can be different than the name you put in the constructor of your construct,
+# see the information below
+$ cat cdktf.out/stacks/refactoring-example/cdk.tf.json | jq '.resource.aws_s3_bucket'
+{
+  "my-bucket": {
+    "//": {
+      "metadata": {
+        "path": "refactoring-example/my-bucket",
+        "uniqueId": "my-bucket"
+      }
+    },
+    "bucket_prefix": "my-bucket"
+  }
+}
+# the id is the key of the object, in this case it is "new-bucket"
+# if you have multiple resources of the same type, you can use the path to find the right one
+
+# Now change your code and synthesize it to get the new name of the resource
+$ cdktf synth # we need to know the new id of the resource
+$ cat cdktf.out/stacks/refactoring-example/cdk.tf.json | jq '.resource.aws_s3_bucket'
+{
+  "my-bucket": {
+    "//": {
+      "metadata": {
+        "path": "refactoring-example/new-bucket",
+        "uniqueId": "new-bucket"
+      }
+    },
+    "bucket_prefix": "new-bucket"
+  }
+}
+
+# Now that we know the old name is "my-bucket" and the new name is "new-bucket" we can move the state
+$ cd cdktf.out/stacks/refactoring-example
+$ terraform init
+# move the state
+$ terraform state mv aws_s3_bucket.my-bucket aws_s3_bucket.new-bucket
+Move "aws_s3_bucket.my-bucket" to "aws_s3_bucket.new-bucket"
+Successfully moved 1 object(s).
+# now you can apply the changes
+$ cd ../../..
+$ cdktf deploy
+....
+refactoring-example  aws_s3_bucket.new-bucket (new-bucket): Refreshing state... [id=my-bucket20221208132144348300000001]
+refactoring-example  No changes. Your infrastructure matches the configuration.
+...
+```
+
+### Why do I need to find the terraform name of the resource?
