@@ -442,18 +442,23 @@ export class CdktfProject {
         const callbacks = (update: StackApprovalUpdate) => ({
           approve: () => {
             update.approve();
-            this.resumeAfterApproval(update.stackName);
+            // We need to defer these calls for the case that approve() is instantly invoked
+            // in the listener that receives these callbacks as it otherwise would already 
+            // remove the "waiting for stack approval" event from the buffer before we even
+            // set waitingForApproval to true (at the end of this if statement) which results
+            // in buffered updates which will never unblock
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
           dismiss: () => {
             update.reject();
 
             this.stopAllStacksThatCanNotRunWithout(update.stackName);
-            this.resumeAfterApproval(update.stackName);
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
           stop: () => {
             update.reject();
             this.stopAllStacks();
-            this.resumeAfterApproval(update.stackName);
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
         });
 
