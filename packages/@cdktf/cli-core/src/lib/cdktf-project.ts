@@ -443,7 +443,7 @@ export class CdktfProject {
           approve: () => {
             update.approve();
             // We need to defer these calls for the case that approve() is instantly invoked
-            // in the listener that receives these callbacks as it otherwise would already 
+            // in the listener that receives these callbacks as it otherwise would already
             // remove the "waiting for stack approval" event from the buffer before we even
             // set waitingForApproval to true (at the end of this if statement) which results
             // in buffered updates which will never unblock

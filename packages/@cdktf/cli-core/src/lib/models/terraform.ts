@@ -114,7 +114,7 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
 }
 
 export type TerraformDeployState =
-  | { type: "running", cancelled: boolean }
+  | { type: "running"; cancelled: boolean }
   | {
       type: "waiting for approval";
       approve: () => void;
