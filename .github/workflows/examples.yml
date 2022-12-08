@@ -32,7 +32,7 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -40,15 +40,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: install dependencies
-        run: yarn install
+        run: yarn install --frozen-lockfile --prefer-offline
       - name: lint
         run: yarn lint:examples
-      - name: align version (Python only)
-        if: ${{ !inputs.skip_setup && startsWith(matrix.target, '@examples/python') }}# lint:examples ensures this prefix
-        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: build and package
         if: ${{ !inputs.skip_setup }}
         run: |
+          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
         env:
@@ -56,7 +54,7 @@ jobs:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3.1.1
         if: ${{ !inputs.skip_setup }}
         with:
           name: dist
