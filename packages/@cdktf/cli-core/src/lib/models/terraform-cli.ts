@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { exec, readCDKTFVersion, terraformBinaryName } from "@cdktf/commons";
+import {
+  exec,
+  logger,
+  readCDKTFVersion,
+  terraformBinaryName,
+} from "@cdktf/commons";
 import {
   Terraform,
   TerraformPlan,
@@ -62,6 +67,7 @@ export class TerraformCli implements Terraform {
     }
 
     // TODO: do we need to run this if we use the TF CLI to run in TFC?
+    // -> yes, so let's figure out how to best solve this.
     // if (this.isTFCPlan) {
     //   await exec(
     //     terraformBinaryName,
@@ -99,8 +105,7 @@ export class TerraformCli implements Terraform {
     destroy = false,
     refreshOnly = false,
     parallelism = -1
-  ): Promise<TerraformPlan> {
-    const planFile = "plan";
+  ): Promise<void> {
     const options = ["plan", "-input=false"];
 
     if (destroy) {
@@ -124,16 +129,6 @@ export class TerraformCli implements Terraform {
       this.onStdout("plan"),
       this.onStderr("plan")
     );
-
-    const jsonPlan = await exec(
-      terraformBinaryName,
-      ["show", "-json", planFile],
-      { cwd: this.workdir, env: process.env, signal: this.abortSignal },
-      // we don't care about the output, this is just internally to compose a plan
-      () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-      this.onStderr("plan")
-    );
-    return new TerraformCliPlan(planFile, JSON.parse(jsonPlan));
   }
 
   public async deploy(
@@ -144,7 +139,7 @@ export class TerraformCli implements Terraform {
       extraOptions = [],
     },
     callback: (state: TerraformDeployState) => void
-  ): Promise<void> {
+  ): Promise<{ cancelled: boolean }> {
     await this.setUserAgent();
     const service = createAndStartDeployService({
       terraformBinaryName,
@@ -154,13 +149,13 @@ export class TerraformCli implements Terraform {
       parallelism,
       extraOptions,
     });
-    await this.handleService("deploy", service, callback);
+    return this.handleService("deploy", service, callback);
   }
 
   public async destroy(
     { autoApprove = false, parallelism = -1, extraOptions = [] },
     callback: (state: TerraformDeployState) => void
-  ): Promise<void> {
+  ): Promise<{ cancelled: boolean }> {
     await this.setUserAgent();
     const service = createAndStartDestroyService({
       terraformBinaryName,
@@ -169,7 +164,7 @@ export class TerraformCli implements Terraform {
       parallelism,
       extraOptions,
     });
-    await this.handleService("destroy", service, callback);
+    return this.handleService("destroy", service, callback);
   }
 
   private async handleService(
@@ -178,7 +173,7 @@ export class TerraformCli implements Terraform {
       | ReturnType<typeof createAndStartDeployService>
       | ReturnType<typeof createAndStartDestroyService>,
     callback: (state: TerraformDeployState) => void
-  ): Promise<void> {
+  ): Promise<{ cancelled: boolean }> {
     // stop terraform apply if signaled as such from the outside (e.g. via ctrl+c)
     this.abortSignal.addEventListener(
       "abort",
@@ -190,6 +185,9 @@ export class TerraformCli implements Terraform {
 
     // relay logs to stdout
     service.onEvent((event) => {
+      logger.trace(
+        `Terraform CLI state machine event: ${JSON.stringify(event)}`
+      );
       if (isDeployEvent(event, "LINE_RECEIVED"))
         this.onStdout(type)(event.line);
       else if (isDeployEvent(event, "APPROVED_EXTERNALLY"))
@@ -205,6 +203,12 @@ export class TerraformCli implements Terraform {
       // onTransition is called even if the state didn't change but only an event happened
       if (state.matches(previousState as DeployState["value"])) return;
 
+      logger.trace(
+        `Terraform CLI state machine state transition: ${JSON.stringify(
+          previousState
+        )} => ${JSON.stringify(state.value)}`
+      );
+
       if (state.matches({ running: "awaiting_approval" })) {
         callback({
           type: "waiting for approval",
@@ -212,7 +216,10 @@ export class TerraformCli implements Terraform {
           reject: () => service.send("REJECT"),
         });
       } else if (state.matches({ running: "processing" })) {
-        callback({ type: "running" });
+        callback({
+          type: "running",
+          cancelled: Boolean(state.context.cancelled),
+        });
       }
       previousState = state.value as DeployState["value"];
     });
@@ -221,19 +228,22 @@ export class TerraformCli implements Terraform {
       timeout: Infinity,
     });
 
-    console.log(
-      "done waiting after approve, exit code:",
-      state.context.exitCode,
-      "event:",
-      state.event
+    logger.trace(
+      `Invoking Terraform CLI for ${type} done (state machine reached final state). Last event: ${JSON.stringify(
+        state.event
+      )}. Context: ${JSON.stringify(state.context)}`
     );
-    // #1 done waiting after approve, exit code: undefined event: { type: 'EXITED', exitCode: 0 }
-    // #2 done waiting after approve, exit code: undefined event: { type: 'EXTERNAL_REJECT' }
 
-    if (state.event.type === "EXITED" && state.event.exitCode !== 0) {
-      // TODO: rejected through our UI shall not fail?
-      throw `Invoking Terraform failed with exit code ${state.event.exitCode}`;
+    // example events: { type: 'EXITED', exitCode: 0 }, { type: 'EXTERNAL_REJECT' }
+    if (
+      state.event.type === "EXITED" &&
+      state.event.exitCode !== 0 &&
+      !state.context.cancelled // don't fail if we cancelled the run
+    ) {
+      throw `Invoking Terraform CLI failed with exit code ${state.event.exitCode}`;
     }
+
+    return { cancelled: Boolean(state.context.cancelled) };
   }
 
   public async version(): Promise<string> {

@@ -1,6 +1,6 @@
-import { createMachine, send, interpret, EventObject } from "xstate";
+import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty";
-import { Errors } from "@cdktf/commons";
+import { Errors, logger } from "@cdktf/commons";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
@@ -10,14 +10,17 @@ interface PtySpawnConfig {
 
 interface DeployContext {
   exitCode?: number;
-  // pty?: PtySpawnConfig;
+  /**
+   * Terraform will exit with 1 if it was cancelled, but we don't want to fail in that case
+   */
+  cancelled?: boolean;
 }
 
 type DeployEvent =
   | { type: "START"; pty: PtySpawnConfig }
   | { type: "STOP" }
   | { type: "SEND_INPUT"; input: string }
-  | { type: "LINE_RECEIVED"; line: string } //TODO: output received, not really a line in practice
+  | { type: "LINE_RECEIVED"; line: string } //TODO: rename to output received as not really a line in practice
   | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
   | { type: "REJECTED_EXTERNALLY" }
   | { type: "REQUEST_APPROVAL" }
@@ -39,15 +42,15 @@ export type DeployState =
     }
   | {
       value: "running";
-      context: DeployContext & { pty: PtySpawnConfig };
+      context: DeployContext;
     }
   | {
       value: { running: "processing" };
-      context: DeployContext & { pty: PtySpawnConfig };
+      context: DeployContext;
     }
   | {
       value: { running: "awaiting_approval" };
-      context: DeployContext & { pty: PtySpawnConfig };
+      context: DeployContext;
     }
   | {
       value: "exited";
@@ -99,7 +102,8 @@ export const deployMachine = createMachine<
             } else if (line.includes("discarded using the UI or API")) {
               send({ type: "REJECTED_EXTERNALLY" });
             } else if (
-              line.includes("Do you want to perform these actions")
+              line.includes("Do you want to perform these actions") ||
+              line.includes("Do you really want to destroy all resources?")
             ) {
               send({ type: "REQUEST_APPROVAL" });
             }
@@ -109,7 +113,7 @@ export const deployMachine = createMachine<
           });
 
           return () => {
-            console.log("CLEANUP PTY"); // TODO: only if not exited yet?
+            logger.trace("Terracorm CLI state machine: cleaning up pty");
             p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
             // TODO: is there a way to delay this? maybe go into a "killing" state first?
           };
@@ -130,7 +134,13 @@ export const deployMachine = createMachine<
         awaiting_approval: {
           on: {
             APPROVED_EXTERNALLY: "processing",
-            REJECTED_EXTERNALLY: "#root.exited",
+            REJECTED_EXTERNALLY: {
+              target: "#root.exited",
+              actions: assign<
+                DeployContext,
+                DeployEvent & { type: "REJECTED_EXTERNALLY" }
+              >({ cancelled: true }),
+            },
             APPROVE: {
               target: "processing",
               actions: send(
@@ -140,10 +150,12 @@ export const deployMachine = createMachine<
             },
             REJECT: {
               target: "processing",
-              actions: send(
-                { type: "SEND_INPUT", input: "no\n" },
-                { to: "pty" }
-              ),
+              actions: [
+                send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                assign<DeployContext, DeployEvent & { type: "REJECT" }>({
+                  cancelled: true,
+                }),
+              ],
             },
           },
         },

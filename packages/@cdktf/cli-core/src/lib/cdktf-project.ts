@@ -297,7 +297,7 @@ export type MutationOptions = MultipleStackOptions &
     terraformParallelism?: number;
   };
 
-type LogMessage = {
+export type LogMessage = {
   stackName: string;
   messageWithConstructPath?: string;
   message: string;
@@ -561,11 +561,6 @@ export class CdktfProject {
       getSingleStack(stacks, opts?.stackName, "diff")
     );
     await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
-    if (!stack.currentPlan)
-      throw Errors.External(
-        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
-      );
-    return stack.currentPlan;
   }
 
   private async execute(

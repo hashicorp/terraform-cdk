@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { SynthesizedStack } from "./synth-stack";
-import { Terraform, TerraformPlan } from "./models/terraform";
+import { Terraform } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger } from "@cdktf/commons";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
@@ -19,7 +19,6 @@ export type StackUpdate =
   | {
       type: "planned";
       stackName: string;
-      plan: TerraformPlan;
     }
   | {
       type: "deploying";
@@ -105,7 +104,6 @@ type CdktfStackStates =
   | "error";
 
 export class CdktfStack {
-  public currentPlan?: TerraformPlan;
   public stack: SynthesizedStack;
   public outputs?: Record<string, any>;
   public outputsByConstructId?: NestedTerraformOutputs;
@@ -281,13 +279,8 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      const plan = await terraform.plan(
-        false,
-        refreshOnly,
-        terraformParallelism
-      );
-      this.currentPlan = plan;
-      this.updateState({ type: "planned", stackName: this.stack.name, plan });
+      await terraform.plan(false, refreshOnly, terraformParallelism);
+      this.updateState({ type: "planned", stackName: this.stack.name });
     });
   }
 
@@ -296,7 +289,7 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      await terraform.deploy(
+      const { cancelled } = await terraform.deploy(
         {
           autoApprove: this.options.autoApprove,
           refreshOnly,
@@ -304,7 +297,7 @@ export class CdktfStack {
         },
         (state) => {
           // state updates while apply runs that affect the UI
-          if (state.type === "running") {
+          if (state.type === "running" && !state.cancelled) {
             this.updateState({ type: "deploying", stackName: this.stack.name });
           } else if (state.type === "waiting for approval") {
             this.updateState({
@@ -329,18 +322,20 @@ export class CdktfStack {
         }
       );
 
-      const outputs = await terraform.output();
-      const outputsByConstructId = getConstructIdsForOutputs(
-        JSON.parse(this.stack.content),
-        outputs
-      );
+      if (!cancelled) {
+        const outputs = await terraform.output();
+        const outputsByConstructId = getConstructIdsForOutputs(
+          JSON.parse(this.stack.content),
+          outputs
+        );
 
-      this.updateState({
-        type: "deployed",
-        stackName: this.stack.name,
-        outputs,
-        outputsByConstructId,
-      });
+        this.updateState({
+          type: "deployed",
+          stackName: this.stack.name,
+          outputs,
+          outputsByConstructId,
+        });
+      }
     });
   }
 
@@ -349,14 +344,14 @@ export class CdktfStack {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      await terraform.destroy(
+      const { cancelled } = await terraform.destroy(
         {
           autoApprove: this.options.autoApprove,
           parallelism: terraformParallelism,
         },
         (state) => {
           // state updates while apply runs that affect the UI
-          if (state.type === "running") {
+          if (state.type === "running" && !state.cancelled) {
             this.updateState({
               type: "destroying",
               stackName: this.stack.name,
@@ -384,10 +379,11 @@ export class CdktfStack {
         }
       );
 
-      this.updateState({
-        type: "destroyed",
-        stackName: this.stack.name,
-      });
+      if (!cancelled)
+        this.updateState({
+          type: "destroyed",
+          stackName: this.stack.name,
+        });
     });
   }
 
