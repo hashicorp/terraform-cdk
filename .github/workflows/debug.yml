@@ -1,0 +1,24 @@
+name: Debug
+on:
+  workflow_dispatch: {}
+
+jobs:
+  release_homebrew:
+    name: Release to Homebrew
+    runs-on: ubuntu-latest
+    steps:
+      # extract version number from package.json
+      - uses: actions/checkout@v3.1.0
+      - name: version
+        id: get_version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=${version}" >> $GITHUB_OUTPUT
+      # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
+      - uses: mislav/bump-homebrew-formula-action@v2.1
+        with:
+          formula-name: cdktf
+          download-url: https://registry.npmjs.org/cdktf-cli/-/cdktf-cli-${{ steps.get_version.outputs.version }}.tgz
+          commit-message: cdktf ${{ steps.get_version.outputs.version }}
+        env:
+          COMMITTER_TOKEN: ${{ secrets.HOMEBREW_COMMITTER_TOKEN }}
