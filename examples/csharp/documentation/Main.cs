@@ -32,6 +32,7 @@ namespace MyCompany.MyApp
             new Examples.ModuleStack(app, "modules");
             new Examples.LocalModuleStack(app, "local-modules");
             new Examples.TerraformHclModuleStack(app, "terraform-hcl-modules");
+            new Examples.IteratorStack(app, "iterators");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
