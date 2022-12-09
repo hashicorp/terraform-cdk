@@ -27,6 +27,9 @@ namespace MyCompany.MyApp
             new Examples.DataSourceStack(app, "data-sources");
             new Examples.RemoteStateDataSourceStack(app, "remote-state-data-sources");
             new Examples.HclInteropStack(app, "hcl-interop");
+            new Examples.ModuleStack(app, "modules");
+            new Examples.LocalModuleStack(app, "local-modules");
+            new Examples.TerraformHclModuleStack(app, "terraform-hcl-modules");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
