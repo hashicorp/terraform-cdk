@@ -27,6 +27,7 @@ namespace MyCompany.MyApp
             new Examples.DataSourceStack(app, "data-sources");
             new Examples.RemoteStateDataSourceStack(app, "remote-state-data-sources");
             new Examples.HclInteropStack(app, "hcl-interop");
+            new Examples.IteratorStack(app, "iterators");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
