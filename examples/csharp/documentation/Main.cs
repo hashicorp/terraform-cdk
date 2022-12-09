@@ -33,6 +33,8 @@ namespace MyCompany.MyApp
             new Examples.LocalModuleStack(app, "local-modules");
             new Examples.TerraformHclModuleStack(app, "terraform-hcl-modules");
             new Examples.IteratorStack(app, "iterators");
+            new Examples.TokenStack(app, "tokens");
+            // Missing (at least) resources, stacks, variables-outputs
             app.Synth();
             Console.WriteLine("App synth complete");
         }
