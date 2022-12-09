@@ -31,6 +31,7 @@ output as a list of strings.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#tokens -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#tokens -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#tokens -->
 
 <CodeTabs>
 
@@ -99,6 +100,30 @@ export class TokensStack extends TerraformStack {
             subnets = Token.as_list(vpc.public_subnets_output),
             cluster_create_timeout = log_retention.number_value
         )
+```
+
+```csharp
+            // Add this to your project's .csproj file:
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\vpc\vpc.csproj" />
+            // </ItemGroup>
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\eks\eks.csproj" />
+            // </ItemGroup>
+            TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", new TerraformVariableConfig {
+               Type = "number"
+            });
+
+            Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
+                Name = "vpc",
+                PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
+            });
+
+            new Eks(this, "EksModule", new EksConfig {
+                ClusterName = "my-kubernetes-cluster",
+                Subnets = Token.AsList(vpc.PublicSubnetsOutput),
+                ClusterLogRetentionInDays = logRetention.NumberValue
+            });
 ```
 
 </CodeTabs>
