@@ -40,13 +40,15 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-yarn-
       - name: install dependencies
-        run: yarn install --frozen-lockfile --prefer-offline
+        run: yarn install
       - name: lint
         run: yarn lint:examples
+      - name: align version (Python only)
+        if: ${{ !inputs.skip_setup && startsWith(matrix.target, '@examples/python') }}# lint:examples ensures this prefix
+        run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
       - name: build and package
         if: ${{ !inputs.skip_setup }}
         run: |
-          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
           yarn package
         env:
@@ -54,8 +56,8 @@ jobs:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
-        uses: actions/upload-artifact@v3.1.1
         if: ${{ !inputs.skip_setup }}
+        uses: actions/upload-artifact@v2
         with:
           name: dist
           path: dist
@@ -93,7 +95,7 @@ jobs:
         run: |
           yarn install --frozen-lockfile --prefer-offline
       - name: Download dist
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3.0.1
         with:
           name: dist
           path: dist
