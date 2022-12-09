@@ -23,6 +23,7 @@ The following example uses an iterator to create a unique name for each new S3 b
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-define-iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-define-iterators -->
 
 <CodeTabs>
 
@@ -83,6 +84,18 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
         )
 ```
 
+```csharp
+TerraformVariable list = new TerraformVariable(this, "list", new TerraformVariableConfig {
+    Type = "list(string)"
+});
+
+ListTerraformIterator iterator = ListTerraformIterator.FromList(list.ListValue);
+S3Bucket s3Bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+    ForEach = iterator,
+    Bucket = Token.AsString(iterator.Value)
+});
+```
+
 </CodeTabs>
 
 You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
@@ -94,6 +107,7 @@ The iterator also exposes methods to access nested attributes. The following exa
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-iterators-complex-types -->
 
 <CodeTabs>
 
@@ -189,6 +203,30 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
             bucket=iterator.get_string("name"),
             tags=iterator.get_map("tags")
         )
+```
+
+```csharp
+// We need a local to be able to pass the list to the iterator
+TerraformLocal listLocal = new TerraformLocal(this, "listLocal",  new [] {
+    new Dictionary<string, object> {
+        { "name", "website-static-files" },
+        { "tags", new Dictionary<string, string> {
+            { "app", "website" }
+        }}
+    },
+    new Dictionary<string, object> {
+        { "name", "images" },
+        { "tags", new Dictionary<string, string> {
+            { "app", "image-converter" }
+        }}
+    }
+});
+ListTerraformIterator listIterator = ListTerraformIterator.FromList(listLocal.AsList);
+new S3Bucket(this, "listBucket", new S3BucketConfig {
+    ForEach = listIterator,
+    Bucket = listIterator.GetString("name"),
+    Tags = listIterator.GetStringMap("tags")
+});
 ```
 
 </CodeTabs>
