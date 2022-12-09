@@ -52,6 +52,7 @@ This TypeScript example project has a `main.ts` file that defines AWS resources.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#providers-import -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-providers -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-providers -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-providers -->
 
 <CodeTabs>
 
@@ -135,6 +136,40 @@ SimpleProviderStack(app, "provider-stack")
 app.synth()
 ```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+
+namespace Examples
+{
+    class ProviderStack : TerraformStack
+    {
+        public ProviderStack(Construct scope, string name) : base(scope, name)
+        {
+            // Add this to your project's .csproj file:
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\aws\aws.csproj" />
+            // </ItemGroup>
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            new Instance(this, "instance", new InstanceConfig {
+                Ami = "ami-2757f631",
+                InstanceType = "t2.micro"
+            });
+        }
+    }
+}
+```
+
 </CodeTabs>
 
 ### Add Provider to `cdktf.json`
@@ -171,6 +206,7 @@ Import and use the generated classes in your application. The following example 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#providers-import-classes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-classes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-classes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-classes -->
 
 <CodeTabs>
 
