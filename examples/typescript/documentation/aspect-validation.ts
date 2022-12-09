@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 
-// DOCS_BLOCK_START:aspects-validation
+// DOCS_BLOCK_START:aspect-validation
 import { Annotations, Aspects, IAspect, TerraformStack } from "cdktf";
 import { Construct, IConstruct } from "constructs";
 import { AwsProvider } from "./.gen/providers/aws/provider";
@@ -39,4 +39,4 @@ export class AspectValidationStack extends TerraformStack {
     Aspects.of(this).add(new ValidateS3IsPrefixed("myPrefix"));
   }
 }
-// DOCS_BLOCK_END:aspects-validation
+// DOCS_BLOCK_END:aspect-validation
