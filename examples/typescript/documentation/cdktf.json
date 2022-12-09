@@ -2,6 +2,8 @@
   "language": "typescript",
   "app": "npx ts-node main.ts",
   "terraformProviders": [
-    "aws@~> 3.0", "kubernetes@~> 2.0"
+    "aws@~> 3.0",
+    "kubernetes@~> 2.0",
+    "random@~> 3.1"
   ]
 }
