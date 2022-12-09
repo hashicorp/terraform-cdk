@@ -97,7 +97,7 @@ jobs:
           name: dist
           path: dist
       - name: align version (Python only)
-        if: ${{ !inputs.skip_setup && startsWith(${{ matrix.target }}, '@examples/python') }}
+        if: ${{ !inputs.skip_setup && startsWith(matrix.target, '@examples/python') }}
         run: |
           tools/align-version.sh "-dev.$GITHUB_RUN_ID"
           yarn build
