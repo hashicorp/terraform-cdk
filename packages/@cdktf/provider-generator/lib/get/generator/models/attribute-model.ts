@@ -4,7 +4,6 @@ import {
   AttributeTypeModel,
   NewAttributeTypeModel,
 } from "./attribute-type-model";
-import { logger } from "@cdktf/commons";
 
 export type GetterType =
   | { _type: "plain" }
@@ -84,7 +83,7 @@ export class AttributeModel {
 
   public get typeDefinition() {
     const optional = this.optional ? "?" : "";
-    return `${this.name}${optional}: ${this.type.name}`;
+    return `${this.name}${optional}: ${this.newType.inputTypeDefinition}`;
   }
 
   public get isAssignable() {
@@ -97,10 +96,6 @@ export class AttributeModel {
 
   public get isRequired(): boolean {
     return this.required;
-  }
-
-  public get isTokenizable(): boolean {
-    return this.type.isTokenizable;
   }
 
   public get isProvider(): boolean {
@@ -162,37 +157,6 @@ export class AttributeModel {
     return getterType;
   }
 
-  public get mapType() {
-    const type = this.type;
-    if (type.isStringMap) {
-      return `string`;
-    }
-    if (type.isNumberMap) {
-      return `number`;
-    }
-    if (type.isBooleanMap) {
-      return `boolean`;
-    }
-    if (type.isAnyMap) {
-      return `any`;
-    }
-
-    logger.debug(
-      `The attribute isn't implemented yet: ${JSON.stringify(this)}`
-    );
-
-    return `any`;
-  }
-
-  public get mapReturnType(): string {
-    const mapDataType = this.mapType;
-    if (!this.isTokenizable) {
-      return `${mapDataType} | cdktf.IResolvable`;
-    }
-
-    return mapDataType;
-  }
-
   public get isStored(): boolean {
     return this.isAssignable;
   }
@@ -230,7 +194,7 @@ export class AttributeModel {
   }
 
   public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
-    const attTypeStruct = this.type.struct;
+    const attTypeStruct = this.newType.struct;
     if (!attTypeStruct) {
       return undefined;
     }
@@ -238,7 +202,7 @@ export class AttributeModel {
     const types: string[] = [];
 
     if (this.isAssignable) {
-      types.push(this.type.typeName);
+      types.push(attTypeStruct.name);
       types.push(attTypeStruct.mapperName);
     }
 
