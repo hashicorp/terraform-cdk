@@ -136,13 +136,13 @@ class Parser {
         throw new Error(
           `Expected to find recursive attribute at path: ${path}`
         );
-      if (!attribute.type.struct)
+      if (!attribute.newType.struct)
         throw new Error(
-          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.typeName}`
+          `Expected to find struct type attribute at path: ${path} but got ${attribute.newType.storedClassType}`
         );
       if (rest.length === 0) return attribute;
       return getStructAttribute(
-        attribute.type.struct?.attributes,
+        attribute.newType.struct.attributes,
         rest.join(".")
       );
     }
@@ -161,23 +161,25 @@ class Parser {
         const attributeName = parts.pop();
         const parentAttribute = getStructAttribute(attributes, parts.join("."));
         const indexToReplace =
-          parentAttribute.type.struct!.attributes.findIndex(
+          parentAttribute.newType.struct!.attributes.findIndex(
             (att) => att.terraformName === attributeName
           );
         if (indexToReplace === -1)
           throw new Error("Can't find attribute at path " + attributePath);
         const previousAttribute =
-          parentAttribute.type.struct!.attributes[indexToReplace];
+          parentAttribute.newType.struct!.attributes[indexToReplace];
 
-        parentAttribute.type.struct!.attributes[indexToReplace] =
+        parentAttribute.newType.struct!.attributes[indexToReplace] =
           recursionTargetStructAttribute; // introduce recursion
 
         // ugly, pls c̶a̶l̶l̶ refactor me maybe
         // we store all structs in this.structs – now we need to dispose all structs that are part of previousAttribute
         const disposeStructs = (attr: AttributeModel) => {
-          if (attr.type.struct) {
-            attr.type.struct.attributes.forEach(disposeStructs);
-            this.structs = this.structs.filter((s) => s !== attr.type.struct);
+          if (attr.newType.struct) {
+            attr.newType.struct.attributes.forEach(disposeStructs);
+            this.structs = this.structs.filter(
+              (s) => s !== attr.newType.struct
+            );
           }
         };
 

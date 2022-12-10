@@ -12,20 +12,22 @@ const equalAttributeIdentifiers = (
   [...x[1]].every((x) => y[1].has(x));
 
 function typeStructure(model: AttributeModel) {
-  if (model.type.isPrimitive) {
-    return model.type.name;
+  if (!model.newType.isComplex) {
+    return model.newType.storedClassType;
   }
 
-  return `<complex:{${model.type.struct?.attributes
+  return `<complex:{${model.newType.struct?.attributes
     .map((att) => att.name)
-    .sort()}}${model.type.isList ? "[]" : ""}>`;
+    .sort()}}${model.newType.typeModelType}>`;
 }
 
 function getAttributeIdentifier(model: AttributeModel): AttributeIdentifier {
   return [
     model.terraformName,
     new Set(
-      model.type.struct!.attributes.map((a) => `${a.name}:${typeStructure(a)}`)
+      model.newType.struct!.attributes.map(
+        (a) => `${a.name}:${typeStructure(a)}`
+      )
     ),
   ];
 }
@@ -47,7 +49,7 @@ export function detectAttributeLoops(attributes: AttributeModel[]): {
     knownStructs: { [attributePath: string]: AttributeIdentifier } = {}
   ) {
     const name = attribute.terraformName;
-    const struct = attribute.type.struct;
+    const struct = attribute.newType.struct;
     if (!struct) {
       return;
     }

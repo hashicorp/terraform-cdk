@@ -11,10 +11,15 @@ export interface NewAttributeTypeModel {
   readonly inputTypeDefinition: string; // this is the type used for inputting values
   getAttributeAccessFunction(name: string): string; // this is for getting reference for simple types
   readonly toTerraformFunction: string; // this is for converting input values to Terraform syntax
+  readonly typeModelType: string; // so we don't need to use instanceof
 }
 
 export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
   constructor(public readonly type: string) {}
+
+  get typeModelType() {
+    return "simple";
+  }
 
   get struct() {
     return undefined;
@@ -52,6 +57,10 @@ export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
 
 export class StructAttributeTypeModel implements NewAttributeTypeModel {
   constructor(public readonly struct: Struct) {}
+
+  get typeModelType() {
+    return "struct";
+  }
 
   get isComplex() {
     return true;
@@ -93,6 +102,10 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
     public readonly isSingleItem: boolean,
     private readonly isBlock: boolean
   ) {}
+
+  get typeModelType() {
+    return "list";
+  }
 
   get struct() {
     return this.elementType.struct;
@@ -159,6 +172,10 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
     private readonly isBlock: boolean
   ) {}
 
+  get typeModelType() {
+    return "set";
+  }
+
   get struct() {
     return this.elementType.struct;
   }
@@ -224,6 +241,10 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
 
 export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
   constructor(public readonly elementType: NewAttributeTypeModel) {}
+
+  get typeModelType() {
+    return "map";
+  }
 
   get struct() {
     return this.elementType.struct;
