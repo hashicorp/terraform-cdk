@@ -121,7 +121,15 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   get inputTypeDefinition() {
-    return "TODO"; //TODO implement
+    if (this.isSingleItem) {
+      return this.elementType.inputTypeDefinition;
+    } else if (this.elementType.storedClassType === "boolean") {
+      return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
+    } else if (this.isComplex) {
+      return `${this.elementType.storedClassType}[] | cdktf.IResolvable`;
+    } else {
+      return `${this.elementType.inputTypeDefinition}[]`;
+    }
   }
 
   getAttributeAccessFunction(name: string) {
@@ -178,7 +186,15 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   get inputTypeDefinition() {
-    return "TODO"; //TODO implement
+    if (this.isSingleItem) {
+      return this.elementType.inputTypeDefinition;
+    } else if (this.elementType.storedClassType === "boolean") {
+      return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
+    } else if (this.isComplex) {
+      return `${this.elementType.storedClassType}[] | cdktf.IResolvable`;
+    } else {
+      return `${this.elementType.inputTypeDefinition}[]`;
+    }
   }
 
   getAttributeAccessFunction(name: string) {
@@ -232,7 +248,14 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   get inputTypeDefinition() {
-    return "TODO"; //TODO implement
+    // map of booleans has token support, but booleans don't
+    if (this.elementType.storedClassType === "boolean") {
+      return `{ [key: string]: (${this.elementType.storedClassType} | cdktf.IResolvable) }`;
+    } else if (this.isComplex) {
+      return `{ [key: string]: ${this.elementType.storedClassType} } | cdktf.IResolvable`;
+    } else {
+      return `{ [key: string]: ${this.elementType.storedClassType} }`;
+    }
   }
 
   getAttributeAccessFunction(name: string) {
