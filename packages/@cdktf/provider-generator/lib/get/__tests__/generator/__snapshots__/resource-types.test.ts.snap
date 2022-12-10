@@ -8040,7 +8040,7 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/security_group#timeouts SecurityGroup#timeouts}
   */
-  readonly timeouts?: SecurityGroupTimeouts;
+  readonly timeouts?: SecurityGroupTimeouts | cdktf.IResolvable;
 }
 export interface SecurityGroupEgress {
   /**

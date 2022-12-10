@@ -66,7 +66,6 @@ export class BooleanList extends cdktf.TerraformResource {
   // foo_required - computed: false, optional: false, required: true
   private _fooRequired?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooRequired() {
-    // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_required');
   }
   public set fooRequired(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
@@ -80,7 +79,6 @@ export class BooleanList extends cdktf.TerraformResource {
   // foo_optional - computed: false, optional: true, required: false
   private _fooOptional?: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable; 
   public get fooOptional() {
-    // Getting the computed value is not yet implemented
     return this.interpolationForAttribute('foo_optional');
   }
   public set fooOptional(value: Array<boolean | cdktf.IResolvable> | cdktf.IResolvable) {
@@ -3550,7 +3548,7 @@ export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type#timeouts SingleBlockType#timeouts}
   */
-  readonly timeouts?: SingleBlockTypeTimeouts;
+  readonly timeouts?: SingleBlockTypeTimeouts | cdktf.IResolvable;
 }
 export interface SingleBlockTypeTimeouts {
   /**
