@@ -254,7 +254,7 @@ class Parser {
               level,
               isMap: true,
             }),
-            new SimpleAttributeTypeModel("any"),
+            new MapAttributeTypeModel(new SimpleAttributeTypeModel("any")),
           ];
         default:
           throw new Error(`invalid primitive type ${attributeType}`);

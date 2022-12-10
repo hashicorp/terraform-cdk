@@ -7,6 +7,7 @@ export interface NewAttributeTypeModel {
   readonly struct?: Struct; // complex object type contained within the type
   readonly isComplex: boolean; // basically the same as having a struct
   getStoredClassInitializer(name: string): string; // initializer for keeping class needed to keep track of reference access
+  readonly storedClassType: string; // used mainly by collection types to generate their stored class initializer
   readonly inputTypeDefinition: string; // this is the type used for inputting values
   getAttributeAccessFunction(name: string): string; // this is for getting reference for simple types
   readonly toTerraformFunction: string; // this is for converting input values to Terraform syntax
@@ -23,33 +24,29 @@ export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
     return false;
   }
 
-  getStoredClassInitializer(name: string) {
-    // Only used for "any"
-    if (this.type === "any") {
-      return `new cdktf.AnyMap(this, "${name}")`;
-    }
-
+  getStoredClassInitializer(_name: string) {
+    // not used
     return "";
   }
 
+  get storedClassType() {
+    return this.type;
+  }
+
   get inputTypeDefinition() {
-    return "TODO"; //TODO implement
+    if (this.type === "boolean") {
+      return "boolean | cdktf.IResolvable";
+    } else {
+      return this.type;
+    }
   }
 
   getAttributeAccessFunction(name: string) {
-    if (this.type === "any") {
-      return `this.getAnyMapAttribute('${name}')`;
-    } else {
-      return `this.get${uppercaseFirst(this.type)}Attribute('${name}')`;
-    }
+    return `this.get${uppercaseFirst(this.type)}Attribute('${name}')`;
   }
 
   get toTerraformFunction() {
-    if (this.type === "any") {
-      return `cdktf.hashMapper(cdktf.anyToTerraform)`;
-    } else {
-      return `cdktf.${this.type}ToTerraform`;
-    }
+    return `cdktf.${this.type}ToTerraform`;
   }
 }
 
@@ -64,8 +61,16 @@ export class StructAttributeTypeModel implements NewAttributeTypeModel {
     return `new ${this.struct.outputReferenceName}(this, "${name}")`;
   }
 
+  get storedClassType() {
+    return this.struct.name;
+  }
+
   get inputTypeDefinition() {
-    return "TODO"; //TODO implement
+    if (this.struct.isClass) {
+      return this.struct.name;
+    } else {
+      return `${this.struct.name} | cdktf.IResolvable`;
+    }
   }
 
   getAttributeAccessFunction(name: string) {
@@ -98,11 +103,21 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   getStoredClassInitializer(name: string) {
-    // This shouldn't actually be called when there isn't a struct
     if (this.isSingleItem) {
-      return `new ${this.struct?.outputReferenceName}(this, "${name}")`;
+      return `new ${this.elementType.storedClassType}OutputReference(this, "${name}")`;
+    } else {
+      if (this.isComplex) {
+        return `new ${this.storedClassType}(this, "${name}", false)`;
+      } else {
+        return `new cdktf.${uppercaseFirst(
+          this.storedClassType
+        )}(this, "${name}", false)`;
+      }
     }
-    return `new ${this.struct?.listName}(this, "${name}", false)`;
+  }
+
+  get storedClassType() {
+    return `${this.elementType.storedClassType}List`;
   }
 
   get inputTypeDefinition() {
@@ -110,13 +125,11 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   getAttributeAccessFunction(name: string) {
-    if (this.elementType instanceof SimpleAttributeTypeModel) {
-      switch (this.elementType.type) {
-        case "string":
-          return `this.getListAttribute('${name}')`;
-        case "number":
-          return `this.getNumberListAttribute('${name}')`;
-      }
+    switch (this.elementType.storedClassType) {
+      case "string":
+        return `this.getListAttribute('${name}')`;
+      case "number":
+        return `this.getNumberListAttribute('${name}')`;
     }
 
     return `this.interpolationForAttribute('${name}')`;
@@ -147,11 +160,21 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   getStoredClassInitializer(name: string) {
-    // This shouldn't actually be called when there isn't a struct
     if (this.isSingleItem) {
-      return `new ${this.struct?.outputReferenceName}(this, "${name}")`;
+      return `new ${this.elementType.storedClassType}OutputReference(this, "${name}")`;
+    } else {
+      if (this.isComplex) {
+        return `new ${this.storedClassType}(this, "${name}", true)`;
+      } else {
+        return `new cdktf.${uppercaseFirst(
+          this.storedClassType
+        )}(this, "${name}", true)`;
+      }
     }
-    return `new ${this.struct?.listName}(this, "${name}", true)`;
+  }
+
+  get storedClassType() {
+    return `${this.elementType.storedClassType}List`;
   }
 
   get inputTypeDefinition() {
@@ -159,13 +182,11 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   getAttributeAccessFunction(name: string) {
-    if (this.elementType instanceof SimpleAttributeTypeModel) {
-      switch (this.elementType.type) {
-        case "string":
-          return `cdktf.Fn.tolist(this.getListAttribute('${name}'))`;
-        case "number":
-          return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${name}')))`;
-      }
+    switch (this.elementType.storedClassType) {
+      case "string":
+        return `cdktf.Fn.tolist(this.getListAttribute('${name}'))`;
+      case "number":
+        return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${name}')))`;
     }
 
     // Token.asAny is required because tolist returns an Array encoded token which the listMapper
@@ -198,30 +219,26 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
 
   getStoredClassInitializer(name: string) {
     if (this.isComplex) {
-      return `new ${this.struct?.mapName}(this, "${name}")`;
+      return `new ${this.storedClassType}(this, "${name}")`;
     } else {
       return `new cdktf.${uppercaseFirst(
-        this.supportedMapType
-      )}Map(this, "${name}")`;
+        this.storedClassType
+      )}(this, "${name}")`;
     }
+  }
+
+  get storedClassType() {
+    return `${this.elementType.storedClassType}Map`;
   }
 
   get inputTypeDefinition() {
     return "TODO"; //TODO implement
   }
 
-  private get supportedMapType() {
-    if (this.elementType instanceof SimpleAttributeTypeModel) {
-      return this.elementType.type;
-    }
-
-    return "any";
-  }
-
   getAttributeAccessFunction(name: string) {
     return `this.get${uppercaseFirst(
-      this.supportedMapType
-    )}MapAttribute('${name}')`;
+      this.storedClassType
+    )}Attribute('${name}')`;
   }
 
   get toTerraformFunction() {
