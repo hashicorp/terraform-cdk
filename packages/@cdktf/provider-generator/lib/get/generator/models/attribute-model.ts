@@ -1,9 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import {
-  AttributeTypeModel,
-  NewAttributeTypeModel,
-} from "./attribute-type-model";
+import { AttributeTypeModel } from "./attribute-type-model";
 
 export type GetterType =
   | { _type: "plain" }
@@ -35,7 +32,6 @@ export interface AttributeModelOptions {
   getAttCall?: string;
   provider: boolean;
   required: boolean;
-  newType: NewAttributeTypeModel;
 }
 
 export function escapeAttributeName(name: string) {
@@ -65,7 +61,6 @@ export class AttributeModel {
   private _description?: string;
   public provider: boolean;
   public required: boolean;
-  public newType: NewAttributeTypeModel;
 
   constructor(options: AttributeModelOptions) {
     this.storageName = options.storageName;
@@ -78,12 +73,11 @@ export class AttributeModel {
     this._description = options.description;
     this.provider = options.provider;
     this.required = options.required;
-    this.newType = options.newType;
   }
 
   public get typeDefinition() {
     const optional = this.optional ? "?" : "";
-    return `${this.name}${optional}: ${this.newType.inputTypeDefinition}`;
+    return `${this.name}${optional}: ${this.type.inputTypeDefinition}`;
   }
 
   public get isAssignable() {
@@ -109,14 +103,14 @@ export class AttributeModel {
       return getterType;
     }
 
-    if (this.newType.hasReferenceClass) {
+    if (this.type.hasReferenceClass) {
       getterType = {
         _type: "stored_class",
       };
     } else if (
       this.computed &&
       !this.isAssignable &&
-      (!this.newType.isTokenizable || this.newType.typeModelType === "map")
+      (!this.type.isTokenizable || this.type.typeModelType === "map")
     ) {
       getterType = {
         _type: "stored_class",
@@ -138,13 +132,13 @@ export class AttributeModel {
     if (this.getterType._type === "stored_class") {
       return {
         _type: "stored_class",
-        type: this.newType.inputTypeDefinition,
+        type: this.type.inputTypeDefinition,
       };
     }
 
     return {
       _type: "set",
-      type: `${this.newType.inputTypeDefinition}${
+      type: `${this.type.inputTypeDefinition}${
         this.isProvider ? " | undefined" : ""
       }`,
     };
@@ -165,7 +159,7 @@ export class AttributeModel {
   }
 
   public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
-    const attTypeStruct = this.newType.struct;
+    const attTypeStruct = this.type.struct;
     if (!attTypeStruct) {
       return undefined;
     }

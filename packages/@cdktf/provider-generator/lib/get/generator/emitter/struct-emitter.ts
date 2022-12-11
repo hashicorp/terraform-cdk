@@ -136,11 +136,11 @@ export class StructEmitter {
       // find all structs that need to be imported in this file
       structs.forEach((struct) => {
         struct.attributes.forEach((att) => {
-          const structTypeName = att.newType.struct?.name;
+          const structTypeName = att.type.struct?.name;
           const fileToImport = structImports[structTypeName ?? ""];
 
           if (fileToImport && fileToImport !== structFilename) {
-            const attTypeStruct = att.newType.struct;
+            const attTypeStruct = att.type.struct;
             if (!attTypeStruct)
               throw new Error(`${structTypeName} is not a struct`);
 

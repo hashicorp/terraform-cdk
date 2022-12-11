@@ -30,7 +30,7 @@ export class AttributesEmitter {
       );
     } else if (isStored) {
       this.code.line(
-        `private ${att.storageName}?: ${att.newType.inputTypeDefinition}; `
+        `private ${att.storageName}?: ${att.type.inputTypeDefinition}; `
       );
     }
 
@@ -118,7 +118,7 @@ export class AttributesEmitter {
 
   // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutputReference(this, "metadata")'
   private storedClassInit(att: AttributeModel) {
-    return att.newType.getStoredClassInitializer(att.terraformName);
+    return att.type.getStoredClassInitializer(att.terraformName);
   }
 
   public determineGetAttCall(att: AttributeModel): string {
@@ -126,7 +126,7 @@ export class AttributesEmitter {
       return `this.${att.storageName}`;
     }
 
-    return att.newType.getAttributeAccessFunction(att.terraformName);
+    return att.type.getAttributeAccessFunction(att.terraformName);
   }
 
   public needsInputEscape(
@@ -169,7 +169,7 @@ export class AttributesEmitter {
   }
 
   public emitToTerraform(att: AttributeModel, isStruct: boolean) {
-    const type = att.newType;
+    const type = att.type;
     const context = isStruct ? "struct!" : "this";
     const name = isStruct ? att.name : att.storageName;
     const customDefault = CUSTOM_DEFAULTS[att.terraformFullName];

@@ -17,7 +17,6 @@ import {
   Struct,
   Scope,
   AttributeModel,
-  NewAttributeTypeModel,
   SimpleAttributeTypeModel,
   ListAttributeTypeModel,
   SetAttributeTypeModel,
@@ -136,13 +135,13 @@ class Parser {
         throw new Error(
           `Expected to find recursive attribute at path: ${path}`
         );
-      if (!attribute.newType.struct)
+      if (!attribute.type.struct)
         throw new Error(
-          `Expected to find struct type attribute at path: ${path} but got ${attribute.newType.storedClassType}`
+          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.storedClassType}`
         );
       if (rest.length === 0) return attribute;
       return getStructAttribute(
-        attribute.newType.struct.attributes,
+        attribute.type.struct.attributes,
         rest.join(".")
       );
     }
@@ -161,25 +160,23 @@ class Parser {
         const attributeName = parts.pop();
         const parentAttribute = getStructAttribute(attributes, parts.join("."));
         const indexToReplace =
-          parentAttribute.newType.struct!.attributes.findIndex(
+          parentAttribute.type.struct!.attributes.findIndex(
             (att) => att.terraformName === attributeName
           );
         if (indexToReplace === -1)
           throw new Error("Can't find attribute at path " + attributePath);
         const previousAttribute =
-          parentAttribute.newType.struct!.attributes[indexToReplace];
+          parentAttribute.type.struct!.attributes[indexToReplace];
 
-        parentAttribute.newType.struct!.attributes[indexToReplace] =
+        parentAttribute.type.struct!.attributes[indexToReplace] =
           recursionTargetStructAttribute; // introduce recursion
 
         // ugly, pls c̶a̶l̶l̶ refactor me maybe
         // we store all structs in this.structs – now we need to dispose all structs that are part of previousAttribute
         const disposeStructs = (attr: AttributeModel) => {
-          if (attr.newType.struct) {
-            attr.newType.struct.attributes.forEach(disposeStructs);
-            this.structs = this.structs.filter(
-              (s) => s !== attr.newType.struct
-            );
+          if (attr.type.struct) {
+            attr.type.struct.attributes.forEach(disposeStructs);
+            this.structs = this.structs.filter((s) => s !== attr.type.struct);
           }
         };
 
@@ -208,56 +205,17 @@ class Parser {
     scope: Scope[],
     attributeType: AttributeType | AttributeNestedType,
     parentKind?: string
-  ): [AttributeTypeModel, NewAttributeTypeModel] {
-    const parent = scope[scope.length - 1];
-    const level = scope.length;
-    const isComputed = !!scope.find((e) => e.isComputed === true);
-    const isOptional = parent.isOptional;
-    const isRequired = parent.isRequired;
-
+  ): AttributeTypeModel {
     if (typeof attributeType === "string") {
       switch (attributeType) {
         case "bool":
-          return [
-            new AttributeTypeModel("boolean", {
-              isComputed,
-              isOptional,
-              isRequired,
-              level,
-            }),
-            new SimpleAttributeTypeModel("boolean"),
-          ];
+          return new SimpleAttributeTypeModel("boolean");
         case "string":
-          return [
-            new AttributeTypeModel("string", {
-              isComputed,
-              isOptional,
-              isRequired,
-              level,
-            }),
-            new SimpleAttributeTypeModel("string"),
-          ];
+          return new SimpleAttributeTypeModel("string");
         case "number":
-          return [
-            new AttributeTypeModel("number", {
-              isComputed,
-              isOptional,
-              isRequired,
-              level,
-            }),
-            new SimpleAttributeTypeModel("number"),
-          ];
+          return new SimpleAttributeTypeModel("number");
         case "dynamic":
-          return [
-            new AttributeTypeModel("any", {
-              isComputed,
-              isOptional,
-              isRequired,
-              level,
-              isMap: true,
-            }),
-            new MapAttributeTypeModel(new SimpleAttributeTypeModel("any")),
-          ];
+          return new MapAttributeTypeModel(new SimpleAttributeTypeModel("any"));
         default:
           throw new Error(`invalid primitive type ${attributeType}`);
       }
@@ -271,37 +229,23 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const [attrType, elementType] = this.renderAttributeType(
+        const elementType = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        attrType.isList = kind === "list";
-        attrType.isSet = kind === "set";
-        attrType.isComputed = isComputed;
-        attrType.isOptional = isOptional;
-        attrType.isRequired = isRequired;
-        attrType.level = level;
-        return [
-          attrType,
-          kind === "list"
-            ? new ListAttributeTypeModel(elementType, false, false)
-            : new SetAttributeTypeModel(elementType, false, false),
-        ];
+        return kind === "list"
+          ? new ListAttributeTypeModel(elementType, false, false)
+          : new SetAttributeTypeModel(elementType, false, false);
       }
 
       if (kind === "map") {
-        const [valueType, newValueType] = this.renderAttributeType(
+        const valueType = this.renderAttributeType(
           scope,
           type as AttributeType,
           kind
         );
-        valueType.isMap = true;
-        valueType.isComputed = isComputed;
-        valueType.isOptional = isOptional;
-        valueType.isRequired = isRequired;
-        valueType.level = level;
-        return [valueType, new MapAttributeTypeModel(newValueType)];
+        return new MapAttributeTypeModel(valueType);
       }
 
       if (kind === "object") {
@@ -315,58 +259,45 @@ class Parser {
           attributes,
           parentKind ?? kind
         );
-        const model = new AttributeTypeModel(struct.name, {
-          struct,
-          isComputed,
-          isOptional,
-          isRequired,
-          level,
-        });
-        return [model, new StructAttributeTypeModel(struct)];
+        return new StructAttributeTypeModel(struct);
       }
     }
 
     if (isAttributeNestedType(attributeType)) {
-      let isList = undefined;
-      let isSet = undefined;
-      let isMap = undefined;
       let struct = undefined;
-      let newType = undefined;
+      let typeModel = undefined;
       switch (attributeType.nesting_mode) {
         case "list":
-          isList = true;
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
             attributeType.nesting_mode
           );
-          newType = new ListAttributeTypeModel(
+          typeModel = new ListAttributeTypeModel(
             new StructAttributeTypeModel(struct),
             false,
             false
           );
           break;
         case "set":
-          isSet = true;
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
             attributeType.nesting_mode
           );
-          newType = new SetAttributeTypeModel(
+          typeModel = new SetAttributeTypeModel(
             new StructAttributeTypeModel(struct),
             false,
             false
           );
           break;
         case "map":
-          isMap = true;
           struct = this.addAnonymousStruct(
             scope,
             attributeType.attributes,
             attributeType.nesting_mode
           );
-          newType = new MapAttributeTypeModel(
+          typeModel = new MapAttributeTypeModel(
             new StructAttributeTypeModel(struct)
           );
           break;
@@ -376,7 +307,7 @@ class Parser {
             attributeType.attributes,
             attributeType.nesting_mode
           );
-          newType = new StructAttributeTypeModel(struct);
+          typeModel = new StructAttributeTypeModel(struct);
           break;
         default: {
           throw new Error(
@@ -388,18 +319,7 @@ class Parser {
           );
         }
       }
-      const model = new AttributeTypeModel(struct.name, {
-        struct,
-        isComputed,
-        isOptional,
-        isRequired,
-        level,
-        isList,
-        isSet,
-        isMap,
-        isNested: true,
-      });
-      return [model, newType];
+      return typeModel;
     }
 
     throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
@@ -411,7 +331,7 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      const [type, newType] = this.renderAttributeType(
+      const type = this.renderAttributeType(
         [
           parentType,
           new Scope({
@@ -440,7 +360,6 @@ class Parser {
           type,
           provider: parentType.isProvider,
           required: !!att.required,
-          newType,
         })
       );
     }
@@ -507,20 +426,13 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isOptional: optional,
-              isRequired: required,
-              isSingleItem: true,
-              isBlock: true,
-            }),
+            type: new StructAttributeTypeModel(struct),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional,
             computed: false,
             provider: isProvider,
             required,
-            newType: new StructAttributeTypeModel(struct),
           });
 
         case "map":
@@ -528,20 +440,15 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isMap: true,
-              isBlock: true,
-            }),
+            type: new MapAttributeTypeModel(
+              new StructAttributeTypeModel(struct)
+            ),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: false,
             computed: false,
             provider: isProvider,
             required: false,
-            newType: new MapAttributeTypeModel(
-              new StructAttributeTypeModel(struct)
-            ),
           });
 
         case "list":
@@ -554,22 +461,7 @@ class Parser {
             name,
             terraformName: terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isList: blockType.nesting_mode === "list",
-              isSet: blockType.nesting_mode === "set",
-              isOptional: optional,
-              isRequired: required,
-              isSingleItem: blockType.max_items === 1,
-              isBlock: true,
-            }),
-            description: `${terraformName} block`,
-            storageName: `_${name}`,
-            optional,
-            computed: false,
-            provider: isProvider,
-            required,
-            newType:
+            type:
               blockType.nesting_mode === "list"
                 ? new ListAttributeTypeModel(
                     new StructAttributeTypeModel(struct),
@@ -581,6 +473,12 @@ class Parser {
                     blockType.max_items === 1,
                     true
                   ),
+            description: `${terraformName} block`,
+            storageName: `_${name}`,
+            optional,
+            computed: false,
+            provider: isProvider,
+            required,
           });
       }
     }
@@ -604,7 +502,7 @@ class Parser {
         ? !!att.required
         : !!parent.isRequired;
       const name = toCamelCase(terraformName);
-      const [type, newType] = this.renderAttributeType(
+      const type = this.renderAttributeType(
         [
           ...scope,
           new Scope({
@@ -631,7 +529,6 @@ class Parser {
           type,
           provider: parent.isProvider,
           required: required,
-          newType,
         })
       );
     }
