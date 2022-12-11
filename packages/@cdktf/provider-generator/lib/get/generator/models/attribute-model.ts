@@ -109,49 +109,18 @@ export class AttributeModel {
       return getterType;
     }
 
-    if (
-      // Complex Computed List Map
+    if (this.newType.hasReferenceClass) {
+      getterType = {
+        _type: "stored_class",
+      };
+    } else if (
+      this.computed &&
       !this.isAssignable &&
-      this.type.isComputedComplex &&
-      this.type.isList &&
-      this.type.isMap
+      (!this.newType.isTokenizable || this.newType.typeModelType === "map")
     ) {
       getterType = {
         _type: "stored_class",
       };
-    } else if (
-      // Complex List/Set
-      this.type.isComplex &&
-      (this.type.isList || this.type.isSet)
-    ) {
-      getterType = {
-        _type: "stored_class",
-      };
-    } else if (
-      // Complex Map
-      this.type.isComplex &&
-      this.type.isMap
-    ) {
-      getterType = {
-        _type: "stored_class",
-      };
-    } else if (
-      // Computed Map
-      this.type.isComputed &&
-      !this.isAssignable &&
-      this.type.isMap
-    ) {
-      getterType = {
-        _type: "stored_class",
-      };
-    }
-
-    if (this.type.isSingleItem) {
-      getterType = { _type: "stored_class" };
-    }
-
-    if (this.type.isNested) {
-      getterType = { _type: "stored_class" };
     }
 
     return getterType;
@@ -169,13 +138,15 @@ export class AttributeModel {
     if (this.getterType._type === "stored_class") {
       return {
         _type: "stored_class",
-        type: this.type.name,
+        type: this.newType.inputTypeDefinition,
       };
     }
 
     return {
       _type: "set",
-      type: `${this.type.name}${this.isProvider ? " | undefined" : ""}`,
+      type: `${this.newType.inputTypeDefinition}${
+        this.isProvider ? " | undefined" : ""
+      }`,
     };
   }
 

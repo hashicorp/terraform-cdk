@@ -3548,7 +3548,7 @@ export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/single_block_type#timeouts SingleBlockType#timeouts}
   */
-  readonly timeouts?: SingleBlockTypeTimeouts | cdktf.IResolvable;
+  readonly timeouts?: SingleBlockTypeTimeouts;
 }
 export interface SingleBlockTypeTimeouts {
   /**
@@ -3557,7 +3557,7 @@ export interface SingleBlockTypeTimeouts {
   readonly create?: string;
 }
 
-export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeoutsOutputReference | SingleBlockTypeTimeouts | cdktf.IResolvable): any {
+export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
@@ -3576,7 +3576,7 @@ export class SingleBlockTypeTimeoutsOutputReference extends cdktf.ComplexObject 
   * @param terraformAttribute The attribute on the parent resource this class is referencing
   */
   public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
-    super(terraformResource, terraformAttribute, false, 0);
+    super(terraformResource, terraformAttribute, false);
   }
 
   public get internalValue(): SingleBlockTypeTimeouts | cdktf.IResolvable | undefined {

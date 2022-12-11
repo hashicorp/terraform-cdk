@@ -12,6 +12,8 @@ export interface NewAttributeTypeModel {
   getAttributeAccessFunction(name: string): string; // this is for getting reference for simple types
   readonly toTerraformFunction: string; // this is for converting input values to Terraform syntax
   readonly typeModelType: string; // so we don't need to use instanceof
+  readonly hasReferenceClass: boolean; // used to determine if a stored_class getter should be used
+  readonly isTokenizable: boolean; // can the type be represented by a token type
 }
 
 export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
@@ -53,6 +55,14 @@ export class SimpleAttributeTypeModel implements NewAttributeTypeModel {
   get toTerraformFunction() {
     return `cdktf.${this.type}ToTerraform`;
   }
+
+  get hasReferenceClass() {
+    return false;
+  }
+
+  get isTokenizable() {
+    return true;
+  }
 }
 
 export class StructAttributeTypeModel implements NewAttributeTypeModel {
@@ -75,11 +85,7 @@ export class StructAttributeTypeModel implements NewAttributeTypeModel {
   }
 
   get inputTypeDefinition() {
-    if (this.struct.isClass) {
-      return this.struct.name;
-    } else {
-      return `${this.struct.name} | cdktf.IResolvable`;
-    }
+    return this.struct.name;
   }
 
   getAttributeAccessFunction(name: string) {
@@ -89,6 +95,14 @@ export class StructAttributeTypeModel implements NewAttributeTypeModel {
 
   get toTerraformFunction() {
     return `${downcaseFirst(this.struct.name)}ToTerraform`;
+  }
+
+  get hasReferenceClass() {
+    return true;
+  }
+
+  get isTokenizable() {
+    return false;
   }
 }
 
@@ -101,7 +115,11 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
     public readonly elementType: NewAttributeTypeModel,
     public readonly isSingleItem: boolean,
     private readonly isBlock: boolean
-  ) {}
+  ) {
+    if (this.struct) {
+      this.struct.isSingleItem = this.isSingleItem || false;
+    }
+  }
 
   get typeModelType() {
     return "list";
@@ -163,6 +181,21 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
       return `cdktf.listMapper(${this.elementType.toTerraformFunction}, ${this.isBlock})`;
     }
   }
+
+  get hasReferenceClass() {
+    return this.isSingleItem || this.isComplex;
+  }
+
+  get isTokenizable() {
+    switch (this.elementType.storedClassType) {
+      case "string":
+        return true;
+      case "number":
+        return true;
+      default:
+        return false;
+    }
+  }
 }
 
 export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
@@ -170,7 +203,11 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
     public readonly elementType: NewAttributeTypeModel,
     public readonly isSingleItem: boolean,
     private readonly isBlock: boolean
-  ) {}
+  ) {
+    if (this.struct) {
+      this.struct.isSingleItem = this.isSingleItem || false;
+    }
+  }
 
   get typeModelType() {
     return "set";
@@ -237,6 +274,21 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
       return `cdktf.listMapper(${this.elementType.toTerraformFunction}, ${this.isBlock})`;
     }
   }
+
+  get hasReferenceClass() {
+    return this.isSingleItem || this.isComplex;
+  }
+
+  get isTokenizable() {
+    switch (this.elementType.storedClassType) {
+      case "string":
+        return true;
+      case "number":
+        return true;
+      default:
+        return false;
+    }
+  }
 }
 
 export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
@@ -287,6 +339,25 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
 
   get toTerraformFunction() {
     return `cdktf.hashMapper(${this.elementType.toTerraformFunction})`;
+  }
+
+  get hasReferenceClass() {
+    return this.isComplex;
+  }
+
+  get isTokenizable() {
+    switch (this.elementType.storedClassType) {
+      case "string":
+        return true;
+      case "number":
+        return true;
+      case "boolean":
+        return true;
+      case "any":
+        return true;
+      default:
+        return false;
+    }
   }
 }
 
@@ -345,7 +416,7 @@ export class AttributeTypeModel {
     this.struct = options.struct;
     this.isNested = !!options.isNested;
     if (options.struct) {
-      options.struct.isSingleItem = this.isSingleItem || false;
+      // options.struct.isSingleItem = this.isSingleItem || false;
     }
   }
 
