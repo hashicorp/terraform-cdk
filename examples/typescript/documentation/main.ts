@@ -6,6 +6,7 @@ import { AspectValidationStack } from "./aspect-validation";
 import { AssetsStack } from "./assets";
 import { ConstructsStack } from "./constructs";
 import { DataSourcesStack } from "./data-sources";
+import { FunctionsStack } from "./functions";
 
 const app = new App();
 
@@ -14,5 +15,6 @@ new AspectValidationStack(app, "aspect-validation");
 new AssetsStack(app, "assets");
 new ConstructsStack(app, "constructs");
 new DataSourcesStack(app, "data-sources");
+new FunctionsStack(app, "functions");
 
 app.synth();

@@ -3,16 +3,16 @@
 // DOCS_BLOCK_START:datasources,remote-state-datasources
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
-import { AwsProvider } from "./.gen/providers/aws/provider";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 // DOCS_BLOCK_END:datasources,remote-state-datasources
 
 // DOCS_BLOCK_START:datasources
-import { DataAwsRegion } from "./.gen/providers/aws/data-aws-region";
+import { DataAwsRegion } from "@cdktf/provider-aws/lib/data-aws-region";
 // DOCS_BLOCK_END:datasources
 
 // DOCS_BLOCK_START:remote-state-datasources
 import { DataTerraformRemoteState } from "cdktf";
-import { Instance } from "./.gen/providers/aws/instance";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
 // DOCS_BLOCK_END:remote-state-datasources
 
 // DOCS_BLOCK_START:datasources,remote-state-datasources

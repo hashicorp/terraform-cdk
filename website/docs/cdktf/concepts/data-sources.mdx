@@ -28,11 +28,11 @@ In the following TypeScript example, a Terraform data source fetches the AWS reg
 
 <CodeTabs>
 
-```typescript
+```ts
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { DataAwsRegion } from "./.gen/providers/aws/data-aws-region";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { DataAwsRegion } from "@cdktf/provider-aws/lib/data-aws-region";
 
 export class DataSourcesStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -133,12 +133,12 @@ The following example uses the global `DataTerraformRemoteState` to reference a 
 
 <CodeTabs>
 
-```typescript
+```ts
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
-import { AwsProvider } from "./.gen/providers/aws/provider";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { DataTerraformRemoteState } from "cdktf";
-import { Instance } from "./.gen/providers/aws/instance";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
 
 export class DataSourcesStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
