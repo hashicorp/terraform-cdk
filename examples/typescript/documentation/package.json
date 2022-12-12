@@ -17,6 +17,7 @@
     "upgrade:next": "npm i cdktf@next cdktf-cli@next"
   },
   "dependencies": {
+    "@cdktf/provider-random": "^4.0.0",
     "cdktf": "0.0.0",
     "constructs": "^10.0.25"
   },
