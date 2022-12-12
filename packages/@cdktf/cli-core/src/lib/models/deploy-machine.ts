@@ -1,5 +1,5 @@
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
-import * as pty from "node-pty";
+import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 
 interface PtySpawnConfig {

@@ -78,7 +78,7 @@ const nativeNodeModulesPlugin = {
       "@cdktf/hcl2cdk",
       "constructs",
       "yoga-layout-prebuilt",
-      "node-pty",
+      "node-pty-prebuilt-multiarch",
     ],
     plugins: [nativeNodeModulesPlugin],
     define: {
