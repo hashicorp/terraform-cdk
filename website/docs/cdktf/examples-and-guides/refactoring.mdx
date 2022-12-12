@@ -1,12 +1,12 @@
 ---
 page_title: Refactoring - CDK for Terraform
 description: >-
-  As your CDKTF application grows in size and complexity, the need to move resources between stacks becomes more common. This guide will walk you through the process of refactoring your stacks.
+  Refactor stacks as your CDKTF application grows in size and complexity.
 ---
 
 # Refactoring
 
-As your CDKTF application grows in size and complexity, the need to move resources between stacks becomes more common. This guide will walk you through the process of refactoring your stacks. In general you can change the names of stacks freely without an effect on the synthesized code. If you change the name of a resource this might lead to a re-creation of the resource, especially if you move the resource from one stack to another.
+You may need to move resources between stacks as your CDK for Terraform (CDKTF) application grows in size and complexity. This guide demonstrates how to refactor your stacks. In general you can change the names of stacks freely without an effect on the synthesized code. If you change the name of a resource this might lead to a re-creation of the resource, especially if you move the resource from one stack to another.
 
 ## Moving resources inside a stack
 
