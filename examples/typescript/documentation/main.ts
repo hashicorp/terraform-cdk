@@ -10,6 +10,7 @@ import { FunctionsStack } from "./functions";
 import { HCLInteropStack } from "./hcl-interop";
 import { IteratorsStack } from "./iterators";
 import { ModulesStack } from "./modules";
+import { ProvidersStack } from "./providers";
 
 const app = new App();
 
@@ -22,5 +23,6 @@ new FunctionsStack(app, "functions");
 new HCLInteropStack(app, "hcl-interop");
 new IteratorsStack(app, "iterators");
 new ModulesStack(app, "modules");
+new ProvidersStack(app, "providers");
 
 app.synth();
