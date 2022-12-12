@@ -27,7 +27,7 @@ You can use modules from the [Terraform Registry](https://registry.terraform.io/
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Vpc } from "./.gen/modules/vpc";
+import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
 
 export class ModulesStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
@@ -184,9 +184,10 @@ The following example uses a local module and references its output as a Terrafo
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { TerraformOutput } from "cdktf";
 
 // This module can come from a registry or through a local / remote reference
-import MyLocalModule from "./.gen/modules/my-local-module";
+import { MyLocalModule } from "./.gen/modules/my-local-module";
 
 export class ModulesStack extends TerraformStack {
   constructor(scope: Construct, id: string) {

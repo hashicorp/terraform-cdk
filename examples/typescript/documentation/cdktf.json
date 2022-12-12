@@ -5,5 +5,12 @@
     "aws@~> 3.0",
     "kubernetes@~> 2.0",
     "random@~> 3.1"
+  ],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@~> 3.0",
+    {
+      "name": "my-local-module",
+      "source": "./tf-modules/my-local-module"
+    }
   ]
 }
