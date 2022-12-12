@@ -8,6 +8,7 @@ import { ConstructsStack } from "./constructs";
 import { DataSourcesStack } from "./data-sources";
 import { FunctionsStack } from "./functions";
 import { HCLInteropStack } from "./hcl-interop";
+import { IteratorsStack } from "./iterators";
 
 const app = new App();
 
@@ -18,5 +19,6 @@ new ConstructsStack(app, "constructs");
 new DataSourcesStack(app, "data-sources");
 new FunctionsStack(app, "functions");
 new HCLInteropStack(app, "hcl-interop");
+new IteratorsStack(app, "iterators");
 
 app.synth();

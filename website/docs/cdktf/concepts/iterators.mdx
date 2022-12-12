@@ -20,25 +20,38 @@ Import the `TerraformIterator` class and call the `.fromList()` or `.fromMap()` 
 
 The following example uses an iterator to create a unique name for each new S3 bucket.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-define-iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
 
 <CodeTabs>
 
-```typescript
+```ts
+import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import { Construct } from "constructs";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
-import { TerraformIterator, TerraformVariable } from "cdktf";
 
-const list = new TerraformVariable(this, "list", {
-  type: "list(string)",
-});
+export class IteratorsStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-const iterator = TerraformIterator.fromList(list.listValue);
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
 
-const s3Bucket = new S3Bucket(this, "bucket", {
-  forEach: iterator,
-  name: iterator.value,
-});
+    const list = new TerraformVariable(this, "list", {
+      type: "list(string)",
+    });
+
+    const simpleIterator = TerraformIterator.fromList(list.listValue);
+
+    new S3Bucket(this, "iterator-bucket", {
+      forEach: simpleIterator,
+      bucket: simpleIterator.value,
+    });
+  }
+}
 ```
 
 ```java
@@ -78,28 +91,44 @@ You cannot access the index of items when iterating over lists. This is because 
 
 The iterator also exposes methods to access nested attributes. The following example uses the `getString` and `getStringMap` methods to access the `name` and `tags` attributes of each list item.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
 
 <CodeTabs>
 
-```typescript
-const iterator = TerraformIterator.fromList([
-  {
-    name: "website-static-files",
-    tags: { app: "website" },
-  },
-  {
-    name: "images",
-    tags: { app: "image-converter" },
-  },
-] as any);
+```ts
+import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
+import { Construct } from "constructs";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
 
-const s3Bucket = new S3Bucket(this, "bucket", {
-  forEach: iterator,
-  name: iterator.getString("name"),
-  tags: iterator.getStringMap("tags"),
-});
+export class IteratorsStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+
+    const complexIterator = TerraformIterator.fromList([
+      {
+        name: "website-static-files",
+        tags: { app: "website" },
+      },
+      {
+        name: "images",
+        tags: { app: "image-converter" },
+      },
+    ] as any);
+
+    new S3Bucket(this, "complex-iterator-bucket", {
+      forEach: complexIterator,
+      bucket: complexIterator.getString("name"),
+      tags: complexIterator.getStringMap("tags"),
+    });
+  }
+}
 ```
 
 ```java
