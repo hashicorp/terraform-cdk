@@ -1,0 +1,13 @@
+diff --git a/node_modules/jsii-pacmak/lib/packaging.js b/node_modules/jsii-pacmak/lib/packaging.js
+index 07e2f3f..3cf9feb 100644
+--- a/node_modules/jsii-pacmak/lib/packaging.js
++++ b/node_modules/jsii-pacmak/lib/packaging.js
+@@ -20,7 +20,7 @@ class JsiiModule {
+         this._tarball = await util_1.Scratch.make(async (tmpdir) => {
+             // Quoting (JSON-stringifying) the module directory in order to avoid
+             // problems if there are spaces or other special characters in the path.
+-            const args = ['pack', JSON.stringify(this.moduleDirectory)];
++            const args = ['pack', '--include-workspace-root', JSON.stringify(this.moduleDirectory)];
+             if (logging.level >= logging.LEVEL_VERBOSE) {
+                 args.push('--loglevel=verbose');
+             }
