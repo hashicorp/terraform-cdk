@@ -1,25 +1,18 @@
-// const fs = require("fs");
-// const path = require("path");
+// For now we will just copy the things we konw we need and keep automating this for later
+const fs = require("fs-extra");
+const path = require("path");
+const projectRoot = path.join(__dirname, "..", "..", "..", "..");
+const packagePathsToCopy = Object.entries({
+  "@cdktf/cli-core": "packages/@cdktf/cli-core",
+  "@cdktf/commons": "packages/@cdktf/commons",
+}).map(([packageName, value]) => [packageName, path.join(projectRoot, value)]);
 
-
-// function getDependenciesOfPackage(packagePath) {
-//     console.log("getting dependencies of package: ", packagePath);
-//     const packageJson = require.resolve(path.join(packagePath, "package.json"));
-//     const depdendencies = require(packageJson).dependencies;
-//     const allDependencies = Object.keys(depdendencies || {}).reduce((acc, key) => {
-//         const dependencyPath = require.resolve(path.join(key, "package.json"));
-//         const dependency = require
-//             .resolve(dependencyPath)
-//             .replace("package.json", "");
-//         return [...acc, dependency];
-//     }, []);
-
-//     return allDependencies.flatMap((dependency) => getDependenciesOfPackage(dependency));
-// }
-
-// const allDependencies = getDependenciesOfPackage(path.resolve(__dirname, "..",));
-
-// console.log(allDependencies);
-
-// TODO: copy over all depdenencies into node_modules
-
+packagePathsToCopy.forEach(([packageName, packagePath]) => {
+  fs.copySync(
+    packagePath,
+    path.resolve(__dirname, "..", "node_modules", packageName),
+    {
+      recursive: true,
+    }
+  );
+});
