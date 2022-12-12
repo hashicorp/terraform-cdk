@@ -9,20 +9,7 @@ using aws.Provider;
 using vpc;
 using eks;
 
-// const logRetention = new TerraformVariable(this, "logRetentionInDays", {
-//   type: "number",
-// });
 
-// const vpc = new Vpc(this, vpcName, {
-//   name: vpcName,
-//   publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
-// });
-
-// new Eks(this, "EksModule", {
-//   clusterName: "my-kubernetes-cluster",
-//   subnets: Token.asList(vpc.publicSubnetsOutput),
-//   clusterLogRetentionInDays: logRetention.numberValue,
-// });
 namespace Examples
 {
     class TokensStack : TerraformStack
