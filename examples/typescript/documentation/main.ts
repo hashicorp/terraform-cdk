@@ -11,6 +11,11 @@ import { HCLInteropStack } from "./hcl-interop";
 import { IteratorsStack } from "./iterators";
 import { ModulesStack } from "./modules";
 import { ProvidersStack } from "./providers";
+import {
+  CloudBackendStack,
+  cloudBackendToCustomBackend,
+  localToCloudBackend,
+} from "./remote-backends";
 
 const app = new App();
 
@@ -24,5 +29,9 @@ new HCLInteropStack(app, "hcl-interop");
 new IteratorsStack(app, "iterators");
 new ModulesStack(app, "modules");
 new ProvidersStack(app, "providers");
+new CloudBackendStack(app, "remote-backends");
 
 app.synth();
+
+localToCloudBackend();
+cloudBackendToCustomBackend(localToCloudBackend());

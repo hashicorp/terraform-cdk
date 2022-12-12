@@ -26,26 +26,30 @@ with a `TerraformBackend` subclass or a JSON configuration file.
 
 The following example uses the `TerraformBackend` subclass `CloudBackend`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-define -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
-import { App, CloudBackend, TerraformStack, TerraformOutput } from "cdktf";
+import {
+  CloudBackend,
+  TerraformStack,
+  TerraformOutput,
+  NamedCloudWorkspace,
+  App,
+} from "cdktf";
 
-class MyStack extends TerraformStack {
+export class CloudBackendStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
     new CloudBackend(this, {
       hostname: "app.terraform.io",
       organization: "company",
-      workspaces: {
-        name: "my-app-prod",
-      },
+      workspaces: new NamedCloudWorkspace("my-app-prod"),
     });
 
     new TerraformOutput(this, "dns-server", {
@@ -53,9 +57,6 @@ class MyStack extends TerraformStack {
     });
   }
 }
-
-const app = new App();
-new Mystack(app, "hello-terraform");
 ```
 
 ```java
@@ -162,12 +163,24 @@ Consider an example project called `hello-terraform` that is using local storage
 
 2. Use `CloudBackend` to add a new remote backend.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
 
 <CodeTabs>
 
-```typescript
-const stack = new MyStack(app, "hello-terraform");
+```ts
+class LocalBackendStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new TerraformOutput(this, "dns-server", {
+      value: "local",
+    });
+  }
+}
+
+const app = new App();
+const stack = new LocalBackendStack(app, "local-to-cloud-backend");
 new CloudBackend(stack, {
   hostname: "app.terraform.io",
   organization: "company",
@@ -283,12 +296,13 @@ Escape hatches can add to or override existing resources, and you can use them f
 
 The following example uses an escape hatch to add an unsupported remote backend on a `Stack` object.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
 
 <CodeTabs>
 
-```typescript
+```ts
 stack.addOverride("terraform.backend", {
   atlas: {
     name: "example_corp/networking-prod",
