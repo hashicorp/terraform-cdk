@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Cloud Development Kit for Terraform API",
   "scripts": {
+    "prepack": "node ./scripts/pre-pack.js",
     "build": "jsii --silence-warnings reserved-word --project-references=../../cdktf --project-references=../cli-core",
     "postbuild": "yarn run docs && node ./scripts/generate-example.js",
     "//docs": "jsii-docgen",

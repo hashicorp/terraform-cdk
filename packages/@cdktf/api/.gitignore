@@ -3,5 +3,5 @@ dist/
 tsconfig.json
 tsconfig.tsbuildinfo
 .jsii
-!scripts/generate-example.js
+!scripts/*.js
 !ambient.d.ts
