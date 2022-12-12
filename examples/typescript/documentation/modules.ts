@@ -11,13 +11,14 @@ import { TerraformHclModule } from "cdktf";
 // DOCS_BLOCK_END:modules-create
 
 // DOCS_BLOCK_START:modules-install
-import { Vpc } from "./.gen/modules/vpc";
+import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
 // DOCS_BLOCK_END:modules-install
 
 // DOCS_BLOCK_START:modules-local
+import { TerraformOutput } from "cdktf";
 
 // This module can come from a registry or through a local / remote reference
-import MyLocalModule from "./.gen/modules/my-local-module";
+import { MyLocalModule } from "./.gen/modules/my-local-module";
 // DOCS_BLOCK_END:modules-local
 
 // DOCS_BLOCK_START:modules-create,modules-install,modules-local
