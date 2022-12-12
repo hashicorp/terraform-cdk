@@ -321,6 +321,11 @@
   resolved "https://registry.yarnpkg.com/@cdktf/provider-dnsimple/-/provider-dnsimple-0.1.8.tgz#d467b0833ad1e1a2eacfd8762dc299f330b938c4"
   integrity sha512-CabePpF1CKzWi4Sld2weY1jmT68YjvDV6bkt0mc3AsU0JhdEoVI9EeMa35cy0XZnvFtXTgJH+MehlfXumlUjCA==
 
+"@cdktf/provider-kubernetes@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/@cdktf/provider-kubernetes/-/provider-kubernetes-4.0.2.tgz#bf40fcdf5117b22d454dc2514693139840466afd"
+  integrity sha512-amO0a8BxKP22VxNNQpHqi/5Be+YNaiR0StiNLUnZNdNQWooLkEhCT9i16uD2h0yTS29wF/PNH4VoiHfuEpo8Ow==
+
 "@cdktf/provider-random@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@cdktf/provider-random/-/provider-random-4.0.0.tgz#4576fe9e37fc4c0aae982b4f2615c1270e77e2fb"
