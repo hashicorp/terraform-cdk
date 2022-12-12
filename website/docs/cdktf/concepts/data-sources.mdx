@@ -21,21 +21,27 @@ Data Sources are part of a [Terraform provider](/cdktf/concepts/providers). All 
 
 In the following TypeScript example, a Terraform data source fetches the AWS region `DataAwsRegion` from the AWS provider.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#datasources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#datasources -->
 
 <CodeTabs>
 
-```ts
-// .....
-import { DataAwsRegion } from "./gen/providers/aws/data-aws-region";
+```typescript
+import { TerraformStack } from "cdktf";
+import { Construct } from "constructs";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { DataAwsRegion } from "./.gen/providers/aws/data-aws-region";
 
-export class HelloTerraform extends TerraformStack {
+export class DataSourcesStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    // .....
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+
     const region = new DataAwsRegion(this, "region");
   }
 }
@@ -120,34 +126,41 @@ The [`terraform_remote_state` data source](/language/state/remote-state-data) re
 
 The following example uses the global `DataTerraformRemoteState` to reference a Terraform Output of another Terraform configuration.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-state-datasources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-remote-state-data-source -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-state-datasources -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-remote-state-data-source -->
 
 <CodeTabs>
 
-```ts
-// .....
-import { DataTerraformRemoteState } from 'cdktf';
+```typescript
+import { TerraformStack } from "cdktf";
+import { Construct } from "constructs";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { DataTerraformRemoteState } from "cdktf";
+import { Instance } from "./.gen/providers/aws/instance";
 
-export class HelloTerraform extends TerraformStack {
-    constructor(scope: Construct, id: string) {
-        super(scope, id);
+export class DataSourcesStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
-        .....
-        const remoteState = new DataTerraformRemoteState(this, {
-            organization: 'hashicorp',
-            workspaces: {
-                name: 'vpc-prod'
-            }
-        });
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
 
-        new Instance(this, 'foo', {
-            // ....
-            subnetId: remoteState.get('subnet_id')
-        });
-    }
+    const remoteState = new DataTerraformRemoteState(this, "remote-state", {
+      organization: "hashicorp",
+      workspaces: {
+        name: "vpc-prod",
+      },
+    });
+
+    new Instance(this, "foo", {
+      instanceType: "t2.micro",
+      ami: "ami-123456",
+      subnetId: `${remoteState.get("subnet_id")}`,
+    });
+  }
 }
 ```
 
