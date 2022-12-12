@@ -16,6 +16,7 @@ import {
   cloudBackendToCustomBackend,
   localToCloudBackend,
 } from "./remote-backends";
+import { ResourcesStack } from "./resources";
 
 const app = new App();
 
@@ -30,6 +31,7 @@ new IteratorsStack(app, "iterators");
 new ModulesStack(app, "modules");
 new ProvidersStack(app, "providers");
 new CloudBackendStack(app, "remote-backends");
+new ResourcesStack(app, "resources");
 
 app.synth();
 
