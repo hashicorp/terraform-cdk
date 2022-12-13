@@ -25,6 +25,12 @@ import {
   stackDependenciesRunner,
 } from "./stacks";
 import { TokensStack } from "./tokens";
+import {
+  outputsUsageRunner,
+  outputVariablesRunner,
+  remoteStateRunner,
+  VariablesStack,
+} from "./variables";
 
 const app = new App();
 
@@ -41,6 +47,7 @@ new ProvidersStack(app, "providers");
 new CloudBackendStack(app, "remote-backends");
 new ResourcesStack(app, "resources");
 new TokensStack(app, "tokens", "test-vpc");
+new VariablesStack(app, "variables");
 
 app.synth();
 
@@ -54,3 +61,8 @@ multiStackRunner();
 crossStackReferencesRunner();
 stackDependenciesRunner();
 escapeHatchesRunner();
+
+// Full synth variable examples
+outputVariablesRunner();
+outputsUsageRunner();
+remoteStateRunner();
