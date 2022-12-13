@@ -17,6 +17,13 @@ import {
   localToCloudBackend,
 } from "./remote-backends";
 import { ResourcesStack } from "./resources";
+import {
+  crossStackReferencesRunner,
+  escapeHatchesRunner,
+  multiStackRunner,
+  singleStackRunner,
+  stackDependenciesRunner,
+} from "./stacks";
 
 const app = new App();
 
@@ -35,5 +42,13 @@ new ResourcesStack(app, "resources");
 
 app.synth();
 
+// Full synth examples for Backends
 localToCloudBackend();
 cloudBackendToCustomBackend(localToCloudBackend());
+
+// Full synth examples for Stacks
+singleStackRunner();
+multiStackRunner();
+crossStackReferencesRunner();
+stackDependenciesRunner();
+escapeHatchesRunner();

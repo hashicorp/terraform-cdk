@@ -21,18 +21,19 @@ Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for mo
 
 The following example generates a single Terraform configuration in the configured output folder. When you run `cdktf synth`, the synthesized Terraform configuration will be in the folder `cdktf.out/stacks/a-single-stack`
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { Instance } from "./.gen/providers/aws/instance";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
 
-class MyStack extends TerraformStack {
+class MySingleStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -47,9 +48,9 @@ class MyStack extends TerraformStack {
   }
 }
 
-const app = new App();
-new MyStack(app, "a-single-stack");
-app.synth();
+const singleStackApp = new App();
+new MySingleStack(singleStackApp, "a-single-stack");
+singleStackApp.synth();
 ```
 
 ```java
@@ -118,24 +119,25 @@ You can specify multiple stacks in your application. For example, you may want a
 
 The following example synthesizes multiple Terraform configurations in the configured output folder.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { Instance } from "./.gen/providers/aws/instance";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
 
-interface MyStackConfig {
+interface MyMultiStackConfig {
   environment: string;
   region?: string;
 }
 
-class MyStack extends TerraformStack {
-  constructor(scope: Construct, id: string, config: MyStackConfig) {
+class MyMultiStack extends TerraformStack {
+  constructor(scope: Construct, id: string, config: MyMultiStackConfig) {
     super(scope, id);
 
     const { region = "us-east-1" } = config;
@@ -154,18 +156,22 @@ class MyStack extends TerraformStack {
   }
 }
 
-const app = new App();
-new MyStack(app, "multiple-stacks-dev", { environment: "dev" });
-new MyStack(app, "multiple-stacks-staging", { environment: "staging" });
-new MyStack(app, "multiple-stacks-production-us", {
+const multiStackApp = new App();
+new MyMultiStack(multiStackApp, "multiple-stacks-dev", {
+  environment: "dev",
+});
+new MyMultiStack(multiStackApp, "multiple-stacks-staging", {
+  environment: "staging",
+});
+new MyMultiStack(multiStackApp, "multiple-stacks-production-us", {
   environment: "production",
   region: "us-east-1",
 });
-new MyStack(app, "multiple-stacks-production-eu", {
+new MyMultiStack(multiStackApp, "multiple-stacks-production-eu", {
   environment: "production",
   region: "eu-central-1",
 });
-app.synth();
+multiStackApp.synth();
 ```
 
 ```java
@@ -292,17 +298,19 @@ Refer to [Best Practices](/cdktf/create-and-deploy/best-practices#separate-busin
 
 When you reference resources from one stack in another stack, you can do so by exposing the resource in the source stack and referencing it in the target stack.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { Vpc } from "./my-aws-vpc-construct";
-import { DockerBackend } from "./my-docker-backend-construct";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { Vpc } from "./constructs/vpc";
+import { DockerBackend } from "./constructs/docker-backend";
 
 class VPCStack extends TerraformStack {
   public vpc: Vpc;
@@ -322,6 +330,7 @@ interface BackendStackConfig {
   vpcId: string;
   dockerImage: string;
 }
+
 class BackendStack extends TerraformStack {
   constructor(scope: Construct, id: string, config: BackendStackConfig) {
     super(scope, id);
@@ -339,15 +348,15 @@ class BackendStack extends TerraformStack {
   }
 }
 
-const app = new App();
-const origin = new VPCStack(app, "origin-stack");
-new BackendStack(app, "target-stack", {
+const crossStackReferenceApp = new App();
+const origin = new VPCStack(crossStackReferenceApp, "origin-stack");
+new BackendStack(crossStackReferenceApp, "target-stack", {
   region: origin.region,
   vpcId: origin.vpc.id,
   dockerImage: "org/my-image:latest",
 });
 
-app.synth();
+crossStackReferenceApp.synth();
 ```
 
 ```java
@@ -508,13 +517,70 @@ To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
 If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
-<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-dependencies -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
 
 <CodeTabs>
 
 ```ts
-this.allResources = TerraformLocal(this, "merged_items", Fn.mergeLists(resourceFromStackA.items, resourceFromStackB.items)
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { TerraformLocal, TerraformOutput } from "cdktf";
+
+// Write a stack that exposes a few resources
+class MySourceStack extends TerraformStack {
+  public instance: Instance;
+  constructor(scope: Construct, id: string, ami: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    this.instance = new Instance(this, "Hello", {
+      ami,
+      instanceType: "t2.micro",
+    });
+  }
+}
+
+class MyDependencyStack extends TerraformStack {
+  public allResources: TerraformLocal;
+  constructor(scope: Construct, id: string, dependencies: MySourceStack[]) {
+    super(scope, id);
+
+    this.allResources = new TerraformLocal(this, "merged_items", [
+      sourceStackA.instance.id,
+      sourceStackB.instance.id,
+    ]);
+
+    new TerraformOutput(this, "all_resources", {
+      value: this.allResources,
+    });
+  }
+}
+
+const dependencyApp = new App();
+const sourceStackA = new MySourceStack(
+  dependencyApp,
+  "source-stack-a",
+  "ami-2757f631"
+);
+const sourceStackB = new MySourceStack(
+  dependencyApp,
+  "source-stack-b",
+  "ami-2757f632"
+);
+
+new MyDependencyStack(dependencyApp, "dependency-stack", [
+  sourceStackA,
+  sourceStackB,
+]);
+
+dependencyApp.synth();
 ```
 
 ```java
@@ -541,12 +607,13 @@ For anything on the top-level `terraform` block that is not natively implemented
 
 The following example synthesizes a Terraform configuration with the `remote` backend included in the `terraform` block.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
 
 <CodeTabs>
 
-```typescript
+```ts
 stack.addOverride("terraform.backend", {
   remote: {
     organization: "test",

@@ -4,7 +4,7 @@
 // DOCS_BLOCK_START:constructs
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
-import { KubernetesWebAppDeployment } from "./custom-constructs";
+import { KubernetesWebAppDeployment } from "./constructs/kubernetes-web-app-deployment";
 import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 import * as path from "path";
 
