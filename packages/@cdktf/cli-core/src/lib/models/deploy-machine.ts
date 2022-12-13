@@ -1,3 +1,4 @@
+import * as os from "os";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
@@ -181,8 +182,13 @@ export function createAndStartDeployService(options: {
 }) {
   const service = interpret(deployMachine);
 
+  const terraformBinary =
+    os.platform() === "win32" && !options.terraformBinaryName.endsWith(".exe")
+      ? `${options.terraformBinaryName}.exe`
+      : options.terraformBinaryName;
+
   const config: PtySpawnConfig = {
-    file: options.terraformBinaryName,
+    file: terraformBinary,
     args: [
       "apply",
       ...(options.autoApprove ? ["-auto-approve"] : []),
@@ -214,8 +220,13 @@ export function createAndStartDestroyService(options: {
 }) {
   const service = interpret(deployMachine);
 
+  const terraformBinary =
+    os.platform() === "win32" && !options.terraformBinaryName.endsWith(".exe")
+      ? `${options.terraformBinaryName}.exe`
+      : options.terraformBinaryName;
+
   const config: PtySpawnConfig = {
-    file: options.terraformBinaryName,
+    file: terraformBinary,
     args: [
       "destroy",
       ...(options.autoApprove ? ["-auto-approve"] : []),
