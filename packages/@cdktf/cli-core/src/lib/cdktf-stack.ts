@@ -100,8 +100,7 @@ type CdktfStackStates =
   | StackApprovalUpdate["type"]
   | ExternalStackApprovalUpdate["type"]
   | "idle"
-  | "done"
-  | "error";
+  | "done";
 
 export class CdktfStack {
   public stack: SynthesizedStack;
@@ -110,6 +109,7 @@ export class CdktfStack {
   public stopped = false;
   public currentWorkPromise: Promise<void> | undefined;
   public readonly currentState: CdktfStackStates = "idle";
+  public error?: string;
   private readonly parsedContent: TerraformStack;
 
   constructor(public options: CdktfStackOptions) {
@@ -125,7 +125,7 @@ export class CdktfStack {
   public get isDone(): boolean {
     return (
       this.currentState === "done" ||
-      this.currentState === "error" ||
+      this.currentState === "errored" ||
       this.stopped
     );
   }
@@ -140,14 +140,16 @@ export class CdktfStack {
       | ExternalStackApprovalUpdate
       | { type: "idle" }
       | { type: "done" }
-      | { type: "error" }
   ) {
     logger.debug(`[${this.stack.name}]: ${update.type}`);
     (this.currentState as CdktfStackStates) = update.type;
     switch (update.type) {
       case "idle":
       case "done":
-      case "error":
+        break;
+
+      case "errored":
+        this.error = update.error;
         break;
 
       case "outputs fetched":
