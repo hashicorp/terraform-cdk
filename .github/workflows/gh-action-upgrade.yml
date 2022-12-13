@@ -22,3 +22,4 @@ jobs:
           commit_message: "chore: update github workflow actions"
           pull_request_title: "chore: update github workflow actions"
           pull_request_team_reviewers: cdktf
+          update_version_with: "release-commit-sha"
