@@ -66,6 +66,18 @@ export class TerraformCli implements Terraform {
       args.push("-upgrade");
     }
 
+    await exec(
+      terraformBinaryName,
+      args,
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("init"),
+      this.onStderr("init")
+    );
+
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms) 
     // while we'd only need it for remote plans
@@ -78,18 +90,6 @@ export class TerraformCli implements Terraform {
         "-platform=darwin_amd64",
         "-platform=linux_amd64",
       ],
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("init"),
-      this.onStderr("init")
-    );
-
-    await exec(
-      terraformBinaryName,
-      args,
       {
         cwd: this.workdir,
         env: process.env,
