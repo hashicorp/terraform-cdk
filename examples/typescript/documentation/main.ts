@@ -24,6 +24,7 @@ import {
   singleStackRunner,
   stackDependenciesRunner,
 } from "./stacks";
+import { TokensStack } from "./tokens";
 
 const app = new App();
 
@@ -39,6 +40,7 @@ new ModulesStack(app, "modules");
 new ProvidersStack(app, "providers");
 new CloudBackendStack(app, "remote-backends");
 new ResourcesStack(app, "resources");
+new TokensStack(app, "tokens", "test-vpc");
 
 app.synth();
 
