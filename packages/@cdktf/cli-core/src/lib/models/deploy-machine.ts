@@ -85,6 +85,11 @@ export const deployMachine = createMachine<
               `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
             );
           const { file, args, options } = event.pty;
+          logger.trace(
+            `Spawning pty with file=${file}, args=${
+              Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
+            }, options=${JSON.stringify(options)}`
+          );
           const p = pty.spawn(file, args, options);
 
           onReceive((event: DeployEvent) => {
