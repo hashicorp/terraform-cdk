@@ -79,7 +79,7 @@ export class TerraformCli implements Terraform {
     );
 
     // TODO: this might have performance implications because we don't know if we're
-    // running a remote plan or a local one (so we run it always for all platforms) 
+    // running a remote plan or a local one (so we run it always for all platforms)
     // while we'd only need it for remote plans
     await exec(
       terraformBinaryName,
