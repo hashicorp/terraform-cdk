@@ -1,4 +1,6 @@
 import * as os from "os";
+import * as path from "path";
+import * as fs from "fs";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
@@ -6,7 +8,7 @@ import { Errors, logger } from "@cdktf/commons";
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
   args: Parameters<typeof pty.spawn>[1];
-  options: Parameters<typeof pty.spawn>[2];
+  options: Parameters<typeof pty.spawn>[2] & { cwd: string };
 }
 
 interface DeployContext {
@@ -85,7 +87,11 @@ export const deployMachine = createMachine<
             throw Errors.Internal(
               `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
             );
-          const { file, args, options } = event.pty;
+          const { args, options } = event.pty;
+          const file =
+            os.platform() === "win32"
+              ? findExecutable(event.pty.file, options.cwd, options)
+              : event.pty.file;
           logger.trace(
             `Spawning pty with file=${file}, args=${
               Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
@@ -182,13 +188,8 @@ export function createAndStartDeployService(options: {
 }) {
   const service = interpret(deployMachine);
 
-  const terraformBinary =
-    os.platform() === "win32" && !options.terraformBinaryName.endsWith(".exe")
-      ? `${options.terraformBinaryName}.exe`
-      : options.terraformBinaryName;
-
   const config: PtySpawnConfig = {
-    file: terraformBinary,
+    file: options.terraformBinaryName,
     args: [
       "apply",
       ...(options.autoApprove ? ["-auto-approve"] : []),
@@ -220,13 +221,8 @@ export function createAndStartDestroyService(options: {
 }) {
   const service = interpret(deployMachine);
 
-  const terraformBinary =
-    os.platform() === "win32" && !options.terraformBinaryName.endsWith(".exe")
-      ? `${options.terraformBinaryName}.exe`
-      : options.terraformBinaryName;
-
   const config: PtySpawnConfig = {
-    file: terraformBinary,
+    file: options.terraformBinaryName,
     args: [
       "destroy",
       ...(options.autoApprove ? ["-auto-approve"] : []),
@@ -246,4 +242,66 @@ export function createAndStartDestroyService(options: {
   service.send({ type: "START", pty: config });
 
   return service;
+}
+
+// src: https://github.com/Microsoft/vscode/blob/c0c9ea27d6e8d660d8716d7acee82cf3c00fa3e5/src/vs/workbench/parts/tasks/electron-browser/terminalTaskSystem.ts#L691
+// TODO: properly annotate source of this function
+function findExecutable(
+  command: string,
+  cwd: string,
+  options: { env?: { [key: string]: string } }
+): string {
+  // If we have an absolute path then we take it.
+  if (path.isAbsolute(command)) {
+    return command;
+  }
+  const dir = path.dirname(command);
+  if (dir !== ".") {
+    // We have a directory and the directory is relative (see above). Make the path absolute
+    // to the current working directory.
+    return path.join(cwd, command);
+  }
+  let paths: string[] | undefined = undefined;
+  // The options can override the PATH. So consider that PATH if present.
+  if (options && options.env) {
+    // Path can be named in many different ways and for the execution it doesn't matter
+    for (const key of Object.keys(options.env)) {
+      if (key.toLowerCase() === "path") {
+        if (typeof options.env[key] === "string") {
+          paths = options.env[key].split(path.delimiter);
+        }
+        break;
+      }
+    }
+  }
+  if (paths === void 0 && typeof process.env.PATH === "string") {
+    paths = process.env.PATH.split(path.delimiter);
+  }
+  // No PATH environment. Make path absolute to the cwd.
+  if (paths === void 0 || paths.length === 0) {
+    return path.join(cwd, command);
+  }
+  // We have a simple file name. We get the path variable from the env
+  // and try to find the executable on the path.
+  for (const pathEntry of paths) {
+    // The path entry is absolute.
+    let fullPath: string;
+    if (path.isAbsolute(pathEntry)) {
+      fullPath = path.join(pathEntry, command);
+    } else {
+      fullPath = path.join(cwd, pathEntry, command);
+    }
+    if (fs.existsSync(fullPath)) {
+      return fullPath;
+    }
+    let withExtension = fullPath + ".com";
+    if (fs.existsSync(withExtension)) {
+      return withExtension;
+    }
+    withExtension = fullPath + ".exe";
+    if (fs.existsSync(withExtension)) {
+      return withExtension;
+    }
+  }
+  return path.join(cwd, command);
 }
