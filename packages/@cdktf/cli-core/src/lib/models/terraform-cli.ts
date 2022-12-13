@@ -66,27 +66,26 @@ export class TerraformCli implements Terraform {
       args.push("-upgrade");
     }
 
-    // TODO: do we need to run this if we use the TF CLI to run in TFC?
-    // -> yes, so let's figure out how to best solve this.
-    // if (this.isTFCPlan) {
-    //   await exec(
-    //     terraformBinaryName,
-    //     [
-    //       "providers",
-    //       "lock",
-    //       "-platform=windows_amd64",
-    //       "-platform=darwin_amd64",
-    //       "-platform=linux_amd64",
-    //     ],
-    //     {
-    //       cwd: this.workdir,
-    //       env: process.env,
-    //       signal: this.abortSignal,
-    //     },
-    //     this.onStdout("init"),
-    //     this.onStderr("init")
-    //   );
-    // }
+    // TODO: this might have performance implications because we don't know if we're
+    // running a remote plan or a local one (so we run it always for all platforms) 
+    // while we'd only need it for remote plans
+    await exec(
+      terraformBinaryName,
+      [
+        "providers",
+        "lock",
+        "-platform=windows_amd64",
+        "-platform=darwin_amd64",
+        "-platform=linux_amd64",
+      ],
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("init"),
+      this.onStderr("init")
+    );
 
     await exec(
       terraformBinaryName,
