@@ -150,6 +150,7 @@ export class CdktfStack {
 
       case "errored":
         this.error = update.error;
+        this.options.onUpdate(update);
         break;
 
       case "outputs fetched":
