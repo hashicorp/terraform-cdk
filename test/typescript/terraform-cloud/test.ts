@@ -38,7 +38,6 @@ describe("full integration test", () => {
     driver = new TestDriver(__dirname, {
       TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
       TERRAFORM_CLOUD_ORGANIZATION: orgName,
-      CDKTF_LOG_LEVEL: "all",
     });
     await driver.setupTypescriptProject();
     driver.copyFolders("fixtures");
