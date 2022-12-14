@@ -82,6 +82,7 @@ type Options = {
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
 };
+
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
   const destination = argv.destination || ".";
@@ -136,28 +137,15 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
 
     if (!("WorkspaceName" in projectInfo)) {
-      throw new Error(`Missing organization name in project info`);
+      throw new Error(`Missing workspace name in project info`);
     }
 
     // Set up a Terraform Cloud workspace if the user opted-in
     if (isRemote) {
       telemetryData.isRemote = Boolean(token);
       console.log(
-        chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
+        chalkColour`\n{whiteBright Setting up a Cloud Backend for your project.}`
       );
-      try {
-        await terraformCloudClient.createWorkspace(
-          tfeHostname,
-          projectInfo.OrganizationName,
-          projectInfo.WorkspaceName,
-          token
-        );
-      } catch (error) {
-        console.error(
-          chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`
-        );
-        process.exit(1);
-      }
     }
   }
 
@@ -367,15 +355,10 @@ async function gatherInfo(
     console.log(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
-    const organizationNames = await terraformCloudClient.getOrganizationNames(
+    const organizationIds = await terraformCloudClient.getOrganizationIds(
       tfeHostname,
       token
     );
-    const organizationData = organizationNames.data;
-    const organizationOptions: string[] = [];
-    for (const organization of organizationData) {
-      organizationOptions.push(organization.id);
-    }
 
     // todo: add validation for the organization name and workspace. add error handling
     const { organization: organizationSelect } = await inquirer.prompt([
@@ -383,7 +366,7 @@ async function gatherInfo(
         type: "list",
         name: "organization",
         message: "Terraform Cloud Organization Name",
-        choices: organizationOptions,
+        choices: organizationIds,
       },
     ]);
 
@@ -391,13 +374,32 @@ async function gatherInfo(
       chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
     );
 
-    const { workspace: workspaceName } = await inquirer.prompt([
-      {
-        name: "workspace",
-        message: "Terraform Cloud Workspace Name",
-        default: project.Name,
-      },
-    ]);
+    let workspaceName;
+    while (!workspaceName) {
+      const { workspace: tryWorkspaceName } = await inquirer.prompt([
+        {
+          name: "workspace",
+          message: "Terraform Cloud Workspace Name",
+          default: project.Name,
+        },
+      ]);
+
+      const isWorkspaceNameTaken =
+        await terraformCloudClient.isExistingWorkspaceWithName(
+          tfeHostname,
+          organizationSelect,
+          tryWorkspaceName,
+          token
+        );
+      if (!isWorkspaceNameTaken) {
+        workspaceName = tryWorkspaceName;
+        break;
+      }
+      console.log(
+        chalkColour`{redBright Error:} A workspace with the name {blueBright ${tryWorkspaceName}} already exists in the organization {blueBright ${organizationSelect}}. Please choose a different name.`
+      );
+    }
+
     project.OrganizationName = organizationSelect;
     project.WorkspaceName = workspaceName;
   }

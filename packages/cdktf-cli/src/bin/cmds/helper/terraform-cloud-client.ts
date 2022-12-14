@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import https = require("https");
-import { format } from "url";
+import querystring from "querystring";
 
 const SUCCESS_STATUS_CODES = [200, 201];
 
@@ -26,14 +26,23 @@ export interface OrganizationData {
   attributes: Record<string, unknown>;
 }
 
+export interface WorkspaceData {
+  type: string;
+  attributes: Record<string, unknown>;
+}
+
 export interface Organization {
   data: OrganizationData[];
 }
 
-async function get(url: string, token: string) {
-  return new Promise<any>((ok, ko) => {
+export interface Workspaces {
+  data: WorkspaceData[];
+}
+
+async function get<T>(url: string, token: string) {
+  return new Promise<T>((ok, ko) => {
     const req = https.request(
-      format(url),
+      new URL(url).toString(),
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -57,7 +66,7 @@ async function get(url: string, token: string) {
         res.once("error", (err) => ko(err));
         res.once("end", () => {
           const response = JSON.parse(Buffer.concat(data).toString("utf-8"));
-          return ok(response);
+          return ok(response as T);
         });
       }
     );
@@ -69,7 +78,7 @@ async function get(url: string, token: string) {
 async function post(url: string, token: string, data: string) {
   return new Promise<any>((ok, ko) => {
     const req = https.request(
-      format(url),
+      new URL(url).toString(),
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -109,10 +118,10 @@ async function post(url: string, token: string, data: string) {
 }
 
 export async function getAccountDetails(tfeHostname: string, token: string) {
-  return (await get(
+  return await get<Account>(
     `https://${tfeHostname}/api/v2//account/details`,
     token
-  )) as Account;
+  );
 }
 
 export async function createWorkspace(
@@ -136,9 +145,30 @@ export async function createWorkspace(
   );
 }
 
-export async function getOrganizationNames(tfeHostname: string, token: string) {
-  return (await get(
+export async function getOrganizationIds(tfeHostname: string, token: string) {
+  const organizations = await get<Organization>(
     `https://${tfeHostname}/api/v2//organizations`,
     token
-  )) as Organization;
+  );
+
+  return organizations.data.map((organization) => organization.id);
+}
+
+export async function isExistingWorkspaceWithName(
+  tfeHostname: string,
+  organizationName: string,
+  workspaceName: string,
+  token: string
+) {
+  const queryParameters = querystring.stringify({
+    "search[name]": workspaceName,
+  });
+  const url = `https://${tfeHostname}/api/v2//organizations/${organizationName}/workspaces?${queryParameters}`;
+
+  const workspaces = await get<Workspaces>(url, token);
+
+  return (
+    workspaces.data.length > 0 &&
+    workspaces.data[0].attributes.name === workspaceName
+  );
 }
