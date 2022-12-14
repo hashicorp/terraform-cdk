@@ -3,18 +3,11 @@
 import { TestDriver, onPosix } from "../../test-helper";
 import { TerraformCloud } from "@skorfmann/terraform-cloud";
 import * as crypto from "crypto";
-import * as http from "http";
-import * as net from "net";
-import * as url from "url";
 import { readFileSync } from "fs-extra";
-import * as semver from "semver";
 
 const { TERRAFORM_CLOUD_TOKEN, GITHUB_RUN_NUMBER, TERRAFORM_VERSION } =
   process.env;
 const withAuth = TERRAFORM_CLOUD_TOKEN ? onPosix : it.skip;
-const onTf1_1 = semver.gte(TERRAFORM_VERSION || "0.0.0", "1.1.0")
-  ? withAuth
-  : it.skip;
 
 if (!TERRAFORM_CLOUD_TOKEN) {
   console.log("TERRAFORM_CLOUD_TOKEN is undefined, skipping authed tests");
@@ -32,54 +25,6 @@ process.on("unhandledRejection", (err) => {
   throw err;
 });
 
-function startHttpProxy(mock: jest.Mock): Promise<{
-  address: string;
-  close: () => void;
-}> {
-  return new Promise((resolve) => {
-    // Inspired by: https://nodejs.org/api/http.html#http_event_connect
-    const proxyServer = http.createServer((req, res) => {
-      res.writeHead(200, {
-        "Content-Type": "text/plain",
-      });
-      res.end("OK");
-    });
-
-    proxyServer.on("connect", (req, clientSocket, head) => {
-      mock(req);
-      const { port, hostname } = url.parse(`http://${req.url}`);
-      var serverSocket = net.connect(Number(port), hostname, () => {
-        clientSocket.write(
-          "HTTP/1.1 200 Connection Established\r\n" +
-            "Proxy-agent: Node.js-Proxy\r\n" +
-            "\r\n"
-        );
-
-        serverSocket.write(head);
-        serverSocket.pipe(clientSocket);
-        clientSocket.pipe(serverSocket);
-        serverSocket.on("error", () => {
-          // we ignore any errors
-        });
-        clientSocket.on("error", () => {
-          // we ignore any errors
-        });
-      });
-    });
-
-    proxyServer.listen(0, "127.0.0.1", () => {
-      const addr = proxyServer.address();
-      resolve({
-        address:
-          typeof addr === "string" ? addr : `${addr.address}:${addr.port}`,
-        close: () => {
-          proxyServer.close();
-        },
-      });
-    });
-  });
-}
-
 // Below tests are disabled on windows because they fail due to networking issues
 describe("full integration test", () => {
   let driver: TestDriver;
@@ -93,13 +38,14 @@ describe("full integration test", () => {
     driver = new TestDriver(__dirname, {
       TERRAFORM_CLOUD_WORKSPACE_NAME: workspaceName,
       TERRAFORM_CLOUD_ORGANIZATION: orgName,
+      CDKTF_LOG_LEVEL: "all",
     });
     await driver.setupTypescriptProject();
     driver.copyFolders("fixtures");
     console.log(driver.workingDirectory);
   });
 
-  onTf1_1("deploy in Terraform Cloud", async () => {
+  withAuth("deploy in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
     await client.Workspaces.create(orgName, {
@@ -117,7 +63,7 @@ describe("full integration test", () => {
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });
 
-  onTf1_1("deploy locally and then in Terraform Cloud", async () => {
+  withAuth("deploy locally and then in Terraform Cloud", async () => {
     const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
 
     await client.Workspaces.create(orgName, {
@@ -140,7 +86,7 @@ describe("full integration test", () => {
   });
 
   // Only the origin stack is in TFC, the consumer stack is local
-  onTf1_1(
+  withAuth(
     "deploy with cross stack reference origin in Terraform Cloud",
     async () => {
       const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
@@ -167,45 +113,4 @@ describe("full integration test", () => {
       );
     }
   );
-
-  describe("with proxy", () => {
-    let proxyCalls: jest.Mock;
-    let proxyAddress: string | undefined;
-    let closeProxy: () => void | undefined;
-
-    beforeEach(async () => {
-      proxyCalls = jest.fn();
-      const { close, address } = await startHttpProxy(proxyCalls);
-      proxyAddress = address;
-      closeProxy = close;
-    });
-
-    afterEach(async () => {
-      closeProxy();
-      proxyAddress = undefined;
-    });
-
-    onTf1_1("deploy through HTTP_PROXY in Terraform Cloud", async () => {
-      const client = new TerraformCloud(TERRAFORM_CLOUD_TOKEN);
-
-      await client.Workspaces.create(orgName, {
-        data: {
-          attributes: {
-            name: workspaceName,
-            executionMode: "remote",
-            terraformVersion: TERRAFORM_VERSION,
-          },
-          type: "workspaces",
-        },
-      });
-
-      process.env.HTTPS_PROXY = `http://${proxyAddress}`;
-      // Run deploy command
-      await driver.deploy(["source-stack"]);
-      process.env.HTTPS_PROXY = undefined;
-
-      await client.Workspaces.deleteByName(orgName, workspaceName);
-      expect(proxyCalls).toHaveBeenCalled();
-    });
-  });
 });
