@@ -9,8 +9,8 @@ import * as semver from "semver";
 import fetch from "node-fetch";
 import * as z from "zod";
 
- // Can't use CDKTF_ as prefix because yargs .env("CDKTF") in strict mode does not allow us to
- // Refer to: https://github.com/yargs/yargs/issues/873
+// Can't use CDKTF_ as prefix because yargs .env("CDKTF") in strict mode does not allow us to
+// Refer to: https://github.com/yargs/yargs/issues/873
 const { GITHUB_API_TOKEN_CDKTF } = process.env;
 
 // {
