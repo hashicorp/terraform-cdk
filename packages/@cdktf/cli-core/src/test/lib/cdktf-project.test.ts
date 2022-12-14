@@ -224,7 +224,7 @@ describe("CdktfProject", () => {
 
   describe("destroy", () => {
     it("runs synth once and waits for approval", async () => {
-      const events: any[] = [];
+      let events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
         ...inNewWorkingDirectory(),
@@ -236,6 +236,16 @@ describe("CdktfProject", () => {
           }
         },
       });
+
+      // we need to deploy first to have something to destroy
+      // (else TF CLI wouldn't ask us to confirm as there's nothing)
+      await cdktfProject.deploy({ stackNames: ["second"] });
+      const lastEvent = events.pop();
+      expect(lastEvent).toHaveProperty("type", "deployed");
+      expect(lastEvent).toHaveProperty("stackName", "second");
+
+      // clear events before next invocation
+      events = [];
 
       await cdktfProject.destroy({ stackNames: ["second"], parallelism: 1 });
 
