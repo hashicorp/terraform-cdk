@@ -584,7 +584,7 @@ describe("CdktfProject", () => {
     });
 
     it("only aborts dependant when destroying", async () => {
-      const events: any[] = [];
+      let events: any[] = [];
       const cdktfProject = new CdktfProject({
         synthCommand: "npx ts-node ./main.ts",
         ...inNewWorkingDirectory(),
@@ -601,16 +601,17 @@ describe("CdktfProject", () => {
         },
       });
 
-      // To destroy sth we need to deploy first, with a different project to not polute the event list
-      new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
-        ...inNewWorkingDirectory(),
-        onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-      }).deploy({
+      // To destroy sth we need to deploy first, using the same project (= same working directory)
+      await cdktfProject.deploy({
         stackNames: ["third", "first", "second", "fourth", "fifth"],
         autoApprove: true,
         parallelism: 1,
       });
+      const lastEvent = events.pop();
+      expect(lastEvent).toHaveProperty("type", "deployed");
+      expect(lastEvent).toHaveProperty("stackName", "fifth");
+
+      events = []; // clear events
 
       // Random order to implicitly test out sorting
       await cdktfProject.destroy({
