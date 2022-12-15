@@ -4,11 +4,13 @@ import * as fs from "fs";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
+import { AbortSignal } from "node-abort-controller";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
   args: Parameters<typeof pty.spawn>[1];
   options: Parameters<typeof pty.spawn>[2] & { cwd: string };
+  abortSignal: AbortSignal;
 }
 
 interface DeployContext {
@@ -64,6 +66,22 @@ export type DeployState =
       context: DeployContext;
     };
 
+function formatCalledCmd(pty: PtySpawnConfig) {
+  const { args, options } = pty;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { env, ...optionsWithoutEnv } = options;
+  const file = getFile(pty);
+  return `file=${file}, args=${
+    Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
+  }, options=${JSON.stringify(optionsWithoutEnv)}`;
+}
+
+function getFile({ file, options }: PtySpawnConfig) {
+  return os.platform() === "win32"
+    ? findExecutable(file, options.cwd, options)
+    : file;
+}
+
 export const deployMachine = createMachine<
   DeployContext,
   DeployEvent,
@@ -87,16 +105,9 @@ export const deployMachine = createMachine<
             throw Errors.Internal(
               `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
             );
-          const { args, options } = event.pty;
-          const file =
-            os.platform() === "win32"
-              ? findExecutable(event.pty.file, options.cwd, options)
-              : event.pty.file;
-          logger.trace(
-            `Spawning pty with file=${file}, args=${
-              Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-            }, options=${JSON.stringify(options)}`
-          );
+          const { args, options, abortSignal } = event.pty;
+          const file = getFile(event.pty);
+          logger.trace(`Spawning pty with ${formatCalledCmd(event.pty)}`);
           const p = pty.spawn(file, args, options);
 
           onReceive((event: DeployEvent) => {
@@ -122,6 +133,15 @@ export const deployMachine = createMachine<
           });
           p.onExit(({ exitCode }) => {
             send({ type: "EXITED", exitCode });
+          });
+
+          abortSignal.addEventListener("abort", () => {
+            logger.debug(
+              `Abort triggered, killing pty called with ${formatCalledCmd(
+                event.pty
+              )}`
+            );
+            p.kill();
           });
 
           return () => {
@@ -185,6 +205,7 @@ export function createAndStartDeployService(options: {
   terraformBinaryName: string;
   autoApprove?: boolean;
   workdir: string;
+  abortSignal: AbortSignal;
 }) {
   const service = interpret(deployMachine);
 
@@ -205,6 +226,7 @@ export function createAndStartDeployService(options: {
       cwd: options.workdir,
       env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever
     },
+    abortSignal: options.abortSignal,
   };
 
   service.send({ type: "START", pty: config });
@@ -218,6 +240,7 @@ export function createAndStartDestroyService(options: {
   terraformBinaryName: string;
   autoApprove?: boolean;
   workdir: string;
+  abortSignal: AbortSignal;
 }) {
   const service = interpret(deployMachine);
 
@@ -237,6 +260,7 @@ export function createAndStartDestroyService(options: {
       cwd: options.workdir,
       env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever
     },
+    abortSignal: options.abortSignal,
   };
 
   service.send({ type: "START", pty: config });

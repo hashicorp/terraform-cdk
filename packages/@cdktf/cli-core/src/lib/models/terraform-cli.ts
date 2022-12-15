@@ -21,6 +21,7 @@ import {
   isDeployEvent,
 } from "./deploy-machine";
 import { waitFor } from "xstate/lib/waitFor";
+import { AbortSignal } from "node-abort-controller";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -72,7 +73,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       this.onStdout("init"),
       this.onStderr("init")
@@ -93,7 +94,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       this.onStdout("init"),
       this.onStderr("init")
@@ -123,7 +124,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       this.onStdout("plan"),
       this.onStderr("plan")
@@ -147,6 +148,7 @@ export class TerraformCli implements Terraform {
       autoApprove,
       parallelism,
       extraOptions,
+      abortSignal: this.abortSignal,
     });
     return this.handleService("deploy", service, callback);
   }
@@ -162,6 +164,7 @@ export class TerraformCli implements Terraform {
       autoApprove,
       parallelism,
       extraOptions,
+      abortSignal: this.abortSignal,
     });
     return this.handleService("destroy", service, callback);
   }
@@ -253,7 +256,7 @@ export class TerraformCli implements Terraform {
         {
           cwd: this.workdir,
           env: process.env,
-          signal: this.abortSignal,
+          signal: this.abortSignal as any,
         },
         this.onStdout("version"),
         this.onStderr("version")
@@ -272,7 +275,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       // We don't need to log the output here since we use it later on
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function

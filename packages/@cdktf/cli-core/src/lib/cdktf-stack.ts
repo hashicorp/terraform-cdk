@@ -10,6 +10,7 @@ import * as fs from "fs";
 import * as path from "path";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
+import { AbortSignal } from "node-abort-controller";
 
 export type StackUpdate =
   | {
