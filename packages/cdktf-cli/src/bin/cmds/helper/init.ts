@@ -64,7 +64,7 @@ export function checkForEmptyDirectory(dir: string) {
     process.exit(1);
   }
 }
-const tfeHostname = "app.terraform.io";
+const tfcHostname = "app.terraform.io";
 type GatheredInfo = {
   projectInfo: Project;
   useTerraformCloud: boolean | undefined;
@@ -81,18 +81,20 @@ type Options = {
   destination: string;
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
+  tfeHostname?: string;
 };
 
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
   const destination = argv.destination || ".";
+  const terraformRemoteHostname = argv.tfeHostname || tfcHostname;
   let token = "";
   if (!argv.local) {
     // We ask the user to login to Terraform Cloud and set a token
     // If the user chooses not to use Terraform Cloud, we continue
     // without a token and set up the project.
 
-    const terraformLogin = new TerraformLogin(tfeHostname);
+    const terraformLogin = new TerraformLogin(terraformRemoteHostname);
     token = await terraformLogin.askToLogin();
   } else {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -119,6 +121,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
   const { projectInfo, useTerraformCloud } = await gatherInfo(
     token,
+    terraformRemoteHostname,
     argv.projectName,
     argv.projectDescription
   );
@@ -186,7 +189,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
         providerSchema: providerSchema ?? {},
       });
     } catch (err) {
-      throw Errors.Internal(err, { fromTerraformProject: true });
+      throw Errors.Internal((err as Error).toString(), {
+        fromTerraformProject: true,
+      });
     }
   }
 
@@ -305,6 +310,7 @@ function copyLocalModules(
 
 async function gatherInfo(
   token: string,
+  terraformRemoteHostname: string,
   projectName?: string,
   projectDescription?: string
 ): Promise<GatheredInfo> {
@@ -326,13 +332,20 @@ async function gatherInfo(
       default: projectDescriptionDefault,
     });
   }
+  const useTerraformEnterprise =
+    token != "" && terraformRemoteHostname != tfcHostname;
+
   if (token != "") {
-    questions.push({
-      name: "useTerraformCloud",
-      type: "confirm",
-      message: "Would you like to use Terraform Cloud?",
-      default: true,
-    });
+    // We only ask this question if a --tfe-hostname is not provided explicitly
+    // Otherwise, we take it as a signal that the user wants to use Terraform Enterprise.
+    if (terraformRemoteHostname === tfcHostname) {
+      questions.push({
+        name: "useTerraformCloud",
+        type: "confirm",
+        message: "Would you like to use Terraform Cloud?",
+        default: true,
+      });
+    }
   }
 
   const answers: {
@@ -341,22 +354,28 @@ async function gatherInfo(
     useTerraformCloud?: boolean;
   } = questions.length > 0 ? await inquirer.prompt(questions) : {};
 
+  // Either the user answers yes to using Terraform Cloud,
+  // or we've skipped asking the question, but we've inferred that the user wants to use Terraform Enterprise.
+  const isRemote = answers.useTerraformCloud || useTerraformEnterprise;
+
   const project: Project = {
     Name: projectName || answers.projectName || "",
     Description: projectDescription || answers.projectDescription || "",
     OrganizationName: "",
     WorkspaceName: "",
+    TerraformRemoteHostname: isRemote ? terraformRemoteHostname : "",
   };
 
-  const isRemote = answers.useTerraformCloud;
-
-  if (token != "" && isRemote) {
-    console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`);
+  if (isRemote) {
+    const remoteType = useTerraformEnterprise ? "Enterprise" : "Cloud";
     console.log(
-      chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
+      chalkColour`\nDetected {blueBright Terraform ${remoteType}} token.`
+    );
+    console.log(
+      chalkColour`\nWe will now set up {blueBright Terraform ${remoteType}} for your project.\n`
     );
     const organizationIds = await terraformCloudClient.getOrganizationIds(
-      tfeHostname,
+      terraformRemoteHostname,
       token
     );
 
@@ -365,13 +384,13 @@ async function gatherInfo(
       {
         type: "list",
         name: "organization",
-        message: "Terraform Cloud Organization Name",
+        message: `Terraform ${remoteType} Organization Name`,
         choices: organizationIds,
       },
     ]);
 
     console.log(
-      chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
+      chalkColour`\nWe are going to create a new {blueBright Terraform ${remoteType} Workspace} for your project.\n`
     );
 
     let workspaceName;
@@ -379,14 +398,14 @@ async function gatherInfo(
       const { workspace: tryWorkspaceName } = await inquirer.prompt([
         {
           name: "workspace",
-          message: "Terraform Cloud Workspace Name",
+          message: `Terraform ${remoteType} Workspace Name`,
           default: project.Name,
         },
       ]);
 
       const isWorkspaceNameTaken =
         await terraformCloudClient.isExistingWorkspaceWithName(
-          tfeHostname,
+          terraformRemoteHostname,
           organizationSelect,
           tryWorkspaceName,
           token
@@ -554,7 +573,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
       },
     };
   } catch (e) {
-    if (e.code === "ERR_INVALID_URL") {
+    if ((e as NodeJS.ErrnoException).code === "ERR_INVALID_URL") {
       console.error(
         chalkColour`Could not download template: {redBright the supplied url is invalid}`
       );
