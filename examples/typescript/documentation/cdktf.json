@@ -2,6 +2,16 @@
   "language": "typescript",
   "app": "npx ts-node main.ts",
   "terraformProviders": [
-    "aws@~> 3.0", "kubernetes@~> 2.0"
+    "aws@~> 3.0",
+    "kubernetes@~> 2.0",
+    "random@~> 3.1"
+  ],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@~> 3.0",
+    "terraform-aws-modules/eks/aws@~> 19.0",
+    {
+      "name": "my-local-module",
+      "source": "./tf-modules/my-local-module"
+    }
   ]
 }

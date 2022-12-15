@@ -4,8 +4,12 @@ import { AbortController } from "node-abort-controller"; // polyfill until we up
 import { Errors, ensureAllSettledBeforeThrowing, logger } from "@cdktf/commons";
 import { SynthesizedStack, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
-import { CdktfStack, StackApprovalUpdate, StackUpdate } from "./cdktf-stack";
-import { TerraformPlan } from "./models/terraform";
+import {
+  CdktfStack,
+  ExternalStackApprovalUpdate,
+  StackApprovalUpdate,
+  StackUpdate,
+} from "./cdktf-stack";
 import { NestedTerraformOutputs } from "./output";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
@@ -13,7 +17,6 @@ import { createEnhanceLogMessage } from "./execution-logs";
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
   stackName: string;
-  plan: TerraformPlan;
   approve: () => void;
   dismiss: () => void;
   stop: () => void;
@@ -294,7 +297,7 @@ export type MutationOptions = MultipleStackOptions &
     terraformParallelism?: number;
   };
 
-type LogMessage = {
+export type LogMessage = {
   stackName: string;
   messageWithConstructPath?: string;
   message: string;
@@ -371,7 +374,27 @@ export class CdktfProject {
     this.waitingForApproval = true;
   }
 
-  private resumeAfterApproval() {
+  private resumeAfterApproval(stackName: string) {
+    // remove waiting for approval event that should be resumed
+    this.eventBuffer = this.eventBuffer.filter(
+      (event) =>
+        !(
+          event.type === "projectUpdate" &&
+          event.value.type === "waiting for approval" &&
+          event.value.stackName === stackName
+        )
+    );
+
+    if (
+      this.eventBuffer.length &&
+      this.eventBuffer[0].type === "projectUpdate" &&
+      this.eventBuffer[0].value.type === "waiting for approval"
+    ) {
+      // we are still waiting on approval for the current stack
+      // we removed a future "waiting for approval" event for some other stack
+      return;
+    }
+
     // We first need to flush all events, we can not resume if there is a new waiting for approval update
     let event = this.eventBuffer.shift();
     while (event) {
@@ -394,7 +417,9 @@ export class CdktfProject {
   }
 
   private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
-    return (update: StackUpdate | StackApprovalUpdate) => {
+    return (
+      update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+    ) => {
       const bufferCb = (bufferedUpdate: ProjectUpdate) => {
         this.eventBuffer.push({
           cb,
@@ -402,34 +427,57 @@ export class CdktfProject {
           type: "projectUpdate",
         });
       };
+
+      if (update.type === "external stack approval reply") {
+        if (!update.approved) {
+          this.stopAllStacksThatCanNotRunWithout(update.stackName);
+        }
+        this.resumeAfterApproval(update.stackName);
+        return; // aka don't send this event to any buffer
+      }
+
       const bufferableCb = this.waitingForApproval ? bufferCb : cb;
 
       if (update.type === "waiting for stack approval") {
         const callbacks = (update: StackApprovalUpdate) => ({
           approve: () => {
             update.approve();
-            this.resumeAfterApproval();
+            // We need to defer these calls for the case that approve() is instantly invoked
+            // in the listener that receives these callbacks as it otherwise would already
+            // remove the "waiting for stack approval" event from the buffer before we even
+            // set waitingForApproval to true (at the end of this if statement) which results
+            // in buffered updates which will never unblock
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
           dismiss: () => {
             update.reject();
 
             this.stopAllStacksThatCanNotRunWithout(update.stackName);
-            this.resumeAfterApproval();
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
           stop: () => {
             update.reject();
             this.stopAllStacks();
-            this.resumeAfterApproval();
+            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
           },
         });
-        this.waitForApproval();
 
-        bufferableCb({
+        // always send to buffer, as resumeAfterApproval() always expects a matching "waiting for approval" event
+        bufferCb({
           type: "waiting for approval",
           stackName: update.stackName,
-          plan: update.plan,
           ...callbacks(update),
         });
+        // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
+        if (!this.waitingForApproval) {
+          cb({
+            type: "waiting for approval",
+            stackName: update.stackName,
+            ...callbacks(update),
+          });
+        }
+
+        this.waitForApproval();
       } else {
         bufferableCb(update);
       }
@@ -513,11 +561,12 @@ export class CdktfProject {
       getSingleStack(stacks, opts?.stackName, "diff")
     );
     await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
-    if (!stack.currentPlan)
+
+    if (stack.error) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
       );
-    return stack.currentPlan;
+    }
   }
 
   private async execute(

@@ -18,22 +18,25 @@ Everything within a CDKTF application descends from the `Construct` class, so yo
 
 The following example defines an aspect to add tags to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#aspect-tagging -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#define-aspects -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#aspect-tagging -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#define-aspects -->
 
 <CodeTabs>
 
 ```ts
-import { IConstruct } from "constructs";
-import { Aspects, IAspect } from "cdktf";
+import { Construct, IConstruct } from "constructs";
+import { Aspects, IAspect, TerraformStack, App } from "cdktf";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
 // Not all constructs are taggable, so we need to filter it
 type TaggableConstruct = IConstruct & {
   tags?: { [key: string]: string };
   tagsInput?: { [key: string]: string };
 };
+
 function isTaggableConstruct(x: IConstruct): x is TaggableConstruct {
   return "tags" in x && "tagsInput" in x;
 }
@@ -51,8 +54,25 @@ export class TagsAddingAspect implements IAspect {
   }
 }
 
-// Add tags to every resource defined within `myStack`.
-Aspects.of(myStack).add(new TagsAddingAspect({ createdBy: "cdktf" }));
+export class AspectTaggingStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+
+    new S3Bucket(this, "bucket", {
+      bucket: "demo",
+      tags: {
+        owner: "cdktf",
+      },
+    });
+
+    // Add tags to every resource defined within this stack.
+    Aspects.of(this).add(new TagsAddingAspect({ createdBy: "cdktf" }));
+  }
+}
 ```
 
 ```java
@@ -215,16 +235,17 @@ namespace Examples
 
 You can also use aspects for validation. The following example defines an aspect that checks whether all S3 Buckets start with the correct prefix.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#aspect-validation -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#aspects-validation -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#aspect-validation -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#aspects-validation -->
 
 <CodeTabs>
 
 ```ts
-import { IConstruct } from "constructs";
-import { Aspects, IAspect, Annotations } from "cdktf";
+import { Annotations, Aspects, IAspect, TerraformStack } from "cdktf";
+import { Construct, IConstruct } from "constructs";
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
 export class ValidateS3IsPrefixed implements IAspect {
@@ -244,8 +265,21 @@ export class ValidateS3IsPrefixed implements IAspect {
   }
 }
 
-// Check the prefix for every resource within `myStack`.
-Aspects.of(myStack).add(new ValidateS3IsPrefixed("myPrefix"));
+export class AspectValidationStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+
+    new S3Bucket(this, "bucket", {
+      bucket: "myPrefixDemo",
+    });
+
+    Aspects.of(this).add(new ValidateS3IsPrefixed("myPrefix"));
+  }
+}
 ```
 
 ```java

@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TestDriver } from "../../test-helper";
-import { IPty, IDisposable } from "node-pty";
+import { IPty, IDisposable } from "node-pty-prebuilt-multiarch";
 import stripAnsi = require("strip-ansi");
 
 const onPosix = process.platform !== "win32" ? test : test.skip;

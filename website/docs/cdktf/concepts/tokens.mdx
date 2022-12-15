@@ -28,26 +28,38 @@ To pass the subnet id list to the EKS module, you can use `publicSubnetsOutput` 
 requires a list of strings. Use `Token.asList(vpc.publicSubnetsOutput)` to cast the interpolated module
 output as a list of strings.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#tokens -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#tokens -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#tokens -->
 
 <CodeTabs>
 
-```typescript
-const logRetention = new TerraformVariable(this, "logRetentionInDays", {
-  type: "number",
-});
+```ts
+import { TerraformStack, TerraformVariable, Token } from "cdktf";
+import { Construct } from "constructs";
+import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
+import { Eks } from "./.gen/modules/terraform-aws-modules/aws/eks";
 
-const vpc = new Vpc(this, vpcName, {
-  name: vpcName,
-  publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
-});
+export class TokensStack extends TerraformStack {
+  constructor(scope: Construct, id: string, vpcName: string) {
+    super(scope, id);
 
-new Eks(this, "EksModule", {
-  clusterName: "my-kubernetes-cluster",
-  subnets: Token.asList(vpc.publicSubnetsOutput),
-  clusterLogRetentionInDays: logRetention.numberValue,
-});
+    const logRetention = new TerraformVariable(this, "logRetentionInDays", {
+      type: "number",
+    });
+
+    const vpc = new Vpc(this, vpcName, {
+      name: vpcName,
+      publicSubnets: ["10.0.1.0/24", "10.0.2.0/24"],
+    });
+
+    new Eks(this, "EksModule", {
+      clusterName: "my-kubernetes-cluster",
+      subnetIds: Token.asList(vpc.publicSubnetsOutput),
+      cloudwatchLogGroupRetentionInDays: logRetention.numberValue,
+    });
+  }
+}
 ```
 
 ```java

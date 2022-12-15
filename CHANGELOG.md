@@ -1,3 +1,7 @@
+## Unreleased
+
+Breaking: CDK for Terraform now requires Terraform CLI version 1.2 or above.
+
 ## 0.14.3
 
 ### fix

@@ -87,8 +87,6 @@
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
-    "packages/cdktf/**/*.ts": "yarn generate-docs:api",
-    "examples/*/documentation/**/*.{ts,cs,go,java,py}": "yarn generate-docs:translations",
     "**/*.{tsx,js,css,md}": "prettier --write",
     "**/*.ts": [
       "prettier --write",
