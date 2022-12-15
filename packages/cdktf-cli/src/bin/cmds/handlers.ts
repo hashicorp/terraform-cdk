@@ -11,7 +11,6 @@ import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
 } from "@cdktf/provider-generator";
-import Table from "cli-table";
 
 import {
   LANGUAGES,
@@ -41,6 +40,7 @@ import { Get } from "./ui/get";
 import { List } from "./ui/list";
 import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
+import { ProviderListTable } from "./ui/provider-list";
 
 import {
   NestedTerraformOutputs,
@@ -535,35 +535,26 @@ export async function providerList(argv: any) {
     console.log(JSON.stringify(allProviders));
     return;
   }
-  const renderedTable = new Table({
-    head: [
-      "Provider Name",
-      "Provider Version",
-      "CDKTF",
-      "Constraint",
-      "Package Name",
-      "Package Version",
-    ],
-  });
-
+  const data = [];
   for (const provider of allProviders.local) {
-    renderedTable.push([
-      provider.providerName || "",
-      provider.providerVersion || "",
-      "",
-      provider.providerConstraint || "",
-      "",
-    ]);
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: "",
+      Constraint: provider.providerConstraint || "",
+      "Package Name": "",
+      "Package Version": "",
+    });
   }
   for (const provider of allProviders.prebuilt) {
-    renderedTable.push([
-      provider.providerName || "",
-      provider.providerVersion || "",
-      provider.cdktfVersion || "",
-      "",
-      provider.packageName || "",
-      provider.packageVersion || "",
-    ]);
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: provider.cdktfVersion || "",
+      Constraint: "",
+      "Package Name": provider.packageName || "",
+      "Package Version": provider.packageVersion || "",
+    });
   }
-  console.log(renderedTable.toString());
+  renderInk(React.createElement(ProviderListTable, { data }));
 }
