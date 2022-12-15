@@ -367,12 +367,9 @@ async function gatherInfo(
   };
 
   if (isRemote) {
-    const remoteType = useTerraformEnterprise ? "Enterprise" : "Cloud";
+    console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`);
     console.log(
-      chalkColour`\nDetected {blueBright Terraform ${remoteType}} token.`
-    );
-    console.log(
-      chalkColour`\nWe will now set up {blueBright Terraform ${remoteType}} for your project.\n`
+      chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
     const organizationIds = await terraformCloudClient.getOrganizationIds(
       terraformRemoteHostname,
@@ -384,13 +381,13 @@ async function gatherInfo(
       {
         type: "list",
         name: "organization",
-        message: `Terraform ${remoteType} Organization Name`,
+        message: `Terraform Cloud Organization Name`,
         choices: organizationIds,
       },
     ]);
 
     console.log(
-      chalkColour`\nWe are going to create a new {blueBright Terraform ${remoteType} Workspace} for your project.\n`
+      chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
     );
 
     let workspaceName;
@@ -398,7 +395,7 @@ async function gatherInfo(
       const { workspace: tryWorkspaceName } = await inquirer.prompt([
         {
           name: "workspace",
-          message: `Terraform ${remoteType} Workspace Name`,
+          message: `Terraform Cloud Workspace Name`,
           default: project.Name,
         },
       ]);
