@@ -74,12 +74,12 @@ First use `cdktf login` to log into Terraform Cloud or your Terraform Enterprise
   </Tab>
 </Tabs>
 
-Next, run `cdktf init` without passing the `--local` flag.
+Run `cdktf init` without passing the `--local` flag.
 This creates a new template CDKTF project for your chosen programming language.
 It will be the basis for a new application with the necessary file structure for you to start defining infrastructure.
 Choose a project language and provide a project name and description.
 Select a Terraform Cloud organization and a name for your workspace and let CDKTF CLI create it for you.
-Next you can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
+You can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
 
 CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together.
 By default, the workspace is set to Local Execution mode, which means Terraform continues to run on your local machine. If you want Terraform to run remotely, you need to set the workspace to [Remote Execution mode](/cloud-docs/workspaces/settings#execution-mode).
