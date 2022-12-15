@@ -113,19 +113,37 @@ export abstract class AbstractTerraformPlan implements TerraformPlan {
   }
 }
 
+export type TerraformDeployState =
+  | { type: "running"; cancelled: boolean }
+  | {
+      type: "waiting for approval";
+      approve: () => void;
+      reject: () => void;
+    }
+  | { type: "external approval reply"; approved: boolean };
+
 export interface Terraform {
   init: (upgrade: boolean) => Promise<void>;
   plan: (
     destroy: boolean,
     refreshOnly?: boolean,
     parallelism?: number
-  ) => Promise<TerraformPlan>;
+  ) => Promise<void>;
   deploy(
-    planFile: string,
-    refreshOnly?: boolean,
-    parallelism?: number
-  ): Promise<void>;
-  destroy(parallelism?: number): Promise<void>;
+    options: {
+      autoApprove?: boolean;
+      refreshOnly?: boolean;
+      parallelism?: number;
+    },
+    callback: (state: TerraformDeployState) => void
+  ): Promise<{ cancelled: boolean }>;
+  destroy(
+    options: {
+      autoApprove?: boolean;
+      parallelism?: number;
+    },
+    callback: (state: TerraformDeployState) => void
+  ): Promise<{ cancelled: boolean }>;
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
 }
