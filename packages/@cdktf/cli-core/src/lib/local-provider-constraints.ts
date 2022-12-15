@@ -13,6 +13,9 @@ const constraintsType = z.object({
 });
 
 export type Constraints = z.infer<typeof constraintsType>;
+
+// TODO: move this to @cdktf/commons
+// tracked here https://github.com/hashicorp/terraform-cdk/issues/1814
 /**
  * Class to help with reading `constraints.json` file
  * published by `provider get` or `provider add` commands

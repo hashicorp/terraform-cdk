@@ -5,6 +5,8 @@ import fs from "fs-extra";
 import path from "path";
 import { CdktfConfig } from "./cdktf-config";
 
+// TODO: move this to @cdktf/commons
+// tracked here https://github.com/hashicorp/terraform-cdk/issues/1814
 /**
  * Class to help with reading `versions.json` file
  * published by `provider get` or `provider add` commands
@@ -30,7 +32,7 @@ export class LocalProviderVersions {
 
     let providerVersions;
     try {
-      providerVersions = JSON.parse(versionsJson) as LocalProviderVersions;
+      providerVersions = JSON.parse(versionsJson) as Record<string, string>;
     } catch (e) {
       throw Errors.External(
         "versions.json file is malformed. The root must be a JSON object."
