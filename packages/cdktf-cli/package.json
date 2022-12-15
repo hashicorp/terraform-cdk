@@ -97,7 +97,7 @@
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": [
-      "tsc-files src/lib/ambient.d.ts --noEmit",
+      "tsc-files ambient.d.ts --noEmit",
       "eslint"
     ]
   },
