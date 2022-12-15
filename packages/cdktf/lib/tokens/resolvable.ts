@@ -26,6 +26,17 @@ export interface IResolveContext {
   suppressBraces?: boolean;
 
   /**
+   * True when ${} should not be parsed, and treated as literals
+   */
+  ignoreEscapes?: boolean;
+
+  /**
+   * True when ${} should not be included in the string to be resolved, outputs a warning.
+   * Default: false
+   */
+  warnEscapes?: boolean;
+
+  /**
    * TerraformIterators can be passed for block attributes and normal list attributes
    * both require different handling when the iterable variable is accessed
    * e.g. a dynamic block needs each.key while a for expression just needs key
@@ -199,7 +210,7 @@ export class DefaultTokenResolver implements ITokenResolver {
     fragments: TokenizedStringFragments,
     context: IResolveContext
   ) {
-    return fragments.mapTokens({ mapToken: context.resolve }).join(this.concat);
+    return fragments.mapTokens(context).join(this.concat);
   }
 
   /**
@@ -222,7 +233,7 @@ export class DefaultTokenResolver implements ITokenResolver {
       );
     }
 
-    return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
+    return fragments.mapTokens(context).firstValue;
   }
 
   /**
@@ -265,6 +276,6 @@ export class DefaultTokenResolver implements ITokenResolver {
       );
     }
 
-    return fragments.mapTokens({ mapToken: context.resolve }).firstValue;
+    return fragments.mapTokens(context).firstValue;
   }
 }

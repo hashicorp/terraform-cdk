@@ -58,7 +58,11 @@ class TFExpression extends Intrinsic implements IResolvable {
     }
 
     // Only a token reference
-    if (tokenList.literals.length === 0 && numberOfTokens === 1) {
+    if (
+      tokenList.literals.length === 0 &&
+      tokenList.escapes.length === 0 &&
+      numberOfTokens === 1
+    ) {
       return resolvedArg;
     }
 
@@ -316,13 +320,21 @@ class FunctionCall extends TFExpression {
 
   public resolve(context: IResolveContext): string {
     const suppressBraces = context.suppressBraces;
+    const originalIgnoreEscapes = context.ignoreEscapes;
+    const originalWarnEscapes = context.warnEscapes;
+
     context.suppressBraces = true;
+    context.ignoreEscapes = true;
+    context.warnEscapes = true;
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
       .join(", ");
 
     const expr = `${this.name}(${serializedArgs})`;
+
+    context.ignoreEscapes = originalIgnoreEscapes;
+    context.warnEscapes = originalWarnEscapes;
 
     return suppressBraces ? expr : `\${${expr}}`;
   }

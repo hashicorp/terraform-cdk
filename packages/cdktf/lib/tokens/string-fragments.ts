@@ -1,7 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 // Copied from https://github.com/aws/constructs/blob/e01e47f78ef1e9b600efcd23ff7705aa8d384017/lib/string-fragments.ts
-import { IFragmentConcatenator, IResolvable } from "./resolvable";
+import {
+  IFragmentConcatenator,
+  IResolvable,
+  IResolveContext,
+} from "./resolvable";
 import { Tokenization } from "./token";
 
 /**
@@ -12,7 +16,12 @@ import { Tokenization } from "./token";
 type LiteralFragment = { type: "literal"; lit: any };
 type TokenFragment = { type: "token"; token: IResolvable };
 type IntrinsicFragment = { type: "intrinsic"; value: any };
-type Fragment = LiteralFragment | TokenFragment | IntrinsicFragment;
+type EscapeFragment = { type: "escape"; kind: "open" | "close" };
+type Fragment =
+  | LiteralFragment
+  | TokenFragment
+  | IntrinsicFragment
+  | EscapeFragment;
 
 /**
  * Fragments of a concatenated string containing stringified Tokens
@@ -73,6 +82,14 @@ export class TokenizedStringFragments {
     this.fragments.push({ type: "intrinsic", value });
   }
 
+  public addEscape(kind: "open" | "close") {
+    this.fragments.push({ type: "escape", kind });
+  }
+
+  public concat(other: TokenizedStringFragments): void {
+    this.fragments.concat(other.fragments);
+  }
+
   /**
    * Return all Tokens from this string
    */
@@ -113,19 +130,47 @@ export class TokenizedStringFragments {
   }
 
   /**
+   * Return all escape fragments from this string
+   */
+  public get escapes(): IResolvable[] {
+    const ret = new Array<IResolvable>();
+    for (const f of this.fragments) {
+      if (f.type === "escape") {
+        if (f.kind === "open") ret.push("${" as any);
+        else ret.push("}" as any);
+      }
+    }
+    return ret;
+  }
+
+  /**
    * Apply a transformation function to all tokens in the string
    */
-  public mapTokens(mapper: ITokenMapper): TokenizedStringFragments {
+  public mapTokens(context: IResolveContext): TokenizedStringFragments {
     const ret = new TokenizedStringFragments();
+    const originalSupressBraces = context.suppressBraces;
 
     for (const f of this.fragments) {
       switch (f.type) {
         case "literal":
           ret.addLiteral(f.lit);
           break;
+        case "escape":
+          if (context.ignoreEscapes) {
+            ret.addLiteral(f.kind === "open" ? "${" : "}");
+            break;
+          }
+
+          ret.addEscape(f.kind);
+          if (f.kind === "open") {
+            context.suppressBraces = true;
+          } else {
+            context.suppressBraces = originalSupressBraces;
+          }
+          break;
         case "token":
           // eslint-disable-next-line no-case-declarations
-          const mapped = mapper.mapToken(f.token);
+          const mapped = context.resolve(f.token);
           if (Tokenization.isResolvable(mapped)) {
             ret.addToken(mapped);
           } else {
@@ -186,6 +231,8 @@ function fragmentValue(fragment: Fragment): any {
   switch (fragment.type) {
     case "literal":
       return fragment.lit;
+    case "escape":
+      return fragment.kind === "open" ? "${" : "}";
     case "token":
       return fragment.token.toString();
     case "intrinsic":
