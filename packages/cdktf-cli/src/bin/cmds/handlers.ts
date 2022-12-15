@@ -40,6 +40,7 @@ import { Get } from "./ui/get";
 import { List } from "./ui/list";
 import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
+import { ProviderListTable } from "./ui/provider-list";
 
 import {
   NestedTerraformOutputs,
@@ -510,4 +511,50 @@ export async function providerUpgrade(argv: any) {
       ),
     });
   }
+}
+
+export async function providerList(argv: any) {
+  const config = CdktfConfig.read();
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  const allProviders = await manager.allProviders();
+
+  if (argv.json) {
+    console.log(JSON.stringify(allProviders));
+    return;
+  }
+  const data = [];
+  for (const provider of allProviders.local) {
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: "",
+      Constraint: provider.providerConstraint || "",
+      "Package Name": "",
+      "Package Version": "",
+    });
+  }
+  for (const provider of allProviders.prebuilt) {
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: provider.cdktfVersion || "",
+      Constraint: "",
+      "Package Name": provider.packageName || "",
+      "Package Version": provider.packageVersion || "",
+    });
+  }
+  renderInk(React.createElement(ProviderListTable, { data }));
 }

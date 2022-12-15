@@ -138,6 +138,20 @@ type NpmPackageResult = {
   };
 };
 
+type NpmPackageSingleVersionResult = {
+  name: string;
+  version: string;
+  cdktf: {
+    provider: {
+      name: string;
+      version: string;
+    };
+  };
+  peerDependencies: {
+    [name: string]: string;
+  };
+};
+
 type PrebuiltProviderVersion = {
   packageVersion: string; // e.g. "7.0.42"
   providerVersion: string; // e.g. "4.12.1"
@@ -242,4 +256,31 @@ export async function getPrebuiltProviderVersions(
     .sort(semver.compare)
     .reverse();
   return npmPackageVersions;
+}
+
+export async function getPrebuiltProviderVersionInformation(
+  packageName: string,
+  packageVersion: string
+): Promise<any> {
+  // Go packages include an extra `vX.Y.Z`
+  if (packageVersion.startsWith("v")) {
+    packageVersion = packageVersion.slice(1);
+  }
+
+  const url = `https://registry.npmjs.org/${packageName}/${packageVersion}`;
+  const result = await cachedFetch<NpmPackageSingleVersionResult>(url);
+
+  let providerName = result.cdktf.provider.name;
+  if (providerName) {
+    providerName = providerName.replace("registry.terraform.io/", "");
+    providerName = providerName.replace("hashicorp/", "");
+  }
+
+  return {
+    packageName: result.name,
+    packageVersion: result.version,
+    providerName,
+    providerVersion: result.cdktf.provider.version,
+    cdktfVersion: result.peerDependencies["cdktf"],
+  };
 }

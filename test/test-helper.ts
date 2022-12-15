@@ -313,7 +313,6 @@ export class TestDriver {
     cb?: (workingDirectory) => void;
   }) => {
     this.switchToTempDir();
-    console.log(this.workingDirectory);
     await this.init("go", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");

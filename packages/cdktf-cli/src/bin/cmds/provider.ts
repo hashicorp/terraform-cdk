@@ -11,7 +11,8 @@ class Command implements yargs.CommandModule {
     args
       .command(require("./get"))
       .command(require("./provider-add"))
-      .command(require("./provider-upgrade"));
+      .command(require("./provider-upgrade"))
+      .command(require("./provider-list"));
 
   public readonly handler = () => {
     yargs.showHelp();
