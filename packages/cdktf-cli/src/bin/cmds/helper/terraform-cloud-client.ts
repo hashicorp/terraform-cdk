@@ -39,6 +39,44 @@ export interface Workspaces {
   data: WorkspaceData[];
 }
 
+export interface ServiceDiscovery {
+  "modules.v1": string;
+  "providers.v1": string;
+  "motd.v1": string;
+  "state.v2": string;
+  "tfe.v2": string;
+  "tfe.v2.1": string;
+  "tfe.v2.2": string;
+  "versions.v1": string;
+}
+
+let cachedServiceDiscovery: ServiceDiscovery | undefined;
+async function discoverService(hostname: string): Promise<ServiceDiscovery> {
+  if (cachedServiceDiscovery) return Promise.resolve(cachedServiceDiscovery);
+
+  return new Promise<ServiceDiscovery>((resolve, reject) => {
+    const req = https.request(
+      new URL(`https://${hostname}/.well-known/terraform.json`).toString(),
+      (res) => {
+        if (res.statusCode !== 200) {
+          const error = new Error(res.statusMessage);
+          (error as any).statusCode = res.statusCode;
+          return reject(error);
+        }
+        const data = new Array<Buffer>();
+        res.on("data", (chunk) => data.push(chunk));
+        res.once("error", (err) => reject(err));
+        res.once("end", () => {
+          const response = JSON.parse(Buffer.concat(data).toString("utf-8"));
+          cachedServiceDiscovery = response as ServiceDiscovery;
+          return resolve(cachedServiceDiscovery);
+        });
+      }
+    );
+    req.end();
+  });
+}
+
 async function get<T>(url: string, token: string) {
   return new Promise<T>((ok, ko) => {
     const req = https.request(
@@ -117,9 +155,14 @@ async function post(url: string, token: string, data: string) {
   });
 }
 
+async function endpointUrl(tfeHostname: string, path: string) {
+  const serviceDiscovery = await discoverService(tfeHostname);
+  return `https://${tfeHostname}${serviceDiscovery["tfe.v2"]}${path}`;
+}
+
 export async function getAccountDetails(tfeHostname: string, token: string) {
   return await get<Account>(
-    `https://${tfeHostname}/api/v2//account/details`,
+    await endpointUrl(tfeHostname, "/account/details"),
     token
   );
 }
@@ -131,7 +174,10 @@ export async function createWorkspace(
   token: string
 ) {
   await post(
-    `https://${tfeHostname}/api/v2//organizations/${organizationName}/workspaces`,
+    await endpointUrl(
+      tfeHostname,
+      `/organizations/${organizationName}/workspaces`
+    ),
     token,
     JSON.stringify({
       data: {
@@ -147,7 +193,7 @@ export async function createWorkspace(
 
 export async function getOrganizationIds(tfeHostname: string, token: string) {
   const organizations = await get<Organization>(
-    `https://${tfeHostname}/api/v2//organizations`,
+    await endpointUrl(tfeHostname, "/organizations"),
     token
   );
 
@@ -160,12 +206,15 @@ export async function isExistingWorkspaceWithName(
   workspaceName: string,
   token: string
 ) {
+  const url = await endpointUrl(
+    tfeHostname,
+    `/organizations/${organizationName}/workspaces`
+  );
   const queryParameters = querystring.stringify({
     "search[name]": workspaceName,
   });
-  const url = `https://${tfeHostname}/api/v2//organizations/${organizationName}/workspaces?${queryParameters}`;
 
-  const workspaces = await get<Workspaces>(url, token);
+  const workspaces = await get<Workspaces>(`${url}?${queryParameters}`, token);
 
   return (
     workspaces.data.length > 0 &&
