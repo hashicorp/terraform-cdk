@@ -77,6 +77,11 @@ async function discoverService(hostname: string): Promise<ServiceDiscovery> {
   });
 }
 
+// Testing only method, not needed for production use
+export function resetServiceDiscoveryCache() {
+  cachedServiceDiscovery = undefined;
+}
+
 async function get<T>(url: string, token: string) {
   return new Promise<T>((ok, ko) => {
     const req = https.request(
