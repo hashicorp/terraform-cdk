@@ -26,7 +26,7 @@ exports.post = options => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
   if (options.OrganizationName != '') {
     console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
-    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
+    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName, options.TerraformRemoteHostname)
   }
 
   // This is used for installing artifacts that are local (not from Maven)
@@ -39,7 +39,7 @@ exports.post = options => {
   console.log(readFileSync('./help', 'utf-8'));
 };
 
-function terraformCloudConfig(baseName, organizationName, workspaceName) {
+function terraformCloudConfig(baseName, organizationName, workspaceName, terraformRemoteHostname) {
   template = readFileSync('./src/main/java/com/mycompany/app/Main.java', 'utf-8');
 
   result = template.replace(`import com.hashicorp.cdktf.App;`, `import com.hashicorp.cdktf.App;
@@ -47,7 +47,7 @@ import com.hashicorp.cdktf.NamedCloudWorkspace;
 import com.hashicorp.cdktf.CloudBackend;
 import com.hashicorp.cdktf.CloudBackendProps;`);
   result = result.replace(`new MainStack(app, "${baseName}");`, `MainStack stack = new MainStack(app, "${baseName}");
-        new CloudBackend(stack, CloudBackendProps.builder().hostname("app.terraform.io").organization("${organizationName}").workspaces(new NamedCloudWorkspace("${workspaceName}")).build());`);
+        new CloudBackend(stack, CloudBackendProps.builder().hostname("${terraformRemoteHostname}").organization("${organizationName}").workspaces(new NamedCloudWorkspace("${workspaceName}")).build());`);
 
   writeFileSync('./src/main/java/com/mycompany/app/Main.java', result, 'utf-8');
 }

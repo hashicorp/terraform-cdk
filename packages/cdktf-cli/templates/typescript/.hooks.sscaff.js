@@ -5,7 +5,7 @@ exports.post = ctx => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
   if (ctx.OrganizationName != '') {
     console.log(`\nGenerating Terraform Cloud configuration for '${ctx.OrganizationName}' organization and '${ctx.WorkspaceName}' workspace.....`)
-    terraformCloudConfig(ctx.$base, ctx.OrganizationName, ctx.WorkspaceName);
+    terraformCloudConfig(ctx.$base, ctx.OrganizationName, ctx.WorkspaceName, ctx.TerraformRemoteHostname);
   }
 
   const npm_cdktf = ctx.npm_cdktf;
@@ -26,13 +26,13 @@ function installDeps(deps, isDev) {
   execSync(`npm install ${devDep} ${deps.join(' ')}`, { stdio: 'inherit', env });
 }
 
-function terraformCloudConfig(baseName, organizationName, workspaceName) {
+function terraformCloudConfig(baseName, organizationName, workspaceName, terraformRemoteHostname) {
   template = readFileSync('./main.ts', 'utf-8');
 
   result = template.replace(`import { App, TerraformStack } from "cdktf";`, `import { App, TerraformStack, CloudBackend, NamedCloudWorkspace } from "cdktf";`);
   result = result.replace(`new MyStack(app, "${baseName}");`, `const stack = new MyStack(app, "${baseName}");
 new CloudBackend(stack, {
-  hostname: "app.terraform.io",
+  hostname: "${terraformRemoteHostname}",
   organization: "${organizationName}",
   workspaces: new NamedCloudWorkspace("${workspaceName}")
 });`);
