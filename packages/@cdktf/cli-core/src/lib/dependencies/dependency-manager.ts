@@ -447,41 +447,44 @@ export class DependencyManager {
     const prebuiltProviderConfigs =
       await this.packageManager.listProviderPackages();
 
-    const prebuiltProvidersInfo = [];
+    const prebuiltProvidersInfo = await Promise.all(
+      prebuiltProviderConfigs.map(async (prebuiltProviderConfig) => {
+        const packageName = await this.convertFromPackageNameToNpm(
+          prebuiltProviderConfig.name
+        );
 
-    for (const prebuiltProviderConfig of prebuiltProviderConfigs) {
-      const packageName = await this.convertFromPackageNameToNpm(
-        prebuiltProviderConfig.name
-      );
+        const providerInformation = await getPrebuiltProviderVersionInformation(
+          packageName,
+          prebuiltProviderConfig.version
+        );
 
-      const providerInformation = await getPrebuiltProviderVersionInformation(
-        packageName,
-        prebuiltProviderConfig.version
-      );
+        return {
+          ...providerInformation,
+          packageName: prebuiltProviderConfig.name,
+        };
+      })
+    );
 
-      prebuiltProvidersInfo.push({
-        ...providerInformation,
-        packageName: prebuiltProviderConfig.name,
-      });
-    }
-
-    const localProvidersInfo = [];
     const constraints = new LocalProviderConstraints();
-    for (const localProvider of localProviderConfigs) {
-      const constraint = ProviderConstraint.fromConfigEntry(localProvider);
-      const version = await localVersions.versionForProvider(
-        constraint.simplifiedName
-      );
-      const constraintValue = await constraints.constraintForProvider(
-        constraint.simplifiedName
-      );
 
-      localProvidersInfo.push({
-        providerName: constraint.simplifiedName,
-        providerConstraint: constraintValue || constraint.version,
-        providerVersion: version,
-      });
-    }
+    const localProvidersInfo = await Promise.all(
+      localProviderConfigs.map(async (localProviderConfig) => {
+        const constraint =
+          ProviderConstraint.fromConfigEntry(localProviderConfig);
+        const version = await localVersions.versionForProvider(
+          constraint.simplifiedName
+        );
+        const constraintValue = await constraints.constraintForProvider(
+          constraint.simplifiedName
+        );
+
+        return {
+          providerName: constraint.simplifiedName,
+          providerConstraint: constraintValue || constraint.version,
+          providerVersion: version,
+        };
+      })
+    );
 
     return {
       local: localProvidersInfo,
