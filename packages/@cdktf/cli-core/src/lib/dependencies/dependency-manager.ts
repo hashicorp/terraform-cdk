@@ -18,8 +18,8 @@ import { LocalProviderVersions } from "../local-provider-versions";
 import { LocalProviderConstraints } from "../local-provider-constraints";
 
 // ref: https://www.terraform.io/language/providers/requirements#source-addresses
-const DEFAULT_HOSTNAME = "registry.terraform.io";
-const DEFAULT_NAMESPACE = "hashicorp";
+export const DEFAULT_HOSTNAME = "registry.terraform.io";
+export const DEFAULT_NAMESPACE = "hashicorp";
 function normalizeProviderSource(source: string) {
   // returns <HOSTNAME>/<NAMESPACE>/<TYPE>
   const slashes = source.split("/").length - 1;

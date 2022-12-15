@@ -4,6 +4,10 @@ import { Errors, logger } from "@cdktf/commons";
 import fs from "fs-extra";
 import path from "path";
 import { CdktfConfig } from "./cdktf-config";
+import {
+  DEFAULT_HOSTNAME,
+  DEFAULT_NAMESPACE,
+} from "./dependencies/dependency-manager";
 
 // TODO: move this to @cdktf/commons
 // tracked here https://github.com/hashicorp/terraform-cdk/issues/1814
@@ -43,8 +47,8 @@ export class LocalProviderVersions {
       Object.entries(providerVersions).map(([providerFqn, versions]) => {
         return [
           providerFqn
-            .replace("registry.terraform.io/", "")
-            .replace("hashicorp/", "")
+            .replace(`${DEFAULT_HOSTNAME}/`, "")
+            .replace(`${DEFAULT_NAMESPACE}/`, "")
             .toLowerCase(),
           versions,
         ];
