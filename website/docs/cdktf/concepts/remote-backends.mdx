@@ -29,6 +29,7 @@ The following example uses the `TerraformBackend` subclass `CloudBackend`.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-define -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-define -->
 
 <CodeTabs>
 
@@ -111,6 +112,36 @@ RemoteBackendStack(app, "hello-terraform")
 app.synth()
 ```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+
+namespace Examples
+{
+    class CloudBackendStack : TerraformStack
+    {
+        public CloudBackendStack(Construct scope, string name) : base(scope, name)
+        {
+            new CloudBackend(this, new CloudBackendProps
+            {
+                Hostname = "app.terraform.io",
+                Organization = "company",
+                Workspaces = new NamedCloudWorkspace("my-app-prod")
+            });
+
+            new TerraformOutput(this, "dns-server", new TerraformOutputConfig
+            {
+                Value = "hello-world"
+            });
+        }
+    }
+}
+```
+
 </CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
@@ -165,6 +196,7 @@ Consider an example project called `hello-terraform` that is using local storage
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-migrate -->
 
 <CodeTabs>
 
@@ -195,6 +227,39 @@ stack = Stack(App(), "hi-terraform")
             organization = "company",
             workspaces = NamedCloudWorkspace("my-app-prod")
         )
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+
+namespace Examples
+{
+    class LocalBackendStack : TerraformStack
+    {
+        public LocalBackendStack(Construct scope, string name) : base(scope, name)
+        {
+            new TerraformOutput(this, "dns-server", new TerraformOutputConfig
+            {
+                Value = "local"
+            });
+        }
+    }
+}
+
+App app = new App();
+LocalBackendStack stack = new LocalBackendStack(app, "local-to-cloud-backend");
+new CloudBackend(stack, new CloudBackendProps {
+    Hostname = "app.terraform.io",
+    Organization = "company",
+    Workspaces = new NamedCloudWorkspace("my-app-prod")
+});
+
+app.Synth();
 ```
 
 </CodeTabs>
@@ -299,6 +364,7 @@ The following example uses an escape hatch to add an unsupported remote backend 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-escape-hatches -->
 
 <CodeTabs>
 
@@ -331,6 +397,15 @@ stack.add_override("terraform.backend",{
         "address": "https://app.terraform.io"
     }
 })
+```
+
+```csharp
+stack.AddOverride("terraform.backend", new Dictionary<String, Object> {
+  { "atlas", new Dictionary<String, Object> {
+    { "name", "example_corp/networking-prod" },
+    { "address", "https://app.terraform.io" }
+  }
+});
 ```
 
 </CodeTabs>
