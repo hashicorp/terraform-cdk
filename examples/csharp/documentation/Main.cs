@@ -23,6 +23,7 @@ namespace MyCompany.MyApp
             new Examples.MyAspectsValidationStack(app, "aspectsValidation");
             new Examples.MyAssetStack(app, "assets");
             new Examples.MyConstructsStack(app, "constructs");
+            new Examples.ConstructsScopeStack(app, "constructs-scope");
             new Examples.FunctionStack(app, "function");
             new Examples.DataSourceStack(app, "data-sources");
             new Examples.RemoteStateDataSourceStack(app, "remote-state-data-sources");
@@ -34,7 +35,6 @@ namespace MyCompany.MyApp
             new Examples.TerraformHclModuleStack(app, "terraform-hcl-modules");
             new Examples.IteratorStack(app, "iterators");
             new Examples.TokensStack(app, "tokens");
-            new Examples.IteratorStack(app, "iterators");
             // Missing (at least) resources, stacks, variables-outputs
             app.Synth();
             Console.WriteLine("App synth complete");

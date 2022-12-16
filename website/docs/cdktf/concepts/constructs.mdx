@@ -225,6 +225,7 @@ The following example creates three different S3 buckets, two of which are in th
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-scope -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs-scope -->
 
 <CodeTabs>
 
@@ -343,6 +344,51 @@ public class MainConstructScope extends TerraformStack {
 }
 ```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.S3Bucket;
+
+namespace Examples
+{
+
+    class PublicS3Bucket : Construct {
+        public S3Bucket bucket;
+        public PublicS3Bucket(Construct scope, string name) : base(scope, name) {
+            // This bucket is in a different scope than the buckets
+            // defined in `MyStack`. Therefore, it does not need a unique name.
+            this.bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+                BucketPrefix = name,
+                Website = new S3BucketWebsite {
+                    IndexDocument = "index.html",
+                    ErrorDocument = "5xx.html"
+                }
+            });
+        }
+    }
+
+    class ConstructsScopeStack : TerraformStack
+    {
+        public ConstructsScopeStack(Construct scope, string name) : base(scope, name)
+        {
+            new AwsProvider(this, "Aws", new AwsProviderConfig {
+                Region = "us-east-1"
+            });
+
+            // Both buckets are inside of the same stack, meaning they share
+            // the same scope. Therefore, their names must be unique.
+            new PublicS3Bucket(this, "first-bucket");
+            new PublicS3Bucket(this, "second-bucket");
+        }
+    }
+}
+```
+
 </CodeTabs>
 
 ### Aspects
@@ -358,3 +404,7 @@ You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.
 ## Write and Publish Constructs
 
 You can write construct classes in any language and distribute them to other users. Refer to [Construct Design](/cdktf/develop-custom-constructs/construct-design) and [Construct Publishing and Distribution](/cdktf/develop-custom-constructs/publishing-and-distribution) for details.
+
+```
+
+```
