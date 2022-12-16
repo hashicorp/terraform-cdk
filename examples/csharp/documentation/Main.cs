@@ -37,6 +37,7 @@ namespace MyCompany.MyApp
             new Examples.TokensStack(app, "tokens");
             new Examples.CloudBackendStack(app, "remote-backend-cloud");
             new Examples.LocalBackendStack(app, "remote-backend-local");
+            new Examples.ResourcesStack(app, "resources");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
