@@ -1,3 +1,8 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
+const originalLogLevel = process.env.CDKTF_LOG_LEVEL;
+process.env.CDKTF_LOG_LEVEL = "debug"; // Prevent logging outputs from polluting the test results
+
 import path from "path";
 import * as fs from "fs-extra";
 import os from "os";
@@ -80,6 +85,8 @@ describe("terraform parallelism", () => {
       const wd = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
       const outDir = path.resolve(wd, "out");
 
+      console.log("WORKING DIR: ", wd);
+
       fs.copySync(workingDirectory, wd);
 
       return {
@@ -94,6 +101,7 @@ describe("terraform parallelism", () => {
   });
   afterAll(() => {
     jest.resetModules();
+    process.env.CDKTF_LOG_LEVEL = originalLogLevel;
   });
 
   describe("terraform parallelism flag in deploy", () => {

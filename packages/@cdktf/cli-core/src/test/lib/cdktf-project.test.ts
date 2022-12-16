@@ -34,11 +34,18 @@ function installFixturesInWorkingDirectory(
 
 jest.setTimeout(180_000);
 describe("CdktfProject", () => {
+  const initialLogLevel = process.env.CDKTF_LOG_LEVEL;
   let inNewWorkingDirectory: () => {
     workingDirectory: string;
     outDir: string;
   };
+
+  afterAll(() => {
+    process.env.CDKTF_LOG_LEVEL = initialLogLevel;
+  });
+
   beforeAll(async () => {
+    process.env.CDKTF_LOG_LEVEL = "error"; // Prevent logging outputs from polluting the test results
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
     await init({
       destination: workingDirectory,
@@ -76,7 +83,7 @@ describe("CdktfProject", () => {
       },
     });
 
-    inNewWorkingDirectory = function inNewWorkspace() {
+    inNewWorkingDirectory = function () {
       const wd = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
       const outDir = path.resolve(wd, "out");
 

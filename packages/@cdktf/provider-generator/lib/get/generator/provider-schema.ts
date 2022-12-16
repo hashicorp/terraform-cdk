@@ -281,6 +281,7 @@ export async function readProviderSchema(
 
   await withTempDir("fetchProviderSchema", async () => {
     const outdir = process.cwd();
+    console.log("outdir: ", outdir);
     const filePath = path.join(outdir, "main.tf.json");
     await fs.writeFile(filePath, JSON.stringify(config));
 
