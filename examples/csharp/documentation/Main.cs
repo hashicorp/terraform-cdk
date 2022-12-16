@@ -38,6 +38,7 @@ namespace MyCompany.MyApp
             new Examples.CloudBackendStack(app, "remote-backend-cloud");
             new Examples.LocalBackendStack(app, "remote-backend-local");
             new Examples.ResourcesStack(app, "resources");
+            new Examples.ReferencesStack(app, "references");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
