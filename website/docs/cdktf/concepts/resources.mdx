@@ -325,6 +325,7 @@ The following example defines a provisioner for a resource using the `addOverrid
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#resources-escape-hatch -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-hatch -->
 
 <CodeTabs>
 
@@ -395,6 +396,29 @@ import imports.aws.dynamodb_table.DynamodbTableConfig;
                 }
             }
         ])
+```
+
+```csharp
+            String tableName = "my-second-table";
+            DynamodbTable table = new DynamodbTable(this, "second-table", new DynamodbTableConfig {
+                Name = tableName,
+                HashKey = "id",
+                Attribute = new DynamodbTableAttribute[] {
+                    new DynamodbTableAttribute {
+                        Name = "id",
+                        Type = "S"
+                    }
+                }
+            });
+
+            table.AddOverride("provisioner", new Dictionary<string, object>[] {
+                new Dictionary<string, object> {
+                    { "local-exec", new Dictionary<string, string> {
+                        { "command", $"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup" }
+                    } }
+                }
+            });
+
 ```
 
 </CodeTabs>

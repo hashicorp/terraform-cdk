@@ -7,6 +7,8 @@ using HashiCorp.Cdktf;
 using kubernetes.Provider;
 using kubernetes.Namespace;
 using kubernetes.Deployment;
+using aws.Provider;
+using aws.DynamodbTable;
 
 namespace Examples
 {
@@ -15,6 +17,9 @@ namespace Examples
         public ReferencesStack(Construct scope, string name) : base(scope, name)
         {
             new KubernetesProvider(this, "kubernetes", new KubernetesProviderConfig {});
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "us-east-1"
+            });
            
            // DOCS_BLOCK_START:resources-references
             Namespace exampleNamespace = new Namespace(this, "tf-cdk-example", new NamespaceConfig {
@@ -49,7 +54,29 @@ namespace Examples
                     }
                 }
             });
-           // DOCS_BLOCK_END:resources-references
+            // DOCS_BLOCK_END:resources-references
+            // DOCS_BLOCK_START:resources-escape-hatch
+            String tableName = "my-second-table";
+            DynamodbTable table = new DynamodbTable(this, "second-table", new DynamodbTableConfig {
+                Name = tableName,
+                HashKey = "id",
+                Attribute = new DynamodbTableAttribute[] {
+                    new DynamodbTableAttribute {
+                        Name = "id",
+                        Type = "S"
+                    }
+                }
+            });
+
+            table.AddOverride("provisioner", new Dictionary<string, object>[] {
+                new Dictionary<string, object> {
+                    { "local-exec", new Dictionary<string, string> {
+                        { "command", $"aws dynamodb create-backup --table-name {tableName} --backup-name {tableName}-backup" }
+                    } }
+                }
+            });
+
+            // DOCS_BLOCK_END:resources-escape-hatch
         }
     }
 }
