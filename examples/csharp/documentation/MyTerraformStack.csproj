@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>netcoreapp6.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HashiCorp.Cdktf" Version="0.0.0" />
+    <PackageReference Include="HashiCorp.Cdktf" Version="0.14.3" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,6 +23,10 @@
 
   <ItemGroup>
     <ProjectReference Include=".gen\dnsimple\dnsimple.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".gen\github\github.csproj" />
   </ItemGroup>
 
   <ItemGroup>
