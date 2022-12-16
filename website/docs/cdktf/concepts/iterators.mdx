@@ -240,6 +240,7 @@ Use iterators for list attributes if the length of the list is not known before 
 The following examples use an iterator to create a team containing each member of an organization.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-list-attributes -->
 
 <CodeTabs>
 
@@ -322,29 +323,29 @@ TeamMembers.Builder.create(this, "members")
 ```
 
 ```csharp
-var orgName = "my-org";
+            var orgName = "my-org";
 
-new GithubProvider(this, "github", new GithubProviderConfig {
-    Organization = orgName
-});
+            new GithubProvider(this, "github", new GithubProviderConfig {
+                Organization = orgName
+            });
 
-var team = new Team(this, "core-team", new TeamConfig {
-    Name = "core"
-});
+            var team = new Team(this, "core-team", new TeamConfig {
+                Name = "core"
+            });
 
-var orgMembers = new DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
-    Name = orgName
-});
+            var orgMembers = new DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
+                Name = orgName
+            });
 
-ListTerraformIterator orgMemberIterator = TerraformIterator.FromList(orgMembers.Members);
+            ListTerraformIterator orgMemberIterator = TerraformIterator.FromList(orgMembers.Members);
 
-new TeamMembers(this, "members", new TeamMembersConfig {
-    TeamId = team.Id,
-    Members = orgMemberIterator.Dynamic(new Dictionary<string, object> {
-        { "username", Token.AsString(orgMemberIterator.Value) },
-        { "role", "maintainer" }
-    })
-});
+            new TeamMembers(this, "members", new TeamMembersConfig {
+                TeamId = team.Id,
+                Members = orgMemberIterator.Dynamic(new Dictionary<string, object> {
+                    { "username", Token.AsString(orgMemberIterator.Value) },
+                    { "role", "maintainer" }
+                })
+            });
 ```
 
 ```go

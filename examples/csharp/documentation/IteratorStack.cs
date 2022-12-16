@@ -7,6 +7,10 @@ using Constructs;
 using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.S3Bucket;
+using github.Provider;
+using github.DataGithubOrganization;
+using github.Team;
+using github.TeamMembers;
 
 namespace Examples
 {
@@ -54,6 +58,31 @@ namespace Examples
                 Tags = listIterator.GetStringMap("tags")
             });
             // DOCS_BLOCK_END:iterators-iterators-complex-types
+            // DOCS_BLOCK_START:iterators-list-attributes
+            var orgName = "my-org";
+
+            new GithubProvider(this, "github", new GithubProviderConfig {
+                Organization = orgName
+            });
+
+            var team = new Team(this, "core-team", new TeamConfig {
+                Name = "core"
+            });
+
+            var orgMembers = new DataGithubOrganization(this, "org", new DataGithubOrganizationConfig {
+                Name = orgName
+            });
+
+            ListTerraformIterator orgMemberIterator = TerraformIterator.FromList(orgMembers.Members);
+
+            new TeamMembers(this, "members", new TeamMembersConfig {
+                TeamId = team.Id,
+                Members = orgMemberIterator.Dynamic(new Dictionary<string, object> {
+                    { "username", Token.AsString(orgMemberIterator.Value) },
+                    { "role", "maintainer" }
+                })
+            });
+            // DOCS_BLOCK_END:iterators-list-attributes
         }
     }
 }
