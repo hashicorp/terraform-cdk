@@ -165,6 +165,7 @@ References are also useful when you need to track logical dependencies. For exam
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#resources-references -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-references -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-references -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-references -->
 
 <CodeTabs>
 
@@ -270,6 +271,41 @@ import imports.kubernetes.namespace.NamespaceMetadata;
                 )
             )
         )
+```
+
+```csharp
+            Namespace exampleNamespace = new Namespace(this, "tf-cdk-example", new NamespaceConfig {
+                Metadata = new NamespaceMetadata {
+                    Name = "tf-cdk-example"
+                }
+            });
+
+            new Deployment(this, "nginx-deployment", new DeploymentConfig {
+                Metadata = new DeploymentMetadata {
+                    Name = "nginx",
+                    Namespace = exampleNamespace.Metadata.Name, // Reference the namespace name propery
+                    Labels = new Dictionary<string, string> {
+                        { "app", "my-app" }
+                    }
+                },
+                Spec = new DeploymentSpec {
+                    Template = new DeploymentSpecTemplate {
+                        Metadata = new DeploymentSpecTemplateMetadata {
+                            Labels = new Dictionary<string, string> {
+                                { "app", "my-app" }
+                            }
+                        },
+                        Spec = new DeploymentSpecTemplateSpec {
+                            Container = new DeploymentSpecTemplateSpecContainer[] {
+                                new DeploymentSpecTemplateSpecContainer {
+                                    Name = "nginx",
+                                    Image = "nginx:1.7.9"
+                                }
+                            }
+                        }
+                    }
+                }
+            });
 ```
 
 </CodeTabs>
