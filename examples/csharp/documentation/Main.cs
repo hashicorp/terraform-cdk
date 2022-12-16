@@ -35,7 +35,8 @@ namespace MyCompany.MyApp
             new Examples.TerraformHclModuleStack(app, "terraform-hcl-modules");
             new Examples.IteratorStack(app, "iterators");
             new Examples.TokensStack(app, "tokens");
-            // Missing (at least) resources, stacks, variables-outputs
+            new Examples.CloudBackendStack(app, "remote-backend-cloud");
+            new Examples.LocalBackendStack(app, "remote-backend-local");
             app.Synth();
             Console.WriteLine("App synth complete");
         }
