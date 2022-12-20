@@ -231,7 +231,7 @@ export class StructEmitter {
       );
       this.code.line(`super(terraformResource, terraformAttribute, false);`);
       this.code.closeBlock();
-    } else if (struct.nestingMode === "map") {
+    } else if (struct.nestingMode.startsWith("map")) {
       this.code.line(
         `* @param complexObjectKey the key of this item in the map`
       );
@@ -282,7 +282,16 @@ export class StructEmitter {
       this.emitComplexListClass(struct);
     } else if (struct.nestingMode === "map") {
       this.emitComplexMapClass(struct);
+    } else if (struct.nestingMode === "maplist") {
+      this.emitComplexMapListClasses(struct);
+    } else if (struct.nestingMode === "mapset") {
+      this.emitComplexMapListClasses(struct);
+    } else if (struct.nestingMode === "listmap") {
+      this.emitComplexListMapClasses(struct, false);
+    } else if (struct.nestingMode === "setmap") {
+      this.emitComplexListMapClasses(struct, true);
     }
+    // TODO think if there's a good way to generalize these
   }
 
   private emitComplexListClass(struct: Struct) {
@@ -362,6 +371,95 @@ export class StructEmitter {
     );
     this.code.line(
       `return new ${struct.outputReferenceName}(this.terraformResource, this.terraformAttribute, key);`
+    );
+    this.code.closeBlock();
+
+    this.code.closeBlock();
+  }
+
+  private emitComplexMapListClasses(struct: Struct) {
+    this.emitComplexMapListClass(struct);
+    this.emitComplexMapClass(struct);
+  }
+
+  private emitComplexMapListClass(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(
+      `export class ${struct.mapListName} extends cdktf.MapList`
+    );
+
+    if (struct.assignable) {
+      this.code.line(
+        `public internalValue? : ${struct.mapName}[] | cdktf.IResolvable`
+      );
+    }
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param terraformResource The parent resource`);
+    this.code.line(
+      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+    );
+    this.code.line(
+      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+    );
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+    );
+    this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
+    this.code.closeBlock();
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param index the index of the item to return`);
+    this.code.line(`*/`);
+    this.code.openBlock(`public get(index: number): ${struct.mapName}`);
+    this.code.line(
+      `return new ${struct.mapName}(this.terraformResource, \`[\${index}]\`);`
+    );
+    this.code.closeBlock();
+
+    this.code.closeBlock();
+  }
+
+  private emitComplexListMapClasses(struct: Struct, isSet: boolean) {
+    this.emitComplexListMapClass(struct, isSet);
+    this.emitComplexListClass(struct);
+  }
+
+  private emitComplexListMapClass(struct: Struct, isSet: boolean) {
+    this.code.line();
+    this.code.openBlock(
+      `export class ${struct.listMapName} extends cdktf.ComplexMap`
+    );
+
+    if (struct.assignable) {
+      this.code.line(
+        `public internalValue? : { [key: string]: ${struct.name}[] } | cdktf.IResolvable`
+      );
+    }
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param terraformResource The parent resource`);
+    this.code.line(
+      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+    );
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
+    );
+    this.code.line(`super(terraformResource, terraformAttribute)`);
+    this.code.closeBlock();
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param key the key of the item to return`);
+    this.code.line(`*/`);
+    this.code.openBlock(`public get(key: string): ${struct.listName}`);
+    this.code.line(
+      `return new ${struct.listName}(this.terraformResource, \`[\${key}]\`, ${isSet});`
     );
     this.code.closeBlock();
 

@@ -381,7 +381,7 @@ export class ComplexObject extends ComplexComputedAttribute {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-abstract class MapList
+export abstract class MapList
   extends ComplexResolvable
   implements ITerraformAddressable, IInterpolatingParent
 {

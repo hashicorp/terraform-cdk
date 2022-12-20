@@ -179,9 +179,18 @@ export class AttributeModel {
       types.push(attTypeStruct.listName);
     } else if (attTypeStruct.nestingMode === "map") {
       types.push(attTypeStruct.mapName);
+    } else if (attTypeStruct.nestingMode === "maplist") {
+      types.push(attTypeStruct.mapListName);
+    } else if (attTypeStruct.nestingMode === "mapset") {
+      types.push(attTypeStruct.mapListName);
+    } else if (attTypeStruct.nestingMode === "listmap") {
+      types.push(attTypeStruct.listMapName);
+    } else if (attTypeStruct.nestingMode === "setmap") {
+      types.push(attTypeStruct.listMapName);
     } else if (!isConfigStruct) {
       types.push(attTypeStruct.outputReferenceName);
     }
+    // TODO think if there's a good way to generalize these
 
     return types;
   }

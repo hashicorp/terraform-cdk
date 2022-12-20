@@ -232,7 +232,7 @@ class Parser {
         const elementType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          kind
+          [kind, parentKind].join("")
         );
         return kind === "list"
           ? new ListAttributeTypeModel(elementType, false, false)
@@ -243,7 +243,7 @@ class Parser {
         const valueType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          kind
+          [kind, parentKind].join("")
         );
         return new MapAttributeTypeModel(valueType);
       }

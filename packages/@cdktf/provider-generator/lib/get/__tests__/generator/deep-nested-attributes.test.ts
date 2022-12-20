@@ -26,7 +26,7 @@ test("generate a resource with attribute that's a list of a map of an object", a
 
   expect(output).toEqual(
     expect.stringContaining(
-      `export class InvoiceitemsDiscountsList extends cdktf.ComplexList {`
+      `export class InvoiceitemsDiscountsMapList extends cdktf.MapList {`
     )
   );
 });
@@ -52,7 +52,7 @@ test("generate a resource with attribute that's a map of a list of an object", a
 
   expect(output).toEqual(
     expect.stringContaining(
-      `export class InvoiceitemsDiscountsMap extends cdktf.ComplexMap {`
+      `export class InvoiceitemsDiscountsListMap extends cdktf.ComplexMap {`
     )
   );
 });
