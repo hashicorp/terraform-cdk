@@ -3,7 +3,9 @@
     "version": "0.0.0",
     "scripts": {
         "update-snippets": "ts-node ./update-documentation-code-snippets.ts",
-        "update-snippets:watch": "nodemon ./update-documentation-code-snippets.ts"
+        "update-snippets:watch": "nodemon ./update-documentation-code-snippets.ts",
+        "postupdate-snippets": "yarn format",
+        "format": "(cd ../.. && yarn prettier --write '!website/docs/cdktf/api-reference' 'website/docs/cdktf/**/*.mdx')"
     },
     "devDependencies": {
         "nodemon": "^2.0.19",
