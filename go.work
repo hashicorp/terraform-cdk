@@ -1,0 +1,12 @@
+go 1.19
+
+use (
+	./examples/go/aws
+	./examples/go/azure
+	./examples/go/docker
+	./examples/go/documentation
+	./examples/go/google
+	./examples/go/google-cloudrun
+	./examples/go/scaleway
+	./examples/go/ucloud
+)
