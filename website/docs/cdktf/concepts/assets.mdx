@@ -195,18 +195,18 @@ namespace Examples
 package main
 
 import (
-	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucketobject"
+	"os"
+	"path"
+
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
-
-	"os"
-	"path"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucketobject"
 )
 
-func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+func NewAssetsStack(scope constructs.Construct, name string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &name)
 
 	cwd, _ := os.Getwd()
@@ -230,14 +230,13 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) 
 		Source: asset.Path(),
 	})
 
-
 	return stack
 }
 
 func main() {
 	app := cdktf.NewApp(nil)
 
-	NewExampleCdktfDocumentationStack(app, "demo")
+	NewAssetsStack(app, "assets")
 
 	app.Synth()
 }

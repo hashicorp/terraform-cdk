@@ -25,6 +25,7 @@ In the following TypeScript example, a Terraform data source fetches the AWS reg
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#data-sources-define-data-sources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#data-sources-define-data-sources -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#datasources -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#datasources -->
 
 <CodeTabs>
 
@@ -116,6 +117,31 @@ namespace Examples
         }
     }
 }
+```
+
+```go
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/dataawsregion"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+func NewDatasourcesStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("eu-central-1"),
+	})
+
+	dataawsregion.NewDataAwsRegion(stack, jsii.String("region"), &dataawsregion.DataAwsRegionConfig{
+		Name: jsii.String("eu-central-1"),
+	})
+
+	return stack
+}
+
 ```
 
 </CodeTabs>
