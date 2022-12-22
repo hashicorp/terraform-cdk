@@ -2,11 +2,17 @@ github.com/Masterminds/semver/v3 v3.1.1 h1:hLg3sBzpNErnxhQtUy/mmLR2I9foDujNK030I
 github.com/Masterminds/semver/v3 v3.1.1/go.mod h1:VPu/7SZ7ePZ3QOrcuXROw5FAcLl4a0cBrbBpGY/8hQs=
 github.com/aws/constructs-go/constructs/v10 v10.1.167 h1:9qy6KEHleT8/4UDSTspRRd82h+MKDxcCqwEG3R23Tyo=
 github.com/aws/constructs-go/constructs/v10 v10.1.167/go.mod h1:UXHdJzEYgQPF75bdwT+sWUqMKhXQgW/65MIxFI/ulmE=
+github.com/aws/constructs-go/constructs/v3 v3.3.75 h1:sunQ8/mQwVoV0OdGYmSh/s8Z2XyUXr8hCc/bKzz6SoU=
+github.com/aws/constructs-go/constructs/v3 v3.3.75/go.mod h1:gh+X5UyxGPp/fWyp8iVMa75yMDQev4639pQ93HXXMoA=
+github.com/aws/jsii-runtime-go v1.28.0/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
+github.com/aws/jsii-runtime-go v1.29.0/go.mod h1:6tZnlstx8bAB3vnLFF9n8bbkI//LDblAek9zFyMXV3E=
 github.com/aws/jsii-runtime-go v1.71.0 h1:WkTwbKy0Id2UHDUYOB2VDDeXuvShAIW4dUpzBcy7+t8=
 github.com/aws/jsii-runtime-go v1.71.0/go.mod h1:Rwfj+tA+2/1/QfJTq1uXHm4UYaeTRc+zP7lZuEfg8cE=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
+github.com/hashicorp/terraform-cdk-go/cdktf v0.0.0 h1:Tnlja4aysUEP6xuj+dYLU1WLa5JwtVtyTwavB270d3Q=
+github.com/hashicorp/terraform-cdk-go/cdktf v0.0.0/go.mod h1:Lzi9rFr53rGiJGwD1OW6VjadHDApWJ94GXfdHDX3Mf4=
 github.com/mattn/go-isatty v0.0.16 h1:bq3VjFmv/sOjHtdEhmkEV4x1AJtvUvOJ2PFAZ5+peKQ=
 github.com/mattn/go-isatty v0.0.16/go.mod h1:kYGgaQfpe5nmfYZH+SKPsOc2e4SrIfOl2e/yFXSvRLM=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
@@ -14,6 +20,7 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/objx v0.4.0/go.mod h1:YvHI0jy2hoMjB+UWwv71VJQ9isScKT/TqJzVSSt89Yw=
 github.com/stretchr/objx v0.5.0/go.mod h1:Yh+to48EsGEfYuaHDzXPcE3xhTkx73EhmCGUpEOglKo=
+github.com/stretchr/testify v1.7.0/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.7.1/go.mod h1:6Fq8oRcR53rry900zMqJjRRixrwX3KX962/h/Wwjteg=
 github.com/stretchr/testify v1.8.0/go.mod h1:yNjHg4UonilssWZ8iaSj1OCr/vHnekPRkoO+kdMU+MU=
 github.com/stretchr/testify v1.8.1 h1:w7B6lhMri9wdJUVmEZPGGhZzrYTPvgJArz7wNPgYKsk=

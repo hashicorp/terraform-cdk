@@ -10,4 +10,5 @@ use (
 	./examples/go/scaleway
 	./examples/go/ucloud
 	./packages/@cdktf/hcl2json
+	./packages/cdktf/dist/go/cdktf
 )
