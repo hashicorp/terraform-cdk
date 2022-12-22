@@ -9,4 +9,5 @@ use (
 	./examples/go/google-cloudrun
 	./examples/go/scaleway
 	./examples/go/ucloud
+	./packages/@cdktf/hcl2json
 )
