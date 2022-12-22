@@ -201,8 +201,13 @@ export class Testing {
   public static toHaveResourceWithProperties(
     received: string,
     resourceType: string,
-    properties: Record<string, any> = {}
+    properties: Record<string, any | undefined> = {}
   ): boolean {
+    console.log("toHaveResourceWithProperties in index");
+    console.log("RECIEVED");
+    console.log(received);
+    console.log("EXPECTED");
+    console.log(properties);
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },

@@ -45,6 +45,14 @@ export function returnMatcherToJest(
 }
 
 /**
+ * PR DESCRIPTION
+ * - Basic idea here is to allow for attributes in expected to be more strictly checked against received
+ *  - The more specific case here is for returning false for an optional attribute that is set to None, null that isn't present in received
+ *  - currently it returns true
+ *    - Why? ->
+ */
+
+/**
  * Compares expected and received. All expected properties are matched and considered equal even if
  * there are more properties in the received object than in the expected object in which case it will still return true.
  * @param expected
@@ -57,6 +65,11 @@ export function asymetricDeepEqualIgnoringObjectCasing(
 ): boolean {
   switch (typeof expected) {
     case "object":
+      console.log("CASE OBJECT");
+      console.log("EXPECTED RESULT");
+      console.log(expected);
+      console.log("RECIEVED RESULT");
+      console.log(received);
       if (Array.isArray(expected)) {
         return (
           Array.isArray(received) &&
@@ -68,17 +81,39 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         );
       }
       if (expected === null && received === null) {
+        console.log("expected === null && received === null");
+        console.log("EXPECTED RESULT");
+        console.log(expected);
+        console.log("RECIEVED RESULT");
+        console.log(received);
         return true;
       }
       if (expected === undefined && received === undefined) {
+        console.log("expected === undefined && received === undefined");
+        console.log("EXPECTED RESULT");
+        console.log(expected);
+        console.log("RECIEVED RESULT");
+        console.log(received);
         return true;
       }
       if (expected === null || received === null) {
+        console.log("expected === undefined || received === undefined");
+        console.log("EXPECTED RESULT");
+        console.log(expected);
+        console.log("RECIEVED RESULT");
+        console.log(received);
         return false;
       }
 
       // recursively compare objects and allow snake case as well as camel case
       return Object.keys(expected as Record<string, unknown>).every((key) => {
+        console.log(
+          "expected and recieved both non-null and expected is not array"
+        );
+        console.log("EXPECTED RESULT");
+        console.log(expected);
+        console.log("RECIEVED RESULT");
+        console.log(received);
         if ((received as any)[key] !== undefined) {
           return asymetricDeepEqualIgnoringObjectCasing(
             (expected as any)[key],
@@ -96,6 +131,11 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         return false;
       });
     default:
+      console.log("default case");
+      console.log("EXPECTED RESULT");
+      console.log(expected);
+      console.log("RECIEVED RESULT");
+      console.log(received);
       return expected === received;
   }
 }
@@ -134,6 +174,11 @@ function getAssertElementWithProperties(
     itemType: TerraformConstructor,
     properties: Record<string, any> = {}
   ): AssertionReturn {
+    console.log("getAssertElementWithProperties in matchers");
+    console.log("RECIEVED");
+    console.log(received);
+    console.log("EXPECTED");
+    console.log(properties);
     let stack: SynthesizedStack;
     try {
       stack = JSON.parse(received) as SynthesizedStack;
@@ -237,6 +282,11 @@ export function getToHaveResourceWithProperties(
     resourceType: TerraformConstructor,
     properties: Record<string, any> = {}
   ): AssertionReturn {
+    console.log("toHaveResourceWithProperties in matchers");
+    console.log("RECIEVED");
+    console.log(received);
+    console.log("EXPECTED");
+    console.log(properties);
     return getAssertElementWithProperties(customPassEvaluation)(
       "resource",
       received,
