@@ -28,8 +28,8 @@ func (taa TagsAddingAspect) Visit(node constructs.IConstruct) {
 	}
 }
 
-func NewTagsAddingAspect(tags *map[string]*string) cdktf.IAspect {
-	return TagsAddingAspect{Tags: tags}
+func NewTagsAddingAspect(tags *map[string]*string) *TagsAddingAspect {
+	return &TagsAddingAspect{Tags: tags}
 }
 
 func NewAspectsStack(scope constructs.Construct, name string) cdktf.TerraformStack {
@@ -48,7 +48,6 @@ func NewAspectsStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	cdktf.Aspects_Of(stack).Add(
 		NewTagsAddingAspect(&map[string]*string{"createdBy": jsii.String("cdktf")}),
-		// FIXME: this currently fails with an JSII error
 	)
 
 	return stack
