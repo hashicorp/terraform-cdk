@@ -8,6 +8,7 @@ func main() {
 	app := cdktf.NewApp(nil)
 
 	NewDatasourcesStack(app, "datasources")
+	NewAspectsStack(app, "aspects")
 
 	app.Synth()
 
