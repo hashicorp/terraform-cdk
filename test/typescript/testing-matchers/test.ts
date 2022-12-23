@@ -9,12 +9,12 @@ describe("typescript testing assertions", () => {
     driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
     await driver.copyFiles("__tests__");
-  }, 6000000);
+  }, 600_000);
 
   test("run typescript testing suite", async () => {
     const res = await driver.exec("yarn test");
     console.log(res.stderr);
     console.log(res.stdout);
     expect(res.stderr).toContain("2 passed, 2 total");
-  }, 6000000);
+  }, 600_000);
 });
