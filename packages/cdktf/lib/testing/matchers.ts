@@ -139,6 +139,16 @@ export function asymetricDeepEqualIgnoringObjectCasing(
       return expected === received;
   }
 }
+
+const objectExcludes = (
+  items: any[],
+  excludedProperties: string[]
+): boolean => {
+  return Object.values(items).some(
+    (item: any) => !excludedProperties.includes(item)
+  );
+};
+
 const defaultPassEvaluation = (
   items: any,
   assertedProperties: Record<string, any>
@@ -165,9 +175,15 @@ function getAssertElementWithProperties(
   customPassEvaluation?: (
     items: any[], // configurations of the requested type
     assertedProperties: Record<string, any>
+  ) => boolean,
+  objectExcludesPassEvaluation?: (
+    items: any[],
+    excludedProperties: string[]
   ) => boolean
 ) {
-  const passEvaluation = customPassEvaluation || defaultPassEvaluation;
+  const passEvaluation = objectExcludesPassEvaluation
+    ? objectExcludesPassEvaluation
+    : customPassEvaluation || defaultPassEvaluation;
   return function getAssertElementWithProperties(
     type: keyof SynthesizedStack,
     received: string,
@@ -297,6 +313,78 @@ export function getToHaveResourceWithProperties(
 }
 
 /**
+ * Returns the function toHaveProviderWithProperties using the evaluation properties of customPassEvaluation
+ * @param customPassEvaluation
+ * @returns {getToHaveProviderWithProperties~toHaveProviderWithProperties}
+ */
+export function getToHaveProviderWithProperties(
+  customPassEvaluation?: (
+    items: any,
+    assertedProperties: Record<string, any>
+  ) => boolean
+) {
+  /**
+   * Evaluates the received stack to have the provider resourceType containing specified properties
+   * @param received
+   * @param resourceType
+   * @param properties
+   * @returns {AssertionReturn}
+   */
+  return function toHaveProviderWithProperties(
+    received: string,
+    resourceType: TerraformConstructor,
+    properties: Record<string, any> = {}
+  ): AssertionReturn {
+    return getAssertElementWithProperties(customPassEvaluation)(
+      "provider",
+      received,
+      resourceType,
+      properties
+    );
+  };
+}
+
+/**
+ * Evaluates the received stack to have the provider resourceType containing specified properties
+ * @param received
+ * @param resourceType
+ * @param properties
+ * @returns {AssertionReturn}
+ */
+export function toExcludeResourceWithProperties(
+  received: string,
+  resourceType: TerraformConstructor,
+  properties: Record<string, any> = {}
+): AssertionReturn {
+  return getAssertElementWithProperties(undefined, objectExcludes)(
+    "resource",
+    received,
+    resourceType,
+    properties
+  );
+}
+
+/**
+ * Evaluates the received stack to have the provider resourceType containing specified properties
+ * @param received
+ * @param resourceType
+ * @param properties
+ * @returns {AssertionReturn}
+ */
+export function toExcludeDataSourceWithProperties(
+  received: string,
+  resourceType: TerraformConstructor,
+  properties: Record<string, any> = {}
+): AssertionReturn {
+  return getAssertElementWithProperties(undefined, objectExcludes)(
+    "data",
+    received,
+    resourceType,
+    properties
+  );
+}
+
+/**
  * A helper util to verify wether an Error was caused by the Nodejs `process.spawn` API.
  *
  * @param   {Error}   err The Error object to verify
@@ -329,38 +417,6 @@ const withProcessOutput = (message: string, err: unknown) => {
 
   return `${message}: ${err}${appendix}.`;
 };
-
-/**
- * Returns the function toHaveProviderWithProperties using the evaluation properties of customPassEvaluation
- * @param customPassEvaluation
- * @returns {getToHaveProviderWithProperties~toHaveProviderWithProperties}
- */
-export function getToHaveProviderWithProperties(
-  customPassEvaluation?: (
-    items: any,
-    assertedProperties: Record<string, any>
-  ) => boolean
-) {
-  /**
-   * Evaluates the received stack to have the provider resourceType containing specified properties
-   * @param received
-   * @param resourceType
-   * @param properties
-   * @returns {AssertionReturn}
-   */
-  return function toHaveProviderWithProperties(
-    received: string,
-    resourceType: TerraformConstructor,
-    properties: Record<string, any> = {}
-  ): AssertionReturn {
-    return getAssertElementWithProperties(customPassEvaluation)(
-      "provider",
-      received,
-      resourceType,
-      properties
-    );
-  };
-}
 
 /**
  * Evaluates the validity of the received stack

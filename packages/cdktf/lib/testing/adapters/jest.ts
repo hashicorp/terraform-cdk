@@ -8,6 +8,8 @@ import {
 import {
   getToHaveResourceWithProperties,
   getToHaveProviderWithProperties,
+  toExcludeResourceWithProperties,
+  toExcludeDataSourceWithProperties,
   TerraformConstructor,
   MatcherReturnJest,
   returnMatcherToJest,
@@ -33,6 +35,15 @@ declare global {
       toHaveProviderWithProperties(
         providerConstructor: TerraformConstructor,
         properties: Record<string, any>
+      ): R;
+
+      toExcludeResourceWithProperties(
+        resourceConstructor: TerraformConstructor,
+        properties: string[]
+      ): R;
+      toExcludeDataSourceWithProperties(
+        dataSourceConstructor: TerraformConstructor,
+        properties: string[]
       ): R;
 
       toBeValidTerraform(): R;
@@ -103,6 +114,19 @@ export function setupJest() {
         )
       );
     },
+    toExcludeResourceWithProperties(
+      received: string,
+      resourceConstructor: TerraformConstructor,
+      properties: string[]
+    ) {
+      return returnMatcherToJest(
+        toExcludeResourceWithProperties(
+          received,
+          resourceConstructor,
+          properties
+        )
+      );
+    },
 
     toHaveDataSource(
       received: string,
@@ -123,6 +147,19 @@ export function setupJest() {
     ) {
       return returnMatcherToJest(
         getToHaveDataSourceWithProperties(jestPassEvaluation)(
+          received,
+          dataSourceConstructor,
+          properties
+        )
+      );
+    },
+    toExcludeDataSourceWithProperties(
+      received: string,
+      dataSourceConstructor: TerraformConstructor,
+      properties: string[]
+    ) {
+      return returnMatcherToJest(
+        toExcludeDataSourceWithProperties(
           received,
           dataSourceConstructor,
           properties

@@ -14,6 +14,8 @@ import {
   getToHaveResourceWithProperties,
   getToHaveDataSourceWithProperties,
   getToHaveProviderWithProperties,
+  toExcludeResourceWithProperties,
+  toExcludeDataSourceWithProperties,
   toBeValidTerraform,
 } from "./matchers";
 
@@ -243,6 +245,28 @@ export class Testing {
     resourceType: string
   ): boolean {
     return getToHaveProviderWithProperties()(
+      received,
+      { tfResourceType: resourceType },
+      {}
+    ).pass;
+  }
+
+  public static toExcludeResourceWithProperties(
+    received: string,
+    resourceType: string
+  ): boolean {
+    return toExcludeResourceWithProperties(
+      received,
+      { tfResourceType: resourceType },
+      {}
+    ).pass;
+  }
+
+  public static toExcludeDataSourceWithProperties(
+    received: string,
+    resourceType: string
+  ): boolean {
+    return toExcludeDataSourceWithProperties(
       received,
       { tfResourceType: resourceType },
       {}
