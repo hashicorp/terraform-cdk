@@ -1,5 +1,23 @@
 # Contributing
 
+**Things to add**
+-- Creating Issues/ Reporting issues
+-- Format to create issues in
+-- relevant tags for issues
+-- Asking Questions
+-- Creating Pull Requests
+-- link relevant issue - if none then create one and link it
+
+## Questions
+
+## Issues
+
+### Reporting Issues
+
+## Pull Requests
+
+### CHANGELOG
+
 ## Prerequisites
 
 To build and install `terraform-cdk` locally you need to install:
