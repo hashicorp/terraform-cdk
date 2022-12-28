@@ -11,10 +11,10 @@
 # pull request.
 *       @hashicorp/cdktf
 
-# Laura likes to get notifications if changes happen to docs.
-# We need to include the CDKTF team as well to ensure Laura
-# is not the only one notified.
-website/docs/ @hashicorp/cdktf @laurapacilio @mgarrell777
+# Education likes to get notifications if changes happen to docs.
+# We need to include the CDKTF team as well to ensure Education
+# members are not the only ones notified.
+website/docs/ @hashicorp/cdktf @mgarrell777 @robin-norwood
 
 # No codeowners for these files, as they are generated.
 # This way, Laura does not get notified if only these files changed.
