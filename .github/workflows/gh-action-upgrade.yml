@@ -11,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
 
       - name: Run GitHub Actions Version Updater
-        uses: saadmk11/github-actions-version-updater@v0.7.2
+        uses: saadmk11/github-actions-version-updater@5d7d1286cb239c77a611861d710cfffaeea05fd2
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
           commit_message: "chore: update github workflow actions"

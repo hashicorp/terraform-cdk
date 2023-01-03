@@ -26,7 +26,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
         with:
           fetch-depth: 0 # gives sentry access to all previous commits
       - name: version
@@ -65,12 +65,12 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
         if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
@@ -151,12 +151,12 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
       - name: Release to github
@@ -177,7 +177,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
@@ -199,7 +199,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
@@ -222,7 +222,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
@@ -249,7 +249,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
@@ -271,7 +271,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
@@ -294,7 +294,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
       - name: version
         id: get_version
         run: |
@@ -323,14 +323,14 @@ jobs:
     if: needs.prepare-release.outputs.release_status == 'unreleased'
     steps:
       # extract version number from package.json
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
       - name: version
         id: get_version
         run: |
           version=$(node -p "require('./package.json').version")
           echo "version=${version}" >> $GITHUB_OUTPUT
       # A PR will be sent to github.com/Homebrew/homebrew-core to update this formula:
-      - uses: mislav/bump-homebrew-formula-action@v2.1
+      - uses: mislav/bump-homebrew-formula-action@fcd7e28e549f14d3aebc53b4d9e929de579f372f
         with:
           formula-name: cdktf
           download-url: https://registry.npmjs.org/cdktf-cli/-/cdktf-cli-${{ steps.get_version.outputs.version }}.tgz
@@ -361,7 +361,7 @@ jobs:
       - unit_test
     steps:
       - name: Send failures to Slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844
         with:
           payload: |
             {

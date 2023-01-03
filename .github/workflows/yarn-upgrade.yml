@@ -16,11 +16,11 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Check Out
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3.0.11
+      - uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -66,7 +66,7 @@ jobs:
           git add .
           git diff --patch --staged > ./upgrade.patch
       - name: Upload Patch
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
         with:
           name: upgrade.patch
           path: ./upgrade.patch
@@ -77,10 +77,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check Out
-        uses: actions/checkout@v3.1.0
+        uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
 
       - name: Download patch
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: upgrade.patch
 
@@ -91,7 +91,7 @@ jobs:
         run: '[ -s ./upgrade.patch ] && rm ./upgrade.patch || echo "Empty patch. Skipping."'
 
       - name: Make Pull Request
-        uses: peter-evans/create-pull-request@v4.2.3
+        uses: peter-evans/create-pull-request@2b011faafdcbc9ceb11414d64d0573f37c774b04
         with:
           # Git commit details
           branch: automation/yarn-upgrade

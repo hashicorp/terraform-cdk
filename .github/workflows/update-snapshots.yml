@@ -18,23 +18,23 @@ jobs:
     outputs:
       terraformVersion: ${{ steps.tf-version.outputs.default }}
     steps:
-      - uses: actions-ecosystem/action-add-labels@v1.1.0
+      - uses: actions-ecosystem/action-add-labels@bd52874380e3909a1ac983768df6976535ece7f8
         with:
           labels: ci/updating-snapshots
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+      - uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
         with:
           labels: ci/update-snapshots
       - id: tf-version
         run: |
           DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
           echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3.0.11
+      - uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -47,12 +47,12 @@ jobs:
           yarn build
           yarn package
       - name: Upload dist # needed for running the integration tests on windows
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings # needed for running the integration tests on windows
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@83fd05a356d7e2593de66fc9913b3002723633cb
         with:
           name: edge-provider-bindings
           path: packages/@cdktf/provider-generator/edge-provider-bindings
@@ -62,7 +62,7 @@ jobs:
     needs: update-snapshots-windows
     if: always()
     steps:
-      - uses: actions-ecosystem/action-remove-labels@v1.3.0
+      - uses: actions-ecosystem/action-remove-labels@2ce5d41b4b6aa8503e285553f75ed56e0a40bae0
         with:
           labels: ci/updating-snapshots
 
@@ -74,7 +74,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -83,7 +83,7 @@ jobs:
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3.0.11
+      - uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -132,7 +132,7 @@ jobs:
 
       - name: Push changes
         if: steps.self_mutation.outputs.self_mutation_happened
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6
         with:
           github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
           branch: ${{ github.event.pull_request.head.ref }}
@@ -150,21 +150,21 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@755da8c3cf115ac066823e79a1e1788f8940201b
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       # windows env setup (we use a Docker image for Linux version above)
       - name: HashiCorp - Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.3
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
         with:
           terraform_wrapper: false
           terraform_version: ${{ needs.update-snapshots-setup.outputs.terraformVersion }}
       - name: Install pipenv
         run: pip install pipenv
       - name: Install Go
-        uses: actions/setup-go@v3.3.1
+        uses: actions/setup-go@6edd4406fa81c3da01a34fa6f6343087c207a568
         with:
           go-version: 1.18.x
 
@@ -172,7 +172,7 @@ jobs:
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
 
-      - uses: actions/cache@v3.0.11
+      - uses: actions/cache@4723a57e26efda3a62cbde1812113b730952852d
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -186,13 +186,13 @@ jobs:
           git config user.email github-team-tf-cdk@hashicorp.com
 
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: dist
           path: dist
 
       - name: Download edge-provider bindings
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9782bd6a9848b53b110e712e20e42d89988822b7
         with:
           name: edge-provider-bindings
           path: test/edge-provider-bindings
@@ -222,7 +222,7 @@ jobs:
 
       - name: Push changes
         if: steps.self_mutation.outputs.self_mutation_happened
-        uses: ad-m/github-push-action@v0.6.0
+        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6
         with:
           github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
           branch: ${{ github.event.pull_request.head.ref }}
