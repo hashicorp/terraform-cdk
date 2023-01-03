@@ -107,6 +107,37 @@ func TestToHaveProviderPass(t *testing.T) {
 	}
 }
 
+func TestToNotHaveDataWithPropertiesFail(t *testing.T) {
+	property := "repo_digest"
+	properties := []string{&property}
+	assertion := cdktf.Testing_ToNotHaveDataSourceWithProperties(synth, datadockerimage.DataDockerImage_TfResourceType(), &properties)
+
+	if *assertion {
+		t.Error("Assertion Failed")
+	}
+}
+
+func TestToNotHaveResourceWithPropertiesFail(t *testing.T) {
+	property := "command"
+	properties := []string{&property}
+	
+	assertion := cdktf.Testing_ToNotHaveResourceWithProperties(synth, container.Container_TfResourceType(), &properties)
+
+	if *assertion {
+		t.Error("Assertion Failed")
+	}
+}
+
+func TestToNotHaveProviderWithPropertiesFail(t *testing.T) {
+	property := "image"
+	properties := []string{&property}
+	assertion := cdktf.Testing_ToNotHaveProviderWithProperties(synth, docker.DockerProvider_TfResourceType(), &properties)
+
+	if *assertion {
+		t.Error("Assertion Failed")
+	}
+}
+
 func TestToBeValidTerraformPass(t *testing.T) {
 	assertion := cdktf.Testing_ToBeValidTerraform(fullSynth)
 

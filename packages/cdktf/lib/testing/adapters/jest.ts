@@ -8,8 +8,8 @@ import {
 import {
   getToHaveResourceWithProperties,
   getToHaveProviderWithProperties,
-  toExcludeResourceWithProperties,
-  toExcludeDataSourceWithProperties,
+  toNotHaveResourceWithProperties,
+  toNotHaveDataSourceWithProperties,
   TerraformConstructor,
   MatcherReturnJest,
   returnMatcherToJest,
@@ -37,12 +37,16 @@ declare global {
         properties: Record<string, any>
       ): R;
 
-      toExcludeResourceWithProperties(
+      toNotHaveResourceWithProperties(
         resourceConstructor: TerraformConstructor,
         properties: string[]
       ): R;
-      toExcludeDataSourceWithProperties(
+      toNotHaveDataSourceWithProperties(
         dataSourceConstructor: TerraformConstructor,
+        properties: string[]
+      ): R;
+      toNotHaveProviderWithProperties(
+        providerConstructor: TerraformConstructor,
         properties: string[]
       ): R;
 
@@ -75,7 +79,7 @@ function jestPassEvaluation(
         .asymmetricMatch(items);
     } else {
       throw new Error(
-        "expect is not defined, jest was not propely instantiated"
+        "expect is not defined, jest was not properly instantiated"
       );
     }
   }
@@ -114,13 +118,13 @@ export function setupJest() {
         )
       );
     },
-    toExcludeResourceWithProperties(
+    toNotHaveResourceWithProperties(
       received: string,
       resourceConstructor: TerraformConstructor,
       properties: string[]
     ) {
       return returnMatcherToJest(
-        toExcludeResourceWithProperties(
+        toNotHaveResourceWithProperties(
           received,
           resourceConstructor,
           properties
@@ -153,13 +157,13 @@ export function setupJest() {
         )
       );
     },
-    toExcludeDataSourceWithProperties(
+    toNotHaveDataSourceWithProperties(
       received: string,
       dataSourceConstructor: TerraformConstructor,
       properties: string[]
     ) {
       return returnMatcherToJest(
-        toExcludeDataSourceWithProperties(
+        toNotHaveDataSourceWithProperties(
           received,
           dataSourceConstructor,
           properties
@@ -186,6 +190,19 @@ export function setupJest() {
     ) {
       return returnMatcherToJest(
         getToHaveProviderWithProperties(jestPassEvaluation)(
+          received,
+          providerConstructor,
+          properties
+        )
+      );
+    },
+    toNotHaveProviderWithProperties(
+      received: string,
+      providerConstructor: TerraformConstructor,
+      properties: string[]
+    ) {
+      return returnMatcherToJest(
+        toNotHaveDataSourceWithProperties(
           received,
           providerConstructor,
           properties

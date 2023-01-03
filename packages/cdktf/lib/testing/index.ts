@@ -14,8 +14,9 @@ import {
   getToHaveResourceWithProperties,
   getToHaveDataSourceWithProperties,
   getToHaveProviderWithProperties,
-  toExcludeResourceWithProperties,
-  toExcludeDataSourceWithProperties,
+  toNotHaveResourceWithProperties,
+  toNotHaveDataSourceWithProperties,
+  toNotHaveProviderWithProperties,
   toBeValidTerraform,
 } from "./matchers";
 
@@ -200,16 +201,23 @@ export class Testing {
     ).pass;
   }
 
+  public static toNotHaveDataSourceWithProperties(
+    received: string,
+    resourceType: string,
+    properties: string[] = []
+  ): boolean {
+    return toNotHaveDataSourceWithProperties(
+      received,
+      { tfResourceType: resourceType },
+      properties
+    ).pass;
+  }
+
   public static toHaveResourceWithProperties(
     received: string,
     resourceType: string,
     properties: Record<string, any | undefined> = {}
   ): boolean {
-    console.log("toHaveResourceWithProperties in index");
-    console.log("RECIEVED");
-    console.log(received);
-    console.log("EXPECTED");
-    console.log(properties);
     return getToHaveResourceWithProperties()(
       received,
       { tfResourceType: resourceType },
@@ -225,6 +233,18 @@ export class Testing {
       received,
       { tfResourceType: resourceType },
       {}
+    ).pass;
+  }
+
+  public static toNotHaveResourceWithProperties(
+    received: string,
+    resourceType: string,
+    properties: string[] = []
+  ): boolean {
+    return toNotHaveResourceWithProperties(
+      received,
+      { tfResourceType: resourceType },
+      properties
     ).pass;
   }
 
@@ -251,25 +271,15 @@ export class Testing {
     ).pass;
   }
 
-  public static toExcludeResourceWithProperties(
+  public static toNotHaveProviderWithProperties(
     received: string,
-    resourceType: string
+    resourceType: string,
+    properties: string[] = []
   ): boolean {
-    return toExcludeResourceWithProperties(
+    return toNotHaveProviderWithProperties(
       received,
       { tfResourceType: resourceType },
-      {}
-    ).pass;
-  }
-
-  public static toExcludeDataSourceWithProperties(
-    received: string,
-    resourceType: string
-  ): boolean {
-    return toExcludeDataSourceWithProperties(
-      received,
-      { tfResourceType: resourceType },
-      {}
+      properties
     ).pass;
   }
 

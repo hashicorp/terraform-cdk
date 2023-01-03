@@ -16,12 +16,14 @@ namespace MyCompany.MyApp
 
             new DockerProvider(this, "provider", new DockerProviderConfig{});
 
+            DataDockerImage image = new DataDockerImage(this, "data", new DataDockerImageConfig{
+                                    Name = "nginx:latest",
+                                });
+
             new Container(this, "nginx-cdktf", new ContainerConfig{
                 Name = "nginx-dotnet-cdktf",
                 Image = new Image(this, "image", new ImageConfig{
-                    Name = new DataDockerImage(this, "data", new DataDockerImageConfig{
-                                    Name = "nginx:latest",
-                                }).Name
+                    Name = image.Name
                             }).Name,
                 DnsOpts = new string[]{"1", "2", "3"}
             });

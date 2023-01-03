@@ -77,6 +77,21 @@ namespace MyCompany.MyApp{
         }
 
         [Fact]
+        public void doesNotHaveResourceWithProperties(){
+            Assert.True(Testing.ToNotHaveResourceWithProperties(synthesized, Container.TfResourceType, new string[] { "command" }));
+        }
+
+        [Fact]
+        public void doesNotHaveDataSourceWithProperties(){
+            Assert.True(Testing.ToNotHaveDataSourceWithProperties(synthesized, DataDockerImage.TfResourceType, new string[] { "repo_digest" }));
+        }
+
+        [Fact]
+        public void doesNotHaveProviderWithProperties(){
+            Assert.True(Testing.ToNotHaveProviderWithProperties(synthesized, DockerProvider.TfResourceType, new string[] { "image" }));
+        }
+
+        [Fact]
         public void toBeValidTerraformPass(){
             Assert.True(Testing.ToBeValidTerraform(fullSynthesizedValid) );
         }

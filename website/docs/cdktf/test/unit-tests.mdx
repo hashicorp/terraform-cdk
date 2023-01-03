@@ -35,10 +35,13 @@ Examples in
 
 - `toHaveResource`: Checks if a certain resource exists
 - `toHaveResourceWithProperties`: Checks if a certain resource exists with all properties passed
+- `toNotHaveResourceWithProperties`: Checks if a certain resource exists without any of the properties passed
 - `toHaveDataSource`: Checks if a certain data source exists
 - `toHaveDataSourceWithProperties`: Checks if a certain data source exists with all properties passed
+- `toNotHaveDataSourceWithProperties`: Checks if a certain data source exists without any of the properties passed
 - `toHaveProvider`: Checks if a certain provider exists
 - `toHaveProviderWithProperties`: Checks if a certain provider exists with all properties passed
+- `toNotHaveProviderWithProperties`: Checks if a certain provider exists without any of the properties passed
 
 <CodeTabs>
 
@@ -64,6 +67,14 @@ describe("Unit testing using assertions", () => {
       })
     ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
   });
+  
+  it("should not have Container resource with property command", () => {
+    expect(
+      Testing.synthScope((scope) => {
+        new MyStack(scope, "test");
+      })
+    ).toNotHaveResourceWithProperties(Container, ["command"]);
+  });
 });
 ```
 
@@ -87,6 +98,9 @@ class TestApplication:
     assert Testing.to_have_resource_with_properties(self.synthesized, Image.TF_RESOURCE_TYPE, {
             "name": "ubuntu:latest",
     })
+
+  def test_should_not_have_property_command(self):
+        assert Testing.to_not_have_resource_with_properties(self.synthesized, Container.TF_RESOURCE_TYPE, ["command"])
 ```
 
 ```java
@@ -115,6 +129,11 @@ public class TestApplication {
                     put("name", "ubuntu:latest");
                 }
     }) );
+  }
+
+  @Test
+  void shouldNotHavePropertyCommand() {
+      assertTrue(Testing.toNotHaveResourceWithProperties(synthesized, Container.TF_RESOURCE_TYPE, Arrays.asList("command")));
   }
 }
 ```
@@ -145,6 +164,11 @@ namespace MyCompany.MyApp{
       Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Image.TfResourceType, new Dictionary<String, Object>() {
               {"name", "ubuntu:latest"}
       }) );
+    }
+
+    [Fact]
+    public void shouldNotHaveContainerWithProperties(){
+        Assert.True(Testing.ToNotHaveResourceWithProperties(synthesized, Container.TfResourceType, new string[] { "command" }));
     }
   }
 }

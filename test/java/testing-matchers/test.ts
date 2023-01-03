@@ -24,6 +24,6 @@ describe("java testing assertions", () => {
   test("run java testing suite", async () => {
     const output = await runTests();
     expect(output.stdout).toEqual(expect.stringContaining("Errors: 0"));
-    expect(output.stdout).toEqual(expect.stringContaining("Tests run: 11"));
+    expect(output.stdout).toEqual(expect.stringContaining("Tests run: 14"));
   }, 6000000);
 });

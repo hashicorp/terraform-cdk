@@ -65,11 +65,6 @@ export function asymetricDeepEqualIgnoringObjectCasing(
 ): boolean {
   switch (typeof expected) {
     case "object":
-      console.log("CASE OBJECT");
-      console.log("EXPECTED RESULT");
-      console.log(expected);
-      console.log("RECIEVED RESULT");
-      console.log(received);
       if (Array.isArray(expected)) {
         return (
           Array.isArray(received) &&
@@ -81,27 +76,12 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         );
       }
       if (expected === null && received === null) {
-        console.log("expected === null && received === null");
-        console.log("EXPECTED RESULT");
-        console.log(expected);
-        console.log("RECIEVED RESULT");
-        console.log(received);
         return true;
       }
       if (expected === undefined && received === undefined) {
-        console.log("expected === undefined && received === undefined");
-        console.log("EXPECTED RESULT");
-        console.log(expected);
-        console.log("RECIEVED RESULT");
-        console.log(received);
         return true;
       }
       if (expected === null || received === null) {
-        console.log("expected === undefined || received === undefined");
-        console.log("EXPECTED RESULT");
-        console.log(expected);
-        console.log("RECIEVED RESULT");
-        console.log(received);
         return false;
       }
 
@@ -110,10 +90,6 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         console.log(
           "expected and recieved both non-null and expected is not array"
         );
-        console.log("EXPECTED RESULT");
-        console.log(expected);
-        console.log("RECIEVED RESULT");
-        console.log(received);
         if ((received as any)[key] !== undefined) {
           return asymetricDeepEqualIgnoringObjectCasing(
             (expected as any)[key],
@@ -131,22 +107,23 @@ export function asymetricDeepEqualIgnoringObjectCasing(
         return false;
       });
     default:
-      console.log("default case");
-      console.log("EXPECTED RESULT");
-      console.log(expected);
-      console.log("RECIEVED RESULT");
-      console.log(received);
       return expected === received;
   }
 }
 
-const objectExcludes = (
-  items: any[],
+const excludesPropertiesPassEvaluation = (
+  items: any,
   excludedProperties: string[]
 ): boolean => {
-  return Object.values(items).some(
-    (item: any) => !excludedProperties.includes(item)
-  );
+  let isExcluded = true;
+  Object.values(items).forEach((item: any) => {
+    Object.keys(item).some((key) => {
+      if (excludedProperties.includes(key)) {
+        isExcluded = false;
+      }
+    });
+  });
+  return isExcluded;
 };
 
 const defaultPassEvaluation = (
@@ -168,6 +145,69 @@ function isAsymmetric(obj: any) {
 function jestAsymetricMatcherStringifyReplacer(_key: string, value: any) {
   return isAsymmetric(value) ? `expect.${value.toString()}` : value;
 }
+
+function getStackItemsOfType(
+  stack: SynthesizedStack,
+  type: keyof SynthesizedStack,
+  itemType: TerraformConstructor
+) {
+  return (
+    Object.values(
+      Object.entries(stack[type] || {}) // for all data/resource entries
+        .find(
+          // find the object with a matching name
+          ([type, _values]) => type === itemType.tfResourceType
+        )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
+    ) || []
+  ); // get a list of all configs of that type
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export function getAssertElementWithoutProperties(
+  type: keyof SynthesizedStack,
+  received: string,
+  itemType: TerraformConstructor,
+  properties: string[]
+): AssertionReturn {
+  let stack: SynthesizedStack;
+  try {
+    stack = JSON.parse(received) as SynthesizedStack;
+  } catch (e) {
+    throw new Error(`invalid JSON string passed: ${received}`);
+  }
+
+  const items = getStackItemsOfType(stack, type, itemType);
+
+  const pass = excludesPropertiesPassEvaluation(items, properties);
+  if (pass) {
+    return new AssertionReturn(
+      `Expected no ${itemType.tfResourceType} with properties ${JSON.stringify(
+        properties,
+        jestAsymetricMatcherStringifyReplacer
+      )} to be present in synthesized stack.
+Found ${items.length === 0 ? "no" : items.length} ${
+        itemType.tfResourceType
+      } resources instead${
+        items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+      }`,
+      pass
+    );
+  } else {
+    return new AssertionReturn(
+      `Expected ${itemType.tfResourceType} without properties ${JSON.stringify(
+        properties,
+        jestAsymetricMatcherStringifyReplacer
+      )} in synthesized stack.
+Found ${items.length === 0 ? "no" : items.length} ${
+        itemType.tfResourceType
+      } resources instead${
+        items.length > 0 ? ":\n" + JSON.stringify(items, null, 2) : ""
+      }`,
+      pass
+    );
+  }
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 function getAssertElementWithProperties(
   // We have the evaluation function configurable so we can make use of the specific testing frameworks capabilities
@@ -175,26 +215,15 @@ function getAssertElementWithProperties(
   customPassEvaluation?: (
     items: any[], // configurations of the requested type
     assertedProperties: Record<string, any>
-  ) => boolean,
-  objectExcludesPassEvaluation?: (
-    items: any[],
-    excludedProperties: string[]
   ) => boolean
 ) {
-  const passEvaluation = objectExcludesPassEvaluation
-    ? objectExcludesPassEvaluation
-    : customPassEvaluation || defaultPassEvaluation;
+  const passEvaluation = customPassEvaluation || defaultPassEvaluation;
   return function getAssertElementWithProperties(
     type: keyof SynthesizedStack,
     received: string,
     itemType: TerraformConstructor,
-    properties: Record<string, any> = {}
+    properties: Record<string, any>
   ): AssertionReturn {
-    console.log("getAssertElementWithProperties in matchers");
-    console.log("RECIEVED");
-    console.log(received);
-    console.log("EXPECTED");
-    console.log(properties);
     let stack: SynthesizedStack;
     try {
       stack = JSON.parse(received) as SynthesizedStack;
@@ -202,14 +231,8 @@ function getAssertElementWithProperties(
       throw new Error(`invalid JSON string passed: ${received}`);
     }
 
-    const items =
-      Object.values(
-        Object.entries(stack[type] || {}) // for all data/resource entries
-          .find(
-            // find the object with a matching name
-            ([type, _values]) => type === itemType.tfResourceType
-          )?.[1] || {} // get all items of that type (encoded as a record of name -> config)
-      ) || []; // get a list of all configs of that type
+    const items = getStackItemsOfType(stack, type, itemType);
+
     const pass = passEvaluation(items, properties);
     if (pass) {
       return new AssertionReturn(
@@ -345,18 +368,18 @@ export function getToHaveProviderWithProperties(
 }
 
 /**
- * Evaluates the received stack to have the provider resourceType containing specified properties
+ * Evaluates the received stack to have the resource resourceType without containing specified properties
  * @param received
  * @param resourceType
  * @param properties
  * @returns {AssertionReturn}
  */
-export function toExcludeResourceWithProperties(
+export function toNotHaveResourceWithProperties(
   received: string,
   resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
+  properties: string[] = []
 ): AssertionReturn {
-  return getAssertElementWithProperties(undefined, objectExcludes)(
+  return getAssertElementWithoutProperties(
     "resource",
     received,
     resourceType,
@@ -365,19 +388,39 @@ export function toExcludeResourceWithProperties(
 }
 
 /**
- * Evaluates the received stack to have the provider resourceType containing specified properties
+ * Evaluates the received stack to have the data source resourceType without containing specified properties
  * @param received
  * @param resourceType
  * @param properties
  * @returns {AssertionReturn}
  */
-export function toExcludeDataSourceWithProperties(
+export function toNotHaveDataSourceWithProperties(
   received: string,
   resourceType: TerraformConstructor,
-  properties: Record<string, any> = {}
+  properties: string[] = []
 ): AssertionReturn {
-  return getAssertElementWithProperties(undefined, objectExcludes)(
+  return getAssertElementWithoutProperties(
     "data",
+    received,
+    resourceType,
+    properties
+  );
+}
+
+/**
+ * Evaluates the received stack to have the provider resourceType without containing specified properties
+ * @param received
+ * @param resourceType
+ * @param properties
+ * @returns {AssertionReturn}
+ */
+export function toNotHaveProviderWithProperties(
+  received: string,
+  resourceType: TerraformConstructor,
+  properties: string[] = []
+): AssertionReturn {
+  return getAssertElementWithoutProperties(
+    "provider",
     received,
     resourceType,
     properties

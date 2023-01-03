@@ -76,3 +76,12 @@ class TestAssertions:
 
     def test_has_provider_with_properties(self):
         assert Testing.to_have_provider(self.synthesized, DockerProvider.TF_RESOURCE_TYPE)
+
+    def test_resource_does_not_have_properties(self):
+        assert Testing.to_not_have_resource_with_properties(self.synthesized, Container.TF_RESOURCE_TYPE, ["command"])
+
+    def test_data_source_does_not_have_properties(self):
+        assert Testing.to_not_have_data_source_with_properties(self.synthesized, DataDockerImage.TF_RESOURCE_TYPE, ["repo_digest"])
+    
+    def test_provider_does_not_have_properties(self):
+        assert Testing.to_not_have_provider_with_properties(self.synthesized, DockerProvider.TF_RESOURCE_TYPE, ["image"])

@@ -15,6 +15,6 @@ describe("typescript testing assertions", () => {
     const res = await driver.exec("yarn test");
     console.log(res.stderr);
     console.log(res.stdout);
-    expect(res.stderr).toContain("2 passed, 2 total");
+    expect(res.stderr).toContain("5 passed, 5 total");
   }, 600_000);
 });

@@ -10,6 +10,7 @@ import imports.docker.data_docker_network.DataDockerNetwork;
 import imports.docker.provider.DockerProvider;
 import imports.docker.config.Config;
 import java.util.HashMap;
+import java.util.Arrays;
 
 public class MainTest {
 
@@ -94,5 +95,21 @@ public class MainTest {
     void isValidTerraformFail() {
         assertFalse(Testing.toBeValidTerraform(fullSynthesizedInvalidTerraform));
     }
+
+    @Test
+    void resourceDoesNotHaveProperties() {
+        assertTrue(Testing.toNotHaveResourceWithProperties(synthesized, Container.TF_RESOURCE_TYPE, Arrays.asList("command")));
+    }
+
+    @Test
+    void dataSourceDoesNotHaveProperties() {
+        assertTrue(Testing.toNotHaveDataSourceWithProperties(synthesized, DataDockerImage.TF_RESOURCE_TYPE, Arrays.asList("repo_digest")));
+    }
+
+    @Test
+    void providerDoesNotHaveProperties() {
+        assertTrue(Testing.toNotHaveProviderWithProperties(synthesized, DockerProvider.TF_RESOURCE_TYPE, Arrays.asList("image")));
+    }
+
 
 }
