@@ -16,7 +16,7 @@ jobs:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
 
       - name: Run GitHub Actions Version Updater
-        uses: saadmk11/github-actions-version-updater@v0.7.1
+        uses: saadmk11/github-actions-version-updater@v0.7.2
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
           commit_message: "chore: update github workflow actions"
