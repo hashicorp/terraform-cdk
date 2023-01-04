@@ -371,20 +371,23 @@ cdktf init [OPTIONS]
 Create a new cdktf project from a template.
 
 Options:
-      --version                   Show version number                                                                                                                  [boolean]
+      --version                   Show version number                                                                                                                               [boolean]
       --disable-plugin-cache-env  Dont set TF_PLUGIN_CACHE_DIR automatically. This is useful when the plugin cache is configured differently. Supported using the env
-                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                     [boolean] [default: false]
-      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                 [string]
-      --template                  The template to be used to create a new project. Either URL to zip file or one of the built-in templates: ["csharp", "go", "java", "python",
-                                  "python-pip", "typescript"]                                                                                                           [string]
-      --project-name              The name of the project.                                                                                                              [string]
-      --project-description       The description of the project.                                                                                                       [string]
-      --dist                      Install dependencies from a "dist" directory (for development)                                                                        [string]
-      --local                     Use local state storage for generated Terraform.                                                                    [boolean] [default: false]
-      --cdktf-version             The cdktf version to use while creating a new project.                                                             [string] [default: "0.0.0"]
-      --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path                             [string]
-      --enable-crash-reporting    Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details                    [boolean]
-  -h, --help                      Show help                                                                                                                            [boolean]
+                                  CDKTF_DISABLE_PLUGIN_CACHE_ENV.                                                                                                  [boolean] [default: false]
+      --log-level                 Which log level should be written. Only supported via setting the env CDKTF_LOG_LEVEL                                                              [string]
+      --template                  The template to be used to create a new project. Either URL to zip file or one of the built-in templates: ["csharp", "go", "java", "python", "python-pip",
+                                  "typescript"]                                                                                                                                      [string]
+      --project-name              The name of the project.                                                                                                                           [string]
+      --project-description       The description of the project.                                                                                                                    [string]
+      --dist                      Install dependencies from a "dist" directory (for development)                                                                                     [string]
+      --local                     Use local state storage for generated Terraform.                                                                                 [boolean] [default: false]
+      --cdktf-version             The cdktf version to use while creating a new project.                                                                          [string] [default: "0.0.0"]
+      --from-terraform-project    Use a terraform project as the basis, CDK constructs will be generated based on the .tf files in the path                                          [string]
+      --enable-crash-reporting    Enable crash reporting for the CLI, refer to https://cdk.tf/crash-reporting for more details                                                      [boolean]
+      --providers                 Providers to add to your project                                                                                                      [array] [default: []]
+      --providers-force-local     Force local installation of provider specified in init                                                                                            [boolean]
+      --tfe-hostname              The hostname of the Terraform Enterprise instance to use for remote state storage                                                                  [string]
+  -h, --help                      Show help                                                                                                                                         [boolean]
 ```
 
 **Examples**
