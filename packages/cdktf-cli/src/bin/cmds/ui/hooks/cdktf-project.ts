@@ -115,7 +115,7 @@ export function useCdktfProject<T>(
         setStatus({ type: "done" });
       })
       .catch((err) => {
-        exit(err);
+        exit(new Error(err));
       });
   }, []);
 

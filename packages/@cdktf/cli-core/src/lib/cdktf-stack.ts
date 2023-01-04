@@ -273,8 +273,10 @@ export class CdktfStack {
         stackName: this.stack.name,
         error: String(e),
       });
+      throw e;
+    } finally {
+      this.currentWorkPromise = undefined;
     }
-    this.currentWorkPromise = undefined;
   }
 
   public async diff(refreshOnly?: boolean, terraformParallelism?: number) {
@@ -301,7 +303,10 @@ export class CdktfStack {
         (state) => {
           // state updates while apply runs that affect the UI
           if (state.type === "running" && !state.cancelled) {
-            this.updateState({ type: "deploying", stackName: this.stack.name });
+            this.updateState({
+              type: "deploying",
+              stackName: this.stack.name,
+            });
           } else if (state.type === "waiting for approval") {
             this.updateState({
               type: "waiting for stack approval",
