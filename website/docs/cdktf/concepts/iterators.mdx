@@ -74,15 +74,15 @@ from imports.aws.s3_bucket import S3Bucket
 from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 
         list = TerraformVariable(self, "list",
-            type="list(string)"
-        )
+                                 type="list(string)"
+                                 )
 
         iterator = TerraformIterator.from_list(list=list.list_value)
 
         s3Bucket = S3Bucket(self, "bucket",
-            for_each=iterator,
-            bucket=Token.as_string(iterator.value)
-        )
+                            for_each=iterator,
+                            bucket=Token.as_string(iterator.value)
+                            )
 ```
 
 ```csharp
@@ -200,26 +200,26 @@ import imports.aws.s3_bucket.S3BucketConfig;
 ```python
 from imports.aws.s3_bucket import S3Bucket
 from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
-        list = TerraformLocal(self, "my-list", [
-            {
+        map = TerraformLocal(self, "my-map", {
+            "website": {
                 "name": "website-static-files",
                 "tags": {"app": "website"}
             },
-            {
+            "images": {
                 "name": "images",
                 "tags": {"app": "image-converter"}
             }
-        ])
+        })
 
         iterator = TerraformIterator.from_list(
-            list=list.as_list
+            map=map.as_any_map
         )
 
         s3Bucket = S3Bucket(self, "s3-bucket",
-            for_each=iterator,
-            bucket=iterator.get_string("name"),
-            tags=iterator.get_map("tags")
-        )
+                            for_each=iterator,
+                            bucket=iterator.get_string("name"),
+                            tags=iterator.get_map("tags")
+                            )
 ```
 
 ```csharp
@@ -316,26 +316,26 @@ new TeamMembers(this, "members", {
         org_name = "my-org"
 
         GithubProvider(self, "github",
-            organization=org_name
-        )
+                       organization=org_name
+                       )
 
         github_team = Team(self, "core-team",
-            name="core"
-        )
+                           name="core"
+                           )
 
         org_members = DataGithubOrganization(self, "org",
-            name=org_name
-        )
+                                             name=org_name
+                                             )
 
         org_member_iterator = TerraformIterator.from_list(org_members.members)
 
         TeamMembers(self, "members",
-            team_id=github_team.id,
-            members=org_member_iterator.dynamic({
-                "username": Token().as_string(org_member_iterator.value),
-                "role": "maintainer"
-            })
-        )
+                    team_id=github_team.id,
+                    members=org_member_iterator.dynamic({
+                        "username": Token().as_string(org_member_iterator.value),
+                        "role": "maintainer"
+                    })
+                    )
 ```
 
 ```java
