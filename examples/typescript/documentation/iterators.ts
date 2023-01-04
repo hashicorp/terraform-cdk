@@ -60,16 +60,16 @@ export class IteratorsStack extends TerraformStack {
     // DOCS_BLOCK_END:iterators
 
     // DOCS_BLOCK_START:iterators-complex-types
-    const complexIterator = TerraformIterator.fromList([
-      {
+    const complexIterator = TerraformIterator.fromMap({
+      website: {
         name: "website-static-files",
         tags: { app: "website" },
       },
-      {
+      images: {
         name: "images",
         tags: { app: "image-converter" },
       },
-    ] as any);
+    });
 
     new S3Bucket(this, "complex-iterator-bucket", {
       forEach: complexIterator,
