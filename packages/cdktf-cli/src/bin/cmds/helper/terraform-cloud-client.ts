@@ -164,11 +164,10 @@ async function post(url: string, token: string, data: string) {
 async function endpointUrl(tfeHostname: string, path: string) {
   const serviceDiscovery = await discoverService(tfeHostname);
   const url = serviceDiscovery["tfe.v2"];
-  const fullPath = join(url, path);
   if (/^https?:/.test(url)) {
-    return fullPath;
+    return join(url, path);
   }
-  return `https://${fullPath}`;
+  return `https://${join(tfeHostname, url, path)}`;
 }
 
 export async function getAccountDetails(tfeHostname: string, token: string) {
