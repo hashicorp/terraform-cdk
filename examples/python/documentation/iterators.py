@@ -33,7 +33,7 @@ class IteratorStackOne(TerraformStack):
             }
         })
 
-        iterator = TerraformIterator.from_list(
+        iterator = TerraformIterator.from_map(
             map=map.as_any_map
         )
 
