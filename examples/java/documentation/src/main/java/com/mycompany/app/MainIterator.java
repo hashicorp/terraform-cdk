@@ -42,8 +42,9 @@ public class MainIterator extends TerraformStack {
                 .build());
 
         // DOCS_BLOCK_START:iterators-iterators-complex-types
-        TerraformLocal myList = new TerraformLocal(this, "my-list", Arrays.asList(
-                new HashMap() {
+        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap<String, HashMap<String, ?>>() {
+            {
+                put("website", new HashMap() {
                     {
                         put("name", "website-static-files");
                         put("tags", new HashMap<String, String>() {
@@ -52,8 +53,8 @@ public class MainIterator extends TerraformStack {
                             }
                         });
                     }
-                },
-                new HashMap() {
+                });
+                put("images", new HashMap() {
                     {
                         put("name", "images");
                         put("tags", new HashMap<String, String>() {
@@ -62,9 +63,11 @@ public class MainIterator extends TerraformStack {
                             }
                         });
                     }
-                }));
+                });
+            }
+        });
 
-        TerraformIterator iterator = TerraformIterator.fromList(myList.getAsList());
+        TerraformIterator iterator = TerraformIterator.fromMap(myComplexLocal.getAsAnyMap());
 
         S3Bucket s3Bucket = new S3Bucket(this, "bucket", S3BucketConfig.builder()
                 .forEach(iterator)
