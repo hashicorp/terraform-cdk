@@ -55,7 +55,7 @@ export const Get = ({
         });
       } catch (e) {
         console.error(e);
-        exit(e);
+        exit(new Error(e));
       }
     };
     runGet();
