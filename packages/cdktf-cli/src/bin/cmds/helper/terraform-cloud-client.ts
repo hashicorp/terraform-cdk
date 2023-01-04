@@ -1,7 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import https = require("https");
+import https from "https";
 import querystring from "querystring";
+import { join } from "path";
 
 const SUCCESS_STATUS_CODES = [200, 201];
 
@@ -52,7 +53,7 @@ export interface ServiceDiscovery {
 
 let cachedServiceDiscovery: ServiceDiscovery | undefined;
 async function discoverService(hostname: string): Promise<ServiceDiscovery> {
-  if (cachedServiceDiscovery) return Promise.resolve(cachedServiceDiscovery);
+  if (cachedServiceDiscovery) return cachedServiceDiscovery;
 
   return new Promise<ServiceDiscovery>((resolve, reject) => {
     const req = https.request(
@@ -162,7 +163,12 @@ async function post(url: string, token: string, data: string) {
 
 async function endpointUrl(tfeHostname: string, path: string) {
   const serviceDiscovery = await discoverService(tfeHostname);
-  return `https://${tfeHostname}${serviceDiscovery["tfe.v2"]}${path}`;
+  const url = serviceDiscovery["tfe.v2"];
+  const fullPath = join(url, path);
+  if (/^https?:/.test(url)) {
+    return fullPath;
+  }
+  return `https://${fullPath}`;
 }
 
 export async function getAccountDetails(tfeHostname: string, token: string) {
