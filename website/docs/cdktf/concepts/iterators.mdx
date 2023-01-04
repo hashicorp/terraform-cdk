@@ -166,7 +166,7 @@ export class IteratorsStack extends TerraformStack {
 import imports.aws.s3_bucket.S3Bucket;
 import imports.aws.s3_bucket.S3BucketConfig;
 
-        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap<String, HashMap<String, ?>>() {
+        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap() {
             {
                 put("website", new HashMap() {
                     {

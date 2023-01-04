@@ -42,7 +42,7 @@ public class MainIterator extends TerraformStack {
                 .build());
 
         // DOCS_BLOCK_START:iterators-iterators-complex-types
-        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap<String, HashMap<String, ?>>() {
+        TerraformLocal myComplexLocal = new TerraformLocal(this, "my-map", new HashMap() {
             {
                 put("website", new HashMap() {
                     {
