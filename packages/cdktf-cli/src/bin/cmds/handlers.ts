@@ -311,10 +311,12 @@ export async function login(argv: { tfeHostname: string }) {
     logger.debug(`No TTY stream passed to login`);
   }
 
+  const sanitizedToken = token.replace(/\n/g, "");
+
   // If we get a token through stdin, we don't need to ask for credentials, we just validate and set it
   // This is useful for programmatically authenticating, e.g. a CI server
   if (token) {
-    await terraformLogin.saveTerraformCredentials(token.replace(/\n/g, ""));
+    await terraformLogin.saveTerraformCredentials(sanitizedToken);
   } else {
     token = await terraformLogin.askToLogin();
     if (token === "") {
@@ -322,7 +324,7 @@ export async function login(argv: { tfeHostname: string }) {
     }
   }
 
-  await showUserDetails(token);
+  await showUserDetails(sanitizedToken);
 }
 
 export async function synth(argv: any) {
