@@ -4,6 +4,7 @@ import * as fs from "fs";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
+import { missingVariable } from "../errors";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
@@ -139,7 +140,7 @@ export const deployMachine = createMachine<
               const variableName = extractVariableNameFromPrompt(line);
               send({
                 type: "LINE_RECEIVED",
-                line: `Missing variable: '${variableName}'. You can provide it using the 'TF_VAR_${variableName}' environment variable.`,
+                line: missingVariable(variableName),
               });
               send({ type: "VARIABLE_MISSING", variableName });
             }
