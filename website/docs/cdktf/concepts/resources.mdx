@@ -106,26 +106,6 @@ class ResourceStack(TerraformStack):
 ```
 
 ```csharp
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using Constructs;
-using HashiCorp.Cdktf;
-using aws.Provider;
-using aws.DataAwsRegion;
-using aws.DynamodbTable;
-
-namespace Examples
-{
-    class ResourcesStack : TerraformStack
-    {
-        public ResourcesStack(Construct scope, string name) : base(scope, name)
-        {
-
-            new AwsProvider(this, "aws", new AwsProviderConfig {
-                Region = "eu-central-1"
-            });
             DataAwsRegion region = new DataAwsRegion(this, "region");
 
             new DynamodbTable(this, "first-table", new DynamodbTableConfig {
@@ -139,9 +119,6 @@ namespace Examples
                 },
                 BillingMode = "PAY_PER_REQUEST"
             });
-        }
-    }
-}
 ```
 
 </CodeTabs>
@@ -456,6 +433,7 @@ To override an attribute, include the resource attribute key in `addOverride`. T
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#resources-override-attribute -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-override-attribute -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-override-attribute -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-override-attribute -->
 
 <CodeTabs>
 
@@ -479,6 +457,13 @@ new SnsTopic(this, "Topic", SnsTopicConfig.builder()
                 )
 
         topic.add_override("display_name", "my-topic")
+```
+
+```csharp
+SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig {
+    DisplayName = "will-be-overwritten"
+});
+topic.AddOverride("display_name", "my-topic");
 ```
 
 </CodeTabs>
@@ -516,6 +501,7 @@ The following example adds ingress values by looping through the ports passed as
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#resources-escape-hatch-dynamic-block -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch-dynamic-block -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch-dynamic-block -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-hatch-dynamic-block -->
 
 <CodeTabs>
 
@@ -613,6 +599,33 @@ import imports.aws.security_group.*;
                 "protocol": "-1"
             }
         })
+```
+
+```csharp
+TerraformVariable portsList = new TerraformVariable(this, "ports", new TerraformVariableConfig {
+    Type = "list",
+});
+SecurityGroup sg = new SecurityGroup(this, "security1", new SecurityGroupConfig {
+    Name = "security1",
+    VpcId = "vpcs",
+    Egress = new SecurityGroupEgress[] {
+        new SecurityGroupEgress {
+            FromPort = 0,
+            ToPort = 0,
+            CidrBlocks = new string[] { "0.0.0.0/0" },
+            Protocol = "-1"
+        }
+    }
+});
+sg.AddOverride("dynamic.ingress", new Dictionary<string, object> {
+    { "for_each", portsList.ListValue },
+    { "content", new Dictionary<string, object> {
+        { "fromPort", "${ingress.value}" },
+        { "toPort", "${ingress.value}" },
+        { "cidrBlocks", new string[] { "0.0.0.0/0" } },
+        { "protocol", "-1" }
+    }}
+});
 ```
 
 </CodeTabs>
