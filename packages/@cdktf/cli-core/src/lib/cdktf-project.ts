@@ -560,7 +560,13 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
+    try {
+      await stack.diff(opts?.refreshOnly, opts?.terraformParallelism);
+    } catch (e) {
+      throw Errors.External(
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+      );
+    }
 
     if (stack.error) {
       throw Errors.External(
