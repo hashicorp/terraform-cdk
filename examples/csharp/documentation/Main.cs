@@ -7,6 +7,7 @@ using HashiCorp.Cdktf;
 using Examples;
 
 
+
 namespace MyCompany.MyApp
 {
     class MyApp : TerraformStack
@@ -39,6 +40,21 @@ namespace MyCompany.MyApp
             new Examples.LocalBackendStack(app, "remote-backend-local");
             new Examples.ResourcesStack(app, "resources");
             new Examples.ReferencesStack(app, "references");
+            new Examples.MySingleStack(app, "single-stack");
+            new Examples.MyMultiStack(app, "multiple-stacks-dev", new Examples.MyMultiStackConfig {
+                Environment = "dev",
+            });
+            new Examples.MyMultiStack(app, "multiple-stacks-staging", new Examples.MyMultiStackConfig {
+                Environment = "staging",
+            });
+            new Examples.MyMultiStack(app, "multiple-stacks-production-us", new Examples.MyMultiStackConfig {
+                Environment = "production",
+                Region = "us-east-1",
+            });
+            new Examples.MyMultiStack(app, "multiple-stacks-production-eu", new Examples.MyMultiStackConfig {
+                Environment = "production",
+                Region = "eu-central-1",
+            });
             app.Synth();
             Console.WriteLine("App synth complete");
         }
