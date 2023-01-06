@@ -24,6 +24,7 @@ The following example generates a single Terraform configuration in the configur
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#single-stack -->
 
 <CodeTabs>
 
@@ -109,6 +110,32 @@ MySingleStack(app, "a-single-stack")
 app.synth
 ```
 
+```csharp
+    class MySingleStack : TerraformStack
+    {
+        public MySingleStack(Construct scope, string name) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            new Instance(this, "instance", new InstanceConfig {
+                Ami = "ami-2757f631",
+                InstanceType = "t2.micro",
+            });
+        }
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MySingleStack(app, "a-single-stack");
+
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
+    }
+```
+
 </CodeTabs>
 
 ## Multiple Stacks
@@ -122,6 +149,7 @@ The following example synthesizes multiple Terraform configurations in the confi
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#multiple-stacks -->
 
 <CodeTabs>
 
@@ -274,6 +302,62 @@ MyMultipleStacks(app, "multiple-stacks-staging", MyMultipleStacksConfig(environm
 MyMultipleStacks(app, "multiple-stacks-production-us", MyMultipleStacksConfig(environment = "staging", region = "eu-central-1"))
 
 app.synth
+```
+
+```csharp
+    public interface IMyMultiStackConfig
+    {
+        string Environment { get; set; }
+        string Region { get; set; }
+    }
+
+    public class MyMultiStackConfig : IMyMultiStackConfig
+    {
+        public string Environment { get; set; }
+        public string Region { get; set; } = "us-east-1";
+    }
+
+    class MyMultiStack : TerraformStack
+    {
+        public MyMultiStack(Construct scope, string name, IMyMultiStackConfig config) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = config.Region,
+            });
+
+            new Instance(this, "instance", new InstanceConfig {
+                Ami = "ami-2757f631",
+                InstanceType = "t2.micro",
+                Tags = new Dictionary<string, string> {
+                    { "environment", config.Environment }
+                }
+            });
+        }
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyMultiStack(app, "multiple-stacks-dev", new MyMultiStackConfig {
+                Environment = "dev",
+            });
+            new MyMultiStack(app, "multiple-stacks-staging", new MyMultiStackConfig {
+                Environment = "staging",
+            });
+
+            new MyMultiStack(app, "multiple-stacks-production-us", new MyMultiStackConfig {
+                Environment = "production",
+                Region = "us-east-1",
+            });
+
+            new MyMultiStack(app, "multiple-stacks-production-eu", new MyMultiStackConfig {
+                Environment = "production",
+                Region = "eu-central-1",
+            });
+
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
+    }
 ```
 
 </CodeTabs>
