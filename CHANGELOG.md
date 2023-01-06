@@ -1,6 +1,12 @@
 ## Unreleased
 
-Breaking: CDK for Terraform now requires Terraform CLI version 1.2 or above.
+### Notice: CDKTF 0.15 bumps minimum Terraform version to 1.2
+
+CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for Terraform Cloud and Terraform Enterprise instead of [the API](https://developer.hashicorp.com/terraform/cloud-docs/api-docs) used in version 0.14.
+
+[Terraform promises compatibility](https://developer.hashicorp.com/terraform/language/v1-compatibility-promises) between all v1.x releases, so there shouldn't be any issues with this change. The only changes between these versions are bug fixes, and new feature additions.
+
+Please open an issue if you encounter any issues or bugs with this change.
 
 ## 0.14.3
 
