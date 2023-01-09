@@ -124,16 +124,18 @@ export type TerraformDeployState =
 
 export interface Terraform {
   init: (upgrade: boolean) => Promise<void>;
-  plan: (
-    destroy: boolean,
-    refreshOnly?: boolean,
-    parallelism?: number
-  ) => Promise<void>;
+  plan: (opts: {
+    destroy: boolean;
+    refreshOnly?: boolean;
+    parallelism?: number;
+    vars?: string[];
+  }) => Promise<void>;
   deploy(
     options: {
       autoApprove?: boolean;
       refreshOnly?: boolean;
       parallelism?: number;
+      vars?: string[];
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;

@@ -129,6 +129,7 @@ export async function deploy(argv: any) {
   const ignoreMissingStackDependencies =
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
+  const vars = argv.var;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -152,6 +153,7 @@ export async function deploy(argv: any) {
       parallelism,
       refreshOnly,
       terraformParallelism,
+      vars,
     })
   );
 }
@@ -193,6 +195,7 @@ export async function diff(argv: any) {
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
   const terraformParallelism = argv.terraformParallelism;
+  const vars = argv.var;
 
   await renderInk(
     React.createElement(Diff, {
@@ -201,6 +204,7 @@ export async function diff(argv: any) {
       targetStack: stack,
       synthCommand: command,
       terraformParallelism,
+      vars,
     })
   );
 }

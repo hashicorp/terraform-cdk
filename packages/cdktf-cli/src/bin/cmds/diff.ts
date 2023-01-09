@@ -45,6 +45,12 @@ class Command extends BaseCommand {
         // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
+      .option("var", {
+        type: "array",
+        default: [],
+        required: false,
+        desc: "Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

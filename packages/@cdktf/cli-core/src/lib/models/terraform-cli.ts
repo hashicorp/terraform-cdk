@@ -146,11 +146,18 @@ export class TerraformCli implements Terraform {
     );
   }
 
-  public async plan(
-    destroy = false,
-    refreshOnly = false,
-    parallelism = -1
-  ): Promise<void> {
+  public async plan(opts: {
+    destroy: boolean;
+    refreshOnly?: boolean;
+    parallelism?: number;
+    vars?: string[];
+  }): Promise<void> {
+    const {
+      destroy = false,
+      refreshOnly = false,
+      parallelism = -1,
+      vars = [],
+    } = opts;
     const options = ["plan", "-input=false"];
 
     if (destroy) {
@@ -162,6 +169,9 @@ export class TerraformCli implements Terraform {
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
     }
+
+    vars.forEach((v) => options.push(`-var=${v}`));
+
     await this.setUserAgent();
 
     await exec(
@@ -183,6 +193,7 @@ export class TerraformCli implements Terraform {
       refreshOnly = false,
       parallelism = -1,
       extraOptions = [],
+      vars = [],
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }> {
@@ -194,6 +205,7 @@ export class TerraformCli implements Terraform {
       autoApprove,
       parallelism,
       extraOptions,
+      vars,
     });
     return this.handleService("deploy", service, callback);
   }
