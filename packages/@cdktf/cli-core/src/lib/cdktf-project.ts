@@ -565,7 +565,7 @@ export class CdktfProject {
     try {
       await stack.diff(
         opts?.refreshOnly,
-        opts?.terraformParallelism, 
+        opts?.terraformParallelism,
         opts?.noColor
       );
     } catch (e) {
@@ -615,7 +615,7 @@ export class CdktfProject {
             : nextRunningExecutor.destroy(
                 opts.terraformParallelism,
                 opts.noColor
-              )
+              );
 
         allExecutions.push(promise);
       } catch (e) {
