@@ -129,6 +129,7 @@ export interface Terraform {
     refreshOnly?: boolean;
     parallelism?: number;
     vars?: string[];
+    varFiles?: string[];
   }) => Promise<void>;
   deploy(
     options: {
@@ -136,6 +137,7 @@ export interface Terraform {
       refreshOnly?: boolean;
       parallelism?: number;
       vars?: string[];
+      varFiles?: string[];
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;

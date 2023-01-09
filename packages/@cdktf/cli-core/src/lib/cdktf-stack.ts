@@ -325,8 +325,9 @@ export class CdktfStack {
     refreshOnly?: boolean;
     terraformParallelism?: number;
     vars?: string[];
+    varFiles?: string[];
   }) {
-    const { refreshOnly, terraformParallelism, vars } = opts;
+    const { refreshOnly, terraformParallelism, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
@@ -337,6 +338,7 @@ export class CdktfStack {
           refreshOnly,
           parallelism: terraformParallelism,
           vars,
+          varFiles,
         },
         (state) => {
           // state updates while apply runs that affect the UI

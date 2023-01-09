@@ -221,6 +221,7 @@ export function createAndStartDeployService(options: {
   autoApprove?: boolean;
   workdir: string;
   vars?: string[];
+  varFiles?: string[];
 }) {
   const service = interpret(deployMachine);
   const args = [
@@ -237,6 +238,10 @@ export function createAndStartDeployService(options: {
 
   options.vars?.forEach((v) => {
     args.push(`-var=${v}`);
+  });
+
+  options.varFiles?.forEach((v) => {
+    args.push(`-var-files=${v}`);
   });
 
   const config: PtySpawnConfig = {
