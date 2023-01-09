@@ -239,7 +239,7 @@ export class TerraformStack extends Construct {
     }
 
     const outputs: OutputIdMap = elements.reduce((carry, item) => {
-      if (!TerraformOutput.isTerrafromOutput(item)) {
+      if (!TerraformOutput.isTerraformOutput(item)) {
         return carry;
       }
 
