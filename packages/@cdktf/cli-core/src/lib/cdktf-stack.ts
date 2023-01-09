@@ -298,17 +298,35 @@ export class CdktfStack {
     }
   }
 
-  public async diff(refreshOnly?: boolean, terraformParallelism?: number) {
+  public async diff({
+    refreshOnly,
+    terraformParallelism,
+    vars,
+  }: {
+    refreshOnly?: boolean;
+    terraformParallelism?: number;
+    vars?: string[];
+  }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
 
-      await terraform.plan(false, refreshOnly, terraformParallelism);
+      await terraform.plan({
+        destroy: false,
+        refreshOnly,
+        parallelism: terraformParallelism,
+        vars,
+      });
       this.updateState({ type: "planned", stackName: this.stack.name });
     });
   }
 
-  public async deploy(refreshOnly?: boolean, terraformParallelism?: number) {
+  public async deploy(opts: {
+    refreshOnly?: boolean;
+    terraformParallelism?: number;
+    vars?: string[];
+  }) {
+    const { refreshOnly, terraformParallelism, vars } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
@@ -318,6 +336,7 @@ export class CdktfStack {
           autoApprove: this.options.autoApprove,
           refreshOnly,
           parallelism: terraformParallelism,
+          vars,
         },
         (state) => {
           // state updates while apply runs that affect the UI
@@ -366,7 +385,8 @@ export class CdktfStack {
     });
   }
 
-  public async destroy(terraformParallelism?: number) {
+  public async destroy(opts: { terraformParallelism?: number }) {
+    const { terraformParallelism } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();

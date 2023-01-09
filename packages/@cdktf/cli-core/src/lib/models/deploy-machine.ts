@@ -220,22 +220,28 @@ export function createAndStartDeployService(options: {
   terraformBinaryName: string;
   autoApprove?: boolean;
   workdir: string;
+  vars?: string[];
 }) {
   const service = interpret(deployMachine);
+  const args = [
+    "apply",
+    ...(options.autoApprove ? ["-auto-approve"] : []),
+    // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
+
+    ...options.extraOptions,
+    ...(options.refreshOnly ? ["-refresh-only"] : []),
+    ...(options.parallelism > -1
+      ? [`-parallelism=${options.parallelism}`]
+      : []),
+  ];
+
+  options.vars?.forEach((v) => {
+    args.push(`-var=${v}`);
+  });
 
   const config: PtySpawnConfig = {
     file: options.terraformBinaryName,
-    args: [
-      "apply",
-      ...(options.autoApprove ? ["-auto-approve"] : []),
-      // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
-
-      ...options.extraOptions,
-      ...(options.refreshOnly ? ["-refresh-only"] : []),
-      ...(options.parallelism > -1
-        ? [`-parallelism=${options.parallelism}`]
-        : []),
-    ],
+    args,
     options: {
       cwd: options.workdir,
       env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever
