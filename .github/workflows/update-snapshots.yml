@@ -31,6 +31,8 @@ jobs:
       - uses: actions/checkout@v3.1.0
         with:
           ref: "refs/pull/${{ github.event.number }}/merge"
+      - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
+        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT

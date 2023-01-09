@@ -173,7 +173,7 @@ exports[`full integration test synth synth generates JSON 1`] = `
     \\"required_providers\\": {
       \\"aws\\": {
         \\"source\\": \\"aws\\",
-        \\"version\\": \\"2.70.1\\"
+        \\"version\\": \\"2.70.4\\"
       }
     }
   }

@@ -1,4 +1,6 @@
-FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node14
+# Use a previous version as there are problems with the latest Docker image, related to https://github.com/aws/jsii/issues/3903
+FROM docker.mirror.hashicorp.services/jsii/superchain@sha256:80ee12fd2b143ff58d93c72c43985281bb6923370f8df93fcbb23834f0bfb5a7
+# FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node14
 
 USER root
 
