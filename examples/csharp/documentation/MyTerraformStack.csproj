@@ -20,4 +20,20 @@
   <ItemGroup>
     <ProjectReference Include=".gen\random\random.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".gen\dnsimple\dnsimple.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".gen\my_local_module\my_local_module.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include=".gen\vpc\vpc.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include=".gen\eks\eks.csproj" />
+  </ItemGroup>
 </Project>

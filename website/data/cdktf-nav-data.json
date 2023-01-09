@@ -71,7 +71,19 @@
       
     ]
   },
-  { "title": "Examples and Guides", "path": "examples" },
+  { 
+    "title": "Examples and Guides", 
+    "routes": [
+      {
+        "title": "Examples",
+        "path": "examples-and-guides/examples"
+      },
+      {
+        "title": "Refactoring Stacks",
+        "path": "examples-and-guides/refactoring"
+      }
+    ] 
+  },
   {
     "title": "Create and Deploy Applications",
     "routes": [

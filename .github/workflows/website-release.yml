@@ -12,7 +12,7 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GH_TOKEN_WEBSITE_RELEASE }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
         with:
           repository: hashicorp/terraform-website
           token: ${{ secrets.GH_TOKEN_WEBSITE_RELEASE }}

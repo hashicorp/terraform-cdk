@@ -11,7 +11,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@v6
+      - uses: actions/stale@v6.0.1
         with:
           # For issues: post a "warning" message after 30 days, then close if another 30 days pass without a response. In another workflow, issues closed for 30 days will be locked.
           stale-issue-message: "Hi there! 👋 We haven't heard from you in 30 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
@@ -33,3 +33,6 @@ jobs:
           labels-to-remove-when-unstale: "waiting-on-answer,stale"
           # For both issues and PRs, ignore anything that's been assigned to a milestone
           exempt-all-milestones: true
+
+          # Since we are on a GitHub Enterprise Server, we shouldn't have to worry about the rate limit
+          operations-per-run: 200

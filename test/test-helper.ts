@@ -3,7 +3,7 @@
 import { TemplateServer } from "./template-server";
 import { spawn, execSync } from "child_process";
 import * as execa from "execa";
-import { spawn as ptySpawn } from "node-pty";
+import { spawn as ptySpawn } from "node-pty-prebuilt-multiarch";
 
 const os = require("os");
 const path = require("path");
@@ -313,7 +313,6 @@ export class TestDriver {
     cb?: (workingDirectory) => void;
   }) => {
     this.switchToTempDir();
-    console.log(this.workingDirectory);
     await this.init("go", options?.init?.additionalOptions);
     this.copyFiles("cdktf.json");
     this.copyFile("main.go", "main.go");

@@ -29165,11 +29165,25 @@ new TokenizedStringFragments();
 
 | **Name**                                                                             | **Description**                                              |
 | ------------------------------------------------------------------------------------ | ------------------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.addEscape">AddEscape</a></code>       | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">AddIntrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">AddLiteral</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">AddToken</a></code>         | Adds a token fragment.                                       |
+| <code><a href="#cdktf.TokenizedStringFragments.concat">Concat</a></code>             | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.join">Join</a></code>                 | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">MapTokens</a></code>       | Apply a transformation function to all tokens in the string. |
+
+---
+
+##### `AddEscape` <a name="AddEscape" id="cdktf.TokenizedStringFragments.addEscape"></a>
+
+```csharp
+private void AddEscape(string Kind)
+```
+
+###### `Kind`<sup>Required</sup> <a name="Kind" id="cdktf.TokenizedStringFragments.addEscape.parameter.kind"></a>
+
+- _Type:_ string
 
 ---
 
@@ -29221,6 +29235,18 @@ the token to add.
 
 ---
 
+##### `Concat` <a name="Concat" id="cdktf.TokenizedStringFragments.concat"></a>
+
+```csharp
+private void Concat(TokenizedStringFragments Other)
+```
+
+###### `Other`<sup>Required</sup> <a name="Other" id="cdktf.TokenizedStringFragments.concat.parameter.other"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
 ##### `Join` <a name="Join" id="cdktf.TokenizedStringFragments.join"></a>
 
 ```csharp
@@ -29240,14 +29266,14 @@ If there are any
 ##### `MapTokens` <a name="MapTokens" id="cdktf.TokenizedStringFragments.mapTokens"></a>
 
 ```csharp
-private TokenizedStringFragments MapTokens(ITokenMapper Mapper)
+private TokenizedStringFragments MapTokens(IResolveContext Context)
 ```
 
 Apply a transformation function to all tokens in the string.
 
-###### `Mapper`<sup>Required</sup> <a name="Mapper" id="cdktf.TokenizedStringFragments.mapTokens.parameter.mapper"></a>
+###### `Context`<sup>Required</sup> <a name="Context" id="cdktf.TokenizedStringFragments.mapTokens.parameter.context"></a>
 
-- _Type:_ <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
 
 ---
 
@@ -29255,12 +29281,25 @@ Apply a transformation function to all tokens in the string.
 
 | **Name**                                                                                  | **Type**                                                    | **Description**                                  |
 | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.property.escapes">Escapes</a></code>       | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all escape fragments from this string.    |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">FirstValue</a></code> | <code>object</code>                                         | Returns the first value.                         |
 | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">Intrinsic</a></code>   | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all intrinsic fragments from this string. |
 | <code><a href="#cdktf.TokenizedStringFragments.property.length">Length</a></code>         | <code>double</code>                                         | Returns the number of fragments.                 |
 | <code><a href="#cdktf.TokenizedStringFragments.property.literals">Literals</a></code>     | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all literals from this string.            |
 | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">Tokens</a></code>         | <code><a href="#cdktf.IResolvable">IResolvable</a>[]</code> | Return all Tokens from this string.              |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">FirstToken</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code>   | Returns the first token.                         |
+
+---
+
+##### `Escapes`<sup>Required</sup> <a name="Escapes" id="cdktf.TokenizedStringFragments.property.escapes"></a>
+
+```csharp
+public IResolvable[] Escapes { get; }
+```
+
+- _Type:_ <a href="#cdktf.IResolvable">IResolvable</a>[]
+
+Return all escape fragments from this string.
 
 ---
 
@@ -29973,8 +30012,10 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------ | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">Preparing</a></code>             | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">Scope</a></code>                     | <code>Constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">IgnoreEscapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">IteratorContext</a></code> | <code>string</code>                | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">SuppressBraces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">WarnEscapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
 
 ---
 
@@ -30002,6 +30043,18 @@ The scope from which resolution has been initiated.
 
 ---
 
+##### `IgnoreEscapes`<sup>Optional</sup> <a name="IgnoreEscapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```csharp
+public bool IgnoreEscapes { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should not be parsed, and treated as literals.
+
+---
+
 ##### `IteratorContext`<sup>Optional</sup> <a name="IteratorContext" id="cdktf.IResolveContext.property.iteratorContext"></a>
 
 ```csharp
@@ -30023,6 +30076,20 @@ public bool SuppressBraces { get; set; }
 - _Type:_ bool
 
 True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `WarnEscapes`<sup>Optional</sup> <a name="WarnEscapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```csharp
+public bool WarnEscapes { get; set; }
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
 
 ---
 

@@ -33,13 +33,13 @@ You must specify values in exactly the same way as you would in an HCL configura
 
 The following example uses `TerraformVariable` to provide inputs to resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#variables -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
 
 <CodeTabs>
 
-```typescript
+```ts
 const imageId = new TerraformVariable(this, "imageId", {
   type: "string",
   default: "ami-abcde123",
@@ -80,6 +80,26 @@ Instance(self, "hello",
 
 </CodeTabs>
 
+### Define Complex Input Variables
+
+```typescript
+const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
+  type: VariableType.object({
+    node_group_name: VariableType.STRING,
+    instance_types: VariableType.list(VariableType.STRING),
+    min_size: VariableType.NUMBER,
+    desired_size: VariableType.NUMBER,
+    max_size: VariableType.NUMBER,
+  }),
+  nullable: false,
+  description: "Node group configuration",
+});
+
+new TerraformResource(this, "resource", {
+  nodeGroupConfig: nodeGroupConfig.value,
+});
+```
+
 ## Local Values
 
 A [Terraform local](/language/values/locals) assigns a name to an expression to allow repeated usage. They are similar to a local variables in a programming language.
@@ -94,19 +114,21 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following example uses `TerraformLocal` to create a local value.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#locals -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
 
 <CodeTabs>
 
-```typescript
+```ts
 const commonTags = new TerraformLocal(this, "common_tags", {
   Service: "service_name",
   Owner: "owner",
 });
 
 new Instance(this, "example", {
+  ami: "ami-abcde123",
+  instanceType: "t2.micro",
   tags: commonTags.expression,
 });
 ```
@@ -167,25 +189,29 @@ When values are available before [synthesizing your code](/cdktf/cli-reference/c
 
 The following example uses a `TerraformOutput` to create an output.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#outputs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
 
 <CodeTabs>
 
-```typescript
+```ts
+import { TerraformLocal, TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput } from "cdktf";
-
-export interface MyStackProps {
+import { App, TerraformOutput } from "cdktf";
+interface OutputVariableStackConfig {
   readonly myDomain: string;
 }
 
-class MyStack extends TerraformStack {
-  constructor(scope: Construct, name: string, props: MyStackProps) {
+class OutputVariableStack extends TerraformStack {
+  constructor(
+    scope: Construct,
+    name: string,
+    config: OutputVariableStackConfig
+  ) {
     super(scope, name);
 
-    const { myDomain } = props;
+    const { myDomain } = config;
 
     new TerraformOutput(this, "my-domain", {
       value: myDomain,
@@ -194,7 +220,7 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, "cdktf-producer", {
+new OutputVariableStack(app, "cdktf-producer", {
   myDomain: "example.com",
 });
 app.synth();
@@ -265,19 +291,19 @@ Outputs return an HCL expression representing the underlying Terraform resource,
 
 The following Typescript example uses `TerraformOutput` to create an output for a Random provider resource.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#outputs-usage -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
 
 <CodeTabs>
 
-```typescript
+```ts
+import { TerraformLocal, TerraformStack, TerraformVariable } from "cdktf";
+import { Construct } from "constructs";
+import { App, TerraformOutput } from "cdktf";
 import { RandomProvider } from "@cdktf/provider-random/lib/provider";
 import { Pet } from "@cdktf/provider-random/lib/pet";
-import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput } from "cdktf";
-
-class MyStack extends TerraformStack {
+class OutputsUsageStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
 
@@ -291,7 +317,7 @@ class MyStack extends TerraformStack {
 }
 
 const app = new App();
-new MyStack(app, "cdktf-demo");
+new OutputsUsageStack(app, "outputs-usage");
 app.synth();
 ```
 
@@ -375,22 +401,20 @@ Output: random-pet = choice-haddock
 
 The following example uses outputs to share data between stacks, each of which has a [remote backend](/cdktf/concepts/remote-backends) to store the Terraform state files remotely.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-state -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-reference-remote-state -->
 
 <CodeTabs>
 
-```typescript
-import { RandomProvider } from "@cdktf/provider-random/lib/provider";
-import { Pet } from "@cdktf/provider-random/lib/pet";
+```ts
+import { TerraformLocal, TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
+import { App, TerraformOutput } from "cdktf";
 import {
-  App,
-  TerraformStack,
-  TerraformOutput,
   CloudBackend,
   DataTerraformRemoteState,
+  NamedCloudWorkspace,
 } from "cdktf";
 
 class Producer extends TerraformStack {

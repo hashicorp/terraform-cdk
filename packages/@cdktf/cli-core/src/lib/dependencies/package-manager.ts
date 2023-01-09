@@ -9,6 +9,10 @@ import * as semver from "semver";
 import fetch from "node-fetch";
 import * as z from "zod";
 
+// Can't use CDKTF_ as prefix because yargs .env("CDKTF") in strict mode does not allow us to
+// Refer to: https://github.com/yargs/yargs/issues/873
+const { GITHUB_API_TOKEN_CDKTF } = process.env;
+
 // {
 //   "version": "1.0.0",
 //   "name": "testUSHasF",
@@ -459,6 +463,9 @@ class NugetPackageManager extends PackageManager {
         `Listing pipenv packages using "dotnet list package": ${stdout}`
       );
 
+      const regex =
+        /^\s*>\s(HashiCorp\.Cdktf\.Providers\.[\w.]+)\s+((?:\d+\.){2}\d+(?:-\S+)?)\s+((?:\d+\.){2}\d+(?:-\S+)?)\s*$/;
+
       return stdout
         .split("\n")
         .map((line: string) => {
@@ -469,14 +476,12 @@ class NugetPackageManager extends PackageManager {
           //  > HashiCorp.Cdktf      0.0.0       0.0.0
           // match[0] = full match
           // match[1] = package name
-          // match[2] = a weird artifact I could not figure out how to exclude (last letter of the name)
-          // match[3] = requested version
-          // match[4] = resolved version
-          const regex = /\s*>\s((\w|\.)*)\s*(\d*\.\d*\.\d*)\s*(\d*\.\d*\.\d*)/g;
+          // match[2] = requested version
+          // match[3] = resolved version
           return regex.exec(line);
         })
-        .filter((match) => match && match.length === 5)
-        .map((match) => ({ name: match![1], version: match![4] }));
+        .filter((match) => !!match)
+        .map((match) => ({ name: match![1], version: match![3] }));
     } catch (e) {
       throw new Error(
         `Could not determine installed packages using 'dotnet list package': ${e.message}`
@@ -670,6 +675,10 @@ class GoPackageManager extends PackageManager {
     const response = await fetch(url, {
       headers: {
         Accept: "application/vnd.github+json",
+        "User-Agent": "HashiCorp/cdktf-cli",
+        ...(GITHUB_API_TOKEN_CDKTF
+          ? { Authorization: `Bearer ${GITHUB_API_TOKEN_CDKTF}` }
+          : {}),
       },
     });
 
@@ -705,6 +714,7 @@ class GoPackageManager extends PackageManager {
       }
 
       const goSum = await fs.readFile(goSumPath, "utf8");
+      const dedupedProviderNames = new Set();
 
       return goSum
         .split("\n")
@@ -726,11 +736,20 @@ class GoPackageManager extends PackageManager {
 
           const version = parts[1].split("/")[0];
 
+          if (dedupedProviderNames.has(name)) {
+            return { name: "", version: "" };
+          }
+
+          dedupedProviderNames.add(name);
+
           return {
             name,
             version,
           };
-        });
+        })
+        .filter(
+          (providerInfo) => !!providerInfo.name && !!providerInfo.version
+        );
     } catch (e) {
       throw new Error(
         `Could not determine installed packages reading the go.sum: ${e.message}`

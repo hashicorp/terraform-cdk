@@ -1,22 +1,25 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Language, Errors, logger } from "@cdktf/commons";
-import { toPascalCase } from "codemaker";
-import { ProviderDependencySpec } from "../cdktf-config";
+import { toPascalCase, toSnakeCase } from "codemaker";
+import { CdktfConfig, ProviderDependencySpec } from "../cdktf-config";
 import { CdktfConfigManager } from "./cdktf-config-manager";
 import { PackageManager } from "./package-manager";
 import {
   getNpmPackageName,
   getPrebuiltProviderRepositoryName,
+  getPrebuiltProviderVersionInformation,
   getPrebuiltProviderVersions,
 } from "./prebuilt-providers";
 import { getLatestVersion } from "./registry-api";
 import { versionMatchesConstraint } from "./version-constraints";
 import * as semver from "semver";
+import { LocalProviderVersions } from "../local-provider-versions";
+import { LocalProviderConstraints } from "../local-provider-constraints";
 
 // ref: https://www.terraform.io/language/providers/requirements#source-addresses
-const DEFAULT_HOSTNAME = "registry.terraform.io";
-const DEFAULT_NAMESPACE = "hashicorp";
+export const DEFAULT_HOSTNAME = "registry.terraform.io";
+export const DEFAULT_NAMESPACE = "hashicorp";
 function normalizeProviderSource(source: string) {
   // returns <HOSTNAME>/<NAMESPACE>/<TYPE>
   const slashes = source.split("/").length - 1;
@@ -392,5 +395,100 @@ export class DependencyManager {
           `converting package name for language ${this.targetLanguage} not implemented yet`
         );
     }
+  }
+
+  /**
+   * Converts an package name of a pre-built provider package in target language to the name in npm
+   * Inverse of: `convertPackageName`
+   */
+  private convertFromPackageNameToNpm(name: string): string {
+    const npmPackagePrefix = "@cdktf/provider-";
+    const regexes = {
+      [Language.GO]:
+        /github.com\/(?:cdktf|hashicorp)\/cdktf-provider-(.+)-go\//i,
+      [Language.TYPESCRIPT]: /(.+)/i,
+      [Language.CSHARP]: /HashiCorp\.Cdktf\.Providers\.(.+)/i,
+      [Language.JAVA]: /com\.hashicorp\.cdktf-provider-(.+)/i,
+      [Language.PYTHON]: /cdktf-cdktf-provider-(.+)/i,
+    };
+    const regex = regexes[this.targetLanguage];
+    if (!regex) {
+      throw Errors.Usage("Language not supported for pre-built providers");
+    }
+
+    const match = regex.exec(name);
+    if (!match) {
+      throw new Error(`Package name is not in expected format: ${name}`);
+    }
+
+    switch (this.targetLanguage) {
+      case Language.GO: // e.g. github.com/cdktf/cdktf-provider-opentelekomcloud-go/opentelekomcloud
+        return npmPackagePrefix + match[1];
+      case Language.TYPESCRIPT: // e.g. @cdktf/provider-random
+        return match[1]; // already the correct name
+      case Language.CSHARP: // e.g. HashiCorp.Cdktf.Providers.Opentelekomcloud
+        return npmPackagePrefix + toSnakeCase(match[1]);
+      case Language.JAVA: // e.g. com.hashicorp.opentelekomcloud
+        return npmPackagePrefix + match[1];
+      case Language.PYTHON: // e.g. cdktf-cdktf-provider-opentelekomcloud
+        return npmPackagePrefix + match[1];
+      default:
+        throw new Error(
+          `converting package name for language ${this.targetLanguage} not implemented yet`
+        );
+    }
+  }
+
+  public async allProviders() {
+    const cdktfJson = CdktfConfig.read();
+    const localVersions = new LocalProviderVersions();
+
+    const localProviderConfigs = cdktfJson.terraformProviders;
+    const prebuiltProviderConfigs =
+      await this.packageManager.listProviderPackages();
+
+    const prebuiltProvidersInfo = await Promise.all(
+      prebuiltProviderConfigs.map(async (prebuiltProviderConfig) => {
+        const packageName = await this.convertFromPackageNameToNpm(
+          prebuiltProviderConfig.name
+        );
+
+        const providerInformation = await getPrebuiltProviderVersionInformation(
+          packageName,
+          prebuiltProviderConfig.version
+        );
+
+        return {
+          ...providerInformation,
+          packageName: prebuiltProviderConfig.name,
+        };
+      })
+    );
+
+    const constraints = new LocalProviderConstraints();
+
+    const localProvidersInfo = await Promise.all(
+      localProviderConfigs.map(async (localProviderConfig) => {
+        const constraint =
+          ProviderConstraint.fromConfigEntry(localProviderConfig);
+        const version = await localVersions.versionForProvider(
+          constraint.simplifiedName
+        );
+        const constraintValue = await constraints.constraintForProvider(
+          constraint.simplifiedName
+        );
+
+        return {
+          providerName: constraint.simplifiedName,
+          providerConstraint: constraintValue || constraint.version,
+          providerVersion: version,
+        };
+      })
+    );
+
+    return {
+      local: localProvidersInfo,
+      prebuilt: prebuiltProvidersInfo,
+    };
   }
 }

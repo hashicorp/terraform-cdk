@@ -49,18 +49,20 @@ CDK for Terraform lets you import Terraform [providers](/language/providers) to 
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#providers-import -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-providers -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-providers -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-providers -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { Instance } from "./.gen/providers/aws/instance";
+import { TerraformStack, Token } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
 
-class MyStack extends TerraformStack {
+export class ProvidersStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -68,16 +70,12 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    new Instance(this, "Hello", {
+    const instance = new Instance(this, "Hello", {
       ami: "ami-2757f631",
       instanceType: "t2.micro",
     });
   }
 }
-
-const app = new App();
-new MyStack(app, "hello-terraform");
-app.synth();
 ```
 
 ```java
@@ -138,6 +136,40 @@ SimpleProviderStack(app, "provider-stack")
 app.synth()
 ```
 
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+
+namespace Examples
+{
+    class ProviderStack : TerraformStack
+    {
+        public ProviderStack(Construct scope, string name) : base(scope, name)
+        {
+            // Add this to your project's .csproj file:
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\aws\aws.csproj" />
+            // </ItemGroup>
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-central-1"
+            });
+
+            new Instance(this, "instance", new InstanceConfig {
+                Ami = "ami-2757f631",
+                InstanceType = "t2.micro"
+            });
+        }
+    }
+}
+```
+
 </CodeTabs>
 
 ### Add Provider to `cdktf.json`
@@ -171,21 +203,22 @@ Generated typescript constructs in the output directory: .gen
 
 Import and use the generated classes in your application. The following example imports the `DnsimpleProvider` and `Record` resources from `./.gen/providers/dnsimple` and defines them.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#providers-import-classes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-classes -->
-
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-classes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-classes -->
 
 <CodeTabs>
 
-```typescript
+```ts
 import { Construct } from "constructs";
-import { App, TerraformStack, Token } from "cdktf";
-import { AwsProvider } from "./.gen/providers/aws/provider";
-import { Instance } from "./.gen/providers/aws/instance";
-import { DnsimpleProvider } from "./.gen/providers/dnsimple/provider";
-import { Record } from "./.gen/providers/dnsimple/record";
+import { TerraformStack, Token } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { Instance } from "@cdktf/provider-aws/lib/instance";
+import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
+import { Record } from "@cdktf/provider-dnsimple/lib/record";
 
-class MyStack extends TerraformStack {
+export class ProvidersStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -211,10 +244,6 @@ class MyStack extends TerraformStack {
     });
   }
 }
-
-const app = new App();
-new MyStack(app, "hello-terraform");
-app.synth();
 ```
 
 ```java
@@ -306,6 +335,58 @@ class ProviderStack(TerraformStack):
 app = App()
 ProviderStack(app, "provider-stack")
 app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+using dnsimple.Provider;
+using dnsimple.Record;
+
+
+namespace Examples
+{
+    class ProviderClassesStack : TerraformStack
+    {
+        public ProviderClassesStack(Construct scope, string name) : base(scope, name)
+        {
+            // Add this to your project's .csproj file:
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\aws\aws.csproj" />
+            // </ItemGroup>
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\dnsimple\dnsimple.csproj" />
+            // </ItemGroup>
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = "eu-east-1"
+            });
+
+            Instance instance = new Instance(this, "instance", new InstanceConfig {
+                Ami = "ami-2757f631",
+                InstanceType = "t2.micro"
+            });
+
+            new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig {
+                Token = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_TOKEN")),
+                Account = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_ACCOUNT"))
+            });
+
+            new Record(this, "web-www", new RecordConfig {
+                Domain = "example.com",
+                Name = "web",
+                Value = instance.PublicIp,
+                Type = "A"
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>

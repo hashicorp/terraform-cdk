@@ -18,7 +18,7 @@ jobs:
       examples: ${{ steps.set-examples.outputs.examples }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3.1.0
       - id: set-examples
         run: |
           tfDefault=$(cat .terraform.versions.json | jq -r '.default')
@@ -38,20 +38,22 @@ jobs:
       CHECKPOINT_DISABLE: "1"
     timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3.1.0
+      - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
+        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3
+      - uses: actions/cache@v3.0.11
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          key: ${{ runner.os }}-examples-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
-            ${{ runner.os }}-yarn-
+            ${{ runner.os }}-examples-yarn-
       - name: installing dependencies
         run: |
-          yarn install
+          yarn install --frozen-lockfile --prefer-offline
       - name: lint
         run: yarn lint:examples
       - name: align version (Python only)

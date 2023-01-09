@@ -65,7 +65,7 @@ const nativeNodeModulesPlugin = {
     watch: enableWatch && {
       onRebuild(error: Error) {
         if (error) console.error("Watch build failed: ", error);
-        else console.log("Rebuilt");
+        else console.log("Rebuilt", new Date().toTimeString());
       },
     },
     platform: "node",
@@ -78,6 +78,7 @@ const nativeNodeModulesPlugin = {
       "@cdktf/hcl2cdk",
       "constructs",
       "yoga-layout-prebuilt",
+      "node-pty-prebuilt-multiarch",
     ],
     plugins: [nativeNodeModulesPlugin],
     define: {

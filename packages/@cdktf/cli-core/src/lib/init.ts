@@ -27,6 +27,7 @@ export interface LocalProject {
 export interface RemoteProject extends LocalProject {
   OrganizationName: string;
   WorkspaceName: string;
+  TerraformRemoteHostname: string;
 }
 export type Project = LocalProject | RemoteProject;
 

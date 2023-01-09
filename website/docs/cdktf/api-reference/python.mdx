@@ -34956,11 +34956,27 @@ cdktf.TokenizedStringFragments()
 
 | **Name**                                                                              | **Description**                                              |
 | ------------------------------------------------------------------------------------- | ------------------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.addEscape">add_escape</a></code>       | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.addIntrinsic">add_intrinsic</a></code> | Adds an intrinsic fragment.                                  |
 | <code><a href="#cdktf.TokenizedStringFragments.addLiteral">add_literal</a></code>     | Adds a literal fragment.                                     |
 | <code><a href="#cdktf.TokenizedStringFragments.addToken">add_token</a></code>         | Adds a token fragment.                                       |
+| <code><a href="#cdktf.TokenizedStringFragments.concat">concat</a></code>              | _No description._                                            |
 | <code><a href="#cdktf.TokenizedStringFragments.join">join</a></code>                  | Combine the string fragments using the given joiner.         |
 | <code><a href="#cdktf.TokenizedStringFragments.mapTokens">map_tokens</a></code>       | Apply a transformation function to all tokens in the string. |
+
+---
+
+##### `add_escape` <a name="add_escape" id="cdktf.TokenizedStringFragments.addEscape"></a>
+
+```python
+def add_escape(
+  kind: str
+) - > None
+```
+
+###### `kind`<sup>Required</sup> <a name="kind" id="cdktf.TokenizedStringFragments.addEscape.parameter.kind"></a>
+
+- _Type:_ str
 
 ---
 
@@ -35018,6 +35034,20 @@ the token to add.
 
 ---
 
+##### `concat` <a name="concat" id="cdktf.TokenizedStringFragments.concat"></a>
+
+```python
+def concat(
+  other: TokenizedStringFragments
+) - > None
+```
+
+###### `other`<sup>Required</sup> <a name="other" id="cdktf.TokenizedStringFragments.concat.parameter.other"></a>
+
+- _Type:_ <a href="#cdktf.TokenizedStringFragments">TokenizedStringFragments</a>
+
+---
+
 ##### `join` <a name="join" id="cdktf.TokenizedStringFragments.join"></a>
 
 ```python
@@ -35040,15 +35070,15 @@ If there are any
 
 ```python
 def map_tokens(
-  mapper: ITokenMapper
+  context: IResolveContext
 ) - > TokenizedStringFragments
 ```
 
 Apply a transformation function to all tokens in the string.
 
-###### `mapper`<sup>Required</sup> <a name="mapper" id="cdktf.TokenizedStringFragments.mapTokens.parameter.mapper"></a>
+###### `context`<sup>Required</sup> <a name="context" id="cdktf.TokenizedStringFragments.mapTokens.parameter.context"></a>
 
-- _Type:_ <a href="#cdktf.ITokenMapper">ITokenMapper</a>
+- _Type:_ <a href="#cdktf.IResolveContext">IResolveContext</a>
 
 ---
 
@@ -35056,12 +35086,25 @@ Apply a transformation function to all tokens in the string.
 
 | **Name**                                                                                   | **Type**                                                               | **Description**                                  |
 | ------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------- | ------------------------------------------------ |
+| <code><a href="#cdktf.TokenizedStringFragments.property.escapes">escapes</a></code>        | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all escape fragments from this string.    |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstValue">first_value</a></code> | <code>typing.Any</code>                                                | Returns the first value.                         |
 | <code><a href="#cdktf.TokenizedStringFragments.property.intrinsic">intrinsic</a></code>    | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all intrinsic fragments from this string. |
 | <code><a href="#cdktf.TokenizedStringFragments.property.length">length</a></code>          | <code>typing.Union[int, float]</code>                                  | Returns the number of fragments.                 |
 | <code><a href="#cdktf.TokenizedStringFragments.property.literals">literals</a></code>      | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all literals from this string.            |
 | <code><a href="#cdktf.TokenizedStringFragments.property.tokens">tokens</a></code>          | <code>typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]</code> | Return all Tokens from this string.              |
 | <code><a href="#cdktf.TokenizedStringFragments.property.firstToken">first_token</a></code> | <code><a href="#cdktf.IResolvable">IResolvable</a></code>              | Returns the first token.                         |
+
+---
+
+##### `escapes`<sup>Required</sup> <a name="escapes" id="cdktf.TokenizedStringFragments.property.escapes"></a>
+
+```python
+escapes: typing.List[IResolvable]
+```
+
+- _Type:_ typing.List[<a href="#cdktf.IResolvable">IResolvable</a>]
+
+Return all escape fragments from this string.
 
 ---
 
@@ -35806,8 +35849,10 @@ Resolve an inner object.
 | ------------------------------------------------------------------------------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.IResolveContext.property.preparing">preparing</a></code>              | <code>bool</code>                  | True when we are still preparing, false if we're rendering the final output.                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.scope">scope</a></code>                      | <code>constructs.IConstruct</code> | The scope from which resolution has been initiated.                                                                                                                                                                                |
+| <code><a href="#cdktf.IResolveContext.property.ignoreEscapes">ignore_escapes</a></code>     | <code>bool</code>                  | True when ${} should not be parsed, and treated as literals.                                                                                                                                                                       |
 | <code><a href="#cdktf.IResolveContext.property.iteratorContext">iterator_context</a></code> | <code>str</code>                   | TerraformIterators can be passed for block attributes and normal list attributes both require different handling when the iterable variable is accessed e.g. a dynamic block needs each.key while a for expression just needs key. |
 | <code><a href="#cdktf.IResolveContext.property.suppressBraces">suppress_braces</a></code>   | <code>bool</code>                  | True when ${} should be ommitted (because already inside them), false otherwise.                                                                                                                                                   |
+| <code><a href="#cdktf.IResolveContext.property.warnEscapes">warn_escapes</a></code>         | <code>bool</code>                  | True when ${} should not be included in the string to be resolved, outputs a warning.                                                                                                                                              |
 
 ---
 
@@ -35835,6 +35880,18 @@ The scope from which resolution has been initiated.
 
 ---
 
+##### `ignore_escapes`<sup>Optional</sup> <a name="ignore_escapes" id="cdktf.IResolveContext.property.ignoreEscapes"></a>
+
+```python
+ignore_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be parsed, and treated as literals.
+
+---
+
 ##### `iterator_context`<sup>Optional</sup> <a name="iterator_context" id="cdktf.IResolveContext.property.iteratorContext"></a>
 
 ```python
@@ -35856,6 +35913,20 @@ suppress_braces: bool
 - _Type:_ bool
 
 True when ${} should be ommitted (because already inside them), false otherwise.
+
+---
+
+##### `warn_escapes`<sup>Optional</sup> <a name="warn_escapes" id="cdktf.IResolveContext.property.warnEscapes"></a>
+
+```python
+warn_escapes: bool
+```
+
+- _Type:_ bool
+
+True when ${} should not be included in the string to be resolved, outputs a warning.
+
+Default: false
 
 ---
 

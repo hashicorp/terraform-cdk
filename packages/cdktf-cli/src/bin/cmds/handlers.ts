@@ -40,6 +40,7 @@ import { Get } from "./ui/get";
 import { List } from "./ui/list";
 import { Synth } from "./ui/synth";
 import { Watch } from "./ui/watch";
+import { ProviderListTable } from "./ui/provider-list";
 
 import {
   NestedTerraformOutputs,
@@ -139,7 +140,6 @@ export async function deploy(argv: any) {
     onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
       saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
   }
-
   await renderInk(
     React.createElement(Deploy, {
       outDir,
@@ -316,10 +316,12 @@ export async function login(argv: { tfeHostname: string }) {
     logger.debug(`No TTY stream passed to login`);
   }
 
+  const sanitizedToken = token.replace(/\n/g, "");
+
   // If we get a token through stdin, we don't need to ask for credentials, we just validate and set it
   // This is useful for programmatically authenticating, e.g. a CI server
   if (token) {
-    await terraformLogin.saveTerraformCredentials(token.replace(/\n/g, ""));
+    await terraformLogin.saveTerraformCredentials(sanitizedToken);
   } else {
     token = await terraformLogin.askToLogin();
     if (token === "") {
@@ -327,7 +329,7 @@ export async function login(argv: { tfeHostname: string }) {
     }
   }
 
-  await showUserDetails(token);
+  await showUserDetails(sanitizedToken);
 }
 
 export async function synth(argv: any) {
@@ -516,4 +518,50 @@ export async function providerUpgrade(argv: any) {
       ),
     });
   }
+}
+
+export async function providerList(argv: any) {
+  const config = CdktfConfig.read();
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
+
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+
+  const allProviders = await manager.allProviders();
+
+  if (argv.json) {
+    console.log(JSON.stringify(allProviders));
+    return;
+  }
+  const data = [];
+  for (const provider of allProviders.local) {
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: "",
+      Constraint: provider.providerConstraint || "",
+      "Package Name": "",
+      "Package Version": "",
+    });
+  }
+  for (const provider of allProviders.prebuilt) {
+    data.push({
+      "Provider Name": provider.providerName || "",
+      "Provider Version": provider.providerVersion || "",
+      CDKTF: provider.cdktfVersion || "",
+      Constraint: "",
+      "Package Name": provider.packageName || "",
+      "Package Version": provider.packageVersion || "",
+    });
+  }
+  renderInk(React.createElement(ProviderListTable, { data }));
 }

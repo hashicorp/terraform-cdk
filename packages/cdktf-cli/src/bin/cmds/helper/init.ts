@@ -64,7 +64,11 @@ export function checkForEmptyDirectory(dir: string) {
     process.exit(1);
   }
 }
-const tfeHostname = "app.terraform.io";
+const tfcHostname = "app.terraform.io";
+type GatheredInfo = {
+  projectInfo: Project;
+  useTerraformCloud: boolean | undefined;
+};
 type Options = {
   local?: boolean;
   template?: string;
@@ -77,17 +81,20 @@ type Options = {
   destination: string;
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
+  tfeHostname?: string;
 };
+
 export async function runInit(argv: Options) {
   const telemetryData: Record<string, unknown> = {};
   const destination = argv.destination || ".";
+  const terraformRemoteHostname = argv.tfeHostname || tfcHostname;
   let token = "";
   if (!argv.local) {
     // We ask the user to login to Terraform Cloud and set a token
     // If the user chooses not to use Terraform Cloud, we continue
     // without a token and set up the project.
 
-    const terraformLogin = new TerraformLogin(tfeHostname);
+    const terraformLogin = new TerraformLogin(terraformRemoteHostname);
     token = await terraformLogin.askToLogin();
   } else {
     console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
@@ -112,8 +119,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const templateInfo = await getTemplate(template);
   telemetryData.template = templateInfo.Name;
 
-  const projectInfo: Project = await gatherInfo(
+  const { projectInfo, useTerraformCloud } = await gatherInfo(
     token,
+    terraformRemoteHostname,
     argv.projectName,
     argv.projectDescription
   );
@@ -126,34 +134,21 @@ This means that your Terraform state file will be stored locally on disk in a fi
       ? await getTerraformProject()
       : undefined);
 
-  if (!argv.local) {
+  if (!argv.local && useTerraformCloud) {
     if (!("OrganizationName" in projectInfo)) {
       throw new Error(`Missing organization name in project info`);
     }
 
     if (!("WorkspaceName" in projectInfo)) {
-      throw new Error(`Missing organization name in project info`);
+      throw new Error(`Missing workspace name in project info`);
     }
 
     // Set up a Terraform Cloud workspace if the user opted-in
     if (isRemote) {
       telemetryData.isRemote = Boolean(token);
       console.log(
-        chalkColour`\n{whiteBright Setting up remote state backend and workspace in Terraform Cloud.}`
+        chalkColour`\n{whiteBright Setting up a Cloud Backend for your project.}`
       );
-      try {
-        await terraformCloudClient.createWorkspace(
-          tfeHostname,
-          projectInfo.OrganizationName,
-          projectInfo.WorkspaceName,
-          token
-        );
-      } catch (error) {
-        console.error(
-          chalkColour`{redBright ERROR: Could not create Terraform Cloud Workspace: ${error.message}}`
-        );
-        process.exit(1);
-      }
     }
   }
 
@@ -194,7 +189,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
         providerSchema: providerSchema ?? {},
       });
     } catch (err) {
-      throw Errors.Internal(err, { fromTerraformProject: true });
+      throw Errors.Internal((err as Error).toString(), {
+        fromTerraformProject: true,
+      });
     }
   }
 
@@ -313,9 +310,10 @@ function copyLocalModules(
 
 async function gatherInfo(
   token: string,
+  terraformRemoteHostname: string,
   projectName?: string,
   projectDescription?: string
-): Promise<Project> {
+): Promise<GatheredInfo> {
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
@@ -334,41 +332,57 @@ async function gatherInfo(
       default: projectDescriptionDefault,
     });
   }
+  const useTerraformEnterprise =
+    token != "" && terraformRemoteHostname != tfcHostname;
+
+  if (token != "") {
+    // We only ask this question if a --tfe-hostname is not provided explicitly
+    // Otherwise, we take it as a signal that the user wants to use Terraform Enterprise.
+    if (terraformRemoteHostname === tfcHostname) {
+      questions.push({
+        name: "useTerraformCloud",
+        type: "confirm",
+        message: "Would you like to use Terraform Cloud?",
+        default: true,
+      });
+    }
+  }
 
   const answers: {
     projectName?: string;
     projectDescription?: string;
+    useTerraformCloud?: boolean;
   } = questions.length > 0 ? await inquirer.prompt(questions) : {};
+
+  // Either the user answers yes to using Terraform Cloud,
+  // or we've skipped asking the question, but we've inferred that the user wants to use Terraform Enterprise.
+  const isRemote = answers.useTerraformCloud || useTerraformEnterprise;
 
   const project: Project = {
     Name: projectName || answers.projectName || "",
     Description: projectDescription || answers.projectDescription || "",
     OrganizationName: "",
     WorkspaceName: "",
+    TerraformRemoteHostname: isRemote ? terraformRemoteHostname : "",
   };
 
-  if (token != "") {
+  if (isRemote) {
     console.log(chalkColour`\nDetected {blueBright Terraform Cloud} token.`);
     console.log(
       chalkColour`\nWe will now set up {blueBright Terraform Cloud} for your project.\n`
     );
-    const organizationNames = await terraformCloudClient.getOrganizationNames(
-      tfeHostname,
+    const organizationIds = await terraformCloudClient.getOrganizationIds(
+      terraformRemoteHostname,
       token
     );
-    const organizationData = organizationNames.data;
-    const organizationOptions: string[] = [];
-    for (const organization of organizationData) {
-      organizationOptions.push(organization.id);
-    }
 
     // todo: add validation for the organization name and workspace. add error handling
     const { organization: organizationSelect } = await inquirer.prompt([
       {
         type: "list",
         name: "organization",
-        message: "Terraform Cloud Organization Name",
-        choices: organizationOptions,
+        message: `Terraform Cloud Organization Name`,
+        choices: organizationIds,
       },
     ]);
 
@@ -376,18 +390,40 @@ async function gatherInfo(
       chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
     );
 
-    const { workspace: workspaceName } = await inquirer.prompt([
-      {
-        name: "workspace",
-        message: "Terraform Cloud Workspace Name",
-        default: project.Name,
-      },
-    ]);
+    let workspaceName;
+    while (!workspaceName) {
+      const { workspace: tryWorkspaceName } = await inquirer.prompt([
+        {
+          name: "workspace",
+          message: `Terraform Cloud Workspace Name`,
+          default: project.Name,
+        },
+      ]);
+
+      const isWorkspaceNameTaken =
+        await terraformCloudClient.isExistingWorkspaceWithName(
+          terraformRemoteHostname,
+          organizationSelect,
+          tryWorkspaceName,
+          token
+        );
+      if (!isWorkspaceNameTaken) {
+        workspaceName = tryWorkspaceName;
+        break;
+      }
+      console.log(
+        chalkColour`{redBright Error:} A workspace with the name {blueBright ${tryWorkspaceName}} already exists in the organization {blueBright ${organizationSelect}}. Please choose a different name.`
+      );
+    }
+
     project.OrganizationName = organizationSelect;
     project.WorkspaceName = workspaceName;
   }
 
-  return project;
+  return {
+    projectInfo: project,
+    useTerraformCloud: isRemote,
+  };
 }
 
 async function getTerraformProject(): Promise<string | undefined> {
@@ -534,7 +570,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
       },
     };
   } catch (e) {
-    if (e.code === "ERR_INVALID_URL") {
+    if ((e as NodeJS.ErrnoException).code === "ERR_INVALID_URL") {
       console.error(
         chalkColour`Could not download template: {redBright the supplied url is invalid}`
       );
