@@ -7,6 +7,7 @@ import {
 } from "../matchers";
 import {
   getToHaveResourceWithProperties,
+  getToHaveProviderWithProperties,
   TerraformConstructor,
   MatcherReturnJest,
   returnMatcherToJest,
@@ -27,6 +28,13 @@ declare global {
         dataSourceConstructor: TerraformConstructor,
         properties: Record<string, any>
       ): R;
+
+      toHaveProvider(providerConstructor: TerraformConstructor): R;
+      toHaveProviderWithProperties(
+        providerConstructor: TerraformConstructor,
+        properties: Record<string, any>
+      ): R;
+
       toBeValidTerraform(): R;
       toPlanSuccessfully(): R;
     }
@@ -117,6 +125,32 @@ export function setupJest() {
         getToHaveDataSourceWithProperties(jestPassEvaluation)(
           received,
           dataSourceConstructor,
+          properties
+        )
+      );
+    },
+
+    toHaveProvider(
+      received: string,
+      providerConstructor: TerraformConstructor
+    ) {
+      return returnMatcherToJest(
+        getToHaveProviderWithProperties(jestPassEvaluation)(
+          received,
+          providerConstructor,
+          {}
+        )
+      );
+    },
+    toHaveProviderWithProperties(
+      received: string,
+      providerConstructor: TerraformConstructor,
+      properties: Record<string, any>
+    ) {
+      return returnMatcherToJest(
+        getToHaveProviderWithProperties(jestPassEvaluation)(
+          received,
+          providerConstructor,
           properties
         )
       );

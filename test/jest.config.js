@@ -6,6 +6,7 @@ module.exports = {
   ],
   setupFilesAfterEnv: ['./jest.setup.js'],
   testMatch: ['**/*test.ts'],
+  modulePathIgnorePatterns: ["main-test.ts"],
   moduleFileExtensions: [
     "js",
     "ts"

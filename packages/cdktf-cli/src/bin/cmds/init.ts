@@ -60,6 +60,10 @@ class Command extends BaseCommand {
         type: "boolean",
         desc: "Force local installation of provider specified in init",
       })
+      .option("tfe-hostname", {
+        type: "string",
+        desc: "The hostname of the Terraform Enterprise instance to use for remote state storage",
+      })
       .strict();
 
   public async handleCommand(argv: any) {

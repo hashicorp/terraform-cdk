@@ -26,7 +26,7 @@ exports.post = options => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
   if (options.OrganizationName != '') {
     console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
-    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
+    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName, options.TerraformRemoteHostname)
   }
 
   // dist package
@@ -48,11 +48,11 @@ exports.post = options => {
   console.log(readFileSync('./help', 'utf-8'));
 };
 
-function terraformCloudConfig(baseName, organizationName, workspaceName) {
+function terraformCloudConfig(baseName, organizationName, workspaceName, terraformRemoteHostname) {
   template = readFileSync('./Program.cs', 'utf-8');
 
   result = template.replace(`new MainStack(app, "${baseName}");`, `MainStack stack = new MainStack(app, "${baseName}");
-            new CloudBackend(stack, new CloudBackendProps { Hostname = "app.terraform.io", Organization = "${organizationName}", Workspaces = new NamedCloudWorkspace("${workspaceName}") });`);
+            new CloudBackend(stack, new CloudBackendProps { Hostname = "${terraformRemoteHostname}", Organization = "${organizationName}", Workspaces = new NamedCloudWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Program.cs', result, 'utf-8');
 }

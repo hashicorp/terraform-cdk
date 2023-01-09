@@ -21,7 +21,7 @@ exports.post = options => {
   // Terraform Cloud configuration settings if the organization name and workspace is set.
   if (options.OrganizationName != '') {
     console.log(`\nGenerating Terraform Cloud configuration for '${options.OrganizationName}' organization and '${options.WorkspaceName}' workspace.....`)
-    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName)
+    terraformCloudConfig(options.$base, options.OrganizationName, options.WorkspaceName, options.TerraformRemoteHostname);
   }
 
   const pypi_cdktf = options.pypi_cdktf;
@@ -30,7 +30,7 @@ exports.post = options => {
   }
 
   writeFileSync('requirements.txt', pypi_cdktf + '\r\npytest\r\n', 'utf-8');
-  
+
   let installArgs = '';
   if (!process.env.VIRTUAL_ENV) {
     installArgs += '--user'
@@ -41,7 +41,7 @@ exports.post = options => {
   console.log(readFileSync('./help', 'utf-8'));
 };
 
-function terraformCloudConfig(baseName, organizationName, workspaceName) {
+function terraformCloudConfig(baseName, organizationName, workspaceName, terraformRemoteHostname) {
   template = readFileSync('./main.py', 'utf-8');
 
   const templateWithImports = template.replace(`from cdktf import App, TerraformStack`,
@@ -49,7 +49,7 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
 
   const result = templateWithImports.replace(`MyStack(app, "${baseName}")`, `stack = MyStack(app, "${baseName}")
 CloudBackend(stack,
-  hostname='app.terraform.io',
+  hostname='${terraformRemoteHostname}',
   organization='${organizationName}',
   workspaces=NamedCloudWorkspace('${workspaceName}')
 )`);
