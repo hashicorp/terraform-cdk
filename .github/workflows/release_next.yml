@@ -27,6 +27,9 @@ jobs:
       - uses: actions/checkout@v3.1.0
         with:
           fetch-depth: 0 # gives standard-version access to all previous commits
+      - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
+        # The Sentry CLI also requires this, https://github.com/actions/checkout/issues/760
+        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: installing dependencies
         run: yarn install --frozen-lockfile
       - name: Configure git user
@@ -41,8 +44,6 @@ jobs:
         run: |
           version=$(node -p "require('./package.json').version")
           echo "version=${version}" >> $GITHUB_OUTPUT
-      - name: "Allow git access for Sentry CLI running in Docker" # https://github.com/actions/checkout/issues/760
-        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: release status
         id: get_release_status
         run: |
