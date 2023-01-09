@@ -43,7 +43,7 @@ export class TerraformOutput extends TerraformElement {
     Object.defineProperty(this, TERRAFORM_OUTPUT_SYMBOL, { value: true });
   }
 
-  public static isTerrafromOutput(x: any): x is TerraformOutput {
+  public static isTerraformOutput(x: any): x is TerraformOutput {
     return x !== null && typeof x === "object" && TERRAFORM_OUTPUT_SYMBOL in x;
   }
 
