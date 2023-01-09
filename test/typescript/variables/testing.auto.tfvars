@@ -1,0 +1,1 @@
+thisextension = "auto-loads"

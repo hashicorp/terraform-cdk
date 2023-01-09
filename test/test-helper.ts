@@ -207,7 +207,11 @@ export class TestDriver {
     );
   };
 
-  deploy = async (stackNames?: string[], outputsFilePath?: string) => {
+  deploy = async (
+    stackNames?: string[],
+    outputsFilePath?: string,
+    otherFlags?: string[]
+  ) => {
     const result = await execa(
       "cdktf",
       [
@@ -215,6 +219,7 @@ export class TestDriver {
         ...(stackNames || []),
         "--auto-approve",
         ...(outputsFilePath ? [`--outputs-file=${outputsFilePath}`] : []),
+        ...(otherFlags || []),
       ],
       { env: { ...process.env, ...this.env } } // make sure env is up to date
     );

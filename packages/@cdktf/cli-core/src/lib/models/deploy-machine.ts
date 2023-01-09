@@ -241,7 +241,7 @@ export function createAndStartDeployService(options: {
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-files=${v}`);
+    args.push(`-var-file=${v}`);
   });
 
   const config: PtySpawnConfig = {
