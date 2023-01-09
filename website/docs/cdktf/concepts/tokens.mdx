@@ -110,19 +110,20 @@ export class TokensStack extends TerraformStack {
             // <ItemGroup>
             //     <ProjectReference Include=".gen\eks\eks.csproj" />
             // </ItemGroup>
-            TerraformVariable logRetention = new TerraformVariable(this, "logRetentionInDays", new TerraformVariableConfig {
+            TerraformVariable clusterCreateTimeout = new TerraformVariable(this, "clusterCreateTimeout", new TerraformVariableConfig {
                Type = "number"
             });
 
-            Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
+            Vpc vpc = new Vpc(this, "vpc", new VpcOptions {
                 Name = "vpc",
                 PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
             });
 
-            new Eks(this, "EksModule", new EksConfig {
+            new Eks(this, "eks", new EksOptions {
                 ClusterName = "my-kubernetes-cluster",
                 Subnets = Token.AsList(vpc.PublicSubnetsOutput),
-                ClusterLogRetentionInDays = logRetention.NumberValue
+                VpcId = vpc.VpcIdOutput,
+                ClusterCreateTimeout = clusterCreateTimeout.NumberValue
             });
 ```
 
