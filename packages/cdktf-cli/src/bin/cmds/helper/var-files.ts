@@ -21,7 +21,7 @@ export function sanitizeVarFiles(
       );
     }
 
-    if (fs.lstatSync(resolvedPath).isFile()) {
+    if (!fs.lstatSync(resolvedPath).isFile()) {
       throw Errors.Usage(
         `The var-file ${varFile} at ${resolvedPath} is no file.`
       );
@@ -40,10 +40,10 @@ export function sanitizeVarFiles(
 
   // Check for auto-loaded file extension
   autoLoadedFileExtensions.forEach((extension) => {
-    const resolvedPath = path.resolve(cwd, `*${extension}`);
-    const files = glob.sync(resolvedPath);
-    files.forEach((file) => {
-      files.push(file);
+    const globFiles = glob.sync(`*${extension}`, { cwd });
+
+    globFiles.forEach((file) => {
+      files.push(path.resolve(cwd, file));
     });
   });
 
