@@ -615,7 +615,7 @@ export class CdktfProject {
             : nextRunningExecutor.destroy(
                 opts.terraformParallelism,
                 opts.noColor
-              );
+              )
 
         allExecutions.push(promise);
       } catch (e) {

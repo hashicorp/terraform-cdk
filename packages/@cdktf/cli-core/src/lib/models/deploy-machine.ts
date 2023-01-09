@@ -4,6 +4,7 @@ import * as fs from "fs";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
+import { missingVariable } from "../errors";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
@@ -27,6 +28,7 @@ type DeployEvent =
   | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
   | { type: "REJECTED_EXTERNALLY" }
   | { type: "REQUEST_APPROVAL" }
+  | { type: "VARIABLE_MISSING"; variableName: string }
   | { type: "APPROVE" }
   | { type: "REJECT" }
   | { type: "EXITED"; exitCode: number };
@@ -63,6 +65,17 @@ export type DeployState =
       value: "stopped";
       context: DeployContext;
     };
+
+export function extractVariableNameFromPrompt(line: string) {
+  const lines = line.split("\n");
+  const lineWithVar = lines.find((line) => line.includes("var."));
+  if (!lineWithVar) {
+    throw Errors.Internal(
+      `Could not find variable name in prompt: ${line}. This is most likely a bug in cdktf. Please report it at https://cdk.tf/bug`
+    );
+  }
+  return lineWithVar.split("var.")[1].trim();
+}
 
 export const deployMachine = createMachine<
   DeployContext,
@@ -106,7 +119,7 @@ export const deployMachine = createMachine<
           });
 
           p.onData((line) => {
-            send({ type: "LINE_RECEIVED", line });
+            let hideLine = false;
 
             // possible events based on line
             if (line.includes("approved using the UI or API")) {
@@ -118,6 +131,25 @@ export const deployMachine = createMachine<
               line.includes("Do you really want to destroy all resources?")
             ) {
               send({ type: "REQUEST_APPROVAL" });
+            } else if (
+              line.includes("var.") &&
+              line.includes("Enter a value:")
+            ) {
+              hideLine = true;
+
+              const variableName = extractVariableNameFromPrompt(line);
+              send({
+                type: "LINE_RECEIVED",
+                line: missingVariable(variableName),
+              });
+              send({ type: "VARIABLE_MISSING", variableName });
+            }
+
+            if (!hideLine) {
+              send({
+                type: "LINE_RECEIVED",
+                line,
+              });
             }
           });
           p.onExit(({ exitCode }) => {
@@ -141,6 +173,9 @@ export const deployMachine = createMachine<
         processing: {
           on: {
             REQUEST_APPROVAL: "awaiting_approval",
+            VARIABLE_MISSING: {
+              actions: send({ type: "EXITED", exitCode: 1 }),
+            },
           },
         },
         awaiting_approval: {

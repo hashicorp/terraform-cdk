@@ -1,13 +1,14 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import * as fs from "fs";
+import * as path from "path";
+
 import { SynthesizedStack } from "./synth-stack";
 import { Terraform } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger } from "@cdktf/commons";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
-import { TerraformCli } from "./models/terraform-cli";
-import * as fs from "fs";
-import * as path from "path";
+import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
 
@@ -80,7 +81,8 @@ async function getTerraformClient(
   abortSignal: AbortSignal,
   stack: SynthesizedStack,
   createTerraformLogHandler: (
-    phase: string
+    phase: string,
+    filter?: OutputFilter[]
   ) => (message: string, isError?: boolean) => void
 ): Promise<Terraform> {
   return new TerraformCli(abortSignal, stack, createTerraformLogHandler);
@@ -171,14 +173,31 @@ export class CdktfStack {
   }
 
   private createTerraformLogHandler(
-    phase: string
+    phase: string,
+    filters?: OutputFilter[]
   ): (message: string, isError?: boolean) => void {
+    logger.debug("creating terraform log hanlder", phase);
+
     const onLog = this.options.onLog;
     return (msg: string, isError = false) => {
       const message = extractJsonLogIfPresent(msg);
       logger.debug(`[${this.options.stack.name}](${phase}): ${msg}`);
+
+      const filterToApply = filters?.find((filter) =>
+        filter.condition(message)
+      );
+      const filteredMessage = filterToApply
+        ? filterToApply.transform(message)
+        : message;
+
+      if (filteredMessage) {
+        logger.debug(
+          `Filter ${filterToApply} applied on line '${message}' with result '${filteredMessage}'`
+        );
+      }
+
       if (onLog) {
-        onLog({ message, isError });
+        onLog({ message: filteredMessage, isError });
       }
     };
   }
@@ -271,8 +290,10 @@ export class CdktfStack {
         stackName: this.stack.name,
         error: String(e),
       });
+      throw e;
+    } finally {
+      this.currentWorkPromise = undefined;
     }
-    this.currentWorkPromise = undefined;
   }
 
   public async diff(
@@ -308,7 +329,10 @@ export class CdktfStack {
         (state) => {
           // state updates while apply runs that affect the UI
           if (state.type === "running" && !state.cancelled) {
-            this.updateState({ type: "deploying", stackName: this.stack.name });
+            this.updateState({
+              type: "deploying",
+              stackName: this.stack.name,
+            });
           } else if (state.type === "waiting for approval") {
             this.updateState({
               type: "waiting for stack approval",

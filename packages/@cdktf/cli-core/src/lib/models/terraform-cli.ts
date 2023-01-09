@@ -1,5 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import stripAnsi from "strip-ansi";
 import {
   exec,
   logger,
@@ -21,6 +22,7 @@ import {
   isDeployEvent,
 } from "./deploy-machine";
 import { waitFor } from "xstate/lib/waitFor";
+import { missingVariable } from "../errors";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -34,28 +36,72 @@ export class TerraformCliPlan
   }
 }
 
+abstract class AbstractOutputFilter {
+  public static condition: (line: string) => boolean;
+  public static transform: (line: string) => string;
+}
+export type OutputFilter = typeof AbstractOutputFilter;
+
+// The plan might error if there is a variable missing, but the error message hints the user
+// in a wrong direction. We therefore catch the error and rethrow it with a more helpful message
+class VariableRequiredFilter extends AbstractOutputFilter {
+  // Example for "No value for required variable" error
+  // ╷
+  // │ Error: No value for required variable
+  // │
+  // │   on cdk.tf.json line 31, in variable:
+  // │   31:     "with-dashes": {
+  // │
+  // │ The root module input variable "with-dashes" is not set, and has no default
+  // │ value. Use a -var or -var-file command line argument to provide a value for
+  // │ this variable
+  public static condition(input: string) {
+    const line = stripAnsi(input);
+
+    return (
+      line.includes("Error: No value for required variable") &&
+      line.includes("The root module input variable")
+    );
+  }
+  public static transform(line: string) {
+    const startMarker = 'The root module input variable "';
+    const variableName = line.substring(
+      line.indexOf(startMarker) + startMarker.length,
+      line.indexOf('" is not set')
+    );
+
+    return missingVariable(variableName);
+  }
+}
+
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
   private readonly onStdout: (
-    stateName: string
+    stateName: string,
+    filter?: OutputFilter[]
   ) => (stdout: Buffer | string) => void;
   private readonly onStderr: (
-    stateName: string
+    stateName: string,
+    filter?: OutputFilter[]
   ) => (stderr: string | Uint8Array) => void;
 
   constructor(
     private readonly abortSignal: AbortSignal,
     public readonly stack: SynthesizedStack,
-    createTerraformLogHandler = (_phase: string) =>
+    createTerraformLogHandler = (_phase: string, _filter?: OutputFilter[]) =>
       (_stdout: string, _isErr = false) => {} // eslint-disable-line @typescript-eslint/no-empty-function
   ) {
     this.workdir = stack.workingDirectory;
-    this.onStdout = (phase: string) => (stdout: Buffer | string) =>
-      createTerraformLogHandler(phase)(
-        Buffer.isBuffer(stdout) ? stdout.toString() : stdout
-      );
-    this.onStderr = (phase: string) => (stderr: string | Uint8Array) =>
-      createTerraformLogHandler(phase)(stderr.toString(), true);
+    this.onStdout =
+      (phase: string, filter?: OutputFilter[]) => (stdout: Buffer | string) =>
+        createTerraformLogHandler(
+          phase,
+          filter
+        )(Buffer.isBuffer(stdout) ? stdout.toString() : stdout);
+    this.onStderr =
+      (phase: string, filter?: OutputFilter[]) =>
+      (stderr: string | Uint8Array) =>
+        createTerraformLogHandler(phase, filter)(stderr.toString(), true);
   }
 
   public async init(needsUpgrade: boolean, noColor?: boolean): Promise<void> {
@@ -125,6 +171,7 @@ export class TerraformCli implements Terraform {
       options.push("-no-color");
     }
     await this.setUserAgent();
+
     await exec(
       terraformBinaryName,
       options,
@@ -133,8 +180,8 @@ export class TerraformCli implements Terraform {
         env: process.env,
         signal: this.abortSignal,
       },
-      this.onStdout("plan"),
-      this.onStderr("plan")
+      this.onStdout("plan", [VariableRequiredFilter]),
+      this.onStderr("plan", [VariableRequiredFilter])
     );
   }
 
