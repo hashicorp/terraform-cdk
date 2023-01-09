@@ -562,12 +562,17 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
-    await stack.diff(
-      opts?.refreshOnly,
-      opts?.terraformParallelism,
-      opts?.noColor
-    );
-
+    try {
+      await stack.diff(
+        opts?.refreshOnly,
+        opts?.terraformParallelism, 
+        opts?.noColor
+      );
+    } catch (e) {
+      throw Errors.External(
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+      );
+    }
     if (stack.error) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -586,6 +591,8 @@ export class CdktfProject {
     }
     const maxParallelRuns =
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
+    const allExecutions = [];
+
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -598,16 +605,19 @@ export class CdktfProject {
           // In this case we have no pending stacks, but we also can not find a new executor
           break;
         }
-        method === "deploy"
-          ? nextRunningExecutor.deploy(
-              opts.refreshOnly,
-              opts.terraformParallelism,
-              opts.noColor
-            )
-          : nextRunningExecutor.destroy(
-              opts.terraformParallelism,
-              opts.noColor
-            );
+        const promise =
+          method === "deploy"
+            ? nextRunningExecutor.deploy(
+                opts.refreshOnly,
+                opts.terraformParallelism,
+                opts.noColor
+              )
+            : nextRunningExecutor.destroy(
+                opts.terraformParallelism,
+                opts.noColor
+              );
+
+        allExecutions.push(promise);
       } catch (e) {
         // await next() threw an error because a stack failed to apply/destroy
         // wait for all other currently running stacks to complete before propagating that error
@@ -626,11 +636,10 @@ export class CdktfProject {
 
     // We end the loop when all stacks are started, now we need to wait for them to be done
     // We wait for all work to finish even if one of the promises threw an error.
-    const currentWork = this.stacksToRun
-      .filter((ex) => ex.currentWorkPromise)
-      .map((ex) => ex.currentWorkPromise);
-
-    await ensureAllSettledBeforeThrowing(Promise.all(currentWork), currentWork);
+    await ensureAllSettledBeforeThrowing(
+      Promise.all(allExecutions),
+      allExecutions
+    );
   }
 
   public async deploy(opts: MutationOptions = {}) {
