@@ -57,6 +57,7 @@ interface DeployConfig {
   refreshOnly?: boolean;
   terraformParallelism?: number;
   vars?: string[];
+  varFiles?: string[];
 }
 
 export const Deploy = ({
@@ -71,6 +72,7 @@ export const Deploy = ({
   refreshOnly,
   terraformParallelism,
   vars,
+  varFiles,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -84,6 +86,7 @@ export const Deploy = ({
         refreshOnly,
         terraformParallelism,
         vars,
+        varFiles,
       });
 
       if (onOutputsRetrieved) {

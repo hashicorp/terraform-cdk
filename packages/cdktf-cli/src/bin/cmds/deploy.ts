@@ -80,7 +80,13 @@ class Command extends BaseCommand {
         type: "array",
         default: [],
         required: false,
-        desc: "Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.",
+        desc: "Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.",
+      })
+      .option("var-file", {
+        type: "array",
+        default: [],
+        required: false,
+        desc: "Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.",
       })
       .showHelpOnFail(true);
 

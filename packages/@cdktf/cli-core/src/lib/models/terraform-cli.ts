@@ -151,12 +151,14 @@ export class TerraformCli implements Terraform {
     refreshOnly?: boolean;
     parallelism?: number;
     vars?: string[];
+    varFiles?: string[];
   }): Promise<void> {
     const {
       destroy = false,
       refreshOnly = false,
       parallelism = -1,
       vars = [],
+      varFiles = [],
     } = opts;
     const options = ["plan", "-input=false"];
 
@@ -171,6 +173,7 @@ export class TerraformCli implements Terraform {
     }
 
     vars.forEach((v) => options.push(`-var=${v}`));
+    varFiles.forEach((v) => options.push(`-var-file=${v}`));
 
     await this.setUserAgent();
 
@@ -194,6 +197,7 @@ export class TerraformCli implements Terraform {
       parallelism = -1,
       extraOptions = [],
       vars = [],
+      varFiles = [],
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }> {
@@ -206,6 +210,7 @@ export class TerraformCli implements Terraform {
       parallelism,
       extraOptions,
       vars,
+      varFiles,
     });
     return this.handleService("deploy", service, callback);
   }

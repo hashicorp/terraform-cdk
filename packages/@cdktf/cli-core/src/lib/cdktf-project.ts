@@ -288,6 +288,7 @@ export type DiffOptions = SingleStackOptions & {
   refreshOnly?: boolean;
   terraformParallelism?: number;
   vars?: string[];
+  varFiles?: string[];
 };
 
 export type MutationOptions = MultipleStackOptions &
@@ -297,6 +298,7 @@ export type MutationOptions = MultipleStackOptions &
     parallelism?: number;
     terraformParallelism?: number;
     vars?: string[];
+    varFiles?: string[];
   };
 
 export type LogMessage = {

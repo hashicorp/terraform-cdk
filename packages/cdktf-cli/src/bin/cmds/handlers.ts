@@ -60,6 +60,7 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
+import { sanitizeVarFiles } from "./helper/var-files";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -130,6 +131,7 @@ export async function deploy(argv: any) {
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
   const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -154,6 +156,7 @@ export async function deploy(argv: any) {
       refreshOnly,
       terraformParallelism,
       vars,
+      varFiles,
     })
   );
 }
@@ -196,6 +199,7 @@ export async function diff(argv: any) {
   const refreshOnly = argv.refreshOnly;
   const terraformParallelism = argv.terraformParallelism;
   const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
 
   await renderInk(
     React.createElement(Diff, {
@@ -205,6 +209,7 @@ export async function diff(argv: any) {
       synthCommand: command,
       terraformParallelism,
       vars,
+      varFiles,
     })
   );
 }
