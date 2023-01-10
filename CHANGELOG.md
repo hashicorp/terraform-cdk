@@ -1,5 +1,11 @@
 ## Unreleased
 
+**Breaking changes**
+
+### Renaming of `*Options` and `*Props` to `*Config`
+
+We had several exports where the configuration passed to constructs or functions was using a class with a different suffix then `Config`. If you are using a language like C#, Java, Python, or Go you might have needed to specify these classes in your CDKTF application. To simplify the usage we changed every suffix to be `Config`, so if you currently use one of the others please rename them to use the `Config` suffix. No options were changed in the process, only the names were aligned.
+
 ### Notice: CDKTF 0.15 bumps minimum Terraform version to 1.2
 
 CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for Terraform Cloud and Terraform Enterprise instead of [the API](https://developer.hashicorp.com/terraform/cloud-docs/api-docs) used in version 0.14.
