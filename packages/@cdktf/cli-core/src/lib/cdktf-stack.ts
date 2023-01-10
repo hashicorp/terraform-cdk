@@ -302,10 +302,12 @@ export class CdktfStack {
     refreshOnly,
     terraformParallelism,
     vars,
+    varFiles,
   }: {
     refreshOnly?: boolean;
     terraformParallelism?: number;
     vars?: string[];
+    varFiles?: string[];
   }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
@@ -316,6 +318,7 @@ export class CdktfStack {
         refreshOnly,
         parallelism: terraformParallelism,
         vars,
+        varFiles,
       });
       this.updateState({ type: "planned", stackName: this.stack.name });
     });
@@ -387,8 +390,12 @@ export class CdktfStack {
     });
   }
 
-  public async destroy(opts: { terraformParallelism?: number }) {
-    const { terraformParallelism } = opts;
+  public async destroy(opts: {
+    terraformParallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
+  }) {
+    const { terraformParallelism, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform();
@@ -397,6 +404,8 @@ export class CdktfStack {
         {
           autoApprove: this.options.autoApprove,
           parallelism: terraformParallelism,
+          vars,
+          varFiles,
         },
         (state) => {
           // state updates while apply runs that affect the UI

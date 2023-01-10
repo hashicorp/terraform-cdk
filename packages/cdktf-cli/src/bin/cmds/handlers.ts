@@ -174,6 +174,8 @@ export async function destroy(argv: any) {
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
   const terraformParallelism = argv.terraformParallelism;
+  const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
 
   await renderInk(
     React.createElement(Destroy, {
@@ -184,6 +186,8 @@ export async function destroy(argv: any) {
       ignoreMissingStackDependencies,
       parallelism,
       terraformParallelism,
+      vars,
+      varFiles,
     })
   );
 }

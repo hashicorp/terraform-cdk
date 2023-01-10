@@ -145,6 +145,8 @@ export interface Terraform {
     options: {
       autoApprove?: boolean;
       parallelism?: number;
+      vars?: string[];
+      varFiles?: string[];
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;
