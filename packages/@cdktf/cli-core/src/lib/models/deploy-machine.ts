@@ -237,11 +237,11 @@ export function createAndStartDeployService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var='${v}'`);
+    args.push(`-var=${v}`);
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-file='${v}'`);
+    args.push(`-var-file=${v}`);
   });
 
   logger.debug(
