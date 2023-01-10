@@ -237,12 +237,18 @@ export function createAndStartDeployService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var=${v}`);
+    args.push(`-var='${v}'`);
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-file=${v}`);
+    args.push(`-var-file='${v}'`);
   });
+
+  logger.debug(
+    `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
+      options.workdir
+    }`
+  );
 
   const config: PtySpawnConfig = {
     file: options.terraformBinaryName,
@@ -281,12 +287,18 @@ export function createAndStartDestroyService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var=${v}`);
+    args.push(`-var='${v}'`);
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-file=${v}`);
+    args.push(`-var-file='${v}'`);
   });
+
+  logger.debug(
+    `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
+      options.workdir
+    }`
+  );
 
   const config: PtySpawnConfig = {
     file: options.terraformBinaryName,
