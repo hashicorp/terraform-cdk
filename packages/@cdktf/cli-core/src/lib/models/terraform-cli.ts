@@ -216,7 +216,13 @@ export class TerraformCli implements Terraform {
   }
 
   public async destroy(
-    { autoApprove = false, parallelism = -1, extraOptions = [] },
+    {
+      autoApprove = false,
+      parallelism = -1,
+      extraOptions = [],
+      vars = [],
+      varFiles = [],
+    },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }> {
     await this.setUserAgent();
@@ -226,6 +232,8 @@ export class TerraformCli implements Terraform {
       autoApprove,
       parallelism,
       extraOptions,
+      vars,
+      varFiles,
     });
     return this.handleService("destroy", service, callback);
   }
