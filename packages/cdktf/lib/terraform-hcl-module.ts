@@ -1,10 +1,10 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { TerraformModuleOptions, TerraformModule } from "./terraform-module";
+import { TerraformModuleConfig, TerraformModule } from "./terraform-module";
 import { Token, IResolvable } from "./tokens";
 
-export interface TerraformHclModuleOptions extends TerraformModuleOptions {
+export interface TerraformHclModuleOptions extends TerraformModuleConfig {
   readonly variables?: { [key: string]: any };
 }
 

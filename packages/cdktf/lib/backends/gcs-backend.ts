@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class GcsBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: GcsBackendProps) {
+  constructor(scope: Construct, private readonly props: GcsBackendConfig) {
     super(scope, "backend", "gcs");
   }
 
@@ -52,7 +52,7 @@ export class DataTerraformRemoteStateGcs extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/gcs
  */
-export interface GcsBackendProps {
+export interface GcsBackendConfig {
   /**
    * (Required) The name of the GCS bucket. This name must be globally unique.
    */
@@ -97,4 +97,4 @@ export interface GcsBackendProps {
 
 export interface DataTerraformRemoteStateGcsConfig
   extends DataTerraformRemoteStateConfig,
-    GcsBackendProps {}
+    GcsBackendConfig {}

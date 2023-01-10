@@ -29,15 +29,15 @@ export class ModuleGenerator {
     this.code.line(`// ${target.source}`);
 
     this.code.line(
-      `import { TerraformModule, TerraformModuleUserOptions } from 'cdktf';`
+      `import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';`
     );
     this.code.line(`import { Construct } from 'constructs';`);
 
     const baseName = this.code.toPascalCase(target.name.replace(/[-/.]/g, "_"));
-    const optionsType = `${baseName}Options`;
+    const configType = `${baseName}Config`;
 
     this.code.openBlock(
-      `export interface ${optionsType} extends TerraformModuleUserOptions`
+      `export interface ${configType} extends TerraformModuleUserConfig`
     );
     for (const input of spec.inputs) {
       const optional = input.required && input.default === undefined ? "" : "?";
@@ -67,10 +67,10 @@ export class ModuleGenerator {
     const allOptional = spec.inputs.find((x) => x.required) ? "" : " = {}";
 
     this.code.open(
-      `public constructor(scope: Construct, id: string, options: ${optionsType}${allOptional}) {`
+      `public constructor(scope: Construct, id: string, config: ${configType}${allOptional}) {`
     );
     this.code.open(`super(scope, id, {`);
-    this.code.line("...options,");
+    this.code.line("...config,");
     this.code.line(`source: '${target.source}',`);
     if (target.version) {
       this.code.line(`version: '${target.version}',`);
@@ -79,7 +79,7 @@ export class ModuleGenerator {
 
     for (const input of spec.inputs) {
       const inputName = AttributeModel.escapeName(toCamelCase(input.name));
-      this.code.line(`this.${inputName} = options.${inputName};`);
+      this.code.line(`this.${inputName} = config.${inputName};`);
     }
 
     this.code.close(`}`); // ctor

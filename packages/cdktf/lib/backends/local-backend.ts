@@ -12,8 +12,8 @@ import { TerraformStack } from "..";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class LocalBackend extends TerraformBackend {
-  private readonly props: LocalBackendProps;
-  constructor(scope: Construct, props: LocalBackendProps = {}) {
+  private readonly props: LocalBackendConfig;
+  constructor(scope: Construct, props: LocalBackendConfig = {}) {
     super(scope, "backend", "local");
 
     const stackId = TerraformStack.of(this).node.id;
@@ -60,7 +60,7 @@ export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/local
  */
-export interface LocalBackendProps {
+export interface LocalBackendConfig {
   /**
    * Path where the state file is stored.
    * @default - defaults to terraform.${stackId}.tfstate
@@ -74,4 +74,4 @@ export interface LocalBackendProps {
 
 export interface DataTerraformRemoteStateLocalConfig
   extends DataTerraformRemoteStateConfig,
-    LocalBackendProps {}
+    LocalBackendConfig {}

@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class AzurermBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: AzurermBackendProps) {
+  constructor(scope: Construct, private readonly props: AzurermBackendConfig) {
     super(scope, "backend", "azurerm");
   }
 
@@ -55,7 +55,7 @@ export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/azurerm
  */
-export interface AzurermBackendProps {
+export interface AzurermBackendConfig {
   /**
    * (Required) The Name of the Storage Account.
    */
@@ -190,4 +190,4 @@ export interface AzurermBackendProps {
 
 export interface DataTerraformRemoteStateAzurermConfig
   extends DataTerraformRemoteStateConfig,
-    AzurermBackendProps {}
+    AzurermBackendConfig {}

@@ -12,7 +12,7 @@ import {
  * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
  */
 export class MantaBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: MantaBackendProps) {
+  constructor(scope: Construct, private readonly props: MantaBackendConfig) {
     super(scope, "backend", "manta");
   }
 
@@ -48,7 +48,7 @@ export class DataTerraformRemoteStateManta extends TerraformRemoteState {
 /**
  * @deprecated CDK for Terraform no longer supports the manta backend. Terraform deprecated manta in v1.2.3 and removed it in v1.3.
  */
-export interface MantaBackendProps {
+export interface MantaBackendConfig {
   readonly account: string;
   readonly user?: string;
   readonly url?: string;
@@ -64,4 +64,4 @@ export interface MantaBackendProps {
  */
 export interface DataTerraformRemoteStateMantaConfig
   extends DataTerraformRemoteStateConfig,
-    MantaBackendProps {}
+    MantaBackendConfig {}

@@ -12,7 +12,7 @@ import {
  * @deprecated CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
  */
 export class EtcdBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: EtcdBackendProps) {
+  constructor(scope: Construct, private readonly props: EtcdBackendConfig) {
     super(scope, "backend", "etcd");
   }
 
@@ -51,7 +51,7 @@ export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
  *
  * @deprecated CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
  */
-export interface EtcdBackendProps {
+export interface EtcdBackendConfig {
   /**
    * (Required) The path where to store the state
    */
@@ -75,4 +75,4 @@ export interface EtcdBackendProps {
  */
 export interface DataTerraformRemoteStateEtcdConfig
   extends DataTerraformRemoteStateConfig,
-    EtcdBackendProps {}
+    EtcdBackendConfig {}
