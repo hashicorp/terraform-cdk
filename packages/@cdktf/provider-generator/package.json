@@ -31,7 +31,7 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
-    "codemaker": "^1.71.0",
+    "codemaker": "^1.73.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
     "jsii-srcmak": "^0.1.741"
