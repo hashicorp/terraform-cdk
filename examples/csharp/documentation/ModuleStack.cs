@@ -17,7 +17,7 @@ namespace Examples
             // <ItemGroup>
             //     <ProjectReference Include=".gen\vpc\vpc.csproj" />
             // </ItemGroup>
-            new Vpc(this, "vpc", new VpcOptions {
+            new Vpc(this, "vpc", new VpcConfig {
                 Name = "my-vpc",
                 Cidr = "10.0.0.0/16",
                 Azs = new [] { "us-west-2a", "us-west-2b", "us-west-2c" },

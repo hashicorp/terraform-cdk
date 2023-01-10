@@ -32,12 +32,12 @@ namespace Examples
                Type = "number"
             });
 
-            Vpc vpc = new Vpc(this, "vpc", new VpcOptions {
+            Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
                 Name = "vpc",
                 PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
             });
 
-            new Eks(this, "eks", new EksOptions {
+            new Eks(this, "eks", new EksConfig {
                 ClusterName = "my-kubernetes-cluster",
                 Subnets = Token.AsList(vpc.PublicSubnetsOutput),
                 VpcId = vpc.VpcIdOutput,

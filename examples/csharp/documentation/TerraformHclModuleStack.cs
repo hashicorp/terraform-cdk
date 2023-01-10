@@ -17,7 +17,7 @@ namespace Examples
                 Region = "eu-east-1"
             });
             
-            new TerraformHclModule(this, "vpc", new TerraformHclModuleOptions {
+            new TerraformHclModule(this, "vpc", new TerraformHclModuleConfig {
                 Source = "terraform-aws-modules/vpc/aws",
                 Variables = new Dictionary<string, object> {
                     { "name", "my-vpc" },
