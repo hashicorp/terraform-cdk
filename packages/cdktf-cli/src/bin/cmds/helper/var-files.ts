@@ -12,23 +12,8 @@ export function sanitizeVarFiles(
 ): string[] {
   const files: string[] = [];
 
-  // Check if the file exists and is a file
-  varFiles.forEach((varFile) => {
-    const resolvedPath = path.resolve(cwd, varFile);
-    if (!fs.existsSync(resolvedPath)) {
-      throw Errors.Usage(
-        `Could not find var-file ${varFile} at ${resolvedPath}`
-      );
-    }
-
-    if (!fs.lstatSync(resolvedPath).isFile()) {
-      throw Errors.Usage(
-        `The var-file ${varFile} at ${resolvedPath} is no file.`
-      );
-    }
-
-    files.push(resolvedPath);
-  });
+  // First add the auto-loaded files, because later added flags override the newer ones
+  // See https://developer.hashicorp.com/terraform/language/values/variables#variable-definition-precedence
 
   // Check for auto-loaded files
   autoLoadedFileNames.forEach((fileName) => {
@@ -45,6 +30,24 @@ export function sanitizeVarFiles(
     globFiles.forEach((file) => {
       files.push(path.resolve(cwd, file));
     });
+  });
+
+  // Check if the file exists and is a file
+  varFiles.forEach((varFile) => {
+    const resolvedPath = path.resolve(cwd, varFile);
+    if (!fs.existsSync(resolvedPath)) {
+      throw Errors.Usage(
+        `Could not find var-file ${varFile} at ${resolvedPath}`
+      );
+    }
+
+    if (!fs.lstatSync(resolvedPath).isFile()) {
+      throw Errors.Usage(
+        `The var-file ${varFile} at ${resolvedPath} is no file.`
+      );
+    }
+
+    files.push(resolvedPath);
   });
 
   return files;
