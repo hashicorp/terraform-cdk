@@ -27,7 +27,7 @@ export function getHostNameType(hostname?: string): "tfc" | "tfe" {
  * When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
  */
 export class CloudBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: CloudBackendProps) {
+  constructor(scope: Construct, private readonly props: CloudBackendConfig) {
     super(scope, "backend", "cloud");
 
     this.node.addValidation(
@@ -94,7 +94,7 @@ export class CloudBackend extends TerraformBackend {
  *
  * https://www.terraform.io/cli/cloud/settings#arguments
  */
-export interface CloudBackendProps {
+export interface CloudBackendConfig {
   /**
    * The name of the organization containing the workspace(s) the current configuration should use.
    */

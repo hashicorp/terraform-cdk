@@ -17,7 +17,7 @@ public class MainRemoteBackend extends TerraformStack {
 
         // DOCS_BLOCK_START:remote-backend-migrate
         MainRemoteBackend stack = new MainRemoteBackend(app, "hi-terraform");
-        new CloudBackend(stack, CloudBackendProps.builder()
+        new CloudBackend(stack, CloudBackendConfig.builder()
                 .hostname("app.terraform.io")
                 .organization("company")
                 .workspaces(new NamedCloudWorkspace("my-app"))

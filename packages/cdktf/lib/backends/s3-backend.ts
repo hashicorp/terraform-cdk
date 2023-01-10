@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class S3Backend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: S3BackendProps) {
+  constructor(scope: Construct, private readonly props: S3BackendConfig) {
     super(scope, "backend", "s3");
   }
 
@@ -56,7 +56,7 @@ export class DataTerraformRemoteStateS3 extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/s3
  */
-export interface S3BackendProps {
+export interface S3BackendConfig {
   /**
    * Name of the S3 Bucket.
    */
@@ -210,4 +210,4 @@ export interface S3BackendProps {
 
 export interface DataTerraformRemoteStateS3Config
   extends DataTerraformRemoteStateConfig,
-    S3BackendProps {}
+    S3BackendConfig {}

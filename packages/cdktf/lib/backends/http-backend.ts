@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class HttpBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: HttpBackendProps) {
+  constructor(scope: Construct, private readonly props: HttpBackendConfig) {
     super(scope, "backend", "http");
   }
 
@@ -52,7 +52,7 @@ export class DataTerraformRemoteStateHttp extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/http
  */
-export interface HttpBackendProps {
+export interface HttpBackendConfig {
   /**
    * (Required) The address of the REST endpoint
    */
@@ -105,4 +105,4 @@ export interface HttpBackendProps {
 
 export interface DataTerraformRemoteStateHttpConfig
   extends DataTerraformRemoteStateConfig,
-    HttpBackendProps {}
+    HttpBackendConfig {}

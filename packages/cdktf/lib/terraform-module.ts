@@ -10,14 +10,14 @@ import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
 
-export interface TerraformModuleUserOptions {
+export interface TerraformModuleUserConfig {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
   readonly dependsOn?: ITerraformDependable[];
   readonly forEach?: ITerraformIterator;
   readonly skipAssetCreationFromLocalModules?: boolean;
 }
 
-export interface TerraformModuleOptions extends TerraformModuleUserOptions {
+export interface TerraformModuleConfig extends TerraformModuleUserConfig {
   readonly source: string;
   readonly version?: string;
 }
@@ -39,7 +39,7 @@ export abstract class TerraformModule
   public forEach?: ITerraformIterator;
   public readonly skipAssetCreationFromLocalModules?: boolean;
 
-  constructor(scope: Construct, id: string, options: TerraformModuleOptions) {
+  constructor(scope: Construct, id: string, options: TerraformModuleConfig) {
     super(scope, id, "module");
 
     this.source = options.source;

@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class CosBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: CosBackendProps) {
+  constructor(scope: Construct, private readonly props: CosBackendConfig) {
     super(scope, "backend", "cos");
   }
 
@@ -51,7 +51,7 @@ export class DataTerraformRemoteStateCos extends TerraformRemoteState {
  * Read more about this backend in the Terraform docs:
  * https://www.terraform.io/language/settings/backends/cos
  */
-export interface CosBackendProps {
+export interface CosBackendConfig {
   /**
    * (Optional) Secret id of Tencent Cloud.
    * It supports environment variables TENCENTCLOUD_SECRET_ID.
@@ -93,4 +93,4 @@ export interface CosBackendProps {
 
 export interface DataTerraformRemoteStateCosConfig
   extends DataTerraformRemoteStateConfig,
-    CosBackendProps {}
+    CosBackendConfig {}

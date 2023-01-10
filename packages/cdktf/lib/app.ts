@@ -10,7 +10,7 @@ import { TerraformStack } from "./terraform-stack";
 
 const APP_SYMBOL = Symbol.for("cdktf/App");
 export const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
-export interface AppOptions {
+export interface AppConfig {
   /**
    * The directory to output Terraform resources.
    *
@@ -63,7 +63,7 @@ export class App extends Construct {
    * Defines an app
    * @param options configuration options
    */
-  constructor(options: AppOptions = {}) {
+  constructor(options: AppConfig = {}) {
     super(undefined as any, "");
     Object.defineProperty(this, APP_SYMBOL, { value: true });
 

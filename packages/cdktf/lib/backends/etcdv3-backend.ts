@@ -12,7 +12,7 @@ import {
  * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
 export class EtcdV3Backend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: EtcdV3BackendProps) {
+  constructor(scope: Construct, private readonly props: EtcdV3BackendConfig) {
     super(scope, "backend", "etcdv3");
   }
 
@@ -54,7 +54,7 @@ export class DataTerraformRemoteStateEtcdV3 extends TerraformRemoteState {
  *
  * @deprecated CDK for Terraform no longer supports the etcdv3 backend. Terraform deprecated etcdv3 in v1.2.3 and removed it in v1.3.
  */
-export interface EtcdV3BackendProps {
+export interface EtcdV3BackendConfig {
   /**
    * (Required) The list of 'etcd' endpoints which to connect to.
    */
@@ -97,4 +97,4 @@ export interface EtcdV3BackendProps {
  */
 export interface DataTerraformRemoteStateEtcdV3Config
   extends DataTerraformRemoteStateConfig,
-    EtcdV3BackendProps {}
+    EtcdV3BackendConfig {}

@@ -10,7 +10,7 @@ import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformOutputConfig;
 import com.hashicorp.cdktf.CloudBackend;
-import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.CloudBackendConfig;
 import com.hashicorp.cdktf.NamedCloudWorkspace;
 import com.hashicorp.cdktf.NamedRemoteWorkspace;
 import com.hashicorp.cdktf.DataTerraformRemoteState;
@@ -23,7 +23,7 @@ public class VariablesAndOutputsRemoteState {
         public Producer(Construct scope, String id){
             super(scope, id);
 
-            new CloudBackend(this, CloudBackendProps.builder()
+            new CloudBackend(this, CloudBackendConfig.builder()
                     .organization("hashicorp")
                     .workspaces(new NamedCloudWorkspace("producer"))
                     .build()
@@ -44,7 +44,7 @@ public class VariablesAndOutputsRemoteState {
         public Consumer(Construct scope, String id){
             super(scope, id);
 
-            new CloudBackend(this, CloudBackendProps.builder()
+            new CloudBackend(this, CloudBackendConfig.builder()
                     .organization("hashicorp")
                     .workspaces(new NamedCloudWorkspace("consumer"))
                     .build()

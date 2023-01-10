@@ -1,16 +1,16 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TerraformModuleUserOptions, TerraformModule } from "../../lib";
+import { TerraformModuleUserConfig, TerraformModule } from "../../lib";
 import { Construct } from "constructs";
 
-export interface TestModuleOptions extends TerraformModuleUserOptions {
+export interface TestModuleConfig extends TerraformModuleUserConfig {
   readonly moduleParameter: string;
 }
 
 export class TestModule extends TerraformModule {
   private readonly inputs: { [name: string]: any } = {};
 
-  public constructor(scope: Construct, id: string, options: TestModuleOptions) {
+  public constructor(scope: Construct, id: string, options: TestModuleConfig) {
     super(scope, id, {
       ...options,
       source: "my-module",

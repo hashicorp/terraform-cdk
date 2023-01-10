@@ -21,7 +21,7 @@ export interface IScopeCallback {
   (scope: Construct): void;
 }
 
-export interface TestingAppOptions {
+export interface TestingAppConfig {
   readonly outdir?: string;
   readonly stackTraces?: boolean;
   readonly stubVersion?: boolean;
@@ -29,7 +29,7 @@ export interface TestingAppOptions {
   readonly fakeCdktfJsonPath?: boolean;
 }
 
-const DefaultTestingAppOptions: TestingAppOptions = {
+const DefaultTestingAppConfig: TestingAppConfig = {
   stackTraces: false,
   stubVersion: true,
   enableFutureFlags: true,
@@ -44,26 +44,26 @@ export class Testing {
    * Returns an app for testing with the following properties:
    * - Output directory is a temp dir.
    */
-  public static app(options: TestingAppOptions = {}): App {
-    const appOptions = { ...DefaultTestingAppOptions, ...options };
-    if (!appOptions.outdir) {
-      appOptions.outdir = fs.mkdtempSync(
+  public static app(options: TestingAppConfig = {}): App {
+    const appConfig = { ...DefaultTestingAppConfig, ...options };
+    if (!appConfig.outdir) {
+      appConfig.outdir = fs.mkdtempSync(
         path.join(os.tmpdir(), "cdktf.outdir.")
       );
     }
 
     const app = new App({
-      outdir: appOptions.outdir,
-      stackTraces: appOptions.stackTraces,
+      outdir: appConfig.outdir,
+      stackTraces: appConfig.stackTraces,
     });
 
-    if (appOptions.stubVersion) {
+    if (appConfig.stubVersion) {
       this.stubVersion(app);
     }
-    if (appOptions.enableFutureFlags) {
+    if (appConfig.enableFutureFlags) {
       this.enableFutureFlags(app);
     }
-    if (appOptions.fakeCdktfJsonPath) {
+    if (appConfig.fakeCdktfJsonPath) {
       this.fakeCdktfJsonPath(app);
     }
 
