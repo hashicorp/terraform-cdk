@@ -25,6 +25,7 @@ describe("variables", () => {
   ];
 
   beforeEach(async () => {
+    driver = new TestDriver(__dirname);
     await driver.setupTypescriptProject();
     driver.copyFiles(
       "explicit.tfvars",
