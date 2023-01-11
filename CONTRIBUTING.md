@@ -1,22 +1,72 @@
 # Contributing
 
-**Things to add**
--- Creating Issues/ Reporting issues
--- Format to create issues in
--- relevant tags for issues
--- Asking Questions
--- Creating Pull Requests
--- link relevant issue - if none then create one and link it
+This repository contains Terraform CDK (CDKTF)– this includes the CDKTF CLI and [*CDKTF package, Convert stuff, provider generator - not sure how to describe*]. Prebuilt providers are housed in separate repositories under the [HashiCorp CDKTF organization](https://github.com/cdktf)
+
+This document aims to provide guidance on recommended contribution practices as well as an introduction to common workflows when contributing.
+
+Note: All communication on GitHub, the community forum, and other HashiCorp-provided communication channels is subject to the [HashiCorp community guidelines](https://www.hashicorp.com/community-guidelines).
 
 ## Questions
 
+For general problems you encounter that may not require a core maintainer to answer, post your question in our [community forum]("https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/"). Otherwise if you believe the problem stems from a bug, please feel free to create a new issue describing the problem.
+
 ## Issues
 
-### Reporting Issues
+This section goes over what we are looking for in regards to reported issues.
+
+### Reporting an Issue
+
+If you encounter a bug you can help us by submitting an issue, though make sure it is not covered by an existing Github issue. If you feel inclined to solve this issue yourself you can always submit a Pull Request with the fix– though be sure to create a separate issue (if one does not exist) containing the problem that can then be linked in your Pull Request.
+
+When reporting a bug we ask that you include:
+
+- CDKTF & language versions being used
+- Affected Resource(s)
+- Github Gist containing the Debug output
+- Expected Behavior & Actual Behavior
+- Steps to reproduce the issue
+- Other important info about the issue
+- Any related Github issues, pull requests, and/or documentation
+
+### Proposing a Feature
+
+In order to be respectful of the time of community contributors, we aim to discuss new potential feature and changes in GitHub issues prior to their implementation. This allows us to vet the potential utility of the change, as well as discuss how it could potentially fit into work currently being done.
+
+When proposing a feature we ask that you include:
+
+- A description of the feature to add
+- Any relevant Github issues, pull requests, blog posts, and/or documentation
 
 ## Pull Requests
 
-### CHANGELOG
+Your pull request should have a description of what it accomplishes. If applicable, PRs should include testing that validate correctness. In all cases the existing tests must pass.
+
+### Guidelines
+
+Before you submit your Pull Request (PR) consider the following guidelines:
+
+- Search GitHub for an open or closed PR that relates to your submission. You don't want to duplicate existing efforts.
+- Be sure that an existing issue describes the problem you're fixing, or documents the design for the feature you'd like to add. Discussing the design upfront helps to ensure that we're ready to accept your work. Make sure that this issue is referenced in your PR– this can be done by including `Closes: #[issue number]` in the PR's description.
+- Please sign our Contributor License Agreement (CLA) before sending PRs. We cannot accept code without a signed CLA. Make sure you author all contributed Git commits with email address associated with your CLA signature.
+
+### Style?
+
+type of PR:
+feat()
+fix()
+chore()
+
+Affected Component....
+cli
+cdktf
+hcl2cdk
+
+### Pull Request Lifecycle
+
+1. You are welcome to submit an initial draft pull request for commentary before it is fully completed. It's also helpful to include comments on items you'd like feedback on or feel needs further discussion. Once you believe your pull request is ready to be merged you can set your pull request to open.
+2. When time permits, Terraform CDK team members will review your PR. From here the pull request will either be merged, or additional changed may be requested in comments. We may also have questions that we need answered about the code, due to something that needs greater clarification or just because we want to better understand your thought process.
+3. When we request changes, you have two options. You can either make those changes or, if you disagree with the suggested changes, a conversation can be had about our respective reasoning's where we can then agree on a path forward. In many instances this may be a multi-step process. Pull requests are a great venue for the team and our community to collaborate, and we welcome conversations about how to improve things.
+4. Once all outstanding comments and checklist items have been addressed, your contribution will be merged!
 
 ## Prerequisites
 
