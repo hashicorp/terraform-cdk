@@ -10209,14 +10209,14 @@ func FriendlyUniqueId() *string
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-cdktf.NewTerraformHclModule(scope Construct, id *string, options TerraformHclModuleOptions) TerraformHclModule
+cdktf.NewTerraformHclModule(scope Construct, id *string, options TerraformHclModuleConfig) TerraformHclModule
 ```
 
-| **Name**                                                                                   | **Type**                                                                              | **Description**   |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>     | <code>github.com/aws/constructs-go/constructs/v10.Construct</code>                    | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>           | <code>\*string</code>                                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a></code> | _No description._ |
+| **Name**                                                                                   | **Type**                                                                            | **Description**   |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>     | <code>github.com/aws/constructs-go/constructs/v10.Construct</code>                  | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>           | <code>\*string</code>                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a></code> | _No description._ |
 
 ---
 
@@ -10234,7 +10234,7 @@ cdktf.NewTerraformHclModule(scope Construct, id *string, options TerraformHclMod
 
 ##### `options`<sup>Required</sup> <a name="options" id="cdktf.TerraformHclModule.Initializer.parameter.options"></a>
 
-- _Type:_ <a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a>
+- _Type:_ <a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a>
 
 ---
 
@@ -20808,14 +20808,14 @@ UniqueId *string
 
 ---
 
-### TerraformHclModuleOptions <a name="TerraformHclModuleOptions" id="cdktf.TerraformHclModuleOptions"></a>
+### TerraformHclModuleConfig <a name="TerraformHclModuleConfig" id="cdktf.TerraformHclModuleConfig"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleOptions.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleConfig.Initializer"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-&cdktf.TerraformHclModuleOptions {
+&cdktf.TerraformHclModuleConfig {
 	DependsOn: *[]github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformDependable,
 	ForEach: github.com/hashicorp/terraform-cdk-go/cdktf.ITerraformIterator,
 	Providers: *[]interface{},
@@ -20828,19 +20828,19 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                                 | **Type**                                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">DependsOn</a></code>                                                 | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                                    | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">Source</a></code>                                                       | <code>\*string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">Version</a></code>                                                     | <code>\*string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">Variables</a></code>                                                 | <code>\*map[string]interface{}</code>                                           | _No description._ |
+| **Name**                                                                                                                                | **Type**                                                                        | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.dependsOn">DependsOn</a></code>                                                 | <code>\*[]<a href="#cdktf.ITerraformDependable">ITerraformDependable</a></code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.providers">Providers</a></code>                                                 | <code>\*[]interface{}</code>                                                    | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>\*bool</code>                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.source">Source</a></code>                                                       | <code>\*string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.version">Version</a></code>                                                     | <code>\*string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.variables">Variables</a></code>                                                 | <code>\*map[string]interface{}</code>                                           | _No description._ |
 
 ---
 
-##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformHclModuleOptions.property.dependsOn"></a>
+##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformHclModuleConfig.property.dependsOn"></a>
 
 ```go
 DependsOn *[]ITerraformDependable
@@ -20850,7 +20850,7 @@ DependsOn *[]ITerraformDependable
 
 ---
 
-##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformHclModuleOptions.property.forEach"></a>
+##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformHclModuleConfig.property.forEach"></a>
 
 ```go
 ForEach ITerraformIterator
@@ -20860,7 +20860,7 @@ ForEach ITerraformIterator
 
 ---
 
-##### `Providers`<sup>Optional</sup> <a name="Providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
+##### `Providers`<sup>Optional</sup> <a name="Providers" id="cdktf.TerraformHclModuleConfig.property.providers"></a>
 
 ```go
 Providers *[]interface{}
@@ -20870,7 +20870,7 @@ Providers *[]interface{}
 
 ---
 
-##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules"></a>
 
 ```go
 SkipAssetCreationFromLocalModules *bool
@@ -20880,7 +20880,7 @@ SkipAssetCreationFromLocalModules *bool
 
 ---
 
-##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleConfig.property.source"></a>
 
 ```go
 Source *string
@@ -20890,7 +20890,7 @@ Source *string
 
 ---
 
-##### `Version`<sup>Optional</sup> <a name="Version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
+##### `Version`<sup>Optional</sup> <a name="Version" id="cdktf.TerraformHclModuleConfig.property.version"></a>
 
 ```go
 Version *string
@@ -20900,7 +20900,7 @@ Version *string
 
 ---
 
-##### `Variables`<sup>Optional</sup> <a name="Variables" id="cdktf.TerraformHclModuleOptions.property.variables"></a>
+##### `Variables`<sup>Optional</sup> <a name="Variables" id="cdktf.TerraformHclModuleConfig.property.variables"></a>
 
 ```go
 Variables *map[string]interface{}
