@@ -221,23 +221,40 @@ export function createAndStartDeployService(options: {
   autoApprove?: boolean;
   noColor?: boolean;
   workdir: string;
+  vars?: string[];
+  varFiles?: string[];
 }) {
   const service = interpret(deployMachine);
+  const args = [
+    "apply",
+    ...(options.autoApprove ? ["-auto-approve"] : []),
+    // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
+
+    ...options.extraOptions,
+    ...(options.refreshOnly ? ["-refresh-only"] : []),
+    ...(options.noColor ? ["-no-color"] : []),
+    ...(options.parallelism > -1
+      ? [`-parallelism=${options.parallelism}`]
+      : []),
+  ];
+
+  options.vars?.forEach((v) => {
+    args.push(`-var=${v}`);
+  });
+
+  options.varFiles?.forEach((v) => {
+    args.push(`-var-file=${v}`);
+  });
+
+  logger.debug(
+    `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
+      options.workdir
+    }`
+  );
 
   const config: PtySpawnConfig = {
     file: options.terraformBinaryName,
-    args: [
-      "apply",
-      ...(options.autoApprove ? ["-auto-approve"] : []),
-      // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
-
-      ...options.extraOptions,
-      ...(options.refreshOnly ? ["-refresh-only"] : []),
-      ...(options.noColor ? ["-no-color"] : []),
-      ...(options.parallelism > -1
-        ? [`-parallelism=${options.parallelism}`]
-        : []),
-    ],
+    args,
     options: {
       cwd: options.workdir,
       env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever
@@ -256,22 +273,40 @@ export function createAndStartDestroyService(options: {
   autoApprove?: boolean;
   noColor?: boolean;
   workdir: string;
+  vars?: string[];
+  varFiles?: string[];
 }) {
   const service = interpret(deployMachine);
 
+  const args = [
+    "destroy",
+    ...(options.autoApprove ? ["-auto-approve"] : []),
+    // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
+
+    ...options.extraOptions,
+    ...(options.noColor ? ["-no-color"] : []),
+    ...(options.parallelism > -1
+      ? [`-parallelism=${options.parallelism}`]
+      : []),
+  ];
+
+  options.vars?.forEach((v) => {
+    args.push(`-var='${v}'`);
+  });
+
+  options.varFiles?.forEach((v) => {
+    args.push(`-var-file='${v}'`);
+  });
+
+  logger.debug(
+    `Executing ${options.terraformBinaryName} ${args.join(" ")} in ${
+      options.workdir
+    }`
+  );
+
   const config: PtySpawnConfig = {
     file: options.terraformBinaryName,
-    args: [
-      "destroy",
-      ...(options.autoApprove ? ["-auto-approve"] : []),
-      // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
-
-      ...options.extraOptions,
-      ...(options.noColor ? ["-no-color"] : []),
-      ...(options.parallelism > -1
-        ? [`-parallelism=${options.parallelism}`]
-        : []),
-    ],
+    args,
     options: {
       cwd: options.workdir,
       env: process.env as { [key: string]: string }, // TODO: make this explicit and move to caller or whatever

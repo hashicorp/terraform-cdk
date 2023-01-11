@@ -296,25 +296,43 @@ export class CdktfStack {
     }
   }
 
-  public async diff(
-    refreshOnly?: boolean,
-    terraformParallelism?: number,
-    noColor?: boolean
-  ) {
+  public async diff({
+    refreshOnly,
+    terraformParallelism,
+    vars,
+    varFiles,
+    noColor,
+  }: {
+    refreshOnly?: boolean;
+    terraformParallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
+    noColor?: boolean;
+  }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform(noColor);
 
-      await terraform.plan(false, refreshOnly, terraformParallelism, noColor);
+      await terraform.plan({
+        destroy: false,
+        refreshOnly,
+        parallelism: terraformParallelism,
+        vars,
+        varFiles,
+        noColor,
+      });
       this.updateState({ type: "planned", stackName: this.stack.name });
     });
   }
 
-  public async deploy(
-    refreshOnly?: boolean,
-    terraformParallelism?: number,
-    noColor?: boolean
-  ) {
+  public async deploy(opts: {
+    refreshOnly?: boolean;
+    terraformParallelism?: number;
+    noColor?: boolean;
+    vars?: string[];
+    varFiles?: string[];
+  }) {
+    const { refreshOnly, terraformParallelism, noColor, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform(noColor);
@@ -324,6 +342,8 @@ export class CdktfStack {
           autoApprove: this.options.autoApprove,
           refreshOnly,
           parallelism: terraformParallelism,
+          vars,
+          varFiles,
           noColor,
         },
         (state) => {
@@ -373,7 +393,13 @@ export class CdktfStack {
     });
   }
 
-  public async destroy(terraformParallelism?: number, noColor?: boolean) {
+  public async destroy(opts: {
+    terraformParallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
+    noColor?: boolean;
+  }) {
+    const { terraformParallelism, noColor, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
       const terraform = await this.initalizeTerraform(noColor);
@@ -381,6 +407,8 @@ export class CdktfStack {
         {
           autoApprove: this.options.autoApprove,
           parallelism: terraformParallelism,
+          vars,
+          varFiles,
           noColor,
         },
         (state) => {

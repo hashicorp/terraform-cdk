@@ -90,7 +90,7 @@ export function keysToSnakeCase(object: any): any {
   }
   const keys = Object.keys(object);
   return keys.reduce((newObject: any, key: string) => {
-    if (key === "tags") {
+    if (key === "tags" || key === "environment") {
       newObject[key] = object[key];
       return newObject;
     }

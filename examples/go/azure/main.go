@@ -23,14 +23,14 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		//Subscription:    jsii.String(""), //Just for an example, login credential is coming from ARM* environment variables
 	})
 
-	nm := nullmodule.NewNullmodule(stack, jsii.String("null"), &nullmodule.NullmoduleOptions{
+	nm := nullmodule.NewNullmodule(stack, jsii.String("null"), &nullmodule.NullmoduleConfig{
 		Trigger: jsii.String("one"),
 	})
 
 	//Name evrything as the output of the Naming module
 	//Naming module outputs map instead of string literal, see: https://github.com/Azure/terraform-azurerm-naming/issues/64
 	/*
-		n := naming.NewNaming(stack, jsii.String("resource_naming"), &naming.NamingOptions{
+		n := naming.NewNaming(stack, jsii.String("resource_naming"), &naming.NamingConfig{
 			Prefix:               &[]*string{jsii.String("test")},
 			UniqueIncludeNumbers: jsii.Bool(false),
 		})

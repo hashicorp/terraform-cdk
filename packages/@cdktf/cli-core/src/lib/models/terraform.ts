@@ -124,17 +124,21 @@ export type TerraformDeployState =
 
 export interface Terraform {
   init: (upgrade: boolean, noColor?: boolean) => Promise<void>;
-  plan: (
-    destroy: boolean,
-    refreshOnly?: boolean,
-    parallelism?: number,
-    noColor?: boolean
-  ) => Promise<void>;
+  plan: (opts: {
+    destroy: boolean;
+    refreshOnly?: boolean;
+    parallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
+    noColor?: boolean;
+  }) => Promise<void>;
   deploy(
     options: {
       autoApprove?: boolean;
       refreshOnly?: boolean;
       parallelism?: number;
+      vars?: string[];
+      varFiles?: string[];
       noColor?: boolean;
     },
     callback: (state: TerraformDeployState) => void
@@ -143,6 +147,8 @@ export interface Terraform {
     options: {
       autoApprove?: boolean;
       parallelism?: number;
+      vars?: string[];
+      varFiles?: string[];
       noColor?: boolean;
     },
     callback: (state: TerraformDeployState) => void

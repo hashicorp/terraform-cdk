@@ -287,6 +287,8 @@ export type AutoApproveOptions = {
 export type DiffOptions = SingleStackOptions & {
   refreshOnly?: boolean;
   terraformParallelism?: number;
+  vars?: string[];
+  varFiles?: string[];
   noColor?: boolean;
 };
 
@@ -296,6 +298,8 @@ export type MutationOptions = MultipleStackOptions &
     ignoreMissingStackDependencies?: boolean;
     parallelism?: number;
     terraformParallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
     noColor?: boolean;
   };
 
@@ -557,17 +561,14 @@ export class CdktfProject {
     return stacks;
   }
 
-  public async diff(opts?: DiffOptions) {
+  public async diff(opts: DiffOptions = {}) {
     const stacks = await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
+
     try {
-      await stack.diff(
-        opts?.refreshOnly,
-        opts?.terraformParallelism,
-        opts?.noColor
-      );
+      await stack.diff(opts);
     } catch (e) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -607,15 +608,8 @@ export class CdktfProject {
         }
         const promise =
           method === "deploy"
-            ? nextRunningExecutor.deploy(
-                opts.refreshOnly,
-                opts.terraformParallelism,
-                opts.noColor
-              )
-            : nextRunningExecutor.destroy(
-                opts.terraformParallelism,
-                opts.noColor
-              );
+            ? nextRunningExecutor.deploy(opts)
+            : nextRunningExecutor.destroy(opts);
 
         allExecutions.push(promise);
       } catch (e) {

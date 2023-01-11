@@ -17,6 +17,8 @@ interface DestroyConfig {
   parallelism?: number;
   terraformParallelism?: number;
   noColor?: boolean;
+  vars?: string[];
+  varFiles?: string[];
 }
 
 export const Destroy = ({
@@ -28,6 +30,8 @@ export const Destroy = ({
   parallelism,
   terraformParallelism,
   noColor,
+  vars,
+  varFiles,
 }: DestroyConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -39,6 +43,8 @@ export const Destroy = ({
         parallelism,
         terraformParallelism,
         noColor,
+        vars,
+        varFiles,
       })
   );
 

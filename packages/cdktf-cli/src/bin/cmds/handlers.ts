@@ -60,6 +60,7 @@ import {
   checkEnvironment,
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
+import { sanitizeVarFiles } from "./helper/var-files";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -129,6 +130,8 @@ export async function deploy(argv: any) {
   const ignoreMissingStackDependencies =
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
+  const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
 
   let outputsPath: string | undefined = undefined;
@@ -152,6 +155,8 @@ export async function deploy(argv: any) {
       parallelism,
       refreshOnly,
       terraformParallelism,
+      vars,
+      varFiles,
       noColor,
     })
   );
@@ -170,6 +175,8 @@ export async function destroy(argv: any) {
     argv.ignoreMissingStackDependencies || false;
   const parallelism = argv.parallelism;
   const terraformParallelism = argv.terraformParallelism;
+  const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
 
   await renderInk(
@@ -181,6 +188,8 @@ export async function destroy(argv: any) {
       ignoreMissingStackDependencies,
       parallelism,
       terraformParallelism,
+      vars,
+      varFiles,
       noColor,
     })
   );
@@ -196,6 +205,8 @@ export async function diff(argv: any) {
   const stack = argv.stack;
   const refreshOnly = argv.refreshOnly;
   const terraformParallelism = argv.terraformParallelism;
+  const vars = argv.var;
+  const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
 
   await renderInk(
@@ -205,6 +216,8 @@ export async function diff(argv: any) {
       targetStack: stack,
       synthCommand: command,
       terraformParallelism,
+      vars,
+      varFiles,
       noColor,
     })
   );

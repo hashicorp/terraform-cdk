@@ -45,6 +45,18 @@ class Command extends BaseCommand {
         // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
+      .option("var", {
+        type: "array",
+        default: [],
+        required: false,
+        desc: "Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.",
+      })
+      .option("var-file", {
+        type: "array",
+        default: [],
+        required: false,
+        desc: "Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.",
+      })
       // The presence of this flag is automatically picked up by `chalk` as well which
       // causes colors to be disabled too for output that the cdktf-cli itself colors.
       .option("no-color", {

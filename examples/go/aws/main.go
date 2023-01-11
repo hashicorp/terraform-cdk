@@ -25,7 +25,7 @@ func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.Terr
 		},
 	})
 
-	eks.NewEks(stack, jsii.String("EKS"), &eks.EksOptions{
+	eks.NewEks(stack, jsii.String("EKS"), &eks.EksConfig{
 		ClusterName:    jsii.String("my-eks"),
 		Subnets:        jsii.Strings("a", "b"),
 		VpcId:          jsii.String("id"),

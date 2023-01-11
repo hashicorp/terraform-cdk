@@ -5,7 +5,7 @@ import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.CloudBackend;
-import com.hashicorp.cdktf.CloudBackendProps;
+import com.hashicorp.cdktf.CloudBackendConfig;
 import com.hashicorp.cdktf.NamedCloudWorkspace;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformOutputConfig;
@@ -15,7 +15,7 @@ public class MainRemoteBackendDefine extends TerraformStack {
     public MainRemoteBackendDefine(Construct scope, String id) {
         super(scope, id);
 
-        new CloudBackend(this, CloudBackendProps.builder()
+        new CloudBackend(this, CloudBackendConfig.builder()
                 .hostname("app.terraform.io")
                 .organization("company")
                 .workspaces(new NamedCloudWorkspace("my-app-prod"))

@@ -11,7 +11,7 @@ import { getHostNameType } from "./cloud-backend";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class RemoteBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: RemoteBackendProps) {
+  constructor(scope: Construct, private readonly props: RemoteBackendConfig) {
     super(scope, "backend", "remote");
   }
 
@@ -46,7 +46,7 @@ export class DataTerraformRemoteState extends TerraformRemoteState {
   }
 }
 
-export interface RemoteBackendProps {
+export interface RemoteBackendConfig {
   readonly hostname?: string;
   readonly organization: string;
   readonly token?: string;
@@ -67,4 +67,4 @@ export class PrefixedRemoteWorkspaces implements IRemoteWorkspace {
 
 export interface DataTerraformRemoteStateRemoteConfig
   extends DataTerraformRemoteStateConfig,
-    RemoteBackendProps {}
+    RemoteBackendConfig {}

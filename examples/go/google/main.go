@@ -42,7 +42,7 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 		},
 	})
 
-	auth := gkeAuth.NewGkeAuth(stack, jsii.String("auth"), &gkeAuth.GkeAuthOptions{
+	auth := gkeAuth.NewGkeAuth(stack, jsii.String("auth"), &gkeAuth.GkeAuthConfig{
 		ClusterName: cluster.Name(),
 		Location:    cluster.Location(),
 		ProjectId:   cluster.Project(),

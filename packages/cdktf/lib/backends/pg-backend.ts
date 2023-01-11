@@ -10,7 +10,7 @@ import {
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class PgBackend extends TerraformBackend {
-  constructor(scope: Construct, private readonly props: PgBackendProps) {
+  constructor(scope: Construct, private readonly props: PgBackendConfig) {
     super(scope, "backend", "pg");
   }
 
@@ -41,7 +41,7 @@ export class DataTerraformRemoteStatePg extends TerraformRemoteState {
   }
 }
 
-export interface PgBackendProps {
+export interface PgBackendConfig {
   readonly connStr: string;
   readonly schemaName?: string;
   readonly skipSchemaCreation?: boolean;
@@ -49,4 +49,4 @@ export interface PgBackendProps {
 
 export interface DataTerraformRemoteStatePgConfig
   extends DataTerraformRemoteStateConfig,
-    PgBackendProps {}
+    PgBackendConfig {}

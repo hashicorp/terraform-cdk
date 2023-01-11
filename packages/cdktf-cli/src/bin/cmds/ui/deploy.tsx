@@ -56,6 +56,8 @@ interface DeployConfig {
   parallelism?: number;
   refreshOnly?: boolean;
   terraformParallelism?: number;
+  vars?: string[];
+  varFiles?: string[];
   noColor?: boolean;
 }
 
@@ -70,6 +72,8 @@ export const Deploy = ({
   parallelism,
   refreshOnly,
   terraformParallelism,
+  vars,
+  varFiles,
   noColor,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
@@ -83,6 +87,8 @@ export const Deploy = ({
         parallelism,
         refreshOnly,
         terraformParallelism,
+        vars,
+        varFiles,
         noColor,
       });
 
