@@ -5,8 +5,8 @@ import com.hashicorp.cdktf.TerraformVariable;
 import com.hashicorp.cdktf.TerraformVariableConfig;
 import com.hashicorp.cdktf.Token;
 import imports.eks.Eks;
-import imports.eks.EksOptions;
-import imports.vpc.VpcOptions;
+import imports.eks.EksConfig;
+import imports.vpc.VpcConfig;
 import software.constructs.Construct;
 import imports.vpc.Vpc;
 
@@ -22,13 +22,13 @@ public class MainToken extends TerraformStack {
                 .build()
         );
 
-        Vpc vpc = new Vpc(this, "vpcName", VpcOptions.builder()
+        Vpc vpc = new Vpc(this, "vpcName", VpcConfig.builder()
                 .name("vpcName")
                 .publicSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24"))
                 .build()
         );
 
-        new Eks(this, "EksModules", EksOptions.builder()
+        new Eks(this, "EksModules", EksConfig.builder()
                 .vpcId(vpc.getVpcIdOutput())
                 .clusterName("my-kubernetes-cluster")
                 .subnets(Token.asList(vpc.getPublicSubnetsOutput()))

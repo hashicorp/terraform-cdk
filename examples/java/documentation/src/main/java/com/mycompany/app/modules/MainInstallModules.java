@@ -9,7 +9,7 @@ import com.hashicorp.cdktf.App;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
 import imports.vpc.Vpc;
-import imports.vpc.VpcOptions;
+import imports.vpc.VpcConfig;
 
 public class MainInstallModules extends TerraformStack {
 
@@ -21,7 +21,7 @@ public class MainInstallModules extends TerraformStack {
                 .build()
         );
 
-        new Vpc(this, "myVpc", VpcOptions.builder()
+        new Vpc(this, "myVpc", VpcConfig.builder()
                 .name("my-vpc")
                 .cidr("10.0.0.0/16")
                 .azs(Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"))
