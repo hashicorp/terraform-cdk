@@ -47,7 +47,7 @@
     "minimatch": "^5.1.0",
     "node-abort-controller": "^3.0.1",
     "node-fetch": "^2.6.7",
-    "node-pty-prebuilt-multiarch": "0.10.1-pre.5",
+    "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.8",
     "tunnel-agent": "^0.6.0",
     "xml-js": "^1.6.11",
     "xstate": "^4.34.0",
