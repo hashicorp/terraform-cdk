@@ -4,7 +4,7 @@ import { Construct } from "constructs";
 import { TerraformModuleConfig, TerraformModule } from "./terraform-module";
 import { Token, IResolvable } from "./tokens";
 
-export interface TerraformHclModuleOptions extends TerraformModuleConfig {
+export interface TerraformHclModuleConfig extends TerraformModuleConfig {
   readonly variables?: { [key: string]: any };
 }
 
@@ -12,11 +12,7 @@ export interface TerraformHclModuleOptions extends TerraformModuleConfig {
 export class TerraformHclModule extends TerraformModule {
   private _variables?: { [key: string]: any };
 
-  constructor(
-    scope: Construct,
-    id: string,
-    options: TerraformHclModuleOptions
-  ) {
+  constructor(scope: Construct, id: string, options: TerraformHclModuleConfig) {
     super(scope, id, options);
 
     this._variables = options.variables;
