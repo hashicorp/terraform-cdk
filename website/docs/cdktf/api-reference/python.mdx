@@ -25821,14 +25821,14 @@ unique_id: str
 
 ---
 
-### TerraformHclModuleOptions <a name="TerraformHclModuleOptions" id="cdktf.TerraformHclModuleOptions"></a>
+### TerraformHclModuleConfig <a name="TerraformHclModuleConfig" id="cdktf.TerraformHclModuleConfig"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleOptions.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleConfig.Initializer"></a>
 
 ```python
 import cdktf
 
-cdktf.TerraformHclModuleOptions(
+cdktf.TerraformHclModuleConfig(
   depends_on: typing.List[ITerraformDependable] = None,
   for_each: ITerraformIterator = None,
   providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]] = None,
@@ -25841,19 +25841,19 @@ cdktf.TerraformHclModuleOptions(
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                                      | **Type**                                                                                                                                                               | **Description**   |
-| --------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>                                                      | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
+| **Name**                                                                                                                                     | **Type**                                                                                                                                                               | **Description**   |
+| -------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.dependsOn">depends_on</a></code>                                                     | <code>typing.List[<a href="#cdktf.ITerraformDependable">ITerraformDependable</a>]</code>                                                                               | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.forEach">for_each</a></code>                                                         | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                                | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.providers">providers</a></code>                                                      | <code>typing.List[typing.Union[<a href="#cdktf.TerraformProvider">TerraformProvider</a>, <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>]]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules">skip_asset_creation_from_local_modules</a></code> | <code>bool</code>                                                                                                                                                      | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.source">source</a></code>                                                            | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.version">version</a></code>                                                          | <code>str</code>                                                                                                                                                       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.variables">variables</a></code>                                                      | <code>typing.Mapping[typing.Any]</code>                                                                                                                                | _No description._ |
 
 ---
 
-##### `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.TerraformHclModuleOptions.property.dependsOn"></a>
+##### `depends_on`<sup>Optional</sup> <a name="depends_on" id="cdktf.TerraformHclModuleConfig.property.dependsOn"></a>
 
 ```python
 depends_on: typing.List[ITerraformDependable]
@@ -25863,7 +25863,7 @@ depends_on: typing.List[ITerraformDependable]
 
 ---
 
-##### `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.TerraformHclModuleOptions.property.forEach"></a>
+##### `for_each`<sup>Optional</sup> <a name="for_each" id="cdktf.TerraformHclModuleConfig.property.forEach"></a>
 
 ```python
 for_each: ITerraformIterator
@@ -25873,7 +25873,7 @@ for_each: ITerraformIterator
 
 ---
 
-##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
+##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleConfig.property.providers"></a>
 
 ```python
 providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
@@ -25883,7 +25883,7 @@ providers: typing.List[typing.Union[TerraformProvider, TerraformModuleProvider]]
 
 ---
 
-##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+##### `skip_asset_creation_from_local_modules`<sup>Optional</sup> <a name="skip_asset_creation_from_local_modules" id="cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules"></a>
 
 ```python
 skip_asset_creation_from_local_modules: bool
@@ -25893,7 +25893,7 @@ skip_asset_creation_from_local_modules: bool
 
 ---
 
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleConfig.property.source"></a>
 
 ```python
 source: str
@@ -25903,7 +25903,7 @@ source: str
 
 ---
 
-##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
+##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleConfig.property.version"></a>
 
 ```python
 version: str
@@ -25913,7 +25913,7 @@ version: str
 
 ---
 
-##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleOptions.property.variables"></a>
+##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleConfig.property.variables"></a>
 
 ```python
 variables: typing.Mapping[typing.Any]

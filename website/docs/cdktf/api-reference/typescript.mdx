@@ -10209,14 +10209,14 @@ public readonly friendlyUniqueId: string;
 ```typescript
 import { TerraformHclModule } from 'cdktf'
 
-new TerraformHclModule(scope: Construct, id: string, options: TerraformHclModuleOptions)
+new TerraformHclModule(scope: Construct, id: string, options: TerraformHclModuleConfig)
 ```
 
-| **Name**                                                                                   | **Type**                                                                              | **Description**   |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>     | <code>constructs.Construct</code>                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>           | <code>string</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a></code> | _No description._ |
+| **Name**                                                                                   | **Type**                                                                            | **Description**   |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">scope</a></code>     | <code>constructs.Construct</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">id</a></code>           | <code>string</code>                                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a></code> | _No description._ |
 
 ---
 
@@ -10234,7 +10234,7 @@ new TerraformHclModule(scope: Construct, id: string, options: TerraformHclModule
 
 ##### `options`<sup>Required</sup> <a name="options" id="cdktf.TerraformHclModule.Initializer.parameter.options"></a>
 
-- _Type:_ <a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a>
+- _Type:_ <a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a>
 
 ---
 
@@ -20315,31 +20315,31 @@ public readonly uniqueId: string;
 
 ---
 
-### TerraformHclModuleOptions <a name="TerraformHclModuleOptions" id="cdktf.TerraformHclModuleOptions"></a>
+### TerraformHclModuleConfig <a name="TerraformHclModuleConfig" id="cdktf.TerraformHclModuleConfig"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleOptions.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleConfig.Initializer"></a>
 
 ```typescript
-import { TerraformHclModuleOptions } from 'cdktf'
+import { TerraformHclModuleConfig } from 'cdktf'
 
-const terraformHclModuleOptions: TerraformHclModuleOptions = { ... }
+const terraformHclModuleConfig: TerraformHclModuleConfig = { ... }
 ```
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                                 | **Type**                                                                                                                                        | **Description**   |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">dependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>                                                 | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
+| **Name**                                                                                                                                | **Type**                                                                                                                                        | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.dependsOn">dependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code>                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.providers">providers</a></code>                                                 | <code><a href="#cdktf.TerraformProvider">TerraformProvider</a> \| <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>boolean</code>                                                                                                                            | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.source">source</a></code>                                                       | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.version">version</a></code>                                                     | <code>string</code>                                                                                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.variables">variables</a></code>                                                 | <code>{[ key: string ]: any}</code>                                                                                                             | _No description._ |
 
 ---
 
-##### `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModuleOptions.property.dependsOn"></a>
+##### `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModuleConfig.property.dependsOn"></a>
 
 ```typescript
 public readonly dependsOn: ITerraformDependable[];
@@ -20349,7 +20349,7 @@ public readonly dependsOn: ITerraformDependable[];
 
 ---
 
-##### `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModuleOptions.property.forEach"></a>
+##### `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModuleConfig.property.forEach"></a>
 
 ```typescript
 public readonly forEach: ITerraformIterator;
@@ -20359,7 +20359,7 @@ public readonly forEach: ITerraformIterator;
 
 ---
 
-##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
+##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleConfig.property.providers"></a>
 
 ```typescript
 public readonly providers: TerraformProvider | TerraformModuleProvider[];
@@ -20369,7 +20369,7 @@ public readonly providers: TerraformProvider | TerraformModuleProvider[];
 
 ---
 
-##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules"></a>
 
 ```typescript
 public readonly skipAssetCreationFromLocalModules: boolean;
@@ -20379,7 +20379,7 @@ public readonly skipAssetCreationFromLocalModules: boolean;
 
 ---
 
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleConfig.property.source"></a>
 
 ```typescript
 public readonly source: string;
@@ -20389,7 +20389,7 @@ public readonly source: string;
 
 ---
 
-##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
+##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleConfig.property.version"></a>
 
 ```typescript
 public readonly version: string;
@@ -20399,7 +20399,7 @@ public readonly version: string;
 
 ---
 
-##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleOptions.property.variables"></a>
+##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleConfig.property.variables"></a>
 
 ```typescript
 public readonly variables: {[ key: string ]: any};

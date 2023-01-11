@@ -10209,14 +10209,14 @@ public string FriendlyUniqueId { get; }
 ```csharp
 using HashiCorp.Cdktf;
 
-new TerraformHclModule(Construct Scope, string Id, TerraformHclModuleOptions Options);
+new TerraformHclModule(Construct Scope, string Id, TerraformHclModuleConfig Options);
 ```
 
-| **Name**                                                                                   | **Type**                                                                              | **Description**   |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">Scope</a></code>     | <code>Constructs.Construct</code>                                                     | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">Id</a></code>           | <code>string</code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">Options</a></code> | <code><a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a></code> | _No description._ |
+| **Name**                                                                                   | **Type**                                                                            | **Description**   |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.scope">Scope</a></code>     | <code>Constructs.Construct</code>                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.id">Id</a></code>           | <code>string</code>                                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformHclModule.Initializer.parameter.options">Options</a></code> | <code><a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a></code> | _No description._ |
 
 ---
 
@@ -10234,7 +10234,7 @@ new TerraformHclModule(Construct Scope, string Id, TerraformHclModuleOptions Opt
 
 ##### `Options`<sup>Required</sup> <a name="Options" id="cdktf.TerraformHclModule.Initializer.parameter.options"></a>
 
-- _Type:_ <a href="#cdktf.TerraformHclModuleOptions">TerraformHclModuleOptions</a>
+- _Type:_ <a href="#cdktf.TerraformHclModuleConfig">TerraformHclModuleConfig</a>
 
 ---
 
@@ -20808,14 +20808,14 @@ public string UniqueId { get; set; }
 
 ---
 
-### TerraformHclModuleOptions <a name="TerraformHclModuleOptions" id="cdktf.TerraformHclModuleOptions"></a>
+### TerraformHclModuleConfig <a name="TerraformHclModuleConfig" id="cdktf.TerraformHclModuleConfig"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleOptions.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleConfig.Initializer"></a>
 
 ```csharp
 using HashiCorp.Cdktf;
 
-new TerraformHclModuleOptions {
+new TerraformHclModuleConfig {
     ITerraformDependable[] DependsOn = null,
     ITerraformIterator ForEach = null,
     object[] Providers = null,
@@ -20828,19 +20828,19 @@ new TerraformHclModuleOptions {
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                                 | **Type**                                                                      | **Description**   |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">DependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>       | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">Providers</a></code>                                                 | <code>object[]</code>                                                         | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>bool</code>                                                             | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">Source</a></code>                                                       | <code>string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">Version</a></code>                                                     | <code>string</code>                                                           | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">Variables</a></code>                                                 | <code>System.Collections.Generic.IDictionary< string, object ></code>         | _No description._ |
+| **Name**                                                                                                                                | **Type**                                                                      | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.dependsOn">DependsOn</a></code>                                                 | <code><a href="#cdktf.ITerraformDependable">ITerraformDependable</a>[]</code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.forEach">ForEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>       | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.providers">Providers</a></code>                                                 | <code>object[]</code>                                                         | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules">SkipAssetCreationFromLocalModules</a></code> | <code>bool</code>                                                             | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.source">Source</a></code>                                                       | <code>string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.version">Version</a></code>                                                     | <code>string</code>                                                           | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.variables">Variables</a></code>                                                 | <code>System.Collections.Generic.IDictionary< string, object ></code>         | _No description._ |
 
 ---
 
-##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformHclModuleOptions.property.dependsOn"></a>
+##### `DependsOn`<sup>Optional</sup> <a name="DependsOn" id="cdktf.TerraformHclModuleConfig.property.dependsOn"></a>
 
 ```csharp
 public ITerraformDependable[] DependsOn { get; set; }
@@ -20850,7 +20850,7 @@ public ITerraformDependable[] DependsOn { get; set; }
 
 ---
 
-##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformHclModuleOptions.property.forEach"></a>
+##### `ForEach`<sup>Optional</sup> <a name="ForEach" id="cdktf.TerraformHclModuleConfig.property.forEach"></a>
 
 ```csharp
 public ITerraformIterator ForEach { get; set; }
@@ -20860,7 +20860,7 @@ public ITerraformIterator ForEach { get; set; }
 
 ---
 
-##### `Providers`<sup>Optional</sup> <a name="Providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
+##### `Providers`<sup>Optional</sup> <a name="Providers" id="cdktf.TerraformHclModuleConfig.property.providers"></a>
 
 ```csharp
 public object[] Providers { get; set; }
@@ -20870,7 +20870,7 @@ public object[] Providers { get; set; }
 
 ---
 
-##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+##### `SkipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="SkipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules"></a>
 
 ```csharp
 public bool SkipAssetCreationFromLocalModules { get; set; }
@@ -20880,7 +20880,7 @@ public bool SkipAssetCreationFromLocalModules { get; set; }
 
 ---
 
-##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+##### `Source`<sup>Required</sup> <a name="Source" id="cdktf.TerraformHclModuleConfig.property.source"></a>
 
 ```csharp
 public string Source { get; set; }
@@ -20890,7 +20890,7 @@ public string Source { get; set; }
 
 ---
 
-##### `Version`<sup>Optional</sup> <a name="Version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
+##### `Version`<sup>Optional</sup> <a name="Version" id="cdktf.TerraformHclModuleConfig.property.version"></a>
 
 ```csharp
 public string Version { get; set; }
@@ -20900,7 +20900,7 @@ public string Version { get; set; }
 
 ---
 
-##### `Variables`<sup>Optional</sup> <a name="Variables" id="cdktf.TerraformHclModuleOptions.property.variables"></a>
+##### `Variables`<sup>Optional</sup> <a name="Variables" id="cdktf.TerraformHclModuleConfig.property.variables"></a>
 
 ```csharp
 public System.Collections.Generic.IDictionary< string, object > Variables { get; set; }

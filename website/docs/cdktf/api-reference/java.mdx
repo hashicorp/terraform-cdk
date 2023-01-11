@@ -24997,14 +24997,14 @@ public java.lang.String getUniqueId();
 
 ---
 
-### TerraformHclModuleOptions <a name="TerraformHclModuleOptions" id="cdktf.TerraformHclModuleOptions"></a>
+### TerraformHclModuleConfig <a name="TerraformHclModuleConfig" id="cdktf.TerraformHclModuleConfig"></a>
 
-#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleOptions.Initializer"></a>
+#### Initializer <a name="Initializer" id="cdktf.TerraformHclModuleConfig.Initializer"></a>
 
 ```java
-import com.hashicorp.cdktf.TerraformHclModuleOptions;
+import com.hashicorp.cdktf.TerraformHclModuleConfig;
 
-TerraformHclModuleOptions.builder()
+TerraformHclModuleConfig.builder()
 //  .dependsOn(java.util.List< ITerraformDependable >)
 //  .forEach(ITerraformIterator)
 //  .providers(java.util.List<  TerraformProvider)
@@ -25018,19 +25018,19 @@ TerraformHclModuleOptions.builder()
 
 #### Properties <a name="Properties" id="Properties"></a>
 
-| **Name**                                                                                                                                 | **Type**                                                                                                                                                       | **Description**   |
-| ---------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.dependsOn">dependsOn</a></code>                                                 | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                   | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                        | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.providers">providers</a></code>                                                 | <code>java.util.List< <a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>></code> | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>java.lang.Boolean</code>                                                                                                                                 | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.source">source</a></code>                                                       | <code>java.lang.String</code>                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.version">version</a></code>                                                     | <code>java.lang.String</code>                                                                                                                                  | _No description._ |
-| <code><a href="#cdktf.TerraformHclModuleOptions.property.variables">variables</a></code>                                                 | <code>java.util.Map< java.lang.String, java.lang.Object ></code>                                                                                               | _No description._ |
+| **Name**                                                                                                                                | **Type**                                                                                                                                                       | **Description**   |
+| --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.dependsOn">dependsOn</a></code>                                                 | <code>java.util.List< <a href="#cdktf.ITerraformDependable">ITerraformDependable</a>></code>                                                                   | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.forEach">forEach</a></code>                                                     | <code><a href="#cdktf.ITerraformIterator">ITerraformIterator</a></code>                                                                                        | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.providers">providers</a></code>                                                 | <code>java.util.List< <a href="#cdktf.TerraformProvider">TerraformProvider</a> OR <a href="#cdktf.TerraformModuleProvider">TerraformModuleProvider</a>></code> | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules">skipAssetCreationFromLocalModules</a></code> | <code>java.lang.Boolean</code>                                                                                                                                 | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.source">source</a></code>                                                       | <code>java.lang.String</code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.version">version</a></code>                                                     | <code>java.lang.String</code>                                                                                                                                  | _No description._ |
+| <code><a href="#cdktf.TerraformHclModuleConfig.property.variables">variables</a></code>                                                 | <code>java.util.Map< java.lang.String, java.lang.Object ></code>                                                                                               | _No description._ |
 
 ---
 
-##### `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModuleOptions.property.dependsOn"></a>
+##### `dependsOn`<sup>Optional</sup> <a name="dependsOn" id="cdktf.TerraformHclModuleConfig.property.dependsOn"></a>
 
 ```java
 public java.util.List< ITerraformDependable > getDependsOn();
@@ -25040,7 +25040,7 @@ public java.util.List< ITerraformDependable > getDependsOn();
 
 ---
 
-##### `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModuleOptions.property.forEach"></a>
+##### `forEach`<sup>Optional</sup> <a name="forEach" id="cdktf.TerraformHclModuleConfig.property.forEach"></a>
 
 ```java
 public ITerraformIterator getForEach();
@@ -25050,7 +25050,7 @@ public ITerraformIterator getForEach();
 
 ---
 
-##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleOptions.property.providers"></a>
+##### `providers`<sup>Optional</sup> <a name="providers" id="cdktf.TerraformHclModuleConfig.property.providers"></a>
 
 ```java
 public java.lang.Object getProviders();
@@ -25060,7 +25060,7 @@ public java.lang.Object getProviders();
 
 ---
 
-##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleOptions.property.skipAssetCreationFromLocalModules"></a>
+##### `skipAssetCreationFromLocalModules`<sup>Optional</sup> <a name="skipAssetCreationFromLocalModules" id="cdktf.TerraformHclModuleConfig.property.skipAssetCreationFromLocalModules"></a>
 
 ```java
 public java.lang.Boolean getSkipAssetCreationFromLocalModules();
@@ -25070,7 +25070,7 @@ public java.lang.Boolean getSkipAssetCreationFromLocalModules();
 
 ---
 
-##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleOptions.property.source"></a>
+##### `source`<sup>Required</sup> <a name="source" id="cdktf.TerraformHclModuleConfig.property.source"></a>
 
 ```java
 public java.lang.String getSource();
@@ -25080,7 +25080,7 @@ public java.lang.String getSource();
 
 ---
 
-##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleOptions.property.version"></a>
+##### `version`<sup>Optional</sup> <a name="version" id="cdktf.TerraformHclModuleConfig.property.version"></a>
 
 ```java
 public java.lang.String getVersion();
@@ -25090,7 +25090,7 @@ public java.lang.String getVersion();
 
 ---
 
-##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleOptions.property.variables"></a>
+##### `variables`<sup>Optional</sup> <a name="variables" id="cdktf.TerraformHclModuleConfig.property.variables"></a>
 
 ```java
 public java.util.Map< java.lang.String, java.lang.Object > getVariables();
