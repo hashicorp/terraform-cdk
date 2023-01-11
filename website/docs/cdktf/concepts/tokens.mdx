@@ -69,13 +69,13 @@ export class TokensStack extends TerraformStack {
                 .build()
         );
 
-        Vpc vpc = new Vpc(this, "vpcName", VpcOptions.builder()
+        Vpc vpc = new Vpc(this, "vpcName", VpcConfig.builder()
                 .name("vpcName")
                 .publicSubnets(Arrays.asList("10.0.1.0/24", "10.0.2.0/24"))
                 .build()
         );
 
-        new Eks(this, "EksModules", EksOptions.builder()
+        new Eks(this, "EksModules", EksConfig.builder()
                 .vpcId(vpc.getVpcIdOutput())
                 .clusterName("my-kubernetes-cluster")
                 .subnets(Token.asList(vpc.getPublicSubnetsOutput()))
@@ -114,12 +114,12 @@ export class TokensStack extends TerraformStack {
                Type = "number"
             });
 
-            Vpc vpc = new Vpc(this, "vpc", new VpcOptions {
+            Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
                 Name = "vpc",
                 PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
             });
 
-            new Eks(this, "eks", new EksOptions {
+            new Eks(this, "eks", new EksConfig {
                 ClusterName = "my-kubernetes-cluster",
                 Subnets = Token.AsList(vpc.PublicSubnetsOutput),
                 VpcId = vpc.VpcIdOutput,

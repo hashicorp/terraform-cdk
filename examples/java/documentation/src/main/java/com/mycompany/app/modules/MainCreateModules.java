@@ -2,7 +2,7 @@ package com.mycompany.app.modules;
 
 import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformHclModule;
-import com.hashicorp.cdktf.TerraformHclModuleOptions;
+import com.hashicorp.cdktf.TerraformHclModuleConfig;
 import com.hashicorp.cdktf.TerraformStack;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
@@ -24,7 +24,7 @@ public class MainCreateModules extends TerraformStack {
                 .build()
         );
 
-        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
+        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleConfig.builder()
                 .source("terraform-aws-modules/vpc/aws")
                 .variables(new HashMap<String, Object>(){{
                     put("name", "my-vpc");
