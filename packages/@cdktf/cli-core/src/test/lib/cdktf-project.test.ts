@@ -32,7 +32,7 @@ function installFixturesInWorkingDirectory(
   return { outDir, workingDirectory };
 }
 
-jest.setTimeout(180_000);
+jest.setTimeout(300_000);
 describe("CdktfProject", () => {
   let inNewWorkingDirectory: () => {
     workingDirectory: string;
@@ -87,7 +87,7 @@ describe("CdktfProject", () => {
         outDir,
       };
     };
-  }, 100_000);
+  }, 200_000);
 
   it("should be able to create a CdktfProject", () => {
     const cdktfProject = new CdktfProject({
