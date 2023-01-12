@@ -1,8 +1,16 @@
 import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
-import { createMachine, send, interpret, EventObject, assign } from "xstate";
-import * as pty from "@cdktf/node-pty-prebuilt-multiarch";
+import {
+  createMachine,
+  send,
+  interpret,
+  EventObject,
+  assign,
+  Sender,
+  Receiver,
+} from "xstate";
+import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
 import stripAnsi from "strip-ansi";
@@ -135,135 +143,188 @@ export const deployMachine = createMachine<
   DeployContext,
   DeployEvent,
   DeployState
->({
-  predictableActionArguments: true,
-  context: {},
-  initial: "idle",
-  id: "root",
-  states: {
-    idle: {
-      on: {
-        START: { target: "running" },
-      },
-    },
-    running: {
-      invoke: {
-        id: "pty",
-        src: (_context, event) => (send, onReceive) => {
-          if (event.type !== "START")
-            throw Errors.Internal(
-              `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
-            );
-          const { args, options } = event.pty;
-          const file =
-            os.platform() === "win32"
-              ? findExecutable(event.pty.file, options.cwd, options)
-              : event.pty.file;
-          logger.trace(
-            `Spawning pty with file=${file}, args=${
-              Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-            }, options=${JSON.stringify(options)}`
-          );
-          const p = pty.spawn(file, args, options);
-
-          onReceive((event: DeployEvent) => {
-            if (event.type === "SEND_INPUT") {
-              p.write(event.input);
-            }
-          });
-
-          p.onData(handleLineReceived(send));
-          p.onExit(({ exitCode }) => {
-            send({ type: "EXITED", exitCode });
-          });
-
-          return () => {
-            logger.trace("Terracorm CLI state machine: cleaning up pty");
-            p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
-            // TODO: is there a way to delay this? maybe go into a "killing" state first?
-          };
+>(
+  {
+    predictableActionArguments: true,
+    context: {},
+    initial: "idle",
+    id: "root",
+    states: {
+      idle: {
+        on: {
+          START: { target: "running" },
         },
       },
-      on: {
-        EXITED: "exited",
-        STOP: "stopped",
-      },
-      initial: "processing",
-      states: {
-        // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI to show a good error?
-        processing: {
-          on: {
-            REQUEST_APPROVAL: "awaiting_approval",
-            VARIABLE_MISSING: {
-              actions: send({ type: "EXITED", exitCode: 1 }),
+      running: {
+        invoke: {
+          id: "pty",
+          src: "runTerraformInPty",
+        },
+        on: {
+          EXITED: "exited",
+          STOP: "stopped",
+        },
+        initial: "processing",
+        states: {
+          // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI to show a good error?
+          processing: {
+            on: {
+              REQUEST_APPROVAL: "awaiting_approval",
+              VARIABLE_MISSING: {
+                actions: send({ type: "EXITED", exitCode: 1 }),
+              },
             },
           },
-        },
-        awaiting_approval: {
-          on: {
-            APPROVED_EXTERNALLY: "processing",
-            REJECTED_EXTERNALLY: {
-              target: "#root.exited",
-              actions: assign<
-                DeployContext,
-                DeployEvent & { type: "REJECTED_EXTERNALLY" }
-              >({ cancelled: true }),
-            },
-            APPROVE: {
-              target: "processing",
-              actions: send(
-                { type: "SEND_INPUT", input: "yes\r\n" },
-                { to: "pty" }
-              ),
-            },
-            REJECT: {
-              target: "processing",
-              actions: [
-                send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
-                assign<DeployContext, DeployEvent & { type: "REJECT" }>({
-                  cancelled: true,
-                }),
-              ],
-            },
-          },
-        },
-        awaiting_override: {
-          on: {
-            OVERRIDDEN_EXTERNALLY: "processing",
-            OVERRIDE_REJECTED_EXTERNALLY: {
-              target: "#root.exited",
-              actions: assign<
-                DeployContext,
-                DeployEvent & { type: "OVERRIDE_REJECTED_EXTERNALLY" }
-              >({ cancelled: true }),
-            },
-            OVERRIDE: {
-              target: "processing",
-              actions: send(
-                { type: "SEND_INPUT", input: "override\n" },
-                { to: "pty" }
-              ),
-            },
-            REJECT_OVERRIDE: {
-              target: "processing",
-              actions: [
-                send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
-                assign<
+          awaiting_approval: {
+            on: {
+              APPROVED_EXTERNALLY: "processing",
+              REJECTED_EXTERNALLY: {
+                target: "#root.exited",
+                actions: assign<
                   DeployContext,
-                  DeployEvent & { type: "REJECT_OVERRIDE" }
-                >({
-                  cancelled: true,
-                }),
-              ],
+                  DeployEvent & { type: "REJECTED_EXTERNALLY" }
+                >({ cancelled: true }),
+              },
+              APPROVE: {
+                target: "processing",
+                actions: send(
+                  { type: "SEND_INPUT", input: "yes\r\n" },
+                  { to: "pty" }
+                ),
+              },
+              REJECT: {
+                target: "processing",
+                actions: [
+                  send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                  assign<DeployContext, DeployEvent & { type: "REJECT" }>({
+                    cancelled: true,
+                  }),
+                ],
+              },
+            },
+          },
+          awaiting_override: {
+            on: {
+              OVERRIDDEN_EXTERNALLY: "processing",
+              OVERRIDE_REJECTED_EXTERNALLY: {
+                target: "#root.exited",
+                actions: assign<
+                  DeployContext,
+                  DeployEvent & { type: "OVERRIDE_REJECTED_EXTERNALLY" }
+                >({ cancelled: true }),
+              },
+              OVERRIDE: {
+                target: "processing",
+                actions: send(
+                  { type: "SEND_INPUT", input: "override\n" },
+                  { to: "pty" }
+                ),
+              },
+              REJECT_OVERRIDE: {
+                target: "processing",
+                actions: [
+                  send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                  assign<
+                    DeployContext,
+                    DeployEvent & { type: "REJECT_OVERRIDE" }
+                  >({
+                    cancelled: true,
+                  }),
+                ],
+              },
             },
           },
         },
       },
+      exited: { type: "final" },
+      stopped: { type: "final" },
     },
-    exited: { type: "final" },
-    stopped: { type: "final" },
   },
-});
+  {
+    services: {
+      runTerraformInPty: (context, event) => ptyService(context, event),
+    },
+  }
+);
+
+function spawnPtyFromEvent(event: DeployEvent): pty.IPty {
+  if (event.type !== "START") {
+    throw Errors.Internal(
+      `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
+    );
+  }
+
+  const { args, options } = event.pty;
+  const file =
+    os.platform() === "win32"
+      ? findExecutable(event.pty.file, options.cwd, options)
+      : event.pty.file;
+  logger.trace(
+    `Spawning pty with file=${file}, args=${
+      Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
+    }, options=${JSON.stringify(options)}`
+  );
+  const p = pty.spawn(file, args, options);
+
+  return p;
+}
+
+function ptyService(_context: DeployContext, event: DeployEvent) {
+  return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
+    const p = spawnPtyFromEvent(event);
+
+    onReceive((event: DeployEvent) => {
+      if (event.type === "SEND_INPUT") {
+        p.write(event.input);
+      }
+    });
+
+    p.onData((line) => {
+      let hideLine = false;
+
+      // possible events based on line
+      if (line.includes("approved using the UI or API")) {
+        send({ type: "APPROVED_EXTERNALLY" });
+      } else if (line.includes("discarded using the UI or API")) {
+        send({ type: "REJECTED_EXTERNALLY" });
+      } else if (
+        line.includes("Do you want to perform these actions") ||
+        line.includes("Do you really want to destroy all resources?")
+      ) {
+        send({ type: "REQUEST_APPROVAL" });
+      } else if (line.includes("var.") && line.includes("Enter a value:")) {
+        hideLine = true;
+
+        const variableName = extractVariableNameFromPrompt(line);
+        send({
+          type: "LINE_RECEIVED",
+          line: missingVariable(variableName),
+        });
+        send({ type: "VARIABLE_MISSING", variableName });
+      } else if (
+        line.includes("Do you want to override the soft failed policy check?")
+      ) {
+        send({ type: "REQUEST_SENTINEL_OVERRIDE" });
+      }
+
+      if (!hideLine) {
+        send({
+          type: "LINE_RECEIVED",
+          line,
+        });
+      }
+    });
+    p.onExit(({ exitCode }) => {
+      send({ type: "EXITED", exitCode });
+    });
+
+    return () => {
+      logger.trace("Terracorm CLI state machine: cleaning up pty");
+      p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
+      // TODO: is there a way to delay this? maybe go into a "killing" state first?
+    };
+  };
+}
 
 export function createAndStartDeployService(options: {
   refreshOnly?: boolean;
