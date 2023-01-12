@@ -61,20 +61,20 @@ export class App extends Construct {
 
   /**
    * Defines an app
-   * @param options configuration options
+   * @param config configuration
    */
-  constructor(options: AppConfig = {}) {
+  constructor(config: AppConfig = {}) {
     super(undefined as any, "");
     Object.defineProperty(this, APP_SYMBOL, { value: true });
 
-    this.outdir = process.env.CDKTF_OUTDIR ?? options.outdir ?? "cdktf.out";
+    this.outdir = process.env.CDKTF_OUTDIR ?? config.outdir ?? "cdktf.out";
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
-    this.skipValidation = options.skipValidation;
+    this.skipValidation = config.skipValidation;
 
-    this.loadContext(options.context);
+    this.loadContext(config.context);
 
     const node = this.node;
-    if (options.stackTraces === false) {
+    if (config.stackTraces === false) {
       node.setContext(DISABLE_STACK_TRACE_IN_METADATA, true);
     }
 
