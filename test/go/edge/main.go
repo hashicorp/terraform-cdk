@@ -284,7 +284,7 @@ func NewIteratorStack(scope constructs.Construct, id string) cdktf.TerraformStac
 }
 
 func main() {
-	app := cdktf.Testing_StubVersion(cdktf.NewApp(&cdktf.AppOptions{StackTraces: jsii.Bool(false)}))
+	app := cdktf.Testing_StubVersion(cdktf.NewApp(&cdktf.AppConfig{StackTraces: jsii.Bool(false)}))
 
 	NewReferenceStack(app, "reference")
 	NewProviderStack(app, "provider")

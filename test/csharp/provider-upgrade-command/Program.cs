@@ -11,7 +11,7 @@ namespace MyCompany.MyApp
 
         public static void Main(string[] args)
         {
-            App app = Testing.StubVersion(new App(new AppOptions { StackTraces = false }));
+            App app = Testing.StubVersion(new App(new AppConfig { StackTraces = false }));
             new MyApp(app, "csharp-simple");
             app.Synth();
         }

@@ -5,6 +5,7 @@ import { createMachine, send, interpret, EventObject, assign } from "xstate";
 import * as pty from "node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
+import stripAnsi from "strip-ansi";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
@@ -67,7 +68,8 @@ export type DeployState =
     };
 
 export function extractVariableNameFromPrompt(line: string) {
-  const lines = line.split("\n");
+  const noColorLine = stripAnsi(line);
+  const lines = noColorLine.split("\n");
   const lineWithVar = lines.find((line) => line.includes("var."));
   if (!lineWithVar) {
     throw Errors.Internal(
@@ -191,7 +193,7 @@ export const deployMachine = createMachine<
             APPROVE: {
               target: "processing",
               actions: send(
-                { type: "SEND_INPUT", input: "yes\n" },
+                { type: "SEND_INPUT", input: "yes\r\n" },
                 { to: "pty" }
               ),
             },
