@@ -342,7 +342,7 @@ export class CdktfProject {
   // Pauses all progress / status events from being forwarded to the user
   // If set from true to false, the events will be sent through the channels they came in
   // (until a waiting for approval event is sent)
-  private waitingForApproval = false;
+  private waitingForUserInput = false;
   private eventBuffer: Array<
     | Buffered<ProjectUpdate, "projectUpdate">
     | Buffered<LogMessage, "logMessage">
@@ -366,26 +366,32 @@ export class CdktfProject {
     this.hardAbort = ac.abort.bind(ac);
   }
 
+  private isWaitingForUserInputUpdate(
+    update: ProjectUpdate | StackUpdate | StackApprovalUpdate
+  ) {
+    return update.type === "waiting for approval";
+  }
+
   private stopAllStacks() {
     this.stacksToRun.forEach((stack) => stack.stop());
     this.eventBuffer = this.eventBuffer.filter(
       (event) =>
         event.type === "projectUpdate"
-          ? event.value.type !== "waiting for approval" // we want to filter out the waiting for approval events
+          ? !this.isWaitingForUserInputUpdate(event.value) // we want to filter out the waiting for approval events
           : true // we want all other types
     );
   }
 
-  private waitForApproval() {
-    this.waitingForApproval = true;
+  private awaitUserInput() {
+    this.waitingForUserInput = true;
   }
 
-  private resumeAfterApproval(stackName: string) {
+  private resumeAfterUserInput(stackName: string) {
     // remove waiting for approval event that should be resumed
     this.eventBuffer = this.eventBuffer.filter(
       (event) =>
         !(
-          event.type === "projectUpdate" &&
+          event.type === "projectUpdate" && // TODO: Use `isWaitingForUserInputEvent` without making Typescript angry
           event.value.type === "waiting for approval" &&
           event.value.stackName === stackName
         )
@@ -394,7 +400,7 @@ export class CdktfProject {
     if (
       this.eventBuffer.length &&
       this.eventBuffer[0].type === "projectUpdate" &&
-      this.eventBuffer[0].value.type === "waiting for approval"
+      this.isWaitingForUserInputUpdate(this.eventBuffer[0].value)
     ) {
       // we are still waiting on approval for the current stack
       // we removed a future "waiting for approval" event for some other stack
@@ -406,8 +412,8 @@ export class CdktfProject {
     while (event) {
       if (event.type === "projectUpdate") {
         event.cb(event.value);
-        if (event.value.type === "waiting for approval") {
-          // We have to wait for approval again, therefore we can not resume
+        if (this.isWaitingForUserInputUpdate(event.value)) {
+          // We have to wait for user input again, therefore we can not resume
           return;
         }
       }
@@ -418,11 +424,11 @@ export class CdktfProject {
       event = this.eventBuffer.shift();
     }
 
-    // If we reach this point there was no waiting for approval event, so we can safely resume
-    this.waitingForApproval = false;
+    // If we reach this point there was no waiting for user input event, so we can safely resume
+    this.waitingForUserInput = false;
   }
 
-  private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
+  private handleUserInputProcess(cb: (updateToSend: ProjectUpdate) => void) {
     return (
       update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
     ) => {
@@ -438,13 +444,13 @@ export class CdktfProject {
         if (!update.approved) {
           this.stopAllStacksThatCanNotRunWithout(update.stackName);
         }
-        this.resumeAfterApproval(update.stackName);
+        this.resumeAfterUserInput(update.stackName);
         return; // aka don't send this event to any buffer
       }
 
-      const bufferableCb = this.waitingForApproval ? bufferCb : cb;
+      const bufferableCb = this.waitingForUserInput ? bufferCb : cb;
 
-      if (update.type === "waiting for stack approval") {
+      if (this.isWaitingForUserInputUpdate(update)) {
         const callbacks = (update: StackApprovalUpdate) => ({
           approve: () => {
             update.approve();
@@ -453,18 +459,18 @@ export class CdktfProject {
             // remove the "waiting for stack approval" event from the buffer before we even
             // set waitingForApproval to true (at the end of this if statement) which results
             // in buffered updates which will never unblock
-            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
+            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
           },
           dismiss: () => {
             update.reject();
 
             this.stopAllStacksThatCanNotRunWithout(update.stackName);
-            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
+            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
           },
           stop: () => {
             update.reject();
             this.stopAllStacks();
-            setTimeout(() => this.resumeAfterApproval(update.stackName), 0);
+            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
           },
         });
 
@@ -472,31 +478,31 @@ export class CdktfProject {
         bufferCb({
           type: "waiting for approval",
           stackName: update.stackName,
-          ...callbacks(update),
+          ...callbacks(update as StackApprovalUpdate),
         });
         // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
-        if (!this.waitingForApproval) {
+        if (!this.waitingForUserInput) {
           cb({
             type: "waiting for approval",
             stackName: update.stackName,
-            ...callbacks(update),
+            ...callbacks(update as StackApprovalUpdate),
           });
         }
 
-        this.waitForApproval();
+        this.awaitUserInput();
       } else {
-        bufferableCb(update);
+        bufferableCb(update as ProjectUpdate);
       }
     };
   }
 
-  private bufferWhileWaitingForApproval(cb?: (msg: LogMessage) => void) {
+  private bufferWhileAwaitingUserInput(cb?: (msg: LogMessage) => void) {
     if (!cb) {
       return undefined;
     }
 
     return (msg: LogMessage) => {
-      if (this.waitingForApproval) {
+      if (this.waitingForUserInput) {
         this.eventBuffer.push({
           cb,
           value: msg,
@@ -513,11 +519,11 @@ export class CdktfProject {
     opts: AutoApproveOptions = {}
   ) {
     const enhanceLogMessage = createEnhanceLogMessage(stack);
-    const onLog = this.bufferWhileWaitingForApproval(this.onLog);
+    const onLog = this.bufferWhileAwaitingUserInput(this.onLog);
     return new CdktfStack({
       ...opts,
       stack,
-      onUpdate: this.handleApprovalProcess(this.onUpdate),
+      onUpdate: this.handleUserInputProcess(this.onUpdate),
       onLog: onLog
         ? ({ message }) =>
             onLog({
