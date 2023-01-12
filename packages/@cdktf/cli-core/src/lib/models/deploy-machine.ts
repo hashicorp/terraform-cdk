@@ -28,8 +28,13 @@ type DeployEvent =
   | { type: "LINE_RECEIVED"; line: string } //TODO: rename to output received as not really a line in practice
   | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
   | { type: "REJECTED_EXTERNALLY" }
+  | { type: "OVERRIDDEN_EXTERNALLY" }
+  | { type: "OVERRIDE_REJECTED_EXTERNALLY" }
+  | { type: "OVERRIDE" }
+  | { type: "REJECT_OVERRIDE" }
   | { type: "REQUEST_APPROVAL" }
   | { type: "VARIABLE_MISSING"; variableName: string }
+  | { type: "REQUEST_SENTINEL_OVERRIDE" }
   | { type: "APPROVE" }
   | { type: "REJECT" }
   | { type: "EXITED"; exitCode: number };
@@ -109,6 +114,12 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         line: missingVariable(variableName),
       });
       send({ type: "VARIABLE_MISSING", variableName });
+    } else if (
+      noColorLine.includes(
+        "Do you want to override the soft failed policy check?"
+      )
+    ) {
+      send({ type: "REQUEST_SENTINEL_OVERRIDE" });
     }
 
     if (!hideLine) {
@@ -210,6 +221,37 @@ export const deployMachine = createMachine<
               actions: [
                 send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
                 assign<DeployContext, DeployEvent & { type: "REJECT" }>({
+                  cancelled: true,
+                }),
+              ],
+            },
+          },
+        },
+        awaiting_override: {
+          on: {
+            OVERRIDDEN_EXTERNALLY: "processing",
+            OVERRIDE_REJECTED_EXTERNALLY: {
+              target: "#root.exited",
+              actions: assign<
+                DeployContext,
+                DeployEvent & { type: "OVERRIDE_REJECTED_EXTERNALLY" }
+              >({ cancelled: true }),
+            },
+            OVERRIDE: {
+              target: "processing",
+              actions: send(
+                { type: "SEND_INPUT", input: "override\n" },
+                { to: "pty" }
+              ),
+            },
+            REJECT_OVERRIDE: {
+              target: "processing",
+              actions: [
+                send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                assign<
+                  DeployContext,
+                  DeployEvent & { type: "REJECT_OVERRIDE" }
+                >({
                   cancelled: true,
                 }),
               ],
