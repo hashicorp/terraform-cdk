@@ -23,6 +23,13 @@ type MultiStackApprovalUpdate = {
   stop: () => void;
 };
 
+type MultiStackSentinelOverrideUpdate = {
+  type: "waiting for sentinel override";
+  stackName: string;
+  override: () => void;
+  reject: () => void;
+};
+
 export type ProjectUpdate =
   | {
       type: "synthesizing";
@@ -33,7 +40,8 @@ export type ProjectUpdate =
       errorMessage?: string;
     }
   | StackUpdate
-  | MultiStackApprovalUpdate;
+  | MultiStackApprovalUpdate
+  | MultiStackSentinelOverrideUpdate;
 
 function getSingleStack(
   stacks: SynthesizedStack[],

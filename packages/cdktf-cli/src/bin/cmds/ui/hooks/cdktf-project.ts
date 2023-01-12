@@ -36,6 +36,12 @@ export type Status =
       stop: () => void;
     }
   | {
+      type: "waiting for override of sentinel policy check failure";
+      stackName: string;
+      override: () => void;
+      reject: () => void;
+    }
+  | {
       type: "done";
     };
 
@@ -71,6 +77,13 @@ export function useCdktfProject<T>(
             approve: update.approve,
             dismiss: update.dismiss,
             stop: update.stop,
+          });
+        } else if (update.type === "waiting for sentinel override") {
+          setStatus({
+            type: "waiting for override of sentinel policy check failure",
+            stackName: update.stackName,
+            override: update.override,
+            reject: update.reject,
           });
         } else {
           updateRunningStatus(project);
