@@ -19,20 +19,20 @@ Represents a cdktf application.
 ```typescript
 import { App } from 'cdktf'
 
-new App(options?: AppConfig)
+new App(config?: AppConfig)
 ```
 
-| **Name**                                                                    | **Type**                                              | **Description**        |
-| --------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------- |
-| <code><a href="#cdktf.App.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration options. |
+| **Name**                                                                  | **Type**                                              | **Description** |
+| ------------------------------------------------------------------------- | ----------------------------------------------------- | --------------- |
+| <code><a href="#cdktf.App.Initializer.parameter.config">config</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration.  |
 
 ---
 
-##### `options`<sup>Optional</sup> <a name="options" id="cdktf.App.Initializer.parameter.options"></a>
+##### `config`<sup>Optional</sup> <a name="config" id="cdktf.App.Initializer.parameter.config"></a>
 
 - _Type:_ <a href="#cdktf.AppConfig">AppConfig</a>
 
-configuration options.
+configuration.
 
 ---
 
@@ -11371,7 +11371,7 @@ public toTerraform(): any
 | --------------------------------------------------------------------------------------- | ----------------------------- |
 | <code><a href="#cdktf.TerraformOutput.isConstruct">isConstruct</a></code>               | Checks if `x` is a construct. |
 | <code><a href="#cdktf.TerraformOutput.isTerraformElement">isTerraformElement</a></code> | _No description._             |
-| <code><a href="#cdktf.TerraformOutput.isTerrafromOutput">isTerrafromOutput</a></code>   | _No description._             |
+| <code><a href="#cdktf.TerraformOutput.isTerraformOutput">isTerraformOutput</a></code>   | _No description._             |
 
 ---
 
@@ -11421,15 +11421,15 @@ TerraformOutput.isTerraformElement(x: any)
 
 ---
 
-##### `isTerrafromOutput` <a name="isTerrafromOutput" id="cdktf.TerraformOutput.isTerrafromOutput"></a>
+##### `isTerraformOutput` <a name="isTerraformOutput" id="cdktf.TerraformOutput.isTerraformOutput"></a>
 
 ```typescript
 import { TerraformOutput } from 'cdktf'
 
-TerraformOutput.isTerrafromOutput(x: any)
+TerraformOutput.isTerraformOutput(x: any)
 ```
 
-###### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isTerrafromOutput.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isTerraformOutput.parameter.x"></a>
 
 - _Type:_ any
 
