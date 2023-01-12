@@ -10,7 +10,7 @@ import (
 
 func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
-	cdktf.NewLocalBackend(stack, &cdktf.LocalBackendProps{
+	cdktf.NewLocalBackend(stack, &cdktf.LocalBackendConfig{
 		Path: jsii.String("terraform.tfstate"),
 	})
 
