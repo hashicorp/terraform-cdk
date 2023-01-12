@@ -1,6 +1,6 @@
 # Contributing
 
-This repository contains Terraform CDK (CDKTF)– this includes the CDKTF CLI and [*CDKTF package, Convert stuff, provider generator - not sure how to describe*]. Prebuilt providers are housed in separate repositories under the [HashiCorp CDKTF organization](https://github.com/cdktf)
+This repository contains Terraform CDK (CDKTF)– this includes the CDKTF CLI and [*CDKTF package, Convert stuff, provider generator - not sure how to list or whats immediately relevant*]. Prebuilt providers are housed in separate repositories under the [HashiCorp CDKTF organization](https://github.com/cdktf)
 
 This document aims to provide guidance on recommended contribution practices as well as an introduction to common workflows when contributing.
 
@@ -23,19 +23,19 @@ When reporting a bug we ask that you include:
 - CDKTF & language versions being used
 - Affected Resource(s)
 - Github Gist containing the Debug output
-- Expected Behavior & Actual Behavior
+- Expected Behavior vs. Actual Behavior
 - Steps to reproduce the issue
 - Other important info about the issue
-- Any related Github issues, pull requests, and/or documentation
+- Any relevant Github issues, pull requests, and/or documentation that provides greater context
 
 ### Proposing a Feature
 
-In order to be respectful of the time of community contributors, we aim to discuss new potential feature and changes in GitHub issues prior to their implementation. This allows us to vet the potential utility of the change, as well as discuss how it could potentially fit into work currently being done.
+In order to be respectful of the time of community contributors, we aim to discuss new potential feature and changes in GitHub issues prior to their implementation. This allows us to vet the potential utility of the change, as well as discuss how it could potentially fit into work currently being done, or a future milestone.
 
 When proposing a feature we ask that you include:
 
 - A description of the feature to add
-- Any relevant Github issues, pull requests, blog posts, and/or documentation
+- Any relevant Github issues, pull requests, blog posts, and/or documentation that provides greater context
 
 ## Pull Requests
 
@@ -49,17 +49,28 @@ Before you submit your Pull Request (PR) consider the following guidelines:
 - Be sure that an existing issue describes the problem you're fixing, or documents the design for the feature you'd like to add. Discussing the design upfront helps to ensure that we're ready to accept your work. Make sure that this issue is referenced in your PR– this can be done by including `Closes: #[issue number]` in the PR's description.
 - Please sign our Contributor License Agreement (CLA) before sending PRs. We cannot accept code without a signed CLA. Make sure you author all contributed Git commits with email address associated with your CLA signature.
 
-### Style?
+### Style
 
-type of PR:
-feat()
-fix()
-chore()
+It is recommended that Pull Request titles follow the following format:
 
-Affected Component....
-cli
-cdktf
-hcl2cdk
+**Type(Affected_Component): Short description of PR**
+
+#### Type:
+
+- feat(Affected_Component): A addition of a feature within the Affected Component
+- fix(Affected_Component): A bug fix within the Affected Component
+- refactor(Affected_Component): A refactor within the Affected Component
+- chore: Updates to docs, CI work, and more generally work that does not fall under the previous categories
+
+#### Affected Component:
+
+- cli
+- cdktf
+- hcl2cdk
+- provider-generator
+- examples
+
+Ensuring your PR titles follow this format helps us quickly identify the purpose of the PR and scope in which it contributes.
 
 ### Pull Request Lifecycle
 
