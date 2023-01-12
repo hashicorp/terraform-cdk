@@ -113,6 +113,13 @@ export function useCdktfProject<T>(
       .then((value) => {
         setReturnValue(value);
         setStatus({ type: "done" });
+
+        if (process.platform === "win32") {
+          setTimeout(() => {
+            logger.debug("process.exit(0) called");
+            process.exit(0)
+          }, 100)
+        }
       })
       .catch((err) => {
         exit(new Error(err));
