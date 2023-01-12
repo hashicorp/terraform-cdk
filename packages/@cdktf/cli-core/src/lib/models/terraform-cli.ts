@@ -319,6 +319,12 @@ export class TerraformCli implements Terraform {
           approve: () => service.send("APPROVE"),
           reject: () => service.send("REJECT"),
         });
+      } else if (state.matches({ running: "awaiting_sentinel_override" })) {
+        callback({
+          type: "waiting for sentinel override",
+          override: () => service.send("OVERRIDE"),
+          reject: () => service.send("REJECT_OVERRIDE"),
+        });
       } else if (state.matches({ running: "processing" })) {
         callback({
           type: "running",

@@ -29,7 +29,7 @@ interface DeployContext {
   cancelled?: boolean;
 }
 
-type DeployEvent =
+export type DeployEvent =
   | { type: "START"; pty: PtySpawnConfig }
   | { type: "STOP" }
   | { type: "SEND_INPUT"; input: string }
@@ -69,6 +69,10 @@ export type DeployState =
     }
   | {
       value: { running: "awaiting_approval" };
+      context: DeployContext;
+    }
+  | {
+      value: { running: "awaiting_sentinel_override" };
       context: DeployContext;
     }
   | {
@@ -170,6 +174,7 @@ export const deployMachine = createMachine<
           processing: {
             on: {
               REQUEST_APPROVAL: "awaiting_approval",
+              REQUEST_SENTINEL_OVERRIDE: "awaiting_sentinel_override",
               VARIABLE_MISSING: {
                 actions: send({ type: "EXITED", exitCode: 1 }),
               },
@@ -242,7 +247,8 @@ export const deployMachine = createMachine<
   },
   {
     services: {
-      runTerraformInPty: (context, event) => ptyService(context, event),
+      runTerraformInPty: (context, event) =>
+        terraformPtyService(context, event, spawnPtyFromEvent),
     },
   }
 );
@@ -269,9 +275,13 @@ function spawnPtyFromEvent(event: DeployEvent): pty.IPty {
   return p;
 }
 
-function ptyService(_context: DeployContext, event: DeployEvent) {
+export function terraformPtyService(
+  _context: DeployContext,
+  event: DeployEvent,
+  spawnFunction: (event: DeployEvent) => pty.IPty
+): (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => void {
   return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
-    const p = spawnPtyFromEvent(event);
+    const p = spawnFunction(event);
 
     onReceive((event: DeployEvent) => {
       if (event.type === "SEND_INPUT") {

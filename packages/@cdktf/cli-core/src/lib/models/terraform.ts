@@ -120,6 +120,11 @@ export type TerraformDeployState =
       approve: () => void;
       reject: () => void;
     }
+  | {
+      type: "waiting for sentinel override";
+      override: () => void;
+      reject: () => void;
+    }
   | { type: "external approval reply"; approved: boolean };
 
 export interface Terraform {
