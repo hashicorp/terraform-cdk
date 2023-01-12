@@ -71,6 +71,12 @@ export type StackApprovalUpdate = {
   approve: () => void;
   reject: () => void;
 };
+export type StackSentinelOverrideUpdate = {
+  type: "waiting for stack sentinel override";
+  stackName: string;
+  override: () => void;
+  reject: () => void;
+};
 export type ExternalStackApprovalUpdate = {
   type: "external stack approval reply";
   stackName: string;
@@ -91,7 +97,11 @@ async function getTerraformClient(
 type CdktfStackOptions = {
   stack: SynthesizedStack;
   onUpdate: (
-    update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+    update:
+      | StackUpdate
+      | StackApprovalUpdate
+      | ExternalStackApprovalUpdate
+      | StackSentinelOverrideUpdate
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
@@ -100,6 +110,7 @@ type CdktfStackOptions = {
 type CdktfStackStates =
   | StackUpdate["type"]
   | StackApprovalUpdate["type"]
+  | StackSentinelOverrideUpdate["type"]
   | ExternalStackApprovalUpdate["type"]
   | "idle"
   | "done";
@@ -139,6 +150,7 @@ export class CdktfStack {
     update:
       | StackUpdate
       | StackApprovalUpdate
+      | StackSentinelOverrideUpdate
       | ExternalStackApprovalUpdate
       | { type: "idle" }
       | { type: "done" }
@@ -358,6 +370,19 @@ export class CdktfStack {
               type: "waiting for stack approval",
               stackName: this.stack.name,
               approve: state.approve,
+              reject: () => {
+                state.reject();
+                this.updateState({
+                  type: "dismissed",
+                  stackName: this.stack.name,
+                });
+              },
+            });
+          } else if (state.type === "waiting for sentinel override") {
+            this.updateState({
+              type: "waiting for stack sentinel override",
+              stackName: this.stack.name,
+              override: state.override,
               reject: () => {
                 state.reject();
                 this.updateState({
