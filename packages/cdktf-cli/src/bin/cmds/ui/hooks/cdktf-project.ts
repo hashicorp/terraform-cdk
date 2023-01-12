@@ -117,8 +117,8 @@ export function useCdktfProject<T>(
         if (process.platform === "win32") {
           setTimeout(() => {
             logger.debug("process.exit(0) called");
-            process.exit(0)
-          }, 100)
+            process.exit(0);
+          }, 100);
         }
       })
       .catch((err) => {
