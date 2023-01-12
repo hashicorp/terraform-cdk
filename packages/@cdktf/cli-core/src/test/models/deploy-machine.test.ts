@@ -143,7 +143,7 @@ describe("pty events", () => {
 
       setTimeout(() => {
         onDataListeners.forEach((listener) =>
-          listener(`Do you want to override the soft failed policy check
+          listener(`Do you want to override the soft failed policy check?
           Only 'override' will be accepted to override.
           
           Enter a value:`)

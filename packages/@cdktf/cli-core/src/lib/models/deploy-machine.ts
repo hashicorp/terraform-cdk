@@ -208,7 +208,7 @@ export const deployMachine = createMachine<
               },
             },
           },
-          awaiting_override: {
+          awaiting_sentinel_override: {
             on: {
               OVERRIDDEN_EXTERNALLY: "processing",
               OVERRIDE_REJECTED_EXTERNALLY: {
