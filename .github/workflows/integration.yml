@@ -80,7 +80,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
-      max-parallel: 10 # too many in parallel will give HTTP 429 errors from GH when checking out the source for example
+      max-parallel: 30 # too many in parallel will give HTTP 429 errors from GH when checking out the source for example
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
@@ -129,7 +129,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
-      max-parallel: 10 # too many in parallel will give HTTP 429 errors from GH when checking out the source for example
+      max-parallel: 30 # too many in parallel will give HTTP 429 errors from GH when checking out the source for example
     env:
       CHECKPOINT_DISABLE: "1"
       TERRAFORM_VERSION: ${{ matrix.terraform }}
