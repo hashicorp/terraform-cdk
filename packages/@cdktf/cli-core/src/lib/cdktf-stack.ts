@@ -11,6 +11,7 @@ import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 
 export type StackUpdate =
   | {

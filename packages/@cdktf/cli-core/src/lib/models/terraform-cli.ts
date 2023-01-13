@@ -24,6 +24,7 @@ import {
 import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
 import { terraformJsonSchema } from "../terraform-json";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
