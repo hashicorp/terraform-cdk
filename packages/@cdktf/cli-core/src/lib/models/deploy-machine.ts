@@ -2,7 +2,7 @@ import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
 import { createMachine, send, interpret, EventObject, assign } from "xstate";
-import * as pty from "node-pty-prebuilt-multiarch";
+import * as pty from "@cdktf/node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
 import stripAnsi from "strip-ansi";

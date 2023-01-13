@@ -19,20 +19,20 @@ Represents a cdktf application.
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-cdktf.NewApp(options AppConfig) App
+cdktf.NewApp(config AppConfig) App
 ```
 
-| **Name**                                                                    | **Type**                                              | **Description**        |
-| --------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------- |
-| <code><a href="#cdktf.App.Initializer.parameter.options">options</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration options. |
+| **Name**                                                                  | **Type**                                              | **Description** |
+| ------------------------------------------------------------------------- | ----------------------------------------------------- | --------------- |
+| <code><a href="#cdktf.App.Initializer.parameter.config">config</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration.  |
 
 ---
 
-##### `options`<sup>Optional</sup> <a name="options" id="cdktf.App.Initializer.parameter.options"></a>
+##### `config`<sup>Optional</sup> <a name="config" id="cdktf.App.Initializer.parameter.config"></a>
 
 - _Type:_ <a href="#cdktf.AppConfig">AppConfig</a>
 
-configuration options.
+configuration.
 
 ---
 
@@ -11371,7 +11371,7 @@ func ToTerraform() interface{}
 | --------------------------------------------------------------------------------------- | ----------------------------- |
 | <code><a href="#cdktf.TerraformOutput.isConstruct">IsConstruct</a></code>               | Checks if `x` is a construct. |
 | <code><a href="#cdktf.TerraformOutput.isTerraformElement">IsTerraformElement</a></code> | _No description._             |
-| <code><a href="#cdktf.TerraformOutput.isTerrafromOutput">IsTerrafromOutput</a></code>   | _No description._             |
+| <code><a href="#cdktf.TerraformOutput.isTerraformOutput">IsTerraformOutput</a></code>   | _No description._             |
 
 ---
 
@@ -11421,15 +11421,15 @@ cdktf.TerraformOutput_IsTerraformElement(x interface{}) *bool
 
 ---
 
-##### `IsTerrafromOutput` <a name="IsTerrafromOutput" id="cdktf.TerraformOutput.isTerrafromOutput"></a>
+##### `IsTerraformOutput` <a name="IsTerraformOutput" id="cdktf.TerraformOutput.isTerraformOutput"></a>
 
 ```go
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 
-cdktf.TerraformOutput_IsTerrafromOutput(x interface{}) *bool
+cdktf.TerraformOutput_IsTerraformOutput(x interface{}) *bool
 ```
 
-###### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isTerrafromOutput.parameter.x"></a>
+###### `x`<sup>Required</sup> <a name="x" id="cdktf.TerraformOutput.isTerraformOutput.parameter.x"></a>
 
 - _Type:_ interface{}
 

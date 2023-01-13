@@ -19,20 +19,20 @@ Represents a cdktf application.
 ```csharp
 using HashiCorp.Cdktf;
 
-new App(AppConfig Options = null);
+new App(AppConfig Config = null);
 ```
 
-| **Name**                                                                    | **Type**                                              | **Description**        |
-| --------------------------------------------------------------------------- | ----------------------------------------------------- | ---------------------- |
-| <code><a href="#cdktf.App.Initializer.parameter.options">Options</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration options. |
+| **Name**                                                                  | **Type**                                              | **Description** |
+| ------------------------------------------------------------------------- | ----------------------------------------------------- | --------------- |
+| <code><a href="#cdktf.App.Initializer.parameter.config">Config</a></code> | <code><a href="#cdktf.AppConfig">AppConfig</a></code> | configuration.  |
 
 ---
 
-##### `Options`<sup>Optional</sup> <a name="Options" id="cdktf.App.Initializer.parameter.options"></a>
+##### `Config`<sup>Optional</sup> <a name="Config" id="cdktf.App.Initializer.parameter.config"></a>
 
 - _Type:_ <a href="#cdktf.AppConfig">AppConfig</a>
 
-configuration options.
+configuration.
 
 ---
 
@@ -11371,7 +11371,7 @@ private object ToTerraform()
 | --------------------------------------------------------------------------------------- | ----------------------------- |
 | <code><a href="#cdktf.TerraformOutput.isConstruct">IsConstruct</a></code>               | Checks if `x` is a construct. |
 | <code><a href="#cdktf.TerraformOutput.isTerraformElement">IsTerraformElement</a></code> | _No description._             |
-| <code><a href="#cdktf.TerraformOutput.isTerrafromOutput">IsTerrafromOutput</a></code>   | _No description._             |
+| <code><a href="#cdktf.TerraformOutput.isTerraformOutput">IsTerraformOutput</a></code>   | _No description._             |
 
 ---
 
@@ -11421,15 +11421,15 @@ TerraformOutput.IsTerraformElement(object X);
 
 ---
 
-##### `IsTerrafromOutput` <a name="IsTerrafromOutput" id="cdktf.TerraformOutput.isTerrafromOutput"></a>
+##### `IsTerraformOutput` <a name="IsTerraformOutput" id="cdktf.TerraformOutput.isTerraformOutput"></a>
 
 ```csharp
 using HashiCorp.Cdktf;
 
-TerraformOutput.IsTerrafromOutput(object X);
+TerraformOutput.IsTerraformOutput(object X);
 ```
 
-###### `X`<sup>Required</sup> <a name="X" id="cdktf.TerraformOutput.isTerrafromOutput.parameter.x"></a>
+###### `X`<sup>Required</sup> <a name="X" id="cdktf.TerraformOutput.isTerraformOutput.parameter.x"></a>
 
 - _Type:_ object
 
