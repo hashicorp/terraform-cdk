@@ -79,6 +79,47 @@ export function extractVariableNameFromPrompt(line: string) {
   return lineWithVar.split("var.")[1].trim();
 }
 
+export function handleLineReceived(send: (event: DeployEvent) => void) {
+  return (line: string) => {
+    let hideLine = false;
+    const noColorLine = stripAnsi(line);
+
+    // possible events based on line
+    if (noColorLine.includes("approved using the UI or API")) {
+      send({ type: "APPROVED_EXTERNALLY" });
+    } else if (noColorLine.includes("discarded using the UI or API")) {
+      send({ type: "REJECTED_EXTERNALLY" });
+    } else if (
+      noColorLine.includes("Do you want to perform these actions") ||
+      noColorLine.includes("Do you really want to destroy all resources?") ||
+      noColorLine.includes(
+        "Do you really want to destroy all resources in workspace"
+      )
+    ) {
+      send({ type: "REQUEST_APPROVAL" });
+    } else if (
+      noColorLine.includes("var.") &&
+      noColorLine.includes("Enter a value:")
+    ) {
+      hideLine = true;
+
+      const variableName = extractVariableNameFromPrompt(line);
+      send({
+        type: "LINE_RECEIVED",
+        line: missingVariable(variableName),
+      });
+      send({ type: "VARIABLE_MISSING", variableName });
+    }
+
+    if (!hideLine) {
+      send({
+        type: "LINE_RECEIVED",
+        line,
+      });
+    }
+  };
+}
+
 export const deployMachine = createMachine<
   DeployContext,
   DeployEvent,
@@ -120,40 +161,7 @@ export const deployMachine = createMachine<
             }
           });
 
-          p.onData((line) => {
-            let hideLine = false;
-
-            // possible events based on line
-            if (line.includes("approved using the UI or API")) {
-              send({ type: "APPROVED_EXTERNALLY" });
-            } else if (line.includes("discarded using the UI or API")) {
-              send({ type: "REJECTED_EXTERNALLY" });
-            } else if (
-              line.includes("Do you want to perform these actions") ||
-              line.includes("Do you really want to destroy all resources?")
-            ) {
-              send({ type: "REQUEST_APPROVAL" });
-            } else if (
-              line.includes("var.") &&
-              line.includes("Enter a value:")
-            ) {
-              hideLine = true;
-
-              const variableName = extractVariableNameFromPrompt(line);
-              send({
-                type: "LINE_RECEIVED",
-                line: missingVariable(variableName),
-              });
-              send({ type: "VARIABLE_MISSING", variableName });
-            }
-
-            if (!hideLine) {
-              send({
-                type: "LINE_RECEIVED",
-                line,
-              });
-            }
-          });
+          p.onData(handleLineReceived(send));
           p.onExit(({ exitCode }) => {
             send({ type: "EXITED", exitCode });
           });
@@ -239,11 +247,13 @@ export function createAndStartDeployService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var=${v}`);
+    args.push(`-var='${v}'`);
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-file=${v}`);
+    args.push(
+      os.platform() === "win32" ? `-var-file=${v}` : `-var-file='${v}'`
+    );
   });
 
   logger.debug(
@@ -293,7 +303,9 @@ export function createAndStartDestroyService(options: {
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(`-var-file='${v}'`);
+    args.push(
+      os.platform() === "win32" ? `-var-file=${v}` : `-var-file='${v}'`
+    );
   });
 
   logger.debug(
