@@ -10,7 +10,7 @@ namespace MyCompany.MyApp
     {
         public MyApp(Construct scope, string id) : base(scope, id)
         {
-            new LocalBackend(this, new LocalBackendProps {
+            new LocalBackend(this, new LocalBackendConfig {
                 Path = "terraform.tfstate"
             });
             new NullProvider(this, "Null");
