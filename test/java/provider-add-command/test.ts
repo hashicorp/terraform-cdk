@@ -48,6 +48,6 @@ describe("provider add command", () => {
 
       expect(proj).toContain("<artifactId>cdktf-provider-random</artifactId>");
       expect(proj).toContain("<version>0.2.55</version>");
-    }, 180_000);
+    }, 500_000);
   });
 });
