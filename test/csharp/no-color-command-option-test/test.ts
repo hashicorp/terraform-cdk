@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as execa from "execa";
 import * as hasAnsi from "has-ansi";
-import { TestDriver } from "../../test-helper";
+import { onPosix, TestDriver } from "../../test-helper";
 
 describe("no-color option for cdktf deploy, diff, destroy", () => {
   let driver: TestDriver;
@@ -11,7 +11,7 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
     await driver.setupCsharpProject();
   }, 500_000);
 
-  it("contains no color formatting in cdktf deploy", async () => {
+  onPosix("contains no color formatting in cdktf deploy", async () => {
     const result = await execa(
       "cdktf",
       ["deploy", "--auto-approve", "--no-color"],
@@ -22,14 +22,14 @@ describe("no-color option for cdktf deploy, diff, destroy", () => {
     );
     expect(hasAnsi(result.stdout)).toBe(false);
   });
-  it("contains no color formatting in cdktf diff", async () => {
+  onPosix("contains no color formatting in cdktf diff", async () => {
     const result = await execa("cdktf", ["diff", "--no-color"], {
       env: driver.env,
       cwd: driver.workingDirectory,
     });
     expect(hasAnsi(result.stdout)).toBe(false);
   });
-  it("contains no color formatting in cdktf destroy", async () => {
+  onPosix("contains no color formatting in cdktf destroy", async () => {
     const result = await execa(
       "cdktf",
       ["destroy", "--auto-approve", "--no-color"],
