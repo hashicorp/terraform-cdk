@@ -144,7 +144,7 @@ jobs:
     # which circumvents issues where new and similar snapshots
     # are written by both runs and will overwrite each other
     needs: [update-snapshots-setup, update-snapshots-linux]
-    runs-on: windows-2019
+    runs-on: windows-2022
     permissions:
       contents: write
       pull-requests: write

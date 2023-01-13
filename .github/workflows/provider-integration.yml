@@ -98,7 +98,7 @@ jobs:
 
   windows_provider:
     needs: prepare-provider-tests
-    runs-on: windows-2019
+    runs-on: windows-2022
     strategy:
       fail-fast: false
       matrix: ${{fromJSON(needs.prepare-provider-tests.outputs.tests)}}

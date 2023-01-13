@@ -2,7 +2,7 @@ import path from "path";
 import * as fs from "fs-extra";
 import os from "os";
 import { CdktfProject, init, get } from "../../lib/index";
-import { spawn } from "node-pty-prebuilt-multiarch";
+import { spawn } from "@cdktf/node-pty-prebuilt-multiarch";
 import { exec, Language } from "@cdktf/commons";
 
 jest.mock("@cdktf/commons", () => {
@@ -19,7 +19,7 @@ jest.mock("@cdktf/commons", () => {
   };
 });
 
-jest.mock("node-pty-prebuilt-multiarch", () => {
+jest.mock("@cdktf/node-pty-prebuilt-multiarch", () => {
   return {
     spawn: jest.fn().mockImplementation((_file, _args) => {
       return {

@@ -3,7 +3,7 @@
 import { TemplateServer } from "./template-server";
 import { spawn, execSync } from "child_process";
 import * as execa from "execa";
-import { spawn as ptySpawn } from "node-pty-prebuilt-multiarch";
+import { spawn as ptySpawn } from "@cdktf/node-pty-prebuilt-multiarch";
 
 const os = require("os");
 const path = require("path");
