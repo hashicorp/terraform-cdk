@@ -30,6 +30,10 @@ type MultiStackSentinelOverrideUpdate = {
   reject: () => void;
 };
 
+type MultiStackUpdate =
+  | MultiStackApprovalUpdate
+  | MultiStackSentinelOverrideUpdate;
+
 export type ProjectUpdate =
   | {
       type: "synthesizing";
@@ -40,8 +44,7 @@ export type ProjectUpdate =
       errorMessage?: string;
     }
   | StackUpdate
-  | MultiStackApprovalUpdate
-  | MultiStackSentinelOverrideUpdate;
+  | MultiStackUpdate;
 
 function getSingleStack(
   stacks: SynthesizedStack[],
@@ -407,9 +410,9 @@ export class CdktfProject {
     this.eventBuffer = this.eventBuffer.filter(
       (event) =>
         !(
-          event.type === "projectUpdate" && // TODO: Use `isWaitingForUserInputEvent` without making Typescript angry
-          event.value.type === "waiting for approval" &&
-          event.value.stackName === stackName
+          event.type === "projectUpdate" &&
+          this.isWaitingForUserInputUpdate(event.value) &&
+          (event.value as MultiStackUpdate).stackName === stackName
         )
     );
 
@@ -471,42 +474,82 @@ export class CdktfProject {
       const bufferableCb = this.waitingForUserInput ? bufferCb : cb;
 
       if (this.isWaitingForUserInputUpdate(update)) {
-        const callbacks = (update: StackApprovalUpdate) => ({
-          approve: () => {
-            update.approve();
-            // We need to defer these calls for the case that approve() is instantly invoked
-            // in the listener that receives these callbacks as it otherwise would already
-            // remove the "waiting for stack approval" event from the buffer before we even
-            // set waitingForApproval to true (at the end of this if statement) which results
-            // in buffered updates which will never unblock
-            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-          },
-          dismiss: () => {
-            update.reject();
+        if (update.type === "waiting for stack approval") {
+          const callbacks = (update: StackApprovalUpdate) => ({
+            approve: () => {
+              update.approve();
+              // We need to defer these calls for the case that approve() is instantly invoked
+              // in the listener that receives these callbacks as it otherwise would already
+              // remove the "waiting for stack approval" event from the buffer before we even
+              // set waitingForApproval to true (at the end of this if statement) which results
+              // in buffered updates which will never unblock
+              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+            },
+            dismiss: () => {
+              update.reject();
 
-            this.stopAllStacksThatCanNotRunWithout(update.stackName);
-            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-          },
-          stop: () => {
-            update.reject();
-            this.stopAllStacks();
-            setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-          },
-        });
+              this.stopAllStacksThatCanNotRunWithout(update.stackName);
+              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+            },
+            stop: () => {
+              update.reject();
+              this.stopAllStacks();
+              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+            },
+          });
 
-        // always send to buffer, as resumeAfterApproval() always expects a matching "waiting for approval" event
-        bufferCb({
-          type: "waiting for approval",
-          stackName: update.stackName,
-          ...callbacks(update as StackApprovalUpdate),
-        });
-        // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
-        if (!this.waitingForUserInput) {
-          cb({
+          // always send to buffer, as resumeAfterUserInput() always expects a matching event
+          bufferCb({
             type: "waiting for approval",
             stackName: update.stackName,
-            ...callbacks(update as StackApprovalUpdate),
+            ...callbacks(update),
           });
+          // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
+          if (!this.waitingForUserInput) {
+            cb({
+              type: "waiting for approval",
+              stackName: update.stackName,
+              ...callbacks(update),
+            });
+          }
+        } else if (update.type === "waiting for stack sentinel override") {
+          const callbacks = (update: StackSentinelOverrideUpdate) => ({
+            override: () => {
+              console.error("Sentinel override approved", {
+                stackName: update.stackName,
+              });
+              update.override();
+              // We need to defer these calls for the case that override() is instantly invoked
+              // in the listener that receives these callbacks as it otherwise would already
+              // remove the waiting event from the buffer before we even
+              // set waitingForUserInput to true (at the end of this if statement) which results
+              // in buffered updates which will never unblock
+              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+            },
+            reject: () => {
+              update.reject();
+
+              this.stopAllStacksThatCanNotRunWithout(update.stackName);
+              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+            },
+          });
+
+          // always send to buffer, as resumeAfterUserInput() always expects a matching "waiting for approval" event
+          bufferCb({
+            type: "waiting for sentinel override",
+            stackName: update.stackName,
+            ...callbacks(update),
+          });
+          // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
+          if (!this.waitingForUserInput) {
+            cb({
+              type: "waiting for sentinel override",
+              stackName: update.stackName,
+              ...callbacks(update),
+            });
+          }
+        } else {
+          throw Errors.Internal(`Unexpected update type: ${update.type}`);
         }
 
         this.awaitUserInput();

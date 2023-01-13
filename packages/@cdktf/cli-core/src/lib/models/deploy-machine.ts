@@ -314,6 +314,9 @@ export function terraformPtyService(
       } else if (
         line.includes("Do you want to override the soft failed policy check?")
       ) {
+        hideLine = true;
+        send({ type: "LINE_RECEIVED", line });
+
         send({ type: "REQUEST_SENTINEL_OVERRIDE" });
       }
 

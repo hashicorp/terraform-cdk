@@ -107,6 +107,7 @@ type CdktfStackOptions = {
   autoApprove?: boolean;
   abortSignal: AbortSignal;
 };
+
 type CdktfStackStates =
   | StackUpdate["type"]
   | StackApprovalUpdate["type"]

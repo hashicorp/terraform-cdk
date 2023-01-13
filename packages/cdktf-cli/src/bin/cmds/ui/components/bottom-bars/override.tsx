@@ -11,11 +11,11 @@ type Props = {
 type Option = { label: string; description: string };
 type TransformedOption = Option & { value: string };
 const options: Record<string, Option> = {
-  approve: {
+  override: {
     label: "Override",
     description: `Overrides the soft failed policy check`,
   },
-  dismiss: {
+  reject: {
     label: "Reject",
     description: `Does not override the failed policy check, and stops the operation`,
   },
