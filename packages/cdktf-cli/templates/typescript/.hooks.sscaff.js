@@ -12,7 +12,7 @@ exports.post = ctx => {
   if (!npm_cdktf) { throw new Error(`missing context "npm_cdktf"`); }
 
   installDeps([npm_cdktf, `constructs@10`]);
-  installDeps(['@types/node', 'typescript', 'jest', '@types/jest', "ts-jest", "ts-node"], true);
+  installDeps(['@types/node', 'typescript', 'jest', '@types/jest', "ts-jest", "ts-node", "tsconfig-paths"], true);
 
   console.log(readFileSync('./help', 'utf-8'));
 };
@@ -27,15 +27,15 @@ function installDeps(deps, isDev) {
 }
 
 function terraformCloudConfig(baseName, organizationName, workspaceName, terraformRemoteHostname) {
-  template = readFileSync('./main.ts', 'utf-8');
+  template = readFileSync('./src/myStack.ts', 'utf-8');
 
-  result = template.replace(`import { App, TerraformStack } from "cdktf";`, `import { App, TerraformStack, CloudBackend, NamedCloudWorkspace } from "cdktf";`);
-  result = result.replace(`new MyStack(app, "${baseName}");`, `const stack = new MyStack(app, "${baseName}");
-new CloudBackend(stack, {
-  hostname: "${terraformRemoteHostname}",
-  organization: "${organizationName}",
-  workspaces: new NamedCloudWorkspace("${workspaceName}")
-});`);
+  result = template.replace(`import { TerraformStack } from "cdktf";`, `import { TerraformStack, CloudBackend, NamedCloudWorkspace } from "cdktf";`);
+  result = result.replace(`// define resources here`, `// define resources here
+    new CloudBackend(this, {
+      hostname: "${terraformRemoteHostname}",
+      organization: "${organizationName}",
+      workspaces: new NamedCloudWorkspace("${workspaceName}")
+    });`);
 
-  writeFileSync('./main.ts', result, 'utf-8');
+  writeFileSync('./src/myStack.ts', result, 'utf-8');
 }
