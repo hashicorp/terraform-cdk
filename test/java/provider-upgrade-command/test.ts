@@ -29,7 +29,7 @@ describe("provider upgrade command", () => {
         "<version>0.2.55</version>"
       );
       expect(driver.readLocalFile("pom.xml")).toContain(
-        "<version>0.2.63</version>"
+        "<version>0.2.64</version>"
       );
     }, 500_000);
   });
