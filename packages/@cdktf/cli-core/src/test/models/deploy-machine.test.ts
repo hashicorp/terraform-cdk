@@ -178,4 +178,70 @@ describe("pty events", () => {
       },
     });
   });
+
+  it("transitions to rejected state when done externally", (done) => {
+    function mockPty(_event: DeployEvent) {
+      const onDataListeners: any[] = [];
+      const onExitListeners: any[] = [];
+      const pty = {
+        onData: (listener: (e: string) => any) =>
+          onDataListeners.push(listener),
+        onExit: (listener: (e: string) => any) =>
+          onExitListeners.push(listener),
+        write: jest.fn(),
+      } as unknown as IPty;
+
+      setTimeout(() => {
+        onDataListeners.forEach((listener) =>
+          listener(`Do you want to override the soft failed policy check?
+          Only 'override' will be accepted to override.
+          
+          Enter a value:`)
+        );
+      }, 100);
+
+      setTimeout(() => {
+        onDataListeners.forEach((listener) =>
+          listener(`discarded using the UI or API`)
+        );
+      }, 200);
+
+      return pty;
+    }
+    const mockDeployMachine = deployMachine.withConfig({
+      services: {
+        runTerraformInPty: (context, event) =>
+          terraformPtyService(context, event, mockPty),
+      },
+    });
+
+    let enteredAwaiting = false;
+    const states: string[] = [];
+    const ptyService = interpret(mockDeployMachine).onTransition((state) => {
+      if (state.event?.type) states.push(state.event.type);
+
+      if (enteredAwaiting && state.matches("exited")) {
+        expect(states).toEqual(
+          expect.arrayContaining(["OVERRIDE_REJECTED_EXTERNALLY"])
+        );
+        done();
+      }
+      if (state.matches({ running: "awaiting_sentinel_override" })) {
+        enteredAwaiting = true;
+      }
+    });
+
+    ptyService.start();
+
+    ptyService.send({
+      type: "START",
+      pty: {
+        file: "",
+        args: [],
+        options: {
+          cwd: "",
+        },
+      },
+    });
+  });
 });

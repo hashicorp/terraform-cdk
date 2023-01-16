@@ -125,7 +125,8 @@ export type TerraformDeployState =
       override: () => void;
       reject: () => void;
     }
-  | { type: "external approval reply"; approved: boolean };
+  | { type: "external approval reply"; approved: boolean }
+  | { type: "external sentinel override reply"; overriden: boolean };
 
 export interface Terraform {
   init: (upgrade: boolean, noColor?: boolean) => Promise<void>;

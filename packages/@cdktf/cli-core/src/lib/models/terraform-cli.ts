@@ -299,6 +299,16 @@ export class TerraformCli implements Terraform {
         callback({ type: "external approval reply", approved: true });
       else if (isDeployEvent(event, "REJECTED_EXTERNALLY"))
         callback({ type: "external approval reply", approved: false });
+      else if (isDeployEvent(event, "OVERRIDDEN_EXTERNALLY"))
+        callback({
+          type: "external sentinel override reply",
+          overriden: true,
+        });
+      else if (isDeployEvent(event, "OVERRIDE_REJECTED_EXTERNALLY"))
+        callback({
+          type: "external sentinel override reply",
+          overriden: false,
+        });
     });
 
     let previousState: DeployState["value"] = "idle";

@@ -131,7 +131,12 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         "Do you want to override the soft failed policy check?"
       )
     ) {
+      hideLine = true;
+      send({ type: "LINE_RECEIVED", line });
+
       send({ type: "REQUEST_SENTINEL_OVERRIDE" });
+    } else if (noColorLine.includes("overridden using the UI or API")) {
+      send({ type: "OVERRIDDEN_EXTERNALLY" });
     }
 
     if (!hideLine) {
@@ -218,6 +223,12 @@ export const deployMachine = createMachine<
                   DeployEvent & { type: "OVERRIDE_REJECTED_EXTERNALLY" }
                 >({ cancelled: true }),
               },
+              // This is a bit of a hack, because the external discard message
+              // posted by Terraform UI is the same as during apply. So, we capture that
+              // and emit our own event to make it more specific.
+              REJECTED_EXTERNALLY: {
+                actions: send({ type: "OVERRIDE_REJECTED_EXTERNALLY" }),
+              },
               OVERRIDE: {
                 target: "processing",
                 actions: send(
@@ -289,44 +300,8 @@ export function terraformPtyService(
       }
     });
 
-    p.onData((line) => {
-      let hideLine = false;
+    p.onData(handleLineReceived(send));
 
-      // possible events based on line
-      if (line.includes("approved using the UI or API")) {
-        send({ type: "APPROVED_EXTERNALLY" });
-      } else if (line.includes("discarded using the UI or API")) {
-        send({ type: "REJECTED_EXTERNALLY" });
-      } else if (
-        line.includes("Do you want to perform these actions") ||
-        line.includes("Do you really want to destroy all resources?")
-      ) {
-        send({ type: "REQUEST_APPROVAL" });
-      } else if (line.includes("var.") && line.includes("Enter a value:")) {
-        hideLine = true;
-
-        const variableName = extractVariableNameFromPrompt(line);
-        send({
-          type: "LINE_RECEIVED",
-          line: missingVariable(variableName),
-        });
-        send({ type: "VARIABLE_MISSING", variableName });
-      } else if (
-        line.includes("Do you want to override the soft failed policy check?")
-      ) {
-        hideLine = true;
-        send({ type: "LINE_RECEIVED", line });
-
-        send({ type: "REQUEST_SENTINEL_OVERRIDE" });
-      }
-
-      if (!hideLine) {
-        send({
-          type: "LINE_RECEIVED",
-          line,
-        });
-      }
-    });
     p.onExit(({ exitCode }) => {
       send({ type: "EXITED", exitCode });
     });

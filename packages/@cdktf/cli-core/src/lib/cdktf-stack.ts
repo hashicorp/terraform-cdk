@@ -87,6 +87,11 @@ export type ExternalStackApprovalUpdate = {
   stackName: string;
   approved: boolean; // false = rejected
 };
+export type ExternalStackSentinelOverrideUpdate = {
+  type: "external stack sentinel override reply";
+  stackName: string;
+  overriden: boolean; // false = rejected
+};
 
 async function getTerraformClient(
   abortSignal: AbortSignal,
@@ -107,6 +112,7 @@ type CdktfStackOptions = {
       | StackApprovalUpdate
       | ExternalStackApprovalUpdate
       | StackSentinelOverrideUpdate
+      | ExternalStackSentinelOverrideUpdate
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
@@ -118,6 +124,7 @@ type CdktfStackStates =
   | StackApprovalUpdate["type"]
   | StackSentinelOverrideUpdate["type"]
   | ExternalStackApprovalUpdate["type"]
+  | ExternalStackSentinelOverrideUpdate["type"]
   | "idle"
   | "done";
 
@@ -158,6 +165,7 @@ export class CdktfStack {
       | StackApprovalUpdate
       | StackSentinelOverrideUpdate
       | ExternalStackApprovalUpdate
+      | ExternalStackSentinelOverrideUpdate
       | { type: "idle" }
       | { type: "done" }
   ) {
@@ -402,6 +410,12 @@ export class CdktfStack {
               type: "external stack approval reply",
               stackName: this.stack.name,
               approved: state.approved,
+            });
+          } else if (state.type === "external sentinel override reply") {
+            this.updateState({
+              type: "external stack sentinel override reply",
+              stackName: this.stack.name,
+              overriden: state.overriden,
             });
           }
         }

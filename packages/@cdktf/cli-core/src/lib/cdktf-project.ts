@@ -7,6 +7,7 @@ import { printAnnotations } from "./synth";
 import {
   CdktfStack,
   ExternalStackApprovalUpdate,
+  ExternalStackSentinelOverrideUpdate,
   StackApprovalUpdate,
   StackSentinelOverrideUpdate,
   StackUpdate,
@@ -231,9 +232,17 @@ export class CdktfProject {
         | StackApprovalUpdate
         | ExternalStackApprovalUpdate
         | StackSentinelOverrideUpdate
+        | ExternalStackSentinelOverrideUpdate
     ) => {
       if (update.type === "external stack approval reply") {
         if (!update.approved) {
+          this.stopAllStacksThatCanNotRunWithout(update.stackName);
+        }
+        this.ioHandler.resumeAfterUserInput(update.stackName);
+        return; // aka don't send this event to any buffer
+      }
+      if (update.type === "external stack sentinel override reply") {
+        if (!update.overriden) {
           this.stopAllStacksThatCanNotRunWithout(update.stackName);
         }
         this.ioHandler.resumeAfterUserInput(update.stackName);
