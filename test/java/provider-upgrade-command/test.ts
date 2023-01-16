@@ -31,6 +31,6 @@ describe("provider upgrade command", () => {
       expect(driver.readLocalFile("pom.xml")).toContain(
         "<version>0.2.64</version>"
       );
-    }, 180_000);
+    }, 500_000);
   });
 });

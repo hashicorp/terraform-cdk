@@ -104,12 +104,15 @@ export class TerraformCli implements Terraform {
         createTerraformLogHandler(phase, filter)(stderr.toString(), true);
   }
 
-  public async init(needsUpgrade: boolean): Promise<void> {
+  public async init(needsUpgrade: boolean, noColor?: boolean): Promise<void> {
     await this.setUserAgent();
 
     const args = ["init", "-input=false"];
     if (needsUpgrade) {
       args.push("-upgrade");
+    }
+    if (noColor) {
+      args.push("-no-color");
     }
 
     await exec(
@@ -135,6 +138,7 @@ export class TerraformCli implements Terraform {
         "-platform=windows_amd64",
         "-platform=darwin_amd64",
         "-platform=linux_amd64",
+        ...(noColor ? ["-no-color"] : []),
       ],
       {
         cwd: this.workdir,
@@ -152,6 +156,7 @@ export class TerraformCli implements Terraform {
     parallelism?: number;
     vars?: string[];
     varFiles?: string[];
+    noColor?: boolean;
   }): Promise<void> {
     const {
       destroy = false,
@@ -159,6 +164,7 @@ export class TerraformCli implements Terraform {
       parallelism = -1,
       vars = [],
       varFiles = [],
+      noColor = false,
     } = opts;
     const options = ["plan", "-input=false"];
 
@@ -170,6 +176,9 @@ export class TerraformCli implements Terraform {
     }
     if (parallelism > -1) {
       options.push(`-parallelism=${parallelism}`);
+    }
+    if (noColor) {
+      options.push("-no-color");
     }
 
     vars.forEach((v) => options.push(`-var=${v}`));
@@ -198,6 +207,7 @@ export class TerraformCli implements Terraform {
     {
       autoApprove = false,
       refreshOnly = false,
+      noColor = false,
       parallelism = -1,
       extraOptions = [],
       vars = [],
@@ -210,6 +220,7 @@ export class TerraformCli implements Terraform {
       terraformBinaryName,
       workdir: this.workdir,
       refreshOnly,
+      noColor,
       autoApprove,
       parallelism,
       extraOptions,
@@ -223,6 +234,7 @@ export class TerraformCli implements Terraform {
     {
       autoApprove = false,
       parallelism = -1,
+      noColor = false,
       extraOptions = [],
       vars = [],
       varFiles = [],
@@ -235,6 +247,7 @@ export class TerraformCli implements Terraform {
       workdir: this.workdir,
       autoApprove,
       parallelism,
+      noColor,
       extraOptions,
       vars,
       varFiles,

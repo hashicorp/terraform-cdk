@@ -57,6 +57,14 @@ class Command extends BaseCommand {
         required: false,
         desc: "Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.",
       })
+      // The presence of this flag is automatically picked up by `chalk` as well which
+      // causes colors to be disabled too for output that the cdktf-cli itself colors.
+      .option("no-color", {
+        type: "boolean",
+        default: process.env.FORCE_COLOR === "0",
+        required: false,
+        desc: "Disables terminal formatting sequences in the output.",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

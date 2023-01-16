@@ -76,6 +76,14 @@ class Command extends BaseCommand {
         // Setting value to negative will prevent it from being forwarded to terraform as an argument
         default: -1,
       })
+      // The presence of this flag is automatically picked up by `chalk` as well which
+      // causes colors to be disabled too for output that the cdktf-cli itself colors.
+      .option("no-color", {
+        type: "boolean",
+        default: process.env.FORCE_COLOR === "0",
+        required: false,
+        desc: "Disables terminal formatting sequences in the output.",
+      })
       .option("var", {
         type: "array",
         default: [],

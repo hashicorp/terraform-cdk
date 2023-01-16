@@ -123,13 +123,14 @@ export type TerraformDeployState =
   | { type: "external approval reply"; approved: boolean };
 
 export interface Terraform {
-  init: (upgrade: boolean) => Promise<void>;
+  init: (upgrade: boolean, noColor?: boolean) => Promise<void>;
   plan: (opts: {
     destroy: boolean;
     refreshOnly?: boolean;
     parallelism?: number;
     vars?: string[];
     varFiles?: string[];
+    noColor?: boolean;
   }) => Promise<void>;
   deploy(
     options: {
@@ -138,6 +139,7 @@ export interface Terraform {
       parallelism?: number;
       vars?: string[];
       varFiles?: string[];
+      noColor?: boolean;
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;
@@ -147,6 +149,7 @@ export interface Terraform {
       parallelism?: number;
       vars?: string[];
       varFiles?: string[];
+      noColor?: boolean;
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;

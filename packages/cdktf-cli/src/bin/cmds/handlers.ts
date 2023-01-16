@@ -132,6 +132,7 @@ export async function deploy(argv: any) {
   const parallelism = argv.parallelism;
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
+  const noColor = argv.noColor;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -142,7 +143,6 @@ export async function deploy(argv: any) {
     onOutputsRetrieved = (outputs: NestedTerraformOutputs) =>
       saveOutputs(outputsPath!, outputs, includeSensitiveOutputs);
   }
-
   await renderInk(
     React.createElement(Deploy, {
       outDir,
@@ -157,6 +157,7 @@ export async function deploy(argv: any) {
       terraformParallelism,
       vars,
       varFiles,
+      noColor,
     })
   );
 }
@@ -176,6 +177,7 @@ export async function destroy(argv: any) {
   const terraformParallelism = argv.terraformParallelism;
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
+  const noColor = argv.noColor;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -188,6 +190,7 @@ export async function destroy(argv: any) {
       terraformParallelism,
       vars,
       varFiles,
+      noColor,
     })
   );
 }
@@ -204,6 +207,7 @@ export async function diff(argv: any) {
   const terraformParallelism = argv.terraformParallelism;
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
+  const noColor = argv.noColor;
 
   await renderInk(
     React.createElement(Diff, {
@@ -214,6 +218,7 @@ export async function diff(argv: any) {
       terraformParallelism,
       vars,
       varFiles,
+      noColor,
     })
   );
 }

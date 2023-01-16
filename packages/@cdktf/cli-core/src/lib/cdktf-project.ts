@@ -289,6 +289,7 @@ export type DiffOptions = SingleStackOptions & {
   terraformParallelism?: number;
   vars?: string[];
   varFiles?: string[];
+  noColor?: boolean;
 };
 
 export type MutationOptions = MultipleStackOptions &
@@ -299,6 +300,7 @@ export type MutationOptions = MultipleStackOptions &
     terraformParallelism?: number;
     vars?: string[];
     varFiles?: string[];
+    noColor?: boolean;
   };
 
 export type LogMessage = {
@@ -572,7 +574,6 @@ export class CdktfProject {
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
       );
     }
-
     if (stack.error) {
       throw Errors.External(
         `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
@@ -589,7 +590,6 @@ export class CdktfProject {
     if (opts.refreshOnly && method !== "deploy") {
       throw Errors.Internal(`Refresh only is only supported on deploy`);
     }
-
     const maxParallelRuns =
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
@@ -600,14 +600,12 @@ export class CdktfProject {
         await Promise.race(runningStacks.map((s) => s.currentWorkPromise));
         continue;
       }
-
       try {
         const nextRunningExecutor = await next();
         if (!nextRunningExecutor) {
           // In this case we have no pending stacks, but we also can not find a new executor
           break;
         }
-
         const promise =
           method === "deploy"
             ? nextRunningExecutor.deploy(opts)

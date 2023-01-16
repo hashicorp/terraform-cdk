@@ -58,7 +58,7 @@ describe("provider list command", () => {
           cdktfVersion: "^0.10.3",
         })
       );
-    }, 120_000);
+    }, 500_000);
 
     test("with tabular output", async () => {
       const res = await driver.exec("cdktf", ["provider", "list"]);

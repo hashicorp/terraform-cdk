@@ -26,7 +26,7 @@
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.10",
     "strip-ansi": "^6.0.0",
     "ts-jest": "^27.0.7",
-    "typescript": "^3.9.7"
-  },
-  "dependencies": {}
+    "typescript": "^3.9.7",
+    "has-ansi": "^4.0.1"
+  }
 }

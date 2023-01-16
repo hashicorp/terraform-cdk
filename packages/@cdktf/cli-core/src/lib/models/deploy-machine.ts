@@ -229,6 +229,7 @@ export function createAndStartDeployService(options: {
   extraOptions: string[];
   terraformBinaryName: string;
   autoApprove?: boolean;
+  noColor?: boolean;
   workdir: string;
   vars?: string[];
   varFiles?: string[];
@@ -241,6 +242,7 @@ export function createAndStartDeployService(options: {
 
     ...options.extraOptions,
     ...(options.refreshOnly ? ["-refresh-only"] : []),
+    ...(options.noColor ? ["-no-color"] : []),
     ...(options.parallelism > -1
       ? [`-parallelism=${options.parallelism}`]
       : []),
@@ -279,6 +281,7 @@ export function createAndStartDestroyService(options: {
   extraOptions: string[];
   terraformBinaryName: string;
   autoApprove?: boolean;
+  noColor?: boolean;
   workdir: string;
   vars?: string[];
   varFiles?: string[];
@@ -291,6 +294,7 @@ export function createAndStartDestroyService(options: {
     // "-input=false", we can't use this anymore but TODO: we need to detect TF CLI asking for missing inputs and either allow passing them or stop there and fail
 
     ...options.extraOptions,
+    ...(options.noColor ? ["-no-color"] : []),
     ...(options.parallelism > -1
       ? [`-parallelism=${options.parallelism}`]
       : []),

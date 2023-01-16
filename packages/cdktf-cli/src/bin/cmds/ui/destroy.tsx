@@ -16,6 +16,7 @@ interface DestroyConfig {
   ignoreMissingStackDependencies?: boolean;
   parallelism?: number;
   terraformParallelism?: number;
+  noColor?: boolean;
   vars?: string[];
   varFiles?: string[];
 }
@@ -28,6 +29,7 @@ export const Destroy = ({
   ignoreMissingStackDependencies,
   parallelism,
   terraformParallelism,
+  noColor,
   vars,
   varFiles,
 }: DestroyConfig): React.ReactElement => {
@@ -40,6 +42,7 @@ export const Destroy = ({
         ignoreMissingStackDependencies,
         parallelism,
         terraformParallelism,
+        noColor,
         vars,
         varFiles,
       })
