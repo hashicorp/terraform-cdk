@@ -37,6 +37,19 @@ CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 star
 
 Please open an issue if you encounter any issues or bugs with this change.
 
+### Deprecation: We deprecate the feature flags that go into the `context` field of the `cdktf.json`
+
+CDKTF used to use feature flags to enable potentially breaking behaviors in a release. These are no longer needed since most of the changes we introduce from here can not be hidden behind feature flags. When the feature flags are removed, the behavior will be the same as this configuration:
+
+```json
+{
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
+```
+
 ## 0.14.3
 
 ### fix

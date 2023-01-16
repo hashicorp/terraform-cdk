@@ -100,23 +100,18 @@ When you declare providers in JSON, add the constraint in the `version` property
 }
 ```
 
-## Enable Features
+## Enable Features (Deprecated)
 
-CDKTF uses feature flags to enable potentially breaking behaviors in a release. Flags are stored as runtime context values in `cdktf.json`. Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. New projects created using `cdktf init` include flags enabling all features available in the release that created the project.
-
-Edit `cdktf.json` to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The following example adds a feature flag.
+CDKTF used to use feature flags to enable potentially breaking behaviors in a release. These are no longer needed since most of the changes we introduce from here can not be hidden behind feature flags. When the feature flags are removed, the behavior will be the same as this configuration:
 
 ```json
 {
-  "language": "typescript",
-  "app": "npm run --silent compile && node main.js",
   "context": {
-    "excludeStackIdFromLogicalIds": "true"
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
   }
 }
 ```
-
-The [CHANGELOG on Github](https://github.com/hashicorp/terraform-cdk/blob/main/CHANGELOG.md) contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.
 
 ## Configure Files to Watch
 
