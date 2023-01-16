@@ -248,7 +248,7 @@ export class ConstructsMaker {
         "utf8"
       );
     } catch (e) {
-      logger.info(
+      logger.debug(
         `Could not find constraints.json file while filtering: ${e}. This means no providers were generated, so all constraints need to be generated.`
       );
       return constraints;
