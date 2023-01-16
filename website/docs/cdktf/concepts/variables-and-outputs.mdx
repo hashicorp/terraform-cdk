@@ -100,6 +100,14 @@ new TerraformResource(this, "resource", {
 });
 ```
 
+### Passing Input Variables to CDKTF
+
+You can pass input variables e.g. with the name `imageId` to CDKTF in the following ways:
+
+- Environment variable: `TF_VAR_imageId=ami-abcde123`
+- CLI argument: `cdktf deploy --var='imageId=ami-abcde123'` or `cdktf diff --var='imageId=ami-abcde123'` or `cdktf destroy --var='imageId=ami-abcde123'`
+- Auto-Loaded Configuration files: See [Terraform documentation](https://www.terraform.io/docs/configuration/variables.html#variable-definitions-tfvars-files) for details.
+
 ## Local Values
 
 A [Terraform local](/language/values/locals) assigns a name to an expression to allow repeated usage. They are similar to a local variables in a programming language.
