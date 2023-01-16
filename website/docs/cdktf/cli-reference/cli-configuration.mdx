@@ -61,3 +61,50 @@ The CDKTF CLI ([cdktf-cli](https://github.com/hashicorp/terraform-cdk/tree/main/
 to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with feature and roadmap decisions. The [code that interacts with Checkpoint](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/lib/checkpoint.ts) is part of the CDK for Terraform CLI.
 
 The use of Checkpoint is completely optional. Refer to the [telemetry documentation](/cdktf/telemetry) for more information about Checkpoint and you can disable it if desired.
+
+## `node-gyp` errors
+
+As of version 0.15 the CDKTF CLI invokes the Terraform CLI interactively in a pseudo-terminal (PTY) for the deploy and destroy commands. This requires native code that needs to be compiled for the architecture of the system the CDKTF CLI is installed on. To make things easier, we maintain [a fork](https://github.com/cdktf/node-pty-prebuilt-multiarch) that includes pre-compiled native bindings for multiple target architectures and Node.js versions. However, there is still the rare possibility, that no precompiled binary is available. In such a case `node-gyp` will attempt to compile the native libraries upon installation of the `cdktf-cli` package and will require additional software to compile the native code that might not be installed yet.
+
+For example, you might encounter the following error when installing the CDKTF CLI:
+
+```
+npm ERR! Prebuild binary missing for platform.
+npm ERR! prebuild-install WARN install No prebuilt binaries found (target=19.4.0 runtime=node arch=x64 libc= platform=win32)
+...
+npm ERR! gyp ERR! find VS msvs_version not set from command line or npm config
+npm ERR! gyp ERR! find VS VCINSTALLDIR not set, not running in VS Command Prompt
+npm ERR! gyp ERR! find VS could not use PowerShell to find Visual Studio 2017 or newer, try re-running with '--loglevel silly' for more details
+npm ERR! gyp ERR! find VS not looking for VS2015 as it is only supported up to Node.js 18
+npm ERR! gyp ERR! find VS not looking for VS2013 as it is only supported up to Node.js 8
+npm ERR! gyp ERR! find VS
+npm ERR! gyp ERR! find VS **************************************************************
+npm ERR! gyp ERR! find VS You need to install the latest version of Visual Studio
+npm ERR! gyp ERR! find VS including the "Desktop development with C++" workload.
+npm ERR! gyp ERR! find VS For more information consult the documentation at:
+npm ERR! gyp ERR! find VS https://github.com/nodejs/node-gyp#on-windows
+npm ERR! gyp ERR! find VS **************************************************************
+npm ERR! gyp ERR! find VS
+npm ERR! gyp ERR! configure error
+npm ERR! gyp ERR! stack Error: Could not find any Visual Studio installation to use
+npm ERR! gyp ERR! stack     at VisualStudioFinder.fail (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:122:47)
+npm ERR! gyp ERR! stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:75:16
+npm ERR! gyp ERR! stack     at VisualStudioFinder.findVisualStudio2013 (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:369:14)
+npm ERR! gyp ERR! stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:71:14
+npm ERR! gyp ERR! stack     at VisualStudioFinder.findVisualStudio2015 (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:353:14)
+npm ERR! gyp ERR! stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:67:12
+npm ERR! gyp ERR! stack     at failPowershell (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:156:7)
+npm ERR! gyp ERR! stack     at VisualStudioFinder.parseData (C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:170:14)
+npm ERR! gyp ERR! stack     at C:\Program Files\nodejs\node_modules\npm\node_modules\node-gyp\lib\find-visualstudio.js:143:14
+npm ERR! gyp ERR! stack     at ChildProcess.exithandler (node:child_process:411:7)
+npm ERR! gyp ERR! System Windows_NT 10.0.20348
+npm ERR! gyp ERR! command "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\node_modules\\node-gyp\\bin\\node-gyp.js" "rebuild"
+npm ERR! gyp ERR! cwd C:\Users\Administrator\node_modules\node-pty-prebuilt-multiarch
+npm ERR! gyp ERR! node -v v19.4.0
+npm ERR! gyp ERR! node-gyp -v v9.3.0
+npm ERR! gyp ERR! not ok
+```
+
+If you encounter this or a similar error message, install the additional tools, as described in the `node-gyp` documentation for [UNIX](https://github.com/nodejs/node-gyp#on-unix), [Mac OS X](https://github.com/nodejs/node-gyp#on-macos), and [Windows](https://github.com/nodejs/node-gyp#on-windows).
+
+You might also encounter this message if you're using a Node.js version for which we don't pre-compile native code. We currently support Node.js versions 14, 15, 16, 17, 18, and 19. If you're using a different Node.js version you can either install the required additional software as described above or switch your Node.js versions to a supported one.
