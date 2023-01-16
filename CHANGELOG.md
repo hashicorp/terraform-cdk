@@ -1,4 +1,4 @@
-## Unreleased
+## 0.15.0
 
 **Breaking changes**
 
@@ -49,6 +49,57 @@ CDKTF used to use feature flags to enable potentially breaking behaviors in a re
   }
 }
 ```
+
+### chore
+
+- chore: create upgrade guide [\#2494](https://github.com/hashicorp/terraform-cdk/pull/2494)
+- chore: increase parallel limit (10->30) to speed up integration tests [\#2487](https://github.com/hashicorp/terraform-cdk/pull/2487)
+- chore: disable cron for project board [\#2484](https://github.com/hashicorp/terraform-cdk/pull/2484)
+- chore(docs): fix some docs [\#2483](https://github.com/hashicorp/terraform-cdk/pull/2483)
+- chore: fix typo in function name [\#2462](https://github.com/hashicorp/terraform-cdk/pull/2462)
+- chore: add a notice for minimum supported version to changelog [\#2461](https://github.com/hashicorp/terraform-cdk/pull/2461)
+- chore: fix broken GHA version updater [\#2453](https://github.com/hashicorp/terraform-cdk/pull/2453)
+- chore: update CODEOWNERS [\#2444](https://github.com/hashicorp/terraform-cdk/pull/2444)
+- chore(docs): running snippet update tool revealed an existing snippet that is not up-to-date [\#2440](https://github.com/hashicorp/terraform-cdk/pull/2440)
+- chore: update JSII [\#2428](https://github.com/hashicorp/terraform-cdk/pull/2428)
+- chore: Support custom endpoints [\#2427](https://github.com/hashicorp/terraform-cdk/pull/2427)
+- chore: create TFC/TFE workspace using the Terraform CLI [\#2424](https://github.com/hashicorp/terraform-cdk/pull/2424)
+- chore: switch to SHA-based workflow pins [\#2422](https://github.com/hashicorp/terraform-cdk/pull/2422)
+- chore: Update all documentation examples for Typescript [\#2421](https://github.com/hashicorp/terraform-cdk/pull/2421)
+- chore: remove long-running hooks [\#2418](https://github.com/hashicorp/terraform-cdk/pull/2418)
+- chore: translate documentation to csharp [\#2417](https://github.com/hashicorp/terraform-cdk/pull/2417)
+- chore: add a refactoring guide [\#2413](https://github.com/hashicorp/terraform-cdk/pull/2413)
+- chore: fix homebrew deploy step [\#2412](https://github.com/hashicorp/terraform-cdk/pull/2412)
+- chore: add TFE information to TFC docs [\#2407](https://github.com/hashicorp/terraform-cdk/pull/2407)
+
+### fix
+
+- fix(cli): don't enquote args as they will be escaped and end up in the calls to Terraform [\#2493](https://github.com/hashicorp/terraform-cdk/pull/2493)
+- fix: detect destroys on windows / TF version [\#2486](https://github.com/hashicorp/terraform-cdk/pull/2486)
+- fix(tests): change Options -> Config as per #2471 [\#2482](https://github.com/hashicorp/terraform-cdk/pull/2482)
+- fix(cli): windows fixes [\#2480](https://github.com/hashicorp/terraform-cdk/pull/2480)
+- fix: limit concurrency for integration tests to 10 for each windows and linux [\#2474](https://github.com/hashicorp/terraform-cdk/pull/2474)
+- fix(tests): Make version more stable [\#2467](https://github.com/hashicorp/terraform-cdk/pull/2467)
+- fix: use older SHA from jsii superchain docker image [\#2465](https://github.com/hashicorp/terraform-cdk/pull/2465)
+- fix: fix go build in pipeline [\#2464](https://github.com/hashicorp/terraform-cdk/pull/2464)
+- fix(cli): remove newlines from tokens during terraform login [\#2459](https://github.com/hashicorp/terraform-cdk/pull/2459)
+- fix(cli): abort apply if not all variables are known [\#2455](https://github.com/hashicorp/terraform-cdk/pull/2455)
+- fix: Expose provider matcher to jest [\#2448](https://github.com/hashicorp/terraform-cdk/pull/2448)
+- fix: Adds `environment` to keys to preserve case [\#2446](https://github.com/hashicorp/terraform-cdk/pull/2446)
+- fix: Allow git access for sentry cli in docker [\#2426](https://github.com/hashicorp/terraform-cdk/pull/2426)
+- fix: add path: dist for npm and pypi [\#2410](https://github.com/hashicorp/terraform-cdk/pull/2410)
+
+### feat
+
+- feat: use our own pre-built package for node-pty to have builds for Nodejs 19 available [\#2478](https://github.com/hashicorp/terraform-cdk/pull/2478)
+- feat(cli): support -var and -var-file terraform flags [\#2468](https://github.com/hashicorp/terraform-cdk/pull/2468)
+- feat(cli): add -no-color tag [\#2307](https://github.com/hashicorp/terraform-cdk/pull/2307)
+- feat(cli): Add cdktf provider list command [\#2270](https://github.com/hashicorp/terraform-cdk/pull/2270)
+- feat: [Proposal] Enable non-escaping mode for tokens [\#2179](https://github.com/hashicorp/terraform-cdk/pull/2179)
+
+### refactor
+
+- refactor: rename all *Props and *Options classes and interfaces to \*Config [\#2471](https://github.com/hashicorp/terraform-cdk/pull/2471)
 
 ## 0.14.3
 
