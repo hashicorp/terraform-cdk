@@ -247,13 +247,11 @@ export function createAndStartDeployService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var='${v}'`);
+    args.push(`-var=${v}`);
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(
-      os.platform() === "win32" ? `-var-file=${v}` : `-var-file='${v}'`
-    );
+    args.push(`-var-file=${v}`);
   });
 
   logger.debug(
@@ -303,9 +301,7 @@ export function createAndStartDestroyService(options: {
   });
 
   options.varFiles?.forEach((v) => {
-    args.push(
-      os.platform() === "win32" ? `-var-file=${v}` : `-var-file='${v}'`
-    );
+    args.push(`-var-file=${v}`);
   });
 
   logger.debug(
