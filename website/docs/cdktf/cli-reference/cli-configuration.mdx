@@ -64,7 +64,7 @@ The use of Checkpoint is completely optional. Refer to the [telemetry documentat
 
 ## `node-gyp` errors
 
-As of version 0.15 the CDKTF CLI invokes the Terraform CLI interactively in a pseudo-terminal (PTY) for the deploy and destroy commands. This requires native code that needs to be compiled for the architecture of the system the CDKTF CLI is installed on. To make things easier, we maintain [a fork](https://github.com/cdktf/node-pty-prebuilt-multiarch) that includes pre-compiled native bindings for multiple target architectures and Node.js versions. However, there is still the rare possibility, that no precompiled binary is available. In such a case `node-gyp` will attempt to compile the native libraries upon installation of the `cdktf-cli` package and will require additional software to compile the native code that might not be installed yet.
+CDKTF CLI invokes the Terraform CLI interactively in a pseudo-terminal (PTY) for the deploy and destroy commands. This requires native code that needs to be compiled for the architecture of the system the CDKTF CLI is installed on. To make things easier, we maintain [a fork](https://github.com/cdktf/node-pty-prebuilt-multiarch) that includes pre-compiled native bindings for multiple target architectures and Node.js versions. However, there is still the rare possibility, that no precompiled binary is available. In such a case `node-gyp` will attempt to compile the native libraries upon installation of the `cdktf-cli` package and will require additional software to compile the native code that might not be installed yet.
 
 For example, you might encounter the following error when installing the CDKTF CLI:
 
