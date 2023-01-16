@@ -332,7 +332,7 @@ export function terraformPtyService(
     });
 
     return () => {
-      logger.trace("Terracorm CLI state machine: cleaning up pty");
+      logger.trace("Terraform CLI state machine: cleaning up pty");
       p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
       // TODO: is there a way to delay this? maybe go into a "killing" state first?
     };
