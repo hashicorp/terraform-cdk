@@ -66,6 +66,10 @@ export type StackUpdate =
       stackName: string;
     };
 
+export type StackUserInputUpdate =
+  | StackApprovalUpdate
+  | StackSentinelOverrideUpdate;
+
 export type StackApprovalUpdate = {
   type: "waiting for stack approval";
   stackName: string;

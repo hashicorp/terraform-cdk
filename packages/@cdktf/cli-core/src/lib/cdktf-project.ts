@@ -10,6 +10,7 @@ import {
   StackApprovalUpdate,
   StackSentinelOverrideUpdate,
   StackUpdate,
+  StackUserInputUpdate,
 } from "./cdktf-stack";
 import { NestedTerraformOutputs } from "./output";
 import { createEnhanceLogMessage } from "./execution-logs";
@@ -22,6 +23,7 @@ import {
   getStackWithNoUnmetDependants,
   getStackWithNoUnmetDependencies,
 } from "./helpers/stack-helpers";
+import { CdktfProjectIOHandler } from "./cdktf-project-io-handler";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -38,7 +40,7 @@ type MultiStackSentinelOverrideUpdate = {
   reject: () => void;
 };
 
-type MultiStackUpdate =
+export type MultiStackUpdate =
   | MultiStackApprovalUpdate
   | MultiStackSentinelOverrideUpdate;
 
@@ -98,6 +100,22 @@ type Buffered<T, V> = {
   type: V;
 };
 
+export function isWaitingForUserInputUpdate(
+  update:
+    | ProjectUpdate
+    | StackUpdate
+    | StackApprovalUpdate
+    | StackSentinelOverrideUpdate
+) {
+  return [
+    "waiting for stack approval",
+    "waiting for stack sentinel override",
+  ].includes(update.type);
+}
+
+export type ProjectEvent =
+  | Buffered<ProjectUpdate, "projectUpdate">
+  | Buffered<LogMessage, "logMessage">;
 export type CdktfProjectOptions = {
   synthCommand: string;
   outDir: string;
@@ -121,14 +139,8 @@ export class CdktfProject {
   // This means sth different in deploy / destroy
   private stopAllStacksThatCanNotRunWithout: (stackName: string) => void =
     () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
-  // Pauses all progress / status events from being forwarded to the user
-  // If set from true to false, the events will be sent through the channels they came in
-  // (until a waiting for approval event is sent)
-  private waitingForUserInput = false;
-  private eventBuffer: Array<
-    | Buffered<ProjectUpdate, "projectUpdate">
-    | Buffered<LogMessage, "logMessage">
-  > = [];
+
+  private ioHandler: CdktfProjectIOHandler;
 
   constructor({
     synthCommand,
@@ -146,75 +158,70 @@ export class CdktfProject {
     this.abortSignal = ac.signal;
 
     this.hardAbort = ac.abort.bind(ac);
-  }
-
-  private isWaitingForUserInputUpdate(
-    update:
-      | ProjectUpdate
-      | StackUpdate
-      | StackApprovalUpdate
-      | StackSentinelOverrideUpdate
-  ) {
-    return [
-      "waiting for stack approval",
-      "waiting for stack sentinel override",
-    ].includes(update.type);
+    this.ioHandler = new CdktfProjectIOHandler();
   }
 
   private stopAllStacks() {
     this.stacksToRun.forEach((stack) => stack.stop());
-    this.eventBuffer = this.eventBuffer.filter(
-      (event) =>
-        event.type === "projectUpdate"
-          ? !this.isWaitingForUserInputUpdate(event.value) // we want to filter out the waiting for approval events
-          : true // we want all other types
-    );
+    this.ioHandler.filterBuffer();
   }
 
-  private awaitUserInput() {
-    this.waitingForUserInput = true;
-  }
+  private handleUserUpdate<
+    T extends MultiStackUpdate,
+    V extends StackUserInputUpdate
+  >(
+    update: StackUserInputUpdate,
+    operations: Record<string, (update: V) => void>,
+    originalCallback: (updateToSend: ProjectUpdate) => void,
+    eventType: T["type"]
+  ) {
+    const bufferCallback = (bufferedUpdate: T) => {
+      this.ioHandler.pushEvent({
+        cb: originalCallback,
+        value: bufferedUpdate,
+        type: "projectUpdate",
+      });
+    };
 
-  private resumeAfterUserInput(stackName: string) {
-    // remove waiting for approval event that should be resumed
-    this.eventBuffer = this.eventBuffer.filter(
-      (event) =>
-        !(
-          event.type === "projectUpdate" &&
-          this.isWaitingForUserInputUpdate(event.value) &&
-          (event.value as MultiStackUpdate).stackName === stackName
-        )
-    );
+    const callbacks = (update: V) =>
+      Object.fromEntries(
+        Object.entries(operations).map(([key, value]) => {
+          return [
+            key,
+            // This is passed in to make typescript happy only
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            (_: V) => {
+              value(update);
 
-    if (
-      this.eventBuffer.length &&
-      this.eventBuffer[0].type === "projectUpdate" &&
-      this.isWaitingForUserInputUpdate(this.eventBuffer[0].value)
-    ) {
-      // we are still waiting on approval for the current stack
-      // we removed a future "waiting for approval" event for some other stack
-      return;
+              // We need to defer these calls for the case that approve() is instantly invoked
+              // in the listener that receives these callbacks as it otherwise would already
+              // remove the "waiting for stack approval" event from the buffer before we even
+              // set waitingForApproval to true (at the end of this if statement) which results
+              // in buffered updates which will never unblock
+              setTimeout(
+                () => this.ioHandler.resumeAfterUserInput(update.stackName),
+                0
+              );
+            },
+          ];
+        })
+      );
+
+    // always send to buffer, as resumeAfterUserInput() always expects a matching event
+    bufferCallback({
+      type: eventType,
+      stackName: update.stackName,
+      ...callbacks(update as V),
+    } as T);
+
+    // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
+    if (!this.ioHandler.isWaitingForUserInput()) {
+      originalCallback({
+        type: eventType,
+        stackName: update.stackName,
+        ...callbacks(update as V),
+      } as T);
     }
-
-    // We first need to flush all events, we can not resume if there is a new waiting for approval update
-    let event = this.eventBuffer.shift();
-    while (event) {
-      if (event.type === "projectUpdate") {
-        event.cb(event.value);
-        if (this.isWaitingForUserInputUpdate(event.value)) {
-          // We have to wait for user input again, therefore we can not resume
-          return;
-        }
-      }
-      if (event.type === "logMessage") {
-        event.cb(event.value);
-      }
-
-      event = this.eventBuffer.shift();
-    }
-
-    // If we reach this point there was no waiting for user input event, so we can safely resume
-    this.waitingForUserInput = false;
   }
 
   private handleUserInputProcess(cb: (updateToSend: ProjectUpdate) => void) {
@@ -225,124 +232,61 @@ export class CdktfProject {
         | ExternalStackApprovalUpdate
         | StackSentinelOverrideUpdate
     ) => {
-      const bufferCb = (bufferedUpdate: ProjectUpdate) => {
-        this.eventBuffer.push({
-          cb,
-          value: bufferedUpdate,
-          type: "projectUpdate",
-        });
-      };
-
       if (update.type === "external stack approval reply") {
         if (!update.approved) {
           this.stopAllStacksThatCanNotRunWithout(update.stackName);
         }
-        this.resumeAfterUserInput(update.stackName);
+        this.ioHandler.resumeAfterUserInput(update.stackName);
         return; // aka don't send this event to any buffer
       }
 
-      const bufferableCb = this.waitingForUserInput ? bufferCb : cb;
-
-      if (this.isWaitingForUserInputUpdate(update)) {
+      if (isWaitingForUserInputUpdate(update)) {
         if (update.type === "waiting for stack approval") {
-          const callbacks = (update: StackApprovalUpdate) => ({
-            approve: () => {
-              update.approve();
-              // We need to defer these calls for the case that approve() is instantly invoked
-              // in the listener that receives these callbacks as it otherwise would already
-              // remove the "waiting for stack approval" event from the buffer before we even
-              // set waitingForApproval to true (at the end of this if statement) which results
-              // in buffered updates which will never unblock
-              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+          this.handleUserUpdate<MultiStackApprovalUpdate, StackApprovalUpdate>(
+            update,
+            {
+              approve: (update) => update.approve(),
+              dismiss: (update) => {
+                update.reject();
+                this.stopAllStacksThatCanNotRunWithout(update.stackName);
+              },
+              stop: (update) => {
+                update.reject();
+                this.stopAllStacks();
+              },
             },
-            dismiss: () => {
-              update.reject();
-
-              this.stopAllStacksThatCanNotRunWithout(update.stackName);
-              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-            },
-            stop: () => {
-              update.reject();
-              this.stopAllStacks();
-              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-            },
-          });
-
-          // always send to buffer, as resumeAfterUserInput() always expects a matching event
-          bufferCb({
-            type: "waiting for approval",
-            stackName: update.stackName,
-            ...callbacks(update),
-          });
-          // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
-          if (!this.waitingForUserInput) {
-            cb({
-              type: "waiting for approval",
-              stackName: update.stackName,
-              ...callbacks(update),
-            });
-          }
+            cb,
+            "waiting for approval"
+          );
         } else if (update.type === "waiting for stack sentinel override") {
-          const callbacks = (update: StackSentinelOverrideUpdate) => ({
-            override: () => {
-              console.error("Sentinel override approved", {
-                stackName: update.stackName,
-              });
-              update.override();
-              // We need to defer these calls for the case that override() is instantly invoked
-              // in the listener that receives these callbacks as it otherwise would already
-              // remove the waiting event from the buffer before we even
-              // set waitingForUserInput to true (at the end of this if statement) which results
-              // in buffered updates which will never unblock
-              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
+          this.handleUserUpdate<
+            MultiStackSentinelOverrideUpdate,
+            StackSentinelOverrideUpdate
+          >(
+            update,
+            {
+              override: (update) => {
+                update.override();
+              },
+              reject: (update) => {
+                update.reject();
+                this.stopAllStacksThatCanNotRunWithout(update.stackName);
+              },
             },
-            reject: () => {
-              update.reject();
-
-              this.stopAllStacksThatCanNotRunWithout(update.stackName);
-              setTimeout(() => this.resumeAfterUserInput(update.stackName), 0);
-            },
-          });
-
-          // always send to buffer, as resumeAfterUserInput() always expects a matching "waiting for approval" event
-          bufferCb({
-            type: "waiting for sentinel override",
-            stackName: update.stackName,
-            ...callbacks(update),
-          });
-          // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
-          if (!this.waitingForUserInput) {
-            cb({
-              type: "waiting for sentinel override",
-              stackName: update.stackName,
-              ...callbacks(update),
-            });
-          }
+            cb,
+            "waiting for sentinel override"
+          );
         } else {
           throw Errors.Internal(`Unexpected update type: ${update.type}`);
         }
 
-        this.awaitUserInput();
+        this.ioHandler.awaitUserInput();
       } else {
-        bufferableCb(update as ProjectUpdate);
-      }
-    };
-  }
-
-  private bufferWhileAwaitingUserInput(cb?: (msg: LogMessage) => void) {
-    if (!cb) {
-      return undefined;
-    }
-
-    return (msg: LogMessage) => {
-      if (this.waitingForUserInput) {
-        this.eventBuffer.push({
+        this.ioHandler.pushEvent({
           cb,
-          value: msg,
-          type: "logMessage",
+          value: update as ProjectUpdate,
+          type: "projectUpdate",
         });
-      } else {
-        cb(msg);
       }
     };
   }
@@ -352,7 +296,7 @@ export class CdktfProject {
     opts: AutoApproveOptions = {}
   ) {
     const enhanceLogMessage = createEnhanceLogMessage(stack);
-    const onLog = this.bufferWhileAwaitingUserInput(this.onLog);
+    const onLog = this.ioHandler.bufferWhileAwaitingUserInput(this.onLog);
     return new CdktfStack({
       ...opts,
       stack,
