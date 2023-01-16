@@ -172,8 +172,8 @@ export class TerraformCli implements Terraform {
       options.push(`-parallelism=${parallelism}`);
     }
 
-    vars.forEach((v) => options.push(`-var='${v}'`));
-    varFiles.forEach((v) => options.push(`-var-file='${v}'`));
+    vars.forEach((v) => options.push(`-var=${v}`));
+    varFiles.forEach((v) => options.push(`-var-file=${v}`));
 
     logger.debug(
       `Executing ${terraformBinaryName} ${options.join(" ")} in ${this.workdir}`
