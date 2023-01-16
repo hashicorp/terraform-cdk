@@ -1,0 +1,93 @@
+---
+page_title: Upgrading to CDKTF Version 0.15
+description: >-
+  Minimum version of Terraform increased to 1.2, some interfaces / classes renamed for C#, Java, and Go
+---
+
+# Upgrading to CDK for Terraform Version 0.15
+
+0.15 is primarily focused around CLI improvements targeted at a better Terraform Cloud integration.
+Because of this, there are only smaller breaking changes in this release. The most notable one is a renaming of some interfaces / classes in our core library.
+Some configuration classes were suffixed inconsistently with `Config`, `Props` or `Options` and were renamed to `Config` for consistency. These classes need to be used in C#, Java, and Go, therefore we have a breaking change in these languages.
+
+## Minimum version of Terraform increased to 1.2
+
+CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for Terraform Cloud and Terraform Enterprise instead of [the API](https://developer.hashicorp.com/terraform/cloud-docs/api-docs) used in version 0.14.
+
+[Terraform promises compatibility](https://developer.hashicorp.com/terraform/language/v1-compatibility-promises) between all v1.x releases, so there shouldn't be any issues with this change. The only changes between these versions are bug fixes, and new feature additions.
+
+Please open an issue if you encounter any issues or bugs with this change.
+
+## Renaming of `*Options` and `*Props` to `*Config`
+
+We had several exports where the configuration passed to constructs or functions was using a class with a different suffix then `Config`. If you are using a language like C#, Java, or Go you might have needed to specify these classes in your CDKTF application. To simplify the usage we changed every suffix to be `Config`, so if you currently use one of the others please rename them to use the `Config` suffix. No options were changed in the process, only the names were aligned.
+
+### C#
+
+```diff
+using vpc; // a local module
+class MyStack : TerraformStack
+  {
+      public MyStack(Construct scope, string name) : base(scope, name)
+      {
+-          Vpc vpc = new Vpc(this, "vpc", new VpcOptions {
++          Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
+              Name = "vpc",
+              PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
+          });
+      }
+  }
+
+```
+
+### Java
+
+```diff
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.CloudBackend;
+-import com.hashicorp.cdktf.CloudBackendProps;
++import com.hashicorp.cdktf.CloudBackendConfig;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+
+    public static class Demo extends TerraformStack{
+
+        public Demo(Construct scope, String id){
+            super(scope, id);
+-            new CloudBackend(this, CloudBackendProps.builder()
++            new CloudBackend(this, CloudBackendConfig.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("demo"))
+                    .build()
+            );
+```
+
+### Go
+
+```diff
+package main
+import (
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/eks"
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws/awsprovider"
+	"github.com/hashicorp/terraform-cdk/examples/go/aws/generated/hashicorp/aws/ec2"
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+)
+func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &id)
+	awsprovider.NewAwsProvider(stack, jsii.String("aws"), &awsprovider.AwsProviderConfig{
+		Region: jsii.String("us-east-1"),
+	})
+
+-	eks.NewEks(stack, jsii.String("EKS"), &eks.EksOptions{
++ eks.NewEks(stack, jsii.String("EKS"), &eks.EksConfig{
+		ClusterName:    jsii.String("my-eks"),
+		Subnets:        jsii.Strings("a", "b"),
+		VpcId:          jsii.String("id"),
+		ClusterVersion: jsii.String("1.17"),
+	})
+	return stack
+}
+```
