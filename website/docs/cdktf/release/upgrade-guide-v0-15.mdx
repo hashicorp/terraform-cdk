@@ -1,13 +1,13 @@
 ---
 page_title: Upgrading to CDKTF Version 0.15
 description: >-
-  Minimum version of Terraform increased to 1.2, some interfaces renamed for C#, Java, and Go
+  Minimum version of Terraform increased to 1.2, some interfaces / classes renamed for C#, Java, and Go
 ---
 
 # Upgrading to CDK for Terraform Version 0.15
 
 0.15 is primarily focused around CLI improvements targeted at a better Terraform Cloud integration.
-Because of this, there are only smaller breaking changes in this release. The most notable one is a renaming of some interfaces in our core library.
+Because of this, there are only smaller breaking changes in this release. The most notable one is a renaming of some interfaces / classes in our core library.
 Some configuration classes were suffixed inconsistently with `Config`, `Props` or `Options` and were renamed to `Config` for consistency. These classes need to be used in C#, Java, and Go, therefore we have a breaking change in these languages.
 
 ## Minimum version of Terraform increased to 1.2
