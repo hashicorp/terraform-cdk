@@ -176,14 +176,6 @@ export class CdktfProject {
     originalCallback: (updateToSend: ProjectUpdate) => void,
     eventType: T["type"]
   ) {
-    const bufferCallback = (bufferedUpdate: T) => {
-      this.ioHandler.pushEvent({
-        cb: originalCallback,
-        value: bufferedUpdate,
-        type: "projectUpdate",
-      });
-    };
-
     const callbacks = (update: V) =>
       Object.fromEntries(
         Object.entries(operations).map(([key, value]) => {
@@ -209,11 +201,15 @@ export class CdktfProject {
       );
 
     // always send to buffer, as resumeAfterUserInput() always expects a matching event
-    bufferCallback({
-      type: eventType,
-      stackName: update.stackName,
-      ...callbacks(update as V),
-    } as T);
+    this.ioHandler.pushEvent({
+      cb: originalCallback,
+      value: {
+        type: eventType,
+        stackName: update.stackName,
+        ...callbacks(update as V),
+      } as T,
+      type: "projectUpdate",
+    });
 
     // if we aren't already waiting, this needs to go to cb() too to arrive at the UI
     if (!this.ioHandler.isWaitingForUserInput()) {
@@ -286,16 +282,22 @@ export class CdktfProject {
             "waiting for sentinel override"
           );
         } else {
-          throw Errors.Internal(`Unexpected update type: ${update.type}`);
+          throw Errors.Internal(
+            `Unexpected user input update type: ${update.type}`
+          );
         }
 
         this.ioHandler.awaitUserInput();
       } else {
-        this.ioHandler.pushEvent({
-          cb,
-          value: update as ProjectUpdate,
-          type: "projectUpdate",
-        });
+        if (this.ioHandler.isWaitingForUserInput()) {
+          this.ioHandler.pushEvent({
+            cb,
+            value: update as ProjectUpdate,
+            type: "projectUpdate",
+          });
+        } else {
+          cb(update as ProjectUpdate);
+        }
       }
     };
   }
