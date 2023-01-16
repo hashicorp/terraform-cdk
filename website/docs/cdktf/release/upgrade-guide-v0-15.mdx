@@ -1,0 +1,104 @@
+---
+page_title: Upgrading to CDKTF Version 0.15
+description: >-
+  Minimum version of Terraform increased to 1.2, classes reanamed for C#, Java, and Go
+---
+
+# Upgrading to CDK for Terraform Version 0.15
+
+0.15 is primarily focused around CLI improvements targeted at a better Terraform Cloud integration.
+Because of this, there are only smaller breaking changes in this release. The biggest one is a refactoring of several Constructs in our core library.
+Some configuration classes were suffixed inconsistently with `Config`, `Props` or `Options` and were renamed to `Config` for consistency. These classes need to be used in C#, Java, and Go, therefore we have a breaking change in these languages.
+
+## Minimum version of Terraform increased to 1.2
+
+CDKTF is bumping the minimum supported version of Terraform from 1.0 to 1.2 starting from CDKTF version 0.15. This change is necessary as CDKTF 0.15 uses the Terraform CLI for planning and applying changes for Terraform Cloud and Terraform Enterprise instead of [the API](https://developer.hashicorp.com/terraform/cloud-docs/api-docs) used in version 0.14.
+
+[Terraform promises compatibility](https://developer.hashicorp.com/terraform/language/v1-compatibility-promises) between all v1.x releases, so there shouldn't be any issues with this change. The only changes between these versions are bug fixes, and new feature additions.
+
+Please open an issue if you encounter any issues or bugs with this change.
+
+## Renaming of `*Options` and `*Props` to `*Config`
+
+We had several exports where the configuration passed to constructs or functions was using a class with a different suffix then `Config`. If you are using a language like C#, Java, Python, or Go you might have needed to specify these classes in your CDKTF application. To simplify the usage we changed every suffix to be `Config`, so if you currently use one of the others please rename them to use the `Config` suffix. No options were changed in the process, only the names were aligned.
+
+### C#
+
+```diff
+using vpc; // a local module
+class MyStack : TerraformStack
+  {
+      public MyStack(Construct scope, string name) : base(scope, name)
+      {
+-          Vpc vpc = new Vpc(this, "vpc", new VpcOptions {
++          Vpc vpc = new Vpc(this, "vpc", new VpcConf {
+              Name = "vpc",
+              PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
+          });
+      }
+  }
+
+```
+
+### Java
+
+```diff
+import software.constructs.Construct;
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformStack;
+import com.hashicorp.cdktf.CloudBackend;
+-import com.hashicorp.cdktf.CloudBackendProps;
++import com.hashicorp.cdktf.CloudBackendConfig;
+import com.hashicorp.cdktf.NamedCloudWorkspace;
+
+    public static class Demo extends TerraformStack{
+
+        public Demo(Construct scope, String id){
+            super(scope, id);
+-            new CloudBackend(this, CloudBackendProps.builder()
++            new CloudBackend(this, CloudBackendConfig.builder()
+                    .organization("hashicorp")
+                    .workspaces(new NamedCloudWorkspace("demo"))
+                    .build()
+            );
+```
+
+### Go
+
+```diff
+import com.hashicorp.cdktf.App;
+import com.hashicorp.cdktf.TerraformHclModule;
+import com.hashicorp.cdktf.TerraformHclModuleOptions;
+import com.hashicorp.cdktf.TerraformStack;
+import imports.aws.provider.AwsProvider;
+import imports.aws.provider.AwsProviderConfig;
+import software.constructs.Construct;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+public class MainCreateModules extends TerraformStack {
+    public MainCreateModules(Construct scope, String id){
+        super(scope, id);
+        TerraformStack stack = new TerraformStack(new App(), "temp");
+        AwsProvider provider = new AwsProvider(stack, "provider", AwsProviderConfig.builder()
+                .region("us-east-1")
+                .build()
+        );
+
+-        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleOptions.builder()
++        TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleConfig.builder()
+                .source("terraform-aws-modules/vpc/aws")
+                .variables(new HashMap<String, Object>(){{
+                    put("name", "my-vpc");
+                    put("cidr", "10.0.0.0/16");
+                    put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
+                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enableNatGateway", true);
+                }})
+                .providers(Arrays.asList(provider))
+                .build()
+        );
+    }
+}
+```
