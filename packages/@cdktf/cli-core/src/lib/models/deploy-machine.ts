@@ -232,14 +232,14 @@ export const deployMachine = createMachine<
               OVERRIDE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: "override\n" },
+                  { type: "SEND_INPUT", input: "override\r\n" },
                   { to: "pty" }
                 ),
               },
               REJECT_OVERRIDE: {
                 target: "processing",
                 actions: [
-                  send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                  send({ type: "SEND_INPUT", input: "no\r\n" }, { to: "pty" }),
                   assign<
                     DeployContext,
                     DeployEvent & { type: "REJECT_OVERRIDE" }
