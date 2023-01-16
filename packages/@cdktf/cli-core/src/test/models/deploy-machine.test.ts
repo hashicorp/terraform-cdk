@@ -1,5 +1,5 @@
 import { interpret } from "xstate";
-import { IPty } from "node-pty-prebuilt-multiarch";
+import { IPty } from "@cdktf/node-pty-prebuilt-multiarch";
 import {
   DeployEvent,
   deployMachine,
