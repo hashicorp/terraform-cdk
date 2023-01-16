@@ -19,7 +19,7 @@ process.on("unhandledRejection", (err) => {
 describe("variables", () => {
   let driver: TestDriver;
 
-  const deployFlags = [
+  const cliFlags = [
     "--var='explicitlyset=via-variable'",
     "--var-file=explicit.tfvars",
   ];
@@ -35,8 +35,19 @@ describe("variables", () => {
     console.log(driver.workingDirectory);
   });
 
+  it("plans locally", async () => {
+    const planOutput = await driver.diff("stack", cliFlags);
+
+    expect(planOutput).toContain("Plan: 1 to add, 0 to change, 0 to destroy.");
+    expect(planOutput).toContain("hello = world");
+    expect(planOutput).toContain("explicitlyset = via-variable");
+    expect(planOutput).toContain("explicitly = set-through-file");
+    expect(planOutput).toContain("setthrough = auto-loading-file");
+    expect(planOutput).toContain("thisextension = auto-loads");
+  });
+
   it("deploys locally", async () => {
-    expect(await driver.deploy(["stack"], undefined, deployFlags)).toContain(
+    expect(await driver.deploy(["stack"], undefined, cliFlags)).toContain(
       "Apply complete!"
     );
     const output = fs.readFileSync(

@@ -199,11 +199,16 @@ export class TestDriver {
     );
   };
 
-  diff = (stackName?: string) => {
+  diff = (stackName?: string, otherFlags?: string[]) => {
     return stripAnsi(
-      execSyncLogErrors(`cdktf diff ${stackName ? stackName : ""}`, {
-        env: this.env,
-      }).toString()
+      execSyncLogErrors(
+        `cdktf diff ${stackName ? stackName : ""} ${
+          otherFlags?.length ? otherFlags.join(" ") : ""
+        }`,
+        {
+          env: this.env,
+        }
+      ).toString()
     );
   };
 
