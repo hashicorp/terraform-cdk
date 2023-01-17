@@ -6,7 +6,7 @@ description: >-
 
 # Connect to Terraform Cloud / Enterprise
 
-This page explains how to connect Terraform Cloud to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
+This page explains how to connect Terraform Cloud / Enterprise to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
 
 > **Hands On:** Try our [Get Started - Terraform Cloud](https://learn.hashicorp.com/collections/terraform/cloud-get-started) tutorials.
 
@@ -74,15 +74,13 @@ First use `cdktf login` to log into Terraform Cloud or your Terraform Enterprise
   </Tab>
 </Tabs>
 
-Run `cdktf init` without passing the `--local` flag.
-This creates a new template CDKTF project for your chosen programming language.
-It will be the basis for a new application with the necessary file structure for you to start defining infrastructure.
-Choose a project language and provide a project name and description.
-Select a Terraform Cloud organization and a name for your workspace and let CDKTF CLI create it for you.
-You can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
+1. Run `cdktf init` without passing the `--local` flag. This creates a new template CDKTF project for your chosen programming language. It will be the basis for a new application with the necessary file structure for you to start defining infrastructure. If you're using Terraform Enterprise, you must also pass the `--tfe-hostname` flag with the hostname of your enterprise instance.
+2. Choose a project language and provide a project name and description.
+3. Select a Terraform Cloud organization and a name for your workspace. CDKTF will create a [CloudBackend](/cli/cloud/settings#the-cloud-block) in your project.
+4. You can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
 
-CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together.
-By default, the workspace is set to Local Execution mode, which means Terraform continues to run on your local machine. If you want Terraform to run remotely, you need to set the workspace to [Remote Execution mode](/cloud-docs/workspaces/settings#execution-mode).
+CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace on first apply. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together.
+By default, the workspace is set to Remote execution mode, which means Terraform runs remotely on Terraform Cloud / Enterprise. If you want Terraform to run locally, you need to set the workspace to [Local Execution mode](/cloud-docs/workspaces/settings#execution-mode).
 
 #### Connect Existing CDKTF Projects
 
