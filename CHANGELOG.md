@@ -50,6 +50,32 @@ CDKTF used to use feature flags to enable potentially breaking behaviors in a re
 }
 ```
 
+### feat
+
+- feat(cli): Add cdktf provider list command [\#2270](https://github.com/hashicorp/terraform-cdk/pull/2270)
+- feat(cli): support -var and -var-file terraform flags [\#2468](https://github.com/hashicorp/terraform-cdk/pull/2468)
+- feat(cli): add -no-color tag [\#2307](https://github.com/hashicorp/terraform-cdk/pull/2307)
+- feat: enable non-escaping mode for tokens [\#2179](https://github.com/hashicorp/terraform-cdk/pull/2179)
+- feat: use our own pre-built package for node-pty to have builds for Nodejs 19 available [\#2478](https://github.com/hashicorp/terraform-cdk/pull/2478)
+- feat(docs): Document node-gyp errors if no precompiled binaries are available and the target system misses a native toolchain [\#2497](https://github.com/hashicorp/terraform-cdk/pull/2497)
+
+### fix
+
+- fix(cli): don't enquote args as they will be escaped and end up in the calls to Terraform [\#2493](https://github.com/hashicorp/terraform-cdk/pull/2493)
+- fix: detect destroys on windows / TF version [\#2486](https://github.com/hashicorp/terraform-cdk/pull/2486)
+- fix(tests): change Options -> Config as per #2471 [\#2482](https://github.com/hashicorp/terraform-cdk/pull/2482)
+- fix(cli): windows fixes [\#2480](https://github.com/hashicorp/terraform-cdk/pull/2480)
+- fix: limit concurrency for integration tests to 10 for each windows and linux [\#2474](https://github.com/hashicorp/terraform-cdk/pull/2474)
+- fix(tests): Make version more stable [\#2467](https://github.com/hashicorp/terraform-cdk/pull/2467)
+- fix: use older SHA from jsii superchain docker image [\#2465](https://github.com/hashicorp/terraform-cdk/pull/2465)
+- fix: fix go build in pipeline [\#2464](https://github.com/hashicorp/terraform-cdk/pull/2464)
+- fix(cli): remove newlines from tokens during terraform login [\#2459](https://github.com/hashicorp/terraform-cdk/pull/2459)
+- fix(cli): abort apply if not all variables are known [\#2455](https://github.com/hashicorp/terraform-cdk/pull/2455)
+- fix: Expose provider matcher to jest [\#2448](https://github.com/hashicorp/terraform-cdk/pull/2448)
+- fix: Adds `environment` to keys to preserve case [\#2446](https://github.com/hashicorp/terraform-cdk/pull/2446)
+- fix: Allow git access for sentry cli in docker [\#2426](https://github.com/hashicorp/terraform-cdk/pull/2426)
+- fix: add path: dist for npm and pypi [\#2410](https://github.com/hashicorp/terraform-cdk/pull/2410)
+
 ### chore
 
 - chore: create upgrade guide [\#2494](https://github.com/hashicorp/terraform-cdk/pull/2494)
@@ -71,31 +97,8 @@ CDKTF used to use feature flags to enable potentially breaking behaviors in a re
 - chore: add a refactoring guide [\#2413](https://github.com/hashicorp/terraform-cdk/pull/2413)
 - chore: fix homebrew deploy step [\#2412](https://github.com/hashicorp/terraform-cdk/pull/2412)
 - chore: add TFE information to TFC docs [\#2407](https://github.com/hashicorp/terraform-cdk/pull/2407)
-
-### fix
-
-- fix(cli): don't enquote args as they will be escaped and end up in the calls to Terraform [\#2493](https://github.com/hashicorp/terraform-cdk/pull/2493)
-- fix: detect destroys on windows / TF version [\#2486](https://github.com/hashicorp/terraform-cdk/pull/2486)
-- fix(tests): change Options -> Config as per #2471 [\#2482](https://github.com/hashicorp/terraform-cdk/pull/2482)
-- fix(cli): windows fixes [\#2480](https://github.com/hashicorp/terraform-cdk/pull/2480)
-- fix: limit concurrency for integration tests to 10 for each windows and linux [\#2474](https://github.com/hashicorp/terraform-cdk/pull/2474)
-- fix(tests): Make version more stable [\#2467](https://github.com/hashicorp/terraform-cdk/pull/2467)
-- fix: use older SHA from jsii superchain docker image [\#2465](https://github.com/hashicorp/terraform-cdk/pull/2465)
-- fix: fix go build in pipeline [\#2464](https://github.com/hashicorp/terraform-cdk/pull/2464)
-- fix(cli): remove newlines from tokens during terraform login [\#2459](https://github.com/hashicorp/terraform-cdk/pull/2459)
-- fix(cli): abort apply if not all variables are known [\#2455](https://github.com/hashicorp/terraform-cdk/pull/2455)
-- fix: Expose provider matcher to jest [\#2448](https://github.com/hashicorp/terraform-cdk/pull/2448)
-- fix: Adds `environment` to keys to preserve case [\#2446](https://github.com/hashicorp/terraform-cdk/pull/2446)
-- fix: Allow git access for sentry cli in docker [\#2426](https://github.com/hashicorp/terraform-cdk/pull/2426)
-- fix: add path: dist for npm and pypi [\#2410](https://github.com/hashicorp/terraform-cdk/pull/2410)
-
-### feat
-
-- feat: use our own pre-built package for node-pty to have builds for Nodejs 19 available [\#2478](https://github.com/hashicorp/terraform-cdk/pull/2478)
-- feat(cli): support -var and -var-file terraform flags [\#2468](https://github.com/hashicorp/terraform-cdk/pull/2468)
-- feat(cli): add -no-color tag [\#2307](https://github.com/hashicorp/terraform-cdk/pull/2307)
-- feat(cli): Add cdktf provider list command [\#2270](https://github.com/hashicorp/terraform-cdk/pull/2270)
-- feat: [Proposal] Enable non-escaping mode for tokens [\#2179](https://github.com/hashicorp/terraform-cdk/pull/2179)
+- chore: deprecate feature flags [\#2498](https://github.com/hashicorp/terraform-cdk/pull/2498)
+- chore: document variable flags [\#2495](https://github.com/hashicorp/terraform-cdk/pull/2495)
 
 ### refactor
 
@@ -168,6 +171,7 @@ We split up our `cdktf-cli` package into `cdktf-cli` for the UI parts, utilizing
 - chore(docs): translate aspects example to c# [\#2273](https://github.com/hashicorp/terraform-cdk/pull/2273)
 - chore(docs): translate all examples to python [\#2186](https://github.com/hashicorp/terraform-cdk/pull/2186)
 - chore(docs): Translate Documentation Snippets for Java [\#2183](https://github.com/hashicorp/terraform-cdk/pull/2183)
+- chore: make info level log a debug level one [\#2502](https://github.com/hashicorp/terraform-cdk/pull/2502)
 
 ### feat
 
