@@ -95,7 +95,9 @@ class Parser {
       };
     }
 
-    if (isReservedClassOrNamespaceName(baseName)) {
+    const resourceIsNamedProvider = !isProvider && baseName === "provider";
+
+    if (isReservedClassOrNamespaceName(baseName) || resourceIsNamedProvider) {
       baseName = `${baseName}_resource`;
     }
 

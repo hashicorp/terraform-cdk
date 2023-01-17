@@ -436,6 +436,7 @@ test("incompatible resource names", async () => {
       "function-resource",
       "index.ts",
       "object-resource",
+      "provider-resource",
       "static-resource",
       "string-resource",
     ]
