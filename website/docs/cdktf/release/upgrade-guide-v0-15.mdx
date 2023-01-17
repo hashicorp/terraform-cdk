@@ -91,3 +91,16 @@ func NewExampleCdktfGoAwsStack(scope constructs.Construct, id string) cdktf.Terr
 	return stack
 }
 ```
+
+### Deprecation: We deprecate the feature flags that go into the `context` field of the `cdktf.json` file
+
+CDKTF used to use feature flags to enable potentially breaking behaviors in a release. These are no longer needed since most of the changes we introduce from here can not be hidden behind feature flags. When the feature flags are removed, the behavior will be the same as this configuration:
+
+```json
+{
+  "context": {
+    "excludeStackIdFromLogicalIds": "true",
+    "allowSepCharsInLogicalIds": "true"
+  }
+}
+```
