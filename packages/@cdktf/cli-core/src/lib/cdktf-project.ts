@@ -102,16 +102,11 @@ type Buffered<T, V> = {
 };
 
 export function isWaitingForUserInputUpdate(
-  update:
-    | ProjectUpdate
-    | StackUpdate
-    | StackApprovalUpdate
-    | StackSentinelOverrideUpdate
+  update: ProjectUpdate | StackUpdate
 ) {
-  return [
-    "waiting for stack approval",
-    "waiting for stack sentinel override",
-  ].includes(update.type);
+  return ["waiting for approval", "waiting for sentinel override"].includes(
+    update.type
+  );
 }
 
 export type ProjectEvent =
@@ -245,7 +240,10 @@ export class CdktfProject {
         return; // aka don't send this event to any buffer
       }
 
-      if (isWaitingForUserInputUpdate(update)) {
+      if (
+        update.type === "waiting for stack approval" ||
+        update.type === "waiting for stack sentinel override"
+      ) {
         if (update.type === "waiting for stack approval") {
           this.handleUserUpdate<MultiStackApprovalUpdate, StackApprovalUpdate>(
             update,
@@ -280,10 +278,6 @@ export class CdktfProject {
             },
             cb,
             "waiting for sentinel override"
-          );
-        } else {
-          throw Errors.Internal(
-            `Unexpected user input update type: ${update.type}`
           );
         }
 
