@@ -232,7 +232,7 @@ export const deployMachine = createMachine<
               OVERRIDE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: "override\r\n" },
+                  { type: "SEND_INPUT", input: "override\n" },
                   { to: "pty" }
                 ),
               },
