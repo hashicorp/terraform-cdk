@@ -286,7 +286,7 @@ export class CdktfProject {
         if (this.ioHandler.isWaitingForUserInput()) {
           this.ioHandler.pushEvent({
             cb,
-            value: update as ProjectUpdate,
+            value: update,
             type: "projectUpdate",
           });
         } else {

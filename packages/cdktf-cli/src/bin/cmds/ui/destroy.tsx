@@ -6,6 +6,7 @@ import {
   StreamView,
   ExecutionStatusBottomBar,
   ApproveBottomBar,
+  OverrideBottomBar,
 } from "./components";
 
 interface DestroyConfig {
@@ -55,6 +56,13 @@ export const Destroy = ({
         onApprove={status.approve}
         onDismiss={status.dismiss}
         onStop={status.stop}
+      />
+    ) : status?.type ===
+      "waiting for override of sentinel policy check failure" ? (
+      <OverrideBottomBar
+        stackName={status.stackName}
+        onOverride={status.override}
+        onReject={status.reject}
       />
     ) : (
       <ExecutionStatusBottomBar status={status} actionName="destroying" />
