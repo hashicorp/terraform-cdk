@@ -83,6 +83,7 @@ function parseProvider(provider: any): Provider["provider"] {
 // TODO: Separate parsing of Attributes and Blocks -  Same return type but different intermediary logic
 // TODO: Talk about whether to combine attributes and block types
 function parseAttribute(arg: any): Attribute {
-  const result: Attribute
+  const result: Attribute = {}
+  return result;
 }
 
