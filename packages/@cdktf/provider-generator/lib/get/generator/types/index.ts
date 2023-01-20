@@ -12,7 +12,7 @@ export type Provider = {
       [name: string]: Attribute;
     };
     blockTypes: {
-      [name: string]: Block;
+      [name: string]: Attribute;
     };
   };
 };
@@ -23,10 +23,28 @@ export type Providers = {
 
 export type Attribute = ReadonlyAttribute | SettableAttribute;
 
-export type AttributeType = {};
+export type PrimitiveAttributeType = "string" | "number" | "bool";
+export type ListAttributeType = {
+  __type: "list";
+  type: AttributeType;
+};
+export type MapAttributeType = {
+  __type: "map";
+  valueType: PrimitiveAttributeType;
+};
+export type ObjectAttributeType = {
+  __type: "object";
+  attributes: { [name: string]: Attribute };
+};
+
+export type AttributeType =
+  | PrimitiveAttributeType
+  | ListAttributeType
+  | MapAttributeType
+  | ObjectAttributeType;
 
 export type BaseAttribute = {
-  description?: string;
+  description?: string; // can be markdown or plain
   type: AttributeType;
 };
 
@@ -41,3 +59,7 @@ export type SettableAttribute = BaseAttribute & {
 };
 
 export type Block = {};
+
+export function parse(providerSchema: any): Provider {
+  return providerSchema as any;
+}
