@@ -3,8 +3,6 @@
 import { parse } from "..";
 
 const schema = {
-  provider_schemas: {
-    aws: {
       provider: {
         version: 0,
         block: {
@@ -51,9 +49,7 @@ const schema = {
           },
         },
       },
-    },
-  },
-};
+    };
 
 describe("new generator types", () => {
   it("should parse a simple schema", () => {

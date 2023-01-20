@@ -61,5 +61,28 @@ export type SettableAttribute = BaseAttribute & {
 export type Block = {};
 
 export function parse(providerSchema: any): Provider {
-  return providerSchema as any;
+  const provider: Provider = {
+    provider: parseProvider(providerSchema.provider)
+  }
+  return provider; 
 }
+function parseProvider(provider: any): Provider["provider"] {
+  const result: Provider["provider"] = {
+    attributes: {},
+    blockTypes: {}
+  }
+  for(const attributeName in provider.block.attributes){
+    result.attributes[attributeName] = parseAttribute(provider.block.attributes[attributeName])
+  }
+  for(const blockName in provider.block.block_types){
+    result.blockTypes[blockName] = parseAttribute(provider.block.block_types[blockName])
+  }
+  return result;
+}
+
+// TODO: Separate parsing of Attributes and Blocks -  Same return type but different intermediary logic
+// TODO: Talk about whether to combine attributes and block types
+function parseAttribute(arg: any): Attribute {
+  const result: Attribute
+}
+
