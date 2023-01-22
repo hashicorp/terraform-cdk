@@ -3934,6 +3934,19 @@ export class StringList extends cdktf.TerraformResource {
     return this._subjectAlternativeNamesOptional;
   }
 
+  // subject_alternative_names_required - computed: true, optional: false, required: true
+  private _subjectAlternativeNamesRequired?: { [key: string]: string }; 
+  public get subjectAlternativeNamesRequired() {
+    return this.getStringMapAttribute('subject_alternative_names_required');
+  }
+  public set subjectAlternativeNamesRequired(value: { [key: string]: string }) {
+    this._subjectAlternativeNamesRequired = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get subjectAlternativeNamesRequiredInput() {
+    return this._subjectAlternativeNamesRequired;
+  }
+
   // =========
   // SYNTHESIS
   // =========
@@ -3967,6 +3980,10 @@ export interface StringMapConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_optional StringMap#subject_alternative_names_optional}
   */
   readonly subjectAlternativeNamesOptional?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/string_map#subject_alternative_names_required StringMap#subject_alternative_names_required}
+  */
+  readonly subjectAlternativeNamesRequired: { [key: string]: string };
 }
 
 /**
@@ -4006,6 +4023,7 @@ export class StringMap extends cdktf.TerraformResource {
     });
     this._subjectAlternativeNamesComputedOptional = config.subjectAlternativeNamesComputedOptional;
     this._subjectAlternativeNamesOptional = config.subjectAlternativeNamesOptional;
+    this._subjectAlternativeNamesRequired = config.subjectAlternativeNamesRequired;
   }
 
   // ==========
@@ -4058,6 +4076,7 @@ export class StringMap extends cdktf.TerraformResource {
     return {
       subject_alternative_names_computed_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesComputedOptional),
       subject_alternative_names_optional: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesOptional),
+      subject_alternative_names_required: cdktf.hashMapper(cdktf.stringToTerraform)(this._subjectAlternativeNamesRequired),
     };
   }
 }
