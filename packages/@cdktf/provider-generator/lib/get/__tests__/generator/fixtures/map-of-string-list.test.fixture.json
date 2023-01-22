@@ -2,30 +2,30 @@
   "provider_schemas": {
     "aws": {
       "resource_schemas": {
-        "aws_list_of_string_map": {
+        "aws_map_of_string_list": {
           "version": 1,
           "block": {
             "attributes": {
               "keys": {
                 "type": [
-                  "list",
+                  "map",
                   [
-                    "map",
+                    "list",
                     "string"
                   ]
                 ],
-                "description": "List of key versions in the keyring.",
+                "description": "Map of String List.",
                 "computed": true
               },
               "settable_keys": {
                 "type": [
-                  "list",
+                  "map",
                   [
-                    "map",
+                    "list",
                     "string"
                   ]
                 ],
-                "description": "List of key versions in the keyring.",
+                "description": "Map of String List.",
                 "optional": true
               }
             }

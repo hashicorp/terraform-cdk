@@ -477,6 +477,27 @@ test("list of string map attribute", async () => {
   expect(output).toMatchSnapshot();
 });
 
+test("map of string list attribute", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "map-of-string-list.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, "fixtures", "map-of-string-list.test.fixture.json"),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/aws/map-of-string-list/index.ts"),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});
+
 test("reset and input name conflicts", async () => {
   const code = new CodeMaker();
   const workdir = fs.mkdtempSync(path.join(os.tmpdir(), "name-conflict.test"));

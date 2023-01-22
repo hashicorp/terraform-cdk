@@ -2258,6 +2258,12 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * List of key versions in the keyring.
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map#settable_keys ListOfStringMap#settable_keys}
+  */
+  readonly settableKeys?: { [key: string]: string }[];
 }
 
 /**
@@ -2295,6 +2301,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._settableKeys = config.settableKeys;
   }
 
   // ==========
@@ -2307,12 +2314,124 @@ export class ListOfStringMap extends cdktf.TerraformResource {
     return this._keys;
   }
 
+  // settable_keys - computed: false, optional: true, required: false
+  private _settableKeys?: { [key: string]: string }[]; 
+  public get settableKeys() {
+    return this.interpolationForAttribute('settable_keys');
+  }
+  public set settableKeys(value: { [key: string]: string }[]) {
+    this._settableKeys = value;
+  }
+  public resetSettableKeys() {
+    this._settableKeys = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get settableKeysInput() {
+    return this._settableKeys;
+  }
+
   // =========
   // SYNTHESIS
   // =========
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      settable_keys: cdktf.listMapper(cdktf.hashMapper(cdktf.stringToTerraform), false)(this._settableKeys),
+    };
+  }
+}
+"
+`;
+
+exports[`map of string list attribute 1`] = `
+"// https://www.terraform.io/docs/providers/aws/r/map_of_string_list
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface MapOfStringListConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Map of String List.
+  * 
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/map_of_string_list#settable_keys MapOfStringList#settable_keys}
+  */
+  readonly settableKeys?: { [key: string]: stringList };
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/aws/r/map_of_string_list aws_map_of_string_list}
+*/
+export class MapOfStringList extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = \\"aws_map_of_string_list\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/map_of_string_list aws_map_of_string_list} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options MapOfStringListConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: MapOfStringListConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'aws_map_of_string_list',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._settableKeys = config.settableKeys;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // keys - computed: true, optional: false, required: false
+  private _keys = new cdktf.StringListMap(this, \\"keys\\");
+  public get keys() {
+    return this._keys;
+  }
+
+  // settable_keys - computed: false, optional: true, required: false
+  private _settableKeys?: { [key: string]: stringList }; 
+  public get settableKeys() {
+    return this.getStringListMapAttribute('settable_keys');
+  }
+  public set settableKeys(value: { [key: string]: stringList }) {
+    this._settableKeys = value;
+  }
+  public resetSettableKeys() {
+    this._settableKeys = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get settableKeysInput() {
+    return this._settableKeys;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      settable_keys: cdktf.hashMapper(cdktf.listMapper(cdktf.stringToTerraform, false))(this._settableKeys),
     };
   }
 }
