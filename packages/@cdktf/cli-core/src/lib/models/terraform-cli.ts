@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import stripAnsi from "strip-ansi";
+import * as path from "path";
 import {
   exec,
   logger,
@@ -126,6 +127,46 @@ export class TerraformCli implements Terraform {
       this.onStdout("init"),
       this.onStderr("init")
     );
+    
+    // get the planFile and use TerraformCLIPlan to check for "needs apply"
+    await exec(
+      terraformBinaryName,
+      [
+        "plan",
+        "-out=plan.plan"
+      ],
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("init"),
+      this.onStderr("init")
+    );
+
+    const planFile = path.join(
+      this.stack.workingDirectory,
+      "plan.plan"
+    )
+
+    const result = await exec(
+      terraformBinaryName,
+      [
+        "show",
+        "-json",
+        planFile
+      ],
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("init"),
+      this.onStderr("init")
+    );
+
+    console.log("result")
+    console.log(result)
 
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms)
@@ -148,12 +189,15 @@ export class TerraformCli implements Terraform {
       this.onStdout("init"),
       this.onStderr("init")
     );
+    
+    // Find if any changes - return whether there are
   }
 
   public async plan(opts: {
     destroy: boolean;
     refreshOnly?: boolean;
     parallelism?: number;
+    outFile?: string;
     vars?: string[];
     varFiles?: string[];
     noColor?: boolean;
@@ -162,6 +206,7 @@ export class TerraformCli implements Terraform {
       destroy = false,
       refreshOnly = false,
       parallelism = -1,
+      outFile = false,
       vars = [],
       varFiles = [],
       noColor = false,
@@ -179,6 +224,9 @@ export class TerraformCli implements Terraform {
     }
     if (noColor) {
       options.push("-no-color");
+    }
+    if (outFile) {
+      options.push(`-out=${outFile}.plan`);
     }
 
     vars.forEach((v) => options.push(`-var=${v}`));
@@ -368,6 +416,33 @@ export class TerraformCli implements Terraform {
       this.onStderr("output")
     );
     return JSON.parse(output);
+  }
+
+  public async show({
+    json = false,
+    filePath = ""
+  }): Promise<{output: string}> {
+    const args = ["show"];
+
+    if(json){
+      args.push("-json")
+    }
+    // If you don't specify a file path, Terraform will show the latest state snapshot.
+    if(filePath){
+      args.push(filePath)
+    }
+
+    return {output: await exec(
+      terraformBinaryName,
+      args,
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("show"),
+      this.onStderr("show")
+    )};
   }
 
   public async setUserAgent(): Promise<void> {

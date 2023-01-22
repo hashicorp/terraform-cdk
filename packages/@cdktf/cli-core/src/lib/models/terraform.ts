@@ -128,6 +128,7 @@ export interface Terraform {
     destroy: boolean;
     refreshOnly?: boolean;
     parallelism?: number;
+    outFile?: string;
     vars?: string[];
     varFiles?: string[];
     noColor?: boolean;
@@ -153,6 +154,13 @@ export interface Terraform {
     },
     callback: (state: TerraformDeployState) => void
   ): Promise<{ cancelled: boolean }>;
+  show(
+    options: {
+      json: boolean;
+      filePath: string;
+    }
+  ): Promise<{output: string}>
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
+  
 }

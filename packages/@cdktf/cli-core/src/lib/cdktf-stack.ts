@@ -208,10 +208,28 @@ export class CdktfStack {
       this.options.stack,
       this.createTerraformLogHandler.bind(this)
     );
-
+    
     const needsUpgrade = await this.checkLockFile();
     await terraform.init(needsUpgrade, noColor);
+    await this.checkNeedsApply(terraform)
+
     return terraform;
+  }
+
+  private async checkNeedsApply(terraform: Terraform){
+    terraform.plan({
+      destroy: false,
+      outFile: "plan"
+    })
+    
+    terraform.show({
+      json: true,
+      filePath: "plan.plan"
+    })
+
+    // TODO: get plan file and through TerraformCLIPlan check if it needsApply- return whether it does, pass it back to deploy function and then filter for stacks that need apply.
+
+
   }
 
   private async checkLockFile(): Promise<boolean> {
