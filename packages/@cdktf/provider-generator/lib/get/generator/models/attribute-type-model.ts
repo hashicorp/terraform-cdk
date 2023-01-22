@@ -330,6 +330,8 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
       return `{ [key: string]: (${this.elementType.storedClassType} | cdktf.IResolvable) }`;
     } else if (this.isComplex) {
       return `{ [key: string]: ${this.elementType.storedClassType} } | cdktf.IResolvable`;
+    } else if (this.elementType.typeModelType !== "simple") {
+      return `{ [key: string]: ${this.elementType.inputTypeDefinition} }`;
     } else {
       return `{ [key: string]: ${this.elementType.storedClassType} }`;
     }
