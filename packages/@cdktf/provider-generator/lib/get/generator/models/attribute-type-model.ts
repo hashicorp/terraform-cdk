@@ -158,6 +158,8 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
       return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
     } else if (this.isComplex) {
       return `${this.elementType.storedClassType}[] | cdktf.IResolvable`;
+    } else if (this.elementType.typeModelType !== "simple") {
+      return `${this.elementType.inputTypeDefinition}[] | cdktf.IResolvable`;
     } else {
       return `${this.elementType.inputTypeDefinition}[]`;
     }
@@ -246,6 +248,8 @@ export class SetAttributeTypeModel implements CollectionAttributeTypeModel {
       return "Array<boolean | cdktf.IResolvable> | cdktf.IResolvable";
     } else if (this.isComplex) {
       return `${this.elementType.storedClassType}[] | cdktf.IResolvable`;
+    } else if (this.elementType.typeModelType !== "simple") {
+      return `${this.elementType.inputTypeDefinition}[] | cdktf.IResolvable`;
     } else {
       return `${this.elementType.inputTypeDefinition}[]`;
     }

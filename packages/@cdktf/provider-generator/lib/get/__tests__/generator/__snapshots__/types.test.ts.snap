@@ -2263,7 +2263,7 @@ export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/list_of_string_map#settable_keys ListOfStringMap#settable_keys}
   */
-  readonly settableKeys?: { [key: string]: string }[];
+  readonly settableKeys?: { [key: string]: string }[] | cdktf.IResolvable;
 }
 
 /**
@@ -2315,11 +2315,11 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   }
 
   // settable_keys - computed: false, optional: true, required: false
-  private _settableKeys?: { [key: string]: string }[]; 
+  private _settableKeys?: { [key: string]: string }[] | cdktf.IResolvable; 
   public get settableKeys() {
     return this.interpolationForAttribute('settable_keys');
   }
-  public set settableKeys(value: { [key: string]: string }[]) {
+  public set settableKeys(value: { [key: string]: string }[] | cdktf.IResolvable) {
     this._settableKeys = value;
   }
   public resetSettableKeys() {
