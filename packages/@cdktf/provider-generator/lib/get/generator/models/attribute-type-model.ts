@@ -331,13 +331,17 @@ export class MapAttributeTypeModel implements CollectionAttributeTypeModel {
     } else if (this.isComplex) {
       return `{ [key: string]: ${this.elementType.storedClassType} } | cdktf.IResolvable`;
     } else if (this.elementType.typeModelType !== "simple") {
-      return `{ [key: string]: ${this.elementType.inputTypeDefinition} }`;
+      return `{ [key: string]: ${this.elementType.inputTypeDefinition} } | cdktf.IResolvable`;
     } else {
       return `{ [key: string]: ${this.elementType.storedClassType} }`;
     }
   }
 
   getAttributeAccessFunction(name: string) {
+    if (!this.isComplex && this.elementType.typeModelType !== "simple") {
+      return `this.interpolationForAttribute('${name}')`;
+    }
+
     return `this.get${uppercaseFirst(
       this.storedClassType
     )}Attribute('${name}')`;

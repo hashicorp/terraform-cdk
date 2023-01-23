@@ -2358,7 +2358,7 @@ export interface MapOfStringListConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/map_of_string_list#settable_keys MapOfStringList#settable_keys}
   */
-  readonly settableKeys?: { [key: string]: string[] };
+  readonly settableKeys?: { [key: string]: string[] } | cdktf.IResolvable;
 }
 
 /**
@@ -2410,11 +2410,11 @@ export class MapOfStringList extends cdktf.TerraformResource {
   }
 
   // settable_keys - computed: false, optional: true, required: false
-  private _settableKeys?: { [key: string]: string[] }; 
+  private _settableKeys?: { [key: string]: string[] } | cdktf.IResolvable; 
   public get settableKeys() {
-    return this.getStringListMapAttribute('settable_keys');
+    return this.interpolationForAttribute('settable_keys');
   }
-  public set settableKeys(value: { [key: string]: string[] }) {
+  public set settableKeys(value: { [key: string]: string[] } | cdktf.IResolvable) {
     this._settableKeys = value;
   }
   public resetSettableKeys() {
