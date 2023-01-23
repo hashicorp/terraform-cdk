@@ -71,6 +71,13 @@ export type StackApprovalUpdate = {
   approve: () => void;
   reject: () => void;
 };
+
+export type StackStateMoveApprovalUpdate = {
+  type: "waiting for stack state move approval";
+  stackName: string;
+  approve: () => void;
+  reject: () => void;
+};
 export type ExternalStackApprovalUpdate = {
   type: "external stack approval reply";
   stackName: string;
@@ -91,7 +98,11 @@ async function getTerraformClient(
 type CdktfStackOptions = {
   stack: SynthesizedStack;
   onUpdate: (
-    update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+    update:
+      | StackUpdate
+      | StackApprovalUpdate
+      | ExternalStackApprovalUpdate
+      | StackStateMoveApprovalUpdate
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
@@ -101,6 +112,7 @@ type CdktfStackStates =
   | StackUpdate["type"]
   | StackApprovalUpdate["type"]
   | ExternalStackApprovalUpdate["type"]
+  | StackStateMoveApprovalUpdate["type"]
   | "idle"
   | "done";
 
@@ -140,6 +152,7 @@ export class CdktfStack {
       | StackUpdate
       | StackApprovalUpdate
       | ExternalStackApprovalUpdate
+      | StackStateMoveApprovalUpdate
       | { type: "idle" }
       | { type: "done" }
   ) {
@@ -210,7 +223,28 @@ export class CdktfStack {
     );
 
     const needsUpgrade = await this.checkLockFile();
-    await terraform.init(needsUpgrade, noColor);
+
+    await terraform.init(
+      needsUpgrade,
+      (state) => {
+        // state updates while apply runs that affect the UI
+        if (state.type === "waiting for state move approval") {
+          this.updateState({
+            type: "waiting for stack state move approval",
+            stackName: this.stack.name,
+            approve: state.approve,
+            reject: () => {
+              state.reject();
+              this.updateState({
+                type: "dismissed",
+                stackName: this.stack.name,
+              });
+            },
+          });
+        }
+      },
+      noColor
+    );
     return terraform;
   }
 

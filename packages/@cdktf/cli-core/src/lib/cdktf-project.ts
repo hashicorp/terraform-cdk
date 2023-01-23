@@ -13,6 +13,7 @@ import {
 import { NestedTerraformOutputs } from "./output";
 import minimatch from "minimatch";
 import { createEnhanceLogMessage } from "./execution-logs";
+import { StackStateMoveApprovalUpdate } from "./cdktf-stack";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -424,7 +425,11 @@ export class CdktfProject {
 
   private handleApprovalProcess(cb: (updateToSend: ProjectUpdate) => void) {
     return (
-      update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+      update:
+        | StackUpdate
+        | StackApprovalUpdate
+        | ExternalStackApprovalUpdate
+        | StackStateMoveApprovalUpdate
     ) => {
       const bufferCb = (bufferedUpdate: ProjectUpdate) => {
         this.eventBuffer.push({
@@ -444,8 +449,13 @@ export class CdktfProject {
 
       const bufferableCb = this.waitingForApproval ? bufferCb : cb;
 
-      if (update.type === "waiting for stack approval") {
-        const callbacks = (update: StackApprovalUpdate) => ({
+      if (
+        update.type === "waiting for stack approval" ||
+        update.type === "waiting for stack state move approval"
+      ) {
+        const callbacks = (
+          update: StackApprovalUpdate | StackStateMoveApprovalUpdate
+        ) => ({
           approve: () => {
             update.approve();
             // We need to defer these calls for the case that approve() is instantly invoked

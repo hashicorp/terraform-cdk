@@ -122,8 +122,19 @@ export type TerraformDeployState =
     }
   | { type: "external approval reply"; approved: boolean };
 
+export type TerraformInitState =
+  | { type: "running"; cancelled: boolean }
+  | {
+      type: "waiting for state move approval";
+      approve: () => void;
+      reject: () => void;
+    };
 export interface Terraform {
-  init: (upgrade: boolean, noColor?: boolean) => Promise<void>;
+  init: (
+    needsUpgrade: boolean,
+    callback: (state: TerraformInitState) => void,
+    noColor?: boolean
+  ) => Promise<void>;
   plan: (opts: {
     destroy: boolean;
     refreshOnly?: boolean;

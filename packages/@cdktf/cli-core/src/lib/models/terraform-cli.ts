@@ -13,6 +13,7 @@ import {
   TerraformOutput,
   AbstractTerraformPlan,
   TerraformDeployState,
+  TerraformInitState,
 } from "./terraform";
 import { SynthesizedStack } from "../synth-stack";
 import {
@@ -23,6 +24,7 @@ import {
 } from "./deploy-machine";
 import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
+import { createAndStartInitService, InitState } from "./init-machine";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -104,28 +106,19 @@ export class TerraformCli implements Terraform {
         createTerraformLogHandler(phase, filter)(stderr.toString(), true);
   }
 
-  public async init(needsUpgrade: boolean, noColor?: boolean): Promise<void> {
+  public async init(
+    needsUpgrade: boolean,
+    callback: (state: TerraformInitState) => void,
+    noColor?: boolean
+  ): Promise<void> {
     await this.setUserAgent();
-
-    const args = ["init", "-input=false"];
-    if (needsUpgrade) {
-      args.push("-upgrade");
-    }
-    if (noColor) {
-      args.push("-no-color");
-    }
-
-    await exec(
+    const service = createAndStartInitService({
       terraformBinaryName,
-      args,
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("init"),
-      this.onStderr("init")
-    );
+      workdir: this.workdir,
+      noColor,
+      needsUpgrade,
+    });
+    await this.handleInitService(service, callback);
 
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms)
@@ -253,6 +246,79 @@ export class TerraformCli implements Terraform {
       varFiles,
     });
     return this.handleService("destroy", service, callback);
+  }
+
+  private async handleInitService(
+    service: ReturnType<typeof createAndStartInitService>,
+    callback: (state: TerraformInitState) => void
+  ): Promise<{ cancelled: boolean }> {
+    // stop terraform apply if signaled as such from the outside (e.g. via ctrl+c)
+    this.abortSignal.addEventListener(
+      "abort",
+      () => {
+        service.send("STOP");
+      },
+      { once: true }
+    );
+
+    // relay logs to stdout
+    service.onEvent((event) => {
+      logger.trace(
+        `Terraform CLI state machine event: ${JSON.stringify(event)}`
+      );
+      if (isDeployEvent(event, "LINE_RECEIVED")) {
+        this.onStdout("init")(event.line);
+      }
+    });
+
+    let previousState: InitState["value"] = "idle";
+
+    service.onTransition((state) => {
+      // only send updates on actual state change
+      // onTransition is called even if the state didn't change but only an event happened
+      if (state.matches(previousState as InitState["value"])) return;
+
+      logger.trace(
+        `Terraform CLI state machine state transition: ${JSON.stringify(
+          previousState
+        )} => ${JSON.stringify(state.value)}`
+      );
+
+      if (state.matches({ running: "awaiting_state_move_approval" })) {
+        callback({
+          type: "waiting for state move approval",
+          approve: () => service.send("APPROVE"),
+          reject: () => service.send("REJECT"),
+        });
+      } else if (state.matches({ running: "processing" })) {
+        callback({
+          type: "running",
+          cancelled: Boolean(state.context.cancelled),
+        });
+      }
+      previousState = state.value as InitState["value"];
+    });
+    service.start();
+    const state = await waitFor(service, (state) => !!state.done, {
+      timeout: Infinity,
+    });
+
+    logger.trace(
+      `Invoking Terraform CLI for init done (state machine reached final state). Last event: ${JSON.stringify(
+        state.event
+      )}. Context: ${JSON.stringify(state.context)}`
+    );
+
+    // example events: { type: 'EXITED', exitCode: 0 }, { type: 'EXTERNAL_REJECT' }
+    if (
+      state.event.type === "EXITED" &&
+      state.event.exitCode !== 0 &&
+      !state.context.cancelled // don't fail if we cancelled the run
+    ) {
+      throw `Invoking Terraform CLI failed with exit code ${state.event.exitCode}`;
+    }
+
+    return { cancelled: Boolean(state.context.cancelled) };
   }
 
   private async handleService(
