@@ -659,7 +659,7 @@ export class CdktfProject {
             this.stacksToRun.filter((stack) => stack.isPending)[0]
           )
       : () => getStackWithNoUnmetDependencies(this.stacksToRun);
-    
+
     await this.execute("deploy", next, opts);
 
     const unprocessedStacks = this.stacksToRun.filter(
