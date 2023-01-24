@@ -169,6 +169,7 @@ export class AttributesEmitter {
     }
 
     // TODO: enable this change once we want to release the next major version
+    // https://github.com/hashicorp/terraform-cdk/issues/2532
     // return `this.getComputed${uppercaseFirst(att.mapType)}MapAttribute('${
     //   att.terraformName
     // }')`;
