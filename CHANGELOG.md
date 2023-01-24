@@ -1,3 +1,13 @@
+## 0.15.1
+
+### fix
+
+- fix(provider-generator): fix resources named 'provider' breaking the code generation [\#2504](https://github.com/hashicorp/terraform-cdk/pull/2504)
+
+### chore
+
+- chore: autoclose older GHA updater PRs [\#2505](https://github.com/hashicorp/terraform-cdk/pull/2505)
+
 ## 0.15.0
 
 **Breaking changes**
