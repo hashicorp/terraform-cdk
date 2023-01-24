@@ -167,6 +167,25 @@ export class AttributesEmitter {
     if (type.isBoolean) {
       return `this.getBooleanAttribute('${att.terraformName}')`;
     }
+
+    // TODO: enable this change once we want to release the next major version
+    // return `this.getComputed${uppercaseFirst(att.mapType)}MapAttribute('${
+    //   att.terraformName
+    // }')`;
+    // if (type.isComputedStringMap) return `this.getComputedStringMapAttribute('${att.terraformName}')`;
+    // if (type.isComputedNumberMap) return `this.getComputedNumberMapAttribute('${att.terraformName}')`;
+    // if (type.isComputedBooleanMap) return `this.getComputedBooleanMapAttribute('${att.terraformName}')`;
+    // if (type.isComputedAnyMap) return `this.getComputedAnyMapAttribute('${att.terraformName}')`;
+
+    if (type.isComputedStringMap)
+      return `new cdktf.StringMap(this, '${att.terraformName}')`;
+    if (type.isComputedNumberMap)
+      return `new cdktf.NumberMap(this, '${att.terraformName}')`;
+    if (type.isComputedBooleanMap)
+      return `new cdktf.BooleanMap(this, '${att.terraformName}')`;
+    if (type.isComputedAnyMap)
+      return `new cdktf.AnyMap(this, '${att.terraformName}')`;
+
     if (type.isMap) {
       return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
         att.terraformName
