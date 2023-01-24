@@ -156,6 +156,7 @@ export class TerraformResource
   }
 
   // TODO: enable this change once we want to release the next major version
+  // https://github.com/hashicorp/terraform-cdk/issues/2532
   // Changing APIs like this is a breaking change in python
   // public getComputedStringMapAttribute(terraformAttribute: string) {
   //   return new StringMap(this, terraformAttribute);
