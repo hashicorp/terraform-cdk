@@ -23,6 +23,7 @@ import {
 } from "./deploy-machine";
 import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
+import { terraformJsonSchema } from "../terraform-json";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -150,6 +151,16 @@ export class TerraformCli implements Terraform {
     );
   }
 
+  private get isCloudStack(): boolean {
+    const parsedStack = terraformJsonSchema.parse(
+      JSON.parse(this.stack.content)
+    );
+
+    return Boolean(
+      parsedStack.terraform?.backend?.remote || parsedStack.terraform?.cloud
+    );
+  }
+
   public async plan(opts: {
     destroy: boolean;
     refreshOnly?: boolean;
@@ -167,6 +178,11 @@ export class TerraformCli implements Terraform {
       noColor = false,
     } = opts;
     const options = ["plan", "-input=false"];
+
+    if (!this.isCloudStack) {
+      const planFile = "plan";
+      options.push("-out", planFile);
+    }
 
     if (destroy) {
       options.push("-destroy");
