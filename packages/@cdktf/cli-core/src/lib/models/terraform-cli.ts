@@ -432,6 +432,23 @@ export class TerraformCli implements Terraform {
       args.push(filePath)
     }
 
+    const pwd = await exec(
+      terraformBinaryName,
+      [
+        "pwd"
+      ],
+      {
+        cwd: this.workdir,
+        env: process.env,
+        signal: this.abortSignal,
+      },
+      this.onStdout("show"),
+      this.onStderr("show")
+    )
+
+    console.log("pwd")
+    console.log(pwd)
+
     return {output: await exec(
       terraformBinaryName,
       args,

@@ -221,11 +221,12 @@ export class CdktfStack {
       destroy: false,
       outFile: "plan"
     })
-    
-    terraform.show({
+
+    const plan = terraform.show({
       json: true,
       filePath: "plan.plan"
     })
+    console.log(plan)
 
     // TODO: get plan file and through TerraformCLIPlan check if it needsApply- return whether it does, pass it back to deploy function and then filter for stacks that need apply.
 
