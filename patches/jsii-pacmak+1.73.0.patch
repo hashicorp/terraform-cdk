@@ -1,0 +1,33 @@
+diff --git a/node_modules/jsii-pacmak/lib/targets/go/package.js b/node_modules/jsii-pacmak/lib/targets/go/package.js
+index b1e2542..f3f6689 100644
+--- a/node_modules/jsii-pacmak/lib/targets/go/package.js
++++ b/node_modules/jsii-pacmak/lib/targets/go/package.js
+@@ -141,7 +141,7 @@ class Package {
+         // as a consequence.
+         if (this.types.length > 0) {
+             const { code } = context;
+-            const initFile = (0, path_1.join)(this.directory, `${this.packageName}.go`);
++            const initFile = (0, path_1.join)(this.directory, `main.go`);
+             code.openFile(initFile);
+             code.line(`package ${this.packageName}`);
+             code.line();
+@@ -169,7 +169,7 @@ class Package {
+     }
+     emitTypes(context) {
+         for (const type of this.types) {
+-            const filePath = (0, path_1.join)(this.directory, `${this.packageName}_${type.name}.go`);
++            const filePath = (0, path_1.join)(this.directory, `${type.name}.go`);
+             context.code.openFile(filePath);
+             this.emitHeader(context.code);
+             this.emitImports(context.code, type);
+@@ -185,8 +185,8 @@ class Package {
+         if (type.parameterValidators.length === 0 && type.structValidator == null) {
+             return;
+         }
+-        emit.call(this, (0, path_1.join)(this.directory, `${this.packageName}_${type.name}__runtime_type_checks.go`), false);
+-        emit.call(this, (0, path_1.join)(this.directory, `${this.packageName}_${type.name}__no_runtime_type_checking.go`), true);
++        emit.call(this, (0, path_1.join)(this.directory, `${type.name}__runtime_type_checks.go`), false);
++        emit.call(this, (0, path_1.join)(this.directory, `${type.name}__no_runtime_type_checking.go`), true);
+         function emit(filePath, forNoOp) {
+             code.openFile(filePath);
+             // Conditional compilation tag...
