@@ -198,14 +198,17 @@ export const deployMachine = createMachine<
               APPROVE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: "yes\r\n" },
+                  { type: "SEND_INPUT", input: withNewline("yes") },
                   { to: "pty" }
                 ),
               },
               REJECT: {
                 target: "processing",
                 actions: [
-                  send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
+                  send(
+                    { type: "SEND_INPUT", input: withNewline("no") },
+                    { to: "pty" }
+                  ),
                   assign<DeployContext, DeployEvent & { type: "REJECT" }>({
                     cancelled: true,
                   }),
@@ -232,14 +235,17 @@ export const deployMachine = createMachine<
               OVERRIDE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: "override\n" },
+                  { type: "SEND_INPUT", input: withNewline("override") },
                   { to: "pty" }
                 ),
               },
               REJECT_OVERRIDE: {
                 target: "processing",
                 actions: [
-                  send({ type: "SEND_INPUT", input: "no\r\n" }, { to: "pty" }),
+                  send(
+                    { type: "SEND_INPUT", input: withNewline("no") },
+                    { to: "pty" }
+                  ),
                   assign<
                     DeployContext,
                     DeployEvent & { type: "REJECT_OVERRIDE" }
@@ -312,6 +318,10 @@ export function terraformPtyService(
       // TODO: is there a way to delay this? maybe go into a "killing" state first?
     };
   };
+}
+
+function withNewline(str: string): string {
+  return `${str}${os.EOL}`;
 }
 
 export function createAndStartDeployService(options: {
