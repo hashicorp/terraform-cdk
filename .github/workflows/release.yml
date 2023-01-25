@@ -335,7 +335,7 @@ jobs:
         with:
           formula-name: cdktf
           download-url: https://registry.npmjs.org/cdktf-cli/-/cdktf-cli-${{ steps.get_version.outputs.version }}.tgz
-          commit-message: | 
+          commit-message: |
             cdktf ${{ steps.get_version.outputs.version }}
 
             Refer to https://github.com/hashicorp/terraform-cdk/releases/tag/v${{ steps.get_version.outputs.version }} for more details
