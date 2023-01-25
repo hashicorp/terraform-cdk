@@ -155,6 +155,25 @@ export class TerraformResource
     return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
   }
 
+  // TODO: enable this change once we want to release the next major version
+  // https://github.com/hashicorp/terraform-cdk/issues/2532
+  // Changing APIs like this is a breaking change in python
+  // public getComputedStringMapAttribute(terraformAttribute: string) {
+  //   return new StringMap(this, terraformAttribute);
+  // }
+
+  // public getComputedNumberMapAttribute(terraformAttribute: string) {
+  //   return new NumberMap(this, terraformAttribute);
+  // }
+
+  // public getComputedBooleanMapAttribute(terraformAttribute: string) {
+  //   return new BooleanMap(this, terraformAttribute);
+  // }
+
+  // public getComputedAnyMapAttribute(terraformAttribute: string) {
+  //   return new AnyMap(this, terraformAttribute);
+  // }
+
   public get terraformMetaArguments(): { [name: string]: any } {
     assert(
       !this.forEach || typeof this.count === "undefined",
