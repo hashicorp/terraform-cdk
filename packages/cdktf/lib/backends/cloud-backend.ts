@@ -3,7 +3,6 @@
 import { Construct } from "constructs";
 import { keysToSnakeCase, deepMerge, terraformBinaryName } from "../util";
 import { DataTerraformRemoteState } from "./remote-backend";
-import { Fn } from "../terraform-functions";
 import { TerraformRemoteState } from "../terraform-remote-state";
 import { TerraformBackend } from "../terraform-backend";
 import { ValidateBinaryVersion } from "../validations";
@@ -151,7 +150,7 @@ export class TaggedCloudWorkspaces extends CloudWorkspace {
   }
   public toTerraform(): any {
     return {
-      tags: Fn.toset(this.tags),
+      tags: this.tags,
     };
   }
 }
