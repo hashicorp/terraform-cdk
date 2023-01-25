@@ -10,7 +10,7 @@ import { logger, sendTelemetry, shell } from "@cdktf/commons";
 
 const chalkColour = new chalk.Instance();
 
-interface SynthesizedStackMetadata {
+export interface SynthesizedStackMetadata {
   "//"?: { [key: string]: TerraformStackMetadata };
 }
 
