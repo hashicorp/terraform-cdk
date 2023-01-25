@@ -338,7 +338,7 @@ jobs:
           commit-message: | 
             cdktf ${{ steps.get_version.outputs.version }}
 
-            See https://github.com/hashicorp/terraform-cdk/releases/tag/v${{ steps.get_version.outputs.version }} for more details
+            Refer to https://github.com/hashicorp/terraform-cdk/releases/tag/v${{ steps.get_version.outputs.version }} for more details
           base-branch: master # Branch in https://github.com/Homebrew/homebrew-core
           tag-name: v${{ steps.get_version.outputs.version }}
         env:
