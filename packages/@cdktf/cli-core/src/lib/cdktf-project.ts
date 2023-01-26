@@ -159,7 +159,7 @@ export class CdktfProject {
 
   private stopAllStacks() {
     this.stacksToRun.forEach((stack) => stack.stop());
-    this.ioHandler.filterBuffer();
+    this.ioHandler.filterUserInputEventsFromBuffer();
   }
 
   private handleUserUpdate<
@@ -233,7 +233,7 @@ export class CdktfProject {
         return; // aka don't send this event to any buffer
       }
       if (update.type === "external stack sentinel override reply") {
-        if (!update.overriden) {
+        if (!update.overridden) {
           this.stopAllStacksThatCanNotRunWithout(update.stackName);
         }
         this.ioHandler.resumeAfterUserInput(update.stackName);

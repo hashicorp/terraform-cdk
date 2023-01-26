@@ -219,10 +219,12 @@ export function checkIfAllDependantsAreIncluded(
   }
 }
 
-// Throws an error if there is a dependency that is not included
-// Cycles are detected on dependency creation at synthesis time
-// Running this prevents us from being in a situation where we have to wait for a stack to be deployed
-// that is not included to be run
+/** 
+  Throws an error if there is a dependency that is not included
+  Cycles are detected on dependency creation at synthesis time
+  Running this prevents us from being in a situation where we 
+  have to wait for a stack to be deployed that is not included to be run
+*/
 export function checkIfAllDependenciesAreIncluded(
   stacksToRun: SynthesizedStack[]
 ) {

@@ -302,12 +302,12 @@ export class TerraformCli implements Terraform {
       else if (isDeployEvent(event, "OVERRIDDEN_EXTERNALLY"))
         callback({
           type: "external sentinel override reply",
-          overriden: true,
+          overridden: true,
         });
       else if (isDeployEvent(event, "OVERRIDE_REJECTED_EXTERNALLY"))
         callback({
           type: "external sentinel override reply",
-          overriden: false,
+          overridden: false,
         });
     });
 

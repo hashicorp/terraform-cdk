@@ -90,7 +90,7 @@ export type ExternalStackApprovalUpdate = {
 export type ExternalStackSentinelOverrideUpdate = {
   type: "external stack sentinel override reply";
   stackName: string;
-  overriden: boolean; // false = rejected
+  overridden: boolean; // false = rejected
 };
 
 async function getTerraformClient(
@@ -415,7 +415,7 @@ export class CdktfStack {
             this.updateState({
               type: "external stack sentinel override reply",
               stackName: this.stack.name,
-              overriden: state.overriden,
+              overridden: state.overridden,
             });
           }
         }
@@ -499,7 +499,7 @@ export class CdktfStack {
             this.updateState({
               type: "external stack sentinel override reply",
               stackName: this.stack.name,
-              overriden: state.overriden,
+              overridden: state.overridden,
             });
           }
         }

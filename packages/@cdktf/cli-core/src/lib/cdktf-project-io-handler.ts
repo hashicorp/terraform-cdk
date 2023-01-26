@@ -20,7 +20,7 @@ export class CdktfProjectIOHandler {
     this.waitingForUserInput = true;
   }
 
-  public filterBuffer() {
+  public filterUserInputEventsFromBuffer() {
     this.eventBuffer = this.eventBuffer.filter(
       (event) =>
         event.type === "projectUpdate"
