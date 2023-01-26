@@ -17,6 +17,9 @@ console.log("Copying local packages to local node_modules");
 packagePathsToCopy.forEach(([packageName, packagePath]) => {
   fs.copySync(packagePath, path.resolve(localNodeModules, packageName), {
     recursive: true,
+    dereference: true,
+    errorOnExist: false,
+    overwrite: true,
   });
 });
 
@@ -46,5 +49,8 @@ fs.readdirSync(path.join(projectRoot, "node_modules")).forEach((file) => {
   console.log(`Copying ${from} to ${to}`);
   fs.copySync(from, to, {
     recursive: true,
+    dereference: true,
+    errorOnExist: false,
+    overwrite: true,
   });
 });
