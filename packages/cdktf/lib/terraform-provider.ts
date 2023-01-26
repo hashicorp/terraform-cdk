@@ -36,12 +36,12 @@ export abstract class TerraformProvider extends TerraformElement {
   }
 
   public get alias(): string | undefined {
-    // This is always* being overriden currently
+    // This is always* being overridden currently
     return undefined;
   }
 
   public set alias(_value: string | undefined) {
-    // This is always* being overriden currently
+    // This is always* being overridden currently
   }
 
   public get fqn(): string {

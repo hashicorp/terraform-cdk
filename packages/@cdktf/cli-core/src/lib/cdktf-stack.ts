@@ -11,6 +11,7 @@ import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 
 export type StackUpdate =
   | {
@@ -65,16 +66,31 @@ export type StackUpdate =
       stackName: string;
     };
 
+export type StackUserInputUpdate =
+  | StackApprovalUpdate
+  | StackSentinelOverrideUpdate;
+
 export type StackApprovalUpdate = {
   type: "waiting for stack approval";
   stackName: string;
   approve: () => void;
   reject: () => void;
 };
+export type StackSentinelOverrideUpdate = {
+  type: "waiting for stack sentinel override";
+  stackName: string;
+  override: () => void;
+  reject: () => void;
+};
 export type ExternalStackApprovalUpdate = {
   type: "external stack approval reply";
   stackName: string;
   approved: boolean; // false = rejected
+};
+export type ExternalStackSentinelOverrideUpdate = {
+  type: "external stack sentinel override reply";
+  stackName: string;
+  overridden: boolean; // false = rejected
 };
 
 async function getTerraformClient(
@@ -91,16 +107,24 @@ async function getTerraformClient(
 type CdktfStackOptions = {
   stack: SynthesizedStack;
   onUpdate: (
-    update: StackUpdate | StackApprovalUpdate | ExternalStackApprovalUpdate
+    update:
+      | StackUpdate
+      | StackApprovalUpdate
+      | ExternalStackApprovalUpdate
+      | StackSentinelOverrideUpdate
+      | ExternalStackSentinelOverrideUpdate
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
   abortSignal: AbortSignal;
 };
+
 type CdktfStackStates =
   | StackUpdate["type"]
   | StackApprovalUpdate["type"]
+  | StackSentinelOverrideUpdate["type"]
   | ExternalStackApprovalUpdate["type"]
+  | ExternalStackSentinelOverrideUpdate["type"]
   | "idle"
   | "done";
 
@@ -139,7 +163,9 @@ export class CdktfStack {
     update:
       | StackUpdate
       | StackApprovalUpdate
+      | StackSentinelOverrideUpdate
       | ExternalStackApprovalUpdate
+      | ExternalStackSentinelOverrideUpdate
       | { type: "idle" }
       | { type: "done" }
   ) {
@@ -366,11 +392,30 @@ export class CdktfStack {
                 });
               },
             });
+          } else if (state.type === "waiting for sentinel override") {
+            this.updateState({
+              type: "waiting for stack sentinel override",
+              stackName: this.stack.name,
+              override: state.override,
+              reject: () => {
+                state.reject();
+                this.updateState({
+                  type: "dismissed",
+                  stackName: this.stack.name,
+                });
+              },
+            });
           } else if (state.type === "external approval reply") {
             this.updateState({
               type: "external stack approval reply",
               stackName: this.stack.name,
               approved: state.approved,
+            });
+          } else if (state.type === "external sentinel override reply") {
+            this.updateState({
+              type: "external stack sentinel override reply",
+              stackName: this.stack.name,
+              overridden: state.overridden,
             });
           }
         }
@@ -431,11 +476,30 @@ export class CdktfStack {
                 });
               },
             });
+          } else if (state.type === "waiting for sentinel override") {
+            this.updateState({
+              type: "waiting for stack sentinel override",
+              stackName: this.stack.name,
+              override: state.override,
+              reject: () => {
+                state.reject();
+                this.updateState({
+                  type: "dismissed",
+                  stackName: this.stack.name,
+                });
+              },
+            });
           } else if (state.type === "external approval reply") {
             this.updateState({
               type: "external stack approval reply",
               stackName: this.stack.name,
               approved: state.approved,
+            });
+          } else if (state.type === "external sentinel override reply") {
+            this.updateState({
+              type: "external stack sentinel override reply",
+              stackName: this.stack.name,
+              overridden: state.overridden,
             });
           }
         }

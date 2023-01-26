@@ -7,6 +7,7 @@ import {
   StreamView,
   OutputsBottomBar,
   ApproveBottomBar,
+  OverrideBottomBar,
   ExecutionStatusBottomBar,
 } from "./components";
 interface DeploySummaryConfig {
@@ -108,6 +109,13 @@ export const Deploy = ({
         onApprove={status.approve}
         onDismiss={status.dismiss}
         onStop={status.stop}
+      />
+    ) : status?.type ===
+      "waiting for override of sentinel policy check failure" ? (
+      <OverrideBottomBar
+        stackName={status.stackName}
+        onOverride={status.override}
+        onReject={status.reject}
       />
     ) : (
       <ExecutionStatusBottomBar status={status} actionName="deploying" />

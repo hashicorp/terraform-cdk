@@ -6,7 +6,8 @@ import * as os from "os";
 import { CdktfProject, get, init } from "../../lib/index";
 import { Language } from "@cdktf/commons";
 import { SynthesizedStack } from "../../lib/synth-stack";
-import { getMultipleStacks, LogMessage } from "../../lib/cdktf-project";
+import { getMultipleStacks } from "../../lib/helpers/stack-helpers";
+import { LogMessage } from "../../lib/cdktf-project";
 
 function eventNames(events: any[]) {
   return events

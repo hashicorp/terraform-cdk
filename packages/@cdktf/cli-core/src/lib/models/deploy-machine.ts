@@ -1,7 +1,15 @@
 import * as os from "os";
 import * as path from "path";
 import * as fs from "fs";
-import { createMachine, send, interpret, EventObject, assign } from "xstate";
+import {
+  createMachine,
+  send,
+  interpret,
+  EventObject,
+  assign,
+  Sender,
+  Receiver,
+} from "xstate";
 import * as pty from "@cdktf/node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
@@ -21,15 +29,20 @@ interface DeployContext {
   cancelled?: boolean;
 }
 
-type DeployEvent =
+export type DeployEvent =
   | { type: "START"; pty: PtySpawnConfig }
   | { type: "STOP" }
   | { type: "SEND_INPUT"; input: string }
   | { type: "LINE_RECEIVED"; line: string } //TODO: rename to output received as not really a line in practice
   | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
   | { type: "REJECTED_EXTERNALLY" }
+  | { type: "OVERRIDDEN_EXTERNALLY" }
+  | { type: "OVERRIDE_REJECTED_EXTERNALLY" }
+  | { type: "OVERRIDE" }
+  | { type: "REJECT_OVERRIDE" }
   | { type: "REQUEST_APPROVAL" }
   | { type: "VARIABLE_MISSING"; variableName: string }
+  | { type: "REQUEST_SENTINEL_OVERRIDE" }
   | { type: "APPROVE" }
   | { type: "REJECT" }
   | { type: "EXITED"; exitCode: number };
@@ -56,6 +69,10 @@ export type DeployState =
     }
   | {
       value: { running: "awaiting_approval" };
+      context: DeployContext;
+    }
+  | {
+      value: { running: "awaiting_sentinel_override" };
       context: DeployContext;
     }
   | {
@@ -109,6 +126,17 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         line: missingVariable(variableName),
       });
       send({ type: "VARIABLE_MISSING", variableName });
+    } else if (
+      noColorLine.includes(
+        "Do you want to override the soft failed policy check?"
+      )
+    ) {
+      hideLine = true;
+      send({ type: "LINE_RECEIVED", line });
+
+      send({ type: "REQUEST_SENTINEL_OVERRIDE" });
+    } else if (noColorLine.includes("overridden using the UI or API")) {
+      send({ type: "OVERRIDDEN_EXTERNALLY" });
     }
 
     if (!hideLine) {
@@ -124,104 +152,177 @@ export const deployMachine = createMachine<
   DeployContext,
   DeployEvent,
   DeployState
->({
-  predictableActionArguments: true,
-  context: {},
-  initial: "idle",
-  id: "root",
-  states: {
-    idle: {
-      on: {
-        START: { target: "running" },
-      },
-    },
-    running: {
-      invoke: {
-        id: "pty",
-        src: (_context, event) => (send, onReceive) => {
-          if (event.type !== "START")
-            throw Errors.Internal(
-              `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
-            );
-          const { args, options } = event.pty;
-          const file =
-            os.platform() === "win32"
-              ? findExecutable(event.pty.file, options.cwd, options)
-              : event.pty.file;
-          logger.trace(
-            `Spawning pty with file=${file}, args=${
-              Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-            }, options=${JSON.stringify(options)}`
-          );
-          const p = pty.spawn(file, args, options);
-
-          onReceive((event: DeployEvent) => {
-            if (event.type === "SEND_INPUT") {
-              p.write(event.input);
-            }
-          });
-
-          p.onData(handleLineReceived(send));
-          p.onExit(({ exitCode }) => {
-            send({ type: "EXITED", exitCode });
-          });
-
-          return () => {
-            logger.trace("Terracorm CLI state machine: cleaning up pty");
-            p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
-            // TODO: is there a way to delay this? maybe go into a "killing" state first?
-          };
+>(
+  {
+    predictableActionArguments: true,
+    context: {},
+    initial: "idle",
+    id: "root",
+    states: {
+      idle: {
+        on: {
+          START: { target: "running" },
         },
       },
-      on: {
-        EXITED: "exited",
-        STOP: "stopped",
-      },
-      initial: "processing",
-      states: {
-        // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI to show a good error?
-        processing: {
-          on: {
-            REQUEST_APPROVAL: "awaiting_approval",
-            VARIABLE_MISSING: {
-              actions: send({ type: "EXITED", exitCode: 1 }),
+      running: {
+        invoke: {
+          id: "pty",
+          src: "runTerraformInPty",
+        },
+        on: {
+          EXITED: "exited",
+          STOP: "stopped",
+        },
+        initial: "processing",
+        states: {
+          // TODO: what else might TF CLI be asking? Can we detect any question from the TF CLI to show a good error?
+          processing: {
+            on: {
+              REQUEST_APPROVAL: "awaiting_approval",
+              REQUEST_SENTINEL_OVERRIDE: "awaiting_sentinel_override",
+              VARIABLE_MISSING: {
+                actions: send({ type: "EXITED", exitCode: 1 }),
+              },
+            },
+          },
+          awaiting_approval: {
+            on: {
+              APPROVED_EXTERNALLY: "processing",
+              REJECTED_EXTERNALLY: {
+                target: "#root.exited",
+                actions: assign<
+                  DeployContext,
+                  DeployEvent & { type: "REJECTED_EXTERNALLY" }
+                >({ cancelled: true }),
+              },
+              APPROVE: {
+                target: "processing",
+                actions: send(
+                  { type: "SEND_INPUT", input: withNewline("yes") },
+                  { to: "pty" }
+                ),
+              },
+              REJECT: {
+                target: "processing",
+                actions: [
+                  send(
+                    { type: "SEND_INPUT", input: withNewline("no") },
+                    { to: "pty" }
+                  ),
+                  assign<DeployContext, DeployEvent & { type: "REJECT" }>({
+                    cancelled: true,
+                  }),
+                ],
+              },
+            },
+          },
+          awaiting_sentinel_override: {
+            on: {
+              OVERRIDDEN_EXTERNALLY: "processing",
+              OVERRIDE_REJECTED_EXTERNALLY: {
+                target: "#root.exited",
+                actions: assign<
+                  DeployContext,
+                  DeployEvent & { type: "OVERRIDE_REJECTED_EXTERNALLY" }
+                >({ cancelled: true }),
+              },
+              // This is a bit of a hack, because the external discard message
+              // posted by Terraform UI is the same as during apply. So, we capture that
+              // and emit our own event to make it more specific.
+              REJECTED_EXTERNALLY: {
+                actions: send({ type: "OVERRIDE_REJECTED_EXTERNALLY" }),
+              },
+              OVERRIDE: {
+                target: "processing",
+                actions: send(
+                  { type: "SEND_INPUT", input: withNewline("override") },
+                  { to: "pty" }
+                ),
+              },
+              REJECT_OVERRIDE: {
+                target: "processing",
+                actions: [
+                  send(
+                    { type: "SEND_INPUT", input: withNewline("no") },
+                    { to: "pty" }
+                  ),
+                  assign<
+                    DeployContext,
+                    DeployEvent & { type: "REJECT_OVERRIDE" }
+                  >({
+                    cancelled: true,
+                  }),
+                ],
+              },
             },
           },
         },
-        awaiting_approval: {
-          on: {
-            APPROVED_EXTERNALLY: "processing",
-            REJECTED_EXTERNALLY: {
-              target: "#root.exited",
-              actions: assign<
-                DeployContext,
-                DeployEvent & { type: "REJECTED_EXTERNALLY" }
-              >({ cancelled: true }),
-            },
-            APPROVE: {
-              target: "processing",
-              actions: send(
-                { type: "SEND_INPUT", input: "yes\r\n" },
-                { to: "pty" }
-              ),
-            },
-            REJECT: {
-              target: "processing",
-              actions: [
-                send({ type: "SEND_INPUT", input: "no\n" }, { to: "pty" }),
-                assign<DeployContext, DeployEvent & { type: "REJECT" }>({
-                  cancelled: true,
-                }),
-              ],
-            },
-          },
-        },
       },
+      exited: { type: "final" },
+      stopped: { type: "final" },
     },
-    exited: { type: "final" },
-    stopped: { type: "final" },
   },
-});
+  {
+    services: {
+      runTerraformInPty: (context, event) =>
+        terraformPtyService(context, event, spawnPtyFromEvent),
+    },
+  }
+);
+
+function spawnPtyFromEvent(event: DeployEvent): pty.IPty {
+  if (event.type !== "START") {
+    throw Errors.Internal(
+      `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
+    );
+  }
+
+  const { args, options } = event.pty;
+  const file =
+    os.platform() === "win32"
+      ? findExecutable(event.pty.file, options.cwd, options)
+      : event.pty.file;
+  logger.trace(
+    `Spawning pty with file=${file}, args=${
+      Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
+    }, options=${JSON.stringify(options)}`
+  );
+  const p = pty.spawn(file, args, options);
+
+  return p;
+}
+
+export function terraformPtyService(
+  _context: DeployContext,
+  event: DeployEvent,
+  spawnFunction: (event: DeployEvent) => pty.IPty
+): (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => void {
+  return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
+    const p = spawnFunction(event);
+
+    onReceive((event: DeployEvent) => {
+      if (event.type === "SEND_INPUT") {
+        p.write(event.input);
+      }
+    });
+
+    p.onData(handleLineReceived(send));
+
+    p.onExit(({ exitCode }) => {
+      send({ type: "EXITED", exitCode });
+    });
+
+    return () => {
+      logger.trace("Terraform CLI state machine: cleaning up pty");
+      p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
+      // TODO: is there a way to delay this? maybe go into a "killing" state first?
+    };
+  };
+}
+
+function withNewline(str: string): string {
+  return `${str}${os.EOL}`;
+}
 
 export function createAndStartDeployService(options: {
   refreshOnly?: boolean;

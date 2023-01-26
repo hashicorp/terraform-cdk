@@ -93,7 +93,7 @@ export class TerraformElement extends Construct {
   public overrideLogicalId(newLogicalId: string) {
     ok(
       !this._fqnToken,
-      "Logical ID may not be overriden once .fqn has been requested. Make sure to override the id before passing the construct to other constructs."
+      "Logical ID may not be overridden once .fqn has been requested. Make sure to override the id before passing the construct to other constructs."
     );
     this._logicalIdOverride = newLogicalId;
   }
@@ -104,7 +104,7 @@ export class TerraformElement extends Construct {
   public resetOverrideLogicalId() {
     ok(
       !this._fqnToken,
-      "Logical ID may not be overriden once .fqn has been requested. You can only reset the override before you pass the construct to other constructs."
+      "Logical ID may not be overridden once .fqn has been requested. You can only reset the override before you pass the construct to other constructs."
     );
     this._logicalIdOverride = undefined;
   }

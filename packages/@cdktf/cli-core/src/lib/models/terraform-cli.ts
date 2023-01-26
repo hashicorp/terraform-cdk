@@ -24,6 +24,7 @@ import {
 import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
 import { terraformJsonSchema } from "../terraform-json";
+import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -298,6 +299,16 @@ export class TerraformCli implements Terraform {
         callback({ type: "external approval reply", approved: true });
       else if (isDeployEvent(event, "REJECTED_EXTERNALLY"))
         callback({ type: "external approval reply", approved: false });
+      else if (isDeployEvent(event, "OVERRIDDEN_EXTERNALLY"))
+        callback({
+          type: "external sentinel override reply",
+          overridden: true,
+        });
+      else if (isDeployEvent(event, "OVERRIDE_REJECTED_EXTERNALLY"))
+        callback({
+          type: "external sentinel override reply",
+          overridden: false,
+        });
     });
 
     let previousState: DeployState["value"] = "idle";
@@ -318,6 +329,12 @@ export class TerraformCli implements Terraform {
           type: "waiting for approval",
           approve: () => service.send("APPROVE"),
           reject: () => service.send("REJECT"),
+        });
+      } else if (state.matches({ running: "awaiting_sentinel_override" })) {
+        callback({
+          type: "waiting for sentinel override",
+          override: () => service.send("OVERRIDE"),
+          reject: () => service.send("REJECT_OVERRIDE"),
         });
       } else if (state.matches({ running: "processing" })) {
         callback({
