@@ -1,5 +1,9 @@
 ## 0.15.2
 
+### feat
+
+- feat: create a plan file for non-TFC runs [\#2531](https://github.com/hashicorp/terraform-cdk/pull/2531)
+
 ### fix
 
 - fix: cdktf login issues [\#2543](https://github.com/hashicorp/terraform-cdk/pull/2543)
@@ -11,10 +15,6 @@
 - chore: actually autoclose older GHA updater PRs [\#2542](https://github.com/hashicorp/terraform-cdk/pull/2542)
 - chore: fill out homebrew pr body [\#2537](https://github.com/hashicorp/terraform-cdk/pull/2537)
 - chore: support soft sentinel overrides [\#2485](https://github.com/hashicorp/terraform-cdk/pull/2485)
-
-### feat
-
-- feat: create a plan file for non-TFC runs [\#2531](https://github.com/hashicorp/terraform-cdk/pull/2531)
 
 ## 0.15.1
 
