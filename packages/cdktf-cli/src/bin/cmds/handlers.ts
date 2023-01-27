@@ -342,7 +342,7 @@ export async function login(argv: { tfeHostname: string }) {
     }
   }
 
-  await showUserDetails(sanitizedToken);
+  await showUserDetails(sanitizedToken || token);
 }
 
 export async function synth(argv: any) {
