@@ -61,6 +61,7 @@ import {
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
 import { sanitizeVarFiles } from "./helper/var-files";
+import { wrapCodeInStack } from "./helper/wrap-in-stack";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -81,7 +82,7 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
-export async function convert({ language, provider }: any) {
+export async function convert({ language, provider, stack }: any) {
   await initializErrorReporting();
   await displayVersionMessage();
 
@@ -102,11 +103,15 @@ export async function convert({ language, provider }: any) {
   );
   let output;
   try {
-    const { all, stats } = await hcl2cdkConvert(input, {
+    const { all, stats, imports, code } = await hcl2cdkConvert(input, {
       language,
       providerSchema: providerSchema ?? {},
     });
-    output = all;
+    if (!stack) {
+      output = all;
+    } else {
+      output = await wrapCodeInStack(code, imports, language);
+    }
     await sendTelemetry("convert", { ...stats, error: false });
   } catch (err) {
     throw Errors.Internal((err as Error).message, { language });
