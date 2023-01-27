@@ -34,6 +34,11 @@
       "permanent": false
     },
     {
+      "source": "/prs/:id",
+      "destination": "https://github.com/hashicorp/terraform-cdk/pull/:id",
+      "permanent": false
+    },
+    {
       "source": "/feature",
       "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=",
       "permanent": false
