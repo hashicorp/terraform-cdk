@@ -15,12 +15,15 @@ jobs:
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
 
-      - name: Autoclose older versions of this PR
-        uses: IndyV/IssueChecker@v1.0
+      - name: Find older versions of this same PR
+        id: older
+        uses: lee-dohm/select-matching-issues@v1
         with:
-          repo-token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
-          issue-close-message: "Closing this because I'm about to open a newer PR."
-          issue-pattern: "chore: update github workflow actions"
+          query: '"chore: update github workflow actions" in:title'
+          token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
+
+      - name: Close found issues
+        run: cat ${{ steps.older.outputs.path }} | xargs gh issue close --comment "Closing this because I'm about to open a newer PR."
 
       - name: Run GitHub Actions Version Updater
         uses: saadmk11/github-actions-version-updater@v0.7.2
