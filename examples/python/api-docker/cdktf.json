@@ -1,6 +1,6 @@
 {
   "language": "python",
-  "app": "echo 'this is an api example'",
+  "app": "pipenv run python main.py",
   "terraformProviders": [
     "kreuzwerker/docker@~> 2.0"
   ],

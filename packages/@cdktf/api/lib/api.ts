@@ -4,6 +4,8 @@
 import * as core from "@cdktf/cli-core";
 import { AbortController } from "node-abort-controller";
 import { InlineApp } from "./InlineApp";
+import * as path from "path";
+import { readConfigSync } from "@cdktf/commons";
 
 export { InlineApp };
 
@@ -41,27 +43,47 @@ export class CdktfApplication {
     // this.abort = new AbortController();
   }
 
+  private log(message: string, metadata: IMetadata = {}) {
+    if (this.opts.logCallback) {
+      this.opts.logCallback(message, metadata);
+    }
+    if (this.opts.logToStdOut) {
+      console.log(message);
+    }
+  }
+
   public synth(): Promise<SynthesizedApplication> {
-    let cdktfSynthDir: string | undefined;
     if ("produce" in this.opts) {
       const app = new InlineApp();
-      cdktfSynthDir = app.outdir;
+      const cdktfSynthDir = app.outdir;
       this.opts.produce(app);
       app.synth();
+      return Promise.resolve(
+        new SynthesizedApplication({ ...this.opts, cdktfSynthDir })
+      );
     }
 
     if ("cwd" in this.opts) {
-      cdktfSynthDir = this.opts.cwd;
-      // TODO: support this using SynthStack.synth
+      const config = readConfigSync(path.resolve(this.opts.cwd, "cdktf.json"));
+      const project = new core.CdktfProject({
+        workingDirectory: this.opts.cwd,
+        synthCommand: config.app || "",
+        outDir: config.output || "",
+        onUpdate: () => {},
+        onLog: ({ message, stackName }) => {
+          this.log(message, { stack: stackName });
+        },
+      });
+
+      const cdktfSynthDir = path.join(this.opts.cwd, config.output);
+      return project
+        .synth()
+        .then(
+          () => new SynthesizedApplication({ ...this.opts, cdktfSynthDir })
+        );
     }
 
-    if (!cdktfSynthDir) {
-      throw new Error("Invalid");
-    }
-
-    return Promise.resolve(
-      new SynthesizedApplication({ ...this.opts, cdktfSynthDir })
-    );
+    throw new Error("Invalid: Neither cwd nor produce was specified");
   }
 }
 
@@ -89,6 +111,15 @@ export class SynthesizedApplication {
       {}
     );
   }
+
+  public getStack(name: string): SynthesizedStack {
+    const stack = this.stacks[name];
+    if (!stack) {
+      throw new Error("Could not find stack with name: " + name);
+    }
+
+    return stack;
+  }
 }
 
 export interface ISynthesizedStackOptions {
@@ -101,11 +132,12 @@ export interface ISynthesizedStackOptions {
  * Represents a synthesized CDKTF stack
  */
 export class SynthesizedStack {
-  public readonly stack: any; // core.CdktfStack;
+  private readonly stack: any; //core.CdktfStack;
   public get name() {
     return this.stack.stack.name;
   }
   public readonly events: Array<any> = [];
+  private logs: string[] = [];
   constructor(private opts: ISynthesizedStackOptions) {
     this.stack = new core.CdktfStack({
       stack: opts.stack,
@@ -130,6 +162,8 @@ export class SynthesizedStack {
   }
 
   private log(message: string) {
+    this.logs.push(message);
+
     if (this.opts.logCallback) {
       this.opts.logCallback(message, { stack: this.name });
     }
@@ -139,16 +173,26 @@ export class SynthesizedStack {
     }
   }
 
-  public async plan(): Promise<void> {
+  // Returns the logs because if nothing is returned, JSII will fail
+  public async plan(): Promise<string> {
+    console.log("plan invoked");
     await this.stack.diff();
+    console.log("plan done");
+    return this.logs.join("\n");
   }
 
-  public async deploy(): Promise<void> {
+  public async deploy(): Promise<string> {
+    console.log("deploy invoked");
     await this.stack.deploy();
+    console.log("deploy done");
+    return this.logs.join("\n");
   }
 
-  public async destroy(): Promise<void> {
+  public async destroy(): Promise<string> {
+    console.log("destroy invoked");
     await this.stack.destroy();
+    console.log("destroy done");
+    return this.logs.join("\n");
   }
 
   public async outputs(): Promise<Record<string, any>> {
@@ -158,7 +202,7 @@ export class SynthesizedStack {
 
 export interface IProviderConstraint {}
 export interface IModuleConstraint {}
-export interface IProgramProducer {
+export interface IProgramProducer extends ICdktfApplicationOptions {
   produce(app: InlineApp): void;
 }
 

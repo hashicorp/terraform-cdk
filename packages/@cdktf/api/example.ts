@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, TerraformOutput } from "cdktf";
-import { Api } from "./lib";
+import { Api, InlineApp } from "./lib";
 
 const dirApp = Api.localApp(process.cwd());
 
@@ -15,7 +15,7 @@ dirApp.synth().then(async (synthedDirApp) => {
 
 const inlineApp = Api.inlineApp({
   program: {
-    produce(app) {
+    produce(app: InlineApp) {
       const stack = new TerraformStack(app, "my-stack");
       new TerraformOutput(stack, "my-output", {
         value: "my-value",

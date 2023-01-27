@@ -5,6 +5,9 @@ const projectRoot = path.join(__dirname, "..", "..", "..", "..");
 const packagePathsToCopy = Object.entries({
   "@cdktf/cli-core": "packages/@cdktf/cli-core",
   "@cdktf/commons": "packages/@cdktf/commons",
+  "@cdktf/provider-generator": "packages/@cdktf/provider-generator",
+  "@cdktf/hcl2json": "packages/@cdktf/hcl2json",
+  "@cdktf/hcl2cdk": "packages/@cdktf/hcl2cdk",
 }).map(([packageName, value]) => [packageName, path.join(projectRoot, value)]);
 
 const localNodeModules = path.resolve(__dirname, "..", "node_modules");

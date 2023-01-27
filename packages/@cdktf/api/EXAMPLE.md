@@ -1,6 +1,6 @@
 # Example
 
-__Generated from ./example.ts__
+**Generated from ./example.ts**
 
 ## Typescript
 
@@ -8,7 +8,7 @@ __Generated from ./example.ts__
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { TerraformStack, TerraformOutput } from "cdktf";
-import { Api } from "./lib";
+import { Api, InlineApp } from "./lib";
 
 const dirApp = Api.localApp(process.cwd());
 
@@ -22,7 +22,7 @@ dirApp.synth().then(async (synthedDirApp) => {
 
 const inlineApp = Api.inlineApp({
   program: {
-    produce(app) {
+    produce(app: InlineApp) {
       const stack = new TerraformStack(app, "my-stack");
       new TerraformOutput(stack, "my-output", {
         value: "my-value",
@@ -41,7 +41,6 @@ inlineApp.synth().then(async (synthedInlineApp) => {
   // Run some tests
   await stack.destroy();
 });
-
 ```
 
 ## Python
@@ -50,7 +49,7 @@ inlineApp.synth().then(async (synthedInlineApp) => {
 # Copyright (c) HashiCorp, Inc
 # SPDX-License-Identifier: MPL-2.0
 from cdktf import TerraformStack, TerraformOutput
-from cdktf_api import Api
+from cdktf_api import Api, InlineApp
 
 dir_app = Api.local_app(process.cwd())
 
@@ -92,6 +91,7 @@ inline_app.synth().then(async (synthedInlineApp) => {
 import com.hashicorp.cdktf.TerraformStack;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf_api.Api;
+import com.hashicorp.cdktf_api.InlineApp;
 
 CdktfApplication dirApp = Api.localApp(process.cwd());
 
@@ -105,7 +105,7 @@ dirApp.synth().then(async (synthedDirApp) => {
 
 CdktfApplication inlineApp = Api.inlineApp(Map.of(
         "program", Map.of(
-                public void produce(Object app) {
+                public void produce(InlineApp app) {
                     TerraformStack stack = new TerraformStack(app, "my-stack");
                     TerraformOutput.Builder.create(stack, "my-output")
                             "value", "my-value"
@@ -144,7 +144,7 @@ dirApp.Synth().Then(async (synthedDirApp) => {
 
 CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, IProgramProducer> {
     { "program", new Dictionary<string, object> {
-        public void Produce(void app)
+        public void Produce(InlineApp app)
         {
             TerraformStack stack = new TerraformStack(app, "my-stack");
             new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
@@ -166,7 +166,6 @@ inlineApp.Synth().Then(async (synthedInlineApp) => {
 });
 ```
 
-
 ## Go
 
 ```go
@@ -187,7 +186,7 @@ dirApp.Synth().Then(async (synthedDirApp) => {
 
 CdktfApplication inlineApp = Api.InlineApp(new Dictionary<string, IProgramProducer> {
     { "program", new Dictionary<string, object> {
-        public void Produce(void app)
+        public void Produce(InlineApp app)
         {
             TerraformStack stack = new TerraformStack(app, "my-stack");
             new TerraformOutput(stack, "my-output", new TerraformOutputConfig {
