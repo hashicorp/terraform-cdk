@@ -10,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
       PR_TITLE: "chore: update github workflow actions"
 
     steps:
