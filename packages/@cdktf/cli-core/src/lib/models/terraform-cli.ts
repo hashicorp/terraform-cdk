@@ -1,7 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import stripAnsi from "strip-ansi";
-import * as path from "path";
 import {
   exec,
   logger,
@@ -127,46 +126,6 @@ export class TerraformCli implements Terraform {
       this.onStdout("init"),
       this.onStderr("init")
     );
-    
-    // get the planFile and use TerraformCLIPlan to check for "needs apply"
-    await exec(
-      terraformBinaryName,
-      [
-        "plan",
-        "-out=plan.plan"
-      ],
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("init"),
-      this.onStderr("init")
-    );
-
-    const planFile = path.join(
-      this.stack.workingDirectory,
-      "plan.plan"
-    )
-
-    const result = await exec(
-      terraformBinaryName,
-      [
-        "show",
-        "-json",
-        planFile
-      ],
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("init"),
-      this.onStderr("init")
-    );
-
-    console.log("result")
-    console.log(result)
 
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms)
@@ -201,6 +160,7 @@ export class TerraformCli implements Terraform {
     vars?: string[];
     varFiles?: string[];
     noColor?: boolean;
+    showLogs?: boolean;
   }): Promise<void> {
     const {
       destroy = false,
@@ -210,6 +170,7 @@ export class TerraformCli implements Terraform {
       vars = [],
       varFiles = [],
       noColor = false,
+      showLogs = true,
     } = opts;
     const options = ["plan", "-input=false"];
 
@@ -237,18 +198,33 @@ export class TerraformCli implements Terraform {
     );
 
     await this.setUserAgent();
-
-    await exec(
-      terraformBinaryName,
-      options,
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("plan", [VariableRequiredFilter]),
-      this.onStderr("plan", [VariableRequiredFilter])
-    );
+    
+    if(showLogs){
+      await exec(
+        terraformBinaryName,
+        options,
+        {
+          cwd: this.workdir,
+          env: process.env,
+          signal: this.abortSignal,
+        },
+        this.onStdout("plan", [VariableRequiredFilter]),
+        this.onStderr("plan", [VariableRequiredFilter])
+      )
+    } else {
+      await exec(
+        terraformBinaryName,
+        options,
+        {
+          cwd: this.workdir,
+          env: process.env,
+          signal: this.abortSignal,
+        }
+      )
+    }
+    
+      
+    
   }
 
   public async deploy(
@@ -421,7 +397,7 @@ export class TerraformCli implements Terraform {
   public async show({
     json = false,
     filePath = ""
-  }): Promise<{output: string}> {
+  }): Promise<string> {
     const args = ["show"];
 
     if(json){
@@ -432,34 +408,22 @@ export class TerraformCli implements Terraform {
       args.push(filePath)
     }
 
-    const pwd = await exec(
-      terraformBinaryName,
-      [
-        "pwd"
-      ],
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("show"),
-      this.onStderr("show")
-    )
-
-    console.log("pwd")
-    console.log(pwd)
-
-    return {output: await exec(
-      terraformBinaryName,
-      args,
-      {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
-      },
-      this.onStdout("show"),
-      this.onStderr("show")
-    )};
+    try{
+      return await exec(
+        terraformBinaryName,
+        args,
+        {
+          cwd: this.workdir,
+          env: process.env,
+          signal: this.abortSignal,
+        }
+      );
+    } catch {
+      throw new Error(
+        this.workdir
+      );
+    }
+    
   }
 
   public async setUserAgent(): Promise<void> {

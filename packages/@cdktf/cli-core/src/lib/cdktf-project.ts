@@ -610,7 +610,6 @@ export class CdktfProject {
           method === "deploy"
             ? nextRunningExecutor.deploy(opts)
             : nextRunningExecutor.destroy(opts);
-
         allExecutions.push(promise);
       } catch (e) {
         // await next() threw an error because a stack failed to apply/destroy

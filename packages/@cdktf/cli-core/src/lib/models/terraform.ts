@@ -132,6 +132,7 @@ export interface Terraform {
     vars?: string[];
     varFiles?: string[];
     noColor?: boolean;
+    showLogs?: boolean;
   }) => Promise<void>;
   deploy(
     options: {
@@ -159,7 +160,7 @@ export interface Terraform {
       json: boolean;
       filePath: string;
     }
-  ): Promise<{output: string}>
+  ): Promise<string>
   output(): Promise<{ [key: string]: TerraformOutput }>;
   abort: () => Promise<void>;
   
