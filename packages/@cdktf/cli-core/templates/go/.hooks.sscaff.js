@@ -52,7 +52,7 @@ function terraformCloudConfig(baseName, organizationName, workspaceName) {
   template = readFileSync('./main.go', 'utf-8');
 
   result = template.replace(`NewMyStack(app, "${baseName}")`, `stack := NewMyStack(app, "${baseName}")
-	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendProps{
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
 		Hostname:     jsii.String("app.terraform.io"),
 		Organization: jsii.String("${organizationName}"),
 		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("${workspaceName}")),
