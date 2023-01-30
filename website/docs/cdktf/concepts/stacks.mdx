@@ -679,6 +679,7 @@ If you want to keep the result of the function attached to one stack and save it
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#stack-dependencies -->
 
 <CodeTabs>
 
@@ -748,6 +749,10 @@ this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays
 
 ```python
 self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
+```
+
+```csharp
+this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
 ```
 
 </CodeTabs>
