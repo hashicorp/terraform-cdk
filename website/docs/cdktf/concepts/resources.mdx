@@ -637,6 +637,7 @@ The following example loops through the ports without using an escape hatch.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#resources-escape-loop-thru-ports -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-loop-thru-ports -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-loop-thru-ports -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-loop-thru-ports -->
 
 <CodeTabs>
 
@@ -711,6 +712,28 @@ new SecurityGroup(this, "security2", {
                 ) for port in ports
             ]
         )
+```
+
+```csharp
+int[] ports = new int[] { 22, 80, 443, 5432 };
+new SecurityGroup(this, "security2", new SecurityGroupConfig {
+    Name = "security2",
+    VpcId = "vpcs",
+    Egress = new SecurityGroupEgress[] {
+        new SecurityGroupEgress {
+            FromPort = 0,
+            ToPort = 0,
+            CidrBlocks = new string[] { "0.0.0.0/0" },
+            Protocol = "-1"
+        }
+    },
+    Ingress = ports.Select(port => new SecurityGroupIngress {
+        FromPort = port,
+        ToPort = port,
+        CidrBlocks = new string[] { "0.0.0.0/0" },
+        Protocol = "-1"
+    }).ToArray()
+});
 ```
 
 </CodeTabs>

@@ -126,7 +126,7 @@ namespace Examples
     {
         public CloudBackendStack(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendProps
+            new CloudBackend(this, new CloudBackendConfig
             {
                 Hostname = "app.terraform.io",
                 Organization = "company",
@@ -253,7 +253,7 @@ namespace Examples
 
 App app = new App();
 LocalBackendStack stack = new LocalBackendStack(app, "local-to-cloud-backend");
-new CloudBackend(stack, new CloudBackendProps {
+new CloudBackend(stack, new CloudBackendConfig {
     Hostname = "app.terraform.io",
     Organization = "company",
     Workspaces = new NamedCloudWorkspace("my-app-prod")
