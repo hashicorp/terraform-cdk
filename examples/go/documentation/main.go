@@ -9,6 +9,7 @@ func main() {
 
 	NewDatasourcesStack(app, "datasources")
 	NewAspectsStack(app, "aspects")
+	NewPrefixAspectsStack(app, "aspects-validation")
 
 	app.Synth()
 
