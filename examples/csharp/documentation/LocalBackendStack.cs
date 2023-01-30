@@ -25,7 +25,7 @@ namespace Examples
 // DOCS_BLOCK_START:remote-backend-migrate
 App app = new App();
 LocalBackendStack stack = new LocalBackendStack(app, "local-to-cloud-backend");
-new CloudBackend(stack, new CloudBackendProps {
+new CloudBackend(stack, new CloudBackendConfig {
     Hostname = "app.terraform.io",
     Organization = "company",
     Workspaces = new NamedCloudWorkspace("my-app-prod")
