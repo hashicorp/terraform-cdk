@@ -16,4 +16,5 @@ func main() {
 	// examples that include the App() & Synth() bits
 	SynthAssets()
 	SynthConstructs()
+	SynthConstructsScope()
 }
