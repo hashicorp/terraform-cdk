@@ -71,6 +71,28 @@ namespace Examples
             });
             // DOCS_BLOCK_END:resources-escape-hatch-dynamic-block
 
+            // DOCS_BLOCK_START:resources-escape-loop-thru-ports
+            int[] ports = new int[] { 22, 80, 443, 5432 };
+            new SecurityGroup(this, "security2", new SecurityGroupConfig {
+                Name = "security2",
+                VpcId = "vpcs",
+                Egress = new SecurityGroupEgress[] {
+                    new SecurityGroupEgress {
+                        FromPort = 0,
+                        ToPort = 0,
+                        CidrBlocks = new string[] { "0.0.0.0/0" },
+                        Protocol = "-1"
+                    }
+                },
+                Ingress = ports.Select(port => new SecurityGroupIngress {
+                    FromPort = port,
+                    ToPort = port,
+                    CidrBlocks = new string[] { "0.0.0.0/0" },
+                    Protocol = "-1"
+                }).ToArray()
+            });
+            // DOCS_BLOCK_END:resources-escape-loop-thru-ports
+
         }
     }
 }
