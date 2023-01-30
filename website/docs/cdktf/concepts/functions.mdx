@@ -125,6 +125,8 @@ namespace Examples
 
 Use the `Op` object to include operators like `!`, `+`, and `-`.
 
+<CodeTabs>
+
 ```typescript
 import { Fn, Op, TerraformOutput } from "cdktf";
 
@@ -139,9 +141,13 @@ new TerraformOutput(this, "half-of-the-zone", {
 });
 ```
 
+</CodeTabs>
+
 # Using Terraform built-in functions directly within strings
 
 It is also possible to use all built-in Terraform functions without using CDKTF's `Fn.*` functions described above. To write Terraform built-in functions the same as you would in HCL, simply wrap the desired string within the HCL `${` and `}` syntax. **Note:** CDKTF doesn't do any further processing within the escaped syntax (`${` and `}`), and thus is unable to handle nested escape syntaxes yet.
+
+<CodeTabs>
 
 ```typescript
 import { Fn, Op, TerraformOutput } from "cdktf";
@@ -157,3 +163,5 @@ new TerraformOutput(this, "half-of-the-zone", {
   value: `\${length(${zones.fqn}.names) / 2}`
 });
 ```
+
+</CodeTabs>
