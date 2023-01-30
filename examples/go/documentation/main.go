@@ -8,6 +8,7 @@ func main() {
 	app := cdktf.NewApp(nil)
 
 	NewDatasourcesStack(app, "datasources")
+	RemoteStateDataSourceStack(app, "datasources-remote-state")
 	NewAspectsStack(app, "aspects")
 	NewPrefixAspectsStack(app, "aspects-validation")
 
