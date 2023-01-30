@@ -3,9 +3,9 @@
 using Constructs;
 using System.Collections.Generic;
 
-class Vpc : Construct
+class MyVpc : Construct
 {
-    public Vpc(Construct scope, string id, Dictionary<string, object> props) : base(scope, id)
+    public MyVpc(Construct scope, string id, Dictionary<string, string> props) : base(scope, id)
     {
         // Content is left to the readers imagination
     }

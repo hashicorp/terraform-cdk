@@ -30,10 +30,10 @@ namespace Examples
                 Region = config.Region,
             });
 
-            Vpc = new Vpc(this, "vpc", new Dictionary<string, string> { });
+            Vpc = new MyVpc(this, "vpc", new Dictionary<string, string> { });
         }
 
-        public Vpc Vpc { get; }
+        public MyVpc Vpc { get; }
     }
 
     public interface IBackendStackConfig

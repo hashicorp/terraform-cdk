@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 class DockerBackend : Construct
 {
-    public DockerBackend(Construct scope, string id, Dictionary<string, object> props) : base(scope, id)
+    public DockerBackend(Construct scope, string id, Dictionary<string, string> props) : base(scope, id)
     {
         // Content is left to the readers imagination
     }

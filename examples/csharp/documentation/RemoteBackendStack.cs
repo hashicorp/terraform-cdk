@@ -12,7 +12,7 @@ namespace Examples
     {
         public CloudBackendStack(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendProps
+            new CloudBackend(this, new CloudBackendConfig
             {
                 Hostname = "app.terraform.io",
                 Organization = "company",
