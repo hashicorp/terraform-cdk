@@ -11,6 +11,7 @@ func main() {
 	RemoteStateDataSourceStack(app, "datasources-remote-state")
 	NewAspectsStack(app, "aspects")
 	NewPrefixAspectsStack(app, "aspects-validation")
+	NewFunctionsStack(app, "functions")
 
 	app.Synth()
 
