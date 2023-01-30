@@ -52,7 +52,7 @@ function terraformCloudConfig(baseName, organizationName, workspaceName, terrafo
   template = readFileSync('./Program.cs', 'utf-8');
 
   result = template.replace(`new MainStack(app, "${baseName}");`, `MainStack stack = new MainStack(app, "${baseName}");
-            new CloudBackend(stack, new CloudBackendProps { Hostname = "${terraformRemoteHostname}", Organization = "${organizationName}", Workspaces = new NamedCloudWorkspace("${workspaceName}") });`);
+            new CloudBackend(stack, new CloudBackendConfig { Hostname = "${terraformRemoteHostname}", Organization = "${organizationName}", Workspaces = new NamedCloudWorkspace("${workspaceName}") });`);
 
   writeFileSync('./Program.cs', result, 'utf-8');
 }
