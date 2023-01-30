@@ -385,6 +385,7 @@ When you reference resources from one stack in another stack, you can do so by e
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#cross-stack-reference -->
 
 <CodeTabs>
 
@@ -579,6 +580,80 @@ BackendStack(app, "target-stack",
 )
 
 app.synth()
+```
+
+```csharp
+
+    public interface IVpcStackConfig
+    {
+        string Region { get; set; }
+    }
+
+    public class VpcStackConfig : IVpcStackConfig
+    {
+        public string Region { get; set; } = "us-east-1";
+    }
+
+    class VpcStack : TerraformStack
+    {
+        public VpcStack(Construct scope, string name, IVpcStackConfig config) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = config.Region,
+            });
+
+            Vpc = new MyVpc(this, "vpc", new Dictionary<string, string> { });
+        }
+
+        public MyVpc Vpc { get; }
+    }
+
+    public interface IBackendStackConfig
+    {
+        string DockerImage { get; set; }
+        string Region { get; set; }
+        string VpcId { get; set; }
+    }
+
+    public class BackendStackConfig : IBackendStackConfig
+    {
+        public string DockerImage { get; set; }
+        public string Region { get; set; } = "us-east-1";
+        public string VpcId { get; set; }
+    }
+
+    class BackendStack : TerraformStack
+    {
+        public BackendStack(Construct scope, string name, IBackendStackConfig config) : base(scope, name)
+        {
+
+            new AwsProvider(this, "aws", new AwsProviderConfig {
+                Region = config.Region,
+            });
+
+            new DockerBackend(this, "docker-backend", new Dictionary<string, string> {
+                { "vpc_id", config.VpcId },
+                { "docker_image", config.DockerImage },
+            });
+        }
+        public static void Main(string[] args)
+        {
+            App app = new App();
+
+            VpcStack origin = new VpcStack(app, "origin-stack", new VpcStackConfig {
+                Region = "us-east-1",
+            });
+            new BackendStack(app, "target-stack", new BackendStackConfig {
+                Region = origin.Region,
+                VpcId = origin.Id,
+                DockerImage = "org/my-image:latest",
+            });
+
+            app.Synth();
+            Console.WriteLine("App synth complete");
+        }
+    }
 ```
 
 </CodeTabs>
