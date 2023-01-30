@@ -45,6 +45,11 @@ class Command extends BaseCommand {
         type: "array",
         default: [],
       })
+      .option("stack", {
+        describe: "Wrap the generated code within a stack class",
+        type: "boolean",
+        default: false,
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
