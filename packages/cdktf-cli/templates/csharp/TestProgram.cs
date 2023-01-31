@@ -12,23 +12,27 @@ namespace MyCompany.MyApp{
         public void myAppTest(){
             Assert.True(true);
         }
-        
-        //private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
-        //private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
-        //private static string synthesized = Testing.synth(stack);
 
         //[Fact]
         //public void CheckValidity(){
+        //    TerraformStack stack = new TerraformStack(Testing.App(), "stack");
+        //    MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
         //    Assert.True(Testing.ToBeValidTerraform(Testing.FullSynth(stack)) );
         //}
 
         //[Fact]
         //public void shouldContainContainer(){
+        //    TerraformStack stack = new TerraformStack(Testing.App(), "stack");
+        //    MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
+        //    string synthesized = Testing.Synth(stack);
         //    Assert.True(Testing.ToHaveResource(synthesized, Container.TfResourceType) );
         //}
 
         //[Fact]
         //public void shouldUseUbuntuImage(){
+        //    TerraformStack stack = new TerraformStack(Testing.App(), "stack");
+        //    MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "construct");
+        //    string synthesized = Testing.Synth(stack);
         //    Assert.True(Testing.ToHaveResourceWithProperties(synthesized, Image.TfResourceType, new Dictionary<String, Object>() {
         //       {"name", "ubuntu:latest"}
         //    }) );
