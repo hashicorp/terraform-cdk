@@ -774,6 +774,7 @@ The following example synthesizes a Terraform configuration with the `remote` ba
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#stack-escape-hatches -->
 
 <CodeTabs>
 
@@ -808,6 +809,18 @@ stack.add_override("terraform.backend",{
         }
     }
 })
+```
+
+```csharp
+stack.AddOverride("terraform.backend", new Dictionary<string, object> {
+    {"local", null}, // delete the default local backend
+    {"remote", new Dictionary<string, object> {
+        {"organization", "terraform.tfstate"},
+        {"workspaces", new Dictionary<string, string> {
+            {"name", "test"}
+        }}
+    }}
+});
 ```
 
 </CodeTabs>
