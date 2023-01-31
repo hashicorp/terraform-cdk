@@ -24,7 +24,7 @@ namespace Examples
                 State = "available"
             });
 
-            // This does not work in CDKTF as of now, see
+            // This does not work in CDKTF as of now, refer to
             // https://github.com/hashicorp/terraform-cdk/issues/2557
             new TerraformOutput(this, "half-of-the-zone", new TerraformOutputConfig {
                 Value = Op.Div(Fn.LengthOf(zones.Names), 2)
