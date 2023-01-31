@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@cdktf/provider-dnsimple": "^0.1.8",
+    "@cdktf/provider-github": "^6.0.2",
     "@cdktf/provider-kubernetes": "^4.0.2",
     "@cdktf/provider-random": "^4.0.0",
     "cdktf": "0.0.0",
