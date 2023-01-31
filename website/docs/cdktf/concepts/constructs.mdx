@@ -176,17 +176,17 @@ namespace Examples
 package main
 
 import (
-	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	kubernetes "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/kubernetes/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
 
 	"os"
 	"path"
 )
 
-func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+func NewConstructsStack(scope constructs.Construct, name string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &name)
 
 	cwd, _ := os.Getwd()
@@ -208,7 +208,7 @@ func NewExampleCdktfDocumentationStack(scope constructs.Construct, name string) 
 func main() {
 	app := cdktf.NewApp(nil)
 
-	NewExampleCdktfDocumentationStack(app, "demo")
+	NewConstructsStack(app, "constructs")
 
 	app.Synth()
 }

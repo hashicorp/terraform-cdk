@@ -1,6 +1,5 @@
 {
-  "//": "This example is disabled since it can't be built in CI. It's used to verify all code samples in the documentation work correctly.",
-  "private": true,
+  "//": "This example is used to verify all code samples in the documentation work correctly.",
   "name": "@examples/go-documentation",
   "version": "0.0.0",
   "license": "MPL-2.0",

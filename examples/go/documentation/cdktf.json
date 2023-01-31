@@ -1,6 +1,6 @@
 {
     "language": "go",
-    "app": "go run main.go",
+    "app": "go run .",
     "codeMakerOutput": "generated",
     "terraformProviders": [
         "hashicorp/aws@~> 3.70.0", "hashicorp/kubernetes@~> 2.0"
