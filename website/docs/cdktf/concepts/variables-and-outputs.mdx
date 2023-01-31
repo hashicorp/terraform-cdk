@@ -36,6 +36,7 @@ The following example uses `TerraformVariable` to provide inputs to resources.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#variables -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-input-variables -->
 
 <CodeTabs>
 
@@ -76,6 +77,19 @@ Instance(self, "hello",
     ami = imageId.string_value,
     instance_type = "t2.micro"
 )
+```
+
+```csharp
+            TerraformVariable imageId = new TerraformVariable(this, "imageId", new TerraformVariableConfig {
+                Type = "string",
+                Default = "ami-abcde123",
+                Description = "What AMI to use to create an instance",
+            });
+
+            new Instance(this, "hello", new InstanceConfig {
+                Ami = imageId.StringValue,
+                InstanceType = "t2.micro",
+            });
 ```
 
 </CodeTabs>

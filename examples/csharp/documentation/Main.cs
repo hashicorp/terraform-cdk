@@ -55,6 +55,21 @@ namespace MyCompany.MyApp
                 Environment = "production",
                 Region = "eu-central-1",
             });
+            new Examples.VariablesStack(app, "variables");
+
+            TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
+            // DOCS_BLOCK_START:stack-escape-hatches
+            stack.AddOverride("terraform.backend", new Dictionary<string, object> {
+                {"local", null}, // delete the default local backend
+                {"remote", new Dictionary<string, object> {
+                    {"organization", "terraform.tfstate"},
+                    {"workspaces", new Dictionary<string, string> {
+                        {"name", "test"}
+                    }}
+                }}
+            });
+            // DOCS_BLOCK_END:stack-escape-hatches
+
             app.Synth();
             Console.WriteLine("App synth complete");
         }
