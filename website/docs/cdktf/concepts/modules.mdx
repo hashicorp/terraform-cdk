@@ -20,7 +20,7 @@ You can use modules from the [Terraform Registry](https://registry.terraform.io/
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#modules-install -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#modules-install-modules -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#modules-install-modules -->
-<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/python/documentation#modules-install-modules -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#modules-install-modules -->
 
 <CodeTabs>
 
@@ -117,31 +117,36 @@ app.synth()
 ```
 
 ```csharp
-from constructs import Construct
-from cdktf import App, TerraformStack
-from imports.aws.provider import AwsProvider
-from imports.vpc import Vpc
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using vpc;
 
-class ModuleStack(TerraformStack):
-    def __init__(self, scope: Construct, id: str):
-        super().__init__(scope, id)
-
-        AwsProvider(self, "aws",
-            region = "us-east-1",
-        )
-
-        Vpc(self, "MyVpc",
-            name = "my-vpc",
-            cidr = "10.0.0.0/16",
-            azs = ['us-west-2a', 'us-west-2b', 'us-west-2c'],
-            private_subnets = ['10.0.1.0/24', '10.0.2.0/24', '10.0.3.0/24'],
-            public_subnets = ['10.0.101.0/24', '10.0.102.0/24', '10.0.103.0/24'],
-            enable_nat_gateway = True
-        )
-
-app = App()
-ModuleStack(app, "hello-terraform")
-app.synth()
+namespace Examples
+{
+    class ModuleStack : TerraformStack
+    {
+        public ModuleStack(Construct scope, string name) : base(scope, name)
+        {
+            // Add this to your project's .csproj file:
+            // <ItemGroup>
+            //     <ProjectReference Include=".gen\vpc\vpc.csproj" />
+            // </ItemGroup>
+            new Vpc(this, "vpc", new VpcConfig
+            {
+                Name = "my-vpc",
+                Cidr = "10.0.0.0/16",
+                Azs = new[] { "us-west-2a", "us-west-2b", "us-west-2c" },
+                PrivateSubnets = new[] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" },
+                PublicSubnets = new[] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" },
+                EnableNatGateway = true
+            });
+        }
+    }
+}
 ```
 
 </CodeTabs>
