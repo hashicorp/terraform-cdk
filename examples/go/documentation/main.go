@@ -14,6 +14,7 @@ func main() {
 	NewFunctionsStack(app, "functions")
 	NewOperatorsAndFunctionsRawStack(app, "operators-functions-raw")
 	NewHclInteropStack(app, "hcl-interop")
+	NewProvidersStack(app, "providers")
 
 	app.Synth()
 
