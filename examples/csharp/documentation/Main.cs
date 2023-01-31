@@ -57,6 +57,7 @@ namespace MyCompany.MyApp
             });
             new Examples.VariablesStack(app, "variables");
             new Examples.OutputVariableStack(app, "outputs", new Examples.OutputVariableStackConfig("example.com"));
+            new Examples.OutputsUsageStack(app, "outputs-define");
 
             TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
             // DOCS_BLOCK_START:stack-escape-hatches
