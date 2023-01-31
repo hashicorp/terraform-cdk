@@ -30,9 +30,9 @@ public class MainCreateModules extends TerraformStack {
                     put("name", "my-vpc");
                     put("cidr", "10.0.0.0/16");
                     put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
-                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
-                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
-                    put("enableNatGateway", true);
+                    put("private_subnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("public_subnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enable_nat_gateway", true);
                 }})
                 .providers(Arrays.asList(provider))
                 .build()
