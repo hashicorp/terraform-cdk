@@ -346,8 +346,6 @@ namespace Examples
                 Value = config.MyDomain,
             });
         }
-
-
         public static void Main(string[] args)
         {
             App app = new App();
@@ -357,8 +355,6 @@ namespace Examples
     }
 
 }
-
-
 ```
 
 </CodeTabs>
@@ -374,6 +370,7 @@ The following Typescript example uses `TerraformOutput` to create an output for 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#outputs-usage -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-define-output-values -->
 
 <CodeTabs>
 
@@ -451,6 +448,39 @@ class DefineOutputStack(TerraformStack):
 app = App()
 DefineOutputStack(app, "cdktf-demo")
 app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using random.Provider;
+using random.Pet;
+
+namespace Examples
+{
+    class OutputsUsageStack : TerraformStack
+    {
+        public OutputsUsageStack(Construct scope, string name) : base(scope, name)
+        {
+            new RandomProvider(this, "random", new RandomProviderConfig());
+            var pet = new Pet(this, "pet", new PetConfig());
+            new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+                Value = pet.Id,
+            });
+        }
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new OutputsUsageStack(app, "outputs-usage");
+            app.Synth();
+        }
+    }
+
+}
 ```
 
 </CodeTabs>
