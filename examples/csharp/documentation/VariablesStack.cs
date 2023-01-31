@@ -33,6 +33,27 @@ namespace Examples
             // DOCS_BLOCK_END:var-out-input-variables
 
         
+        // const commonTags = new TerraformLocal(this, "common_tags", {
+        // Service: "service_name",
+        // Owner: "owner",
+        // });
+
+        // new Instance(this, "example", {
+        // ami: "ami-abcde123",
+        // instanceType: "t2.micro",
+        // tags: commonTags.expression,
+        // });
+        // DOCS_BLOCK_START:var-out-define-local
+        TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new Dictionary<string, string> {
+            { "Service", "service_name" },
+            { "Owner", "owner" },
+        });
+        new Instance(this, "example", new InstanceConfig {
+            Ami = "ami-abcde123",
+            InstanceType = "t2.micro",
+            Tags = Token.AsStringMap(commonTags.Expression),
+        });
+        // DOCS_BLOCK_END:var-out-define-local
         }
     }
 }
