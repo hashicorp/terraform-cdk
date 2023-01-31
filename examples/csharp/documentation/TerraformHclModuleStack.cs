@@ -13,11 +13,13 @@ namespace Examples
     {
         public TerraformHclModuleStack(Construct scope, string name) : base(scope, name)
         {
-            AwsProvider provider = new AwsProvider(this, "aws", new AwsProviderConfig {
+            AwsProvider provider = new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-east-1"
             });
-            
-            new TerraformHclModule(this, "vpc", new TerraformHclModuleConfig {
+
+            new TerraformHclModule(this, "vpc", new TerraformHclModuleConfig
+            {
                 Source = "terraform-aws-modules/vpc/aws",
                 Variables = new Dictionary<string, object> {
                     { "name", "my-vpc" },
@@ -27,7 +29,7 @@ namespace Examples
                     { "publicSubnets", new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" } },
                     { "enableNatGateway", true }
                 },
-                Providers = new [] { provider }
+                Providers = new[] { provider }
             });
         }
     }

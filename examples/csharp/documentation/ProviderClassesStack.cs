@@ -25,21 +25,25 @@ namespace Examples
             //     <ProjectReference Include=".gen\dnsimple\dnsimple.csproj" />
             // </ItemGroup>
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-east-1"
             });
 
-            Instance instance = new Instance(this, "instance", new InstanceConfig {
+            Instance instance = new Instance(this, "instance", new InstanceConfig
+            {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro"
             });
 
-            new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig {
+            new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig
+            {
                 Token = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_TOKEN")),
                 Account = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_ACCOUNT"))
             });
 
-            new Record(this, "web-www", new RecordConfig {
+            new Record(this, "web-www", new RecordConfig
+            {
                 Domain = "example.com",
                 Name = "web",
                 Value = instance.PublicIp,

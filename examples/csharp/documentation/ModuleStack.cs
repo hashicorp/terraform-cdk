@@ -17,12 +17,13 @@ namespace Examples
             // <ItemGroup>
             //     <ProjectReference Include=".gen\vpc\vpc.csproj" />
             // </ItemGroup>
-            new Vpc(this, "vpc", new VpcConfig {
+            new Vpc(this, "vpc", new VpcConfig
+            {
                 Name = "my-vpc",
                 Cidr = "10.0.0.0/16",
-                Azs = new [] { "us-west-2a", "us-west-2b", "us-west-2c" },
-                PrivateSubnets = new [] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" },
-                PublicSubnets = new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" },
+                Azs = new[] { "us-west-2a", "us-west-2b", "us-west-2c" },
+                PrivateSubnets = new[] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" },
+                PublicSubnets = new[] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" },
                 EnableNatGateway = true
             });
         }

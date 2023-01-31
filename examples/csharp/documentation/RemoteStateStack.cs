@@ -14,7 +14,8 @@ namespace Examples
     {
         public Producer(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendConfig {
+            new CloudBackend(this, new CloudBackendConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedCloudWorkspace("producer"),
             });
@@ -22,7 +23,8 @@ namespace Examples
             new RandomProvider(this, "random", new RandomProviderConfig());
             var pet = new Pet(this, "pet", new PetConfig());
 
-            new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+            new TerraformOutput(this, "random-pet", new TerraformOutputConfig
+            {
                 Value = pet.Id,
             });
         }
@@ -32,37 +34,41 @@ namespace Examples
     {
         public Consumer(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendConfig {
+            new CloudBackend(this, new CloudBackendConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedCloudWorkspace("consumer"),
             });
 
-            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-state", new DataTerraformRemoteStateRemoteConfig {
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-state", new DataTerraformRemoteStateRemoteConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedRemoteWorkspace("producer"),
             });
 
-            new TerraformOutput(this, "random-remote-pet", new TerraformOutputConfig {
+            new TerraformOutput(this, "random-remote-pet", new TerraformOutputConfig
+            {
                 Value = remoteState.GetString("random-pet"),
             });
         }
     }
 
-    class Main {
-// DOCS_BLOCK_END:var-out-define-reference-remote-state
-/*
-// DOCS_BLOCK_START:var-out-define-reference-remote-state
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new Producer(app, "cdktf-producer");
-            new Consumer(app, "cdktf-consumer");
-            app.Synth();
-        }
-// DOCS_BLOCK_END:var-out-define-reference-remote-state
-*/
-// DOCS_BLOCK_START:var-out-define-reference-remote-state
+    class Main
+    {
+        // DOCS_BLOCK_END:var-out-define-reference-remote-state
+        /*
+        // DOCS_BLOCK_START:var-out-define-reference-remote-state
+                public static void Main(string[] args)
+                {
+                    App app = new App();
+                    new Producer(app, "cdktf-producer");
+                    new Consumer(app, "cdktf-consumer");
+                    app.Synth();
+                }
+        // DOCS_BLOCK_END:var-out-define-reference-remote-state
+        */
+        // DOCS_BLOCK_START:var-out-define-reference-remote-state
     }
-    
+
 }
 // DOCS_BLOCK_END:var-out-define-reference-remote-state

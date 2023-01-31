@@ -10,8 +10,10 @@ using aws.Instance;
 
 namespace Examples
 {
-    class OutputVariableStackConfig {
-        public OutputVariableStackConfig (string myDomain) {
+    class OutputVariableStackConfig
+    {
+        public OutputVariableStackConfig(string myDomain)
+        {
             this.MyDomain = myDomain;
         }
 
@@ -22,23 +24,24 @@ namespace Examples
     {
         public OutputVariableStack(Construct scope, string name, OutputVariableStackConfig config) : base(scope, name)
         {
-            new TerraformOutput(this, "my-domain", new TerraformOutputConfig {
+            new TerraformOutput(this, "my-domain", new TerraformOutputConfig
+            {
                 Value = config.MyDomain,
             });
         }
-// DOCS_BLOCK_END:var-out-output-values
-/*
-// DOCS_BLOCK_START:var-out-output-values
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new OutputVariableStack(app, "cdktf-producer", new OutputVariableStackConfig("example.com"));
-            app.Synth();
-        }
-// DOCS_BLOCK_END:var-out-output-values
-*/
-// DOCS_BLOCK_START:var-out-output-values
+        // DOCS_BLOCK_END:var-out-output-values
+        /*
+        // DOCS_BLOCK_START:var-out-output-values
+                public static void Main(string[] args)
+                {
+                    App app = new App();
+                    new OutputVariableStack(app, "cdktf-producer", new OutputVariableStackConfig("example.com"));
+                    app.Synth();
+                }
+        // DOCS_BLOCK_END:var-out-output-values
+        */
+        // DOCS_BLOCK_START:var-out-output-values
     }
-    
+
 }
 // DOCS_BLOCK_END:var-out-output-values

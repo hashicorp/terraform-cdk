@@ -41,17 +41,21 @@ namespace MyCompany.MyApp
             new Examples.ResourcesStack(app, "resources");
             new Examples.ReferencesStack(app, "references");
             new Examples.MySingleStack(app, "single-stack");
-            new Examples.MyMultiStack(app, "multiple-stacks-dev", new Examples.MyMultiStackConfig {
+            new Examples.MyMultiStack(app, "multiple-stacks-dev", new Examples.MyMultiStackConfig
+            {
                 Environment = "dev",
             });
-            new Examples.MyMultiStack(app, "multiple-stacks-staging", new Examples.MyMultiStackConfig {
+            new Examples.MyMultiStack(app, "multiple-stacks-staging", new Examples.MyMultiStackConfig
+            {
                 Environment = "staging",
             });
-            new Examples.MyMultiStack(app, "multiple-stacks-production-us", new Examples.MyMultiStackConfig {
+            new Examples.MyMultiStack(app, "multiple-stacks-production-us", new Examples.MyMultiStackConfig
+            {
                 Environment = "production",
                 Region = "us-east-1",
             });
-            new Examples.MyMultiStack(app, "multiple-stacks-production-eu", new Examples.MyMultiStackConfig {
+            new Examples.MyMultiStack(app, "multiple-stacks-production-eu", new Examples.MyMultiStackConfig
+            {
                 Environment = "production",
                 Region = "eu-central-1",
             });

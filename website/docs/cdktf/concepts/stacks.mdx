@@ -116,11 +116,13 @@ app.synth
         public MySingleStack(Construct scope, string name) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
 
-            new Instance(this, "instance", new InstanceConfig {
+            new Instance(this, "instance", new InstanceConfig
+            {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro",
             });
@@ -322,11 +324,13 @@ app.synth
         public MyMultiStack(Construct scope, string name, IMyMultiStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 
-            new Instance(this, "instance", new InstanceConfig {
+            new Instance(this, "instance", new InstanceConfig
+            {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro",
                 Tags = new Dictionary<string, string> {
@@ -599,7 +603,8 @@ app.synth()
         public VpcStack(Construct scope, string name, IVpcStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 
@@ -628,7 +633,8 @@ app.synth()
         public BackendStack(Construct scope, string name, IBackendStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 

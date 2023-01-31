@@ -27,11 +27,13 @@ namespace Examples
         public MyMultiStack(Construct scope, string name, IMyMultiStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 
-            new Instance(this, "instance", new InstanceConfig {
+            new Instance(this, "instance", new InstanceConfig
+            {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro",
                 Tags = new Dictionary<string, string> {

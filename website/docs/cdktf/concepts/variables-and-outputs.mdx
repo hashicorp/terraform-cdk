@@ -80,13 +80,15 @@ Instance(self, "hello",
 ```
 
 ```csharp
-            TerraformVariable imageId = new TerraformVariable(this, "imageId", new TerraformVariableConfig {
+            TerraformVariable imageId = new TerraformVariable(this, "imageId", new TerraformVariableConfig
+            {
                 Type = "string",
                 Default = "ami-abcde123",
                 Description = "What AMI to use to create an instance",
             });
 
-            new Instance(this, "hello", new InstanceConfig {
+            new Instance(this, "hello", new InstanceConfig
+            {
                 Ami = imageId.StringValue,
                 InstanceType = "t2.micro",
             });
@@ -185,7 +187,8 @@ TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new Dictiona
     { "Service", "service_name" },
     { "Owner", "owner" },
 });
-new Instance(this, "example", new InstanceConfig {
+new Instance(this, "example", new InstanceConfig
+{
     Ami = "ami-abcde123",
     InstanceType = "t2.micro",
     Tags = Token.AsStringMap(commonTags.Expression),
@@ -330,8 +333,10 @@ using aws.Instance;
 
 namespace Examples
 {
-    class OutputVariableStackConfig {
-        public OutputVariableStackConfig (string myDomain) {
+    class OutputVariableStackConfig
+    {
+        public OutputVariableStackConfig(string myDomain)
+        {
             this.MyDomain = myDomain;
         }
 
@@ -342,16 +347,17 @@ namespace Examples
     {
         public OutputVariableStack(Construct scope, string name, OutputVariableStackConfig config) : base(scope, name)
         {
-            new TerraformOutput(this, "my-domain", new TerraformOutputConfig {
+            new TerraformOutput(this, "my-domain", new TerraformOutputConfig
+            {
                 Value = config.MyDomain,
             });
         }
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new OutputVariableStack(app, "cdktf-producer", new OutputVariableStackConfig("example.com"));
-            app.Synth();
-        }
+                public static void Main(string[] args)
+                {
+                    App app = new App();
+                    new OutputVariableStack(app, "cdktf-producer", new OutputVariableStackConfig("example.com"));
+                    app.Synth();
+                }
     }
 
 }
@@ -468,16 +474,17 @@ namespace Examples
         {
             new RandomProvider(this, "random", new RandomProviderConfig());
             var pet = new Pet(this, "pet", new PetConfig());
-            new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+            new TerraformOutput(this, "random-pet", new TerraformOutputConfig
+            {
                 Value = pet.Id,
             });
         }
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new OutputsUsageStack(app, "outputs-usage");
-            app.Synth();
-        }
+                public static void Main(string[] args)
+                {
+                    App app = new App();
+                    new OutputsUsageStack(app, "outputs-usage");
+                    app.Synth();
+                }
     }
 
 }
@@ -703,7 +710,8 @@ namespace Examples
     {
         public Producer(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendConfig {
+            new CloudBackend(this, new CloudBackendConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedCloudWorkspace("producer"),
             });
@@ -711,7 +719,8 @@ namespace Examples
             new RandomProvider(this, "random", new RandomProviderConfig());
             var pet = new Pet(this, "pet", new PetConfig());
 
-            new TerraformOutput(this, "random-pet", new TerraformOutputConfig {
+            new TerraformOutput(this, "random-pet", new TerraformOutputConfig
+            {
                 Value = pet.Id,
             });
         }
@@ -721,30 +730,34 @@ namespace Examples
     {
         public Consumer(Construct scope, string name) : base(scope, name)
         {
-            new CloudBackend(this, new CloudBackendConfig {
+            new CloudBackend(this, new CloudBackendConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedCloudWorkspace("consumer"),
             });
 
-            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-state", new DataTerraformRemoteStateRemoteConfig {
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remote-state", new DataTerraformRemoteStateRemoteConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedRemoteWorkspace("producer"),
             });
 
-            new TerraformOutput(this, "random-remote-pet", new TerraformOutputConfig {
+            new TerraformOutput(this, "random-remote-pet", new TerraformOutputConfig
+            {
                 Value = remoteState.GetString("random-pet"),
             });
         }
     }
 
-    class Main {
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new Producer(app, "cdktf-producer");
-            new Consumer(app, "cdktf-consumer");
-            app.Synth();
-        }
+    class Main
+    {
+                public static void Main(string[] args)
+                {
+                    App app = new App();
+                    new Producer(app, "cdktf-producer");
+                    new Consumer(app, "cdktf-consumer");
+                    app.Synth();
+                }
     }
 
 }

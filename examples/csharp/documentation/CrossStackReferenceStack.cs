@@ -26,7 +26,8 @@ namespace Examples
         public VpcStack(Construct scope, string name, IVpcStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 
@@ -55,7 +56,8 @@ namespace Examples
         public BackendStack(Construct scope, string name, IBackendStackConfig config) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = config.Region,
             });
 

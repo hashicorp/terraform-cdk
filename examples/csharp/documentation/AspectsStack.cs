@@ -8,7 +8,7 @@ using Amazon.JSII.Runtime;
 
 namespace Examples
 {
-    public class TagsAddingAspect: Amazon.JSII.Runtime.Deputy.DeputyBase, IAspect
+    public class TagsAddingAspect : Amazon.JSII.Runtime.Deputy.DeputyBase, IAspect
     {
         private readonly IDictionary<string, string> tagsToAdd;
 
@@ -24,7 +24,7 @@ namespace Examples
             var tagsInputProperty = nodeType.GetProperty("TagsInput");
             if (tagsProperty != null && tagsInputProperty != null)
             {
-                var inputTags = (IDictionary<string, string>) tagsInputProperty.GetValue(node);
+                var inputTags = (IDictionary<string, string>)tagsInputProperty.GetValue(node);
 
                 IDictionary<string, string> newTags;
                 if (inputTags == null)
@@ -39,7 +39,7 @@ namespace Examples
                         newTags[key] = value;
                     }
                 }
-                
+
                 tagsProperty.SetValue(node, newTags);
             }
         }
@@ -48,11 +48,13 @@ namespace Examples
     class MyAspectsStack : TerraformStack
     {
         public MyAspectsStack(Construct scope, string name) : base(scope, name)
-        {   
-            new AwsProvider(this, "Aws", new AwsProviderConfig {
+        {
+            new AwsProvider(this, "Aws", new AwsProviderConfig
+            {
                 Region = "us-east-1"
             });
-            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+            S3Bucket bucket = new S3Bucket(this, "bucket", new S3BucketConfig
+            {
                 Bucket = "demo"
             });
 
