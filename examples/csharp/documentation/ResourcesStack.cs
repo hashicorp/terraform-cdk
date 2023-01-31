@@ -18,14 +18,16 @@ namespace Examples
         public ResourcesStack(Construct scope, string name) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
 
             // DOCS_BLOCK_START:resources-define
             DataAwsRegion region = new DataAwsRegion(this, "region");
 
-            new DynamodbTable(this, "first-table", new DynamodbTableConfig {
+            new DynamodbTable(this, "first-table", new DynamodbTableConfig
+            {
                 Name = $"my-first-table-{region.Name}",
                 HashKey = "temp",
                 Attribute = new DynamodbTableAttribute[] {
@@ -38,17 +40,20 @@ namespace Examples
             });
             // DOCS_BLOCK_END:resources-define
             // DOCS_BLOCK_START:resources-override-attribute
-            SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig {
+            SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig
+            {
                 DisplayName = "will-be-overwritten"
             });
             topic.AddOverride("display_name", "my-topic");
             // DOCS_BLOCK_END:resources-override-attribute
 
             // DOCS_BLOCK_START:resources-escape-hatch-dynamic-block
-            TerraformVariable portsList = new TerraformVariable(this, "ports", new TerraformVariableConfig {
+            TerraformVariable portsList = new TerraformVariable(this, "ports", new TerraformVariableConfig
+            {
                 Type = "list",
             });
-            SecurityGroup sg = new SecurityGroup(this, "security1", new SecurityGroupConfig {
+            SecurityGroup sg = new SecurityGroup(this, "security1", new SecurityGroupConfig
+            {
                 Name = "security1",
                 VpcId = "vpcs",
                 Egress = new SecurityGroupEgress[] {
@@ -73,7 +78,8 @@ namespace Examples
 
             // DOCS_BLOCK_START:resources-escape-loop-thru-ports
             int[] ports = new int[] { 22, 80, 443, 5432 };
-            new SecurityGroup(this, "security2", new SecurityGroupConfig {
+            new SecurityGroup(this, "security2", new SecurityGroupConfig
+            {
                 Name = "security2",
                 VpcId = "vpcs",
                 Egress = new SecurityGroupEgress[] {
@@ -84,7 +90,8 @@ namespace Examples
                         Protocol = "-1"
                     }
                 },
-                Ingress = ports.Select(port => new SecurityGroupIngress {
+                Ingress = ports.Select(port => new SecurityGroupIngress
+                {
                     FromPort = port,
                     ToPort = port,
                     CidrBlocks = new string[] { "0.0.0.0/0" },

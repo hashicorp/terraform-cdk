@@ -14,19 +14,22 @@ namespace Examples
     {
         public HclInteropStack(Construct scope, string name) : base(scope, name)
         {
-            new RandomProvider(this, "default", new RandomProviderConfig {});
-          
-            var petNameLength = new TerraformVariable(this, "petNameLength", new TerraformVariableConfig {
+            new RandomProvider(this, "default", new RandomProviderConfig { });
+
+            var petNameLength = new TerraformVariable(this, "petNameLength", new TerraformVariableConfig
+            {
                 Type = "number",
                 Default = 2,
                 Description = "Pet name length"
             });
 
-            var myPet = new Pet(this, "example", new PetConfig {
+            var myPet = new Pet(this, "example", new PetConfig
+            {
                 Length = petNameLength.NumberValue
             });
 
-            new TerraformOutput(this, "name", new TerraformOutputConfig {
+            new TerraformOutput(this, "name", new TerraformOutputConfig
+            {
                 Value = myPet.Id
             });
         }

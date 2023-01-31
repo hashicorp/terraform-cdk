@@ -14,7 +14,8 @@ namespace Examples
     {
         public MyConstructsStack(Construct scope, string name) : base(scope, name)
         {
-            new KubernetesProvider(this, "kind", new KubernetesProviderConfig {
+            new KubernetesProvider(this, "kind", new KubernetesProviderConfig
+            {
                 ConfigPath = Path.Join(Environment.CurrentDirectory, "../kubeconfig.yaml")
             });
             new KubernetesWebAppDeployment(this, "deployment", new Dictionary<string, object> {

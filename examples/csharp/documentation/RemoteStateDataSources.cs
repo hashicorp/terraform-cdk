@@ -15,16 +15,19 @@ namespace Examples
         public RemoteStateDataSourceStack(Construct scope, string name) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
 
-            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remoteState", new DataTerraformRemoteStateRemoteConfig {
+            DataTerraformRemoteState remoteState = new DataTerraformRemoteState(this, "remoteState", new DataTerraformRemoteStateRemoteConfig
+            {
                 Organization = "hashicorp",
                 Workspaces = new NamedRemoteWorkspace("vpc-prod")
             });
 
-            new Instance(this, "foo", new InstanceConfig {
+            new Instance(this, "foo", new InstanceConfig
+            {
                 // ....
                 SubnetId = remoteState.GetString("subnet_id")
             });

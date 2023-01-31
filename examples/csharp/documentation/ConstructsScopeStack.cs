@@ -11,14 +11,18 @@ using aws.S3Bucket;
 namespace Examples
 {
 
-    class PublicS3Bucket : Construct {
+    class PublicS3Bucket : Construct
+    {
         public S3Bucket bucket;
-        public PublicS3Bucket(Construct scope, string name) : base(scope, name) {
+        public PublicS3Bucket(Construct scope, string name) : base(scope, name)
+        {
             // This bucket is in a different scope than the buckets
             // defined in `MyStack`. Therefore, it does not need a unique name.
-            this.bucket = new S3Bucket(this, "bucket", new S3BucketConfig {
+            this.bucket = new S3Bucket(this, "bucket", new S3BucketConfig
+            {
                 BucketPrefix = name,
-                Website = new S3BucketWebsite {
+                Website = new S3BucketWebsite
+                {
                     IndexDocument = "index.html",
                     ErrorDocument = "5xx.html"
                 }
@@ -30,7 +34,8 @@ namespace Examples
     {
         public ConstructsScopeStack(Construct scope, string name) : base(scope, name)
         {
-            new AwsProvider(this, "Aws", new AwsProviderConfig {
+            new AwsProvider(this, "Aws", new AwsProviderConfig
+            {
                 Region = "us-east-1"
             });
 

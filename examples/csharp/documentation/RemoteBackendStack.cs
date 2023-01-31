@@ -22,7 +22,7 @@ namespace Examples
             new TerraformOutput(this, "dns-server", new TerraformOutputConfig
             {
                 Value = "hello-world"
-            });   
+            });
         }
     }
 }

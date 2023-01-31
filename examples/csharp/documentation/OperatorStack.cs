@@ -14,7 +14,8 @@ namespace Examples
     {
         public OperatorsStack(Construct scope, string name) : base(scope, name)
         {
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
 

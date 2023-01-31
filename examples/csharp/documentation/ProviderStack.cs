@@ -19,11 +19,13 @@ namespace Examples
             //     <ProjectReference Include=".gen\aws\aws.csproj" />
             // </ItemGroup>
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
 
-            new Instance(this, "instance", new InstanceConfig {
+            new Instance(this, "instance", new InstanceConfig
+            {
                 Ami = "ami-2757f631",
                 InstanceType = "t2.micro"
             });

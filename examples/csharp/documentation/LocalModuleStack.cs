@@ -18,14 +18,16 @@ namespace Examples
             // <ItemGroup>
             //     <ProjectReference Include=".gen\my_local_module\my_local_module.csproj" />
             // </ItemGroup>
-            MyLocalModule localModule = new MyLocalModule(this, "local-module", new MyLocalModuleConfig {
+            MyLocalModule localModule = new MyLocalModule(this, "local-module", new MyLocalModuleConfig
+            {
                 IpAddress = "127.0.0.1",
             });
 
-            new TerraformOutput(this, "dns-server", new TerraformOutputConfig {
+            new TerraformOutput(this, "dns-server", new TerraformOutputConfig
+            {
                 Value = localModule.DnsServerOutput
             });
-            
+
         }
     }
 }

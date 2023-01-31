@@ -17,7 +17,8 @@ namespace Examples
         public TokensStack(Construct scope, string name) : base(scope, name)
         {
 
-            new AwsProvider(this, "aws", new AwsProviderConfig {
+            new AwsProvider(this, "aws", new AwsProviderConfig
+            {
                 Region = "eu-central-1"
             });
             // DOCS_BLOCK_START:tokens
@@ -28,16 +29,19 @@ namespace Examples
             // <ItemGroup>
             //     <ProjectReference Include=".gen\eks\eks.csproj" />
             // </ItemGroup>
-            TerraformVariable clusterCreateTimeout = new TerraformVariable(this, "clusterCreateTimeout", new TerraformVariableConfig {
-               Type = "number"
+            TerraformVariable clusterCreateTimeout = new TerraformVariable(this, "clusterCreateTimeout", new TerraformVariableConfig
+            {
+                Type = "number"
             });
 
-            Vpc vpc = new Vpc(this, "vpc", new VpcConfig {
+            Vpc vpc = new Vpc(this, "vpc", new VpcConfig
+            {
                 Name = "vpc",
-                PublicSubnets = new string[] {"10.0.1.0/24", "10.0.2.0/24"}
+                PublicSubnets = new string[] { "10.0.1.0/24", "10.0.2.0/24" }
             });
 
-            new Eks(this, "eks", new EksConfig {
+            new Eks(this, "eks", new EksConfig
+            {
                 ClusterName = "my-kubernetes-cluster",
                 Subnets = Token.AsList(vpc.PublicSubnetsOutput),
                 VpcId = vpc.VpcIdOutput,
