@@ -13,6 +13,7 @@ func main() {
 	NewPrefixAspectsStack(app, "aspects-validation")
 	NewFunctionsStack(app, "functions")
 	NewOperatorsAndFunctionsRawStack(app, "operators-functions-raw")
+	NewHclInteropStack(app, "hcl-interop")
 
 	app.Synth()
 
