@@ -28,6 +28,5 @@
   "context": {
     "excludeStackIdFromLogicalIds": "true",
     "allowSepCharsInLogicalIds": "true"
-  },
-  "projectId": "c6eb6e9c-66ba-406d-81c9-8f2122070d61"
+  }
 }

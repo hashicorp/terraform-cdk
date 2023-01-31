@@ -15,7 +15,6 @@ import com.mycompany.app.providers.MainImportClasses;
 import com.mycompany.app.providers.MainImportProviders;
 import com.mycompany.app.remoteBackends.MainRemoteBackend;
 import com.mycompany.app.remoteBackends.MainRemoteBackendDefine;
-import com.mycompany.app.remoteBackends.LocalBackendStack;
 import com.mycompany.app.resources.MainResources;
 import com.mycompany.app.resources.MainResourcesDefine;
 import com.mycompany.app.stacks.MainCrossStackReferences;
