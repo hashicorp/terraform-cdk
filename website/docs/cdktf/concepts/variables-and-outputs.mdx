@@ -228,6 +228,7 @@ The following example uses a `TerraformOutput` to create an output.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#outputs -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-output-values -->
 
 <CodeTabs>
 
@@ -315,6 +316,49 @@ class OutputValuesStack(TerraformStack):
 app = App()
 OutputValuesStack(app, "cdktf-producer", OutputValuesProps(myDomain = "example.com"))
 app.synth()
+```
+
+```csharp
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
+using Constructs;
+using HashiCorp.Cdktf;
+using aws.Provider;
+using aws.Instance;
+
+namespace Examples
+{
+    class OutputVariableStackConfig {
+        public OutputVariableStackConfig (string myDomain) {
+            this.MyDomain = myDomain;
+        }
+
+        public string MyDomain { get; set; }
+    }
+
+    class OutputVariableStack : TerraformStack
+    {
+        public OutputVariableStack(Construct scope, string name, OutputVariableStackConfig config) : base(scope, name)
+        {
+            new TerraformOutput(this, "my-domain", new TerraformOutputConfig {
+                Value = config.MyDomain,
+            });
+        }
+
+
+        public static void Main(string[] args)
+        {
+            App app = new App();
+            new OutputVariableStack(app, "cdktf-producer", new OutputVariableStackConfig("example.com"));
+            app.Synth();
+        }
+    }
+
+}
+
+
 ```
 
 </CodeTabs>

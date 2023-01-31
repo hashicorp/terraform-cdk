@@ -56,6 +56,7 @@ namespace MyCompany.MyApp
                 Region = "eu-central-1",
             });
             new Examples.VariablesStack(app, "variables");
+            new Examples.OutputVariableStack(app, "outputs", new Examples.OutputVariableStackConfig("example.com"));
 
             TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
             // DOCS_BLOCK_START:stack-escape-hatches
