@@ -360,9 +360,9 @@ export class ModulesStack extends TerraformStack {
         name: "my-vpc",
         cidr: "10.0.0.0/16",
         azs: ["us-west-2a", "us-west-2b", "us-west-2c"],
-        privateSubnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
-        publicSubnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
-        enableNatGateway: true,
+        private_subnets: ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+        public_subnets: ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+        enable_nat_gateway: true,
       },
       providers: [provider],
     });
@@ -382,9 +382,9 @@ export class ModulesStack extends TerraformStack {
                     put("name", "my-vpc");
                     put("cidr", "10.0.0.0/16");
                     put("azs", Arrays.asList("us-west-2a", "us-west-2b", "us-west-2c"));
-                    put("privateSubnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
-                    put("publicSubnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
-                    put("enableNatGateway", true);
+                    put("private_subnets", Arrays.asList("10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"));
+                    put("public_subnets", Arrays.asList("10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"));
+                    put("enable_nat_gateway", true);
                 }})
                 .providers(Arrays.asList(provider))
                 .build()
@@ -408,9 +408,9 @@ class HclModuleStack(TerraformStack):
                 "name": "my-vpc",
                 "cidr": "10.0.0.0/16",
                 "azs": ["us-west-2a", "us-west-2b", "us-west-2c"],
-                "privateSubnets": ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
-                "publicSubnets": ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
-                "enableNatGateway": True,
+                "private_subnets": ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"],
+                "public_subnets": ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"],
+                "enable_nat_gateway": True,
             },
             providers = [provider]
         )
@@ -447,9 +447,9 @@ namespace Examples
                     { "name", "my-vpc" },
                     { "cidr", "10.0.0.0/16" },
                     { "azs", new [] { "us-west-2a", "us-west-2b", "us-west-2c" } },
-                    { "privateSubnets", new [] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" } },
-                    { "publicSubnets", new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" } },
-                    { "enableNatGateway", true }
+                    { "private_subnets", new [] { "10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24" } },
+                    { "public_subnets", new [] { "10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24" } },
+                    { "enable_nat_gateway", true }
                 },
                 Providers = new[] { provider }
             });
