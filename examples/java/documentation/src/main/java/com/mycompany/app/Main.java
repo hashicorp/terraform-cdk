@@ -45,8 +45,8 @@ public class Main extends TerraformStack {
         new MainModuleExample(app, "module-example");
         new MainImportClasses(app, "import-classes");
         new MainImportProviders(app, "import-providers");
-        new MainRemoteBackend(app, "remote-backend");
         new MainRemoteBackendDefine(app, "remote-backend-define");
+        new MainRemoteBackend(app, "remote-backend");
         new MainResources(app, "resources");
         new MainResourcesDefine(app, "resources-define");
         MainCrossStackReferences.VPCStack origin = new MainCrossStackReferences.VPCStack(app, "origin-stack");

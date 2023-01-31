@@ -195,6 +195,7 @@ Consider an example project called `hello-terraform` that is using local storage
 2. Use `CloudBackend` to add a new remote backend.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#remote-backend-migrate -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-migrate -->
 
@@ -218,6 +219,32 @@ new CloudBackend(stack, {
   organization: "company",
   workspaces: new NamedCloudWorkspace("my-app-prod"),
 });
+```
+
+```java
+public class MainRemoteBackend extends TerraformStack {
+
+    public MainRemoteBackend(Construct scope, String id) {
+        super(scope, id);
+
+        new TerraformOutput(this, "dns-server", TerraformOutputConfig.builder()
+                .value("local")
+                .build()
+        );
+    }
+
+    public static void main(String[] args) {
+        final App app = new App();
+        MainRemoteBackend stack = new MainRemoteBackend(app, "local-to-cloud-backend");
+        new CloudBackend(stack, CloudBackendConfig.builder()
+                .hostname("app.terraform.io")
+                .organization("company")
+                .workspaces(new NamedCloudWorkspace("my-app-prod"))
+                .build()
+        );
+        app.synth();
+    }
+}
 ```
 
 ```python
