@@ -125,6 +125,8 @@ namespace Examples
 
 Use the `Op` object to include operators like `!`, `+`, and `-`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#operators -->
+
 <CodeTabs>
 
 ```typescript
@@ -132,13 +134,25 @@ import { Fn, Op, TerraformOutput } from "cdktf";
 
 // ...
 
-const const zones = new DataAwsAvailabilityZones(this, "zones", {
+const zones = new DataAwsAvailabilityZones(this, "zones", {
   state: "available",
 });
 
 new TerraformOutput(this, "half-of-the-zone", {
-  value: Op.div(Fn.length(zones.names), 2),
+  value: Op.div(Fn.lengthOf(zones.names), 2),
 });
+```
+
+```csharp
+            DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
+                State = "available"
+            });
+
+            // This does not work in CDKTF as of now, see
+            // https://github.com/hashicorp/terraform-cdk/issues/2557
+            new TerraformOutput(this, "half-of-the-zone", new TerraformOutputConfig {
+                Value = Op.Div(Fn.LengthOf(zones.Names), 2)
+            });
 ```
 
 </CodeTabs>

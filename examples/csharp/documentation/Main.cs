@@ -60,6 +60,7 @@ namespace MyCompany.MyApp
             new Examples.OutputsUsageStack(app, "outputs-define");
             new Examples.Producer(app, "cdktf-producer");
             new Examples.Consumer(app, "cdktf-consumer");
+            new Examples.OperatorsStack(app, "operators");
 
             TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
             // DOCS_BLOCK_START:stack-escape-hatches
