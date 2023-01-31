@@ -32,10 +32,9 @@ The `element` function gets the first element from the list of Availability Zone
 ```ts
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
-import { Fn, TerraformOutput } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
-
+import { Fn, TerraformOutput } from "cdktf";
 export class FunctionsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -47,7 +46,6 @@ export class FunctionsStack extends TerraformStack {
     const zones = new DataAwsAvailabilityZones(this, "zones", {
       state: "available",
     });
-
     new TerraformOutput(this, "first-zone", {
       value: Fn.element(zones.names, 0),
     });
@@ -158,19 +156,21 @@ func NewFunctionsStack(scope constructs.Construct, name string) cdktf.TerraformS
 
 Use the `Op` object to include operators like `!`, `+`, and `-`.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#operators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#operators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#operators -->
 
 <CodeTabs>
 
-```typescript
-import { Fn, Op, TerraformOutput } from "cdktf";
-
-// ...
+```ts
+import { Fn, TerraformOutput } from "cdktf";
+import { Op } from "cdktf";
 
 const zones = new DataAwsAvailabilityZones(this, "zones", {
   state: "available",
 });
+
+// ...
 
 new TerraformOutput(this, "half-of-the-zone", {
   value: Op.div(Fn.lengthOf(zones.names), 2),
