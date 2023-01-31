@@ -140,6 +140,7 @@ The following example uses `TerraformLocal` to create a local value.
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#locals -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-define-local -->
 
 <CodeTabs>
 
@@ -177,6 +178,18 @@ new Instance(this, "example", {
         Instance(self, "example",
             tags = commonTags.as_string_map
         )
+```
+
+```csharp
+TerraformLocal commonTags = new TerraformLocal(this, "common_tags", new Dictionary<string, string> {
+    { "Service", "service_name" },
+    { "Owner", "owner" },
+});
+new Instance(this, "example", new InstanceConfig {
+    Ami = "ami-abcde123",
+    InstanceType = "t2.micro",
+    Tags = Token.AsStringMap(commonTags.Expression),
+});
 ```
 
 </CodeTabs>
