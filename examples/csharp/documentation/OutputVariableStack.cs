@@ -26,8 +26,6 @@ namespace Examples
                 Value = config.MyDomain,
             });
         }
-
-
 // DOCS_BLOCK_END:var-out-output-values
 /*
 // DOCS_BLOCK_START:var-out-output-values
@@ -43,6 +41,4 @@ namespace Examples
     }
     
 }
-
-
 // DOCS_BLOCK_END:var-out-output-values
