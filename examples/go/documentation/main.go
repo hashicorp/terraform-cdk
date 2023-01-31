@@ -16,6 +16,7 @@ func main() {
 	NewHclInteropStack(app, "hcl-interop")
 	NewProvidersStack(app, "providers")
 	NewModulesStack(app, "modules")
+	NewCloudBackendStack(app, "backend-cloud")
 
 	app.Synth()
 
@@ -23,4 +24,5 @@ func main() {
 	SynthAssets()
 	SynthConstructs()
 	SynthConstructsScope()
+	SynthLocalBackend()
 }

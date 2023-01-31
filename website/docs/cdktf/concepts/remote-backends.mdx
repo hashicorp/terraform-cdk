@@ -30,6 +30,7 @@ The following example uses the `TerraformBackend` subclass `CloudBackend`.
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-define -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#remote-backend-define -->
 
 <CodeTabs>
 
@@ -198,6 +199,7 @@ Consider an example project called `hello-terraform` that is using local storage
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-migrate -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-migrate -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#remote-backend-migrate -->
 
 <CodeTabs>
 
@@ -392,6 +394,7 @@ The following example uses an escape hatch to add an unsupported remote backend 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#remote-backend-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#remote-backend-escape-hatches -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#remote-backend-escape-hatches -->
 
 <CodeTabs>
 
@@ -433,6 +436,15 @@ stack.AddOverride("terraform.backend", new Dictionary<String, Object> {
     { "address", "https://app.terraform.io" }
   }
 });
+```
+
+```go
+stack.AddOverride(jsii.String("terraform.backend"), &map[string]map[string]string{
+	"atlas": {
+		"name":    "example_corp/networking-prod",
+		"address": "https://app.terraform.io",
+	},
+})
 ```
 
 </CodeTabs>
