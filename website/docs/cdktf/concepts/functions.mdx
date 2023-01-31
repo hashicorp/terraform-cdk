@@ -33,8 +33,8 @@ The `element` function gets the first element from the list of Availability Zone
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 import { Fn, TerraformOutput } from "cdktf";
+import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
 export class FunctionsStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -220,22 +220,24 @@ import (
 
 It is also possible to use all built-in Terraform functions without using CDKTF's `Fn.*` functions described above. To write Terraform built-in functions the same as you would in HCL, simply wrap the desired string within the HCL `${` and `}` syntax. **Note:** CDKTF doesn't do any further processing within the escaped syntax (`${` and `}`), and thus is unable to handle nested escape syntaxes yet.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#functions-raw -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-raw -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#functions-raw -->
 
 <CodeTabs>
 
-```typescript
-import { Fn, Op, TerraformOutput } from "cdktf";
+```ts
+import { Fn, TerraformOutput } from "cdktf";
+import { Op } from "cdktf";
 import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-availability-zones";
-
-// ...
 
 const zones = new DataAwsAvailabilityZones(this, "zones", {
   state: "available",
 });
 
-new TerraformOutput(this, "half-of-the-zone", {
+// ...
+
+new TerraformOutput(this, "half-of-the-zone-raw", {
   value: `\${length(${zones.fqn}.names) / 2}`,
 });
 ```
