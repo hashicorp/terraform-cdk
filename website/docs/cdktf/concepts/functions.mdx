@@ -161,6 +161,8 @@ new TerraformOutput(this, "half-of-the-zone", {
 
 It is also possible to use all built-in Terraform functions without using CDKTF's `Fn.*` functions described above. To write Terraform built-in functions the same as you would in HCL, simply wrap the desired string within the HCL `${` and `}` syntax. **Note:** CDKTF doesn't do any further processing within the escaped syntax (`${` and `}`), and thus is unable to handle nested escape syntaxes yet.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-raw -->
+
 <CodeTabs>
 
 ```typescript
@@ -169,13 +171,23 @@ import { DataAwsAvailabilityZones } from "@cdktf/provider-aws/lib/data-aws-avail
 
 // ...
 
-const const zones = new DataAwsAvailabilityZones(this, "zones", {
+const zones = new DataAwsAvailabilityZones(this, "zones", {
   state: "available",
 });
 
 new TerraformOutput(this, "half-of-the-zone", {
-  value: `\${length(${zones.fqn}.names) / 2}`
+  value: `\${length(${zones.fqn}.names) / 2}`,
 });
+```
+
+```csharp
+            DataAwsAvailabilityZones zones = new DataAwsAvailabilityZones(this, "zones", new DataAwsAvailabilityZonesConfig {
+                State = "available"
+            });
+
+            new TerraformOutput(this, "half-of-the-zone", new TerraformOutputConfig {
+                Value = $"${{length({zones.Fqn}.names) / 2}}"
+            });
 ```
 
 </CodeTabs>
