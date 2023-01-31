@@ -15,6 +15,7 @@ import com.mycompany.app.providers.MainImportClasses;
 import com.mycompany.app.providers.MainImportProviders;
 import com.mycompany.app.remoteBackends.MainRemoteBackend;
 import com.mycompany.app.remoteBackends.MainRemoteBackendDefine;
+import com.mycompany.app.remoteBackends.LocalBackendStack;
 import com.mycompany.app.resources.MainResources;
 import com.mycompany.app.resources.MainResourcesDefine;
 import com.mycompany.app.stacks.MainCrossStackReferences;
@@ -45,8 +46,8 @@ public class Main extends TerraformStack {
         new MainModuleExample(app, "module-example");
         new MainImportClasses(app, "import-classes");
         new MainImportProviders(app, "import-providers");
-        new MainRemoteBackend(app, "remote-backend");
         new MainRemoteBackendDefine(app, "remote-backend-define");
+        new MainRemoteBackend(app, "remote-backend");
         new MainResources(app, "resources");
         new MainResourcesDefine(app, "resources-define");
         MainCrossStackReferences.VPCStack origin = new MainCrossStackReferences.VPCStack(app, "origin-stack");
