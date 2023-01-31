@@ -861,63 +861,10 @@ If you want to keep the result of the function attached to one stack and save it
 <CodeTabs>
 
 ```ts
-import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
-import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
-import { Instance } from "@cdktf/provider-aws/lib/instance";
-import { TerraformLocal, TerraformOutput } from "cdktf";
-
-// Write a stack that exposes a few resources
-class MySourceStack extends TerraformStack {
-  public instance: Instance;
-  constructor(scope: Construct, id: string, ami: string) {
-    super(scope, id);
-
-    new AwsProvider(this, "aws", {
-      region: "us-east-1",
-    });
-
-    this.instance = new Instance(this, "Hello", {
-      ami,
-      instanceType: "t2.micro",
-    });
-  }
-}
-
-class MyDependencyStack extends TerraformStack {
-  public allResources: TerraformLocal;
-  constructor(scope: Construct, id: string, dependencies: MySourceStack[]) {
-    super(scope, id);
-
-    this.allResources = new TerraformLocal(this, "merged_items", [
-      sourceStackA.instance.id,
-      sourceStackB.instance.id,
-    ]);
-
-    new TerraformOutput(this, "all_resources", {
-      value: this.allResources,
-    });
-  }
-}
-
-const dependencyApp = new App();
-const sourceStackA = new MySourceStack(
-  dependencyApp,
-  "source-stack-a",
-  "ami-2757f631"
-);
-const sourceStackB = new MySourceStack(
-  dependencyApp,
-  "source-stack-b",
-  "ami-2757f632"
-);
-
-new MyDependencyStack(dependencyApp, "dependency-stack", [
-  sourceStackA,
-  sourceStackB,
+this.allResources = new TerraformLocal(this, "merged_items", [
+  sourceStackA.instance.id,
+  sourceStackB.instance.id,
 ]);
-
-dependencyApp.synth();
 ```
 
 ```java

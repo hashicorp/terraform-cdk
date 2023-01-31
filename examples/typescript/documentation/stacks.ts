@@ -1,26 +1,24 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 
-// DOCS_BLOCK_START:single-stack,multiple-stacks,cross-stack-reference,stack-dependencies
+// DOCS_BLOCK_START:single-stack,multiple-stacks,cross-stack-reference
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Instance } from "@cdktf/provider-aws/lib/instance";
-// DOCS_BLOCK_END:single-stack,multiple-stacks,cross-stack-reference,stack-dependencies
+// DOCS_BLOCK_END:single-stack,multiple-stacks,cross-stack-reference
 
 // DOCS_BLOCK_START:cross-stack-reference
 import { Vpc } from "./constructs/vpc";
 import { DockerBackend } from "./constructs/docker-backend";
 // DOCS_BLOCK_END:cross-stack-reference
 
-// DOCS_BLOCK_START:stack-dependencies
 import { TerraformLocal, TerraformOutput } from "cdktf";
-// DOCS_BLOCK_END:stack-dependencies
 
 // Formatting space for the docs
-// DOCS_BLOCK_START:single-stack,multiple-stacks,cross-stack-reference,stack-dependencies
+// DOCS_BLOCK_START:single-stack,multiple-stacks,cross-stack-reference
 
-// DOCS_BLOCK_END:single-stack,multiple-stacks,cross-stack-reference,stack-dependencies
+// DOCS_BLOCK_END:single-stack,multiple-stacks,cross-stack-reference
 
 export function singleStackRunner() {
   // DOCS_BLOCK_START:single-stack
@@ -142,7 +140,6 @@ export function crossStackReferencesRunner() {
 }
 
 export function stackDependenciesRunner() {
-  // DOCS_BLOCK_START:stack-dependencies
   // Write a stack that exposes a few resources
   class MySourceStack extends TerraformStack {
     public instance: Instance;
@@ -165,10 +162,12 @@ export function stackDependenciesRunner() {
     constructor(scope: Construct, id: string, dependencies: MySourceStack[]) {
       super(scope, id);
 
+      // DOCS_BLOCK_START:stack-dependencies
       this.allResources = new TerraformLocal(this, "merged_items", [
         sourceStackA.instance.id,
         sourceStackB.instance.id,
       ]);
+      // DOCS_BLOCK_END:stack-dependencies
 
       new TerraformOutput(this, "all_resources", {
         value: this.allResources,
@@ -194,7 +193,6 @@ export function stackDependenciesRunner() {
   ]);
 
   dependencyApp.synth();
-  // DOCS_BLOCK_END:stack-dependencies
 }
 
 export function escapeHatchesRunner() {
