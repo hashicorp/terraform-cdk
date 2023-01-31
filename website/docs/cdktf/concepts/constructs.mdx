@@ -224,6 +224,7 @@ You can instantiate a construct multiple times throughout your infrastructure. F
 
 The following example creates three different S3 buckets, two of which are in the same scope. When CDKTF synthesizes this configuration, the Terraform IDs for these resources will be the construct names prefixed by the stack name and suffixed with a hash for each Construct instance.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#constructs-scope -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#constructs-scope -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#constructs-scope -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#constructs-scope -->
@@ -231,11 +232,14 @@ The following example creates three different S3 buckets, two of which are in th
 
 <CodeTabs>
 
-```typescript
+```ts
+import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
+import { S3BucketWebsiteConfiguration } from "./.gen/providers/aws/s3-bucket-website-configuration";
+import { AwsProvider } from "./.gen/providers/aws/provider";
 import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 
-class PublicS3Bucket extends Construct {
+export class PublicS3Bucket extends Construct {
   public bucket: S3Bucket;
   constructor(scope: Construct, name: string) {
     super(scope, name); // This creates a new scope since we extend from construct
@@ -244,19 +248,27 @@ class PublicS3Bucket extends Construct {
     // defined in `MyStack`. Therefore, it does not need a unique name.
     this.bucket = new S3Bucket(this, "bucket", {
       bucketPrefix: name,
-      website: [
-        {
-          indexDocument: "index.html",
-          errorDocument: "5xx.html",
-        },
-      ],
+    });
+
+    new S3BucketWebsiteConfiguration(this, "bucket-website", {
+      bucket: this.bucket.bucket,
+      indexDocument: {
+        suffix: "index.html",
+      },
+      errorDocument: {
+        key: "5xx.html",
+      },
     });
   }
 }
 
-class MyStack extends TerraformStack {
+export class ConstructsScopeStack extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
 
     // Both buckets are inside of the same stack, meaning they share
     // the same scope. Therefore, their names must be unique.
