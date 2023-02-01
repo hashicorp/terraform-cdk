@@ -68,9 +68,9 @@ namespace Examples
             sg.AddOverride("dynamic.ingress", new Dictionary<string, object> {
                 { "for_each", portsList.ListValue },
                 { "content", new Dictionary<string, object> {
-                    { "fromPort", "${ingress.value}" },
-                    { "toPort", "${ingress.value}" },
-                    { "cidrBlocks", new string[] { "0.0.0.0/0" } },
+                    { "from_port", "${ingress.value}" },
+                    { "to_port", "${ingress.value}" },
+                    { "cidr_blocks", new string[] { "0.0.0.0/0" } },
                     { "protocol", "-1" }
                 }}
             });

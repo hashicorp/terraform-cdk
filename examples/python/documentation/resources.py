@@ -125,9 +125,9 @@ class EscapeHatchDynamicStack(TerraformStack):
                 vpc_id="vpcs",
                 egress=[
                     {
-                        "fromPort": 0,
-                        "toPort": 0,
-                        "ciderBlocks": ["0.0.0.0/0"],
+                        "from_port": 0,
+                        "to_port": 0,
+                        "cider_blocks": ["0.0.0.0/0"],
                         "protocol": "-1"
                     }
                 ]
@@ -136,9 +136,9 @@ class EscapeHatchDynamicStack(TerraformStack):
         sq.add_override("dynamic.ingress", {
             "for_each": ports.list_value,
             "content": {
-                "fromPort": "${ingress.value}",
-                "toPort": "${ingress.value}",
-                "ciderBlocks": ["0.0.0.0/0"],
+                "from_port": "${ingress.value}",
+                "to_port": "${ingress.value}",
+                "cider_blocks": ["0.0.0.0/0"],
                 "protocol": "-1"
             }
         })
