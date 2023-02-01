@@ -38,15 +38,15 @@ describe("TerraformProviderLock", () => {
 
   it("reads the right file", async () => {
     const lock = new TerraformProviderLock("test");
-    await lock.data();
+    await lock.providers();
 
     expect(readFile).toHaveBeenCalledWith(`test/.terraform.lock.hcl`);
   });
 
   it("doesn't read the file twice", async () => {
     const lock = new TerraformProviderLock("test");
-    await lock.data();
-    await lock.data();
+    await lock.providers();
+    await lock.providers();
 
     expect(readFile).toHaveBeenCalledTimes(1);
   });
@@ -63,19 +63,17 @@ describe("TerraformProviderLock", () => {
       ])
     );
 
-    const parsedData = await lock.data();
+    const parsedData = await lock.providers();
 
-    expect(parsedData.providers).not.toBeUndefined();
-    expect(
-      parsedData.providers["registry.terraform.io/hashicorp/test"]
-    ).toEqual(
+    expect(parsedData).not.toBeUndefined();
+    expect(parsedData["registry.terraform.io/hashicorp/test"]).toEqual(
       expect.objectContaining({
         name: "test",
         version: "1.2.3",
       })
     );
     expect(
-      parsedData.providers["registry.terraform.io/hashicorp/test"].constraints
+      parsedData["registry.terraform.io/hashicorp/test"].constraints
     ).toEqual(
       expect.objectContaining({
         source: "registry.terraform.io/hashicorp/test",
@@ -101,22 +99,21 @@ describe("TerraformProviderLock", () => {
       ])
     );
 
-    const parsedData = await lock.data();
+    const parsedData = await lock.providers();
 
-    expect(parsedData.providers).not.toBeUndefined();
-    expect(Object.keys(parsedData.providers)).toEqual(
+    expect(parsedData).not.toBeUndefined();
+    expect(Object.keys(parsedData)).toEqual(
       expect.arrayContaining([
         "registry.terraform.io/partner/foo",
         "registry.terraform.io/hashicorp/test",
       ])
     );
     expect(
-      parsedData.providers["registry.terraform.io/hashicorp/test"].constraints
-        ?.version
+      parsedData["registry.terraform.io/hashicorp/test"].constraints?.version
     ).toEqual("1.2");
-    expect(
-      parsedData.providers["registry.terraform.io/partner/foo"].version
-    ).toEqual("4.5.3");
+    expect(parsedData["registry.terraform.io/partner/foo"].version).toEqual(
+      "4.5.3"
+    );
   });
 
   it("validates provider constraints", async () => {
@@ -149,5 +146,31 @@ describe("TerraformProviderLock", () => {
     expect(
       await lock.hasProvider(requiredProviderConstraintPartner)
     ).toBeFalsy();
+  });
+
+  it("handles gracefully when file is not present", async () => {
+    const lock = new TerraformProviderLock("test");
+    (readFile as jest.Mock).mockRejectedValueOnce(
+      new Error("unable to find file")
+    );
+
+    const requiredProviderConstraint = new ProviderConstraint(
+      "registry.terraform.io/hashicorp/test",
+      "1.2"
+    );
+
+    expect(await lock.hasProvider(requiredProviderConstraint)).toBeFalsy();
+  });
+
+  it("handles gracefully when lock file doens't have any providers", async () => {
+    const lock = new TerraformProviderLock("test");
+    (readFile as jest.Mock).mockResolvedValueOnce("");
+
+    const requiredProviderConstraint = new ProviderConstraint(
+      "registry.terraform.io/hashicorp/test",
+      "1.2"
+    );
+
+    expect(await lock.hasProvider(requiredProviderConstraint)).toBeFalsy();
   });
 });

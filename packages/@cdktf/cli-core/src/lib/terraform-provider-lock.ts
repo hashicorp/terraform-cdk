@@ -1,6 +1,7 @@
 import path from "path";
 import fs from "fs/promises";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
+import { logger } from "@cdktf/commons";
 
 const TerraformLockFileName = ".terraform.lock.hcl";
 
@@ -23,13 +24,19 @@ export class TerraformProviderLock {
   }
 
   private async readProviderLockFile() {
-    const lockFilePath = path.join(
-      this.stackWorkingDirectory,
-      TerraformLockFileName
-    );
-    const lockFile = (await fs.readFile(lockFilePath)).toString();
+    try {
+      const lockFilePath = path.join(
+        this.stackWorkingDirectory,
+        TerraformLockFileName
+      );
+      const lockFile = (await fs.readFile(lockFilePath)).toString();
 
-    return lockFile;
+      return lockFile;
+    } catch (e) {
+      logger.debug("Unable to read provider lock file", e);
+    }
+
+    return "";
   }
 
   private parseProviderLockFile(contents: string) {
@@ -73,18 +80,18 @@ export class TerraformProviderLock {
     return providerLockData;
   }
 
-  public async data(forceReread = false) {
+  public async providers(forceReread = false) {
     if (!this._providerLockData || forceReread) {
       const contents = await this.readProviderLockFile();
       this._providerLockData = this.parseProviderLockFile(contents);
     }
 
-    return this._providerLockData;
+    return this._providerLockData.providers;
   }
 
   public async hasProvider(constraint: ProviderConstraint) {
-    const providerLockData = await this.data();
-    const lockedProvider = providerLockData.providers[constraint.source];
+    const providerLockData = await this.providers();
+    const lockedProvider = providerLockData[constraint.source];
     if (lockedProvider) {
       return lockedProvider.constraints?.matchesVersion(
         constraint.version ?? ">0"

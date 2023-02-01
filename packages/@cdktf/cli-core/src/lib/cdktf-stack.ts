@@ -1,8 +1,5 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import * as fs from "fs";
-import * as path from "path";
-
 import { SynthesizedStack } from "./synth-stack";
 import { Terraform } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
@@ -12,6 +9,7 @@ import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
 import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
+import { TerraformProviderLock } from "./terraform-provider-lock";
 
 export type StackUpdate =
   | {
@@ -235,68 +233,49 @@ export class CdktfStack {
       this.createTerraformLogHandler.bind(this)
     );
 
-    const needsUpgrade = await this.checkLockFile();
+    const needsUpgrade = await this.checkNeedsUpgrade();
     await terraform.init(needsUpgrade, noColor);
     return terraform;
   }
 
-  private async checkLockFile(): Promise<boolean> {
-    const lockFilePath = path.join(
-      this.stack.workingDirectory,
-      ".terraform.lock.hcl"
-    );
-    try {
-      const lockFile = (await fs.promises.readFile(lockFilePath)).toString();
+  private requiredProviders() {
+    // Read required providers from the stack output
+    const requiredProviders = this.parsedContent.terraform?.required_providers;
 
-      let currentProvider: string | undefined;
-      const lockedProviders: ProviderConstraint[] = [];
+    return Object.values(requiredProviders || {}).reduce((acc, obj) => {
+      const constraint = new ProviderConstraint(obj.source, obj.version);
+      acc[constraint.source] = constraint;
+      return acc;
+    }, {} as Record<string, ProviderConstraint>);
+  }
 
-      lockFile.split(/\r\n|\r|\n/).forEach((line) => {
-        if (currentProvider) {
-          const constraintMatch = line.match(/constraints\s= "(.*)"/);
-          if (constraintMatch) {
-            lockedProviders.push(
-              new ProviderConstraint(currentProvider, constraintMatch[1])
-            );
-            currentProvider = undefined;
-          }
-        } else {
-          const providerMatch = line.match(/provider "(.*)"/);
-          if (providerMatch) {
-            currentProvider = providerMatch[1];
-          }
-        }
-      });
+  private async checkNeedsUpgrade(): Promise<boolean> {
+    const lock = new TerraformProviderLock(this.stack.workingDirectory);
+    const allProviders = this.requiredProviders();
+    const lockedProviders = Object.values(await lock.providers());
 
-      const requiredProviders =
-        this.parsedContent.terraform?.required_providers;
-      const providers = Object.values(requiredProviders || {}).reduce<
-        Record<string, ProviderConstraint>
-      >((acc, obj) => {
-        const constraint = new ProviderConstraint(obj.source, obj.version);
-        acc[constraint.source] = constraint;
-        return acc;
-      }, {});
-
-      // Check if any provider contained in `providers` violates constraints in `lockedProviders`
-      // Upgrade if some provider constraint not met
-      // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
-      return lockedProviders.some((lockedProvider) => {
-        const provider = providers[lockedProvider.source];
-        if (provider) {
-          return !lockedProvider.matchesVersion(provider.version ?? ">0");
-        }
-
-        // else no longer using this provider, so won't cause problems
+    // Check if any provider contained in `providers` violates constraints in `lockedProviders`
+    // Upgrade if some provider constraint not met
+    // If a provider wasn't preset in lockedProviders, that's fine; it will just get added
+    return lockedProviders.some((lockedProvider) => {
+      const lockedConstraint = lockedProvider.constraints;
+      if (!lockedConstraint) {
+        // Provider lock doesn't have a constraint specified, so we can't check.
+        // This shouldn't happen
+        logger.debug(
+          `Provider lock doesn't have a constraint for ${lockedProvider.name}`
+        );
         return false;
-      });
-    } catch (err) {
-      // ignore as this most likely means the file doesn't exist
-      // if it is some other error, Terraform will mention it later
-    }
+      }
 
-    // Don't upgrade if something went wrong
-    return false;
+      const provider = allProviders[lockedConstraint.source];
+      if (!provider) {
+        // else no longer using this provider, so won't cause problems
+        return;
+      }
+
+      return !lockedConstraint.matchesVersion(provider.version ?? ">0");
+    });
   }
 
   private async run(cb: () => Promise<void>) {
