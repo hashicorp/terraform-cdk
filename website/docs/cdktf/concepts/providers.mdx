@@ -53,6 +53,7 @@ This TypeScript example project has a `main.ts` file that defines AWS resources.
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-providers -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-providers -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-providers -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#providers-import-providers -->
 
 <CodeTabs>
 
@@ -172,6 +173,34 @@ namespace Examples
 }
 ```
 
+```go
+import (
+	"os"
+
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String(("us-east-1")),
+	})
+
+	instance := instance.NewInstance(stack, jsii.String("hello"), &instance.InstanceConfig{
+		Ami:          jsii.String("ami-2757f631"),
+		InstanceType: jsii.String("t2.micro"),
+	})
+	return stack
+}
+
+```
+
 </CodeTabs>
 
 ### Add Provider to `cdktf.json`
@@ -209,6 +238,7 @@ Import and use the generated classes in your application. The following example 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#providers-import-classes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#providers-import-classes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#providers-import-classes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#providers-import-classes -->
 
 <CodeTabs>
 
@@ -393,6 +423,50 @@ namespace Examples
         }
     }
 }
+```
+
+```go
+import (
+	"os"
+
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+
+	dnsimple "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/record"
+
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String(("us-east-1")),
+	})
+
+	instance := instance.NewInstance(stack, jsii.String("hello"), &instance.InstanceConfig{
+		Ami:          jsii.String("ami-2757f631"),
+		InstanceType: jsii.String("t2.micro"),
+	})
+
+	dnsimple.NewDnsimpleProvider(stack, jsii.String("dnsimple"), &dnsimple.DnsimpleProviderConfig{
+		Token:   jsii.String(os.Getenv("DNSIMPLE_TOKEN")),
+		Account: jsii.String(os.Getenv("DNSIMPLE_ACCOUNT")),
+	})
+
+	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{
+		Domain: jsii.String("example.com"),
+		Name:   jsii.String("web"),
+		Value:  instance.PublicIp(),
+		Type:   jsii.String("A"),
+	})
+
+	return stack
+}
+
 ```
 
 </CodeTabs>
