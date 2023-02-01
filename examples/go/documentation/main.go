@@ -19,6 +19,7 @@ func main() {
 	NewCloudBackendStack(app, "backend-cloud")
 	NewResourcesStack(app, "resources")
 	NewResourcesReferencesStack(app, "resources-references")
+	NewVariablesStack(app, "variables")
 
 	app.Synth()
 
@@ -27,4 +28,7 @@ func main() {
 	SynthConstructs()
 	SynthConstructsScope()
 	SynthLocalBackend()
+	SynthOutputs()
+	SynthOutputsUsage()
+	SynthRemoteState()
 }
