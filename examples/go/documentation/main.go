@@ -31,4 +31,8 @@ func main() {
 	SynthOutputs()
 	SynthOutputsUsage()
 	SynthRemoteState()
+	SynthSingleStack()
+	SynthMultiStack()
+	SynthCrossStackReference()
+	SynthStackDependencies()
 }
