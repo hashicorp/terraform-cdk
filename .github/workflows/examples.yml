@@ -28,7 +28,8 @@ jobs:
 
   examples:
     needs: build-example-matrix
-    runs-on: ubuntu-latest
+    # Go documentation example generates bindings for AWS and other providers and hence requires a lot of memory
+    runs-on: ${{ matrix.target == '@examples/go-documentation' && 'custom-linux-medium' || 'ubuntu-latest' }}
     strategy:
       fail-fast: false
       matrix: ${{fromJSON(needs.build-example-matrix.outputs.examples)}}
