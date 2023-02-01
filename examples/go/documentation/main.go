@@ -20,6 +20,8 @@ func main() {
 	NewResourcesStack(app, "resources")
 	NewResourcesReferencesStack(app, "resources-references")
 	NewVariablesStack(app, "variables")
+	NewTokensStack(app, "tokens", "myVpc")
+	NewIteratorsStack(app, "iterators")
 
 	app.Synth()
 
