@@ -20,6 +20,7 @@ The following example defines a [DynamoDB table](https://registry.terraform.io/p
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-define -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-define -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-define -->
 
 <CodeTabs>
 
@@ -122,6 +123,43 @@ class ResourceStack(TerraformStack):
             });
 ```
 
+```go
+import (
+	"fmt"
+
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/dataawsregion"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/dynamodbtable"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+
+)
+
+func NewResourcesStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("eu-central-1"),
+	})
+
+	region := dataawsregion.NewDataAwsRegion(stack, jsii.String("region"), &dataawsregion.DataAwsRegionConfig{})
+
+	dynamodbtable.NewDynamodbTable(stack, jsii.String("first-table"), &dynamodbtable.DynamodbTableConfig{
+		Name:    jsii.String(fmt.Sprintf("my-first-table-%s", *region.Name())),
+		HashKey: jsii.String("id"),
+		Attribute: []map[string]string{
+			{"name": "id", "type": "S"},
+		},
+		BillingMode: jsii.String("PAY_PER_REQUEST"),
+	})
+
+
+	return stack
+}
+
+```
+
 </CodeTabs>
 
 The [examples page](/cdktf/examples-and-guides/examples) contains multiple example projects for every supported programming language.
@@ -144,6 +182,7 @@ References are also useful when you need to track logical dependencies. For exam
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-references -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-references -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-references -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-references -->
 
 <CodeTabs>
 
@@ -294,6 +333,41 @@ import imports.kubernetes.namespace.NamespaceMetadata;
             });
 ```
 
+```go
+	exampleNamespace := namespace.NewNamespace(stack, jsii.String("tf-cdk-example"), &namespace.NamespaceConfig{
+		Metadata: &namespace.NamespaceMetadata{
+			Name: jsii.String("tf-cdk-example"),
+		},
+	})
+
+	deployment.NewDeployment(stack, jsii.String("nginx-deployment"), &deployment.DeploymentConfig{
+		Metadata: &deployment.DeploymentMetadata{
+			Name:      jsii.String("nginx"),
+			Namespace: exampleNamespace.Metadata().Name(), // Reference the namespace name propery
+			Labels: &map[string]*string{
+				"app": jsii.String("my-app"),
+			},
+		},
+		Spec: &deployment.DeploymentSpec{
+			Template: &deployment.DeploymentSpecTemplate{
+				Metadata: &deployment.DeploymentSpecTemplateMetadata{
+					Labels: &map[string]*string{
+						"app": jsii.String("my-app"),
+					},
+				},
+				Spec: &deployment.DeploymentSpecTemplateSpec{
+					Container: []deployment.DeploymentSpecTemplateSpecContainer{
+						{
+							Name:  jsii.String("nginx"),
+							Image: jsii.String("nginx:1.7.9"),
+						},
+					},
+				},
+			},
+		},
+	})
+```
+
 </CodeTabs>
 
 ## Provisioners
@@ -312,6 +386,7 @@ The following example defines a provisioner for a resource using the `addOverrid
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-hatch -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-escape-hatch -->
 
 <CodeTabs>
 
@@ -408,6 +483,20 @@ import imports.aws.dynamodb_table.DynamodbTableConfig;
 
 ```
 
+```go
+tableName := "my-second-table"
+table := dynamodbtable.NewDynamodbTable(stack, jsii.String("second-table"), &dynamodbtable.DynamodbTableConfig{
+	Name:    &tableName,
+	HashKey: jsii.String("id"),
+	Attribute: []map[string]string{
+		{"name": "id", "type": "S"},
+	},
+})
+table.AddOverride(jsii.String("provisioner"), []map[string]map[string]string{
+	{"local-exec": {"command": fmt.Sprintf("aws dynamodb create-backup --table-name %s --backup-name %s-backup", tableName, tableName)}},
+})
+```
+
 </CodeTabs>
 
 When you run `cdktf synth`, CDKTF generates a Terraform configuration with the [provisioner added to the JSON object](/language/syntax/json#nested-block-mapping).
@@ -444,6 +533,7 @@ To override an attribute, include the resource attribute key in `addOverride`. T
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-override-attribute -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-override-attribute -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-override-attribute -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-override-attribute -->
 
 <CodeTabs>
 
@@ -475,6 +565,13 @@ SnsTopic topic = new SnsTopic(this, "Topic", new SnsTopicConfig
     DisplayName = "will-be-overwritten"
 });
 topic.AddOverride("display_name", "my-topic");
+```
+
+```go
+topic := snstopic.NewSnsTopic(stack, jsii.String("Topic"), &snstopic.SnsTopicConfig{
+	DisplayName: jsii.String("will-be-overwritten"),
+})
+topic.AddOverride(jsii.String("display_name"), jsii.String("my-topic"))
 ```
 
 </CodeTabs>
@@ -513,6 +610,7 @@ The following example adds ingress values by looping through the ports passed as
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-hatch-dynamic-block -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-hatch-dynamic-block -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-hatch-dynamic-block -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-escape-hatch-dynamic-block -->
 
 <CodeTabs>
 
@@ -641,6 +739,34 @@ sg.AddOverride("dynamic.ingress", new Dictionary<string, object> {
 });
 ```
 
+```go
+portsList := cdktf.NewTerraformVariable(stack, jsii.String("ports"), &cdktf.TerraformVariableConfig{
+	Type:    jsii.String("list"),
+	Default: []int{22, 80, 443, 5432},
+})
+sg := securitygroup.NewSecurityGroup(stack, jsii.String("security1"), &securitygroup.SecurityGroupConfig{
+	Name:  jsii.String("security1"),
+	VpcId: jsii.String("vpcs"),
+	Egress: &[]securitygroup.SecurityGroupEgress{
+		{
+			FromPort:   jsii.Number(0),
+			ToPort:     jsii.Number(0),
+			CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+			Protocol:   jsii.String("-1"),
+		},
+	},
+})
+sg.AddOverride(jsii.String("dynamic.ingress"), &map[string]interface{}{
+	"for_each": portsList.ListValue(),
+	"content": &map[string]interface{}{
+		"from_port":   "${ingress.value}",
+		"to_port":     "${ingress.value}",
+		"cidr_blocks": []string{"0.0.0.0/0"},
+		"protocol":    "-1",
+	},
+})
+```
+
 </CodeTabs>
 
 You should only use escape hatches when you need to work with dynamic values that are unknown until after Terraform provisions your infrastructure. If you are working with static values, we recommend using the functionality available in your preferred programming language to iterate through the array.
@@ -651,6 +777,7 @@ The following example loops through the ports without using an escape hatch.
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#resources-escape-loop-thru-ports -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#resources-escape-loop-thru-ports -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#resources-escape-loop-thru-ports -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#resources-escape-loop-thru-ports -->
 
 <CodeTabs>
 
@@ -749,6 +876,33 @@ new SecurityGroup(this, "security2", new SecurityGroupConfig
         Protocol = "-1"
     }).ToArray()
 });
+```
+
+```go
+	ports := []float64{22, 80, 443, 5432}
+	ingress := make([]securitygroup.SecurityGroupIngress, 0)
+	for _, port := range ports {
+		ingress = append(ingress, securitygroup.SecurityGroupIngress{
+			FromPort:   jsii.Number(port),
+			ToPort:     jsii.Number(port),
+			CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+			Protocol:   jsii.String("-1"),
+		})
+	}
+
+	securitygroup.NewSecurityGroup(stack, jsii.String("security2"), &securitygroup.SecurityGroupConfig{
+		Name:  jsii.String("security2"),
+		VpcId: jsii.String("vpcs"),
+		Egress: &[]securitygroup.SecurityGroupEgress{
+			{
+				FromPort:   jsii.Number(0),
+				ToPort:     jsii.Number(0),
+				CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+				Protocol:   jsii.String("-1"),
+			},
+		},
+		Ingress: &ingress,
+	})
 ```
 
 </CodeTabs>

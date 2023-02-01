@@ -17,6 +17,8 @@ func main() {
 	NewProvidersStack(app, "providers")
 	NewModulesStack(app, "modules")
 	NewCloudBackendStack(app, "backend-cloud")
+	NewResourcesStack(app, "resources")
+	NewResourcesReferencesStack(app, "resources-references")
 
 	app.Synth()
 
