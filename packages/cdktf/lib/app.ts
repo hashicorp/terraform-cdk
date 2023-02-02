@@ -7,6 +7,7 @@ import { DISABLE_STACK_TRACE_IN_METADATA } from "./annotations";
 import { Manifest } from "./manifest";
 import { ISynthesisSession } from "./synthesize";
 import { TerraformStack } from "./terraform-stack";
+import { ValidateBackends } from "./validations";
 
 const APP_SYMBOL = Symbol.for("cdktf/App");
 export const CONTEXT_ENV = "CDKTF_CONTEXT_JSON";
@@ -84,6 +85,8 @@ export class App extends Construct {
       fs.mkdirSync(this.outdir);
     }
     this.manifest = new Manifest(version, this.outdir);
+
+    node.addValidation(new ValidateBackends(this));
   }
 
   public static isApp(x: any): x is App {

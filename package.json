@@ -72,7 +72,10 @@
       "**/json-stable-stringify/**",
       "semver",
       "**/semver",
-      "**/semver/**"
+      "**/semver/**",
+      "lodash.isequal",
+      "**/lodash.isequal",
+      "**/lodash.isequal/**"
     ]
   },
   "devDependencies": {
