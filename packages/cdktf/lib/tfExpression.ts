@@ -3,7 +3,7 @@
 import { IResolvable, IResolveContext } from "./tokens/resolvable";
 import { Intrinsic } from "./tokens/private/intrinsic";
 import { Tokenization, Token } from "./tokens/token";
-import { App } from "./app";
+import { App } from ".";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Construct } from "constructs";
