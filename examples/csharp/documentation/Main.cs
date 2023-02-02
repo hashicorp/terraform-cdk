@@ -72,7 +72,7 @@ namespace MyCompany.MyApp
             stack.AddOverride("terraform.backend", new Dictionary<string, object> {
                 {"local", null}, // delete the default local backend
                 {"remote", new Dictionary<string, object> {
-                    {"organization", "terraform.tfstate"},
+                    {"organization", "test"},
                     {"workspaces", new Dictionary<string, string> {
                         {"name", "test"}
                     }}
