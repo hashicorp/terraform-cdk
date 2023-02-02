@@ -414,8 +414,9 @@ export class ModulesStack extends TerraformStack {
 
     new TerraformHclModule(this, "Vpc", {
       source: "terraform-aws-modules/vpc/aws",
-      // variables takes any input - please consult the docs of the module
-      // to ensure the arguments are correct
+      // Note: variables has no types for its inputs.
+      // When using this for other modules consult the docs of the module
+      // to ensure the arguments are correct.
       variables: {
         name: "my-vpc",
         cidr: "10.0.0.0/16",
@@ -438,6 +439,9 @@ export class ModulesStack extends TerraformStack {
 
         TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleConfig.builder()
                 .source("terraform-aws-modules/vpc/aws")
+                // Note: variables has no types for its inputs.
+                // When using this for other modules consult the docs of the module
+                // to ensure the arguments are correct.
                 .variables(new HashMap<String, Object>(){{
                     put("name", "my-vpc");
                     put("cidr", "10.0.0.0/16");
@@ -462,8 +466,9 @@ class HclModuleStack(TerraformStack):
 
         module = TerraformHclModule(self, "Vpc",
             source = "terraform-aws-modules/vpc/aws",
-            # variables takes any input - please consult the docs of the module
-            # to ensure the arguments are correct
+            # Note: variables has no types for its inputs.
+            # When using this for other modules consult the docs of the module
+            # to ensure the arguments are correct.
             variables = {
                 "name": "my-vpc",
                 "cidr": "10.0.0.0/16",
@@ -503,6 +508,9 @@ namespace Examples
             new TerraformHclModule(this, "vpc", new TerraformHclModuleConfig
             {
                 Source = "terraform-aws-modules/vpc/aws",
+                // Note: Variables has no types for its inputs.
+                // When using this for other modules consult the docs of the module
+                // to ensure the arguments are correct.
                 Variables = new Dictionary<string, object> {
                     { "name", "my-vpc" },
                     { "cidr", "10.0.0.0/16" },
@@ -539,8 +547,9 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	cdktf.NewTerraformHclModule(stack, jsii.String("Vpc"), &cdktf.TerraformHclModuleConfig{
 		Source: jsii.String("terraform-aws-modules/vpc/aws"),
-		// Variables takes any input - please consult the docs of the module
-		// to ensure the arguments are correct
+		// Note: Variables has no types for its inputs.
+		// When using this for other modules consult the docs of the module
+		// to ensure the arguments are correct.
 		Variables: &map[string]interface{}{
 			"name":               "my-vpc",
 			"cidr":               "10.0.0.0/16",

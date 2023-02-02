@@ -41,8 +41,9 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	cdktf.NewTerraformHclModule(stack, jsii.String("Vpc"), &cdktf.TerraformHclModuleConfig{
 		Source: jsii.String("terraform-aws-modules/vpc/aws"),
-		// Variables takes any input - please consult the docs of the module
-		// to ensure the arguments are correct
+		// Note: Variables has no types for its inputs.
+		// When using this for other modules consult the docs of the module
+		// to ensure the arguments are correct.
 		Variables: &map[string]interface{}{
 			"name":               "my-vpc",
 			"cidr":               "10.0.0.0/16",

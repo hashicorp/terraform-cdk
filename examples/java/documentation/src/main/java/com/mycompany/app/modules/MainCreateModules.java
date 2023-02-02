@@ -26,6 +26,9 @@ public class MainCreateModules extends TerraformStack {
 
         TerraformHclModule module = new TerraformHclModule(stack, "Vpc", TerraformHclModuleConfig.builder()
                 .source("terraform-aws-modules/vpc/aws")
+                // Note: variables has no types for its inputs.
+                // When using this for other modules consult the docs of the module
+                // to ensure the arguments are correct.                    
                 .variables(new HashMap<String, Object>(){{
                     put("name", "my-vpc");
                     put("cidr", "10.0.0.0/16");

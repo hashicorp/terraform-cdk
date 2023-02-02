@@ -36,8 +36,9 @@ export class ModulesStack extends TerraformStack {
     // DOCS_BLOCK_START:modules-create
     new TerraformHclModule(this, "Vpc", {
       source: "terraform-aws-modules/vpc/aws",
-      // variables takes any input - please consult the docs of the module
-      // to ensure the arguments are correct
+      // Note: variables has no types for its inputs.
+      // When using this for other modules consult the docs of the module
+      // to ensure the arguments are correct.
       variables: {
         name: "my-vpc",
         cidr: "10.0.0.0/16",

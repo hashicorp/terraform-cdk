@@ -21,6 +21,9 @@ namespace Examples
             new TerraformHclModule(this, "vpc", new TerraformHclModuleConfig
             {
                 Source = "terraform-aws-modules/vpc/aws",
+                // Note: Variables has no types for its inputs.
+                // When using this for other modules consult the docs of the module
+                // to ensure the arguments are correct.
                 Variables = new Dictionary<string, object> {
                     { "name", "my-vpc" },
                     { "cidr", "10.0.0.0/16" },
