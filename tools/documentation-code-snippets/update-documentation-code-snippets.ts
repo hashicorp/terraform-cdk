@@ -269,8 +269,16 @@ ${requestedSnippets
     const files = (await execa("git", ["ls-files"], { cwd: sourcePath })).stdout
       .split("\n")
       .map((f) => `${sourcePath}/${f}`);
+    // files that haven't been git add'ed yet
+    const notYetAddedFiles = (
+      await execa("git", ["ls-files", "--exclude-standard", "--others"], {
+        cwd: sourcePath,
+      })
+    ).stdout
+      .split("\n")
+      .map((f) => `${sourcePath}/${f}`);
 
-    for (const filename of files) {
+    for (const filename of [...files, ...notYetAddedFiles]) {
       const containsSources = await fileContainsCodeBlockSources(filename);
       if (containsSources) {
         sourceFilesWithCodeBlock.push({
