@@ -147,10 +147,10 @@ public class MainResources extends TerraformStack {
                                 put("for_each", ports.getListValue());
                                 put("content", new HashMap<String, Object>() {
                                         {
-                                                put("fromPort", "${ingress.value}");
-                                                put("toPort", "${ingress.value}");
-                                                put("cidrBlocks", Arrays.asList("0.0.0.0/0"));
-                                                put("protocal", "-1");
+                                                put("from_port", "${ingress.value}");
+                                                put("to_port", "${ingress.value}");
+                                                put("cidr_blocks", Arrays.asList("0.0.0.0/0"));
+                                                put("protocol", "-1");
                                         }
                                 });
                         }

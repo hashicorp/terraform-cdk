@@ -641,9 +641,9 @@ const sg = new SecurityGroup(this, "security1", {
 sg.addOverride("dynamic.ingress", {
   for_each: portsList.listValue,
   content: {
-    fromPort: "${ingress.value}",
-    toPort: "${ingress.value}",
-    cidrBlocks: ["0.0.0.0/0"],
+    from_port: "${ingress.value}",
+    to_port: "${ingress.value}",
+    cidr_blocks: ["0.0.0.0/0"],
     protocol: "-1",
   },
 });
@@ -675,10 +675,10 @@ import imports.aws.security_group.*;
                                 put("for_each", ports.getListValue());
                                 put("content", new HashMap<String, Object>() {
                                         {
-                                                put("fromPort", "${ingress.value}");
-                                                put("toPort", "${ingress.value}");
-                                                put("cidrBlocks", Arrays.asList("0.0.0.0/0"));
-                                                put("protocal", "-1");
+                                                put("from_port", "${ingress.value}");
+                                                put("to_port", "${ingress.value}");
+                                                put("cidr_blocks", Arrays.asList("0.0.0.0/0"));
+                                                put("protocol", "-1");
                                         }
                                 });
                         }
@@ -697,9 +697,9 @@ import imports.aws.security_group.*;
                 vpc_id="vpcs",
                 egress=[
                     {
-                        "fromPort": 0,
-                        "toPort": 0,
-                        "ciderBlocks": ["0.0.0.0/0"],
+                        "from_port": 0,
+                        "to_port": 0,
+                        "cidr_blocks": ["0.0.0.0/0"],
                         "protocol": "-1"
                     }
                 ]
@@ -708,9 +708,9 @@ import imports.aws.security_group.*;
         sq.add_override("dynamic.ingress", {
             "for_each": ports.list_value,
             "content": {
-                "fromPort": "${ingress.value}",
-                "toPort": "${ingress.value}",
-                "ciderBlocks": ["0.0.0.0/0"],
+                "from_port": "${ingress.value}",
+                "to_port": "${ingress.value}",
+                "cidr_blocks": ["0.0.0.0/0"],
                 "protocol": "-1"
             }
         })
@@ -737,9 +737,9 @@ SecurityGroup sg = new SecurityGroup(this, "security1", new SecurityGroupConfig
 sg.AddOverride("dynamic.ingress", new Dictionary<string, object> {
     { "for_each", portsList.ListValue },
     { "content", new Dictionary<string, object> {
-        { "fromPort", "${ingress.value}" },
-        { "toPort", "${ingress.value}" },
-        { "cidrBlocks", new string[] { "0.0.0.0/0" } },
+        { "from_port", "${ingress.value}" },
+        { "to_port", "${ingress.value}" },
+        { "cidr_blocks", new string[] { "0.0.0.0/0" } },
         { "protocol", "-1" }
     }}
 });
