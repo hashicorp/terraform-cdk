@@ -9,27 +9,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
+      PR_TITLE: "chore: update github workflow actions"
 
     steps:
       - uses: actions/checkout@v3.1.0
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
 
-      - name: Find older versions of this same PR
-        id: older
-        uses: lee-dohm/select-matching-issues@v1
-        with:
-          query: '"chore: update github workflow actions" in:title'
-          token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
-
-      - name: Close found issues
-        run: cat ${{ steps.older.outputs.path }} | xargs gh issue close --comment "Closing this because I'm about to open a newer PR."
+      - name: Find and close older versions of this same PR
+        run: |
+          prlist=$(gh search prs --repo ${{ github.repository }} --state open --match title "$PR_TITLE" --json number --jq '.[].number')
+          gh pr close -d --comment "Closing this because I'm about to open a newer PR." ${prlist}
 
       - name: Run GitHub Actions Version Updater
-        uses: saadmk11/github-actions-version-updater@v0.7.2
+        uses: saadmk11/github-actions-version-updater@v0.7.3
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
-          commit_message: "chore: update github workflow actions"
-          pull_request_title: "chore: update github workflow actions"
+          commit_message: ${{ env.PR_TITLE }}
+          pull_request_title: ${{ env.PR_TITLE }}
           pull_request_team_reviewers: cdktf
+          pull_request_labels: "dependencies"
           update_version_with: "release-commit-sha"
