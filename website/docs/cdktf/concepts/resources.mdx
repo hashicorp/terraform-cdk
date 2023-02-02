@@ -220,7 +220,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
                 new Deployment(this, "nginx-deployment", DeploymentConfig.builder()
                                 .metadata(DeploymentMetadata.builder()
                                                 .name("nginx")
-                                                .namespace(exampleNamespace.getMetadata().getName())
+                                                .namespace(exampleNamespace.getMetadata().getName()) // Reference the name property
                                                 .labels(new HashMap<String, String>() {
                                                         {
                                                                 put("app", app.toString());
@@ -267,7 +267,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
         Deployment(self, "nginx-deployment",
             metadata=DeploymentMetadata(
                 name="nginx",
-                namespace=exampleNamespace.metadata.name,
+                namespace=exampleNamespace.metadata.name, # Reference the name property
                 labels={"app": app}
             ),
             spec=DeploymentSpec(
@@ -304,7 +304,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
                 Metadata = new DeploymentMetadata
                 {
                     Name = "nginx",
-                    Namespace = exampleNamespace.Metadata.Name, // Reference the namespace name propery
+                    Namespace = exampleNamespace.Metadata.Name, // Reference the name property
                     Labels = new Dictionary<string, string> {
                         { "app", "my-app" }
                     }
@@ -343,7 +343,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 	deployment.NewDeployment(stack, jsii.String("nginx-deployment"), &deployment.DeploymentConfig{
 		Metadata: &deployment.DeploymentMetadata{
 			Name:      jsii.String("nginx"),
-			Namespace: exampleNamespace.Metadata().Name(), // Reference the namespace name propery
+			Namespace: exampleNamespace.Metadata().Name(), // Reference the name property
 			Labels: &map[string]*string{
 				"app": jsii.String("my-app"),
 			},

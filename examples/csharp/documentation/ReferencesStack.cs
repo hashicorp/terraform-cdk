@@ -36,7 +36,7 @@ namespace Examples
                 Metadata = new DeploymentMetadata
                 {
                     Name = "nginx",
-                    Namespace = exampleNamespace.Metadata.Name, // Reference the namespace name propery
+                    Namespace = exampleNamespace.Metadata.Name, // Reference the name property
                     Labels = new Dictionary<string, string> {
                         { "app", "my-app" }
                     }
