@@ -46,7 +46,13 @@ func NewResourcesStack(scope constructs.Construct, name string) cdktf.TerraformS
 		},
 	})
 	table.AddOverride(jsii.String("provisioner"), []map[string]map[string]string{
-		{"local-exec": {"command": fmt.Sprintf("aws dynamodb create-backup --table-name %s --backup-name %s-backup", tableName, tableName)}},
+		{"local-exec": {
+			"command": fmt.Sprintf(
+				"aws dynamodb create-backup --table-name %s --backup-name %s-backup",
+				tableName,
+				tableName,
+			),
+		}},
 	})
 	// DOCS_BLOCK_END:resources-escape-hatch
 

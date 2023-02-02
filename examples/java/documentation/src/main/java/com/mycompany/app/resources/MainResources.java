@@ -59,7 +59,7 @@ public class MainResources extends TerraformStack {
                 new Deployment(this, "nginx-deployment", DeploymentConfig.builder()
                                 .metadata(DeploymentMetadata.builder()
                                                 .name("nginx")
-                                                .namespace(exampleNamespace.getMetadata().getName())
+                                                .namespace(exampleNamespace.getMetadata().getName()) // Reference the name property
                                                 .labels(new HashMap<String, String>() {
                                                         {
                                                                 put("app", app.toString());

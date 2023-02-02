@@ -11,10 +11,10 @@ import (
 	// DOCS_BLOCK_END:modules-create
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/terraform-aws-modules/aws/vpc"
 	// DOCS_BLOCK_END:modules-install
-	// DOCS_BLOCK_START:modules-create
+	// DOCS_BLOCK_START:modules-local
 	// This module can come from a registry or through a local / remote reference
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/my_local_module"
-	// DOCS_BLOCK_START:modules-install,modules-local
+	// DOCS_BLOCK_START:modules-install,modules-create
 )
 
 func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformStack {
@@ -22,7 +22,7 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	// DOCS_BLOCK_END:modules-local
 	provider := aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
-		Region: jsii.String(("us-west-2")),
+		Region: jsii.String("us-west-2"),
 	})
 
 	// DOCS_BLOCK_END:modules-create
@@ -41,8 +41,9 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	cdktf.NewTerraformHclModule(stack, jsii.String("Vpc"), &cdktf.TerraformHclModuleConfig{
 		Source: jsii.String("terraform-aws-modules/vpc/aws"),
-		// Variables takes any input - please consult the docs of the module
-		// to ensure the arguments are correct
+		// Note: Variables has no types for its inputs.
+		// When using this for other modules consult the docs of the module
+		// to ensure the arguments are correct.
 		Variables: &map[string]interface{}{
 			"name":               "my-vpc",
 			"cidr":               "10.0.0.0/16",

@@ -143,6 +143,31 @@ namespace Examples
 }
 ```
 
+```go
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+)
+
+func NewCloudBackendStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
+		Hostname:     jsii.String("app.terraform.io"),
+		Organization: jsii.String("company"),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod")),
+	})
+
+	cdktf.NewTerraformOutput(stack, jsii.String("dns-server"), &cdktf.TerraformOutputConfig{
+		Value: "hello-world",
+	})
+
+	return stack
+}
+
+```
+
 </CodeTabs>
 
 When you call `cdktf synth`, CDKTF generates a JSON file called `remote.tf.json` in the `cdktf.out` stack sub-directory containing the synthesized CDKTF code. For example, CDKTF creates the output for a stack called `hello-terraform` in `cdktf.out/stacks/hello-terraform`.
@@ -289,6 +314,33 @@ new CloudBackend(stack, new CloudBackendConfig {
 });
 
 app.Synth();
+```
+
+```go
+
+func NewLocalBackendStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewTerraformOutput(stack, jsii.String("dns-server"), &cdktf.TerraformOutputConfig{
+		Value: "local",
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	stack := NewLocalBackendStack(app, "hello-terraform")
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
+		Hostname:     jsii.String("app.terraform.io"),
+		Organization: jsii.String("company"),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("my-app-prod")),
+	})
+
+	app.Synth()
+}
+
 ```
 
 </CodeTabs>

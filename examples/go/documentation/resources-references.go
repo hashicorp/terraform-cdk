@@ -25,7 +25,7 @@ func NewResourcesReferencesStack(scope constructs.Construct, name string) cdktf.
 	deployment.NewDeployment(stack, jsii.String("nginx-deployment"), &deployment.DeploymentConfig{
 		Metadata: &deployment.DeploymentMetadata{
 			Name:      jsii.String("nginx"),
-			Namespace: exampleNamespace.Metadata().Name(), // Reference the namespace name propery
+			Namespace: exampleNamespace.Metadata().Name(), // Reference the name property
 			Labels: &map[string]*string{
 				"app": jsii.String("my-app"),
 			},

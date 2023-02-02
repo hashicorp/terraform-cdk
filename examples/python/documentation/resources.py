@@ -47,7 +47,7 @@ class ReferencesStack(TerraformStack):
         Deployment(self, "nginx-deployment",
             metadata=DeploymentMetadata(
                 name="nginx",
-                namespace=exampleNamespace.metadata.name,
+                namespace=exampleNamespace.metadata.name, # Reference the name property
                 labels={"app": app}
             ),
             spec=DeploymentSpec(
