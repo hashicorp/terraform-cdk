@@ -114,6 +114,43 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurestack.route_table.route.next_hop_type": null,
   "azurestack.route_table.route.next_hop_in_ip_address": null,
 
+  "azurestack.network_security_group.security_rule.name": null,
+  "azurestack.network_security_group.security_rule.description": null,
+  "azurestack.network_security_group.security_rule.protocol": null,
+  "azurestack.network_security_group.security_rule.source_port_range": null,
+  "azurestack.network_security_group.security_rule.source_port_ranges": null,
+  "azurestack.network_security_group.security_rule.destination_port_range":
+    null,
+  "azurestack.network_security_group.security_rule.destination_port_ranges":
+    null,
+  "azurestack.network_security_group.security_rule.source_address_prefix": null,
+  "azurestack.network_security_group.security_rule.source_address_prefixes":
+    null,
+  "azurestack.network_security_group.security_rule.destination_address_prefix":
+    null,
+  "azurestack.network_security_group.security_rule.destination_address_prefixes":
+    null,
+  "azurestack.network_security_group.security_rule.destination_application_security_group_ids":
+    null,
+  "azurestack.network_security_group.security_rule.source_application_security_group_ids":
+    null,
+  "azurestack.network_security_group.security_rule.access": null,
+  "azurestack.network_security_group.security_rule.priority": null,
+  "azurestack.network_security_group.security_rule.direction": null,
+
+  "azurestack.virtual_network.subnet.name": null,
+  "azurestack.virtual_network.subnet.address_prefix": null,
+  "azurestack.virtual_network.subnet.security_group": null,
+  "azurestack.virtual_network.subnet.id": null,
+
+  "azurestack.key_vault.access_policy.tenant_id": null,
+  "azurestack.key_vault.access_policy.object_id": null,
+  "azurestack.key_vault.access_policy.application_id": null,
+  "azurestack.key_vault.access_policy.certificate_permissions": null,
+  "azurestack.key_vault.access_policy.key_permissions": null,
+  "azurestack.key_vault.access_policy.secret_permissions": null,
+  "azurestack.key_vault.access_policy.storage_permissions": null,
+
   "vault.auth_backend.tune.default_lease_ttl": null,
   "vault.auth_backend.tune.max_lease_ttl": null,
   "vault.auth_backend.tune.audit_non_hmac_request_keys": null,
@@ -177,12 +214,28 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
 
   "google.container_cluster.node_config.guest_accelerator.count": null,
   "google.container_cluster.node_config.guest_accelerator.type": null,
+  "google.container_cluster.node_config.guest_accelerator.gpu_partition_size":
+    null,
+  "google.container_cluster.node_config.guest_accelerator.gpu_sharing_config":
+    null,
+  "google.container_cluster.node_config.guest_accelerator.gpu_sharing_config.gpu_sharing_strategy":
+    null,
+  "google.container_cluster.node_config.guest_accelerator.gpu_sharing_config.max_shared_clients_per_gpu":
+    null,
   "google.container_cluster.node_config.taint.key": null,
   "google.container_cluster.node_config.taint.value": null,
   "google.container_cluster.node_config.taint.effect": null,
 
   "google.container_node_pool.node_config.guest_accelerator.count": null,
   "google.container_node_pool.node_config.guest_accelerator.type": null,
+  "google.container_node_pool.node_config.guest_accelerator.gpu_partition_size":
+    null,
+  "google.container_node_pool.node_config.guest_accelerator.gpu_sharing_config":
+    null,
+  "google.container_node_pool.node_config.guest_accelerator.gpu_sharing_config.gpu_sharing_strategy":
+    null,
+  "google.container_node_pool.node_config.guest_accelerator.gpu_sharing_config.max_shared_clients_per_gpu":
+    null,
   "google.container_node_pool.node_config.taint.key": null,
   "google.container_node_pool.node_config.taint.value": null,
   "google.container_node_pool.node_config.taint.effect": null,
@@ -213,8 +266,13 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.container_registry.retention_policy.days": null,
   "azurerm.container_registry.retention_policy.enabled": null,
   "azurerm.container_registry.trust_policy.enabled": null,
+  "azurerm.container_registry.encryption.enabled": null,
+  "azurerm.container_registry.encryption.identity_client_id": null,
+  "azurerm.container_registry.encryption.key_vault_key_id": null,
 
   "azurerm.eventhub_namespace.network_rulesets.default_action": null,
+  "azurerm.eventhub_namespace.network_rulesets.public_network_access_enabled":
+    null,
   "azurerm.eventhub_namespace.network_rulesets.trusted_service_access_enabled":
     null,
   "azurerm.eventhub_namespace.network_rulesets.virtual_network_rule": null,
@@ -237,6 +295,8 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.mssql_database.extended_auditing_policy.storage_account_access_key_is_secondary":
     null,
   "azurerm.mssql_database.extended_auditing_policy.retention_in_days": null,
+  "azurerm.mssql_database.extended_auditing_policy.log_monitoring_enabled":
+    null,
 
   "azurerm.mssql_server.extended_auditing_policy.storage_account_access_key":
     null,
@@ -244,6 +304,7 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.mssql_server.extended_auditing_policy.storage_account_access_key_is_secondary":
     null,
   "azurerm.mssql_server.extended_auditing_policy.retention_in_days": null,
+  "azurerm.mssql_server.extended_auditing_policy.log_monitoring_enabled": null,
 
   "azurerm.route_filter.rule.access": null,
   "azurerm.route_filter.rule.communities": null,
@@ -263,14 +324,24 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.site_recovery_replicated_vm.managed_disk.target_disk_type": null,
   "azurerm.site_recovery_replicated_vm.managed_disk.target_replica_disk_type":
     null,
+  "azurerm.site_recovery_replicated_vm.managed_disk.target_disk_encryption_set_id":
+    null,
+  "azurerm.site_recovery_replicated_vm.managed_disk.target_disk_encryption":
+    null,
   "azurerm.site_recovery_replicated_vm.network_interface.source_network_interface_id":
     null,
   "azurerm.site_recovery_replicated_vm.network_interface.target_static_ip":
     null,
   "azurerm.site_recovery_replicated_vm.network_interface.target_subnet_name":
     null,
+  "azurerm.site_recovery_replicated_vm.network_interface.recovery_public_ip_address_id":
+    null,
 
   "azurerm.iothub.endpoint.type": null,
+  "azurerm.iothub.endpoint.authentication_type": null,
+  "azurerm.iothub.endpoint.identity_id": null,
+  "azurerm.iothub.endpoint.endpoint_uri": null,
+  "azurerm.iothub.endpoint.entity_path": null,
   "azurerm.iothub.endpoint.connection_string": null,
   "azurerm.iothub.endpoint.name": null,
   "azurerm.iothub.endpoint.batch_frequency_in_seconds": null,
@@ -317,6 +388,9 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.synapse_workspace.aad_admin.login": null,
   "azurerm.synapse_workspace.aad_admin.object_id": null,
   "azurerm.synapse_workspace.aad_admin.tenant_id": null,
+  "azurerm.synapse_workspace.sql_aad_admin.login": null,
+  "azurerm.synapse_workspace.sql_aad_admin.object_id": null,
+  "azurerm.synapse_workspace.sql_aad_admin.tenant_id": null,
 
   "azurerm.batch_pool.container_configuration.container_registries.registry_server":
     null,
@@ -340,6 +414,11 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.app_service.ip_restriction.name": null,
   "azurerm.app_service.ip_restriction.priority": null,
   "azurerm.app_service.ip_restriction.action": null,
+  "azurerm.app_service.ip_restriction.headers": null,
+  "azurerm.app_service.ip_restriction.headers.x_forwarded_host": null,
+  "azurerm.app_service.ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.app_service.ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.app_service.ip_restriction.headers.x_fd_health_probe": null,
   "azurerm.app_service.scm_ip_restriction.ip_address": null,
   "azurerm.app_service.scm_ip_restriction.service_tag": null,
   "azurerm.app_service.scm_ip_restriction.subnet_id": null,
@@ -347,6 +426,11 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.app_service.scm_ip_restriction.name": null,
   "azurerm.app_service.scm_ip_restriction.priority": null,
   "azurerm.app_service.scm_ip_restriction.action": null,
+  "azurerm.app_service.scm_ip_restriction.headers": null,
+  "azurerm.app_service.scm_ip_restriction.headers.x_forwarded_host": null,
+  "azurerm.app_service.scm_ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.app_service.scm_ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.app_service.scm_ip_restriction.headers.x_fd_health_probe": null,
 
   "azurerm.function_app.ip_restriction.ip_address": null,
   "azurerm.function_app.ip_restriction.service_tag": null,
@@ -355,6 +439,11 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.function_app.ip_restriction.name": null,
   "azurerm.function_app.ip_restriction.priority": null,
   "azurerm.function_app.ip_restriction.action": null,
+  "azurerm.function_app.ip_restriction.headers": null,
+  "azurerm.function_app.ip_restriction.headers.x_forwarded_host": null,
+  "azurerm.function_app.ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.function_app.ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.function_app.ip_restriction.headers.x_fd_health_probe": null,
   "azurerm.function_app.scm_ip_restriction.ip_address": null,
   "azurerm.function_app.scm_ip_restriction.service_tag": null,
   "azurerm.function_app.scm_ip_restriction.subnet_id": null,
@@ -362,7 +451,43 @@ export const CUSTOM_DEFAULTS: { [fullName: string]: any } = {
   "azurerm.function_app.scm_ip_restriction.name": null,
   "azurerm.function_app.scm_ip_restriction.priority": null,
   "azurerm.function_app.scm_ip_restriction.action": null,
+  "azurerm.function_app.scm_ip_restriction.headers": null,
+  "azurerm.function_app.scm_ip_restriction.headers.x_forwarded_host": null,
+  "azurerm.function_app.scm_ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.function_app.scm_ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.function_app.scm_ip_restriction.headers.x_fd_health_probe": null,
+
+  "azurerm.logic_app_standard.ip_restriction.ip_address": null,
+  "azurerm.logic_app_standard.ip_restriction.service_tag": null,
+  "azurerm.logic_app_standard.ip_restriction.subnet_id": null,
+  "azurerm.logic_app_standard.ip_restriction.virtual_network_subnet_id": null,
+  "azurerm.logic_app_standard.ip_restriction.name": null,
+  "azurerm.logic_app_standard.ip_restriction.priority": null,
+  "azurerm.logic_app_standard.ip_restriction.action": null,
+  "azurerm.logic_app_standard.ip_restriction.headers": null,
+  "azurerm.logic_app_standard.ip_restriction.headers.x_forwarded_host": null,
+  "azurerm.logic_app_standard.ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.logic_app_standard.ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.logic_app_standard.ip_restriction.headers.x_fd_health_probe": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.ip_address": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.service_tag": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.subnet_id": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.virtual_network_subnet_id":
+    null,
+  "azurerm.logic_app_standard.scm_ip_restriction.name": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.priority": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.action": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.headers": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.headers.x_forwarded_host":
+    null,
+  "azurerm.logic_app_standard.scm_ip_restriction.headers.x_forwarded_for": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.headers.x_azure_fdid": null,
+  "azurerm.logic_app_standard.scm_ip_restriction.headers.x_fd_health_probe":
+    null,
 
   "azurerm.api_management.policy.xml_content": null,
   "azurerm.api_management.policy.xml_link": null,
+
+  "azurerm.container_group.exposed_port.port": null,
+  "azurerm.container_group.exposed_port.protocol": null,
 };
