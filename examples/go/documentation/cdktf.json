@@ -6,10 +6,12 @@
         "hashicorp/aws@~> 3.70.0",
         "hashicorp/kubernetes@~> 2.0",
         "hashicorp/random@~> 3.4",
-        "dnsimple/dnsimple@~> 0.15"
+        "dnsimple/dnsimple@~> 0.15",
+        "integrations/github@~> 5.16"
     ],
     "terraformModules": [
-        "terraform-aws-modules/vpc/aws@~> 3.0",    
+        "terraform-aws-modules/vpc/aws@~> 3.0",
+        "terraform-aws-modules/eks/aws@~> 19.0",
         {
             "name": "my-local-module",
             "source": "./tf-modules/my-local-module"

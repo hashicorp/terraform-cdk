@@ -24,6 +24,7 @@ The following example uses an iterator to create a unique name for each new S3 b
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-define-iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-define-iterators -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-define-iterators -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators -->
 
 <CodeTabs>
 
@@ -98,6 +99,19 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
             });
 ```
 
+```go
+	list := cdktf.NewTerraformVariable(stack, jsii.String("list"), &cdktf.TerraformVariableConfig{
+		Type: cdktf.VariableType_LIST_STRING(),
+	})
+
+	simpleIterator := cdktf.TerraformIterator_FromList(list.ListValue())
+
+	s3bucket.NewS3Bucket(stack, jsii.String("iterator-bucket"), &s3bucket.S3BucketConfig{
+		ForEach: simpleIterator,
+		Bucket:  cdktf.Token_AsString(simpleIterator.Value(), nil),
+	})
+```
+
 </CodeTabs>
 
 You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
@@ -110,6 +124,7 @@ The iterator also exposes methods to access nested attributes. The following exa
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-iterators-complex-types -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-iterators-complex-types -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-complex-types -->
 
 <CodeTabs>
 
@@ -232,6 +247,27 @@ new S3Bucket(this, "listBucket", new S3BucketConfig
 });
 ```
 
+```go
+	complexList := cdktf.NewTerraformLocal(stack, jsii.String("complex-list-local"), []map[string]interface{}{
+		{
+			"name": "website-static-files",
+			"tags": map[string]string{"app": "website"},
+		},
+		{
+			"name": "images",
+			"tags": map[string]string{"app": "image-converter"},
+		},
+	})
+
+	complexIterator := cdktf.TerraformIterator_FromList(complexList.Expression())
+
+	s3bucket.NewS3Bucket(stack, jsii.String("complex-iterator-bucket"), &s3bucket.S3BucketConfig{
+		ForEach: complexIterator,
+		Bucket:  complexIterator.GetString(jsii.String("name")),
+		Tags:    complexIterator.GetStringMap(jsii.String("tags")),
+	})
+```
+
 </CodeTabs>
 
 ## Using Iterators for List Attributes
@@ -244,6 +280,7 @@ The following examples use an iterator to create a team containing each member o
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-list-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-list-attributes -->
 
 <CodeTabs>
 
@@ -356,29 +393,29 @@ TeamMembers.Builder.create(this, "members")
 ```
 
 ```go
-orgName := "my-org"
+	orgName := "my-org"
 
-provider.NewGithubProvider(stack, jsii.String("github"), &provider.GithubProviderConfig{
-  Organization: &orgName,
-})
+	github.NewGithubProvider(stack, jsii.String("github"), &github.GithubProviderConfig{
+		Organization: &orgName,
+	})
 
-team := team.NewTeam(stack, jsii.String("core-team"), &team.TeamConfig{
-  Name: jsii.String("core"),
-})
+	team := team.NewTeam(stack, jsii.String("core-team"), &team.TeamConfig{
+		Name: jsii.String("core"),
+	})
 
-orgMembers := datagithuborganization.NewDataGithubOrganization(stack, jsii.String("org"), &datagithuborganization.DataGithubOrganizationConfig{
-  Name: &orgName,
-})
+	orgMembers := datagithuborganization.NewDataGithubOrganization(stack, jsii.String("org"), &datagithuborganization.DataGithubOrganizationConfig{
+		Name: &orgName,
+	})
 
-orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
+	orgMemberIterator := cdktf.TerraformIterator_FromList(orgMembers.Members())
 
-teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembersConfig{
-  TeamId: team.Id(),
-  Members: orgMemberIterator.Dynamic(&map[string]interface{}{
-    "username": orgMemberIterator.Value(),
-    "role":     jsii.String("maintainer"),
-  }),
-})
+	teammembers.NewTeamMembers(stack, jsii.String("members"), &teammembers.TeamMembersConfig{
+		TeamId: team.Id(),
+		Members: orgMemberIterator.Dynamic(&map[string]interface{}{
+			"username": orgMemberIterator.Value(),
+			"role":     jsii.String("maintainer"),
+		}),
+	})
 ```
 
 </CodeTabs>

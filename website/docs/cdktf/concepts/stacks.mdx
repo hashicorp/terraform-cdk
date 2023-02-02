@@ -25,6 +25,7 @@ The following example generates a single Terraform configuration in the configur
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#single-stack -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#single-stack -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#single-stack -->
 
 <CodeTabs>
 
@@ -138,6 +139,42 @@ app.synth
     }
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+func NewSingleStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("us-east-1"),
+	})
+
+	instance.NewInstance(stack, jsii.String("Hello"), &instance.InstanceConfig{
+		Ami:          jsii.String("ami-2757f631"),
+		InstanceType: jsii.String("t2.micro"),
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	stack := NewSingleStack(app, "a-single-stack")
+
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 ## Multiple Stacks
@@ -152,6 +189,7 @@ The following example synthesizes multiple Terraform configurations in the confi
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#multiple-stacks -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#multiple-stacks -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#multiple-stacks -->
 
 <CodeTabs>
 
@@ -364,6 +402,67 @@ app.synth
     }
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+type MultiStackConfig struct {
+	Environment string
+	Region      *string
+}
+
+func NewMultiStack(scope constructs.Construct, name string, config MultiStackConfig) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	region := config.Region
+	if region == nil {
+		region = jsii.String("us-east-1")
+	}
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: region,
+	})
+
+	instance.NewInstance(stack, jsii.String("Hello"), &instance.InstanceConfig{
+		Ami:          jsii.String("ami-2757f631"),
+		InstanceType: jsii.String("t2.micro"),
+		Tags: &map[string]*string{
+			"environment": &config.Environment,
+		},
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewMultiStack(app, "multiple-stacks-dev", MultiStackConfig{
+		Environment: "dev",
+	})
+	NewMultiStack(app, "multiple-stacks-staging", MultiStackConfig{
+		Environment: "staging",
+	})
+	NewMultiStack(app, "multiple-stacks-production-us", MultiStackConfig{
+		Environment: "production",
+		Region:      jsii.String("us-east-1"),
+	})
+	NewMultiStack(app, "multiple-stacks-production-eu", MultiStackConfig{
+		Environment: "production",
+		Region:      jsii.String("eu-central-1"),
+	})
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 Running `cdktf synth` produces the following synthesized stacks.
@@ -390,6 +489,7 @@ When you reference resources from one stack in another stack, you can do so by e
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#cross-stack-reference -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#cross-stack-reference -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#cross-stack-reference -->
 
 <CodeTabs>
 
@@ -662,6 +762,76 @@ app.synth()
     }
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/myconstructs"
+)
+
+type VPCStack struct {
+	Region *string
+	VPC    *myconstructs.VPC
+}
+
+func NewVPCStack(scope constructs.Construct, name string, region *string) *VPCStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	if region == nil {
+		region = jsii.String("us-east-1")
+	}
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: region,
+	})
+
+	vpc := myconstructs.NewVPC(stack, *jsii.String("vpc"))
+
+	return &VPCStack{
+		VPC:    vpc,
+		Region: region,
+	}
+}
+
+type BackendStackConfig struct {
+	Region      string
+	VPCId       string
+	DockerImage string
+}
+
+func NewBackendStack(scope constructs.Construct, name string, config BackendStackConfig) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: &config.Region,
+	})
+
+	myconstructs.NewDockerBackend(stack, *jsii.String("docker-backend"), myconstructs.DockerBackendConfig{
+		VPCId:       config.VPCId,
+		DockerImage: config.DockerImage,
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	origin := NewVPCStack(app, "origin-stack", nil)
+	NewBackendStack(app, "target-stack", BackendStackConfig{
+		Region:      *origin.Region,
+		VPCId:       origin.VPC.Id,
+		DockerImage: "org/my-image:latest",
+	})
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 From a usage perspective it looks like we are accessing the `id` value of `vpc` from the `origin-stack` instance of `VpcStack` and then referencing it in the `target-stack` instance of `BackendStack`.
@@ -686,6 +856,7 @@ If you want to keep the result of the function attached to one stack and save it
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#stack-dependencies -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#stack-dependencies -->
 
 <CodeTabs>
 
@@ -761,6 +932,81 @@ self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resource
 this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
+	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
+)
+
+type SourceStack struct {
+	Instance instance.Instance
+}
+
+func NewSourceStack(scope constructs.Construct, name string) SourceStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
+		Region: jsii.String("us-east-1"),
+	})
+
+	instance := instance.NewInstance(stack, jsii.String("Hello"), &instance.InstanceConfig{
+		Ami:          jsii.String("ami-abcde123"),
+		InstanceType: jsii.String("t2.micro"),
+	})
+
+	return SourceStack{
+		Instance: instance,
+	}
+}
+
+type DependencyStack struct {
+	AllResources *[]*string
+}
+
+func NewDependencyStack(scope constructs.Construct, name string, dependencies []*SourceStack) DependencyStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	ids := make([]*string, 0)
+	for _, dep := range dependencies {
+		ids = append(ids, dep.Instance.Id())
+	}
+
+	allResources := cdktf.NewTerraformLocal(stack, jsii.String("merged_items"), ids)
+
+	return DependencyStack{
+		AllResources: allResources.AsList(),
+	}
+}
+
+func NewNestedDependencyStack(scope constructs.Construct, name string, allResources []*string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewTerraformOutput(stack, jsii.String("all_resources"), &cdktf.TerraformOutputConfig{
+		Value: allResources,
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	stackA := NewSourceStack(app, "stack-a")
+	stackB := NewSourceStack(app, "stack-b")
+
+	stackC := NewDependencyStack(app, "stack-c", []*SourceStack{&stackA, &stackB})
+
+	NewNestedDependencyStack(app, "stack-d", *stackC.AllResources)
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 The CLI will error if you deploy your application without first deploying the dependencies. It will also error if you try to destroy infrastructure without destroying the dependent stacks first. To remove these safeguards, add the `--ignore-missing-stack-dependencies` to the `deploy` and `destroy` commands.
@@ -781,6 +1027,7 @@ The following example synthesizes a Terraform configuration with the `remote` ba
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#stack-escape-hatches -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#stack-escape-hatches -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#stack-escape-hatches -->
 
 <CodeTabs>
 
@@ -827,6 +1074,18 @@ stack.AddOverride("terraform.backend", new Dictionary<string, object> {
         }}
     }}
 });
+```
+
+```go
+stack.AddOverride(jsii.String("terraform.backend"), map[string]interface{}{
+	"local": cdktf.Token_NullValue(), // delete the default local backend
+	"remote": map[string]interface{}{
+		"organization": "test",
+		"workspaces": map[string]string{
+			"name": "test",
+		},
+	},
+})
 ```
 
 </CodeTabs>
