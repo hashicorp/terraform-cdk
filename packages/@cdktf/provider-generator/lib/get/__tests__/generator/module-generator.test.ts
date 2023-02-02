@@ -73,6 +73,32 @@ test("generate multiple aws modules", async () => {
   expect(rdsOutput).toMatchSnapshot();
 });
 
+test("generate nested module", async () => {
+  jest.setTimeout(120000);
+
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "module-generator-nested.test")
+  );
+  const constraint = new TerraformModuleConstraint(
+    "terraform-aws-modules/vpc/aws//modules/vpc-endpoints@3.19.0"
+  );
+
+  const maker = new ConstructsMaker({
+    codeMakerOutput: workdir,
+    targetLanguage: Language.TYPESCRIPT,
+  });
+  await maker.generate([constraint]);
+
+  const output = fs.readFileSync(
+    path.join(
+      workdir,
+      "modules/terraform-aws-modules/aws/vpc/modules/vpc-endpoints.ts"
+    ),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});
+
 expectModuleToMatchSnapshot("getX variables", "generator", [
   "module-get-x.test.fixture.tf",
 ]);
