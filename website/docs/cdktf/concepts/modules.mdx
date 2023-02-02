@@ -362,6 +362,8 @@ import (
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
+	// This module can come from a registry or through a local / remote reference
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/my_local_module"
 )
 
 func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformStack {
@@ -523,8 +525,6 @@ import (
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
 	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
-	// This module can come from a registry or through a local / remote reference
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/my_local_module"
 )
 
 func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformStack {

@@ -11,10 +11,10 @@ import (
 	// DOCS_BLOCK_END:modules-create
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/terraform-aws-modules/aws/vpc"
 	// DOCS_BLOCK_END:modules-install
-	// DOCS_BLOCK_START:modules-create
+	// DOCS_BLOCK_START:modules-local
 	// This module can come from a registry or through a local / remote reference
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/my_local_module"
-	// DOCS_BLOCK_START:modules-install,modules-local
+	// DOCS_BLOCK_START:modules-install,modules-create
 )
 
 func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformStack {
