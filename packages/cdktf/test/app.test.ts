@@ -127,6 +127,26 @@ test("app synth supports skipping app level validations", () => {
   expect(mockValidation.validate).toHaveBeenCalledTimes(0);
 });
 
+test("app synth doesn't throw when stacks have the different backend configs", () => {
+  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
+  const MyStack = class extends TerraformStack {
+    constructor(app: IConstruct, id: string) {
+      super(app, id);
+      new CloudBackend(this, {
+        organization: "hashicorp",
+        workspaces: new NamedCloudWorkspace(`my-stack-${id}`),
+      });
+    }
+  };
+
+  new MyStack(app, "MyStackA");
+  new MyStack(app, "MyStackB");
+  new MyStack(app, "MyStackC");
+
+  expect(() => app.synth()).not.toThrow();
+});
+
 test("app synth throws error when two stacks have the same backend config", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
@@ -170,7 +190,7 @@ test("app synth throws error when three stacks have the same backend config", ()
   `);
 });
 
-test.only("app synth throws error when multiple sets of stacks have the same backend config", () => {
+test("app synth throws error when multiple sets of stacks have the same backend config", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
 
