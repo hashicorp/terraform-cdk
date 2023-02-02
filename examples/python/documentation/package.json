@@ -6,6 +6,7 @@
   "scripts": {
     "reinstall": "rm Pipfile.lock && PIPENV_IGNORE_VIRTUALENVS=1 pipenv install ./../../../dist/python/*.whl",
     "build": "cdktf get --parallelism 1",
-    "synth": "cdktf synth"
+    "synth": "cdktf synth",
+    "test": "pipenv run pytest -q test_assertions.py"
   }
 }

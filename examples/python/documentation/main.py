@@ -13,6 +13,7 @@ from stacks import MySingleStack, MyMultipleStacks, MyMultipleStacksConfig, VPCS
 from tokens import TokenStack
 from variables_outputs import VariablesOutputsDefineLocalStack, OutputValuesStack, OutputValuesProps, DefineOutputStack, Producer, Consumer
 from aspects import MainAspects
+from unit_tests import MyApplicationsAbstraction
 
 app = App()
 
