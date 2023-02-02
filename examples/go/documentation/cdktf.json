@@ -8,5 +8,11 @@
         "hashicorp/random@~> 3.4",
         "dnsimple/dnsimple@~> 0.15"
     ],
-    "terraformModules": []
+    "terraformModules": [
+        "terraform-aws-modules/vpc/aws@~> 3.0",    
+        {
+            "name": "my-local-module",
+            "source": "./tf-modules/my-local-module"
+        }
+    ]
 }

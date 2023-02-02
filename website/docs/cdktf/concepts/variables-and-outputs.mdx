@@ -37,6 +37,7 @@ The following example uses `TerraformVariable` to provide inputs to resources.
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-input-variables -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-input-variables -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-input-variables -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#variables -->
 
 <CodeTabs>
 
@@ -94,9 +95,25 @@ Instance(self, "hello",
             });
 ```
 
+```go
+imageId := cdktf.NewTerraformVariable(stack, jsii.String("imageId"), &cdktf.TerraformVariableConfig{
+	Type:        jsii.String("string"),
+	Default:     jsii.String("ami-abcde123"),
+	Description: jsii.String("What AMI to use to create an instance"),
+})
+instance.NewInstance(stack, jsii.String("hello"), &instance.InstanceConfig{
+	Ami:          imageId.StringValue(),
+	InstanceType: jsii.String("t2.micro"),
+})
+```
+
 </CodeTabs>
 
 ### Define Complex Input Variables
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#variables-complex -->
+
+<CodeTabs>
 
 ```typescript
 const nodeGroupConfig = new TerraformVariable(this, "node-group-config", {
@@ -115,6 +132,35 @@ new TerraformResource(this, "resource", {
   nodeGroupConfig: nodeGroupConfig.value,
 });
 ```
+
+```go
+	nodeGroupConfig := cdktf.NewTerraformVariable(stack, jsii.String("node-group-config"), &cdktf.TerraformVariableConfig{
+		Type: cdktf.VariableType_Object(&map[string]*string{
+			"node_group_name": cdktf.VariableType_STRING(),
+			"instance_types":  cdktf.VariableType_List(cdktf.VariableType_STRING()),
+			"min_size":        cdktf.VariableType_NUMBER(),
+			"desired_size":    cdktf.VariableType_NUMBER(),
+			"max_size":        cdktf.VariableType_NUMBER(),
+		}),
+		Nullable:    jsii.Bool(false),
+		Description: jsii.String("Node group configuration"),
+	})
+
+	eksnodegroup.NewEksNodeGroup(stack, jsii.String("node-group"), &eksnodegroup.EksNodeGroupConfig{
+		ClusterName:   jsii.String("my-cluster"),
+		NodeRoleArn:   jsii.String("arn:::::dummy"),
+		SubnetIds:     jsii.Strings("id-1234"),
+		NodeGroupName: jsii.String(fmt.Sprintf("${%s.node_group_name}", *nodeGroupConfig.Fqn())),
+		InstanceTypes: cdktf.Token_AsList(fmt.Sprintf("${%s.instance_types}", *nodeGroupConfig.Fqn()), &cdktf.EncodingOptions{}),
+		ScalingConfig: &eksnodegroup.EksNodeGroupScalingConfig{
+			DesiredSize: cdktf.Token_AsNumber(fmt.Sprintf("${%s.desired_size}", *nodeGroupConfig.Fqn())),
+			MinSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.min_size}", *nodeGroupConfig.Fqn())),
+			MaxSize:     cdktf.Token_AsNumber(fmt.Sprintf("${%s.max_size}", *nodeGroupConfig.Fqn())),
+		},
+	})
+```
+
+</CodeTabs>
 
 ### Passing Input Variables to CDKTF
 
@@ -143,6 +189,7 @@ The following example uses `TerraformLocal` to create a local value.
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-local -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-local -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-define-local -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#locals -->
 
 <CodeTabs>
 
@@ -195,6 +242,18 @@ new Instance(this, "example", new InstanceConfig
 });
 ```
 
+```go
+commonTags := cdktf.NewTerraformLocal(stack, jsii.String("common_tags"), map[string]string{
+	"Service": "service_name",
+	"Owner":   "owner",
+})
+instance.NewInstance(stack, jsii.String("example"), &instance.InstanceConfig{
+	Ami:          jsii.String("ami-abcde123"),
+	InstanceType: jsii.String("t2.micro"),
+	Tags:         commonTags.AsStringMap(),
+})
+```
+
 </CodeTabs>
 
 When you run `cdktf synth` the `TerraformLocal` synthesizes to the following JSON.
@@ -232,6 +291,7 @@ The following example uses a `TerraformOutput` to create an output.
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-output-values -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#outputs -->
 
 <CodeTabs>
 
@@ -363,6 +423,40 @@ namespace Examples
 }
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+)
+
+type OutputsStackConfig struct {
+	MyDomain string
+}
+
+func NewOutputsStack(scope constructs.Construct, name string, config OutputsStackConfig) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewTerraformOutput(stack, jsii.String("my-domain"), &cdktf.TerraformOutputConfig{
+		Value: &config.MyDomain,
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewOutputsStack(app, "outputs", OutputsStackConfig{
+		MyDomain: "example.com",
+	})
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 ### Define Output Values
@@ -377,6 +471,7 @@ The following Typescript example uses `TerraformOutput` to create an output for 
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-output-values -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-define-output-values -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#outputs-usage -->
 
 <CodeTabs>
 
@@ -490,6 +585,39 @@ namespace Examples
 }
 ```
 
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/random/pet"
+	random "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/random/provider"
+)
+
+func NewOutputsUsageStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	random.NewRandomProvider(stack, jsii.String("random"), &random.RandomProviderConfig{})
+
+	pet := pet.NewPet(stack, jsii.String("pet"), &pet.PetConfig{})
+	cdktf.NewTerraformOutput(stack, jsii.String("random-pet"), &cdktf.TerraformOutputConfig{
+		Value: pet.Id(),
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewOutputsUsageStack(app, "outputs-usage")
+
+	app.Synth()
+}
+
+```
+
 </CodeTabs>
 
 When you run `cdktf synth`, CDKTF synthesizes the code to the following JSON configuration.
@@ -522,6 +650,7 @@ The following example uses outputs to share data between stacks, each of which h
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#var-out-define-reference-remote-state -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#var-out-define-reference-remote-state -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#var-out-define-reference-remote-state -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#remote-state -->
 
 <CodeTabs>
 
@@ -761,6 +890,65 @@ namespace Examples
     }
 
 }
+```
+
+```go
+
+import (
+	"github.com/aws/constructs-go/constructs/v10"
+	"github.com/aws/jsii-runtime-go"
+	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/random/pet"
+	random "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/random/provider"
+)
+
+func NewProducerStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
+		Organization: jsii.String("hashicorp"),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer")),
+	})
+
+	random.NewRandomProvider(stack, jsii.String("random"), &random.RandomProviderConfig{})
+
+	pet := pet.NewPet(stack, jsii.String("pet"), &pet.PetConfig{})
+	cdktf.NewTerraformOutput(stack, jsii.String("random-pet"), &cdktf.TerraformOutputConfig{
+		Value: pet.Id(),
+	})
+
+	return stack
+}
+
+func NewConsumerStack(scope constructs.Construct, name string) cdktf.TerraformStack {
+	stack := cdktf.NewTerraformStack(scope, &name)
+
+	cdktf.NewCloudBackend(stack, &cdktf.CloudBackendConfig{
+		Organization: jsii.String("hashicorp"),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("consumer")),
+	})
+
+	remoteState := cdktf.NewDataTerraformRemoteState(stack, jsii.String("remote-pet"), &cdktf.DataTerraformRemoteStateRemoteConfig{
+		Organization: jsii.String("hashicorp"),
+		Workspaces:   cdktf.NewNamedCloudWorkspace(jsii.String("producer")),
+	})
+
+	cdktf.NewTerraformOutput(stack, jsii.String("random-remote-pet"), &cdktf.TerraformOutputConfig{
+		Value: remoteState.GetString(jsii.String("random-pet")),
+	})
+
+	return stack
+}
+
+func main() {
+	app := cdktf.NewApp(nil)
+
+	NewProducerStack(app, "cdktf-producer")
+	NewConsumerStack(app, "cdktf-consumer")
+
+	app.Synth()
+}
+
 ```
 
 </CodeTabs>

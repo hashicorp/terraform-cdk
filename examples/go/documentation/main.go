@@ -15,6 +15,11 @@ func main() {
 	NewOperatorsAndFunctionsRawStack(app, "operators-functions-raw")
 	NewHclInteropStack(app, "hcl-interop")
 	NewProvidersStack(app, "providers")
+	NewModulesStack(app, "modules")
+	NewCloudBackendStack(app, "backend-cloud")
+	NewResourcesStack(app, "resources")
+	NewResourcesReferencesStack(app, "resources-references")
+	NewVariablesStack(app, "variables")
 
 	app.Synth()
 
@@ -22,4 +27,8 @@ func main() {
 	SynthAssets()
 	SynthConstructs()
 	SynthConstructsScope()
+	SynthLocalBackend()
+	SynthOutputs()
+	SynthOutputsUsage()
+	SynthRemoteState()
 }
