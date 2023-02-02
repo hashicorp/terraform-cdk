@@ -164,7 +164,7 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 	stack := cdktf.NewTerraformStack(scope, &name)
 
 	provider := aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
-		Region: jsii.String(("us-west-2")),
+		Region: jsii.String("us-west-2"),
 	})
 
 	vpc.NewVpc(stack, jsii.String("MyVpc"), &vpc.VpcConfig{
@@ -531,7 +531,7 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 	stack := cdktf.NewTerraformStack(scope, &name)
 
 	provider := aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
-		Region: jsii.String(("us-west-2")),
+		Region: jsii.String("us-west-2"),
 	})
 
 	// create a list with the AWS provider construct to pass to the module

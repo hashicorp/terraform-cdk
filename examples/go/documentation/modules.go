@@ -22,7 +22,7 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 	// DOCS_BLOCK_END:modules-local
 	provider := aws.NewAwsProvider(stack, jsii.String("aws"), &aws.AwsProviderConfig{
-		Region: jsii.String(("us-west-2")),
+		Region: jsii.String("us-west-2"),
 	})
 
 	// DOCS_BLOCK_END:modules-create
