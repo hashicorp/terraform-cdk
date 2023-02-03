@@ -280,6 +280,7 @@ The following examples use an iterator to create a team containing each member o
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-list-attributes -->
 
@@ -338,29 +339,33 @@ new TeamMembers(this, "members", {
 ```
 
 ```java
-String orgName = "my-org";
+        String orgName = "my-org";
+        new GithubProvider(this, "github", GithubProviderConfig.builder()
+                .organization(orgName)
+                .build()
+        );
+        Team team = new Team(this, "core-team", TeamConfig.builder()
+                .name("core")
+                .build()
+        );
 
-GithubProvider.Builder.create(this, "github")
-        .organization(orgName)
-        .build();
+        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org", DataGithubOrganizationConfig.builder()
+                .name(orgName)
+                .build()
+        );
 
-Team team = Team.Builder.create(this, "core-team")
-        .name("core")
-        .build();
+        ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
 
-DataGithubOrganization orgMembers = DataGithubOrganization.Builder.create(this, "org")
-        .name(orgName)
-        .build();
+        Map<String, Object> content = new HashMap<String, Object>() {{
+            put("username", Token.asString(orgMemberIterator.getValue()));
+            put("role", "maintainer");
+        }};
 
-ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
-
-HashMap<String, Object> content = new HashMap<String, Object>();
-content.put("username", Token.asString(orgMemberIterator.getValue()));
-content.put("role", "maintainer");
-TeamMembers.Builder.create(this, "members")
-        .teamId(team.getId())
-        .members(orgMemberIterator.dynamic(content))
-        .build();
+        new TeamMembers(this, "members", TeamMembersConfig.builder()
+                .teamId(team.getId())
+                .members(orgMemberIterator.dynamic(content))
+                .build()
+        );
 ```
 
 ```csharp
