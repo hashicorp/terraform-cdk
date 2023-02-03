@@ -30,9 +30,21 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 	})
 	// DOCS_BLOCK_END:providers-import-providers
 
+	dnsimpleToken := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleToken", &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple token"),
+		Sensitive: true
+	})
+
+	dnsimpleAccount := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleAccount", &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple account"),
+		Sensitive: true
+	})
+
 	dnsimple.NewDnsimpleProvider(stack, jsii.String("dnsimple"), &dnsimple.DnsimpleProviderConfig{
-		Token:   jsii.String(os.Getenv("DNSIMPLE_TOKEN")),
-		Account: jsii.String(os.Getenv("DNSIMPLE_ACCOUNT")),
+		Token:   jsii.String(dnsimpleToken.StringValue()),
+		Account: jsii.String(dnsimpleAccount.StringValue()),
 	})
 
 	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{
