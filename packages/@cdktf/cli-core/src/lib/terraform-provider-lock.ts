@@ -23,13 +23,22 @@ export class TerraformProviderLock {
     this._providerLockData = null;
   }
 
+  private get lockFilePath() {
+    return path.join(this.stackWorkingDirectory, TerraformLockFileName);
+  }
+
+  public async hasProviderLockFile() {
+    try {
+      await fs.stat(this.lockFilePath);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
   private async readProviderLockFile() {
     try {
-      const lockFilePath = path.join(
-        this.stackWorkingDirectory,
-        TerraformLockFileName
-      );
-      const lockFile = (await fs.readFile(lockFilePath)).toString();
+      const lockFile = (await fs.readFile(this.lockFilePath)).toString();
 
       return lockFile;
     } catch (e) {
