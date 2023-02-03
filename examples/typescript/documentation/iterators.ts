@@ -1,5 +1,9 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import { GithubProvider } from "@cdktf/provider-github/lib/provider";
+import { Team } from "@cdktf/provider-github/lib/team";
+import { DataGithubOrganization } from "@cdktf/provider-github/lib/data-github-organization";
+import { TeamMembers } from "@cdktf/provider-github/lib/team-members";
 // DOCS_BLOCK_START:iterators,iterators-complex-types
 import { TerraformIterator, TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
@@ -15,6 +19,32 @@ export class IteratorsStack extends TerraformStack {
     });
 
     // DOCS_BLOCK_END:iterators,iterators-complex-types
+
+    // DOCS_BLOCK_START:iterators-list-attributes
+    const orgName = "my-org";
+
+    new GithubProvider(this, "github", {
+      organization: orgName,
+    });
+
+    const team = new Team(this, "core-team", {
+      name: "core",
+    });
+
+    const orgMembers = new DataGithubOrganization(this, "org", {
+      name: orgName,
+    });
+
+    const orgMemberIterator = TerraformIterator.fromList(orgMembers.members);
+
+    new TeamMembers(this, "members", {
+      teamId: team.id,
+      members: orgMemberIterator.dynamic({
+        username: orgMemberIterator.value,
+        role: "maintainer",
+      }),
+    });
+    // DOCS_BLOCK_END:iterators-list-attributes
 
     // DOCS_BLOCK_START:iterators
     const list = new TerraformVariable(this, "list", {

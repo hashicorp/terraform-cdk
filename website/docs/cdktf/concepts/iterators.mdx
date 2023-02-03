@@ -278,13 +278,14 @@ Use iterators for list attributes if the length of the list is not known before 
 
 The following examples use an iterator to create a team containing each member of an organization.
 
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-list-attributes -->
 
 <CodeTabs>
 
-```typescript
+```ts
 const orgName = "my-org";
 
 new GithubProvider(this, "github", {
