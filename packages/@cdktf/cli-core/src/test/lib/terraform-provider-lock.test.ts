@@ -142,9 +142,11 @@ describe("TerraformProviderLock", () => {
       "4.2"
     );
 
-    expect(await lock.hasProvider(requiredProviderConstraint)).toBeTruthy();
     expect(
-      await lock.hasProvider(requiredProviderConstraintPartner)
+      await lock.hasMatchingProvider(requiredProviderConstraint)
+    ).toBeTruthy();
+    expect(
+      await lock.hasMatchingProvider(requiredProviderConstraintPartner)
     ).toBeFalsy();
   });
 
@@ -159,7 +161,9 @@ describe("TerraformProviderLock", () => {
       "1.2"
     );
 
-    expect(await lock.hasProvider(requiredProviderConstraint)).toBeFalsy();
+    expect(
+      await lock.hasMatchingProvider(requiredProviderConstraint)
+    ).toBeFalsy();
   });
 
   it("handles gracefully when lock file doens't have any providers", async () => {
@@ -171,6 +175,8 @@ describe("TerraformProviderLock", () => {
       "1.2"
     );
 
-    expect(await lock.hasProvider(requiredProviderConstraint)).toBeFalsy();
+    expect(
+      await lock.hasMatchingProvider(requiredProviderConstraint)
+    ).toBeFalsy();
   });
 });

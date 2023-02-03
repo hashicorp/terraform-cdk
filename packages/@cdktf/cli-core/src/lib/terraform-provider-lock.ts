@@ -89,7 +89,7 @@ export class TerraformProviderLock {
     return this._providerLockData.providers;
   }
 
-  public async hasProvider(constraint: ProviderConstraint) {
+  public async hasMatchingProvider(constraint: ProviderConstraint) {
     const providerLockData = await this.providers();
     const lockedProvider = providerLockData[constraint.source];
     if (lockedProvider) {
