@@ -268,7 +268,7 @@ export class CdktfStack {
     const requiredProviders = this.requiredProviders();
 
     for (const provider of Object.values(requiredProviders)) {
-      const hasProvider = await lock.hasProvider(provider);
+      const hasProvider = await lock.hasMatchingProvider(provider);
       if (!hasProvider) {
         // If we don't have a provider or version doesn't match, we need to init
         return true;
