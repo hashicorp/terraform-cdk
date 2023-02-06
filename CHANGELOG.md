@@ -1,3 +1,41 @@
+## 0.15.3
+
+### chore
+
+- chore: Don't run `terraform init` when not required [\#2572](https://github.com/hashicorp/terraform-cdk/pull/2572)
+- chore: additionally lock providers for linux only [\#2593](https://github.com/hashicorp/terraform-cdk/pull/2593)
+- chore: refactor 'needs upgrade' [\#2570](https://github.com/hashicorp/terraform-cdk/pull/2570)
+- chore: Update remaining Typescript documentation snippets [\#2564](https://github.com/hashicorp/terraform-cdk/pull/2564)
+- chore: translate more csharp docs [\#2433](https://github.com/hashicorp/terraform-cdk/pull/2433)
+- chore: translate rest of the docs to C# [\#2558](https://github.com/hashicorp/terraform-cdk/pull/2558)
+- chore: run dotnet format [\#2559](https://github.com/hashicorp/terraform-cdk/pull/2559)
+- chore: Update contributing [\#2479](https://github.com/hashicorp/terraform-cdk/pull/2479)
+- chore: truly autoclose older GHA updater PRs [\#2546](https://github.com/hashicorp/terraform-cdk/pull/2546)
+
+### fix
+
+- fix: rename CloudBackendProps to CloudBackendConfig in templates [\#2553](https://github.com/hashicorp/terraform-cdk/pull/2553)
+- fix: switch back to offical image to fix issue with stale signature files [\#2588](https://github.com/hashicorp/terraform-cdk/pull/2588)
+- fix: use correctly named syntax in comments [\#2562](https://github.com/hashicorp/terraform-cdk/pull/2562)
+- fix(lib): Update special defaults [\#2523](https://github.com/hashicorp/terraform-cdk/pull/2523)
+- fix(docs): camel -> snake case in resource escape hatches [\#2571](https://github.com/hashicorp/terraform-cdk/pull/2571)
+- fix(docs): Go post mortem review feedback [\#2587](https://github.com/hashicorp/terraform-cdk/pull/2587)
+- fix(docs): fix typo in CSharp example [\#2580](https://github.com/hashicorp/terraform-cdk/pull/2580)
+- fix(docs): fix links to examples page [\#2574](https://github.com/hashicorp/terraform-cdk/pull/2574)
+- fix(docs): add missing java remote backend example [\#2563](https://github.com/hashicorp/terraform-cdk/pull/2563)
+- fix(docs): properties in create module example use snake case [\#2561](https://github.com/hashicorp/terraform-cdk/pull/2561)
+
+### feat
+
+- feat: add cache flag for prettier to speed up subsequent runs [\#2556](https://github.com/hashicorp/terraform-cdk/pull/2556)
+- feat: Add a wrap in stack optional param to cdktf convert [\#2539](https://github.com/hashicorp/terraform-cdk/pull/2539)
+- feat(docs): Convert some code snippets in docs to Golang [\#2439](https://github.com/hashicorp/terraform-cdk/pull/2439)
+- feat(docs): Translate Aspect example to Go [\#2445](https://github.com/hashicorp/terraform-cdk/pull/2445)
+- feat(docs): Translate more examples to Go [\#2554](https://github.com/hashicorp/terraform-cdk/pull/2554)
+- feat(docs): Translate more examples to Go [\#2560](https://github.com/hashicorp/terraform-cdk/pull/2560)
+- feat(docs): Translate more examples to Go [\#2569](https://github.com/hashicorp/terraform-cdk/pull/2569)
+- feat: also go through files not yet added to git [\#2567](https://github.com/hashicorp/terraform-cdk/pull/2567)
+
 ## 0.15.2
 
 ### feat
