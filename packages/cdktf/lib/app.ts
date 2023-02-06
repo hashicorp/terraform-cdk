@@ -128,6 +128,16 @@ export class App extends Construct {
     stacks.forEach((stack) => stack.prepareStack());
     stacks.forEach((stack) => stack.synthesizer.synthesize(session));
 
+    if (!this.skipValidation) {
+      const validations = this.node.validate();
+      if (validations.length) {
+        const errorList = validations.join("\n  ");
+        throw new Error(
+          `App level validation failed with the following errors:\n  ${errorList}`
+        );
+      }
+    }
+
     this.manifest.writeToFile();
   }
 

@@ -93,6 +93,38 @@ test("app synth throws error when provider is missing", () => {
   `);
 });
 
+test("app synth supports app level validations", () => {
+  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
+
+  const mockValidation = {
+    validate: jest.fn().mockReturnValue(["error1", "error2"]),
+  };
+  app.node.addValidation(mockValidation);
+
+  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
+    "App level validation failed with the following errors:
+      error1
+      error2"
+  `);
+  expect(mockValidation.validate).toHaveBeenCalledTimes(1);
+});
+
+test("app synth supports skipping app level validations", () => {
+  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
+  const app = Testing.stubVersion(
+    new App({ stackTraces: false, outdir, skipValidation: true })
+  );
+
+  const mockValidation = {
+    validate: jest.fn().mockReturnValue(["error1"]),
+  };
+  app.node.addValidation(mockValidation);
+
+  expect(() => app.synth()).not.toThrow();
+  expect(mockValidation.validate).toHaveBeenCalledTimes(0);
+});
+
 test("app synth executes Aspects", () => {
   const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
   const app = Testing.stubVersion(
