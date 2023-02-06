@@ -175,8 +175,6 @@ namespace Examples
 
 ```go
 import (
-	"os"
-
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -480,8 +478,6 @@ namespace Examples
 
 ```go
 import (
-	"os"
-
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -505,21 +501,21 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 		InstanceType: jsii.String("t2.micro"),
 	})
 
-	dnsimpleToken := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleToken", &cdktf.TerraformVariableConfig{
+	dnsimpleToken := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleToken"), &cdktf.TerraformVariableConfig{
 		Type:        jsii.String("string"),
 		Description: jsii.String("dnsimple token"),
-		Sensitive: true
+		Sensitive:   jsii.Bool(true),
 	})
 
-	dnsimpleAccount := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleAccount", &cdktf.TerraformVariableConfig{
+	dnsimpleAccount := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleAccount"), &cdktf.TerraformVariableConfig{
 		Type:        jsii.String("string"),
 		Description: jsii.String("dnsimple account"),
-		Sensitive: true
+		Sensitive:   jsii.Bool(true),
 	})
 
 	dnsimple.NewDnsimpleProvider(stack, jsii.String("dnsimple"), &dnsimple.DnsimpleProviderConfig{
-		Token:   jsii.String(dnsimpleToken.StringValue()),
-		Account: jsii.String(dnsimpleAccount.StringValue()),
+		Token:   dnsimpleToken.StringValue(),
+		Account: dnsimpleAccount.StringValue(),
 	})
 
 	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{
