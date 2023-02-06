@@ -1,6 +1,3 @@
-import * as os from "os";
-import * as path from "path";
-import * as fs from "fs";
 import {
   createMachine,
   send,
@@ -14,6 +11,7 @@ import * as pty from "@cdktf/node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
 import stripAnsi from "strip-ansi";
+import { spawnPty } from "./pty-process";
 
 interface PtySpawnConfig {
   file: Parameters<typeof pty.spawn>[0];
@@ -32,8 +30,8 @@ interface DeployContext {
 export type DeployEvent =
   | { type: "START"; pty: PtySpawnConfig }
   | { type: "STOP" }
-  | { type: "SEND_INPUT"; input: string }
-  | { type: "LINE_RECEIVED"; line: string } //TODO: rename to output received as not really a line in practice
+  | { type: "SEND_LINE"; input: string }
+  | { type: "OUTPUT_RECEIVED"; output: string }
   | { type: "APPROVED_EXTERNALLY" } // e.g. via TFC UI or API
   | { type: "REJECTED_EXTERNALLY" }
   | { type: "OVERRIDDEN_EXTERNALLY" }
@@ -97,9 +95,9 @@ export function extractVariableNameFromPrompt(line: string) {
 }
 
 export function handleLineReceived(send: (event: DeployEvent) => void) {
-  return (line: string) => {
-    let hideLine = false;
-    const noColorLine = stripAnsi(line);
+  return (output: string) => {
+    let hideOutput = false;
+    const noColorLine = stripAnsi(output);
 
     // possible events based on line
     if (noColorLine.includes("approved using the UI or API")) {
@@ -118,12 +116,12 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
       noColorLine.includes("var.") &&
       noColorLine.includes("Enter a value:")
     ) {
-      hideLine = true;
+      hideOutput = true;
 
-      const variableName = extractVariableNameFromPrompt(line);
+      const variableName = extractVariableNameFromPrompt(output);
       send({
-        type: "LINE_RECEIVED",
-        line: missingVariable(variableName),
+        type: "OUTPUT_RECEIVED",
+        output: missingVariable(variableName),
       });
       send({ type: "VARIABLE_MISSING", variableName });
     } else if (
@@ -131,18 +129,18 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         "Do you want to override the soft failed policy check?"
       )
     ) {
-      hideLine = true;
-      send({ type: "LINE_RECEIVED", line });
+      hideOutput = true;
+      send({ type: "OUTPUT_RECEIVED", output });
 
       send({ type: "REQUEST_SENTINEL_OVERRIDE" });
     } else if (noColorLine.includes("overridden using the UI or API")) {
       send({ type: "OVERRIDDEN_EXTERNALLY" });
     }
 
-    if (!hideLine) {
+    if (!hideOutput) {
       send({
-        type: "LINE_RECEIVED",
-        line,
+        type: "OUTPUT_RECEIVED",
+        output,
       });
     }
   };
@@ -198,17 +196,14 @@ export const deployMachine = createMachine<
               APPROVE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: withNewline("yes") },
+                  { type: "SEND_LINE", input: "yes" },
                   { to: "pty" }
                 ),
               },
               REJECT: {
                 target: "processing",
                 actions: [
-                  send(
-                    { type: "SEND_INPUT", input: withNewline("no") },
-                    { to: "pty" }
-                  ),
+                  send({ type: "SEND_LINE", input: "no" }, { to: "pty" }),
                   assign<DeployContext, DeployEvent & { type: "REJECT" }>({
                     cancelled: true,
                   }),
@@ -235,17 +230,14 @@ export const deployMachine = createMachine<
               OVERRIDE: {
                 target: "processing",
                 actions: send(
-                  { type: "SEND_INPUT", input: withNewline("override") },
+                  { type: "SEND_LINE", input: "override" },
                   { to: "pty" }
                 ),
               },
               REJECT_OVERRIDE: {
                 target: "processing",
                 actions: [
-                  send(
-                    { type: "SEND_INPUT", input: withNewline("no") },
-                    { to: "pty" }
-                  ),
+                  send({ type: "SEND_LINE", input: "no" }, { to: "pty" }),
                   assign<
                     DeployContext,
                     DeployEvent & { type: "REJECT_OVERRIDE" }
@@ -265,63 +257,45 @@ export const deployMachine = createMachine<
   {
     services: {
       runTerraformInPty: (context, event) =>
-        terraformPtyService(context, event, spawnPtyFromEvent),
+        terraformPtyService(context, event, spawnPty),
     },
   }
 );
 
-function spawnPtyFromEvent(event: DeployEvent): pty.IPty {
-  if (event.type !== "START") {
-    throw Errors.Internal(
-      `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
-    );
-  }
-
-  const { args, options } = event.pty;
-  const file =
-    os.platform() === "win32"
-      ? findExecutable(event.pty.file, options.cwd, options)
-      : event.pty.file;
-  logger.trace(
-    `Spawning pty with file=${file}, args=${
-      Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-    }, options=${JSON.stringify(options)}`
-  );
-  const p = pty.spawn(file, args, options);
-
-  return p;
-}
-
 export function terraformPtyService(
   _context: DeployContext,
   event: DeployEvent,
-  spawnFunction: (event: DeployEvent) => pty.IPty
+  spawn = spawnPty
 ): (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => void {
   return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
-    const p = spawnFunction(event);
+    if (event.type !== "START") {
+      throw Errors.Internal(
+        `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
+      );
+    }
 
+    // Communication from the pty to the caller
+    const receiver = handleLineReceived(send);
+    const { exitCode, actions } = spawn(event.pty, (data) => {
+      receiver(data);
+    });
+
+    // Communication from the caller to the pty
     onReceive((event: DeployEvent) => {
-      if (event.type === "SEND_INPUT") {
-        p.write(event.input);
+      if (event.type === "SEND_LINE") {
+        actions.writeLine(event.input);
       }
     });
 
-    p.onData(handleLineReceived(send));
-
-    p.onExit(({ exitCode }) => {
+    exitCode.then((exitCode) => {
       send({ type: "EXITED", exitCode });
     });
 
     return () => {
       logger.trace("Terraform CLI state machine: cleaning up pty");
-      p.write("\x03"); // CTRL + C, pty.kill() does not work on windows
-      // TODO: is there a way to delay this? maybe go into a "killing" state first?
+      actions.stop();
     };
   };
-}
-
-function withNewline(str: string): string {
-  return `${str}${os.EOL}`;
 }
 
 export function createAndStartDeployService(options: {
@@ -427,66 +401,4 @@ export function createAndStartDestroyService(options: {
   service.send({ type: "START", pty: config });
 
   return service;
-}
-
-// src: https://github.com/Microsoft/vscode/blob/c0c9ea27d6e8d660d8716d7acee82cf3c00fa3e5/src/vs/workbench/parts/tasks/electron-browser/terminalTaskSystem.ts#L691
-// TODO: properly annotate source of this function
-function findExecutable(
-  command: string,
-  cwd: string,
-  options: { env?: { [key: string]: string } }
-): string {
-  // If we have an absolute path then we take it.
-  if (path.isAbsolute(command)) {
-    return command;
-  }
-  const dir = path.dirname(command);
-  if (dir !== ".") {
-    // We have a directory and the directory is relative (see above). Make the path absolute
-    // to the current working directory.
-    return path.join(cwd, command);
-  }
-  let paths: string[] | undefined = undefined;
-  // The options can override the PATH. So consider that PATH if present.
-  if (options && options.env) {
-    // Path can be named in many different ways and for the execution it doesn't matter
-    for (const key of Object.keys(options.env)) {
-      if (key.toLowerCase() === "path") {
-        if (typeof options.env[key] === "string") {
-          paths = options.env[key].split(path.delimiter);
-        }
-        break;
-      }
-    }
-  }
-  if (paths === void 0 && typeof process.env.PATH === "string") {
-    paths = process.env.PATH.split(path.delimiter);
-  }
-  // No PATH environment. Make path absolute to the cwd.
-  if (paths === void 0 || paths.length === 0) {
-    return path.join(cwd, command);
-  }
-  // We have a simple file name. We get the path variable from the env
-  // and try to find the executable on the path.
-  for (const pathEntry of paths) {
-    // The path entry is absolute.
-    let fullPath: string;
-    if (path.isAbsolute(pathEntry)) {
-      fullPath = path.join(pathEntry, command);
-    } else {
-      fullPath = path.join(cwd, pathEntry, command);
-    }
-    if (fs.existsSync(fullPath)) {
-      return fullPath;
-    }
-    let withExtension = fullPath + ".com";
-    if (fs.existsSync(withExtension)) {
-      return withExtension;
-    }
-    withExtension = fullPath + ".exe";
-    if (fs.existsSync(withExtension)) {
-      return withExtension;
-    }
-  }
-  return path.join(cwd, command);
 }

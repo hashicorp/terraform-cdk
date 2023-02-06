@@ -291,8 +291,8 @@ export class TerraformCli implements Terraform {
       logger.trace(
         `Terraform CLI state machine event: ${JSON.stringify(event)}`
       );
-      if (isDeployEvent(event, "LINE_RECEIVED"))
-        this.onStdout(type)(event.line);
+      if (isDeployEvent(event, "OUTPUT_RECEIVED"))
+        this.onStdout(type)(event.output);
       else if (isDeployEvent(event, "APPROVED_EXTERNALLY"))
         callback({ type: "external approval reply", approved: true });
       else if (isDeployEvent(event, "REJECTED_EXTERNALLY"))

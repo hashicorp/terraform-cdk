@@ -1,7 +1,6 @@
 import { interpret } from "xstate";
-import { IPty } from "@cdktf/node-pty-prebuilt-multiarch";
+import { spawnPty } from "../../lib/models/pty-process";
 import {
-  DeployEvent,
   deployMachine,
   extractVariableNameFromPrompt,
   terraformPtyService,
@@ -84,30 +83,41 @@ describe("transitions", () => {
   });
 });
 
+function mockPty(ptyEvents: string[]): typeof spawnPty {
+  const actions = {
+    write: jest.fn(),
+    writeLine: jest.fn(),
+    stop: jest.fn(),
+  };
+  return (_config: any, onData: (data: string) => void) => {
+    ptyEvents.forEach((event, index) => {
+      setTimeout(() => {
+        onData(event);
+      }, 100 * (index + 1));
+    });
+
+    return {
+      actions,
+      progress: new Promise((resolve) => {
+        setTimeout(() => resolve(), ptyEvents.length * 200);
+      }),
+      exitCode: new Promise((resolve) => {
+        setTimeout(() => resolve(0), ptyEvents.length * 200);
+      }),
+    };
+  };
+}
+
 describe("pty events", () => {
   it("transitions when pty receives an approval question", (done) => {
-    function mockPty(_event: DeployEvent) {
-      const onDataListeners: any[] = [];
-      const onExitListeners: any[] = [];
-      const pty = {
-        onData: (listener: (e: string) => any) =>
-          onDataListeners.push(listener),
-        onExit: (listener: (e: string) => any) =>
-          onExitListeners.push(listener),
-      } as unknown as IPty;
-
-      setTimeout(() => {
-        onDataListeners.forEach((listener) =>
-          listener(`Do you want to perform these actions\nEnter a value:`)
-        );
-      }, 100);
-
-      return pty;
-    }
     const mockDeployMachine = deployMachine.withConfig({
       services: {
         runTerraformInPty: (context, event) =>
-          terraformPtyService(context, event, mockPty),
+          terraformPtyService(
+            context,
+            event,
+            mockPty([`Do you want to perform these actions\nEnter a value:`])
+          ),
       },
     });
 
@@ -132,31 +142,19 @@ describe("pty events", () => {
   });
 
   it("transitions when pty receives an override question", (done) => {
-    function mockPty(_event: DeployEvent) {
-      const onDataListeners: any[] = [];
-      const onExitListeners: any[] = [];
-      const pty = {
-        onData: (listener: (e: string) => any) =>
-          onDataListeners.push(listener),
-        onExit: (listener: (e: string) => any) =>
-          onExitListeners.push(listener),
-      } as unknown as IPty;
-
-      setTimeout(() => {
-        onDataListeners.forEach((listener) =>
-          listener(`Do you want to override the soft failed policy check?
-          Only 'override' will be accepted to override.
-          
-          Enter a value:`)
-        );
-      }, 100);
-
-      return pty;
-    }
     const mockDeployMachine = deployMachine.withConfig({
       services: {
         runTerraformInPty: (context, event) =>
-          terraformPtyService(context, event, mockPty),
+          terraformPtyService(
+            context,
+            event,
+            mockPty([
+              `Do you want to override the soft failed policy check?
+          Only 'override' will be accepted to override.
+          
+          Enter a value:`,
+            ])
+          ),
       },
     });
 
@@ -181,38 +179,20 @@ describe("pty events", () => {
   });
 
   it("transitions to rejected state when done externally", (done) => {
-    function mockPty(_event: DeployEvent) {
-      const onDataListeners: any[] = [];
-      const onExitListeners: any[] = [];
-      const pty = {
-        onData: (listener: (e: string) => any) =>
-          onDataListeners.push(listener),
-        onExit: (listener: (e: string) => any) =>
-          onExitListeners.push(listener),
-        write: jest.fn(),
-      } as unknown as IPty;
-
-      setTimeout(() => {
-        onDataListeners.forEach((listener) =>
-          listener(`Do you want to override the soft failed policy check?
-          Only 'override' will be accepted to override.
-          
-          Enter a value:`)
-        );
-      }, 100);
-
-      setTimeout(() => {
-        onDataListeners.forEach((listener) =>
-          listener(`discarded using the UI or API`)
-        );
-      }, 200);
-
-      return pty;
-    }
     const mockDeployMachine = deployMachine.withConfig({
       services: {
         runTerraformInPty: (context, event) =>
-          terraformPtyService(context, event, mockPty),
+          terraformPtyService(
+            context,
+            event,
+            mockPty([
+              `Do you want to override the soft failed policy check?
+          Only 'override' will be accepted to override.
+          
+          Enter a value:`,
+              `discarded using the UI or API`,
+            ])
+          ),
       },
     });
 
@@ -252,8 +232,8 @@ describe("handleLineReceived", () => {
     const send = jest.fn();
     handleLineReceived(send)("foo");
     expect(send).toHaveBeenCalledWith({
-      type: "LINE_RECEIVED",
-      line: "foo",
+      type: "OUTPUT_RECEIVED",
+      Line: "foo",
     });
   });
 
@@ -265,8 +245,8 @@ describe("handleLineReceived", () => {
     `;
     handleLineReceived(send)(input);
     expect(send).not.toHaveBeenCalledWith({
-      type: "LINE_RECEIVED",
-      line: input,
+      type: "OUTPUT_RECEIVED",
+      Line: input,
     });
     expect(send).toHaveBeenCalledWith({
       type: "VARIABLE_MISSING",
