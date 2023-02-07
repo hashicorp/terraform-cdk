@@ -138,6 +138,7 @@ export async function deploy(argv: any) {
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
+  const migrateState = argv.migrateState;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -163,6 +164,7 @@ export async function deploy(argv: any) {
       vars,
       varFiles,
       noColor,
+      migrateState,
     })
   );
 }
@@ -183,6 +185,7 @@ export async function destroy(argv: any) {
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
+  const migrateState = argv.migrateState;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -196,6 +199,7 @@ export async function destroy(argv: any) {
       vars,
       varFiles,
       noColor,
+      migrateState,
     })
   );
 }
@@ -213,6 +217,7 @@ export async function diff(argv: any) {
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
+  const migrateState = argv.migrateState;
 
   await renderInk(
     React.createElement(Diff, {
@@ -224,6 +229,7 @@ export async function diff(argv: any) {
       vars,
       varFiles,
       noColor,
+      migrateState,
     })
   );
 }

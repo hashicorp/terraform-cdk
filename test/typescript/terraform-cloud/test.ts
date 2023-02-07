@@ -77,9 +77,15 @@ describe("full integration test", () => {
     });
 
     process.env.TF_EXECUTE_LOCAL = "true";
-    await driver.deploy(["source-stack"]);
+    await driver.deploy(["source-stack"], "before-migration.json");
     process.env.TF_EXECUTE_LOCAL = undefined;
-    await driver.deploy(["source-stack"]);
+    await driver.deploy(["source-stack"], "after-migration.json", [
+      "--migrate-state",
+    ]);
+
+    expect(readFileSync("before-migration.json")).toEqual(
+      readFileSync("after-migration.json")
+    );
 
     await client.Workspaces.deleteByName(orgName, workspaceName);
   });

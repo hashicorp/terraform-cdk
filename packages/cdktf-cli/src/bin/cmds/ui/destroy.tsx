@@ -18,6 +18,7 @@ interface DestroyConfig {
   parallelism?: number;
   terraformParallelism?: number;
   noColor?: boolean;
+  migrateState?: boolean;
   vars?: string[];
   varFiles?: string[];
 }
@@ -31,6 +32,7 @@ export const Destroy = ({
   parallelism,
   terraformParallelism,
   noColor,
+  migrateState,
   vars,
   varFiles,
 }: DestroyConfig): React.ReactElement => {
@@ -44,6 +46,7 @@ export const Destroy = ({
         parallelism,
         terraformParallelism,
         noColor,
+        migrateState,
         vars,
         varFiles,
       })

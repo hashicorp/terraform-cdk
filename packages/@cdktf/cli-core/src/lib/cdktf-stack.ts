@@ -114,6 +114,7 @@ type CdktfStackOptions = {
   ) => void;
   onLog?: (log: { message: string; isError: boolean }) => void;
   autoApprove?: boolean;
+  migrateState?: boolean;
   abortSignal: AbortSignal;
 };
 
@@ -240,7 +241,11 @@ export class CdktfStack {
     }
 
     const needsUpgrade = await this.checkNeedsUpgrade();
-    await terraform.init(needsUpgrade, noColor);
+    await terraform.init(
+      needsUpgrade,
+      noColor ?? false,
+      this.options.migrateState ?? false
+    );
     return terraform;
   }
 
@@ -256,8 +261,12 @@ export class CdktfStack {
   }
 
   private async checkNeedsInit(): Promise<boolean> {
-    const lock = new TerraformProviderLock(this.stack.workingDirectory);
+    if (this.options.migrateState) {
+      // If we're migrating state, we need to init
+      return true;
+    }
 
+    const lock = new TerraformProviderLock(this.stack.workingDirectory);
     const lockFileExists = await lock.hasProviderLockFile();
 
     if (!lockFileExists) {

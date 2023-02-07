@@ -25,6 +25,7 @@ import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
 import { terraformJsonSchema } from "../terraform-json";
 import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
+import { spawnPty } from "./pty-process";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -106,10 +107,14 @@ export class TerraformCli implements Terraform {
         createTerraformLogHandler(phase, filter)(stderr.toString(), true);
   }
 
-  public async init(needsUpgrade: boolean, noColor?: boolean): Promise<void> {
+  public async init(
+    needsUpgrade: boolean,
+    noColor: boolean,
+    migrateState: boolean
+  ): Promise<void> {
     await this.setUserAgent();
 
-    const args = ["init", "-input=false"];
+    const args = ["init"];
     if (needsUpgrade) {
       args.push("-upgrade");
     }
@@ -117,17 +122,36 @@ export class TerraformCli implements Terraform {
       args.push("-no-color");
     }
 
-    await exec(
-      terraformBinaryName,
-      args,
+    const stdout = this.onStdout("init");
+    const stderr = this.onStderr("init");
+    const { actions, progress } = spawnPty(
       {
-        cwd: this.workdir,
-        env: process.env,
-        signal: this.abortSignal,
+        file: terraformBinaryName,
+        args,
+        options: {
+          cwd: this.workdir,
+          env: process.env as any,
+        },
       },
-      this.onStdout("init"),
-      this.onStderr("init")
+      (data) => {
+        stdout(data);
+        if (data.includes("Should Terraform migrate your existing state?")) {
+          if (migrateState) {
+            actions.writeLine("yes");
+          } else {
+            actions.writeLine("no");
+            stderr(
+              "Please pass the --migrate-state flag to migrate your state"
+            );
+          }
+        }
+      }
     );
+    this.abortSignal.addEventListener("abort", () => {
+      actions.stop();
+    });
+
+    await progress;
 
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms)

@@ -75,6 +75,7 @@ export type DiffOptions = SingleStackOptions & {
   vars?: string[];
   varFiles?: string[];
   noColor?: boolean;
+  migrateState?: boolean;
 };
 
 export type MutationOptions = MultipleStackOptions &
@@ -86,6 +87,7 @@ export type MutationOptions = MultipleStackOptions &
     vars?: string[];
     varFiles?: string[];
     noColor?: boolean;
+    migrateState?: boolean;
   };
 
 export type LogMessage = {
