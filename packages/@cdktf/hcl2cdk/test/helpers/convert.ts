@@ -95,6 +95,11 @@ export const binding = {
     type: ProviderType.provider,
     path: "providers/kubernetes",
   },
+  scaleway: {
+    fqn: "scaleway/scaleway@ ~>2.10.0",
+    type: ProviderType.provider,
+    path: "providers/scaleway",
+  },
   awsVpc: {
     fqn: "terraform-aws-modules/vpc/aws@=3.19.0",
     type: ProviderType.module,
