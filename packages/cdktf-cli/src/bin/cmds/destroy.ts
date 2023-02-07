@@ -73,6 +73,12 @@ class Command extends BaseCommand {
         required: false,
         desc: "Disables terminal formatting sequences in the output.",
       })
+      .option("migrate-state", {
+        type: "boolean",
+        default: false,
+        required: false,
+        desc: "Reconfigure a backend, and attempt to migrate any existing state for all selected stacks.",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
