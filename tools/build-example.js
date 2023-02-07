@@ -43,11 +43,18 @@ runInExample(`reinstall`);
 const getStats = runInExample(`build`);
 runInExample(`beforeSynth`);
 const synthStats = runInExample(`synth`);
-const testStatus = runInExample("test");
+
+let testStatus;
+if (exampleToBuild.includes("documentation")) {
+  testStatus = runInExample("test");
+}
 
 console.log(
   `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
 );
 console.log(
   `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+);
+console.log(
+  `${exampleToBuild} tested in ${testStatus.time}s using ${testStatus.maxMemoryKbytes} kb of memory`
 );
