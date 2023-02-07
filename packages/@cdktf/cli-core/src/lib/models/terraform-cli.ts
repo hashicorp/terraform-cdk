@@ -122,8 +122,13 @@ export class TerraformCli implements Terraform {
       args.push("-no-color");
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    let initCanNotContinue = (_err: any) => {};
+    const rejectsIfInitCanNotContinue = new Promise((_resolve, reject) => {
+      initCanNotContinue = reject;
+    });
+
     const stdout = this.onStdout("init");
-    const stderr = this.onStderr("init");
     const { actions, progress } = spawnPty(
       {
         file: terraformBinaryName,
@@ -139,8 +144,8 @@ export class TerraformCli implements Terraform {
           if (migrateState) {
             actions.writeLine("yes");
           } else {
-            actions.writeLine("no");
-            stderr(
+            actions.stop();
+            initCanNotContinue(
               "Please pass the --migrate-state flag to migrate your state"
             );
           }
@@ -151,7 +156,7 @@ export class TerraformCli implements Terraform {
       actions.stop();
     });
 
-    await progress;
+    await Promise.race([progress, rejectsIfInitCanNotContinue]);
 
     // TODO: this might have performance implications because we don't know if we're
     // running a remote plan or a local one (so we run it always for all platforms)
