@@ -157,7 +157,7 @@ Options:
       --refresh-only                            Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to undo any changes made outside of Terraform.  [boolean] [default: false]
       --terraform-parallelism                   Forwards value as the `-parallelism` flag to Terraform. By default, the this flag is not forwarded to Terraform. Note: This flag is not supported by remote / cloud backend  [number] [default: -1]
       --no-color                                Disables terminal formatting sequences in the output.  [boolean] [default: false]
-      --migrate-state                           Reconfigure a backend, and attempt to migrate any existing state for all selected stacks.  [boolean] [default: false]
+      --migrate-state                           Pass this flag after switching state backends to approve a state migration for all targeted stacks  [boolean] [default: false]
       --var                                     Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.  [array] [default: []]
       --var-file                                Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.  [array] [default: []]
   -h, --help                                    Show help  [boolean]
@@ -232,7 +232,7 @@ Options:
       --var                                Set a value for one of the input variables in the stack or stacks to apply. Use this option more than once to set more than one variable.  [array] [default: []]
       --var-file                           Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.  [array] [default: []]
       --no-color                           Disables terminal formatting sequences in the output.  [boolean] [default: false]
-      --migrate-state                      Reconfigure a backend, and attempt to migrate any existing state for all selected stacks.  [boolean] [default: false]
+      --migrate-state                      Pass this flag after switching state backends to approve a state migration for all targeted stacks  [boolean] [default: false]
   -h, --help                               Show help  [boolean]
 ```
 
@@ -301,7 +301,7 @@ Options:
       --var                       Set a value for one of the input variables in the stack. Use this option more than once to set more than one variable.  [array] [default: []]
       --var-file                  Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.  [array] [default: []]
       --no-color                  Disables terminal formatting sequences in the output.  [boolean] [default: false]
-      --migrate-state             Reconfigure a backend, and attempt to migrate any existing state for the selected stack.  [boolean] [default: false]
+      --migrate-state             Pass this flag after switching state backends to approve a state migration for the targeted stack  [boolean] [default: false]
   -h, --help                      Show help  [boolean]
 ```
 
