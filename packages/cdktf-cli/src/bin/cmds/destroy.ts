@@ -77,7 +77,7 @@ class Command extends BaseCommand {
         type: "boolean",
         default: false,
         required: false,
-        desc: "Reconfigure a backend, and attempt to migrate any existing state for all selected stacks.",
+        desc: "Pass this flag after switching state backends to approve a state migration for all targeted stacks",
       })
       .showHelpOnFail(true);
 
