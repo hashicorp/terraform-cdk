@@ -7,6 +7,7 @@
     "//": "dotnet nuget locals -c all should be used if re-installing with the same version number",
     "reinstall": "dotnet restore",
     "build": "cdktf get --parallelism 1",
-    "synth": "cdktf synth"
+    "synth": "cdktf synth",
+    "test": "dotnet test"
   }
 }

@@ -6,6 +6,7 @@
   "scripts": {
     "reinstall": "rm go.sum",
     "build": "cdktf get && go mod tidy",
-    "synth": "cdktf synth"
+    "synth": "cdktf synth",
+    "test": "go test"
   }
 }

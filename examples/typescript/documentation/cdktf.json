@@ -4,7 +4,8 @@
   "terraformProviders": [
     "aws@~> 3.0",
     "kubernetes@~> 2.0",
-    "random@~> 3.1"
+    "random@~> 3.1",
+    "kreuzwerker/docker@~> 2.0"
   ],
   "terraformModules": [
     "terraform-aws-modules/vpc/aws@~> 3.0",

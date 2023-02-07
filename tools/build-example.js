@@ -43,6 +43,7 @@ runInExample(`reinstall`);
 const getStats = runInExample(`build`);
 runInExample(`beforeSynth`);
 const synthStats = runInExample(`synth`);
+const testStatus = runInExample("test");
 
 console.log(
   `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
