@@ -233,7 +233,7 @@ describe("handleLineReceived", () => {
     handleLineReceived(send)("foo");
     expect(send).toHaveBeenCalledWith({
       type: "OUTPUT_RECEIVED",
-      Line: "foo",
+      output: "foo",
     });
   });
 
@@ -246,7 +246,7 @@ describe("handleLineReceived", () => {
     handleLineReceived(send)(input);
     expect(send).not.toHaveBeenCalledWith({
       type: "OUTPUT_RECEIVED",
-      Line: input,
+      output: input,
     });
     expect(send).toHaveBeenCalledWith({
       type: "VARIABLE_MISSING",
