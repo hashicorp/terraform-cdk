@@ -47,6 +47,9 @@ const synthStats = runInExample(`synth`);
 let testStatus;
 if (exampleToBuild.includes("documentation")) {
   testStatus = runInExample("test");
+  console.log(
+    `${exampleToBuild} tested in ${testStatus.time}s using ${testStatus.maxMemoryKbytes} kb of memory`
+  );
 }
 
 console.log(
@@ -54,7 +57,4 @@ console.log(
 );
 console.log(
   `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
-);
-console.log(
-  `${exampleToBuild} tested in ${testStatus.time}s using ${testStatus.maxMemoryKbytes} kb of memory`
 );
