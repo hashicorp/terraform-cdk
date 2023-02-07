@@ -375,4 +375,37 @@ resource "kubernetes_secret" "secrets-xxx" {
       resources: ["aws_instance"],
     }
   );
+
+  /**
+   * Test for https://github.com/hashicorp/terraform-cdk/issues/2139
+   *
+   * This one currently fails because the convertion result looks like this:
+   * new scaleway.object.ObjectResource(this, "some_file", { ...
+   *
+   * Which should be:
+   * new scaleway.objectResource.ObjectResource(this, "some_file", { ...
+   *
+   * So it does already work for the class name but not for the namespace.
+   */
+  testCase.skip(
+    "handle special resource names",
+    `
+    resource "scaleway_object_bucket" "some_bucket" {
+      name = "some-unique-name"
+    }
+    
+    resource scaleway_object "some_file" {
+      bucket = scaleway_object_bucket.some_bucket.name
+      key = "object_path"
+    
+      file = "myfile"
+      hash = filemd5("myfile")
+    }
+      `,
+    [binding.scaleway],
+    Synth.yes,
+    {
+      resources: ["aws_instance"],
+    }
+  );
 });
