@@ -46,7 +46,7 @@
   "devDependencies": {
     "@types/glob": "^7.2.0",
     "@types/jest": "^26.0.24",
-    "@types/node": "^14.18.33",
+    "@types/node": "14.18.33",
     "@types/reserved-words": "^0.1.0",
     "deepmerge": "^4.2.2",
     "jest": "^26.6.3",
