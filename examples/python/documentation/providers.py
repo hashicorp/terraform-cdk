@@ -60,8 +60,8 @@ class ProviderStack(TerraformStack):
         )
 
         DnsimpleProvider(self, "dnsimple",
-            token = Token.as_string(dnsimpleToken.string_value),
-            account = Token.as_string(dnsimpleAccount.string_value)
+            token = dnsimpleToken.string_value,
+            account = dnsimpleAccount.string_value
         )
 
         Record(self, "web-www",

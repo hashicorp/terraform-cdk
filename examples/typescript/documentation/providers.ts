@@ -43,8 +43,8 @@ export class ProvidersStack extends TerraformStack {
     });
 
     new DnsimpleProvider(this, "dnsimple", {
-      token: Token.asString(dnsimpleToken.stringValue),
-      account: Token.asString(dnsimpleAccount.stringValue),
+      token: dnsimpleToken.stringValue,
+      account: dnsimpleAccount.stringValue,
     });
 
     new Record(this, "web-www", {

@@ -46,8 +46,8 @@ public class MainImportClasses extends TerraformStack {
         );
 
         new DnsimpleProvider(this, "dnsimple", DnsimpleProviderConfig.builder()
-                .token(Token.asString(dnsimpleToken.stringValue()))
-                .account(Token.asString(dnsimpleAccount.stringValue()))
+                .token(dnsimpleToken.stringValue())
+                .account((dnsimpleAccount.stringValue())
                 .build()
         );
 

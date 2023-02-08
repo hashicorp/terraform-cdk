@@ -52,8 +52,8 @@ namespace Examples
 
             new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig
             {
-                Token = Token.AsString(dnsimpleToken.StringValue),
-                Account = Token.AsString(dnsimpleAccount.StringValue)
+                Token = dnsimpleToken.StringValue,
+                Account = dnsimpleAccount.StringValue
             });
 
             new Record(this, "web-www", new RecordConfig

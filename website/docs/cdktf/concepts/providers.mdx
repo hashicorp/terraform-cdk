@@ -274,8 +274,8 @@ export class ProvidersStack extends TerraformStack {
     });
 
     new DnsimpleProvider(this, "dnsimple", {
-      token: Token.asString(dnsimpleToken.stringValue),
-      account: Token.asString(dnsimpleAccount.stringValue),
+      token: dnsimpleToken.stringValue,
+      account: dnsimpleAccount.stringValue,
     });
 
     new Record(this, "web-www", {
@@ -334,8 +334,8 @@ public class MainImportClasses extends TerraformStack {
         );
 
         new DnsimpleProvider(this, "dnsimple", DnsimpleProviderConfig.builder()
-                .token(Token.asString(dnsimpleToken.stringValue()))
-                .account(Token.asString(dnsimpleAccount.stringValue()))
+                .token(dnsimpleToken.stringValue())
+                .account((dnsimpleAccount.stringValue())
                 .build()
         );
 
@@ -390,8 +390,8 @@ class ProviderStack(TerraformStack):
         )
 
         DnsimpleProvider(self, "dnsimple",
-            token = Token.as_string(dnsimpleToken.string_value),
-            account = Token.as_string(dnsimpleAccount.string_value)
+            token = dnsimpleToken.string_value,
+            account = dnsimpleAccount.string_value
         )
 
         Record(self, "web-www",
@@ -460,8 +460,8 @@ namespace Examples
 
             new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig
             {
-                Token = Token.AsString(dnsimpleToken.StringValue),
-                Account = Token.AsString(dnsimpleAccount.StringValue)
+                Token = dnsimpleToken.StringValue,
+                Account = dnsimpleAccount.StringValue
             });
 
             new Record(this, "web-www", new RecordConfig
