@@ -15,8 +15,8 @@ if [ ! -d "js" ] || [ ! -d "python" ] || [ ! -d "java" ] || [ ! -d "dotnet" ] ||
 fi
 
 # install the CLI from dist/js in a temporary area and add to path
-echo "Extracting CLI from 'dist'..."
 staging=$(mktemp -d)
+echo "Extracting CLI from 'dist' into '$staging'..."
 cd ${staging}
 npm init -y > /dev/null
 npm install ${CDKTF_DIST}/js/*.tgz
