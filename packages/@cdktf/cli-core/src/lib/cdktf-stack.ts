@@ -236,18 +236,9 @@ export class CdktfStack {
 
   public async initalizeTerraform(noColor?: boolean) {
     const terraform = await this.terraformClient();
-    const needsInit = await this.checkNeedsInit();
-    if (!needsInit) {
-      // Skip terraform init as everything's up to date
-      return terraform;
-    }
-
+    const needsLockfileUpdate = await this.checkNeedsLockfileUpdate();
     const needsUpgrade = await this.checkNeedsUpgrade();
-    await terraform.init(
-      needsUpgrade,
-      noColor ?? false,
-      this.options.migrateState ?? false
-    );
+    await terraform.init({ needsUpgrade, noColor ?? false, needsLockfileUpdate, this.options.migrateState ?? false });
     return terraform;
   }
 
@@ -262,12 +253,11 @@ export class CdktfStack {
     }, {} as Record<string, ProviderConstraint>);
   }
 
-  private async checkNeedsInit(): Promise<boolean> {
+  private async checkNeedsLockfileUpdate(): Promise<boolean> {
     if (this.options.migrateState) {
       // If we're migrating state, we need to init
       return true;
     }
-
     const lock = new TerraformProviderLock(this.stack.workingDirectory);
     const lockFileExists = await lock.hasProviderLockFile();
 
