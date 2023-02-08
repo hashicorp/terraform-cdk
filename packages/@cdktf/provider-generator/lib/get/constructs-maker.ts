@@ -503,7 +503,7 @@ export class ConstructsMaker {
 
   private async generateJsiiLanguage(target: ConstructsMakerTarget) {
     // these are the module dependencies we compile against
-    const deps = ["@types/node", "constructs", "cdktf"];
+    const deps = ["constructs", "cdktf"];
     const opts: srcmak.Options = {
       entrypoint: target.fileName,
       deps: deps.map((dep) =>
