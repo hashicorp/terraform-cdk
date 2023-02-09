@@ -18,8 +18,6 @@ export interface PtyProcessActions {
 }
 
 export interface PtyProcess {
-  // Resolves or rejects depending on the exit code of the process
-  progress: Promise<void>;
   // Always resolves, returns the exit code of the process
   exitCode: Promise<number>;
   actions: PtyProcessActions;
@@ -77,29 +75,20 @@ export function spawnPty(
 
   p.onData((data) => onData(data));
 
-  const progress = new Promise<void>((resolve, reject) => {
-    p.onExit(({ exitCode }) => {
-      if (exitCode === 0) {
-        resolve();
-      } else {
-        reject(
-          new Error(
-            `Pty (file=${file}, args=${
-              Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
-            }) exited with code ${exitCode}`
-          )
-        );
-      }
-    });
-  });
-
   const exitCode = new Promise<number>((resolve) => {
     p.onExit(({ exitCode }) => {
+      if (exitCode !== 0) {
+        logger.debug(
+          `Pty (file=${file}, args=${
+            Array.isArray(args) ? `[${args.join(", ")}]` : `"${args}"`
+          }) exited with code ${exitCode}`
+        );
+      }
       resolve(exitCode);
     });
   });
 
-  return { progress, exitCode, actions };
+  return { exitCode, actions };
 }
 
 // src: https://github.com/Microsoft/vscode/blob/c0c9ea27d6e8d660d8716d7acee82cf3c00fa3e5/src/vs/workbench/parts/tasks/electron-browser/terminalTaskSystem.ts#L691

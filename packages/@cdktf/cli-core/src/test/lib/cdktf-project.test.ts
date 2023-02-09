@@ -403,11 +403,17 @@ describe("CdktfProject", () => {
       });
 
       try {
-        await cdktfProject.deploy({
-          stackNames: ["stack1", "stack2", "stack3"],
-          parallelism: 100,
-          autoApprove: true,
-        });
+        await cdktfProject
+          .deploy({
+            stackNames: ["stack1", "stack2", "stack3"],
+            parallelism: 100,
+            autoApprove: true,
+          })
+          .catch((e) => {
+            console.log("deploy throws", e);
+            throw e;
+          });
+
         throw new Error("This error should not be thrown");
       } catch (e) {
         expect(e).toMatchInlineSnapshot(

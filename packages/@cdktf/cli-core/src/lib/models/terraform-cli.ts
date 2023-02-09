@@ -129,7 +129,7 @@ export class TerraformCli implements Terraform {
     });
 
     const stdout = this.onStdout("init");
-    const { actions, progress } = spawnPty(
+    const { actions, exitCode } = spawnPty(
       {
         file: terraformBinaryName,
         args,
@@ -156,6 +156,11 @@ export class TerraformCli implements Terraform {
       actions.stop();
     });
 
+    const progress = exitCode.then((code) => {
+      if (code !== 0) {
+        throw new Error(`terraform init failed with exit code ${code}`);
+      }
+    });
     await Promise.race([progress, rejectsIfInitCanNotContinue]);
 
     // TODO: this might have performance implications because we don't know if we're
