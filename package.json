@@ -115,5 +115,8 @@
       "*.d.ts",
       "*.js"
     ]
+  },
+  "resolutions": {
+    "@types/node": "14.18.33"
   }
 }
