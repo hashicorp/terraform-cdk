@@ -79,6 +79,7 @@ const nativeNodeModulesPlugin = {
       "constructs",
       "yoga-layout-prebuilt",
       "@cdktf/node-pty-prebuilt-multiarch",
+      "@types/node",
     ],
     plugins: [nativeNodeModulesPlugin],
     define: {
