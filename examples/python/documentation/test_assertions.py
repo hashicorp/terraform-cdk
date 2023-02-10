@@ -3,7 +3,7 @@ import pytest
 from cdktf import TerraformStack, Testing
 from imports.docker.image import Image
 from imports.docker.container import Container
-from unit_tests import MyApplicationsAbstraction # Could be a class extending from Construct
+from unit_test import MyApplicationsAbstraction # Could be a class extending from Construct
 
 class TestApplication:
 
@@ -11,8 +11,7 @@ class TestApplication:
   app_abstraction = MyApplicationsAbstraction(stack, "app-abstraction")
   synthesized = Testing.synth(stack)
 
-  print("synthesized")
-  print(synthesized)
+  
 
   def test_should_contain_container(self):
     assert Testing.to_have_resource(self.synthesized, Container.TF_RESOURCE_TYPE)

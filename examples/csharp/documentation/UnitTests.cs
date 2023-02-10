@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Constructs;
 using HashiCorp.Cdktf;
 using docker.Provider;
@@ -7,7 +6,7 @@ using docker.Container;
 using docker.Image;
 using docker.DataDockerImage;
 
-namespace MyCompany.MyApplicationsAbstraction
+namespace MyCompany.ApplicationsAbstraction
 {
     public class MyApplicationsAbstraction : TerraformStack
     {

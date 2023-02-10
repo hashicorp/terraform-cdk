@@ -3,8 +3,8 @@ package main
 
 import (
 	"testing"
-	"cdk.tf/go/stack/generated/kreuzwerker/docker/image"
-	"cdk.tf/go/stack/generated/kreuzwerker/docker/container"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 	"github.com/aws/jsii-runtime-go"
 )

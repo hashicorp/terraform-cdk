@@ -1,10 +1,10 @@
 package main
 
 import (
-	"cdk.tf/go/stack/generated/kreuzwerker/docker/container"
-	"cdk.tf/go/stack/generated/kreuzwerker/docker/datadockerimage"
-	"cdk.tf/go/stack/generated/kreuzwerker/docker/image"
-	docker "cdk.tf/go/stack/generated/kreuzwerker/docker/provider"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/datadockerimage"
+	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
+	dockerprovider "github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/provider"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"

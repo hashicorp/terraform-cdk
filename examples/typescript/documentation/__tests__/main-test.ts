@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 // SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:unit-tests
+import "cdktf/lib/testing/adapters/jest";
 import { Testing } from "cdktf";
 import { Image } from "../.gen/providers/docker/image";
 import { Container } from "../.gen/providers/docker/container";
-import { MyApplicationsAbstraction } from "../unit-tests"; // Could be a class extending from Construct
+import { MyApplicationsAbstraction } from "../unit-test"; // Could be a class extending from Construct
 
 export class something {}
 

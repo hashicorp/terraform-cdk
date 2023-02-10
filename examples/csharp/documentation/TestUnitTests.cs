@@ -1,18 +1,18 @@
 // DOCS_BLOCK_START:unit-tests
 using Xunit;
 using HashiCorp.Cdktf; // MyApplicationsAbstraction - Could be a class extending from Construct
-using MyCompany.MyApp;
 using System;
 using System.Collections.Generic;
 using docker.Image;
 using docker.Container;
+using MyCompany.ApplicationsAbstraction;
 
 namespace MyCompany.MyApp{
   public class TestApplication{
 
-    private static TerraformStack stack = new TerraformStack(Testing.app(), "stack");
+    private static TerraformStack stack = new TerraformStack(Testing.App(), "stack");
     private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "resource");
-    private static string synthesized = Testing.synth(stack);
+    private static string synthesized = Testing.Synth(stack);
 
     [Fact]
     public void ShouldContainContainer(){

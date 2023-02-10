@@ -11,7 +11,7 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/setup.js"],
   testEnvironment: "node",
   testMatch: [
-    "<rootDir>/examples/typescript/documentation/__tests__/*.ts"
+    "<rootDir>/__tests__/*.ts"
   ],
   testPathIgnorePatterns: ["/node_modules/", ".d.ts", ".js"],
 };

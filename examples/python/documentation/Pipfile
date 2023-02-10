@@ -7,3 +7,5 @@ verify_ssl = true
 python_version = "3.7"
 
 [packages]
+cdktf = {path = "./../../../dist/python/cdktf-0.15.4.dev111212112-py3-none-any.whl"}
+pytest = "*"
