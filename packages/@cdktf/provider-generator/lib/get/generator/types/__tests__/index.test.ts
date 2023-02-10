@@ -56,6 +56,18 @@ const schema = {
                   "Resource tag key prefixes to ignore across all resources.",
                 optional: true,
               },
+              key_prefixes_number: {
+                type: ["set", "number"],
+                description:
+                  "Resource tag key prefixes to ignore across all resources.",
+                optional: true,
+              },
+              key_prefixes_bool: {
+                type: ["set", "bool"],
+                description:
+                  "Resource tag key prefixes to ignore across all resources.",
+                optional: true,
+              },
             },
           },
         },
@@ -121,9 +133,33 @@ describe("new generator types", () => {
                         "type": "string",
                       },
                     },
+                    "key_prefixes_bool": Object {
+                      "__type": "settable",
+                      "description": "Resource tag key prefixes to ignore across all resources.",
+                      "optionality": true,
+                      "type": Object {
+                        "__type": "list",
+                        "type": "bool",
+                      },
+                    },
+                    "key_prefixes_number": Object {
+                      "__type": "settable",
+                      "description": "Resource tag key prefixes to ignore across all resources.",
+                      "optionality": true,
+                      "type": Object {
+                        "__type": "list",
+                        "type": "number",
+                      },
+                    },
                   },
                 },
               },
+            },
+            "internal": Object {
+              "__type": "settable",
+              "description": undefined,
+              "optionality": true,
+              "type": "bool",
             },
             "permanent_deletion_time_in_days": Object {
               "__type": "settable",

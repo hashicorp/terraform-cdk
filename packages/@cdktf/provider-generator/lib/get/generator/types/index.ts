@@ -89,7 +89,7 @@ function parseProvider(
 }
 
 function parseAttribute(arg: AttributeTypeJson): Attribute {
-  if (arg.type == "string" || arg.type == "number") {
+  if (arg.type == "string" || arg.type == "number" || arg.type == "bool") {
     return {
       __type: "settable",
       type: arg.type,
@@ -100,13 +100,15 @@ function parseAttribute(arg: AttributeTypeJson): Attribute {
   if (
     Array.isArray(arg.type) &&
     arg.type[0] == "set" &&
-    arg.type[1] == "string"
+    (arg.type[1] == "string" ||
+      arg.type[1] == "number" ||
+      arg.type[1] == "bool")
   ) {
     return {
       __type: "settable",
       type: {
         __type: "list",
-        type: "string",
+        type: arg.type[1],
       },
       optionality: arg.optional || false,
       description: arg.description,
