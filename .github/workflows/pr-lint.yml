@@ -11,7 +11,7 @@ on:
       - reopened
 
 jobs:
-  main:
+  lintPr:
     runs-on: ubuntu-latest
     steps:
       # Please look up the latest version from
@@ -54,3 +54,14 @@ jobs:
             The supported scopes are lib, cli, hcl2json, tests, examples, readme, docs, release, deps.
             Please stick to the format so that our automatic release process picks your commit up and
             your code makes it into the next release.
+
+  checkForCopyrightHeader:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3.1.0
+      - name: Setup Copywrite
+        uses: hashicorp/setup-copywrite@3ace06ad72e6ec679ea8572457b17dbc3960b8ce # v1.0.0
+
+      # See https://github.com/hashicorp/copywrite for more details
+      - name: Check Header Compliance
+        run: copywrite headers --plan
