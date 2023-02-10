@@ -19,6 +19,11 @@ const schema = {
           type: ["set", "string"],
           optional: true,
         },
+        permanent_deletion_time_in_days: {
+          type: "number",
+          description_kind: "plain",
+          optional: true,
+        },
       },
       block_types: {
         assume_role: {
