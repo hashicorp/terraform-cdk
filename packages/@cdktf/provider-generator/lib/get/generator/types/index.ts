@@ -17,9 +17,6 @@ export type Provider = {
       // should be 'nodeAttribute' in Typescript.
       [name: string]: Attribute;
     };
-    blockTypes: {
-      [name: string]: Attribute;
-    };
   };
 };
 
@@ -77,7 +74,6 @@ function parseProvider(
 ): Provider["provider"] {
   const result: Provider["provider"] = {
     attributes: {},
-    blockTypes: {},
   };
   for (const attributeName in provider.block.attributes) {
     result.attributes[attributeName] = parseAttribute(
@@ -85,7 +81,7 @@ function parseProvider(
     );
   }
   for (const blockName in provider.block.block_types) {
-    result.blockTypes[blockName] = parseBlock(
+    result.attributes[blockName] = parseBlock(
       provider.block.block_types[blockName]
     );
   }
@@ -93,12 +89,40 @@ function parseProvider(
 }
 
 function parseAttribute(arg: AttributeTypeJson): Attribute {
-  const result: Attribute = {};
-  return result;
+  if (arg.type == "string") {
+    return {
+      __type: "settable",
+      type: "string",
+      optionality: arg.optional || false,
+      description: arg.description,
+    };
+  }
+  if (
+    Array.isArray(arg.type) &&
+    arg.type[0] == "set" &&
+    arg.type[1] == "string"
+  ) {
+    return {
+      __type: "settable",
+      type: {
+        __type: "list",
+        type: "string",
+      },
+      optionality: arg.optional || false,
+      description: arg.description,
+    };
+  }
+  throw new Error(
+    `Attribute type not implemented yet Attribute=${JSON.stringify(
+      arg,
+      null,
+      2
+    )}`
+  );
 }
 
 function parseBlock(arg: BlockTypeJson): Attribute {
-  if (arg.nesting_mode === "set") {
+  if (arg.nesting_mode === "set" || arg.nesting_mode === "list") {
     const attributes: { [name: string]: Attribute } = {};
     for (const attributeName in arg.block.attributes) {
       attributes[attributeName] = parseAttribute(
