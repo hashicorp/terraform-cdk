@@ -1,6 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 
+import {
+  BlockType as BlockTypeJson,
+  Attribute as AttributeTypeJson,
+  Provider as ProviderJson,
+} from "../provider-schema";
+
 // This is going to be derived from the terraform schema
 export type Provider = {
   provider: {
@@ -55,35 +61,73 @@ export type ReadonlyAttribute = BaseAttribute & {
 export type SettableAttribute = BaseAttribute & {
   __type: "settable";
   optionality: boolean;
-  storageClass: string;
+  // storageClass: string; TODO: do we really need it? Can't it be inferred from the result?
 };
 
 export type Block = {};
 
-export function parse(providerSchema: any): Provider {
+export function parse(providerSchema: ProviderJson): Provider {
   const provider: Provider = {
-    provider: parseProvider(providerSchema.provider)
-  }
-  return provider; 
+    provider: parseProvider(providerSchema.provider),
+  };
+  return provider;
 }
-function parseProvider(provider: any): Provider["provider"] {
+function parseProvider(
+  provider: ProviderJson["provider"]
+): Provider["provider"] {
   const result: Provider["provider"] = {
     attributes: {},
-    blockTypes: {}
+    blockTypes: {},
+  };
+  for (const attributeName in provider.block.attributes) {
+    result.attributes[attributeName] = parseAttribute(
+      provider.block.attributes[attributeName]
+    );
   }
-  for(const attributeName in provider.block.attributes){
-    result.attributes[attributeName] = parseAttribute(provider.block.attributes[attributeName])
-  }
-  for(const blockName in provider.block.block_types){
-    result.blockTypes[blockName] = parseAttribute(provider.block.block_types[blockName])
+  for (const blockName in provider.block.block_types) {
+    result.blockTypes[blockName] = parseBlock(
+      provider.block.block_types[blockName]
+    );
   }
   return result;
 }
 
-// TODO: Separate parsing of Attributes and Blocks -  Same return type but different intermediary logic
-// TODO: Talk about whether to combine attributes and block types
-function parseAttribute(arg: any): Attribute {
-  const result: Attribute = {}
+function parseAttribute(arg: AttributeTypeJson): Attribute {
+  const result: Attribute = {};
   return result;
 }
 
+function parseBlock(arg: BlockTypeJson): Attribute {
+  if (arg.nesting_mode === "set") {
+    const attributes: { [name: string]: Attribute } = {};
+    for (const attributeName in arg.block.attributes) {
+      attributes[attributeName] = parseAttribute(
+        arg.block.attributes[attributeName]
+      );
+    }
+    for (const attributeName in arg.block.block_types) {
+      attributes[attributeName] = parseBlock(
+        arg.block.block_types[attributeName]
+      );
+    }
+
+    const objectType: ObjectAttributeType = {
+      __type: "object",
+      attributes: attributes,
+    };
+
+    // list of class
+    return {
+      __type: "settable",
+      type: {
+        __type: "list",
+        type: objectType,
+      },
+      optionality: (arg.min_items || 0) > 0,
+    };
+  }
+
+  throw new Error(
+    `Block type not implemented yet block=${JSON.stringify(arg, null, 2)}`
+  );
+}

@@ -11,6 +11,7 @@ import { ConstructsMakerProviderTarget } from "../constructs-maker";
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 export interface ProviderSchema {
+  // TODO: this should be named with e.g. a plural (ProviderS)
   /*
   0.1 is e.g. returned by Terraform 0.14
   0.2 is e.g. returned by Terraform 1.0 (0.2 added support for nested_type / plugin protocol v6)
