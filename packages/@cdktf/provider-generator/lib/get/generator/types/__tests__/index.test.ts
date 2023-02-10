@@ -296,7 +296,119 @@ describe("new generator types", () => {
             },
           },
         },
+        "resources": Object {
+          "kubernetes_service": Object {
+            "attributes": Object {
+              "spec": Object {
+                "__type": "settable",
+                "optionality": true,
+                "type": Object {
+                  "__type": "list",
+                  "type": Object {
+                    "__type": "object",
+                    "attributes": Object {
+                      "session_affinity_config": Object {
+                        "__type": "settable",
+                        "optionality": false,
+                        "type": Object {
+                          "__type": "list",
+                          "type": Object {
+                            "__type": "object",
+                            "attributes": Object {
+                              "client_ip": Object {
+                                "__type": "settable",
+                                "optionality": false,
+                                "type": Object {
+                                  "__type": "list",
+                                  "type": Object {
+                                    "__type": "object",
+                                    "attributes": Object {
+                                      "timeout_seconds": Object {
+                                        "__type": "settable",
+                                        "description": "Specifies the seconds of \`ClientIP\` type session sticky time. The value must be > 0 and <= 86400(for 1 day) if \`ServiceAffinity\` == \`ClientIP\`.",
+                                        "optionality": true,
+                                        "type": "number",
+                                      },
+                                    },
+                                  },
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              "status": Object {
+                "__type": "settable",
+                "description": undefined,
+                "optionality": false,
+                "type": Object {
+                  "__type": "list",
+                  "type": Object {
+                    "__type": "object",
+                    "attributes": Object {
+                      "load_balancer": Object {
+                        "__type": "list",
+                        "type": Object {
+                          "__type": "object",
+                          "attributes": Object {
+                            "ingress": Object {
+                              "__type": "list",
+                              "type": Object {
+                                "__type": "object",
+                                "attributes": Object {
+                                  "hostname": "string",
+                                  "ip": "string",
+                                },
+                              },
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+              "timeouts": Object {
+                "__type": "settable",
+                "optionality": true,
+                "type": Object {
+                  "__type": "object",
+                  "attributes": Object {
+                    "create": Object {
+                      "__type": "settable",
+                      "description": undefined,
+                      "optionality": true,
+                      "type": "string",
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       }
     `);
+  });
+
+  it("works with edge cases", () => {
+    // TODO: take edge provider schema as input to parse and read the generated code
+    // to write a manual assertion for the parse function
+    const edgeschema = {} as any;
+    expect(parse(edgeschema)).toEqual(
+      expect.objectContaining({
+        provider: {
+          attributes: {
+            reqNum: {
+              type: "number",
+              optionality: false,
+            },
+          },
+        },
+      })
+    );
   });
 });

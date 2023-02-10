@@ -5,6 +5,7 @@ import {
   BlockType as BlockTypeJson,
   Attribute as AttributeTypeJson,
   Provider as ProviderJson,
+  Schema as ResourceSchema,
 } from "../provider-schema";
 
 // This is going to be derived from the terraform schema
@@ -18,10 +19,17 @@ export type Provider = {
       [name: string]: Attribute;
     };
   };
+  resources: {
+    [name: string]: Resource;
+  };
 };
 
 export type Providers = {
   [fqpn: string]: Provider;
+};
+
+export type Resource = {
+  attributes: { [name: string]: Attribute };
 };
 
 export type Attribute = ReadonlyAttribute | SettableAttribute;
@@ -70,6 +78,13 @@ export type Block = {};
 export function parse(providerSchema: ProviderJson): Provider {
   const provider: Provider = {
     provider: parseProvider(providerSchema.provider),
+    resources: Object.entries(providerSchema.resource_schemas).reduce(
+      (carry, [resourceName, resourceDefinition]) => ({
+        ...carry,
+        [resourceName]: parseResource(resourceDefinition),
+      }),
+      {}
+    ),
   };
   return provider;
 }
@@ -77,6 +92,23 @@ export function parse(providerSchema: ProviderJson): Provider {
 function parseProvider(
   provider: ProviderJson["provider"]
 ): Provider["provider"] {
+  const result: Provider["provider"] = {
+    attributes: {},
+  };
+  for (const attributeName in provider.block.attributes) {
+    result.attributes[attributeName] = parseAttribute(
+      provider.block.attributes[attributeName]
+    );
+  }
+  for (const blockName in provider.block.block_types) {
+    result.attributes[blockName] = parseBlock(
+      provider.block.block_types[blockName]
+    );
+  }
+  return result;
+}
+
+function parseResource(provider: ResourceSchema): Provider["provider"] {
   const result: Provider["provider"] = {
     attributes: {},
   };
@@ -115,6 +147,18 @@ function parseAttributeType(type: AttributeTypeJson["type"]): AttributeType {
       return {
         __type: "map",
         valueType: parseAttributeType(type[1]),
+      };
+    }
+    if (type[0] === "object") {
+      return {
+        __type: "object",
+        attributes: Object.entries(type[1]).reduce(
+          (carry, [name, attrType]) => ({
+            ...carry,
+            [name]: parseAttributeType(attrType),
+          }),
+          {}
+        ),
       };
     }
   }
@@ -164,6 +208,29 @@ function parseBlock(arg: BlockTypeJson): Attribute {
         type: objectType,
       },
       optionality: (arg.min_items || 0) > 0,
+    };
+  }
+
+  if (arg.nesting_mode === "single") {
+    const attributes: { [name: string]: Attribute } = {};
+    for (const attributeName in arg.block.attributes) {
+      attributes[attributeName] = parseAttribute(
+        arg.block.attributes[attributeName]
+      );
+    }
+    for (const attributeName in arg.block.block_types) {
+      attributes[attributeName] = parseBlock(
+        arg.block.block_types[attributeName]
+      );
+    }
+
+    const isAnyAttributeNotOptional = !Object.values(attributes).some((x) =>
+      x.__type === "readonly" ? true : !x.optionality
+    );
+    return {
+      __type: "settable",
+      type: { __type: "object", attributes: attributes },
+      optionality: isAnyAttributeNotOptional,
     };
   }
 
