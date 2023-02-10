@@ -30,6 +30,20 @@ const schema = {
           optional: true,
           computed: true,
         },
+        annotations: {
+          type: ["map", "string"],
+          description:
+            "An unstructured key value map stored with the service that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations",
+          description_kind: "plain",
+          optional: true,
+        },
+        manifest: {
+          type: "dynamic",
+          description:
+            "A Kubernetes manifest describing the desired state of the resource in HCL format.",
+          description_kind: "plain",
+          required: true,
+        },
       },
       block_types: {
         assume_role: {
@@ -74,7 +88,7 @@ const schema = {
       },
     },
   },
-};
+} as any;
 
 describe("new generator types", () => {
   it("should parse a simple schema", () => {
@@ -96,6 +110,15 @@ describe("new generator types", () => {
               "type": Object {
                 "__type": "list",
                 "type": "string",
+              },
+            },
+            "annotations": Object {
+              "__type": "settable",
+              "description": "An unstructured key value map stored with the service that may be used to store arbitrary metadata. More info: http://kubernetes.io/docs/user-guide/annotations",
+              "optionality": true,
+              "type": Object {
+                "__type": "map",
+                "valueType": "string",
               },
             },
             "assume_role": Object {
@@ -160,6 +183,14 @@ describe("new generator types", () => {
               "description": undefined,
               "optionality": true,
               "type": "bool",
+            },
+            "manifest": Object {
+              "__type": "settable",
+              "description": "A Kubernetes manifest describing the desired state of the resource in HCL format.",
+              "optionality": false,
+              "type": Object {
+                "__type": "dynamic",
+              },
             },
             "permanent_deletion_time_in_days": Object {
               "__type": "settable",

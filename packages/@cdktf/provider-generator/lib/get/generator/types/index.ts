@@ -33,18 +33,22 @@ export type ListAttributeType = {
 };
 export type MapAttributeType = {
   __type: "map";
-  valueType: PrimitiveAttributeType;
+  valueType: AttributeType;
 };
 export type ObjectAttributeType = {
   __type: "object";
   attributes: { [name: string]: Attribute };
+};
+export type DynamicAttributeType = {
+  __type: "dynamic";
 };
 
 export type AttributeType =
   | PrimitiveAttributeType
   | ListAttributeType
   | MapAttributeType
-  | ObjectAttributeType;
+  | ObjectAttributeType
+  | DynamicAttributeType;
 
 export type BaseAttribute = {
   description?: string; // can be markdown or plain
@@ -69,6 +73,7 @@ export function parse(providerSchema: ProviderJson): Provider {
   };
   return provider;
 }
+
 function parseProvider(
   provider: ProviderJson["provider"]
 ): Provider["provider"] {
@@ -88,40 +93,48 @@ function parseProvider(
   return result;
 }
 
-function parseAttribute(arg: AttributeTypeJson): Attribute {
-  if (arg.type == "string" || arg.type == "number" || arg.type == "bool") {
+function parseAttributeType(type: AttributeTypeJson["type"]): AttributeType {
+  if (type == "string" || type == "number" || type == "bool") {
+    return type;
+  }
+
+  if (type === "dynamic") {
     return {
-      __type: "settable",
-      type: arg.type,
-      optionality: arg.optional || false,
-      description: arg.description,
+      __type: "dynamic",
     };
   }
-  if (
-    Array.isArray(arg.type) &&
-    arg.type[0] == "set" &&
-    (arg.type[1] == "string" ||
-      arg.type[1] == "number" ||
-      arg.type[1] == "bool")
-  ) {
-    return {
-      __type: "settable",
-      type: {
+
+  if (Array.isArray(type)) {
+    if (type[0] === "list" || type[0] === "set") {
+      return {
         __type: "list",
-        type: arg.type[1],
-      },
-      optionality: arg.optional || false,
-      description: arg.description,
-    };
+        type: parseAttributeType(type[1]),
+      };
+    }
+    if (type[0] === "map") {
+      return {
+        __type: "map",
+        valueType: parseAttributeType(type[1]),
+      };
+    }
   }
 
   throw new Error(
     `Attribute type not implemented yet Attribute=${JSON.stringify(
-      arg,
+      type,
       null,
       2
     )}`
   );
+}
+
+function parseAttribute(arg: AttributeTypeJson): Attribute {
+  return {
+    __type: "settable",
+    type: parseAttributeType(arg.type),
+    optionality: arg.optional || false,
+    description: arg.description,
+  };
 }
 
 function parseBlock(arg: BlockTypeJson): Attribute {
