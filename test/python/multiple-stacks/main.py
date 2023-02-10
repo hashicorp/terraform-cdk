@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from constructs import Construct
 from cdktf import App, TerraformStack, Testing, LocalBackend
 from imports.null.provider import NullProvider

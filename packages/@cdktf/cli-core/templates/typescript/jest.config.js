@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 /** @type {import('ts-jest/dist/types').InitialOptionsTsJest} */
 /*
  * For a detailed explanation regarding each configuration property, visit:

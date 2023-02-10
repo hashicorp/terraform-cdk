@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from imports.aws.instance import Instance
 from imports.aws.provider import AwsProvider
 # DOCS_BLOCK_START:data-sources-define-data-sources,data-sources-remote-state-data-source

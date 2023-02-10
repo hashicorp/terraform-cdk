@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 package com.example.cdktf.common;
 
 import com.hashicorp.cdktf.App;

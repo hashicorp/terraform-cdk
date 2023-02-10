@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import nock from "nock";
 import * as terraformCloudClient from "../../../bin/cmds/helper/terraform-cloud-client";
 

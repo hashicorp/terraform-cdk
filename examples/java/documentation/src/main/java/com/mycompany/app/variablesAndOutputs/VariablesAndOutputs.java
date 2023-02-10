@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 package com.mycompany.app.variablesAndOutputs;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;

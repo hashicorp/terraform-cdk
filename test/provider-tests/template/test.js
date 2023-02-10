@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const test_helper_1 = require("../../../../../test/test-helper");

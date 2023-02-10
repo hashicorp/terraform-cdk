@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from cdktf import TerraformStack, TerraformLocal, TerraformVariable, CloudBackend, NamedCloudWorkspace
 from imports.aws.instance import Instance
 from imports.aws.provider import AwsProvider

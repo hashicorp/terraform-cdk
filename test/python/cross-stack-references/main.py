@@ -1,4 +1,7 @@
 #!/usr/bin/python3 -tt
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from constructs import Construct
 from cdktf import App, Fn, TerraformStack, Testing
 from imports.random.provider import RandomProvider

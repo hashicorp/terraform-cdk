@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 package com.mycompany.app.stacks;
 
 // DOCS_BLOCK_START:cross-stack-reference

@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from cdktf import TerraformStack, Token, App
 from constructs import Construct
 from imports.aws.provider import AwsProvider

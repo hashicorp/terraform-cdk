@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 
 const { writeFileSync, readFileSync, copySync, rmSync, existsSync } = require('fs-extra');
 const path = require('path');

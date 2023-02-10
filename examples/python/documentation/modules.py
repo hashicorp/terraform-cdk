@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from cdktf import TerraformHclModule
 
 # DOCS_BLOCK_START:modules-install-modules

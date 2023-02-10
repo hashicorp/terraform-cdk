@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import React from "react";
 import { Box, Static, Text } from "ink";
 import { LogEntry } from "../hooks/cdktf-project";

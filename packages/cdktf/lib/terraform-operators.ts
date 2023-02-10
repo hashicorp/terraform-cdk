@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Expression, OperatorExpression } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 

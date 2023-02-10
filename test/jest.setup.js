@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 // set a generous global timeout for beforeAll hooks as jest does run the tests anyway even
 // if the hook timeout out. This produces weird errors that are hard to trace down
 // for reference: https://github.com/facebook/jest/issues/9527

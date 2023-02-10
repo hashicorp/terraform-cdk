@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 import pytest
 from main import MyStack, MyStackInvalidTerraform
 from cdktf import Testing

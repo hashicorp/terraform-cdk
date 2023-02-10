@@ -1,4 +1,7 @@
 #!/bin/bash
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # create a github release
 # Mostly copied from https://github.com/awslabs/cdk8s/blob/master/tools/release-github.sh
 
