@@ -24,6 +24,12 @@ const schema = {
           description_kind: "plain",
           optional: true,
         },
+        internal: {
+          type: "bool",
+          description_kind: "plain",
+          optional: true,
+          computed: true,
+        },
       },
       block_types: {
         assume_role: {
