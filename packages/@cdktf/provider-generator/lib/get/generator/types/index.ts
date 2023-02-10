@@ -89,10 +89,10 @@ function parseProvider(
 }
 
 function parseAttribute(arg: AttributeTypeJson): Attribute {
-  if (arg.type == "string") {
+  if (arg.type == "string" || arg.type == "number") {
     return {
       __type: "settable",
-      type: "string",
+      type: arg.type,
       optionality: arg.optional || false,
       description: arg.description,
     };
@@ -112,6 +112,7 @@ function parseAttribute(arg: AttributeTypeJson): Attribute {
       description: arg.description,
     };
   }
+
   throw new Error(
     `Attribute type not implemented yet Attribute=${JSON.stringify(
       arg,

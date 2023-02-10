@@ -119,6 +119,12 @@ describe("new generator types", () => {
                 },
               },
             },
+            "permanent_deletion_time_in_days": Object {
+              "__type": "settable",
+              "description": undefined,
+              "optionality": true,
+              "type": "number",
+            },
           },
         },
       }
