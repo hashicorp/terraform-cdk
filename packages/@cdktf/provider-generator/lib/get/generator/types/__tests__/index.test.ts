@@ -3,7 +3,103 @@
 import { parse } from "..";
 
 const schema = {
-  resource_schemas: {},
+  resource_schemas: {
+    kubernetes_service: {
+      version: 1,
+      block: {
+        attributes: {
+          status: {
+            type: [
+              "list",
+              [
+                "object",
+                {
+                  load_balancer: [
+                    "list",
+                    [
+                      "object",
+                      {
+                        ingress: [
+                          "list",
+                          [
+                            "object",
+                            {
+                              hostname: "string",
+                              ip: "string",
+                            },
+                          ],
+                        ],
+                      },
+                    ],
+                  ],
+                },
+              ],
+            ],
+            description_kind: "plain",
+            computed: true,
+          },
+        },
+        block_types: {
+          spec: {
+            nesting_mode: "list",
+            block: {
+              block_types: {
+                session_affinity_config: {
+                  nesting_mode: "list",
+                  block: {
+                    block_types: {
+                      client_ip: {
+                        nesting_mode: "list",
+                        block: {
+                          attributes: {
+                            timeout_seconds: {
+                              type: "number",
+                              description:
+                                "Specifies the seconds of `ClientIP` type session sticky time. The value must be > 0 and <= 86400(for 1 day) if `ServiceAffinity` == `ClientIP`.",
+                              description_kind: "plain",
+                              optional: true,
+                              computed: true,
+                            },
+                          },
+                          description:
+                            "Contains the configurations of Client IP based session affinity.",
+                          description_kind: "plain",
+                        },
+                        max_items: 1,
+                      },
+                    },
+                    description:
+                      "Contains the configurations of session affinity. More info: https://kubernetes.io/docs/concepts/services-networking/service/#proxy-mode-ipvs",
+                    description_kind: "plain",
+                  },
+                  max_items: 1,
+                },
+              },
+              description:
+                "Spec defines the behavior of a service. https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#spec-and-status",
+              description_kind: "plain",
+            },
+            min_items: 1,
+            max_items: 1,
+          },
+          timeouts: {
+            nesting_mode: "single",
+            block: {
+              attributes: {
+                create: {
+                  type: "string",
+                  description_kind: "plain",
+                  optional: true,
+                },
+              },
+              description_kind: "plain",
+            },
+          },
+        },
+        description_kind: "plain",
+      },
+    },
+  },
   data_source_schemas: {},
   provider: {
     version: 0,
