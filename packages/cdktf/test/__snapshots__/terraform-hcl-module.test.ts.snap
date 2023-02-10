@@ -7,7 +7,7 @@ exports[`add provider 1`] = `
       \\"providers\\": {
         \\"test\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -42,7 +42,7 @@ exports[`complex providers 1`] = `
         \\"test.dst\\": \\"test.provider2\\",
         \\"test.src\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -71,7 +71,7 @@ exports[`depend on module 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -104,13 +104,13 @@ exports[`depend on other module 1`] = `
 "{
   \\"module\\": {
     \\"test_1\\": {
-      \\"source\\": \\"./assets/local-module-test_1/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test_1/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     },
     \\"test_2\\": {
       \\"depends_on\\": [
         \\"module.test_1\\"
       ],
-      \\"source\\": \\"./assets/local-module-test_2/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test_2/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   }
 }"
@@ -120,7 +120,7 @@ exports[`minimal configuration 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   }
 }"
@@ -134,7 +134,7 @@ exports[`multiple providers 1`] = `
         \\"differentType\\": \\"differentType\\",
         \\"test\\": \\"test\\"
       },
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -172,7 +172,7 @@ exports[`pass variables 1`] = `
         \\"id1\\",
         \\"id2\\"
       ],
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   }
 }"
@@ -182,7 +182,7 @@ exports[`reference module 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -212,7 +212,7 @@ exports[`reference module list 1`] = `
 "{
   \\"module\\": {
     \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
@@ -244,7 +244,7 @@ exports[`set variable 1`] = `
   \\"module\\": {
     \\"test\\": {
       \\"param1\\": \\"value1\\",
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   }
 }"
@@ -257,7 +257,7 @@ exports[`simple provider 1`] = `
       \\"providers\\": {
         \\"test\\": \\"test.provider1\\"
       },
-      \\"source\\": \\"./assets/local-module-test/0D0E8E2DE57DE598737C290F4236D351\\"
+      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
     }
   },
   \\"provider\\": {
