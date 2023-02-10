@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # parts of the AWS VPC module for testing purposes
 
 variable "create_vpc" {

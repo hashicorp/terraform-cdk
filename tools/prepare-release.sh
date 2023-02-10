@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # work around for changelog when pre-release versions exist
 # based on https://github.com/conventional-changelog/standard-version/issues/203#issuecomment-872415140
 

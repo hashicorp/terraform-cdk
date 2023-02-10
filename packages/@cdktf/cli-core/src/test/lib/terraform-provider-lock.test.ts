@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { TerraformProviderLock } from "../../lib/terraform-provider-lock";
 import { readFile, stat } from "fs/promises";
 import { ProviderConstraint } from "../../lib/dependencies/dependency-manager";

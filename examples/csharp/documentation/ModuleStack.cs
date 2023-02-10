@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 // DOCS_BLOCK_START:modules-install-modules
 using System;
 using System.IO;

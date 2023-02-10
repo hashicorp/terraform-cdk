@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 // DOCS_BLOCK_START:var-out-define-output-values
 using System;
 using System.IO;

@@ -1,4 +1,7 @@
 #!/usr/bin/python3 -tt
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from constructs import Construct
 from cdktf import App, TerraformStack, Testing, TerraformOutput, LocalBackend
 from imports.docker.provider import DockerProvider

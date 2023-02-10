@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # https://learn.hashicorp.com/tutorials/terraform/module-create
 
 # Input variable definitions

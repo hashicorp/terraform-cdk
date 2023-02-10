@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { login } from "../handlers";
 import { TerraformLogin } from "../helper/terraform-login";
 

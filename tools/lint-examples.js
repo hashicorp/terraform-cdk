@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 // Lints examples, currently this includes:
 // - making sure each example in /examples has a package.json describing how it can be run (i.e. by CI)
 //    - making sure the name in the package.json matches @examples/<language>-<name_of_example>-<any-sub-directory>

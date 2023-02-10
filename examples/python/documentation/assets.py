@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 # DOCS_BLOCK_START:assets
 from constructs import Construct
 from cdktf import TerraformAsset, TerraformStack, AssetType

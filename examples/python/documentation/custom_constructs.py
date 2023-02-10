@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 from imports.kubernetes.provider import KubernetesProvider
 from my_constructs import KubernetesWebAppDeployment
 import os

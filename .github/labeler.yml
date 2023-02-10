@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 ci/run-unit/@cdktf/cli-core:
   # The workflow used
   - ".github/workflows/unit.yml"

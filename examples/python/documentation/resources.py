@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 
 from imports.kubernetes.namespace import NamespaceMetadata
 from imports.aws.data_aws_region import DataAwsRegion

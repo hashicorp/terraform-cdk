@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 provider "vsphere" {
   user           = var.vsphere_user
   password       = var.vsphere_password

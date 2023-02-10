@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 const { execSync } = require('child_process');
 const { readFileSync, writeFileSync } = require('fs');
 const os = require('os');

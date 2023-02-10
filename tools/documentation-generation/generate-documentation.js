@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
 
 const fs = require("fs");
 const { Documentation, Language } = require("jsii-docgen");
