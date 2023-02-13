@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:providers-import,providers-import-classes
 import { Construct } from "constructs";
-import { TerraformStack, Token } from "cdktf";
+import { TerraformStack, TerraformVariable, Token } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Instance } from "@cdktf/provider-aws/lib/instance";
 // DOCS_BLOCK_END:providers-import,providers-import-classes
@@ -30,9 +30,21 @@ export class ProvidersStack extends TerraformStack {
     // DOCS_BLOCK_END:providers-import,providers-import-classes
 
     // DOCS_BLOCK_START:providers-import-classes
+    const dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", {
+      type: "string",
+      description: "dnsimple token",
+      sensitive: true,
+    });
+
+    const dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", {
+      type: "string",
+      description: "dnsimple account",
+      sensitive: true,
+    });
+
     new DnsimpleProvider(this, "dnsimple", {
-      token: Token.asString(process.env.DNSIMPLE_TOKEN),
-      account: Token.asString(process.env.DNSIMPLE_ACCOUNT),
+      token: dnsimpleToken.stringValue,
+      account: dnsimpleAccount.stringValue,
     });
 
     new Record(this, "web-www", {

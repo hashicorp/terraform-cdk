@@ -2,8 +2,6 @@ package main
 
 // DOCS_BLOCK_START:providers-import-providers,providers-import-classes
 import (
-	"os"
-
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -30,9 +28,21 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 	})
 	// DOCS_BLOCK_END:providers-import-providers
 
+	dnsimpleToken := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleToken"), &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple token"),
+		Sensitive:   jsii.Bool(true),
+	})
+
+	dnsimpleAccount := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleAccount"), &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple account"),
+		Sensitive:   jsii.Bool(true),
+	})
+
 	dnsimple.NewDnsimpleProvider(stack, jsii.String("dnsimple"), &dnsimple.DnsimpleProviderConfig{
-		Token:   jsii.String(os.Getenv("DNSIMPLE_TOKEN")),
-		Account: jsii.String(os.Getenv("DNSIMPLE_ACCOUNT")),
+		Token:   dnsimpleToken.StringValue(),
+		Account: dnsimpleAccount.StringValue(),
 	})
 
 	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{

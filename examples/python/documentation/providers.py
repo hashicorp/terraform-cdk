@@ -29,7 +29,7 @@ DOCS_BLOCK_END:providers-import-providers
 # DOCS_BLOCK_START:providers-import-classes
 import os
 from constructs import Construct
-from cdktf import App, TerraformStack, Token
+from cdktf import App, TerraformStack, TerraformVariable, Token
 from imports.aws.provider import AwsProvider
 from imports.dnsimple.provider import DnsimpleProvider
 from imports.dnsimple.record import Record
@@ -47,9 +47,21 @@ class ProviderStack(TerraformStack):
             instance_type = "t2.micro",
         )
 
+        dnsimpleToken = TerraformVariable(self, "dnsimpleToken", 
+            type = "string",
+            description = "dnsimple token",
+            sensitive = True
+        )
+
+        dnsimpleAccount = TerraformVariable(self, "dnsimpleAccount",
+            type = "string",
+            description = "dnsimple account",
+            sensitive = True
+        )
+
         DnsimpleProvider(self, "dnsimple",
-            token = Token.as_string(os.getenv("DNSIMPLE_TOKEN")),
-            account = Token.as_string(os.getenv("DNSIMPLE_ACCOUNT")),
+            token = dnsimpleToken.string_value,
+            account = dnsimpleAccount.string_value
         )
 
         Record(self, "web-www",

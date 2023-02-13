@@ -59,7 +59,7 @@ This TypeScript example project has a `main.ts` file that defines AWS resources.
 
 ```ts
 import { Construct } from "constructs";
-import { TerraformStack, Token } from "cdktf";
+import { TerraformStack, TerraformVariable, Token } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Instance } from "@cdktf/provider-aws/lib/instance";
 
@@ -175,8 +175,6 @@ namespace Examples
 
 ```go
 import (
-	"os"
-
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -244,7 +242,7 @@ Import and use the generated classes in your application. The following example 
 
 ```ts
 import { Construct } from "constructs";
-import { TerraformStack, Token } from "cdktf";
+import { TerraformStack, TerraformVariable, Token } from "cdktf";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Instance } from "@cdktf/provider-aws/lib/instance";
 import { DnsimpleProvider } from "@cdktf/provider-dnsimple/lib/provider";
@@ -263,9 +261,21 @@ export class ProvidersStack extends TerraformStack {
       instanceType: "t2.micro",
     });
 
+    const dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", {
+      type: "string",
+      description: "dnsimple token",
+      sensitive: true,
+    });
+
+    const dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", {
+      type: "string",
+      description: "dnsimple account",
+      sensitive: true,
+    });
+
     new DnsimpleProvider(this, "dnsimple", {
-      token: Token.asString(process.env.DNSIMPLE_TOKEN),
-      account: Token.asString(process.env.DNSIMPLE_ACCOUNT),
+      token: dnsimpleToken.stringValue,
+      account: dnsimpleAccount.stringValue,
     });
 
     new Record(this, "web-www", {
@@ -279,10 +289,10 @@ export class ProvidersStack extends TerraformStack {
 ```
 
 ```java
+import com.hashicorp.cdktf.TerraformVariableConfig;
 import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.Token;
+import com.hashicorp.cdktf.TerraformVariable;
 import imports.aws.instance.Instance;
 import imports.aws.instance.InstanceConfig;
 import imports.aws.provider.AwsProvider;
@@ -308,9 +318,23 @@ public class MainImportClasses extends TerraformStack {
                 .build()
         );
 
+        TerraformVariable dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", TerraformVariableConfig.builder()
+                .type("string")
+                .description("dnsimple token")
+                .sensitive(true)
+                .build()
+        );
+
+        TerraformVariable dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", TerraformVariableConfig.builder()
+                .type("string")
+                .description("dnsimple account")
+                .sensitive(true)
+                .build()
+        );
+
         new DnsimpleProvider(this, "dnsimple", DnsimpleProviderConfig.builder()
-                .token(Token.asString(System.getenv("DNSIMPLE_TOKEN")))
-                .account(Token.asString(System.getenv("DNSIMPLE_ACCOUNT")))
+                .token(dnsimpleToken.getStringValue())
+                .account(dnsimpleAccount.getStringValue())
                 .build()
         );
 
@@ -323,18 +347,18 @@ public class MainImportClasses extends TerraformStack {
         );
     }
 
-    public static void main(String[] args) {
-        final App app = new App();
-        new MainImportClasses(app, "hello-terraform");
-        app.synth();
-    }
+     public static void main(String[] args) {
+     final App app = new App();
+     new MainImportClasses(app, "hello-terraform");
+     app.synth();
+     }
 }
 ```
 
 ```python
 import os
 from constructs import Construct
-from cdktf import App, TerraformStack, Token
+from cdktf import App, TerraformStack, TerraformVariable, Token
 from imports.aws.provider import AwsProvider
 from imports.dnsimple.provider import DnsimpleProvider
 from imports.dnsimple.record import Record
@@ -352,9 +376,21 @@ class ProviderStack(TerraformStack):
             instance_type = "t2.micro",
         )
 
+        dnsimpleToken = TerraformVariable(self, "dnsimpleToken",
+            type = "string",
+            description = "dnsimple token",
+            sensitive = True
+        )
+
+        dnsimpleAccount = TerraformVariable(self, "dnsimpleAccount",
+            type = "string",
+            description = "dnsimple account",
+            sensitive = True
+        )
+
         DnsimpleProvider(self, "dnsimple",
-            token = Token.as_string(os.getenv("DNSIMPLE_TOKEN")),
-            account = Token.as_string(os.getenv("DNSIMPLE_ACCOUNT")),
+            token = dnsimpleToken.string_value,
+            account = dnsimpleAccount.string_value
         )
 
         Record(self, "web-www",
@@ -407,10 +443,24 @@ namespace Examples
                 InstanceType = "t2.micro"
             });
 
+            TerraformVariable dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", new TerraformVariableConfig
+            {
+                Type = "string",
+                Description = "dnsimple token",
+                Sensitive = true
+            });
+
+            TerraformVariable dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", new TerraformVariableConfig
+            {
+                Type = "string",
+                Description = "dnsimple account",
+                Sensitive = true
+            });
+
             new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig
             {
-                Token = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_TOKEN")),
-                Account = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_ACCOUNT"))
+                Token = dnsimpleToken.StringValue,
+                Account = dnsimpleAccount.StringValue
             });
 
             new Record(this, "web-www", new RecordConfig
@@ -427,8 +477,6 @@ namespace Examples
 
 ```go
 import (
-	"os"
-
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
@@ -452,9 +500,21 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 		InstanceType: jsii.String("t2.micro"),
 	})
 
+	dnsimpleToken := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleToken"), &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple token"),
+		Sensitive:   jsii.Bool(true),
+	})
+
+	dnsimpleAccount := cdktf.NewTerraformVariable(stack, jsii.String("dnsimpleAccount"), &cdktf.TerraformVariableConfig{
+		Type:        jsii.String("string"),
+		Description: jsii.String("dnsimple account"),
+		Sensitive:   jsii.Bool(true),
+	})
+
 	dnsimple.NewDnsimpleProvider(stack, jsii.String("dnsimple"), &dnsimple.DnsimpleProviderConfig{
-		Token:   jsii.String(os.Getenv("DNSIMPLE_TOKEN")),
-		Account: jsii.String(os.Getenv("DNSIMPLE_ACCOUNT")),
+		Token:   dnsimpleToken.StringValue(),
+		Account: dnsimpleAccount.StringValue(),
 	})
 
 	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{

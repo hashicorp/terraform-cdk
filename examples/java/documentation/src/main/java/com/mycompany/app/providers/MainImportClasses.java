@@ -1,10 +1,10 @@
 package com.mycompany.app.providers;
 
 // DOCS_BLOCK_START:providers-import-classes
+import com.hashicorp.cdktf.TerraformVariableConfig;
 import software.constructs.Construct;
-import com.hashicorp.cdktf.App;
 import com.hashicorp.cdktf.TerraformStack;
-import com.hashicorp.cdktf.Token;
+import com.hashicorp.cdktf.TerraformVariable;
 import imports.aws.instance.Instance;
 import imports.aws.instance.InstanceConfig;
 import imports.aws.provider.AwsProvider;
@@ -30,9 +30,23 @@ public class MainImportClasses extends TerraformStack {
                 .build()
         );
 
+        TerraformVariable dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", TerraformVariableConfig.builder()
+                .type("string")
+                .description("dnsimple token")
+                .sensitive(true)
+                .build()
+        );
+
+        TerraformVariable dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", TerraformVariableConfig.builder()
+                .type("string")
+                .description("dnsimple account")
+                .sensitive(true)
+                .build()
+        );
+
         new DnsimpleProvider(this, "dnsimple", DnsimpleProviderConfig.builder()
-                .token(Token.asString(System.getenv("DNSIMPLE_TOKEN")))
-                .account(Token.asString(System.getenv("DNSIMPLE_ACCOUNT")))
+                .token(dnsimpleToken.getStringValue())
+                .account(dnsimpleAccount.getStringValue())
                 .build()
         );
 
@@ -47,13 +61,13 @@ public class MainImportClasses extends TerraformStack {
 
     // DOCS_BLOCK_END:providers-import-classes
     /**
-    // DOCS_BLOCK_START:providers-import-classes
-    public static void main(String[] args) {
-        final App app = new App();
-        new MainImportClasses(app, "hello-terraform");
-        app.synth();
-    }
-    // DOCS_BLOCK_END:providers-import-classes
+     // DOCS_BLOCK_START:providers-import-classes
+     public static void main(String[] args) {
+     final App app = new App();
+     new MainImportClasses(app, "hello-terraform");
+     app.synth();
+     }
+     // DOCS_BLOCK_END:providers-import-classes
      */
     // DOCS_BLOCK_START:providers-import-classes
 }
