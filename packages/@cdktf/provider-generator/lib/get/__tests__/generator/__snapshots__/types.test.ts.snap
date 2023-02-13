@@ -1902,7 +1902,95 @@ export * as objectResource from './object-resource';
 export * as functionResource from './function-resource';
 export * as staticResource from './static-resource';
 export * as providerResource from './provider-resource';
+export * as licenseResource from './license-resource';
 
+"
+`;
+
+exports[`incompatible resource names: license-resource 1`] = `
+"// https://www.terraform.io/docs/providers/test/r/license
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface LicenseResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/license#dummy LicenseResource#dummy}
+  */
+  readonly dummy?: string;
+}
+
+/**
+* Represents a {@link https://www.terraform.io/docs/providers/test/r/license test_license}
+*/
+export class LicenseResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = \\"test_license\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://www.terraform.io/docs/providers/test/r/license test_license} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options LicenseResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: LicenseResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'test_license',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._dummy = config.dummy;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // dummy - computed: false, optional: true, required: false
+  private _dummy?: string; 
+  public get dummy() {
+    return this.getStringAttribute('dummy');
+  }
+  public set dummy(value: string) {
+    this._dummy = value;
+  }
+  public resetDummy() {
+    this._dummy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dummyInput() {
+    return this._dummy;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      dummy: cdktf.stringToTerraform(this._dummy),
+    };
+  }
+}
 "
 `;
 
