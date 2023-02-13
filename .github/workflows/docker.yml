@@ -15,18 +15,18 @@ jobs:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2.2.1
+        uses: docker/setup-buildx-action@f03ac48505955848960e80bbb68046aa35c7b9e7
       - name: Cache Docker layers
-        uses: actions/cache@v3.0.11
+        uses: actions/cache@6998d139ddd3e68c71e9e398d8e40b71a2f39812
         with:
           path: /tmp/.buildx-cache
           key: ${{ runner.os }}-buildx-${{ hashFiles('/Dockerfile', '.terraform.versions.json') }}
           restore-keys: |
             ${{ runner.os }}-buildx-
       - name: Login to DockerHub
-        uses: docker/login-action@v2.1.0
+        uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
           echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
           echo "available=$AVAILABLE_TERRAFORM_VERSIONS" >> $GITHUB_OUTPUT
       - name: Build and push
-        uses: docker/build-push-action@v3.2.0
+        uses: docker/build-push-action@3b5e8027fcad23fda98b2e3ac259d8d67585f671
         with:
           pull: true
           push: true
