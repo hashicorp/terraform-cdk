@@ -32,8 +32,6 @@ export type Resource = {
   attributes: { [name: string]: Attribute };
 };
 
-export type Attribute = ReadonlyAttribute | SettableAttribute;
-
 export type PrimitiveAttributeType = "string" | "number" | "bool";
 export type ListAttributeType = {
   __type: "list";
@@ -72,6 +70,7 @@ export type SettableAttribute = BaseAttribute & {
   optionality: boolean;
   // storageClass: string; TODO: do we really need it? Can't it be inferred from the result?
 };
+export type Attribute = ReadonlyAttribute | SettableAttribute;
 
 export type Block = {};
 

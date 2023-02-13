@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { parse } from "..";
+import { edgeSchema } from "../../../../__tests__/edge-provider-schema";
 
 const schema = {
   resource_schemas: {
@@ -395,20 +396,327 @@ describe("new generator types", () => {
   });
 
   it("works with edge cases", () => {
-    // TODO: take edge provider schema as input to parse and read the generated code
-    // to write a manual assertion for the parse function
-    const edgeschema = {} as any;
-    expect(parse(edgeschema)).toEqual(
-      expect.objectContaining({
-        provider: {
+    const optionalPrimitives = {
+      optstr: {
+        __type: "settable",
+        type: "string",
+        optionality: true,
+      },
+      optnum: {
+        __type: "settable",
+        type: "number",
+        optionality: true,
+      },
+      optbool: {
+        __type: "settable",
+        type: "bool", // TODO: should we encode here that it's boolean | cdktf.IResolvable as type
+        optionality: true,
+      },
+    };
+
+    const requiredPrimitives = {
+      reqstr: {
+        __type: "settable",
+        type: "string",
+        optionality: false,
+      },
+      reqnum: {
+        __type: "settable",
+        type: "number",
+        optionality: false,
+      },
+      reqbool: {
+        __type: "settable",
+        type: "bool", // TODO: should we encode here that it's boolean | cdktf.IResolvable as type
+        optionality: false,
+      },
+    };
+
+    const computedPrimitives = {
+      reqstr: {
+        __type: "readonly",
+        type: "string",
+        optionality: true,
+      },
+      reqnum: {
+        __type: "readonly",
+        type: "number",
+        optionality: true,
+      },
+      reqbool: {
+        __type: "readonly",
+        type: "bool", // TODO: should we encode here that it's boolean | cdktf.IResolvable as type
+        optionality: true,
+      },
+    };
+
+    // TODO: look for read-only attributes in the original types
+    const expectedResult = {
+      provider: {
+        attributes: {
+          alias: {
+            __type: "settable",
+            type: "string",
+            optionality: true,
+          },
+          ...optionalPrimitives,
+          ...requiredPrimitives,
+          ...computedPrimitives,
+        },
+      },
+      resources: {
+        ListBlockResource: {
           attributes: {
-            reqNum: {
+            opt: {
+              __type: "settable",
+              optionality: true,
+              type: {
+                __type: "list",
+                type: {
+                  __type: "object",
+                  attributes: {
+                    ...optionalPrimitives,
+                    ...requiredPrimitives,
+                    ...computedPrimitives,
+                  },
+                },
+              },
+            },
+            req: {
+              __type: "settable",
+              optionality: false,
+              type: {
+                __type: "list",
+                type: {
+                  __type: "object",
+                  attributes: {
+                    ...optionalPrimitives,
+                    ...requiredPrimitives,
+                    ...computedPrimitives,
+                  },
+                },
+              },
+            },
+            singleopt: {
+              __type: "settable",
+              optionality: true,
+              type: {
+                __type: "object",
+                attributes: {
+                  ...optionalPrimitives,
+                  ...requiredPrimitives,
+                  ...computedPrimitives,
+                },
+              },
+            },
+            singlereq: {
+              __type: "settable",
+              optionality: false,
+              type: {
+                __type: "object",
+                attributes: {
+                  ...optionalPrimitives,
+                  ...requiredPrimitives,
+                  ...computedPrimitives,
+                },
+              },
+            },
+
+            singleComputedBlock: {
+              __type: "readonly",
+              optionality: true,
+              type: {
+                __type: "object",
+                attributes: {
+                  ...optionalPrimitives,
+                  ...requiredPrimitives,
+                  ...computedPrimitives,
+                },
+              },
+            },
+          },
+        },
+        MapResource: {
+          attributes: {
+            optMap: {
+              __type: "settable",
+              optionality: true,
+              type: {
+                __type: "map",
+                valueType: "string",
+              },
+            },
+            reqMap: {
+              __type: "settable",
+              optionality: false,
+              type: {
+                __type: "map",
+                valueType: "boolean",
+              },
+            },
+            computedMap: {
+              __type: "settable",
+              optionality: true,
+              type: {
+                __type: "map",
+                valueType: "number",
+              },
+            },
+          },
+        },
+        OptionalAttributeResource: {
+          attributes: {
+            str: {
+              __type: "settable",
+              type: "string",
+              optionality: true,
+            },
+            num: {
+              __type: "settable",
               type: "number",
+              optionality: true,
+            },
+            bool: {
+              __type: "settable",
+              type: "boolean",
+              optionality: true,
+            },
+            strList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "string",
+              },
+              optionality: true,
+            },
+            numList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "number",
+              },
+              optionality: true,
+            },
+            boolList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "boolean",
+              },
+              optionality: true,
+            },
+          },
+        },
+        OptionalComputedAttributeResource: {
+          attributes: {
+            str: {
+              __type: "settable",
+              type: "string",
+              optionality: true,
+            },
+            num: {
+              __type: "settable",
+              type: "number",
+              optionality: true,
+            },
+            bool: {
+              __type: "settable",
+              type: "boolean",
+              optionality: true,
+            },
+            strList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "string",
+              },
+              optionality: true,
+            },
+            numList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "number",
+              },
+              optionality: true,
+            },
+            boolList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "boolean",
+              },
+              optionality: true,
+            },
+          },
+        },
+        RequiredAttributeResource: {
+          attributes: {
+            str: {
+              __type: "settable",
+              type: "string",
+              optionality: false,
+            },
+            num: {
+              __type: "settable",
+              type: "number",
+              optionality: false,
+            },
+            bool: {
+              __type: "settable",
+              type: "boolean",
+              optionality: false,
+            },
+            strList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "string",
+              },
+              optionality: false,
+            },
+            numList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "number",
+              },
+              optionality: false,
+            },
+            boolList: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: "boolean",
+              },
               optionality: false,
             },
           },
         },
-      })
+        SetBlockResource: {
+          attributes: {
+            set: {
+              __type: "settable",
+              type: {
+                __type: "list",
+                type: {
+                  __type: "object",
+                  attributes: {
+                    ...optionalPrimitives,
+                    ...requiredPrimitives,
+                    ...computedPrimitives,
+                  },
+                },
+              },
+              optionality: true,
+            },
+          },
+        },
+      },
+    };
+
+    expect(parse(edgeSchema as any)).toEqual(
+      expect.objectContaining(expectedResult)
     );
   });
 });
