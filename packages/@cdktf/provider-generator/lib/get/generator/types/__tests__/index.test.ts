@@ -434,17 +434,17 @@ describe("new generator types", () => {
 
     const computedPrimitives = {
       reqstr: {
-        __type: "readonly",
+        __type: "settable",
         type: "string",
         optionality: true,
       },
       reqnum: {
-        __type: "readonly",
+        __type: "settable",
         type: "number",
         optionality: true,
       },
       reqbool: {
-        __type: "readonly",
+        __type: "settable",
         type: "bool", // TODO: should we encode here that it's boolean | cdktf.IResolvable as type
         optionality: true,
       },
@@ -523,7 +523,7 @@ describe("new generator types", () => {
             },
 
             singleComputedBlock: {
-              __type: "readonly",
+              __type: "settable",
               optionality: true,
               type: {
                 __type: "object",
