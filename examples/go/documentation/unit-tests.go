@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/container"
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/datadockerimage"
-	"github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/image"
-	dockerprovider "github.com/hashicorp/terraform-cdk/examples/go/docker/generated/kreuzwerker/docker/provider"
+
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/kreuzwerker/docker/container"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/kreuzwerker/docker/image"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/kreuzwerker/docker/datadockerimage"
+	docker "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/kreuzwerker/docker/provider"
 
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
@@ -13,7 +14,7 @@ import (
 
 // Dummy functions used for unit testing documentation 
 
-func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
+func MyApplicationsAbstraction(scope constructs.Construct, id string) cdktf.TerraformStack {
 	stack := cdktf.NewTerraformStack(scope, &id)
 
 	// The code that defines your stack goes here
@@ -38,12 +39,4 @@ func NewMyStack(scope constructs.Construct, id string) cdktf.TerraformStack {
 	})
 
 	return stack
-}
-
-func main() {
-	app := cdktf.NewApp(nil)
-
-	NewMyStack(app, "test-go")
-
-	app.Synth()
 }

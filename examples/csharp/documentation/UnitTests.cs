@@ -25,13 +25,5 @@ namespace MyCompany.ApplicationsAbstraction
                 DnsOpts = new string[]{"1", "2", "3"}
             });
         }
-
-        public static void Main(string[] args)
-        {
-            App app = new App();
-            new MyApplicationsAbstraction(app, "test-c2");
-            app.Synth();
-            Console.WriteLine("App synth complete");
-        }
     }
 }
