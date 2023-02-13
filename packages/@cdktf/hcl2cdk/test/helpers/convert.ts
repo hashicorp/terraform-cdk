@@ -23,6 +23,7 @@ type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes,
+  no_missing_type_coersion, // See https://github.com/hashicorp/terraform-cdk/issues/1891
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
