@@ -496,7 +496,12 @@ export class Fn {
     keyslist: any[] | IResolvable,
     valueslist: any[] | IResolvable
   ) {
-    return asAny(terraformFunction("zipmap", [mapValue])(keyslist, valueslist));
+    return asAny(
+      terraformFunction("zipmap", [listOf(stringValue), listOf(anyValue)])(
+        keyslist,
+        valueslist
+      )
+    );
   }
 
   /**
