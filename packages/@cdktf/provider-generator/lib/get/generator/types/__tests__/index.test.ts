@@ -465,6 +465,43 @@ describe("new generator types", () => {
         },
       },
       resources: {
+        ComputedAttributeResource: {
+          attributes: {
+            str: {
+              __type: "readonly",
+              type: "string",
+            },
+            num: {
+              __type: "readonly",
+              type: "number",
+            },
+            bool: {
+              __type: "readonly",
+              type: "boolean",
+            },
+            strList: {
+              __type: "readonly",
+              type: {
+                __type: "list",
+                type: "string",
+              },
+            },
+            numList: {
+              __type: "readonly",
+              type: {
+                __type: "list",
+                type: "number",
+              },
+            },
+            boolList: {
+              __type: "readonly",
+              type: {
+                __type: "list",
+                type: "boolean",
+              },
+            },
+          },
+        },
         ListBlockResource: {
           attributes: {
             opt: {

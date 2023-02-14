@@ -61,6 +61,17 @@ export class SchemaBuilder {
     return this;
   }
 
+  public computedAttribute({
+    name,
+    type,
+  }: {
+    name: string;
+    type: AttributeType;
+  }): SchemaBuilder {
+    this.schema.block.attributes[name] = { type, computed: true };
+    return this;
+  }
+
   public listBlock({
     name,
     block,
@@ -124,15 +135,35 @@ export class SchemaBuilder {
   public addAllPrimitiveTypes({
     required,
     computed,
+    optional,
     prefix = "",
   }: {
     required: boolean;
     computed: boolean;
+    optional?: boolean;
     prefix?: string;
   }): SchemaBuilder {
-    this.attribute({ name: prefix + "str", type: "string", required, computed })
-      .attribute({ name: prefix + "num", type: "number", required, computed })
-      .attribute({ name: prefix + "bool", type: "bool", required, computed });
+    this.attribute({
+      name: prefix + "str",
+      type: "string",
+      required,
+      optional,
+      computed,
+    })
+      .attribute({
+        name: prefix + "num",
+        type: "number",
+        required,
+        optional,
+        computed,
+      })
+      .attribute({
+        name: prefix + "bool",
+        type: "bool",
+        required,
+        optional,
+        computed,
+      });
 
     return this;
   }
@@ -155,10 +186,12 @@ export class SchemaBuilder {
   public addAllPrimitiveListTypes({
     required,
     computed,
+    optional,
     prefix = "",
   }: {
     required: boolean;
     computed: boolean;
+    optional?: boolean;
     prefix?: string;
   }): SchemaBuilder {
     this.attribute({
@@ -166,18 +199,21 @@ export class SchemaBuilder {
       type: ["list", "string"],
       required,
       computed,
+      optional,
     })
       .attribute({
         name: prefix + "numList",
         type: ["list", "number"],
         required,
         computed,
+        optional,
       })
       .attribute({
         name: prefix + "boolList",
         type: ["list", "bool"],
         required,
         computed,
+        optional,
       });
 
     return this;

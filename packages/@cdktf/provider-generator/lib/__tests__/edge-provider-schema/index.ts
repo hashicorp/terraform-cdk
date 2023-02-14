@@ -18,6 +18,15 @@ const optional_computed_attribute_resource = new S()
   .addAllPrimitiveListTypes({ required: false, computed: true })
   .build();
 
+const computed_attribute_resource = new S()
+  .addAllPrimitiveTypes({ required: false, computed: true, optional: false })
+  .addAllPrimitiveListTypes({
+    required: false,
+    computed: true,
+    optional: false,
+  })
+  .build();
+
 const list_block_resource = new S()
   .listBlock({
     name: "opt",
@@ -114,6 +123,7 @@ export const edgeSchema: ProviderSchema = schema({
     required_attribute_resource,
     optional_attribute_resource,
     optional_computed_attribute_resource,
+    computed_attribute_resource,
     list_block_resource,
     map_resource,
     set_block_resource,
