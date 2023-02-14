@@ -1,6 +1,3 @@
-// Copyright (c) HashiCorp, Inc.
-// SPDX-License-Identifier: MPL-2.0
-
 using System;
 using Constructs;
 using HashiCorp.Cdktf;
