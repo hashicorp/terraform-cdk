@@ -87,11 +87,7 @@
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
-    "**/*.{tsx,js,css,md}": "prettier --write",
-    "**/*.ts": [
-      "prettier --write",
-      "./tools/add-copyright-header-to-file.sh"
-    ],
+    "**/*.{ts,tsx,js,css,md}": "prettier --write",
     "examples/**": "yarn lint:examples"
   },
   "eslintConfig": {
