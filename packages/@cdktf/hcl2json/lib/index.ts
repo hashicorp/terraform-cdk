@@ -208,15 +208,20 @@ function traversalToReference(
   traversal: TerraformTraversal
 ): Reference {
   const lines = input.split("\n");
-  const lineLength = lines.map((line) => line.length);
+  const lineLengths = lines.map((line) => line.length);
 
+  /**
+   * @returns index of marker in input string
+   */
   function position(marker: CodeMarker) {
     const newlineChar = 1;
     return (
-      lineLength
+      lineLengths
         .slice(0, marker.Line)
-        .reduce((a, b) => a + b + newlineChar, lines.length === 1 ? 0 : -1) +
-      marker.Column
+        .reduce(
+          (sum, lineLength) => sum + lineLength + newlineChar,
+          lines.length === 1 ? 0 : -1
+        ) + marker.Column
     );
   }
 
