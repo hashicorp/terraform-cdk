@@ -6,7 +6,7 @@ using docker.Container;
 using docker.Image;
 using docker.DataDockerImage;
 
-namespace MyCompany.ApplicationsAbstraction
+namespace Examples
 {
     public class MyApplicationsAbstraction : TerraformStack
     {

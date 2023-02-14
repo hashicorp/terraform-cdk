@@ -5,14 +5,14 @@ using System;
 using System.Collections.Generic;
 using docker.Image;
 using docker.Container;
-using MyCompany.ApplicationsAbstraction;
+using Examples;
 
 namespace MyCompany.MyApp{
   public class TestApplication{
 
     private static TerraformStack stack = new TerraformStack(Testing.App(), "stack");
-    private static MyApplicationsAbstraction appAbstraction = new MyApplicationsAbstraction(stack, "resource");
-    private static string synthesized = Testing.Synth(stack);
+    private static Examples.MyApplicationsAbstraction appAbstraction = new Examples.MyApplicationsAbstraction(stack, "resource");
+    private static string synthesized = Testing.Synth(stack, false);
 
     [Fact]
     public void ShouldContainContainer(){
