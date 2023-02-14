@@ -140,7 +140,7 @@ export async function convertToTypescript(
     graph.addNode(key, { code: value });
   });
 
-  // Finding references becomes easier of the to be referenced ids are already known
+  // Finding references becomes easier if the to be referenced ids are already known
   const nodeIds = Object.keys(nodeMap);
   async function addEdges(id: string, value: TerraformResourceBlock) {
     (await findUsedReferences(nodeIds, value)).forEach((ref) => {
