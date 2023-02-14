@@ -500,6 +500,21 @@ describe("new generator types", () => {
                 type: "boolean",
               },
             },
+            computedComplexList: {
+              __type: "readonly",
+              type: {
+                __type: "list",
+                type: {
+                  __type: "object",
+                  attributes: {
+                    str: {
+                      __type: "readonly",
+                      type: "string",
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         ListBlockResource: {

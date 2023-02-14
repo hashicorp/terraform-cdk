@@ -25,6 +25,21 @@ const computed_attribute_resource = new S()
     computed: true,
     optional: false,
   })
+  .attribute({
+    name: "computedComplexList",
+    type: [
+      "list",
+      [
+        "object",
+        {
+          str: "string",
+        },
+      ],
+    ],
+    required: false,
+    computed: true,
+    optional: false,
+  })
   .build();
 
 const list_block_resource = new S()
