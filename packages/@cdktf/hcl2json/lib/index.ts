@@ -125,25 +125,25 @@ export async function convertFiles(
   );
 }
 
-type CodeMarker = {
+export type CodeMarker = {
   Byte: number;
   Line: number;
   Column: number;
 };
-type Range = {
+export type Range = {
   End: CodeMarker;
   Start: CodeMarker;
 };
-type TerraformTraversalPart = {
+export type TerraformTraversalPart = {
   Name: string;
   SrcRange: Range;
 };
 // Reference to a variable / module / resource
-type TerraformTraversal = { Traversal: TerraformTraversalPart[] };
-type PropertyAccessExpression = TerraformTraversal & {
+export type TerraformTraversal = { Traversal: TerraformTraversalPart[] };
+export type PropertyAccessExpression = TerraformTraversal & {
   Source: TerraformObject; // it's probably more restricted, but in this context we don't care
 };
-type TerraformFunctionCall = {
+export type TerraformFunctionCall = {
   Args: TerraformObject[];
   Name: string;
   ExpandFinal: boolean;
@@ -151,26 +151,29 @@ type TerraformFunctionCall = {
   OpenParenRange: Range;
   CloseParenRange: Range;
 };
-type TerraformLiteral = {
+export type TerraformLiteral = {
   SrcRange: Range;
   Val: unknown; // No value is passed down, we ignore them
 };
-type TerraformEmbeddedExpression = {
+export type TerraformEmbeddedExpression = {
+  SrcRange: Range; // TODO: does every TerraformObject have this?
   Wrapped: TerraformObject;
 };
-type TerraformExpression = {
+export type TerraformExpression = {
   Parts: TerraformObject[];
 };
-type ArithmeticExpression = {
+export type ArithmeticExpression = {
+  Op: unknown;
+  SrcRange: Range;
   LHS: TerraformObject;
   RHS: TerraformObject;
 };
-type ConditionExpression = {
+export type ConditionExpression = {
   Condition: TerraformObject;
   TrueResult: TerraformObject;
   FalseResult: TerraformObject;
 };
-type ForExpression = {
+export type ForExpression = {
   KeyVar: string;
   ValVar: string;
   CollExpr: TerraformObject;
@@ -178,15 +181,15 @@ type ForExpression = {
   ValExpr: TerraformObject;
   CondExpr: TerraformObject;
 };
-type BracketPropertyAccessExpression = {
+export type BracketPropertyAccessExpression = {
   Collection: TerraformObject;
   Key: TerraformObject; // it's probably more restricted, but in this context we don't care
 };
-type ListExpression = {
+export type ListExpression = {
   Exprs?: TerraformObject[] | null;
 };
 
-type TerraformObject =
+export type TerraformObject =
   | ArithmeticExpression
   | BracketPropertyAccessExpression
   | ConditionExpression
@@ -340,15 +343,22 @@ export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const res = await wasm.getReferencesInExpression(
-    filename,
-    JSON.stringify(expression)
-  );
-  const ast = JSON.parse(res) as GoExpressionParseResult;
-
+  const ast = await getExpressionAst(filename, expression);
   if (!ast) {
     return [];
   }
 
   return findAllReferencesInAst(expression, ast);
+}
+
+export async function getExpressionAst(
+  filename: string,
+  expression: string
+): Promise<GoExpressionParseResult> {
+  const res = await wasm.getReferencesInExpression(
+    filename,
+    JSON.stringify(expression)
+  );
+
+  return JSON.parse(res) as GoExpressionParseResult;
 }
