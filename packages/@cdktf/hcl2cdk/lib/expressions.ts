@@ -474,6 +474,7 @@ export async function findUsedReferences(
 
 // This only guesses if the type of an expression is list, it should be replaced by something that understands
 // the type of the expression, solved by https://github.com/hashicorp/terraform-cdk/issues/842
+// TODO: remove?
 export function isListExpression(item: string) {
   const hasListExtension =
     item.includes("[") &&

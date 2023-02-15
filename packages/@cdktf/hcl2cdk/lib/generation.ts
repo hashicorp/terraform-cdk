@@ -24,11 +24,11 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  isListExpression,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
+  AttributeType,
 } from "@cdktf/provider-generator";
 import {
   getBlockTypeAtPath,
@@ -59,6 +59,34 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+export const coerceType = (
+  ast: t.Expression,
+  from: AttributeType,
+  to: AttributeType | undefined
+): t.Expression => {
+  if (to === undefined) {
+    return ast;
+  }
+  // TODO: add deep equality check
+  if (to === from) {
+    return ast;
+  }
+
+  switch (to) {
+    case "number":
+      return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
+        ast: ast,
+      });
+    case "string":
+      return template.expression(`cdktf.Token.asString(%%ast%%)`)({
+        ast: ast,
+      });
+  }
+
+  console.log(ast, from, to);
+  return ast;
+};
+
 export const valueToTs = async (
   scope: Scope,
   item: TerraformResourceBlock,
@@ -67,16 +95,17 @@ export const valueToTs = async (
   scopedIds: string[] = [],
   isModule = false
 ): Promise<t.Expression> => {
+  const attributeType = getAttributeTypeAtPath(scope.providerSchema, path);
+  console.log(item, path, attributeType);
   switch (typeof item) {
     case "string":
-      const wrapInArray = isListExpression(item);
       const ast = referencesToAst(
         scope,
         item,
         await extractReferencesFromExpression(item, nodeIds, scopedIds),
         scopedIds
       );
-      return wrapInArray ? t.arrayExpression([ast]) : ast;
+      return coerceType(ast, "string", attributeType?.type);
 
     case "boolean":
       return t.booleanLiteral(item);
