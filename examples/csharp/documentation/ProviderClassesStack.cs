@@ -39,10 +39,24 @@ namespace Examples
                 InstanceType = "t2.micro"
             });
 
+            TerraformVariable dnsimpleToken = new TerraformVariable(this, "dnsimpleToken", new TerraformVariableConfig
+            {
+                Type = "string",
+                Description = "dnsimple token",
+                Sensitive = true
+            });
+
+            TerraformVariable dnsimpleAccount = new TerraformVariable(this, "dnsimpleAccount", new TerraformVariableConfig
+            {
+                Type = "string",
+                Description = "dnsimple account",
+                Sensitive = true
+            });
+
             new DnsimpleProvider(this, "dnsimple", new DnsimpleProviderConfig
             {
-                Token = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_TOKEN")),
-                Account = Token.AsString(Environment.GetEnvironmentVariable("DNSIMPLE_ACCOUNT"))
+                Token = dnsimpleToken.StringValue,
+                Account = dnsimpleAccount.StringValue
             });
 
             new Record(this, "web-www", new RecordConfig
