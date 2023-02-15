@@ -1,0 +1,31 @@
+name: "📕 Documentation Issue"
+description: 👀 Report an issue with the CDKTF docs and tutorials on developer.hashicorp.com
+title: "(page name): (short issue description)"
+labels: [documentation, new]
+assignees: []
+body:
+  - type: markdown
+    id: description
+    attributes:
+      label: Describe the issue
+      description: A clear and concise description of the issue in plain English.
+    validations:
+      required: true
+
+  - type: textarea
+    id: links
+    attributes:
+      label: Links
+      description: |
+        Include links to affected documentation page(s).
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Help Wanted
+      description: Is this something you're able to or interested in helping out with? This is not required but a helpful way to signal to us that you're planning to open a PR with a fix.
+      options:
+        - label: I'm interested in contributing a fix myself
+          required: false
