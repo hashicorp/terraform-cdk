@@ -25,6 +25,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
+  terraformExpressionToAst,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -158,7 +159,7 @@ export const valueToTs = async (
         nodeIds,
         scopedIds
       );
-      const ast = referencesToAst(scope, item, references, scopedIds);
+      const ast = await terraformExpressionToAst(scope, item, path, nodeIds, scopedIds);
 
       return coerceType(
         scope,
@@ -166,7 +167,6 @@ export const valueToTs = async (
         findTypeOfReference(scope, ast, references),
         getDesiredType(scope, path)
       );
-
     case "boolean":
       return t.booleanLiteral(item);
     case "number":

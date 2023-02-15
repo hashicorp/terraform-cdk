@@ -1,10 +1,20 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as t from "@babel/types";
+import template from "@babel/template";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, Scope } from "./types";
-import { getReferencesInExpression } from "@cdktf/hcl2json";
+import {
+  getExpressionAst,
+  getReferencesInExpression,
+  TerraformObject,
+  TerraformEmbeddedExpression,
+  TerraformFunctionCall,
+  ArithmeticExpression,
+  CodeMarker,
+  Range,
+} from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 
 export type Reference = {
@@ -14,6 +24,23 @@ export type Reference = {
   useFqn?: boolean;
   isVariable?: boolean;
 };
+
+/**
+ * @returns index of marker in str string
+ */
+function positionInString(str: string, marker: CodeMarker) {
+  const lines = str.split("\n");
+  const lineLengths = lines.map((line) => line.length);
+  const newlineChar = 1;
+  return (
+    lineLengths
+      .slice(0, marker.Line)
+      .reduce(
+        (sum, lineLength) => sum + lineLength + newlineChar,
+        lines.length === 1 ? 0 : -1
+      ) + marker.Column
+  );
+}
 
 const DOLLAR_REGEX = /\$/g;
 
@@ -324,6 +351,119 @@ export function referenceToAst(scope: Scope, ref: Reference) {
   }
   return accessor;
 }
+
+// e.g. "${element(var.list, 0)}"
+export const isOuterExpressionFunctionCall = (
+  tfAst: TerraformObject
+): tfAst is TerraformEmbeddedExpression & { Wrapped: TerraformFunctionCall } =>
+  "Wrapped" in tfAst && "Name" in tfAst.Wrapped;
+
+// e.g. "${1 + index(var.list, "item")}"
+export const isOuterExpressionOperation = (
+  tfAst: TerraformObject
+): tfAst is TerraformEmbeddedExpression & { Wrapped: ArithmeticExpression } =>
+  "Wrapped" in tfAst && "Op" in tfAst.Wrapped;
+
+/**
+ * Takes a string containing a Terraform expression and returns a TypeScript AST representation of that expression
+ * Terraform functions and operations used in the string are replaced with cdktf.Fn and cdktf.Op invokations
+ * This function invokes itself recursively to break down the expression. An input string without a function call or
+ * operation is converted into a template string with resolved references (if there are any).
+ */
+export const terraformExpressionToAst = async (
+  scope: Scope,
+  input: string,
+  path: string, // TODO: idea: change this to the expected type, so we can use it in recursive calls
+  nodeIds: string[],
+  scopedIds: string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
+): Promise<t.Expression> => {
+  // TODO: ensure this handles type coercion that might need to happen
+  // TODO: ensure this handles functions that should be replaced with terraform functions
+  // TODO: ensure this handles operations that should be replaced with terraform operations
+  // TODO: what to do for [for ... in ...] syntax? do partial conversion? put into ${} and only replace references?
+
+  const stringForRange = (r: Range) =>
+    input.slice(
+      positionInString(input, r.Start),
+      positionInString(input, r.End)
+    );
+
+  const tfAst = await getExpressionAst("main.tf", input);
+
+  // TODO: handle globally if the string has a wrapping ("${}") on the outside, and not in isXy functions below (recursion won't have wrapped those strings all the time)
+
+  if (tfAst && isOuterExpressionFunctionCall(tfAst)) {
+    console.log(JSON.stringify(tfAst, null, 2));
+
+    // TODO: replace function calls and recurse on args
+  }
+
+  if (tfAst && isOuterExpressionOperation(tfAst)) {
+    const lhs = tfAst.Wrapped.LHS;
+    const rhs = tfAst.Wrapped.RHS;
+
+    const wrappedString = stringForRange(tfAst.Wrapped.SrcRange);
+
+    logger.debug(
+      `Found an operation expression at the outmost level: '${stringForRange(
+        tfAst.Wrapped.SrcRange
+      )}'`
+    );
+
+    // TODO: support unary operators as well
+    if ("SrcRange" in lhs && "SrcRange" in rhs) {
+      // we depend on this existing in both parts
+      const lhsString = stringForRange(lhs.SrcRange);
+      const rhsString = stringForRange(rhs.SrcRange);
+
+      const operator = wrappedString
+        .replace(lhsString, "")
+        .replace(rhsString, "")
+        .trim(); // derp
+
+      if (operator === "+") {
+        // TODO: support other operators
+        return template.expression("cdktf.Op.add(%%lhs%%, %%rhs%%)")({
+          lhs: await terraformExpressionToAst(
+            // TODO: we might need to call something else instead and recurse in a way that allows us to decend into objects/numbers/etc?
+            scope,
+            lhsString,
+            path,
+            nodeIds,
+            scopedIds
+          ),
+          rhs: await terraformExpressionToAst(
+            scope,
+            rhsString,
+            path,
+            nodeIds,
+            scopedIds
+          ),
+        });
+      } else {
+        logger.warn(
+          "The operation expression didn't contain SrcRanges in both lhs and rhs: " +
+            JSON.stringify(tfAst.Wrapped)
+        );
+      }
+    }
+
+    // fallthrough: if we didn't return yet, we won't do anything about the op
+    // TODO: add debug log that we didn't replace the operation
+  }
+
+  // previous behaviour that was happening in generation.ts for strings (but is needed in recursion as well)
+  const references = await extractReferencesFromExpression(
+    input,
+    nodeIds,
+    scopedIds
+  );
+
+  const ast = referencesToAst(scope, input, references, scopedIds);
+
+  const wrapInArray = isListExpression(input);
+  return wrapInArray ? t.arrayExpression([ast]) : ast;
+};
 
 export function referencesToAst(
   scope: Scope,
