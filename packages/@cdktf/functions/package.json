@@ -17,7 +17,9 @@
     "test:ci": "yarn lint && jest --ci",
     "jest-watch": "jest --watch",
     "package": "./package.sh",
-    "dist-clean": "rm -rf dist"
+    "dist-clean": "rm -rf dist",
+    "fetch-metadata": "ts-node scripts/fetch-metadata.ts",
+    "generate": "ts-node scripts/generate.ts"
   },
   "main": "src/index.js",
   "types": "src/index.d.ts",
@@ -36,6 +38,10 @@
     "log4js": "^6.7.0"
   },
   "devDependencies": {
+    "@babel/generator": "^7.20.4",
+    "@babel/template": "^7.18.10",
+    "@babel/types": "^7.20.2",
+    "ts-node": "^10.9.1"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
