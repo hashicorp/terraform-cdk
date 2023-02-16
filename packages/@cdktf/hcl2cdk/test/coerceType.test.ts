@@ -54,7 +54,7 @@ describe("coerceType", () => {
     {
       code: `"[true,false,true]"`,
       type: "string",
-      targetType: ["list", "boolean"],
+      targetType: ["list", "bool"],
       expectedCode: `cdktf.Token.asAny("[true,false,true]")`,
     },
     {
@@ -73,7 +73,7 @@ describe("coerceType", () => {
     {
       code: `"{ foo: true }"`,
       type: "string",
-      targetType: ["map", "boolean"],
+      targetType: ["map", "bool"],
       expectedCode: `cdktf.Token.asBooleanMap("{ foo: true }")`,
     },
 
@@ -84,7 +84,79 @@ describe("coerceType", () => {
       expectedCode: `cdktf.Token.asAnyMap("{ foo: {bar: true} }")`,
     },
   ])(
-    "should use Token functions %p ",
+    "should use Token functions %p",
+    ({ code, type, targetType, expectedCode }) => {
+      expect(
+        generateCode(
+          coerceType(expressionify(code), type as any, targetType as any)
+        )
+      ).toEqual(expectedCode);
+    }
+  );
+
+  it.each([
+    {
+      code: `aUserDefinedVariable.value`,
+      type: "dynamic",
+      targetType: "string",
+      expectedCode: `aUserDefinedVariable.stringValue`,
+    },
+    {
+      code: `aUserDefinedVariable.value`,
+      type: "dynamic",
+      targetType: "number",
+      expectedCode: `aUserDefinedVariable.numberValue`,
+    },
+    {
+      code: `aUserDefinedVariable.value`,
+      type: "dynamic",
+      targetType: ["list", "string"],
+      expectedCode: `aUserDefinedVariable.listValue`,
+    },
+    {
+      code: `aUserDefinedVariable.value`,
+      type: "dynamic",
+      targetType: "bool",
+      expectedCode: `aUserDefinedVariable.booleanValue`,
+    },
+  ])(
+    "should use TerraformVariables accessors %p",
+    ({ code, type, targetType, expectedCode }) => {
+      expect(
+        generateCode(
+          coerceType(expressionify(code), type as any, targetType as any)
+        )
+      ).toEqual(expectedCode);
+    }
+  );
+
+  it.each([
+    {
+      code: `aUserDefinedTerraformLocal.value`,
+      type: "dynamic",
+      targetType: "string",
+      expectedCode: `aUserDefinedTerraformLocal.stringValue`,
+    },
+    {
+      code: `aUserDefinedTerraformLocal.value`,
+      type: "dynamic",
+      targetType: "number",
+      expectedCode: `aUserDefinedTerraformLocal.numberValue`,
+    },
+    {
+      code: `aUserDefinedTerraformLocal.value`,
+      type: "dynamic",
+      targetType: ["list", "string"],
+      expectedCode: `aUserDefinedTerraformLocal.listValue`,
+    },
+    {
+      code: `aUserDefinedTerraformLocal.value`,
+      type: "dynamic",
+      targetType: "bool",
+      expectedCode: `aUserDefinedTerraformLocal.booleanValue`,
+    },
+  ])(
+    "should use TerraformLocal accessors %p",
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
