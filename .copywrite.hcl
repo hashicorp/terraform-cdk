@@ -6,7 +6,7 @@ project {
 
   header_ignore = [
     "**node_modules**",
-    ".github/ISSUE_TEMPLATE/config.yml",
+    ".github/ISSUE_TEMPLATE/*.yml",
     "packages/cdktf-cli/templates/**"
   ]
 }
