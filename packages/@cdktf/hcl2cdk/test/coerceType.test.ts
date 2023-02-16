@@ -38,6 +38,51 @@ describe("coerceType", () => {
       targetType: "string",
       expectedCode: `cdktf.Token.asString(300)`,
     },
+    {
+      code: `"['foo', 'bar']"`,
+      type: "string",
+      targetType: ["list", "string"],
+      expectedCode: `cdktf.Token.asList("['foo', 'bar']")`,
+    },
+    {
+      code: `"[1,2,3]"`,
+      type: "string",
+      targetType: ["list", "number"],
+      expectedCode: `cdktf.Token.asNumberList("[1,2,3]")`,
+    },
+    // We don't have a token function for boolean lists, so we need to take an asAny
+    {
+      code: `"[true,false,true]"`,
+      type: "string",
+      targetType: ["list", "boolean"],
+      expectedCode: `cdktf.Token.asAny("[true,false,true]")`,
+    },
+    {
+      code: `"{ foo: 'bar' }"`,
+      type: "string",
+      targetType: ["map", "string"],
+      expectedCode: `cdktf.Token.asStringMap("{ foo: 'bar' }")`,
+    },
+    {
+      code: `"{ foo: 1 }"`,
+      type: "string",
+      targetType: ["map", "number"],
+      expectedCode: `cdktf.Token.asNumberMap("{ foo: 1 }")`,
+    },
+
+    {
+      code: `"{ foo: true }"`,
+      type: "string",
+      targetType: ["map", "boolean"],
+      expectedCode: `cdktf.Token.asBooleanMap("{ foo: true }")`,
+    },
+
+    {
+      code: `"{ foo: {bar: true} }"`,
+      type: "string",
+      targetType: ["map", ["map", "boolean"]],
+      expectedCode: `cdktf.Token.asAnyMap("{ foo: {bar: true} }")`,
+    },
   ])(
     "should use Token functions %p ",
     ({ code, type, targetType, expectedCode }) => {
