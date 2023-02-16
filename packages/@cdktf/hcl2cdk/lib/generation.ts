@@ -59,6 +59,7 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+// TODO: cdktf import becomes necessary once a type coerced
 export const coerceType = (
   ast: t.Expression,
   from: AttributeType,
