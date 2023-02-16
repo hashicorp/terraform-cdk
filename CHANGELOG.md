@@ -2,7 +2,8 @@
 
 ### fix
 
-- fix(cli): Remove @types/node-fetch from dependencies as those take precedence over direct devDependencies on @node/types [\#2623](https://github.com/hashicorp/terraform-cdk/pull/2623)
+- chore: update JSII to 1.75.0 [\#2653](https://github.com/hashicorp/terraform-cdk/pull/2653)
+- fix(lib): zipmap arg validators [\#2633](https://github.com/hashicorp/terraform-cdk/pull/2633)
 
 ## 0.15.4
 
