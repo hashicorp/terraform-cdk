@@ -84,7 +84,7 @@ export const coerceType = (
           return template.expression(`cdktf.Token.asNumberList(%%ast%%)`)({
             ast: ast,
           });
-        case "boolean":
+        case "bool":
           return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
             ast: ast,
           });
@@ -101,7 +101,7 @@ export const coerceType = (
           return template.expression(`cdktf.Token.asNumberMap(%%ast%%)`)({
             ast: ast,
           });
-        case "boolean":
+        case "bool":
           return template.expression(`cdktf.Token.asBooleanMap(%%ast%%)`)({
             ast: ast,
           });
@@ -122,7 +122,7 @@ export const coerceType = (
       return template.expression(`cdktf.Token.asString(%%ast%%)`)({
         ast: ast,
       });
-    case "boolean":
+    case "bool":
       return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
         ast: ast,
       });
