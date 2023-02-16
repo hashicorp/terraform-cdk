@@ -73,6 +73,46 @@ export const coerceType = (
     return ast;
   }
 
+  if (Array.isArray(to)) {
+    if (to[0] === "list") {
+      switch (to[1]) {
+        case "string":
+          return template.expression(`cdktf.Token.asList(%%ast%%)`)({
+            ast: ast,
+          });
+        case "number":
+          return template.expression(`cdktf.Token.asNumberList(%%ast%%)`)({
+            ast: ast,
+          });
+        case "boolean":
+          return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
+            ast: ast,
+          });
+      }
+    }
+
+    if (to[0] === "map") {
+      switch (to[1]) {
+        case "string":
+          return template.expression(`cdktf.Token.asStringMap(%%ast%%)`)({
+            ast: ast,
+          });
+        case "number":
+          return template.expression(`cdktf.Token.asNumberMap(%%ast%%)`)({
+            ast: ast,
+          });
+        case "boolean":
+          return template.expression(`cdktf.Token.asBooleanMap(%%ast%%)`)({
+            ast: ast,
+          });
+        default:
+          return template.expression(`cdktf.Token.asAnyMap(%%ast%%)`)({
+            ast: ast,
+          });
+      }
+    }
+  }
+
   switch (to) {
     case "number":
       return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
@@ -80,6 +120,10 @@ export const coerceType = (
       });
     case "string":
       return template.expression(`cdktf.Token.asString(%%ast%%)`)({
+        ast: ast,
+      });
+    case "boolean":
+      return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
         ast: ast,
       });
   }
