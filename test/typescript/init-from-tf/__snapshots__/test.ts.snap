@@ -4,8 +4,6 @@ exports[`full integration test main.ts is valid 1`] = `
 "import * as cdktf from \\"cdktf\\";
 import * as Test from \\"./.gen/modules/modules/test\\";
 
-// Copyright (c) HashiCorp, Inc
-// SPDX-License-Identifier: MPL-2.0
 import { Construct } from \\"constructs\\";
 import { App, TerraformStack } from \\"cdktf\\";
 

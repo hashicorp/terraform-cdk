@@ -65,7 +65,7 @@ describe("full integration test", () => {
               \\"test\\",
               \\"sets\\"
             ],
-            \\"source\\": \\"./assets/localmodulelocalmodule/D2650B692714A27106B347431A9F0397\\"
+            \\"source\\": \\"./assets/localmodulelocalmodule/1A068C39166AE65C43D174678BD00022\\"
           }
         },
         \\"terraform\\": {
@@ -125,7 +125,7 @@ describe("full integration test", () => {
         \\"test\\",
         \\"sets\\"
       ],
-      \\"source\\": \\"./assets/localmodulelocalmodule/775938CF6EC9DF6809507F1BE0594E67\\"
+      \\"source\\": \\"./assets/localmodulelocalmodule/405986F9ABA62210358043A25250C05C\\"
     }
   },
   \\"terraform\\": {
