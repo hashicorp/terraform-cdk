@@ -1,3 +1,9 @@
+## 0.15.5
+
+### fix
+
+- fix(cli): Remove @types/node-fetch from dependencies as those take precedence over direct devDependencies on @node/types [\#2623](https://github.com/hashicorp/terraform-cdk/pull/2623)
+
 ## 0.15.4
 
 ### fix
