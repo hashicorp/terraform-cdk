@@ -6942,6 +6942,17 @@ jsii-srcmak@^0.1.790:
     ncp "^2.0.0"
     yargs "^15.4.1"
 
+jsii-srcmak@^0.1.826:
+  version "0.1.826"
+  resolved "https://registry.yarnpkg.com/jsii-srcmak/-/jsii-srcmak-0.1.826.tgz#b4e7433e37b45cb38de270f59ec23fa19e20bfde"
+  integrity sha512-GI3twIuz5Hui74kLShWTqejjUxwmqXOQBHnL/cEP1lpj0z4JjYzsVr747NMavr46i+Z1hmU/7KTXTUuknVzeMg==
+  dependencies:
+    fs-extra "^9.1.0"
+    jsii "^1.75.0"
+    jsii-pacmak "^1.75.0"
+    ncp "^2.0.0"
+    yargs "^15.4.1"
+
 jsii@1.73.0, jsii@^1.73.0:
   version "1.73.0"
   resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.73.0.tgz#b341845061f145a550a8052ecc7769b1c9ed8d95"
