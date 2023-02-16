@@ -34,6 +34,7 @@ jobs:
             hcl2json
             hcl2cdk
             provider-generator
+            functions
             tests
             examples
             readme
