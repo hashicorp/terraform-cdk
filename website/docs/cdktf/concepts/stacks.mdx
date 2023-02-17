@@ -633,7 +633,7 @@ public class MainCrossStackReferences extends TerraformStack {
 
 ```python
 from constructs import Construct
-from cdktf import App, TerraformStack
+from cdktf import App, TerraformStack, Token
 from imports.aws.instance import Instance
 from imports.aws.provider import AwsProvider
 from imports.vpc import Vpc
@@ -980,6 +980,7 @@ The following example synthesizes a Terraform configuration with the `remote` ba
 
 ```ts
 stack.addOverride("terraform.backend", {
+  local: null, // delete the default local backend
   remote: {
     organization: "test",
     workspaces: {
@@ -991,6 +992,7 @@ stack.addOverride("terraform.backend", {
 
 ```java
 stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>(){{
+    put("local", null); // delete the default local backend
     put("remote", new HashMap<String, Object>(){{
         put("organization", "test");
         put("workspaces", new HashMap<String, String>(){{
@@ -1001,7 +1003,8 @@ stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Objec
 ```
 
 ```python
-stack.add_override("terraform.backend",{
+stack.add_override("terraform.backend", {
+    "local": Token.null_value(), # delete the default local backend
     "remote": {
         "organization": "test",
         "workspaces": {

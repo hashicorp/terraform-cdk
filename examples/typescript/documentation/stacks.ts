@@ -215,6 +215,7 @@ export function escapeHatchesRunner() {
   const stack = new MySingleStack(overrideApp, "a-single-override-stack");
   // DOCS_BLOCK_START:stack-escape-hatches
   stack.addOverride("terraform.backend", {
+    local: null, // delete the default local backend
     remote: {
       organization: "test",
       workspaces: {

@@ -32,6 +32,7 @@ public class MainStacks extends TerraformStack {
         TerraformStack stack = new TerraformStack(new App(), "temp");
         // DOCS_BLOCK_START:stack-escape-hatches
         stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>(){{
+            put("local", null); // delete the default local backend
             put("remote", new HashMap<String, Object>(){{
                 put("organization", "test");
                 put("workspaces", new HashMap<String, String>(){{
