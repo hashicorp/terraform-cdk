@@ -187,6 +187,13 @@ export class AttributeModel {
       types.push(attTypeStruct.listMapName);
     } else if (attTypeStruct.nestingMode === "setmap") {
       types.push(attTypeStruct.listMapName);
+    } else if (
+      attTypeStruct.nestingMode === "listlist" ||
+      attTypeStruct.nestingMode === "listset" ||
+      attTypeStruct.nestingMode === "setlist" ||
+      attTypeStruct.nestingMode == "setset"
+    ) {
+      types.push(attTypeStruct.listListName);
     } else if (!isConfigStruct) {
       types.push(attTypeStruct.outputReferenceName);
     }

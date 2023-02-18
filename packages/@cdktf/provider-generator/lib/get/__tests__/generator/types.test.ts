@@ -516,3 +516,24 @@ test("reset and input name conflicts", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test("list of list attributes", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "list-list-object.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, "fixtures", "list-list-object.test.fixture.json"),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/test/complex/index.ts"),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});

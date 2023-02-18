@@ -290,6 +290,13 @@ export class StructEmitter {
       this.emitComplexListMapClasses(struct, false);
     } else if (struct.nestingMode === "setmap") {
       this.emitComplexListMapClasses(struct, true);
+    } else if (
+      struct.nestingMode === "listlist" ||
+      struct.nestingMode === "listset" ||
+      struct.nestingMode === "setlist" ||
+      struct.nestingMode === "setset"
+    ) {
+      this.emitComplexListListClasses(struct);
     }
     // other types of nested collections aren't supported
   }
@@ -460,6 +467,56 @@ export class StructEmitter {
     this.code.openBlock(`public get(key: string): ${struct.listName}`);
     this.code.line(
       `return new ${struct.listName}(this.terraformResource, \`[\${key}]\`, ${isSet});`
+    );
+    this.code.closeBlock();
+
+    this.code.closeBlock();
+  }
+
+  private emitComplexListListClasses(struct: Struct) {
+    this.emitComplexListListClass(struct);
+    this.emitComplexListClass(struct);
+  }
+
+  private emitComplexListListClass(struct: Struct) {
+    this.code.line();
+    this.code.openBlock(
+      `export class ${struct.listListName} extends cdktf.ComplexList`
+    );
+
+    if (struct.assignable) {
+      this.code.line(
+        `public internalValue? : ${struct.name}[][] | cdktf.IResolvable`
+      );
+    }
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param terraformResource The parent resource`);
+    this.code.line(
+      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+    );
+    this.code.line(
+      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+    );
+    this.code.line(`*/`);
+    this.code.openBlock(
+      `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
+    );
+    this.code.line(`super(terraformResource, terraformAttribute, wrapsSet)`);
+    this.code.closeBlock();
+
+    this.code.line();
+    this.code.line(`/**`);
+    this.code.line(`* @param index the index of the item to return`);
+    this.code.line(`*/`);
+    this.code.openBlock(`public get(index: number): ${struct.listName}`);
+    this.code.line(
+      `return new ${
+        struct.listName
+      }(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, ${
+        struct.nestingMode === "listset" || struct.nestingMode === "setset"
+      });`
     );
     this.code.closeBlock();
 
