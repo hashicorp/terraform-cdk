@@ -3934,19 +3934,6 @@ export class StringList extends cdktf.TerraformResource {
     return this._subjectAlternativeNamesOptional;
   }
 
-  // subject_alternative_names_required - computed: true, optional: false, required: true
-  private _subjectAlternativeNamesRequired?: { [key: string]: string }; 
-  public get subjectAlternativeNamesRequired() {
-    return this.getStringMapAttribute('subject_alternative_names_required');
-  }
-  public set subjectAlternativeNamesRequired(value: { [key: string]: string }) {
-    this._subjectAlternativeNamesRequired = value;
-  }
-  // Temporarily expose input value. Use with caution.
-  public get subjectAlternativeNamesRequiredInput() {
-    return this._subjectAlternativeNamesRequired;
-  }
-
   // =========
   // SYNTHESIS
   // =========
@@ -4066,6 +4053,19 @@ export class StringMap extends cdktf.TerraformResource {
   // Temporarily expose input value. Use with caution.
   public get subjectAlternativeNamesOptionalInput() {
     return this._subjectAlternativeNamesOptional;
+  }
+
+  // subject_alternative_names_required - computed: true, optional: false, required: true
+  private _subjectAlternativeNamesRequired?: { [key: string]: string }; 
+  public get subjectAlternativeNamesRequired() {
+    return this.getStringMapAttribute('subject_alternative_names_required');
+  }
+  public set subjectAlternativeNamesRequired(value: { [key: string]: string }) {
+    this._subjectAlternativeNamesRequired = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get subjectAlternativeNamesRequiredInput() {
+    return this._subjectAlternativeNamesRequired;
   }
 
   // =========
