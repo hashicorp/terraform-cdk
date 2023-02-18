@@ -294,6 +294,20 @@ export abstract class ComplexList
   }
 }
 
+export class BooleanList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number): IResolvable {
+    return Fn.element(this, index);
+  }
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class ComplexMap
   extends ComplexResolvable

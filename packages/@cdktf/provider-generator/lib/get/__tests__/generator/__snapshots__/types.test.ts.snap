@@ -92,6 +92,12 @@ export class BooleanList extends cdktf.TerraformResource {
     return this._fooOptional;
   }
 
+  // foo_computed - computed: true, optional: false, required: false
+  private _fooComputed = new cdktf.BooleanList(this, \\"foo_computed\\", false);
+  public get fooComputed() {
+    return this._fooComputed;
+  }
+
   // =========
   // SYNTHESIS
   // =========
