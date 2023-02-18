@@ -8,7 +8,7 @@ export * as optionalComputedAttributeResource from './optional-computed-attribut
 export * as listBlockResource from './list-block-resource';
 export * as mapResource from './map-resource';
 export * as setBlockResource from './set-block-resource';
-export * as anotherResource from './another-resource';
+export * as mapListResource from './map-list-resource';
 export * as provider from './provider';
 
 "

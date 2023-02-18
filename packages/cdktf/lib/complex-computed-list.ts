@@ -539,10 +539,8 @@ export class BooleanListMap extends ComplexMap {
 
   public get(key: string) {
     // This isn't fully supported
-    return Token.asList(
-      this.terraformResource.interpolationForAttribute(
-        `${this.terraformAttribute}[${key}]`
-      )
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${key}]`
     );
   }
 }
@@ -558,10 +556,8 @@ export class AnyListMap extends ComplexMap {
 
   public get(key: string) {
     // This isn't fully supported
-    return Token.asList(
-      this.terraformResource.interpolationForAttribute(
-        `${this.terraformAttribute}[${key}]`
-      )
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${key}]`
     );
   }
 }

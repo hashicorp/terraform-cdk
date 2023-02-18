@@ -190,7 +190,7 @@ export class AttributeModel {
     } else if (!isConfigStruct) {
       types.push(attTypeStruct.outputReferenceName);
     }
-    // TODO think if there's a good way to generalize these
+    // other types of nested collections aren't supported
 
     return types;
   }

@@ -291,7 +291,7 @@ export class StructEmitter {
     } else if (struct.nestingMode === "setmap") {
       this.emitComplexListMapClasses(struct, true);
     }
-    // TODO think if there's a good way to generalize these
+    // other types of nested collections aren't supported
   }
 
   private emitComplexListClass(struct: Struct) {
