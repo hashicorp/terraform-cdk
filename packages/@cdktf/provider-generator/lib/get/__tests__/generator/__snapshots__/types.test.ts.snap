@@ -2316,7 +2316,7 @@ export class ComplexLlOutputReference extends cdktf.ComplexObject {
   }
 }
 
-export class ComplexLlListList extends cdktf.ComplexList {
+export class ComplexLlListList extends cdktf.MapList {
 
   /**
   * @param terraformResource The parent resource
@@ -2331,7 +2331,7 @@ export class ComplexLlListList extends cdktf.ComplexList {
   * @param index the index of the item to return
   */
   public get(index: number): ComplexLlList {
-    return new ComplexLlList(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, false);
+    return new ComplexLlList(this, \`[\${index}]\`, false);
   }
 }
 
@@ -2404,7 +2404,7 @@ export class ComplexLsOutputReference extends cdktf.ComplexObject {
   }
 }
 
-export class ComplexLsListList extends cdktf.ComplexList {
+export class ComplexLsListList extends cdktf.MapList {
 
   /**
   * @param terraformResource The parent resource
@@ -2419,7 +2419,7 @@ export class ComplexLsListList extends cdktf.ComplexList {
   * @param index the index of the item to return
   */
   public get(index: number): ComplexLsList {
-    return new ComplexLsList(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, false);
+    return new ComplexLsList(this, \`[\${index}]\`, true);
   }
 }
 
@@ -2492,7 +2492,7 @@ export class ComplexSlOutputReference extends cdktf.ComplexObject {
   }
 }
 
-export class ComplexSlListList extends cdktf.ComplexList {
+export class ComplexSlListList extends cdktf.MapList {
 
   /**
   * @param terraformResource The parent resource
@@ -2507,7 +2507,7 @@ export class ComplexSlListList extends cdktf.ComplexList {
   * @param index the index of the item to return
   */
   public get(index: number): ComplexSlList {
-    return new ComplexSlList(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, true);
+    return new ComplexSlList(this, \`[\${index}]\`, false);
   }
 }
 
@@ -2580,7 +2580,7 @@ export class ComplexSsOutputReference extends cdktf.ComplexObject {
   }
 }
 
-export class ComplexSsListList extends cdktf.ComplexList {
+export class ComplexSsListList extends cdktf.MapList {
 
   /**
   * @param terraformResource The parent resource
@@ -2595,7 +2595,7 @@ export class ComplexSsListList extends cdktf.ComplexList {
   * @param index the index of the item to return
   */
   public get(index: number): ComplexSsList {
-    return new ComplexSsList(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, true);
+    return new ComplexSsList(this, \`[\${index}]\`, true);
   }
 }
 

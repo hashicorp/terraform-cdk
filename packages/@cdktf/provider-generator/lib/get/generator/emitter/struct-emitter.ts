@@ -422,9 +422,7 @@ export class StructEmitter {
     this.code.line(`* @param index the index of the item to return`);
     this.code.line(`*/`);
     this.code.openBlock(`public get(index: number): ${struct.mapName}`);
-    this.code.line(
-      `return new ${struct.mapName}(this.terraformResource, \`[\${index}]\`);`
-    );
+    this.code.line(`return new ${struct.mapName}(this, \`[\${index}]\`);`);
     this.code.closeBlock();
 
     this.code.closeBlock();
@@ -466,7 +464,7 @@ export class StructEmitter {
     this.code.line(`*/`);
     this.code.openBlock(`public get(key: string): ${struct.listName}`);
     this.code.line(
-      `return new ${struct.listName}(this.terraformResource, \`[\${key}]\`, ${isSet});`
+      `return new ${struct.listName}(this, \`[\${key}]\`, ${isSet});`
     );
     this.code.closeBlock();
 
@@ -481,7 +479,7 @@ export class StructEmitter {
   private emitComplexListListClass(struct: Struct) {
     this.code.line();
     this.code.openBlock(
-      `export class ${struct.listListName} extends cdktf.ComplexList`
+      `export class ${struct.listListName} extends cdktf.MapList` // despite name, need the same behavior
     );
 
     if (struct.assignable) {
@@ -512,10 +510,8 @@ export class StructEmitter {
     this.code.line(`*/`);
     this.code.openBlock(`public get(index: number): ${struct.listName}`);
     this.code.line(
-      `return new ${
-        struct.listName
-      }(this.terraformResource, \`\${this.terraformAttribute}\${index}[]\`, ${
-        struct.nestingMode === "listset" || struct.nestingMode === "setset"
+      `return new ${struct.listName}(this, \`[\${index}]\`, ${
+        struct.nestingMode === "setlist" || struct.nestingMode === "setset"
       });`
     );
     this.code.closeBlock();
