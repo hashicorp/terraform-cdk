@@ -294,6 +294,7 @@ export abstract class ComplexList
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
 export class BooleanList extends ComplexList {
   constructor(
     protected terraformResource: IInterpolatingParent,
