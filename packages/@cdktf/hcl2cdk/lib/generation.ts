@@ -28,13 +28,13 @@ import {
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
-  AttributeType,
 } from "@cdktf/provider-generator";
 import {
   getBlockTypeAtPath,
   getAttributeTypeAtPath,
   getTypeAtPath,
 } from "./provider";
+import { coerceType } from "./coerceType";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -58,115 +58,6 @@ function getReference(graph: DirectedGraph, id: string) {
     return undefined;
   }
 }
-
-function changeValueAccessor(
-  ast: t.MemberExpression,
-  newAccessor: string
-): t.MemberExpression {
-  const propertyIdentifier: t.Identifier = {
-    ...(ast.property as t.Identifier),
-    name: newAccessor,
-  };
-  return {
-    ...ast,
-    property: propertyIdentifier,
-  };
-}
-// TODO: cdktf import becomes necessary once a type coerced
-export const coerceType = (
-  scope: Scope,
-  ast: t.Expression,
-  from: AttributeType,
-  to: AttributeType | undefined
-): t.Expression => {
-  if (to === undefined) {
-    return ast;
-  }
-  // TODO: add deep equality check
-  if (to === from) {
-    return ast;
-  }
-
-  const isTerraformVariableOrLocal =
-    ast.type === "MemberExpression" &&
-    ast.property.type === "Identifier" &&
-    ast.property.name === "value" &&
-    ast.object.type === "Identifier" &&
-    Object.values(scope.variables).some(
-      (knownVars) =>
-        knownVars.variableName === (ast.object as t.Identifier).name
-    );
-
-  if (Array.isArray(to)) {
-    if (to[0] === "list") {
-      switch (to[1]) {
-        case "string":
-          if (isTerraformVariableOrLocal) {
-            return changeValueAccessor(ast as t.MemberExpression, "listValue");
-          }
-          return template.expression(`cdktf.Token.asList(%%ast%%)`)({
-            ast: ast,
-          });
-        case "number":
-          return template.expression(`cdktf.Token.asNumberList(%%ast%%)`)({
-            ast: ast,
-          });
-        case "bool":
-          return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
-            ast: ast,
-          });
-      }
-    }
-
-    if (to[0] === "map") {
-      switch (to[1]) {
-        case "string":
-          return template.expression(`cdktf.Token.asStringMap(%%ast%%)`)({
-            ast: ast,
-          });
-        case "number":
-          return template.expression(`cdktf.Token.asNumberMap(%%ast%%)`)({
-            ast: ast,
-          });
-        case "bool":
-          return template.expression(`cdktf.Token.asBooleanMap(%%ast%%)`)({
-            ast: ast,
-          });
-        default:
-          return template.expression(`cdktf.Token.asAnyMap(%%ast%%)`)({
-            ast: ast,
-          });
-      }
-    }
-  }
-
-  switch (to) {
-    case "number":
-      if (isTerraformVariableOrLocal) {
-        return changeValueAccessor(ast as t.MemberExpression, "numberValue");
-      }
-      return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
-        ast: ast,
-      });
-    case "string":
-      if (isTerraformVariableOrLocal) {
-        return changeValueAccessor(ast as t.MemberExpression, "stringValue");
-      }
-      return template.expression(`cdktf.Token.asString(%%ast%%)`)({
-        ast: ast,
-      });
-    case "bool":
-      if (isTerraformVariableOrLocal) {
-        return changeValueAccessor(ast as t.MemberExpression, "booleanValue");
-      }
-      return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
-        ast: ast,
-      });
-  }
-
-  logger.debug(`Could not coerce from ${from} to ${to} for ${ast}`);
-  return ast;
-};
 
 export const valueToTs = async (
   scope: Scope,

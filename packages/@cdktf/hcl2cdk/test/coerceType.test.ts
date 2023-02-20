@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { coerceType } from "../lib/generation";
+import { coerceType } from "../lib/coerceType";
 import template from "@babel/template";
 import generate from "@babel/generator";
 
