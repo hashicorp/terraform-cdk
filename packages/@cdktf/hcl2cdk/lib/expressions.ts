@@ -196,7 +196,10 @@ export function variableName(
     )
   );
 
-  scope.variables[name] = { variableName, resource };
+  scope.variables[name] = {
+    variableName,
+    resource,
+  };
   return variableName;
 }
 
