@@ -39,7 +39,7 @@ async function getAllRepos() {
 async function getCurrentProjectItemIds(): Promise<string[]> {
   const {
     organization: {
-      projectNext: {
+      projectV2: {
         items: { nodes },
       },
     },
@@ -47,7 +47,7 @@ async function getCurrentProjectItemIds(): Promise<string[]> {
     `
   query($org: String!, $number: Int!) {
     organization(login: $org) {
-      projectNext(number: $number) {
+      projectV2(number: $number) {
         items(first: 100) {
           nodes {
             id
@@ -71,14 +71,14 @@ async function addToProject(
 ) {
   // Add to project
   const {
-    addProjectNextItem: {
-      projectNextItem: { id: cardId },
+    addProjectV2Item: {
+      projectV2Item: { id: cardId },
     },
   } = (await gql(
     `
   mutation($project:ID!, $issue:ID!) {
-    addProjectNextItem(input: {projectId: $project, contentId: $issue}) {
-      projectNextItem {
+    addProjectV2Item(input: {projectId: $project, contentId: $issue}) {
+      projectV2Item {
         id
       }
     }
@@ -96,13 +96,13 @@ async function addToProject(
     $status_field: ID!
     $status_value: String!
   ) {
-    set_status: updateProjectNextItemField(input: {
+    set_status: updateProjectV2ItemField(input: {
       projectId: $project
       itemId: $item
       fieldId: $status_field
       value: $status_value
     }) {
-      projectNextItem {
+      projectV2Item {
         id
       }
     }
@@ -124,7 +124,7 @@ async function removeItemFromProject(projectId: string, itemId: string) {
     $project: ID!
     $item: ID!
   ) {
-    deleteProjectNextItem(input: {projectId: $project, itemId: $item}) {
+    deleteProjectV2Item(input: {projectId: $project, itemId: $item}) {
       clientMutationId
     }
   }
@@ -168,11 +168,11 @@ async function run() {
 
   console.log("Fetching Project...");
   const {
-    organization: { projectNext: project },
+    organization: { projectV2: project },
   } = (await gql(
     `query($org: String!, $number: Int!) {
     organization(login: $org) {
-      projectNext(number: $number) {
+      projectV2(number: $number) {
         id
         fields(first:20) {
           nodes {
