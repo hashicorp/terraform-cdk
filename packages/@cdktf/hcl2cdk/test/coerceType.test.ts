@@ -13,6 +13,19 @@ function generateCode(ast: any) {
   return generate(ast).code;
 }
 
+const scope: any = {
+  variables: {
+    a_user_defined_variable: {
+      resource: "var",
+      variableName: "aUserDefinedVariable",
+    },
+    a_user_defined_local: {
+      resource: "var",
+      variableName: "aUserDefinedTerraformLocal",
+    },
+  },
+};
+
 describe("coerceType", () => {
   it.each([
     { code: `"hello-world"`, type: "string", targetType: undefined },
@@ -20,7 +33,7 @@ describe("coerceType", () => {
   ])("should change nothing for %p ", ({ code, type, targetType }) => {
     expect(
       generateCode(
-        coerceType(expressionify(code), type as any, targetType as any)
+        coerceType(scope, expressionify(code), type as any, targetType as any)
       )
     ).toEqual(code);
   });
@@ -88,7 +101,7 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(expressionify(code), type as any, targetType as any)
+          coerceType(scope, expressionify(code), type as any, targetType as any)
         )
       ).toEqual(expectedCode);
     }
@@ -124,7 +137,7 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(expressionify(code), type as any, targetType as any)
+          coerceType(scope, expressionify(code), type as any, targetType as any)
         )
       ).toEqual(expectedCode);
     }
@@ -160,7 +173,7 @@ describe("coerceType", () => {
     ({ code, type, targetType, expectedCode }) => {
       expect(
         generateCode(
-          coerceType(expressionify(code), type as any, targetType as any)
+          coerceType(scope, expressionify(code), type as any, targetType as any)
         )
       ).toEqual(expectedCode);
     }

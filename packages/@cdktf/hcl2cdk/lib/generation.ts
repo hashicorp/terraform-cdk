@@ -59,8 +59,22 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+function changeValueAccessor(
+  ast: t.MemberExpression,
+  newAccessor: string
+): t.MemberExpression {
+  const propertyIdentifier: t.Identifier = {
+    ...(ast.property as t.Identifier),
+    name: newAccessor,
+  };
+  return {
+    ...ast,
+    property: propertyIdentifier,
+  };
+}
 // TODO: cdktf import becomes necessary once a type coerced
 export const coerceType = (
+  scope: Scope,
   ast: t.Expression,
   from: AttributeType,
   to: AttributeType | undefined
@@ -73,10 +87,23 @@ export const coerceType = (
     return ast;
   }
 
+  const isTerraformVariableOrLocal =
+    ast.type === "MemberExpression" &&
+    ast.property.type === "Identifier" &&
+    ast.property.name === "value" &&
+    ast.object.type === "Identifier" &&
+    Object.values(scope.variables).some(
+      (knownVars) =>
+        knownVars.variableName === (ast.object as t.Identifier).name
+    );
+
   if (Array.isArray(to)) {
     if (to[0] === "list") {
       switch (to[1]) {
         case "string":
+          if (isTerraformVariableOrLocal) {
+            return changeValueAccessor(ast as t.MemberExpression, "listValue");
+          }
           return template.expression(`cdktf.Token.asList(%%ast%%)`)({
             ast: ast,
           });
@@ -115,20 +142,29 @@ export const coerceType = (
 
   switch (to) {
     case "number":
+      if (isTerraformVariableOrLocal) {
+        return changeValueAccessor(ast as t.MemberExpression, "numberValue");
+      }
       return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
         ast: ast,
       });
     case "string":
+      if (isTerraformVariableOrLocal) {
+        return changeValueAccessor(ast as t.MemberExpression, "stringValue");
+      }
       return template.expression(`cdktf.Token.asString(%%ast%%)`)({
         ast: ast,
       });
     case "bool":
+      if (isTerraformVariableOrLocal) {
+        return changeValueAccessor(ast as t.MemberExpression, "booleanValue");
+      }
       return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
         ast: ast,
       });
   }
 
-  console.log(ast, from, to);
+  logger.debug(`Could not coerce from ${from} to ${to} for ${ast}`);
   return ast;
 };
 
@@ -150,7 +186,7 @@ export const valueToTs = async (
         await extractReferencesFromExpression(item, nodeIds, scopedIds),
         scopedIds
       );
-      return coerceType(ast, "string", attributeType?.type);
+      return coerceType(scope, ast, "string", attributeType?.type);
 
     case "boolean":
       return t.booleanLiteral(item);
