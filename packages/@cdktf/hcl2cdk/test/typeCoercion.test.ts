@@ -1,6 +1,8 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
 import { testCase, Synth, binding } from "./helpers/convert";
 
-describe.skip("type coercion", () => {
+describe("type coercion", () => {
   testCase.test(
     "variables within template string need to use stringValue",
     `
