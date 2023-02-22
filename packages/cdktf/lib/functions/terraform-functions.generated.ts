@@ -14,9 +14,9 @@ import {
   numericValue,
   stringValue,
   terraformFunction,
-} from "./terraform-functions";
+} from "./helpers";
 // eslint-disable-next-line jsdoc/require-jsdoc
-export class Fn {
+export class FnGenerated {
   /**
    * {@link https://www.terraform.io/docs/language/functions/endswith.html endswith} takes two values: a string to check and a suffix string. The function returns true if the first string ends with that exact suffix.
    * @param {string} str

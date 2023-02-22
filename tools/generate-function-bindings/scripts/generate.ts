@@ -19,6 +19,7 @@ const OUTPUT_FILE = path.resolve(
   "packages",
   "cdktf",
   "lib",
+  "functions",
   "terraform-functions.generated.ts"
 );
 
@@ -43,7 +44,7 @@ import {
   numericValue,
   stringValue,
   terraformFunction,
-} from "./terraform-functions";
+} from "./helpers";
 `() as t.Statement;
 t.addComment(
   IMPORTS,
@@ -66,7 +67,7 @@ async function fetchMetadata() {
     .map(([name, signature]) => renderStaticMethod(name, signature));
 
   const fnClass = t.exportNamedDeclaration(
-    t.classDeclaration(t.identifier("Fn"), null, t.classBody(staticMethods))
+    t.classDeclaration(t.identifier("FnGenerated"), null, t.classBody(staticMethods))
   );
   t.addComment(
     fnClass,
@@ -86,6 +87,9 @@ async function fetchMetadata() {
 
 // TODO: special case handlings:
 // bcrypt() -> want: "cost?: number" but schema does not help here (related: https://github.com/hashicorp/terraform/blob/6ab3faf5f65a90ae1e5bd0625fa9e83c0b34c5e1/internal/lang/funcs/crypto.go#L115-L117)
+// range() -> uses variadic_parameter (which ends in number[]) because the last param "step" is optional
+// join() -> uses variadic parameter to support multiple lists to join, wheras CDKTF only supports a single one
+// lookup() -> third param is optional, but due to current handling now an array of any instead of just "any?"
 
 function renderStaticMethod(
   name: string,
