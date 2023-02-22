@@ -5,6 +5,7 @@ import * as t from "@babel/types";
 import { logger } from "@cdktf/commons";
 import { AttributeType } from "@cdktf/provider-generator";
 import { Scope } from "./types";
+import deepEqual from "deep-equal";
 
 function changeValueAccessor(
   ast: t.MemberExpression,
@@ -20,7 +21,6 @@ function changeValueAccessor(
   };
 }
 
-// TODO: cdktf import becomes necessary once a type coerced
 export const coerceType = (
   scope: Scope,
   ast: t.Expression,
@@ -30,8 +30,8 @@ export const coerceType = (
   if (to === undefined) {
     return ast;
   }
-  // TODO: add deep equality check
-  if (to === from) {
+
+  if (deepEqual(to, from)) {
     return ast;
   }
 

@@ -88,10 +88,8 @@ function findTypeOfReference(
     ast.type === "MemberExpression" &&
     ast.object.type === "Identifier" &&
     references.length === 1;
-  // TODO: from type is not always string, could be any in case of locals or whatever in case of references
   // If we only have one reference this is a
   if (isReferenceWithoutTemplateString) {
-    // TODO: check if locals == variables
     if (references[0].isVariable) {
       return "dynamic";
     }
@@ -141,8 +139,6 @@ export const valueToTs = async (
   scopedIds: string[] = [],
   isModule = false
 ): Promise<t.Expression> => {
-  // TODO: should return e.g. string when inside [map, string]
-
   switch (typeof item) {
     case "string":
       const references = await extractReferencesFromExpression(

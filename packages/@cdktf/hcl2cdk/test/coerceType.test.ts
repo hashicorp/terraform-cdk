@@ -4,8 +4,6 @@ import { coerceType } from "../lib/coerceType";
 import template from "@babel/template";
 import generate from "@babel/generator";
 
-// TODO: look into template.expression
-
 function expressionify(code: string) {
   return (template.ast(code) as any).expression;
 }
