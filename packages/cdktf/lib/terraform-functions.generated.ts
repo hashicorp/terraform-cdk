@@ -69,14 +69,14 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/alltrue.html alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
-   * @param {Array} list
+   * @param {Array<any>} list
    */
   static alltrue(list: any[]) {
     return asBoolean(terraformFunction("alltrue", [listOf(anyValue)])(list));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/anytrue.html anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
-   * @param {Array} list
+   * @param {Array<any>} list
    */
   static anytrue(list: any[]) {
     return asBoolean(terraformFunction("anytrue", [listOf(anyValue)])(list));

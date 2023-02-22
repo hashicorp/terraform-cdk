@@ -145,6 +145,12 @@ function renderStaticMethod(
           tsType: t.tsStringKeyword(),
           docstringType: "string",
         };
+      } else if (type === "bool") {
+        return {
+          mapper: "anyValue",
+          tsType: t.tsAnyKeyword(), // we can't use booleans here as we don't have boolean tokens but need to support token values too
+          docstringType: "any",
+        };
       } else if (type === "dynamic") {
         return {
           mapper: "anyValue",
@@ -154,17 +160,7 @@ function renderStaticMethod(
       } else if (
         Array.isArray(type) &&
         type[0] === "list" &&
-        type[1] === "bool"
-      ) {
-        return {
-          mapper: "listOf(anyValue)",
-          tsType: t.tsArrayType(t.tsAnyKeyword()),
-          docstringType: "Array",
-        };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "list" &&
-        type[1] === "dynamic" // TODO: this branch is the same as the bool one
+        (type[1] === "dynamic" || type[1] === "bool")
       ) {
         const child = parseType(type[1]);
         return {
