@@ -87,7 +87,6 @@ async function fetchMetadata() {
 
 // TODO: special case handlings:
 // bcrypt() -> want: "cost?: number" but schema does not help here (related: https://github.com/hashicorp/terraform/blob/6ab3faf5f65a90ae1e5bd0625fa9e83c0b34c5e1/internal/lang/funcs/crypto.go#L115-L117)
-// lenght() -> want: lengthOf() because length conflicts
 
 // TODO: clean up this code
 function renderStaticMethod(
@@ -111,26 +110,13 @@ function renderStaticMethod(
     default:
       if (
         Array.isArray(signature.return_type) &&
-        signature.return_type[0] === "list"
+        (signature.return_type[0] === "list" ||
+          signature.return_type[0] === "set")
       ) {
-        returnType = "asList"; // TODO: this may be too broad
+        returnType = "asList";
       } else if (
         Array.isArray(signature.return_type) &&
-        signature.return_type[0] === "set"
-      ) {
-        returnType = "asList"; // TODO: this may be too broad
-      } else if (
-        Array.isArray(signature.return_type) &&
-        signature.return_type[0] === "map" &&
-        signature.return_type[1] === "dynamic"
-      ) {
-        returnType = "asAny";
-      } else if (
-        Array.isArray(signature.return_type) &&
-        signature.return_type[0] === "map" &&
-        Array.isArray(signature.return_type[1]) &&
-        signature.return_type[1][0] === "list" &&
-        signature.return_type[1][1] === "string"
+        signature.return_type[0] === "map"
       ) {
         returnType = "asAny";
       } else {
@@ -274,15 +260,15 @@ function renderStaticMethod(
     );
   }
 
-  const argValueMappers: string = parameters.map((p) => p.mapper).join(",");
+  // we need a space (Prettier will remove it) as somehow ts`` works in weird ways when
+  // passing an empty (or falsy value in the template string)
+  const argValueMappers: string =
+    parameters.map((p) => p.mapper).join(",") || " ";
   const argNames: string = parameters.map((p) => p.name).join(",");
   const params: any[] = parameters.map((p) => p.tsParam);
 
-  // TODO: remove this weird workaround for argValueMappers – somehow ts`` works in weird ways when passing an empty (or falsy value in the template string)
   const body = ts`
-  return ${returnType}(terraformFunction("${name}", [${
-    argValueMappers || " "
-  }])(${argNames}));
+  return ${returnType}(terraformFunction("${name}", [${argValueMappers}])(${argNames}));
   `();
 
   const sanitizedFunctionName = name === "length" ? "lengthOf" : name;
@@ -296,24 +282,20 @@ function renderStaticMethod(
     true // static
   );
 
-  /**
-   * {@link https://www.terraform.io/docs/language/functions/index.html index} finds the element index for a given value in a list.
-   * @param {Array} list
-   * @param {any} value
-   */
-  const paramLines = parameters.map(
-    (p) => ` * @param {${p.docstringType}} ${p.name}`
+  // comment with docstring for method
+  const descriptionWithLink = signature.description.replace(
+    `\`${name}\``,
+    `{@link https://www.terraform.io/docs/language/functions/${name}.html ${name}}`
   );
   t.addComment(
     method,
     "leading",
-    `*
- * ${signature.description.replace(
-   `\`${name}\``,
-   `{@link https://www.terraform.io/docs/language/functions/${name}.html ${name}}`
- )}
-${paramLines.join("\n")}
-`
+    [
+      "*",
+      `* ${descriptionWithLink}`,
+      ...parameters.map((p) => ` * @param {${p.docstringType}} ${p.name}`),
+      "",
+    ].join("\n")
   );
 
   return method;

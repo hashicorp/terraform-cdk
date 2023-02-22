@@ -440,8 +440,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/uuid.html uuid} generates a unique identifier string.
-  
-  */
+   */
   static uuid() {
     return asString(terraformFunction("uuid", [])());
   }
@@ -480,8 +479,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/timestamp.html timestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format.
-  
-  */
+   */
   static timestamp() {
     return asString(terraformFunction("timestamp", [])());
   }
