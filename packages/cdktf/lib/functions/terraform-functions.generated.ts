@@ -179,12 +179,13 @@ export class FnGenerated {
     return asNumber(terraformFunction("length", [anyValue])(value));
   }
   /**
+   * @internal
    * {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {any} inputMap
    * @param {string} key
    * @param {Array<any>} defaultValue
    */
-  static lookup(inputMap: any, key: string, defaultValue: any[]) {
+  static _lookup(inputMap: any, key: string, defaultValue: any[]) {
     return asAny(
       terraformFunction("lookup", [anyValue, stringValue, listOf(anyValue)])(
         inputMap,
@@ -216,10 +217,11 @@ export class FnGenerated {
     return asAny(terraformFunction("one", [anyValue])(list));
   }
   /**
+   * @internal
    * {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
    * @param {Array<number>} params
    */
-  static range(params: number[]) {
+  static _range(params: number[]) {
     return asList(terraformFunction("range", [listOf(numericValue)])(params));
   }
   /**
@@ -343,11 +345,12 @@ export class FnGenerated {
     return asString(terraformFunction("base64sha512", [stringValue])(str));
   }
   /**
+   * @internal
    * {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
    * @param {string} str
    * @param {Array<number>} cost
    */
-  static bcrypt(str: string, cost: number[]) {
+  static _bcrypt(str: string, cost: number[]) {
     return asString(
       terraformFunction("bcrypt", [stringValue, listOf(numericValue)])(
         str,

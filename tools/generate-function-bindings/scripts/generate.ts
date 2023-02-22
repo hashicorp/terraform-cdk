@@ -56,7 +56,7 @@ t.addComment(
 );
 
 // these are overwritten in terraform-functions.ts
-const INTERNAL_METHODS = ["join"];
+const INTERNAL_METHODS = ["join", "bcrypt", "range", "lookup"];
 
 async function fetchMetadata() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
@@ -93,9 +93,6 @@ async function fetchMetadata() {
 }
 
 // TODO: special case handlings:
-// bcrypt() -> want: "cost?: number" but schema does not help here (related: https://github.com/hashicorp/terraform/blob/6ab3faf5f65a90ae1e5bd0625fa9e83c0b34c5e1/internal/lang/funcs/crypto.go#L115-L117)
-// range() -> uses variadic_parameter (which ends in number[]) because the last param "step" is optional
-// join() -> uses variadic parameter to support multiple lists to join, wheras CDKTF only supports a single one
 // lookup() -> third param is optional, but due to current handling now an array of any instead of just "any?"
 
 function renderStaticMethod(
