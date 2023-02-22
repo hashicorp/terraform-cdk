@@ -179,7 +179,7 @@ function renderStaticMethod(
         return {
           mapper: "listOf(anyValue)", // used like this today, could be improved probably
           tsType: t.tsArrayType(t.tsStringKeyword()),
-          docstringType: "Array<any>",
+          docstringType: "Array<string>",
         };
       } else if (
         Array.isArray(type) &&

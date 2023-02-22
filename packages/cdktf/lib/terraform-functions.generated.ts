@@ -110,7 +110,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
-   * @param {Array<any>} list
+   * @param {Array<string>} list
    */
   static compact(list: string[]) {
     return asList(terraformFunction("compact", [listOf(anyValue)])(list));
@@ -292,7 +292,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
-   * @param {Array<any>} list
+   * @param {Array<string>} list
    */
   static sort(list: string[]) {
     return asList(terraformFunction("sort", [listOf(anyValue)])(list));
@@ -306,7 +306,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/transpose.html transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.
-   * @param {Object<string, Array<any>>} values
+   * @param {Object<string, Array<string>>} values
    */
   static transpose(values: any) {
     return asAny(terraformFunction("transpose", [mapValue])(values));
@@ -320,7 +320,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/zipmap.html zipmap} constructs a map from a list of keys and a corresponding list of values.
-   * @param {Array<any>} keys
+   * @param {Array<string>} keys
    * @param {any} values
    */
   static zipmap(keys: string[], values: any) {
@@ -794,7 +794,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
    * @param {string} separator
-   * @param {Array<Array<any>>} lists
+   * @param {Array<Array<string>>} lists
    */
   static join(separator: string, lists: string[][]) {
     return asString(
