@@ -27,6 +27,7 @@ export const coerceType = (
   from: AttributeType,
   to: AttributeType | undefined
 ): t.Expression => {
+  console.log("Coercing type from", from, "to", to, "for", ast);
   if (to === undefined) {
     return ast;
   }
@@ -46,7 +47,7 @@ export const coerceType = (
     );
 
   if (Array.isArray(to)) {
-    if (to[0] === "list") {
+    if (to[0] === "list" || to[0] === "set") {
       switch (to[1]) {
         case "string":
           if (isTerraformVariableOrLocal) {

@@ -70,7 +70,6 @@ export const valueToTs = async (
   isModule = false
 ): Promise<t.Expression> => {
   // TODO: should return e.g. string when inside [map, string]
-  const attributeType = getAttributeTypeAtPath(scope.providerSchema, path);
 
   switch (typeof item) {
     case "string":
@@ -153,11 +152,45 @@ export const valueToTs = async (
         return "string";
       }
 
+      function getDesiredType(scope: Scope, path: string): AttributeType {
+        const attributeType = getTypeAtPath(scope.providerSchema, path);
+
+        // Attribute type is not defined
+        if (!attributeType) {
+          return "dynamic";
+        }
+
+        // Primitive attribute type
+        if (typeof attributeType === "string") {
+          return attributeType;
+        }
+
+        // Complex attribute type
+        if (Array.isArray(attributeType)) {
+          return attributeType;
+        }
+
+        // Schema
+        if ("version" in attributeType) {
+          return "dynamic";
+        }
+
+        // Block type
+        console.log(
+          `Found block type for ${path}: ${JSON.stringify(
+            attributeType,
+            null,
+            2
+          )}`
+        );
+        return "dynamic";
+      }
+
       return coerceType(
         scope,
         ast,
         findTypeOfReference(scope, ast, references),
-        attributeType?.type
+        getDesiredType(scope, path)
       );
 
     case "boolean":
@@ -179,7 +212,7 @@ export const valueToTs = async (
         return t.arrayExpression(
           await Promise.all(
             unwrappedItem.map((i) =>
-              valueToTs(scope, i, path, nodeIds, scopedIds)
+              valueToTs(scope, i, `${path}[]`, nodeIds, scopedIds)
             )
           )
         );
