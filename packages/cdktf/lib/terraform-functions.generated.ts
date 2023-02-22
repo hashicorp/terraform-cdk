@@ -306,7 +306,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/transpose.html transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.
-   * @param {Object} values
+   * @param {Object<string, Array<any>>} values
    */
   static transpose(values: any) {
     return asAny(terraformFunction("transpose", [mapValue])(values));

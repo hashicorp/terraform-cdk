@@ -191,17 +191,12 @@ function renderStaticMethod(
           tsType: t.tsArrayType(t.tsAnyKeyword()),
           docstringType: "Array",
         };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "map" &&
-        Array.isArray(type[1]) &&
-        type[1][0] === "list" &&
-        type[1][1] === "string" // TODO: this should be handled in a more generic way
-      ) {
+      } else if (Array.isArray(type) && type[0] === "map") {
+        const child = parseType(type[1]);
         return {
           mapper: "mapValue",
           tsType: t.tsAnyKeyword(),
-          docstringType: "Object",
+          docstringType: "Object<string, " + child.docstringType + ">",
         };
       } else {
         throw new Error(
