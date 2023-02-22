@@ -171,12 +171,12 @@ function renderStaticMethod(
       } else if (
         Array.isArray(type) &&
         type[0] === "list" &&
-        type[1] === "string" // TODO: this branch is similar to the other ones
+        type[1] === "string"
       ) {
         return {
-          mapper: "listOf(anyValue)", // TODO: used like this today, but why,
+          mapper: "listOf(anyValue)", // used like this today, could be improved probably
           tsType: t.tsArrayType(t.tsStringKeyword()),
-          docstringType: "Array",
+          docstringType: "Array<any>",
         };
       } else if (
         Array.isArray(type) &&
