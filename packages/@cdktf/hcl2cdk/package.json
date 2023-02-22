@@ -35,6 +35,7 @@
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
     "camelcase": "^6.3.0",
+    "deep-equal": "^2.2.0",
     "glob": "7.2.3",
     "graphology": "^0.25.1",
     "graphology-types": "^0.21.2",
