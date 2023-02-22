@@ -3,6 +3,5 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "aws@~> 3.0"
-  ],
-  "projectId": "fe95ed68-f68f-461d-9c78-45cbbbf6f476"
+  ]
 }
