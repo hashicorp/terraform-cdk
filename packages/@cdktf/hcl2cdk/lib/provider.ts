@@ -113,7 +113,6 @@ export function getAttributeTypeAtPath(
     return null;
   }
   const { resource, parts } = resourceSchema;
-
   const attributes = resource.block.attributes;
 
   if (parts.length !== 1) {
@@ -121,9 +120,22 @@ export function getAttributeTypeAtPath(
     return null;
   }
 
-  const attributeName = parts[0];
+  const attributeName = parts[0].replace("[]", "");
+  const attribute = attributes[attributeName];
 
-  return attributes[attributeName];
+  if (
+    attribute &&
+    Array.isArray(attribute.type) &&
+    Array.isArray(attribute.type) &&
+    path.endsWith("[]")
+  ) {
+    return {
+      ...attribute,
+      type: attribute.type[1] as any,
+    };
+  } else {
+    return attribute;
+  }
 }
 
 // Resolves within a list of objects, e.g.
@@ -194,7 +206,7 @@ export function getTypeAtPath(
       currentSchema.block.block_types.hasOwnProperty(part)
     ) {
       currentSchema = currentSchema.block.block_types[part];
-      break;
+      continue;
     }
 
     // Go into attributes if possible

@@ -83,32 +83,32 @@ describe("type coercion", () => {
     { resources: ["aws_iam_user_group_membership"] }
   );
 
-  // testCase.test(
-  //   "expressions need to be coerced to required type",
-  //   `
-  //     variable "example_spot_and_fargate_name" {
-  //       type        = string
-  //     }
-  //     variable "role_arn" {
-  //       type        = string
-  //     }
-  //     variable "private_subnets" {
-  //       type        = list(object({ id = string }))
-  //     }
-  //     variable "public_subnets" {
-  //       type        = list(object({ id = string }))
-  //     }
-  //     resource "aws_eks_cluster" "example_spot_and_fargate_eks_cluster" {
-  //       name     = "$\{var.example_spot_and_fargate_name}"
-  //       role_arn = var.role_arn
+  testCase.test(
+    "expressions need to be coerced to required type",
+    `
+      variable "example_spot_and_fargate_name" {
+        type        = string
+      }
+      variable "role_arn" {
+        type        = string
+      }
+      variable "private_subnets" {
+        type        = list(object({ id = string }))
+      }
+      variable "public_subnets" {
+        type        = list(object({ id = string }))
+      }
+      resource "aws_eks_cluster" "example_spot_and_fargate_eks_cluster" {
+        name     = "$\{var.example_spot_and_fargate_name}"
+        role_arn = var.role_arn
 
-  //       vpc_config {
-  //         subnet_ids = concat(var.private_subnets.*.id, var.public_subnets.*.id)
-  //       }
-  //     }
-  //     `,
-  //   [binding.aws],
-  //   Synth.no_missing_type_coersion,
-  //   { resources: ["aws_eks_cluster"] }
-  // );
+        vpc_config {
+          subnet_ids = concat(var.private_subnets.*.id, var.public_subnets.*.id)
+        }
+      }
+      `,
+    [binding.aws],
+    Synth.no_missing_type_coersion,
+    { resources: ["aws_eks_cluster"] }
+  );
 });
