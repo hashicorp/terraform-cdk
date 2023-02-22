@@ -193,22 +193,6 @@ function renderStaticMethod(
         };
       } else if (
         Array.isArray(type) &&
-        type[0] === "list" &&
-        Array.isArray(type[1]) &&
-        type[1][0] === "set" &&
-        type[1][1] === "dynamic" // TODO: this should be handled in a more generic way
-      ) {
-        // TODO: this case mainly stems from the variadic parameter for setintersection(first, ...otherSets)
-        // which takes more than one set – as JSII doesn't support variadic params, we only support
-        // one list of sets in our current implementation of tf functions – so this is breaking and we'll need
-        // a special case or override for this and then we can get rid of this case
-        return {
-          mapper: "listOf(anyValue)",
-          tsType: t.tsArrayType(t.tsAnyKeyword()),
-          docstringType: "Array",
-        };
-      } else if (
-        Array.isArray(type) &&
         type[0] === "map" &&
         Array.isArray(type[1]) &&
         type[1][0] === "list" &&
