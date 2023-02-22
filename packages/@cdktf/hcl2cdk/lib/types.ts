@@ -17,4 +17,5 @@ export type Scope = {
       variableName: string;
     }
   >;
+  hasTokenBasedTypeCoercion: boolean;
 };

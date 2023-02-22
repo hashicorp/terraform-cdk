@@ -9,6 +9,7 @@ import {
   Schema,
 } from "@cdktf/provider-generator";
 import { schema } from "./schema";
+import { Scope } from "./types";
 
 export { BlockType, Attribute };
 
@@ -267,4 +268,34 @@ export function getProviderRequirements(plan: Plan) {
   );
 
   return providerRequirements;
+}
+
+export function getDesiredType(scope: Scope, path: string): AttributeType {
+  const attributeType = getTypeAtPath(scope.providerSchema, path);
+
+  // Attribute type is not defined
+  if (!attributeType) {
+    return "dynamic";
+  }
+
+  // Primitive attribute type
+  if (typeof attributeType === "string") {
+    return attributeType;
+  }
+
+  // Complex attribute type
+  if (Array.isArray(attributeType)) {
+    return attributeType;
+  }
+
+  // Schema
+  if ("version" in attributeType) {
+    return "dynamic";
+  }
+
+  // Block type
+  console.log(
+    `Found block type for ${path}: ${JSON.stringify(attributeType, null, 2)}`
+  );
+  return "dynamic";
 }

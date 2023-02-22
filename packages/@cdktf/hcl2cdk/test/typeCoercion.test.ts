@@ -6,6 +6,9 @@ describe("type coercion", () => {
   testCase.test(
     "variables used in resources need to use stringValue",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       variable "zone_id" {
         type        = string
       }
@@ -25,6 +28,9 @@ describe("type coercion", () => {
   testCase.test(
     "references used in resources need to use Token.asString",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       resource "aws_route53_zone" "example_aws_route53_simple_zone" {
         name = "example.com"
       }
@@ -42,8 +48,11 @@ describe("type coercion", () => {
   );
 
   testCase.test(
-    "references used in resource for_eachs need to understand how the value is used (in this case as a map)",
+    "references used in resource for_eachs need to understand how the value is used",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       variable "iam_groups_users" {
         type        = map(object({
           groups = list(string)
@@ -63,6 +72,9 @@ describe("type coercion", () => {
   testCase.test(
     "expressions need to be coerced to required type",
     `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
       variable "example_spot_and_fargate_name" {
         type        = string
       }

@@ -311,7 +311,11 @@ export async function convertToTypescript(
     }).length > 0;
 
   const cdktfImports =
-    hasBackend || hasPlanOrOutputOrTerraformRemoteState ? [cdktfImport] : [];
+    hasBackend ||
+    hasPlanOrOutputOrTerraformRemoteState ||
+    scope.hasTokenBasedTypeCoercion
+      ? [cdktfImport]
+      : [];
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
     expressions[0] = t.addComment(
