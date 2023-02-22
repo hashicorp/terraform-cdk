@@ -44,7 +44,8 @@
     "release": "standard-version",
     "generate-docs:api": "yarn && yarn build && yarn package && cd tools/documentation-generation && git clean -dfx . && yarn && yarn docs && npx prettier --write ../../website/docs/cdktf/api-reference/*.mdx",
     "generate-docs:translations": "cd tools/documentation-code-snippets && yarn && yarn update-snippets && cd ../../ && yarn run format",
-    "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api"
+    "generate-docs": "yarn generate-docs:translations && yarn generate-docs:api",
+    "generate-function-bindings": "cd tools/generate-function-bindings && yarn && yarn fetch-metadata && yarn generate"
   },
   "workspaces": {
     "packages": [
@@ -57,6 +58,7 @@
       "examples/java/*",
       "examples/csharp/*",
       "examples/go/*",
+      "tools/generate-function-bindings",
       ".yalc/*",
       ".yalc/@*/*"
     ],
