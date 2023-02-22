@@ -27,7 +27,6 @@ export const coerceType = (
   from: AttributeType,
   to: AttributeType | undefined
 ): t.Expression => {
-  console.log("Coercing type from", from, "to", to, "for", ast);
   if (to === undefined) {
     return ast;
   }
@@ -53,14 +52,18 @@ export const coerceType = (
           if (isTerraformVariableOrLocal) {
             return changeValueAccessor(ast as t.MemberExpression, "listValue");
           }
+
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asList(%%ast%%)`)({
             ast: ast,
           });
         case "number":
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asNumberList(%%ast%%)`)({
             ast: ast,
           });
         case "bool":
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
             ast: ast,
           });
@@ -70,18 +73,22 @@ export const coerceType = (
     if (to[0] === "map") {
       switch (to[1]) {
         case "string":
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asStringMap(%%ast%%)`)({
             ast: ast,
           });
         case "number":
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asNumberMap(%%ast%%)`)({
             ast: ast,
           });
         case "bool":
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asBooleanMap(%%ast%%)`)({
             ast: ast,
           });
         default:
+          scope.hasTokenBasedTypeCoercion = true;
           return template.expression(`cdktf.Token.asAnyMap(%%ast%%)`)({
             ast: ast,
           });
@@ -94,6 +101,7 @@ export const coerceType = (
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "numberValue");
       }
+      scope.hasTokenBasedTypeCoercion = true;
       return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
         ast: ast,
       });
@@ -101,6 +109,7 @@ export const coerceType = (
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "stringValue");
       }
+      scope.hasTokenBasedTypeCoercion = true;
       return template.expression(`cdktf.Token.asString(%%ast%%)`)({
         ast: ast,
       });
@@ -108,6 +117,7 @@ export const coerceType = (
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "booleanValue");
       }
+      scope.hasTokenBasedTypeCoercion = true;
       return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
         ast: ast,
       });
