@@ -3,29 +3,6 @@
 import { testCase, Synth, binding } from "./helpers/convert";
 
 describe("type coercion", () => {
-  // testCase.test(
-  //   "variables within template string need to use stringValue",
-  //   `
-  //     variable "default_tags" {
-  //       type        = map(string)
-  //       description = "Map of default tags to apply to resources"
-  //       default = {
-  //         project = "Learning Live with AWS & HashiCorp"
-  //       }
-  //     }
-
-  //     resource "aws_eip" "nat" {
-  //       vpc = true
-  //       tags = {
-  //         "Name" = "\${var.default_tags.project}-nat-eip"
-  //       }
-  //     }
-  //     `,
-  //   [binding.aws],
-  //   Synth.no_missing_type_coersion,
-  //   { resources: ["aws_eip"] }
-  // );
-
   testCase.test(
     "variables used in resources need to use stringValue",
     `
@@ -41,7 +18,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.no_missing_type_coersion,
+    Synth.yes,
     { resources: ["aws_route53_record"] }
   );
 
@@ -60,7 +37,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.no_missing_type_coersion,
+    Synth.yes,
     { resources: ["aws_route53_zone", "aws_route53_record"] }
   );
 
@@ -79,7 +56,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.no_missing_type_coersion,
+    Synth.yes,
     { resources: ["aws_iam_user_group_membership"] }
   );
 
@@ -108,7 +85,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.no_missing_type_coersion,
+    Synth.yes,
     { resources: ["aws_eks_cluster"] }
   );
 });
