@@ -157,29 +157,20 @@ function renderStaticMethod(
           tsType: t.tsAnyKeyword(),
           docstringType: "any",
         };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "list" &&
-        (type[1] === "dynamic" ||
-          type[1] === "bool" ||
-          type[1] === "number" ||
-          Array.isArray(type[1]))
-      ) {
+      } else if (Array.isArray(type) && type[0] === "list") {
         const child = parseType(type[1]);
+
+        // We use anyValue for string lists as we don't validate
+        // the individual strings in a list to make using these
+        // functions more graceful
+        if (type[1] === "string") {
+          child.mapper = "anyValue";
+        }
+
         return {
           mapper: `listOf(${child.mapper})`,
           tsType: t.tsArrayType(child.tsType),
           docstringType: `Array<${child.docstringType}>`,
-        };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "list" &&
-        type[1] === "string"
-      ) {
-        return {
-          mapper: "listOf(anyValue)", // used like this today, could be improved probably
-          tsType: t.tsArrayType(t.tsStringKeyword()),
-          docstringType: "Array<string>",
         };
       } else if (
         Array.isArray(type) &&
