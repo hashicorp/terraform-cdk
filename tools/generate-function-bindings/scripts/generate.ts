@@ -416,6 +416,8 @@ const old = [
   "tostring",
   "try",
 ];
+// fakes the sort order, our existing terraform-functions.ts file has
+// this makes it easier to compare the generated file to the existing function bindings
 function fakeSameSortOrderAsExistingFile(
   [a]: [string, ...any[]],
   [b]: [string, ...any[]]
