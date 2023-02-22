@@ -55,6 +55,9 @@ t.addComment(
   false
 );
 
+// these are overwritten in terraform-functions.ts
+const INTERNAL_METHODS = ["join"];
+
 async function fetchMetadata() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
@@ -67,7 +70,11 @@ async function fetchMetadata() {
     .map(([name, signature]) => renderStaticMethod(name, signature));
 
   const fnClass = t.exportNamedDeclaration(
-    t.classDeclaration(t.identifier("FnGenerated"), null, t.classBody(staticMethods))
+    t.classDeclaration(
+      t.identifier("FnGenerated"),
+      null,
+      t.classBody(staticMethods)
+    )
   );
   t.addComment(
     fnClass,
@@ -225,7 +232,12 @@ function renderStaticMethod(
   return ${returnType}(terraformFunction("${name}", [${argValueMappers}])(${argNames}));
   `();
 
-  const sanitizedFunctionName = name === "length" ? "lengthOf" : name;
+  const isInternal = INTERNAL_METHODS.includes(name);
+
+  let sanitizedFunctionName = name === "length" ? "lengthOf" : name;
+  if (isInternal) {
+    sanitizedFunctionName = `_${sanitizedFunctionName}`;
+  }
 
   const method = t.classMethod(
     "method",
@@ -246,6 +258,7 @@ function renderStaticMethod(
     "leading",
     [
       "*",
+      ...(isInternal ? ["* @internal"] : []),
       `* ${descriptionWithLink}`,
       ...parameters.map((p) => ` * @param {${p.docstringType}} ${p.name}`),
       "",

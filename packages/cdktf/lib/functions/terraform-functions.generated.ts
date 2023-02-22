@@ -792,11 +792,12 @@ export class FnGenerated {
     );
   }
   /**
+   * @internal
    * {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
    * @param {string} separator
    * @param {Array<Array<string>>} lists
    */
-  static join(separator: string, lists: string[][]) {
+  static _join(separator: string, lists: string[][]) {
     return asString(
       terraformFunction("join", [stringValue, listOf(listOf(anyValue))])(
         separator,
