@@ -231,8 +231,8 @@ export class Fn {
   }
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setintersection.html setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](https://en.wikipedia.org/wiki/Intersection_\(set_theory\)) of the sets.
-   * @param {Array} first_set
-   * @param {Array<Array>} other_sets
+   * @param {Array<any>} first_set
+   * @param {Array<Array<any>>} other_sets
    */
   static setintersection(first_set: any[], other_sets: any[][]) {
     return asList(
@@ -251,8 +251,8 @@ export class Fn {
   }
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setsubtract.html setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](https://en.wikipedia.org/wiki/Complement_\(set_theory\)#Relative_complement) of the second set.
-   * @param {Array} a
-   * @param {Array} b
+   * @param {Array<any>} a
+   * @param {Array<any>} b
    */
   static setsubtract(a: any[], b: any[]) {
     return asList(
@@ -264,8 +264,8 @@ export class Fn {
   }
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setunion.html setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets. In other words, it computes the [union](https://en.wikipedia.org/wiki/Union_\(set_theory\)) of the sets.
-   * @param {Array} first_set
-   * @param {Array<Array>} other_sets
+   * @param {Array<any>} first_set
+   * @param {Array<Array<any>>} other_sets
    */
   static setunion(first_set: any[], other_sets: any[][]) {
     return asList(

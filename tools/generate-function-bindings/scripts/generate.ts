@@ -157,7 +157,10 @@ function renderStaticMethod(
           tsType: t.tsAnyKeyword(),
           docstringType: "any",
         };
-      } else if (Array.isArray(type) && type[0] === "list") {
+      } else if (
+        Array.isArray(type) &&
+        (type[0] === "list" || type[0] === "set")
+      ) {
         const child = parseType(type[1]);
 
         // We use anyValue for string lists as we don't validate
@@ -171,15 +174,6 @@ function renderStaticMethod(
           mapper: `listOf(${child.mapper})`,
           tsType: t.tsArrayType(child.tsType),
           docstringType: `Array<${child.docstringType}>`,
-        };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "set"
-      ) {
-        return {
-          mapper: "listOf(anyValue)",
-          tsType: t.tsArrayType(t.tsAnyKeyword()),
-          docstringType: "Array",
         };
       } else if (Array.isArray(type) && type[0] === "map") {
         const child = parseType(type[1]);
