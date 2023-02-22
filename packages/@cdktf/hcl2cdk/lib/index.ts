@@ -100,6 +100,7 @@ export async function convertToTypescript(
     }, {}),
     constructs: new Set<string>(),
     variables: {},
+    hasTokenBasedTypeCoercion: false,
   };
 
   const graph = new DirectedGraph<{
