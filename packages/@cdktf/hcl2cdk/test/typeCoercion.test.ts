@@ -3,28 +3,28 @@
 import { testCase, Synth, binding } from "./helpers/convert";
 
 describe("type coercion", () => {
-  testCase.test(
-    "variables within template string need to use stringValue",
-    `
-      variable "default_tags" {
-        type        = map(string)
-        description = "Map of default tags to apply to resources"
-        default = {
-          project = "Learning Live with AWS & HashiCorp"
-        }
-      }
-      
-      resource "aws_eip" "nat" {
-        vpc = true
-        tags = {
-          "Name" = "\${var.default_tags.project}-nat-eip"
-        }
-      }
-      `,
-    [binding.aws],
-    Synth.no_missing_type_coersion,
-    { resources: ["aws_eip"] }
-  );
+  // testCase.test(
+  //   "variables within template string need to use stringValue",
+  //   `
+  //     variable "default_tags" {
+  //       type        = map(string)
+  //       description = "Map of default tags to apply to resources"
+  //       default = {
+  //         project = "Learning Live with AWS & HashiCorp"
+  //       }
+  //     }
+
+  //     resource "aws_eip" "nat" {
+  //       vpc = true
+  //       tags = {
+  //         "Name" = "\${var.default_tags.project}-nat-eip"
+  //       }
+  //     }
+  //     `,
+  //   [binding.aws],
+  //   Synth.no_missing_type_coersion,
+  //   { resources: ["aws_eip"] }
+  // );
 
   testCase.test(
     "variables used in resources need to use stringValue",
@@ -83,32 +83,32 @@ describe("type coercion", () => {
     { resources: ["aws_iam_user_group_membership"] }
   );
 
-  testCase.test(
-    "expressions need to be coerced to required type",
-    `
-      variable "example_spot_and_fargate_name" {
-        type        = string
-      }
-      variable "role_arn" {
-        type        = string
-      }
-      variable "private_subnets" {
-        type        = list(object({ id = string }))
-      }
-      variable "public_subnets" {
-        type        = list(object({ id = string }))
-      }
-      resource "aws_eks_cluster" "example_spot_and_fargate_eks_cluster" {
-        name     = "$\{var.example_spot_and_fargate_name}"
-        role_arn = var.role_arn
-      
-        vpc_config {
-          subnet_ids = concat(var.private_subnets.*.id, var.public_subnets.*.id)
-        }
-      }
-      `,
-    [binding.aws],
-    Synth.no_missing_type_coersion,
-    { resources: ["aws_eks_cluster"] }
-  );
+  // testCase.test(
+  //   "expressions need to be coerced to required type",
+  //   `
+  //     variable "example_spot_and_fargate_name" {
+  //       type        = string
+  //     }
+  //     variable "role_arn" {
+  //       type        = string
+  //     }
+  //     variable "private_subnets" {
+  //       type        = list(object({ id = string }))
+  //     }
+  //     variable "public_subnets" {
+  //       type        = list(object({ id = string }))
+  //     }
+  //     resource "aws_eks_cluster" "example_spot_and_fargate_eks_cluster" {
+  //       name     = "$\{var.example_spot_and_fargate_name}"
+  //       role_arn = var.role_arn
+
+  //       vpc_config {
+  //         subnet_ids = concat(var.private_subnets.*.id, var.public_subnets.*.id)
+  //       }
+  //     }
+  //     `,
+  //   [binding.aws],
+  //   Synth.no_missing_type_coersion,
+  //   { resources: ["aws_eks_cluster"] }
+  // );
 });

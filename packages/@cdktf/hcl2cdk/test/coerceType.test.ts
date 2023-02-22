@@ -63,6 +63,18 @@ describe("coerceType", () => {
       targetType: ["list", "number"],
       expectedCode: `cdktf.Token.asNumberList("[1,2,3]")`,
     },
+    {
+      code: `"['foo', 'bar']"`,
+      type: "string",
+      targetType: ["set", "string"],
+      expectedCode: `cdktf.Token.asList("['foo', 'bar']")`,
+    },
+    {
+      code: `"[1,2,3]"`,
+      type: "string",
+      targetType: ["set", "number"],
+      expectedCode: `cdktf.Token.asNumberList("[1,2,3]")`,
+    },
     // We don't have a token function for boolean lists, so we need to take an asAny
     {
       code: `"[true,false,true]"`,
