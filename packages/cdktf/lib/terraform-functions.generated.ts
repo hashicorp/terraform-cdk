@@ -217,7 +217,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
-   * @param {Array} params
+   * @param {Array<number>} params
    */
   static range(params: number[]) {
     return asList(terraformFunction("range", [listOf(numericValue)])(params));
@@ -345,7 +345,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
    * @param {string} str
-   * @param {Array} cost
+   * @param {Array<number>} cost
    */
   static bcrypt(str: string, cost: number[]) {
     return asString(
@@ -679,7 +679,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.
    * @param {string} prefix
-   * @param {Array} newbits
+   * @param {Array<number>} newbits
    */
   static cidrsubnets(prefix: string, newbits: number[]) {
     return asList(
@@ -722,14 +722,14 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.
-   * @param {Array} numbers
+   * @param {Array<number>} numbers
    */
   static max(numbers: number[]) {
     return asNumber(terraformFunction("max", [listOf(numericValue)])(numbers));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.
-   * @param {Array} numbers
+   * @param {Array<number>} numbers
    */
   static min(numbers: number[]) {
     return asNumber(terraformFunction("min", [listOf(numericValue)])(numbers));

@@ -160,23 +160,13 @@ function renderStaticMethod(
       } else if (
         Array.isArray(type) &&
         type[0] === "list" &&
-        (type[1] === "dynamic" || type[1] === "bool")
+        (type[1] === "dynamic" || type[1] === "bool" || type[1] === "number")
       ) {
         const child = parseType(type[1]);
         return {
           mapper: `listOf(${child.mapper})`,
           tsType: t.tsArrayType(child.tsType),
           docstringType: `Array<${child.docstringType}>`,
-        };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "list" &&
-        type[1] === "number" // TODO: this branch is similar to the other ones
-      ) {
-        return {
-          mapper: "listOf(numericValue)",
-          tsType: t.tsArrayType(t.tsNumberKeyword()),
-          docstringType: "Array",
         };
       } else if (
         Array.isArray(type) &&
