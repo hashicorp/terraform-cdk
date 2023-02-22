@@ -174,8 +174,7 @@ function renderStaticMethod(
         };
       } else if (
         Array.isArray(type) &&
-        type[0] === "set" &&
-        type[1] === "dynamic"
+        type[0] === "set"
       ) {
         return {
           mapper: "listOf(anyValue)",
