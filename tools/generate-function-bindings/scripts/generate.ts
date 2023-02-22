@@ -166,10 +166,11 @@ function renderStaticMethod(
         type[0] === "list" &&
         type[1] === "dynamic" // TODO: this branch is the same as the bool one
       ) {
+        const child = parseType(type[1]);
         return {
-          mapper: "listOf(anyValue)",
-          tsType: t.tsArrayType(t.tsAnyKeyword()),
-          docstringType: "Array",
+          mapper: `listOf(${child.mapper})`,
+          tsType: t.tsArrayType(child.tsType),
+          docstringType: `Array<${child.docstringType}>`,
         };
       } else if (
         Array.isArray(type) &&

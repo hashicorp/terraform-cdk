@@ -29,7 +29,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
-   * @param {Array} maps
+   * @param {Array<any>} maps
    */
   static merge(maps: any[]) {
     return asAny(terraformFunction("merge", [listOf(anyValue)])(maps));
@@ -83,7 +83,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/chunklist.html chunklist} splits a single list into fixed-size chunks, returning a list of lists.
-   * @param {Array} list
+   * @param {Array<any>} list
    * @param {number} size
    */
   static chunklist(list: any[], size: number) {
@@ -96,14 +96,14 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/coalesce.html coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
-   * @param {Array} vals
+   * @param {Array<any>} vals
    */
   static coalesce(vals: any[]) {
     return asAny(terraformFunction("coalesce", [listOf(anyValue)])(vals));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
-   * @param {Array} vals
+   * @param {Array<any>} vals
    */
   static coalescelist(vals: any[]) {
     return asAny(terraformFunction("coalescelist", [listOf(anyValue)])(vals));
@@ -117,7 +117,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/concat.html concat} takes two or more lists and combines them into a single list.
-   * @param {Array} seqs
+   * @param {Array<any>} seqs
    */
   static concat(seqs: any[]) {
     return asAny(terraformFunction("concat", [listOf(anyValue)])(seqs));
@@ -134,7 +134,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed.
-   * @param {Array} list
+   * @param {Array<any>} list
    */
   static distinct(list: any[]) {
     return asList(terraformFunction("distinct", [listOf(anyValue)])(list));
@@ -182,7 +182,7 @@ export class Fn {
    * {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {any} inputMap
    * @param {string} key
-   * @param {Array} defaultValue
+   * @param {Array<any>} defaultValue
    */
   static lookup(inputMap: any, key: string, defaultValue: any[]) {
     return asAny(
@@ -195,9 +195,9 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.
-   * @param {Array} values
-   * @param {Array} keys
-   * @param {Array} searchset
+   * @param {Array<any>} values
+   * @param {Array<any>} keys
+   * @param {Array<any>} searchset
    */
   static matchkeys(values: any[], keys: any[], searchset: any[]) {
     return asList(
@@ -244,7 +244,7 @@ export class Fn {
   }
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setproduct.html setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).
-   * @param {Array} sets
+   * @param {Array<any>} sets
    */
   static setproduct(sets: any[]) {
     return asAny(terraformFunction("setproduct", [listOf(anyValue)])(sets));
@@ -761,7 +761,7 @@ export class Fn {
   /**
    * The {@link https://www.terraform.io/docs/language/functions/format.html format} function produces a string by formatting a number of other values according to a specification string. It is similar to the `printf` function in C, and other similar functions in other programming languages.
    * @param {string} format
-   * @param {Array} args
+   * @param {Array<any>} args
    */
   static format(format: string, args: any[]) {
     return asAny(
@@ -771,7 +771,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/formatlist.html formatlist} produces a list of strings by formatting a number of other values according to a specification string.
    * @param {string} format
-   * @param {Array} args
+   * @param {Array<any>} args
    */
   static formatlist(format: string, args: any[]) {
     return asAny(
@@ -994,7 +994,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/try.html try} evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors.
-   * @param {Array} expressions
+   * @param {Array<any>} expressions
    */
   static try(expressions: any[]) {
     return asAny(terraformFunction("try", [listOf(anyValue)])(expressions));
