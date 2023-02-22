@@ -176,6 +176,7 @@ export function getTypeAtPath(
   path: string
 ): Schema | BlockType | AttributeType | null | undefined {
   const resourceSchema = getResourceAtPath(schema, path);
+
   if (!resourceSchema) {
     return null;
   }

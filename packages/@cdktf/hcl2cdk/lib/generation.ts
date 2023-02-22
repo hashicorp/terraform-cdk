@@ -5,6 +5,7 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
+import { toSnakeCase } from "codemaker";
 
 import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
@@ -28,6 +29,7 @@ import {
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
+  AttributeType,
 } from "@cdktf/provider-generator";
 import {
   getBlockTypeAtPath,
@@ -67,17 +69,96 @@ export const valueToTs = async (
   scopedIds: string[] = [],
   isModule = false
 ): Promise<t.Expression> => {
+  // TODO: should return e.g. string when inside [map, string]
   const attributeType = getAttributeTypeAtPath(scope.providerSchema, path);
-  console.log(item, path, attributeType);
+
   switch (typeof item) {
     case "string":
-      const ast = referencesToAst(
-        scope,
+      const references = await extractReferencesFromExpression(
         item,
-        await extractReferencesFromExpression(item, nodeIds, scopedIds),
+        nodeIds,
         scopedIds
       );
-      return coerceType(scope, ast, "string", attributeType?.type);
+      const ast = referencesToAst(scope, item, references, scopedIds);
+
+      // Move const into function
+      function findTypeOfReference(
+        scope: Scope,
+        ast: t.Expression,
+        references: Reference[]
+      ): AttributeType {
+        const isReferenceWithoutTemplateString =
+          ast.type === "MemberExpression" &&
+          ast.object.type === "Identifier" &&
+          references.length === 1;
+        // TODO: from type is not always string, could be any in case of locals or whatever in case of references
+        // If we only have one reference this is a
+        if (isReferenceWithoutTemplateString) {
+          // TODO: check if locals == variables
+          if (references[0].isVariable) {
+            return "dynamic";
+          }
+
+          function destructureAst(ast: t.Expression): string[] | undefined {
+            switch (ast.type) {
+              case "Identifier":
+                return [ast.name];
+              case "MemberExpression":
+                const object = destructureAst(ast.object);
+                const property = destructureAst(ast.property as t.Expression);
+                if (object && property) {
+                  return [...object, ...property];
+                } else {
+                  return undefined;
+                }
+              default:
+                return undefined;
+            }
+          }
+
+          const destructuredAst = destructureAst(ast);
+          if (!destructuredAst) {
+            logger.debug(
+              `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+            );
+            return "dynamic";
+          }
+
+          const [astVariableName, ...attributes] = destructuredAst;
+          const variable = Object.values(scope.variables).find(
+            (x) => x.variableName === astVariableName
+          );
+
+          if (!variable) {
+            // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
+            return "dynamic";
+          }
+
+          const { resource: resourceType } = variable;
+          const [provider, ...resourceNameFragments] = resourceType.split("_");
+          const tfResourcePath = `${provider}.${resourceNameFragments.join(
+            "_"
+          )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
+          const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
+
+          // If this is an attribute type we can return it
+          if (typeof type === "string" || Array.isArray(type)) {
+            return type;
+          }
+
+          // Either nothing is found or it's a block type
+          return "dynamic";
+        }
+
+        return "string";
+      }
+
+      return coerceType(
+        scope,
+        ast,
+        findTypeOfReference(scope, ast, references),
+        attributeType?.type
+      );
 
     case "boolean":
       return t.booleanLiteral(item);
