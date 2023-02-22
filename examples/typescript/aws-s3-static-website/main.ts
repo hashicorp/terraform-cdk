@@ -1,5 +1,5 @@
 import { Construct } from "constructs";
-import { App, TerraformStack, TerraformOutput, TerraformVariable } from "cdktf";
+import { App, TerraformStack, TerraformVariable, TerraformAsset, TerraformOutput } from "cdktf";
 import { AwsProvider, s3 } from "./.gen/providers/aws";
 
 
@@ -18,6 +18,14 @@ class MyStack extends TerraformStack {
       type: 'string',
       default: 'test-bucket',
       description: 'The name-prefix of the S3 bucket to be used'
+    });
+
+    const index = new TerraformAsset(this, "index", {
+      path: "website/index.html"
+    });
+
+    const error = new TerraformAsset(this, "error", {
+      path: "website/error.html"
     });
 
     // Provider Configuration
@@ -40,32 +48,6 @@ class MyStack extends TerraformStack {
       acl: 'public-read'
     });
 
-    // Upload files to S3 Website
-    new s3.S3Object(this, 'indexObject', {
-      bucket: s3bucket.id,
-      contentType: "text/html",
-      key: 'index.html',
-      source: './website/index.html'
-    });
-
-    new s3.S3Object(this, 'errorObject', {
-      bucket: s3bucket.id,
-      contentType: "text/html",
-      key: 'error.html',
-      source: './website/error.html'
-    });
-
-    // Enable S3 Website
-    new s3.S3BucketWebsiteConfiguration(this, 's3bucket', {
-      bucket: s3bucket.id,
-      indexDocument: {
-        suffix: 'index.html',
-      },
-      errorDocument: {
-        key: 'error.html',
-      },
-      });
-
     // S3 Bucket Policy to allow public read access
     new s3.S3BucketPolicy(this, 'bucketPolicy', {
       bucket: s3bucket.id,
@@ -86,10 +68,37 @@ class MyStack extends TerraformStack {
     ]
       })});
 
-      // Output the S3 Website URL
-      new TerraformOutput(this, "aws_s3_bucket", {
-        value: s3bucket.websiteEndpoint,
+    // Upload files to S3 Website
+    new s3.S3Object(this, 'indexObject', {
+      bucket: s3bucket.id,
+      contentType: "text/html",
+      key: index.fileName,
+      source: index.path
+    });
+
+    // Upload files to S3 Website
+    new s3.S3Object(this, 'errorObject', {
+      bucket: s3bucket.id,
+      contentType: "text/html",
+      key: error.fileName,
+      source: error.path
+    });
+
+    // Enable S3 Website
+    const s3website = new s3.S3BucketWebsiteConfiguration(this, 's3bucket', {
+      bucket: s3bucket.id,
+      indexDocument: {
+        suffix: 'index.html',
+      },
+      errorDocument: {
+        key: 'error.html',
+      },
       });
+
+    // Output the S3 Website URL
+    new TerraformOutput(this, "aws_s3_bucket", {
+      value: s3website.websiteEndpoint,
+    });
   }
 }
 
