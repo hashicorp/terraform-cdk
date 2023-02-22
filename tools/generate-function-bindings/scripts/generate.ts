@@ -103,7 +103,7 @@ function renderStaticMethod(
       returnType = "asBoolean";
       break;
     case "dynamic":
-      returnType = "asAny"; // TODO: this was no wrapping but now is asAny (BREAKING, as it used to return IResolvable but now returns any)
+      returnType = "asAny"; // TODO: this was no wrapping but now is asAny (BREAKING, as it used to return IResolvable for some functions but now returns any)
       break;
     default:
       if (
