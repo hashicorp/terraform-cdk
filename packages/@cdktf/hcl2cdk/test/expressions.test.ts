@@ -402,6 +402,7 @@ describe("expressions", () => {
         providerGenerator: {},
         constructs: new Set<string>(),
         variables: {},
+        hasTokenBasedTypeCoercion: false,
       };
       expect(
         generate(
@@ -431,6 +432,7 @@ describe("expressions", () => {
         providerGenerator: {},
         constructs: new Set<string>(),
         variables: {},
+        hasTokenBasedTypeCoercion: false,
       };
       const expr = `\${"\${each.value}\${var.azure_ad_domain_name}"}`;
       const references = await extractReferencesFromExpression(expr, [
