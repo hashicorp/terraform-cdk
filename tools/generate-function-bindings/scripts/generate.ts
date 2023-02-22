@@ -160,7 +160,10 @@ function renderStaticMethod(
       } else if (
         Array.isArray(type) &&
         type[0] === "list" &&
-        (type[1] === "dynamic" || type[1] === "bool" || type[1] === "number")
+        (type[1] === "dynamic" ||
+          type[1] === "bool" ||
+          type[1] === "number" ||
+          Array.isArray(type[1]))
       ) {
         const child = parseType(type[1]);
         return {
@@ -177,22 +180,6 @@ function renderStaticMethod(
           mapper: "listOf(anyValue)", // used like this today, could be improved probably
           tsType: t.tsArrayType(t.tsStringKeyword()),
           docstringType: "Array<any>",
-        };
-      } else if (
-        Array.isArray(type) &&
-        type[0] === "list" &&
-        Array.isArray(type[1]) &&
-        type[1][0] === "list" &&
-        type[1][1] === "string" // TODO: this should be handled in a more generic way
-      ) {
-        // TODO: this case mainly stems from the variadic parameter for join(sep, ...value)
-        // which takes more than one list – as JSII doesn't support variadic params, we only support
-        // one list in our current implementation of tf functions – so this is breaking and we'll need
-        // a special case or override for this and then we can get rid of this case
-        return {
-          mapper: "listOf(listOf(anyValue))", // TODO: used like this today, but why?
-          tsType: t.tsArrayType(t.tsArrayType(t.tsStringKeyword())),
-          docstringType: "Array",
         };
       } else if (
         Array.isArray(type) &&

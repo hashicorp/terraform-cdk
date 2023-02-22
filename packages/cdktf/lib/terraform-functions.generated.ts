@@ -110,7 +110,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
-   * @param {Array} list
+   * @param {Array<any>} list
    */
   static compact(list: string[]) {
     return asList(terraformFunction("compact", [listOf(anyValue)])(list));
@@ -232,13 +232,13 @@ export class Fn {
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setintersection.html setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](https://en.wikipedia.org/wiki/Intersection_\(set_theory\)) of the sets.
    * @param {Array} first_set
-   * @param {Array} other_sets
+   * @param {Array<Array>} other_sets
    */
-  static setintersection(first_set: any[], other_sets: any[]) {
+  static setintersection(first_set: any[], other_sets: any[][]) {
     return asList(
       terraformFunction("setintersection", [
         listOf(anyValue),
-        listOf(anyValue),
+        listOf(listOf(anyValue)),
       ])(first_set, other_sets)
     );
   }
@@ -265,14 +265,14 @@ export class Fn {
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setunion.html setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets. In other words, it computes the [union](https://en.wikipedia.org/wiki/Union_\(set_theory\)) of the sets.
    * @param {Array} first_set
-   * @param {Array} other_sets
+   * @param {Array<Array>} other_sets
    */
-  static setunion(first_set: any[], other_sets: any[]) {
+  static setunion(first_set: any[], other_sets: any[][]) {
     return asList(
-      terraformFunction("setunion", [listOf(anyValue), listOf(anyValue)])(
-        first_set,
-        other_sets
-      )
+      terraformFunction("setunion", [
+        listOf(anyValue),
+        listOf(listOf(anyValue)),
+      ])(first_set, other_sets)
     );
   }
   /**
@@ -292,7 +292,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
-   * @param {Array} list
+   * @param {Array<any>} list
    */
   static sort(list: string[]) {
     return asList(terraformFunction("sort", [listOf(anyValue)])(list));
@@ -320,7 +320,7 @@ export class Fn {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/zipmap.html zipmap} constructs a map from a list of keys and a corresponding list of values.
-   * @param {Array} keys
+   * @param {Array<any>} keys
    * @param {any} values
    */
   static zipmap(keys: string[], values: any) {
@@ -794,7 +794,7 @@ export class Fn {
   /**
    * {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
    * @param {string} separator
-   * @param {Array} lists
+   * @param {Array<Array<any>>} lists
    */
   static join(separator: string, lists: string[][]) {
     return asString(
