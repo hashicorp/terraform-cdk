@@ -7,8 +7,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "watch-preserve-output": "tsc -w --preserveWatchOutput",
-    "lint": "eslint . --ext .ts,.tsx",
-    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint . --ext .ts --fix",
     "pretest": "yarn build",
     "pretest:ci": "yarn build",
     "test": "yarn lint && jest",
@@ -82,6 +82,6 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{ts}": "tsc-files ambient.d.ts --noEmit"
+    "src/**/*.ts": "tsc-files ambient.d.ts --noEmit"
   }
 }
