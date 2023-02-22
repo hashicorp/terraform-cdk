@@ -30,7 +30,6 @@ type FunctionSignature = {
   variadic_parameter: Parameter;
 };
 
-// TODO: add other imports here
 const IMPORTS = ts`
 import {
   anyValue,
@@ -88,7 +87,6 @@ async function fetchMetadata() {
 // TODO: special case handlings:
 // bcrypt() -> want: "cost?: number" but schema does not help here (related: https://github.com/hashicorp/terraform/blob/6ab3faf5f65a90ae1e5bd0625fa9e83c0b34c5e1/internal/lang/funcs/crypto.go#L115-L117)
 
-// TODO: clean up this code
 function renderStaticMethod(
   name: string,
   signature: FunctionSignature
@@ -129,123 +127,138 @@ function renderStaticMethod(
   }
 
   const mapParameter = (p: Parameter) => {
-    let mapper: string;
     let name = p.name;
     if (name === "default") name = "defaultValue";
-    let docstringType: string;
+
+    const parseType = (
+      type: AttributeType
+    ): { mapper: string; tsType: t.TSType; docstringType: string } => {
+      if (type === "number") {
+        return {
+          mapper: "numericValue",
+          tsType: t.tsNumberKeyword(),
+          docstringType: "number",
+        };
+      } else if (type === "string") {
+        return {
+          mapper: "stringValue",
+          tsType: t.tsStringKeyword(),
+          docstringType: "string",
+        };
+      } else if (type === "dynamic") {
+        return {
+          mapper: "anyValue",
+          tsType: t.tsAnyKeyword(),
+          docstringType: "any",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        type[1] === "bool"
+      ) {
+        return {
+          mapper: "listOf(anyValue)",
+          tsType: t.tsArrayType(t.tsAnyKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        type[1] === "dynamic" // TODO: this branch is the same as the bool one
+      ) {
+        return {
+          mapper: "listOf(anyValue)",
+          tsType: t.tsArrayType(t.tsAnyKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        type[1] === "number" // TODO: this branch is similar to the other ones
+      ) {
+        return {
+          mapper: "listOf(numericValue)",
+          tsType: t.tsArrayType(t.tsNumberKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        type[1] === "string" // TODO: this branch is similar to the other ones
+      ) {
+        return {
+          mapper: "listOf(anyValue)", // TODO: used like this today, but why,
+          tsType: t.tsArrayType(t.tsStringKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        Array.isArray(type[1]) &&
+        type[1][0] === "list" &&
+        type[1][1] === "string" // TODO: this should be handled in a more generic way
+      ) {
+        // TODO: this case mainly stems from the variadic parameter for join(sep, ...value)
+        // which takes more than one list – as JSII doesn't support variadic params, we only support
+        // one list in our current implementation of tf functions – so this is breaking and we'll need
+        // a special case or override for this and then we can get rid of this case
+        return {
+          mapper: "listOf(listOf(anyValue))", // TODO: used like this today, but why?
+          tsType: t.tsArrayType(t.tsArrayType(t.tsStringKeyword())),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "set" &&
+        type[1] === "dynamic"
+      ) {
+        return {
+          mapper: "listOf(anyValue)",
+          tsType: t.tsArrayType(t.tsAnyKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "list" &&
+        Array.isArray(type[1]) &&
+        type[1][0] === "set" &&
+        type[1][1] === "dynamic" // TODO: this should be handled in a more generic way
+      ) {
+        // TODO: this case mainly stems from the variadic parameter for setintersection(first, ...otherSets)
+        // which takes more than one set – as JSII doesn't support variadic params, we only support
+        // one list of sets in our current implementation of tf functions – so this is breaking and we'll need
+        // a special case or override for this and then we can get rid of this case
+        return {
+          mapper: "listOf(anyValue)",
+          tsType: t.tsArrayType(t.tsAnyKeyword()),
+          docstringType: "Array",
+        };
+      } else if (
+        Array.isArray(type) &&
+        type[0] === "map" &&
+        Array.isArray(type[1]) &&
+        type[1][0] === "list" &&
+        type[1][1] === "string" // TODO: this should be handled in a more generic way
+      ) {
+        return {
+          mapper: "mapValue",
+          tsType: t.tsAnyKeyword(),
+          docstringType: "Object",
+        };
+      } else {
+        throw new Error(
+          `Function ${name} has parameter ${
+            p.name
+          } with unsupported type ${JSON.stringify(p.type)}`
+        );
+      }
+    };
+
+    const { docstringType, mapper, tsType } = parseType(p.type);
 
     const tsParam = t.identifier(name);
-    if (p.type === "number") {
-      mapper = "numericValue";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(t.tsNumberKeyword());
-      docstringType = "number";
-    } else if (p.type === "string") {
-      mapper = "stringValue";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(t.tsStringKeyword());
-      docstringType = "string";
-    } else if (p.type === "dynamic") {
-      mapper = "anyValue";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(t.tsAnyKeyword());
-      docstringType = "any";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      p.type[1] === "bool"
-    ) {
-      mapper = "listOf(anyValue)";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsAnyKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      p.type[1] === "dynamic" // TODO: this branch is the same as the bool one
-    ) {
-      mapper = "listOf(anyValue)";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsAnyKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      p.type[1] === "number" // TODO: this branch is similar to the other ones
-    ) {
-      mapper = "listOf(numericValue)";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsNumberKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      p.type[1] === "string" // TODO: this branch is similar to the other ones
-    ) {
-      mapper = "listOf(anyValue)"; // TODO: used like this today, but why?
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsStringKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      Array.isArray(p.type[1]) &&
-      p.type[1][0] === "list" &&
-      p.type[1][1] === "string" // TODO: this should be handled in a more generic way
-    ) {
-      // TODO: this case mainly stems from the variadic parameter for join(sep, ...value)
-      // which takes more than one list – as JSII doesn't support variadic params, we only support
-      // one list in our current implementation of tf functions – so this is breaking and we'll need
-      // a special case or override for this and then we can get rid of this case
-      mapper = "listOf(listOf(anyValue))"; // TODO: used like this today, but why?
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsArrayType(t.tsStringKeyword()))
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "set" &&
-      p.type[1] === "dynamic"
-    ) {
-      mapper = "listOf(anyValue)";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsAnyKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "list" &&
-      Array.isArray(p.type[1]) &&
-      p.type[1][0] === "set" &&
-      p.type[1][1] === "dynamic" // TODO: this should be handled in a more generic way
-    ) {
-      // TODO: this case mainly stems from the variadic parameter for setintersection(first, ...otherSets)
-      // which takes more than one set – as JSII doesn't support variadic params, we only support
-      // one list of sets in our current implementation of tf functions – so this is breaking and we'll need
-      // a special case or override for this and then we can get rid of this case
-      mapper = "listOf(anyValue)";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(
-        t.tsArrayType(t.tsAnyKeyword())
-      );
-      docstringType = "Array";
-    } else if (
-      Array.isArray(p.type) &&
-      p.type[0] === "map" &&
-      Array.isArray(p.type[1]) &&
-      p.type[1][0] === "list" &&
-      p.type[1][1] === "string" // TODO: this should be handled in a more generic way
-    ) {
-      mapper = "mapValue";
-      tsParam.typeAnnotation = t.tsTypeAnnotation(t.tsAnyKeyword());
-      docstringType = "Object";
-    } else {
-      throw new Error(
-        `Function ${name} has parameter ${
-          p.name
-        } with unsupported type ${JSON.stringify(p.type)}`
-      );
-    }
+    tsParam.typeAnnotation = t.tsTypeAnnotation(tsType);
+
     return { name, mapper, tsParam, docstringType };
   };
 
