@@ -143,7 +143,8 @@ function renderStaticMethod(
 
   const mapParameter = (p: Parameter) => {
     let name = p.name;
-    if (name === "default") name = "defaultValue";
+    if (name === "default") name = "defaultValue"; // keyword in TypeScript
+    if (name === "string") name = "str"; // causes issue is Go
 
     const parseType = (
       type: AttributeType

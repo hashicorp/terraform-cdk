@@ -544,13 +544,13 @@ export class FnGenerated {
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/textencodebase64.html textencodebase64} encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters.
-   * @param {string} string
+   * @param {string} str
    * @param {string} encoding
    */
-  static textencodebase64(string: string, encoding: string) {
+  static textencodebase64(str: string, encoding: string) {
     return asString(
       terraformFunction("textencodebase64", [stringValue, stringValue])(
-        string,
+        str,
         encoding
       )
     );
@@ -826,21 +826,21 @@ export class FnGenerated {
   /**
    * {@link https://www.terraform.io/docs/language/functions/regexall.html regexall} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.
    * @param {string} pattern
-   * @param {string} string
+   * @param {string} str
    */
-  static regexall(pattern: string, string: string) {
+  static regexall(pattern: string, str: string) {
     return asList(
-      terraformFunction("regexall", [stringValue, stringValue])(pattern, string)
+      terraformFunction("regexall", [stringValue, stringValue])(pattern, str)
     );
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.
    * @param {string} pattern
-   * @param {string} string
+   * @param {string} str
    */
-  static regex(pattern: string, string: string) {
+  static regex(pattern: string, str: string) {
     return asAny(
-      terraformFunction("regex", [stringValue, stringValue])(pattern, string)
+      terraformFunction("regex", [stringValue, stringValue])(pattern, str)
     );
   }
   /**
