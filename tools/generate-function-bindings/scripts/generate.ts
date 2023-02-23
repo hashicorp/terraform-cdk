@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
+
 // uses the functions.json file to generate the bindings for CDKTF
 
 import fs from "fs/promises";
@@ -92,9 +95,15 @@ async function fetchMetadata() {
 
   const program = t.program([IMPORTS, fnClass]);
 
-  const code = prettier.format(generate(program as any).code, {
-    parser: "babel",
-  });
+  const code = prettier.format(
+    // adding comments unrelated to code doesn't work with an AST
+    `// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
+  ${generate(program as any).code}`,
+    {
+      parser: "babel",
+    }
+  );
 
   await fs.writeFile(OUTPUT_FILE, code);
 }

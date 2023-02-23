@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc
+// SPDX-License-Identifier: MPL-2.0
+
 // invokes the terraform cli to get function metadata json
 // (requires at least Terraform 1.4.0-beta2)
 import { execSync } from "child_process";
