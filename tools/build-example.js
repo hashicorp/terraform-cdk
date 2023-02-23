@@ -6,12 +6,14 @@
 // Builds a single example, passed  as the first argument.
 
 var path = require("path");
+var os = require("os");
 var exec = require("child_process").execSync;
 const { performance } = require("perf_hooks");
 
 function run(command) {
   const start = performance.now();
-  const stdout = exec(`/usr/bin/time -pv ${command}`, {
+  const args = os.platform() === "darwin" ? `-pl` : `-pv`;
+  const stdout = exec(`/usr/bin/time ${args} ${command}`, {
     stdio: ["pipe", "pipe", process.stderr],
     env: {
       ...process.env,
