@@ -2,12 +2,12 @@
 // SPDX-License-Identifier: MPL-2.0
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { referencesToAst } from "../lib/expressions";
-import { Scope } from "../lib/types";
+import { referencesToAst } from "../expressions";
+import { Scope } from "../types";
 import {
   extractReferencesFromExpression,
   referenceToAst,
-} from "../lib/expressions";
+} from "../expressions";
 
 const nodeIds = [
   "var.input",
