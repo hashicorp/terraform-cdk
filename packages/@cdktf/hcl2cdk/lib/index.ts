@@ -45,8 +45,9 @@ import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
 
 export const CODE_MARKER = "// define resources here";
+export type SchemaType = z.infer<typeof schema>;
 
-export async function getParsedHcl(hcl: string) {
+export async function getParsedHcl(hcl: string): Promise<SchemaType> {
   logger.debug(`Parsing HCL: ${hcl}`);
   // Get the JSON representation of the HCL
   let json: Record<string, unknown>;
@@ -60,7 +61,7 @@ export async function getParsedHcl(hcl: string) {
   }
 
   // Ensure the JSON representation matches the expected structure
-  let plan: z.infer<typeof schema>;
+  let plan: SchemaType;
   try {
     plan = schema.parse(json);
   } catch (err) {
@@ -90,7 +91,93 @@ export async function convertToTypescript(
 
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
-  const scope: Scope = {
+  const scope: Scope = makeScope(providerSchema);
+
+  const { graph, nodeIds } = await generateDirectedGraph(scope, plan);
+
+  logger.debug(`Graph: ${JSON.stringify(graph, null, 2)}`);
+  logger.debug(`Starting to assemble the typescript code`);
+  const typescriptAst = await generateFullTypescriptAst(
+    nodeIds,
+    graph,
+    plan,
+    scope,
+    providerSchema
+  );
+
+  // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
+  // where no node is referenced before it's defined
+  // As we check that the nodes on both ends of an edge exist we can be sure
+  // that no infinite loop exists, there can be no stray dependency on a node
+  const {
+    cdktfImports,
+    providers,
+    backendExpressions,
+    expressions,
+    providerRequirements,
+    moduleRequirements,
+  } = typescriptAst;
+
+  // We split up the generated code so that users can have more control over what to insert where
+  return {
+    all: await gen([
+      ...cdktfImports,
+      ...providers,
+      ...moduleImports(plan.module),
+      ...(backendExpressions || []),
+      ...expressions,
+    ]),
+    imports: await gen([
+      ...cdktfImports,
+      ...providers,
+      ...moduleImports(plan.module),
+    ]),
+    code: await gen([...(backendExpressions || []), ...expressions]),
+    providers: Object.entries(providerRequirements).map(([source, version]) =>
+      version === "*" ? source : `${source}@${version}`
+    ),
+    modules: moduleRequirements,
+    // We track some usage data to make it easier to understand what is used
+    stats: {
+      numberOfModules: moduleRequirements.length,
+      numberOfProviders: Object.keys(providerRequirements).length,
+      resources: resourceStats(plan.resource || {}),
+      data: resourceStats(plan.data || {}),
+      convertedLines: hcl.split("\n").length,
+    },
+    extra: {
+      ast: typescriptAst,
+    },
+  };
+}
+
+type File = { contents: string; fileName: string };
+const translations = {
+  typescript: (file: File) => file.contents,
+  python: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.PythonVisitor()).translation,
+  java: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.JavaVisitor()).translation,
+  csharp: (file: File) =>
+    rosetta.translateTypeScript(file, new rosetta.CSharpVisitor()).translation,
+};
+
+type ConvertOptions = {
+  language: keyof typeof translations;
+  providerSchema: ProviderSchema;
+};
+
+type TypescriptAst = {
+  cdktfImports: t.Statement[];
+  providers: t.Statement[];
+  backendExpressions: t.Statement[];
+  expressions: t.Statement[];
+  providerRequirements: Record<string, string>;
+  moduleRequirements: string[];
+};
+
+function makeScope(providerSchema: ProviderSchema): Scope {
+  return {
     providerSchema,
     providerGenerator: Object.keys(
       providerSchema.provider_schemas || {}
@@ -106,120 +193,15 @@ export async function convertToTypescript(
     variables: {},
     hasTokenBasedTypeCoercion: false,
   };
+}
 
-  const graph = new DirectedGraph<{
-    code: (
-      g: DirectedGraph<any>
-    ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
-  }>();
-
-  // Get all items in the JSON as a map of id to function that generates the AST
-  // We will use this to construct the nodes for a dependency graph
-  // We need to use a function here because the same node has different representation based on if it's referenced by another one
-  const nodeMap: Record<
-    string,
-    (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
-  > = {
-    ...forEachProvider(scope, plan.provider, provider),
-    ...forEachGlobal(scope, "var", plan.variable, variable),
-    // locals are a special case
-    ...forEachGlobal(
-      scope,
-      "local",
-      Array.isArray(plan.locals)
-        ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
-        : {},
-      local
-    ),
-    ...forEachGlobal(scope, "out", plan.output, output),
-    ...forEachGlobal(scope, "module", plan.module, modules),
-    ...forEachNamespaced(scope, plan.resource, resource),
-    ...forEachNamespaced(scope, plan.data, resource, "data"),
-  };
-
-  // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
-  Object.entries(nodeMap).forEach(([key, value]) => {
-    logger.debug(`Adding node '${key}' to graph`);
-    graph.addNode(key, { code: value });
-  });
-
-  // Finding references becomes easier of the to be referenced ids are already known
-  const nodeIds = Object.keys(nodeMap);
-  async function addEdges(id: string, value: TerraformResourceBlock) {
-    (await findUsedReferences(nodeIds, value)).forEach((ref) => {
-      if (
-        !graph.hasDirectedEdge(ref.referencee.id, id) &&
-        graph.hasNode(ref.referencee.id) // in case the referencee is a dynamic variable
-      ) {
-        if (!graph.hasNode(id)) {
-          throw new Error(
-            `The dependency graph is expected to link from ${
-              ref.referencee.id
-            } to ${id} but ${id} does not exist. 
-            These nodes exist: ${graph.nodes().join("\n")}`
-          );
-        }
-
-        logger.debug(`Adding edge from ${ref.referencee.id} to ${id}`);
-        graph.addDirectedEdge(ref.referencee.id, id, { ref });
-      }
-    });
-  }
-
-  // We recursively inspect each resource value to find references to other values
-  // We add these to a dependency graph so that the programming code has the right order
-  async function addGlobalEdges(
-    _scope: Scope,
-    _key: string,
-    id: string,
-    value: TerraformResourceBlock
-  ) {
-    await addEdges(id, value);
-  }
-  async function addProviderEdges(
-    _scope: Scope,
-    _key: string,
-    id: string,
-    value: TerraformResourceBlock
-  ) {
-    await addEdges(id, value);
-  }
-  async function addNamespacedEdges(
-    _scope: Scope,
-    _type: string,
-    _key: string,
-    id: string,
-    value: TerraformResourceBlock
-  ) {
-    await addEdges(id, value);
-  }
-
-  await Promise.all(
-    Object.values({
-      ...forEachProvider(scope, plan.provider, addProviderEdges),
-      ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
-      // locals are a special case
-      ...forEachGlobal(
-        scope,
-        "local",
-        Array.isArray(plan.locals)
-          ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
-          : {},
-        addGlobalEdges
-      ),
-      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
-      ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
-      ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
-      ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
-    }).map((addEdgesToGraph) => addEdgesToGraph(graph))
-  );
-
-  logger.debug(`Graph: ${JSON.stringify(graph, null, 2)}`);
-  logger.debug(`Starting to assemble the typescript code`);
-  // We traverse the dependency graph to get the unordered JSON nodes into an ordered array
-  // where no node is referenced before it's defined
-  // As we check that the nodes on both ends of an edge exist we can be sure
-  // that no infinite loop exists, there can be no stray dependency on a node
+async function generateFullTypescriptAst(
+  nodeIds: string[],
+  graph: DirectedGraph<any>,
+  plan: SchemaType,
+  scope: Scope,
+  providerSchema: ProviderSchema
+): Promise<TypescriptAst> {
   const expressions: t.Statement[] = [];
   let nodesToVisit = [...nodeIds];
   // This ensures we detect cycles and don't end up in an endless loop

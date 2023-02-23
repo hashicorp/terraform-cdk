@@ -242,3 +242,30 @@ describe("references", () => {
     { resources: ["aws_eip"] }
   );
 });
+
+describe("better fqn targeting", () => {
+  testCase.test(
+    "access list item reference of property of data",
+    `
+    data "aws_availability_zones" "changeme_az_list_ebs_snapshot" {
+      state = "available"
+    }
+
+    resource "aws_ebs_volume" "changeme_ebs_volume_snapshot" {
+      availability_zone = data.aws_availability_zones.changeme_az_list_ebs_snapshot.names[0]
+      size              = 10
+      type              = "standard"
+      encrypted         = false
+      tags = {
+        Name = "changeme_ebs_volume_tag"
+      }
+    }
+    `,
+    [binding.aws],
+    Synth.never,
+    {
+      resources: ["aws_ebs_volume"],
+      dataSources: ["aws_availability_zones"],
+    }
+  );
+});
