@@ -134,7 +134,7 @@ const googleComputeInstanceExample = new google.computeInstance.ComputeInstance(
     name: \\"example\\",
     networkInterface: [
       {
-        accessConfig: [{}],
+        access_config: [{}],
         network: \\"default\\",
       },
     ],
