@@ -19,7 +19,7 @@ import {
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class FnGenerated {
   /**
-   * {@link https://www.terraform.io/docs/language/functions/endswith.html endswith} takes two values: a string to check and a suffix string. The function returns true if the first string ends with that exact suffix.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/endswith endswith} takes two values: a string to check and a suffix string. The function returns true if the first string ends with that exact suffix.
    * @param {string} str
    * @param {string} suffix
    */
@@ -29,14 +29,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/merge.html merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/merge merge} takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.
    * @param {Array<any>} maps
    */
   static merge(maps: any[]) {
     return asAny(terraformFunction("merge", [variadic(anyValue)])(maps));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/parseint.html parseint} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/parseint parseint} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.
    * @param {any} number
    * @param {number} base
    */
@@ -46,7 +46,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/startswith.html startswith} takes two values: a string to check and a prefix string. The function returns true if the string begins with that exact prefix.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/startswith startswith} takes two values: a string to check and a prefix string. The function returns true if the string begins with that exact prefix.
    * @param {string} str
    * @param {string} prefix
    */
@@ -56,7 +56,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/timecmp.html timecmp} compares two timestamps and returns a number that represents the ordering of the instants those timestamps represent.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/timecmp timecmp} compares two timestamps and returns a number that represents the ordering of the instants those timestamps represent.
    * @param {string} timestamp_a
    * @param {string} timestamp_b
    */
@@ -69,21 +69,21 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/alltrue.html alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
    * @param {Array<any>} list
    */
   static alltrue(list: any[]) {
     return asBoolean(terraformFunction("alltrue", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/anytrue.html anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
    * @param {Array<any>} list
    */
   static anytrue(list: any[]) {
     return asBoolean(terraformFunction("anytrue", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/chunklist.html chunklist} splits a single list into fixed-size chunks, returning a list of lists.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/chunklist chunklist} splits a single list into fixed-size chunks, returning a list of lists.
    * @param {Array<any>} list
    * @param {number} size
    */
@@ -96,35 +96,35 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/coalesce.html coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
    * @param {Array<any>} vals
    */
   static coalesce(vals: any[]) {
     return asAny(terraformFunction("coalesce", [variadic(anyValue)])(vals));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
    * @param {Array<any>} vals
    */
   static coalescelist(vals: any[]) {
     return asAny(terraformFunction("coalescelist", [variadic(anyValue)])(vals));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/compact compact} takes a list of strings and returns a new list with any empty string elements removed.
    * @param {Array<string>} list
    */
   static compact(list: string[]) {
     return asList(terraformFunction("compact", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/concat.html concat} takes two or more lists and combines them into a single list.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/concat concat} takes two or more lists and combines them into a single list.
    * @param {Array<any>} seqs
    */
   static concat(seqs: any[]) {
     return asAny(terraformFunction("concat", [variadic(anyValue)])(seqs));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/contains.html contains} determines whether a given list or set contains a given single value as one of its elements.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/contains contains} determines whether a given list or set contains a given single value as one of its elements.
    * @param {any} list
    * @param {any} value
    */
@@ -134,14 +134,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/distinct.html distinct} takes a list and returns a new list with any duplicate elements removed.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/distinct distinct} takes a list and returns a new list with any duplicate elements removed.
    * @param {Array<any>} list
    */
   static distinct(list: any[]) {
     return asList(terraformFunction("distinct", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/element.html element} retrieves a single element from a list.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/element element} retrieves a single element from a list.
    * @param {any} list
    * @param {number} index
    */
@@ -151,14 +151,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/flatten.html flatten} takes a list and replaces any elements that are lists with a flattened sequence of the list contents.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/flatten flatten} takes a list and replaces any elements that are lists with a flattened sequence of the list contents.
    * @param {any} list
    */
   static flatten(list: any) {
     return asAny(terraformFunction("flatten", [anyValue])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/index.html index} finds the element index for a given value in a list.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/index index} finds the element index for a given value in a list.
    * @param {any} list
    * @param {any} value
    */
@@ -166,14 +166,14 @@ export class FnGenerated {
     return asAny(terraformFunction("index", [anyValue, anyValue])(list, value));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/keys.html keys} takes a map and returns a list containing the keys from that map.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/keys keys} takes a map and returns a list containing the keys from that map.
    * @param {any} inputMap
    */
   static keys(inputMap: any) {
     return asAny(terraformFunction("keys", [anyValue])(inputMap));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/length.html length} determines the length of a given list, map, or string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/length length} determines the length of a given list, map, or string.
    * @param {any} value
    */
   static lengthOf(value: any) {
@@ -181,7 +181,7 @@ export class FnGenerated {
   }
   /**
    * @internal
-   * {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/lookup lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {any} inputMap
    * @param {string} key
    * @param {Array<any>} defaultValue
@@ -196,7 +196,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/matchkeys.html matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/matchkeys matchkeys} constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.
    * @param {Array<any>} values
    * @param {Array<any>} keys
    * @param {Array<any>} searchset
@@ -211,7 +211,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/one.html one} takes a list, set, or tuple value with either zero or one elements. If the collection is empty, `one` returns `null`. Otherwise, `one` returns the first element. If there are two or more elements then `one` will return an error.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/one one} takes a list, set, or tuple value with either zero or one elements. If the collection is empty, `one` returns `null`. Otherwise, `one` returns the first element. If there are two or more elements then `one` will return an error.
    * @param {any} list
    */
   static one(list: any) {
@@ -219,21 +219,21 @@ export class FnGenerated {
   }
   /**
    * @internal
-   * {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/range range} generates a list of numbers using a start value, a limit value, and a step value.
    * @param {Array<number>} params
    */
   static _range(params: number[]) {
     return asList(terraformFunction("range", [variadic(numericValue)])(params));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/reverse reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
    * @param {any} list
    */
   static reverse(list: any) {
     return asAny(terraformFunction("reverse", [anyValue])(list));
   }
   /**
-   * The {@link https://www.terraform.io/docs/language/functions/setintersection.html setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](https://en.wikipedia.org/wiki/Intersection_\(set_theory\)) of the sets.
+   * The {@link https://developer.hashicorp.com/terraform/language/functions/setintersection setintersection} function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](https://en.wikipedia.org/wiki/Intersection_\(set_theory\)) of the sets.
    * @param {Array<any>} first_set
    * @param {Array<Array<any>>} other_sets
    */
@@ -246,14 +246,14 @@ export class FnGenerated {
     );
   }
   /**
-   * The {@link https://www.terraform.io/docs/language/functions/setproduct.html setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).
+   * The {@link https://developer.hashicorp.com/terraform/language/functions/setproduct setproduct} function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).
    * @param {Array<any>} sets
    */
   static setproduct(sets: any[]) {
     return asAny(terraformFunction("setproduct", [variadic(anyValue)])(sets));
   }
   /**
-   * The {@link https://www.terraform.io/docs/language/functions/setsubtract.html setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](https://en.wikipedia.org/wiki/Complement_\(set_theory\)#Relative_complement) of the second set.
+   * The {@link https://developer.hashicorp.com/terraform/language/functions/setsubtract setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](https://en.wikipedia.org/wiki/Complement_\(set_theory\)#Relative_complement) of the second set.
    * @param {Array<any>} a
    * @param {Array<any>} b
    */
@@ -266,7 +266,7 @@ export class FnGenerated {
     );
   }
   /**
-   * The {@link https://www.terraform.io/docs/language/functions/setunion.html setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets. In other words, it computes the [union](https://en.wikipedia.org/wiki/Union_\(set_theory\)) of the sets.
+   * The {@link https://developer.hashicorp.com/terraform/language/functions/setunion setunion} function takes multiple sets and produces a single set containing the elements from all of the given sets. In other words, it computes the [union](https://en.wikipedia.org/wiki/Union_\(set_theory\)) of the sets.
    * @param {Array<any>} first_set
    * @param {Array<Array<any>>} other_sets
    */
@@ -279,7 +279,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/slice.html slice} extracts some consecutive elements from within a list.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/slice slice} extracts some consecutive elements from within a list.
    * @param {any} list
    * @param {number} start_index
    * @param {number} end_index
@@ -294,35 +294,35 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sort.html sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sort sort} takes a list of strings and returns a new list with those strings sorted lexicographically.
    * @param {Array<string>} list
    */
   static sort(list: string[]) {
     return asList(terraformFunction("sort", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sum.html sum} takes a list or set of numbers and returns the sum of those numbers.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sum sum} takes a list or set of numbers and returns the sum of those numbers.
    * @param {any} list
    */
   static sum(list: any) {
     return asAny(terraformFunction("sum", [anyValue])(list));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/transpose.html transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/transpose transpose} takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.
    * @param {Object<string, Array<string>>} values
    */
   static transpose(values: any) {
     return asAny(terraformFunction("transpose", [mapValue])(values));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/values.html values} takes a map and returns a list containing the values of the elements in that map.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/values values} takes a map and returns a list containing the values of the elements in that map.
    * @param {any} mapping
    */
   static values(mapping: any) {
     return asAny(terraformFunction("values", [anyValue])(mapping));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/zipmap.html zipmap} constructs a map from a list of keys and a corresponding list of values.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/zipmap zipmap} constructs a map from a list of keys and a corresponding list of values.
    * @param {Array<string>} keys
    * @param {any} values
    */
@@ -332,14 +332,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/base64sha256.html base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.
    * @param {string} str
    */
   static base64sha256(str: string) {
     return asString(terraformFunction("base64sha256", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/base64sha512.html base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.
    * @param {string} str
    */
   static base64sha512(str: string) {
@@ -347,7 +347,7 @@ export class FnGenerated {
   }
   /**
    * @internal
-   * {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/bcrypt bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
    * @param {string} str
    * @param {Array<number>} cost
    */
@@ -360,56 +360,56 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filebase64sha256.html filebase64sha256} is a variant of `base64sha256` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filebase64sha256 filebase64sha256} is a variant of `base64sha256` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filebase64sha256(path: string) {
     return asString(terraformFunction("filebase64sha256", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filebase64sha512.html filebase64sha512} is a variant of `base64sha512` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filebase64sha512 filebase64sha512} is a variant of `base64sha512` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filebase64sha512(path: string) {
     return asString(terraformFunction("filebase64sha512", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filemd5.html filemd5} is a variant of `md5` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filemd5 filemd5} is a variant of `md5` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filemd5(path: string) {
     return asString(terraformFunction("filemd5", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filesha1.html filesha1} is a variant of `sha1` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filesha1 filesha1} is a variant of `sha1` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filesha1(path: string) {
     return asString(terraformFunction("filesha1", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filesha256.html filesha256} is a variant of `sha256` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filesha256 filesha256} is a variant of `sha256` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filesha256(path: string) {
     return asString(terraformFunction("filesha256", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filesha512.html filesha512} is a variant of `sha512` that hashes the contents of a given file rather than a literal string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filesha512 filesha512} is a variant of `sha512` that hashes the contents of a given file rather than a literal string.
    * @param {string} path
    */
   static filesha512(path: string) {
     return asString(terraformFunction("filesha512", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/md5.html md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/md5 md5} computes the MD5 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} str
    */
   static md5(str: string) {
     return asString(terraformFunction("md5", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/rsadecrypt.html rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/rsadecrypt rsadecrypt} decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.
    * @param {string} ciphertext
    * @param {string} privatekey
    */
@@ -422,34 +422,34 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sha1.html sha1} computes the SHA1 hash of a given string and encodes it with hexadecimal digits.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sha1 sha1} computes the SHA1 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} str
    */
   static sha1(str: string) {
     return asString(terraformFunction("sha1", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sha256.html sha256} computes the SHA256 hash of a given string and encodes it with hexadecimal digits.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sha256 sha256} computes the SHA256 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} str
    */
   static sha256(str: string) {
     return asString(terraformFunction("sha256", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sha512.html sha512} computes the SHA512 hash of a given string and encodes it with hexadecimal digits.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sha512 sha512} computes the SHA512 hash of a given string and encodes it with hexadecimal digits.
    * @param {string} str
    */
   static sha512(str: string) {
     return asString(terraformFunction("sha512", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/uuid.html uuid} generates a unique identifier string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/uuid uuid} generates a unique identifier string.
    */
   static uuid() {
     return asString(terraformFunction("uuid", [])());
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/uuidv5.html uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.
    * @param {string} namespace
    * @param {string} name
    */
@@ -459,7 +459,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/formatdate.html formatdate} converts a timestamp into a different time format.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/formatdate formatdate} converts a timestamp into a different time format.
    * @param {string} format
    * @param {string} time
    */
@@ -469,7 +469,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/timeadd.html timeadd} adds a duration to a timestamp, returning a new timestamp.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/timeadd timeadd} adds a duration to a timestamp, returning a new timestamp.
    * @param {string} timestamp
    * @param {string} duration
    */
@@ -482,55 +482,55 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/timestamp.html timestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/timestamp timestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format.
    */
   static timestamp() {
     return asString(terraformFunction("timestamp", [])());
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/base64decode.html base64decode} takes a string containing a Base64 character sequence and returns the original string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64decode base64decode} takes a string containing a Base64 character sequence and returns the original string.
    * @param {string} str
    */
   static base64decode(str: string) {
     return asString(terraformFunction("base64decode", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/base64encode.html base64encode} applies Base64 encoding to a string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64encode base64encode} applies Base64 encoding to a string.
    * @param {string} str
    */
   static base64encode(str: string) {
     return asString(terraformFunction("base64encode", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/base64gzip.html base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64gzip base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.
    * @param {string} str
    */
   static base64gzip(str: string) {
     return asString(terraformFunction("base64gzip", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/csvdecode.html csvdecode} decodes a string containing CSV-formatted data and produces a list of maps representing that data.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/csvdecode csvdecode} decodes a string containing CSV-formatted data and produces a list of maps representing that data.
    * @param {string} str
    */
   static csvdecode(str: string) {
     return asAny(terraformFunction("csvdecode", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/jsondecode.html jsondecode} interprets a given string as JSON, returning a representation of the result of decoding that string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/jsondecode jsondecode} interprets a given string as JSON, returning a representation of the result of decoding that string.
    * @param {string} str
    */
   static jsondecode(str: string) {
     return asAny(terraformFunction("jsondecode", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/jsonencode.html jsonencode} encodes a given value to a string using JSON syntax.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/jsonencode jsonencode} encodes a given value to a string using JSON syntax.
    * @param {any} val
    */
   static jsonencode(val: any) {
     return asString(terraformFunction("jsonencode", [anyValue])(val));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/textdecodebase64.html textdecodebase64} function decodes a string that was previously Base64-encoded, and then interprets the result as characters in a specified character encoding.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/textdecodebase64 textdecodebase64} function decodes a string that was previously Base64-encoded, and then interprets the result as characters in a specified character encoding.
    * @param {string} source
    * @param {string} encoding
    */
@@ -543,7 +543,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/textencodebase64.html textencodebase64} encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/textencodebase64 textencodebase64} encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters.
    * @param {string} str
    * @param {string} encoding
    */
@@ -556,70 +556,70 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/urlencode.html urlencode} applies URL encoding to a given string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/urlencode urlencode} applies URL encoding to a given string.
    * @param {string} str
    */
   static urlencode(str: string) {
     return asString(terraformFunction("urlencode", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/yamldecode.html yamldecode} parses a string as a subset of YAML, and produces a representation of its value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/yamldecode yamldecode} parses a string as a subset of YAML, and produces a representation of its value.
    * @param {string} src
    */
   static yamldecode(src: string) {
     return asAny(terraformFunction("yamldecode", [stringValue])(src));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/yamlencode.html yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.
    * @param {any} value
    */
   static yamlencode(value: any) {
     return asString(terraformFunction("yamlencode", [anyValue])(value));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/abspath.html abspath} takes a string containing a filesystem path and converts it to an absolute path. That is, if the path is not absolute, it will be joined with the current working directory.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/abspath abspath} takes a string containing a filesystem path and converts it to an absolute path. That is, if the path is not absolute, it will be joined with the current working directory.
    * @param {string} path
    */
   static abspath(path: string) {
     return asString(terraformFunction("abspath", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/dirname.html dirname} takes a string containing a filesystem path and removes the last portion from it.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/dirname dirname} takes a string containing a filesystem path and removes the last portion from it.
    * @param {string} path
    */
   static dirname(path: string) {
     return asString(terraformFunction("dirname", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/pathexpand.html pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.
    * @param {string} path
    */
   static pathexpand(path: string) {
     return asString(terraformFunction("pathexpand", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/basename.html basename} takes a string containing a filesystem path and removes all except the last portion from it.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/basename basename} takes a string containing a filesystem path and removes all except the last portion from it.
    * @param {string} path
    */
   static basename(path: string) {
     return asString(terraformFunction("basename", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/file.html file} reads the contents of a file at the given path and returns them as a string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/file file} reads the contents of a file at the given path and returns them as a string.
    * @param {string} path
    */
   static file(path: string) {
     return asString(terraformFunction("file", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/fileexists.html fileexists} determines whether a file exists at a given path.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/fileexists fileexists} determines whether a file exists at a given path.
    * @param {string} path
    */
   static fileexists(path: string) {
     return asBoolean(terraformFunction("fileexists", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/fileset.html fileset} enumerates a set of regular file names given a path and pattern. The path is automatically removed from the resulting set of file names and any result still containing path separators always returns forward slash (`/`) as the path separator for cross-system compatibility.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/fileset fileset} enumerates a set of regular file names given a path and pattern. The path is automatically removed from the resulting set of file names and any result still containing path separators always returns forward slash (`/`) as the path separator for cross-system compatibility.
    * @param {string} path
    * @param {string} pattern
    */
@@ -629,14 +629,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/filebase64.html filebase64} reads the contents of a file at the given path and returns them as a base64-encoded string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/filebase64 filebase64} reads the contents of a file at the given path and returns them as a base64-encoded string.
    * @param {string} path
    */
   static filebase64(path: string) {
     return asString(terraformFunction("filebase64", [stringValue])(path));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/templatefile.html templatefile} reads the file at the given path and renders its content as a template using a supplied set of template variables.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/templatefile templatefile} reads the file at the given path and renders its content as a template using a supplied set of template variables.
    * @param {string} path
    * @param {any} vars
    */
@@ -646,7 +646,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/cidrhost.html cidrhost} calculates a full host IP address for a given host number within a given IP network address prefix.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/cidrhost cidrhost} calculates a full host IP address for a given host number within a given IP network address prefix.
    * @param {string} prefix
    * @param {number} hostnum
    */
@@ -659,14 +659,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/cidrnetmask.html cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/cidrnetmask cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.
    * @param {string} prefix
    */
   static cidrnetmask(prefix: string) {
     return asString(terraformFunction("cidrnetmask", [stringValue])(prefix));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/cidrsubnet.html cidrsubnet} calculates a subnet address within given IP network address prefix.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnet cidrsubnet} calculates a subnet address within given IP network address prefix.
    * @param {string} prefix
    * @param {number} newbits
    * @param {number} netnum
@@ -681,7 +681,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/cidrsubnets.html cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnets cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.
    * @param {string} prefix
    * @param {Array<number>} newbits
    */
@@ -694,28 +694,28 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/abs.html abs} returns the absolute value of the given number. In other words, if the number is zero or positive then it is returned as-is, but if it is negative then it is multiplied by -1 to make it positive before returning it.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/abs abs} returns the absolute value of the given number. In other words, if the number is zero or positive then it is returned as-is, but if it is negative then it is multiplied by -1 to make it positive before returning it.
    * @param {number} num
    */
   static abs(num: number) {
     return asNumber(terraformFunction("abs", [numericValue])(num));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/ceil.html ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/ceil ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.
    * @param {number} num
    */
   static ceil(num: number) {
     return asNumber(terraformFunction("ceil", [numericValue])(num));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/floor.html floor} returns the closest whole number that is less than or equal to the given value, which may be a fraction.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/floor floor} returns the closest whole number that is less than or equal to the given value, which may be a fraction.
    * @param {number} num
    */
   static floor(num: number) {
     return asNumber(terraformFunction("floor", [numericValue])(num));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/log.html log} returns the logarithm of a given number in a given base.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/log log} returns the logarithm of a given number in a given base.
    * @param {number} num
    * @param {number} base
    */
@@ -725,7 +725,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/max.html max} takes one or more numbers and returns the greatest number from the set.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/max max} takes one or more numbers and returns the greatest number from the set.
    * @param {Array<number>} numbers
    */
   static max(numbers: number[]) {
@@ -734,7 +734,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/min min} takes one or more numbers and returns the smallest number from the set.
    * @param {Array<number>} numbers
    */
   static min(numbers: number[]) {
@@ -743,7 +743,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/pow.html pow} calculates an exponent, by raising its first argument to the power of the second argument.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/pow pow} calculates an exponent, by raising its first argument to the power of the second argument.
    * @param {number} num
    * @param {number} power
    */
@@ -753,21 +753,21 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/signum.html signum} determines the sign of a number, returning a number between -1 and 1 to represent the sign.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/signum signum} determines the sign of a number, returning a number between -1 and 1 to represent the sign.
    * @param {number} num
    */
   static signum(num: number) {
     return asNumber(terraformFunction("signum", [numericValue])(num));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/chomp.html chomp} removes newline characters at the end of a string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/chomp chomp} removes newline characters at the end of a string.
    * @param {string} str
    */
   static chomp(str: string) {
     return asString(terraformFunction("chomp", [stringValue])(str));
   }
   /**
-   * The {@link https://www.terraform.io/docs/language/functions/format.html format} function produces a string by formatting a number of other values according to a specification string. It is similar to the `printf` function in C, and other similar functions in other programming languages.
+   * The {@link https://developer.hashicorp.com/terraform/language/functions/format format} function produces a string by formatting a number of other values according to a specification string. It is similar to the `printf` function in C, and other similar functions in other programming languages.
    * @param {string} format
    * @param {Array<any>} args
    */
@@ -780,7 +780,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/formatlist.html formatlist} produces a list of strings by formatting a number of other values according to a specification string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/formatlist formatlist} produces a list of strings by formatting a number of other values according to a specification string.
    * @param {string} format
    * @param {Array<any>} args
    */
@@ -793,7 +793,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/indent.html indent} adds a given number of spaces to the beginnings of all but the first line in a given multi-line string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/indent indent} adds a given number of spaces to the beginnings of all but the first line in a given multi-line string.
    * @param {number} spaces
    * @param {string} str
    */
@@ -804,7 +804,7 @@ export class FnGenerated {
   }
   /**
    * @internal
-   * {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/join join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
    * @param {string} separator
    * @param {Array<Array<string>>} lists
    */
@@ -817,14 +817,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/lower.html lower} converts all cased letters in the given string to lowercase.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/lower lower} converts all cased letters in the given string to lowercase.
    * @param {string} str
    */
   static lower(str: string) {
     return asString(terraformFunction("lower", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/regexall.html regexall} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/regexall regexall} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.
    * @param {string} pattern
    * @param {string} str
    */
@@ -834,7 +834,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/regex.html regex} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/regex regex} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.
    * @param {string} pattern
    * @param {string} str
    */
@@ -844,7 +844,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/replace.html replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/replace replace} searches a given string for another given substring, and replaces each occurrence with a given replacement string.
    * @param {string} str
    * @param {string} substr
    * @param {string} replace
@@ -859,7 +859,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/split.html split} produces a list by dividing a given string at all occurrences of a given separator.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/split split} produces a list by dividing a given string at all occurrences of a given separator.
    * @param {string} separator
    * @param {string} str
    */
@@ -869,14 +869,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/strrev.html strrev} reverses the characters in a string. Note that the characters are treated as _Unicode characters_ (in technical terms, Unicode [grapheme cluster boundaries](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries) are respected).
+   * {@link https://developer.hashicorp.com/terraform/language/functions/strrev strrev} reverses the characters in a string. Note that the characters are treated as _Unicode characters_ (in technical terms, Unicode [grapheme cluster boundaries](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries) are respected).
    * @param {string} str
    */
   static strrev(str: string) {
     return asString(terraformFunction("strrev", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/substr.html substr} extracts a substring from a given string by offset and (maximum) length.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/substr substr} extracts a substring from a given string by offset and (maximum) length.
    * @param {string} str
    * @param {number} offset
    * @param {number} length
@@ -891,14 +891,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/title.html title} converts the first letter of each word in the given string to uppercase.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/title title} converts the first letter of each word in the given string to uppercase.
    * @param {string} str
    */
   static title(str: string) {
     return asString(terraformFunction("title", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/trim.html trim} removes the specified set of characters from the start and end of the given string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/trim trim} removes the specified set of characters from the start and end of the given string.
    * @param {string} str
    * @param {string} cutset
    */
@@ -908,7 +908,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/trimprefix.html trimprefix} removes the specified prefix from the start of the given string. If the string does not start with the prefix, the string is returned unchanged.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/trimprefix trimprefix} removes the specified prefix from the start of the given string. If the string does not start with the prefix, the string is returned unchanged.
    * @param {string} str
    * @param {string} prefix
    */
@@ -918,7 +918,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/trimsuffix.html trimsuffix} removes the specified suffix from the end of the given string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/trimsuffix trimsuffix} removes the specified suffix from the end of the given string.
    * @param {string} str
    * @param {string} suffix
    */
@@ -928,84 +928,84 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/trimspace.html trimspace} removes any space characters from the start and end of the given string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/trimspace trimspace} removes any space characters from the start and end of the given string.
    * @param {string} str
    */
   static trimspace(str: string) {
     return asString(terraformFunction("trimspace", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/upper.html upper} converts all cased letters in the given string to uppercase.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/upper upper} converts all cased letters in the given string to uppercase.
    * @param {string} str
    */
   static upper(str: string) {
     return asString(terraformFunction("upper", [stringValue])(str));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/can.html can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/can can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.
    * @param {any} expression
    */
   static can(expression: any) {
     return asBoolean(terraformFunction("can", [anyValue])(expression));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/nonsensitive.html nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/nonsensitive nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.
    * @param {any} value
    */
   static nonsensitive(value: any) {
     return asAny(terraformFunction("nonsensitive", [anyValue])(value));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/sensitive.html sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
    * @param {any} value
    */
   static sensitive(value: any) {
     return asAny(terraformFunction("sensitive", [anyValue])(value));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/tobool.html tobool} converts its argument to a boolean value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/tobool tobool} converts its argument to a boolean value.
    * @param {any} v
    */
   static tobool(v: any) {
     return asBoolean(terraformFunction("tobool", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/tolist.html tolist} converts its argument to a list value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/tolist tolist} converts its argument to a list value.
    * @param {any} v
    */
   static tolist(v: any) {
     return asList(terraformFunction("tolist", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/tomap.html tomap} converts its argument to a map value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/tomap tomap} converts its argument to a map value.
    * @param {any} v
    */
   static tomap(v: any) {
     return asAny(terraformFunction("tomap", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/tonumber.html tonumber} converts its argument to a number value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/tonumber tonumber} converts its argument to a number value.
    * @param {any} v
    */
   static tonumber(v: any) {
     return asNumber(terraformFunction("tonumber", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/toset.html toset} converts its argument to a set value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/toset toset} converts its argument to a set value.
    * @param {any} v
    */
   static toset(v: any) {
     return asList(terraformFunction("toset", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/tostring.html tostring} converts its argument to a string value.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/tostring tostring} converts its argument to a string value.
    * @param {any} v
    */
   static tostring(v: any) {
     return asString(terraformFunction("tostring", [anyValue])(v));
   }
   /**
-   * {@link https://www.terraform.io/docs/language/functions/try.html try} evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/try try} evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors.
    * @param {Array<any>} expressions
    */
   static try(expressions: any[]) {

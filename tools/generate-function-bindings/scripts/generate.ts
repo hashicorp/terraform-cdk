@@ -264,7 +264,7 @@ function renderStaticMethod(
   // comment with docstring for method
   const descriptionWithLink = signature.description.replace(
     `\`${name}\``,
-    `{@link https://www.terraform.io/docs/language/functions/${name}.html ${name}}`
+    `{@link https://developer.hashicorp.com/terraform/language/functions/${name} ${name}}`
   );
   t.addComment(
     method,
