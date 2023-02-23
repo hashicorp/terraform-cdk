@@ -61,6 +61,8 @@ jobs:
       - uses: actions/checkout@v3.1.0
       - name: Setup Copywrite
         uses: hashicorp/setup-copywrite@3ace06ad72e6ec679ea8572457b17dbc3960b8ce # v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       # See https://github.com/hashicorp/copywrite for more details
       - name: Check Header Compliance
