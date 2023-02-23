@@ -553,3 +553,43 @@ it("errors mentioning function name and argument", () => {
     `"Argument 1 of replace failed the validation: Error: 'this one " not' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
   );
 });
+
+test("Property access using lookup and lookupNested functions", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const variable = new TerraformVariable(stack, "test-var", {
+    type: `object({a = object({b = string}), z = string})`,
+  });
+
+  new TerraformOutput(stack, "lookup", {
+    value: Fn.lookup(variable.value, "z", "defaultzzzz"),
+  });
+  new TerraformOutput(stack, "native-access", {
+    value: Fn.lookup(variable.value, "z"),
+  });
+  new TerraformOutput(stack, "native-access-nested", {
+    value: Fn.lookupNested(variable.value, ["a", "b"]),
+  });
+
+  expect(Testing.synth(stack)).toMatchInlineSnapshot(`
+    "{
+      \\"output\\": {
+        \\"lookup\\": {
+          \\"value\\": \\"\${lookup(var.test-var, \\\\\\"z\\\\\\", \\\\\\"defaultzzzz\\\\\\")}\\"
+        },
+        \\"native-access\\": {
+          \\"value\\": \\"\${var.test-var[\\\\\\"z\\\\\\"]}\\"
+        },
+        \\"native-access-nested\\": {
+          \\"value\\": \\"\${var.test-var[\\\\\\"a\\\\\\"][\\\\\\"b\\\\\\"]}\\"
+        }
+      },
+      \\"variable\\": {
+        \\"test-var\\": {
+          \\"type\\": \\"object({a = object({b = string}), z = string})\\"
+        }
+      }
+    }"
+  `);
+});
