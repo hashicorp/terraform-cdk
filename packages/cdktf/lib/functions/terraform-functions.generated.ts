@@ -14,6 +14,7 @@ import {
   numericValue,
   stringValue,
   terraformFunction,
+  variadic,
 } from "./helpers";
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class FnGenerated {
@@ -32,7 +33,7 @@ export class FnGenerated {
    * @param {Array<any>} maps
    */
   static merge(maps: any[]) {
-    return asAny(terraformFunction("merge", [listOf(anyValue)])(maps));
+    return asAny(terraformFunction("merge", [variadic(anyValue)])(maps));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/parseint.html parseint} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.
@@ -99,14 +100,14 @@ export class FnGenerated {
    * @param {Array<any>} vals
    */
   static coalesce(vals: any[]) {
-    return asAny(terraformFunction("coalesce", [listOf(anyValue)])(vals));
+    return asAny(terraformFunction("coalesce", [variadic(anyValue)])(vals));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/coalescelist.html coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
    * @param {Array<any>} vals
    */
   static coalescelist(vals: any[]) {
-    return asAny(terraformFunction("coalescelist", [listOf(anyValue)])(vals));
+    return asAny(terraformFunction("coalescelist", [variadic(anyValue)])(vals));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/compact.html compact} takes a list of strings and returns a new list with any empty string elements removed.
@@ -120,7 +121,7 @@ export class FnGenerated {
    * @param {Array<any>} seqs
    */
   static concat(seqs: any[]) {
-    return asAny(terraformFunction("concat", [listOf(anyValue)])(seqs));
+    return asAny(terraformFunction("concat", [variadic(anyValue)])(seqs));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/contains.html contains} determines whether a given list or set contains a given single value as one of its elements.
@@ -187,7 +188,7 @@ export class FnGenerated {
    */
   static _lookup(inputMap: any, key: string, defaultValue: any[]) {
     return asAny(
-      terraformFunction("lookup", [anyValue, stringValue, listOf(anyValue)])(
+      terraformFunction("lookup", [anyValue, stringValue, variadic(anyValue)])(
         inputMap,
         key,
         defaultValue
@@ -222,7 +223,7 @@ export class FnGenerated {
    * @param {Array<number>} params
    */
   static _range(params: number[]) {
-    return asList(terraformFunction("range", [listOf(numericValue)])(params));
+    return asList(terraformFunction("range", [variadic(numericValue)])(params));
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/reverse.html reverse} takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.
@@ -240,7 +241,7 @@ export class FnGenerated {
     return asList(
       terraformFunction("setintersection", [
         listOf(anyValue),
-        listOf(listOf(anyValue)),
+        variadic(listOf(anyValue)),
       ])(first_set, other_sets)
     );
   }
@@ -249,7 +250,7 @@ export class FnGenerated {
    * @param {Array<any>} sets
    */
   static setproduct(sets: any[]) {
-    return asAny(terraformFunction("setproduct", [listOf(anyValue)])(sets));
+    return asAny(terraformFunction("setproduct", [variadic(anyValue)])(sets));
   }
   /**
    * The {@link https://www.terraform.io/docs/language/functions/setsubtract.html setsubtract} function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](https://en.wikipedia.org/wiki/Complement_\(set_theory\)#Relative_complement) of the second set.
@@ -273,7 +274,7 @@ export class FnGenerated {
     return asList(
       terraformFunction("setunion", [
         listOf(anyValue),
-        listOf(listOf(anyValue)),
+        variadic(listOf(anyValue)),
       ])(first_set, other_sets)
     );
   }
@@ -352,7 +353,7 @@ export class FnGenerated {
    */
   static _bcrypt(str: string, cost: number[]) {
     return asString(
-      terraformFunction("bcrypt", [stringValue, listOf(numericValue)])(
+      terraformFunction("bcrypt", [stringValue, variadic(numericValue)])(
         str,
         cost
       )
@@ -686,7 +687,7 @@ export class FnGenerated {
    */
   static cidrsubnets(prefix: string, newbits: number[]) {
     return asList(
-      terraformFunction("cidrsubnets", [stringValue, listOf(numericValue)])(
+      terraformFunction("cidrsubnets", [stringValue, variadic(numericValue)])(
         prefix,
         newbits
       )
@@ -728,14 +729,18 @@ export class FnGenerated {
    * @param {Array<number>} numbers
    */
   static max(numbers: number[]) {
-    return asNumber(terraformFunction("max", [listOf(numericValue)])(numbers));
+    return asNumber(
+      terraformFunction("max", [variadic(numericValue)])(numbers)
+    );
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/min.html min} takes one or more numbers and returns the smallest number from the set.
    * @param {Array<number>} numbers
    */
   static min(numbers: number[]) {
-    return asNumber(terraformFunction("min", [listOf(numericValue)])(numbers));
+    return asNumber(
+      terraformFunction("min", [variadic(numericValue)])(numbers)
+    );
   }
   /**
    * {@link https://www.terraform.io/docs/language/functions/pow.html pow} calculates an exponent, by raising its first argument to the power of the second argument.
@@ -768,7 +773,10 @@ export class FnGenerated {
    */
   static format(format: string, args: any[]) {
     return asAny(
-      terraformFunction("format", [stringValue, listOf(anyValue)])(format, args)
+      terraformFunction("format", [stringValue, variadic(anyValue)])(
+        format,
+        args
+      )
     );
   }
   /**
@@ -778,7 +786,7 @@ export class FnGenerated {
    */
   static formatlist(format: string, args: any[]) {
     return asAny(
-      terraformFunction("formatlist", [stringValue, listOf(anyValue)])(
+      terraformFunction("formatlist", [stringValue, variadic(anyValue)])(
         format,
         args
       )
@@ -802,7 +810,7 @@ export class FnGenerated {
    */
   static _join(separator: string, lists: string[][]) {
     return asString(
-      terraformFunction("join", [stringValue, listOf(listOf(anyValue))])(
+      terraformFunction("join", [stringValue, variadic(listOf(anyValue))])(
         separator,
         lists
       )
@@ -1001,6 +1009,6 @@ export class FnGenerated {
    * @param {Array<any>} expressions
    */
   static try(expressions: any[]) {
-    return asAny(terraformFunction("try", [listOf(anyValue)])(expressions));
+    return asAny(terraformFunction("try", [variadic(anyValue)])(expressions));
   }
 }

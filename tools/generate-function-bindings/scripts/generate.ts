@@ -30,6 +30,12 @@ type FunctionSignature = {
   parameters: Parameter[];
   variadic_parameter: Parameter;
 };
+type MappedParameter = {
+  name: string;
+  mapper: string;
+  tsParam: t.Identifier;
+  docstringType: string;
+};
 
 const IMPORTS = ts`
 import {
@@ -44,6 +50,7 @@ import {
   numericValue,
   stringValue,
   terraformFunction,
+  variadic,
 } from "./helpers";
 `() as t.Statement;
 t.addComment(
@@ -207,15 +214,23 @@ function renderStaticMethod(
     return { name, mapper, tsParam, docstringType };
   };
 
-  const parameters = (signature.parameters || []).map(mapParameter);
+  const parameters: MappedParameter[] = (signature.parameters || []).map(
+    mapParameter
+  );
 
   if (signature.variadic_parameter) {
-    parameters.push(
-      mapParameter({
-        ...signature.variadic_parameter,
-        type: ["list", signature.variadic_parameter.type], // we can't use variadic parameters with JSII, so we treat this as a list parameter
-      })
+    const p = mapParameter(signature.variadic_parameter);
+    p.tsParam.typeAnnotation = t.tsTypeAnnotation(
+      t.tsArrayType(
+        (p.tsParam.typeAnnotation as t.TSTypeAnnotation).typeAnnotation
+      )
     );
+    parameters.push({
+      name: p.name,
+      docstringType: `Array<${p.docstringType}>`,
+      mapper: `variadic(${p.mapper})`,
+      tsParam: p.tsParam,
+    });
   }
 
   // we need a space (Prettier will remove it) as somehow ts`` works in weird ways when
