@@ -17,6 +17,10 @@ async function fetchMetadata() {
 }
 
 // run main entrypoint if we've been invoked directly
-if (Array.isArray(process.argv) && process.argv.length > 1 && process.argv[1] === __filename) {
-    fetchMetadata();
+if (
+  Array.isArray(process.argv) &&
+  process.argv.length > 1 &&
+  process.argv[1] === __filename
+) {
+  fetchMetadata();
 }
