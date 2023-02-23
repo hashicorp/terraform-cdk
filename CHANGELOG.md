@@ -25,6 +25,17 @@ The following functions changed:
 - `Fn.mergeLists()` does not exist anymore, use `Fn.concat()` instead
 - `Fn.mergeMaps()` does not exist anymore, use `Fn.merge()` instead
 
+As part of this change, we use the same parameter names as Terraform which might require changing keyword arguments in Python.
+
+```python
+# old
+Fn.join(",", [src.stringResource.result, src.stringResource.result])
+Fn.join(separator=",", value=[src.stringResource.result, src.stringResource.result])
+# new
+Fn.join(",", [src.stringResource.result, src.stringResource.result]) # stays the same
+Fn.join(separator=",", list=[src.stringResource.result, src.stringResource.result]) # value -> list
+```
+
 ## 0.15.5
 
 ### fix
