@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { rawString, Token } from ".";
+import { propertyAccess, rawString, Token } from ".";
 import { FnGenerated } from "./functions/terraform-functions.generated";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -21,12 +21,22 @@ export class Fn extends FnGenerated {
    * {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {any} inputMap
    * @param {string} key
-   * @param {Array<any>} defaultValue
+   * @param {any} [defaultValue]
    */
-  static lookup(inputMap: any, key: string, defaultValue: any) {
+  static lookup(inputMap: any, key: string, defaultValue?: any) {
     // overwritten because lookup() uses a variadic argument for its optional defaultValue
-    // we don't model it as optional since not passing it is deprecated in favor of the native Terraform expression "inputMap[key]"
-    return Fn._lookup(inputMap, key, [defaultValue]);
+    if (defaultValue) return Fn._lookup(inputMap, key, [defaultValue]);
+    return propertyAccess(inputMap, [key]); // -> renders inputMap[key] (which is recommened if no default value is given)
+  }
+
+  /**
+   * returns a property access expression that accesses the property at the given path in the given inputMap.
+   * For example lookupNested(x, ["a", "b", "c"]) will return a Terraform expression like x["a"]["b"]["c"]
+   * @param {any} inputMap
+   * @param {Array<any>} path
+   */
+  static lookupNested(inputMap: any, path: any[]) {
+    return propertyAccess(inputMap, path);
   }
 
   /**
