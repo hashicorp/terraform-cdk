@@ -76,7 +76,7 @@ const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
 new auth0.provider.Auth0Provider(this, \\"auth0\\", {
   clientId: \\"42\\",
   clientSecret: \\"secret\\",
-  domain: domain.value,
+  domain: domain.stringValue,
 });
 "
 `;
