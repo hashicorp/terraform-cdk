@@ -36,7 +36,7 @@ import {
   getAttributeTypeAtPath,
   getTypeAtPath,
   getDesiredType,
-} from "./provider";
+} from "./terraformSchema";
 import { coerceType } from "./coerceType";
 
 function getReference(graph: DirectedGraph, id: string) {

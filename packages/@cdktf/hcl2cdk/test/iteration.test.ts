@@ -202,7 +202,6 @@ describe("iteration", () => {
           target_group_arn = "best-target"
         }
       }
-              
       `,
     [binding.aws],
     Synth.yes,
