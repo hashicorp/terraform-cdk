@@ -27,7 +27,7 @@ class TFExpression extends Intrinsic implements IResolvable {
 
     if (typeof resolvedArg === "object" && resolvedArg !== null) {
       return `{${Object.keys(resolvedArg)
-        .map((key) => `${key} = ${this.resolveArg(context, arg[key])}`)
+        .map((key) => `"${key}" = ${this.resolveArg(context, arg[key])}`)
         .join(", ")}}`;
     }
 
