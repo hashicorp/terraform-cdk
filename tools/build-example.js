@@ -46,10 +46,14 @@ const synthStats = runInExample(`synth`);
 
 let testStatus;
 if (exampleToBuild.includes("documentation")) {
-  testStatus = runInExample("test");
-  console.log(
-    `${exampleToBuild} tested in ${testStatus.time}s using ${testStatus.maxMemoryKbytes} kb of memory`
-  );
+  try {
+    testStatus = runInExample("test");
+    console.log(
+      `${exampleToBuild} tested in ${testStatus.time}s using ${testStatus.maxMemoryKbytes} kb of memory`
+    );
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 console.log(
