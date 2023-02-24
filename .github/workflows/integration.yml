@@ -95,7 +95,7 @@ jobs:
         with:
           dotnet-version: "3.1.x"
       - name: Create temporary global.json # required as dotnet always uses the latest installed version (and we need it to use 3.1 still)
-        run: "echo '{\"sdk\":{\"version\": \"3.1.x\"}}' > ./global.json"
+        run: 'echo ''{"sdk":{"version": "3.1.x"}}'' > ./global.json'
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
@@ -147,7 +147,7 @@ jobs:
         with:
           dotnet-version: "3.1.x"
       - name: Create temporary global.json # required as dotnet always uses the latest installed version (and we need it to use 3.1 still)
-        run: "echo '{\"sdk\":{\"version\": \"3.1.x\"}}' > ./global.json"
+        run: 'echo ''{"sdk":{"version": "3.1.x"}}'' > ./global.json'
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "::set-output name=dir::$(yarn cache dir)"
