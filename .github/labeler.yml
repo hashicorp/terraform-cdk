@@ -63,6 +63,12 @@ ci/run-examples:
   # The examples
   - "examples/**"
 
+ci/run-integration:
+  # The workflow used
+  - ".github/workflows/integration.yml"
+  # The examples
+  - "test/**"
+
 ci/provider-integration:
   # The workflow used
   - ".github/workflows/provider-integration.yml"
