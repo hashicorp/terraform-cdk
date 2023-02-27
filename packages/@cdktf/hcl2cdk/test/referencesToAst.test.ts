@@ -15,6 +15,20 @@ describe("references resolution", () => {
       "",
     ],
     [
+      "keyed resource",
+      '${data.aws_lb.r1["a"].dns_name}',
+      "data.aws_lb.r1",
+      '`\\${${dataAwsLbR1.fqn}["a"].dns_name}`',
+      "",
+    ],
+    [
+      "indexed resource",
+      "${data.aws_lb.r1[0].dns_name}",
+      "data.aws_lb.r1",
+      "`\\${${dataAwsLbR1.fqn}[0].dns_name}`",
+      "",
+    ],
+    [
       "sub property",
       "${data.aws_lb.r1.dns_name}/o/v1/multi/get/m/content",
       "data.aws_lb.r1",
@@ -29,10 +43,10 @@ describe("references resolution", () => {
       "",
     ],
     [
-      "resource property with array index",
-      "aws_subnet.changeme_spot_and_fargate_subnet_private.*.id",
+      "resource property with splat",
+      '"${aws_subnet.changeme_spot_and_fargate_subnet_private.*.id}"',
       "aws_subnet.changeme_spot_and_fargate_subnet_private",
-      "changemeSpotAndFargateSubnetPrivate.*.id",
+      '`"\\${${awsSubnetChangemeSpotAndFargateSubnetPrivate.fqn}.*.id}"`',
       "",
     ],
   ])(`should resolve %s`, async (_, input, variables, output, schema) => {

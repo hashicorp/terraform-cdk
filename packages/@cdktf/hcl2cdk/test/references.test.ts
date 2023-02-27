@@ -247,6 +247,10 @@ describe("better fqn targeting", () => {
   testCase.test(
     "access list item reference of property of data",
     `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
+
     data "aws_availability_zones" "changeme_az_list_ebs_snapshot" {
       state = "available"
     }
@@ -262,7 +266,7 @@ describe("better fqn targeting", () => {
     }
     `,
     [binding.aws],
-    Synth.never,
+    Synth.yes,
     {
       resources: ["aws_ebs_volume"],
       dataSources: ["aws_availability_zones"],

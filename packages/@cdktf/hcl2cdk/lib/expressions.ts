@@ -57,7 +57,7 @@ export async function extractReferencesFromExpression(
     logger.debug(
       `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`
     );
-    const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
+    const correspondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
       const matchesFirst = parts[0] === referenceParts[0];
       const matchesFirstTwo =
@@ -70,7 +70,7 @@ export async function extractReferencesFromExpression(
       );
     });
 
-    if (!corespondingNodeId) {
+    if (!correspondingNodeId) {
       // This is most likely a false positive, so we just ignore it
       // We include the log below to help debugging
       logger.error(
@@ -82,46 +82,48 @@ export async function extractReferencesFromExpression(
       return carry;
     }
 
-    if (scopedIds.includes(corespondingNodeId)) {
+    if (scopedIds.includes(correspondingNodeId)) {
       logger.debug(`skipping '${value}' since it's a scoped variable`);
       return carry;
     }
-    logger.debug(`Found node id '${corespondingNodeId}'`);
+    logger.debug(`Found node id '${correspondingNodeId}'`);
 
-    const spotParts = value.split(".");
-    let isThereANumericAccessor = false;
-    const referenceSpotParts = spotParts.filter((part) => {
-      if (!Number.isNaN(parseInt(part, 10))) {
-        isThereANumericAccessor = true;
-        return false;
-      }
-
-      return !isThereANumericAccessor;
-    });
-    const fullReference = isThereANumericAccessor
-      ? referenceSpotParts.slice(0, 2).join(".")
-      : value;
+    const fullReference = value;
 
     const isVariable = value.startsWith("var.");
-    const useFqn =
-      // Can not use FQN on vars
-      !isVariable &&
-      // Can not use FQN on locals
-      !value.startsWith("local.") &&
-      // If the following character is
-      (input.substr(endPosition + 1, 1) === "*" || // a * (splat) we need to use the FQN
-        input.substr(endPosition, 1) === "[" || // a property access
-        isThereANumericAccessor || // a numeric access
-        fullReference.split(".").length < 3);
+    const canUseFqn =
+      !isVariable && // Cannot use FQN on vars
+      !value.startsWith("local."); // or locals;
+
+    const isReferencingArrayLikeElement =
+      input.charAt(endPosition + 1) === "*" ||
+      input.charAt(endPosition) === "[";
+
+    const isData = value.startsWith("data.");
+    const parts = fullReference.split(".");
+    const isReferencingDataProperty = isData && parts.length >= 3;
+    const isReferencingCollection = parts.length < 3;
+
+    const useFqnWithoutTrimming =
+      canUseFqn && isReferencingArrayLikeElement && isReferencingCollection;
+    const useFqnWithTrimming =
+      canUseFqn && isReferencingArrayLikeElement && isReferencingDataProperty;
+
+    let actualEndPosition = endPosition;
+    let actualFullReference = fullReference;
+    if (useFqnWithTrimming) {
+      actualEndPosition = startPosition + parts.slice(0, 3).join(".").length;
+      actualFullReference = parts.slice(0, 3).join(".");
+    }
 
     const ref: Reference = {
       start: startPosition,
-      end: endPosition,
+      end: actualEndPosition,
       referencee: {
-        id: corespondingNodeId,
-        full: fullReference,
+        id: correspondingNodeId,
+        full: actualFullReference,
       },
-      useFqn,
+      useFqn: useFqnWithoutTrimming || useFqnWithTrimming,
       isVariable,
     };
     logger.debug(`Found reference ${JSON.stringify(ref)}`);
