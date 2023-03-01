@@ -1,0 +1,65 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`variables simple variable snapshot 1`] = `
+"import * as cdktf from \\"cdktf\\";
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://cdk.tf/variables*/
+const imageId = new cdktf.TerraformVariable(this, \\"image_id\\", {
+  type: cdktf.VariableType.STRING
+});
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: imageId.value,
+});
+"
+`;
+
+exports[`variables variable with complex type snapshot 1`] = `
+"import * as cdktf from \\"cdktf\\";
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://cdk.tf/variables*/
+const dockerPorts = new cdktf.TerraformVariable(this, \\"docker_ports\\", {
+  default: [
+    {
+      external: 8300,
+      internal: 8300,
+      protocol: \\"tcp\\",
+    },
+  ],
+  description:
+    \\"List of port mappings for the Docker container. Each mapping is exposed as a separate ContainerPort in the container definition.\\",
+  nullable: true,
+  sensitive: true,
+  type: cdktf.VariableType.list(cdktf.VariableType.object({
+          internal: cdktf.VariableType.NUMBER,
+          external: cdktf.VariableType.NUMBER,
+          protocol: cdktf.VariableType.STRING
+        }))
+});
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: dockerPorts.value,
+});
+"
+`;
+
+exports[`variables variable with type snapshot 1`] = `
+"import * as cdktf from \\"cdktf\\";
+/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+You can read more about this at https://cdk.tf/variables*/
+const availabilityZoneNames = new cdktf.TerraformVariable(
+  this,
+  \\"availability_zone_names\\",
+  {
+    default: [\\"us-west-1a\\"],
+    type: cdktf.VariableType.list(cdktf.VariableType.STRING)
+  }
+);
+new cdktf.TerraformOutput(this, \\"cidr_out\\", {
+  value: availabilityZoneNames.value,
+});
+"
+`;
+
+exports[`variables variable with validation snapshot 1`] = `
+"import * as cdktf from \\"cdktf\\";
+"
+`;
