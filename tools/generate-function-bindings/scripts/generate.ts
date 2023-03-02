@@ -139,86 +139,86 @@ function mapReturnType(
   );
 }
 
+function mapParameter(p: Parameter) {
+  let name = p.name;
+  if (name === "default") name = "defaultValue"; // keyword in TypeScript
+  if (name === "string") name = "str"; // causes issue is Go
+
+  const parseType = (
+    type: AttributeType
+  ): { mapper: string; tsType: t.TSType; docstringType: string } => {
+    if (type === "number") {
+      return {
+        mapper: "numericValue",
+        tsType: t.tsNumberKeyword(),
+        docstringType: "number",
+      };
+    }
+    if (type === "string") {
+      return {
+        mapper: "stringValue",
+        tsType: t.tsStringKeyword(),
+        docstringType: "string",
+      };
+    }
+    if (type === "bool") {
+      return {
+        mapper: "anyValue",
+        tsType: t.tsAnyKeyword(), // we can't use booleans here as we don't have boolean tokens but need to support token values too
+        docstringType: "any",
+      };
+    }
+    if (type === "dynamic") {
+      return {
+        mapper: "anyValue",
+        tsType: t.tsAnyKeyword(),
+        docstringType: "any",
+      };
+    }
+    if (Array.isArray(type) && (type[0] === "list" || type[0] === "set")) {
+      const child = parseType(type[1]);
+
+      // We use anyValue for string lists as we don't validate
+      // the individual strings in a list to make using these
+      // functions more graceful
+      if (type[1] === "string") {
+        child.mapper = "anyValue";
+      }
+
+      return {
+        mapper: `listOf(${child.mapper})`,
+        tsType: t.tsArrayType(child.tsType),
+        docstringType: `Array<${child.docstringType}>`,
+      };
+    }
+    if (Array.isArray(type) && type[0] === "map") {
+      const child = parseType(type[1]);
+      return {
+        mapper: "mapValue",
+        tsType: t.tsAnyKeyword(),
+        docstringType: "Object<string, " + child.docstringType + ">",
+      };
+    }
+    throw new Error(
+      `Function ${name} has parameter ${
+        p.name
+      } with unsupported type ${JSON.stringify(p.type)}`
+    );
+  };
+
+  const { docstringType, mapper, tsType } = parseType(p.type);
+
+  const tsParam = t.identifier(name);
+  tsParam.typeAnnotation = t.tsTypeAnnotation(tsType);
+
+  return { name, mapper, tsParam, docstringType };
+}
+
 function renderStaticMethod(
   name: string,
   signature: FunctionSignature
 ): t.ClassMethod {
   const returnType = mapReturnType(signature.return_type, name);
-
-  const mapParameter = (p: Parameter) => {
-    let name = p.name;
-    if (name === "default") name = "defaultValue"; // keyword in TypeScript
-    if (name === "string") name = "str"; // causes issue is Go
-
-    const parseType = (
-      type: AttributeType
-    ): { mapper: string; tsType: t.TSType; docstringType: string } => {
-      if (type === "number") {
-        return {
-          mapper: "numericValue",
-          tsType: t.tsNumberKeyword(),
-          docstringType: "number",
-        };
-      }
-      if (type === "string") {
-        return {
-          mapper: "stringValue",
-          tsType: t.tsStringKeyword(),
-          docstringType: "string",
-        };
-      }
-      if (type === "bool") {
-        return {
-          mapper: "anyValue",
-          tsType: t.tsAnyKeyword(), // we can't use booleans here as we don't have boolean tokens but need to support token values too
-          docstringType: "any",
-        };
-      }
-      if (type === "dynamic") {
-        return {
-          mapper: "anyValue",
-          tsType: t.tsAnyKeyword(),
-          docstringType: "any",
-        };
-      }
-      if (Array.isArray(type) && (type[0] === "list" || type[0] === "set")) {
-        const child = parseType(type[1]);
-
-        // We use anyValue for string lists as we don't validate
-        // the individual strings in a list to make using these
-        // functions more graceful
-        if (type[1] === "string") {
-          child.mapper = "anyValue";
-        }
-
-        return {
-          mapper: `listOf(${child.mapper})`,
-          tsType: t.tsArrayType(child.tsType),
-          docstringType: `Array<${child.docstringType}>`,
-        };
-      }
-      if (Array.isArray(type) && type[0] === "map") {
-        const child = parseType(type[1]);
-        return {
-          mapper: "mapValue",
-          tsType: t.tsAnyKeyword(),
-          docstringType: "Object<string, " + child.docstringType + ">",
-        };
-      }
-      throw new Error(
-        `Function ${name} has parameter ${
-          p.name
-        } with unsupported type ${JSON.stringify(p.type)}`
-      );
-    };
-
-    const { docstringType, mapper, tsType } = parseType(p.type);
-
-    const tsParam = t.identifier(name);
-    tsParam.typeAnnotation = t.tsTypeAnnotation(tsType);
-
-    return { name, mapper, tsParam, docstringType };
-  };
 
   const parameters: MappedParameter[] = (signature.parameters || []).map(
     mapParameter
