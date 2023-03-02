@@ -164,28 +164,29 @@ function renderStaticMethod(
           tsType: t.tsNumberKeyword(),
           docstringType: "number",
         };
-      } else if (type === "string") {
+      }
+      if (type === "string") {
         return {
           mapper: "stringValue",
           tsType: t.tsStringKeyword(),
           docstringType: "string",
         };
-      } else if (type === "bool") {
+      }
+      if (type === "bool") {
         return {
           mapper: "anyValue",
           tsType: t.tsAnyKeyword(), // we can't use booleans here as we don't have boolean tokens but need to support token values too
           docstringType: "any",
         };
-      } else if (type === "dynamic") {
+      }
+      if (type === "dynamic") {
         return {
           mapper: "anyValue",
           tsType: t.tsAnyKeyword(),
           docstringType: "any",
         };
-      } else if (
-        Array.isArray(type) &&
-        (type[0] === "list" || type[0] === "set")
-      ) {
+      }
+      if (Array.isArray(type) && (type[0] === "list" || type[0] === "set")) {
         const child = parseType(type[1]);
 
         // We use anyValue for string lists as we don't validate
@@ -200,20 +201,20 @@ function renderStaticMethod(
           tsType: t.tsArrayType(child.tsType),
           docstringType: `Array<${child.docstringType}>`,
         };
-      } else if (Array.isArray(type) && type[0] === "map") {
+      }
+      if (Array.isArray(type) && type[0] === "map") {
         const child = parseType(type[1]);
         return {
           mapper: "mapValue",
           tsType: t.tsAnyKeyword(),
           docstringType: "Object<string, " + child.docstringType + ">",
         };
-      } else {
-        throw new Error(
-          `Function ${name} has parameter ${
-            p.name
-          } with unsupported type ${JSON.stringify(p.type)}`
-        );
       }
+      throw new Error(
+        `Function ${name} has parameter ${
+          p.name
+        } with unsupported type ${JSON.stringify(p.type)}`
+      );
     };
 
     const { docstringType, mapper, tsType } = parseType(p.type);
