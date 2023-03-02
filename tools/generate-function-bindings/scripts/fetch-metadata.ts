@@ -6,6 +6,7 @@
 import { execSync } from "child_process";
 import fs from "fs/promises";
 import * as path from "path";
+import prettier from "prettier";
 
 export const FUNCTIONS_METADATA_FILE = "functions.json";
 const TERRAFORM_BINARY_NAME = process.env.TERRAFORM_BINARY_NAME || "terraform";
@@ -15,8 +16,7 @@ async function fetchMetadata() {
     `${TERRAFORM_BINARY_NAME} metadata functions -json`
   ).toString();
   const out = path.join(__dirname, FUNCTIONS_METADATA_FILE);
-  await fs.writeFile(out, json);
-  execSync(`yarn run prettier --write ${out}`); // prettify
+  await fs.writeFile(out, prettier.format(json, { parser: "json" }));
 }
 
 // run main entrypoint if we've been invoked directly
