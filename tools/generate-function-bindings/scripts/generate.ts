@@ -68,7 +68,7 @@ t.addComment(
 // these are overwritten in terraform-functions.ts
 const INTERNAL_METHODS = ["join", "bcrypt", "range", "lookup"];
 
-async function fetchMetadata() {
+async function generateFunctionBindings() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
     .function_signatures as {
@@ -290,7 +290,7 @@ function renderStaticMethod(
   return method;
 }
 
-fetchMetadata();
+generateFunctionBindings();
 
 const old = [
   "alltrue",

@@ -12,6 +12,3 @@ tsconfig.json
 tsconfig.tsbuildinfo
 dist
 coverage
-
-# include all files from templates
-!templates/**/*
