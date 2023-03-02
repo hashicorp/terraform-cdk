@@ -7,7 +7,7 @@ description: >-
 
 # Remote Backends
 
-Terraform stores [state](/language/state) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](/language/settings/backends/remote) to store state remotely.
+Terraform stores [state](/terraform/language/state) about managed infrastructure to map real-world resources to the configuration, keep track of metadata, and improve performance. Terraform stores this state in a local file by default, but you can also use a Terraform [remote backend](/terraform/language/settings/backends/remote) to store state remotely.
 
 By default, `cdktf init` will configure a Terraform Cloud workspace and a corresponding remote backend to store state for the new project. If you run `cdktf init --local` to configure your new project to use a local backend to store state, you can still [migrate the state](#migrate-local-state-storage-to-remote) to a remote backend later.
 
@@ -17,11 +17,11 @@ You can configure your CDK for Terraform (CDKTF) remote backend to be [Terraform
 
 Consider using a remote backend when multiple individuals or teams need access to your infrastructure state data.
 
-[Remote state](/language/state/remote) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
+[Remote state](/terraform/language/state/remote) makes it easier for teams to work together because all members have access to the latest state data in the remote store. It also allows you to share output values with other configurations, allowing groups to share infrastructure resources. For example, a core infrastructure team can handle building the core machines and then expose some information that other teams can use for their own infrastructure.
 
 ## Define Remote Backends
 
-You can define a [JSON configuration for a remote backend](/language/syntax/json#terraform-blocks)
+You can define a [JSON configuration for a remote backend](/terraform/language/syntax/json#terraform-blocks)
 with a `TerraformBackend` subclass or a JSON configuration file.
 
 The following example uses the `TerraformBackend` subclass `CloudBackend`.
@@ -374,44 +374,44 @@ func main() {
 
 In addition to Terraform Cloud, Terraform and CDKTF support the following backends.
 
-- [local](/language/settings/backends/local)
+- [local](/terraform/language/settings/backends/local)
   ```typescript
   new LocalBackend(stack, {...});
   ```
-- [azurerm](/language/settings/backends/azurerm)
+- [azurerm](/terraform/language/settings/backends/azurerm)
   ```typescript
   new AzurermBackend(stack, {...});
   ```
-- [consul](/language/settings/backends/consul)
+- [consul](/terraform/language/settings/backends/consul)
   ```typescript
   new ConsulBackend(stack, {...});
   ```
-- [cos](/language/settings/backends/cos)
+- [cos](/terraform/language/settings/backends/cos)
   ```typescript
   new CosBackend(stack, {...});
   ```
-- [gcs](/language/settings/backends/gcs)
+- [gcs](/terraform/language/settings/backends/gcs)
   ```typescript
   new GcsBackend(stack, {...});
   ```
-- [http](/language/settings/backends/http)
+- [http](/terraform/language/settings/backends/http)
   ```typescript
   new HttpBackend(stack, {...});
   ```
-- [oss](/language/settings/backends/oss)
+- [oss](/terraform/language/settings/backends/oss)
   ```typescript
   new OssBackend(stack, {...});
   ```
-- [pg](/language/settings/backends/pg)
+- [pg](/terraform/language/settings/backends/pg)
   ```typescript
   new PgBackend(stack, {...});
   ```
-- [s3](/language/settings/backends/s3)
+- [s3](/terraform/language/settings/backends/s3)
   ```typescript
   new S3Backend(stack, {...});
   ```
 
--> **Note**: CDK for Terraform v0.14 deprecated the artifactory, etcd, etcdv3, manta, and swift backends. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/language/v1.3.x/upgrade-guides).
+-> **Note**: CDK for Terraform v0.14 deprecated the artifactory, etcd, etcdv3, manta, and swift backends. Terraform removed these backends in v1.3. For migration paths from these removed backends, refer to [Upgrading to Terraform v1.3](/terraform/language/v1.3.x/upgrade-guides).
 
 ## Escape Hatches
 

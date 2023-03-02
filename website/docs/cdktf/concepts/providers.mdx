@@ -7,9 +7,9 @@ description: >-
 
 # Providers
 
-A [provider](/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/cdktf/concepts/resources) you want Terraform to manage on one or more providers.
+A [provider](/terraform/language/providers) is a plugin that lets Terraform manage an external API. In your CDK for Terraform (CDKTF) application, you use your preferred programming language to define the [resources](/terraform/cdktf/concepts/resources) you want Terraform to manage on one or more providers.
 
-You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.
+You can install pre-built providers packaged with the required code bindings for your language or add providers to the [`cdktf.json`](/terraform/cdktf/create-and-deploy/configuration-file) file and generate code bindings manually. To use providers in your application, you can import them from the Terraform Registry or from your local machine.
 
 ## What Are Providers?
 
@@ -17,7 +17,7 @@ Provider plugins like the [AWS provider](https://registry.terraform.io/providers
 
 ![diagram: How Terraform uses plugins](images/terraform-plugin-overview.png)
 
-Terraform uses providers to provision [resources](/language/resources), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
+Terraform uses providers to provision [resources](/terraform/language/resources), which describe one or more infrastructure objects like virtual networks and compute instances. Each provider on the [Terraform Registry](https://registry.terraform.io/) has documentation detailing available resources and their configuration options.
 
 ## Install Pre-Built Providers
 
@@ -41,11 +41,11 @@ When you use `npm install` to install a pre-built provider, you should not defin
 
 ## Add Providers with CLI
 
-Use the [`provider add` command](/cdktf/cli-reference/commands#provider-add) to automatically install a pre-built provider if available. If a pre-built provider is not available, CDKTF uses local provider bindings.
+Use the [`provider add` command](/terraform/cdktf/cli-reference/commands#provider-add) to automatically install a pre-built provider if available. If a pre-built provider is not available, CDKTF uses local provider bindings.
 
 ## Import Providers
 
-CDK for Terraform lets you import Terraform [providers](/language/providers) to your project.
+CDK for Terraform lets you import Terraform [providers](/terraform/language/providers) to your project.
 
 This TypeScript example project has a `main.ts` file that defines AWS resources.
 
@@ -203,7 +203,7 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 
 ### Add Provider to `cdktf.json`
 
-To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/cdktf/create-and-deploy/configuration-file).
+To use a new provider, first add it to the `"terraformProviders"` array in the [`cdktf.json` file](/terraform/cdktf/create-and-deploy/configuration-file).
 
 The following example adds the [DNS Simple](https://registry.terraform.io/providers/dnsimple/dnsimple/latest/docs) provider.
 
@@ -604,11 +604,11 @@ cdktf synth --json
 
 ## Provider Caching
 
-Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/cdktf/concepts/stacks) within one application.
+Caching prevents CDK for Terraform from re-downloading providers between each CLI command. It is also useful when you need to remove the `cdktf.out` folder and re-synthesize your configuration. Finally, caching is necessary when you use multiple [stacks](/terraform/cdktf/concepts/stacks) within one application.
 
 ### Set the Caching Directory
 
-Refer to the Terraform documentation about [how to configure your plugin cache](/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
+Refer to the Terraform documentation about [how to configure your plugin cache](/terraform/cli/config/config-file#provider-plugin-cache). Otherwise, CDKTF automatically sets the `TF_PLUGIN_CACHE_DIR` environment variable to `$HOME/.terraform.d/plugin-cache` when you use `cdktf` cli commands.
 
 To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null value, like `CDKTF_DISABLE_PLUGIN_CACHE_ENV=1`. You may want to do this when a different cache directory is configured via a `.terraformrc` configuration file.
 
@@ -616,7 +616,7 @@ To disable this behavior, set `CDKTF_DISABLE_PLUGIN_CACHE_ENV` to a non null val
 
 Terraform needs to know the location of local providers to enable CDKTF to generate the appropriate type bindings. You can configure this in two ways:
 
-- [Implied Local Mirrors](/cli/config/config-file#implied-local-mirror-directories)
-- [Development Overrides](/cli/config/config-file#development-overrides-for-provider-developers)
+- [Implied Local Mirrors](/terraform/cli/config/config-file#implied-local-mirror-directories)
+- [Development Overrides](/terraform/cli/config/config-file#development-overrides-for-provider-developers)
 
-Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/cdktf/create-and-deploy/configuration-file) for more details about the `cdktf.json` specification.
+Once configured properly, you can reference these providers in the `cdktf.json` file the same way that you reference providers from the Terraform Registry. Refer to the [project configuration documentation](/terraform/cdktf/create-and-deploy/configuration-file) for more details about the `cdktf.json` specification.

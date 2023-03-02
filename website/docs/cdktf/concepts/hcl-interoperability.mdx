@@ -7,11 +7,11 @@ description: >-
 
 # HCL Interoperability
 
-Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](/language/syntax/configuration) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in an imperative programming language to JSON configuration files for Terraform.
+Terraform requires infrastructure configuration files written in either [HashiCorp Configuration Language (HCL)](/terraform/language/syntax/configuration) or JSON syntax. CDK for Terraform (CDKTF) works by translating configurations defined in an imperative programming language to JSON configuration files for Terraform.
 
 CDKTF may not be the right choice for every team and project within your organization. For example, some teams may already be very familiar with Terraform and have created HCL modules, providers, etc. To provide flexibility, CDKTF applications are interoperable with Terraform projects written in HCL. Specifically:
 
-- CDKTF applications can use all existing Terraform [providers](/cdktf/concepts/providers) and HCL [modules](/cdktf/concepts/modules).
+- CDKTF applications can use all existing Terraform [providers](/terraform/cdktf/concepts/providers) and HCL [modules](/terraform/cdktf/concepts/modules).
 - CDKTF can generate modules that HCL Terraform projects can use in their configurations.
 
 This page shows how you can interoperate HCL and CDK for Terraform configuration.
@@ -226,4 +226,4 @@ output "name" {
 
 ## HCL to CDKTF
 
-Use the [`cdktf convert`](/cdktf/cli-reference/commands#convert) command to automatically translate existing HCL into a preferred CDKTF language. The [modules documentation](/cdktf/concepts/modules) shows how to use existing Terraform modules in CDK for Terraform projects.
+Use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to automatically translate existing HCL into a preferred CDKTF language. The [modules documentation](/terraform/cdktf/concepts/modules) shows how to use existing Terraform modules in CDK for Terraform projects.
