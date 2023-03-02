@@ -146,7 +146,7 @@
     "ink-use-stdout-dimensions": "^1.0.5",
     "inquirer": "^8.2.5",
     "jest": "^26.6.3",
-    "jsii-srcmak": "^0.1.790",
+    "jsii-srcmak": "^0.1.840",
     "lodash.isequal": "^4.5.0",
     "log4js": "^6.7.0",
     "nock": "^13.2.9",
