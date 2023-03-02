@@ -44,7 +44,9 @@ const firstRuleStage = bucket.lifecycleRule.get(0).tags.lookup("stage");
 const firstRuleTags = bucket.lifecycleRule.get(0).tags;
 ```
 
-### Use ComplexLists and ComplexMaps for complex assignable properties [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
+### Use ComplexLists and ComplexMaps for complex assignable properties
+
+PR: [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
 
 Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no longer have setters; they instead have `putX` methods. The getter return type is also changed to be a derivative of either `ComplexList` or `ComplexMap`.
 
