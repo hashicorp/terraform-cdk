@@ -108,9 +108,6 @@ async function generateFunctionBindings() {
   await fs.writeFile(OUTPUT_FILE, code);
 }
 
-// TODO: special case handlings:
-// lookup() -> third param is optional, but due to current handling now an array of any instead of just "any?"
-
 function renderStaticMethod(
   name: string,
   signature: FunctionSignature
