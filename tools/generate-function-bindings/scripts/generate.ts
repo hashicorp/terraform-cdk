@@ -75,9 +75,9 @@ async function generateFunctionBindings() {
     [name: string]: FunctionSignature;
   };
 
-  const staticMethods = Object.entries(json)
-    .sort(fakeSameSortOrderAsExistingFile)
-    .map(([name, signature]) => renderStaticMethod(name, signature));
+  const staticMethods = Object.entries(json).map(([name, signature]) =>
+    renderStaticMethod(name, signature)
+  );
 
   const fnClass = t.exportNamedDeclaration(
     t.classDeclaration(
@@ -287,125 +287,3 @@ function renderStaticMethod(
 }
 
 generateFunctionBindings();
-
-const old = [
-  "alltrue",
-  "anytrue",
-  "chunklist",
-  "coalesce",
-  "coalescelist",
-  "compact",
-  "concat",
-  "contains",
-  "distinct",
-  "element",
-  "flatten",
-  "index",
-  "keys",
-  "length",
-  "lookup",
-  "matchkeys",
-  "mergeLists",
-  "mergeMaps",
-  "one",
-  "range",
-  "reverse",
-  "setintersection",
-  "setproduct",
-  "setsubtract",
-  "setunion",
-  "slice",
-  "sort",
-  "sum",
-  "transpose",
-  "values",
-  "zipmap",
-  "base64sha256",
-  "base64sha512",
-  "bcrypt",
-  "filebase64sha256",
-  "filebase64sha512",
-  "filemd5",
-  "filesha1",
-  "filesha256",
-  "filesha512",
-  "md5",
-  "rsadecrypt",
-  "sha1",
-  "sha256",
-  "sha512",
-  "uuid",
-  "uuidv5",
-  "formatdate",
-  "timeadd",
-  "timestamp",
-  "base64decode",
-  "base64encode",
-  "base64gzip",
-  "csvdecode",
-  "jsondecode",
-  "jsonencode",
-  "textdecodebase64",
-  "textencodebase64",
-  "urlencode",
-  "yamldecode",
-  "yamlencode",
-  "abspath",
-  "dirname",
-  "pathexpand",
-  "basename",
-  "file",
-  "fileexists",
-  "fileset",
-  "filebase64",
-  "templatefile",
-  "cidrhost",
-  "cidrnetmask",
-  "cidrsubnet",
-  "cidrsubnets",
-  "abs",
-  "ceil",
-  "floor",
-  "log",
-  "max",
-  "min",
-  "parseInt",
-  "pow",
-  "signum",
-  "chomp",
-  "format",
-  "formatlist",
-  "indent",
-  "join",
-  "lower",
-  "regexall",
-  "regex",
-  "replace",
-  "split",
-  "strrev",
-  "substr",
-  "title",
-  "trim",
-  "trimprefix",
-  "trimsuffix",
-  "trimspace",
-  "upper",
-  "can",
-  "nonsensitive",
-  "sensitive",
-  "tobool",
-  "tolist",
-  "tomap",
-  "tonumber",
-  "toset",
-  "tostring",
-  "try",
-];
-// fakes the sort order, our existing terraform-functions.ts file has
-// this makes it easier to compare the generated file to the existing function bindings
-function fakeSameSortOrderAsExistingFile(
-  [a]: [string, ...any[]],
-  [b]: [string, ...any[]]
-): number {
-  return old.indexOf(a) - old.indexOf(b);
-}
