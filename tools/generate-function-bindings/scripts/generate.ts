@@ -108,44 +108,42 @@ async function generateFunctionBindings() {
   await fs.writeFile(OUTPUT_FILE, code);
 }
 
+type ReturnType = "asNumber" | "asString" | "asBoolean" | "asAny" | "asList";
+function mapReturnType(
+  returnType: AttributeType,
+  functionName: string
+): ReturnType {
+  switch (returnType) {
+    case "number":
+      return "asNumber";
+    case "string":
+      return "asString";
+    case "bool":
+      return "asBoolean";
+    case "dynamic":
+      return "asAny"; // TODO: this was no wrapping but now is asAny (BREAKING, as it used to return IResolvable for some functions but now returns any)
+  }
+  if (
+    Array.isArray(returnType) &&
+    (returnType[0] === "list" || returnType[0] === "set")
+  ) {
+    return "asList";
+  }
+  if (Array.isArray(returnType) && returnType[0] === "map") {
+    return "asAny";
+  }
+  throw new Error(
+    `Function ${functionName} has unsupported return type: ${JSON.stringify(
+      returnType
+    )}`
+  );
+}
+
 function renderStaticMethod(
   name: string,
   signature: FunctionSignature
 ): t.ClassMethod {
-  let returnType = "";
-  switch (signature.return_type) {
-    case "number":
-      returnType = "asNumber";
-      break;
-    case "string":
-      returnType = "asString";
-      break;
-    case "bool":
-      returnType = "asBoolean";
-      break;
-    case "dynamic":
-      returnType = "asAny"; // TODO: this was no wrapping but now is asAny (BREAKING, as it used to return IResolvable for some functions but now returns any)
-      break;
-    default:
-      if (
-        Array.isArray(signature.return_type) &&
-        (signature.return_type[0] === "list" ||
-          signature.return_type[0] === "set")
-      ) {
-        returnType = "asList";
-      } else if (
-        Array.isArray(signature.return_type) &&
-        signature.return_type[0] === "map"
-      ) {
-        returnType = "asAny";
-      } else {
-        throw new Error(
-          `Function ${name} has unsupported return type: ${JSON.stringify(
-            signature.return_type
-          )}`
-        );
-      }
-  }
+  const returnType = mapReturnType(signature.return_type, name);
 
   const mapParameter = (p: Parameter) => {
     let name = p.name;
