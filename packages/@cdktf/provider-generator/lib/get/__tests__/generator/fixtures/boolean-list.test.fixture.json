@@ -19,6 +19,13 @@
                   "bool"
                 ],
                 "optional": true
+              },
+              "foo_computed": {
+                "type": [
+                  "list",
+                  "bool"
+                ],
+                "computed": true
               }
 
             }

@@ -91,7 +91,7 @@ To build and install `terraform-cdk` locally you need to install:
 
 - Node version 14.0+
 - Go 1.18
-- dotnet (v3.1.0)
+- dotnet (v6.0)
 - mvn
 - pipenv
 

@@ -12,13 +12,13 @@ const equalAttributeIdentifiers = (
   [...x[1]].every((x) => y[1].has(x));
 
 function typeStructure(model: AttributeModel) {
-  if (model.type.isPrimitive) {
-    return model.type.name;
+  if (!model.type.isComplex) {
+    return model.type.storedClassType;
   }
 
   return `<complex:{${model.type.struct?.attributes
     .map((att) => att.name)
-    .sort()}}${model.type.isList ? "[]" : ""}>`;
+    .sort()}}${model.type.typeModelType}>`;
 }
 
 function getAttributeIdentifier(model: AttributeModel): AttributeIdentifier {
