@@ -9,8 +9,8 @@ const CACHED_ASSET_SYMBOL = Symbol.for("cdktf/TerraformCachedAsset");
 
 export interface IBuilder {
   /**
-   * TODO: write docstring
-   *
+   * Build step on input directory
+   * @param inputPath the path to the input directory to build
    * @throws if the build failed
    */
   build(inputPath: string): void;
@@ -24,7 +24,7 @@ export interface TerraformCachedAssetConfig {
 }
 
 /**
- * todo: document
+ * Class representing an asset that is or is to be cached
  */
 export class TerraformCachedAsset extends Construct {
   constructor(
@@ -60,21 +60,36 @@ export class TerraformCachedAsset extends Construct {
       this.config.builder.build(this.config.inputPath);
     }
   }
-
+  /**
+   *
+   * @param x
+   * @returns {boolean} whether the given object is a TerraformCachedAsset
+   */
   static isTerraformCachedAsset(x: any): x is TerraformCachedAsset {
     return x !== null && typeof x === "object" && CACHED_ASSET_SYMBOL in x;
   }
 
+  /**
+   * @returns {Record<string, string>} The hash entries for this asset
+   */
   public getHashEntries(): Record<string, string> {
     return {
       [TerraformStack.of(this).getLogicalId(this.node)]:
         this.getHashOfInputDir(),
     };
   }
+
+  /**
+   * Internal method to get the hash of the input directory
+   * @returns {string} The hash of the input directory
+   */
   private getHashOfInputDir(): string {
     return hashPath(this.config.inputPath, this.config.filePatterns);
   }
 
+  /**
+   * @returns {string} The hash of the input directory
+   */
   public get hash(): string {
     return this.getHashOfInputDir();
   }
