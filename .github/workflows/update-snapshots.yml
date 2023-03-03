@@ -7,6 +7,10 @@ on:
       - synchronize
       - labeled
       - reopened
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   update-snapshots-setup:
     if: contains(github.event.pull_request.labels.*.name, 'ci/update-snapshots')
@@ -21,9 +25,11 @@ jobs:
       - uses: actions-ecosystem/action-add-labels@v1.1.0
         with:
           labels: ci/updating-snapshots
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
           labels: ci/update-snapshots
+          github_token: ${{ secrets.GITHUB_TOKEN }}
       - id: tf-version
         run: |
           DEFAULT_TERRAFORM_VERSION=$(cat .terraform.versions.json | jq -r '.default')
@@ -67,6 +73,7 @@ jobs:
       - uses: actions-ecosystem/action-remove-labels@v1.3.0
         with:
           labels: ci/updating-snapshots
+          github_token: ${{ secrets.GITHUB_TOKEN }}
 
   update-snapshots-linux:
     needs: update-snapshots-setup
@@ -76,10 +83,18 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v3.1.0
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
+        run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
+      
+      - name: Set git identity
+        run: |-
+          git config user.name github-team-tf-cdk
+          git config user.email github-team-tf-cdk@hashicorp.com
 
       - name: Get yarn cache directory path
         id: global-cache-dir-path
@@ -92,11 +107,6 @@ jobs:
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-yarn-
-
-      - name: Set git identity
-        run: |-
-          git config user.name github-team-tf-cdk
-          git config user.email github-team-tf-cdk@hashicorp.com
 
       - name: installing dependencies and build
         run: |
