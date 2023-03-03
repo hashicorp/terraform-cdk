@@ -2,9 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { CodeMaker } from "codemaker";
 import { AttributeModel } from "../models";
-import { downcaseFirst, uppercaseFirst } from "../../../util";
 import { CUSTOM_DEFAULTS } from "../custom-defaults";
-import { logger } from "@cdktf/commons";
 
 function titleCase(value: string) {
   return value[0].toUpperCase() + value.slice(1);
@@ -31,7 +29,9 @@ export class AttributesEmitter {
         `private ${att.storageName} = ${this.storedClassInit(att)};`
       );
     } else if (isStored) {
-      this.code.line(`private ${att.storageName}?: ${att.type.name}; `);
+      this.code.line(
+        `private ${att.storageName}?: ${att.type.inputTypeDefinition}; `
+      );
     }
 
     switch (getterType._type) {
@@ -118,26 +118,7 @@ export class AttributesEmitter {
 
   // returns an invocation of a stored class, e.g. 'new DeplotmentMetadataOutputReference(this, "metadata")'
   private storedClassInit(att: AttributeModel) {
-    if ((att.type.isList || att.type.isSet) && !att.type.isSingleItem) {
-      // list/set
-      if (att.type.struct) {
-        return `new ${att.type.struct.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
-      } else {
-        return `new ${att.type.name}List(this, "${att.terraformName}", ${att.type.isSet})`;
-      }
-    } else if (att.type.isMap) {
-      if (att.type.struct) {
-        return `new ${att.type.struct.name}Map(this, "${att.terraformName}")`;
-      } else {
-        return `new ${att.type.name}(this, "${att.terraformName}")`;
-      }
-    } else {
-      if (att.type.name.includes("IResolvable")) {
-        return `new ${att.type.innerType}OutputReference(this, "${att.terraformName}")`;
-      } else {
-        return `new ${att.type.name}OutputReference(this, "${att.terraformName}")`;
-      }
-    }
+    return att.type.getStoredClassInitializer(att.terraformName);
   }
 
   public determineGetAttCall(att: AttributeModel): string {
@@ -145,66 +126,7 @@ export class AttributesEmitter {
       return `this.${att.storageName}`;
     }
 
-    const type = att.type;
-    if (type.isString) {
-      return `this.getStringAttribute('${att.terraformName}')`;
-    }
-    if (type.isStringList) {
-      return `this.getListAttribute('${att.terraformName}')`;
-    }
-    if (type.isNumberList) {
-      return `this.getNumberListAttribute('${att.terraformName}')`;
-    }
-    if (type.isStringSet) {
-      return `cdktf.Fn.tolist(this.getListAttribute('${att.terraformName}'))`;
-    }
-    if (type.isNumberSet) {
-      return `cdktf.Token.asNumberList(cdktf.Fn.tolist(this.getNumberListAttribute('${att.terraformName}')))`;
-    }
-    if (type.isNumber) {
-      return `this.getNumberAttribute('${att.terraformName}')`;
-    }
-    if (type.isBoolean) {
-      return `this.getBooleanAttribute('${att.terraformName}')`;
-    }
-
-    // TODO: enable this change once we want to release the next major version
-    // https://github.com/hashicorp/terraform-cdk/issues/2532
-    // return `this.getComputed${uppercaseFirst(att.mapType)}MapAttribute('${
-    //   att.terraformName
-    // }')`;
-    // if (type.isComputedStringMap) return `this.getComputedStringMapAttribute('${att.terraformName}')`;
-    // if (type.isComputedNumberMap) return `this.getComputedNumberMapAttribute('${att.terraformName}')`;
-    // if (type.isComputedBooleanMap) return `this.getComputedBooleanMapAttribute('${att.terraformName}')`;
-    // if (type.isComputedAnyMap) return `this.getComputedAnyMapAttribute('${att.terraformName}')`;
-
-    if (type.isComputedStringMap)
-      return `new cdktf.StringMap(this, '${att.terraformName}')`;
-    if (type.isComputedNumberMap)
-      return `new cdktf.NumberMap(this, '${att.terraformName}')`;
-    if (type.isComputedBooleanMap)
-      return `new cdktf.BooleanMap(this, '${att.terraformName}')`;
-    if (type.isComputedAnyMap)
-      return `new cdktf.AnyMap(this, '${att.terraformName}')`;
-
-    if (type.isMap) {
-      return `this.get${uppercaseFirst(att.mapType)}MapAttribute('${
-        att.terraformName
-      }')`;
-    }
-
-    logger.debug(`The attribute isn't implemented yet: ${JSON.stringify(att)}`);
-
-    this.code.line(`// Getting the computed value is not yet implemented`);
-    if (type.isSet) {
-      // Token.asAny is required because tolist returns an Array encoded token which the listMapper
-      // would try to map over when this is passed to another resource. With Token.asAny() it is left
-      // as is by the listMapper and is later properly resolved to a reference
-      // (this only works in TypeScript currently, same as for referencing lists
-      // [see "interpolationForAttribute(...)" further below])
-      return `cdktf.Token.asAny(cdktf.Fn.tolist(this.interpolationForAttribute('${att.terraformName}')))`;
-    }
-    return `this.interpolationForAttribute('${att.terraformName}')`;
+    return att.type.getAttributeAccessFunction(att.terraformName);
   }
 
   public needsInputEscape(
@@ -265,89 +187,8 @@ export class AttributesEmitter {
         ? `${varReference} === undefined ? ${customDefault} : `
         : "";
 
-    const isBlockType = att.type.isBlock;
-
-    switch (true) {
-      case type.isSet && type.isMap:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform), ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isList && type.isMap:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.listMapper(cdktf.hashMapper(cdktf.${att.mapType}ToTerraform), ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isStringSet || type.isNumberSet || type.isBooleanSet:
-        this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
-            type.innerType
-          )}ToTerraform, ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isStringList || type.isNumberList || type.isBooleanList:
-        this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.listMapper(cdktf.${downcaseFirst(
-            type.innerType
-          )}ToTerraform, ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isSet && !type.isSingleItem:
-        this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
-            type.innerType
-          )}ToTerraform, ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isList && !type.isSingleItem:
-        this.code.line(
-          `${
-            att.terraformName
-          }: ${defaultCheck}cdktf.listMapper(${downcaseFirst(
-            type.innerType
-          )}ToTerraform, ${isBlockType})(${varReference}),`
-        );
-        break;
-      case type.isMap:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.hashMapper(cdktf.${att.mapType}ToTerraform)(${varReference}),`
-        );
-        break;
-      case type.isString:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.stringToTerraform(${varReference}),`
-        );
-        break;
-      case type.isNumber:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.numberToTerraform(${varReference}),`
-        );
-        break;
-      case type.isBoolean:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}cdktf.booleanToTerraform(${varReference}),`
-        );
-        break;
-      case type.isComplex && !type.struct?.isClass && !type.isSingleItem:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
-            type.struct!.name
-          )}ToTerraform(${varReference}),`
-        );
-        break;
-      default:
-        this.code.line(
-          `${att.terraformName}: ${defaultCheck}${downcaseFirst(
-            type.name
-          )}ToTerraform(${varReference}),`
-        );
-        break;
-    }
+    this.code.line(
+      `${att.terraformName}: ${defaultCheck}${type.toTerraformFunction}(${varReference}),`
+    );
   }
 }

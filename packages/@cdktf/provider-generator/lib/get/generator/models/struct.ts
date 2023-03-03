@@ -56,6 +56,18 @@ export class Struct {
     return `${this.name}Map`;
   }
 
+  public get mapListName(): string {
+    return `${this.name}MapList`;
+  }
+
+  public get listMapName(): string {
+    return `${this.name}ListMap`;
+  }
+
+  public get listListName(): string {
+    return `${this.name}ListList`;
+  }
+
   public get isProvider(): boolean {
     return this.attributes.some((att) => att.isProvider);
   }

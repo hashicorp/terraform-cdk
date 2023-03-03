@@ -27,6 +27,14 @@
                   "string"
                 ],
                 "optional": true
+              },
+              "subject_alternative_names_required": {
+                "type": [
+                  "map",
+                  "string"
+                ],
+                "required": true,
+                "computed": true
               }
             }
           },
