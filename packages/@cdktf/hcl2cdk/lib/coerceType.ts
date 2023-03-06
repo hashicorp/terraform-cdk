@@ -42,7 +42,8 @@ export const coerceType = (
     ast.object.type === "Identifier" &&
     Object.values(scope.variables).some(
       (knownVars) =>
-        knownVars.variableName === (ast.object as t.Identifier).name
+        knownVars.variableName === (ast.object as t.Identifier).name &&
+        knownVars.isVarOrLocal === true
     );
 
   if (Array.isArray(to)) {

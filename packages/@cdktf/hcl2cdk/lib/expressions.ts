@@ -199,6 +199,7 @@ export function variableName(
   scope.variables[name] = {
     variableName,
     resource,
+    isVarOrLocal: ["var", "local"].includes(resource),
   };
   return variableName;
 }

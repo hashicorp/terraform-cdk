@@ -15,6 +15,7 @@ export type Scope = {
     {
       resource: string;
       variableName: string;
+      isVarOrLocal: boolean;
     }
   >;
   hasTokenBasedTypeCoercion: boolean;
