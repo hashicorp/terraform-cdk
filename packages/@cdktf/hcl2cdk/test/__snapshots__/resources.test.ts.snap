@@ -120,7 +120,7 @@ new aws.cloudfrontDistribution.CloudfrontDistribution(this, \\"s3_distribution\\
     },
   },
   tags: {
-    environment: \\"production\\",
+    Environment: \\"production\\",
   },
   viewerCertificate: {
     cloudfrontDefaultCertificate: true,
@@ -158,7 +158,7 @@ new kubernetes.provider.KubernetesProvider(this, \\"kubernetes\\", {
 });
 new kubernetes.secret.Secret(this, \\"secrets-xxx\\", {
   data: {
-    camelCasedKey: \\"yes\\",
+    camel_cased_key: \\"yes\\",
   },
   metadata: {
     name: \\"secrets-xxx\\",
@@ -206,7 +206,7 @@ new aws.securityGroup.SecurityGroup(this, \\"allow_tls\\", {
   ],
   name: \\"allow_tls\\",
   tags: {
-    name: \\"allow_tls\\",
+    Name: \\"allow_tls\\",
   },
 });
 "
