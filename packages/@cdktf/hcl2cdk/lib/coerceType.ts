@@ -43,7 +43,7 @@ export const coerceType = (
     Object.values(scope.variables).some(
       (knownVars) =>
         knownVars.variableName === (ast.object as t.Identifier).name &&
-        knownVars.isVarOrLocal === true
+        ["var", "local"].includes(knownVars.resource)
     );
 
   if (Array.isArray(to)) {

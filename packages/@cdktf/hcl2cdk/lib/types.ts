@@ -15,7 +15,6 @@ export type Scope = {
     {
       resource: string;
       variableName: string;
-      isVarOrLocal: boolean;
     }
   >;
   // Temporary flag to indicate if we need to import the cdktf library to access the token class
