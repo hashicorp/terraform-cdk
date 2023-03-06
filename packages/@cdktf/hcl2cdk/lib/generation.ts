@@ -227,8 +227,8 @@ export const valueToTs = async (
               const attribute = getTypeAtPath(scope.providerSchema, itemPath);
 
               // Map type attributes must not be wrapped in arrays
-              const isMapAttribute = Array.isArray((attribute as any)?.type)
-                ? (attribute as any)?.type?.[0] === "map"
+              const isMapAttribute = Array.isArray(attribute)
+                ? attribute[0] === "map"
                 : false;
 
               const typeMetadata = getTypeAtPath(

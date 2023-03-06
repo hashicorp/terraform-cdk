@@ -138,11 +138,9 @@ new kubernetes.provider.KubernetesProvider(this, \\"kubernetes\\", {
   configPath: \\"~/.kube/config\\",
 });
 new kubernetes.secret.Secret(this, \\"secrets-xxx\\", {
-  data: [
-    {
-      xxx: \\"yyy\\",
-    },
-  ],
+  data: {
+    xxx: \\"yyy\\",
+  },
   metadata: {
     name: \\"secrets-xxx\\",
   },
@@ -159,11 +157,9 @@ new kubernetes.provider.KubernetesProvider(this, \\"kubernetes\\", {
   configPath: \\"~/.kube/config\\",
 });
 new kubernetes.secret.Secret(this, \\"secrets-xxx\\", {
-  data: [
-    {
-      camelCasedKey: \\"yes\\",
-    },
-  ],
+  data: {
+    camelCasedKey: \\"yes\\",
+  },
   metadata: {
     name: \\"secrets-xxx\\",
   },
