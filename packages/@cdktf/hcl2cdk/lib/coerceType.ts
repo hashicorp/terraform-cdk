@@ -68,6 +68,11 @@ export const coerceType = (
           return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
             ast: ast,
           });
+        default:
+          scope.hasTokenBasedTypeCoercion = true;
+          return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
+            ast: ast,
+          });
       }
     }
 
