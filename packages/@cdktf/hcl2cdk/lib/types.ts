@@ -18,5 +18,6 @@ export type Scope = {
       isVarOrLocal: boolean;
     }
   >;
+  // Temporary flag to indicate if we need to import the cdktf library to access the token class
   hasTokenBasedTypeCoercion: boolean;
 };
