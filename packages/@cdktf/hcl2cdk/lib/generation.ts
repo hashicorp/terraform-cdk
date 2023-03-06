@@ -250,8 +250,11 @@ export const valueToTs = async (
                 !isMapAttribute &&
                 key !== "tags";
 
+              const parentName = path.split(".").pop();
+
               const keepKeyName: boolean =
-                !isModule && (key === "for_each" || !typeMetadata);
+                !isModule &&
+                (key === "for_each" || !typeMetadata || parentName === "tags");
 
               return t.objectProperty(
                 t.stringLiteral(
