@@ -87,7 +87,7 @@ new aws.s3Bucket.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
   bucket: bucketName.stringValue,
   tags: {
-    tagKey: bucketName.stringValue,
+    \\"tag-key\\": bucketName.stringValue,
   },
 });
 "

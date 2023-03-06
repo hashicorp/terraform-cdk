@@ -95,7 +95,7 @@ const awsIamUserLb = new aws.iamUser.IamUser(this, \\"lb\\", {
   name: \`\\\\\${element(\${users.value}, count.index)}\`,
   path: \\"/system/\\",
   tags: {
-    tagKey: \\"tag-value\\",
+    \\"tag-key\\": \\"tag-value\\",
   },
 });
 /*In most cases loops should be handled in the programming language context and 
@@ -210,7 +210,7 @@ const awsIamUserLb = new aws.iamUser.IamUser(this, \\"lb\\", {
   name: \\"\${each.key}\\",
   path: \\"/system/\\",
   tags: {
-    tagKey: \\"tag-value\\",
+    \\"tag-key\\": \\"tag-value\\",
   },
 });
 /*In most cases loops should be handled in the programming language context and 
@@ -280,7 +280,7 @@ const awsInstanceMultipleServers = new aws.instance.Instance(
     ami: \\"ami-0c2b8ca1dad447f8a\\",
     instanceType: \\"t2.micro\\",
     tags: {
-      name: \\"Server \${count.index}\\",
+      Name: \\"Server \${count.index}\\",
     },
   }
 );
