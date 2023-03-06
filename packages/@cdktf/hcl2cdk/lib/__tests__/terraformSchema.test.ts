@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { ProviderSchema } from "@cdktf/provider-generator";
 import { getTypeAtPath } from "../terraformSchema";
 
