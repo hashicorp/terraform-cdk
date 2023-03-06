@@ -3,7 +3,6 @@
 import {
   ProviderSchema,
   BlockType,
-  Attribute,
   AttributeType,
   Schema,
 } from "@cdktf/provider-generator";
@@ -63,184 +62,113 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
   return { resource, parts };
 }
 
-type ExtendedBlockType = BlockType & { max_items?: number };
-export function getBlockTypeAtPath(
-  schema: ProviderSchema,
-  path: string
-): ExtendedBlockType | null {
-  const resourceSchema = getResourceAtPath(schema, path);
-  if (!resourceSchema) {
-    return null;
-  }
-  const { resource, parts } = resourceSchema;
-
-  let currentSchema: BlockType | typeof resource = resource;
-  do {
-    const part = parts.shift() as string;
-    if (
-      !currentSchema ||
-      !currentSchema.block ||
-      !currentSchema.block.block_types ||
-      !currentSchema.block.block_types.hasOwnProperty(part)
-    ) {
-      // Found no block property with this name, there could be an attribute, but we don't care at this point
-      return null;
-    }
-
-    currentSchema = currentSchema.block.block_types[part];
-  } while (parts.length > 0);
-
-  return currentSchema;
-}
-
-export function getAttributeTypeAtPath(
-  schema: ProviderSchema,
-  path: string
-): Attribute | null {
-  const resourceSchema = getResourceAtPath(schema, path);
-  if (!resourceSchema) {
-    return null;
-  }
-  const { resource, parts } = resourceSchema;
-  const attributes = resource.block.attributes;
-
-  if (parts.length !== 1) {
-    // No property specified or the path is too deep
-    return null;
-  }
-
-  const attributeName = parts[0].replace("[]", "");
-  const attribute = attributes[attributeName];
-
-  if (
-    attribute &&
-    Array.isArray(attribute.type) &&
-    Array.isArray(attribute.type) &&
-    path.endsWith("[]")
-  ) {
-    return {
-      ...attribute,
-      type: attribute.type[1] as any,
-    };
-  } else {
-    return attribute;
-  }
-}
-
-// Resolves within a list of objects, e.g.
-// "ingress": {
-//   "type": [
-//     "set",
-//     [
-//       "object",
-//       {
-//         "cidr_blocks": [
-//           "list",
-//           "string"
-//         ],
-function resolveAttribute(
-  att: Attribute,
+function findType(
+  item: Schema | BlockType | AttributeType,
   parts: string[]
-): AttributeType | null | undefined {
-  if (parts.length === 0) {
-    return att.type;
+): Schema | BlockType | AttributeType | null {
+  if (!parts.length) {
+    return item;
   }
 
-  let currentAtt: AttributeType | undefined = att.type;
-  do {
-    const part = parts.shift() as string;
-    if (
-      Array.isArray(currentAtt) &&
-      currentAtt.length === 2 &&
-      (currentAtt[0] === "set" || currentAtt[0] === "list") &&
-      Array.isArray(currentAtt[1]) &&
-      currentAtt[1][0] === "object"
-    ) {
-      // We can go deeper into the set/list
-      const x = currentAtt[1][1][part];
-      currentAtt = x;
-    } else {
+  const [currentPart, ...otherParts] = parts;
+
+  // Promitive attributes can be returned directly
+  if (typeof item === "string") {
+    return item;
+  }
+
+  // Complex attributes
+  if (Array.isArray(item)) {
+    if (item[0] === "set" || item[0] === "list") {
+      if (currentPart === "[]") {
+        return findType(item[1], otherParts);
+      }
+      // Trying to access a property on a list
       return null;
     }
-  } while (parts.length > 0);
 
-  if (parts.length === 0) {
-    return currentAtt;
-  } else {
-    // We could not go deeper but the item path expects more parts, we have to return null
+    if (item[0] === "object") {
+      if (currentPart === "[]") {
+        // Trying to access a property on a list
+        return null;
+      }
+
+      return findType(item[1][currentPart], otherParts);
+    }
+
+    if (item[0] === "map") {
+      // We don't care what the key is
+      return findType(item[1], otherParts);
+    }
+
+    // Unknown type
     return null;
   }
+
+  // If we are not in an attribute, we can ignore the [] (since max_item=1 parts don't have [], so we just ignore it)
+  if (currentPart === "[]") {
+    return findType(item, otherParts);
+  }
+
+  // Block
+  if (item.block) {
+    // Find block type in block
+    if (item.block.block_types) {
+      const blockType = item.block.block_types[currentPart];
+      if (blockType) {
+        return findType(blockType, otherParts);
+      }
+    }
+
+    // Find attribute in block
+    if (item.block.attributes) {
+      const attribute = item.block.attributes[currentPart];
+      if (attribute && attribute.type) {
+        return findType(attribute.type, otherParts);
+      }
+    }
+  }
+
+  // Could not find the type
+  return null;
 }
 
 export function getTypeAtPath(
   schema: ProviderSchema,
   path: string
-): Schema | BlockType | AttributeType | null | undefined {
+): Schema | BlockType | AttributeType | null {
   const resourceSchema = getResourceAtPath(schema, path);
 
   if (!resourceSchema) {
     return null;
   }
   const { resource, parts } = resourceSchema;
-
-  let currentSchema: BlockType | typeof resource = resource;
-  do {
-    const part = parts.shift() as string;
-
-    // Go into blocks if possible
-    if (
-      currentSchema &&
-      currentSchema.block &&
-      currentSchema.block.block_types &&
-      currentSchema.block.block_types.hasOwnProperty(part)
-    ) {
-      currentSchema = currentSchema.block.block_types[part];
-      continue;
-    }
-
-    // Go into attributes if possible
-    if (
-      currentSchema &&
-      currentSchema.block &&
-      currentSchema.block.attributes &&
-      currentSchema.block.attributes.hasOwnProperty(part)
-    ) {
-      return resolveAttribute(currentSchema.block.attributes[part], parts);
-    }
-
-    // No block or attribute found but parts left
-    return null;
-  } while (parts.length > 0);
-
-  return currentSchema;
+  return findType(resource, parts);
 }
 
 export function getDesiredType(scope: Scope, path: string): AttributeType {
-  const attributeType = getTypeAtPath(scope.providerSchema, path);
+  const attributeOrBlockType = getTypeAtPath(scope.providerSchema, path);
 
   // Attribute type is not defined
-  if (!attributeType) {
+  if (!attributeOrBlockType) {
     return "dynamic";
   }
 
   // Primitive attribute type
-  if (typeof attributeType === "string") {
-    return attributeType;
+  if (typeof attributeOrBlockType === "string") {
+    return attributeOrBlockType;
   }
 
   // Complex attribute type
-  if (Array.isArray(attributeType)) {
-    return attributeType;
+  if (Array.isArray(attributeOrBlockType)) {
+    return attributeOrBlockType;
   }
 
   // Schema
-  if ("version" in attributeType) {
+  if ("version" in attributeOrBlockType) {
     return "dynamic";
   }
 
   // Block type
-  console.log(
-    `Found block type for ${path}: ${JSON.stringify(attributeType, null, 2)}`
-  );
   return "dynamic";
 }
