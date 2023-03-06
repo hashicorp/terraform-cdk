@@ -56,7 +56,7 @@ refactoring-example    # aws_s3_bucket.new-bucket (new-bucket) will be created
 
 Terraform plans to destroy the old bucket and create a new one to replace it. The replacement can be harmful if there is already state in the resource, such as files in the bucket or data in the database.
 
-To avoid the recreation of the resource, use the [`terraform state mv`](/cli/commands/state/mv) command to move the state before the next apply. Before we can make the change, we need to find the Terraform name of the Resource. The name can be different from the one we have in the constructor, see the information below.
+To avoid the recreation of the resource, use the [`terraform state mv`](/terraform/cli/commands/state/mv) command to move the state before the next apply. Before we can make the change, we need to find the Terraform name of the Resource. The name can be different from the one we have in the constructor, see the information below.
 
 ```shell-session
 $ cat cdktf.out/stacks/refactoring-example/cdk.tf.json | jq '.resource.aws_s3_bucket'
@@ -118,7 +118,7 @@ refactoring-example  No changes. Your infrastructure matches the configuration.
 
 If you use Constructs to organize your code, you might have a level between the generated provider constructs and the `TerraformStack` construct to organize your code.
 
-This extra level adds a prefix to the name of the resource to ensure uniqueness. Refer to [Constructs](/cdktf/concepts/constructs#scope) for more details.
+This extra level adds a prefix to the name of the resource to ensure uniqueness. Refer to [Constructs](/terraform/cdktf/concepts/constructs#scope) for more details.
 
 ## Moving Resources From One Stack To Another
 
@@ -178,7 +178,7 @@ refactoring-example-stack-move-2    # aws_s3_bucket.my-other-bucket (my-other-bu
 ...
 ```
 
-To preserve the state of the resource, you must move it from one stack to another. You can use [`terraform import`](/cli/commands/import) and [`terraform state rm`](/cli/commands/state/rm) to move the resource's state. First we need to find the Terraform name of the Resource in the old stack.
+To preserve the state of the resource, you must move it from one stack to another. You can use [`terraform import`](/terraform/cli/commands/import) and [`terraform state rm`](/terraform/cli/commands/state/rm) to move the resource's state. First we need to find the Terraform name of the Resource in the old stack.
 
 ```shell-session
 $ cat cdktf.out/stacks/refactoring-example-stack-move-1/cdk.tf.json | jq '.resource.aws_s3_bucket'
@@ -213,7 +213,7 @@ $ cat cdktf.out/stacks/refactoring-example-stack-move-2/cdk.tf.json | jq '.resou
 }
 ```
 
-We need to find the id of the resource, we can use the `terraform state show` command to find it. The id is depenendent on the resource being imported, see [the import docs](https://developer.hashicorp.com/terraform/cli/commands/import#usage) for more details. We need to run these commands in the directory of the stack we are importing the resource from.
+We need to find the id of the resource, we can use the `terraform state show` command to find it. The id is depenendent on the resource being imported, see [the import docs](/terraform/cli/commands/import#usage) for more details. We need to run these commands in the directory of the stack we are importing the resource from.
 
 ```shell-session
 $ cd cdktf.out/stacks/refactoring-example-stack-move-1/

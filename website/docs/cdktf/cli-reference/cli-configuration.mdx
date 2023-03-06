@@ -5,7 +5,7 @@ description: Install and configure the CDKTF Command Line Interface.
 
 # CLI Configuration
 
-The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available [`cdktf cli` commands](/cdktf/cli-reference/commands) where possible.
+The CDK for Terraform (CDKTF) CLI allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available [`cdktf cli` commands](/terraform/cdktf/cli-reference/commands) where possible.
 
 ## Install
 
@@ -53,14 +53,14 @@ If you are running the CLI in an automated environment, you can force the dynami
 
 ## Configuration File
 
-You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.json` file in your project root directory. Refer to the [cdktf.json documentation](/cdktf/create-and-deploy/configuration-file) for more detail on how you can supply custom configuration settings for your application.
+You can configure the behavior of the Terraform CDK CLI by modifying the `cdktf.json` file in your project root directory. Refer to the [cdktf.json documentation](/terraform/cdktf/create-and-deploy/configuration-file) for more detail on how you can supply custom configuration settings for your application.
 
 ## Telemetry
 
 The CDKTF CLI ([cdktf-cli](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli) interacts with a HashiCorp service called [Checkpoint](https://checkpoint.hashicorp.com)
 to report project metrics such as cdktf version, project language, provider name, platform name, and other details that help guide the project maintainers with feature and roadmap decisions. The [code that interacts with Checkpoint](https://github.com/hashicorp/terraform-cdk/tree/main/packages/cdktf-cli/lib/checkpoint.ts) is part of the CDK for Terraform CLI.
 
-The use of Checkpoint is completely optional. Refer to the [telemetry documentation](/cdktf/telemetry) for more information about Checkpoint and you can disable it if desired.
+The use of Checkpoint is completely optional. Refer to the [telemetry documentation](/terraform/cdktf/telemetry) for more information about Checkpoint and you can disable it if desired.
 
 ## `node-gyp` errors
 

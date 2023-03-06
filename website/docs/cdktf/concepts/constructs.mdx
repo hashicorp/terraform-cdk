@@ -26,23 +26,23 @@ The Cloud Development Kit community has identified three major construct types t
 
 ## Modules vs. Constructs
 
-Both Terraform [modules](/cdktf/concepts/modules) and constructs allow you to reuse configurations and customize those configurations via exposed properties. However, constructs let you compose more complex objects while maintaining type safety because they can use the built-in functionality from your preferred programming language.
+Both Terraform [modules](/terraform/cdktf/concepts/modules) and constructs allow you to reuse configurations and customize those configurations via exposed properties. However, constructs let you compose more complex objects while maintaining type safety because they can use the built-in functionality from your preferred programming language.
 
 ### Interoperability
 
-You can use the [`cdktf convert`](/cdktf/cli-reference/commands#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
+You can use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
 
-You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/cdktf/concepts/hcl-interoperability) page for more details.
+You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/terraform/cdktf/concepts/hcl-interoperability) page for more details.
 
 ## Constructs vs. Stacks
 
-[Stacks](/cdktf/concepts/stacks) represent a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. For example, you may want to have one stack that describes the infrastructure for development and another with slightly different inputs for testing.
+[Stacks](/terraform/cdktf/concepts/stacks) represent a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. For example, you may want to have one stack that describes the infrastructure for development and another with slightly different inputs for testing.
 
 Constructs also provide a way to logically structure a set of resources, but you can only use them as part of a stack. A single stack may contain multiple constructs that act as building blocks to create the full infrastructure configuration. For example, you could use one construct to define a Kubernetes deployment and a different construct to define an AWS DynamoDB table.
 
 ## Use Constructs
 
-> **Hands On:** Try [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf) tutorial to use a custom construct. It includes the example code below.
+> **Hands On:** Try [Deploy Applications with CDK for Terraform](/terraform/tutorials/cdktf/cdktf-applications) tutorial to use a custom construct. It includes the example code below.
 
 You can import any [CDKTF-compatible](#available-constructs) construct that is available in your project's programming language. Then, you can create new instances of the construct and use any exposed properties to customize the construct configuration.
 
@@ -465,14 +465,14 @@ func main() {
 
 ### Aspects
 
-`Aspects` allow you to implement a visitor pattern, dynamically add or remove constructs, and automatically change attributes of existing constructs when you synthesize your CDTKF application. For example, you could use an aspect to help tag resources based on dynamic conditions. Refer to the [aspects documentation](/cdktf/concepts/aspects) for more details.
+`Aspects` allow you to implement a visitor pattern, dynamically add or remove constructs, and automatically change attributes of existing constructs when you synthesize your CDTKF application. For example, you could use an aspect to help tag resources based on dynamic conditions. Refer to the [aspects documentation](/terraform/cdktf/concepts/aspects) for more details.
 
 ### Available Constructs
 
-You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.dev/search?q=&cdk=cdktf&offset=0) for existing CDKTF-compatible constructs. We are also building the [AWS Adapter](/cdktf/create-and-deploy/aws-adapter), which lets you use AWS Constructs in your CDKTF projects.
+You can search the Amazon Web Services (AWS) [Construct Hub](https://constructs.dev/search?q=&cdk=cdktf&offset=0) for existing CDKTF-compatible constructs. We are also building the [AWS Adapter](/terraform/cdktf/create-and-deploy/aws-adapter), which lets you use AWS Constructs in your CDKTF projects.
 
 ~> **Note:** The AWS Adapter is in tech preview.
 
 ## Write and Publish Constructs
 
-You can write construct classes in any language and distribute them to other users. Refer to [Construct Design](/cdktf/develop-custom-constructs/construct-design) and [Construct Publishing and Distribution](/cdktf/develop-custom-constructs/publishing-and-distribution) for details.
+You can write construct classes in any language and distribute them to other users. Refer to [Construct Design](/terraform/cdktf/develop-custom-constructs/construct-design) and [Construct Publishing and Distribution](/terraform/cdktf/develop-custom-constructs/publishing-and-distribution) for details.

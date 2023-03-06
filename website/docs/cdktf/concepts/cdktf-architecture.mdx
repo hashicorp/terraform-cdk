@@ -13,7 +13,7 @@ CDKTF leverages existing libraries and tools to help convert the definitions you
 
 ### Amazon Web Services Cloud Development Kit
 
-CDKTF shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), a tool that allows you to use familiar programming languages to define infrastructure on AWS CloudFormation. AWS CDK and CDK for Terraform are different products, and you cannot yet use [AWS CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) within CDKTF. The [interoperability layer](/cdktf/create-and-deploy/aws-adapter) is a technical preview, and it is not yet ready for use in production.
+CDKTF shares core concepts and components with the [Amazon Web Services Cloud Development Kit](https://aws.amazon.com/cdk/) (AWS CDK), a tool that allows you to use familiar programming languages to define infrastructure on AWS CloudFormation. AWS CDK and CDK for Terraform are different products, and you cannot yet use [AWS CDK constructs](https://docs.aws.amazon.com/cdk/latest/guide/constructs.html) within CDKTF. The [interoperability layer](/terraform/cdktf/create-and-deploy/aws-adapter) is a technical preview, and it is not yet ready for use in production.
 
 ### jsii
 
@@ -21,13 +21,13 @@ The [`jsii` tool](https://aws.github.io/jsii/) enables publishing polyglot libra
 
 ### Terraform
 
-CDKTF [synthesizes](/cdktf/cli-reference/commands#synth) infrastructure that you define in a supported programming language into [JSON configuration files](/language/syntax/json) that Terraform can use to manage infrastructure.
+CDKTF [synthesizes](/terraform/cdktf/cli-reference/commands#synth) infrastructure that you define in a supported programming language into [JSON configuration files](/terraform/language/syntax/json) that Terraform can use to manage infrastructure.
 
 The following diagram shows how synthesizing a CDKTF application produces a series of artifacts in a designated output folder. You can then either use the JSON file with Terraform directly or provision your infrastructure using CDKTF CLI commands. All CDKTF CLI operations like `diff`, `deploy`, and `destroy` communicate with Terraform for execution.
 
 ![cdktf-terraform](./images/cdktf-terraform-workflow.png)
 
-CDKTF also automatically extracts the schemas from existing Terraform [providers](/cdktf/concepts/providers) or [modules](/cdktf/concepts/modules) and generates the necessary code bindings for your application.
+CDKTF also automatically extracts the schemas from existing Terraform [providers](/terraform/cdktf/concepts/providers) or [modules](/terraform/cdktf/concepts/modules) and generates the necessary code bindings for your application.
 
 ![cdktf-terraform](./images/provider-modules.png)
 
@@ -37,7 +37,7 @@ CDKTF has two major components that allow you to define and provision infrastruc
 
 - **Lib:** This is the `cdktf` package that is the foundation for each CDKTF project. It contains all of the core libraries that allow you to leverage the Terraform ecosystem and synthesize your application into Terraform configuration files.
 
-- **CLI:** The [`cdktf` CLI](/cdktf/cli-reference/cli-configuration) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/cdktf/cli-reference/commands) for more details. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
+- **CLI:** The [`cdktf` CLI](/terraform/cdktf/cli-reference/cli-configuration) allows you to initialize a new CDKTF project, adjust project settings, synthesize your infrastructure into Terraform configuration files, deploy your CDKTF application, and more. Refer to the [CLI commands documentation](/terraform/cdktf/cli-reference/commands) for more details. You can also use some Terraform CLI commands like `terraform apply` and `terraform destroy` directly, but we recommend using the available `cdktf cli` commands where possible.
 
 ## Application Architecture
 
@@ -47,17 +47,17 @@ CDKTF applications are structured as a tree of [constructs](https://github.com/a
 
 ### `App` Class
 
-Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](/cdktf/concepts/stacks) that represent a collection of related infrastructure.
+Each CDKTF project has one or more `App` instances that act as a container for the infrastructure configurations you create and deploy. An `App` can have one or more [`Stacks`](/terraform/cdktf/concepts/stacks) that represent a collection of related infrastructure.
 
 ### `Stack` Class
 
-A `Stack` represents a collection of infrastructure resources that CDKTF synthesizes as a separate Terraform configuration. It is equivalent to a [Terraform working directory](/cli/init).
+A `Stack` represents a collection of infrastructure resources that CDKTF synthesizes as a separate Terraform configuration. It is equivalent to a [Terraform working directory](/terraform/cli/init).
 
-Stacks allow you to separate the state management within an application. For example, you may want to deploy and manage separate infrastructure resources for development and testing. Reference the [stack documentation](/cdktf/concepts/stacks) for more details on when and how to use stacks in your project.
+Stacks allow you to separate the state management within an application. For example, you may want to deploy and manage separate infrastructure resources for development and testing. Reference the [stack documentation](/terraform/cdktf/concepts/stacks) for more details on when and how to use stacks in your project.
 
 ### `Resource` Class
 
-A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [resources documentation](/cdktf/concepts/resources) for more details.
+A `Resource` represents the definition for one or more infrastructure objects. Resources and their required attributes vary depending on the provider. Reference the [resources documentation](/terraform/cdktf/concepts/resources) for more details.
 
 ### Constructs
 
@@ -65,8 +65,8 @@ Rather than defining resources by hand, you can leverage constructs to reuse exi
 
 This is an example of a [custom construct written in TypeScript](https://github.com/skorfmann/cdktf-hybrid-module/blob/7a84cbea62fbc3c3b7e92c00d75fcaad495cf29b/packages/cdktf-hybrid-module/lib/construct.ts) that creates a machine image. The exported interface allows users to specify the instance type and one or more tags. The rest of the configuration is defined in the construct and is abstracted from the consumer.
 
-Reference the [constructs documentation](/cdktf/concepts/constructs) for more details.
+Reference the [constructs documentation](/terraform/cdktf/concepts/constructs) for more details.
 
 ### Examples
 
-Reference the [examples page](/cdktf/examples-and-guides/examples) to see configured CDKTF applications in each supported programming language.
+Reference the [examples page](/terraform/cdktf/examples-and-guides/examples) to see configured CDKTF applications in each supported programming language.

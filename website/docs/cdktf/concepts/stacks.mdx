@@ -9,13 +9,13 @@ description: >-
 
 A stack represents a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application.
 
-> **Hands-on:** Try the [Deploy Applications with CDK for Terraform](https://learn.hashicorp.com/tutorials/terraform/cdktf-applications?in=terraform/cdktf&utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial.
+> **Hands-on:** Try the [Deploy Applications with CDK for Terraform](/terraform/tutorials/cdktf/cdktf-applications?utm_source=WEBSITE&utm_medium=WEB_IO&utm_offer=ARTICLE_PAGE&utm_content=DOCS) tutorial.
 
 ## Scope
 
 You can instantiate the same resource multiple times throughout your infrastructure. For example, you may want to create multiple S3 Buckets with different configurations. Instances that share the same `stack` parent element are considered to be part of the same scope. You must set a different `name` property for each instance to avoid naming conflicts.
 
-Refer to the [constructs documentation](/cdktf/concepts/constructs#scope) for more details and an example.
+Refer to the [constructs documentation](/terraform/cdktf/concepts/constructs#scope) for more details and an example.
 
 ## Single Stack
 
@@ -179,7 +179,7 @@ func main() {
 
 ## Multiple Stacks
 
-> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-assets-stacks-lambda?in=terraform/cdktf) tutorial. This tutorial guides you through a multi-stack application.
+> **Hands-on:** Try the [Deploy Multiple Lambda Functions with TypeScript](/terraform/tutorials/cdktf/cdktf-assets-stacks-lambda) tutorial. This tutorial guides you through a multi-stack application.
 
 You can specify multiple stacks in your application. For example, you may want a separate configuration for development, testing, and production environments.
 
@@ -479,7 +479,7 @@ multiple-stacks-production-eu   cdktf.out/stacks/multiple-stacks-production-eu
 
 To deploy and destroy multiple stacks at once, either specify multiple stacks in the `cdktf deploy` and `cdktf destroy` command or use a wild card glob (e.g., `cdktf deploy '*-production'`).
 
-Refer to [Best Practices](/cdktf/create-and-deploy/best-practices#separate-business-units-with-stacks) for more details about when to create multiple stacks and how to structure them.
+Refer to [Best Practices](/terraform/cdktf/create-and-deploy/best-practices#separate-business-units-with-stacks) for more details about when to create multiple stacks and how to structure them.
 
 ### Cross-Stack References
 
@@ -840,7 +840,7 @@ The value is then accessed through a `TerraformRemoteState` in the target stack.
 Both are automatically added to the respective stacks to make the process seemless.
 
 When you are using Terraform Cloud, each stack must be its own workspace.
-This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/cloud-docs/workspaces/state#remote-state-access-controls).
+This means that you need to create a separate workspace for each stack and you need to [set the permissions to allow access between the stacks](/terraform/cloud-docs/workspaces/state#remote-state-access-controls).
 
 ### Stack Dependencies
 
@@ -850,7 +850,7 @@ If you e.g. write `this.allResources = Fn.mergeLists(resourceFromStackA.items, r
 
 To make the dependency explicit, run`stackD.addDependency(stackC)`.
 
-If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
+If you want to keep the result of the function attached to one stack and save its state, create a [Terraform Local value](/terraform/cdktf/concepts/variables-and-outputs#local-values) and expose it. The following example creates a `TerraformLocal`.
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#stack-dependencies -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#stack-dependencies -->

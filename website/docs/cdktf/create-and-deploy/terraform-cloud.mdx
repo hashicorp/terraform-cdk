@@ -8,13 +8,13 @@ description: >-
 
 This page explains how to connect Terraform Cloud / Enterprise to your CDK for Terraform (CDKTF) application and the benefits of using these products together.
 
-> **Hands On:** Try our [Get Started - Terraform Cloud](https://learn.hashicorp.com/collections/terraform/cloud-get-started) tutorials.
+> **Hands On:** Try our [Get Started - Terraform Cloud](/terraform/tutorials/cloud-get-started) tutorials.
 
 ## What are Terraform Cloud and Terraform Enterprise?
 
-CDKTF supports [Terraform Cloud](https://cloud.hashicorp.com/products/terraform) and [Terraform Enterprise](/enterprise).
+CDKTF supports [Terraform Cloud](https://cloud.hashicorp.com/products/terraform) and [Terraform Enterprise](/terraform/enterprise).
 
-Terraform Cloud is a SaaS application that runs Terraform in a stable, remote environment and securely stores state and secrets. It includes a user interface that helps you better understand your Terraform operations and resources, allows you to define role-based access controls, and offers a private registry for sharing [modules](/cdktf/concepts/modules) and [providers](/cdktf/concepts/providers). Terraform Cloud also integrates with the Terraform CLI and connects to common version control systems (VCS) like GitHub, GitLab, and Bitbucket. When you connect a Terraform Cloud workspace to a VCS repository, new commits and changes can automatically trigger Terraform plans. Terraform Cloud also offers an API, allowing you to integrate it into existing workflows.
+Terraform Cloud is a SaaS application that runs Terraform in a stable, remote environment and securely stores state and secrets. It includes a user interface that helps you better understand your Terraform operations and resources, allows you to define role-based access controls, and offers a private registry for sharing [modules](/terraform/cdktf/concepts/modules) and [providers](/terraform/cdktf/concepts/providers). Terraform Cloud also integrates with the Terraform CLI and connects to common version control systems (VCS) like GitHub, GitLab, and Bitbucket. When you connect a Terraform Cloud workspace to a VCS repository, new commits and changes can automatically trigger Terraform plans. Terraform Cloud also offers an API, allowing you to integrate it into existing workflows.
 
 Terraform Enterprise lets you set up a self-hosted distribution of Terraform Cloud and is ideal for organizations with strict security and compliance requirements.
 
@@ -26,7 +26,7 @@ Other benefits of Terraform Cloud and Terraform Enterprise include the ability t
 
 ## Set up CDKTF with Terraform Cloud / Enterprise
 
-After you sign up for a [Terraform Cloud Account](https://app.terraform.io/public/signup/account) / create an account in your Terraform Enterprise instance, you must connect your CDKTF project to one or more [workspaces](/cloud-docs/workspaces).
+After you sign up for a [Terraform Cloud Account](https://app.terraform.io/public/signup/account) / create an account in your Terraform Enterprise instance, you must connect your CDKTF project to one or more [workspaces](/terraform/cloud-docs/workspaces).
 
 Workspaces function like working directories for distinct Terraform configurations and are associated with a Terraform configuration and its state file. They can also contain variables that you can use to manage credentials.
 
@@ -34,7 +34,7 @@ Workspaces can have one of three workflows that determine how Terraform Cloud / 
 
 ### CLI-driven Workflow
 
-You can configure the Terraform Cloud [CLI-driven workflow](/cloud-docs/run/cli) for both new and existing CDKTF projects. This workflow lets you run CDKTF CLI commands to deploy your application and run Terraform operations remotely on Terraform Cloud / Enterprise.
+You can configure the Terraform Cloud [CLI-driven workflow](/terraform/cloud-docs/run/cli) for both new and existing CDKTF projects. This workflow lets you run CDKTF CLI commands to deploy your application and run Terraform operations remotely on Terraform Cloud / Enterprise.
 
 #### Connect New CDKTF Projects
 
@@ -76,11 +76,11 @@ First use `cdktf login` to log into Terraform Cloud or your Terraform Enterprise
 
 1. Run `cdktf init` without passing the `--local` flag. This creates a new template CDKTF project for your chosen programming language. It will be the basis for a new application with the necessary file structure for you to start defining infrastructure. If you're using Terraform Enterprise, you must also pass the `--tfe-hostname` flag with the hostname of your enterprise instance.
 2. Choose a project language and provide a project name and description.
-3. Select a Terraform Cloud organization and a name for your workspace. CDKTF will create a [CloudBackend](/cli/cloud/settings#the-cloud-block) in your project.
+3. Select a Terraform Cloud organization and a name for your workspace. CDKTF will create a [CloudBackend](/terraform/cli/cloud/settings#the-cloud-block) in your project.
 4. You can choose whether to send crash reports to the CDKTF team and select the providers you want to use.
 
 CDKTF creates both a scaffolded project in your chosen language and a new Terraform Cloud workspace on first apply. Your project is connected to the workspace and you can begin using CDKTF and Terraform Cloud together.
-By default, the workspace is set to Remote execution mode, which means Terraform runs remotely on Terraform Cloud / Enterprise. If you want Terraform to run locally, you need to set the workspace to [Local Execution mode](/cloud-docs/workspaces/settings#execution-mode).
+By default, the workspace is set to Remote execution mode, which means Terraform runs remotely on Terraform Cloud / Enterprise. If you want Terraform to run locally, you need to set the workspace to [Local Execution mode](/terraform/cloud-docs/workspaces/settings#execution-mode).
 
 #### Connect Existing CDKTF Projects
 
@@ -129,19 +129,19 @@ For existing projects, do the following:
 
 3. Run `cdktf login` / `cdktf login --tfe-hostname=tfe.my-company.com` and log in to Terraform Cloud / Enterprise.
 
-Your CDKTF application is connected to the Terraform Cloud / Enterprise workspace you specified in the `RemoteBackend`. You must set the workspace to [Remote Execution mode](/cloud-docs/workspaces/settings#execution-mode) if you want to store state and run Terraform operations remotely.
+Your CDKTF application is connected to the Terraform Cloud / Enterprise workspace you specified in the `RemoteBackend`. You must set the workspace to [Remote Execution mode](/terraform/cloud-docs/workspaces/settings#execution-mode) if you want to store state and run Terraform operations remotely.
 
 ### VCS-driven Workflow
 
-Check your synthesized code into version control and connect your Terraform Cloud / Enterprise workspace to that repository with the VCS-driven workflow. You can configure the workspace to trigger Terraform runs based on merges and commits to the repository. Refer to [Deployment Patterns](/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) for more details about how to use CDKTF with the VCS-driven workflow.
+Check your synthesized code into version control and connect your Terraform Cloud / Enterprise workspace to that repository with the VCS-driven workflow. You can configure the workspace to trigger Terraform runs based on merges and commits to the repository. Refer to [Deployment Patterns](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) for more details about how to use CDKTF with the VCS-driven workflow.
 
 ## Managing Variables and Secrets
 
-Terraform Cloud / Enterprise [variables](/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
+Terraform Cloud / Enterprise [variables](/terraform/cloud-docs/workspaces/variables) let you define the variables and secrets that Terraform uses during remote operations. You can set variables specifically for each workspace or you can create variable sets to reuse the same variables across multiple workspaces. For example, you could define a variable set of provider credentials and automatically apply it to all of the workspaces using that provider.
 
-To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud / Enterprise.
+To use variables, set your workspace to [Remote Execution Mode](/terraform/cloud-docs/workspaces/settings#execution-mode). Terraform can only access workspace variables when executing remotely on Terraform Cloud / Enterprise.
 
-2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`.
+2. Use the `TerraformVariable` construct to declare variables in your CDKTF application. This creates an undefined [Terraform input variable](/terraform/language/values/variables). The following example demonstrates how to create a `TerraformVariable` called `my-var`.
 
    ```typescript
    import { Construct } from "constructs";
@@ -164,22 +164,22 @@ To use variables, set your workspace to [Remote Execution Mode](/cloud-docs/work
    }
    ```
 
-3. Add variables that you declared in your CDKTF application to your Terraform Cloud / Enterprise workspace. Refer to [Add a Variable](/cloud-docs/workspaces/variables/managing-variables#add-a-variable) for details. This lets Terraform access the value during operations.
+3. Add variables that you declared in your CDKTF application to your Terraform Cloud / Enterprise workspace. Refer to [Add a Variable](/terraform/cloud-docs/workspaces/variables/managing-variables#add-a-variable) for details. This lets Terraform access the value during operations.
 
 ### Variable Return Values
 
 The return value for `TerraformVariable` is an object with various representations of the value as attributes. You can pass this object as a string with `value.stringValue`, as a number with `value.numberValue`, or as a list with `value.listValue`.
 
-This means that there is no actual value in the variable field when CDKTF synthesizes your application. Instead, CDKTF uses a [Token](/cdktf/concepts/tokens), which represents a value that is unknown until Terraform applies your configuration. You cannot use tokens in dynamic checks during runtime. For example, `if (value.listValue.length > 42) {` always returns `false` because tokenized lists have a static length of one item.
+This means that there is no actual value in the variable field when CDKTF synthesizes your application. Instead, CDKTF uses a [Token](/terraform/cdktf/concepts/tokens), which represents a value that is unknown until Terraform applies your configuration. You cannot use tokens in dynamic checks during runtime. For example, `if (value.listValue.length > 42) {` always returns `false` because tokenized lists have a static length of one item.
 
 ## Continuous Integration
 
-To run Terraform Cloud / Enterprise in a CI workflow, you can either use [Terraform Cloud / Enterprise's VCS-driven workflow](/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) or use a [general-purpose CI to trigger the run in Terraform Cloud / Enterprise](/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-terraform-cloud).
+To run Terraform Cloud / Enterprise in a CI workflow, you can either use [Terraform Cloud / Enterprise's VCS-driven workflow](/terraform/cdktf/create-and-deploy/deployment-patterns#deploy-with-terraform-and-terraform-cloud) or use a [general-purpose CI to trigger the run in Terraform Cloud / Enterprise](/terraform/cdktf/create-and-deploy/deployment-patterns#github-actions-ci-and-terraform-cloud).
 
 ## Policy Enforcement
 
 -> **Note:** Sentinel policies and run tasks are available in the **Team & Governance** package. Refer to [Terraform Cloud pricing](https://www.hashicorp.com/products/terraform/pricing) for details.
 
-You can define [Sentinel policies](/cloud-docs/policy-enforcement) for one or multiple Terraform Cloud workspaces to ensure that your infrastructure follows company-wide security standards and best practices. You can use Sentinel policies with CDKTF if Terraform Cloud is configured as a [Remote Backend](/concepts/remote-backends).
+You can define [Sentinel policies](/terraform/cloud-docs/policy-enforcement) for one or multiple Terraform Cloud workspaces to ensure that your infrastructure follows company-wide security standards and best practices. You can use Sentinel policies with CDKTF if Terraform Cloud is configured as a [Remote Backend](https://terraform.io/concepts/remote-backends).
 
-You can also use [Run Tasks](/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the Terraform Cloud run lifecycle. Terraform Cloud uses the status response from the third-party tool to determine if a run should proceed.
+You can also use [Run Tasks](/terraform/cloud-docs/workspaces/settings/run-tasks) to directly integrate third-party tools and services at certain stages in the Terraform Cloud run lifecycle. Terraform Cloud uses the status response from the third-party tool to determine if a run should proceed.
