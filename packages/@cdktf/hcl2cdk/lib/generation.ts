@@ -63,6 +63,10 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+/*
+ * Transforms a babel AST into a list of string accessors
+ * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
+ */
 function destructureAst(ast: t.Expression): string[] | undefined {
   switch (ast.type) {
     case "Identifier":
@@ -109,6 +113,13 @@ function findTypeOfReference(
     );
 
     if (!variable) {
+      logger.debug(
+        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
+          scope.variables,
+          null,
+          2
+        )}`
+      );
       // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
       return "dynamic";
     }
