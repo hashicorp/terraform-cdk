@@ -13,12 +13,12 @@ This page contains links to tutorials, example projects in every supported langu
 
 Follow these hands-on tutorials:
 
-| Tutorial                                                                                                                                          | Description                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| [Install CDKTF and Run a Quick Start Demo](/terraform/tutorials/cdktf/cdktf-install)                      | Write TypeScript code that will provision an NGINX server using Docker on Mac, Windows, or Linux.                     |
-| [Build AWS Infrastructure with TypeScript, Python, Java, C#, or Go](/terraform/tutorials/cdktf/cdktf-build)                  | Provision an EC2 instance on AWS using TypeScript.                                                                    |
-| [Deploy Multiple Lambda Functions with TypeScript](/terraform/tutorials/cdktf/cdktf-assets-stacks-lambda) | Deploy a CDKTF application made up of two stacks, each containing a simple AWS Lambda function written in TypeScript. |
-| [Deploy Applications with CDK for Terraform](/terraform/tutorials/cdktf/cdktf-applications)               | Use CDKTF to deploy an application on Kubernetes.                                                                     |
+| Tutorial                                                                                                    | Description                                                                                                           |
+| ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [Install CDKTF and Run a Quick Start Demo](/terraform/tutorials/cdktf/cdktf-install)                        | Write TypeScript code that will provision an NGINX server using Docker on Mac, Windows, or Linux.                     |
+| [Build AWS Infrastructure with TypeScript, Python, Java, C#, or Go](/terraform/tutorials/cdktf/cdktf-build) | Provision an EC2 instance on AWS using TypeScript.                                                                    |
+| [Deploy Multiple Lambda Functions with TypeScript](/terraform/tutorials/cdktf/cdktf-assets-stacks-lambda)   | Deploy a CDKTF application made up of two stacks, each containing a simple AWS Lambda function written in TypeScript. |
+| [Deploy Applications with CDK for Terraform](/terraform/tutorials/cdktf/cdktf-applications)                 | Use CDKTF to deploy an application on Kubernetes.                                                                     |
 
 ## Example Projects
 
@@ -47,8 +47,8 @@ Follow these hands-on tutorials:
 
 Each CDK for Terraform project can specify a [backend](/terraform/language/settings/backends/configuration) that defines where and how Terraform operations are performed, where Terraform [state snapshots](/terraform/language/state) are stored, etc.
 
-| Example                                                                                              | Description                                                                                                                         | Complexity |
-| ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| Example                                                                                              | Description                                                                                                                                   | Complexity |
+| ---------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
 | [azurerm](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/azurerm) | Specifies Azure Resource Manager ([azurerm](/terraform/language/settings/backends/azurerm)) as the backend.                                   | Low        |
 | [gcs](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/gcs)         | Specifies Google Cloud Storage ([gcs](/terraform/language/settings/backends/gcs)) as the backend.                                             | Low        |
 | [remote](https://github.com/hashicorp/terraform-cdk/tree/main/examples/typescript/backends/remote)   | Specifies a [remote](/terraform/language/settings/backends/remote) backend. You can use remote backends to run operations in Terraform Cloud. | Low        |
@@ -69,16 +69,16 @@ Each CDK for Terraform project can specify a [backend](/terraform/language/setti
 
 ### Java
 
-| Example                                                                                                         | Description                                                                                                                                                              | Complexity |
-| --------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- |
-| [aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-java-example)                 | An end-to-end example for a serverless web application hosted on AWS.                                                                                                    | High       |
-| [aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/aws)                                   | Provisions a DynamoDB table on the AWS provider.                                                                                                                         | Low        |
-| [azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/azure)                               | Provisions a Virtual Network on Microsoft Azure.                                                                                                                         | Low        |
-| [google-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-java-gcp-example)                 | An end-to-end example for a serverless web application hosted on the Google Cloud Provider.                                                                              | High       |
-| [google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google)                             | Creates a simple Compute Instance with the Google Cloud Platform Provider.                                                                                               | Low        |
+| Example                                                                                                         | Description                                                                                                                                                                        | Complexity |
+| --------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- |
+| [aws-lambda-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-java-example)                 | An end-to-end example for a serverless web application hosted on AWS.                                                                                                              | High       |
+| [aws](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/aws)                                   | Provisions a DynamoDB table on the AWS provider.                                                                                                                                   | Low        |
+| [azure](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/azure)                               | Provisions a Virtual Network on Microsoft Azure.                                                                                                                                   | Low        |
+| [google-end-to-end](https://github.com/hashicorp/cdktf-integration-serverless-java-gcp-example)                 | An end-to-end example for a serverless web application hosted on the Google Cloud Provider.                                                                                        | High       |
+| [google](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/google)                             | Creates a simple Compute Instance with the Google Cloud Platform Provider.                                                                                                         | Low        |
 | [gradle-shared-module](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/gradle-shared-module) | Uses gradle to build and share two AWS modules. [Modules](/terraform/cdktf/concepts/modules) are distinct configurations that you can package and reuse across projects and teams. | Low        |
-| [kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/kubernetes)                     | Schedules and exposes a NGINX deployment on a Kubernetes cluster.                                                                                                        | Low        |
-| [ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/ucloud)                             | Provisions a Linux base image on UCloud.                                                                                                                                 | Low        |
+| [kubernetes](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/kubernetes)                     | Schedules and exposes a NGINX deployment on a Kubernetes cluster.                                                                                                                  | Low        |
+| [ucloud](https://github.com/hashicorp/terraform-cdk/tree/main/examples/java/ucloud)                             | Provisions a Linux base image on UCloud.                                                                                                                                           | Low        |
 
 ### C Sharp
 
