@@ -146,6 +146,10 @@ export function getTypeAtPath(
   return findType(resource, parts);
 }
 
+export const isMapAttribute = (
+  attribute: Schema | AttributeType | BlockType | null
+) => (Array.isArray(attribute) ? attribute[0] === "map" : false);
+
 export function getDesiredType(scope: Scope, path: string): AttributeType {
   const attributeOrBlockType = getTypeAtPath(scope.providerSchema, path);
 
