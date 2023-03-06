@@ -33,7 +33,11 @@ import {
   BlockType,
   Schema,
 } from "@cdktf/provider-generator";
-import { getTypeAtPath, getDesiredType } from "./terraformSchema";
+import {
+  getTypeAtPath,
+  getDesiredType,
+  isMapAttribute,
+} from "./terraformSchema";
 import { coerceType } from "./coerceType";
 
 function getReference(graph: DirectedGraph, id: string) {
@@ -223,13 +227,10 @@ export const valueToTs = async (
               }
 
               const itemPath = `${path}.${key}`;
-
-              const attribute = getTypeAtPath(scope.providerSchema, itemPath);
-
-              // Map type attributes must not be wrapped in arrays
-              const isMapAttribute = Array.isArray(attribute)
-                ? attribute[0] === "map"
-                : false;
+              const itemAttributeType = getTypeAtPath(
+                scope.providerSchema,
+                itemPath
+              );
 
               const typeMetadata = getTypeAtPath(
                 scope.providerSchema,
@@ -247,14 +248,15 @@ export const valueToTs = async (
                 typeof value === "object" &&
                 !Array.isArray(value) &&
                 !isSingleItemBlock &&
-                !isMapAttribute &&
+                // Map type attributes must not be wrapped in arrays
+                !isMapAttribute(itemAttributeType) &&
                 key !== "tags";
-
-              const parentName = path.split(".").pop();
 
               const keepKeyName: boolean =
                 !isModule &&
-                (key === "for_each" || !typeMetadata || parentName === "tags");
+                (key === "for_each" ||
+                  !typeMetadata ||
+                  isMapAttribute(attributeType));
 
               return t.objectProperty(
                 t.stringLiteral(
