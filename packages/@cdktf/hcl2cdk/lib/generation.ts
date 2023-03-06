@@ -30,13 +30,10 @@ import {
   TerraformModuleConstraint,
   escapeAttributeName,
   AttributeType,
+  BlockType,
+  Schema,
 } from "@cdktf/provider-generator";
-import {
-  getBlockTypeAtPath,
-  getAttributeTypeAtPath,
-  getTypeAtPath,
-  getDesiredType,
-} from "./terraformSchema";
+import { getTypeAtPath, getDesiredType } from "./terraformSchema";
 import { coerceType } from "./coerceType";
 
 function getReference(graph: DirectedGraph, id: string) {
@@ -164,9 +161,37 @@ export const valueToTs = async (
         return t.nullLiteral();
       }
 
+      const attributeType = getTypeAtPath(scope.providerSchema, path);
+
+      function shouldRemoveArrayBasedOnType(
+        attributeType: Schema | AttributeType | BlockType | null
+      ): boolean {
+        if (!attributeType) {
+          return false; // The default assumption is we need the array
+        }
+
+        // maps and object don't need to be wrapped in an array
+        if (
+          Array.isArray(attributeType) &&
+          (attributeType[0] === "map" || attributeType[0] === "object")
+        ) {
+          return true;
+        }
+
+        // If it's a block type with max_items = 1 we don't need to wrap it in an array
+        if (
+          typeof attributeType === "object" &&
+          "max_items" in attributeType &&
+          attributeType.max_items === 1
+        ) {
+          return true;
+        }
+
+        return false;
+      }
+
       const unwrappedItem =
-        getBlockTypeAtPath(scope.providerSchema, path)?.max_items === 1 &&
-        Array.isArray(item)
+        shouldRemoveArrayBasedOnType(attributeType) && Array.isArray(item)
           ? item[0]
           : item;
 
@@ -174,7 +199,7 @@ export const valueToTs = async (
         return t.arrayExpression(
           await Promise.all(
             unwrappedItem.map((i) =>
-              valueToTs(scope, i, `${path}[]`, nodeIds, scopedIds)
+              valueToTs(scope, i, `${path}.[]`, nodeIds, scopedIds)
             )
           )
         );
@@ -199,14 +224,11 @@ export const valueToTs = async (
 
               const itemPath = `${path}.${key}`;
 
-              const attribute = getAttributeTypeAtPath(
-                scope.providerSchema,
-                itemPath
-              );
+              const attribute = getTypeAtPath(scope.providerSchema, itemPath);
 
               // Map type attributes must not be wrapped in arrays
-              const isMapAttribute = Array.isArray(attribute?.type)
-                ? attribute?.type?.[0] === "map"
+              const isMapAttribute = Array.isArray((attribute as any)?.type)
+                ? (attribute as any)?.type?.[0] === "map"
                 : false;
 
               const typeMetadata = getTypeAtPath(

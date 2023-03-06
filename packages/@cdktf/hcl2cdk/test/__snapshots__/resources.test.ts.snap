@@ -67,59 +67,49 @@ new aws.cloudfrontDistribution.CloudfrontDistribution(this, \\"s3_distribution\\
   },
   orderedCacheBehavior: [
     {
-      allowed_methods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
-      cached_methods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
       compress: true,
-      default_ttl: 86400,
-      forwarded_values: [
-        {
-          cookies: [
-            {
-              forward: \\"none\\",
-            },
-          ],
-          headers: [\\"Origin\\"],
-          query_string: false,
+      defaultTtl: 86400,
+      forwardedValues: {
+        cookies: {
+          forward: \\"none\\",
         },
-      ],
-      max_ttl: 31536000,
-      min_ttl: 0,
-      path_pattern: \\"/content/immutable/*\\",
-      target_origin_id: \\"local_s3_origin_id\\",
-      viewer_protocol_policy: \\"redirect-to-https\\",
+        headers: [\\"Origin\\"],
+        queryString: false,
+      },
+      maxTtl: 31536000,
+      minTtl: 0,
+      pathPattern: \\"/content/immutable/*\\",
+      targetOriginId: \\"local_s3_origin_id\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
     },
     {
-      allowed_methods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
-      cached_methods: [\\"GET\\", \\"HEAD\\"],
+      allowedMethods: [\\"GET\\", \\"HEAD\\", \\"OPTIONS\\"],
+      cachedMethods: [\\"GET\\", \\"HEAD\\"],
       compress: true,
-      default_ttl: 3600,
-      forwarded_values: [
-        {
-          cookies: [
-            {
-              forward: \\"none\\",
-            },
-          ],
-          query_string: false,
+      defaultTtl: 3600,
+      forwardedValues: {
+        cookies: {
+          forward: \\"none\\",
         },
-      ],
-      max_ttl: 86400,
-      min_ttl: 0,
-      path_pattern: \\"/content/*\\",
-      target_origin_id: \\"local_s3_origin_id\\",
-      viewer_protocol_policy: \\"redirect-to-https\\",
+        queryString: false,
+      },
+      maxTtl: 86400,
+      minTtl: 0,
+      pathPattern: \\"/content/*\\",
+      targetOriginId: \\"local_s3_origin_id\\",
+      viewerProtocolPolicy: \\"redirect-to-https\\",
     },
   ],
   origin: [
     {
-      domain_name: \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
-      origin_id: \\"local_s3_origin_id\\",
-      s3_origin_config: [
-        {
-          origin_access_identity:
-            \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
-        },
-      ],
+      domainName: \\"aws_s3_bucket.b.bucket_regional_domain_name\\",
+      originId: \\"local_s3_origin_id\\",
+      s3OriginConfig: {
+        originAccessIdentity:
+          \\"origin-access-identity/cloudfront/ABCDEFG1234567\\",
+      },
     },
   ],
   priceClass: \\"PriceClass_200\\",
@@ -130,7 +120,7 @@ new aws.cloudfrontDistribution.CloudfrontDistribution(this, \\"s3_distribution\\
     },
   },
   tags: {
-    Environment: \\"production\\",
+    environment: \\"production\\",
   },
   viewerCertificate: {
     cloudfrontDefaultCertificate: true,
@@ -148,9 +138,11 @@ new kubernetes.provider.KubernetesProvider(this, \\"kubernetes\\", {
   configPath: \\"~/.kube/config\\",
 });
 new kubernetes.secret.Secret(this, \\"secrets-xxx\\", {
-  data: {
-    xxx: \\"yyy\\",
-  },
+  data: [
+    {
+      xxx: \\"yyy\\",
+    },
+  ],
   metadata: {
     name: \\"secrets-xxx\\",
   },
@@ -167,9 +159,11 @@ new kubernetes.provider.KubernetesProvider(this, \\"kubernetes\\", {
   configPath: \\"~/.kube/config\\",
 });
 new kubernetes.secret.Secret(this, \\"secrets-xxx\\", {
-  data: {
-    camel_cased_key: \\"yes\\",
-  },
+  data: [
+    {
+      camelCasedKey: \\"yes\\",
+    },
+  ],
   metadata: {
     name: \\"secrets-xxx\\",
   },
@@ -188,35 +182,35 @@ new aws.securityGroup.SecurityGroup(this, \\"allow_tls\\", {
   description: \\"Allow TLS inbound traffic\\",
   egress: [
     {
-      cidr_blocks: [\\"0.0.0.0/0\\"],
-      from_port: 0,
-      ipv6_cidr_blocks: [\\"::/0\\"],
+      cidrBlocks: [\\"0.0.0.0/0\\"],
+      fromPort: 0,
+      ipv6CidrBlocks: [\\"::/0\\"],
       protocol: \\"-1\\",
-      to_port: 0,
+      toPort: 0,
     },
   ],
   ingress: [
     {
       description: \\"TLS from VPC\\",
-      from_port: 443,
+      fromPort: 443,
       protocol: \\"tcp\\",
-      to_port: 443,
+      toPort: 443,
     },
     {
       description: \\"TLS from VPC\\",
-      from_port: 80,
+      fromPort: 80,
       protocol: \\"tcp\\",
-      to_port: 80,
+      toPort: 80,
     },
     {
-      from_port: 8080,
+      fromPort: 8080,
       protocol: \\"tcp\\",
-      to_port: 8080,
+      toPort: 8080,
     },
   ],
   name: \\"allow_tls\\",
   tags: {
-    Name: \\"allow_tls\\",
+    name: \\"allow_tls\\",
   },
 });
 "
@@ -235,21 +229,21 @@ new aws.guarddutyFilter.GuarddutyFilter(this, \\"MyFilter\\", {
   findingCriteria: {
     criterion: [
       {
-        equals: [\\"eu-west-1\\"],
+        equalTo: [\\"eu-west-1\\"],
         field: \\"region\\",
       },
       {
         field: \\"service.additionalInfo.threatListName\\",
-        not_equals: [\\"some-threat\\", \\"another-threat\\"],
+        notEquals: [\\"some-threat\\", \\"another-threat\\"],
       },
       {
         field: \\"updatedAt\\",
-        greater_than: \\"2020-01-01T00:00:00Z\\",
-        less_than: \\"2020-02-01T00:00:00Z\\",
+        greaterThan: \\"2020-01-01T00:00:00Z\\",
+        lessThan: \\"2020-02-01T00:00:00Z\\",
       },
       {
         field: \\"severity\\",
-        greater_than_or_equal: \\"4\\",
+        greaterThanOrEqual: \\"4\\",
       },
     ],
   },
