@@ -54,7 +54,7 @@ export class DataTerraformRemoteStateS3 extends TerraformRemoteState {
  * and human error.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/s3
+ * https://developer.hashicorp.com/terraform/language/settings/backends/s3
  */
 export interface S3BackendConfig {
   /**

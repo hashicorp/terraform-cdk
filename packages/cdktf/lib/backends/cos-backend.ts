@@ -49,7 +49,7 @@ export class DataTerraformRemoteStateCos extends TerraformRemoteState {
  * Warning! It is highly recommended that you enable Object Versioning on the COS bucket to allow for state recovery in the case of accidental deletions and human error.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/cos
+ * https://developer.hashicorp.com/terraform/language/settings/backends/cos
  */
 export interface CosBackendConfig {
   /**
