@@ -247,6 +247,11 @@
       "source": "/troubleshooting/cdktf-version-mismatch",
       "destination": "https://developer.hashicorp.com/terraform/cdktf/test/debugging#cdktf-cli-and-library-on-different-versions",
       "permanent": false
+    },
+    {
+      "source":"/dashboard",
+      "destination": "https://cdktf.github.io/cdktf-provider-dashboard/",
+      "permanent": false
     }
   ]
 }
