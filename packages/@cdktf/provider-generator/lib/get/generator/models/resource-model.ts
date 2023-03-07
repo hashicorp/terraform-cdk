@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { ProviderName, Schema } from "../provider-schema";
+import { FQPN, parseFQPN, ProviderName, Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 
@@ -19,7 +19,7 @@ interface ResourceModelOptions {
   filePath: string;
   attributes: AttributeModel[];
   structs: Struct[];
-  provider: ProviderName;
+  fqpn: FQPN;
   schema: Schema;
   terraformSchemaType: string;
   configStructName: string;
@@ -32,6 +32,7 @@ export class ResourceModel {
   public terraformType: string;
   public baseName: string;
   public provider: ProviderName;
+  public fqpn: FQPN;
   public providerVersionConstraint?: string;
   public providerVersion?: string;
   public terraformProviderSource?: string;
@@ -52,7 +53,8 @@ export class ResourceModel {
     this.baseName = options.baseName;
     this.attributes = options.attributes;
     this.schema = options.schema;
-    this.provider = options.provider;
+    this.fqpn = options.fqpn;
+    this.provider = parseFQPN(options.fqpn).name;
     this.fileName = options.fileName;
     this._structs = options.structs;
     this.terraformSchemaType = options.terraformSchemaType;
@@ -89,7 +91,6 @@ export class ResourceModel {
 
   public get linkToDocs(): string {
     if (this.isProvider)
-      // https://registry.terraform.io/providers/hashicorp/aws/4.57.0/docs
       return `https://www.terraform.io/docs/providers/${this.provider}`;
     return `https://www.terraform.io/docs/providers/${this.provider}/${
       this.isDataSource ? "d" : "r"

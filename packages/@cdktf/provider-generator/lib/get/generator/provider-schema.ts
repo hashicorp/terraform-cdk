@@ -21,6 +21,9 @@ export type ProviderName = string & { __type: "ProviderName" };
 
 export const parseFQPN = (f: FQPN) => {
   const [hostname, namespace, name] = f.split("/");
+  if (!name) {
+    throw new Error(`can't handle ${f}`);
+  }
   return { hostname, namespace, name } as {
     hostname: ProviderHostname;
     namespace: ProviderNamespace;

@@ -2,7 +2,12 @@
 // SPDX-License-Identifier: MPL-2.0
 import { CodeMaker, toCamelCase } from "codemaker";
 import { LANGUAGES, logger, TerraformProviderConstraint } from "@cdktf/commons";
-import { FQPN, parseFQPN, ProviderSchema } from "./provider-schema";
+import {
+  FQPN,
+  parseFQPN,
+  ProviderName,
+  ProviderSchema,
+} from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
@@ -101,11 +106,6 @@ export class TerraformProviderGenerator {
   }
 
   public buildResourceModels(fqpn: FQPN): ResourceModel[] {
-    const { name } = parseFQPN(fqpn);
-    if (!name) {
-      throw new Error(`can't handle ${fqpn}`);
-    }
-
     const provider = this.schema.provider_schemas?.[fqpn];
     if (!provider) {
       throw new Error(`Can not find provider '${fqpn}' in schema`);
@@ -113,12 +113,12 @@ export class TerraformProviderGenerator {
 
     const resources = Object.entries(provider.resource_schemas || {}).map(
       ([type, resource]) =>
-        this.resourceParser.parse(name, type, resource, "resource")
+        this.resourceParser.parse(fqpn, type, resource, "resource")
     );
 
     const dataSources = Object.entries(provider.data_source_schemas || {}).map(
       ([type, resource]) =>
-        this.resourceParser.parse(name, `data_${type}`, resource, "data_source")
+        this.resourceParser.parse(fqpn, `data_${type}`, resource, "data_source")
     );
 
     return ([] as ResourceModel[]).concat(...resources, ...dataSources);
@@ -134,9 +134,6 @@ export class TerraformProviderGenerator {
     constraint?: ConstructsMakerTarget
   ) {
     const { name } = parseFQPN(fqpn);
-    if (!name) {
-      throw new Error(`can't handle ${fqpn}`);
-    }
     const provider = this.schema.provider_schemas?.[fqpn];
     if (!provider) {
       throw new Error(`Can not find provider '${fqpn}' in schema`);
@@ -160,7 +157,7 @@ export class TerraformProviderGenerator {
 
     if (provider.provider) {
       const providerResource = this.resourceParser.parse(
-        name,
+        fqpn,
         `provider`,
         provider.provider,
         "provider"
@@ -191,7 +188,7 @@ export class TerraformProviderGenerator {
     this.code.closeFile(filePath);
   }
 
-  private emitIndexFile(provider: string, files: string[]): void {
+  private emitIndexFile(provider: ProviderName, files: string[]): void {
     const folder = `providers/${provider}`;
     const filePath = `${folder}/index.ts`;
     this.code.openFile(filePath);
