@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "aws": {
+    "registry.terraform.io/hashicorp/aws": {
       "resource_schemas": {
         "aws_boolean_map": {
           "version": 1,

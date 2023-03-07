@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "test": {
+    "registry.terraform.io/hashicorp/test": {
       "resource_schemas": {
         "test_string": {
           "version": 1,
