@@ -90,11 +90,13 @@ export class ResourceModel {
   }
 
   public get linkToDocs(): string {
-    if (this.isProvider)
-      return `https://www.terraform.io/docs/providers/${this.provider}`;
-    return `https://www.terraform.io/docs/providers/${this.provider}/${
-      this.isDataSource ? "d" : "r"
-    }/${this.terraformDocName}`;
+    const { hostname, namespace, name } = parseFQPN(this.fqpn);
+    const version = this.providerVersion || "latest";
+    const base = `https://${hostname}/providers/${namespace}/${name}/${version}/docs`;
+    if (this.isProvider) return base;
+    if (this.isDataSource)
+      return `${base}/data-sources/${this.terraformDocName}`;
+    return `${base}/resources/${this.terraformDocName}`;
   }
 
   public get isProvider(): boolean {
