@@ -47,7 +47,7 @@ export class DataTerraformRemoteStateEtcd extends TerraformRemoteState {
  * This backend does not support state locking.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/etcd
+ * https://developer.hashicorp.com/terraform/language/v1.2.x/settings/backends/etcd
  *
  * @deprecated CDK for Terraform no longer supports the etcd backend. Terraform deprecated etcd in v1.2.3 and removed it in v1.3.
  */

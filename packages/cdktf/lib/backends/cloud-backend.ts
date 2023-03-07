@@ -19,7 +19,7 @@ export function getHostNameType(hostname?: string): "tfc" | "tfe" {
 }
 
 /**
- * The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}.
+ * The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}.
  * The cloud block is a nested block within the top-level terraform settings block.
  * It specifies which Terraform Cloud workspaces to use for the current working directory.
  * The cloud block only affects Terraform CLI's behavior.
@@ -85,13 +85,13 @@ export class CloudBackend extends TerraformBackend {
 }
 
 /**
- * The Cloud Backend synthesizes a {@link https://www.terraform.io/cli/cloud/settings#the-cloud-block cloud block}.
+ * The Cloud Backend synthesizes a {@link https://developer.hashicorp.com/terraform/cli/cloud/settings#the-cloud-block cloud block}.
  * The cloud block is a nested block within the top-level terraform settings block.
  * It specifies which Terraform Cloud workspaces to use for the current working directory.
  * The cloud block only affects Terraform CLI's behavior.
  * When Terraform Cloud uses a configuration that contains a cloud block - for example, when a workspace is configured to use a VCS provider directly - it ignores the block and behaves according to its own workspace settings.
  *
- * https://www.terraform.io/cli/cloud/settings#arguments
+ * https://developer.hashicorp.com/terraform/cli/cloud/settings#arguments
  */
 export interface CloudBackendConfig {
   /**

@@ -50,7 +50,7 @@ export class DataTerraformRemoteStateGcs extends TerraformRemoteState {
  * to allow for state recovery in the case of accidental deletions and human error.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/gcs
+ * https://developer.hashicorp.com/terraform/language/settings/backends/gcs
  */
 export interface GcsBackendConfig {
   /**

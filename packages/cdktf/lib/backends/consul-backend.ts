@@ -45,7 +45,7 @@ export class DataTerraformRemoteStateConsul extends TerraformRemoteState {
  * This backend supports state locking.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/consul
+ * https://developer.hashicorp.com/terraform/language/settings/backends/consul
  */
 export interface ConsulBackendConfig {
   /**
