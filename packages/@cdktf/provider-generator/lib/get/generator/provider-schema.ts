@@ -10,14 +10,32 @@ import { ConstructsMakerProviderTarget } from "../constructs-maker";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
+/**
+ * Fully Qualified provider name in the format:
+ * like e.g. registry.terraform.io/hashicorp/aws
+ */
+export type FQPN = string & { __type: "FullyQualifiedProviderName" };
+export type ProviderHostname = string & { __type: "ProviderHostname" };
+export type ProviderNamespace = string & { __type: "ProviderNamespace" };
+export type ProviderName = string & { __type: "ProviderName" };
+
+export const parseFQPN = (f: FQPN) => {
+  const [hostname, namespace, name] = f.split("/");
+  return { hostname, namespace, name } as {
+    hostname: ProviderHostname;
+    namespace: ProviderNamespace;
+    name: ProviderName;
+  };
+};
+
 export interface ProviderSchema {
   /*
   0.1 is e.g. returned by Terraform 0.14
   0.2 is e.g. returned by Terraform 1.0 (0.2 added support for nested_type / plugin protocol v6)
   */
   format_version?: "0.1" | "0.2";
-  provider_schemas?: { [type: string]: Provider };
-  provider_versions?: { [fqn: string]: string };
+  provider_schemas?: { [fqpn: string]: Provider };
+  provider_versions?: { [fqpn: string]: string };
 }
 
 export interface Provider {

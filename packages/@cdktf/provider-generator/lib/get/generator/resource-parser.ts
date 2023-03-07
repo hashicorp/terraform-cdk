@@ -10,6 +10,7 @@ import {
   isAttributeNestedType,
   isNestedTypeAttribute,
   Schema,
+  ProviderName,
 } from "./provider-schema";
 import {
   ResourceModel,
@@ -49,7 +50,7 @@ const isReservedClassOrNamespaceName = (className: string): boolean => {
   ].includes(className.toLowerCase());
 };
 
-const getFileName = (provider: string, baseName: string): string => {
+const getFileName = (provider: ProviderName, baseName: string): string => {
   if (baseName === "index") {
     return "index-resource/index.ts";
   }
@@ -75,7 +76,7 @@ class Parser {
   }
 
   public resourceFrom(
-    provider: string,
+    provider: ProviderName,
     type: string,
     schema: Schema,
     terraformSchemaType: string
@@ -567,7 +568,7 @@ export class ResourceParser {
   private resources: Record<string, ResourceModel> = {};
 
   public parse(
-    provider: string,
+    provider: ProviderName,
     type: string,
     schema: Schema,
     terraformType: string

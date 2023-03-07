@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { CodeMaker, toCamelCase } from "codemaker";
 import { LANGUAGES, logger, TerraformProviderConstraint } from "@cdktf/commons";
-import { ProviderSchema } from "./provider-schema";
+import { FQPN, parseFQPN, ProviderSchema } from "./provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";
@@ -57,10 +57,12 @@ export class TerraformProviderGenerator {
     this.structEmitter = new StructEmitter(this.code);
   }
 
-  private getProviderByConstraint(providerConstraint: ConstructsMakerTarget) {
+  private getProviderByConstraint(
+    providerConstraint: ConstructsMakerTarget
+  ): FQPN | undefined {
     return Object.keys(this.schema.provider_schemas || {}).find((fqpn) =>
       isMatching(providerConstraint, fqpn)
-    );
+    ) as FQPN | undefined;
   }
 
   public generate(providerConstraint: ConstructsMakerTarget) {
@@ -98,8 +100,8 @@ export class TerraformProviderGenerator {
     await this.code.save(outdir);
   }
 
-  public buildResourceModels(fqpn: string): ResourceModel[] {
-    const name = fqpn.split("/").pop();
+  public buildResourceModels(fqpn: FQPN): ResourceModel[] {
+    const { name } = parseFQPN(fqpn);
     if (!name) {
       throw new Error(`can't handle ${fqpn}`);
     }
@@ -127,11 +129,11 @@ export class TerraformProviderGenerator {
   }
 
   private emitProvider(
-    fqpn: string,
+    fqpn: FQPN,
     providerVersion?: string,
     constraint?: ConstructsMakerTarget
   ) {
-    const name = fqpn.split("/").pop();
+    const { name } = parseFQPN(fqpn);
     if (!name) {
       throw new Error(`can't handle ${fqpn}`);
     }

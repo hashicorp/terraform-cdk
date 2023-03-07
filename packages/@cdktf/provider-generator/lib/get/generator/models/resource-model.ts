@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { Schema } from "../provider-schema";
+import { ProviderName, Schema } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 
@@ -19,7 +19,7 @@ interface ResourceModelOptions {
   filePath: string;
   attributes: AttributeModel[];
   structs: Struct[];
-  provider: string;
+  provider: ProviderName;
   schema: Schema;
   terraformSchemaType: string;
   configStructName: string;
@@ -31,7 +31,7 @@ export class ResourceModel {
   public filePath: string;
   public terraformType: string;
   public baseName: string;
-  public provider: string;
+  public provider: ProviderName;
   public providerVersionConstraint?: string;
   public providerVersion?: string;
   public terraformProviderSource?: string;
@@ -89,6 +89,7 @@ export class ResourceModel {
 
   public get linkToDocs(): string {
     if (this.isProvider)
+      // https://registry.terraform.io/providers/hashicorp/aws/4.57.0/docs
       return `https://www.terraform.io/docs/providers/${this.provider}`;
     return `https://www.terraform.io/docs/providers/${this.provider}/${
       this.isDataSource ? "d" : "r"
