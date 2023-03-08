@@ -111,7 +111,7 @@ fns = ConsumerStack(
         ),
         # From two stacks
         "stringValue": Fn.join(
-            separator=",", value=[src.stringResource.result, src.stringResource.result]
+            separator=",", list=[src.stringResource.result, src.stringResource.result]
         ),
     },
 )
