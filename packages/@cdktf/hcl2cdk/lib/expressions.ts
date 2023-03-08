@@ -370,7 +370,7 @@ export const isOuterExpressionOperation = (
  * This function invokes itself recursively to break down the expression. An input string without a function call or
  * operation is converted into a template string with resolved references (if there are any).
  */
-export const terraformExpressionToAst = async (
+export const terraformObjectToTsAst = async (
   scope: Scope,
   input: string,
   path: string, // TODO: idea: change this to the expected type, so we can use it in recursive calls
@@ -424,7 +424,7 @@ export const terraformExpressionToAst = async (
       if (operator === "+") {
         // TODO: support other operators
         return template.expression("cdktf.Op.add(%%lhs%%, %%rhs%%)")({
-          lhs: await terraformExpressionToAst(
+          lhs: await terraformObjectToTsAst(
             // TODO: we might need to call something else instead and recurse in a way that allows us to decend into objects/numbers/etc?
             scope,
             lhsString,
@@ -432,7 +432,7 @@ export const terraformExpressionToAst = async (
             nodeIds,
             scopedIds
           ),
-          rhs: await terraformExpressionToAst(
+          rhs: await terraformObjectToTsAst(
             scope,
             rhsString,
             path,
@@ -465,7 +465,7 @@ export const terraformExpressionToAst = async (
   return wrapInArray ? t.arrayExpression([ast]) : ast;
 };
 
-export function referencesToAst(
+export function referencesToAst( // TODO: include this into ast handling (everything comes from one single big JSON -> TS AST)
   scope: Scope,
   input: string,
   refs: Reference[],

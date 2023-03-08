@@ -25,7 +25,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  terraformExpressionToAst,
+  terraformObjectToTsAst,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -159,7 +159,10 @@ export const valueToTs = async (
         nodeIds,
         scopedIds
       );
-      const ast = await terraformExpressionToAst(scope, item, path, nodeIds, scopedIds);
+      
+      // strings are a bit special, as they can contain references,
+      // function calls and other kinds of Terraform expressions
+      const ast = await terraformObjectToTsAst(scope, item, path, nodeIds, scopedIds);
 
       return coerceType(
         scope,
