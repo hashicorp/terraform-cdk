@@ -5,7 +5,6 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
-import { toSnakeCase } from "codemaker";
 
 import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
@@ -34,12 +33,7 @@ import {
   BlockType,
   Schema,
 } from "@cdktf/provider-generator";
-import {
-  getTypeAtPath,
-  getDesiredType,
-  isMapAttribute,
-} from "./terraformSchema";
-import { coerceType } from "./coerceType";
+import { getTypeAtPath, isMapAttribute } from "./terraformSchema";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -64,86 +58,6 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
-/*
- * Transforms a babel AST into a list of string accessors
- * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
- */
-function destructureAst(ast: t.Expression): string[] | undefined {
-  switch (ast.type) {
-    case "Identifier":
-      return [ast.name];
-    case "MemberExpression":
-      const object = destructureAst(ast.object);
-      const property = destructureAst(ast.property as t.Expression);
-      if (object && property) {
-        return [...object, ...property];
-      } else {
-        return undefined;
-      }
-    default:
-      return undefined;
-  }
-}
-
-function findTypeOfReference(
-  scope: Scope,
-  ast: t.Expression,
-  references: Reference[]
-): AttributeType {
-  const isReferenceWithoutTemplateString =
-    ast.type === "MemberExpression" &&
-    ast.object.type === "Identifier" &&
-    references.length === 1;
-  // If we only have one reference this is a
-  if (isReferenceWithoutTemplateString) {
-    if (references[0].isVariable) {
-      return "dynamic";
-    }
-
-    const destructuredAst = destructureAst(ast);
-    if (!destructuredAst) {
-      logger.debug(
-        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
-      );
-      return "dynamic";
-    }
-
-    const [astVariableName, ...attributes] = destructuredAst;
-    const variable = Object.values(scope.variables).find(
-      (x) => x.variableName === astVariableName
-    );
-
-    if (!variable) {
-      logger.debug(
-        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
-          scope.variables,
-          null,
-          2
-        )}`
-      );
-      // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
-      return "dynamic";
-    }
-
-    const { resource: resourceType } = variable;
-    const [provider, ...resourceNameFragments] = resourceType.split("_");
-    const tfResourcePath = `${provider}.${resourceNameFragments.join(
-      "_"
-    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
-    const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
-
-    // If this is an attribute type we can return it
-    if (typeof type === "string" || Array.isArray(type)) {
-      return type;
-    }
-
-    // Either nothing is found or it's a block type
-    return "dynamic";
-  }
-
-  return "string";
-}
-
 export const valueToTs = async (
   scope: Scope,
   item: TerraformResourceBlock,
@@ -154,22 +68,9 @@ export const valueToTs = async (
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
-      const references = await extractReferencesFromExpression(
-        item,
-        nodeIds,
-        scopedIds
-      );
-      
       // strings are a bit special, as they can contain references,
       // function calls and other kinds of Terraform expressions
-      const ast = await terraformObjectToTsAst(scope, item, path, nodeIds, scopedIds);
-
-      return coerceType(
-        scope,
-        ast,
-        findTypeOfReference(scope, ast, references),
-        getDesiredType(scope, path)
-      );
+      return terraformObjectToTsAst(scope, item, path, nodeIds, scopedIds);
     case "boolean":
       return t.booleanLiteral(item);
     case "number":

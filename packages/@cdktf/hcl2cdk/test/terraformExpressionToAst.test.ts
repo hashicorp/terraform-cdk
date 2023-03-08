@@ -7,6 +7,7 @@ const mockScope: Scope = {
   providerGenerator: {},
   providerSchema: {},
   variables: {},
+  hasTokenBasedTypeCoercion: false,
 };
 
 const mockPath = "";
