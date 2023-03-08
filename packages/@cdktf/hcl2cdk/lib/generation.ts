@@ -635,8 +635,121 @@ export async function output(
   );
 }
 
-export function variableTypeDeclaration(type: string) {
-  // outer list map object
+// Move parsing to use regular expressions
+// tuples shown the limit of string manipulation
+export function variableTypeDeclaration(type: string): t.ExpressionStatement {
+  let typeDeclarationBase = "cdktf.VariableType";
+
+  // possible to replace .ast with expression?
+  switch (type) {
+    case "string":
+      return template.ast(
+        `${typeDeclarationBase}.STRING`
+      ) as t.ExpressionStatement;
+    case "number":
+      return template.ast(
+        `${typeDeclarationBase}.NUMBER`
+      ) as t.ExpressionStatement;
+    case "bool":
+      return template.ast(
+        `${typeDeclarationBase}.BOOL`
+      ) as t.ExpressionStatement;
+    case "any":
+      return template.ast(
+        `${typeDeclarationBase}.ANY`
+      ) as t.ExpressionStatement;
+    case "list(string)":
+      return template.ast(
+        `${typeDeclarationBase}.LIST_STRING`
+      ) as t.ExpressionStatement;
+    case "list(number)":
+      return template.ast(
+        `${typeDeclarationBase}.LIST_NUMBER`
+      ) as t.ExpressionStatement;
+    case "list(bool)":
+      return template.ast(
+        `${typeDeclarationBase}.LIST_BOOL`
+      ) as t.ExpressionStatement;
+    case "map(string)":
+      return template.ast(
+        `${typeDeclarationBase}.MAP_STRING`
+      ) as t.ExpressionStatement;
+    case "map(number)":
+      return template.ast(
+        `${typeDeclarationBase}.MAP_NUMBER`
+      ) as t.ExpressionStatement;
+    case "map(bool)":
+      return template.ast(
+        `${typeDeclarationBase}.MAP_BOOL`
+      ) as t.ExpressionStatement;
+    case "set(string)":
+      return template.ast(
+        `${typeDeclarationBase}.SET_STRING`
+      ) as t.ExpressionStatement;
+    case "set(number)":
+      return template.ast(
+        `${typeDeclarationBase}.SET_NUMBER`
+      ) as t.ExpressionStatement;
+    case "set(bool)":
+      return template.ast(
+        `${typeDeclarationBase}.SET_BOOL`
+      ) as t.ExpressionStatement;
+    default:
+      const outerType = type.substring(0, type.indexOf("("));
+      const innerType = type.substring(
+        type.indexOf("(") + 1,
+        type.lastIndexOf(")")
+      );
+      console.log({ outerType, innerType });
+      switch (outerType.trim()) {
+        case "list":
+          return template(`${typeDeclarationBase}.list(INNER_TYPE)`)({
+            INNER_TYPE: variableTypeDeclaration(innerType).expression,
+          }) as t.ExpressionStatement;
+        case "set":
+          return template(`${typeDeclarationBase}.set(INNER_TYPE)`)({
+            INNER_TYPE: variableTypeDeclaration(innerType).expression,
+          }) as t.ExpressionStatement;
+        case "map":
+          return template(`${typeDeclarationBase}.map(INNER_TYPE)`)({
+            INNER_TYPE: variableTypeDeclaration(innerType).expression,
+          }) as t.ExpressionStatement;
+        case "tuple":
+          console.log(innerType.split("["));
+          const innerTypesSubstring = innerType.substring(
+            innerType.indexOf("[") + 1,
+            innerType.lastIndexOf("]")
+          );
+          const innerTypesSubstringSplit = innerTypesSubstring.split(",");
+
+          console.log({
+            innerType,
+            innerTypesSubstring,
+            innerTypesSubstringSplit,
+          });
+
+          const x = innerTypesSubstringSplit
+            .map((t) => t.trim())
+            .map((t) => {
+              console.log(t);
+              return variableTypeDeclaration(t).expression;
+            });
+          return t.expressionStatement(
+            t.callExpression(
+              t.memberExpression(
+                t.memberExpression(
+                  t.identifier("cdktf"),
+                  t.identifier("VariableType")
+                ),
+                t.identifier("tuple")
+              ),
+              x
+            )
+          );
+        default:
+          throw new Error(`Unsupported type ${type}`);
+      }
+  }
 }
 
 export async function variable(
