@@ -61,7 +61,7 @@ interface ManifestJson {
   stacks: StackManifest[];
 }
 
-type SynthOrigin = "watch";
+export type SynthOrigin = "watch";
 
 export class SynthStack {
   public static async synth(
