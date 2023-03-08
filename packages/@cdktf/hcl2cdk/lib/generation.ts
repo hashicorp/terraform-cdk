@@ -520,6 +520,10 @@ export async function output(
   );
 }
 
+export function variableTypeDeclaration(type: string) {
+  // outer list map object
+}
+
 export async function variable(
   scope: Scope,
   key: string,
@@ -527,8 +531,6 @@ export async function variable(
   item: Variable,
   graph: DirectedGraph
 ) {
-  // We don't handle type information right now
-  const [{ type, ...props }] = item;
   const nodeIds = graph.nodes();
 
   if (!getReference(graph, id)) {
@@ -539,7 +541,7 @@ export async function variable(
     scope,
     "cdktf.TerraformVariable",
     key,
-    props,
+    item[0],
     nodeIds,
     false,
     false,
