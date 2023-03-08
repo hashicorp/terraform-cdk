@@ -34,10 +34,10 @@ export class Fn extends FnGenerated {
    * @param {string} separator
    * @param {Array<string>} list
    */
-  static join(separator: string, ...list: string[][]): string {
+  static join(separator: string, list: string[]): string {
     // overwritten because join() supports passing multiple lists to it e.g. join(sep, listA, listB)
     // which we can't model as JSII does not support variadic arguments
-    return Fn._join(separator, list);
+    return Fn._join(separator, [list]);
   }
 
   /**
