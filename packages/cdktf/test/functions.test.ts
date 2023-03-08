@@ -311,7 +311,7 @@ test("functions with object inputs", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
+          \\"value\\": \\"\${lookup({\\\\\\"var\\\\\\" = var.test-var, \\\\\\"stat\\\\\\" = 4, \\\\\\"internal\\\\\\" = true, \\\\\\"yes\\\\\\" = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
         }
       },
       \\"variable\\": {
@@ -382,7 +382,7 @@ test("nested objects and arrays as args", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${jsonencode({Statement = [{Action = \\\\\\"sts:AssumeRole\\\\\\", Effect = \\\\\\"Allow\\\\\\", Principal = {Service = \\\\\\"lambda.amazonaws.com\\\\\\"}}], Version = \\\\\\"2012-10-17\\\\\\"})}\\"
+          \\"value\\": \\"\${jsonencode({\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"lambda.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"})}\\"
         }
       }
     }"
@@ -436,7 +436,7 @@ test("undefined and null", () => {
       },
       \\"output\\": {
         \\"json-object\\": {
-          \\"value\\": \\"\${jsonencode({a = \\\\\\"hello\\\\\\", b = 123, c = null})}\\"
+          \\"value\\": \\"\${jsonencode({\\\\\\"a\\\\\\" = \\\\\\"hello\\\\\\", \\\\\\"b\\\\\\" = 123, \\\\\\"c\\\\\\" = null})}\\"
         },
         \\"test-output\\": {
           \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"
