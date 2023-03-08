@@ -326,6 +326,13 @@ export abstract class ComplexMap
       this.terraformResource.interpolationForAttribute(this.terraformAttribute)
     );
   }
+
+  interpolationForAttribute(property: string) {
+    return propertyAccess(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute),
+      [property]
+    );
+  }
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
