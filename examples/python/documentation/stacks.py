@@ -137,7 +137,7 @@ app.synth()
 
 '''
 #DOCS_BLOCK_START:stack-dependencies
-self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
+self.allResources =  TerraformLocal(self, "merge_items", Fn.concat(resourceFromStackA.items, resourceFromStackB.items))
 #DOCS_BLOCK_END:stack-dependencies
 '''
 

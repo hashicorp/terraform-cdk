@@ -6,17 +6,17 @@ description: |-
 
 # Construct Publishing and Distribution
 
-Custom construct classes are reusable infrastructure configurations written in a programming language. After you [write a custom construct](/developing-custom-constructs/construct-design), you can translate it to multiple languages and publish it for others to import and use in CDK for Terraform (CDKTF) applications.
+Custom construct classes are reusable infrastructure configurations written in a programming language. After you [write a custom construct](/terraform/cdktf/develop-custom-constructs/construct-design), you can translate it to multiple languages and publish it for others to import and use in CDK for Terraform (CDKTF) applications.
 
 ## Translate Constructs to Terraform Modules
 
-You can write a CDKTF construct class and then synthesize the code into an HCL [Terraform module](/language/modules). When you use this approach, you are limited to the structure and functionality available in a Terraform module. For example, you cannot use enums or methods to provide advanced configuration options.
+You can write a CDKTF construct class and then synthesize the code into an HCL [Terraform module](/terraform/language/modules). When you use this approach, you are limited to the structure and functionality available in a Terraform module. For example, you cannot use enums or methods to provide advanced configuration options.
 
 Use the [cdktf-tf-module-stack](https://github.com/cdktf/cdktf-tf-module-stack) to transform your code into a Terraform module. This library exposes `TFModuleStack`, `TFModuleVariable`, `TFModuleOutput` constructs that you can use as replacements for `TerraformStack`, `TerraformVariable`, `TerraformOutput`.
 
 The library also offers a `ProviderRequirement` construct that replaces the provider construct you typically use in CDKTF applications. Typical provider constructs pin a specific provider version, but the `ProviderRequirement `construct lets you select a version range. This behavior more closely matches how many modules specify provider versions.
 
-The following example shows a CDKTF program written using the `cdktf-tf-module-stack` library. CDKTF could then [synthesize](/cdktf/cli-reference/commands#synth) this code into a `cdktf.tf.json` file to use with Terraform. If you want to use this module, you need to list the full path to the folder containing the synthesized file, such as `../my-cdktf-application/cdktf.out/stacks/my-awesome-module`.
+The following example shows a CDKTF program written using the `cdktf-tf-module-stack` library. CDKTF could then [synthesize](/terraform/cdktf/cli-reference/commands#synth) this code into a `cdktf.tf.json` file to use with Terraform. If you want to use this module, you need to list the full path to the folder containing the synthesized file, such as `../my-cdktf-application/cdktf.out/stacks/my-awesome-module`.
 
 ```typescript
 import { App } from "cdktf";
@@ -54,7 +54,7 @@ app.synth();
 
 ### Publish Translated HCL Modules
 
-Follow the [Terraform module publishing requirements and instructions](https://developer.hashicorp.com/terraform/registry/modules/publish). You can use the [projen-cdktf-hybrid-construct](https://github.com/cdktf/projen-cdktf-hybrid-construct) to make this workflow easier. Refer to the [CDK Day 2022 talk](https://cdk.tf/cdk-day-2022-hybrid-modules) on this topic for more details.
+Follow the [Terraform module publishing requirements and instructions](/terraform/registry/modules/publish). You can use the [projen-cdktf-hybrid-construct](https://github.com/cdktf/projen-cdktf-hybrid-construct) to make this workflow easier. Refer to the [CDK Day 2022 talk](https://cdk.tf/cdk-day-2022-hybrid-modules) on this topic for more details.
 
 ## Publish Constructs with Projen
 

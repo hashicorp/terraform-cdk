@@ -9,11 +9,15 @@ description: >-
 0.10 includes improvements to the provider code bindings, to allow referencing lists of computed attributes as a whole list instead of just individual items of that list.
 We also shipped a lot of CLI improvements in 0.10, including support for multiple stacks in `cdktf deploy`, `cdktf output`, and `cdktf destroy`.
 
-### Remove `cdktf synth --json` Option [#1640](https://github.com/hashicorp/terraform-cdk/pull/1640)
+### Remove `cdktf synth --json` Option
+
+PR: [#1640](https://github.com/hashicorp/terraform-cdk/pull/1640)
 
 If you are using `cdktf synth --json <stack-name>` to get the synthesized JSON configuration for your Stack, you will now need to run `cdktf synth && cat ./cdktf.out/stacks/<stack-name>/cdk.tf.json` instead. The `./cdktf.out` part is your output directory (set by `cdktf.json` or via the `--output` flag).
 
-### Model ComplexComputedLists as ComplexLists and ComputedObjects [#1499](https://github.com/hashicorp/terraform-cdk/pull/1499)
+### Model ComplexComputedLists as ComplexLists and ComputedObjects
+
+PR: [#1499](https://github.com/hashicorp/terraform-cdk/pull/1499)
 
 In an effort to streamline the interfaces of resources, computed attributes of the type list and set are now modeled as a separate `ComplexList` type instead of being a method that directly takes an index and returns an item. This change also did change the type of the index from `string` to `number`.
 
@@ -72,7 +76,9 @@ firstItemId := resource.ListAttribute().Get(jsii.Number(0)).Id();
 firstItem := resource.ListAttribute().Get(jsii.Number(0)); // now possible
 ```
 
-### Referencing computed string map entries via function call [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
+### Referencing computed string map entries via function call
+
+PR: [#1630](https://github.com/hashicorp/terraform-cdk/pull/1630)
 
 In preparation for a similar change as to the computed lists, string map entries can now be accessed via a function call instead of using `Fn.lookup`. Accessing the whole map at once now requires a different function call in the meantime.
 

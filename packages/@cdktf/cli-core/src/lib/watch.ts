@@ -8,7 +8,7 @@ import {
 } from "./cdktf-project";
 import * as fs from "fs";
 import * as chokidar from "chokidar";
-import { logger, Errors } from "@cdktf/commons";
+import { logger, Errors, sendTelemetry } from "@cdktf/commons";
 import { CdktfStack } from "./cdktf-stack";
 
 // In this very first iteration we will find out which files to watch by asking the user to provide the files
@@ -109,6 +109,7 @@ export async function watch(
   async function run() {
     logger.debug("Running cdktf deploy");
     const project = new CdktfProject({
+      synthOrigin: "watch",
       ...projectOptions,
       onLog: (log) => {
         if (projectOptions.onLog) {
@@ -172,4 +173,6 @@ export async function watch(
   watcher.on("all", onFileChange);
   // initially run once
   onFileChange();
+
+  await sendTelemetry("watch", { event: "start" });
 }

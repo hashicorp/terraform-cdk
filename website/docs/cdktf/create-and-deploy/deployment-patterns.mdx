@@ -14,11 +14,11 @@ You can provision your infrastructure using either CDKTF CLI commands (e.g., `cd
 
 ### Run CDKTF CLI Commands
 
-We recommend using [CDKTF CLI commands](/cdktf/cli-reference/commands) in the following use cases:
+We recommend using [CDKTF CLI commands](/terraform/cdktf/cli-reference/commands) in the following use cases:
 
 - **Your application performs additional tasks** For example, your application may build a Docker image or start a build pipeline locally through synchronous APIs. You might also be using the null provider to execute these actions when a resource is created (e.g., after the Docker registry has been created). Running `cdktf deploy` triggers all of these actions at runtime in addition to using Terraform to provision your infrastructure.
 
-- **Your application contains stacks with complex dependencies.** Each [stack](/cdktf/concepts/stacks) in a CDKTF application is like a separate Terraform working directory. Terraform respects complex dependencies within the same configuration, but it is not designed to manage complex dependencies between multiple working directories. For example, if you define a stack A that depends on data from stack B and stack C, Terraform runs will fail. This is because Terraform will not understand that it must wait to build stack A until both stack B and stack C are completed.
+- **Your application contains stacks with complex dependencies.** Each [stack](/terraform/cdktf/concepts/stacks) in a CDKTF application is like a separate Terraform working directory. Terraform respects complex dependencies within the same configuration, but it is not designed to manage complex dependencies between multiple working directories. For example, if you define a stack A that depends on data from stack B and stack C, Terraform runs will fail. This is because Terraform will not understand that it must wait to build stack A until both stack B and stack C are completed.
 
 ### Run `cdktf synth` and Use Terraform Directly
 
@@ -28,11 +28,11 @@ We recommend synthesizing your CDKTF application and using Terraform directly wh
 
 Terraform Cloud lets you review the current state of your infrastructure and run progress in the Terraform Cloud UI. You can also use Terraform Cloud as the source of secrets.
 
-Refer to [Set Up CDKTF With Terraform Cloud](/cdktf/create-and-deploy/terraform-cloud#set-up-cdktf-with-terraform-cloud) for details. Refer to [Example Workflows](#example-workflows) for several examples of connecting your CDKTF application to Terraform Cloud and using Terraform Cloud in a Continuous Integration pipeline.
+Refer to [Set Up CDKTF With Terraform Cloud](/terraform/cdktf/create-and-deploy/terraform-cloud#set-up-cdktf-with-terraform-cloud) for details. Refer to [Example Workflows](#example-workflows) for several examples of connecting your CDKTF application to Terraform Cloud and using Terraform Cloud in a Continuous Integration pipeline.
 
 ## Managing Secrets and Sensitive Data
 
-You should [read secrets with Terraform Variables](/cdktf/create-and-deploy/best-practices#read-secrets-with-terraform-variables) so that they do not appear in your synthesized CDKTF code.
+You should [read secrets with Terraform Variables](/terraform/cdktf/create-and-deploy/best-practices#read-secrets-with-terraform-variables) so that they do not appear in your synthesized CDKTF code.
 
 ## Example Workflows
 
@@ -43,9 +43,9 @@ The following examples demonstrate common deployment workflows for your CDKTF ap
 Connect your synthesized CDKTF configuration to a Terraform Cloud workspace with the following steps:
 
 1. Add a pre-commit step in your CDKTF application that runs `cdktf synth`. This creates Terraform configuration files in the `cdktf.out/stacks/<stack-name>` directory.
-2. [Configure the VCS integration](/cloud-docs/workspaces/settings/vcs) for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
+2. [Configure the VCS integration](/terraform/cloud-docs/workspaces/settings/vcs) for a Terraform cloud workspace to point to the directory with the synthesized configuration files. To deploy multiple independent stacks, configure one Terraform Cloud workspace to point to the output directory for each stack.
 
-Refer to [Automatic Run Triggering](/cloud-docs/workspaces/settings/vcs#automatic-run-triggering) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
+Refer to [Automatic Run Triggering](/terraform/cloud-docs/workspaces/settings/vcs#automatic-run-triggering) in the Terraform Cloud documentation for details about how to trigger Terraform runs from merges and commits.
 
 ### Terraform CDK GitHub Action
 
@@ -53,7 +53,7 @@ You can use the [Terraform CDK GitHub Action](https://github.com/marketplace/act
 
 ### GitHub Actions CI and Terraform Cloud
 
-Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `CloudBackend` to connect to Terraform Cloud.
+Set the `TERRAFORM_CLOUD_TOKEN` environment variable to the [Terraform Cloud API token](/terraform/cloud-docs/users-teams-organizations/api-tokens). This allows the CDKTF stacks `CloudBackend` to connect to Terraform Cloud.
 
 You must create a job like this for every stack so that you can pass the stack name into `cdktf diff <stack name>`. None of the stacks can depend on each other because Terraform cannot reason about which stacks must be launched first to respect these dependencies.
 
@@ -160,7 +160,7 @@ If you have a general purpose CI like GitHub Actions or CircleCI configured, use
 - Terraform v1.0+
 - Any other languages you use for your CDKTF application
 
-~> **Warning:** Auto-approved deployments skip the option to review planned changes to your infrastructure before Terraform applies them. Minimize risk of unpredictable infrastructure changes and configuration drift by making sure that no one can change your infrastructure outside of your automated build pipeline. Refer to [Non-Interactive Workflows](/cloud-docs/run/cli#non-interactive-workflows) for details.
+~> **Warning:** Auto-approved deployments skip the option to review planned changes to your infrastructure before Terraform applies them. Minimize risk of unpredictable infrastructure changes and configuration drift by making sure that no one can change your infrastructure outside of your automated build pipeline. Refer to [Non-Interactive Workflows](/terraform/cloud-docs/run/cli#non-interactive-workflows) for details.
 
 ### Contribute Additional Examples
 

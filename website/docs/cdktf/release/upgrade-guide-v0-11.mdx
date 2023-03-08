@@ -11,7 +11,7 @@ Both lists and maps now allow accessing all computed attributes of an assignable
 
 ### `TF_VAR_` prefixed environment variables can no longer be accessed at synth time
 
-These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
+These environment variables will now be filtered out in the synth phase since they are only intended to be used during diff (plan) and deploy (apply) phases to supply values for [`TerraformVariable`s](/terraform/cdktf/concepts/variables-and-outputs#input-variables). This inhibits accidentally inlining those values into the generated `cdk.tf.json` config.
 
 ### Environment variable and CLI option changes
 
@@ -44,7 +44,9 @@ const firstRuleStage = bucket.lifecycleRule.get(0).tags.lookup("stage");
 const firstRuleTags = bucket.lifecycleRule.get(0).tags;
 ```
 
-### Use ComplexLists and ComplexMaps for complex assignable properties [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
+### Use ComplexLists and ComplexMaps for complex assignable properties
+
+PR: [#1725](https://github.com/hashicorp/terraform-cdk/pull/1725)
 
 Assignable properties of the form `Object[]` or `{ [key: string]: Object }` no longer have setters; they instead have `putX` methods. The getter return type is also changed to be a derivative of either `ComplexList` or `ComplexMap`.
 

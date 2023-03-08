@@ -5,7 +5,7 @@ using HashiCorp.Cdktf;
 
 namespace MyCompany.MyApp
 {
-    class MainStack : TerraformStack
+    class MyStack : TerraformStack
     {
         public MyStack(Construct scope, string id) : base(scope, id)
         {

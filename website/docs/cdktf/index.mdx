@@ -23,7 +23,7 @@ At a high level, you will:
 1. **Define Infrastructure:** Use your chosen language to define the infrastructure you want to provision on one or more providers. CDKTF automatically extracts the schema from Terraform providers and modules to generate the necessary classes for your application.
 1. **Deploy**: Use `cdktf` CLI commands to provision infrastructure with Terraform or synthesize your code into a JSON configuration file that others can use with Terraform directly.
 
-You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](https://cloud.hashicorp.com/products/terraform), [Terraform Enterprise](/enterprise), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel).
+You can use every Terraform provider and module available on the [Terraform Registry](https://registry.terraform.io/), and you can use CDKTF with [Terraform Cloud](https://cloud.hashicorp.com/products/terraform), [Terraform Enterprise](/terraform/enterprise), and HashiCorp's policy as code framework, [Sentinel](https://www.hashicorp.com/sentinel).
 
 ## When to use CDK for Terraform
 
@@ -33,7 +33,7 @@ CDKTF offers many benefits, but it is not the right choice for every project. Yo
 - You need to create abstractions to help manage complexity. For example, you want to create constructs to model a reusable infrastructure pattern composed of multiple resources and convenience methods.
 - You are comfortable living on the cutting edge; CDKTF may still have breaking changes before our 1.0 release.
 
-You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/cdktf/concepts/hcl-interoperability).
+You can make this choice for each team and project because CDK for Terraform [interoperates with existing Terraform providers and modules](/terraform/cdktf/concepts/hcl-interoperability).
 
 ## Choosing a Language for your Project
 
@@ -43,6 +43,6 @@ If you plan to create and package your own constructs, we recommend choosing Typ
 
 ## Get Started
 
-- [Install CDKTF](https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf) and set up your first project.
-- Learn about [CDKTF application architecture](/cdktf/concepts/cdktf-architecture).
-- Learn how to use key CDKTF concepts like [providers](/cdktf/concepts/providers), [modules](/cdktf/concepts/modules), and [resources](/cdktf/concepts/resources) to define infrastructure.
+- [Install CDKTF](/terraform/tutorials/cdktf/cdktf-install) and set up your first project.
+- Learn about [CDKTF application architecture](/terraform/cdktf/concepts/cdktf-architecture).
+- Learn how to use key CDKTF concepts like [providers](/terraform/cdktf/concepts/providers), [modules](/terraform/cdktf/concepts/modules), and [resources](/terraform/cdktf/concepts/resources) to define infrastructure.

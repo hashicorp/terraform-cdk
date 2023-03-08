@@ -23,6 +23,7 @@ type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes,
+  no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -49,52 +50,52 @@ const cdktfDist = path.join(__dirname, "../../../../../dist");
 
 export const binding = {
   aws: {
-    fqn: "hashicorp/aws@ ~>3.74.0",
+    fqn: "hashicorp/aws@=4.57.0",
     type: ProviderType.provider,
     path: "providers/aws",
   },
   docker: {
-    fqn: "kreuzwerker/docker@ ~>2.15.0",
+    fqn: "kreuzwerker/docker@=3.0.1",
     type: ProviderType.provider,
     path: "providers/docker",
   },
   null: {
-    fqn: "hashicorp/null@ ~>3.2.1",
+    fqn: "hashicorp/null@=3.2.1",
     type: ProviderType.provider,
     path: "providers/null",
   },
   google: {
-    fqn: "hashicorp/google@ ~>3.87.0",
+    fqn: "hashicorp/google@=4.55.0",
     type: ProviderType.provider,
     path: "providers/google",
   },
   azuread: {
-    fqn: "hashicorp/azuread@ ~>2.17.0",
+    fqn: "hashicorp/azuread@=2.36.0",
     type: ProviderType.provider,
     path: "providers/azuread",
   },
   local: {
-    fqn: "hashicorp/local@ ~>2.1.0",
+    fqn: "hashicorp/local@=2.3.0",
     type: ProviderType.provider,
     path: "providers/local",
   },
   auth0: {
-    fqn: "alexkappa/auth0@ ~>0.26.2",
+    fqn: "alexkappa/auth0@=0.26.2",
     type: ProviderType.provider,
     path: "providers/auth0",
   },
   datadog: {
-    fqn: "DataDog/datadog@ ~>3.8.1",
+    fqn: "DataDog/datadog@=3.21.0",
     type: ProviderType.provider,
     path: "providers/datadog",
   },
   kubernetes: {
-    fqn: "hashicorp/kubernetes@ ~>2.11.0",
+    fqn: "hashicorp/kubernetes@=2.18.0",
     type: ProviderType.provider,
     path: "providers/kubernetes",
   },
   awsVpc: {
-    fqn: "terraform-aws-modules/vpc/aws@ ~>3.11.5",
+    fqn: "terraform-aws-modules/vpc/aws@=3.19.0",
     type: ProviderType.module,
     path: "modules/terraform-aws-modules/aws",
   },

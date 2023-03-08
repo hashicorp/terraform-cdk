@@ -27,7 +27,7 @@ class MyStack(TerraformStack):
             }
         })
         TerraformOutput(self, "computed", value=Fn.element(
-            Fn.merge_lists([{"id": resource.id}, {"value": "123"}]), 1))
+            Fn.merge([{"id": resource.id}, {"value": "123"}]), 1))
 
 
 app = Testing.stub_version(App(stack_traces=False))

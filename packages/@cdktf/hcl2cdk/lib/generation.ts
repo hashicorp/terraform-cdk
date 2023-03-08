@@ -5,6 +5,7 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
+import { toSnakeCase } from "codemaker";
 
 import { TerraformResourceBlock, Scope } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
@@ -24,17 +25,20 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  isListExpression,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
+  AttributeType,
+  BlockType,
+  Schema,
 } from "@cdktf/provider-generator";
 import {
-  getBlockTypeAtPath,
-  getAttributeTypeAtPath,
   getTypeAtPath,
-} from "./provider";
+  getDesiredType,
+  isMapAttribute,
+} from "./terraformSchema";
+import { coerceType } from "./coerceType";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -59,6 +63,86 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+/*
+ * Transforms a babel AST into a list of string accessors
+ * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
+ */
+function destructureAst(ast: t.Expression): string[] | undefined {
+  switch (ast.type) {
+    case "Identifier":
+      return [ast.name];
+    case "MemberExpression":
+      const object = destructureAst(ast.object);
+      const property = destructureAst(ast.property as t.Expression);
+      if (object && property) {
+        return [...object, ...property];
+      } else {
+        return undefined;
+      }
+    default:
+      return undefined;
+  }
+}
+
+function findTypeOfReference(
+  scope: Scope,
+  ast: t.Expression,
+  references: Reference[]
+): AttributeType {
+  const isReferenceWithoutTemplateString =
+    ast.type === "MemberExpression" &&
+    ast.object.type === "Identifier" &&
+    references.length === 1;
+  // If we only have one reference this is a
+  if (isReferenceWithoutTemplateString) {
+    if (references[0].isVariable) {
+      return "dynamic";
+    }
+
+    const destructuredAst = destructureAst(ast);
+    if (!destructuredAst) {
+      logger.debug(
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+      );
+      return "dynamic";
+    }
+
+    const [astVariableName, ...attributes] = destructuredAst;
+    const variable = Object.values(scope.variables).find(
+      (x) => x.variableName === astVariableName
+    );
+
+    if (!variable) {
+      logger.debug(
+        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
+          scope.variables,
+          null,
+          2
+        )}`
+      );
+      // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
+      return "dynamic";
+    }
+
+    const { resource: resourceType } = variable;
+    const [provider, ...resourceNameFragments] = resourceType.split("_");
+    const tfResourcePath = `${provider}.${resourceNameFragments.join(
+      "_"
+    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
+    const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
+
+    // If this is an attribute type we can return it
+    if (typeof type === "string" || Array.isArray(type)) {
+      return type;
+    }
+
+    // Either nothing is found or it's a block type
+    return "dynamic";
+  }
+
+  return "string";
+}
+
 export const valueToTs = async (
   scope: Scope,
   item: TerraformResourceBlock,
@@ -69,14 +153,19 @@ export const valueToTs = async (
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
-      const wrapInArray = isListExpression(item);
-      const ast = referencesToAst(
-        scope,
+      const references = await extractReferencesFromExpression(
         item,
-        await extractReferencesFromExpression(item, nodeIds, scopedIds),
+        nodeIds,
         scopedIds
       );
-      return wrapInArray ? t.arrayExpression([ast]) : ast;
+      const ast = referencesToAst(scope, item, references, scopedIds);
+
+      return coerceType(
+        scope,
+        ast,
+        findTypeOfReference(scope, ast, references),
+        getDesiredType(scope, path)
+      );
 
     case "boolean":
       return t.booleanLiteral(item);
@@ -87,9 +176,37 @@ export const valueToTs = async (
         return t.nullLiteral();
       }
 
+      const attributeType = getTypeAtPath(scope.providerSchema, path);
+
+      function shouldRemoveArrayBasedOnType(
+        attributeType: Schema | AttributeType | BlockType | null
+      ): boolean {
+        if (!attributeType) {
+          return false; // The default assumption is we need the array
+        }
+
+        // maps and object don't need to be wrapped in an array
+        if (
+          Array.isArray(attributeType) &&
+          (attributeType[0] === "map" || attributeType[0] === "object")
+        ) {
+          return true;
+        }
+
+        // If it's a block type with max_items = 1 we don't need to wrap it in an array
+        if (
+          typeof attributeType === "object" &&
+          "max_items" in attributeType &&
+          attributeType.max_items === 1
+        ) {
+          return true;
+        }
+
+        return false;
+      }
+
       const unwrappedItem =
-        getBlockTypeAtPath(scope.providerSchema, path)?.max_items === 1 &&
-        Array.isArray(item)
+        shouldRemoveArrayBasedOnType(attributeType) && Array.isArray(item)
           ? item[0]
           : item;
 
@@ -97,7 +214,7 @@ export const valueToTs = async (
         return t.arrayExpression(
           await Promise.all(
             unwrappedItem.map((i) =>
-              valueToTs(scope, i, path, nodeIds, scopedIds)
+              valueToTs(scope, i, `${path}.[]`, nodeIds, scopedIds)
             )
           )
         );
@@ -121,16 +238,10 @@ export const valueToTs = async (
               }
 
               const itemPath = `${path}.${key}`;
-
-              const attribute = getAttributeTypeAtPath(
+              const itemAttributeType = getTypeAtPath(
                 scope.providerSchema,
                 itemPath
               );
-
-              // Map type attributes must not be wrapped in arrays
-              const isMapAttribute = Array.isArray(attribute?.type)
-                ? attribute?.type?.[0] === "map"
-                : false;
 
               const typeMetadata = getTypeAtPath(
                 scope.providerSchema,
@@ -148,11 +259,15 @@ export const valueToTs = async (
                 typeof value === "object" &&
                 !Array.isArray(value) &&
                 !isSingleItemBlock &&
-                !isMapAttribute &&
+                // Map type attributes must not be wrapped in arrays
+                !isMapAttribute(itemAttributeType) &&
                 key !== "tags";
 
               const keepKeyName: boolean =
-                !isModule && (key === "for_each" || !typeMetadata);
+                !isModule &&
+                (key === "for_each" ||
+                  !typeMetadata ||
+                  isMapAttribute(attributeType));
 
               return t.objectProperty(
                 t.stringLiteral(

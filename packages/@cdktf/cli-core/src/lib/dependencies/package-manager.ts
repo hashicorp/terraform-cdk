@@ -471,7 +471,7 @@ class NugetPackageManager extends PackageManager {
         .map((line: string) => {
           // Example output:
           // Project 'MyTerraformStack' has the following package references
-          //  [netcoreapp3.1]:
+          //  [net6.0]:
           //  Top-level Package      Requested   Resolved
           //  > HashiCorp.Cdktf      0.0.0       0.0.0
           // match[0] = full match

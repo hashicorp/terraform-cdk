@@ -53,7 +53,7 @@ export class DataTerraformRemoteStateAzurerm extends TerraformRemoteState {
  * so that MSAL authentication is used by default.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/azurerm
+ * https://developer.hashicorp.com/terraform/language/settings/backends/azurerm
  */
 export interface AzurermBackendConfig {
   /**

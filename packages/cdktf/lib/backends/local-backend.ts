@@ -58,7 +58,7 @@ export class DataTerraformRemoteStateLocal extends TerraformRemoteState {
  * locks that state using system APIs, and performs operations locally.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/local
+ * https://developer.hashicorp.com/terraform/language/settings/backends/local
  */
 export interface LocalBackendConfig {
   /**

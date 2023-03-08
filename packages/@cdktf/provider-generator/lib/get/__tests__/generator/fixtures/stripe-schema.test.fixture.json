@@ -1,0 +1,35 @@
+{
+  "format_version": "1.0",
+  "provider_schemas": {
+    "registry.terraform.io/andrewbaxter/stripe": {
+      "resource_schemas": {
+        "stripe_invoiceitems": {
+          "version": 0,
+          "block": {
+            "attributes": {
+              "discounts": {
+                "type": [
+                  "list",
+                  [
+                    "map",
+                    [
+                      "object",
+                      {
+                        "coupon": "string",
+                        "discount_amount": "string"
+                      }
+                    ]
+                  ]
+                ],
+                "description": "The coupons to redeem into discounts for the invoice item or invoice line item.",
+                "description_kind": "plain",
+                "optional": true
+              }
+            },
+            "description_kind": "plain"
+          }
+        }
+      }
+    }
+  }
+}

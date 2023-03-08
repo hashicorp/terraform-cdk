@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "aws": {
+    "registry.terraform.io/hashicorp/aws": {
       "provider": {
         "version": 0,
         "block": {

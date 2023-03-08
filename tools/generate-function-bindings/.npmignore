@@ -1,0 +1,14 @@
+*.ts
+
+!*.d.ts
+!*.js
+
+test
+dist
+.eslintignore
+.gitignore
+package.sh
+tsconfig.json
+tsconfig.tsbuildinfo
+dist
+coverage

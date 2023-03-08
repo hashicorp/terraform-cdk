@@ -10,5 +10,13 @@ export type Scope = {
   providerSchema: ProviderSchema;
   providerGenerator: Record<string, TerraformProviderGenerator>;
   constructs: Set<string>;
-  variables: Record<string, { resource: string; variableName: string }>;
+  variables: Record<
+    string,
+    {
+      resource: string;
+      variableName: string;
+    }
+  >;
+  // Temporary flag to indicate if we need to import the cdktf library to access the token class
+  hasTokenBasedTypeCoercion: boolean;
 };

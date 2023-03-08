@@ -1,3 +1,41 @@
+## Unreleased
+
+### Update to .NET 6.0
+
+We updated our C# template to .NET 6.0 as JSII updated recently and dropped support for `netcoreapp3.1`:
+
+> The runtime library for .NET & generated .NET bindings will no longer support netcoreapp3.1 after this release. Users are advised to upgrade their apps to use net6.0 or net7.0 instead.
+
+from [JSII v.1.76.0 release notes](https://github.com/aws/jsii/releases/tag/v1.76.0)
+**Breaking changes**
+
+### Changes to Terraform function bindings
+
+Terraform functions are now generated based on the JSON schema returned by the new `metadata functions` command which is going to be added to the Terraform CLI in version 1.4 ([PR \#32487](https://github.com/hashicorp/terraform/pull/32487), already available in [`v1.4.0-beta2`](https://github.com/hashicorp/terraform/releases/tag/v1.4.0-beta2)).
+
+The following new functions were introduced:
+
+- [`Fn.endswith()`](https://developer.hashicorp.com/terraform/language/functions/endswith) - checks the suffix of a string
+- [`Fn.startswith()`](https://developer.hashicorp.com/terraform/language/functions/startswith) - checks the prefix of a string
+- [`Fn.timecmp()`](https://developer.hashicorp.com/terraform/language/functions/timecmp) - compares two timestamps
+
+The following functions changed:
+
+- `Fn.parseInt()` is now `Fn.parseint()` to match the format of all other functions
+- `Fn.mergeLists()` does not exist anymore, use `Fn.concat()` instead
+- `Fn.mergeMaps()` does not exist anymore, use `Fn.merge()` instead
+
+As part of this change, we use the same parameter names as Terraform which might require changing keyword arguments in Python.
+
+```python
+# old
+Fn.join(",", [src.stringResource.result, src.stringResource.result])
+Fn.join(separator=",", value=[src.stringResource.result, src.stringResource.result])
+# new
+Fn.join(",", [src.stringResource.result, src.stringResource.result]) # stays the same
+Fn.join(separator=",", list=[src.stringResource.result, src.stringResource.result]) # value -> list
+```
+
 ## 0.15.5
 
 ### fix

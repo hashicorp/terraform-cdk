@@ -1,0 +1,41 @@
+name: "Add Copyright Headers"
+
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  workflow_dispatch: {}
+
+jobs:
+  add-copyright-headers:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+      - name: Set git identity
+        run: |-
+          git config user.name "hashicorp-copywrite[bot]"
+          git config user.email "110428419+hashicorp-copywrite[bot]@users.noreply.github.com"
+      - name: Setup Copywrite tool
+        uses: hashicorp/setup-copywrite@3ace06ad72e6ec679ea8572457b17dbc3960b8ce # v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Add headers using Copywrite tool
+        run: copywrite headers
+      - name: Check if there are any changes
+        id: get_changes
+        run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+      - name: Push changes
+        if: steps.get_changes.outputs.changed != 0
+        run: |-
+          git add .
+          git commit -s -m "chore: add required copyright headers"
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
