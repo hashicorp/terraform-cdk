@@ -7,8 +7,8 @@ import { execSync } from "child_process";
 import fs from "fs/promises";
 import * as path from "path";
 import prettier from "prettier";
+import { FUNCTIONS_METADATA_FILE } from "./constants";
 
-export const FUNCTIONS_METADATA_FILE = "functions.json";
 const TERRAFORM_BINARY_NAME = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
 async function fetchMetadata() {
@@ -19,11 +19,4 @@ async function fetchMetadata() {
   await fs.writeFile(out, prettier.format(json, { parser: "json" }));
 }
 
-// run main entrypoint if we've been invoked directly
-if (
-  Array.isArray(process.argv) &&
-  process.argv.length > 1 &&
-  process.argv[1] === __filename
-) {
-  fetchMetadata();
-}
+fetchMetadata();

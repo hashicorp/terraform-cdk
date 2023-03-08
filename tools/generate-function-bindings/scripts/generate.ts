@@ -10,7 +10,7 @@ import generate from "@babel/generator";
 import template from "@babel/template";
 import * as t from "@babel/types";
 import prettier from "prettier";
-import { FUNCTIONS_METADATA_FILE } from "./fetch-metadata";
+import { FUNCTIONS_METADATA_FILE } from "./constants";
 
 const ts = template({ plugins: [["typescript", {}]] });
 
