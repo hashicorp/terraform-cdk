@@ -25,8 +25,8 @@
     "versionFormat": "short",
     "license": "MPL-2.0",
     "author": {
-      "name": "HashiCorp, Inc.",       
-      "organization": true 
+      "name": "HashiCorp, Inc.",
+      "organization": true
     },
     "targets": {
       "python": {
@@ -110,9 +110,9 @@
     "eslint-plugin-jsdoc": "^39.6.2",
     "eslint-plugin-no-instanceof": "1.0.1",
     "jest": "^26.6.3",
-    "jsii": "^1.76.0",
+    "jsii": "^1.77.0",
     "jsii-docgen": "^7.0.234",
-    "jsii-pacmak": "^1.76.0",
+    "jsii-pacmak": "^1.77.0",
     "ts-jest": "^26.5.6",
     "typescript": "^3.9.10"
   },
