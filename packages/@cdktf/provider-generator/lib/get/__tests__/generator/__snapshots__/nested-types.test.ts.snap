@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generate a resource with nested types 1`] = `
-"// https://www.terraform.io/docs/providers/test/r/nested_types_resource
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -13,25 +13,25 @@ export interface NestedTypesResourceConfig extends cdktf.TerraformMetaArguments 
   /**
   * name of the resource
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#name NestedTypesResource#name}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#name NestedTypesResource#name}
   */
   readonly name?: string;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#archive_rules NestedTypesResource#archive_rules}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#archive_rules NestedTypesResource#archive_rules}
   */
   readonly archiveRules?: NestedTypesResourceArchiveRules[] | cdktf.IResolvable;
 }
 export interface NestedTypesResourceArchiveRulesFilter {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#eq NestedTypesResource#eq}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#eq NestedTypesResource#eq}
   */
   readonly eq?: string[];
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#exists NestedTypesResource#exists}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#exists NestedTypesResource#exists}
   */
   readonly exists?: boolean | cdktf.IResolvable;
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#property NestedTypesResource#property}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#property NestedTypesResource#property}
   */
   readonly property: string;
 }
@@ -171,13 +171,13 @@ export class NestedTypesResourceArchiveRulesFilterList extends cdktf.ComplexList
 }
 export interface NestedTypesResourceArchiveRules {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#filter NestedTypesResource#filter}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#filter NestedTypesResource#filter}
   */
   readonly filter: NestedTypesResourceArchiveRulesFilter[] | cdktf.IResolvable;
   /**
   * The archive rule name
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource#rule_name NestedTypesResource#rule_name}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#rule_name NestedTypesResource#rule_name}
   */
   readonly ruleName: string;
 }
@@ -291,7 +291,7 @@ export class NestedTypesResourceArchiveRulesList extends cdktf.ComplexList {
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource nested_types_resource}
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource nested_types_resource}
 */
 export class NestedTypesResource extends cdktf.TerraformResource {
 
@@ -305,7 +305,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/test/r/nested_types_resource nested_types_resource} Resource
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource nested_types_resource} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope

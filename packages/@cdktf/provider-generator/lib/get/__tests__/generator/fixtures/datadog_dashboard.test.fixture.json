@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "datadog": {
+    "registry.terraform.io/hashicorp/datadog": {
       "resource_schemas": {
         "datadog_dashboard": {
           "version": 0,

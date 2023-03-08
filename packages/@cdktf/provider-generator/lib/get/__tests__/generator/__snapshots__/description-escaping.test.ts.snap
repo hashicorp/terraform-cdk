@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`broken attribute description comments 1`] = `
-"// https://www.terraform.io/docs/providers/google/r/description_escaping
+"// https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -17,13 +17,13 @@ export interface DescriptionEscapingConfig extends cdktf.TerraformMetaArguments 
  'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. 
  The expected format is 'projects/*\\\\/locations/*\\\\/keyRings/*\\\\/cryptoKeys/*'
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/google/r/description_escaping#broken_comments DescriptionEscaping#broken_comments}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping#broken_comments DescriptionEscaping#broken_comments}
   */
   readonly brokenComments: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/google/r/description_escaping description_escaping}
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping description_escaping}
 */
 export class DescriptionEscaping extends cdktf.TerraformResource {
 
@@ -37,7 +37,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/google/r/description_escaping description_escaping} Resource
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping description_escaping} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
@@ -91,7 +91,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
 `;
 
 exports[`malformed code blocks which break in python rst 1`] = `
-"// https://www.terraform.io/docs/providers/aws/r/code_blocks
+"// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -103,13 +103,13 @@ export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
   /**
   * Here comes a code block \`\`\`foo.bar\`\`\` and here is more text.
   * 
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/aws/r/code_blocks#with_code_block CodeBlocks#with_code_block}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks#with_code_block CodeBlocks#with_code_block}
   */
   readonly withCodeBlock: boolean | cdktf.IResolvable;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/aws/r/code_blocks code_blocks}
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks code_blocks}
 */
 export class CodeBlocks extends cdktf.TerraformResource {
 
@@ -123,7 +123,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/aws/r/code_blocks code_blocks} Resource
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks code_blocks} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope

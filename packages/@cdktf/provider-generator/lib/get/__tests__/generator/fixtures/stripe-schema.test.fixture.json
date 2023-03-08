@@ -1,7 +1,7 @@
 {
   "format_version": "1.0",
   "provider_schemas": {
-    "stripe": {
+    "registry.terraform.io/andrewbaxter/stripe": {
       "resource_schemas": {
         "stripe_invoiceitems": {
           "version": 0,

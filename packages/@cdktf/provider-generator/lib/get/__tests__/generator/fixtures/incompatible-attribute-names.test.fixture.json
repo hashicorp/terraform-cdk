@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "aws": {
+    "registry.terraform.io/hashicorp/aws": {
       "resource_schemas": {
         "aws_incompatible_attribute_names": {
           "version": 1,

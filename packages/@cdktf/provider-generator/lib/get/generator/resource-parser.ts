@@ -10,6 +10,9 @@ import {
   isAttributeNestedType,
   isNestedTypeAttribute,
   Schema,
+  ProviderName,
+  FQPN,
+  parseFQPN,
 } from "./provider-schema";
 import {
   ResourceModel,
@@ -49,7 +52,7 @@ const isReservedClassOrNamespaceName = (className: string): boolean => {
   ].includes(className.toLowerCase());
 };
 
-const getFileName = (provider: string, baseName: string): string => {
+const getFileName = (provider: ProviderName, baseName: string): string => {
   if (baseName === "index") {
     return "index-resource/index.ts";
   }
@@ -75,11 +78,12 @@ class Parser {
   }
 
   public resourceFrom(
-    provider: string,
+    fqpn: FQPN,
     type: string,
     schema: Schema,
     terraformSchemaType: string
   ): ResourceModel {
+    const provider = parseFQPN(fqpn).name;
     let baseName = type;
     if (baseName.startsWith(`${provider}_`)) {
       baseName = baseName.substr(provider.length + 1);
@@ -191,7 +195,7 @@ class Parser {
       filePath,
       className,
       schema,
-      provider,
+      fqpn,
       attributes,
       terraformSchemaType,
       structs: this.structs,
@@ -567,7 +571,7 @@ export class ResourceParser {
   private resources: Record<string, ResourceModel> = {};
 
   public parse(
-    provider: string,
+    fqpn: FQPN,
     type: string,
     schema: Schema,
     terraformType: string
@@ -577,7 +581,7 @@ export class ResourceParser {
     }
 
     const parser = new Parser(this.uniqueClassnames);
-    const resource = parser.resourceFrom(provider, type, schema, terraformType);
+    const resource = parser.resourceFrom(fqpn, type, schema, terraformType);
     this.resources[type] = resource;
     return resource;
   }
