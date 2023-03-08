@@ -110,7 +110,7 @@ test("string values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.parseInt("-210", 10),
+    value: Fn.parseint("-210", 10),
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
@@ -206,7 +206,7 @@ test("function with varadic args", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.mergeLists([variable.value, [1, 2, 3]]),
+    value: Fn.merge([variable.value, [1, 2, 3]]),
   });
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
@@ -238,11 +238,7 @@ test("complex example", () => {
 
   new TerraformOutput(stack, "test-output", {
     value: Fn.cidrsubnet(
-      Fn.lookup(
-        Fn.mergeMaps([variable1.value, variable2.value]),
-        "key",
-        "default"
-      ),
+      Fn.lookup(Fn.merge([variable1.value, variable2.value]), "key", "default"),
       4,
       2
     ),
