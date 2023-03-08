@@ -34,11 +34,11 @@ describe("iterators integration test", () => {
     );
 
     expect(stack.output("testlisttype")).toEqual(
-      '${[ for key, val in toset(var.pets): {name = val["name"], age = val["age"]}]}'
+      '${[ for key, val in toset(var.pets): {"name" = val["name"], "age" = val["age"]}]}'
     );
     expect(stack.output("testnestedlisttype")).toHaveProperty(
       "nested.in.an.object",
-      '${[ for key, val in toset(var.pets): {name = val["name"], age = val["age"]}]}'
+      '${[ for key, val in toset(var.pets): {"name" = val["name"], "age" = val["age"]}]}'
     );
 
     // tests that .dynamic() can also be passed to nested blocks
