@@ -14,7 +14,6 @@ import * as glob from "glob";
 import * as fs from "fs";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
-import { GoVisitor } from "jsii-rosetta/lib/languages/go";
 import * as z from "zod";
 
 import { schema } from "./schema";
@@ -44,8 +43,6 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
-import { Errors } from "@cdktf/commons";
-import template from "@babel/template";
 
 export const CODE_MARKER = "// define resources here";
 
