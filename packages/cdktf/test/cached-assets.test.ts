@@ -7,11 +7,10 @@ import * as fs from "fs";
 
 describe("cached asset", () => {
   afterEach(() => {
-    try {
-      fs.rmSync(path.join(__dirname, "fixtures", "cached-asset", "output"), {
-        recursive: true,
-      });
-    } catch (e) {}
+    fs.rmSync(path.join(__dirname, "fixtures", "cached-asset", "output"), {
+      recursive: true,
+      force: true,
+    });
   });
 
   test("creates a cache entry in the stack", () => {

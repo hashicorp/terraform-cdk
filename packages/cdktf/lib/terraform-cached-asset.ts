@@ -75,7 +75,7 @@ export class TerraformCachedAsset extends Construct {
   }
 
   /**
-   * @returns {Record<string, string>} The hash entries for this asset
+   * @returns {Object.<string, string>} The hash entries for this asset
    */
   public getHashEntries(): Record<string, string> {
     return {
