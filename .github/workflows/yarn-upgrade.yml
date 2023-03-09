@@ -25,8 +25,6 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
       - name: Install Tools
         run: |-
           npm -g install lerna npm-check-updates@^9.0.0
