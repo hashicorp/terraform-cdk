@@ -403,26 +403,44 @@ For a more precise conversion please use the --provider flag in convert.`
 }
 
 type File = { contents: string; fileName: string };
+
+function translatorForVisitor(visitor: any) {
+  return (file: File, throwOnTranslationError: boolean) => {
+    const { translation, diagnostics } = rosetta.translateTypeScript(
+      file,
+      visitor,
+      throwOnTranslationError ? { includeCompilerDiagnostics: true } : {}
+    );
+
+    if (throwOnTranslationError && diagnostics.length > 0) {
+      throw new Error(
+        `Could not translate TS to ${visitor.language}: ${diagnostics.join(
+          "\n"
+        )}`
+      );
+    }
+
+    return translation;
+  };
+}
+
 const translations = {
-  typescript: (file: File) => file.contents,
-  python: (file: File) =>
-    rosetta.translateTypeScript(file, new rosetta.PythonVisitor()).translation,
-  java: (file: File) =>
-    rosetta.translateTypeScript(file, new rosetta.JavaVisitor()).translation,
-  csharp: (file: File) =>
-    rosetta.translateTypeScript(file, new rosetta.CSharpVisitor()).translation,
-  go: (file: File) =>
-    rosetta.translateTypeScript(file, new GoVisitor()).translation,
+  typescript: (file: File, _throwOnTranslationError: boolean) => file.contents,
+  python: translatorForVisitor(new rosetta.PythonVisitor()),
+  java: translatorForVisitor(new rosetta.JavaVisitor()),
+  csharp: translatorForVisitor(new rosetta.CSharpVisitor()),
+  go: translatorForVisitor(new rosetta.GoVisitor()),
 };
 
 type ConvertOptions = {
   language: keyof typeof translations;
   providerSchema: ProviderSchema;
+  throwOnTranslationError?: boolean;
 };
 
 export async function convert(
   hcl: string,
-  { language, providerSchema }: ConvertOptions
+  { language, providerSchema, throwOnTranslationError = false }: ConvertOptions
 ) {
   const fileName = "terraform.tf";
   const translater = translations[language];
@@ -430,12 +448,15 @@ export async function convert(
   if (!translater) {
     throw new Error("Unsupported language used: " + language);
   }
+  const translate = (contents: string) =>
+    translater({ fileName, contents }, throwOnTranslationError);
   const tsCode = await convertToTypescript(hcl, providerSchema);
+
   return {
     ...tsCode,
-    all: translater({ fileName, contents: tsCode.all }),
-    imports: translater({ fileName, contents: tsCode.imports }),
-    code: translater({ fileName, contents: tsCode.code }),
+    all: translate(tsCode.all),
+    imports: translate(tsCode.imports),
+    code: translate(tsCode.code),
     stats: { ...tsCode.stats, language },
   };
 }
