@@ -742,6 +742,10 @@ export const cdktfImport = template(
   `import * as cdktf from "cdktf"`
 )() as t.Statement;
 
+export const constructsImport = template(
+  `import * as constructs from "constructs"`
+)() as t.Statement;
+
 export const providerImports = (providers: string[]) =>
   providers.map((providerName) => {
     const parts = providerName.split("/");

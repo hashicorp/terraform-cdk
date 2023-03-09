@@ -61,7 +61,6 @@ import {
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
 import { sanitizeVarFiles } from "./helper/var-files";
-import { wrapCodeInStack } from "./helper/wrap-in-stack";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -103,15 +102,13 @@ export async function convert({ language, provider, stack }: any) {
   );
   let output;
   try {
-    const { all, stats, imports, code } = await hcl2cdkConvert(input, {
+    const { all, stats } = await hcl2cdkConvert(input, {
       language,
       providerSchema: providerSchema ?? {},
+      codeContainer: stack ? "cdktf.TerraformStack" : "constructs.Construct",
     });
-    if (!stack) {
-      output = all;
-    } else {
-      output = await wrapCodeInStack(code, imports, language);
-    }
+    output = all;
+
     await sendTelemetry("convert", { ...stats, error: false });
   } catch (err) {
     throw Errors.Internal((err as Error).message, { language });
