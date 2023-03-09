@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { AbortController, AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 import { Errors, ensureAllSettledBeforeThrowing, logger } from "@cdktf/commons";
-import { SynthesizedStack, SynthStack } from "./synth-stack";
+import { SynthesizedStack, SynthOrigin, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
 import {
   CdktfStack,
@@ -120,6 +120,7 @@ export type CdktfProjectOptions = {
   onUpdate: (update: ProjectUpdate) => void;
   onLog?: (log: LogMessage) => void;
   workingDirectory?: string;
+  synthOrigin?: SynthOrigin;
 };
 export class CdktfProject {
   public stacks?: SynthesizedStack[];
@@ -131,6 +132,7 @@ export class CdktfProject {
   private onUpdate: (update: ProjectUpdate) => void;
   private onLog?: (log: LogMessage) => void;
   private abortSignal: AbortSignal;
+  private synthOrigin?: SynthOrigin;
 
   // Set during deploy / destroy
   public stacksToRun: CdktfStack[] = [];
@@ -146,6 +148,7 @@ export class CdktfProject {
     onUpdate,
     onLog,
     workingDirectory = process.cwd(),
+    synthOrigin,
   }: CdktfProjectOptions) {
     this.synthCommand = synthCommand;
     this.outDir = outDir;
@@ -154,6 +157,7 @@ export class CdktfProject {
     this.onLog = onLog;
     const ac = new AbortController();
     this.abortSignal = ac.signal;
+    this.synthOrigin = synthOrigin;
 
     this.hardAbort = ac.abort.bind(ac);
     this.ioHandler = new CdktfProjectIOHandler();
@@ -338,7 +342,9 @@ export class CdktfProject {
       this.abortSignal,
       this.synthCommand,
       this.outDir,
-      this.workingDirectory
+      this.workingDirectory,
+      false,
+      this.synthOrigin
     );
 
     printAnnotations(stacks);

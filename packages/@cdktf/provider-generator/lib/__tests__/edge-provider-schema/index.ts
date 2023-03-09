@@ -77,6 +77,44 @@ const list_block_resource = new S()
     computed: true,
     optional: false,
   })
+  .attribute({
+    name: "computedListOfMapOfObject",
+    type: [
+      "list",
+      [
+        "map",
+        [
+          "object",
+          {
+            str: "string",
+            other: "string",
+          },
+        ],
+      ],
+    ],
+    computed: true,
+    optional: false,
+  })
+  .build();
+
+const map_list_resource = new S()
+  .attribute({
+    name: "mapListOfObject",
+    type: [
+      "map",
+      [
+        "list",
+        [
+          "object",
+          {
+            hello: "string",
+          },
+        ],
+      ],
+    ],
+    computed: false,
+    optional: false,
+  })
   .build();
 
 const map_resource = new S()
@@ -117,6 +155,7 @@ export const edgeSchema: ProviderSchema = schema({
     list_block_resource,
     map_resource,
     set_block_resource,
+    map_list_resource,
   },
   dataSources: {},
 });

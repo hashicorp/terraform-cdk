@@ -5,19 +5,19 @@ description: Learn when to use built-in Terraform functions to transform or comb
 
 # Functions
 
-Terraform provides a set of built-in functions that transform and combine values within Terraform configurations. The [Terraform function documentation](/language/functions) contains a complete list. You can also use your editor autocompletion on the `Fn` object to find available options.
+Terraform provides a set of built-in functions that transform and combine values within Terraform configurations. The [Terraform function documentation](/terraform/language/functions) contains a complete list. You can also use your editor autocompletion on the `Fn` object to find available options.
 
-Functions can handle normal and [token](/cdktf/concepts/tokens) values and will return either tokenized values or `IResolvable` values.
+Functions can handle normal and [token](/terraform/cdktf/concepts/tokens) values and will return either tokenized values or `IResolvable` values.
 
 ## When to Use Terraform Functions
 
 Use Terraform functions when you need to calculate new values based on runtime values that are unknown before Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
 
-When inputs are available before [synthesizing your code](/cdktf/cli-reference/commands#synth) (e.g. local files), we recommend transforming the values with your preferred programming language.
+When inputs are available before [synthesizing your code](/terraform/cdktf/cli-reference/commands#synth) (e.g. local files), we recommend transforming the values with your preferred programming language.
 
 ## Usage Example
 
-The following example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/language/functions/element) function.
+The following example uses a Data Source from the AWS Provider to fetch the Availability Zones of the given region. As this data is unknown until Terraform applies the configuration, this CDKTF application uses both [Terraform Outputs](/terraform/cdktf/concepts/variables-and-outputs#output-values) and the Terraform [`element`](/terraform/language/functions/element) function.
 
 The `element` function gets the first element from the list of Availability Zone names.
 

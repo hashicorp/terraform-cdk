@@ -12,17 +12,17 @@ We release CDK for Terraform (CDKTF) regularly. The [CHANGELOG on Github](https:
 
 CDKTF includes upgrade guides for releases that have breaking changes.
 
-- [Upgrading to v0.15](/cdktf/release/upgrade-guide-v0-15)
-- [Upgrading to v0.13](/cdktf/release/upgrade-guide-v0-13)
-- [Upgrading to v0.12](/cdktf/release/upgrade-guide-v0-12)
-- [Upgrading to v0.11](/cdktf/release/upgrade-guide-v0-11)
-- [Upgrading to v0.10](/cdktf/release/upgrade-guide-v0-10)
-- [Upgrading to v0.9](/cdktf/release/upgrade-guide-v0-9)
-- [Upgrading to v0.7](/cdktf/release/upgrade-guide-v0-7)
-- [Upgrading to v0.6](/cdktf/release/upgrade-guide-v0-6)
+- [Upgrading to v0.15](/terraform/cdktf/release/upgrade-guide-v0-15)
+- [Upgrading to v0.13](/terraform/cdktf/release/upgrade-guide-v0-13)
+- [Upgrading to v0.12](/terraform/cdktf/release/upgrade-guide-v0-12)
+- [Upgrading to v0.11](/terraform/cdktf/release/upgrade-guide-v0-11)
+- [Upgrading to v0.10](/terraform/cdktf/release/upgrade-guide-v0-10)
+- [Upgrading to v0.9](/terraform/cdktf/release/upgrade-guide-v0-9)
+- [Upgrading to v0.7](/terraform/cdktf/release/upgrade-guide-v0-7)
+- [Upgrading to v0.6](/terraform/cdktf/release/upgrade-guide-v0-6)
 
 ## Enable Features
 
 CDKTF uses feature flags to enable potentially breaking behaviors in a release. Feature flags are disabled by default, so existing projects that do not specify the flag will continue to work as expected with later CDKTF releases. New projects created using `cdktf init` include flags enabling all features available in the release that created the project.
 
-Edit the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file#enable-features) to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The CHANGELOG contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.
+Edit the [`cdktf.json` configuration file](/terraform/cdktf/create-and-deploy/configuration-file#enable-features) to disable flags for which you prefer the old behavior, or to add flags to enable new behaviors after upgrading. The CHANGELOG contains a description of new feature flags in each release, and the CDKTF source file [features.ts](https://github.com/hashicorp/terraform-cdk/blob/main/packages/cdktf/lib/features.ts) provides a complete list of all feature flags.

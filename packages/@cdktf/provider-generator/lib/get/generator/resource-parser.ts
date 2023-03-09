@@ -10,6 +10,9 @@ import {
   isAttributeNestedType,
   isNestedTypeAttribute,
   Schema,
+  ProviderName,
+  FQPN,
+  parseFQPN,
 } from "./provider-schema";
 import {
   ResourceModel,
@@ -17,6 +20,11 @@ import {
   Struct,
   Scope,
   AttributeModel,
+  SimpleAttributeTypeModel,
+  ListAttributeTypeModel,
+  SetAttributeTypeModel,
+  MapAttributeTypeModel,
+  StructAttributeTypeModel,
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
 
@@ -44,7 +52,7 @@ const isReservedClassOrNamespaceName = (className: string): boolean => {
   ].includes(className.toLowerCase());
 };
 
-const getFileName = (provider: string, baseName: string): string => {
+const getFileName = (provider: ProviderName, baseName: string): string => {
   if (baseName === "index") {
     return "index-resource/index.ts";
   }
@@ -70,11 +78,12 @@ class Parser {
   }
 
   public resourceFrom(
-    provider: string,
+    fqpn: FQPN,
     type: string,
     schema: Schema,
     terraformSchemaType: string
   ): ResourceModel {
+    const provider = parseFQPN(fqpn).name;
     let baseName = type;
     if (baseName.startsWith(`${provider}_`)) {
       baseName = baseName.substr(provider.length + 1);
@@ -132,11 +141,11 @@ class Parser {
         );
       if (!attribute.type.struct)
         throw new Error(
-          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.typeName}`
+          `Expected to find struct type attribute at path: ${path} but got ${attribute.type.storedClassType}`
         );
       if (rest.length === 0) return attribute;
       return getStructAttribute(
-        attribute.type.struct?.attributes,
+        attribute.type.struct.attributes,
         rest.join(".")
       );
     }
@@ -186,7 +195,7 @@ class Parser {
       filePath,
       className,
       schema,
-      provider,
+      fqpn,
       attributes,
       terraformSchemaType,
       structs: this.structs,
@@ -201,43 +210,16 @@ class Parser {
     attributeType: AttributeType | AttributeNestedType,
     parentKind?: string
   ): AttributeTypeModel {
-    const parent = scope[scope.length - 1];
-    const level = scope.length;
-    const isComputed = !!scope.find((e) => e.isComputed === true);
-    const isOptional = parent.isOptional;
-    const isRequired = parent.isRequired;
-
     if (typeof attributeType === "string") {
       switch (attributeType) {
         case "bool":
-          return new AttributeTypeModel("boolean", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return new SimpleAttributeTypeModel("boolean");
         case "string":
-          return new AttributeTypeModel("string", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return new SimpleAttributeTypeModel("string");
         case "number":
-          return new AttributeTypeModel("number", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-          });
+          return new SimpleAttributeTypeModel("number");
         case "dynamic":
-          return new AttributeTypeModel("any", {
-            isComputed,
-            isOptional,
-            isRequired,
-            level,
-            isMap: true,
-          });
+          return new MapAttributeTypeModel(new SimpleAttributeTypeModel("any"));
         default:
           throw new Error(`invalid primitive type ${attributeType}`);
       }
@@ -251,32 +233,23 @@ class Parser {
       const [kind, type] = attributeType;
 
       if (kind === "set" || kind === "list") {
-        const attrType = this.renderAttributeType(
+        const elementType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          kind
+          [kind, parentKind].join("")
         );
-        attrType.isList = kind === "list";
-        attrType.isSet = kind === "set";
-        attrType.isComputed = isComputed;
-        attrType.isOptional = isOptional;
-        attrType.isRequired = isRequired;
-        attrType.level = level;
-        return attrType;
+        return kind === "list"
+          ? new ListAttributeTypeModel(elementType, false, false)
+          : new SetAttributeTypeModel(elementType, false, false);
       }
 
       if (kind === "map") {
         const valueType = this.renderAttributeType(
           scope,
           type as AttributeType,
-          kind
+          [kind, parentKind].join("")
         );
-        valueType.isMap = true;
-        valueType.isComputed = isComputed;
-        valueType.isOptional = isOptional;
-        valueType.isRequired = isRequired;
-        valueType.level = level;
-        return valueType;
+        return new MapAttributeTypeModel(valueType);
       }
 
       if (kind === "object") {
@@ -290,32 +263,55 @@ class Parser {
           attributes,
           parentKind ?? kind
         );
-        const model = new AttributeTypeModel(struct.name, {
-          struct,
-          isComputed,
-          isOptional,
-          isRequired,
-          level,
-        });
-        return model;
+        return new StructAttributeTypeModel(struct);
       }
     }
 
     if (isAttributeNestedType(attributeType)) {
-      let isList = undefined;
-      let isSet = undefined;
-      let isMap = undefined;
+      let struct = undefined;
+      let typeModel = undefined;
       switch (attributeType.nesting_mode) {
         case "list":
-          isList = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          typeModel = new ListAttributeTypeModel(
+            new StructAttributeTypeModel(struct),
+            false,
+            false
+          );
           break;
         case "set":
-          isSet = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          typeModel = new SetAttributeTypeModel(
+            new StructAttributeTypeModel(struct),
+            false,
+            false
+          );
           break;
         case "map":
-          isMap = true;
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          typeModel = new MapAttributeTypeModel(
+            new StructAttributeTypeModel(struct)
+          );
           break;
         case "single":
+          struct = this.addAnonymousStruct(
+            scope,
+            attributeType.attributes,
+            attributeType.nesting_mode
+          );
+          typeModel = new StructAttributeTypeModel(struct);
           break;
         default: {
           throw new Error(
@@ -327,23 +323,7 @@ class Parser {
           );
         }
       }
-      const struct = this.addAnonymousStruct(
-        scope,
-        attributeType.attributes,
-        attributeType.nesting_mode
-      );
-      const model = new AttributeTypeModel(struct.name, {
-        struct,
-        isComputed,
-        isOptional,
-        isRequired,
-        level,
-        isList,
-        isSet,
-        isMap,
-        isNested: true,
-      });
-      return model;
+      return typeModel;
     }
 
     throw new Error(`unknown type ${JSON.stringify(attributeType)}`);
@@ -450,13 +430,7 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isOptional: optional,
-              isRequired: required,
-              isSingleItem: true,
-              isBlock: true,
-            }),
+            type: new StructAttributeTypeModel(struct),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional,
@@ -470,11 +444,9 @@ class Parser {
             name,
             terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isMap: true,
-              isBlock: true,
-            }),
+            type: new MapAttributeTypeModel(
+              new StructAttributeTypeModel(struct)
+            ),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional: false,
@@ -493,15 +465,18 @@ class Parser {
             name,
             terraformName: terraformName,
             terraformFullName: parent.fullName(terraformName),
-            type: new AttributeTypeModel(struct.name, {
-              struct,
-              isList: blockType.nesting_mode === "list",
-              isSet: blockType.nesting_mode === "set",
-              isOptional: optional,
-              isRequired: required,
-              isSingleItem: blockType.max_items === 1,
-              isBlock: true,
-            }),
+            type:
+              blockType.nesting_mode === "list"
+                ? new ListAttributeTypeModel(
+                    new StructAttributeTypeModel(struct),
+                    blockType.max_items === 1,
+                    true
+                  )
+                : new SetAttributeTypeModel(
+                    new StructAttributeTypeModel(struct),
+                    blockType.max_items === 1,
+                    true
+                  ),
             description: `${terraformName} block`,
             storageName: `_${name}`,
             optional,
@@ -531,6 +506,21 @@ class Parser {
         ? !!att.required
         : !!parent.isRequired;
       const name = toCamelCase(terraformName);
+      const type = this.renderAttributeType(
+        [
+          ...scope,
+          new Scope({
+            name: terraformName,
+            parent,
+            isProvider: parent.isProvider,
+            isComputed: computed,
+            isOptional: optional,
+            isRequired: required,
+            isNestedType: parent.isNestedType,
+          }),
+        ],
+        att.type || att.nested_type
+      );
       attributes.push(
         new AttributeModel({
           name,
@@ -540,21 +530,7 @@ class Parser {
           optional: optional,
           terraformName,
           terraformFullName: parent.fullName(terraformName),
-          type: this.renderAttributeType(
-            [
-              ...scope,
-              new Scope({
-                name: terraformName,
-                parent,
-                isProvider: parent.isProvider,
-                isComputed: computed,
-                isOptional: optional,
-                isRequired: required,
-                isNestedType: parent.isNestedType,
-              }),
-            ],
-            att.type || att.nested_type
-          ),
+          type,
           provider: parent.isProvider,
           required: required,
         })
@@ -595,7 +571,7 @@ export class ResourceParser {
   private resources: Record<string, ResourceModel> = {};
 
   public parse(
-    provider: string,
+    fqpn: FQPN,
     type: string,
     schema: Schema,
     terraformType: string
@@ -605,7 +581,7 @@ export class ResourceParser {
     }
 
     const parser = new Parser(this.uniqueClassnames);
-    const resource = parser.resourceFrom(provider, type, schema, terraformType);
+    const resource = parser.resourceFrom(fqpn, type, schema, terraformType);
     this.resources[type] = resource;
     return resource;
   }

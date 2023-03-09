@@ -7,7 +7,7 @@ description: >-
 
 # Modules
 
-A [Terraform module](/language/modules) is a single directory that contains one or more configuration files.
+A [Terraform module](/terraform/language/modules) is a single directory that contains one or more configuration files.
 
 Modules let you reuse configurations across projects and teams, saving time, enforcing consistency, and reducing errors. For example, you could create a module to describe the configuration for all of your organization's public website buckets. When you package and share this module, other users can incorporate it into their configurations. As requirements evolve, you can make changes to your module once, release a new version, and apply those changes everywhere that module is used.
 
@@ -185,7 +185,7 @@ func NewModulesStack(scope constructs.Construct, name string) cdktf.TerraformSta
 
 ### Add Module to `cdktf.json`
 
-To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/cdktf/create-and-deploy/configuration-file).
+To use a module in your application, you must first add it to the `terraformModules` array in the [`cdktf.json` configuration file](/terraform/cdktf/create-and-deploy/configuration-file).
 
 To add a module from the Terraform Registry or a private registry, provide a fully qualified name: `registry-namespace/module-name`.
 
@@ -220,7 +220,7 @@ For local modules, use the object format.
 }
 ```
 
-For performance reasons, we don't automatically generate bindings for submodules. To generate bindings for submodules, specify the module source as `terraform-aws-modules/vpc/aws//submodules/vpc-endpoints`, where after the `//` is the path to the submodule in the modules repository. Refer to [the Terraform source specification](/language/modules/sources) for more details.
+For performance reasons, we don't automatically generate bindings for submodules. To generate bindings for submodules, specify the module source as `terraform-aws-modules/vpc/aws//submodules/vpc-endpoints`, where after the `//` is the path to the submodule in the modules repository. Refer to [the Terraform source specification](/terraform/language/modules/sources) for more details.
 
 ### Generate Module Bindings
 
@@ -228,13 +228,13 @@ Go to the working directory and run `cdktf get`. CDKTF automatically creates the
 
 ## Configure Modules
 
-You can configure modules in the same way as [resources](/cdktf/concepts/resources), with one exception.
+You can configure modules in the same way as [resources](/terraform/cdktf/concepts/resources), with one exception.
 
 For module inputs that use the `map` type, like `map(string)` or `list(map(string))`, you must specify the map values as strings. You must also ensure that the keys follow the required format listed in the module's documentation. For example, the module may specify that the keys must be in snake case.
 
 ## Work with Module Outputs
 
-Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](/cdktf/concepts/variables-and-outputs#output-values).
+Modules often return data that you can use as inputs to other modules or resources. When this data is only available after Terraform applies the configuration, you must use [Terraform Outputs](/terraform/cdktf/concepts/variables-and-outputs#output-values).
 
 ### Examples
 

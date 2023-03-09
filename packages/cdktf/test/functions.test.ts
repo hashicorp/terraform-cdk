@@ -110,7 +110,7 @@ test("string values", () => {
   const stack = new TerraformStack(app, "test");
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.parseInt("-210", 10),
+    value: Fn.parseint("-210", 10),
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
@@ -206,7 +206,7 @@ test("function with varadic args", () => {
   });
 
   new TerraformOutput(stack, "test-output", {
-    value: Fn.mergeLists([variable.value, [1, 2, 3]]),
+    value: Fn.merge([variable.value, [1, 2, 3]]),
   });
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
@@ -238,11 +238,7 @@ test("complex example", () => {
 
   new TerraformOutput(stack, "test-output", {
     value: Fn.cidrsubnet(
-      Fn.lookup(
-        Fn.mergeMaps([variable1.value, variable2.value]),
-        "key",
-        "default"
-      ),
+      Fn.lookup(Fn.merge([variable1.value, variable2.value]), "key", "default"),
       4,
       2
     ),
@@ -315,7 +311,7 @@ test("functions with object inputs", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${lookup({var = var.test-var, stat = 4, internal = true, yes = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
+          \\"value\\": \\"\${lookup({\\\\\\"var\\\\\\" = var.test-var, \\\\\\"stat\\\\\\" = 4, \\\\\\"internal\\\\\\" = true, \\\\\\"yes\\\\\\" = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
         }
       },
       \\"variable\\": {
@@ -386,7 +382,7 @@ test("nested objects and arrays as args", () => {
     "{
       \\"output\\": {
         \\"test-output\\": {
-          \\"value\\": \\"\${jsonencode({Statement = [{Action = \\\\\\"sts:AssumeRole\\\\\\", Effect = \\\\\\"Allow\\\\\\", Principal = {Service = \\\\\\"lambda.amazonaws.com\\\\\\"}}], Version = \\\\\\"2012-10-17\\\\\\"})}\\"
+          \\"value\\": \\"\${jsonencode({\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"lambda.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"})}\\"
         }
       }
     }"
@@ -440,7 +436,7 @@ test("undefined and null", () => {
       },
       \\"output\\": {
         \\"json-object\\": {
-          \\"value\\": \\"\${jsonencode({a = \\\\\\"hello\\\\\\", b = 123, c = null})}\\"
+          \\"value\\": \\"\${jsonencode({\\\\\\"a\\\\\\" = \\\\\\"hello\\\\\\", \\\\\\"b\\\\\\" = 123, \\\\\\"c\\\\\\" = null})}\\"
         },
         \\"test-output\\": {
           \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"

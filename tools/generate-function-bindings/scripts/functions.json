@@ -1,0 +1,782 @@
+{
+  "format_version": "1.0",
+  "function_signatures": {
+    "abs": {
+      "description": "`abs` returns the absolute value of the given number. In other words, if the number is zero or positive then it is returned as-is, but if it is negative then it is multiplied by -1 to make it positive before returning it.",
+      "return_type": "number",
+      "parameters": [{ "name": "num", "type": "number" }]
+    },
+    "abspath": {
+      "description": "`abspath` takes a string containing a filesystem path and converts it to an absolute path. That is, if the path is not absolute, it will be joined with the current working directory.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "alltrue": {
+      "description": "`alltrue` returns `true` if all elements in a given collection are `true` or `\u0026#34;true\u0026#34;`. It also returns `true` if the collection is empty.",
+      "return_type": "bool",
+      "parameters": [{ "name": "list", "type": ["list", "bool"] }]
+    },
+    "anytrue": {
+      "description": "`anytrue` returns `true` if any element in a given collection is `true` or `\u0026#34;true\u0026#34;`. It also returns `false` if the collection is empty.",
+      "return_type": "bool",
+      "parameters": [{ "name": "list", "type": ["list", "bool"] }]
+    },
+    "base64decode": {
+      "description": "`base64decode` takes a string containing a Base64 character sequence and returns the original string.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "base64encode": {
+      "description": "`base64encode` applies Base64 encoding to a string.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "base64gzip": {
+      "description": "`base64gzip` compresses a string with gzip and then encodes the result in Base64 encoding.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "base64sha256": {
+      "description": "`base64sha256` computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(\u0026#34;test\u0026#34;))` since `sha256()` returns hexadecimal representation.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "base64sha512": {
+      "description": "`base64sha512` computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(\u0026#34;test\u0026#34;))` since `sha512()` returns hexadecimal representation.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "basename": {
+      "description": "`basename` takes a string containing a filesystem path and removes all except the last portion from it.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "bcrypt": {
+      "description": "`bcrypt` computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }],
+      "variadic_parameter": {
+        "name": "cost",
+        "description": "The `cost` argument is optional and will default to 10 if unspecified.",
+        "type": "number"
+      }
+    },
+    "can": {
+      "description": "`can` evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.",
+      "return_type": "bool",
+      "parameters": [{ "name": "expression", "type": "dynamic" }]
+    },
+    "ceil": {
+      "description": "`ceil` returns the closest whole number that is greater than or equal to the given value, which may be a fraction.",
+      "return_type": "number",
+      "parameters": [{ "name": "num", "type": "number" }]
+    },
+    "chomp": {
+      "description": "`chomp` removes newline characters at the end of a string.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "chunklist": {
+      "description": "`chunklist` splits a single list into fixed-size chunks, returning a list of lists.",
+      "return_type": ["list", ["list", "dynamic"]],
+      "parameters": [
+        { "name": "list", "type": ["list", "dynamic"] },
+        {
+          "name": "size",
+          "description": "The maximum length of each chunk. All but the last element of the result is guaranteed to be of exactly this size.",
+          "type": "number"
+        }
+      ]
+    },
+    "cidrhost": {
+      "description": "`cidrhost` calculates a full host IP address for a given host number within a given IP network address prefix.",
+      "return_type": "string",
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "`prefix` must be given in CIDR notation, as defined in [RFC 4632 section 3.1](https://tools.ietf.org/html/rfc4632#section-3.1).",
+          "type": "string"
+        },
+        {
+          "name": "hostnum",
+          "description": "`hostnum` is a whole number that can be represented as a binary integer with no more than the number of digits remaining in the address after the given prefix.",
+          "type": "number"
+        }
+      ]
+    },
+    "cidrnetmask": {
+      "description": "`cidrnetmask` converts an IPv4 address prefix given in CIDR notation into a subnet mask address.",
+      "return_type": "string",
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "`prefix` must be given in CIDR notation, as defined in [RFC 4632 section 3.1](https://tools.ietf.org/html/rfc4632#section-3.1).",
+          "type": "string"
+        }
+      ]
+    },
+    "cidrsubnet": {
+      "description": "`cidrsubnet` calculates a subnet address within given IP network address prefix.",
+      "return_type": "string",
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "`prefix` must be given in CIDR notation, as defined in [RFC 4632 section 3.1](https://tools.ietf.org/html/rfc4632#section-3.1).",
+          "type": "string"
+        },
+        {
+          "name": "newbits",
+          "description": "`newbits` is the number of additional bits with which to extend the prefix.",
+          "type": "number"
+        },
+        {
+          "name": "netnum",
+          "description": "`netnum` is a whole number that can be represented as a binary integer with no more than `newbits` binary digits, which will be used to populate the additional bits added to the prefix.",
+          "type": "number"
+        }
+      ]
+    },
+    "cidrsubnets": {
+      "description": "`cidrsubnets` calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.",
+      "return_type": ["list", "string"],
+      "parameters": [
+        {
+          "name": "prefix",
+          "description": "`prefix` must be given in CIDR notation, as defined in [RFC 4632 section 3.1](https://tools.ietf.org/html/rfc4632#section-3.1).",
+          "type": "string"
+        }
+      ],
+      "variadic_parameter": { "name": "newbits", "type": "number" }
+    },
+    "coalesce": {
+      "description": "`coalesce` takes any number of arguments and returns the first one that isn\u0026#39;t null or an empty string.",
+      "return_type": "dynamic",
+      "variadic_parameter": {
+        "name": "vals",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "coalescelist": {
+      "description": "`coalescelist` takes any number of list arguments and returns the first one that isn\u0026#39;t empty.",
+      "return_type": "dynamic",
+      "variadic_parameter": {
+        "name": "vals",
+        "description": "List or tuple values to test in the given order.",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "compact": {
+      "description": "`compact` takes a list of strings and returns a new list with any empty string elements removed.",
+      "return_type": ["list", "string"],
+      "parameters": [{ "name": "list", "type": ["list", "string"] }]
+    },
+    "concat": {
+      "description": "`concat` takes two or more lists and combines them into a single list.",
+      "return_type": "dynamic",
+      "variadic_parameter": { "name": "seqs", "type": "dynamic" }
+    },
+    "contains": {
+      "description": "`contains` determines whether a given list or set contains a given single value as one of its elements.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "list", "type": "dynamic" },
+        { "name": "value", "type": "dynamic" }
+      ]
+    },
+    "csvdecode": {
+      "description": "`csvdecode` decodes a string containing CSV-formatted data and produces a list of maps representing that data.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "dirname": {
+      "description": "`dirname` takes a string containing a filesystem path and removes the last portion from it.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "distinct": {
+      "description": "`distinct` takes a list and returns a new list with any duplicate elements removed.",
+      "return_type": ["list", "dynamic"],
+      "parameters": [{ "name": "list", "type": ["list", "dynamic"] }]
+    },
+    "element": {
+      "description": "`element` retrieves a single element from a list.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "list", "type": "dynamic" },
+        { "name": "index", "type": "number" }
+      ]
+    },
+    "endswith": {
+      "description": "`endswith` takes two values: a string to check and a suffix string. The function returns true if the first string ends with that exact suffix.",
+      "return_type": "bool",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "suffix", "type": "string" }
+      ]
+    },
+    "file": {
+      "description": "`file` reads the contents of a file at the given path and returns them as a string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filebase64": {
+      "description": "`filebase64` reads the contents of a file at the given path and returns them as a base64-encoded string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filebase64sha256": {
+      "description": "`filebase64sha256` is a variant of `base64sha256` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filebase64sha512": {
+      "description": "`filebase64sha512` is a variant of `base64sha512` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "fileexists": {
+      "description": "`fileexists` determines whether a file exists at a given path.",
+      "return_type": "bool",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filemd5": {
+      "description": "`filemd5` is a variant of `md5` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "fileset": {
+      "description": "`fileset` enumerates a set of regular file names given a path and pattern. The path is automatically removed from the resulting set of file names and any result still containing path separators always returns forward slash (`/`) as the path separator for cross-system compatibility.",
+      "return_type": ["set", "string"],
+      "parameters": [
+        { "name": "path", "type": "string" },
+        { "name": "pattern", "type": "string" }
+      ]
+    },
+    "filesha1": {
+      "description": "`filesha1` is a variant of `sha1` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filesha256": {
+      "description": "`filesha256` is a variant of `sha256` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "filesha512": {
+      "description": "`filesha512` is a variant of `sha512` that hashes the contents of a given file rather than a literal string.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "flatten": {
+      "description": "`flatten` takes a list and replaces any elements that are lists with a flattened sequence of the list contents.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "list", "type": "dynamic" }]
+    },
+    "floor": {
+      "description": "`floor` returns the closest whole number that is less than or equal to the given value, which may be a fraction.",
+      "return_type": "number",
+      "parameters": [{ "name": "num", "type": "number" }]
+    },
+    "format": {
+      "description": "The `format` function produces a string by formatting a number of other values according to a specification string. It is similar to the `printf` function in C, and other similar functions in other programming languages.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "format", "type": "string" }],
+      "variadic_parameter": {
+        "name": "args",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "formatdate": {
+      "description": "`formatdate` converts a timestamp into a different time format.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "format", "type": "string" },
+        { "name": "time", "type": "string" }
+      ]
+    },
+    "formatlist": {
+      "description": "`formatlist` produces a list of strings by formatting a number of other values according to a specification string.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "format", "type": "string" }],
+      "variadic_parameter": {
+        "name": "args",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "indent": {
+      "description": "`indent` adds a given number of spaces to the beginnings of all but the first line in a given multi-line string.",
+      "return_type": "string",
+      "parameters": [
+        {
+          "name": "spaces",
+          "description": "Number of spaces to add after each newline character.",
+          "type": "number"
+        },
+        { "name": "str", "type": "string" }
+      ]
+    },
+    "index": {
+      "description": "`index` finds the element index for a given value in a list.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "list", "type": "dynamic" },
+        { "name": "value", "type": "dynamic" }
+      ]
+    },
+    "join": {
+      "description": "`join` produces a string by concatenating together all elements of a given list of strings with the given delimiter.",
+      "return_type": "string",
+      "parameters": [
+        {
+          "name": "separator",
+          "description": "Delimiter to insert between the given strings.",
+          "type": "string"
+        }
+      ],
+      "variadic_parameter": {
+        "name": "lists",
+        "description": "One or more lists of strings to join.",
+        "type": ["list", "string"]
+      }
+    },
+    "jsondecode": {
+      "description": "`jsondecode` interprets a given string as JSON, returning a representation of the result of decoding that string.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "jsonencode": {
+      "description": "`jsonencode` encodes a given value to a string using JSON syntax.",
+      "return_type": "string",
+      "parameters": [{ "name": "val", "is_nullable": true, "type": "dynamic" }]
+    },
+    "keys": {
+      "description": "`keys` takes a map and returns a list containing the keys from that map.",
+      "return_type": "dynamic",
+      "parameters": [
+        {
+          "name": "inputMap",
+          "description": "The map to extract keys from. May instead be an object-typed value, in which case the result is a tuple of the object attributes.",
+          "type": "dynamic"
+        }
+      ]
+    },
+    "length": {
+      "description": "`length` determines the length of a given list, map, or string.",
+      "return_type": "number",
+      "parameters": [{ "name": "value", "type": "dynamic" }]
+    },
+    "log": {
+      "description": "`log` returns the logarithm of a given number in a given base.",
+      "return_type": "number",
+      "parameters": [
+        { "name": "num", "type": "number" },
+        { "name": "base", "type": "number" }
+      ]
+    },
+    "lookup": {
+      "description": "`lookup` retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "inputMap", "type": "dynamic" },
+        { "name": "key", "type": "string" }
+      ],
+      "variadic_parameter": {
+        "name": "default",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "lower": {
+      "description": "`lower` converts all cased letters in the given string to lowercase.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "matchkeys": {
+      "description": "`matchkeys` constructs a new list by taking a subset of elements from one list whose indexes match the corresponding indexes of values in another list.",
+      "return_type": ["list", "dynamic"],
+      "parameters": [
+        { "name": "values", "type": ["list", "dynamic"] },
+        { "name": "keys", "type": ["list", "dynamic"] },
+        { "name": "searchset", "type": ["list", "dynamic"] }
+      ]
+    },
+    "max": {
+      "description": "`max` takes one or more numbers and returns the greatest number from the set.",
+      "return_type": "number",
+      "variadic_parameter": { "name": "numbers", "type": "number" }
+    },
+    "md5": {
+      "description": "`md5` computes the MD5 hash of a given string and encodes it with hexadecimal digits.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "merge": {
+      "description": "`merge` takes an arbitrary number of maps or objects, and returns a single map or object that contains a merged set of elements from all arguments.",
+      "return_type": "dynamic",
+      "variadic_parameter": {
+        "name": "maps",
+        "is_nullable": true,
+        "type": "dynamic"
+      }
+    },
+    "min": {
+      "description": "`min` takes one or more numbers and returns the smallest number from the set.",
+      "return_type": "number",
+      "variadic_parameter": { "name": "numbers", "type": "number" }
+    },
+    "nonsensitive": {
+      "description": "`nonsensitive` takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "value", "is_nullable": true, "type": "dynamic" }
+      ]
+    },
+    "one": {
+      "description": "`one` takes a list, set, or tuple value with either zero or one elements. If the collection is empty, `one` returns `null`. Otherwise, `one` returns the first element. If there are two or more elements then `one` will return an error.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "list", "type": "dynamic" }]
+    },
+    "parseint": {
+      "description": "`parseint` parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "number", "type": "dynamic" },
+        { "name": "base", "type": "number" }
+      ]
+    },
+    "pathexpand": {
+      "description": "`pathexpand` takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user\u0026#39;s home directory path.",
+      "return_type": "string",
+      "parameters": [{ "name": "path", "type": "string" }]
+    },
+    "pow": {
+      "description": "`pow` calculates an exponent, by raising its first argument to the power of the second argument.",
+      "return_type": "number",
+      "parameters": [
+        { "name": "num", "type": "number" },
+        { "name": "power", "type": "number" }
+      ]
+    },
+    "range": {
+      "description": "`range` generates a list of numbers using a start value, a limit value, and a step value.",
+      "return_type": ["list", "number"],
+      "variadic_parameter": { "name": "params", "type": "number" }
+    },
+    "regex": {
+      "description": "`regex` applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "pattern", "type": "string" },
+        { "name": "string", "type": "string" }
+      ]
+    },
+    "regexall": {
+      "description": "`regexall` applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.",
+      "return_type": ["list", "dynamic"],
+      "parameters": [
+        { "name": "pattern", "type": "string" },
+        { "name": "string", "type": "string" }
+      ]
+    },
+    "replace": {
+      "description": "`replace` searches a given string for another given substring, and replaces each occurrence with a given replacement string.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "substr", "type": "string" },
+        { "name": "replace", "type": "string" }
+      ]
+    },
+    "reverse": {
+      "description": "`reverse` takes a sequence and produces a new sequence of the same length with all of the same elements as the given sequence but in reverse order.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "list", "type": "dynamic" }]
+    },
+    "rsadecrypt": {
+      "description": "`rsadecrypt` decrypts an RSA-encrypted ciphertext, returning the corresponding cleartext.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "ciphertext", "type": "string" },
+        { "name": "privatekey", "type": "string" }
+      ]
+    },
+    "sensitive": {
+      "description": "`sensitive` takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "value", "is_nullable": true, "type": "dynamic" }
+      ]
+    },
+    "setintersection": {
+      "description": "The `setintersection` function takes multiple sets and produces a single set containing only the elements that all of the given sets have in common. In other words, it computes the [intersection](https://en.wikipedia.org/wiki/Intersection_\\(set_theory\\)) of the sets.",
+      "return_type": ["set", "dynamic"],
+      "parameters": [{ "name": "first_set", "type": ["set", "dynamic"] }],
+      "variadic_parameter": { "name": "other_sets", "type": ["set", "dynamic"] }
+    },
+    "setproduct": {
+      "description": "The `setproduct` function finds all of the possible combinations of elements from all of the given sets by computing the [Cartesian product](https://en.wikipedia.org/wiki/Cartesian_product).",
+      "return_type": "dynamic",
+      "variadic_parameter": {
+        "name": "sets",
+        "description": "The sets to consider. Also accepts lists and tuples, and if all arguments are of list or tuple type then the result will preserve the input ordering",
+        "type": "dynamic"
+      }
+    },
+    "setsubtract": {
+      "description": "The `setsubtract` function returns a new set containing the elements from the first set that are not present in the second set. In other words, it computes the [relative complement](https://en.wikipedia.org/wiki/Complement_\\(set_theory\\)#Relative_complement) of the second set.",
+      "return_type": ["set", "dynamic"],
+      "parameters": [
+        { "name": "a", "type": ["set", "dynamic"] },
+        { "name": "b", "type": ["set", "dynamic"] }
+      ]
+    },
+    "setunion": {
+      "description": "The `setunion` function takes multiple sets and produces a single set containing the elements from all of the given sets. In other words, it computes the [union](https://en.wikipedia.org/wiki/Union_\\(set_theory\\)) of the sets.",
+      "return_type": ["set", "dynamic"],
+      "parameters": [{ "name": "first_set", "type": ["set", "dynamic"] }],
+      "variadic_parameter": { "name": "other_sets", "type": ["set", "dynamic"] }
+    },
+    "sha1": {
+      "description": "`sha1` computes the SHA1 hash of a given string and encodes it with hexadecimal digits.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "sha256": {
+      "description": "`sha256` computes the SHA256 hash of a given string and encodes it with hexadecimal digits.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "sha512": {
+      "description": "`sha512` computes the SHA512 hash of a given string and encodes it with hexadecimal digits.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "signum": {
+      "description": "`signum` determines the sign of a number, returning a number between -1 and 1 to represent the sign.",
+      "return_type": "number",
+      "parameters": [{ "name": "num", "type": "number" }]
+    },
+    "slice": {
+      "description": "`slice` extracts some consecutive elements from within a list.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "list", "type": "dynamic" },
+        { "name": "start_index", "type": "number" },
+        { "name": "end_index", "type": "number" }
+      ]
+    },
+    "sort": {
+      "description": "`sort` takes a list of strings and returns a new list with those strings sorted lexicographically.",
+      "return_type": ["list", "string"],
+      "parameters": [{ "name": "list", "type": ["list", "string"] }]
+    },
+    "split": {
+      "description": "`split` produces a list by dividing a given string at all occurrences of a given separator.",
+      "return_type": ["list", "string"],
+      "parameters": [
+        { "name": "separator", "type": "string" },
+        { "name": "str", "type": "string" }
+      ]
+    },
+    "startswith": {
+      "description": "`startswith` takes two values: a string to check and a prefix string. The function returns true if the string begins with that exact prefix.",
+      "return_type": "bool",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "prefix", "type": "string" }
+      ]
+    },
+    "strrev": {
+      "description": "`strrev` reverses the characters in a string. Note that the characters are treated as _Unicode characters_ (in technical terms, Unicode [grapheme cluster boundaries](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries) are respected).",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "substr": {
+      "description": "`substr` extracts a substring from a given string by offset and (maximum) length.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "offset", "type": "number" },
+        { "name": "length", "type": "number" }
+      ]
+    },
+    "sum": {
+      "description": "`sum` takes a list or set of numbers and returns the sum of those numbers.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "list", "type": "dynamic" }]
+    },
+    "templatefile": {
+      "description": "`templatefile` reads the file at the given path and renders its content as a template using a supplied set of template variables.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "path", "type": "string" },
+        { "name": "vars", "type": "dynamic" }
+      ]
+    },
+    "textdecodebase64": {
+      "description": "`textdecodebase64` function decodes a string that was previously Base64-encoded, and then interprets the result as characters in a specified character encoding.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "source", "type": "string" },
+        { "name": "encoding", "type": "string" }
+      ]
+    },
+    "textencodebase64": {
+      "description": "`textencodebase64` encodes the unicode characters in a given string using a specified character encoding, returning the result base64 encoded because Terraform language strings are always sequences of unicode characters.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "string", "type": "string" },
+        { "name": "encoding", "type": "string" }
+      ]
+    },
+    "timeadd": {
+      "description": "`timeadd` adds a duration to a timestamp, returning a new timestamp.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "timestamp", "type": "string" },
+        { "name": "duration", "type": "string" }
+      ]
+    },
+    "timecmp": {
+      "description": "`timecmp` compares two timestamps and returns a number that represents the ordering of the instants those timestamps represent.",
+      "return_type": "number",
+      "parameters": [
+        { "name": "timestamp_a", "type": "string" },
+        { "name": "timestamp_b", "type": "string" }
+      ]
+    },
+    "timestamp": {
+      "description": "`timestamp` returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format.",
+      "return_type": "string"
+    },
+    "title": {
+      "description": "`title` converts the first letter of each word in the given string to uppercase.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "tobool": {
+      "description": "`tobool` converts its argument to a boolean value.",
+      "return_type": "bool",
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "tolist": {
+      "description": "`tolist` converts its argument to a list value.",
+      "return_type": ["list", "dynamic"],
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "tomap": {
+      "description": "`tomap` converts its argument to a map value.",
+      "return_type": ["map", "dynamic"],
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "tonumber": {
+      "description": "`tonumber` converts its argument to a number value.",
+      "return_type": "number",
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "toset": {
+      "description": "`toset` converts its argument to a set value.",
+      "return_type": ["set", "dynamic"],
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "tostring": {
+      "description": "`tostring` converts its argument to a string value.",
+      "return_type": "string",
+      "parameters": [{ "name": "v", "is_nullable": true, "type": "dynamic" }]
+    },
+    "transpose": {
+      "description": "`transpose` takes a map of lists of strings and swaps the keys and values to produce a new map of lists of strings.",
+      "return_type": ["map", ["list", "string"]],
+      "parameters": [{ "name": "values", "type": ["map", ["list", "string"]] }]
+    },
+    "trim": {
+      "description": "`trim` removes the specified set of characters from the start and end of the given string.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        {
+          "name": "cutset",
+          "description": "A string containing all of the characters to trim. Each character is taken separately, so the order of characters is insignificant.",
+          "type": "string"
+        }
+      ]
+    },
+    "trimprefix": {
+      "description": "`trimprefix` removes the specified prefix from the start of the given string. If the string does not start with the prefix, the string is returned unchanged.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "prefix", "type": "string" }
+      ]
+    },
+    "trimspace": {
+      "description": "`trimspace` removes any space characters from the start and end of the given string.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "trimsuffix": {
+      "description": "`trimsuffix` removes the specified suffix from the end of the given string.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "str", "type": "string" },
+        { "name": "suffix", "type": "string" }
+      ]
+    },
+    "try": {
+      "description": "`try` evaluates all of its argument expressions in turn and returns the result of the first one that does not produce any errors.",
+      "return_type": "dynamic",
+      "variadic_parameter": { "name": "expressions", "type": "dynamic" }
+    },
+    "upper": {
+      "description": "`upper` converts all cased letters in the given string to uppercase.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "urlencode": {
+      "description": "`urlencode` applies URL encoding to a given string.",
+      "return_type": "string",
+      "parameters": [{ "name": "str", "type": "string" }]
+    },
+    "uuid": {
+      "description": "`uuid` generates a unique identifier string.",
+      "return_type": "string"
+    },
+    "uuidv5": {
+      "description": "`uuidv5` generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a \u0026#34;version 5\u0026#34; UUID.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "namespace", "type": "string" },
+        { "name": "name", "type": "string" }
+      ]
+    },
+    "values": {
+      "description": "`values` takes a map and returns a list containing the values of the elements in that map.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "mapping", "type": "dynamic" }]
+    },
+    "yamldecode": {
+      "description": "`yamldecode` parses a string as a subset of YAML, and produces a representation of its value.",
+      "return_type": "dynamic",
+      "parameters": [{ "name": "src", "type": "string" }]
+    },
+    "yamlencode": {
+      "description": "`yamlencode` encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.",
+      "return_type": "string",
+      "parameters": [
+        { "name": "value", "is_nullable": true, "type": "dynamic" }
+      ]
+    },
+    "zipmap": {
+      "description": "`zipmap` constructs a map from a list of keys and a corresponding list of values.",
+      "return_type": "dynamic",
+      "parameters": [
+        { "name": "keys", "type": ["list", "string"] },
+        { "name": "values", "type": "dynamic" }
+      ]
+    }
+  }
+}

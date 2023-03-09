@@ -24,7 +24,7 @@ exports[`python terraform functions test synth synth generates JSON 1`] = `
   },
   \\"output\\": {
     \\"computed\\": {
-      \\"value\\": \\"\${element(merge({id = null_resource.nullresource.id}, {value = \\\\\\"123\\\\\\"}), 1)}\\"
+      \\"value\\": \\"\${element(merge({\\\\\\"id\\\\\\" = null_resource.nullresource.id}, {\\\\\\"value\\\\\\" = \\\\\\"123\\\\\\"}), 1)}\\"
     }
   },
   \\"provider\\": {

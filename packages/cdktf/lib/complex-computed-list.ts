@@ -295,6 +295,21 @@ export abstract class ComplexList
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
+export class BooleanList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number): IResolvable {
+    return Fn.element(this, index);
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class ComplexMap
   extends ComplexResolvable
   implements ITerraformAddressable
@@ -309,6 +324,13 @@ export abstract class ComplexMap
   computeFqn(): string {
     return Token.asString(
       this.terraformResource.interpolationForAttribute(this.terraformAttribute)
+    );
+  }
+
+  interpolationForAttribute(property: string) {
+    return propertyAccess(
+      this.terraformResource.interpolationForAttribute(this.terraformAttribute),
+      [property]
     );
   }
 }
@@ -381,7 +403,7 @@ export class ComplexObject extends ComplexComputedAttribute {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-abstract class MapList
+export abstract class MapList
   extends ComplexResolvable
   implements ITerraformAddressable, IInterpolatingParent
 {
@@ -489,5 +511,75 @@ export class AnyMapList extends MapList {
 
   public get(index: number) {
     return new AnyMap(this, `[${index}]`);
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class StringListMap extends ComplexMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  public get(key: string) {
+    return Token.asList(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}[${key}]`
+      )
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class NumberListMap extends ComplexMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  public get(key: string) {
+    return Token.asNumberList(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}[${key}]`
+      )
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class BooleanListMap extends ComplexMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  public get(key: string) {
+    // This isn't fully supported
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${key}]`
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class AnyListMap extends ComplexMap {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string
+  ) {
+    super(terraformResource, terraformAttribute);
+  }
+
+  public get(key: string) {
+    // This isn't fully supported
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${key}]`
+    );
   }
 }

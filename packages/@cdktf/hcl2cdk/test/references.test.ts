@@ -218,4 +218,27 @@ describe("references", () => {
     Synth.yes,
     { resources: [] }
   );
+
+  testCase.skip(
+    "variables with maps need to use accessor syntax",
+    `
+      variable "default_tags" {
+        type        = map(string)
+        description = "Map of default tags to apply to resources"
+        default = {
+          project = "Learning Live with AWS & HashiCorp"
+        }
+      }
+
+      resource "aws_eip" "nat" {
+        vpc = true
+        tags = {
+          "Name" = "\${var.default_tags.project}-nat-eip"
+        }
+      }
+      `,
+    [binding.aws],
+    Synth.no_missing_map_access,
+    { resources: ["aws_eip"] }
+  );
 });

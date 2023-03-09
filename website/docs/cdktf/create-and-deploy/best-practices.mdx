@@ -9,7 +9,7 @@ There are many ways to structure your CDK for Terraform (CDKTF) application. The
 
 ## Read Secrets with Terraform Variables
 
-Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/cdktf/concepts/variables-and-outputs#input-variables) to read secrets. Terraform uses the values in `TerraformVariable` directly at execution time, so CDKTF does not write them to the synthesized `cdktf.json` file.
+Secrets appear in your synthesized CDKTF code when you read them directly from environment variables or from files with normal system access. This introduces risk, especially if you are checking the synthesized configuration into a version control system. To mitigate this, [use the `TerraformVariable` construct](/terraform/cdktf/concepts/variables-and-outputs#input-variables) to read secrets. Terraform uses the values in `TerraformVariable` directly at execution time, so CDKTF does not write them to the synthesized `cdktf.json` file.
 
 The following example uses a Terraform variable to read the sensitive admin password instead of reading it directly from an environment variable.
 
@@ -25,9 +25,9 @@ new MyResource(this, "hello", {
 });
 ```
 
-To pass a [Terraform variable through environment variables](/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
+To pass a [Terraform variable through environment variables](/terraform/cli/config/environment-variables#tf_var_name), name the environment variable `TF_VAR_NAME`. For example, set `TF_VAR_adminPasword='<your password>'` in the execution environment.
 
-If you use Terraform Cloud with [remote execution](/cloud-docs/run/remote-operations#remote-operations), you can store your secrets in Terraform Cloud. Refer to the Terraform Cloud documentation about [workspace variables](/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) for more details.
+If you use Terraform Cloud with [remote execution](/terraform/cloud-docs/run/remote-operations#remote-operations), you can store your secrets in Terraform Cloud. Refer to the Terraform Cloud documentation about [workspace variables](/terraform/cloud-docs/workspaces/variables/managing-variables#workspace-specific-variables) for more details.
 
 We recommend using `TerraformVariable` only at the Stack level. Nesting them in custom constructs makes the interface unclear because some information may be passed into the constructor of the construct, while other data may be passed through a `TerraformVariable`. Nesting also changes the logical ID and makes it difficult to understand which `TerraformVariable` instances you must configure for the CDKTF program to run.
 
@@ -35,7 +35,7 @@ We recommend using `TerraformVariable` only at the Stack level. Nesting them in 
 
 A provider is a Terraform plugin that allows users to manage an external API. Provider plugins act as a translation layer that allows Terraform to communicate with many different cloud providers, databases, and services.
 
-Use [pre-built providers](/cdktf/concepts/providers#install-pre-built-providers) when possible. It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a performance optimization that reduces the time it takes to synthesize and run your application. You can also use pre-built providers as a peer dependency if you use open-source custom constructs.
+Use [pre-built providers](/terraform/cdktf/concepts/providers#install-pre-built-providers) when possible. It can take several minutes to generate the code bindings for providers with very large schemas, so we offer several popular providers as pre-built packages. Pre-built providers are a performance optimization that reduces the time it takes to synthesize and run your application. You can also use pre-built providers as a peer dependency if you use open-source custom constructs.
 
 Refer to the [CDKTF Provider GitHub repositories](https://github.com/orgs/cdktf/repositories?q=cdktf-provider-) for a complete list of pre-built providers.
 
@@ -45,7 +45,7 @@ We recommend the following best practices when structuring your CDKTF applicatio
 
 ### Separate Business Units with Stacks
 
-A [stack](/cdktf/concepts/stacks) represents a collection of infrastructure that CDKTF synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. We recommend creating separate stacks for the following use cases:
+A [stack](/terraform/cdktf/concepts/stacks) represents a collection of infrastructure that CDKTF synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. We recommend creating separate stacks for the following use cases:
 
 - Deployment stages (development / staging / production)
 - Business purposes (e-commerce / blog / data warehouse)
@@ -99,7 +99,7 @@ new Blog(this, "ecommerce-staging", {
 
 ### Create Extensible Constructs
 
-[Constructs](/cdktf/concepts/constructs) let you abstract common behavior into reusable classes. If you have no reason to limit the extensibility of a construct, you should default to making it as easy as possible to overwrite custom behavior, while still providing good standard defaults.
+[Constructs](/terraform/cdktf/concepts/constructs) let you abstract common behavior into reusable classes. If you have no reason to limit the extensibility of a construct, you should default to making it as easy as possible to overwrite custom behavior, while still providing good standard defaults.
 
 In some cases, you can use interfaces from the generated provider bindings to allow users to customize the configuration. In very complex constructs, we recommend using methods to encapsulate behavior. For example, you can create a method that derives default values for the configuration. This lets users extend the base class and overwrite the behavior in a central location.
 

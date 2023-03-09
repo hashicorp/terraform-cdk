@@ -6,7 +6,7 @@ import { snakeCase } from "./util";
 /**
  * Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
  *
- * See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+ * Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection connection}
  */
 export interface SSHProvisionerConnection {
   /**
@@ -50,7 +50,7 @@ export interface SSHProvisionerConnection {
 
   /**
    * The path used to copy scripts meant for remote execution.
-   * Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+   * Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
    */
   readonly scriptPath?: string;
 
@@ -164,7 +164,7 @@ export interface SSHProvisionerConnection {
 /**
  * Most provisioners require access to the remote resource via SSH or WinRM and expect a nested connection block with details about how to connect.
  *
- * See {@link https://www.terraform.io/language/resources/provisioners/connection connection}
+ * See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection connection}
  */
 export interface WinrmProvisionerConnection {
   /**
@@ -208,7 +208,7 @@ export interface WinrmProvisionerConnection {
 
   /**
    * The path used to copy scripts meant for remote execution.
-   * Refer to {@link https://www.terraform.io/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
+   * Refer to {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/connection#how-provisioners-execute-remote-scripts How Provisioners Execute Remote Scripts below for more details}
    */
   readonly scriptPath?: string;
 
@@ -238,7 +238,7 @@ export interface WinrmProvisionerConnection {
  * The file provisioner copies files or directories from the machine running Terraform to the newly created resource.
  * The file provisioner supports both ssh and winrm type connections.
  *
- * See {@link https://www.terraform.io/language/resources/provisioners/file file}
+ * See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/file file}
  */
 export interface FileProvisioner {
   readonly type: "file";
@@ -271,7 +271,7 @@ export interface FileProvisioner {
  * The local-exec provisioner invokes a local executable after a resource is created.
  * This invokes a process on the machine running Terraform, not on the resource.
  *
- * See {@link https://www.terraform.io/language/resources/provisioners/local-exec local-exec}
+ * See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/local-exec local-exec}
  */
 export interface LocalExecProvisioner {
   readonly type: "local-exec";
@@ -313,7 +313,7 @@ export interface LocalExecProvisioner {
  * This can be used to run a configuration management tool, bootstrap into a cluster, etc
  * The remote-exec provisioner requires a connection and supports both ssh and winrm.
  *
- * See {@link https://www.terraform.io/language/resources/provisioners/remote-exec remote-exec}
+ * See {@link https://developer.hashicorp.com/terraform/language/resources/provisioners/remote-exec remote-exec}
  */
 export interface RemoteExecProvisioner {
   readonly type: "remote-exec";

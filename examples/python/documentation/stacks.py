@@ -77,7 +77,7 @@ app.synth
 
 #DOCS_BLOCK_START:cross-stack-reference
 from constructs import Construct
-from cdktf import App, TerraformStack
+from cdktf import App, TerraformStack, Token
 from imports.aws.instance import Instance
 from imports.aws.provider import AwsProvider
 from imports.vpc import Vpc
@@ -137,14 +137,15 @@ app.synth()
 
 '''
 #DOCS_BLOCK_START:stack-dependencies
-self.allResources =  TerraformLocal(self, "merge_items", Fn.merge_lists(resourceFromStackA.items, resourceFromStackB.items))
+self.allResources =  TerraformLocal(self, "merge_items", Fn.concat(resourceFromStackA.items, resourceFromStackB.items))
 #DOCS_BLOCK_END:stack-dependencies
 '''
 
 app = App()
 stack = TerraformStack(app, "temp")
 #DOCS_BLOCK_START:stack-escape-hatches
-stack.add_override("terraform.backend",{
+stack.add_override("terraform.backend", {
+    "local": Token.null_value(), # delete the default local backend
     "remote": {
         "organization": "test",
         "workspaces": {

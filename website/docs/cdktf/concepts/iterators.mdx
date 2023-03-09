@@ -12,7 +12,7 @@ Iterators let you loop over a collection of values. You can use them to create m
 
 Use iterators when you need to reference dynamic data that is not known until after Terraform applies a configuration. For example, instance IDs that cloud providers assign on creation.
 
-When data is static or you know the values before [synthesizing your code](/cdktf/cli-reference/commands#synth), we recommend using loops in your preferred programming language.
+When data is static or you know the values before [synthesizing your code](/terraform/cdktf/cli-reference/commands#synth), we recommend using loops in your preferred programming language.
 
 ## Define Iterators
 
@@ -114,7 +114,7 @@ from cdktf import TerraformIterator, TerraformVariable, TerraformLocal
 
 </CodeTabs>
 
-You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/language/meta-arguments/count).
+You cannot access the index of items when iterating over lists. This is because CDKTF implicitly converts lists to sets when iterating over them, but Terraform requires sets for iteration. This behavior prevents Terraform from accidentally deleting and recreating resources when their indices change. If you need an index, use an [escape hatch](/terraform/cdktf/concepts/resources#escape-hatch) with the [`count.index` property](/terraform/language/meta-arguments/count).
 
 ## Using Iterators on Complex Types
 
@@ -272,7 +272,7 @@ new S3Bucket(this, "listBucket", new S3BucketConfig
 
 ## Using Iterators for List Attributes
 
-You can also use iterators to create a list of objects based on each item in a list and assign the result as a value to a property of a resource. This is equivalent to using `Array.map` in TypeScript and using [dynamic blocks](/language/expressions/dynamic-blocks) in a Terraform HCL configuration.
+You can also use iterators to create a list of objects based on each item in a list and assign the result as a value to a property of a resource. This is equivalent to using `Array.map` in TypeScript and using [dynamic blocks](/terraform/language/expressions/dynamic-blocks) in a Terraform HCL configuration.
 
 Use iterators for list attributes if the length of the list is not known before deploying. Otherwise, use native functions that are available in your language (e.g., `Array.map` in TypeScript).
 
@@ -280,6 +280,7 @@ The following examples use an iterator to create a team containing each member o
 
 <!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-list-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-list-attributes -->
 <!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-list-attributes -->
 
@@ -338,29 +339,33 @@ new TeamMembers(this, "members", {
 ```
 
 ```java
-String orgName = "my-org";
+        String orgName = "my-org";
+        new GithubProvider(this, "github", GithubProviderConfig.builder()
+                .organization(orgName)
+                .build()
+        );
+        Team team = new Team(this, "core-team", TeamConfig.builder()
+                .name("core")
+                .build()
+        );
 
-GithubProvider.Builder.create(this, "github")
-        .organization(orgName)
-        .build();
+        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org", DataGithubOrganizationConfig.builder()
+                .name(orgName)
+                .build()
+        );
 
-Team team = Team.Builder.create(this, "core-team")
-        .name("core")
-        .build();
+        ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
 
-DataGithubOrganization orgMembers = DataGithubOrganization.Builder.create(this, "org")
-        .name(orgName)
-        .build();
+        Map<String, Object> content = new HashMap<String, Object>() {{
+            put("username", Token.asString(orgMemberIterator.getValue()));
+            put("role", "maintainer");
+        }};
 
-ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
-
-HashMap<String, Object> content = new HashMap<String, Object>();
-content.put("username", Token.asString(orgMemberIterator.getValue()));
-content.put("role", "maintainer");
-TeamMembers.Builder.create(this, "members")
-        .teamId(team.getId())
-        .members(orgMemberIterator.dynamic(content))
-        .build();
+        new TeamMembers(this, "members", TeamMembersConfig.builder()
+                .teamId(team.getId())
+                .members(orgMemberIterator.dynamic(content))
+                .build()
+        );
 ```
 
 ```csharp

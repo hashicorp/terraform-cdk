@@ -1,7 +1,7 @@
 
 {
   "provider_schemas": {
-    "google": {
+    "registry.terraform.io/hashicorp/google": {
       "resource_schemas": {
         "description_escaping": {
           "version": 1,

@@ -50,7 +50,7 @@ export class DataTerraformRemoteStateHttp extends TerraformRemoteState {
  * The ID of the holding lock info will be added as a query parameter to state updates requests.
  *
  * Read more about this backend in the Terraform docs:
- * https://www.terraform.io/language/settings/backends/http
+ * https://developer.hashicorp.com/terraform/language/settings/backends/http
  */
 export interface HttpBackendConfig {
   /**

@@ -1,6 +1,6 @@
 {
   "provider_schemas": {
-    "aws": {
+    "registry.terraform.io/hashicorp/aws": {
       "resource_schemas": {
         "aws_boolean_list": {
           "version": 1,
@@ -19,6 +19,13 @@
                   "bool"
                 ],
                 "optional": true
+              },
+              "foo_computed": {
+                "type": [
+                  "list",
+                  "bool"
+                ],
+                "computed": true
               }
 
             }

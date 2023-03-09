@@ -9,21 +9,21 @@ description: >-
 
 The CDK for Terraform CLI has the following commands:
 
-- [completion](/cdktf/cli-reference/commands#completion)
-- [convert](/cdktf/cli-reference/commands#convert)
-- [debug](/cdktf/cli-reference/commands#debug)
-- [deploy](/cdktf/cli-reference/commands#deploy)
-- [destroy](/cdktf/cli-reference/commands#destroy)
-- [diff](/cdktf/cli-reference/commands#diff)
-- [get](/cdktf/cli-reference/commands#get)
-- [init](/cdktf/cli-reference/commands#init)
-- [login](/cdktf/cli-reference/commands#login)
-- [output](/cdktf/cli-reference/commands#output)
-- [provider add](/cdktf/cli-reference/commands#provider-add)
-- [provider upgrade](/cdktf/cli-reference/commands#provider-upgrade)
-- [provider list](/cdktf/cli-reference/commands#provider-list)
-- [synth](/cdktf/cli-reference/commands#synth)
-- [watch](/cdktf/cli-reference/commands#watch)
+- [completion](/terraform/cdktf/cli-reference/commands#completion)
+- [convert](/terraform/cdktf/cli-reference/commands#convert)
+- [debug](/terraform/cdktf/cli-reference/commands#debug)
+- [deploy](/terraform/cdktf/cli-reference/commands#deploy)
+- [destroy](/terraform/cdktf/cli-reference/commands#destroy)
+- [diff](/terraform/cdktf/cli-reference/commands#diff)
+- [get](/terraform/cdktf/cli-reference/commands#get)
+- [init](/terraform/cdktf/cli-reference/commands#init)
+- [login](/terraform/cdktf/cli-reference/commands#login)
+- [output](/terraform/cdktf/cli-reference/commands#output)
+- [provider add](/terraform/cdktf/cli-reference/commands#provider-add)
+- [provider upgrade](/terraform/cdktf/cli-reference/commands#provider-upgrade)
+- [provider list](/terraform/cdktf/cli-reference/commands#provider-list)
+- [synth](/terraform/cdktf/cli-reference/commands#synth)
+- [watch](/terraform/cdktf/cli-reference/commands#watch)
 
 ## completion
 
@@ -163,7 +163,7 @@ Options:
   -h, --help                                    Show help  [boolean]
 ```
 
-~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 
@@ -199,7 +199,7 @@ $ cdktf deploy '*-production'
 
 If the stacks have dependencies (through cross stack references or by calling `myStack.addDependency(otherStack)`) deploy will figure out the right order to run.
 
-For more info on the `--outputs-file` option, refer to the [`output` command](/cdktf/cli-reference/commands#output).
+For more info on the `--outputs-file` option, refer to the [`output` command](/terraform/cdktf/cli-reference/commands#output).
 
 ## destroy
 
@@ -236,7 +236,7 @@ Options:
   -h, --help                               Show help  [boolean]
 ```
 
-~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 
@@ -305,7 +305,7 @@ Options:
   -h, --help                      Show help  [boolean]
 ```
 
-~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/cli/commands/plan#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/plan#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 Examples:
 
@@ -542,7 +542,7 @@ Options:
   -h, --help                      Show help  [boolean]
 ```
 
-~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
+~> **Note:** The `parallelism` flag has a different behavior than the [terraform parallelism flag](/terraform/cli/commands/apply#parallelism-n). To set the custom terraform parallelism flag, please use the `--terraform-parallelism` flag instead.
 
 **Examples**
 
@@ -652,7 +652,7 @@ maven: Apache Maven 3.8.2 (ea98e05a04480131370aa0c110b8c54cf726c06f)Maven home: 
 
 ## provider add
 
-This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
+This command facilitates adding Terraform providers to a CDKTF project. If a [pre-built provider](/terraform/cdktf/concepts/providers#install-pre-built-providers) is available for the CDKTF version you are using and the Terraform provider version you requested (if any), it will be installed using e.g. `npm install` or `dotnet add` depending on the language you are using. Otherwise, the provider will be added to the `cdktf.json` config and `cdktf get` will be automatically invoked to generate [local provider bindings](/terraform/cdktf/concepts/providers#add-provider-to-cdktf-json).
 
 ```sh
 $ cdktf provider add --help
@@ -685,7 +685,7 @@ Add the `aws` provider to the project. As the namespace of the AWS Terraform pro
 $ cdktf provider add aws
 ```
 
-Add a specific version of the `aws` provider to the project. You can use the `@` symbol to specify a [version constraint](/language/providers/requirements#version-constraints).
+Add a specific version of the `aws` provider to the project. You can use the `@` symbol to specify a [version constraint](/terraform/language/providers/requirements#version-constraints).
 
 ```bash
 $ cdktf provider add aws@~>4.0
@@ -707,7 +707,7 @@ $ cdktf provider add registry.example.com/acme/my-provider
 
 This command lets you upgrade Terraform providers in a CDKTF project to the newest version compatible with your `cdktf` version. You can also optionally add a version constraint.
 
-If your project has the associated [pre-built provider](/cdktf/concepts/providers#install-pre-built-providers) already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the provider to the `cdktf.json` configuration file and invokes `cdktf get` to generate [local provider bindings](/cdktf/concepts/providers#add-provider-to-cdktf-json).
+If your project has the associated [pre-built provider](/terraform/cdktf/concepts/providers#install-pre-built-providers) already installed, CDKTF updates the pre-built provider. Otherwise, CDKTF adds the provider to the `cdktf.json` configuration file and invokes `cdktf get` to generate [local provider bindings](/terraform/cdktf/concepts/providers#add-provider-to-cdktf-json).
 
 ```sh
 $ cdktf provider upgrade --help

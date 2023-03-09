@@ -1,0 +1,82 @@
+{
+    "format_version": "1.0",
+    "provider_schemas": {
+      "registry.terraform.io/hashicorp/test": {
+        "resource_schemas": {
+          "test_complex": {
+            "version": 0,
+            "block": {
+              "attributes": {
+                "ll": {
+                  "type": [
+                    "list",
+                    [
+                      "list",
+                      [
+                        "object",
+                        {
+                          "coupon": "string",
+                          "discount_amount": "string"
+                        }
+                      ]
+                    ]
+                  ],
+                  "computed": true
+                },
+                "ls": {
+                    "type": [
+                      "list",
+                      [
+                        "set",
+                        [
+                          "object",
+                          {
+                            "coupon": "string",
+                            "discount_amount": "string"
+                          }
+                        ]
+                      ]
+                    ],
+                    "computed": true
+                  },
+                  "sl": {
+                    "type": [
+                      "set",
+                      [
+                        "list",
+                        [
+                          "object",
+                          {
+                            "coupon": "string",
+                            "discount_amount": "string"
+                          }
+                        ]
+                      ]
+                    ],
+                    "computed": true
+                  },
+                  "ss": {
+                    "type": [
+                      "set",
+                      [
+                        "set",
+                        [
+                          "object",
+                          {
+                            "coupon": "string",
+                            "discount_amount": "string"
+                          }
+                        ]
+                      ]
+                    ],
+                    "computed": true
+                  }
+              },
+              "description_kind": "plain"
+            }
+          }
+        }
+      }
+    }
+  }
+  

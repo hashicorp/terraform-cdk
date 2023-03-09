@@ -17,16 +17,16 @@ const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
   description: \\"A domain\\",
 });
 new auth0.provider.Auth0Provider(this, \\"auth0\\", {
-  clientId: clientId.value,
-  clientSecret: clientSecret.value,
-  domain: domain.value,
+  clientId: clientId.stringValue,
+  clientSecret: clientSecret.stringValue,
+  domain: domain.stringValue,
 });
 new auth0.provider.Auth0Provider(this, \\"auth0_4\\", {
   alias: \\"private_auth0\\",
-  clientId: clientId.value,
-  clientSecret: clientSecret.value,
+  clientId: clientId.stringValue,
+  clientSecret: clientSecret.stringValue,
   debug: true,
-  domain: domain.value,
+  domain: domain.stringValue,
 });
 "
 `;
@@ -59,7 +59,7 @@ const dataAwsS3BucketExamplebucket = new aws.dataAwsS3Bucket.DataAwsS3Bucket(
   this,
   \\"examplebucket\\",
   {
-    bucket: bucketName.value,
+    bucket: bucketName.stringValue,
   }
 );
 new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
@@ -85,9 +85,9 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.s3Bucket.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.value,
+  bucket: bucketName.stringValue,
   tags: {
-    \\"tag-key\\": bucketName.value,
+    \\"tag-key\\": bucketName.stringValue,
   },
 });
 "
@@ -121,7 +121,7 @@ const domain = new cdktf.TerraformVariable(this, \\"domain\\", {
 new auth0.provider.Auth0Provider(this, \\"auth0\\", {
   clientId: \\"client_id\\",
   clientSecret: \\"client_secret\\",
-  domain: domain.value,
+  domain: domain.stringValue,
 });
 "
 `;
@@ -197,7 +197,7 @@ const bucketName = new cdktf.TerraformVariable(this, \\"bucket_name\\", {
 });
 new aws.s3Bucket.S3Bucket(this, \\"examplebucket\\", {
   acl: \\"private\\",
-  bucket: bucketName.value,
+  bucket: bucketName.stringValue,
 });
 "
 `;

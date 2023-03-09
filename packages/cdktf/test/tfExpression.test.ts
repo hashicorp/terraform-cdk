@@ -101,10 +101,22 @@ test("functions escape string markers", () => {
   ).toMatchInlineSnapshot(`"\${length(\\"\\\\\\"\\")}"`);
 });
 
+test("functions escape object keys", () => {
+  expect(
+    resolveExpression(
+      call("keys", [{ "key:with:colons": "value", normal_key: "value" }])
+    )
+  ).toMatchInlineSnapshot(
+    `"\${keys({\\"key:with:colons\\" = \\"value\\", \\"normal_key\\" = \\"value\\"})}"`
+  );
+});
+
 test("string index expression argument renders correctly", () => {
   expect(
     resolveExpression(Op.or(true, { a: "foo", b: "bar " }))
-  ).toMatchInlineSnapshot(`"\${(true || {a = \\"foo\\", b = \\"bar \\"})}"`);
+  ).toMatchInlineSnapshot(
+    `"\${(true || {\\"a\\" = \\"foo\\", \\"b\\" = \\"bar \\"})}"`
+  );
 });
 
 test("null expression argument renders correctly", () => {
