@@ -453,11 +453,17 @@ function translatorForVisitor(visitor: any) {
       throwOnTranslationError ? { includeCompilerDiagnostics: true } : {}
     );
 
-    if (throwOnTranslationError && diagnostics.length > 0) {
+    if (
+      throwOnTranslationError &&
+      diagnostics.filter((diag) => diag.isError).length > 0
+    ) {
+      logger.debug(
+        `Could not translate TS to ${visitor.language}:\n${file.contents}`
+      );
       throw new Error(
-        `Could not translate TS to ${visitor.language}: ${diagnostics.join(
-          "\n"
-        )}`
+        `Could not translate TS to ${visitor.language}: ${diagnostics
+          .map((diag) => diag.formattedMessage)
+          .join("\n")}`
       );
     }
 
