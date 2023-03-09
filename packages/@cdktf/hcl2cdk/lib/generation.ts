@@ -39,6 +39,7 @@ import {
   isMapAttribute,
 } from "./terraformSchema";
 import { coerceType } from "./coerceType";
+import { Errors } from "@cdktf/commons";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -786,4 +787,41 @@ export async function gen(statements: t.Statement[]) {
   logger.debug(`Generated code:\n${code}`);
 
   return code;
+}
+
+export function wrapCodeInConstructor(
+  codeContainer: string,
+  code: t.Statement[],
+  className = "MyConvertedCode"
+) {
+  let baseContainerClass: t.MemberExpression;
+  switch (codeContainer) {
+    case "constructs.Construct":
+      baseContainerClass = t.memberExpression(
+        t.identifier("constructs"),
+        t.identifier("Construct")
+      );
+      break;
+
+    case "cdktf.TerraformStack":
+      baseContainerClass = t.memberExpression(
+        t.identifier("cdktf"),
+        t.identifier("TerraformStack")
+      );
+      break;
+    default:
+      throw Errors.Internal("Unsupported code container: " + codeContainer);
+  }
+
+  return template.statement(
+    `
+  class %%className%% extends %%base%% {
+    constructor(scope: constructs.Construct, name: string) {
+      super(scope, name);
+      %%code%%
+    }
+  }
+`,
+    { syntacticPlaceholders: true, plugins: ["typescript"] }
+  )({ code, base: baseContainerClass, className: t.identifier(className) });
 }
