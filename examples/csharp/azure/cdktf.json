@@ -1,7 +1,9 @@
 {
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
-  "terraformProviders": ["azurerm@~> 2.0"],
+  "terraformProviders": [
+    "azurerm@~> 2.0"
+  ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
   }
