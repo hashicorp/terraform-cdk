@@ -32,6 +32,7 @@ import {
   providerImports as getProviderImports,
   resource,
   variable,
+  wrapCodeInConstructor,
 } from "./generation";
 import { TerraformResourceBlock, Scope } from "./types";
 import {
@@ -381,38 +382,6 @@ For a more precise conversion please use the --provider flag in convert.`
 
   const code = [...(backendExpressions || []), ...expressions];
 
-  // TODO: move into function in generation
-  let baseContainerClass: t.MemberExpression;
-  switch (codeContainer) {
-    case "constructs.Construct":
-      baseContainerClass = t.memberExpression(
-        t.identifier("constructs"),
-        t.identifier("Construct")
-      );
-      break;
-
-    case "cdktf.TerraformStack":
-      baseContainerClass = t.memberExpression(
-        t.identifier("cdktf"),
-        t.identifier("TerraformStack")
-      );
-      break;
-    default:
-      throw Errors.Internal("Unsupported code container: " + codeContainer);
-  }
-
-  const codeContainerAst = template.statement(
-    `
-  class MyConvertedCode extends %%base%% {
-    constructor(scope: constructs.Construct, name: string) {
-      super(scope, name);
-      %%code%%
-    }
-  }
-`,
-    { syntacticPlaceholders: true, plugins: ["typescript"] }
-  )({ code, base: baseContainerClass });
-
   // We split up the generated code so that users can have more control over what to insert where
   return {
     all: await gen([
@@ -420,7 +389,7 @@ For a more precise conversion please use the --provider flag in convert.`
       ...cdktfImports,
       ...providerImports,
       ...moduleImports(plan.module),
-      codeContainerAst,
+      wrapCodeInConstructor(codeContainer, code),
     ]),
     imports: await gen([
       ...cdktfImports,
