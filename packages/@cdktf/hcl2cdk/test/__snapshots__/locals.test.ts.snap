@@ -1,25 +1,37 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`locals locals snapshot 1`] = `
-"import * as cdktf from \\"cdktf\\";
-const howMany = 42;
-const isItGreat = true;
-const owner = \\"Community Team\\";
-const serviceName = \\"forum\\";
-new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
-});
+exports[`locals locals typescript snapshot 1`] = `
+"import * as constructs from \\"constructs\\";
+import * as cdktf from \\"cdktf\\";
+class MyConvertedCode extends cdktf.TerraformStack {
+  constructor(scope: constructs.Construct, name: string) {
+    super(scope, name);
+    const howMany = 42;
+    const isItGreat = true;
+    const owner = \\"Community Team\\";
+    const serviceName = \\"forum\\";
+    new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+      value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+    });
+  }
+}
 "
 `;
 
-exports[`locals multiple locals blocks snapshot 1`] = `
-"import * as cdktf from \\"cdktf\\";
-const owner = \\"Community Team\\";
-const serviceName = \\"forum\\";
-const howMany = 42;
-const isItGreat = true;
-new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-  value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
-});
+exports[`locals multiple locals blocks typescript snapshot 1`] = `
+"import * as constructs from \\"constructs\\";
+import * as cdktf from \\"cdktf\\";
+class MyConvertedCode extends cdktf.TerraformStack {
+  constructor(scope: constructs.Construct, name: string) {
+    super(scope, name);
+    const owner = \\"Community Team\\";
+    const serviceName = \\"forum\\";
+    const howMany = 42;
+    const isItGreat = true;
+    new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
+      value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+    });
+  }
+}
 "
 `;
