@@ -119,6 +119,12 @@ Convert a local file.
 cat main.tf | cdktf convert > imported.ts
 ```
 
+Convert a local file and wrap it into a `cdktf.TerraformStack` instead of a `cdktf.Construct`.
+
+```bash
+cat main.tf | cdktf convert --stack > imported.ts
+```
+
 Convert HCL in your clipboard to Python on OSX.
 
 ```bash
