@@ -2096,10 +2096,15 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@14.18.33", "@types/node@^14.18.33", "@types/node@^16.18.3":
+"@types/node@*", "@types/node@14.18.33", "@types/node@^14.18.33":
   version "14.18.33"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.33.tgz#8c29a0036771569662e4635790ffa9e057db379b"
   integrity sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==
+
+"@types/node@^16.18.3":
+  version "16.18.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.14.tgz#5465ce598486a703caddbefe8603f8a2cffa3461"
+  integrity sha512-wvzClDGQXOCVNU4APPopC2KtMYukaF1MN/W3xAmslx22Z4/IF1/izDMekuyoUlwfnDHYCIZGaj7jMwnJKBTxKw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
@@ -7114,6 +7119,17 @@ jsii-srcmak@^0.1.840:
     fs-extra "^9.1.0"
     jsii "^1.76.0"
     jsii-pacmak "^1.76.0"
+    ncp "^2.0.0"
+    yargs "^15.4.1"
+
+jsii-srcmak@^0.1.847:
+  version "0.1.847"
+  resolved "https://registry.yarnpkg.com/jsii-srcmak/-/jsii-srcmak-0.1.847.tgz#e42df87aaf7bb579362db3fb4b24a7ba635fa09a"
+  integrity sha512-icCv6UlSCYsijfZK6Mxik6A0YehtZKRJ8lRotJw24Ynw+lBh9aPhFYhfx9Q6m8Y8YqijLc2yxemMMiLpgdcTbg==
+  dependencies:
+    fs-extra "^9.1.0"
+    jsii "^1.77.0"
+    jsii-pacmak "^1.77.0"
     ncp "^2.0.0"
     yargs "^15.4.1"
 
