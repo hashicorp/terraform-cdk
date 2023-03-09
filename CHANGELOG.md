@@ -36,6 +36,10 @@ Fn.join(",", [src.stringResource.result, src.stringResource.result]) # stays the
 Fn.join(separator=",", list=[src.stringResource.result, src.stringResource.result]) # value -> list
 ```
 
+### Converted Code now wrapped in `constructs.Construct` or `cdktf.TerraformStack`
+
+To improve the translation capabilities of `cdktf convert` for languages other than Typescript we need to make the converted Typescript code compile. Currently the imports and CDKTF statements are printed below one another, with CDKTF 0.16 we will always wrap them in a custom construct or if you pass the `--stack` flag in a TerraformStack. As long as you don't have any automation set up around convert this change will not affect you. If you do, we suggest switching to the `@cdktf/hcl2cdk` npm package since it exports both the imports and the raw code seperately.
+
 ## 0.15.5
 
 ### fix
