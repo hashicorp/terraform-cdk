@@ -1,33 +1,67 @@
-import { convert } from "../lib";
+import { binding, Synth, testCase } from "./helpers/convert";
 
-const targetLanguages = ["typescript", "python", "csharp", "java", "go"];
 describe("JSII Language Support", () => {
-  it.each(targetLanguages)("supports %s", async (language) => {
-    const hcl = `
-      resource "aws_kms_key" "examplekms" {
-        description             = "KMS key 1"
-        deletion_window_in_days = 7
+  testCase.test(
+    "complex aws example",
+    `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
+    resource "aws_kms_key" "examplekms" {
+      description             = "KMS key 1"
+      deletion_window_in_days = 7
+    }
+    
+    resource "aws_s3_bucket" "examplebucket" {
+      bucket = "examplebuckettftest"
+      acl    = "private"
+    }
+    
+    resource "aws_s3_bucket_object" "examplebucket_object" {
+      key        = "someobject"
+      bucket     = element(aws_s3_bucket.examplebucket, 0).id
+      source     = "index.html"
+      kms_key_id = aws_kms_key.examplekms.arn
+    }
+
+    resource "aws_security_group" "allow_tls" {
+      name        = "allow_tls"
+      description = "Allow TLS inbound traffic"
+    
+      ingress {
+        description      = "TLS from VPC"
+        from_port        = 443
+        to_port          = 443
+        protocol         = "tcp"
       }
-      
-      resource "aws_s3_bucket" "examplebucket" {
-        bucket = "examplebuckettftest"
-        acl    = "private"
+  
+      ingress {
+        description      = "TLS from VPC"
+        from_port        = 80
+        to_port          = 80
+        protocol         = "tcp"
       }
-      
-      resource "aws_s3_bucket_object" "examplebucket_object" {
-        key        = "someobject"
-        bucket     = element(aws_s3_bucket.examplebucket, 0).id
-        source     = "index.html"
-        kms_key_id = aws_kms_key.examplekms.arn
+  
+      ingress {
+        from_port        = 8080
+        to_port          = 8080
+        protocol         = "tcp"
       }
-      `;
-    expect(
-      (
-        await convert(hcl, {
-          language: language as any,
-          providerSchema: {},
-        })
-      ).all
-    ).toMatchSnapshot();
-  });
+    
+      egress {
+        from_port        = 0
+        to_port          = 0
+        protocol         = "-1"
+        cidr_blocks      = ["0.0.0.0/0"]
+        ipv6_cidr_blocks = ["::/0"]
+      }
+    
+      tags = {
+        Name = "allow_tls"
+      }
+    }
+    `,
+    [binding.aws],
+    Synth.yes_all_languages
+  );
 });

@@ -22,6 +22,7 @@ import deepmerge from "deepmerge";
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
+  yes_all_languages, // Synth and snapshot all languages
   yes,
   no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
   never, // Some examples are built so that they will never synth but test a specific generation edge case
@@ -270,64 +271,86 @@ const createTestCase =
     }
 
     const testBody = () => {
-      let convertResult: any;
-      beforeAll(async () => {
-        let { providerSchema } = await getProviderSchema(providers);
-        if (schemaFilter) {
-          // TODO: Re-enable once we can trick Terraform CLI Checksums
-          providerSchema = filterSchema(providerSchema, undefined);
-        }
-        convertResult = await convert(hcl, {
-          language: "typescript",
-          providerSchema,
-        });
-      }, 500_000);
-
-      it("snapshot", async () => {
-        expect(convertResult.all).toMatchSnapshot();
-      }, 500_000);
-
-      if (shouldSynth === Synth.yes) {
-        it("synth", async () => {
-          const filename = name.replace(/\s/g, "-");
-          const projectDirPromise = getProjectDirectory(providers);
-          const { imports, code } = convertResult;
-          const projectDir = await projectDirPromise;
-          // Have a before all somewhere above bootstrap a TS project
-          // __dirname should be replaceed by the bootstrapped directory
-          const pathToThisProjectsFile = path.join(
-            projectDir,
-            filename + ".ts"
-          );
-          const fileContent = `
-        import { Construct } from "constructs";
-        import { App, TerraformStack } from "cdktf";
-        ${imports}
-
-        class MyStack extends TerraformStack {
-          constructor(scope: Construct, name: string) {
-            super(scope, name);
-
-            ${code}
-
+      describe("typescript", () => {
+        let convertResult: any;
+        beforeAll(async () => {
+          let { providerSchema } = await getProviderSchema(providers);
+          if (schemaFilter) {
+            // TODO: Re-enable once we can trick Terraform CLI Checksums
+            providerSchema = filterSchema(providerSchema, undefined);
           }
-        }
-
-        const app = new App();
-        new MyStack(app, "${filename}");
-        app.synth();
-        `;
-
-          fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
-
-          const stdout = execSync(
-            `${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`,
-            { cwd: projectDir }
-          );
-          expect(stdout.toString()).toEqual(
-            expect.stringContaining(`Generated Terraform code for the stacks`)
-          );
+          convertResult = await convert(hcl, {
+            language: "typescript",
+            providerSchema,
+            codeContainer: "cdktf.TerraformStack",
+          });
         }, 500_000);
+
+        it("snapshot", async () => {
+          expect(convertResult.all).toMatchSnapshot();
+        }, 500_000);
+
+        if (
+          shouldSynth === Synth.yes ||
+          shouldSynth === Synth.yes_all_languages
+        ) {
+          it("synth", async () => {
+            const filename = name.replace(/\s/g, "-");
+            const projectDirPromise = getProjectDirectory(providers);
+            const { all } = convertResult;
+            const projectDir = await projectDirPromise;
+
+            // Have a before all somewhere above bootstrap a TS project
+            // __dirname should be replaceed by the bootstrapped directory
+            const pathToThisProjectsFile = path.join(
+              projectDir,
+              filename + ".ts"
+            );
+            const fileContent = `
+${all}
+const app = new cdktf.App();
+new MyConvertedCode(app, "${filename}");
+app.synth();
+`;
+
+            fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
+
+            const stdout = execSync(
+              `${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`,
+              { cwd: projectDir }
+            );
+            expect(stdout.toString()).toEqual(
+              expect.stringContaining(`Generated Terraform code for the stacks`)
+            );
+          }, 500_000);
+        }
+      });
+
+      if (shouldSynth === Synth.yes_all_languages) {
+        describe.each(["python", "csharp", "java", "go"])("%s", (language) => {
+          let projectDir = "";
+          let convertResult: any;
+
+          beforeAll(async () => {
+            projectDir = await getProjectDirectory(providers);
+
+            process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
+          }, 500_000);
+
+          it("snapshot", async () => {
+            let { providerSchema } = await getProviderSchema(providers);
+            if (schemaFilter) {
+              // TODO: Re-enable once we can trick Terraform CLI Checksums
+              providerSchema = filterSchema(providerSchema, undefined);
+            }
+            convertResult = await convert(hcl, {
+              language: language as any,
+              providerSchema,
+              throwOnTranslationError: true,
+            });
+            expect(convertResult.all).toMatchSnapshot();
+          }, 500_000);
+        });
       }
     };
 
