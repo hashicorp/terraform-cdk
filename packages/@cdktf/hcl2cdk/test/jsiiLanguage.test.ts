@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { binding, Synth, testCase } from "./helpers/convert";
 
 describe("JSII Language Support", () => {
