@@ -43,7 +43,17 @@ if (!exampleToBuild) {
 }
 
 function runInExample(command) {
-  return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
+  try {
+    return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
+  } catch (e) {
+    console.error(
+      `Failed to run ${command} in ${exampleToBuild} with signal ${e.signal}}`
+    );
+    console.error("STDOUT:");
+    console.error(e.stdout.toString());
+    console.error("STDERR:");
+    console.error(e.stdout.toString());
+  }
 }
 
 runInExample(`reinstall`);
