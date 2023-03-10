@@ -19,31 +19,38 @@ public class MainStacks extends TerraformStack {
 
     public TerraformLocal allResources;
 
-    public MainStacks(Construct scope, String id){
+    public MainStacks(Construct scope, String id) {
         super(scope, id);
 
         MainStacks.Temp resourceFromStackA = new Temp();
         MainStacks.Temp resourceFromStackB = new Temp();
 
         // DOCS_BLOCK_START:stack-dependencies
-        this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
+        this.allResources = new TerraformLocal(this, "merge_items",
+                Fn.concat(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
         // DOCS_BLOCK_END:stack-dependencies
 
         TerraformStack stack = new TerraformStack(new App(), "temp");
         // DOCS_BLOCK_START:stack-escape-hatches
-        stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>(){{
-            put("local", null); // delete the default local backend
-            put("remote", new HashMap<String, Object>(){{
-                put("organization", "test");
-                put("workspaces", new HashMap<String, String>(){{
-                    put("name", "test");
-                }});
-            }});
-        }});
+        stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>() {
+            {
+                put("local", null); // delete the default local backend
+                put("remote", new HashMap<String, Object>() {
+                    {
+                        put("organization", "test");
+                        put("workspaces", new HashMap<String, String>() {
+                            {
+                                put("name", "test");
+                            }
+                        });
+                    }
+                });
+            }
+        });
         // DOCS_BLOCK_END:stack-escape-hatches
     }
 
-    public static class Temp{
-        public List<? extends Object>  items = Arrays.asList("1", "2", "3");
+    public static class Temp {
+        public List<? extends Object> items = Arrays.asList("1", "2", "3");
     }
 }
