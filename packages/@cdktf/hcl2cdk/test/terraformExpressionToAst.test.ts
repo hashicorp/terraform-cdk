@@ -4,7 +4,7 @@
  */
 
 import generate from "@babel/generator";
-import { terraformObjectToTsAst } from "../lib/expressions";
+import { stringToTs } from "../lib/expressions";
 import { Scope } from "../lib/types";
 
 const mockScope: Scope = {
@@ -17,30 +17,41 @@ const mockScope: Scope = {
 
 const mockPath = "";
 
+const defaults = {
+  scope: mockScope,
+  path: mockPath,
+  nodeIds: [],
+};
+
 describe("terraformExpressionToAst", () => {
-  it.skip("should use Fn.element for function call", async () => {
+  it.only("should use Fn.element for function call", async () => {
     expect(
       generate(
-        await terraformObjectToTsAst(
-          mockScope,
-          "${element(var.list, 0)}",
-          mockPath,
-          ["var.list"]
-        )
+        await stringToTs({
+          ...defaults,
+          input: "${element(var.list, 0)}",
+          nodeIds: ["var.list"],
+        })
       ).code
     ).toEqual("cdktf.Fn.element(var.list, 0)");
   });
   it("should use Op.add for operator usage", async () => {
     expect(
       generate(
-        await terraformObjectToTsAst(mockScope, `\${1 + 2}`, mockPath, [])
+        await stringToTs({
+          ...defaults,
+          input: `\${1 + 2}`,
+        })
       ).code
     ).toEqual(`cdktf.Op.add("1", "2")`);
   });
   it("should return literal value as is", async () => {
     expect(
       generate(
-        await terraformObjectToTsAst(mockScope, `\${"abc"}`, mockPath, [])
+        await stringToTs({
+          ...defaults,
+          input: `\${"abc"}`,
+        })
       ).code
     ).toEqual(`"\${\\"abc\\"}"`);
   });
@@ -48,7 +59,10 @@ describe("terraformExpressionToAst", () => {
     // TODO: figure out how to invoke this so we'll actually see something here
     expect(
       generate(
-        await terraformObjectToTsAst(mockScope, `\${var.list}`, mockPath, [])
+        await stringToTs({
+          ...defaults,
+          input: `\${var.list}`,
+        })
       ).code
     ).toEqual(`\${"abc"}`);
   });

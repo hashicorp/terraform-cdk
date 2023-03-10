@@ -27,6 +27,10 @@ export const coerceType = (
   from: AttributeType,
   to: AttributeType | undefined
 ): t.Expression => {
+  console.log(
+    `coerceType() from ${JSON.stringify(from)} to ${JSON.stringify(to)}`
+  ); // TODO: remove
+
   if (to === undefined) {
     return ast;
   }

@@ -54,6 +54,7 @@ export async function extractReferencesFromExpression(
   scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
 ): Promise<Reference[]> {
   logger.debug(`extractReferencesFromExpression(${input})`);
+  // TODO: refactor this to work on a tfObject instead
   const possibleVariableSpots = await getReferencesInExpression(
     "main.tf",
     input
@@ -374,43 +375,84 @@ export const isOuterExpressionOperation = (
  * This function invokes itself recursively to break down the expression. An input string without a function call or
  * operation is converted into a template string with resolved references (if there are any).
  */
-export const terraformObjectToTsAst = async (
-  scope: Scope,
-  input: string,
-  path: string, // TODO: idea: change this to the expected type, so we can use it in recursive calls
-  nodeIds: string[],
-  scopedIds: string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
-): Promise<t.Expression> => {
+export const stringToTs = async ({
+  scope,
+  input,
+  path,
+  nodeIds,
+  scopedIds = [],
+}: {
+  scope: Scope;
+  input: string;
+  path: string;
+  nodeIds: string[]; // TODO: idea: change this to the expected type, so we can use it in recursive calls
+  scopedIds?: string[]; // dynamics introduce new scoped variables that are not the globally accessible ids
+}): Promise<t.Expression> => {
+  // parse
+  const tfObject = await getExpressionAst("main.tf", input);
+
+  if (!tfObject) throw new Error(`Could not parse Terraform input: ${input}`);
+
+  // convert to TS
+  const tsAst = await terraformObjectToTsAst({
+    tfObject,
+    scope,
+    input,
+    path,
+    nodeIds,
+    scopedIds,
+  });
+
+  return tsAst;
+};
+
+// TODO: try to get rid of e.g. input!
+export const terraformObjectToTsAst = async ({
+  tfObject,
+  scope,
+  input,
+  path,
+  nodeIds,
+  scopedIds,
+}: {
+  tfObject: TerraformObject;
+  scope: Scope;
+  input: string;
+  path: string;
+  nodeIds: string[]; // TODO: idea: change this to the expected type, so we can use it in recursive calls
+  scopedIds: string[];
+}): Promise<t.Expression> => {
   // TODO: ensure this handles type coercion that might need to happen
   // TODO: ensure this handles functions that should be replaced with terraform functions
   // TODO: ensure this handles operations that should be replaced with terraform operations
   // TODO: what to do for [for ... in ...] syntax? do partial conversion? put into ${} and only replace references?
 
-  const stringForRange = (r: Range) =>
-    input.slice(
-      positionInString(input, r.Start),
-      positionInString(input, r.End)
-    );
-
-  const tfAst = await getExpressionAst("main.tf", input);
+  // TODO: move this into hcl2json and ensure that every content that requires this function is already set on TFObject
+  // const stringForRange = (r: Range) =>
+  //   input.slice(
+  //     positionInString(input, r.Start),
+  //     positionInString(input, r.End)
+  //   );
 
   // TODO: handle globally if the string has a wrapping ("${}") on the outside, and not in isXy functions below (recursion won't have wrapped those strings all the time)
 
-  if (tfAst && isOuterExpressionFunctionCall(tfAst)) {
-    console.log(JSON.stringify(tfAst, null, 2));
+  if (tfObject && isOuterExpressionFunctionCall(tfObject)) {
+    console.log(JSON.stringify(tfObject, null, 2));
 
     // TODO: replace function calls and recurse on args
   }
 
-  if (tfAst && isOuterExpressionOperation(tfAst)) {
-    const lhs = tfAst.Wrapped.LHS;
-    const rhs = tfAst.Wrapped.RHS;
+  if (tfObject && isOuterExpressionOperation(tfObject)) {
+    // FIXME: readd this later
+    /*
+    const lhs = tfObject.Wrapped.LHS;
+    const rhs = tfObject.Wrapped.RHS;
 
-    const wrappedString = stringForRange(tfAst.Wrapped.SrcRange);
+    const wrappedString = stringForRange(tfObject.Wrapped.SrcRange);
 
     logger.debug(
       `Found an operation expression at the outmost level: '${stringForRange(
-        tfAst.Wrapped.SrcRange
+        tfObject.Wrapped.SrcRange
       )}'`
     );
 
@@ -447,14 +489,15 @@ export const terraformObjectToTsAst = async (
       } else {
         logger.warn(
           "The operation expression didn't contain SrcRanges in both lhs and rhs: " +
-            JSON.stringify(tfAst.Wrapped)
+            JSON.stringify(tfObject.Wrapped)
         );
       }
     }
-
-    // fallthrough: if we didn't return yet, we won't do anything about the op
-    // TODO: add debug log that we didn't replace the operation
+    */
   }
+
+  // fallthrough: if we didn't return yet, we won't do anything about the op
+  // TODO: add debug log that we didn't replace the operation
 
   // previous behaviour that was happening in generation.ts for strings (but is needed in recursion as well)
   const references = await extractReferencesFromExpression(

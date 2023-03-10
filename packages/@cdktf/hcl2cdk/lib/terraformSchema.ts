@@ -137,6 +137,7 @@ export function getTypeAtPath(
   schema: ProviderSchema,
   path: string
 ): Schema | BlockType | AttributeType | null {
+  console.log("getTypeAtPath", path); // TODO: remove
   const resourceSchema = getResourceAtPath(schema, path);
 
   if (!resourceSchema) {

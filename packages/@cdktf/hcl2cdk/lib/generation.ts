@@ -24,7 +24,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  terraformObjectToTsAst,
+  stringToTs,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -70,7 +70,7 @@ export const valueToTs = async (
     case "string":
       // strings are a bit special, as they can contain references,
       // function calls and other kinds of Terraform expressions
-      return terraformObjectToTsAst(scope, item, path, nodeIds, scopedIds);
+      return stringToTs({ scope, input: item, path, nodeIds, scopedIds });
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
