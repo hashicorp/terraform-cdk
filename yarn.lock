@@ -2066,7 +2066,7 @@
   resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.189.tgz#975ff8c38da5ae58b751127b19ad5e44b5b7f6d2"
   integrity sha512-kb9/98N6X8gyME9Cf7YaqIMvYGnBSWqEci6tiettE6iJWH1XdJz/PO8LB0GtLCG7x8dU3KWhZT+lA1a35127tA==
 
-"@types/minimatch@*":
+"@types/minimatch@*", "@types/minimatch@^5.1.2":
   version "5.1.2"
   resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-5.1.2.tgz#07508b45797cb81ec3f273011b054cd0755eddca"
   integrity sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==
@@ -2096,10 +2096,15 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@14.18.33", "@types/node@^14.18.33", "@types/node@^16.18.3":
+"@types/node@*", "@types/node@14.18.33", "@types/node@^14.18.33":
   version "14.18.33"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.18.33.tgz#8c29a0036771569662e4635790ffa9e057db379b"
   integrity sha512-qelS/Ra6sacc4loe/3MSjXNL1dNQ/GjxNHVzuChwMfmk7HuycRLVQN2qNY3XahK+fZc5E2szqQSKUyAF0E+2bg==
+
+"@types/node@^16.18.3":
+  version "16.18.14"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-16.18.14.tgz#5465ce598486a703caddbefe8603f8a2cffa3461"
+  integrity sha512-wvzClDGQXOCVNU4APPopC2KtMYukaF1MN/W3xAmslx22Z4/IF1/izDMekuyoUlwfnDHYCIZGaj7jMwnJKBTxKw==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.1"
