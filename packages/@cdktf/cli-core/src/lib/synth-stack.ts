@@ -154,7 +154,7 @@ Command output on stdout:
     }
 
     if (!(await fs.pathExists(path.join(outdir, Manifest.fileName)))) {
-      const errorMessage = `ERROR: synthesis failed, app expected to create "${outdir}/${Manifest.fileName}". Make sure your CDKTF App is synthesized.`;
+      const errorMessage = `ERROR: synthesis failed, because app was expected to call 'synth()`, but didn't. Thus "${outdir}/${Manifest.fileName}"  was not created.`;
       if (graceful) {
         throw new Error(errorMessage);
       }
