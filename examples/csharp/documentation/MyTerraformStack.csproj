@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
     <WarningLevel>0</WarningLevel>
+    <NoWarn>CS8602</NoWarn>
+    
   </PropertyGroup>
 
   <ItemGroup>
