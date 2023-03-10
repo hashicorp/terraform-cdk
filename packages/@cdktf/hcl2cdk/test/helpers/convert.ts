@@ -159,11 +159,9 @@ async function copyBindingsForProvider(
   await fs.copy(absolutePath!, target);
 }
 
-// We lie to TS here, this could be undefined but we know better
-let baseProjectPromise: Promise<string>;
-if (includeSynthTests) {
-  // Prepare for tests / warm up cache
-  baseProjectPromise = new Promise<string>(async (resolve) => {
+// Prepare for tests / warm up cache
+const prepareBaseProject = (language: string) =>
+  new Promise<string>(async (resolve) => {
     const projectDir = await fs.mkdtemp(
       path.join(os.tmpdir(), "cdktf-convert-base-")
     );
@@ -175,7 +173,7 @@ if (includeSynthTests) {
         `--dist=${cdktfDist}`,
         "--project-name='hello'",
         "--project-description='world'",
-        "--template=typescript",
+        `--template=${language}`,
         "--enable-crash-reporting=false",
       ],
       {
@@ -186,10 +184,22 @@ if (includeSynthTests) {
     resolve(projectDir);
   });
 
-  // getProviderSchema(Object.values(binding));
-}
+const baseProjectPromisePerLanguage = ["typescript", "python"].reduce(
+  (acc, language) => ({ ...acc, [language]: prepareBaseProject(language) }),
+  {} as Record<string, Promise<string>>
+);
+// getProviderSchema(Object.values(binding));
 
-async function getProjectDirectory(providers: ProviderDefinition[]) {
+async function getProjectDirectory(
+  language: string,
+  providers: ProviderDefinition[]
+) {
+  const baseProjectPromise = baseProjectPromisePerLanguage[language];
+  if (!baseProjectPromise) {
+    throw new Error(
+      `Unsupported language used to synthesize code: ${language}`
+    );
+  }
   const baseDir = await baseProjectPromise;
   const projectDir = await fs.mkdtemp(
     path.join(os.tmpdir(), "cdktf-convert-test-")
@@ -201,6 +211,28 @@ async function getProjectDirectory(providers: ProviderDefinition[]) {
       copyBindingsForProvider(provider, projectDir)
     ),
   ]);
+
+  // We only copy the TS bindings, but we need to run cdktf get for the language specific ones
+  if (language !== "typescript") {
+    await fs.writeFile(
+      path.resolve(projectDir, "cdktf.json"),
+      JSON.stringify(
+        {
+          language,
+          app: "echo 'app command should be overwritten'",
+          terraformProviders: providers
+            .filter((binding) => binding.type === ProviderType.provider)
+            .map((binding) => binding.fqn),
+          terraformModules: providers
+            .filter((binding) => binding.type === ProviderType.module)
+            .map((binding) => binding.fqn),
+        },
+        null,
+        2
+      )
+    );
+    await execa(cdktfBin, ["get"], { cwd: projectDir });
+  }
 
   return projectDir;
 }
@@ -288,20 +320,24 @@ const createTestCase =
       return;
     }
 
+    async function runConvert(language: string) {
+      let { providerSchema } = await getProviderSchema(providers);
+      if (schemaFilter) {
+        // TODO: Re-enable once we can trick Terraform CLI Checksums
+        providerSchema = filterSchema(providerSchema, undefined);
+      }
+      return await convert(hcl, {
+        language: language as any,
+        providerSchema,
+        codeContainer: "cdktf.TerraformStack",
+      });
+    }
+
     const testBody = () => {
       describe("typescript", () => {
         let convertResult: any;
         beforeAll(async () => {
-          let { providerSchema } = await getProviderSchema(providers);
-          if (schemaFilter) {
-            // TODO: Re-enable once we can trick Terraform CLI Checksums
-            providerSchema = filterSchema(providerSchema, undefined);
-          }
-          convertResult = await convert(hcl, {
-            language: "typescript",
-            providerSchema,
-            codeContainer: "cdktf.TerraformStack",
-          });
+          convertResult = await runConvert("typescript");
         }, 500_000);
 
         it("snapshot", async () => {
@@ -314,7 +350,10 @@ const createTestCase =
         ) {
           it("synth", async () => {
             const filename = name.replace(/\s/g, "-");
-            const projectDirPromise = getProjectDirectory(providers);
+            const projectDirPromise = getProjectDirectory(
+              "typescript",
+              providers
+            );
             const { all } = convertResult;
             const projectDir = await projectDirPromise;
 
@@ -355,22 +394,13 @@ app.synth();
           let convertResult: any;
 
           beforeAll(async () => {
-            projectDir = await getProjectDirectory(providers);
+            projectDir = await getProjectDirectory("typescript", providers);
 
             process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
           }, 500_000);
 
           it("snapshot", async () => {
-            let { providerSchema } = await getProviderSchema(providers);
-            if (schemaFilter) {
-              // TODO: Re-enable once we can trick Terraform CLI Checksums
-              providerSchema = filterSchema(providerSchema, undefined);
-            }
-            convertResult = await convert(hcl, {
-              language: language as any,
-              providerSchema,
-              throwOnTranslationError: true,
-            });
+            convertResult = await runConvert(language);
             expect(convertResult.all).toMatchSnapshot();
           }, 500_000);
         });
