@@ -381,7 +381,7 @@ export function createAndStartDestroyService(options: {
   ];
 
   options.vars?.forEach((v) => {
-    args.push(`-var='${v}'`);
+    args.push(`-var=${v}`);
   });
 
   options.varFiles?.forEach((v) => {
