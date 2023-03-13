@@ -188,6 +188,66 @@ const baseProjectPromisePerLanguage = ["typescript", "python"].reduce(
   (acc, language) => ({ ...acc, [language]: prepareBaseProject(language) }),
   {} as Record<string, Promise<string>>
 );
+
+const fileEndings: Record<string, string> = {
+  typescript: ".ts",
+  python: ".py",
+};
+
+const getFileContent: Record<
+  string,
+  (code: string, stackName: string) => string
+> = {
+  typescript: (code, stackName) => `
+${code}
+const app = new cdktf.App();
+new MyConvertedCode(app, "${stackName}");
+app.synth();`,
+  python: (code, stackName) => `
+${code}
+
+app = App()
+MyConvertedCode(app, "${stackName}")
+app.synth()
+`,
+};
+
+const getAppCommand: Record<string, (stackName: string) => string> = {
+  typescript: (stackName) => `npx ts-node ${stackName}.ts`,
+  python: (stackName) => `pipenv run python ${stackName}.py`,
+};
+
+async function synthForLanguage(
+  language: string,
+  name: string,
+  convertedCode: string,
+  providers: ProviderDefinition[] = []
+) {
+  const stackName = name.replace(/\s/g, "-");
+  const projectDirPromise = getProjectDirectory("typescript", providers);
+  const projectDir = await projectDirPromise;
+
+  // Have a before all somewhere above bootstrap a TS project
+  // __dirname should be replaceed by the bootstrapped directory
+  const pathToThisProjectsFile = path.join(
+    projectDir,
+    stackName + fileEndings[language]
+  );
+  const fileContent = getFileContent[language](convertedCode, stackName);
+
+  fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
+
+  const stdout = execSync(
+    `${cdktfBin} synth -a '${getAppCommand[language](
+      stackName
+    )}' -o ./${stackName}-output`,
+    { cwd: projectDir }
+  );
+  expect(stdout.toString()).toEqual(
+    expect.stringContaining(`Generated Terraform code for the stacks`)
+  );
+}
+
 // getProviderSchema(Object.values(binding));
 
 async function getProjectDirectory(
@@ -349,35 +409,11 @@ const createTestCase =
           (shouldSynth === Synth.yes || shouldSynth === Synth.yes_all_languages)
         ) {
           it("synth", async () => {
-            const filename = name.replace(/\s/g, "-");
-            const projectDirPromise = getProjectDirectory(
+            await synthForLanguage(
               "typescript",
+              name,
+              convertResult.all,
               providers
-            );
-            const { all } = convertResult;
-            const projectDir = await projectDirPromise;
-
-            // Have a before all somewhere above bootstrap a TS project
-            // __dirname should be replaceed by the bootstrapped directory
-            const pathToThisProjectsFile = path.join(
-              projectDir,
-              filename + ".ts"
-            );
-            const fileContent = `
-${all}
-const app = new cdktf.App();
-new MyConvertedCode(app, "${filename}");
-app.synth();
-`;
-
-            fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
-
-            const stdout = execSync(
-              `${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`,
-              { cwd: projectDir }
-            );
-            expect(stdout.toString()).toEqual(
-              expect.stringContaining(`Generated Terraform code for the stacks`)
             );
           }, 500_000);
         } else if (
@@ -406,39 +442,12 @@ app.synth();
 
           if (language === "python") {
             // Skipped becaue import ...gen.providers.aws as aws is an invalid syntax
-            it.skip("synth", async () => {
-              const filename = name.replace(/\s/g, "-");
-              const projectDirPromise = getProjectDirectory(
+            it("synth", async () => {
+              await synthForLanguage(
                 "python",
+                name,
+                convertResult.all,
                 providers
-              );
-              const { all } = convertResult;
-              const projectDir = await projectDirPromise;
-
-              // Have a before all somewhere above bootstrap a TS project
-              // __dirname should be replaceed by the bootstrapped directory
-              const pathToThisProjectsFile = path.join(
-                projectDir,
-                filename + ".py"
-              );
-              const fileContent = `
-${all}
-
-app = App()
-MyConvertedCode(app, "${filename}")
-app.synth()
-  `;
-
-              fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
-
-              const stdout = execSync(
-                `${cdktfBin} synth -a 'pipenv run python ${filename}.py' -o ./${filename}-output`,
-                { cwd: projectDir }
-              );
-              expect(stdout.toString()).toEqual(
-                expect.stringContaining(
-                  `Generated Terraform code for the stacks`
-                )
               );
             }, 500_000);
           }
