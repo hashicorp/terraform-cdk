@@ -47,9 +47,10 @@ function runInExample(command) {
     return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
   } catch (e) {
     const err = new Error(
-      `Failed to run ${command} in ${exampleToBuild} with signal ${e.signal}`
+      `Failed to run ${command} in ${exampleToBuild} with status ${e.status} and signal ${e.signal}`
     );
     console.error(err.message);
+    console.error(e);
     console.error("STDOUT:");
     console.error(e.stdout.toString());
     console.error("STDERR:");
