@@ -60,16 +60,14 @@ async function runInExample(command) {
   }
 }
 
-(async function main() {
-  await runInExample(`reinstall`);
-  const getStats = await runInExample(`build`);
-  await runInExample(`beforeSynth`);
-  const synthStats = await runInExample(`synth`);
+await runInExample(`reinstall`);
+const getStats = await runInExample(`build`);
+await runInExample(`beforeSynth`);
+const synthStats = await runInExample(`synth`);
 
-  console.log(
-    `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
-  );
-  console.log(
-    `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
-  );
-})();
+console.log(
+  `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
+);
+console.log(
+  `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+);
