@@ -16,7 +16,11 @@ describe("generate typescript", () => {
       }`;
 
     const schemaJson = JSON.parse(schema);
-    const { code } = await convertToTypescript(input, schemaJson);
+    const { code } = await convertToTypescript(
+      input,
+      schemaJson,
+      "cdktf.TerraformStack"
+    );
     expect(code).toMatchInlineSnapshot(`
       "const awsSubnetChangemeSpotAndFargateSubnetPrivate = new aws.subnet.Subnet(
         this,
@@ -33,7 +37,9 @@ describe("generate typescript", () => {
       you need to keep this like it is.*/
       awsSubnetChangemeSpotAndFargateSubnetPrivate.addOverride(\\"count\\", 3);
       new aws.eksNodeGroup.EksNodeGroup(this, \\"foo\\", {
-        subnetIds: \`\\\\\${\${awsSubnetChangemeSpotAndFargateSubnetPrivate.fqn}.*.id}\`,
+        subnetIds: cdktf.Token.asList(
+          \`\\\\\${\${awsSubnetChangemeSpotAndFargateSubnetPrivate.fqn}.*.id}\`
+        ),
       });
       "
     `);
@@ -56,7 +62,11 @@ describe("generate typescript", () => {
       }`;
 
     const schemaJson = JSON.parse(schema);
-    const { code } = await convertToTypescript(input, schemaJson);
+    const { code } = await convertToTypescript(
+      input,
+      schemaJson,
+      "cdktf.TerraformStack"
+    );
     expect(code).toMatchInlineSnapshot(`
       "const dataAwsAvailabilityZonesChangemeAzListEbsSnapshot =
         new aws.dataAwsAvailabilityZones.DataAwsAvailabilityZones(
@@ -96,7 +106,11 @@ describe("generate typescript", () => {
       }`;
 
     const schemaJson = JSON.parse(schema);
-    const { code } = await convertToTypescript(input, schemaJson);
+    const { code } = await convertToTypescript(
+      input,
+      schemaJson,
+      "cdktf.TerraformStack"
+    );
     expect(code).toMatchInlineSnapshot(`
       "/*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
       You can read more about this at https://cdk.tf/variables*/
@@ -107,7 +121,7 @@ describe("generate typescript", () => {
         this,
         \\"examplebucket\\",
         {
-          bucket: bucketName.value,
+          bucket: bucketName.stringValue,
         }
       );
       new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
