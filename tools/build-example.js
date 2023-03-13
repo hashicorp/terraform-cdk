@@ -51,10 +51,10 @@ function runInExample(command) {
     );
     console.error(err.message);
     console.error(e);
-    console.error("STDOUT:");
-    console.error(e.stdout.toString());
     console.error("STDERR:");
     console.error(e.stderr.toString());
+    console.error("STDOUT:");
+    console.error(e.stdout.toString());
     throw err;
   }
 }
