@@ -184,7 +184,7 @@ const prepareBaseProject = (language: string) =>
     resolve(projectDir);
   });
 
-const baseProjectPromisePerLanguage = ["typescript", "python"].reduce(
+const baseProjectPromisePerLanguage = ["typescript", "python", "csharp"].reduce(
   (acc, language) => ({ ...acc, [language]: prepareBaseProject(language) }),
   {} as Record<string, Promise<string>>
 );
@@ -192,35 +192,94 @@ const baseProjectPromisePerLanguage = ["typescript", "python"].reduce(
 const fileEndings: Record<string, string> = {
   typescript: ".ts",
   python: ".py",
+  csharp: ".cs",
 };
 
 const getFileContent: Record<
   string,
-  (code: string, stackName: string) => string
+  (
+    code: { all: string; code: string; imports: string },
+    stackName: string
+  ) => string
 > = {
-  typescript: (code, stackName) => `
-${code}
+  typescript: ({ all }, stackName) => `
+${all}
 const app = new cdktf.App();
 new MyConvertedCode(app, "${stackName}");
 app.synth();`,
-  python: (code, stackName) => `
-${code}
+  python: ({ all }, stackName) => `
+${all}
 
 app = App()
 MyConvertedCode(app, "${stackName}")
 app.synth()
 `,
+
+  csharp: ({ all }, stackName) => {
+    const endOfStack = all.lastIndexOf("}");
+    const stack = all.substring(0, endOfStack);
+    return `
+    ${stack}
+     public static void Main(string[] args)
+        {
+            App app = new App();
+            new MyConvertedCode(app, "${stackName}");
+            app.Synth();
+        }
+}
+    `;
+  },
 };
 
 const getAppCommand: Record<string, (stackName: string) => string> = {
   typescript: (stackName) => `npx ts-node ${stackName}.ts`,
   python: (stackName) => `pipenv run python ${stackName}.py`,
+  csharp: (stackName) => `dotnet run -p ${stackName}.csproj`,
+};
+
+const preSynth: Record<
+  string,
+  (
+    stackName: string,
+    projectDir: string,
+    providers: ProviderDefinition[]
+  ) => Promise<void> | undefined
+> = {
+  csharp: async (stackName, projectDir, providers) => {
+    await fs.writeFile(
+      path.join(projectDir, `${stackName}.csproj`),
+      `<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+      <OutputType>Exe</OutputType>
+      <TargetFramework>net6.0</TargetFramework>
+    </PropertyGroup>
+  
+    <ItemGroup>
+      <PackageReference Include="HashiCorp.Cdktf" Version="0.0.0" />
+    </ItemGroup>
+  
+    <ItemGroup>
+    ${providers
+      .map((provider) => {
+        const [, name] = provider.fqn.split("@")[0].split("/");
+        return `<ProjectReference Include=".gen\\${
+          provider.type === ProviderType.provider ? "providers" : "modules"
+        }\\${name}.csproj" />`;
+      })
+      .join("\n")}
+    </ItemGroup>
+  
+  </Project>`,
+      "utf8"
+    );
+  },
 };
 
 async function synthForLanguage(
   language: string,
   name: string,
-  convertedCode: string,
+  code: { all: string; code: string; imports: string },
   providers: ProviderDefinition[] = []
 ) {
   const stackName = name.replace(/\s/g, "-");
@@ -233,10 +292,16 @@ async function synthForLanguage(
     projectDir,
     stackName + fileEndings[language]
   );
-  const fileContent = getFileContent[language](convertedCode, stackName);
+  const fileContent = getFileContent[language](code, stackName);
 
   fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
 
+  const runBeforeSynth = preSynth[language];
+  if (runBeforeSynth) {
+    await runBeforeSynth(stackName, projectDir, providers);
+  }
+
+  // TODO: would a non-sync version be better?
   const stdout = execSync(
     `${cdktfBin} synth -a '${getAppCommand[language](
       stackName
@@ -291,7 +356,7 @@ async function getProjectDirectory(
         2
       )
     );
-    await execa(cdktfBin, ["get"], { cwd: projectDir });
+    await execa(cdktfBin, ["get", "--force"], { cwd: projectDir });
   }
 
   return projectDir;
@@ -412,7 +477,7 @@ const createTestCase =
             await synthForLanguage(
               "typescript",
               name,
-              convertResult.all,
+              convertResult,
               providers
             );
           }, 500_000);
@@ -442,13 +507,14 @@ const createTestCase =
 
           if (language === "python") {
             // Skipped becaue import ...gen.providers.aws as aws is an invalid syntax
-            it("synth", async () => {
-              await synthForLanguage(
-                "python",
-                name,
-                convertResult.all,
-                providers
-              );
+            it.skip("synth", async () => {
+              await synthForLanguage("python", name, convertResult, providers);
+            }, 500_000);
+          }
+
+          if (language === "csharp") {
+            it.skip("synth", async () => {
+              await synthForLanguage("csharp", name, convertResult, providers);
             }, 500_000);
           }
         });
