@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { convertToTypescript } from "../lib";
 import schema from "./__fixtures__/schemas/astGeneration";
 
