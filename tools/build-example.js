@@ -53,7 +53,7 @@ function runInExample(command) {
     console.error("STDOUT:");
     console.error(e.stdout.toString());
     console.error("STDERR:");
-    console.error(e.stdout.toString());
+    console.error(e.stderr.toString());
     throw err;
   }
 }
