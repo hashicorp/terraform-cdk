@@ -5,16 +5,16 @@
 
 // Builds a single example, passed  as the first argument.
 
-var path = require("path");
-var os = require("os");
-var exec = require("child_process").execSync;
+const path = require("path");
+const os = require("os");
+const util = require("util");
+const exec = util.promisify(require("child_process").exec);
 const { performance } = require("perf_hooks");
 
-function run(command) {
+async function run(command) {
   const start = performance.now();
   const args = os.platform() === "darwin" ? `-pl` : `-pv`;
-  const stdout = exec(`/usr/bin/time ${args} ${command}`, {
-    stdio: ["pipe", "pipe", "pipe"],
+  const res = await exec(`/usr/bin/time ${args} ${command}`, {
     env: {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
@@ -23,7 +23,7 @@ function run(command) {
   });
   const time = (performance.now() - start) / 1000;
 
-  const output = stdout.toString();
+  const output = res.stdout.toString();
   console.log(output);
 
   const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(output);
@@ -42,7 +42,7 @@ if (!exampleToBuild) {
   process.exit(1);
 }
 
-function runInExample(command) {
+async function runInExample(command) {
   try {
     return run(`npx lerna run --scope='${exampleToBuild}' ${command}`);
   } catch (e) {
@@ -59,14 +59,16 @@ function runInExample(command) {
   }
 }
 
-runInExample(`reinstall`);
-const getStats = runInExample(`build`);
-runInExample(`beforeSynth`);
-const synthStats = runInExample(`synth`);
+(async function main() {
+  await runInExample(`reinstall`);
+  const getStats = await runInExample(`build`);
+  await runInExample(`beforeSynth`);
+  const synthStats = await runInExample(`synth`);
 
-console.log(
-  `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
-);
-console.log(
-  `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
-);
+  console.log(
+    `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
+  );
+  console.log(
+    `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+  );
+})();
