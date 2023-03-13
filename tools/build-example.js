@@ -14,7 +14,7 @@ function run(command) {
   const start = performance.now();
   const args = os.platform() === "darwin" ? `-pl` : `-pv`;
   const stdout = exec(`/usr/bin/time ${args} ${command}`, {
-    stdio: ["pipe", "pipe", process.stderr],
+    stdio: ["pipe", "pipe", "pipe"],
     env: {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
