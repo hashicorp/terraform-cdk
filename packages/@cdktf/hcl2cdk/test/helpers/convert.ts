@@ -403,6 +403,45 @@ app.synth();
             convertResult = await runConvert(language);
             expect(convertResult.all).toMatchSnapshot();
           }, 500_000);
+
+          if (language === "python") {
+            // Skipped becaue import ...gen.providers.aws as aws is an invalid syntax
+            it.skip("synth", async () => {
+              const filename = name.replace(/\s/g, "-");
+              const projectDirPromise = getProjectDirectory(
+                "python",
+                providers
+              );
+              const { all } = convertResult;
+              const projectDir = await projectDirPromise;
+
+              // Have a before all somewhere above bootstrap a TS project
+              // __dirname should be replaceed by the bootstrapped directory
+              const pathToThisProjectsFile = path.join(
+                projectDir,
+                filename + ".py"
+              );
+              const fileContent = `
+${all}
+
+app = App()
+MyConvertedCode(app, "${filename}")
+app.synth()
+  `;
+
+              fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
+
+              const stdout = execSync(
+                `${cdktfBin} synth -a 'pipenv run python ${filename}.py' -o ./${filename}-output`,
+                { cwd: projectDir }
+              );
+              expect(stdout.toString()).toEqual(
+                expect.stringContaining(
+                  `Generated Terraform code for the stacks`
+                )
+              );
+            }, 500_000);
+          }
         });
       } else if (shouldSynth === Synth.yes_all_languages) {
         describe.skip.each(["python", "csharp", "java", "go"])("%s", () => {
