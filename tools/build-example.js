@@ -60,14 +60,25 @@ async function runInExample(command) {
   }
 }
 
-await runInExample(`reinstall`);
-const getStats = await runInExample(`build`);
-await runInExample(`beforeSynth`);
-const synthStats = await runInExample(`synth`);
+async function main() {
+  await runInExample(`reinstall`);
+  const getStats = await runInExample(`build`);
+  await runInExample(`beforeSynth`);
+  const synthStats = await runInExample(`synth`);
 
-console.log(
-  `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
-);
-console.log(
-  `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
-);
+  console.log(
+    `${exampleToBuild} built in ${getStats.time}s using ${getStats.maxMemoryKbytes} kb of memory`
+  );
+  console.log(
+    `${exampleToBuild} synthesized in ${synthStats.time}s using ${synthStats.maxMemoryKbytes} kb of memory`
+  );
+}
+
+(async function catchUnhandledRejections() {
+  try {
+    await main();
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+})();
