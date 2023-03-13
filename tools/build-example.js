@@ -19,6 +19,7 @@ async function run(command) {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
     },
+    maxBuffer: 256 * 1024 * 1024, // ~270 MB; Nodejs default is 1024 * 1024 (bytes) which is ~1 MiB
     cwd: path.resolve(__dirname, ".."),
   });
   const time = (performance.now() - start) / 1000;
