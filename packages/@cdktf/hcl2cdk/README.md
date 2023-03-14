@@ -77,21 +77,6 @@ This transforms your Terraform project into a CDK for Terraform project, besides
 
 ## Known Limitations
 
-### Terraform Expressions are of the wrong TS/Java/C# type
-
-When working with typed languages the converter can run into problems where the Terraform Expression evaluates to a certain type but it's encoded in a string. Therefore the type checker of the language detects a type mismatch, resulting in an compilation error. These problems need to be manually solved by adding a typecast. One example would be:
-
-```ts
-{
-  // Typescript expects a boolean here, but a string is passed
-  booleanProperty:
-    ( // This Terraform expression evaluates to a boolean as required by the property
-      `\${${shouldBeTrue.value} ? true : false}`
-      as boolean // We need to cast the type so that Typescript understand the right type is being passed
-    );
-}
-```
-
 ### Providers guessed can be not functional
 
 If your HCL includes providers that are not mentioned under `required_providers` we infer the name, e.g. if you use the `datadog_dashboard` resource we infer the provider `datadog` which is right, but the namespace is missing, for DataDog it would be `datadog/datadog`. Instead we will try to use `hashicorp/datadog` and fail because this provider is not known to the registry.
@@ -100,3 +85,11 @@ Please see the [required providers docs](https://www.terraform.io/docs/language/
 ### Local Modules and Files
 
 We don't move modules or files for you, if you reference local modules you have to move them so that the relative paths are correct. If you want to make use of files you need to wrap them in a [`TerraformAsset`](../../docs/working-with-cdk-for-terraform/terraform-assets.md) before using them.
+
+### Development
+
+We have two types of test cases, one within `lib` that are on the unit level and one within `test` that are testing the entire package at once by converting and then synthesizing the resulting code.
+
+In general, both test types can be run by `npx jest <pathToTestCase>`. You can add `-u` to update the snapshots and `--watch` to run the tests in watch mode.
+
+To make the tests inside `test` faster we disable synthesizing and multi-language snapshots by default. You can enable them by setting the envinronment variable `CI=true`. Another way of improving the performance significantly is setting the `TF_PLUGIN_CACHE_DIR` to a valid directory in order to cache the provider binaries used within the tests. E.g. by running `TF_PLUGIN_CACHE_DIR=(mktemp -d) npx jest <pathToTestCase> --watch`.
