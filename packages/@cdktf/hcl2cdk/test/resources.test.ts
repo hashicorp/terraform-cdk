@@ -387,9 +387,14 @@ resource "kubernetes_secret" "secrets-xxx" {
    *
    * So it does already work for the class name but not for the namespace.
    */
-  testCase.skip(
+  testCase.test(
     "handle special resource names",
     `
+    provider "scaleway" {
+      zone   = "fr-par-1"
+      region = "fr-par"
+    }
+
     resource "scaleway_object_bucket" "some_bucket" {
       name = "some-unique-name"
     }

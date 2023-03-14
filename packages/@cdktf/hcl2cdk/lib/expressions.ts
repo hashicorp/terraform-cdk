@@ -129,31 +129,6 @@ export async function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
-function getResourceNamespace(
-  provider: string,
-  resource: string,
-  isDataSource: boolean
-) {
-  // happens e.g. for references to cdktf.TerraformStack (and similar) in generated code
-  if (provider === "cdktf") {
-    return undefined;
-  }
-
-  // e.g. awsProvider -> provider
-  if (
-    resource === pascalCase(`${provider}_provider`) ||
-    (provider === "NullProvider" && resource === "NullProvider")
-  ) {
-    return "provider";
-  }
-
-  if (isDataSource) {
-    return camelCase(`data_${provider}_${resource}`);
-  }
-
-  return camelCase(resource);
-}
-
 export function referenceToVariableName(scope: Scope, ref: Reference): string {
   const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
@@ -239,6 +214,43 @@ export function constructAst(
       // If we can not find the class name for a resource the caller needs to find a sensible default
       return null;
     }
+  }
+
+  function getResourceNamespace(
+    provider: string,
+    resource: string,
+    isDataSource: boolean
+  ) {
+    // happens e.g. for references to cdktf.TerraformStack (and similar) in generated code
+    if (provider === "cdktf") {
+      return undefined;
+    }
+
+    // e.g. awsProvider -> provider
+    if (
+      resource === pascalCase(`${provider}_provider`) ||
+      (provider === "NullProvider" && resource === "NullProvider")
+    ) {
+      return "provider";
+    }
+
+    const fullProviderName = getFullProviderName(
+      scope.providerSchema,
+      provider
+    );
+    if (fullProviderName && scope.providerGenerator[fullProviderName]) {
+      return camelCase(
+        scope.providerGenerator[fullProviderName]?.getNamespaceNameForResource(
+          type.replace(/\./g, "_")
+        )
+      );
+    }
+
+    if (isDataSource) {
+      return camelCase(`data_${provider}_${resource}`);
+    }
+
+    return camelCase(resource);
   }
 
   // resources or data sources

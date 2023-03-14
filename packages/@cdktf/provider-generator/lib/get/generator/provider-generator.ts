@@ -128,6 +128,10 @@ export class TerraformProviderGenerator {
     return this.resourceParser.getClassNameForResource(terraformType);
   }
 
+  public getNamespaceNameForResource(terraformType: string) {
+    return this.resourceParser.getNamespaceNameForResource(terraformType);
+  }
+
   private emitProvider(
     fqpn: FQPN,
     providerVersion?: string,

@@ -591,4 +591,14 @@ export class ResourceParser {
     const resource = this.resources[terraformType];
     return resource ? resource.className : "";
   }
+
+  // Used by convert to determine the right name for a namespace
+  public getNamespaceNameForResource(terraformType: string) {
+    const resource = this.resources[terraformType];
+    if (!resource) {
+      return "";
+    }
+    const folder = `providers/${resource.provider}`;
+    return resource.filePath.replace(`${folder}/`, "").replace("/index.ts", "");
+  }
 }
