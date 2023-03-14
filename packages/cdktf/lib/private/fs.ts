@@ -4,6 +4,7 @@ import { execSync } from "child_process";
 import * as fs from "fs";
 import * as path from "path";
 import * as crypto from "crypto";
+import minimatch = require("minimatch");
 
 const HASH_LEN = 32;
 
@@ -53,14 +54,20 @@ export function archiveSync(src: string, dest: string) {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
-export function hashPath(src: string) {
+export function hashPath(src: string, patterns?: string[]) {
   const hash = crypto.createHash("md5");
 
   // eslint-disable-next-line jsdoc/require-jsdoc
   function hashRecursion(p: string) {
     const stat = fs.statSync(p);
     if (stat.isFile()) {
-      hash.update(fs.readFileSync(p));
+      if (!patterns) {
+        hash.update(fs.readFileSync(p));
+      } else if (
+        patterns.some((pattern) => minimatch(p, path.join(src, pattern)))
+      ) {
+        hash.update(fs.readFileSync(p));
+      }
     } else if (stat.isDirectory()) {
       fs.readdirSync(p).forEach((filename) =>
         hashRecursion(path.resolve(p, filename))
