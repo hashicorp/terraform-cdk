@@ -247,4 +247,57 @@ describe("iteration", () => {
       resources: ["azuread_user"],
     }
   );
+
+  testCase.test(
+    "for_each with inline map",
+    `
+    provider "aws" {
+      region = "us-east-1"
+    }
+
+    resource "aws_instance" "changeme_aws_instance_count_foreach" {
+      # Documentation: https://www.terraform.io/docs/language/meta-arguments/for_each.html
+      for_each = {
+        "a" = "1"
+        "b" = "2"
+      }
+    
+      tags = {
+        Name = "aws_resource_count_\${each.key}\${each.value}"
+      }
+      instance_type = "t2.nano"
+      ami           = "ami-0ddbdea833a8d2f0d"
+    }
+    `,
+    [binding.aws],
+    Synth.yes,
+    {
+      resources: ["aws_instance"],
+    }
+  );
+
+  testCase.test(
+    "for_each with inline list",
+    `
+    provider "aws" {
+      region = "us-east-1"
+    }
+
+    resource "aws_instance" "changeme_aws_instance_count_foreach" {
+      # Documentation: https://www.terraform.io/docs/language/meta-arguments/for_each.html
+      for_each = toset( ["Todd", "James", "Alice", "Dottie"] )
+    
+      tags = {
+        Name = "aws_resource_count_\${each.key}"
+      }
+      instance_type = "t2.nano"
+      ami           = "ami-0ddbdea833a8d2f0d"
+    }
+    `,
+    [binding.aws],
+    Synth.yes,
+    {
+      resources: ["aws_instance"],
+    }
+  );
 });
