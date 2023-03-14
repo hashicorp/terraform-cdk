@@ -410,7 +410,7 @@ resource "kubernetes_secret" "secrets-xxx" {
     [binding.scaleway],
     Synth.yes,
     {
-      resources: ["aws_instance"],
+      resources: ["scaleway_object", "scaleway_object_bucket"],
     }
   );
 });
