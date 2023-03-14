@@ -22,7 +22,6 @@ const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
-import { TerraformCachedAsset } from "./terraform-cached-asset";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
@@ -239,14 +238,6 @@ export class TerraformStack extends Construct {
       deepMerge(metadata, meta);
     }
 
-    const cachedAssets = this.findAll(
-      TerraformCachedAsset.isTerraformCachedAsset
-    );
-    const caches = {};
-    for (const asset of cachedAssets) {
-      deepMerge(caches, asset.getHashEntries());
-    }
-
     const outputs: OutputIdMap = elements.reduce((carry, item) => {
       if (!TerraformOutput.isTerraformOutput(item)) {
         return carry;
@@ -265,7 +256,7 @@ export class TerraformStack extends Construct {
       return carry;
     }, {});
 
-    (tf as any)["//"] = { metadata, outputs, caches };
+    (tf as any)["//"] = { metadata, outputs };
 
     const fragments = elements.map((e) => resolve(this, e.toTerraform()));
     for (const fragment of fragments) {
