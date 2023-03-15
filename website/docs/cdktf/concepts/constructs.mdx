@@ -16,11 +16,11 @@ Since constructs can also represent a collection of resource, they are often com
 
 ## Various use cases of constructs
 
-- Terraform modules are fixed in the sense that they can generate resources based on hcl configuration, but constructs are not constrained to just creating, and can also modify, enrich, and validate resources created outside of the construct.
+- Terraform modules are limited in the sense that they can generate resources based on HCL configuration, but constructs are not constrained to just creating, and can also modify, enrich, and validate resources created outside of the construct.
 
-- Constructs can can build complex resources that can be used as any other provider supplied resource without using a different syntax like in Terraform.
+- Constructs can build complex resources that can be used as any other provider supplied resource without using a different syntax like in Terraform.
 
-- Constructs allow strict type checking and parameter validations for creating resources. This is not possible in Terraform modules.
+- Constructs allow strict type checking and parameter validation for creating resources. This is not possible in Terraform modules.
 
 - Constructs can be used to codify best practices across the organization / codebase.
 
@@ -73,7 +73,7 @@ class OutputAllBucketNames extends Construct {
       },
     });
 
-    new TerraformOutput(this, "all_bucket", {
+    new TerraformOutput(this, "all_buckets", {
       value: new Lazy({
         produce: () => {
           return buckets;
@@ -92,7 +92,7 @@ class DataDogInspector extends Construct {
     constructor(constructsToInspect: Construct[]) {
         super();
         constructsToInspect.forEach(c => {
-            if (c is S3Bucket) {
+            if (c instanceof S3Bucket) {
                 new DataDogS3Logging(c);
             }
         })
@@ -102,7 +102,7 @@ class DataDogInspector extends Construct {
 
 ### Constructs allow consumers of the construct to change behaviour conditionally
 
-Since constructs are classes, they allow methods to programmatically add or modify infrastructure based on conditions. This enables the construct's consumer to selectively enhance their infrastructure.
+Since constructs are classes, they support declaring methods to programmatically add or modify infrastructure based on conditions. This enables the construct's consumer to selectively enhance their infrastructure.
 
 In the following example, the `CustomS3Bucket` construct exposes a `giveAccess` method that can be used by the consumer to programmatically generate IAM policies for accessing the bucket for any resource that requires it.
 
@@ -153,9 +153,9 @@ class MyStack extends TerraformStack {
 
 ### Constructs can be used to codify relationships between systems
 
-Constructs can also be used to represent relationships between different parts of the infrastructure in a type-safe manner. Creating relationships through constructs also has the benefit that the relationship is also easily understandable in most modern IDEs.
+Constructs can also be used to represent relationships between different parts of the infrastructure in a type-safe manner. Creating relationships through constructs also has the benefit that the relationship is easily understandable in most modern IDEs.
 
-In the following example, we have a contrived `Cluster` construct that allows various webservices to be registered with it. During development, any consumer of the Cluster class will be able to see that any `Cluster` construct accepts `Webservice` constructs to be connected to it.
+In the following example, we have a contrived `Cluster` construct that allows various web services to be registered with it. During development, any consumer of the `Cluster` class will be able to see that any `Cluster` construct accepts `Webservice` constructs to be connected to it.
 
 ```ts
 import { Construct } from "constructs";
@@ -190,7 +190,7 @@ class MyStack extends TerraformStack {
 
 ### You can codify architectural patterns
 
-If you have complex architectural patterns you can codify them and have an abstraction where you can create a flexible architecture with less work. In this DataPipeline example you can see that each of the steps in the pipeline are bringing their own logic on how to connect to the next step and how to write their output into an S3Bucket. This means as long as a set of resources can fulfil this contract one could build a pipeline using e.g. LambdaFunctions, Ec2 Instances, and CloudwatchEvents if one implemented the `PipelineStep` class for these types.
+If you have complex architectural patterns you can codify them and have an abstraction where you can create a flexible architecture with less work. In this DataPipeline example you can see that each of the steps in the pipeline is bringing their own logic on how to connect to the next step and how to write their output into an S3Bucket. This means as long as a set of resources can fulfill this contract one could build a pipeline using e.g. LambdaFunctions, EC2 Instances, and CloudwatchEvents if one implemented the `PipelineStep` class for these types.
 
 ```ts
 abstract class PipelineStep extends Construct {
@@ -232,7 +232,7 @@ class MyStack extends TerraformStack {
 
 ### You can codify security constraints earlier in the process
 
-You can improve the feedback cycles about security concerns for developers from tools later in the workflow like code review or CI solutions like sentinel to the point where the cofiguration is authored. This can be done through type hints (disallowing options that are not save on the type system level) or through validation. Validations allow dynamic verifications and are shown to users as hints during `cdktf synth`, if they are on the error level they also fail the synth.
+You can improve the feedback cycles about security concerns for developers from tools later in the workflow like code review or CI solutions like Sentinel to the point where the configuration is authored. This can be done through type hints (disallowing options that are not safe on the type system level) or through validation. Validations allow dynamic verification and are shown to users as hints during `cdktf synth`, if they are on the error level they also fail the synth.
 
 #### Through Types
 
@@ -285,10 +285,10 @@ Since Constructs can contain logic and are not just a data structure, they can b
 ```ts
 import { Testing } from "cdktf";
 import MyApplicationsAbstraction from "../main";
-import { Ec2 } from "";
+import { Ec2 } from "./custom-ec2-construct";
 
 
-describe("Construct is of correct compostion and plans successfully", () => {
+describe("Construct is of correct composition and plans successfully", () => {
     // make assertions about the composition of constructs
     it("has EC2 of correct size", () => {
         expect(
@@ -305,7 +305,7 @@ describe("Construct is of correct compostion and plans successfully", () => {
     const stack = new TerraformStack(app, "test");
     const myAppAbstraction = new MyApplicationsAbstraction(stack, "app", {});
 
-    expect(Testing.fullSynth(stack).toPlanSuccessfully);
+    expect(Testing.fullSynth(stack)).toPlanSuccessfully();
   });
 
   // catch unexpected changes with snapshot testing
