@@ -334,7 +334,10 @@ app.synth();
               expect.stringContaining(`Generated Terraform code for the stacks`)
             );
           }, 500_000);
-        } else {
+        } else if (
+          shouldSynth === Synth.yes ||
+          shouldSynth === Synth.yes_all_languages
+        ) {
           it.skip("synth", () => {});
         }
       });
@@ -364,7 +367,7 @@ app.synth();
             expect(convertResult.all).toMatchSnapshot();
           }, 500_000);
         });
-      } else {
+      } else if (shouldSynth === Synth.yes_all_languages) {
         describe.skip.each(["python", "csharp", "java", "go"])("%s", () => {
           it.skip("snapshot", () => {});
         });
