@@ -84,9 +84,14 @@ export async function convertToTypescript(
   codeContainer: string
 ) {
   logger.debug("Converting to typescript");
-  const plan = await getParsedHcl(hcl);
+  const parsedHcl = await getParsedHcl(hcl);
 
-  logger.debug(`Parsed HCL: ${JSON.stringify(plan, null, 2)}`);
+  // Replace leaf strings with EnhancedString containing meta-information like references (include their types)
+  // Add a unique id to each construct
+  // Add a TS variable name to each reference
+  // Add synthetic statements for e.g. iterators => maybe we don't even need these since nodes can return a list of statements
+
+  logger.debug(`Parsed HCL: ${JSON.stringify(parsedHcl, null, 2)}`);
 
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
@@ -120,21 +125,24 @@ export async function convertToTypescript(
     string,
     (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
   > = {
-    ...forEachProvider(scope, plan.provider, provider),
-    ...forEachGlobal(scope, "var", plan.variable, variable),
+    ...forEachProvider(scope, parsedHcl.provider, provider),
+    ...forEachGlobal(scope, "var", parsedHcl.variable, variable),
     // locals are a special case
     ...forEachGlobal(
       scope,
       "local",
-      Array.isArray(plan.locals)
-        ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+      Array.isArray(parsedHcl.locals)
+        ? parsedHcl.locals.reduce(
+            (carry, locals) => ({ ...carry, ...locals }),
+            {}
+          )
         : {},
       local
     ),
-    ...forEachGlobal(scope, "out", plan.output, output),
-    ...forEachGlobal(scope, "module", plan.module, modules),
-    ...forEachNamespaced(scope, plan.resource, resource),
-    ...forEachNamespaced(scope, plan.data, resource, "data"),
+    ...forEachGlobal(scope, "out", parsedHcl.output, output),
+    ...forEachGlobal(scope, "module", parsedHcl.module, modules),
+    ...forEachNamespaced(scope, parsedHcl.resource, resource),
+    ...forEachNamespaced(scope, parsedHcl.data, resource, "data"),
   };
 
   // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
@@ -196,21 +204,24 @@ export async function convertToTypescript(
 
   await Promise.all(
     Object.values({
-      ...forEachProvider(scope, plan.provider, addProviderEdges),
-      ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
+      ...forEachProvider(scope, parsedHcl.provider, addProviderEdges),
+      ...forEachGlobal(scope, "var", parsedHcl.variable, addGlobalEdges),
       // locals are a special case
       ...forEachGlobal(
         scope,
         "local",
-        Array.isArray(plan.locals)
-          ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
+        Array.isArray(parsedHcl.locals)
+          ? parsedHcl.locals.reduce(
+              (carry, locals) => ({ ...carry, ...locals }),
+              {}
+            )
           : {},
         addGlobalEdges
       ),
-      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
-      ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
-      ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
-      ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
+      ...forEachGlobal(scope, "out", parsedHcl.output, addGlobalEdges),
+      ...forEachGlobal(scope, "module", parsedHcl.module, addGlobalEdges),
+      ...forEachNamespaced(scope, parsedHcl.resource, addNamespacedEdges),
+      ...forEachNamespaced(scope, parsedHcl.data, addNamespacedEdges, "data"),
     }).map((addEdgesToGraph) => addEdgesToGraph(graph))
   );
 
@@ -265,7 +276,7 @@ export async function convertToTypescript(
 
   const backendExpressions = (
     await Promise.all(
-      plan.terraform?.map((terraform) =>
+      parsedHcl.terraform?.map((terraform) =>
         backendToExpression(scope, terraform.backend, nodeIds)
       ) || [Promise.resolve([])]
     )
@@ -282,7 +293,7 @@ export async function convertToTypescript(
   // We collect all module sources
   const moduleRequirements = [
     ...new Set(
-      Object.values(plan.module || {}).reduce(
+      Object.values(parsedHcl.module || {}).reduce(
         (carry, moduleBlock) => [
           ...carry,
           ...moduleBlock.reduce(
@@ -304,14 +315,14 @@ export async function convertToTypescript(
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
-  const hasBackend = plan.terraform?.some(
+  const hasBackend = parsedHcl.terraform?.some(
     (tf) => Object.keys(tf.backend || {}).length > 0
   );
   const hasPlanOrOutputOrTerraformRemoteState =
     Object.keys({
-      ...plan.variable,
-      ...plan.output,
-      ...(plan.data?.terraform_remote_state || {}),
+      ...parsedHcl.variable,
+      ...parsedHcl.output,
+      ...(parsedHcl.data?.terraform_remote_state || {}),
     }).length > 0;
 
   const cdktfImports =
@@ -322,7 +333,10 @@ export async function convertToTypescript(
       ? [cdktfImport]
       : [];
 
-  if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
+  if (
+    Object.keys(parsedHcl.variable || {}).length > 0 &&
+    expressions.length > 0
+  ) {
     expressions[0] = t.addComment(
       expressions[0],
       "leading",
@@ -331,7 +345,7 @@ You can read more about this at https://cdk.tf/variables`
     );
   }
 
-  const providerRequirements = getProviderRequirements(plan);
+  const providerRequirements = getProviderRequirements(parsedHcl);
   logger.debug(
     `Found these provider requirements: ${JSON.stringify(
       providerRequirements,
@@ -385,13 +399,13 @@ For a more precise conversion please use the --provider flag in convert.`
       constructsImport,
       ...cdktfImports,
       ...providerImports,
-      ...moduleImports(plan.module),
+      ...moduleImports(parsedHcl.module),
       wrapCodeInConstructor(codeContainer, code),
     ]),
     imports: await gen([
       ...cdktfImports,
       ...providerImports,
-      ...moduleImports(plan.module),
+      ...moduleImports(parsedHcl.module),
     ]),
     code: await gen(code),
     providers: Object.entries(providerRequirements).map(([source, version]) =>
@@ -402,8 +416,8 @@ For a more precise conversion please use the --provider flag in convert.`
     stats: {
       numberOfModules: moduleRequirements.length,
       numberOfProviders: Object.keys(providerRequirements).length,
-      resources: resourceStats(plan.resource || {}),
-      data: resourceStats(plan.data || {}),
+      resources: resourceStats(parsedHcl.resource || {}),
+      data: resourceStats(parsedHcl.data || {}),
       convertedLines: hcl.split("\n").length,
     },
   };
