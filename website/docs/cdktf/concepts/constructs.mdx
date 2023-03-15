@@ -33,7 +33,6 @@ While Terraform modules can be used to generate a part of infrastructure, constr
 The following example extends the AWS S3 Bucket resource to add required tags. Any consumer of this `TaggedS3Bucket` can be assured that the correct tags are applied to their resource.
 
 ```ts
-// enrich
 class TaggedS3Bucket extends S3Bucket {
   constructor(scope: Construct, name: string, config: S3BucketConfig) {
     super(scope, name, config);
@@ -60,9 +59,7 @@ class MyStack extends TerraformStack {
 Constructs are not limited to modifying specific resources and can be used to operate on entire stacks. The following example is a construct that can be used to list all S3 buckets in a stack and output them as a list.
 
 ```ts
-// modify
 import { Construct } from "constructs";
-// TODO: this example does not yet work, but it's possible to do
 class OutputAllBucketNames extends Construct {
   constructor(scope: Construct, name: string) {
     super(scope, name);
@@ -97,7 +94,7 @@ class DataDogInspector extends Construct {
         constructsToInspect.forEach(c => {
             if (c is S3Bucket) {
                 new DataDogS3Logging(c);
-            } // ...
+            }
         })
     }
 }
@@ -283,6 +280,8 @@ class S3Bucket extends Construct {
 
 ### Constructs and Testing
 
+Since Constructs can contain logic and are not just a data structure, they can be tested. This allows you to test the composition of your constructs and the logic they contain. This can be done with snapshot testing or unit testing.
+
 ```ts
 import { Testing } from "cdktf";
 import MyApplicationsAbstraction from "../main";
@@ -318,22 +317,6 @@ describe("Construct is of correct compostion and plans successfully", () => {
     ).toMatchSnapshot();
 });
 ```
-
-Make custom matchers for you own use case
-
-[TODO]: find interesting use case, see if our current matchers are extendable
-
-```js
-// in setupJest.js
-
-expect.extend({});
-```
-
-Advantages over Terraform Module Testing
-
-- Testing done natively in your chosen CDKTF configuration language
-- No need to create objects in real remote state that are subsequently destroyed
--
 
 ### Interoperability
 
