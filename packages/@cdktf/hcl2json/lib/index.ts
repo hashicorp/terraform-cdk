@@ -116,7 +116,7 @@ export async function convertFiles(
 
   if (tfFileContents === "" && tfJSONFileContents.length === 0) {
     console.error(`No '.tf' or '.tf.json' files found in ${workingDirectory}`);
-    return;
+    return {};
   }
 
   return deepMerge(

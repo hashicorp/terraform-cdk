@@ -4294,8 +4294,6 @@ exports[`convertFiles a simple directory 1`] = `
 }"
 `;
 
-exports[`convertFiles no files 1`] = `"{}"`;
-
 exports[`parse converts VPC module 1`] = `
 "{
   \\"locals\\": [
