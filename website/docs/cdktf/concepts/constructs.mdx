@@ -87,16 +87,16 @@ class OutputAllBucketNames extends Construct {
 Constructs can also be used to mutate many existing resources after creation. In the following example, the `DataDogInspector` construct takes in a list of various constructs and whenever it encounters an `S3Bucket`, it enables logging to DataDog for that bucket. This is especially useful for applying team level compliance requirements that happen after the original infrastructure is created.
 
 ```ts
-import {Construct} from "constructs";
+import { Construct } from "constructs";
 class DataDogInspector extends Construct {
-    constructor(constructsToInspect: Construct[]) {
-        super();
-        constructsToInspect.forEach(c => {
-            if (c instanceof S3Bucket) {
-                new DataDogS3Logging(c);
-            }
-        })
-    }
+  constructor(constructsToInspect: Construct[]) {
+    super();
+    constructsToInspect.forEach((c) => {
+      if (c instanceof S3Bucket) {
+        new DataDogS3Logging(c);
+      }
+    });
+  }
 }
 ```
 
@@ -292,13 +292,14 @@ describe("Construct is of correct composition and plans successfully", () => {
     // make assertions about the composition of constructs
     it("has EC2 of correct size", () => {
         expect(
-            Testing.synthScope((scope) => {
-                new MyApplicationsAbstraction(scope, "app", {});
-            }).toHaveResourceWithProperties(Ec2, {
-                instanceSize: "t3.micro",
-            })
-        );
+          Testing.synthScope((scope) => {
+            new MyApplicationsAbstraction(scope, "app", {});
+          })
+        ).toHaveResourceWithProperties(Ec2, {
+          instanceSize: "t3.micro",
+        });
     });
+
   // assert that plan runs sucessfully before a deploy
   it("successfully plans", () => {
     const app = Testing.app();
