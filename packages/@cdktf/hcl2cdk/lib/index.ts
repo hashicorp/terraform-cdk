@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { parse } from "@cdktf/hcl2json";
+
 import {
   isRegistryModule,
   ProviderSchema,
@@ -14,9 +14,7 @@ import * as glob from "glob";
 import * as fs from "fs";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
-import * as z from "zod";
 
-import { schema } from "./schema";
 import { findUsedReferences } from "./expressions";
 import {
   backendToExpression,
@@ -43,34 +41,9 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
+import { getParsedHcl } from "./hclParsing";
 
 export const CODE_MARKER = "// define resources here";
-
-export async function getParsedHcl(hcl: string) {
-  logger.debug(`Parsing HCL: ${hcl}`);
-  // Get the JSON representation of the HCL
-  let json: Record<string, unknown>;
-  try {
-    json = await parse("terraform.tf", hcl);
-  } catch (err) {
-    logger.error(`Failed to parse HCL: ${err}`);
-    throw new Error(
-      `Error: Could not parse HCL, this means either that the HCL passed is invalid or that you found a bug. If the HCL seems valid, please file a bug under https://cdk.tf/bugs/new/convert`
-    );
-  }
-
-  // Ensure the JSON representation matches the expected structure
-  let plan: z.infer<typeof schema>;
-  try {
-    plan = schema.parse(json);
-  } catch (err) {
-    throw new Error(`Error: HCL-JSON does not conform to schema. This is not expected, please file a bug under https://cdk.tf/bugs/new/convert
-Please include this information:
-${JSON.stringify((err as z.ZodError).errors)}`);
-  }
-
-  return plan;
-}
 
 export async function parseProviderRequirements(hcl: string) {
   logger.debug("Parsing provider requirements");
@@ -83,14 +56,8 @@ export async function convertToTypescript(
   providerSchema: ProviderSchema,
   codeContainer: string
 ) {
-  logger.debug("Converting to typescript");
+  logger.debug(`Converting ${hcl} to typescript`);
   const parsedHcl = await getParsedHcl(hcl);
-
-  // Replace leaf strings with EnhancedString containing meta-information like references (include their types)
-  // Add a unique id to each construct
-  // Add a TS variable name to each reference
-  // Add synthetic statements for e.g. iterators => maybe we don't even need these since nodes can return a list of statements
-
   logger.debug(`Parsed HCL: ${JSON.stringify(parsedHcl, null, 2)}`);
 
   // Each key in the scope needs to be unique, therefore we save them in a set
@@ -557,4 +524,4 @@ export async function convertProject(
   };
 }
 
-export { isRegistryModule };
+export { isRegistryModule, getParsedHcl };
