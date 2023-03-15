@@ -98,7 +98,7 @@ export async function parse(
 
 export async function convertFiles(
   workingDirectory: string
-): Promise<Record<string, any> | void> {
+): Promise<Record<string, any>> {
   let tfFileContents = "";
   const tfJSONFileContents: Record<string, any>[] = [];
 
