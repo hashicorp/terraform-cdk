@@ -331,6 +331,18 @@ You cannot create a Terraform module directly from an existing CDKTF construct, 
 
 Constructs also provide a way to logically structure a set of resources, but you can only use them as part of a stack. A single stack may contain multiple constructs that act as building blocks to create the full infrastructure configuration. For example, you could use one construct to define a Kubernetes deployment and a different construct to define an AWS DynamoDB table.
 
+## Construct Types
+
+Construct classes define system state at various levels of granularity. For example, you can write a custom construct that defines and configures a single Elastic Cloud Compute resource or one that defines and configures an entire deployment with multiple resources from different providers.
+
+The Cloud Development Kit community has identified three major construct types that indicate an increasing level of abstraction:
+
+- **L1** constructs define single resources or very small units of configuration. For example, the code bindings that CDKTF generates for each Terraform provider are considered L1 constructs. Another example would be creating a custom L1 construct that defines the configuration for an Azure virtual machine.
+
+- **L2** constructs define resources and include an intent-driven API with additional helper methods, properties, and functionality. For example, you could create a custom L2 construct that contains a method for adding files to an S3 Bucket and a method for granting resource access to a particular user group.
+
+- **L3** constructs define common design patterns and larger pieces of functionality. For example, you could create a custom L3 construct that configures all of the necessary resources to deploy and host a static website frontend.
+
 ## Use Constructs
 
 > **Hands On:** Try [Deploy Applications with CDK for Terraform](/terraform/tutorials/cdktf/cdktf-applications) tutorial to use a custom construct. It includes the example code below.
