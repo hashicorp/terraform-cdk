@@ -305,41 +305,37 @@ const createTestCase =
           includeSynthTests &&
           (shouldSynth === Synth.yes || shouldSynth === Synth.yes_all_languages)
         ) {
-          it.concurrent(
-            "synth",
-            async () => {
-              const filename = name.replace(/\s/g, "-");
-              const projectDirPromise = getProjectDirectory(providers);
-              const { all } = convertResult;
-              const projectDir = await projectDirPromise;
+          it("synth", async () => {
+            const filename = name.replace(/\s/g, "-");
+            const projectDirPromise = getProjectDirectory(providers);
+            const { all } = convertResult;
+            const projectDir = await projectDirPromise;
 
-              // Have a before all somewhere above bootstrap a TS project
-              // __dirname should be replaceed by the bootstrapped directory
-              const pathToThisProjectsFile = path.join(
-                projectDir,
-                filename + ".ts"
-              );
-              const fileContent = `
+            // Have a before all somewhere above bootstrap a TS project
+            // __dirname should be replaceed by the bootstrapped directory
+            const pathToThisProjectsFile = path.join(
+              projectDir,
+              filename + ".ts"
+            );
+            const fileContent = `
 ${all}
 const app = new cdktf.App();
 new MyConvertedCode(app, "${filename}");
 app.synth();
 `;
 
-              fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
+            fs.writeFileSync(pathToThisProjectsFile, fileContent, "utf8");
 
-              const stdout = execSync(
-                `${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`,
-                { cwd: projectDir }
-              );
-              expect(stdout.toString()).toEqual(
-                expect.stringContaining(
-                  `Generated Terraform code for the stacks`
-                )
-              );
-            },
-            500_000
-          );
+            const stdout = execSync(
+              `${cdktfBin} synth -a 'npx ts-node ${filename}.ts' -o ./${filename}-output`,
+              { cwd: projectDir }
+            );
+            expect(stdout.toString()).toEqual(
+              expect.stringContaining(`Generated Terraform code for the stacks`)
+            );
+          }, 500_000);
+        } else {
+          it.skip("synth", () => {});
         }
       });
 
@@ -367,6 +363,10 @@ app.synth();
             });
             expect(convertResult.all).toMatchSnapshot();
           }, 500_000);
+        });
+      } else {
+        describe.skip.each(["python", "csharp", "java", "go"])("%s", () => {
+          it.skip("snapshot", () => {});
         });
       }
     };
