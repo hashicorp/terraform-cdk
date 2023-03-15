@@ -14,7 +14,7 @@ import { gunzipSync } from "zlib";
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
-  getReferencesInExpression: (filename: string, hcl: string) => Promise<string>;
+  parseExpression: (filename: string, hcl: string) => Promise<string>;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -199,7 +199,7 @@ type TerraformObject =
   | TerraformLiteral
   | TerraformTraversal;
 
-type GoExpressionParseResult = null | TerraformObject;
+export type GoExpressionParseResult = null | TerraformObject;
 
 type Reference = { value: string; startPosition: number; endPosition: number };
 
@@ -256,7 +256,7 @@ function traversalToReference(
 
 function findAllReferencesInAst(
   input: string,
-  entry: TerraformObject | undefined | null
+  entry: TerraformObject | null
 ): Reference[] {
   if (!entry) {
     return [];
@@ -331,19 +331,18 @@ function findAllReferencesInAst(
   return [];
 }
 
+export async function parseExpression(
+  filename: string,
+  expression: string
+): Promise<GoExpressionParseResult> {
+  const res = await wasm.parseExpression(filename, JSON.stringify(expression));
+  return JSON.parse(res) as GoExpressionParseResult;
+}
+
 export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const res = await wasm.getReferencesInExpression(
-    filename,
-    JSON.stringify(expression)
-  );
-  const ast = JSON.parse(res) as GoExpressionParseResult;
-
-  if (!ast) {
-    return [];
-  }
-
+  const ast = await parseExpression(filename, expression);
   return findAllReferencesInAst(expression, ast);
 }
