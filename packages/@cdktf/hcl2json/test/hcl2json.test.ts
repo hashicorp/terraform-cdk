@@ -4,6 +4,13 @@ import { parse, convertFiles } from "../lib";
 import * as fs from "fs";
 import * as path from "path";
 
+jest.mock("console", () => {
+  return {
+    readFile: jest.fn().mockResolvedValue("contents"),
+    stat: jest.fn().mockResolvedValue({}),
+  };
+});
+
 describe("parse", () => {
   const loadFixture = (...fileNames: string[]) => {
     return fs.readFileSync(
@@ -54,18 +61,36 @@ describe("convertFiles", () => {
     expect(JSON.stringify(parsed, null, 2)).toMatchSnapshot();
   });
 
-  test("a directory with standard json only", async () => {
-    const parsed = await convertFiles(
-      path.join(__dirname, "fixtures", "with-standard-json")
-    );
-    expect(JSON.stringify(parsed, null, 2)).toMatchInlineSnapshot(`"{}"`);
-  });
+  describe("not matching due to", () => {
+    let mock: jest.SpyInstance;
 
-  test("no files", async () => {
-    const parsed = await convertFiles(
-      path.join(__dirname, "fixtures", "no-files")
-    );
-    expect(JSON.stringify(parsed, null, 2)).toMatchSnapshot();
+    beforeEach(() => {
+      mock = jest.spyOn(global.console, "error").mockImplementation();
+    });
+
+    afterEach(() => {
+      mock.mockRestore();
+    });
+
+    test("a directory with standard json only", async () => {
+      const parsed = await convertFiles(
+        path.join(__dirname, "fixtures", "with-standard-json")
+      );
+      expect(JSON.stringify(parsed, null, 2)).toMatchInlineSnapshot(`"{}"`);
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining("No '.tf' or '.tf.json' files found in")
+      );
+    });
+
+    test("no files", async () => {
+      const parsed = await convertFiles(
+        path.join(__dirname, "fixtures", "no-files")
+      );
+      expect(JSON.stringify(parsed, null, 2)).toMatchInlineSnapshot(`"{}"`);
+      expect(console.error).toHaveBeenCalledWith(
+        expect.stringContaining("No '.tf' or '.tf.json' files found in")
+      );
+    });
   });
 
   test("invalid files", async () => {
