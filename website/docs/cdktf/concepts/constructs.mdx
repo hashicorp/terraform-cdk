@@ -12,13 +12,13 @@ description: >-
 
 In CDKTF, a construct is a building block that can represent anything from a single resource to a complex subset of your infrastructure. Each CDKTF program can be thought of as a tree being made up of constructs.
 
-Since constructs can also represent a collection of resource, they are often compared with Terraform modules, but constructs provide a superset of what Terraform modules can do.
+Since constructs can also represent a collection of resources, they are often compared with Terraform modules, but constructs provide a superset of what Terraform modules can do.
 
 ## Various use cases of constructs
 
 - Terraform modules are limited in the sense that they can generate resources based on HCL configuration, but constructs are not constrained to just creating, and can also modify, enrich, and validate resources created outside of the construct.
 
-- Constructs can build complex resources that can be used as any other provider supplied resource without using a different syntax like in Terraform.
+- Constructs can build complex resources that can be used as any other provider-supplied resource without using a different syntax like in Terraform.
 
 - Constructs allow strict type checking and parameter validation for creating resources. This is not possible in Terraform modules.
 
@@ -28,7 +28,7 @@ Since constructs can also represent a collection of resource, they are often com
 
 ### Constructs can enrich and modify resource configuration to match best practices
 
-While Terraform modules can be used to generate a part of infrastructure, constructs can be used to enrich and modify existing resource configurations. This enables authors to codify best practices within constructs and users of those constructs can be assured that their infrastructure is compliant.
+While Terraform modules can be used to generate a part of infrastructure, constructs can be used to enrich and modify existing resource configurations. This enables authors to codify best practices within constructs, and users of those constructs can be assured that their infrastructure is compliant.
 
 The following example extends the AWS S3 Bucket resource to add required tags. Any consumer of this `TaggedS3Bucket` can be assured that the correct tags are applied to their resource.
 
@@ -232,7 +232,7 @@ class MyStack extends TerraformStack {
 
 ### You can codify security constraints earlier in the process
 
-You can improve the feedback cycles about security concerns for developers from tools later in the workflow like code review or CI solutions like Sentinel to the point where the configuration is authored. This can be done through type hints (disallowing options that are not safe on the type system level) or through validation. Validations allow dynamic verification and are shown to users as hints during `cdktf synth`, if they are on the error level they also fail the synth.
+You can shift left security concerns for developers from the end of the workflow (like code review, CI, or solutions like Sentinel policies) to the point where the configuration is authored. This can be done through type hints (disallowing options that are not safe on the type system level) or through validation. Validations allow dynamic verification and are shown to users as hints during cdktf synth. If they are set to the error level, they also fail the synth.
 
 #### Through Types
 
@@ -322,6 +322,8 @@ describe("Construct is of correct composition and plans successfully", () => {
 ### Interoperability
 
 You can use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
+
+You can use the [`cdktf get`](/terraform/cdktf/cli-reference/commands#get) command to download Terraform modules and use them as constructs in your CDKTF project. You can also [publish these generated constructs](/terraform/cdktf/develop-custom-constructs/publishing-and-distribution#translate-constructs-to-terraform-modules) representing a module to your registry of choice.
 
 You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/terraform/cdktf/concepts/hcl-interoperability) page for more details.
 
