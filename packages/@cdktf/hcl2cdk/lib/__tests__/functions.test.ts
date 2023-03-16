@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import * as t from "@babel/types";
 import generate from "@babel/generator";
 import { AttributeType } from "@cdktf/provider-generator";
