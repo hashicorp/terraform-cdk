@@ -67,22 +67,21 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"iam_groups_users\\",
       {}
     );
-    const awsIamUserGroupMembershipIamUserGroupMembershipUserGroups =
-      new aws.iamUserGroupMembership.IamUserGroupMembership(
-        this,
-        \\"iam_user_group_membership_user_groups\\",
-        {
-          groups: cdktf.Token.asList('\${each.value[\\"groups\\"]}'),
-          user: \\"\${each.key}\\",
-        }
-      );
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    awsIamUserGroupMembershipIamUserGroupMembershipUserGroups.addOverride(
-      \\"for_each\\",
-      iamGroupsUsers.value
+    const awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator =
+      cdktf.TerraformIterator.fromList(cdktf.Token.asAny(iamGroupsUsers.value));
+    new aws.iamUserGroupMembership.IamUserGroupMembership(
+      this,
+      \\"iam_user_group_membership_user_groups\\",
+      {
+        groups: cdktf.Token.asList(
+          \`\\\\\${\${awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.value}[\\"groups\\"]}\`
+        ),
+        user: awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.key,
+      }
     );
   }
 }
@@ -113,7 +112,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         records: [\\"example\\"],
         ttl: cdktf.Token.asNumber(\\"300\\"),
         type: \\"TXT\\",
-        zoneId: awsRoute53ZoneExampleAwsRoute53SimpleZone.zoneId,
+        zoneId: cdktf.Token.asString(
+          awsRoute53ZoneExampleAwsRoute53SimpleZone.zoneId
+        ),
       }
     );
   }

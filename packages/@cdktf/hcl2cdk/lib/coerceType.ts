@@ -4,7 +4,7 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { logger } from "@cdktf/commons";
 import { AttributeType } from "@cdktf/provider-generator";
-import { Scope } from "./types";
+import { ProgramScope } from "./types";
 import deepEqual from "deep-equal";
 
 function changeValueAccessor(
@@ -22,7 +22,7 @@ function changeValueAccessor(
 }
 
 export const coerceType = (
-  scope: Scope,
+  scope: ProgramScope,
   ast: t.Expression,
   from: AttributeType,
   to: AttributeType | undefined
