@@ -15,6 +15,7 @@ import { gunzipSync } from "zlib";
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
   parseExpression: (filename: string, hcl: string) => Promise<string>;
+  getExpressionAst: (filename: string, hcl: string) => Promise<string>;
 }
 
 // eslint-disable-next-line @typescript-eslint/ban-types
@@ -345,4 +346,18 @@ export async function getReferencesInExpression(
 ): Promise<Reference[]> {
   const ast = await parseExpression(filename, expression);
   return findAllReferencesInAst(expression, ast);
+}
+
+export async function getExpressionAst(
+  filename: string,
+  expression: string
+): Promise<any> {
+  const res = await wasm.getExpressionAst(filename, JSON.stringify(expression));
+  const ast = JSON.parse(res) as GoExpressionParseResult;
+
+  if (!ast) {
+    return {};
+  }
+
+  return ast;
 }
