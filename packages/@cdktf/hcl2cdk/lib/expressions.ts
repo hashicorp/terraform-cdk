@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as t from "@babel/types";
-import template from "@babel/template";
+// import template from "@babel/template";
 import reservedWords from "reserved-words";
 import { toSnakeCase } from "codemaker";
 import { camelCase, logger, pascalCase } from "./utils";
@@ -13,8 +13,8 @@ import {
   TerraformEmbeddedExpression,
   TerraformFunctionCall,
   ArithmeticExpression,
-  CodeMarker,
-  Range,
+  // CodeMarker,
+  // Range,
 } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 import { coerceType } from "./coerceType";
@@ -32,7 +32,7 @@ export type Reference = {
 /**
  * @returns index of marker in str string
  */
-function positionInString(str: string, marker: CodeMarker) {
+/*function positionInString(str: string, marker: CodeMarker) {
   const lines = str.split("\n");
   const lineLengths = lines.map((line) => line.length);
   const newlineChar = 1;
@@ -44,7 +44,7 @@ function positionInString(str: string, marker: CodeMarker) {
         lines.length === 1 ? 0 : -1
       ) + marker.Column
   );
-}
+}*/
 
 const DOLLAR_REGEX = /\$/g;
 
