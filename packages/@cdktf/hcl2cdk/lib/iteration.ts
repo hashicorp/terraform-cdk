@@ -2,15 +2,15 @@
 // SPDX-License-Identifier: MPL-2.0
 import { DirectedGraph } from "graphology";
 import { providers as telemetryAllowedProviders } from "./telemetryAllowList.json";
-import { Scope } from "./types";
+import { ProgramScope } from "./types";
 
 // locals, variables, and outputs are global key value maps
 export function forEachGlobal<T, R>(
-  scope: Scope,
+  scope: ProgramScope,
   prefix: string,
   record: Record<string, T> | undefined,
   iterator: (
-    scope: Scope,
+    scope: ProgramScope,
     key: string,
     id: string,
     value: T,
@@ -28,10 +28,10 @@ export function forEachGlobal<T, R>(
 }
 
 export function forEachProvider<T, R>(
-  scope: Scope,
+  scope: ProgramScope,
   record: Record<string, T[]> | undefined,
   iterator: (
-    scope: Scope,
+    scope: ProgramScope,
     key: string,
     id: string,
     value: T,
@@ -55,10 +55,10 @@ export function forEachProvider<T, R>(
 
 // data and resource are namespaced key value maps
 export function forEachNamespaced<T, R>(
-  scope: Scope,
+  scope: ProgramScope,
   record: Record<string, Record<string, T>> | undefined,
   iterator: (
-    scope: Scope,
+    scope: ProgramScope,
     type: string,
     key: string,
     id: string,

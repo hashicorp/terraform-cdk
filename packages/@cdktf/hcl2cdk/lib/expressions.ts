@@ -3,7 +3,7 @@
 import * as t from "@babel/types";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
-import { TerraformResourceBlock, Scope } from "./types";
+import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { getReferencesInExpression } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 
@@ -129,7 +129,32 @@ export async function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
-export function referenceToVariableName(scope: Scope, ref: Reference): string {
+export type IteratorVariable = {
+  start: number;
+  end: number;
+  value: string;
+};
+export async function extractIteratorVariablesFromExpression(
+  input: string
+): Promise<IteratorVariable[]> {
+  const possibleVariableSpots = await getReferencesInExpression(
+    "main.tf",
+    input
+  );
+
+  return possibleVariableSpots
+    .filter((spot) => spot.value.startsWith("each."))
+    .map((spot) => ({
+      start: spot.startPosition,
+      end: spot.endPosition,
+      value: spot.value,
+    }));
+}
+
+export function referenceToVariableName(
+  scope: ProgramScope,
+  ref: Reference
+): string {
   const parts = ref.referencee.id.split(".");
   const resource = parts[0] === "data" ? `${parts[0]}.${parts[1]}` : parts[0];
   const name = parts[0] === "data" ? parts[2] : parts[1];
@@ -149,7 +174,7 @@ function validVarName(name: string) {
 }
 
 export function variableName(
-  scope: Scope,
+  scope: ProgramScope,
   resource: string,
   name: string
 ): string {
@@ -179,7 +204,7 @@ export function variableName(
 }
 
 export function constructAst(
-  scope: Scope,
+  scope: ProgramScope,
   type: string,
   isModuleImport: boolean
 ) {
@@ -303,7 +328,7 @@ export function constructAst(
   return t.identifier(pascalCase(type));
 }
 
-export function referenceToAst(scope: Scope, ref: Reference) {
+export function referenceToAst(scope: ProgramScope, ref: Reference) {
   const [resource, , ...selector] = ref.referencee.full.split(".");
 
   const variableReference = t.identifier(
@@ -337,11 +362,71 @@ export function referenceToAst(scope: Scope, ref: Reference) {
   return accessor;
 }
 
+// Transforms a path with segments into literals describing the path
+export function getPropertyAccessPath(input: string): string[] {
+  return input
+    .split(/(\[|\]|\.)/g)
+    .filter((p) => p.length > 0 && p !== "." && p !== "[" && p !== "]")
+    .map((p) => (p.startsWith(`"`) && p.endsWith(`"`) ? p.slice(1, -1) : p));
+}
+
+// TODO: Write tests for this
+export function iteratorVariableToAst(
+  scope: ResourceScope,
+  iteratorVariable: IteratorVariable
+) {
+  // TODO: This is not the case for dynamic blocks which should not run into this code path right now
+  if (!scope.forEachIteratorName) {
+    throw new Error(
+      `Can not create AST for iterator variable of '${iteratorVariable.value}' without forEachIteratorName`
+    );
+  }
+
+  if (iteratorVariable.value === "each.key") {
+    return t.memberExpression(
+      t.identifier(scope.forEachIteratorName),
+      t.identifier("key")
+    );
+  }
+  if (iteratorVariable.value === "each.value") {
+    return t.memberExpression(
+      t.identifier(scope.forEachIteratorName),
+      t.identifier("value")
+    );
+  }
+
+  if (
+    iteratorVariable.value.startsWith("each.value") &&
+    (iteratorVariable.value.includes("[") ||
+      iteratorVariable.value.includes("."))
+  ) {
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        t.memberExpression(
+          t.identifier(scope.forEachIteratorName),
+          t.identifier("value")
+        ),
+        t.arrayExpression(
+          getPropertyAccessPath(
+            iteratorVariable.value.replace("each.value.", "")
+          ).map((p) => t.stringLiteral(p))
+        ),
+      ]
+    );
+  }
+
+  throw new Error(
+    `Can not create AST for iterator variable of '${iteratorVariable.value}'`
+  );
+}
+
 export function referencesToAst(
-  scope: Scope,
+  scope: ResourceScope,
   input: string,
   refs: Reference[],
-  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
+  scopedIds: readonly string[] = [], // dynamics introduce new scoped variables that are not the globally accessible ids
+  iteratorVariables: IteratorVariable[] = []
 ): t.Expression {
   logger.debug(
     `Transforming string '${input}' with references ${JSON.stringify(
@@ -349,22 +434,32 @@ export function referencesToAst(
     )} to AST`
   );
 
-  if (refs.length === 0) {
-    return t.stringLiteral(input);
-  }
-
   const refAsts = refs
     .sort((a, b) => a.start - b.start)
     .filter((ref) => !scopedIds.includes(ref.referencee.id))
-    .map((ref) => ({ ref, ast: referenceToAst(scope, ref) }));
+    .map((ref) => ({ ...ref, ast: referenceToAst(scope, ref) }));
+
+  const iteratorVarAsts = iteratorVariables
+    .sort((a, b) => a.start - b.start)
+    .map((iteratorVariable) => ({
+      ...iteratorVariable,
+      ast: iteratorVariableToAst(scope, iteratorVariable),
+    }));
+
+  const asts = [...refAsts, ...iteratorVarAsts].sort(
+    (a, b) => a.start - b.start
+  );
+  if (asts.length === 0) {
+    return t.stringLiteral(input);
+  }
 
   if (
-    refAsts.length === 1 &&
-    refAsts[0].ref.start === "${".length &&
-    refAsts[0].ref.end === input.length - "}".length &&
-    !refAsts[0].ref.useFqn
+    asts.length === 1 &&
+    asts[0].start === "${".length &&
+    asts[0].end === input.length - "}".length &&
+    !("useFqn" in asts[0] && asts[0].useFqn)
   ) {
-    return refAsts[0].ast;
+    return asts[0].ast;
   }
 
   // string parts in the template string
@@ -374,19 +469,19 @@ export function referencesToAst(
 
   let lastEnd = 0;
 
-  refAsts.forEach(({ ref, ast }) => {
+  asts.forEach(({ start, end, ast }) => {
     // leading quasi
-    if (ref.start !== lastEnd) {
+    if (start !== lastEnd) {
       quasis.push(
         t.templateElement({
-          raw: input.substring(lastEnd, ref.start).replace(DOLLAR_REGEX, "\\$"),
+          raw: input.substring(lastEnd, start).replace(DOLLAR_REGEX, "\\$"),
         })
       );
     }
 
     expressions.push(ast);
 
-    lastEnd = ref.end;
+    lastEnd = end;
   });
 
   // trailing quasi

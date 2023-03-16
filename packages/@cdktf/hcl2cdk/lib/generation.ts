@@ -7,7 +7,7 @@ import { DirectedGraph } from "graphology";
 import prettier from "prettier";
 import { toSnakeCase } from "codemaker";
 
-import { TerraformResourceBlock, Scope } from "./types";
+import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
 import {
   Resource,
@@ -25,6 +25,7 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
+  extractIteratorVariablesFromExpression,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -86,14 +87,25 @@ function destructureAst(ast: t.Expression): string[] | undefined {
 }
 
 function findTypeOfReference(
-  scope: Scope,
+  scope: ProgramScope,
   ast: t.Expression,
   references: Reference[]
 ): AttributeType {
   const isReferenceWithoutTemplateString =
+    references.length === 1 &&
     ast.type === "MemberExpression" &&
-    ast.object.type === "Identifier" &&
-    references.length === 1;
+    ast.object.type === "Identifier";
+
+  // If we have a property to cdktf.propertyAccess call it's dynamic
+  if (
+    ast.type === "CallExpression" &&
+    ast.callee.type === "MemberExpression" &&
+    ast.callee.property.type === "Identifier" &&
+    ast.callee.property.name === "propertyAccess"
+  ) {
+    return "dynamic";
+  }
+
   // If we only have one reference this is a
   if (isReferenceWithoutTemplateString) {
     if (references[0].isVariable) {
@@ -145,7 +157,7 @@ function findTypeOfReference(
 }
 
 export const valueToTs = async (
-  scope: Scope,
+  scope: ResourceScope,
   item: TerraformResourceBlock,
   path: string,
   nodeIds: string[],
@@ -159,7 +171,18 @@ export const valueToTs = async (
         nodeIds,
         scopedIds
       );
-      const ast = referencesToAst(scope, item, references, scopedIds);
+
+      const iteratorVariables = await extractIteratorVariablesFromExpression(
+        item
+      );
+
+      const ast = referencesToAst(
+        scope,
+        item,
+        references,
+        scopedIds,
+        iteratorVariables
+      );
 
       return coerceType(
         scope,
@@ -167,7 +190,6 @@ export const valueToTs = async (
         findTypeOfReference(scope, ast, references),
         getDesiredType(scope, path)
       );
-
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
@@ -295,7 +317,7 @@ export const valueToTs = async (
 };
 
 export async function backendToExpression(
-  scope: Scope,
+  scope: ProgramScope,
   tf: TerraformConfig["backend"],
   nodeIds: string[]
 ): Promise<t.Statement[]> {
@@ -416,8 +438,12 @@ function mapConfigPerResourceType(resource: string, item: Resource[0]) {
   return item;
 }
 
+const loopComment = `In most cases loops should be handled in the programming language context and 
+not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+you need to keep this like it is.`;
 export async function resource(
-  scope: Scope,
+  scope: ProgramScope,
   type: string,
   key: string,
   id: string,
@@ -431,12 +457,54 @@ export async function resource(
   if (!provider) {
     throw new Error(`Could not parse resource type '${type}'`);
   }
-
+  let expressions: t.Statement[] = [];
+  const varName = variableName(scope, resource, key);
   const { for_each, count, ...config } = item[0];
+  let forEachIteratorName: string | undefined;
+  if (for_each) {
+    const references = await extractReferencesFromExpression(
+      for_each,
+      nodeIds,
+      ["each"]
+    );
+
+    forEachIteratorName = variableName(
+      scope,
+      resource,
+      `${key}_for_each_iterator`
+    );
+    const referenceAst = referencesToAst(scope, for_each, references);
+    const referenceType = findTypeOfReference(scope, referenceAst, references);
+    // TODO: We need to either workaround that there are no chained / nested iterators or implement them
+    const targetType: AttributeType =
+      Array.isArray(referenceType) && referenceType[0] === "map"
+        ? ["map", "dynamic"]
+        : ["list", "dynamic"];
+
+    const iterator = t.variableDeclaration("const", [
+      t.variableDeclarator(
+        t.identifier(forEachIteratorName),
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(
+              t.identifier("cdktf"),
+              t.identifier("TerraformIterator")
+            ),
+            t.identifier("fromList")
+          ),
+
+          [coerceType(scope, referenceAst, referenceType, targetType)]
+        )
+      ),
+    ]);
+    t.addComment(iterator, "leading", loopComment);
+    expressions.push(iterator);
+  }
+
   const mappedConfig = mapConfigPerResourceType(resource, config);
   const dynBlocks = extractDynamicBlocks(mappedConfig);
   const overrideReference =
-    dynBlocks.length || count || for_each
+    dynBlocks.length || count
       ? {
           start: 0,
           end: 0,
@@ -447,37 +515,18 @@ export async function resource(
         }
       : undefined;
 
-  const expressions = await asExpression(
-    scope,
-    resource,
-    key,
-    mappedConfig,
-    nodeIds,
-    false,
-    false,
-    getReference(graph, id) || overrideReference
-  );
-  const varName = variableName(scope, resource, key);
-
-  const loopComment = `In most cases loops should be handled in the programming language context and 
-not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-you need to keep this like it is.`;
-  if (for_each) {
-    const references = await extractReferencesFromExpression(
-      for_each,
+  expressions = expressions.concat(
+    await asExpression(
+      { ...scope, forEachIteratorName },
+      resource,
+      key,
+      mappedConfig,
       nodeIds,
-      ["each"]
-    );
-    expressions.push(
-      addOverrideExpression(
-        varName,
-        "for_each",
-        referencesToAst(scope, for_each, references),
-        loopComment
-      )
-    );
-  }
+      false,
+      false,
+      getReference(graph, id) || overrideReference
+    )
+  );
 
   if (count) {
     if (typeof count === "number") {
@@ -510,9 +559,8 @@ you need to keep this like it is.`;
   }
 
   // Check for dynamic blocks
-  return [
-    ...expressions,
-    ...(await Promise.all(
+  expressions = expressions.concat(
+    await Promise.all(
       dynBlocks.map(async ({ path, for_each, content, scopedVar }) => {
         return addOverrideExpression(
           varName,
@@ -530,12 +578,14 @@ you need to keep this like it is.`;
           loopComment
         );
       })
-    )),
-  ];
+    )
+  );
+
+  return expressions;
 }
 
 async function asExpression(
-  scope: Scope,
+  scope: ResourceScope,
   type: string,
   name: string,
   config: TerraformResourceBlock,
@@ -612,7 +662,7 @@ async function asExpression(
 }
 
 export async function output(
-  scope: Scope,
+  scope: ProgramScope,
   key: string,
   _id: string,
   item: Output,
@@ -637,7 +687,7 @@ export async function output(
 }
 
 export async function variable(
-  scope: Scope,
+  scope: ProgramScope,
   key: string,
   id: string,
   item: Variable,
@@ -664,7 +714,7 @@ export async function variable(
 }
 
 export async function local(
-  scope: Scope,
+  scope: ProgramScope,
   key: string,
   id: string,
   item: TerraformResourceBlock,
@@ -692,7 +742,7 @@ export async function local(
 }
 
 export async function modules(
-  scope: Scope,
+  scope: ProgramScope,
   key: string,
   id: string,
   item: Module,
@@ -716,7 +766,7 @@ export async function modules(
 }
 
 export async function provider(
-  scope: Scope,
+  scope: ProgramScope,
   key: string,
   id: string,
   item: Provider[0],

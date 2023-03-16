@@ -27,40 +27,54 @@ class MyConvertedCode extends cdktf.TerraformStack {
       });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     dataAwsRoute53ZoneExample.overrideLogicalId(\\"example\\");
-    const awsRoute53RecordExample = new aws.route53Record.Route53Record(
-      this,
-      \\"example_3\\",
-      {
-        allowOverwrite: true,
-        name: \\"\${each.value.name}\\",
-        records: [\\"\${each.value.record}\\"],
-        ttl: 60,
-        type: \\"\${each.value.type}\\",
-        zoneId: cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId),
-      }
-    );
-    /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
-    awsRoute53RecordExample.overrideLogicalId(\\"example\\");
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    awsRoute53RecordExample.addOverride(
-      \\"for_each\\",
-      \`\\\\\${{
+    const awsRoute53RecordExampleForEachIterator =
+      cdktf.TerraformIterator.fromList(
+        cdktf.Token.asAny(\`\\\\\${{
           for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
             name   = dvo.resource_record_name
             record = dvo.resource_record_value
             type   = dvo.resource_record_type
           }
-        }}\`
+        }}\`)
+      );
+    const awsRoute53RecordExample = new aws.route53Record.Route53Record(
+      this,
+      \\"example_3\\",
+      {
+        allowOverwrite: true,
+        name: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"name\\",
+          ])
+        ),
+        records: [
+          cdktf.Token.asString(
+            cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+              \\"record\\",
+            ])
+          ),
+        ],
+        ttl: 60,
+        type: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"type\\",
+          ])
+        ),
+        zoneId: cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId),
+      }
     );
+    /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+    awsRoute53RecordExample.overrideLogicalId(\\"example\\");
     const awsAcmCertificateValidationExample =
       new aws.acmCertificateValidation.AcmCertificateValidation(
         this,
         \\"example_4\\",
         {
-          certificateArn: awsAcmCertificateExample.arn,
+          certificateArn: cdktf.Token.asString(awsAcmCertificateExample.arn),
           validationRecordFqdns: cdktf.Token.asList(
             \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`
           ),
@@ -189,37 +203,36 @@ class MyConvertedCode extends cdktf.TerraformStack {
       deletionWindowInDays: 7,
       description: \\"KMS key 1\\",
     });
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    const awsS3BucketExamplebucketForEachIterator =
+      cdktf.TerraformIterator.fromList(
+        cdktf.Token.asAny(\`\\\\\${toset(\${buckets.value}.*)}\`)
+      );
     const awsS3BucketExamplebucket = new aws.s3Bucket.S3Bucket(
       this,
       \\"examplebucket\\",
       {
         acl: \\"private\\",
-        bucket: \\"\${each.key}\\",
+        bucket: awsS3BucketExamplebucketForEachIterator.key,
       }
     );
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    awsS3BucketExamplebucket.addOverride(
-      \\"for_each\\",
-      \`\\\\\${toset(\${buckets.value}.*)}\`
-    );
-    const awsS3BucketObjectExamplebucketObject =
-      new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-        bucket: \\"\${each.key}\\",
-        key: \\"someobject\\",
-        kmsKeyId: awsKmsKeyExamplekms.arn,
-        source: \\"index.html\\",
-      });
-    /*In most cases loops should be handled in the programming language context and 
-    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-    you need to keep this like it is.*/
-    awsS3BucketObjectExamplebucketObject.addOverride(
-      \\"for_each\\",
-      \`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`
-    );
+    const awsS3BucketObjectExamplebucketObjectForEachIterator =
+      cdktf.TerraformIterator.fromList(
+        cdktf.Token.asAny(\`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`)
+      );
+    new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
+      bucket: awsS3BucketObjectExamplebucketObjectForEachIterator.key,
+      key: \\"someobject\\",
+      kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
+      source: \\"index.html\\",
+    });
   }
 }
 "
@@ -240,18 +253,20 @@ class MyConvertedCode extends cdktf.TerraformStack {
       region: \\"us-east-1\\",
     });
     const users = new cdktf.TerraformVariable(this, \\"users\\", {});
-    const awsIamUserLb = new aws.iamUser.IamUser(this, \\"lb\\", {
-      name: \\"\${each.key}\\",
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    const awsIamUserLbForEachIterator = cdktf.TerraformIterator.fromList(
+      cdktf.Token.asAny(users.value)
+    );
+    new aws.iamUser.IamUser(this, \\"lb\\", {
+      name: awsIamUserLbForEachIterator.key,
       path: \\"/system/\\",
       tags: {
         \\"tag-key\\": \\"tag-value\\",
       },
     });
-    /*In most cases loops should be handled in the programming language context and 
-    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-    you need to keep this like it is.*/
-    awsIamUserLb.addOverride(\\"for_each\\", users.value);
   }
 }
 "
@@ -292,21 +307,21 @@ class MyConvertedCode extends cdktf.TerraformStack {
         description: \\"users\\",
       }
     );
-    const azureadUserAzureUsers = new azuread.user.User(this, \\"azure_users\\", {
-      displayName: \\"\${each.key}\\",
-      userPrincipalName: \`\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\`,
-    });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    azureadUserAzureUsers.addOverride(
-      \\"for_each\\",
-      \`\\\\\${merge(
+    const azureadUserAzureUsersForEachIterator =
+      cdktf.TerraformIterator.fromList(
+        cdktf.Token.asAny(\`\\\\\${merge(
               \${oneSetOfUsers.value},
               \${otherSetOfUsers.value},
-            )}\`
-    );
+            )}\`)
+      );
+    new azuread.user.User(this, \\"azure_users\\", {
+      displayName: azureadUserAzureUsersForEachIterator.key,
+      userPrincipalName: \`\\\\\${\${azureadUserAzureUsersForEachIterator.value}}\\\\\${\${azureAdDomainName.value}}\`,
+    });
   }
 }
 "

@@ -7,7 +7,7 @@ import {
   Schema,
 } from "@cdktf/provider-generator";
 import { getFullProviderName } from "./provider";
-import { Scope } from "./types";
+import { ProgramScope } from "./types";
 
 function getResourceAtPath(schema: ProviderSchema, path: string) {
   const parts = path.split(".");
@@ -150,7 +150,10 @@ export const isMapAttribute = (
   attribute: Schema | AttributeType | BlockType | null
 ) => (Array.isArray(attribute) ? attribute[0] === "map" : false);
 
-export function getDesiredType(scope: Scope, path: string): AttributeType {
+export function getDesiredType(
+  scope: ProgramScope,
+  path: string
+): AttributeType {
   const attributeOrBlockType = getTypeAtPath(scope.providerSchema, path);
 
   // Attribute type is not defined

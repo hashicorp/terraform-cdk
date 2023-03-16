@@ -2,8 +2,12 @@
 // SPDX-License-Identifier: MPL-2.0
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { referencesToAst } from "../expressions";
-import { Scope } from "../types";
+import {
+  iteratorVariableToAst,
+  referencesToAst,
+  getPropertyAccessPath,
+} from "../expressions";
+import { ProgramScope } from "../types";
 import {
   extractReferencesFromExpression,
   referenceToAst,
@@ -397,7 +401,7 @@ describe("expressions", () => {
 
   describe("#referenceToAst", () => {
     it("property access", () => {
-      const scope: Scope = {
+      const scope: ProgramScope = {
         providerSchema: { format_version: "0.1" },
         providerGenerator: {},
         constructs: new Set<string>(),
@@ -427,7 +431,7 @@ describe("expressions", () => {
 
   describe("#referencesToAst", () => {
     it("nested terraform expressions without space", async () => {
-      const scope: Scope = {
+      const scope: ProgramScope = {
         providerSchema: { format_version: "0.1" },
         providerGenerator: {},
         constructs: new Set<string>(),
@@ -447,6 +451,57 @@ describe("expressions", () => {
       ).toMatchInlineSnapshot(
         `"\`\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\`;"`
       );
+    });
+  });
+
+  describe("#iteratorVariableToAst", () => {
+    function run(value: string) {
+      return generate(
+        t.program([
+          t.expressionStatement(
+            iteratorVariableToAst(
+              {
+                forEachIteratorName: "myIterator",
+              } as any,
+              {
+                start: 0,
+                end: value.length,
+                value,
+              }
+            )
+          ),
+        ]) as any
+      ).code;
+    }
+
+    it("should convert iterator key accessor", () => {
+      expect(run("each.key")).toMatchInlineSnapshot(`"myIterator.key;"`);
+    });
+
+    it("should convert iterator value accessor", () => {
+      expect(run("each.value")).toMatchInlineSnapshot(`"myIterator.value;"`);
+    });
+
+    it("should convert iterator value deep accessor", () => {
+      expect(run("each.value.list.map.name")).toMatchInlineSnapshot(
+        `"cdktf.propertyAccess(myIterator.value, [\\"list\\", \\"map\\", \\"name\\"]);"`
+      );
+    });
+
+    it("should convert iterator value with map access", () => {
+      expect(run(`each.value[0]["map"]["name"]`)).toMatchInlineSnapshot(
+        `"cdktf.propertyAccess(myIterator.value, [\\"each\\", \\"value\\", \\"0\\", \\"map\\", \\"name\\"]);"`
+      );
+    });
+  });
+
+  describe("#getPropertyAccessPath", () => {
+    it.each([
+      [".list.map.name", ["list", "map", "name"]],
+      [`[0]["map"]["name"]`, ["0", "map", "name"]],
+      [`[0].map["name"]`, ["0", "map", "name"]],
+    ])("should return the correct path for %s", (input, expected) => {
+      expect(getPropertyAccessPath(input)).toEqual(expected);
     });
   });
 });

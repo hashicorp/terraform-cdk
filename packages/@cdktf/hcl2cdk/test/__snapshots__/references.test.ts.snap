@@ -77,7 +77,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
         bucket: bucketName.stringValue,
       });
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: dataAwsS3BucketExamplebucket.arn,
+      bucket: cdktf.Token.asString(dataAwsS3BucketExamplebucket.arn),
       key: \\"someobject\\",
       source: \\"index.html\\",
     });
@@ -186,9 +186,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: awsS3BucketExamplebucket.id,
+      bucket: cdktf.Token.asString(awsS3BucketExamplebucket.id),
       key: \\"someobject\\",
-      kmsKeyId: awsKmsKeyExamplekms.arn,
+      kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
     });
   }
@@ -223,7 +223,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
       bucket: \`\\\\\${element(\${awsS3BucketExamplebucket.fqn}, 0).id}\`,
       key: \\"someobject\\",
-      kmsKeyId: awsKmsKeyExamplekms.arn,
+      kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
     });
   }
