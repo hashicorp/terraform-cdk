@@ -8,7 +8,7 @@ function parseExpression(expr: string) {
       getReferencesInExpression("main.tf", expr)
     ).resolves.toMatchSnapshot();
 }
-function getAst(expr: string) {
+function astMatchesSnapshot(expr: string) {
   return () =>
     expect(getExpressionAst("main.tf", expr)).resolves.toMatchSnapshot();
 }
@@ -136,84 +136,106 @@ describe("getReferencesInExpression", () => {
 });
 
 describe("getExpressionAst", () => {
-  test("parses a simple string", getAst("foo"));
-  test("parses a reference string", getAst("${var.foo}"));
-  test("parses three part references", getAst("${module.foo.output}"));
-  test("parses four part references", getAst("${data.type.name.attr}"));
+  test("parses a simple string", astMatchesSnapshot("foo"));
+  test("parses a reference string", astMatchesSnapshot("${var.foo}"));
+  test(
+    "parses three part references",
+    astMatchesSnapshot("${module.foo.output}")
+  );
+  test(
+    "parses four part references",
+    astMatchesSnapshot("${data.type.name.attr}")
+  );
   test(
     "parses a terraform function",
-    getAst('${replace(module.foo.output, "-", var.bar)}')
+    astMatchesSnapshot('${replace(module.foo.output, "-", var.bar)}')
   );
 
   test(
     "parses nested terraform functions",
-    getAst(
+    astMatchesSnapshot(
       '${split(var.separator, lower(replace(module.foo.output, "-", var.bar)))}'
     )
   );
 
   test(
     "parses embedded vars",
-    getAst("Hey, did you hear about ${module.foo.output}s new album?")
+    astMatchesSnapshot(
+      "Hey, did you hear about ${module.foo.output}s new album?"
+    )
   );
-  test("parses lists", getAst('[5, ${module.foo.output}, "val", true]'));
+  test(
+    "parses lists",
+    astMatchesSnapshot('[5, ${module.foo.output}, "val", true]')
+  );
 
   test(
     "parses maps",
-    getAst(
+    astMatchesSnapshot(
       '{ x = ${module.foo.output}, y = "val", z = true, a = ${replace(module.foo.output, "-", var.bar)} }'
     )
   );
 
-  test("parses variable arithmetics", getAst("${var.members + var.admins}"));
+  test(
+    "parses variable arithmetics",
+    astMatchesSnapshot("${var.members + var.admins}")
+  );
 
   test(
     "parses ternary expressions",
-    getAst(
+    astMatchesSnapshot(
       "${aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"
     )
   );
 
-  test.skip(
+  test(
     "parses multi-line for loops",
-    getAst(
+    astMatchesSnapshot(
       "${{\n            for name, user in var.users : name => user\n            if !user.is_admin\n          }}"
     )
   );
 
-  test.skip(
+  test(
     "parses for in loops",
-    getAst("${{ for name, user in var.users : user.role => name... }}")
+    astMatchesSnapshot(
+      "${{ for name, user in var.users : user.role => name... }}"
+    )
   );
 
-  test.skip(
+  test(
     "parses terraform functions with file access",
-    getAst("${ element(aws_s3_bucket.examplebucket_two, 0).id }")
+    astMatchesSnapshot("${ element(aws_s3_bucket.examplebucket_two, 0).id }")
   );
 
-  test.skip(
+  test(
     "parses splat expressions",
-    getAst("${ toset(aws_s3_bucket.examplebucket.*) }")
+    astMatchesSnapshot("${ toset(aws_s3_bucket.examplebucket.*) }")
   );
 
-  test.skip("property access", getAst(`\${ var.setting["bucket_name"] }`));
+  test(
+    "property access",
+    astMatchesSnapshot(`\${ var.setting["bucket_name"] }`)
+  );
 
-  test.skip(
+  test(
     "mixed property access",
-    getAst(`\${ var.setting["bucket_name"].arn }`)
+    astMatchesSnapshot(`\${ var.setting["bucket_name"].arn }`)
   );
 
-  test.skip(
+  test(
     "variable property access",
-    getAst(`\${ var.settings[var.bucket_name_key] }`)
+    astMatchesSnapshot(`\${ var.settings[var.bucket_name_key] }`)
   );
 
-  test.skip(
+  test(
     "partial variable property access",
-    getAst(`\${ var.settings["\${var.prefix}-my-bucket"] }`)
+    astMatchesSnapshot(`\${ var.settings["\${var.prefix}-my-bucket"] }`)
   );
 
-  test.skip("list expressions", getAst(`\${ [var.tags.app, var.tags.env] }`));
+  test(
+    "list expressions",
+    astMatchesSnapshot(`\${ [var.tags.app, var.tags.env] }`)
+  );
 
   test("fails on malformed expressions", () => {
     expect(

@@ -2,7 +2,266 @@
 
 exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: :0,0-2: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the file. This might be caused by incorrect nesting inside the given expression.]`;
 
-exports[`getExpressionAst list expressions 1`] = `Array []`;
+exports[`getExpressionAst list expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 7,
+                    "Column": 7,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 4,
+                    "Column": 4,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 12,
+                    "Column": 12,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 7,
+                    "Column": 7,
+                    "Line": 0,
+                  },
+                },
+                "segment": "tags",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 16,
+                    "Column": 16,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 12,
+                    "Column": 12,
+                    "Line": 0,
+                  },
+                },
+                "segment": "app",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 16,
+              "column": 16,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 4,
+              "column": 4,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 21,
+                    "Column": 21,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 18,
+                    "Column": 18,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 26,
+                    "Column": 26,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 21,
+                    "Column": 21,
+                    "Line": 0,
+                  },
+                },
+                "segment": "tags",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 30,
+                    "Column": 30,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 26,
+                    "Column": 26,
+                    "Line": 0,
+                  },
+                },
+                "segment": "env",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 30,
+              "column": 30,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 18,
+              "column": 18,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "tuple",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 33,
+      "column": 33,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst mixed property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 6,
+                "Column": 6,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 3,
+                "Column": 3,
+                "Line": 0,
+              },
+            },
+            "segment": "var",
+          },
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 14,
+                "Column": 14,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 6,
+                "Column": 6,
+                "Line": 0,
+              },
+            },
+            "segment": "setting",
+          },
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 33,
+                "Column": 33,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 29,
+                "Column": 29,
+                "Line": 0,
+              },
+            },
+            "segment": "arn",
+          },
+        ],
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 33,
+          "column": 33,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 35,
+      "column": 35,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
 
 exports[`getExpressionAst parses a reference string 1`] = `
 Object {
@@ -57,7 +316,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
   ],
   "range": Object {
@@ -72,7 +331,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
 }
 `;
 
@@ -96,7 +355,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
   ],
   "range": Object {
@@ -111,7 +370,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "Template",
+  "type": "template",
 }
 `;
 
@@ -186,7 +445,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
         Object {
           "children": Array [
@@ -207,7 +466,7 @@ Object {
                   "line": 0,
                 },
               },
-              "type": "LiteralValue",
+              "type": "literalValue",
             },
           ],
           "range": Object {
@@ -222,7 +481,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "Template",
+          "type": "template",
         },
         Object {
           "children": Array [],
@@ -274,7 +533,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
       ],
       "meta": Object {
@@ -344,7 +603,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
 }
 `;
 
@@ -368,7 +627,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
     Object {
       "children": Array [],
@@ -436,7 +695,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
     Object {
       "children": Array [],
@@ -455,7 +714,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
   ],
   "range": Object {
@@ -470,7 +729,184 @@ Object {
       "line": 0,
     },
   },
-  "type": "Template",
+  "type": "template",
+}
+`;
+
+exports[`getExpressionAst parses for in loops 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 25,
+                    "Column": 25,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 22,
+                    "Column": 22,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 31,
+                    "Column": 31,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 25,
+                    "Column": 25,
+                    "Line": 0,
+                  },
+                },
+                "segment": "users",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 31,
+              "column": 31,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 22,
+              "column": 22,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 38,
+                    "Column": 38,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 34,
+                    "Column": 34,
+                    "Line": 0,
+                  },
+                },
+                "segment": "user",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 43,
+                    "Column": 43,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 38,
+                    "Column": 38,
+                    "Line": 0,
+                  },
+                },
+                "segment": "role",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 43,
+              "column": 43,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 34,
+              "column": 34,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 2,
+          "column": 2,
+          "line": 0,
+        },
+      },
+      "type": "for",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 51,
+                "Column": 51,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 47,
+                "Column": 47,
+                "Line": 0,
+              },
+            },
+            "segment": "name",
+          },
+        ],
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 51,
+          "column": 51,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 47,
+          "column": 47,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 57,
+      "column": 57,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
 }
 `;
 
@@ -559,7 +995,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
   ],
   "range": Object {
@@ -574,7 +1010,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
 }
 `;
 
@@ -598,7 +1034,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
     Object {
       "children": Array [],
@@ -666,7 +1102,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
     Object {
       "children": Array [],
@@ -685,7 +1121,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
   ],
   "range": Object {
@@ -700,7 +1136,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "Template",
+  "type": "template",
 }
 `;
 
@@ -724,7 +1160,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
     Object {
       "children": Array [],
@@ -792,7 +1228,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
     Object {
       "children": Array [],
@@ -811,7 +1247,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
     Object {
       "children": Array [
@@ -881,7 +1317,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
         Object {
           "children": Array [
@@ -902,7 +1338,7 @@ Object {
                   "line": 0,
                 },
               },
-              "type": "LiteralValue",
+              "type": "literalValue",
             },
           ],
           "range": Object {
@@ -917,7 +1353,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "Template",
+          "type": "template",
         },
         Object {
           "children": Array [],
@@ -969,7 +1405,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
       ],
       "meta": Object {
@@ -1043,7 +1479,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "LiteralValue",
+      "type": "literalValue",
     },
   ],
   "range": Object {
@@ -1058,7 +1494,241 @@ Object {
       "line": 0,
     },
   },
-  "type": "Template",
+  "type": "template",
+}
+`;
+
+exports[`getExpressionAst parses multi-line for loops 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 37,
+                    "Column": 34,
+                    "Line": 1,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 34,
+                    "Column": 31,
+                    "Line": 1,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 43,
+                    "Column": 40,
+                    "Line": 1,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 37,
+                    "Column": 34,
+                    "Line": 1,
+                  },
+                },
+                "segment": "users",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 43,
+              "column": 40,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 34,
+              "column": 31,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 50,
+                    "Column": 47,
+                    "Line": 1,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 46,
+                    "Column": 43,
+                    "Line": 1,
+                  },
+                },
+                "segment": "name",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 50,
+              "column": 47,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 46,
+              "column": 43,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 2,
+          "column": 2,
+          "line": 0,
+        },
+      },
+      "type": "for",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 58,
+                "Column": 55,
+                "Line": 1,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 54,
+                "Column": 51,
+                "Line": 1,
+              },
+            },
+            "segment": "user",
+          },
+        ],
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 58,
+          "column": 55,
+          "line": 1,
+        },
+        "start": Object {
+          "byte": 54,
+          "column": 51,
+          "line": 1,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 79,
+                    "Column": 21,
+                    "Line": 2,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 75,
+                    "Column": 17,
+                    "Line": 2,
+                  },
+                },
+                "segment": "user",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 88,
+                    "Column": 30,
+                    "Line": 2,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 79,
+                    "Column": 21,
+                    "Line": 2,
+                  },
+                },
+                "segment": "is_admin",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 88,
+              "column": 30,
+              "line": 2,
+            },
+            "start": Object {
+              "byte": 75,
+              "column": 17,
+              "line": 2,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "operator": "logicalNot",
+        "returnType": "bool",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 75,
+          "column": 17,
+          "line": 2,
+        },
+        "start": Object {
+          "byte": 74,
+          "column": 16,
+          "line": 2,
+        },
+      },
+      "type": "unaryOp",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 101,
+      "column": 13,
+      "line": 3,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
 }
 `;
 
@@ -1117,7 +1787,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
         Object {
           "children": Array [
@@ -1189,7 +1859,7 @@ Object {
                       "line": 0,
                     },
                   },
-                  "type": "ScopeTraversal",
+                  "type": "scopeTraversal",
                 },
                 Object {
                   "children": Array [
@@ -1210,7 +1880,7 @@ Object {
                           "line": 0,
                         },
                       },
-                      "type": "LiteralValue",
+                      "type": "literalValue",
                     },
                   ],
                   "range": Object {
@@ -1225,7 +1895,7 @@ Object {
                       "line": 0,
                     },
                   },
-                  "type": "Template",
+                  "type": "template",
                 },
                 Object {
                   "children": Array [],
@@ -1277,7 +1947,7 @@ Object {
                       "line": 0,
                     },
                   },
-                  "type": "ScopeTraversal",
+                  "type": "scopeTraversal",
                 },
               ],
               "meta": Object {
@@ -1457,7 +2127,169 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses splat expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 22,
+                        "Column": 22,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 9,
+                        "Column": 9,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "aws_s3_bucket",
+                  },
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 36,
+                        "Column": 36,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 22,
+                        "Column": 22,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "examplebucket",
+                  },
+                ],
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 36,
+                  "column": 36,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 9,
+                  "column": 9,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "range": Object {
+                "end": Object {
+                  "byte": 38,
+                  "column": 38,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 36,
+                  "column": 36,
+                  "line": 0,
+                },
+              },
+              "type": "",
+            },
+          ],
+          "range": Object {
+            "end": Object {
+              "byte": 38,
+              "column": 38,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 36,
+              "column": 36,
+              "line": 0,
+            },
+          },
+          "type": "splat",
+        },
+      ],
+      "meta": Object {
+        "closeParenRange": Object {
+          "end": Object {
+            "byte": 39,
+            "column": 39,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 38,
+            "column": 38,
+            "line": 0,
+          },
+        },
+        "expandedFinalArgument": false,
+        "name": "toset",
+        "nameRange": Object {
+          "end": Object {
+            "byte": 8,
+            "column": 8,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+        },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 8,
+            "column": 8,
+            "line": 0,
+          },
+        },
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 9,
+          "column": 9,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "function",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 41,
+      "column": 41,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
 }
 `;
 
@@ -1534,7 +2366,7 @@ Object {
                   "line": 0,
                 },
               },
-              "type": "ScopeTraversal",
+              "type": "scopeTraversal",
             },
             Object {
               "children": Array [],
@@ -1553,11 +2385,11 @@ Object {
                   "line": 0,
                 },
               },
-              "type": "LiteralValue",
+              "type": "literalValue",
             },
           ],
           "meta": Object {
-            "operator": "GreaterThan",
+            "operator": "greaterThan",
             "returnType": "bool",
           },
           "range": Object {
@@ -1572,7 +2404,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "BinaryOp",
+          "type": "binaryOp",
         },
         Object {
           "children": Array [],
@@ -1640,7 +2472,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
         Object {
           "children": Array [],
@@ -1656,7 +2488,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "Tuple",
+          "type": "tuple",
         },
       ],
       "range": Object {
@@ -1671,7 +2503,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "Conditional",
+      "type": "conditional",
     },
   ],
   "range": Object {
@@ -1686,7 +2518,172 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses terraform functions with file access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 24,
+                        "Column": 24,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 11,
+                        "Column": 11,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "aws_s3_bucket",
+                  },
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 42,
+                        "Column": 42,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 24,
+                        "Column": 24,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "examplebucket_two",
+                  },
+                ],
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 42,
+                  "column": 42,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 11,
+                  "column": 11,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "number",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 45,
+                  "column": 45,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 44,
+                  "column": 44,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "meta": Object {
+            "closeParenRange": Object {
+              "end": Object {
+                "byte": 46,
+                "column": 46,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 45,
+                "column": 45,
+                "line": 0,
+              },
+            },
+            "expandedFinalArgument": false,
+            "name": "element",
+            "nameRange": Object {
+              "end": Object {
+                "byte": 10,
+                "column": 10,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
+              },
+            },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 11,
+                "column": 11,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 10,
+                "column": 10,
+                "line": 0,
+              },
+            },
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 11,
+              "column": 11,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 3,
+              "column": 3,
+              "line": 0,
+            },
+          },
+          "type": "function",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 49,
+          "column": 49,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "relativeTraversal",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 51,
+      "column": 51,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
 }
 `;
 
@@ -1759,7 +2756,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "ScopeTraversal",
+      "type": "scopeTraversal",
     },
   ],
   "range": Object {
@@ -1774,7 +2771,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
 }
 `;
 
@@ -1833,7 +2830,7 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
         Object {
           "children": Array [],
@@ -1885,11 +2882,11 @@ Object {
               "line": 0,
             },
           },
-          "type": "ScopeTraversal",
+          "type": "scopeTraversal",
         },
       ],
       "meta": Object {
-        "operator": "Add",
+        "operator": "add",
         "returnType": "number",
       },
       "range": Object {
@@ -1904,7 +2901,7 @@ Object {
           "line": 0,
         },
       },
-      "type": "BinaryOp",
+      "type": "binaryOp",
     },
   ],
   "range": Object {
@@ -1919,7 +2916,397 @@ Object {
       "line": 0,
     },
   },
-  "type": "TemplateWrap",
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst partial variable property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 6,
+                    "Column": 6,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 3,
+                    "Column": 3,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 15,
+                    "Column": 15,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 6,
+                    "Column": 6,
+                    "Line": 0,
+                  },
+                },
+                "segment": "settings",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 15,
+              "column": 15,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 3,
+              "column": 3,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 22,
+                        "Column": 22,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 19,
+                        "Column": 19,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "var",
+                  },
+                  Object {
+                    "range": Object {
+                      "End": Object {
+                        "Byte": 29,
+                        "Column": 29,
+                        "Line": 0,
+                      },
+                      "Filename": "",
+                      "Start": Object {
+                        "Byte": 22,
+                        "Column": 22,
+                        "Line": 0,
+                      },
+                    },
+                    "segment": "prefix",
+                  },
+                ],
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 29,
+                  "column": 29,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 19,
+                  "column": 19,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "string",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 40,
+                  "column": 40,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 30,
+                  "column": 30,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "range": Object {
+            "end": Object {
+              "byte": 29,
+              "column": 29,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 19,
+              "column": 19,
+              "line": 0,
+            },
+          },
+          "type": "template",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 16,
+          "column": 16,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 15,
+          "column": 15,
+          "line": 0,
+        },
+      },
+      "type": "index",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 44,
+      "column": 44,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 6,
+                "Column": 6,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 3,
+                "Column": 3,
+                "Line": 0,
+              },
+            },
+            "segment": "var",
+          },
+          Object {
+            "range": Object {
+              "End": Object {
+                "Byte": 14,
+                "Column": 14,
+                "Line": 0,
+              },
+              "Filename": "",
+              "Start": Object {
+                "Byte": 6,
+                "Column": 6,
+                "Line": 0,
+              },
+            },
+            "segment": "setting",
+          },
+        ],
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 29,
+          "column": 29,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 31,
+      "column": 31,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst variable property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 6,
+                    "Column": 6,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 3,
+                    "Column": 3,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 15,
+                    "Column": 15,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 6,
+                    "Column": 6,
+                    "Line": 0,
+                  },
+                },
+                "segment": "settings",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 15,
+              "column": 15,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 3,
+              "column": 3,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 19,
+                    "Column": 19,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 16,
+                    "Column": 16,
+                    "Line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "End": Object {
+                    "Byte": 35,
+                    "Column": 35,
+                    "Line": 0,
+                  },
+                  "Filename": "",
+                  "Start": Object {
+                    "Byte": 19,
+                    "Column": 19,
+                    "Line": 0,
+                  },
+                },
+                "segment": "bucket_name_key",
+              },
+            ],
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 16,
+              "column": 16,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "range": Object {
+        "end": Object {
+          "byte": 16,
+          "column": 16,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 15,
+          "column": 15,
+          "line": 0,
+        },
+      },
+      "type": "index",
+    },
+  ],
+  "range": Object {
+    "end": Object {
+      "byte": 38,
+      "column": 38,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
 }
 `;
 

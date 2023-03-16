@@ -193,21 +193,21 @@ func literalValueExpr(val cty.Value) (hclsyntax.Expression, hcl.Diagnostics) {
 }
 
 var operationNamesLookup = map[interface{}]string{
-	hclsyntax.OpLogicalOr:          "LogicalOr",
-	hclsyntax.OpLogicalAnd:         "LogicalAnd",
-	hclsyntax.OpLogicalNot:         "LogicalNot",
-	hclsyntax.OpEqual:              "Equal",
-	hclsyntax.OpNotEqual:           "NotEqual",
-	hclsyntax.OpGreaterThan:        "GreaterThan",
-	hclsyntax.OpGreaterThanOrEqual: "GreaterThanOrEqual",
-	hclsyntax.OpLessThan:           "LessThan",
-	hclsyntax.OpLessThanOrEqual:    "LessThanOrEqual",
-	hclsyntax.OpAdd:                "Add",
-	hclsyntax.OpSubtract:           "Subtract",
-	hclsyntax.OpMultiply:           "Multiply",
-	hclsyntax.OpDivide:             "Divide",
-	hclsyntax.OpModulo:             "Modulo",
-	hclsyntax.OpNegate:             "Negate",
+	hclsyntax.OpLogicalOr:          "logicalOr",
+	hclsyntax.OpLogicalAnd:         "logicalAnd",
+	hclsyntax.OpLogicalNot:         "logicalNot",
+	hclsyntax.OpEqual:              "equal",
+	hclsyntax.OpNotEqual:           "notEqual",
+	hclsyntax.OpGreaterThan:        "greaterThan",
+	hclsyntax.OpGreaterThanOrEqual: "greaterThanOrEqual",
+	hclsyntax.OpLessThan:           "lessThan",
+	hclsyntax.OpLessThanOrEqual:    "lessThanOrEqual",
+	hclsyntax.OpAdd:                "add",
+	hclsyntax.OpSubtract:           "subtract",
+	hclsyntax.OpMultiply:           "multiply",
+	hclsyntax.OpDivide:             "divide",
+	hclsyntax.OpModulo:             "modulo",
+	hclsyntax.OpNegate:             "negate",
 }
 
 type ExpressionAst struct {
@@ -273,7 +273,21 @@ func getOperationName(op *hclsyntax.Operation) string {
 	return operationNamesLookup[op]
 }
 
+func isChildScope(node hclsyntax.Node) bool {
+	switch node.(type) {
+	case hclsyntax.ChildScope:
+		return true
+	default:
+		return false
+	}
+}
+
 func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
+	// We don't care about child scope nodes, since they're synthetic for walking and I don't know if we
+	// need to use them yet
+	if isChildScope(node) {
+		return nil
+	}
 	expr := node.(hclsyntax.Expression)
 	if w.Current != nil {
 		w.Stack = append(w.Stack, w.Current)
@@ -294,70 +308,73 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 	}
 
 	w.Current.Range = convertRangeToAst(expr.StartRange())
+	var diags hcl.Diagnostics
 
-	switch expr.(type) {
+	switch actualExpr := expr.(type) {
 	case *hclsyntax.FunctionCallExpr:
-		fnExpr := expr.(*hclsyntax.FunctionCallExpr)
 		w.Current.Type = "function"
-		w.Current.Meta["name"] = fnExpr.Name
-		w.Current.Meta["expandedFinalArgument"] = fnExpr.ExpandFinal
+		w.Current.Meta["name"] = actualExpr.Name
+		w.Current.Meta["expandedFinalArgument"] = actualExpr.ExpandFinal
 		w.Current.Meta["nameRange"] = map[string]interface{}{
-			"start": convertPosToAst(fnExpr.NameRange.Start),
-			"end":   convertPosToAst(fnExpr.NameRange.End),
+			"start": convertPosToAst(actualExpr.NameRange.Start),
+			"end":   convertPosToAst(actualExpr.NameRange.End),
 		}
 		w.Current.Meta["openParenRange"] = map[string]interface{}{
-			"start": convertPosToAst(fnExpr.OpenParenRange.Start),
-			"end":   convertPosToAst(fnExpr.OpenParenRange.End),
+			"start": convertPosToAst(actualExpr.OpenParenRange.Start),
+			"end":   convertPosToAst(actualExpr.OpenParenRange.End),
 		}
 		w.Current.Meta["closeParenRange"] = map[string]interface{}{
-			"start": convertPosToAst(fnExpr.CloseParenRange.Start),
-			"end":   convertPosToAst(fnExpr.CloseParenRange.End),
+			"start": convertPosToAst(actualExpr.CloseParenRange.Start),
+			"end":   convertPosToAst(actualExpr.CloseParenRange.End),
 		}
 
 	case *hclsyntax.TupleConsExpr:
-		w.Current.Type = "Tuple"
+		w.Current.Type = "tuple"
 	case *hclsyntax.ObjectConsExpr:
-		w.Current.Type = "Object"
+		w.Current.Type = "object"
 	case *hclsyntax.TemplateExpr:
-		w.Current.Type = "Template"
+		w.Current.Type = "template"
 	case *hclsyntax.TemplateJoinExpr:
-		w.Current.Type = "TemplateJoin"
+		w.Current.Type = "templateJoin"
 	case *hclsyntax.TemplateWrapExpr:
-		w.Current.Type = "TemplateWrap"
+		w.Current.Type = "templateWrap"
 	case *hclsyntax.ScopeTraversalExpr:
-		scopeExpr := expr.(*hclsyntax.ScopeTraversalExpr)
-		w.Current.Type = "ScopeTraversal"
+		w.Current.Type = "scopeTraversal"
 
-		w.Current.Meta["traversal"] = convertTraversal(scopeExpr.Traversal)
+		w.Current.Meta["traversal"] = convertTraversal(actualExpr.Traversal)
 	case *hclsyntax.RelativeTraversalExpr:
-		w.Current.Type = "RelativeTraversal"
+		w.Current.Type = "relativeTraversal"
 	case *hclsyntax.LiteralValueExpr:
-		w.Current.Type = "LiteralValue"
+		w.Current.Type = "literalValue"
 		v, _ := expr.Value(nil)
 		w.Current.Meta["type"] = v.Type()
 	case *hclsyntax.IndexExpr:
-		w.Current.Type = "Index"
+		w.Current.Type = "index"
 	case *hclsyntax.SplatExpr:
-		w.Current.Type = "Splat"
+		w.Current.Type = "splat"
 	case *hclsyntax.ForExpr:
-		w.Current.Type = "For"
+		w.Current.Type = "for"
 	case *hclsyntax.ConditionalExpr:
-		w.Current.Type = "Conditional"
+		w.Current.Type = "conditional"
 	case *hclsyntax.UnaryOpExpr:
-		w.Current.Type = "UnaryOp"
-		unaryOpExpr := expr.(*hclsyntax.UnaryOpExpr)
-		val, _ := unaryOpExpr.Value(nil)
-		w.Current.Meta["operator"] = getOperationName(unaryOpExpr.Op)
+		w.Current.Type = "unaryOp"
+		val, _ := actualExpr.Value(nil)
+		w.Current.Meta["operator"] = getOperationName(actualExpr.Op)
 		w.Current.Meta["returnType"] = val.Type()
 	case *hclsyntax.BinaryOpExpr:
-		w.Current.Type = "BinaryOp"
-		binaryOpExpr := expr.(*hclsyntax.BinaryOpExpr)
-		val, _ := binaryOpExpr.Value(nil)
-		w.Current.Meta["operator"] = getOperationName(binaryOpExpr.Op)
+		w.Current.Type = "binaryOp"
+		val, _ := actualExpr.Value(nil)
+		w.Current.Meta["operator"] = getOperationName(actualExpr.Op)
 		w.Current.Meta["returnType"] = val.Type()
 
 	default:
-		fmt.Println("Unknown")
+		diags = append(diags, &hcl.Diagnostic{
+			Severity: hcl.DiagError,
+			Summary:  "Unknown expression type",
+			Detail:   fmt.Sprintf("Unknown expression type: %T", expr),
+			Subject:  expr.Range().Ptr(),
+		})
+		return diags
 	}
 
 	return nil
