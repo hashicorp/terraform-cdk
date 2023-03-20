@@ -28,31 +28,10 @@ type FunctionMeta = {
 export const functionsMap: Record<string, FunctionMeta> = {
   ...(functionsMapGenerated as any),
 
-  // TODO: some of these should come from the generated map above
-  replace: {
-    name: "replace",
-    returnType: "string",
-    parameters: [
-      {
-        type: "string",
-      },
-      {
-        type: "string",
-      },
-      {
-        type: "string",
-      },
-    ],
-  },
-  length: {
-    name: "lengthOf",
-    returnType: "number",
-    parameters: [{ type: "dynamic" }],
-  },
   bcrypt: {
     name: "bcrypt", // this one is not variadic anymore after we mapped it
     returnType: "string",
-    parameters: [{ type: "string" }, { type: "number", optional: true }], // TODO: this will need to come from an override as the functions schema has a variadic type for this
+    parameters: [{ type: "string" }, { type: "number", optional: true }],
   },
   join: {
     name: "join",
@@ -84,15 +63,5 @@ export const functionsMap: Record<string, FunctionMeta> = {
         ],
       };
     },
-  },
-  try: {
-    name: "try",
-    returnType: "dynamic",
-    parameters: [{ type: "dynamic", variadic: true }],
-  },
-  concat: {
-    name: "concat",
-    returnType: "dynamic",
-    parameters: [{ type: "dynamic", variadic: true }],
   },
 };
