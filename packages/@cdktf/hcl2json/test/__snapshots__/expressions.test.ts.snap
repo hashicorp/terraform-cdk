@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: :0,0-2: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the file. This might be caused by incorrect nesting inside the given expression.]`;
+exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: main.tf:0,0-1: Invalid character; This character is not used within the language., and 1 other diagnostic(s)]`;
 
 exports[`getExpressionAst list expressions 1`] = `
 Object {
@@ -10,66 +10,65 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.tags.app",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 7,
-                    "Column": 7,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 8,
+                    "column": 8,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 4,
-                    "Column": 4,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 5,
+                    "column": 5,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 12,
-                    "Column": 12,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 7,
-                    "Column": 7,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 8,
+                    "column": 8,
+                    "line": 0,
                   },
                 },
                 "segment": "tags",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 16,
-                    "Column": 16,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 12,
-                    "Column": 12,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
                   },
                 },
                 "segment": "app",
               },
             ],
+            "value": "var.tags.app",
           },
           "range": Object {
             "end": Object {
-              "byte": 16,
-              "column": 16,
+              "byte": 17,
+              "column": 17,
               "line": 0,
             },
             "start": Object {
-              "byte": 4,
-              "column": 4,
+              "byte": 5,
+              "column": 5,
               "line": 0,
             },
           },
@@ -78,91 +77,96 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.tags.env",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 21,
-                    "Column": 21,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 18,
-                    "Column": 18,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 26,
-                    "Column": 26,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 21,
-                    "Column": 21,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
                   },
                 },
                 "segment": "tags",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 30,
-                    "Column": 30,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 31,
+                    "column": 31,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 26,
-                    "Column": 26,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
                   },
                 },
                 "segment": "env",
               },
             ],
+            "value": "var.tags.env",
           },
           "range": Object {
             "end": Object {
-              "byte": 30,
-              "column": 30,
+              "byte": 31,
+              "column": 31,
               "line": 0,
             },
             "start": Object {
-              "byte": 18,
-              "column": 18,
+              "byte": 19,
+              "column": 19,
               "line": 0,
             },
           },
           "type": "scopeTraversal",
         },
       ],
+      "meta": Object {
+        "value": "[var.tags.app, var.tags.env]",
+      },
       "range": Object {
         "end": Object {
-          "byte": 4,
-          "column": 4,
+          "byte": 5,
+          "column": 5,
           "line": 0,
         },
         "start": Object {
-          "byte": 3,
-          "column": 3,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
       },
       "type": "tuple",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ [var.tags.app, var.tags.env] }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 33,
-      "column": 33,
+      "byte": 35,
+      "column": 35,
       "line": 0,
     },
     "start": Object {
@@ -181,76 +185,78 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "var.setting.arn",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 3,
-                "Column": 3,
-                "Line": 0,
+              "start": Object {
+                "byte": 4,
+                "column": 4,
+                "line": 0,
               },
             },
             "segment": "var",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 14,
-                "Column": 14,
-                "Line": 0,
+              "end": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
             },
             "segment": "setting",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 33,
-                "Column": 33,
-                "Line": 0,
+              "end": Object {
+                "byte": 34,
+                "column": 34,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 29,
-                "Column": 29,
-                "Line": 0,
+              "start": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
               },
             },
             "segment": "arn",
           },
         ],
+        "value": "var.setting[\\"bucket_name\\"].arn",
       },
       "range": Object {
         "end": Object {
-          "byte": 33,
-          "column": 33,
+          "byte": 34,
+          "column": 34,
           "line": 0,
         },
         "start": Object {
-          "byte": 3,
-          "column": 3,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ var.setting[\\"bucket_name\\"].arn }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 35,
-      "column": 35,
+      "byte": 37,
+      "column": 37,
       "line": 0,
     },
     "start": Object {
@@ -269,60 +275,63 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "var.foo",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 5,
-                "Column": 5,
-                "Line": 0,
+              "end": Object {
+                "byte": 6,
+                "column": 6,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 2,
-                "Column": 2,
-                "Line": 0,
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
               },
             },
             "segment": "var",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 9,
-                "Column": 9,
-                "Line": 0,
+              "end": Object {
+                "byte": 10,
+                "column": 10,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 5,
-                "Column": 5,
-                "Line": 0,
+              "start": Object {
+                "byte": 6,
+                "column": 6,
+                "line": 0,
               },
             },
             "segment": "foo",
           },
         ],
+        "value": "var.foo",
       },
       "range": Object {
         "end": Object {
-          "byte": 9,
-          "column": 9,
+          "byte": 10,
+          "column": 10,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${var.foo}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 10,
-      "column": 10,
+      "byte": 12,
+      "column": 12,
       "line": 0,
     },
     "start": Object {
@@ -337,27 +346,28 @@ Object {
 
 exports[`getExpressionAst parses a simple string 1`] = `
 Object {
-  "children": Array [
-    Object {
-      "children": Array [],
-      "meta": Object {
-        "type": "string",
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 3,
-          "column": 3,
-          "line": 0,
+  "children": Array [],
+  "meta": Object {
+    "fullAccessor": "foo",
+    "traversal": Array [
+      Object {
+        "range": Object {
+          "end": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 0,
+            "column": 0,
+            "line": 0,
+          },
         },
-        "start": Object {
-          "byte": 0,
-          "column": 0,
-          "line": 0,
-        },
+        "segment": "foo",
       },
-      "type": "literalValue",
-    },
-  ],
+    ],
+    "value": "foo",
+  },
   "range": Object {
     "end": Object {
       "byte": 3,
@@ -370,7 +380,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "template",
+  "type": "scopeTraversal",
 }
 `;
 
@@ -382,66 +392,65 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "module.foo.output",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 16,
-                    "Column": 16,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 10,
-                    "Column": 10,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 11,
+                    "column": 11,
+                    "line": 0,
                   },
                 },
                 "segment": "module",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 20,
-                    "Column": 20,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 21,
+                    "column": 21,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 16,
-                    "Column": 16,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
                   },
                 },
                 "segment": "foo",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 27,
-                    "Column": 27,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 28,
+                    "column": 28,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 20,
-                    "Column": 20,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 21,
+                    "column": 21,
+                    "line": 0,
                   },
                 },
                 "segment": "output",
               },
             ],
+            "value": "module.foo.output",
           },
           "range": Object {
             "end": Object {
-              "byte": 27,
-              "column": 27,
+              "byte": 28,
+              "column": 28,
               "line": 0,
             },
             "start": Object {
-              "byte": 10,
-              "column": 10,
+              "byte": 11,
+              "column": 11,
               "line": 0,
             },
           },
@@ -453,31 +462,35 @@ Object {
               "children": Array [],
               "meta": Object {
                 "type": "string",
+                "value": "-",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 31,
-                  "column": 31,
+                  "byte": 32,
+                  "column": 32,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 30,
-                  "column": 30,
+                  "byte": 31,
+                  "column": 31,
                   "line": 0,
                 },
               },
               "type": "literalValue",
             },
           ],
+          "meta": Object {
+            "value": "\\"-\\"",
+          },
           "range": Object {
             "end": Object {
-              "byte": 31,
-              "column": 31,
+              "byte": 32,
+              "column": 32,
               "line": 0,
             },
             "start": Object {
-              "byte": 30,
-              "column": 30,
+              "byte": 31,
+              "column": 31,
               "line": 0,
             },
           },
@@ -486,50 +499,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.bar",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 37,
-                    "Column": 37,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 34,
-                    "Column": 34,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 35,
+                    "column": 35,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 41,
-                    "Column": 41,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 42,
+                    "column": 42,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 37,
-                    "Column": 37,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
                   },
                 },
                 "segment": "bar",
               },
             ],
+            "value": "var.bar",
           },
           "range": Object {
             "end": Object {
-              "byte": 41,
-              "column": 41,
+              "byte": 42,
+              "column": 42,
               "line": 0,
             },
             "start": Object {
-              "byte": 34,
-              "column": 34,
+              "byte": 35,
+              "column": 35,
               "line": 0,
             },
           },
@@ -539,13 +552,13 @@ Object {
       "meta": Object {
         "closeParenRange": Object {
           "end": Object {
-            "byte": 42,
-            "column": 42,
+            "byte": 43,
+            "column": 43,
             "line": 0,
           },
           "start": Object {
-            "byte": 41,
-            "column": 41,
+            "byte": 42,
+            "column": 42,
             "line": 0,
           },
         },
@@ -553,48 +566,52 @@ Object {
         "name": "replace",
         "nameRange": Object {
           "end": Object {
-            "byte": 9,
-            "column": 9,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 2,
-            "column": 2,
-            "line": 0,
-          },
-        },
-        "openParenRange": Object {
-          "end": Object {
             "byte": 10,
             "column": 10,
             "line": 0,
           },
           "start": Object {
-            "byte": 9,
-            "column": 9,
+            "byte": 3,
+            "column": 3,
             "line": 0,
           },
         },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 11,
+            "column": 11,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 10,
+            "column": 10,
+            "line": 0,
+          },
+        },
+        "value": "replace(module.foo.output, \\"-\\", var.bar)",
       },
       "range": Object {
         "end": Object {
-          "byte": 10,
-          "column": 10,
+          "byte": 11,
+          "column": 11,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "function",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${replace(module.foo.output, \\"-\\", var.bar)}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 43,
-      "column": 43,
+      "byte": 45,
+      "column": 45,
       "line": 0,
     },
     "start": Object {
@@ -614,16 +631,17 @@ Object {
       "children": Array [],
       "meta": Object {
         "type": "string",
+        "value": "Hey, did you hear about ",
       },
       "range": Object {
         "end": Object {
-          "byte": 24,
-          "column": 24,
+          "byte": 25,
+          "column": 25,
           "line": 0,
         },
         "start": Object {
-          "byte": 0,
-          "column": 0,
+          "byte": 1,
+          "column": 1,
           "line": 0,
         },
       },
@@ -632,66 +650,65 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "module.foo.output",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 32,
-                "Column": 32,
-                "Line": 0,
+              "end": Object {
+                "byte": 33,
+                "column": 33,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 26,
-                "Column": 26,
-                "Line": 0,
+              "start": Object {
+                "byte": 27,
+                "column": 27,
+                "line": 0,
               },
             },
             "segment": "module",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 36,
-                "Column": 36,
-                "Line": 0,
+              "end": Object {
+                "byte": 37,
+                "column": 37,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 32,
-                "Column": 32,
-                "Line": 0,
+              "start": Object {
+                "byte": 33,
+                "column": 33,
+                "line": 0,
               },
             },
             "segment": "foo",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 43,
-                "Column": 43,
-                "Line": 0,
+              "end": Object {
+                "byte": 44,
+                "column": 44,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 36,
-                "Column": 36,
-                "Line": 0,
+              "start": Object {
+                "byte": 37,
+                "column": 37,
+                "line": 0,
               },
             },
             "segment": "output",
           },
         ],
+        "value": "module.foo.output",
       },
       "range": Object {
         "end": Object {
-          "byte": 43,
-          "column": 43,
+          "byte": 44,
+          "column": 44,
           "line": 0,
         },
         "start": Object {
-          "byte": 26,
-          "column": 26,
+          "byte": 27,
+          "column": 27,
           "line": 0,
         },
       },
@@ -701,31 +718,35 @@ Object {
       "children": Array [],
       "meta": Object {
         "type": "string",
+        "value": "s new album?",
       },
       "range": Object {
         "end": Object {
-          "byte": 56,
-          "column": 56,
+          "byte": 57,
+          "column": 57,
           "line": 0,
         },
         "start": Object {
-          "byte": 44,
-          "column": 44,
+          "byte": 45,
+          "column": 45,
           "line": 0,
         },
       },
       "type": "literalValue",
     },
   ],
+  "meta": Object {
+    "value": "\\"Hey, did you hear about \${module.foo.output}s new album?\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 24,
-      "column": 24,
+      "byte": 25,
+      "column": 25,
       "line": 0,
     },
     "start": Object {
-      "byte": 0,
-      "column": 0,
+      "byte": 1,
+      "column": 1,
       "line": 0,
     },
   },
@@ -741,50 +762,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.users",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 25,
-                    "Column": 25,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 22,
-                    "Column": 22,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 23,
+                    "column": 23,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 31,
-                    "Column": 31,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 32,
+                    "column": 32,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 25,
-                    "Column": 25,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
                   },
                 },
                 "segment": "users",
               },
             ],
+            "value": "var.users",
           },
           "range": Object {
             "end": Object {
-              "byte": 31,
-              "column": 31,
+              "byte": 32,
+              "column": 32,
               "line": 0,
             },
             "start": Object {
-              "byte": 22,
-              "column": 22,
+              "byte": 23,
+              "column": 23,
               "line": 0,
             },
           },
@@ -793,65 +814,68 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "user.role",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 38,
-                    "Column": 38,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 39,
+                    "column": 39,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 34,
-                    "Column": 34,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 35,
+                    "column": 35,
+                    "line": 0,
                   },
                 },
                 "segment": "user",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 43,
-                    "Column": 43,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 44,
+                    "column": 44,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 38,
-                    "Column": 38,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 39,
+                    "column": 39,
+                    "line": 0,
                   },
                 },
                 "segment": "role",
               },
             ],
+            "value": "user.role",
           },
           "range": Object {
             "end": Object {
-              "byte": 43,
-              "column": 43,
+              "byte": 44,
+              "column": 44,
               "line": 0,
             },
             "start": Object {
-              "byte": 34,
-              "column": 34,
+              "byte": 35,
+              "column": 35,
               "line": 0,
             },
           },
           "type": "scopeTraversal",
         },
       ],
+      "meta": Object {
+        "value": "{ for name, user in var.users : user.role => name... }",
+      },
       "range": Object {
         "end": Object {
-          "byte": 3,
-          "column": 3,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
@@ -860,44 +884,48 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "name",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 51,
-                "Column": 51,
-                "Line": 0,
+              "end": Object {
+                "byte": 52,
+                "column": 52,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 47,
-                "Column": 47,
-                "Line": 0,
+              "start": Object {
+                "byte": 48,
+                "column": 48,
+                "line": 0,
               },
             },
             "segment": "name",
           },
         ],
+        "value": "name",
       },
       "range": Object {
         "end": Object {
-          "byte": 51,
-          "column": 51,
+          "byte": 52,
+          "column": 52,
           "line": 0,
         },
         "start": Object {
-          "byte": 47,
-          "column": 47,
+          "byte": 48,
+          "column": 48,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${{ for name, user in var.users : user.role => name... }}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 57,
-      "column": 57,
+      "byte": 59,
+      "column": 59,
       "line": 0,
     },
     "start": Object {
@@ -916,92 +944,93 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "data.type.name.attr",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 2,
-                "Column": 2,
-                "Line": 0,
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
               },
             },
             "segment": "data",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 11,
-                "Column": 11,
-                "Line": 0,
+              "end": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
             },
             "segment": "type",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 16,
-                "Column": 16,
-                "Line": 0,
+              "end": Object {
+                "byte": 17,
+                "column": 17,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 11,
-                "Column": 11,
-                "Line": 0,
+              "start": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
               },
             },
             "segment": "name",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 21,
-                "Column": 21,
-                "Line": 0,
+              "end": Object {
+                "byte": 22,
+                "column": 22,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 16,
-                "Column": 16,
-                "Line": 0,
+              "start": Object {
+                "byte": 17,
+                "column": 17,
+                "line": 0,
               },
             },
             "segment": "attr",
           },
         ],
+        "value": "data.type.name.attr",
       },
       "range": Object {
         "end": Object {
-          "byte": 21,
-          "column": 21,
+          "byte": 22,
+          "column": 22,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${data.type.name.attr}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 22,
-      "column": 22,
+      "byte": 24,
+      "column": 24,
       "line": 0,
     },
     "start": Object {
@@ -1020,114 +1049,178 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
-        "type": "string",
+        "type": "number",
+        "value": "5",
       },
       "range": Object {
         "end": Object {
-          "byte": 4,
-          "column": 4,
+          "byte": 2,
+          "column": 2,
           "line": 0,
         },
         "start": Object {
-          "byte": 0,
-          "column": 0,
+          "byte": 1,
+          "column": 1,
           "line": 0,
         },
       },
       "type": "literalValue",
     },
     Object {
-      "children": Array [],
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "module.foo.output",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                },
+                "segment": "module",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                },
+                "segment": "foo",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 24,
+                    "column": 24,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                },
+                "segment": "output",
+              },
+            ],
+            "value": "module.foo.output",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 24,
+              "column": 24,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 7,
+              "column": 7,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
       "meta": Object {
-        "traversal": Array [
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 12,
-                "Column": 12,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
-              },
-            },
-            "segment": "module",
-          },
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 16,
-                "Column": 16,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 12,
-                "Column": 12,
-                "Line": 0,
-              },
-            },
-            "segment": "foo",
-          },
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 23,
-                "Column": 23,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 16,
-                "Column": 16,
-                "Line": 0,
-              },
-            },
-            "segment": "output",
-          },
-        ],
+        "value": "\\"\${module.foo.output}\\"",
       },
       "range": Object {
         "end": Object {
-          "byte": 23,
-          "column": 23,
+          "byte": 26,
+          "column": 26,
           "line": 0,
         },
         "start": Object {
-          "byte": 6,
-          "column": 6,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
       },
-      "type": "scopeTraversal",
+      "type": "templateWrap",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "type": "string",
+            "value": "val",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 32,
+              "column": 32,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 29,
+              "column": 29,
+              "line": 0,
+            },
+          },
+          "type": "literalValue",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"val\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 32,
+          "column": 32,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 29,
+          "column": 29,
+          "line": 0,
+        },
+      },
+      "type": "template",
     },
     Object {
       "children": Array [],
       "meta": Object {
-        "type": "string",
+        "type": "bool",
+        "value": "true",
       },
       "range": Object {
         "end": Object {
-          "byte": 38,
-          "column": 38,
+          "byte": 39,
+          "column": 39,
           "line": 0,
         },
         "start": Object {
-          "byte": 24,
-          "column": 24,
+          "byte": 35,
+          "column": 35,
           "line": 0,
         },
       },
       "type": "literalValue",
     },
   ],
+  "meta": Object {
+    "value": "[5, \\"\${module.foo.output}\\", \\"val\\", true]",
+  },
   "range": Object {
     "end": Object {
-      "byte": 4,
-      "column": 4,
+      "byte": 1,
+      "column": 1,
       "line": 0,
     },
     "start": Object {
@@ -1136,7 +1229,7 @@ Object {
       "line": 0,
     },
   },
-  "type": "template",
+  "type": "tuple",
 }
 `;
 
@@ -1145,453 +1238,6 @@ Object {
   "children": Array [
     Object {
       "children": Array [],
-      "meta": Object {
-        "type": "string",
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 6,
-          "column": 6,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 0,
-          "column": 0,
-          "line": 0,
-        },
-      },
-      "type": "literalValue",
-    },
-    Object {
-      "children": Array [],
-      "meta": Object {
-        "traversal": Array [
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 14,
-                "Column": 14,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 8,
-                "Column": 8,
-                "Line": 0,
-              },
-            },
-            "segment": "module",
-          },
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 18,
-                "Column": 18,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 14,
-                "Column": 14,
-                "Line": 0,
-              },
-            },
-            "segment": "foo",
-          },
-          Object {
-            "range": Object {
-              "End": Object {
-                "Byte": 25,
-                "Column": 25,
-                "Line": 0,
-              },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 18,
-                "Column": 18,
-                "Line": 0,
-              },
-            },
-            "segment": "output",
-          },
-        ],
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 25,
-          "column": 25,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 8,
-          "column": 8,
-          "line": 0,
-        },
-      },
-      "type": "scopeTraversal",
-    },
-    Object {
-      "children": Array [],
-      "meta": Object {
-        "type": "string",
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 53,
-          "column": 53,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 26,
-          "column": 26,
-          "line": 0,
-        },
-      },
-      "type": "literalValue",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [],
-          "meta": Object {
-            "traversal": Array [
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 69,
-                    "Column": 69,
-                    "Line": 0,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 63,
-                    "Column": 63,
-                    "Line": 0,
-                  },
-                },
-                "segment": "module",
-              },
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 73,
-                    "Column": 73,
-                    "Line": 0,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 69,
-                    "Column": 69,
-                    "Line": 0,
-                  },
-                },
-                "segment": "foo",
-              },
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 80,
-                    "Column": 80,
-                    "Line": 0,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 73,
-                    "Column": 73,
-                    "Line": 0,
-                  },
-                },
-                "segment": "output",
-              },
-            ],
-          },
-          "range": Object {
-            "end": Object {
-              "byte": 80,
-              "column": 80,
-              "line": 0,
-            },
-            "start": Object {
-              "byte": 63,
-              "column": 63,
-              "line": 0,
-            },
-          },
-          "type": "scopeTraversal",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "children": Array [],
-              "meta": Object {
-                "type": "string",
-              },
-              "range": Object {
-                "end": Object {
-                  "byte": 84,
-                  "column": 84,
-                  "line": 0,
-                },
-                "start": Object {
-                  "byte": 83,
-                  "column": 83,
-                  "line": 0,
-                },
-              },
-              "type": "literalValue",
-            },
-          ],
-          "range": Object {
-            "end": Object {
-              "byte": 84,
-              "column": 84,
-              "line": 0,
-            },
-            "start": Object {
-              "byte": 83,
-              "column": 83,
-              "line": 0,
-            },
-          },
-          "type": "template",
-        },
-        Object {
-          "children": Array [],
-          "meta": Object {
-            "traversal": Array [
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 90,
-                    "Column": 90,
-                    "Line": 0,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 87,
-                    "Column": 87,
-                    "Line": 0,
-                  },
-                },
-                "segment": "var",
-              },
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 94,
-                    "Column": 94,
-                    "Line": 0,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 90,
-                    "Column": 90,
-                    "Line": 0,
-                  },
-                },
-                "segment": "bar",
-              },
-            ],
-          },
-          "range": Object {
-            "end": Object {
-              "byte": 94,
-              "column": 94,
-              "line": 0,
-            },
-            "start": Object {
-              "byte": 87,
-              "column": 87,
-              "line": 0,
-            },
-          },
-          "type": "scopeTraversal",
-        },
-      ],
-      "meta": Object {
-        "closeParenRange": Object {
-          "end": Object {
-            "byte": 95,
-            "column": 95,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 94,
-            "column": 94,
-            "line": 0,
-          },
-        },
-        "expandedFinalArgument": false,
-        "name": "replace",
-        "nameRange": Object {
-          "end": Object {
-            "byte": 62,
-            "column": 62,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 55,
-            "column": 55,
-            "line": 0,
-          },
-        },
-        "openParenRange": Object {
-          "end": Object {
-            "byte": 63,
-            "column": 63,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 62,
-            "column": 62,
-            "line": 0,
-          },
-        },
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 63,
-          "column": 63,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 55,
-          "column": 55,
-          "line": 0,
-        },
-      },
-      "type": "function",
-    },
-    Object {
-      "children": Array [],
-      "meta": Object {
-        "type": "string",
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 98,
-          "column": 98,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 96,
-          "column": 96,
-          "line": 0,
-        },
-      },
-      "type": "literalValue",
-    },
-  ],
-  "range": Object {
-    "end": Object {
-      "byte": 6,
-      "column": 6,
-      "line": 0,
-    },
-    "start": Object {
-      "byte": 0,
-      "column": 0,
-      "line": 0,
-    },
-  },
-  "type": "template",
-}
-`;
-
-exports[`getExpressionAst parses multi-line for loops 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [],
-          "meta": Object {
-            "traversal": Array [
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 37,
-                    "Column": 34,
-                    "Line": 1,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 34,
-                    "Column": 31,
-                    "Line": 1,
-                  },
-                },
-                "segment": "var",
-              },
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 43,
-                    "Column": 40,
-                    "Line": 1,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 37,
-                    "Column": 34,
-                    "Line": 1,
-                  },
-                },
-                "segment": "users",
-              },
-            ],
-          },
-          "range": Object {
-            "end": Object {
-              "byte": 43,
-              "column": 40,
-              "line": 1,
-            },
-            "start": Object {
-              "byte": 34,
-              "column": 31,
-              "line": 1,
-            },
-          },
-          "type": "scopeTraversal",
-        },
-        Object {
-          "children": Array [],
-          "meta": Object {
-            "traversal": Array [
-              Object {
-                "range": Object {
-                  "End": Object {
-                    "Byte": 50,
-                    "Column": 47,
-                    "Line": 1,
-                  },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 46,
-                    "Column": 43,
-                    "Line": 1,
-                  },
-                },
-                "segment": "name",
-              },
-            ],
-          },
-          "range": Object {
-            "end": Object {
-              "byte": 50,
-              "column": 47,
-              "line": 1,
-            },
-            "start": Object {
-              "byte": 46,
-              "column": 43,
-              "line": 1,
-            },
-          },
-          "type": "scopeTraversal",
-        },
-      ],
       "range": Object {
         "end": Object {
           "byte": 3,
@@ -1604,38 +1250,606 @@ Object {
           "line": 0,
         },
       },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "module.foo.output",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 15,
+                    "column": 15,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 9,
+                    "column": 9,
+                    "line": 0,
+                  },
+                },
+                "segment": "module",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 15,
+                    "column": 15,
+                    "line": 0,
+                  },
+                },
+                "segment": "foo",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
+                  },
+                },
+                "segment": "output",
+              },
+            ],
+            "value": "module.foo.output",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 26,
+              "column": 26,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 9,
+              "column": 9,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"\${module.foo.output}\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 28,
+          "column": 28,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 6,
+          "column": 6,
+          "line": 0,
+        },
+      },
+      "type": "templateWrap",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 31,
+          "column": 31,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 30,
+          "column": 30,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "type": "string",
+            "value": "val",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 38,
+              "column": 38,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+          },
+          "type": "literalValue",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"val\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 38,
+          "column": 38,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 35,
+          "column": 35,
+          "line": 0,
+        },
+      },
+      "type": "template",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 42,
+          "column": 42,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 41,
+          "column": 41,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "bool",
+        "value": "true",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 49,
+          "column": 49,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 45,
+          "column": 45,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 52,
+          "column": 52,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 51,
+          "column": 51,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "module.foo.output",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 72,
+                        "column": 72,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 66,
+                        "column": 66,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "module",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 76,
+                        "column": 76,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 72,
+                        "column": 72,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "foo",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 83,
+                        "column": 83,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 76,
+                        "column": 76,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "output",
+                  },
+                ],
+                "value": "module.foo.output",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 83,
+                  "column": 83,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 66,
+                  "column": 66,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [],
+                  "meta": Object {
+                    "type": "string",
+                    "value": "-",
+                  },
+                  "range": Object {
+                    "end": Object {
+                      "byte": 87,
+                      "column": 87,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 86,
+                      "column": 86,
+                      "line": 0,
+                    },
+                  },
+                  "type": "literalValue",
+                },
+              ],
+              "meta": Object {
+                "value": "\\"-\\"",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 87,
+                  "column": 87,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 86,
+                  "column": 86,
+                  "line": 0,
+                },
+              },
+              "type": "template",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "var.bar",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 93,
+                        "column": 93,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 90,
+                        "column": 90,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "var",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 97,
+                        "column": 97,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 93,
+                        "column": 93,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "bar",
+                  },
+                ],
+                "value": "var.bar",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 97,
+                  "column": 97,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 90,
+                  "column": 90,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+          ],
+          "meta": Object {
+            "closeParenRange": Object {
+              "end": Object {
+                "byte": 98,
+                "column": 98,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 97,
+                "column": 97,
+                "line": 0,
+              },
+            },
+            "expandedFinalArgument": false,
+            "name": "replace",
+            "nameRange": Object {
+              "end": Object {
+                "byte": 65,
+                "column": 65,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 58,
+                "column": 58,
+                "line": 0,
+              },
+            },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 66,
+                "column": 66,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 65,
+                "column": 65,
+                "line": 0,
+              },
+            },
+            "value": "replace(module.foo.output, \\"-\\", var.bar)",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 66,
+              "column": 66,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 58,
+              "column": 58,
+              "line": 0,
+            },
+          },
+          "type": "function",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"\${replace(module.foo.output, \\"-\\", var.bar)}\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 100,
+          "column": 100,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 55,
+          "column": 55,
+          "line": 0,
+        },
+      },
+      "type": "templateWrap",
+    },
+  ],
+  "meta": Object {
+    "value": "{ x = \\"\${module.foo.output}\\", y = \\"val\\", z = true, a = \\"\${replace(module.foo.output, \\"-\\", var.bar)}\\" }",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 1,
+      "column": 1,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`getExpressionAst parses multi-line for loops 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.users",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 38,
+                    "column": 34,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 35,
+                    "column": 31,
+                    "line": 1,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 44,
+                    "column": 40,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 38,
+                    "column": 34,
+                    "line": 1,
+                  },
+                },
+                "segment": "users",
+              },
+            ],
+            "value": "var.users",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 44,
+              "column": 40,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 31,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "name",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 51,
+                    "column": 47,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 47,
+                    "column": 43,
+                    "line": 1,
+                  },
+                },
+                "segment": "name",
+              },
+            ],
+            "value": "name",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 51,
+              "column": 47,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 47,
+              "column": 43,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "value": "{
+            for name, user in var.users : name => user
+            if !user.is_admin
+          }",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
       "type": "for",
     },
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "user",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 58,
-                "Column": 55,
-                "Line": 1,
+              "end": Object {
+                "byte": 59,
+                "column": 55,
+                "line": 1,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 54,
-                "Column": 51,
-                "Line": 1,
+              "start": Object {
+                "byte": 55,
+                "column": 51,
+                "line": 1,
               },
             },
             "segment": "user",
           },
         ],
+        "value": "user",
       },
       "range": Object {
         "end": Object {
-          "byte": 58,
+          "byte": 59,
           "column": 55,
           "line": 1,
         },
         "start": Object {
-          "byte": 54,
+          "byte": 55,
           "column": 51,
           "line": 1,
         },
@@ -1647,49 +1861,49 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "user.is_admin",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 79,
-                    "Column": 21,
-                    "Line": 2,
+                  "end": Object {
+                    "byte": 80,
+                    "column": 21,
+                    "line": 2,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 75,
-                    "Column": 17,
-                    "Line": 2,
+                  "start": Object {
+                    "byte": 76,
+                    "column": 17,
+                    "line": 2,
                   },
                 },
                 "segment": "user",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 88,
-                    "Column": 30,
-                    "Line": 2,
+                  "end": Object {
+                    "byte": 89,
+                    "column": 30,
+                    "line": 2,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 79,
-                    "Column": 21,
-                    "Line": 2,
+                  "start": Object {
+                    "byte": 80,
+                    "column": 21,
+                    "line": 2,
                   },
                 },
                 "segment": "is_admin",
               },
             ],
+            "value": "user.is_admin",
           },
           "range": Object {
             "end": Object {
-              "byte": 88,
+              "byte": 89,
               "column": 30,
               "line": 2,
             },
             "start": Object {
-              "byte": 75,
+              "byte": 76,
               "column": 17,
               "line": 2,
             },
@@ -1700,15 +1914,16 @@ Object {
       "meta": Object {
         "operator": "logicalNot",
         "returnType": "bool",
+        "value": "!user.is_admin",
       },
       "range": Object {
         "end": Object {
-          "byte": 75,
+          "byte": 76,
           "column": 17,
           "line": 2,
         },
         "start": Object {
-          "byte": 74,
+          "byte": 75,
           "column": 16,
           "line": 2,
         },
@@ -1716,10 +1931,16 @@ Object {
       "type": "unaryOp",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${{
+            for name, user in var.users : name => user
+            if !user.is_admin
+          }}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 101,
-      "column": 13,
+      "byte": 103,
+      "column": 14,
       "line": 3,
     },
     "start": Object {
@@ -1740,50 +1961,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.separator",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 11,
-                    "Column": 11,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 12,
+                    "column": 12,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 8,
-                    "Column": 8,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 9,
+                    "column": 9,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 21,
-                    "Column": 21,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 11,
-                    "Column": 11,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 12,
+                    "column": 12,
+                    "line": 0,
                   },
                 },
                 "segment": "separator",
               },
             ],
+            "value": "var.separator",
           },
           "range": Object {
             "end": Object {
-              "byte": 21,
-              "column": 21,
+              "byte": 22,
+              "column": 22,
               "line": 0,
             },
             "start": Object {
-              "byte": 8,
-              "column": 8,
+              "byte": 9,
+              "column": 9,
               "line": 0,
             },
           },
@@ -1796,66 +2017,65 @@ Object {
                 Object {
                   "children": Array [],
                   "meta": Object {
+                    "fullAccessor": "module.foo.output",
                     "traversal": Array [
                       Object {
                         "range": Object {
-                          "End": Object {
-                            "Byte": 43,
-                            "Column": 43,
-                            "Line": 0,
+                          "end": Object {
+                            "byte": 44,
+                            "column": 44,
+                            "line": 0,
                           },
-                          "Filename": "",
-                          "Start": Object {
-                            "Byte": 37,
-                            "Column": 37,
-                            "Line": 0,
+                          "start": Object {
+                            "byte": 38,
+                            "column": 38,
+                            "line": 0,
                           },
                         },
                         "segment": "module",
                       },
                       Object {
                         "range": Object {
-                          "End": Object {
-                            "Byte": 47,
-                            "Column": 47,
-                            "Line": 0,
+                          "end": Object {
+                            "byte": 48,
+                            "column": 48,
+                            "line": 0,
                           },
-                          "Filename": "",
-                          "Start": Object {
-                            "Byte": 43,
-                            "Column": 43,
-                            "Line": 0,
+                          "start": Object {
+                            "byte": 44,
+                            "column": 44,
+                            "line": 0,
                           },
                         },
                         "segment": "foo",
                       },
                       Object {
                         "range": Object {
-                          "End": Object {
-                            "Byte": 54,
-                            "Column": 54,
-                            "Line": 0,
+                          "end": Object {
+                            "byte": 55,
+                            "column": 55,
+                            "line": 0,
                           },
-                          "Filename": "",
-                          "Start": Object {
-                            "Byte": 47,
-                            "Column": 47,
-                            "Line": 0,
+                          "start": Object {
+                            "byte": 48,
+                            "column": 48,
+                            "line": 0,
                           },
                         },
                         "segment": "output",
                       },
                     ],
+                    "value": "module.foo.output",
                   },
                   "range": Object {
                     "end": Object {
-                      "byte": 54,
-                      "column": 54,
+                      "byte": 55,
+                      "column": 55,
                       "line": 0,
                     },
                     "start": Object {
-                      "byte": 37,
-                      "column": 37,
+                      "byte": 38,
+                      "column": 38,
                       "line": 0,
                     },
                   },
@@ -1867,31 +2087,35 @@ Object {
                       "children": Array [],
                       "meta": Object {
                         "type": "string",
+                        "value": "-",
                       },
                       "range": Object {
                         "end": Object {
-                          "byte": 58,
-                          "column": 58,
+                          "byte": 59,
+                          "column": 59,
                           "line": 0,
                         },
                         "start": Object {
-                          "byte": 57,
-                          "column": 57,
+                          "byte": 58,
+                          "column": 58,
                           "line": 0,
                         },
                       },
                       "type": "literalValue",
                     },
                   ],
+                  "meta": Object {
+                    "value": "\\"-\\"",
+                  },
                   "range": Object {
                     "end": Object {
-                      "byte": 58,
-                      "column": 58,
+                      "byte": 59,
+                      "column": 59,
                       "line": 0,
                     },
                     "start": Object {
-                      "byte": 57,
-                      "column": 57,
+                      "byte": 58,
+                      "column": 58,
                       "line": 0,
                     },
                   },
@@ -1900,50 +2124,50 @@ Object {
                 Object {
                   "children": Array [],
                   "meta": Object {
+                    "fullAccessor": "var.bar",
                     "traversal": Array [
                       Object {
                         "range": Object {
-                          "End": Object {
-                            "Byte": 64,
-                            "Column": 64,
-                            "Line": 0,
+                          "end": Object {
+                            "byte": 65,
+                            "column": 65,
+                            "line": 0,
                           },
-                          "Filename": "",
-                          "Start": Object {
-                            "Byte": 61,
-                            "Column": 61,
-                            "Line": 0,
+                          "start": Object {
+                            "byte": 62,
+                            "column": 62,
+                            "line": 0,
                           },
                         },
                         "segment": "var",
                       },
                       Object {
                         "range": Object {
-                          "End": Object {
-                            "Byte": 68,
-                            "Column": 68,
-                            "Line": 0,
+                          "end": Object {
+                            "byte": 69,
+                            "column": 69,
+                            "line": 0,
                           },
-                          "Filename": "",
-                          "Start": Object {
-                            "Byte": 64,
-                            "Column": 64,
-                            "Line": 0,
+                          "start": Object {
+                            "byte": 65,
+                            "column": 65,
+                            "line": 0,
                           },
                         },
                         "segment": "bar",
                       },
                     ],
+                    "value": "var.bar",
                   },
                   "range": Object {
                     "end": Object {
-                      "byte": 68,
-                      "column": 68,
+                      "byte": 69,
+                      "column": 69,
                       "line": 0,
                     },
                     "start": Object {
-                      "byte": 61,
-                      "column": 61,
+                      "byte": 62,
+                      "column": 62,
                       "line": 0,
                     },
                   },
@@ -1953,13 +2177,13 @@ Object {
               "meta": Object {
                 "closeParenRange": Object {
                   "end": Object {
-                    "byte": 69,
-                    "column": 69,
+                    "byte": 70,
+                    "column": 70,
                     "line": 0,
                   },
                   "start": Object {
-                    "byte": 68,
-                    "column": 68,
+                    "byte": 69,
+                    "column": 69,
                     "line": 0,
                   },
                 },
@@ -1967,38 +2191,39 @@ Object {
                 "name": "replace",
                 "nameRange": Object {
                   "end": Object {
-                    "byte": 36,
-                    "column": 36,
-                    "line": 0,
-                  },
-                  "start": Object {
-                    "byte": 29,
-                    "column": 29,
-                    "line": 0,
-                  },
-                },
-                "openParenRange": Object {
-                  "end": Object {
                     "byte": 37,
                     "column": 37,
                     "line": 0,
                   },
                   "start": Object {
-                    "byte": 36,
-                    "column": 36,
+                    "byte": 30,
+                    "column": 30,
                     "line": 0,
                   },
                 },
+                "openParenRange": Object {
+                  "end": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 37,
+                    "column": 37,
+                    "line": 0,
+                  },
+                },
+                "value": "replace(module.foo.output, \\"-\\", var.bar)",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 37,
-                  "column": 37,
+                  "byte": 38,
+                  "column": 38,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 29,
-                  "column": 29,
+                  "byte": 30,
+                  "column": 30,
                   "line": 0,
                 },
               },
@@ -2008,13 +2233,13 @@ Object {
           "meta": Object {
             "closeParenRange": Object {
               "end": Object {
-                "byte": 70,
-                "column": 70,
+                "byte": 71,
+                "column": 71,
                 "line": 0,
               },
               "start": Object {
-                "byte": 69,
-                "column": 69,
+                "byte": 70,
+                "column": 70,
                 "line": 0,
               },
             },
@@ -2022,38 +2247,39 @@ Object {
             "name": "lower",
             "nameRange": Object {
               "end": Object {
-                "byte": 28,
-                "column": 28,
-                "line": 0,
-              },
-              "start": Object {
-                "byte": 23,
-                "column": 23,
-                "line": 0,
-              },
-            },
-            "openParenRange": Object {
-              "end": Object {
                 "byte": 29,
                 "column": 29,
                 "line": 0,
               },
               "start": Object {
-                "byte": 28,
-                "column": 28,
+                "byte": 24,
+                "column": 24,
                 "line": 0,
               },
             },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 29,
+                "column": 29,
+                "line": 0,
+              },
+            },
+            "value": "lower(replace(module.foo.output, \\"-\\", var.bar))",
           },
           "range": Object {
             "end": Object {
-              "byte": 29,
-              "column": 29,
+              "byte": 30,
+              "column": 30,
               "line": 0,
             },
             "start": Object {
-              "byte": 23,
-              "column": 23,
+              "byte": 24,
+              "column": 24,
               "line": 0,
             },
           },
@@ -2063,180 +2289,18 @@ Object {
       "meta": Object {
         "closeParenRange": Object {
           "end": Object {
-            "byte": 71,
-            "column": 71,
+            "byte": 72,
+            "column": 72,
             "line": 0,
           },
           "start": Object {
-            "byte": 70,
-            "column": 70,
+            "byte": 71,
+            "column": 71,
             "line": 0,
           },
         },
         "expandedFinalArgument": false,
         "name": "split",
-        "nameRange": Object {
-          "end": Object {
-            "byte": 7,
-            "column": 7,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 2,
-            "column": 2,
-            "line": 0,
-          },
-        },
-        "openParenRange": Object {
-          "end": Object {
-            "byte": 8,
-            "column": 8,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 7,
-            "column": 7,
-            "line": 0,
-          },
-        },
-      },
-      "range": Object {
-        "end": Object {
-          "byte": 8,
-          "column": 8,
-          "line": 0,
-        },
-        "start": Object {
-          "byte": 2,
-          "column": 2,
-          "line": 0,
-        },
-      },
-      "type": "function",
-    },
-  ],
-  "range": Object {
-    "end": Object {
-      "byte": 72,
-      "column": 72,
-      "line": 0,
-    },
-    "start": Object {
-      "byte": 0,
-      "column": 0,
-      "line": 0,
-    },
-  },
-  "type": "templateWrap",
-}
-`;
-
-exports[`getExpressionAst parses splat expressions 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "children": Array [],
-              "meta": Object {
-                "traversal": Array [
-                  Object {
-                    "range": Object {
-                      "End": Object {
-                        "Byte": 22,
-                        "Column": 22,
-                        "Line": 0,
-                      },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 9,
-                        "Column": 9,
-                        "Line": 0,
-                      },
-                    },
-                    "segment": "aws_s3_bucket",
-                  },
-                  Object {
-                    "range": Object {
-                      "End": Object {
-                        "Byte": 36,
-                        "Column": 36,
-                        "Line": 0,
-                      },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 22,
-                        "Column": 22,
-                        "Line": 0,
-                      },
-                    },
-                    "segment": "examplebucket",
-                  },
-                ],
-              },
-              "range": Object {
-                "end": Object {
-                  "byte": 36,
-                  "column": 36,
-                  "line": 0,
-                },
-                "start": Object {
-                  "byte": 9,
-                  "column": 9,
-                  "line": 0,
-                },
-              },
-              "type": "scopeTraversal",
-            },
-            Object {
-              "children": Array [],
-              "range": Object {
-                "end": Object {
-                  "byte": 38,
-                  "column": 38,
-                  "line": 0,
-                },
-                "start": Object {
-                  "byte": 36,
-                  "column": 36,
-                  "line": 0,
-                },
-              },
-              "type": "",
-            },
-          ],
-          "range": Object {
-            "end": Object {
-              "byte": 38,
-              "column": 38,
-              "line": 0,
-            },
-            "start": Object {
-              "byte": 36,
-              "column": 36,
-              "line": 0,
-            },
-          },
-          "type": "splat",
-        },
-      ],
-      "meta": Object {
-        "closeParenRange": Object {
-          "end": Object {
-            "byte": 39,
-            "column": 39,
-            "line": 0,
-          },
-          "start": Object {
-            "byte": 38,
-            "column": 38,
-            "line": 0,
-          },
-        },
-        "expandedFinalArgument": false,
-        "name": "toset",
         "nameRange": Object {
           "end": Object {
             "byte": 8,
@@ -2261,6 +2325,7 @@ Object {
             "line": 0,
           },
         },
+        "value": "split(var.separator, lower(replace(module.foo.output, \\"-\\", var.bar)))",
       },
       "range": Object {
         "end": Object {
@@ -2277,10 +2342,182 @@ Object {
       "type": "function",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${split(var.separator, lower(replace(module.foo.output, \\"-\\", var.bar)))}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 41,
-      "column": 41,
+      "byte": 74,
+      "column": 74,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses splat expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "aws_s3_bucket.examplebucket",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 10,
+                        "column": 10,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "aws_s3_bucket",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 37,
+                        "column": 37,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "examplebucket",
+                  },
+                ],
+                "value": "aws_s3_bucket.examplebucket",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 37,
+                  "column": 37,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 10,
+                  "column": 10,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "range": Object {
+                "end": Object {
+                  "byte": 39,
+                  "column": 39,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 37,
+                  "column": 37,
+                  "line": 0,
+                },
+              },
+              "type": "",
+            },
+          ],
+          "meta": Object {
+            "value": "aws_s3_bucket.examplebucket.*",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 39,
+              "column": 39,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 37,
+              "column": 37,
+              "line": 0,
+            },
+          },
+          "type": "splat",
+        },
+      ],
+      "meta": Object {
+        "closeParenRange": Object {
+          "end": Object {
+            "byte": 40,
+            "column": 40,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 39,
+            "column": 39,
+            "line": 0,
+          },
+        },
+        "expandedFinalArgument": false,
+        "name": "toset",
+        "nameRange": Object {
+          "end": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 4,
+            "column": 4,
+            "line": 0,
+          },
+        },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 10,
+            "column": 10,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+        },
+        "value": "toset(aws_s3_bucket.examplebucket.*)",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 10,
+          "column": 10,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "function",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ toset(aws_s3_bucket.examplebucket.*) }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 43,
+      "column": 43,
       "line": 0,
     },
     "start": Object {
@@ -2303,66 +2540,65 @@ Object {
             Object {
               "children": Array [],
               "meta": Object {
+                "fullAccessor": "aws_kms_key.examplekms.deletion_window_in_days",
                 "traversal": Array [
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 13,
-                        "Column": 13,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 14,
+                        "column": 14,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 2,
-                        "Column": 2,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 3,
+                        "column": 3,
+                        "line": 0,
                       },
                     },
                     "segment": "aws_kms_key",
                   },
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 24,
-                        "Column": 24,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 13,
-                        "Column": 13,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 14,
+                        "column": 14,
+                        "line": 0,
                       },
                     },
                     "segment": "examplekms",
                   },
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 48,
-                        "Column": 48,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 49,
+                        "column": 49,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 24,
-                        "Column": 24,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
                       },
                     },
                     "segment": "deletion_window_in_days",
                   },
                 ],
+                "value": "aws_kms_key.examplekms.deletion_window_in_days",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 48,
-                  "column": 48,
+                  "byte": 49,
+                  "column": 49,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 2,
-                  "column": 2,
+                  "byte": 3,
+                  "column": 3,
                   "line": 0,
                 },
               },
@@ -2372,16 +2608,17 @@ Object {
               "children": Array [],
               "meta": Object {
                 "type": "number",
+                "value": "3",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 52,
-                  "column": 52,
+                  "byte": 53,
+                  "column": 53,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 51,
-                  "column": 51,
+                  "byte": 52,
+                  "column": 52,
                   "line": 0,
                 },
               },
@@ -2391,16 +2628,17 @@ Object {
           "meta": Object {
             "operator": "greaterThan",
             "returnType": "bool",
+            "value": "aws_kms_key.examplekms.deletion_window_in_days > 3",
           },
           "range": Object {
             "end": Object {
-              "byte": 48,
-              "column": 48,
+              "byte": 49,
+              "column": 49,
               "line": 0,
             },
             "start": Object {
-              "byte": 2,
-              "column": 2,
+              "byte": 3,
+              "column": 3,
               "line": 0,
             },
           },
@@ -2409,66 +2647,65 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "aws_s3_bucket.examplebucket.id",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 68,
-                    "Column": 68,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 69,
+                    "column": 69,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 55,
-                    "Column": 55,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 56,
+                    "column": 56,
+                    "line": 0,
                   },
                 },
                 "segment": "aws_s3_bucket",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 82,
-                    "Column": 82,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 83,
+                    "column": 83,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 68,
-                    "Column": 68,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 69,
+                    "column": 69,
+                    "line": 0,
                   },
                 },
                 "segment": "examplebucket",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 85,
-                    "Column": 85,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 86,
+                    "column": 86,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 82,
-                    "Column": 82,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 83,
+                    "column": 83,
+                    "line": 0,
                   },
                 },
                 "segment": "id",
               },
             ],
+            "value": "aws_s3_bucket.examplebucket.id",
           },
           "range": Object {
             "end": Object {
-              "byte": 85,
-              "column": 85,
+              "byte": 86,
+              "column": 86,
               "line": 0,
             },
             "start": Object {
-              "byte": 55,
-              "column": 55,
+              "byte": 56,
+              "column": 56,
               "line": 0,
             },
           },
@@ -2476,40 +2713,49 @@ Object {
         },
         Object {
           "children": Array [],
+          "meta": Object {
+            "value": "[]",
+          },
           "range": Object {
             "end": Object {
-              "byte": 89,
-              "column": 89,
+              "byte": 90,
+              "column": 90,
               "line": 0,
             },
             "start": Object {
-              "byte": 88,
-              "column": 88,
+              "byte": 89,
+              "column": 89,
               "line": 0,
             },
           },
           "type": "tuple",
         },
       ],
+      "meta": Object {
+        "value": "aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []",
+      },
       "range": Object {
         "end": Object {
-          "byte": 48,
-          "column": 48,
+          "byte": 49,
+          "column": 49,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "conditional",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 91,
-      "column": 91,
+      "byte": 93,
+      "column": 93,
       "line": 0,
     },
     "start": Object {
@@ -2532,50 +2778,50 @@ Object {
             Object {
               "children": Array [],
               "meta": Object {
+                "fullAccessor": "aws_s3_bucket.examplebucket_two",
                 "traversal": Array [
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 24,
-                        "Column": 24,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 11,
-                        "Column": 11,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 12,
+                        "column": 12,
+                        "line": 0,
                       },
                     },
                     "segment": "aws_s3_bucket",
                   },
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 42,
-                        "Column": 42,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 43,
+                        "column": 43,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 24,
-                        "Column": 24,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
                       },
                     },
                     "segment": "examplebucket_two",
                   },
                 ],
+                "value": "aws_s3_bucket.examplebucket_two",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 42,
-                  "column": 42,
+                  "byte": 43,
+                  "column": 43,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 11,
-                  "column": 11,
+                  "byte": 12,
+                  "column": 12,
                   "line": 0,
                 },
               },
@@ -2585,16 +2831,17 @@ Object {
               "children": Array [],
               "meta": Object {
                 "type": "number",
+                "value": "0",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 45,
-                  "column": 45,
+                  "byte": 46,
+                  "column": 46,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 44,
-                  "column": 44,
+                  "byte": 45,
+                  "column": 45,
                   "line": 0,
                 },
               },
@@ -2604,13 +2851,13 @@ Object {
           "meta": Object {
             "closeParenRange": Object {
               "end": Object {
-                "byte": 46,
-                "column": 46,
+                "byte": 47,
+                "column": 47,
                 "line": 0,
               },
               "start": Object {
-                "byte": 45,
-                "column": 45,
+                "byte": 46,
+                "column": 46,
                 "line": 0,
               },
             },
@@ -2618,63 +2865,70 @@ Object {
             "name": "element",
             "nameRange": Object {
               "end": Object {
-                "byte": 10,
-                "column": 10,
-                "line": 0,
-              },
-              "start": Object {
-                "byte": 3,
-                "column": 3,
-                "line": 0,
-              },
-            },
-            "openParenRange": Object {
-              "end": Object {
                 "byte": 11,
                 "column": 11,
                 "line": 0,
               },
               "start": Object {
-                "byte": 10,
-                "column": 10,
+                "byte": 4,
+                "column": 4,
                 "line": 0,
               },
             },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 11,
+                "column": 11,
+                "line": 0,
+              },
+            },
+            "value": "element(aws_s3_bucket.examplebucket_two, 0)",
           },
           "range": Object {
             "end": Object {
-              "byte": 11,
-              "column": 11,
+              "byte": 12,
+              "column": 12,
               "line": 0,
             },
             "start": Object {
-              "byte": 3,
-              "column": 3,
+              "byte": 4,
+              "column": 4,
               "line": 0,
             },
           },
           "type": "function",
         },
       ],
+      "meta": Object {
+        "value": "element(aws_s3_bucket.examplebucket_two, 0).id",
+      },
       "range": Object {
         "end": Object {
-          "byte": 49,
-          "column": 49,
+          "byte": 50,
+          "column": 50,
           "line": 0,
         },
         "start": Object {
-          "byte": 3,
-          "column": 3,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
       },
       "type": "relativeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ element(aws_s3_bucket.examplebucket_two, 0).id }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 51,
-      "column": 51,
+      "byte": 53,
+      "column": 53,
       "line": 0,
     },
     "start": Object {
@@ -2693,76 +2947,78 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "module.foo.output",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 8,
-                "Column": 8,
-                "Line": 0,
+              "end": Object {
+                "byte": 9,
+                "column": 9,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 2,
-                "Column": 2,
-                "Line": 0,
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
               },
             },
             "segment": "module",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 12,
-                "Column": 12,
-                "Line": 0,
+              "end": Object {
+                "byte": 13,
+                "column": 13,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 8,
-                "Column": 8,
-                "Line": 0,
+              "start": Object {
+                "byte": 9,
+                "column": 9,
+                "line": 0,
               },
             },
             "segment": "foo",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 19,
-                "Column": 19,
-                "Line": 0,
+              "end": Object {
+                "byte": 20,
+                "column": 20,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 12,
-                "Column": 12,
-                "Line": 0,
+              "start": Object {
+                "byte": 13,
+                "column": 13,
+                "line": 0,
               },
             },
             "segment": "output",
           },
         ],
+        "value": "module.foo.output",
       },
       "range": Object {
         "end": Object {
-          "byte": 19,
-          "column": 19,
+          "byte": 20,
+          "column": 20,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${module.foo.output}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 20,
-      "column": 20,
+      "byte": 22,
+      "column": 22,
       "line": 0,
     },
     "start": Object {
@@ -2783,50 +3039,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.members",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 5,
-                    "Column": 5,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 6,
+                    "column": 6,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 2,
-                    "Column": 2,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 3,
+                    "column": 3,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 13,
-                    "Column": 13,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 14,
+                    "column": 14,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 5,
-                    "Column": 5,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 6,
+                    "column": 6,
+                    "line": 0,
                   },
                 },
                 "segment": "members",
               },
             ],
+            "value": "var.members",
           },
           "range": Object {
             "end": Object {
-              "byte": 13,
-              "column": 13,
+              "byte": 14,
+              "column": 14,
               "line": 0,
             },
             "start": Object {
-              "byte": 2,
-              "column": 2,
+              "byte": 3,
+              "column": 3,
               "line": 0,
             },
           },
@@ -2835,50 +3091,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.admins",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 19,
-                    "Column": 19,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 16,
-                    "Column": 16,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 26,
-                    "Column": 26,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 19,
-                    "Column": 19,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
                   },
                 },
                 "segment": "admins",
               },
             ],
+            "value": "var.admins",
           },
           "range": Object {
             "end": Object {
-              "byte": 26,
-              "column": 26,
+              "byte": 27,
+              "column": 27,
               "line": 0,
             },
             "start": Object {
-              "byte": 16,
-              "column": 16,
+              "byte": 17,
+              "column": 17,
               "line": 0,
             },
           },
@@ -2888,26 +3144,30 @@ Object {
       "meta": Object {
         "operator": "add",
         "returnType": "number",
+        "value": "var.members + var.admins",
       },
       "range": Object {
         "end": Object {
-          "byte": 13,
-          "column": 13,
+          "byte": 14,
+          "column": 14,
           "line": 0,
         },
         "start": Object {
-          "byte": 2,
-          "column": 2,
+          "byte": 3,
+          "column": 3,
           "line": 0,
         },
       },
       "type": "binaryOp",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${var.members + var.admins}\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 27,
-      "column": 27,
+      "byte": 29,
+      "column": 29,
       "line": 0,
     },
     "start": Object {
@@ -2928,50 +3188,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.settings",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 6,
-                    "Column": 6,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 3,
-                    "Column": 3,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 4,
+                    "column": 4,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 15,
-                    "Column": 15,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 16,
+                    "column": 16,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 6,
-                    "Column": 6,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
                   },
                 },
                 "segment": "settings",
               },
             ],
+            "value": "var.settings",
           },
           "range": Object {
             "end": Object {
-              "byte": 15,
-              "column": 15,
+              "byte": 16,
+              "column": 16,
               "line": 0,
             },
             "start": Object {
-              "byte": 3,
-              "column": 3,
+              "byte": 4,
+              "column": 4,
               "line": 0,
             },
           },
@@ -2982,50 +3242,50 @@ Object {
             Object {
               "children": Array [],
               "meta": Object {
+                "fullAccessor": "var.prefix",
                 "traversal": Array [
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 22,
-                        "Column": 22,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 19,
-                        "Column": 19,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 20,
+                        "column": 20,
+                        "line": 0,
                       },
                     },
                     "segment": "var",
                   },
                   Object {
                     "range": Object {
-                      "End": Object {
-                        "Byte": 29,
-                        "Column": 29,
-                        "Line": 0,
+                      "end": Object {
+                        "byte": 30,
+                        "column": 30,
+                        "line": 0,
                       },
-                      "Filename": "",
-                      "Start": Object {
-                        "Byte": 22,
-                        "Column": 22,
-                        "Line": 0,
+                      "start": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
                       },
                     },
                     "segment": "prefix",
                   },
                 ],
+                "value": "var.prefix",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 29,
-                  "column": 29,
+                  "byte": 30,
+                  "column": 30,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 19,
-                  "column": 19,
+                  "byte": 20,
+                  "column": 20,
                   "line": 0,
                 },
               },
@@ -3035,56 +3295,66 @@ Object {
               "children": Array [],
               "meta": Object {
                 "type": "string",
+                "value": "-my-bucket",
               },
               "range": Object {
                 "end": Object {
-                  "byte": 40,
-                  "column": 40,
+                  "byte": 41,
+                  "column": 41,
                   "line": 0,
                 },
                 "start": Object {
-                  "byte": 30,
-                  "column": 30,
+                  "byte": 31,
+                  "column": 31,
                   "line": 0,
                 },
               },
               "type": "literalValue",
             },
           ],
+          "meta": Object {
+            "value": "\\"\${var.prefix}-my-bucket\\"",
+          },
           "range": Object {
             "end": Object {
-              "byte": 29,
-              "column": 29,
+              "byte": 30,
+              "column": 30,
               "line": 0,
             },
             "start": Object {
-              "byte": 19,
-              "column": 19,
+              "byte": 20,
+              "column": 20,
               "line": 0,
             },
           },
           "type": "template",
         },
       ],
+      "meta": Object {
+        "value": "var.settings[\\"\${var.prefix}-my-bucket\\"]",
+      },
       "range": Object {
         "end": Object {
-          "byte": 16,
-          "column": 16,
+          "byte": 17,
+          "column": 17,
           "line": 0,
         },
         "start": Object {
-          "byte": 15,
-          "column": 15,
+          "byte": 16,
+          "column": 16,
           "line": 0,
         },
       },
       "type": "index",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ var.settings[\\"\${var.prefix}-my-bucket\\"] }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 44,
-      "column": 44,
+      "byte": 46,
+      "column": 46,
       "line": 0,
     },
     "start": Object {
@@ -3103,60 +3373,63 @@ Object {
     Object {
       "children": Array [],
       "meta": Object {
+        "fullAccessor": "var.setting",
         "traversal": Array [
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 3,
-                "Column": 3,
-                "Line": 0,
+              "start": Object {
+                "byte": 4,
+                "column": 4,
+                "line": 0,
               },
             },
             "segment": "var",
           },
           Object {
             "range": Object {
-              "End": Object {
-                "Byte": 14,
-                "Column": 14,
-                "Line": 0,
+              "end": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
               },
-              "Filename": "",
-              "Start": Object {
-                "Byte": 6,
-                "Column": 6,
-                "Line": 0,
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
               },
             },
             "segment": "setting",
           },
         ],
+        "value": "var.setting[\\"bucket_name\\"]",
       },
       "range": Object {
         "end": Object {
-          "byte": 29,
-          "column": 29,
+          "byte": 30,
+          "column": 30,
           "line": 0,
         },
         "start": Object {
-          "byte": 3,
-          "column": 3,
+          "byte": 4,
+          "column": 4,
           "line": 0,
         },
       },
       "type": "scopeTraversal",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ var.setting[\\"bucket_name\\"] }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 31,
-      "column": 31,
+      "byte": 33,
+      "column": 33,
       "line": 0,
     },
     "start": Object {
@@ -3177,50 +3450,50 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.settings",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 6,
-                    "Column": 6,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 3,
-                    "Column": 3,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 4,
+                    "column": 4,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 15,
-                    "Column": 15,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 16,
+                    "column": 16,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 6,
-                    "Column": 6,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
                   },
                 },
                 "segment": "settings",
               },
             ],
+            "value": "var.settings",
           },
           "range": Object {
             "end": Object {
-              "byte": 15,
-              "column": 15,
+              "byte": 16,
+              "column": 16,
               "line": 0,
             },
             "start": Object {
-              "byte": 3,
-              "column": 3,
+              "byte": 4,
+              "column": 4,
               "line": 0,
             },
           },
@@ -3229,75 +3502,81 @@ Object {
         Object {
           "children": Array [],
           "meta": Object {
+            "fullAccessor": "var.bucket_name_key",
             "traversal": Array [
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 19,
-                    "Column": 19,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 16,
-                    "Column": 16,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
                   },
                 },
                 "segment": "var",
               },
               Object {
                 "range": Object {
-                  "End": Object {
-                    "Byte": 35,
-                    "Column": 35,
-                    "Line": 0,
+                  "end": Object {
+                    "byte": 36,
+                    "column": 36,
+                    "line": 0,
                   },
-                  "Filename": "",
-                  "Start": Object {
-                    "Byte": 19,
-                    "Column": 19,
-                    "Line": 0,
+                  "start": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
                   },
                 },
                 "segment": "bucket_name_key",
               },
             ],
+            "value": "var.bucket_name_key",
           },
           "range": Object {
             "end": Object {
-              "byte": 35,
-              "column": 35,
+              "byte": 36,
+              "column": 36,
               "line": 0,
             },
             "start": Object {
-              "byte": 16,
-              "column": 16,
+              "byte": 17,
+              "column": 17,
               "line": 0,
             },
           },
           "type": "scopeTraversal",
         },
       ],
+      "meta": Object {
+        "value": "var.settings[var.bucket_name_key]",
+      },
       "range": Object {
         "end": Object {
-          "byte": 16,
-          "column": 16,
+          "byte": 17,
+          "column": 17,
           "line": 0,
         },
         "start": Object {
-          "byte": 15,
-          "column": 15,
+          "byte": 16,
+          "column": 16,
           "line": 0,
         },
       },
       "type": "index",
     },
   ],
+  "meta": Object {
+    "value": "\\"\${ var.settings[var.bucket_name_key] }\\"",
+  },
   "range": Object {
     "end": Object {
-      "byte": 38,
-      "column": 38,
+      "byte": 40,
+      "column": 40,
       "line": 0,
     },
     "start": Object {

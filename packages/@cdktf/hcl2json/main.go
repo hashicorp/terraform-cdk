@@ -7,6 +7,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"strings"
 	"syscall/js"
 
 	"github.com/zclconf/go-cty/cty"
@@ -104,31 +105,16 @@ func main() {
 			return nil, fmt.Errorf("No arguments provided")
 		}
 
-		expr, err := hcljson.ParseExpression([]byte(args[1].String()), args[0].String())
-		if err != nil {
-			return nil, err
-		}
-
-		if !hcljson.IsJSONExpression(expr) {
-			return nil, fmt.Errorf("Expected JSON expression")
-		}
-
-		val, diags := expr.Value(nil)
-		if diags.HasErrors() {
+		filename := args[0].String()
+		src := args[1].String()
+		ast, diags := hclsyntax.ParseExpression([]byte(src), filename, hcl.Pos{})
+		if diags != nil && diags.HasErrors() {
 			return nil, fmt.Errorf(diags.Error())
 		}
 
-		ast, diags := expressionForValue(val)
-		if diags.HasErrors() {
-			return nil, fmt.Errorf(diags.Error())
-		}
+		res, _ := expressionToMarshalledAst(src, ast)
 
-		jsonValue, marshalError := expressionToMarshalledAst(ast)
-		if marshalError != nil {
-			return nil, marshalError
-		}
-
-		return string(jsonValue), nil
+		return string(res), nil
 	})
 
 	<-c
@@ -229,11 +215,12 @@ type RangeAst struct {
 }
 
 type TraversalAst struct {
-	Segment string    `json:"segment"`
-	Range   hcl.Range `json:"range,omitempty"`
+	Segment string   `json:"segment"`
+	Range   RangeAst `json:"range,omitempty"`
 }
 
 type ExpressionWalker struct {
+	Input   string
 	Root    ExpressionAst
 	Stack   []*ExpressionAst
 	Current *ExpressionAst
@@ -254,19 +241,22 @@ func convertRangeToAst(r hcl.Range) RangeAst {
 	}
 }
 
-func convertTraversal(t hcl.Traversal) []TraversalAst {
+func convertTraversal(t hcl.Traversal) ([]TraversalAst, string) {
 	var res []TraversalAst
+	var collection []string
 	for _, p := range t {
 		switch p.(type) {
 		case hcl.TraverseRoot:
 			root := p.(hcl.TraverseRoot)
-			res = append(res, TraversalAst{Segment: root.Name, Range: root.SrcRange})
+			res = append(res, TraversalAst{Segment: root.Name, Range: convertRangeToAst(root.SrcRange)})
+			collection = append(collection, root.Name)
 		case hcl.TraverseAttr:
 			attr := p.(hcl.TraverseAttr)
-			res = append(res, TraversalAst{Segment: attr.Name, Range: attr.SrcRange})
+			res = append(res, TraversalAst{Segment: attr.Name, Range: convertRangeToAst(attr.SrcRange)})
+			collection = append(collection, attr.Name)
 		}
 	}
-	return res
+	return res, strings.Join(collection, ".")
 }
 
 func getOperationName(op *hclsyntax.Operation) string {
@@ -341,7 +331,7 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 	case *hclsyntax.ScopeTraversalExpr:
 		w.Current.Type = "scopeTraversal"
 
-		w.Current.Meta["traversal"] = convertTraversal(actualExpr.Traversal)
+		w.Current.Meta["traversal"], w.Current.Meta["fullAccessor"] = convertTraversal(actualExpr.Traversal)
 	case *hclsyntax.RelativeTraversalExpr:
 		w.Current.Type = "relativeTraversal"
 	case *hclsyntax.LiteralValueExpr:
@@ -376,6 +366,7 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		})
 		return diags
 	}
+	w.Current.Meta["value"] = w.Input[expr.Range().Start.Byte:expr.Range().End.Byte]
 
 	return nil
 }
@@ -390,8 +381,11 @@ func (w *ExpressionWalker) Exit(node hclsyntax.Node) hcl.Diagnostics {
 	return nil
 }
 
-func expressionToMarshalledAst(expr hclsyntax.Expression) (string, error) {
-	walker := &ExpressionWalker{}
+func expressionToMarshalledAst(input string, expr hclsyntax.Expression) (string, error) {
+	walker := &ExpressionWalker{
+		Input: input,
+	}
+
 	hclsyntax.Walk(expr, walker)
 
 	m, _ := json.MarshalIndent(walker.Root, "", "  ")

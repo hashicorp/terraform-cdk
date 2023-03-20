@@ -8,10 +8,6 @@ function parseExpression(expr: string) {
       getReferencesInExpression("main.tf", expr)
     ).resolves.toMatchSnapshot();
 }
-function astMatchesSnapshot(expr: string) {
-  return () =>
-    expect(getExpressionAst("main.tf", expr)).resolves.toMatchSnapshot();
-}
 
 describe("getReferencesInExpression", () => {
   test("parses a simple string", parseExpression("foo"));
@@ -136,106 +132,62 @@ describe("getReferencesInExpression", () => {
 });
 
 describe("getExpressionAst", () => {
-  test("parses a simple string", astMatchesSnapshot("foo"));
-  test("parses a reference string", astMatchesSnapshot("${var.foo}"));
-  test(
-    "parses three part references",
-    astMatchesSnapshot("${module.foo.output}")
-  );
-  test(
-    "parses four part references",
-    astMatchesSnapshot("${data.type.name.attr}")
-  );
-  test(
-    "parses a terraform function",
-    astMatchesSnapshot('${replace(module.foo.output, "-", var.bar)}')
-  );
-
-  test(
-    "parses nested terraform functions",
-    astMatchesSnapshot(
-      '${split(var.separator, lower(replace(module.foo.output, "-", var.bar)))}'
-    )
-  );
-
-  test(
-    "parses embedded vars",
-    astMatchesSnapshot(
-      "Hey, did you hear about ${module.foo.output}s new album?"
-    )
-  );
-  test(
-    "parses lists",
-    astMatchesSnapshot('[5, ${module.foo.output}, "val", true]')
-  );
-
-  test(
-    "parses maps",
-    astMatchesSnapshot(
-      '{ x = ${module.foo.output}, y = "val", z = true, a = ${replace(module.foo.output, "-", var.bar)} }'
-    )
-  );
-
-  test(
-    "parses variable arithmetics",
-    astMatchesSnapshot("${var.members + var.admins}")
-  );
-
-  test(
-    "parses ternary expressions",
-    astMatchesSnapshot(
-      "${aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"
-    )
-  );
-
-  test(
-    "parses multi-line for loops",
-    astMatchesSnapshot(
-      "${{\n            for name, user in var.users : name => user\n            if !user.is_admin\n          }}"
-    )
-  );
-
-  test(
-    "parses for in loops",
-    astMatchesSnapshot(
-      "${{ for name, user in var.users : user.role => name... }}"
-    )
-  );
-
-  test(
-    "parses terraform functions with file access",
-    astMatchesSnapshot("${ element(aws_s3_bucket.examplebucket_two, 0).id }")
-  );
-
-  test(
-    "parses splat expressions",
-    astMatchesSnapshot("${ toset(aws_s3_bucket.examplebucket.*) }")
-  );
-
-  test(
-    "property access",
-    astMatchesSnapshot(`\${ var.setting["bucket_name"] }`)
-  );
-
-  test(
-    "mixed property access",
-    astMatchesSnapshot(`\${ var.setting["bucket_name"].arn }`)
-  );
-
-  test(
-    "variable property access",
-    astMatchesSnapshot(`\${ var.settings[var.bucket_name_key] }`)
-  );
-
-  test(
-    "partial variable property access",
-    astMatchesSnapshot(`\${ var.settings["\${var.prefix}-my-bucket"] }`)
-  );
-
-  test(
-    "list expressions",
-    astMatchesSnapshot(`\${ [var.tags.app, var.tags.env] }`)
-  );
+  test.each([
+    ["parses a simple string", "foo"],
+    ["parses a reference string", '"${var.foo}"'],
+    ["parses three part references", '"${module.foo.output}"'],
+    ["parses four part references", '"${data.type.name.attr}"'],
+    [
+      "parses a terraform function",
+      '"${replace(module.foo.output, "-", var.bar)}"',
+    ],
+    [
+      "parses nested terraform functions",
+      '"${split(var.separator, lower(replace(module.foo.output, "-", var.bar)))}"',
+    ],
+    [
+      "parses embedded vars",
+      '"Hey, did you hear about ${module.foo.output}s new album?"',
+    ],
+    ["parses lists", '[5, "${module.foo.output}", "val", true]'],
+    [
+      "parses maps",
+      '{ x = "${module.foo.output}", y = "val", z = true, a = "${replace(module.foo.output, "-", var.bar)}" }',
+    ],
+    ["parses variable arithmetics", '"${var.members + var.admins}"'],
+    [
+      "parses ternary expressions",
+      '"${aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}"',
+    ],
+    [
+      "parses multi-line for loops",
+      '"${{\n            for name, user in var.users : name => user\n            if !user.is_admin\n          }}"',
+    ],
+    [
+      "parses for in loops",
+      '"${{ for name, user in var.users : user.role => name... }}"',
+    ],
+    [
+      "parses terraform functions with file access",
+      '"${ element(aws_s3_bucket.examplebucket_two, 0).id }"',
+    ],
+    ["parses splat expressions", '"${ toset(aws_s3_bucket.examplebucket.*) }"'],
+    ["property access", `"\${ var.setting["bucket_name"] }"`],
+    ["mixed property access", `"\${ var.setting["bucket_name"].arn }"`],
+    ["variable property access", `"\${ var.settings[var.bucket_name_key] }"`],
+    [
+      "partial variable property access",
+      `"\${ var.settings["\${var.prefix}-my-bucket"] }"`,
+    ],
+    ["list expressions", `"\${ [var.tags.app, var.tags.env] }"`],
+  ])("%s", (name, input) => {
+    try {
+      expect(getExpressionAst("main.tf", input)).resolves.toMatchSnapshot();
+    } catch (e) {
+      console.error("Failed Test: ", name);
+      throw e;
+    }
+  });
 
   test("fails on malformed expressions", () => {
     expect(

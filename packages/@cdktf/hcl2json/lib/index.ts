@@ -352,7 +352,7 @@ export async function getExpressionAst(
   filename: string,
   expression: string
 ): Promise<any> {
-  const res = await wasm.getExpressionAst(filename, JSON.stringify(expression));
+  const res = await wasm.getExpressionAst(filename, expression);
   const ast = JSON.parse(res) as GoExpressionParseResult;
 
   if (!ast) {
