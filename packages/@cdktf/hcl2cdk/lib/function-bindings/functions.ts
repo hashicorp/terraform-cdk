@@ -64,4 +64,6 @@ export const functionsMap: Record<string, FunctionMeta> = {
       };
     },
   },
+
+  // TODO: range and lookup are missing overwrites here
 };
