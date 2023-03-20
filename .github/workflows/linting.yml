@@ -16,7 +16,7 @@ jobs:
   prettier:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile
@@ -27,7 +27,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@24cb9080177205b6e8c946b17badbe402adc938f
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile
