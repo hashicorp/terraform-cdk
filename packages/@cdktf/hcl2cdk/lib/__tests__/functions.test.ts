@@ -12,17 +12,17 @@ type BaseThing = {
   type: string;
   children: Thing[];
   meta?: object;
-  range: unknown;
+  range?: unknown; // optional as we don't care about it
 };
 
 type FunctionCall = BaseThing & {
   type: "function";
   meta: {
-    name: "replace";
-    expandedFinalArgument: boolean;
-    closeParenRange: unknown;
-    openParenRange: unknown;
-    nameRange: unknown;
+    name: string;
+    expandedFinalArgument?: boolean; // optional as we don't care about it
+    closeParenRange?: unknown; // optional as we don't care about it
+    openParenRange?: unknown; // optional as we don't care about it
+    nameRange?: unknown; // optional as we don't care about it
   };
 };
 
@@ -43,7 +43,12 @@ type LiteralValue = BaseThing & {
 
 type ScopeTraversal = BaseThing & {
   type: "ScopeTraversal";
-  meta: { traversal: { segment: string; range: unknown }[] };
+  meta: {
+    traversal: {
+      segment: string;
+      range?: unknown; // optional as we don't care about it
+    }[];
+  };
 };
 
 type Thing =
@@ -294,6 +299,298 @@ describe("bindings for Terraform functions", () => {
       `"cdktf.Fn.replace(TodoReference-module-foo-output, \\"-\\", TodoReference-var-bar)"`
     );
   });
+
+  it("should convert Terraform AST into TS AST for overriden function name", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "length",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "list",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "number"
+        )
+      ).code
+    ).toMatchInlineSnapshot(`"cdktf.Fn.lengthOf(TodoReference-var-list)"`);
+  });
+
+  it("should convert Terraform AST into TS AST for overriden function with variadic args for optional params", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "bcrypt",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "str",
+                    },
+                  ],
+                },
+                children: [],
+              },
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "cost",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "string"
+        )
+      ).code
+    ).toMatchInlineSnapshot(
+      `"cdktf.Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`
+    );
+  });
+
+  it("should convert Terraform AST into TS AST for overriden function with variadic args for optional params that are not passed", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "bcrypt",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "str",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "string"
+        )
+      ).code
+    ).toMatchInlineSnapshot(`"cdktf.Fn.bcrypt(TodoReference-var-str)"`);
+  });
+
+  it("should convert Terraform AST into TS AST for function with variadic param", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "try",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "strA",
+                    },
+                  ],
+                },
+                children: [],
+              },
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "strB",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "dynamic"
+        )
+      ).code
+    ).toMatchInlineSnapshot(
+      `"cdktf.Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`
+    );
+  });
+
+  it("should convert Terraform AST into TS AST for join function with single list param", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "join",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "str",
+                    },
+                  ],
+                },
+                children: [],
+              },
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "list",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "string"
+        )
+      ).code
+    ).toMatchInlineSnapshot(
+      `"cdktf.Fn.join(TodoReference-var-str, TodoReference-var-list)"`
+    );
+  });
+
+  it("should convert Terraform AST into TS AST for join function with multiple list params", () => {
+    expect(
+      generate(
+        terraformThingToTs(
+          {
+            type: "function",
+            meta: {
+              name: "join",
+            },
+            children: [
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "str",
+                    },
+                  ],
+                },
+                children: [],
+              },
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "listA",
+                    },
+                  ],
+                },
+                children: [],
+              },
+              {
+                type: "ScopeTraversal",
+                meta: {
+                  traversal: [
+                    {
+                      segment: "var",
+                    },
+                    {
+                      segment: "listB",
+                    },
+                  ],
+                },
+                children: [],
+              },
+            ],
+          },
+          "string"
+        )
+      ).code
+    ).toMatchInlineSnapshot(
+      `"cdktf.Fn.join(TodoReference-var-str, cdktf.Token.asList(cdktf.Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`
+    );
+  });
+
+  it("should throw if not enough parameters were passed", () => {
+    expect(
+      () =>
+        generate(
+          terraformThingToTs(
+            {
+              type: "function",
+              meta: {
+                name: "bcrypt",
+              },
+              children: [],
+            },
+            "string"
+          )
+        ).code
+    ).toThrowErrorMatchingInlineSnapshot(
+      `"Terraform function call to \\"bcrypt\\" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`
+    );
+  });
+
+  // TODO: tests for type coercion
 });
 
 function terraformThingToTs(
@@ -351,7 +648,7 @@ function terraformLiteralValueToTs(
   tfAst: LiteralValue,
   targetType: AttributeType | undefined
 ): t.Expression {
-  const literalExpression = t.stringLiteral("-"); // FIXME: this is not yet part of the schema
+  const literalExpression = t.stringLiteral("-"); // FIXME: this is not yet part of the schema, but our test case uses "-", so we just hardcode it here
   return coerceType(
     // TODO: scope should be passed instead, even if coerceType won't need it probably
     {
@@ -374,15 +671,46 @@ function terraformFunctionCallToTs(
   const { name } = tfAst.meta;
 
   const mapping = functionsMap[name];
+  if (!mapping) {
+    throw new Error(`Mapping not found for function: ${name}`);
+  }
+
+  if (mapping.transformer) {
+    const newTfAst = mapping.transformer(tfAst);
+    if (newTfAst !== tfAst)
+      return terraformFunctionCallToTs(newTfAst, targetType);
+  }
 
   const callee = t.memberExpression(
     t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
     t.identifier(mapping.name)
   );
 
-  const args = tfAst.children.map((child, idx) => {
-    const childTargetType = mapping.parameters[idx].type;
-    return terraformThingToTs(child, childTargetType);
+  const args: t.Expression[] = [];
+  mapping.parameters.forEach((param, idx) => {
+    if (param.variadic) {
+      // return an array with all remaining children (each mapped accordingly)
+      args.push(
+        t.arrayExpression(
+          tfAst.children
+            .slice(idx)
+            .map((child) => terraformThingToTs(child, param.type))
+        )
+      );
+    } else {
+      const child = tfAst.children[idx];
+      if (child) {
+        args.push(terraformThingToTs(child, param.type));
+      } else if (!param.optional) {
+        throw new Error(
+          `Terraform function call to "${name}" is not valid! Parameter at index ${idx} of type ${
+            param.type
+          } is not optional but received no value. The following parameters were passed: ${JSON.stringify(
+            tfAst.children
+          )}`
+        );
+      }
+    }
   });
 
   const returnType = mapping.returnType;
@@ -404,25 +732,96 @@ function terraformFunctionCallToTs(
   );
 }
 
-// TODO: this is going to be generated by the functions generation tooling? OR: this could be read (and parsed) from terraform-functions.ts?
-// -> But that would be hard as some functions are renamed and we'd need to figure out which (requires a manual mapping already)
-const functionsMap = {
+// TODO: this is going to be generated by the functions generation tooling and gets manual overrides for functions that we override
+const functionsMap: Record<
+  string,
+  {
+    name: string;
+    returnType: AttributeType;
+    parameters: {
+      type: AttributeType;
+      optional?: boolean;
+      variadic?: boolean;
+    }[];
+    /**
+     * Allows transforming the function call before it is handled. This is currently used to handle
+     * different APIs between TF supporting join(sep, listA, listB) and CDKTF only supporting join(sep, list)
+     * (as the alternative due to JSIIs lack of support for variadic parametes would be join(sep, lists) which
+     *  would have a worse UX as most often just a single list is passed)
+     * In the case of join() the transformer will convert the function call to join(sep, concat(listA, listB))
+     * before handling it
+     *
+     * Caution: Beware of infinite recursion if the returned function call is to the same function that has this
+     * transformer. Return the same instance of the passed functionCall to break out of that recursion.
+     */
+    transformer?: (functionCall: FunctionCall) => FunctionCall;
+  }
+> = {
   replace: {
-    name: "replace", // might differ e.g. for length -> lengthOf
-    returnType: "string" as AttributeType,
+    name: "replace",
+    returnType: "string",
     parameters: [
       {
-        type: "string" as AttributeType,
+        type: "string",
       },
       {
-        type: "string" as AttributeType,
+        type: "string",
       },
       {
-        type: "string" as AttributeType,
+        type: "string",
       },
     ],
-    // TODO: there are functions that are mapped a bit differently and we need to support them too (variadic args are used in a different sense)
-    // maybe it is best to model them as an explicit conversion that is required?
+  },
+  length: {
+    name: "lengthOf",
+    returnType: "number",
+    parameters: [{ type: "dynamic" }],
+  },
+  bcrypt: {
+    name: "bcrypt", // this one is not variadic anymore after we mapped it
+    returnType: "string",
+    parameters: [{ type: "string" }, { type: "number", optional: true }], // TODO: this will need to come from an override as the functions schema has a variadic type for this
+  },
+  join: {
+    name: "join",
+    returnType: "string",
+    parameters: [{ type: "string" }, { type: ["list", "string"] }],
+    /**
+     * Terraform supports join(separator, listA, listB)
+     * wheras CDKTF only supports join(separator, list) (to make it simpler to use as JSII does not support variadic parameters)
+     * and we'd need to convert this to join(separator, concat(listA, listB)) if multiple variadic args are passed
+     */
+    transformer: (fc) => {
+      if (fc.children.length <= 2) {
+        return fc; // just one child -> nothing to do
+      }
+      return {
+        type: "function",
+        meta: {
+          name: "join",
+        },
+        children: [
+          fc.children[0], // the first parameter is the separator, so keep it as is
+          {
+            type: "function",
+            meta: {
+              name: "concat",
+            },
+            children: fc.children.slice(1), // all other children are the lists that are concatenated using concat()
+          },
+        ],
+      };
+    },
+  },
+  try: {
+    name: "try",
+    returnType: "dynamic",
+    parameters: [{ type: "dynamic", variadic: true }],
+  },
+  concat: {
+    name: "concat",
+    returnType: "dynamic",
+    parameters: [{ type: "dynamic", variadic: true }],
   },
 };
 
