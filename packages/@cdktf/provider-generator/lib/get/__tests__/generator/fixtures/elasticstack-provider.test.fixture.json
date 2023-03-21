@@ -1,0 +1,99 @@
+{
+  "format_version": "1.0",
+  "provider_schemas": {
+    "registry.terraform.io/elastic/elasticstack": {
+      "provider": {
+        "version": 0,
+        "block": {
+          "block_types": {
+            "elasticsearch": {
+              "nesting_mode": "list",
+              "block": {
+                "attributes": {
+                  "api_key": {
+                    "type": "string",
+                    "description": "API Key to use for authentication to Elasticsearch",
+                    "description_kind": "markdown",
+                    "optional": true,
+                    "sensitive": true
+                  },
+                  "ca_data": {
+                    "type": "string",
+                    "description": "PEM-encoded custom Certificate Authority certificate",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "ca_file": {
+                    "type": "string",
+                    "description": "Path to a custom Certificate Authority certificate",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "cert_data": {
+                    "type": "string",
+                    "description": "PEM encoded certificate for client auth",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "cert_file": {
+                    "type": "string",
+                    "description": "Path to a file containing the PEM encoded certificate for client auth",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "endpoints": {
+                    "type": [
+                      "list",
+                      "string"
+                    ],
+                    "description": "A comma-separated list of endpoints where the terraform provider will point to, this must include the http(s) schema and port number.",
+                    "description_kind": "markdown",
+                    "optional": true,
+                    "sensitive": true
+                  },
+                  "insecure": {
+                    "type": "bool",
+                    "description": "Disable TLS certificate validation",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "key_data": {
+                    "type": "string",
+                    "description": "PEM encoded private key for client auth",
+                    "description_kind": "markdown",
+                    "optional": true,
+                    "sensitive": true
+                  },
+                  "key_file": {
+                    "type": "string",
+                    "description": "Path to a file containing the PEM encoded private key for client auth",
+                    "description_kind": "markdown",
+                    "optional": true
+                  },
+                  "password": {
+                    "type": "string",
+                    "description": "Password to use for API authentication to Elasticsearch.",
+                    "description_kind": "markdown",
+                    "optional": true,
+                    "sensitive": true
+                  },
+                  "username": {
+                    "type": "string",
+                    "description": "Username to use for API authentication to Elasticsearch.",
+                    "description_kind": "markdown",
+                    "optional": true
+                  }
+                },
+                "description": "Elasticsearch connection configuration block.",
+                "description_kind": "markdown"
+              },
+              "max_items": 1
+            }
+          },
+          "description_kind": "plain"
+        }
+      },
+      "resource_schemas": []
+    }
+  }
+}
