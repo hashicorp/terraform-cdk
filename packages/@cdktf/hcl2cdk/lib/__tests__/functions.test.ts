@@ -39,6 +39,7 @@ type LiteralValue = BaseThing & {
   type: "LiteralValue";
   meta: {
     type: "string";
+    value: string; // this is available in other "Things" too but we only need it here yet
   };
 };
 
@@ -139,6 +140,7 @@ const dummy2: Thing = {
               children: [],
               meta: {
                 type: "string",
+                value: "-",
               },
               range: {
                 end: {
@@ -649,7 +651,7 @@ function terraformLiteralValueToTs(
   tfAst: LiteralValue,
   targetType: AttributeType | undefined
 ): t.Expression {
-  const literalExpression = t.stringLiteral("-"); // FIXME: this is not yet part of the schema, but our test case uses "-", so we just hardcode it here
+  const literalExpression = t.stringLiteral(tfAst.meta.value);
   return coerceType(
     // TODO: scope should be passed instead, even if coerceType won't need it probably
     {
