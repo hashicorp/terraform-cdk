@@ -69,6 +69,18 @@ export const functionsMap: Record<string, FunctionMeta> = {
       };
     },
   },
-
-  // TODO: range and lookup are missing overwrites here
+  range: {
+    name: "range",
+    returnType: ["list", "string"], // TODO: Fn.range() currently returns string[] but should return number[] (according to functions.json)
+    parameters: [
+      { type: "number" },
+      { type: "number" },
+      { type: "number", optional: true },
+    ],
+  },
+  lookup: {
+    name: "lookup",
+    returnType: "dynamic",
+    parameters: [{ type: "dynamic" }, { type: "string" }, { type: "dynamic" }],
+  },
 };
