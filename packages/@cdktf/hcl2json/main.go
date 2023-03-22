@@ -340,18 +340,9 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		w.Current.Type = "function"
 		w.Current.Meta["name"] = actualExpr.Name
 		w.Current.Meta["expandedFinalArgument"] = actualExpr.ExpandFinal
-		w.Current.Meta["nameRange"] = map[string]interface{}{
-			"start": convertPosToAst(actualExpr.NameRange.Start),
-			"end":   convertPosToAst(actualExpr.NameRange.End),
-		}
-		w.Current.Meta["openParenRange"] = map[string]interface{}{
-			"start": convertPosToAst(actualExpr.OpenParenRange.Start),
-			"end":   convertPosToAst(actualExpr.OpenParenRange.End),
-		}
-		w.Current.Meta["closeParenRange"] = map[string]interface{}{
-			"start": convertPosToAst(actualExpr.CloseParenRange.Start),
-			"end":   convertPosToAst(actualExpr.CloseParenRange.End),
-		}
+		w.Current.Meta["nameRange"] = convertRangeToAst(actualExpr.NameRange)
+		w.Current.Meta["openParenRange"] = convertRangeToAst(actualExpr.OpenParenRange)
+		w.Current.Meta["closeParenRange"] = convertRangeToAst(actualExpr.CloseParenRange)
 		var argsRanges = []RangeAst{}
 		for _, arg := range actualExpr.Args {
 			argsRanges = append(argsRanges, convertRangeToAst(arg.Range()))

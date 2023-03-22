@@ -17,13 +17,9 @@ export type TerraformTraversalPart = {
   range: Range;
 };
 
+// Expression Meta Types
 export type ExpressionMeta = {
   value: string;
-};
-
-export type ScopeTraversalExpressionMeta = ExpressionMeta & {
-  fullAccessor: string;
-  traversal: TerraformTraversalPart[];
 };
 
 export type ForExpressionMeta = ExpressionMeta & {
@@ -31,6 +27,65 @@ export type ForExpressionMeta = ExpressionMeta & {
   valVar: string;
   collectionExpression: string;
   conditionalExpression: string;
+  valueExpressionRange: Range;
+  valueHasEllipses: boolean;
+  openRange: Range;
+  closeRange: Range;
+};
+
+export type FunctionCallMeta = ExpressionMeta & {
+  name: string;
+  expandedFinalArgument: string;
+  nameRange: Range;
+  openParenRange: Range;
+  closeParenRange: Range;
+  argsRanges: Range[];
+};
+
+export type ScopeTraversalExpressionMeta = ExpressionMeta & {
+  fullAccessor: string;
+  traversal: TerraformTraversalPart[];
+};
+
+export type RelativeTraversalExpressionMeta = ExpressionMeta & {
+  fullAccessor: string;
+  traversal: TerraformTraversalPart[];
+  sourceExpression: string;
+};
+
+export type LiteralValueExpressionMeta = ExpressionMeta & {
+  type: string;
+};
+
+export type IndexExpressionMeta = ExpressionMeta & {
+  keyExpression: string;
+  collectionExpression: string;
+};
+
+export type SplatExpressionMeta = ExpressionMeta & {
+  sourceExpression: string;
+  eachExpression: string;
+  anonSymbolExpression: string;
+  markerRange: Range;
+};
+
+export type ConditionalExpressionMeta = ExpressionMeta & {
+  conditionExpression: string;
+  trueExpression: string;
+  falseExpression: string;
+};
+
+export type UnaryOpExpressionMeta = ExpressionMeta & {
+  operator: string;
+  symbolRange: Range;
+  returnType: string;
+};
+
+export type BinaryOpExpressionMeta = ExpressionMeta & {
+  operator: string;
+  returnType: string;
+  lhsExpression: string;
+  rhsExpression: string;
 };
 
 export type ExpressionAst = {
