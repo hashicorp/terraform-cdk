@@ -275,3 +275,77 @@ test("iterator across stacks", () => {
     "${test_resource.input.list_value}"
   );
 });
+
+test("iterator chaining on resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const input = new TestResource(stack, "input", { name: "foo" });
+  const it = TerraformIterator.fromList(input.listValue);
+
+  const resource = new TestResource(stack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const chainedIt = TerraformIterator.fromList(resource.listValue);
+  new TestResource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.for_each",
+    "${toset(test_resource.input.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.name",
+    "${each.value}"
+  );
+
+  // Chained properties
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.for_each",
+    "${toset(test_resource.test.*.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.name",
+    "${each.value}"
+  );
+});
+
+test("iterator chaining on data sources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+
+  const data = new TestDataSource(stack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const chainedIt = TerraformIterator.fromList(data.listValue);
+  new TestDataSource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty("data.test_data_source.test.for_each");
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.name",
+    "${each.value}"
+  );
+
+  // Chained properties
+  expect(synth).toHaveProperty(
+    "data.test_data_source.chained.for_each",
+    "${toset(data.test_data_source.test.*.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.chained.name",
+    "${each.value}"
+  );
+});

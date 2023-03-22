@@ -155,7 +155,9 @@ export class TerraformDataSource
 
   public interpolationForAttribute(terraformAttribute: string) {
     return ref(
-      `data.${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`,
+      `data.${this.terraformResourceType}.${this.friendlyUniqueId}${
+        this.forEach ? ".*" : ""
+      }.${terraformAttribute}`,
       this.cdktfStack
     );
   }

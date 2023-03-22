@@ -62,6 +62,10 @@ export class TestDataSource extends TerraformDataSource {
     return new AnyMap(this, "any_map").lookup(key);
   }
 
+  public get listValue() {
+    return this.getListAttribute("list_value");
+  }
+
   protected synthesizeAttributes(): { [p: string]: any } {
     return {
       name: stringToTerraform(this.name),
