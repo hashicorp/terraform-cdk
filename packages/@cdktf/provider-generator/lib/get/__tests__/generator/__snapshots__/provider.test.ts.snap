@@ -1563,3 +1563,199 @@ export class AwsProvider extends cdktf.TerraformProvider {
 }
 "
 `;
+
+exports[`generate provider with only block_types 1`] = `
+"// https://registry.terraform.io/providers/elastic/elasticstack/latest/docs
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface ElasticstackProviderConfig {
+  /**
+  * Alias name
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#alias ElasticstackProvider#alias}
+  */
+  readonly alias?: string;
+  /**
+  * elasticsearch block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#elasticsearch ElasticstackProvider#elasticsearch}
+  */
+  readonly elasticsearch?: ElasticstackProviderElasticsearch;
+}
+export interface ElasticstackProviderElasticsearch {
+  /**
+  * API Key to use for authentication to Elasticsearch
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#api_key ElasticstackProvider#api_key}
+  */
+  readonly apiKey?: string;
+  /**
+  * PEM-encoded custom Certificate Authority certificate
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#ca_data ElasticstackProvider#ca_data}
+  */
+  readonly caData?: string;
+  /**
+  * Path to a custom Certificate Authority certificate
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#ca_file ElasticstackProvider#ca_file}
+  */
+  readonly caFile?: string;
+  /**
+  * PEM encoded certificate for client auth
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#cert_data ElasticstackProvider#cert_data}
+  */
+  readonly certData?: string;
+  /**
+  * Path to a file containing the PEM encoded certificate for client auth
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#cert_file ElasticstackProvider#cert_file}
+  */
+  readonly certFile?: string;
+  /**
+  * A comma-separated list of endpoints where the terraform provider will point to, this must include the http(s) schema and port number.
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#endpoints ElasticstackProvider#endpoints}
+  */
+  readonly endpoints?: string[];
+  /**
+  * Disable TLS certificate validation
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#insecure ElasticstackProvider#insecure}
+  */
+  readonly insecure?: boolean | cdktf.IResolvable;
+  /**
+  * PEM encoded private key for client auth
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#key_data ElasticstackProvider#key_data}
+  */
+  readonly keyData?: string;
+  /**
+  * Path to a file containing the PEM encoded private key for client auth
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#key_file ElasticstackProvider#key_file}
+  */
+  readonly keyFile?: string;
+  /**
+  * Password to use for API authentication to Elasticsearch.
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#password ElasticstackProvider#password}
+  */
+  readonly password?: string;
+  /**
+  * Username to use for API authentication to Elasticsearch.
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs#username ElasticstackProvider#username}
+  */
+  readonly username?: string;
+}
+
+export function elasticstackProviderElasticsearchToTerraform(struct?: ElasticstackProviderElasticsearch): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+  }
+  return {
+    api_key: cdktf.stringToTerraform(struct!.apiKey),
+    ca_data: cdktf.stringToTerraform(struct!.caData),
+    ca_file: cdktf.stringToTerraform(struct!.caFile),
+    cert_data: cdktf.stringToTerraform(struct!.certData),
+    cert_file: cdktf.stringToTerraform(struct!.certFile),
+    endpoints: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.endpoints),
+    insecure: cdktf.booleanToTerraform(struct!.insecure),
+    key_data: cdktf.stringToTerraform(struct!.keyData),
+    key_file: cdktf.stringToTerraform(struct!.keyFile),
+    password: cdktf.stringToTerraform(struct!.password),
+    username: cdktf.stringToTerraform(struct!.username),
+  }
+}
+
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs elasticstack}
+*/
+export class ElasticstackProvider extends cdktf.TerraformProvider {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = \\"elasticstack\\";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/elastic/elasticstack/latest/docs elasticstack} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options ElasticstackProviderConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: ElasticstackProviderConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'elasticstack',
+      terraformGeneratorMetadata: {
+        providerName: 'elasticstack'
+      },
+      terraformProviderSource: 'registry.terraform.io/elastic/elasticstack'
+    });
+    this._alias = config.alias;
+    this._elasticsearch = config.elasticsearch;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // alias - computed: false, optional: true, required: false
+  private _alias?: string; 
+  public get alias() {
+    return this._alias;
+  }
+  public set alias(value: string | undefined) {
+    this._alias = value;
+  }
+  public resetAlias() {
+    this._alias = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get aliasInput() {
+    return this._alias;
+  }
+
+  // elasticsearch - computed: false, optional: true, required: false
+  private _elasticsearch?: ElasticstackProviderElasticsearch; 
+  public get elasticsearch() {
+    return this._elasticsearch;
+  }
+  public set elasticsearch(value: ElasticstackProviderElasticsearch | undefined) {
+    this._elasticsearch = value;
+  }
+  public resetElasticsearch() {
+    this._elasticsearch = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get elasticsearchInput() {
+    return this._elasticsearch;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      alias: cdktf.stringToTerraform(this._alias),
+      elasticsearch: elasticstackProviderElasticsearchToTerraform(this._elasticsearch),
+    };
+  }
+}
+"
+`;

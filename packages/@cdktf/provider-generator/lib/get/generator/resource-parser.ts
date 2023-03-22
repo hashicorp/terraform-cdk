@@ -93,7 +93,10 @@ class Parser {
     if (isProvider) {
       baseName = `${provider}_${baseName}`;
       if (!("attributes" in schema.block)) {
-        schema.block = { attributes: {}, block_types: {} };
+        schema.block = {
+          attributes: {},
+          block_types: (schema.block as Block).block_types || {},
+        };
       }
       // somehow missing from provider schema
       schema.block.attributes["alias"] = {
