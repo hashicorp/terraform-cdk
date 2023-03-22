@@ -127,97 +127,58 @@ export async function convertFiles(
 }
 
 type CodeMarker = {
-  Byte: number;
-  Line: number;
-  Column: number;
+  byte: number;
+  line: number;
+  column: number;
 };
 type Range = {
-  End: CodeMarker;
-  Start: CodeMarker;
+  end: CodeMarker;
+  start: CodeMarker;
 };
 type TerraformTraversalPart = {
-  Name: string;
-  SrcRange: Range;
-};
-// Reference to a variable / module / resource
-type TerraformTraversal = { Traversal: TerraformTraversalPart[] };
-type PropertyAccessExpression = TerraformTraversal & {
-  Source: TerraformObject; // it's probably more restricted, but in this context we don't care
-};
-type TerraformFunctionCall = {
-  Args: TerraformObject[];
-  Name: string;
-  ExpandFinal: boolean;
-  NameRange: Range;
-  OpenParenRange: Range;
-  CloseParenRange: Range;
-};
-type TerraformLiteral = {
-  SrcRange: Range;
-  Val: unknown; // No value is passed down, we ignore them
-};
-type TerraformEmbeddedExpression = {
-  Wrapped: TerraformObject;
-};
-type TerraformExpression = {
-  Parts: TerraformObject[];
-};
-type ArithmeticExpression = {
-  LHS: TerraformObject;
-  RHS: TerraformObject;
-};
-type ConditionExpression = {
-  Condition: TerraformObject;
-  TrueResult: TerraformObject;
-  FalseResult: TerraformObject;
-};
-type ForExpression = {
-  KeyVar: string;
-  ValVar: string;
-  CollExpr: TerraformObject;
-  KeyExpr: TerraformObject;
-  ValExpr: TerraformObject;
-  CondExpr: TerraformObject;
-};
-type BracketPropertyAccessExpression = {
-  Collection: TerraformObject;
-  Key: TerraformObject; // it's probably more restricted, but in this context we don't care
-};
-type ListExpression = {
-  Exprs?: TerraformObject[] | null;
+  segment: string;
+  range: Range;
 };
 
-type TerraformObject =
-  | ArithmeticExpression
-  | BracketPropertyAccessExpression
-  | ConditionExpression
-  | ForExpression
-  | ListExpression
-  | PropertyAccessExpression
-  | TerraformEmbeddedExpression
-  | TerraformExpression
-  | TerraformFunctionCall
-  | TerraformLiteral
-  | TerraformTraversal;
+type ExpressionMeta = {
+  value: string;
+};
+type ScopeTraversalExpressionMeta = ExpressionMeta & {
+  fullAccessor: string;
+  traversal: TerraformTraversalPart[];
+};
+type ForExpressionMeta = ExpressionMeta & {
+  keyVar: string;
+  valVar: string;
+  collectionExpression: string;
+  conditionalExpression: string;
+};
 
-export type GoExpressionParseResult = null | TerraformObject;
+type ExpressionAst = {
+  type: string;
+  meta: ExpressionMeta | ScopeTraversalExpressionMeta | ForExpressionMeta;
+  children: ExpressionAst[];
+  range: Range;
+};
 
 type Reference = { value: string; startPosition: number; endPosition: number };
 
 function traversalToReference(
   input: string,
-  traversal: TerraformTraversal
-): Reference {
+  traversalExpression: ExpressionAst,
+  localVariables?: string[]
+): Reference | null {
   const lines = input.split("\n");
   const lineLength = lines.map((line) => line.length);
+  const meta = traversalExpression.meta as ScopeTraversalExpressionMeta;
 
   function position(marker: CodeMarker) {
     const newlineChar = 1;
     return (
       lineLength
-        .slice(0, marker.Line)
+        .slice(0, marker.line)
         .reduce((a, b) => a + b + newlineChar, lines.length === 1 ? 0 : -1) +
-      marker.Column
+      marker.column
     );
   }
 
@@ -227,9 +188,17 @@ function traversalToReference(
     traversals: TerraformTraversalPart[]
   ) {
     let filtered = [];
+    let index = 0;
 
     for (const traversal of traversals) {
-      if ("Name" in traversal) {
+      if ("segment" in traversal) {
+        if (index === 0) {
+          // We are at the first traversal, check if it is a local variable
+          if (localVariables?.includes(traversal.segment)) {
+            // We reached a local variable, stop
+            return [];
+          }
+        }
         filtered.push(traversal);
       } else {
         // We reached a bracket, stop
@@ -239,112 +208,87 @@ function traversalToReference(
 
     return filtered;
   }
+
   const filteredParts = onlyTakeTraversalPartsUntilFirstBracketPropertyAccess(
-    traversal.Traversal
+    meta.traversal
   );
 
-  const startPosition = position(filteredParts[0].SrcRange.Start);
+  if (filteredParts.length === 0) {
+    return null;
+  }
+
+  const startPosition = position(filteredParts[0].range.start);
   const endPosition = position(
-    filteredParts[filteredParts.length - 1].SrcRange.End
+    filteredParts[filteredParts.length - 1].range.end
   );
 
   return {
-    value: input.slice(startPosition, endPosition),
+    value: filteredParts.map((part) => part.segment).join("."),
     startPosition,
     endPosition,
   };
 }
 
+function findChildWithValue(expr: ExpressionAst, value: string) {
+  return expr.children.find((child) => {
+    return child.meta.value === value;
+  });
+}
+
 function findAllReferencesInAst(
   input: string,
-  entry: TerraformObject | null
+  entry: ExpressionAst | undefined | null,
+  parent?: ExpressionAst
 ): Reference[] {
   if (!entry) {
     return [];
   }
 
-  // This traversal is accessing a function call e.g. element(var.foo, 0).id
-  // Or this is a splat operation var.foo.*
-  if ("Source" in entry) {
-    return findAllReferencesInAst(input, entry.Source);
+  switch (entry.type) {
+    case "scopeTraversal":
+      // For traversals within a for expression,
+      // we want to ignore the local variables of the for expression
+      if (parent?.type === "for") {
+        const meta = parent.meta as ForExpressionMeta;
+        const reference = traversalToReference(input, entry, [
+          meta.keyVar,
+          meta.valVar,
+        ]);
+        if (reference) return [reference];
+        return [];
+      }
+      const reference = traversalToReference(input, entry);
+      if (reference) return [reference];
+      return [];
+
+    case "for": {
+      const meta = entry.meta as ForExpressionMeta;
+      return [
+        ...findAllReferencesInAst(
+          input,
+          findChildWithValue(entry, meta.collectionExpression),
+          entry
+        ),
+        ...findAllReferencesInAst(
+          input,
+          findChildWithValue(entry, meta.conditionalExpression),
+          entry
+        ),
+      ];
+    }
+    default:
+      return entry.children
+        .map((child) => findAllReferencesInAst(input, child))
+        .flat();
   }
-
-  // a.b.c.d is a traversal
-  if ("Traversal" in entry) {
-    return [traversalToReference(input, entry)];
-  }
-
-  // Multiple terraform parts in an expression
-  if ("Parts" in entry) {
-    return entry.Parts.flatMap((part) => findAllReferencesInAst(input, part));
-  }
-
-  // ${} is an embedded expression
-  if ("Wrapped" in entry) {
-    return findAllReferencesInAst(input, entry.Wrapped);
-  }
-
-  // element(var.foo, 0) is a function call
-  if ("Args" in entry) {
-    return entry.Args.flatMap((arg) => findAllReferencesInAst(input, arg));
-  }
-
-  // var.foo + var.bar is an arithmetic expression
-  if ("LHS" in entry) {
-    return [
-      ...findAllReferencesInAst(input, entry.LHS),
-      ...findAllReferencesInAst(input, entry.RHS),
-    ];
-  }
-
-  // var.foo > 3 ? var.bar : var.baz is a condition expression
-  if ("Condition" in entry) {
-    return [
-      ...findAllReferencesInAst(input, entry.Condition),
-      ...findAllReferencesInAst(input, entry.TrueResult),
-      ...findAllReferencesInAst(input, entry.FalseResult),
-    ];
-  }
-
-  // for name, user in var.users : user.role => name... is a for expression
-  if ("CondExpr" in entry) {
-    return [
-      ...findAllReferencesInAst(input, entry.CollExpr),
-      ...findAllReferencesInAst(input, entry.CondExpr),
-    ];
-  }
-
-  // var.foo["bar"] is a bracket property access expression
-  if ("Key" in entry) {
-    return [
-      ...findAllReferencesInAst(input, entry.Collection),
-      ...findAllReferencesInAst(input, entry.Key),
-    ];
-  }
-
-  // [var.foo, var.bar] is a list expression
-  if ("Exprs" in entry) {
-    return (entry.Exprs || []).flatMap((expr) =>
-      findAllReferencesInAst(input, expr)
-    );
-  }
-
-  return [];
-}
-
-export async function parseExpression(
-  filename: string,
-  expression: string
-): Promise<GoExpressionParseResult> {
-  const res = await wasm.parseExpression(filename, JSON.stringify(expression));
-  return JSON.parse(res) as GoExpressionParseResult;
 }
 
 export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const ast = await parseExpression(filename, expression);
+  const ast = await getExpressionAst(filename, expression);
+
   return findAllReferencesInAst(expression, ast);
 }
 
@@ -352,8 +296,11 @@ export async function getExpressionAst(
   filename: string,
   expression: string
 ): Promise<any> {
+  if (expression.startsWith("${")) {
+    expression = `"${expression}"`;
+  }
   const res = await wasm.getExpressionAst(filename, expression);
-  const ast = JSON.parse(res) as GoExpressionParseResult;
+  const ast = JSON.parse(res) as ExpressionAst;
 
   if (!ast) {
     return {};
