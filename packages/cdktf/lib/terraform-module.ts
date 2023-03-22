@@ -73,7 +73,9 @@ export abstract class TerraformModule
 
   public interpolationForOutput(moduleOutput: string) {
     return ref(
-      `module.${this.friendlyUniqueId}.${moduleOutput}`,
+      `module.${this.friendlyUniqueId}${
+        this.forEach ? ".*" : ""
+      }.${moduleOutput}`,
       this.cdktfStack
     );
   }
