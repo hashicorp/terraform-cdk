@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/hcl2json",
-  "version": "0.0.0",
+  "version": "0.14.1-dev.1674818835",
   "description": "Transform HCL into JSON",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

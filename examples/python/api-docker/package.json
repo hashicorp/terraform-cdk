@@ -1,6 +1,6 @@
 {
   "name": "@examples/python-api-docker",
-  "version": "0.0.0",
+  "version": "0.14.1-dev.1674818835",
   "license": "MPL-2.0",
   "scripts": {
     "reinstall": "rm -f {Pipfile,Pipfile.lock} && cp Pipfile.template Pipfile && PIPENV_IGNORE_VIRTUALENVS=1 pipenv install ./../../../dist/python/*.whl",

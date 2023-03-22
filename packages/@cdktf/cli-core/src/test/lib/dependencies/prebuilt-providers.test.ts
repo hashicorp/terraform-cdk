@@ -9,6 +9,7 @@ import {
   getPrebuiltProviderRepositoryName,
   resetFetchCache,
 } from "../../../lib/dependencies/prebuilt-providers";
+// eslint-disable-next-line import/no-unresolved
 import "../../../lib/logging";
 
 // Prevent logging outputs from polluting the test results

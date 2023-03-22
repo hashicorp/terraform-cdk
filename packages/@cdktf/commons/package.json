@@ -1,6 +1,6 @@
 {
   "name": "@cdktf/commons",
-  "version": "0.0.0",
+  "version": "0.14.1-dev.1674818835",
   "description": "CDK for Terraform Common utilities",
   "scripts": {
     "build": "tsc",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@npmcli/ci-detect": "^1.4.0",
     "@sentry/node": "^6.19.7",
-    "cdktf": "0.0.0",
+    "cdktf": "0.14.1-dev.1674818835",
     "codemaker": "^1.68.0",
     "constructs": "^10.0.25",
     "cross-spawn": "^7.0.3",

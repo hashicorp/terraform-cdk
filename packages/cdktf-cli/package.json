@@ -1,6 +1,6 @@
 {
   "name": "cdktf-cli",
-  "version": "0.0.0",
+  "version": "0.14.1-dev.1674818835",
   "description": "CDK for Terraform CLI",
   "bin": {
     "cdktf": "bundle/bin/cdktf"
@@ -33,13 +33,13 @@
   },
   "license": "MPL-2.0",
   "dependencies": {
-    "@cdktf/cli-core": "0.0.0",
-    "@cdktf/commons": "0.0.0",
-    "@cdktf/hcl2cdk": "0.0.0",
-    "@cdktf/hcl2json": "0.0.0",
+    "@cdktf/cli-core": "0.14.1-dev.1674818835",
+    "@cdktf/commons": "0.14.1-dev.1674818835",
+    "@cdktf/hcl2cdk": "0.14.1-dev.1674818835",
+    "@cdktf/hcl2json": "0.14.1-dev.1674818835",
     "@sentry/node": "^6.19.7",
     "@types/yargs": "^17.0.13",
-    "cdktf": "0.0.0",
+    "cdktf": "0.14.1-dev.1674818835",
     "codemaker": "^1.68.0",
     "constructs": "^10.0.25",
     "cross-spawn": "^7.0.3",
@@ -100,7 +100,7 @@
   },
   "devDependencies": {
     "@cdktf/cli-core": "0.0.0",
-    "@cdktf/provider-generator": "0.0.0",
+    "@cdktf/provider-generator": "0.14.1-dev.1674818835",
     "@npmcli/ci-detect": "^1.4.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.15.0",

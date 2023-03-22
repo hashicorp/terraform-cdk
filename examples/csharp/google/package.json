@@ -1,6 +1,6 @@
 {
   "name": "@examples/csharp-google",
-  "version": "0.0.0",
+  "version": "0.14.1-dev.1674818835",
   "license": "MPL-2.0",
   "scripts": {
     "//": "dotnet nuget locals -c all should be used if re-installing with the same version number",

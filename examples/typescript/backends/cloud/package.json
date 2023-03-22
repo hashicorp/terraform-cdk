@@ -2,7 +2,7 @@
   "//": "This example test is disabled via the 'private' attribute since it needs credentials (I assume at least)",
   "name": "@examples/typescript-backends-cloud",
   "private": true,
-  "version": "1.0.0",
+  "version": "0.14.1-dev.1674818835",
   "main": "main.js",
   "types": "main.ts",
   "license": "MPL-2.0",
@@ -21,13 +21,13 @@
     "node": ">=14.0"
   },
   "dependencies": {
-    "cdktf": "0.0.0",
+    "cdktf": "0.14.1-dev.1674818835",
     "constructs": "^10.0.25"
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
     "@types/node": "^14.18.30",
-    "cdktf-cli": "0.0.0",
+    "cdktf-cli": "0.14.1-dev.1674818835",
     "jest": "^27.5.1",
     "ts-node": "^10.9.1",
     "typescript": "^3.9.10"
