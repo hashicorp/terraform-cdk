@@ -88,9 +88,22 @@ export type BinaryOpExpressionMeta = ExpressionMeta & {
   rhsExpression: string;
 };
 
+export type MetaType =
+  | ExpressionMeta
+  | ScopeTraversalExpressionMeta
+  | ForExpressionMeta
+  | FunctionCallMeta
+  | RelativeTraversalExpressionMeta
+  | LiteralValueExpressionMeta
+  | IndexExpressionMeta
+  | SplatExpressionMeta
+  | ConditionalExpressionMeta
+  | UnaryOpExpressionMeta
+  | BinaryOpExpressionMeta;
+
 export type ExpressionAst = {
   type: string;
-  meta: ExpressionMeta | ScopeTraversalExpressionMeta | ForExpressionMeta;
+  meta: MetaType;
   children: ExpressionAst[];
   range: CodeRange;
 };

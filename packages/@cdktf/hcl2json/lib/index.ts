@@ -127,6 +127,12 @@ export async function convertFiles(
   );
 }
 
+/**
+ * Parse a Terraform expression and return the AST. This function expects a string input, and will wrap the expression in quotes if it is not already quoted.
+ * @param filename The filename to use for the expression. This is used for error reporting.
+ * @param expression The expression to parse.
+ * @returns An array of References found in the expression.
+ */
 export async function getReferencesInExpression(
   filename: string,
   expression: string
@@ -154,6 +160,18 @@ export async function getReferencesInExpression(
   });
 }
 
+/**
+ * Parse a Terraform expression and return the AST. The expression does not need to be a Terraform string.
+ * @param filename The filename to use for the expression. This is used for error reporting.
+ * @param expression The expression to parse.
+ * @returns The AST for the expression.
+ *
+ *   The returned AST has the following structure:
+ *   - type: The type of the node. This is a string.
+ *   - range: This contains the start and end of the node in the expression.
+ *   - children: This contains the children of the node. This is an array of nodes.
+ *   - meta: This contains metadata about the node. This is an object, and varies depending on the type of the node.
+ */
 export async function getExpressionAst(
   filename: string,
   expression: string
