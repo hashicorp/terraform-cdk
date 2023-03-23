@@ -4016,8 +4016,8 @@ Array [
 exports[`getReferencesInExpression parses lists 1`] = `
 Array [
   Object {
-    "endPosition": 24,
-    "startPosition": 7,
+    "endPosition": 27,
+    "startPosition": 10,
     "value": "module.foo.output",
   },
 ]
@@ -4026,18 +4026,18 @@ Array [
 exports[`getReferencesInExpression parses maps 1`] = `
 Array [
   Object {
-    "endPosition": 26,
-    "startPosition": 9,
+    "endPosition": 29,
+    "startPosition": 12,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 83,
-    "startPosition": 66,
+    "endPosition": 86,
+    "startPosition": 69,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 97,
-    "startPosition": 90,
+    "endPosition": 100,
+    "startPosition": 93,
     "value": "var.bar",
   },
 ]

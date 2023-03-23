@@ -20,10 +20,10 @@ describe("getReferencesInExpression", () => {
       "parses embedded vars",
       '"Hey, did you hear about ${module.foo.output}s new album?"',
     ],
-    ["parses lists", '[5, "${module.foo.output}", "val", true]'],
+    ["parses lists", '"${[5, "${module.foo.output}", "val", true]}"'],
     [
       "parses maps",
-      '{ x = "${module.foo.output}", y = "val", z = true, a = "${replace(module.foo.output, "-", var.bar)}" }',
+      '"${{ x = "${module.foo.output}", y = "val", z = true, a = "${replace(module.foo.output, "-", var.bar)}" }}"',
     ],
     ["parses variable arithmetics", '"${var.members + var.admins}"'],
     [
