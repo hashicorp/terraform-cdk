@@ -11,7 +11,8 @@ import fs from "fs-extra";
 import path from "path";
 import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
-import { ExpressionAst, Reference, findAllReferencesInAst } from "./references";
+import { Reference, findAllReferencesInAst } from "./references";
+import { ExpressionAst } from "./syntax-tree";
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
