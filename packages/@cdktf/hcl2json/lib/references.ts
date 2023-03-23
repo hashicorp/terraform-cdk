@@ -108,23 +108,10 @@ function findChildWithValue(expr: ExpressionAst, value: string) {
 }
 
 export function traversalToReference(
-  input: string,
   traversalExpression: ExpressionAst,
   localVariables?: string[]
 ): Reference | null {
-  const lines = input.split("\n");
-  const lineLength = lines.map((line) => line.length);
   const meta = traversalExpression.meta as ScopeTraversalExpressionMeta;
-
-  function position(marker: CodeMarker) {
-    const newlineChar = 1;
-    return (
-      lineLength
-        .slice(0, marker.line)
-        .reduce((a, b) => a + b + newlineChar, lines.length === 1 ? 0 : -1) +
-      marker.column
-    );
-  }
 
   // We do not want to include property access through brackets here
   // although it is technically a traversal / reference
@@ -161,10 +148,8 @@ export function traversalToReference(
     return null;
   }
 
-  const startPosition = position(filteredParts[0].range.start);
-  const endPosition = position(
-    filteredParts[filteredParts.length - 1].range.end
-  );
+  const startPosition = filteredParts[0].range.start.byte;
+  const endPosition = filteredParts[filteredParts.length - 1].range.end.byte;
 
   return {
     value: filteredParts.map((part) => part.segment).join("."),
@@ -176,7 +161,7 @@ export function traversalToReference(
 export function findAllReferencesInAst(
   input: string,
   entry: ExpressionAst | undefined | null,
-  parent?: ExpressionAst
+  localVariables?: string[]
 ): Reference[] {
   if (!entry) {
     return [];
@@ -186,37 +171,34 @@ export function findAllReferencesInAst(
     case "scopeTraversal":
       // For traversals within a for expression,
       // we want to ignore the local variables of the for expression
-      if (parent?.type === "for") {
-        const meta = parent.meta as ForExpressionMeta;
-        const reference = traversalToReference(input, entry, [
-          meta.keyVar,
-          meta.valVar,
-        ]);
-        if (reference) return [reference];
-        return [];
-      }
-      const reference = traversalToReference(input, entry);
+      const reference = traversalToReference(entry, localVariables);
       if (reference) return [reference];
       return [];
 
     case "for": {
       const meta = entry.meta as ForExpressionMeta;
+      const additionalLocalVariables = [
+        meta.keyVar,
+        meta.valVar,
+        ...(localVariables || []),
+      ];
+
       return [
         ...findAllReferencesInAst(
           input,
           findChildWithValue(entry, meta.collectionExpression),
-          entry
+          additionalLocalVariables
         ),
         ...findAllReferencesInAst(
           input,
           findChildWithValue(entry, meta.conditionalExpression),
-          entry
+          additionalLocalVariables
         ),
       ];
     }
     default:
       return entry.children
-        .map((child) => findAllReferencesInAst(input, child))
+        .map((child) => findAllReferencesInAst(input, child, localVariables))
         .flat();
   }
 }

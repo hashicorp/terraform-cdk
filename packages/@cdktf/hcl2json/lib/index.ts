@@ -131,12 +131,27 @@ export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const ast = await getExpressionAst(filename, expression);
+  const wrappedExpression = !expression.startsWith(`"`)
+    ? `"${expression}"`
+    : expression;
+
+  const ast = await getExpressionAst(filename, wrappedExpression);
   if (!ast) {
     return [];
   }
 
-  return findAllReferencesInAst(expression, ast);
+  const refs = findAllReferencesInAst(expression, ast);
+  if (wrappedExpression === expression) {
+    return refs;
+  }
+
+  return refs.map((ref) => {
+    return {
+      ...ref,
+      startPosition: ref.startPosition - 1,
+      endPosition: ref.endPosition - 1,
+    };
+  });
 }
 
 export async function getExpressionAst(
