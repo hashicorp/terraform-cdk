@@ -132,6 +132,9 @@ export async function getReferencesInExpression(
   expression: string
 ): Promise<Reference[]> {
   const ast = await getExpressionAst(filename, expression);
+  if (!ast) {
+    return [];
+  }
 
   return findAllReferencesInAst(expression, ast);
 }
@@ -139,15 +142,12 @@ export async function getReferencesInExpression(
 export async function getExpressionAst(
   filename: string,
   expression: string
-): Promise<any> {
-  if (expression.startsWith("${")) {
-    expression = `"${expression}"`;
-  }
+): Promise<ExpressionAst | null> {
   const res = await wasm.getExpressionAst(filename, expression);
   const ast = JSON.parse(res) as ExpressionAst;
 
   if (!ast) {
-    return {};
+    return null;
   }
 
   return ast;

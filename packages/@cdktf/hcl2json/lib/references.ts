@@ -7,14 +7,14 @@ export type CodeMarker = {
   column: number;
 };
 
-export type Range = {
+export type CodeRange = {
   end: CodeMarker;
   start: CodeMarker;
 };
 
 export type TerraformTraversalPart = {
   segment: string;
-  range: Range;
+  range: CodeRange;
 };
 
 // Expression Meta Types
@@ -27,19 +27,19 @@ export type ForExpressionMeta = ExpressionMeta & {
   valVar: string;
   collectionExpression: string;
   conditionalExpression: string;
-  valueExpressionRange: Range;
+  valueExpressionRange: CodeRange;
   valueHasEllipses: boolean;
-  openRange: Range;
-  closeRange: Range;
+  openRange: CodeRange;
+  closeRange: CodeRange;
 };
 
 export type FunctionCallMeta = ExpressionMeta & {
   name: string;
   expandedFinalArgument: string;
-  nameRange: Range;
-  openParenRange: Range;
-  closeParenRange: Range;
-  argsRanges: Range[];
+  nameRange: CodeRange;
+  openParenRange: CodeRange;
+  closeParenRange: CodeRange;
+  argsRanges: CodeRange[];
 };
 
 export type ScopeTraversalExpressionMeta = ExpressionMeta & {
@@ -66,7 +66,7 @@ export type SplatExpressionMeta = ExpressionMeta & {
   sourceExpression: string;
   eachExpression: string;
   anonSymbolExpression: string;
-  markerRange: Range;
+  markerRange: CodeRange;
 };
 
 export type ConditionalExpressionMeta = ExpressionMeta & {
@@ -77,7 +77,7 @@ export type ConditionalExpressionMeta = ExpressionMeta & {
 
 export type UnaryOpExpressionMeta = ExpressionMeta & {
   operator: string;
-  symbolRange: Range;
+  symbolRange: CodeRange;
   returnType: string;
 };
 
@@ -92,7 +92,7 @@ export type ExpressionAst = {
   type: string;
   meta: ExpressionMeta | ScopeTraversalExpressionMeta | ForExpressionMeta;
   children: ExpressionAst[];
-  range: Range;
+  range: CodeRange;
 };
 
 export type Reference = {
