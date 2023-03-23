@@ -55,7 +55,9 @@ export class TestResource extends TerraformResource {
       names: this.names,
       tags: this.tags,
       nested_type: this.nestedType,
-      list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
+      list_block: listMapper((a) => {
+        return { ...a, nested: listMapper((b) => b, true)(a.nested) }; // identity function to skip writing a toTerraform function
+      }, true)(this.listBlock),
     };
   }
 

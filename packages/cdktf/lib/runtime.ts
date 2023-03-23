@@ -54,7 +54,7 @@ export function listMapper(
       TerraformDynamicExpression.isTerraformDynamicExpression(x) &&
       isBlockType
     ) {
-      return TerraformDynamicBlock.fromDynamicExpression(x);
+      return TerraformDynamicBlock.fromDynamicExpression(x, elementMapper);
     }
 
     if (!Array.isArray(x)) {

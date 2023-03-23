@@ -1,5 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
+import { Mapper } from "./runtime";
 import { TerraformDynamicExpression } from "./terraform-dynamic-expression";
 import { ITerraformIterator } from "./terraform-iterator";
 import { IResolvable, IResolveContext, Lazy, Token } from "./tokens";
@@ -13,24 +14,29 @@ export class TerraformDynamicBlock implements IResolvable {
   public readonly forEach: ITerraformIterator;
   public readonly iterator = "each"; // name of temporary variable used in iteration, needed in the future when allowing nesting iterators
   public readonly content: { [key: string]: any };
+  public readonly mapper: Mapper;
   // labels: TODO: support labels, but they seem to be quite rare (issue: https://github.com/hashicorp/terraform-cdk/issues/1939)
 
   private constructor(args: {
     forEach: ITerraformIterator;
     content: { [key: string]: any };
+    mapper: Mapper;
   }) {
     Object.defineProperty(this, DYNAMIC_BLOCK_SYMBOL, { value: true });
     this.creationStack = captureStackTrace();
     this.forEach = args.forEach;
     this.content = args.content;
+    this.mapper = args.mapper;
   }
 
   public static fromDynamicExpression(
-    expr: TerraformDynamicExpression
+    expr: TerraformDynamicExpression,
+    mapper: Mapper
   ): TerraformDynamicBlock {
     return new TerraformDynamicBlock({
       forEach: expr.iterator,
       content: expr.content,
+      mapper,
     });
   }
 
@@ -46,10 +52,12 @@ Dynamic blocks are only supported on block attributes of resources, data sources
       produce: (context: IResolveContext) => {
         context.iteratorContext = "DYNAMIC_BLOCK"; // resolve nested Lazy values (within this.content) as dynamic block expressions
 
+        console.log(this.content);
+
         return {
           for_each: this.forEach._getForEachExpression(),
           iterator: this.iterator,
-          content: context.resolve(this.content),
+          content: context.resolve(this.mapper(this.content)),
         };
       },
     });
