@@ -434,7 +434,7 @@ describe("expressions", () => {
         variables: {},
         hasTokenBasedTypeCoercion: false,
       };
-      const expr = `"\${"\${each.value}\${var.azure_ad_domain_name}"}"`;
+      const expr = `\${"\${each.value}\${var.azure_ad_domain_name}"}`;
       const references = await extractReferencesFromExpression(expr, [
         "var.azure_ad_domain_name",
       ]);
@@ -445,7 +445,7 @@ describe("expressions", () => {
           ]) as any
         ).code
       ).toMatchInlineSnapshot(
-        `"\`\\"\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\\"\`;"`
+        `"\`\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\`;"`
       );
     });
   });
