@@ -199,6 +199,11 @@ export const valueToTs = async (
         return t.nullLiteral();
       }
 
+      // For iterators and dynamic blocks we put the correct TS expression in the config ahead of time
+      if (t.isExpression(item)) {
+        return item;
+      }
+
       const attributeType = getTypeAtPath(scope.providerSchema, path);
 
       function shouldRemoveArrayBasedOnType(
@@ -284,7 +289,8 @@ export const valueToTs = async (
                 !isSingleItemBlock &&
                 // Map type attributes must not be wrapped in arrays
                 !isMapAttribute(itemAttributeType) &&
-                key !== "tags";
+                key !== "tags" &&
+                key !== "forEach";
 
               const keepKeyName: boolean =
                 !isModule &&
@@ -475,7 +481,6 @@ export async function resource(
     );
     const referenceAst = referencesToAst(scope, for_each, references);
     const referenceType = findTypeOfReference(scope, referenceAst, references);
-    // TODO: We need to either workaround that there are no chained / nested iterators or implement them
     const targetType: AttributeType =
       Array.isArray(referenceType) && referenceType[0] === "map"
         ? ["map", "dynamic"]
@@ -499,10 +504,13 @@ export async function resource(
     ]);
     t.addComment(iterator, "leading", loopComment);
     expressions.push(iterator);
+
+    config.forEach = t.identifier(forEachIteratorName);
   }
 
   const mappedConfig = mapConfigPerResourceType(resource, config);
   const dynBlocks = extractDynamicBlocks(mappedConfig);
+  // TODO: handle dynamic blocks via iterators if not nested
   const overrideReference =
     dynBlocks.length || count
       ? {
