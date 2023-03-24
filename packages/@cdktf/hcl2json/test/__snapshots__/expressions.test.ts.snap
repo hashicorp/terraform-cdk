@@ -1,17 +1,3946 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getReferencesInExpression fails on malformed expressions 1`] = `[Error: :0,0-2: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the file. This might be caused by incorrect nesting inside the given expression.]`;
+exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression.]`;
+
+exports[`getExpressionAst list expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.tags.app",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 8,
+                    "column": 8,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 5,
+                    "column": 5,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 8,
+                    "column": 8,
+                    "line": 0,
+                  },
+                },
+                "segment": "tags",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                },
+                "segment": "app",
+              },
+            ],
+            "value": "var.tags.app",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 17,
+              "column": 17,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 5,
+              "column": 5,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.tags.env",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
+                  },
+                },
+                "segment": "tags",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 31,
+                    "column": 31,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
+                  },
+                },
+                "segment": "env",
+              },
+            ],
+            "value": "var.tags.env",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 31,
+              "column": 31,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 19,
+              "column": 19,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "value": "[var.tags.app, var.tags.env]",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 5,
+          "column": 5,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "tuple",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ [var.tags.app, var.tags.env] }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 35,
+      "column": 35,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst mixed property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "var.setting[\\"bucket_name\\"].arn",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 4,
+                "column": 4,
+                "line": 0,
+              },
+            },
+            "segment": "var",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+            },
+            "segment": "setting",
+          },
+          Object {
+            "key": "\\"bucket_name\\"",
+            "range": Object {
+              "end": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
+              },
+            },
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 34,
+                "column": 34,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
+              },
+            },
+            "segment": "arn",
+          },
+        ],
+        "value": "var.setting[\\"bucket_name\\"].arn",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 34,
+          "column": 34,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ var.setting[\\"bucket_name\\"].arn }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 37,
+      "column": 37,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses a reference string 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "var.foo",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 6,
+                "column": 6,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
+              },
+            },
+            "segment": "var",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 10,
+                "column": 10,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 6,
+                "column": 6,
+                "line": 0,
+              },
+            },
+            "segment": "foo",
+          },
+        ],
+        "value": "var.foo",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 10,
+          "column": 10,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${var.foo}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 12,
+      "column": 12,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses a simple string 1`] = `
+Object {
+  "children": Array [],
+  "meta": Object {
+    "fullAccessor": "foo",
+    "traversal": Array [
+      Object {
+        "range": Object {
+          "end": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 0,
+            "column": 0,
+            "line": 0,
+          },
+        },
+        "segment": "foo",
+      },
+    ],
+    "value": "foo",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 3,
+      "column": 3,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "scopeTraversal",
+}
+`;
+
+exports[`getExpressionAst parses a terraform function 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "module.foo.output",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 11,
+                    "column": 11,
+                    "line": 0,
+                  },
+                },
+                "segment": "module",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 21,
+                    "column": 21,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                },
+                "segment": "foo",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 28,
+                    "column": 28,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 21,
+                    "column": 21,
+                    "line": 0,
+                  },
+                },
+                "segment": "output",
+              },
+            ],
+            "value": "module.foo.output",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 28,
+              "column": 28,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 11,
+              "column": 11,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "string",
+                "value": "-",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 32,
+                  "column": 32,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 31,
+                  "column": 31,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "meta": Object {
+            "value": "\\"-\\"",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 32,
+              "column": 32,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 31,
+              "column": 31,
+              "line": 0,
+            },
+          },
+          "type": "template",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.bar",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 35,
+                    "column": 35,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 42,
+                    "column": 42,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
+                  },
+                },
+                "segment": "bar",
+              },
+            ],
+            "value": "var.bar",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 42,
+              "column": 42,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "argsRanges": Array [
+          Object {
+            "end": Object {
+              "byte": 28,
+              "column": 28,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 11,
+              "column": 11,
+              "line": 0,
+            },
+          },
+          Object {
+            "end": Object {
+              "byte": 33,
+              "column": 33,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 30,
+              "column": 30,
+              "line": 0,
+            },
+          },
+          Object {
+            "end": Object {
+              "byte": 42,
+              "column": 42,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+          },
+        ],
+        "closeParenRange": Object {
+          "end": Object {
+            "byte": 43,
+            "column": 43,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 42,
+            "column": 42,
+            "line": 0,
+          },
+        },
+        "expandedFinalArgument": false,
+        "name": "replace",
+        "nameRange": Object {
+          "end": Object {
+            "byte": 10,
+            "column": 10,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+        },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 11,
+            "column": 11,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 10,
+            "column": 10,
+            "line": 0,
+          },
+        },
+        "value": "replace(module.foo.output, \\"-\\", var.bar)",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 11,
+          "column": 11,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "function",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${replace(module.foo.output, \\"-\\", var.bar)}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 45,
+      "column": 45,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses embedded vars 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "string",
+        "value": "Hey, did you hear about ",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 25,
+          "column": 25,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 1,
+          "column": 1,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "module.foo.output",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 33,
+                "column": 33,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 27,
+                "column": 27,
+                "line": 0,
+              },
+            },
+            "segment": "module",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 37,
+                "column": 37,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 33,
+                "column": 33,
+                "line": 0,
+              },
+            },
+            "segment": "foo",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 44,
+                "column": 44,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 37,
+                "column": 37,
+                "line": 0,
+              },
+            },
+            "segment": "output",
+          },
+        ],
+        "value": "module.foo.output",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 44,
+          "column": 44,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 27,
+          "column": 27,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "string",
+        "value": "s new album?",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 57,
+          "column": 57,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 45,
+          "column": 45,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"Hey, did you hear about \${module.foo.output}s new album?\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 25,
+      "column": 25,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 1,
+      "column": 1,
+      "line": 0,
+    },
+  },
+  "type": "template",
+}
+`;
+
+exports[`getExpressionAst parses for in loops 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.users",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 23,
+                    "column": 23,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 32,
+                    "column": 32,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
+                  },
+                },
+                "segment": "users",
+              },
+            ],
+            "value": "var.users",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 32,
+              "column": 32,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 23,
+              "column": 23,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "user.role",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 39,
+                    "column": 39,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 35,
+                    "column": 35,
+                    "line": 0,
+                  },
+                },
+                "segment": "user",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 44,
+                    "column": 44,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 39,
+                    "column": 39,
+                    "line": 0,
+                  },
+                },
+                "segment": "role",
+              },
+            ],
+            "value": "user.role",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 44,
+              "column": 44,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "name",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 52,
+                    "column": 52,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 48,
+                    "column": 48,
+                    "line": 0,
+                  },
+                },
+                "segment": "name",
+              },
+            ],
+            "value": "name",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 52,
+              "column": 52,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 48,
+              "column": 48,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "closeRange": Object {
+          "end": Object {
+            "byte": 57,
+            "column": 57,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 56,
+            "column": 56,
+            "line": 0,
+          },
+        },
+        "collectionExpression": "var.users",
+        "keyVar": "name",
+        "openRange": Object {
+          "end": Object {
+            "byte": 4,
+            "column": 4,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+        },
+        "valVar": "user",
+        "value": "{ for name, user in var.users : user.role => name... }",
+        "valueExpressionRange": "name",
+        "valueHasEllipses": true,
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "for",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${{ for name, user in var.users : user.role => name... }}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 59,
+      "column": 59,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses four part references 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "data.type.name.attr",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
+              },
+            },
+            "segment": "data",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+            },
+            "segment": "type",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 17,
+                "column": 17,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
+              },
+            },
+            "segment": "name",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 22,
+                "column": 22,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 17,
+                "column": 17,
+                "line": 0,
+              },
+            },
+            "segment": "attr",
+          },
+        ],
+        "value": "data.type.name.attr",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 22,
+          "column": 22,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${data.type.name.attr}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 24,
+      "column": 24,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses lists 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "number",
+        "value": "5",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 2,
+          "column": 2,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 1,
+          "column": 1,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "module.foo.output",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                },
+                "segment": "module",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 13,
+                    "column": 13,
+                    "line": 0,
+                  },
+                },
+                "segment": "foo",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 24,
+                    "column": 24,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                },
+                "segment": "output",
+              },
+            ],
+            "value": "module.foo.output",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 24,
+              "column": 24,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 7,
+              "column": 7,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"\${module.foo.output}\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 26,
+          "column": 26,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "templateWrap",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "type": "string",
+            "value": "val",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 32,
+              "column": 32,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 29,
+              "column": 29,
+              "line": 0,
+            },
+          },
+          "type": "literalValue",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"val\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 32,
+          "column": 32,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 29,
+          "column": 29,
+          "line": 0,
+        },
+      },
+      "type": "template",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "bool",
+        "value": "true",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 39,
+          "column": 39,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 35,
+          "column": 35,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+  ],
+  "meta": Object {
+    "value": "[5, \\"\${module.foo.output}\\", \\"val\\", true]",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 1,
+      "column": 1,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "tuple",
+}
+`;
+
+exports[`getExpressionAst parses maps 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 2,
+          "column": 2,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "module.foo.output",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 15,
+                    "column": 15,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 9,
+                    "column": 9,
+                    "line": 0,
+                  },
+                },
+                "segment": "module",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 15,
+                    "column": 15,
+                    "line": 0,
+                  },
+                },
+                "segment": "foo",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 26,
+                    "column": 26,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 19,
+                    "column": 19,
+                    "line": 0,
+                  },
+                },
+                "segment": "output",
+              },
+            ],
+            "value": "module.foo.output",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 26,
+              "column": 26,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 9,
+              "column": 9,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"\${module.foo.output}\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 28,
+          "column": 28,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 6,
+          "column": 6,
+          "line": 0,
+        },
+      },
+      "type": "templateWrap",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 31,
+          "column": 31,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 30,
+          "column": 30,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "type": "string",
+            "value": "val",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 38,
+              "column": 38,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 35,
+              "line": 0,
+            },
+          },
+          "type": "literalValue",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"val\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 38,
+          "column": 38,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 35,
+          "column": 35,
+          "line": 0,
+        },
+      },
+      "type": "template",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 42,
+          "column": 42,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 41,
+          "column": 41,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "type": "bool",
+        "value": "true",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 49,
+          "column": 49,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 45,
+          "column": 45,
+          "line": 0,
+        },
+      },
+      "type": "literalValue",
+    },
+    Object {
+      "children": Array [],
+      "range": Object {
+        "end": Object {
+          "byte": 52,
+          "column": 52,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 51,
+          "column": 51,
+          "line": 0,
+        },
+      },
+      "type": "",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "module.foo.output",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 72,
+                        "column": 72,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 66,
+                        "column": 66,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "module",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 76,
+                        "column": 76,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 72,
+                        "column": 72,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "foo",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 83,
+                        "column": 83,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 76,
+                        "column": 76,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "output",
+                  },
+                ],
+                "value": "module.foo.output",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 83,
+                  "column": 83,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 66,
+                  "column": 66,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [],
+                  "meta": Object {
+                    "type": "string",
+                    "value": "-",
+                  },
+                  "range": Object {
+                    "end": Object {
+                      "byte": 87,
+                      "column": 87,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 86,
+                      "column": 86,
+                      "line": 0,
+                    },
+                  },
+                  "type": "literalValue",
+                },
+              ],
+              "meta": Object {
+                "value": "\\"-\\"",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 87,
+                  "column": 87,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 86,
+                  "column": 86,
+                  "line": 0,
+                },
+              },
+              "type": "template",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "var.bar",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 93,
+                        "column": 93,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 90,
+                        "column": 90,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "var",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 97,
+                        "column": 97,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 93,
+                        "column": 93,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "bar",
+                  },
+                ],
+                "value": "var.bar",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 97,
+                  "column": 97,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 90,
+                  "column": 90,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+          ],
+          "meta": Object {
+            "argsRanges": Array [
+              Object {
+                "end": Object {
+                  "byte": 83,
+                  "column": 83,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 66,
+                  "column": 66,
+                  "line": 0,
+                },
+              },
+              Object {
+                "end": Object {
+                  "byte": 88,
+                  "column": 88,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 85,
+                  "column": 85,
+                  "line": 0,
+                },
+              },
+              Object {
+                "end": Object {
+                  "byte": 97,
+                  "column": 97,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 90,
+                  "column": 90,
+                  "line": 0,
+                },
+              },
+            ],
+            "closeParenRange": Object {
+              "end": Object {
+                "byte": 98,
+                "column": 98,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 97,
+                "column": 97,
+                "line": 0,
+              },
+            },
+            "expandedFinalArgument": false,
+            "name": "replace",
+            "nameRange": Object {
+              "end": Object {
+                "byte": 65,
+                "column": 65,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 58,
+                "column": 58,
+                "line": 0,
+              },
+            },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 66,
+                "column": 66,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 65,
+                "column": 65,
+                "line": 0,
+              },
+            },
+            "value": "replace(module.foo.output, \\"-\\", var.bar)",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 66,
+              "column": 66,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 58,
+              "column": 58,
+              "line": 0,
+            },
+          },
+          "type": "function",
+        },
+      ],
+      "meta": Object {
+        "value": "\\"\${replace(module.foo.output, \\"-\\", var.bar)}\\"",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 100,
+          "column": 100,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 55,
+          "column": 55,
+          "line": 0,
+        },
+      },
+      "type": "templateWrap",
+    },
+  ],
+  "meta": Object {
+    "value": "{ x = \\"\${module.foo.output}\\", y = \\"val\\", z = true, a = \\"\${replace(module.foo.output, \\"-\\", var.bar)}\\" }",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 1,
+      "column": 1,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "object",
+}
+`;
+
+exports[`getExpressionAst parses multi-line for loops 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.users",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 38,
+                    "column": 34,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 35,
+                    "column": 31,
+                    "line": 1,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 44,
+                    "column": 40,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 38,
+                    "column": 34,
+                    "line": 1,
+                  },
+                },
+                "segment": "users",
+              },
+            ],
+            "value": "var.users",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 44,
+              "column": 40,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 35,
+              "column": 31,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "name",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 51,
+                    "column": 47,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 47,
+                    "column": 43,
+                    "line": 1,
+                  },
+                },
+                "segment": "name",
+              },
+            ],
+            "value": "name",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 51,
+              "column": 47,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 47,
+              "column": 43,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "user",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 59,
+                    "column": 55,
+                    "line": 1,
+                  },
+                  "start": Object {
+                    "byte": 55,
+                    "column": 51,
+                    "line": 1,
+                  },
+                },
+                "segment": "user",
+              },
+            ],
+            "value": "user",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 59,
+              "column": 55,
+              "line": 1,
+            },
+            "start": Object {
+              "byte": 55,
+              "column": 51,
+              "line": 1,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "user.is_admin",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 80,
+                        "column": 21,
+                        "line": 2,
+                      },
+                      "start": Object {
+                        "byte": 76,
+                        "column": 17,
+                        "line": 2,
+                      },
+                    },
+                    "segment": "user",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 89,
+                        "column": 30,
+                        "line": 2,
+                      },
+                      "start": Object {
+                        "byte": 80,
+                        "column": 21,
+                        "line": 2,
+                      },
+                    },
+                    "segment": "is_admin",
+                  },
+                ],
+                "value": "user.is_admin",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 89,
+                  "column": 30,
+                  "line": 2,
+                },
+                "start": Object {
+                  "byte": 76,
+                  "column": 17,
+                  "line": 2,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+          ],
+          "meta": Object {
+            "operator": "logicalNot",
+            "returnType": "bool",
+            "symbolRange": Object {
+              "end": Object {
+                "byte": 76,
+                "column": 17,
+                "line": 2,
+              },
+              "start": Object {
+                "byte": 75,
+                "column": 16,
+                "line": 2,
+              },
+            },
+            "value": "!user.is_admin",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 76,
+              "column": 17,
+              "line": 2,
+            },
+            "start": Object {
+              "byte": 75,
+              "column": 16,
+              "line": 2,
+            },
+          },
+          "type": "unaryOp",
+        },
+      ],
+      "meta": Object {
+        "closeRange": Object {
+          "end": Object {
+            "byte": 101,
+            "column": 12,
+            "line": 3,
+          },
+          "start": Object {
+            "byte": 100,
+            "column": 11,
+            "line": 3,
+          },
+        },
+        "collectionExpression": "var.users",
+        "conditionalExpression": "!user.is_admin",
+        "keyVar": "name",
+        "openRange": Object {
+          "end": Object {
+            "byte": 4,
+            "column": 4,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+        },
+        "valVar": "user",
+        "value": "{
+            for name, user in var.users : name => user
+            if !user.is_admin
+          }",
+        "valueExpressionRange": "user",
+        "valueHasEllipses": false,
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "for",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${{
+            for name, user in var.users : name => user
+            if !user.is_admin
+          }}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 103,
+      "column": 14,
+      "line": 3,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses nested terraform functions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.separator",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 12,
+                    "column": 12,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 9,
+                    "column": 9,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 22,
+                    "column": 22,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 12,
+                    "column": 12,
+                    "line": 0,
+                  },
+                },
+                "segment": "separator",
+              },
+            ],
+            "value": "var.separator",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 22,
+              "column": 22,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 9,
+              "column": 9,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [],
+                  "meta": Object {
+                    "fullAccessor": "module.foo.output",
+                    "traversal": Array [
+                      Object {
+                        "range": Object {
+                          "end": Object {
+                            "byte": 44,
+                            "column": 44,
+                            "line": 0,
+                          },
+                          "start": Object {
+                            "byte": 38,
+                            "column": 38,
+                            "line": 0,
+                          },
+                        },
+                        "segment": "module",
+                      },
+                      Object {
+                        "range": Object {
+                          "end": Object {
+                            "byte": 48,
+                            "column": 48,
+                            "line": 0,
+                          },
+                          "start": Object {
+                            "byte": 44,
+                            "column": 44,
+                            "line": 0,
+                          },
+                        },
+                        "segment": "foo",
+                      },
+                      Object {
+                        "range": Object {
+                          "end": Object {
+                            "byte": 55,
+                            "column": 55,
+                            "line": 0,
+                          },
+                          "start": Object {
+                            "byte": 48,
+                            "column": 48,
+                            "line": 0,
+                          },
+                        },
+                        "segment": "output",
+                      },
+                    ],
+                    "value": "module.foo.output",
+                  },
+                  "range": Object {
+                    "end": Object {
+                      "byte": 55,
+                      "column": 55,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 38,
+                      "column": 38,
+                      "line": 0,
+                    },
+                  },
+                  "type": "scopeTraversal",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "children": Array [],
+                      "meta": Object {
+                        "type": "string",
+                        "value": "-",
+                      },
+                      "range": Object {
+                        "end": Object {
+                          "byte": 59,
+                          "column": 59,
+                          "line": 0,
+                        },
+                        "start": Object {
+                          "byte": 58,
+                          "column": 58,
+                          "line": 0,
+                        },
+                      },
+                      "type": "literalValue",
+                    },
+                  ],
+                  "meta": Object {
+                    "value": "\\"-\\"",
+                  },
+                  "range": Object {
+                    "end": Object {
+                      "byte": 59,
+                      "column": 59,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 58,
+                      "column": 58,
+                      "line": 0,
+                    },
+                  },
+                  "type": "template",
+                },
+                Object {
+                  "children": Array [],
+                  "meta": Object {
+                    "fullAccessor": "var.bar",
+                    "traversal": Array [
+                      Object {
+                        "range": Object {
+                          "end": Object {
+                            "byte": 65,
+                            "column": 65,
+                            "line": 0,
+                          },
+                          "start": Object {
+                            "byte": 62,
+                            "column": 62,
+                            "line": 0,
+                          },
+                        },
+                        "segment": "var",
+                      },
+                      Object {
+                        "range": Object {
+                          "end": Object {
+                            "byte": 69,
+                            "column": 69,
+                            "line": 0,
+                          },
+                          "start": Object {
+                            "byte": 65,
+                            "column": 65,
+                            "line": 0,
+                          },
+                        },
+                        "segment": "bar",
+                      },
+                    ],
+                    "value": "var.bar",
+                  },
+                  "range": Object {
+                    "end": Object {
+                      "byte": 69,
+                      "column": 69,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 62,
+                      "column": 62,
+                      "line": 0,
+                    },
+                  },
+                  "type": "scopeTraversal",
+                },
+              ],
+              "meta": Object {
+                "argsRanges": Array [
+                  Object {
+                    "end": Object {
+                      "byte": 55,
+                      "column": 55,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 38,
+                      "column": 38,
+                      "line": 0,
+                    },
+                  },
+                  Object {
+                    "end": Object {
+                      "byte": 60,
+                      "column": 60,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 57,
+                      "column": 57,
+                      "line": 0,
+                    },
+                  },
+                  Object {
+                    "end": Object {
+                      "byte": 69,
+                      "column": 69,
+                      "line": 0,
+                    },
+                    "start": Object {
+                      "byte": 62,
+                      "column": 62,
+                      "line": 0,
+                    },
+                  },
+                ],
+                "closeParenRange": Object {
+                  "end": Object {
+                    "byte": 70,
+                    "column": 70,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 69,
+                    "column": 69,
+                    "line": 0,
+                  },
+                },
+                "expandedFinalArgument": false,
+                "name": "replace",
+                "nameRange": Object {
+                  "end": Object {
+                    "byte": 37,
+                    "column": 37,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 30,
+                    "column": 30,
+                    "line": 0,
+                  },
+                },
+                "openParenRange": Object {
+                  "end": Object {
+                    "byte": 38,
+                    "column": 38,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 37,
+                    "column": 37,
+                    "line": 0,
+                  },
+                },
+                "value": "replace(module.foo.output, \\"-\\", var.bar)",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 38,
+                  "column": 38,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 30,
+                  "column": 30,
+                  "line": 0,
+                },
+              },
+              "type": "function",
+            },
+          ],
+          "meta": Object {
+            "argsRanges": Array [
+              Object {
+                "end": Object {
+                  "byte": 70,
+                  "column": 70,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 30,
+                  "column": 30,
+                  "line": 0,
+                },
+              },
+            ],
+            "closeParenRange": Object {
+              "end": Object {
+                "byte": 71,
+                "column": 71,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 70,
+                "column": 70,
+                "line": 0,
+              },
+            },
+            "expandedFinalArgument": false,
+            "name": "lower",
+            "nameRange": Object {
+              "end": Object {
+                "byte": 29,
+                "column": 29,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 24,
+                "column": 24,
+                "line": 0,
+              },
+            },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 29,
+                "column": 29,
+                "line": 0,
+              },
+            },
+            "value": "lower(replace(module.foo.output, \\"-\\", var.bar))",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 30,
+              "column": 30,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 24,
+              "column": 24,
+              "line": 0,
+            },
+          },
+          "type": "function",
+        },
+      ],
+      "meta": Object {
+        "argsRanges": Array [
+          Object {
+            "end": Object {
+              "byte": 22,
+              "column": 22,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 9,
+              "column": 9,
+              "line": 0,
+            },
+          },
+          Object {
+            "end": Object {
+              "byte": 71,
+              "column": 71,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 24,
+              "column": 24,
+              "line": 0,
+            },
+          },
+        ],
+        "closeParenRange": Object {
+          "end": Object {
+            "byte": 72,
+            "column": 72,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 71,
+            "column": 71,
+            "line": 0,
+          },
+        },
+        "expandedFinalArgument": false,
+        "name": "split",
+        "nameRange": Object {
+          "end": Object {
+            "byte": 8,
+            "column": 8,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 3,
+            "column": 3,
+            "line": 0,
+          },
+        },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 8,
+            "column": 8,
+            "line": 0,
+          },
+        },
+        "value": "split(var.separator, lower(replace(module.foo.output, \\"-\\", var.bar)))",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 9,
+          "column": 9,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "function",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${split(var.separator, lower(replace(module.foo.output, \\"-\\", var.bar)))}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 74,
+      "column": 74,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses splat expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "aws_s3_bucket.examplebucket",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 10,
+                        "column": 10,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "aws_s3_bucket",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 37,
+                        "column": 37,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "examplebucket",
+                  },
+                ],
+                "value": "aws_s3_bucket.examplebucket",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 37,
+                  "column": 37,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 10,
+                  "column": 10,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "range": Object {
+                "end": Object {
+                  "byte": 39,
+                  "column": 39,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 37,
+                  "column": 37,
+                  "line": 0,
+                },
+              },
+              "type": "",
+            },
+          ],
+          "meta": Object {
+            "anonSymbolExpression": ".*",
+            "eachExpression": ".*",
+            "markerRange": Object {
+              "end": Object {
+                "byte": 39,
+                "column": 39,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 37,
+                "column": 37,
+                "line": 0,
+              },
+            },
+            "sourceExpression": "aws_s3_bucket.examplebucket",
+            "value": "aws_s3_bucket.examplebucket.*",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 39,
+              "column": 39,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 37,
+              "column": 37,
+              "line": 0,
+            },
+          },
+          "type": "splat",
+        },
+      ],
+      "meta": Object {
+        "argsRanges": Array [
+          Object {
+            "end": Object {
+              "byte": 39,
+              "column": 39,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 10,
+              "column": 10,
+              "line": 0,
+            },
+          },
+        ],
+        "closeParenRange": Object {
+          "end": Object {
+            "byte": 40,
+            "column": 40,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 39,
+            "column": 39,
+            "line": 0,
+          },
+        },
+        "expandedFinalArgument": false,
+        "name": "toset",
+        "nameRange": Object {
+          "end": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 4,
+            "column": 4,
+            "line": 0,
+          },
+        },
+        "openParenRange": Object {
+          "end": Object {
+            "byte": 10,
+            "column": 10,
+            "line": 0,
+          },
+          "start": Object {
+            "byte": 9,
+            "column": 9,
+            "line": 0,
+          },
+        },
+        "value": "toset(aws_s3_bucket.examplebucket.*)",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 10,
+          "column": 10,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "function",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ toset(aws_s3_bucket.examplebucket.*) }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 43,
+      "column": 43,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses ternary expressions 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "aws_kms_key.examplekms.deletion_window_in_days",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 14,
+                        "column": 14,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 3,
+                        "column": 3,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "aws_kms_key",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 14,
+                        "column": 14,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "examplekms",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 49,
+                        "column": 49,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "deletion_window_in_days",
+                  },
+                ],
+                "value": "aws_kms_key.examplekms.deletion_window_in_days",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 49,
+                  "column": 49,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 3,
+                  "column": 3,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "number",
+                "value": "3",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 53,
+                  "column": 53,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 52,
+                  "column": 52,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "meta": Object {
+            "lhsExpression": "aws_kms_key.examplekms.deletion_window_in_days",
+            "operator": "greaterThan",
+            "returnType": "bool",
+            "rhsExpression": "3",
+            "value": "aws_kms_key.examplekms.deletion_window_in_days > 3",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 49,
+              "column": 49,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 3,
+              "column": 3,
+              "line": 0,
+            },
+          },
+          "type": "binaryOp",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "aws_s3_bucket.examplebucket.id",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 69,
+                    "column": 69,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 56,
+                    "column": 56,
+                    "line": 0,
+                  },
+                },
+                "segment": "aws_s3_bucket",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 83,
+                    "column": 83,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 69,
+                    "column": 69,
+                    "line": 0,
+                  },
+                },
+                "segment": "examplebucket",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 86,
+                    "column": 86,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 83,
+                    "column": 83,
+                    "line": 0,
+                  },
+                },
+                "segment": "id",
+              },
+            ],
+            "value": "aws_s3_bucket.examplebucket.id",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 86,
+              "column": 86,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 56,
+              "column": 56,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "value": "[]",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 90,
+              "column": 90,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 89,
+              "column": 89,
+              "line": 0,
+            },
+          },
+          "type": "tuple",
+        },
+      ],
+      "meta": Object {
+        "conditionExpression": "aws_kms_key.examplekms.deletion_window_in_days > 3",
+        "falseExpression": "[]",
+        "trueExpression": "aws_s3_bucket.examplebucket.id",
+        "value": "aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 49,
+          "column": 49,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "conditional",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 93,
+      "column": 93,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses terraform functions with file access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "aws_s3_bucket.examplebucket_two",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 12,
+                        "column": 12,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "aws_s3_bucket",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 43,
+                        "column": 43,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 25,
+                        "column": 25,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "examplebucket_two",
+                  },
+                ],
+                "value": "aws_s3_bucket.examplebucket_two",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 43,
+                  "column": 43,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 12,
+                  "column": 12,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "number",
+                "value": "0",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 46,
+                  "column": 46,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 45,
+                  "column": 45,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "meta": Object {
+            "argsRanges": Array [
+              Object {
+                "end": Object {
+                  "byte": 43,
+                  "column": 43,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 12,
+                  "column": 12,
+                  "line": 0,
+                },
+              },
+              Object {
+                "end": Object {
+                  "byte": 46,
+                  "column": 46,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 45,
+                  "column": 45,
+                  "line": 0,
+                },
+              },
+            ],
+            "closeParenRange": Object {
+              "end": Object {
+                "byte": 47,
+                "column": 47,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 46,
+                "column": 46,
+                "line": 0,
+              },
+            },
+            "expandedFinalArgument": false,
+            "name": "element",
+            "nameRange": Object {
+              "end": Object {
+                "byte": 11,
+                "column": 11,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 4,
+                "column": 4,
+                "line": 0,
+              },
+            },
+            "openParenRange": Object {
+              "end": Object {
+                "byte": 12,
+                "column": 12,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 11,
+                "column": 11,
+                "line": 0,
+              },
+            },
+            "value": "element(aws_s3_bucket.examplebucket_two, 0)",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 12,
+              "column": 12,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 4,
+              "column": 4,
+              "line": 0,
+            },
+          },
+          "type": "function",
+        },
+      ],
+      "meta": Object {
+        "fullAccessor": "id",
+        "sourceExpression": "element(aws_s3_bucket.examplebucket_two, 0)",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 50,
+                "column": 50,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 47,
+                "column": 47,
+                "line": 0,
+              },
+            },
+            "segment": "id",
+          },
+        ],
+        "value": "element(aws_s3_bucket.examplebucket_two, 0).id",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 50,
+          "column": 50,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "relativeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ element(aws_s3_bucket.examplebucket_two, 0).id }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 53,
+      "column": 53,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses three part references 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "module.foo.output",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 9,
+                "column": 9,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 3,
+                "column": 3,
+                "line": 0,
+              },
+            },
+            "segment": "module",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 13,
+                "column": 13,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 9,
+                "column": 9,
+                "line": 0,
+              },
+            },
+            "segment": "foo",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 20,
+                "column": 20,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 13,
+                "column": 13,
+                "line": 0,
+              },
+            },
+            "segment": "output",
+          },
+        ],
+        "value": "module.foo.output",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 20,
+          "column": 20,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${module.foo.output}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 22,
+      "column": 22,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst parses variable arithmetics 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.members",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 6,
+                    "column": 6,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 3,
+                    "column": 3,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 14,
+                    "column": 14,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 6,
+                    "column": 6,
+                    "line": 0,
+                  },
+                },
+                "segment": "members",
+              },
+            ],
+            "value": "var.members",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 14,
+              "column": 14,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 3,
+              "column": 3,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.admins",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 27,
+                    "column": 27,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
+                  },
+                },
+                "segment": "admins",
+              },
+            ],
+            "value": "var.admins",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 27,
+              "column": 27,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 17,
+              "column": 17,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "lhsExpression": "var.members",
+        "operator": "add",
+        "returnType": "number",
+        "rhsExpression": "var.admins",
+        "value": "var.members + var.admins",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 14,
+          "column": 14,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 3,
+          "column": 3,
+          "line": 0,
+        },
+      },
+      "type": "binaryOp",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${var.members + var.admins}\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 29,
+      "column": 29,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst partial variable property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.settings",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 4,
+                    "column": 4,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 16,
+                    "column": 16,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                },
+                "segment": "settings",
+              },
+            ],
+            "value": "var.settings",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 16,
+              "column": 16,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 4,
+              "column": 4,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "fullAccessor": "var.prefix",
+                "traversal": Array [
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 20,
+                        "column": 20,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "var",
+                  },
+                  Object {
+                    "range": Object {
+                      "end": Object {
+                        "byte": 30,
+                        "column": 30,
+                        "line": 0,
+                      },
+                      "start": Object {
+                        "byte": 23,
+                        "column": 23,
+                        "line": 0,
+                      },
+                    },
+                    "segment": "prefix",
+                  },
+                ],
+                "value": "var.prefix",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 30,
+                  "column": 30,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 20,
+                  "column": 20,
+                  "line": 0,
+                },
+              },
+              "type": "scopeTraversal",
+            },
+            Object {
+              "children": Array [],
+              "meta": Object {
+                "type": "string",
+                "value": "-my-bucket",
+              },
+              "range": Object {
+                "end": Object {
+                  "byte": 41,
+                  "column": 41,
+                  "line": 0,
+                },
+                "start": Object {
+                  "byte": 31,
+                  "column": 31,
+                  "line": 0,
+                },
+              },
+              "type": "literalValue",
+            },
+          ],
+          "meta": Object {
+            "value": "\\"\${var.prefix}-my-bucket\\"",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 30,
+              "column": 30,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 20,
+              "column": 20,
+              "line": 0,
+            },
+          },
+          "type": "template",
+        },
+      ],
+      "meta": Object {
+        "collectionExpression": "var.settings",
+        "keyExpression": "\\"\${var.prefix}-my-bucket\\"",
+        "value": "var.settings[\\"\${var.prefix}-my-bucket\\"]",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 17,
+          "column": 17,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 16,
+          "column": 16,
+          "line": 0,
+        },
+      },
+      "type": "index",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ var.settings[\\"\${var.prefix}-my-bucket\\"] }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 46,
+      "column": 46,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "meta": Object {
+        "fullAccessor": "var.setting[\\"bucket_name\\"]",
+        "traversal": Array [
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 4,
+                "column": 4,
+                "line": 0,
+              },
+            },
+            "segment": "var",
+          },
+          Object {
+            "range": Object {
+              "end": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 7,
+                "column": 7,
+                "line": 0,
+              },
+            },
+            "segment": "setting",
+          },
+          Object {
+            "key": "\\"bucket_name\\"",
+            "range": Object {
+              "end": Object {
+                "byte": 30,
+                "column": 30,
+                "line": 0,
+              },
+              "start": Object {
+                "byte": 15,
+                "column": 15,
+                "line": 0,
+              },
+            },
+          },
+        ],
+        "value": "var.setting[\\"bucket_name\\"]",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 30,
+          "column": 30,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 4,
+          "column": 4,
+          "line": 0,
+        },
+      },
+      "type": "scopeTraversal",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ var.setting[\\"bucket_name\\"] }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 33,
+      "column": 33,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getExpressionAst variable property access 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.settings",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 4,
+                    "column": 4,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 16,
+                    "column": 16,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 7,
+                    "column": 7,
+                    "line": 0,
+                  },
+                },
+                "segment": "settings",
+              },
+            ],
+            "value": "var.settings",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 16,
+              "column": 16,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 4,
+              "column": 4,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+        Object {
+          "children": Array [],
+          "meta": Object {
+            "fullAccessor": "var.bucket_name_key",
+            "traversal": Array [
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 17,
+                    "column": 17,
+                    "line": 0,
+                  },
+                },
+                "segment": "var",
+              },
+              Object {
+                "range": Object {
+                  "end": Object {
+                    "byte": 36,
+                    "column": 36,
+                    "line": 0,
+                  },
+                  "start": Object {
+                    "byte": 20,
+                    "column": 20,
+                    "line": 0,
+                  },
+                },
+                "segment": "bucket_name_key",
+              },
+            ],
+            "value": "var.bucket_name_key",
+          },
+          "range": Object {
+            "end": Object {
+              "byte": 36,
+              "column": 36,
+              "line": 0,
+            },
+            "start": Object {
+              "byte": 17,
+              "column": 17,
+              "line": 0,
+            },
+          },
+          "type": "scopeTraversal",
+        },
+      ],
+      "meta": Object {
+        "collectionExpression": "var.settings",
+        "keyExpression": "var.bucket_name_key",
+        "value": "var.settings[var.bucket_name_key]",
+      },
+      "range": Object {
+        "end": Object {
+          "byte": 17,
+          "column": 17,
+          "line": 0,
+        },
+        "start": Object {
+          "byte": 16,
+          "column": 16,
+          "line": 0,
+        },
+      },
+      "type": "index",
+    },
+  ],
+  "meta": Object {
+    "value": "\\"\${ var.settings[var.bucket_name_key] }\\"",
+  },
+  "range": Object {
+    "end": Object {
+      "byte": 40,
+      "column": 40,
+      "line": 0,
+    },
+    "start": Object {
+      "byte": 0,
+      "column": 0,
+      "line": 0,
+    },
+  },
+  "type": "templateWrap",
+}
+`;
+
+exports[`getReferencesInExpression fails on malformed expressions 1`] = `[Error: main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression.]`;
 
 exports[`getReferencesInExpression list expressions 1`] = `
 Array [
   Object {
-    "endPosition": 16,
-    "startPosition": 4,
+    "endPosition": 17,
+    "startPosition": 5,
     "value": "var.tags.app",
   },
   Object {
-    "endPosition": 30,
-    "startPosition": 18,
+    "endPosition": 31,
+    "startPosition": 19,
     "value": "var.tags.env",
   },
 ]
@@ -20,8 +3949,8 @@ Array [
 exports[`getReferencesInExpression mixed property access 1`] = `
 Array [
   Object {
-    "endPosition": 14,
-    "startPosition": 3,
+    "endPosition": 15,
+    "startPosition": 4,
     "value": "var.setting",
   },
 ]
@@ -30,8 +3959,8 @@ Array [
 exports[`getReferencesInExpression parses a reference string 1`] = `
 Array [
   Object {
-    "endPosition": 9,
-    "startPosition": 2,
+    "endPosition": 10,
+    "startPosition": 3,
     "value": "var.foo",
   },
 ]
@@ -42,13 +3971,13 @@ exports[`getReferencesInExpression parses a simple string 1`] = `Array []`;
 exports[`getReferencesInExpression parses a terraform function 1`] = `
 Array [
   Object {
-    "endPosition": 27,
-    "startPosition": 10,
+    "endPosition": 28,
+    "startPosition": 11,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 41,
-    "startPosition": 34,
+    "endPosition": 42,
+    "startPosition": 35,
     "value": "var.bar",
   },
 ]
@@ -57,8 +3986,8 @@ Array [
 exports[`getReferencesInExpression parses embedded vars 1`] = `
 Array [
   Object {
-    "endPosition": 43,
-    "startPosition": 26,
+    "endPosition": 44,
+    "startPosition": 27,
     "value": "module.foo.output",
   },
 ]
@@ -67,8 +3996,8 @@ Array [
 exports[`getReferencesInExpression parses for in loops 1`] = `
 Array [
   Object {
-    "endPosition": 31,
-    "startPosition": 22,
+    "endPosition": 32,
+    "startPosition": 23,
     "value": "var.users",
   },
 ]
@@ -77,8 +4006,8 @@ Array [
 exports[`getReferencesInExpression parses four part references 1`] = `
 Array [
   Object {
-    "endPosition": 21,
-    "startPosition": 2,
+    "endPosition": 22,
+    "startPosition": 3,
     "value": "data.type.name.attr",
   },
 ]
@@ -87,8 +4016,8 @@ Array [
 exports[`getReferencesInExpression parses lists 1`] = `
 Array [
   Object {
-    "endPosition": 23,
-    "startPosition": 6,
+    "endPosition": 27,
+    "startPosition": 10,
     "value": "module.foo.output",
   },
 ]
@@ -97,18 +4026,18 @@ Array [
 exports[`getReferencesInExpression parses maps 1`] = `
 Array [
   Object {
-    "endPosition": 25,
-    "startPosition": 8,
+    "endPosition": 29,
+    "startPosition": 12,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 80,
-    "startPosition": 63,
+    "endPosition": 86,
+    "startPosition": 69,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 94,
-    "startPosition": 87,
+    "endPosition": 100,
+    "startPosition": 93,
     "value": "var.bar",
   },
 ]
@@ -117,8 +4046,8 @@ Array [
 exports[`getReferencesInExpression parses multi-line for loops 1`] = `
 Array [
   Object {
-    "endPosition": 43,
-    "startPosition": 34,
+    "endPosition": 44,
+    "startPosition": 35,
     "value": "var.users",
   },
 ]
@@ -127,18 +4056,18 @@ Array [
 exports[`getReferencesInExpression parses nested terraform functions 1`] = `
 Array [
   Object {
-    "endPosition": 21,
-    "startPosition": 8,
+    "endPosition": 22,
+    "startPosition": 9,
     "value": "var.separator",
   },
   Object {
-    "endPosition": 54,
-    "startPosition": 37,
+    "endPosition": 55,
+    "startPosition": 38,
     "value": "module.foo.output",
   },
   Object {
-    "endPosition": 68,
-    "startPosition": 61,
+    "endPosition": 69,
+    "startPosition": 62,
     "value": "var.bar",
   },
 ]
@@ -147,8 +4076,8 @@ Array [
 exports[`getReferencesInExpression parses splat expressions 1`] = `
 Array [
   Object {
-    "endPosition": 36,
-    "startPosition": 9,
+    "endPosition": 37,
+    "startPosition": 10,
     "value": "aws_s3_bucket.examplebucket",
   },
 ]
@@ -157,13 +4086,13 @@ Array [
 exports[`getReferencesInExpression parses ternary expressions 1`] = `
 Array [
   Object {
-    "endPosition": 48,
-    "startPosition": 2,
+    "endPosition": 49,
+    "startPosition": 3,
     "value": "aws_kms_key.examplekms.deletion_window_in_days",
   },
   Object {
-    "endPosition": 85,
-    "startPosition": 55,
+    "endPosition": 86,
+    "startPosition": 56,
     "value": "aws_s3_bucket.examplebucket.id",
   },
 ]
@@ -172,8 +4101,8 @@ Array [
 exports[`getReferencesInExpression parses terraform functions with file access 1`] = `
 Array [
   Object {
-    "endPosition": 42,
-    "startPosition": 11,
+    "endPosition": 43,
+    "startPosition": 12,
     "value": "aws_s3_bucket.examplebucket_two",
   },
 ]
@@ -182,8 +4111,8 @@ Array [
 exports[`getReferencesInExpression parses three part references 1`] = `
 Array [
   Object {
-    "endPosition": 19,
-    "startPosition": 2,
+    "endPosition": 20,
+    "startPosition": 3,
     "value": "module.foo.output",
   },
 ]
@@ -192,13 +4121,13 @@ Array [
 exports[`getReferencesInExpression parses variable arithmetics 1`] = `
 Array [
   Object {
-    "endPosition": 13,
-    "startPosition": 2,
+    "endPosition": 14,
+    "startPosition": 3,
     "value": "var.members",
   },
   Object {
-    "endPosition": 26,
-    "startPosition": 16,
+    "endPosition": 27,
+    "startPosition": 17,
     "value": "var.admins",
   },
 ]
@@ -207,13 +4136,13 @@ Array [
 exports[`getReferencesInExpression partial variable property access 1`] = `
 Array [
   Object {
-    "endPosition": 15,
-    "startPosition": 3,
+    "endPosition": 16,
+    "startPosition": 4,
     "value": "var.settings",
   },
   Object {
-    "endPosition": 29,
-    "startPosition": 19,
+    "endPosition": 30,
+    "startPosition": 20,
     "value": "var.prefix",
   },
 ]
@@ -222,8 +4151,8 @@ Array [
 exports[`getReferencesInExpression property access 1`] = `
 Array [
   Object {
-    "endPosition": 14,
-    "startPosition": 3,
+    "endPosition": 15,
+    "startPosition": 4,
     "value": "var.setting",
   },
 ]
@@ -232,13 +4161,13 @@ Array [
 exports[`getReferencesInExpression variable property access 1`] = `
 Array [
   Object {
-    "endPosition": 15,
-    "startPosition": 3,
+    "endPosition": 16,
+    "startPosition": 4,
     "value": "var.settings",
   },
   Object {
-    "endPosition": 35,
-    "startPosition": 16,
+    "endPosition": 36,
+    "startPosition": 17,
     "value": "var.bucket_name_key",
   },
 ]
