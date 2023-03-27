@@ -129,14 +129,14 @@ export async function extractReferencesFromExpression(
   }, [] as Reference[]);
 }
 
-export type IteratorVariable = {
+export type IteratorVariableReference = {
   start: number;
   end: number;
   value: string;
 };
 export async function extractIteratorVariablesFromExpression(
   input: string
-): Promise<IteratorVariable[]> {
+): Promise<IteratorVariableReference[]> {
   const possibleVariableSpots = await getReferencesInExpression(
     "main.tf",
     input
@@ -370,12 +370,10 @@ export function getPropertyAccessPath(input: string): string[] {
     .map((p) => (p.startsWith(`"`) && p.endsWith(`"`) ? p.slice(1, -1) : p));
 }
 
-// TODO: Write tests for this
 export function iteratorVariableToAst(
   scope: ResourceScope,
-  iteratorVariable: IteratorVariable
+  iteratorVariable: IteratorVariableReference
 ) {
-  // TODO: This is not the case for dynamic blocks which should not run into this code path right now
   if (!scope.forEachIteratorName) {
     throw new Error(
       `Can not create AST for iterator variable of '${iteratorVariable.value}' without forEachIteratorName`
@@ -426,7 +424,7 @@ export function referencesToAst(
   input: string,
   refs: Reference[],
   scopedIds: readonly string[] = [], // dynamics introduce new scoped variables that are not the globally accessible ids
-  iteratorVariables: IteratorVariable[] = []
+  iteratorVariables: IteratorVariableReference[] = []
 ): t.Expression {
   logger.debug(
     `Transforming string '${input}' with references ${JSON.stringify(
