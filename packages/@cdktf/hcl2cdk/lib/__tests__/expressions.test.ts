@@ -490,7 +490,7 @@ describe("expressions", () => {
 
     it("should convert iterator value with map access", () => {
       expect(run(`each.value[0]["map"]["name"]`)).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"each\\", \\"value\\", \\"0\\", \\"map\\", \\"name\\"]);"`
+        `"cdktf.propertyAccess(myIterator.value, [\\"0\\", \\"map\\", \\"name\\"]);"`
       );
     });
   });
