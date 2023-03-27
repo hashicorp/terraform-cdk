@@ -516,16 +516,21 @@ export async function resource(
   const nestedDynamicBlocks = dynBlocks.filter((block) =>
     isNestedDynamicBlock(dynBlocks, block)
   );
-  const unnestedDynamicBlocks = dynBlocks.filter(
-    (block) => !isNestedDynamicBlock(dynBlocks, block)
+  const dynamicBlocksUsingOverrides = dynBlocks.filter(
+    (block) =>
+      // nested blocks need overrides
+      nestedDynamicBlocks.includes(block) ||
+      // blocks that contain nested blocks need them as well
+      nestedDynamicBlocks.some((nestedBlock) =>
+        nestedBlock.path.startsWith(block.path)
+      )
+  );
+  // all others can be handled by the CDKTF runtime
+  const dynamicBlocksUsingRuntime = dynBlocks.filter(
+    (block) => !dynamicBlocksUsingOverrides.includes(block)
   );
 
-  console.log({
-    nested: nestedDynamicBlocks.map((block) => block.path),
-    unnested: unnestedDynamicBlocks.map((block) => block.path),
-  });
-
-  for (const [i, block] of unnestedDynamicBlocks.entries()) {
+  for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
     const dynamicBlockIteratorName = variableName(
       scope,
       resource,
@@ -588,7 +593,7 @@ export async function resource(
   }
 
   const overrideReference =
-    nestedDynamicBlocks.length || count
+    dynamicBlocksUsingOverrides.length || count
       ? {
           start: 0,
           end: 0,
@@ -645,7 +650,7 @@ export async function resource(
   // Check for dynamic blocks
   expressions = expressions.concat(
     await Promise.all(
-      nestedDynamicBlocks.map(
+      dynamicBlocksUsingOverrides.map(
         async ({ path, for_each, content, scopedVar }) => {
           return addOverrideExpression(
             varName,

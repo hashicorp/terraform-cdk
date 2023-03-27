@@ -356,26 +356,30 @@ class MyConvertedCode extends cdktf.TerraformStack {
         ],
       }
     );
-    /*In most cases loops should be handled in the programming language context and 
-    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-    you need to keep this like it is.*/
-    const azureadApplicationBootstrapDynamicIterator0 =
-      cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(requiredResourceAccess.value)
-      );
     const azureadApplicationBootstrap = new azuread.application.Application(
       this,
       \\"bootstrap\\",
       {
         displayName: \\"test\\",
+        required_resource_access: [],
         groupMembershipClaims: cdktf.Token.asList(\\"All\\"),
-        requiredResourceAccess:
-          azureadApplicationBootstrapDynamicIterator0.dynamic({
+      }
+    );
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    azureadApplicationBootstrap.addOverride(
+      \\"dynamic.required_resource_access\\",
+      {
+        for_each: requiredResourceAccess.value,
+        content: [
+          {
             resource_access: [],
             resource_app_id:
               '\${required_resource_access.value[\\"resource_app_id\\"]}',
-          }),
+          },
+        ],
       }
     );
     /*In most cases loops should be handled in the programming language context and 
