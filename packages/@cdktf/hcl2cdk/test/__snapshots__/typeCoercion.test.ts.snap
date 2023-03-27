@@ -81,6 +81,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
           \`\\\\\${\${awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.value}[\\"groups\\"]}\`
         ),
         user: awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.key,
+        forEach:
+          awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator,
       }
     );
   }
