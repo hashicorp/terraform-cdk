@@ -534,11 +534,15 @@ export const extractDynamicBlocks = (
 
     return [
       {
-        path: `${path}.${scopedVar}`,
+        path: `${path}.dynamic.${scopedVar}`,
         for_each,
         content,
         scopedVar,
       },
+      ...extractDynamicBlocks(
+        content,
+        `${path}.dynamic.${scopedVar}.0.content`
+      ),
     ];
   }
 
@@ -546,6 +550,15 @@ export const extractDynamicBlocks = (
     return [...carry, ...extractDynamicBlocks(value as any, `${path}.${key}`)];
   }, [] as DynamicBlock[]);
 };
+
+export function isNestedDynamicBlock(
+  dynBlocks: DynamicBlock[],
+  block: DynamicBlock
+): boolean {
+  return dynBlocks.some(
+    (dyn) => dyn.path !== block.path && block.path.startsWith(dyn.path)
+  );
+}
 
 export async function findUsedReferences(
   nodeIds: string[],

@@ -154,6 +154,53 @@ describe("iteration", () => {
   );
 
   testCase.test(
+    "nested dynamic blocks",
+    `
+  variable required_resource_access {
+    type = list(object({
+      resource_app_id = string
+      resource_access = list(object({
+        id   = string
+        type = string
+      }))
+    }))
+  
+    default = [{
+      resource_app_id = "00000003-0000-0000-c000-000000000000"
+      resource_access = [{
+        id   = "7ab1d382-f21e-4acd-a863-ba3e13f7da61"
+        type = "Role"
+      }]
+    }]
+  }
+  
+  resource "azuread_application" "bootstrap" {
+    display_name               = "test"
+    group_membership_claims    = "All"
+  
+    dynamic "required_resource_access" {
+      for_each = var.required_resource_access
+      content {
+        resource_app_id = required_resource_access.value["resource_app_id"]
+  
+        dynamic "resource_access" {
+          for_each = required_resource_access.value["resource_access"]
+          content {
+            id   = resource_access.value["id"]
+            type = resource_access.value["type"]
+          }
+        }
+      }
+    }
+  }
+  `,
+    [binding.azuread],
+    Synth.yes,
+    {
+      resources: ["azuread_application"],
+    }
+  );
+  testCase.test(
     "complex for each loops",
     `
       provider "aws" {
