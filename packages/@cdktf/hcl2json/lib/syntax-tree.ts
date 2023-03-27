@@ -40,7 +40,7 @@ export type ForExpressionMeta = ExpressionMeta & {
   conditionalExpression: string;
   valueExpression: string;
   keyExpression: string;
-  valueHasEllipses: boolean;
+  groupedValue: boolean;
   openRange: CodeRange;
   openRangeValue: string;
   closeRange: CodeRange;
