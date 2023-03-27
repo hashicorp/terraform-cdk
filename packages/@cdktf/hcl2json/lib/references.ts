@@ -6,6 +6,7 @@ import {
   ScopeTraversalExpressionMeta,
   TerraformTraversalPart,
   ForExpressionMeta,
+  getChildWithValue,
 } from "./syntax-tree";
 
 export type Reference = {
@@ -13,12 +14,6 @@ export type Reference = {
   startPosition: number;
   endPosition: number;
 };
-
-function findChildWithValue(expr: ExpressionAst, value: string) {
-  return expr.children.find((child) => {
-    return child.meta.value === value;
-  });
-}
 
 export function traversalToReference(
   traversalExpression: ExpressionAst,
@@ -99,12 +94,12 @@ export function findAllReferencesInAst(
       return [
         ...findAllReferencesInAst(
           input,
-          findChildWithValue(entry, meta.collectionExpression),
+          getChildWithValue(entry, meta.collectionExpression),
           additionalLocalVariables
         ),
         ...findAllReferencesInAst(
           input,
-          findChildWithValue(entry, meta.conditionalExpression),
+          getChildWithValue(entry, meta.conditionalExpression),
           additionalLocalVariables
         ),
       ];
