@@ -156,6 +156,9 @@ describe("iteration", () => {
   testCase.test(
     "nested dynamic blocks",
     `
+    provider "azuread" {
+      tenant_id = "00000000-0000-0000-0000-000000000000"
+    }
   variable required_resource_access {
     type = list(object({
       resource_app_id = string
