@@ -26,6 +26,7 @@ import {
   extractDynamicBlocks,
   constructAst,
   extractIteratorVariablesFromExpression,
+  isNestedDynamicBlock,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -286,6 +287,7 @@ export const valueToTs = async (
               const shouldBeArray =
                 typeof value === "object" &&
                 !Array.isArray(value) &&
+                !t.isExpression(value) &&
                 !isSingleItemBlock &&
                 // Map type attributes must not be wrapped in arrays
                 !isMapAttribute(itemAttributeType) &&
@@ -466,6 +468,8 @@ export async function resource(
   let expressions: t.Statement[] = [];
   const varName = variableName(scope, resource, key);
   const { for_each, count, ...config } = item[0];
+  const mappedConfig = mapConfigPerResourceType(resource, config);
+
   let forEachIteratorName: string | undefined;
   if (for_each) {
     const references = await extractReferencesFromExpression(
@@ -505,14 +509,86 @@ export async function resource(
     t.addComment(iterator, "leading", loopComment);
     expressions.push(iterator);
 
-    config.forEach = t.identifier(forEachIteratorName);
+    mappedConfig.forEach = t.identifier(forEachIteratorName);
   }
 
-  const mappedConfig = mapConfigPerResourceType(resource, config);
   const dynBlocks = extractDynamicBlocks(mappedConfig);
-  // TODO: handle dynamic blocks via iterators if not nested
+  const nestedDynamicBlocks = dynBlocks.filter((block) =>
+    isNestedDynamicBlock(dynBlocks, block)
+  );
+  const unnestedDynamicBlocks = dynBlocks.filter(
+    (block) => !isNestedDynamicBlock(dynBlocks, block)
+  );
+
+  console.log({
+    nested: nestedDynamicBlocks.map((block) => block.path),
+    unnested: unnestedDynamicBlocks.map((block) => block.path),
+  });
+
+  for (const [i, block] of unnestedDynamicBlocks.entries()) {
+    const dynamicBlockIteratorName = variableName(
+      scope,
+      resource,
+      `${key}_dynamic_iterator_${i}`
+    );
+    const references = await extractReferencesFromExpression(
+      block.for_each,
+      nodeIds,
+      ["each"]
+    );
+    const referenceAst = referencesToAst(scope, block.for_each, references);
+    const referenceType = findTypeOfReference(scope, referenceAst, references);
+    const iterator = t.variableDeclaration("const", [
+      t.variableDeclarator(
+        t.identifier(dynamicBlockIteratorName),
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(
+              t.identifier("cdktf"),
+              t.identifier("TerraformIterator")
+            ),
+            t.identifier("fromList")
+          ),
+          [coerceType(scope, referenceAst, referenceType, ["list", "dynamic"])]
+        )
+      ),
+    ]);
+    t.addComment(iterator, "leading", loopComment);
+    expressions.push(iterator);
+    const dynamicCallExpression = t.callExpression(
+      t.memberExpression(
+        t.identifier(dynamicBlockIteratorName),
+        t.identifier("dynamic")
+      ),
+      [
+        await valueToTs(
+          scope,
+          Array.isArray(block.content) ? block.content[0] : block.content,
+          block.path.replace(block.scopedVar, ""),
+          nodeIds,
+          []
+        ),
+      ]
+    );
+
+    const parts = block.path
+      .replace(`dynamic.${block.scopedVar}`, "")
+      .split(".")
+      .filter((p) => p.length > 0);
+
+    const parent = parts.reduce((acc, part) => {
+      if (Array.isArray(acc) && !Number.isNaN(parseInt(part, 10))) {
+        return acc[parseInt(part, 10)];
+      } else {
+        return acc[part];
+      }
+    }, mappedConfig);
+    parent[block.scopedVar] = dynamicCallExpression;
+    delete parent.dynamic;
+  }
+
   const overrideReference =
-    dynBlocks.length || count
+    nestedDynamicBlocks.length || count
       ? {
           start: 0,
           end: 0,
@@ -569,23 +645,25 @@ export async function resource(
   // Check for dynamic blocks
   expressions = expressions.concat(
     await Promise.all(
-      dynBlocks.map(async ({ path, for_each, content, scopedVar }) => {
-        return addOverrideExpression(
-          varName,
-          path.substring(1), // The path starts with a dot that we don't want
-          await valueToTs(
-            scope,
-            {
-              for_each,
-              content,
-            },
-            "path-for-dynamic-blocks-can-be-ignored",
-            nodeIds,
-            [scopedVar]
-          ),
-          loopComment
-        );
-      })
+      nestedDynamicBlocks.map(
+        async ({ path, for_each, content, scopedVar }) => {
+          return addOverrideExpression(
+            varName,
+            path.substring(1), // The path starts with a dot that we don't want
+            await valueToTs(
+              scope,
+              {
+                for_each,
+                content,
+              },
+              "path-for-dynamic-blocks-can-be-ignored",
+              nodeIds,
+              [scopedVar]
+            ),
+            loopComment
+          );
+        }
+      )
     )
   );
 
