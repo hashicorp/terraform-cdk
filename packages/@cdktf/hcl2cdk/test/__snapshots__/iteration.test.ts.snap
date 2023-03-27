@@ -339,6 +339,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     super(scope, name);
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
+    new azuread.provider.AzureadProvider(this, \\"azuread\\", {
+      tenantId: \\"00000000-0000-0000-0000-000000000000\\",
+    });
     const requiredResourceAccess = new cdktf.TerraformVariable(
       this,
       \\"required_resource_access\\",
