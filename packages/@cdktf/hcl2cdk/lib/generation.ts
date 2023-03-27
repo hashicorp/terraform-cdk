@@ -261,7 +261,11 @@ export const valueToTs = async (
                 const { for_each, ...others } = value as any;
                 const dynamicRef = Object.keys(others)[0];
                 return t.objectProperty(
-                  t.identifier(dynamicRef),
+                  t.identifier(
+                    scope.withinOverrideExpression
+                      ? dynamicRef
+                      : escapeAttributeName(camelCase(dynamicRef))
+                  ),
                   t.arrayExpression()
                 );
               }
@@ -624,7 +628,7 @@ export async function resource(
           varName,
           "count",
           await valueToTs(
-            scope,
+            { ...scope, withinOverrideExpression: true },
             count,
             "path-for-counts-can-be-ignored",
             nodeIds
@@ -656,7 +660,7 @@ export async function resource(
             varName,
             path.substring(1), // The path starts with a dot that we don't want
             await valueToTs(
-              scope,
+              { ...scope, withinOverrideExpression: true },
               {
                 for_each,
                 content,

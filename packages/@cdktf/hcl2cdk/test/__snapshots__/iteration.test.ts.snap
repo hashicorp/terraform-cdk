@@ -361,7 +361,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"bootstrap\\",
       {
         displayName: \\"test\\",
-        required_resource_access: [],
+        requiredResourceAccess: [],
         groupMembershipClaims: cdktf.Token.asList(\\"All\\"),
       }
     );
