@@ -407,7 +407,7 @@ export function iteratorVariableToAst(
         ),
         t.arrayExpression(
           getPropertyAccessPath(
-            iteratorVariable.value.replace("each.value.", "")
+            iteratorVariable.value.replace(/each\.value\.?/, "")
           ).map((p) => t.stringLiteral(p))
         ),
       ]
