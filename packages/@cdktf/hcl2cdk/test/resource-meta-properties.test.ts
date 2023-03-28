@@ -94,6 +94,9 @@ describe("meta-properties", () => {
     testCase.test(
       "all lifecycle properties",
       `
+      provider "aws" {
+        region = "us-east-1"
+      }
       resource "aws_iam_role_policy" "example" {
         name   = "example"
         role   = "role"
@@ -129,6 +132,9 @@ describe("meta-properties", () => {
     testCase.test(
       "preconditions and postconditions",
       `
+      provider "aws" {
+        region = "us-east-1"
+      }
       resource "aws_instance" "example" {
         ami           = "ami-a1b2c3d4"
         instance_type = "t2.micro"
@@ -155,6 +161,9 @@ describe("meta-properties", () => {
     testCase.test(
       "file",
       `
+      provider "aws" {
+        region = "us-east-1"
+      }
       resource "aws_instance" "example" {
         ami           = "ami-a1b2c3d4"
         instance_type = "t2.micro"
@@ -178,6 +187,9 @@ describe("meta-properties", () => {
     testCase.test(
       "local-exec",
       `
+      provider "aws" {
+        region = "us-east-1"
+      }
       resource "aws_instance" "example" {
         ami           = "ami-a1b2c3d4"
         instance_type = "t2.micro"
@@ -195,6 +207,9 @@ describe("meta-properties", () => {
     testCase.test(
       "remote-exec",
       `
+      provider "aws" {
+        region = "us-east-1"
+      }
       resource "aws_instance" "example" {
         ami           = "ami-a1b2c3d4"
         instance_type = "t2.micro"

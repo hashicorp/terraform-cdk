@@ -673,8 +673,7 @@ ${leaveCommentText}`
       // If the following character is
       (input.substr(endPosition + 1, 1) === "*" || // a * (splat) we need to use the FQN
         input.substr(endPosition, 1) === "[" || // a property access
-        isThereANumericAccessor || // a numeric access
-        fullReference.split(".").length < 3);
+        isThereANumericAccessor); // a numeric access
 
     const ref: Reference = {
       start: startPosition,
