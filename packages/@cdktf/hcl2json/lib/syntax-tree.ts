@@ -91,6 +91,7 @@ export type ConditionalExpressionMeta = ExpressionMeta & {
 
 export type UnaryOpExpressionMeta = ExpressionMeta & {
   operator: string;
+  valueExpression: string;
   symbolRange: CodeRange;
   returnType: string;
 };

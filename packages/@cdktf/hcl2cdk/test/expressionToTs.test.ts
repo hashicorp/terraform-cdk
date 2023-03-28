@@ -269,6 +269,13 @@ describe("expressionToTs", () => {
     );
   });
 
+  test("convert unary operators", async () => {
+    const expression = "${!var.enabled}";
+    const scope = getScope({ variables: ["enabled"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(`"cdktf.Op.not(enabled.value)"`);
+  });
+
   test("convert function with arrays and comments", async () => {
     const expression = `\${compact([
             # The example "bucket"

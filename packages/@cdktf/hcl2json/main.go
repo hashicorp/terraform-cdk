@@ -407,9 +407,10 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		w.Current.Meta["falseExpression"] = w.Input[actualExpr.FalseResult.Range().Start.Byte:actualExpr.FalseResult.Range().End.Byte]
 	case *hclsyntax.UnaryOpExpr:
 		w.Current.Type = "unaryOp"
-		val, _ := actualExpr.Value(nil)
 		w.Current.Meta["operator"] = getOperationName(actualExpr.Op)
+		w.Current.Meta["valueExpression"] = w.Input[actualExpr.Val.Range().Start.Byte:actualExpr.Val.Range().End.Byte]
 		w.Current.Meta["symbolRange"] = convertRangeToAst(actualExpr.SymbolRange)
+		val, _ := actualExpr.Value(nil)
 		w.Current.Meta["returnType"] = val.Type()
 	case *hclsyntax.BinaryOpExpr:
 		w.Current.Type = "binaryOp"

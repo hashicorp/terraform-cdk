@@ -119,6 +119,32 @@ function convertTFExpressionAstToTs(
     }
   }
 
+  if (tfe.isUnaryOpExpression(node)) {
+    const operand = convertTFExpressionAstToTs(
+      tfe.getChildWithValue(node, node.meta.valueExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    let fnName = node.meta.operator;
+    if (
+      Object.hasOwnProperty.call(tfUnaryOperatorsToCdktf, node.meta.operator)
+    ) {
+      fnName = tfUnaryOperatorsToCdktf[node.meta.operator];
+    } else {
+      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+    }
+
+    const opClass = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("Op")
+    );
+    const fn = t.memberExpression(opClass, t.identifier(fnName));
+
+    return t.callExpression(fn, [operand]);
+  }
+
   if (tfe.isBinaryOpExpression(node)) {
     const left = convertTFExpressionAstToTs(
       tfe.getChildWithValue(node, node.meta.lhsExpression)!,
