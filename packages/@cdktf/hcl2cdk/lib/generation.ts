@@ -307,6 +307,7 @@ export const valueToTs = async (
 
               const keepKeyName: boolean =
                 !isModule &&
+                key !== "depends_on" &&
                 (key === "for_each" ||
                   !typeMetadata ||
                   isMapAttribute(attributeType));
