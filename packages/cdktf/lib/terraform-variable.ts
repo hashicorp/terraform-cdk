@@ -4,9 +4,10 @@ import { Construct } from "constructs";
 import { TerraformElement } from "./terraform-element";
 import { keysToSnakeCase, deepMerge } from "./util";
 import { Token } from "./tokens";
-import { Expression, ref } from "./tfExpression";
+import { ref } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { ITerraformAddressable } from "./terraform-addressable";
+import { TerraformVariableValidationConfig } from "./terraform-conditions";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class VariableType {
@@ -52,11 +53,6 @@ export abstract class VariableType {
       .map((k) => k + "=" + attributes[k])
       .join(", ")}})`;
   }
-}
-
-export interface TerraformVariableValidationConfig {
-  readonly condition: Expression;
-  readonly errorMessage: string;
 }
 
 export interface TerraformVariableConfig {
