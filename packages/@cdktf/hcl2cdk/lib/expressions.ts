@@ -417,18 +417,17 @@ function convertTFExpressionAstToTs(
     // The left hand side / source of a relative traversal is not a proper
     // object / resource / data thing that is being referenced
     const source = convertTFExpressionAstToTs(
-      node.children[0],
+      tfe.getChildWithValue(node, node.meta.sourceExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
 
     // TODO: Replace with lookupNested from https://github.com/hashicorp/terraform-cdk/pull/2672
-    return t.binaryExpression(
-      "+",
+    return expressionForSerialStringConcatenation([
       source,
-      t.stringLiteral("." + segments.join("."))
-    );
+      t.stringLiteral(traversalPartsToString(segments)),
+    ]);
   }
 
   if (tfe.isForExpression(node)) {
