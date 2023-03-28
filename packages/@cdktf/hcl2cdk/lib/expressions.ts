@@ -55,6 +55,32 @@ const tfUnaryOperatorsToCdktf: Record<string, string> = {
   negative: "negate",
 };
 
+function traversalPartsToString(
+  traversals: tfe.TerraformTraversalPart[],
+  asSuffix = false
+) {
+  let seed = "";
+  if (asSuffix && tfe.isNameTraversalPart(traversals[0])) {
+    seed = ".";
+  }
+  return traversals.reduce((acc, part) => {
+    if (part.type === "nameTraversal") {
+      return `${acc}.${part.segment}`;
+    }
+    return `${acc}[${part.segment}]`;
+  }, seed);
+}
+
+function canUseFqn(expression: tfe.ExpressionType) {
+  if (!tfe.isScopeTraversalExpression(expression)) {
+    return false;
+  }
+
+  const rootSegment = expression.meta.traversal[0].segment;
+
+  return rootSegment !== "var" && rootSegment !== "local";
+}
+
 function convertTFExpressionAstToTs(
   node: tfe.ExpressionType,
   scope: ProgramScope,
@@ -74,23 +100,37 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isScopeTraversalExpression(node)) {
-    const segments = node.meta.traversal.map((tv) => {
-      if (tfe.isIndexTraversalPart(tv)) {
-        return tv.key;
+    const segments = node.meta.traversal;
+
+    if (segments[0].segment === "var") {
+      const varName = variableName(
+        scope,
+        segments[0].segment,
+        segments[1].segment
+      );
+      const variableAccessor = t.memberExpression(
+        t.identifier(varName),
+        t.identifier("value")
+      );
+      if (segments.length > 2) {
+        return t.binaryExpression(
+          "+",
+          variableAccessor,
+          t.stringLiteral(traversalPartsToString(segments.slice(2), true))
+        );
       }
-      return tv.segment;
-    });
 
-    if (segments[0] === "var") {
-      const varName = variableName(scope, segments[0], segments[1]);
-
-      return t.memberExpression(t.identifier(varName), t.identifier("value"));
+      return variableAccessor;
     } else {
-      const resourceName = variableName(scope, segments[0], segments[1]);
+      const resourceName = variableName(
+        scope,
+        segments[0].segment,
+        segments[1].segment
+      );
 
       const subSegments = segments.slice(2);
-      const indexOfNumericAccessor = subSegments.findIndex(
-        (seg) => !isNaN(Number(seg))
+      const indexOfNumericAccessor = subSegments.findIndex((seg) =>
+        tfe.isIndexTraversalPart(seg)
       );
 
       const refSegments =
@@ -104,7 +144,7 @@ function convertTFExpressionAstToTs(
           : [];
 
       const ref = refSegments.reduce((acc: t.Expression, seg) => {
-        return t.memberExpression(acc, t.identifier(seg));
+        return t.memberExpression(acc, t.identifier(seg.segment));
       }, t.identifier(resourceName));
 
       if (nonRefSegments.length === 0) {
@@ -114,7 +154,7 @@ function convertTFExpressionAstToTs(
       return t.binaryExpression(
         "+",
         ref,
-        t.stringLiteral("." + nonRefSegments.join("."))
+        t.stringLiteral(traversalPartsToString(nonRefSegments, true))
       );
     }
   }
@@ -210,8 +250,12 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isSplatExpression(node)) {
-    const sourceExpression = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.sourceExpression)!,
+    const sourceExpressionChild = tfe.getChildWithValue(
+      node,
+      node.meta.sourceExpression
+    )!;
+    let sourceExpression = convertTFExpressionAstToTs(
+      sourceExpressionChild,
       scope,
       nodeIds,
       scopedIds
@@ -222,17 +266,19 @@ function convertTFExpressionAstToTs(
     let relativeExpression = node.meta.eachExpression.startsWith(
       node.meta.anonSymbolExpression
     )
-      ? node.meta.eachExpression.slice(2)
+      ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
       : node.meta.eachExpression;
 
-    const baseExpressionWithFqn = t.memberExpression(
-      sourceExpression,
-      t.identifier("fqn")
-    );
+    if (canUseFqn(sourceExpressionChild)) {
+      sourceExpression = t.memberExpression(
+        sourceExpression,
+        t.identifier("fqn")
+      );
+    }
 
     return t.binaryExpression(
       "+",
-      baseExpressionWithFqn,
+      sourceExpression,
       t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression)
     );
   }

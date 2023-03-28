@@ -13,15 +13,16 @@ export type CodeRange = {
   start: CodeMarker;
 };
 
-export type TerraformNameTraversalPart = {
-  type: "nameTraversal";
+export type TerraformTraversalPartCommon = {
   segment: string;
   range: CodeRange;
 };
-export type TerraformIndexTraversalPart = {
+
+export type TerraformNameTraversalPart = TerraformTraversalPartCommon & {
+  type: "nameTraversal";
+};
+export type TerraformIndexTraversalPart = TerraformTraversalPartCommon & {
   type: "indexTraversal";
-  key: string;
-  range: CodeRange;
 };
 
 export type TerraformTraversalPart =

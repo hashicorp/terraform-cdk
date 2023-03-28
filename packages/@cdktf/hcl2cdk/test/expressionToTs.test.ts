@@ -179,7 +179,17 @@ describe("expressionToTs", () => {
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket.network_interface + \\".0.access_config.0.assigned_nat_ip\\""`
+      `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
+    );
+  });
+
+  test("use no fqn if property is present on numeric access", async () => {
+    const expression =
+      "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
+    const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -265,7 +275,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket + \\".0.id\\""`
+      `"awsS3BucketExamplebucket + \\"[0].id\\""`
     );
   });
 
@@ -301,6 +311,55 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
       `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\\" + input.value)"`
+    );
+  });
+
+  test("nested variable access", async () => {
+    const expression = `\${element(var.test2["val1"], 0)}`;
+    const scope = getScope({ variables: ["test2"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"element(test2.value + \\"[\\\\\\"val1\\\\\\"]\\", 0)"`
+    );
+  });
+
+  test("compliated nested local value", async () => {
+    const expression = "${flatten(var.vnets[*].subnets[*].name)}";
+    const scope = getScope({ variables: ["vnets"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"flatten(vnets.value + \\"[*].subnets[*].name\\")"`
+    );
+  });
+
+  test("complicated nested variable access with map", async () => {
+    const expression = `{ 
+    for vnet in var.vnets[*]:
+    (vnet.vnet_name) => vnet.subnets[*].name
+  }`;
+    const scope = getScope({ variables: ["vnets"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${{ for vnet in\\" + (vnets.value + \\"[*]\\") + \\" : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
+    );
+  });
+
+  test("complicated nested variable access with list", async () => {
+    const expression = `\${flatten([
+    for k, v in var.route : [
+      for n, s in v : [
+        {
+          key = k,
+          name = n,
+          svc_url = s
+        }
+      ]
+    ]
+  ])}`;
+    const scope = getScope({ variables: ["route"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"flatten(\\"\${[ for k, v in\\" + route.value + \\" : [\\\\n      for n, s in v : [\\\\n        {\\\\n          key = k,\\\\n          name = n,\\\\n          svc_url = s\\\\n        }\\\\n      ]\\\\n    ]]}\\")"`
     );
   });
 });

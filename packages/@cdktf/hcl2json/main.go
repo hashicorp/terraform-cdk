@@ -217,7 +217,6 @@ type RangeAst struct {
 type TraversalAst struct {
 	Type    string        `json:"type"`
 	Segment string        `json:"segment,omitempty"`
-	Key     string        `json:"key,omitempty"`
 	Each    *TraversalAst `json:"each,omitempty"`
 	Range   RangeAst      `json:"range,omitempty"`
 }
@@ -275,7 +274,7 @@ func convertTraversal(t hcl.Traversal) ([]TraversalAst, string) {
 				val = key.AsBigFloat().String()
 			}
 
-			res = append(res, TraversalAst{Type: "indexTraversal", Key: val, Range: convertRangeToAst(index.SrcRange)})
+			res = append(res, TraversalAst{Type: "indexTraversal", Segment: val, Range: convertRangeToAst(index.SrcRange)})
 			if full == "" {
 				full = val
 			} else {
