@@ -90,7 +90,9 @@ describe("expressionToTs", () => {
   test("converts a variable reference", async () => {
     const expression = "${var.foo}";
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.foo",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(`"foo.value"`);
   });
 
@@ -122,7 +124,9 @@ describe("expressionToTs", () => {
   test("convert a variable reference", async () => {
     const expression = `\${var.foo_bar}`;
     const scope = getScope({ variables: ["foo_bar"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.foo_bar",
+    ]);
     // TODO: This seems broken
     expect(code(result)).toMatchInlineSnapshot(`"foo_bar.value"`);
   });
@@ -130,7 +134,9 @@ describe("expressionToTs", () => {
   test("convert a resource reference", async () => {
     const expression = `"simple-\${aws_s3_bucket.foo.id}"`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.foo.id",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"simple-\\" + awsS3BucketFoo.id"`
     );
@@ -139,7 +145,9 @@ describe("expressionToTs", () => {
   test("convert a resource reference with nested properties", async () => {
     const expression = `"simple-\${aws_s3_bucket.foo.prop.test}"`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.foo.prop.test",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"simple-\\" + awsS3BucketFoo.prop.test"`
     );
@@ -148,7 +156,9 @@ describe("expressionToTs", () => {
   test("convert a local reference", async () => {
     const expression = `"simple-\${local.foo}"`;
     const scope = getScope({ locals: ["foo"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "local.foo",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(`"\\"simple-\\" + foo"`);
   });
 
@@ -158,7 +168,10 @@ describe("expressionToTs", () => {
     const scope = getScope({
       resources: ["aws_s3_bucket.examplebucket", "aws_s3_bucket.otherbucket"],
     });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+      "aws_s3_bucket.otherbucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"cdktf.Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count)"`
     );
@@ -167,7 +180,9 @@ describe("expressionToTs", () => {
   test("use fqn for splat reference", async () => {
     const expression = `\${aws_s3_bucket.foo.*.id}`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.foo",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"awsS3BucketFoo.fqn + \\".*.id\\""`
     );
@@ -177,7 +192,9 @@ describe("expressionToTs", () => {
     const expression =
       "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
     );
@@ -187,7 +204,9 @@ describe("expressionToTs", () => {
     const expression =
       "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
     );
@@ -196,7 +215,9 @@ describe("expressionToTs", () => {
   test("detects splat reference within function", async () => {
     const expression = "${toset(aws_s3_bucket.examplebucket.*)}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"toset(awsS3BucketExamplebucket.fqn + \\".*\\")"`
     );
@@ -206,7 +227,10 @@ describe("expressionToTs", () => {
     const expression =
       "${aws_kms_key.key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}";
     const scope = getScope({ resources: ["aws_kms_key.key", "examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+      "aws_kms_key.key",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"cdktf.conditional(cdktf.Op.gt(awsKmsKeyKey.deletion_window_in_days, 3), examplebucket.id, [])"`
     );
@@ -215,7 +239,9 @@ describe("expressionToTs", () => {
   test("converts a function with references", async () => {
     const expression = "${element(aws_s3_bucket.examplebucket, 0).id}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"element(awsS3BucketExamplebucket, 0) + \\".id\\""`
     );
@@ -224,7 +250,9 @@ describe("expressionToTs", () => {
   test("converts a function with splat reference", async () => {
     const expression = "${element(aws_s3_bucket.examplebucket.*.id, 0)}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"element(awsS3BucketExamplebucket.fqn + \\".*.id\\", 0)"`
     );
@@ -235,7 +263,9 @@ describe("expressionToTs", () => {
       "${{ for name, user in var.users : user.role => name...}}";
 
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.users",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${{ for name, user in\\" + users.value + \\" : user.role => name...}}\\""`
     );
@@ -245,7 +275,9 @@ describe("expressionToTs", () => {
     const expression = "{for s in var.list : s => upper(s)}";
 
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.list",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${{ for s in\\" + list.value + \\" : s => upper(s)}}\\""`
     );
@@ -255,7 +287,9 @@ describe("expressionToTs", () => {
     const expression = "[for s in var.list : upper(s)]";
 
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.list",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${[ for s in\\" + list.value + \\" : upper(s)]}\\""`
     );
@@ -264,7 +298,9 @@ describe("expressionToTs", () => {
   test("for list with conditional", async () => {
     const expression = '[for s in var.list : upper(s) if s != ""]';
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.list",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${[ for s in\\" + list.value + \\" : upper(s) if s != \\\\\\"\\\\\\"]}\\""`
     );
@@ -273,7 +309,9 @@ describe("expressionToTs", () => {
   test("convert property access resources", async () => {
     const expression = "${aws_s3_bucket.examplebucket[0].id}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"awsS3BucketExamplebucket + \\"[0].id\\""`
     );
@@ -282,7 +320,9 @@ describe("expressionToTs", () => {
   test("convert unary operators", async () => {
     const expression = "${!var.enabled}";
     const scope = getScope({ variables: ["enabled"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.enabled",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(`"cdktf.Op.not(enabled.value)"`);
   });
 
@@ -298,7 +338,10 @@ describe("expressionToTs", () => {
       resources: ["aws_s3_bucket.examplebucket"],
       variables: ["input"],
     });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "aws_s3_bucket.examplebucket",
+      "var.input",
+    ]);
     // TODO: See if we have a way to preserve comments
     expect(code(result)).toMatchInlineSnapshot(
       `"compact([awsS3BucketExamplebucket, input.value])"`
@@ -308,7 +351,9 @@ describe("expressionToTs", () => {
   test("convert references for same reference", async () => {
     const expression = `\${var.input == "test" ? "azure-ad-int" : "azure-ad-\${var.input}"}`;
     const scope = getScope({ variables: ["input"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.input",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\\" + input.value)"`
     );
@@ -317,7 +362,9 @@ describe("expressionToTs", () => {
   test("nested variable access", async () => {
     const expression = `\${element(var.test2["val1"], 0)}`;
     const scope = getScope({ variables: ["test2"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.test2",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"element(test2.value + \\"[\\\\\\"val1\\\\\\"]\\", 0)"`
     );
@@ -326,7 +373,9 @@ describe("expressionToTs", () => {
   test("compliated nested local value", async () => {
     const expression = "${flatten(var.vnets[*].subnets[*].name)}";
     const scope = getScope({ variables: ["vnets"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.vnets",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"flatten(vnets.value + \\"[*].subnets[*].name\\")"`
     );
@@ -338,7 +387,9 @@ describe("expressionToTs", () => {
     (vnet.vnet_name) => vnet.subnets[*].name
   }`;
     const scope = getScope({ variables: ["vnets"] });
-    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.vnets",
+    ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${{ for vnet in\\" + (vnets.value + \\"[*]\\") + \\" : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
     );
@@ -361,5 +412,49 @@ describe("expressionToTs", () => {
     expect(code(result)).toMatchInlineSnapshot(
       `"flatten(\\"\${[ for k, v in\\" + route.value + \\" : [\\\\n      for n, s in v : [\\\\n        {\\\\n          key = k,\\\\n          name = n,\\\\n          svc_url = s\\\\n        }\\\\n      ]\\\\n    ]]}\\")"`
     );
+  });
+
+  test("simple local variable access", async () => {
+    const expression = "${!local.enabled}";
+    const scope = getScope({ locals: ["enabled"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "local.enabled",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(`"cdktf.Op.not(enabled)"`);
+  });
+
+  test("multi local access", async () => {
+    const expression =
+      '"${local.service_name},${local.owner},${local.is_it_great},${local.how_many}"';
+    const scope = getScope({
+      locals: ["service_name", "owner", "is_it_great", "how_many"],
+    });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "local.service_name",
+      "local.owner",
+      "local.is_it_great",
+      "local.how_many",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"service_name + \\",\\" + owner + \\",\\" + is_it_great + \\",\\" + how_many"`
+    );
+  });
+
+  test("binary operations within literals and variables", async () => {
+    const expression = '"${var.test} + 1"';
+    const scope = getScope({ variables: ["test"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.test",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(`"test.value + \\" + 1\\""`);
+  });
+
+  test("local variable access", async () => {
+    const expression = '"${local.enabled}"';
+    const scope = getScope({ locals: ["enabled"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "local.enabled",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(`"enabled"`);
   });
 });

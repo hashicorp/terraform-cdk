@@ -78,7 +78,53 @@ function canUseFqn(expression: tfe.ExpressionType) {
 
   const rootSegment = expression.meta.traversal[0].segment;
 
-  return rootSegment !== "var" && rootSegment !== "local";
+  return !["var", "local"].includes(rootSegment);
+}
+
+function containsReference(expression: tfe.ExpressionType) {
+  if (!tfe.isScopeTraversalExpression(expression)) {
+    return false;
+  }
+
+  const segments = expression.meta.traversal;
+  const rootSegment = segments[0].segment;
+  const fullAccessor = expression.meta.fullAccessor;
+
+  if (
+    rootSegment === "count" || // count variable
+    rootSegment === "each" || // each variable
+    // https://www.terraform.io/docs/language/expressions/references.html#filesystem-and-workspace-info
+    fullAccessor.startsWith("path.module") ||
+    fullAccessor.startsWith("path.root") ||
+    fullAccessor.startsWith("path.cwd") ||
+    fullAccessor.startsWith("terraform.workspace") ||
+    fullAccessor.startsWith("self.") // block local value
+  ) {
+    logger.debug(`skipping ${fullAccessor}`);
+    return false;
+  }
+
+  return true;
+}
+
+function traversalToVariableName(scope: Scope, node: tfe.ExpressionType) {
+  if (!tfe.isScopeTraversalExpression(node)) {
+    logger.error(
+      `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
+        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue`
+    );
+    return "";
+  }
+
+  const segments = node.meta.traversal;
+  const rootSegment = segments[0].segment;
+  const resource =
+    rootSegment === "data"
+      ? `${segments[0].segment}.${segments[1].segment}`
+      : rootSegment;
+  const name =
+    rootSegment === "data" ? segments[2].segment : segments[1].segment;
+  return variableName(scope, resource, name);
 }
 
 function convertTFExpressionAstToTs(
@@ -100,18 +146,23 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isScopeTraversalExpression(node)) {
-    const segments = node.meta.traversal;
+    const hasReference = containsReference(node);
 
-    if (segments[0].segment === "var") {
-      const varName = variableName(
-        scope,
-        segments[0].segment,
-        segments[1].segment
-      );
-      const variableAccessor = t.memberExpression(
-        t.identifier(varName),
-        t.identifier("value")
-      );
+    if (!hasReference) {
+      return t.stringLiteral(node.meta.fullAccessor);
+    }
+
+    const segments = node.meta.traversal;
+    const varIdentifier = t.identifier(
+      camelCase(traversalToVariableName(scope, node))
+    );
+
+    if (["var", "local"].includes(segments[0].segment)) {
+      const variableAccessor =
+        segments[0].segment === "var"
+          ? t.memberExpression(varIdentifier, t.identifier("value"))
+          : varIdentifier;
+
       if (segments.length > 2) {
         return t.binaryExpression(
           "+",
@@ -121,42 +172,36 @@ function convertTFExpressionAstToTs(
       }
 
       return variableAccessor;
-    } else {
-      const resourceName = variableName(
-        scope,
-        segments[0].segment,
-        segments[1].segment
-      );
-
-      const subSegments = segments.slice(2);
-      const indexOfNumericAccessor = subSegments.findIndex((seg) =>
-        tfe.isIndexTraversalPart(seg)
-      );
-
-      const refSegments =
-        indexOfNumericAccessor > -1
-          ? subSegments.slice(0, indexOfNumericAccessor)
-          : subSegments;
-
-      const nonRefSegments =
-        indexOfNumericAccessor > -1
-          ? subSegments.slice(indexOfNumericAccessor)
-          : [];
-
-      const ref = refSegments.reduce((acc: t.Expression, seg) => {
-        return t.memberExpression(acc, t.identifier(seg.segment));
-      }, t.identifier(resourceName));
-
-      if (nonRefSegments.length === 0) {
-        return ref;
-      }
-
-      return t.binaryExpression(
-        "+",
-        ref,
-        t.stringLiteral(traversalPartsToString(nonRefSegments, true))
-      );
     }
+
+    const subSegments = segments.slice(2);
+    const indexOfNumericAccessor = subSegments.findIndex((seg) =>
+      tfe.isIndexTraversalPart(seg)
+    );
+
+    const refSegments =
+      indexOfNumericAccessor > -1
+        ? subSegments.slice(0, indexOfNumericAccessor)
+        : subSegments;
+
+    const nonRefSegments =
+      indexOfNumericAccessor > -1
+        ? subSegments.slice(indexOfNumericAccessor)
+        : [];
+
+    const ref = refSegments.reduce((acc: t.Expression, seg) => {
+      return t.memberExpression(acc, t.identifier(seg.segment));
+    }, varIdentifier);
+
+    if (nonRefSegments.length === 0) {
+      return ref;
+    }
+
+    return t.binaryExpression(
+      "+",
+      ref,
+      t.stringLiteral(traversalPartsToString(nonRefSegments, true))
+    );
   }
 
   if (tfe.isUnaryOpExpression(node)) {
@@ -217,7 +262,7 @@ function convertTFExpressionAstToTs(
     return t.callExpression(fn, [left, right]);
   }
 
-  if (tfe.isTemplateExpression(node)) {
+  if (tfe.isTemplateExpression(node) || tfe.isTemplateWrapExpression(node)) {
     const parts = node.children.map((child) =>
       convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
     );
@@ -228,10 +273,9 @@ function convertTFExpressionAstToTs(
     if (parts.length > 0) {
       return parts.reduce(
         (acc: t.Expression | undefined, part: t.Expression) => {
-          if (acc === null) {
+          if (!acc) {
             return part;
           }
-          // @ts-ignore
           return t.binaryExpression("+", acc, part);
         }
       );
@@ -408,7 +452,7 @@ export async function convertTerraformExpressionToTs(
   if (!ast) {
     throw new Error(`Unable to parse terraform expression: ${input}`);
   }
-  // console.error("AST", JSON.stringify(ast, null, 2));
+  // console.log("AST", JSON.stringify(ast, null, 2));
 
   if (isWrapped) {
     return convertTFExpressionAstToTs(
