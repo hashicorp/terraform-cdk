@@ -296,10 +296,3 @@ export function getChildWithValue(node: ExpressionAst, value: string) {
     return child.meta.value === value;
   });
 }
-
-export function* traverseAst(ast: ExpressionType): Generator<ExpressionType> {
-  yield ast;
-  for (const child of ast.children) {
-    yield* traverseAst(child);
-  }
-}

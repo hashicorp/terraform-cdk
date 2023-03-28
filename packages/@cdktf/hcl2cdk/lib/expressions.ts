@@ -6,7 +6,7 @@ import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
-import * as tfe from "@cdktf/hcl2json/lib/syntax-tree";
+import { TFExpressionSyntaxTree as tfe } from "@cdktf/hcl2json";
 
 export type Reference = {
   start: number;
