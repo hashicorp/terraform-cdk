@@ -100,7 +100,7 @@ describe("expressionToTs", () => {
     const expression = "${var.foo_bar}";
     const scope = getScope({ variables: ["foo_bar"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
-    expect(code(result)).toMatchInlineSnapshot(`"foo_bar.value"`);
+    expect(code(result)).toMatchInlineSnapshot(`"fooBar.value"`);
   });
 
   test("convert a function call", async () => {
@@ -128,7 +128,7 @@ describe("expressionToTs", () => {
       "var.foo_bar",
     ]);
     // TODO: This seems broken
-    expect(code(result)).toMatchInlineSnapshot(`"foo_bar.value"`);
+    expect(code(result)).toMatchInlineSnapshot(`"fooBar.value"`);
   });
 
   test("convert a resource reference", async () => {
@@ -138,7 +138,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo.id",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"simple-\\" + awsS3BucketFoo.id"`
+      `"\\"simple-\${\\" + awsS3BucketFoo.id + \\"}\\""`
     );
   });
 
@@ -149,7 +149,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo.prop.test",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"simple-\\" + awsS3BucketFoo.prop.test"`
+      `"\\"simple-\${\\" + awsS3BucketFoo.prop.test + \\"}\\""`
     );
   });
 
@@ -159,7 +159,9 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, [
       "local.foo",
     ]);
-    expect(code(result)).toMatchInlineSnapshot(`"\\"simple-\\" + foo"`);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"simple-\${\\" + foo + \\"}\\""`
+    );
   });
 
   test("plain resource references in arithmetics", async () => {
@@ -196,7 +198,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.network_interface + \\"}[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -208,7 +210,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket.network_interface + \\"[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.network_interface + \\"}[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -313,7 +315,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket + \\"[0].id\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket + \\"}[0].id\\""`
     );
   });
 
@@ -355,7 +357,7 @@ describe("expressionToTs", () => {
       "var.input",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\\" + input.value)"`
+      `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\${\\" + input.value + \\"}\\")"`
     );
   });
 
@@ -366,7 +368,7 @@ describe("expressionToTs", () => {
       "var.test2",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"element(test2.value + \\"[\\\\\\"val1\\\\\\"]\\", 0)"`
+      `"element(\\"\${\\" + test2.value + \\"}[\\\\\\"val1\\\\\\"]\\", 0)"`
     );
   });
 
@@ -436,7 +438,7 @@ describe("expressionToTs", () => {
       "local.how_many",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"service_name + \\",\\" + owner + \\",\\" + is_it_great + \\",\\" + how_many"`
+      `"\\"\${\\" + serviceName + \\"},\${\\" + owner + \\"},\${\\" + isItGreat + \\"},\${\\" + howMany + \\"}\\""`
     );
   });
 
@@ -446,7 +448,9 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, [
       "var.test",
     ]);
-    expect(code(result)).toMatchInlineSnapshot(`"test.value + \\" + 1\\""`);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${\\" + test.value + \\"} + 1\\""`
+    );
   });
 
   test("local variable access", async () => {
@@ -456,5 +460,12 @@ describe("expressionToTs", () => {
       "local.enabled",
     ]);
     expect(code(result)).toMatchInlineSnapshot(`"enabled"`);
+  });
+
+  test("converts traversals that cannot be references", async () => {
+    const expression = "${self.path}";
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(`"\\"\${self.path}\\""`);
   });
 });

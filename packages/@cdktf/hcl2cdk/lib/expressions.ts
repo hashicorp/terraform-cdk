@@ -127,6 +127,30 @@ function traversalToVariableName(scope: Scope, node: tfe.ExpressionType) {
   return variableName(scope, resource, name);
 }
 
+function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
+  const reducedNodes = nodes.reduce((acc, node) => {
+    const prev = acc[acc.length - 1];
+    if (!prev) return [node];
+
+    if (t.isStringLiteral(prev) && t.isStringLiteral(node)) {
+      acc.pop();
+      acc.push(t.stringLiteral(prev.value + node.value));
+      return acc;
+    }
+
+    acc.push(node);
+    return acc;
+  }, []);
+
+  return reducedNodes.reduce((acc, node) => {
+    if (!acc) {
+      return node;
+    }
+
+    return t.binaryExpression("+", acc as t.Expression, node);
+  });
+}
+
 function convertTFExpressionAstToTs(
   node: tfe.ExpressionType,
   scope: ProgramScope,
@@ -148,14 +172,12 @@ function convertTFExpressionAstToTs(
   if (tfe.isScopeTraversalExpression(node)) {
     const hasReference = containsReference(node);
 
-    if (!hasReference) {
-      return t.stringLiteral(node.meta.fullAccessor);
-    }
-
     const segments = node.meta.traversal;
-    const varIdentifier = t.identifier(
-      camelCase(traversalToVariableName(scope, node))
-    );
+    const varIdentifier = hasReference
+      ? t.identifier(camelCase(traversalToVariableName(scope, node)))
+      : // This is a variable reference that we don't understand yet, so we wrap it in a template string
+        // for Terraform to handle
+        t.stringLiteral(`\${${node.meta.fullAccessor}}`);
 
     if (["var", "local"].includes(segments[0].segment)) {
       const variableAccessor =
@@ -164,11 +186,13 @@ function convertTFExpressionAstToTs(
           : varIdentifier;
 
       if (segments.length > 2) {
-        return t.binaryExpression(
-          "+",
+        return expressionForSerialStringConcatenation([
+          t.stringLiteral("${"),
           variableAccessor,
-          t.stringLiteral(traversalPartsToString(segments.slice(2), true))
-        );
+          t.stringLiteral(
+            "}" + traversalPartsToString(segments.slice(2), true)
+          ),
+        ]);
       }
 
       return variableAccessor;
@@ -189,19 +213,21 @@ function convertTFExpressionAstToTs(
         ? subSegments.slice(indexOfNumericAccessor)
         : [];
 
-    const ref = refSegments.reduce((acc: t.Expression, seg) => {
-      return t.memberExpression(acc, t.identifier(seg.segment));
-    }, varIdentifier);
+    const ref = refSegments.reduce(
+      (acc: t.Expression, seg) =>
+        t.memberExpression(acc, t.identifier(seg.segment)),
+      varIdentifier
+    );
 
     if (nonRefSegments.length === 0) {
       return ref;
     }
 
-    return t.binaryExpression(
-      "+",
+    return expressionForSerialStringConcatenation([
+      t.stringLiteral("${"),
       ref,
-      t.stringLiteral(traversalPartsToString(nonRefSegments, true))
-    );
+      t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
+    ]);
   }
 
   if (tfe.isUnaryOpExpression(node)) {
@@ -263,24 +289,40 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isTemplateExpression(node) || tfe.isTemplateWrapExpression(node)) {
-    const parts = node.children.map((child) =>
-      convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
-    );
+    const parts = node.children.map((child) => ({
+      node: child,
+      expr: convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds),
+    }));
 
     if (parts.length === 0) {
       return t.stringLiteral(node.meta.value);
     }
-    if (parts.length > 0) {
-      return parts.reduce(
-        (acc: t.Expression | undefined, part: t.Expression) => {
-          if (!acc) {
-            return part;
-          }
-          return t.binaryExpression("+", acc, part);
-        }
-      );
+
+    if (parts.length === 1) {
+      return parts[0].expr;
     }
-    return t.stringLiteral(node.meta.value);
+
+    let prev = null;
+    let isScopedTraversal = false;
+    let expressions = [];
+    for (const { node, expr } of parts) {
+      if (tfe.isScopeTraversalExpression(node)) {
+        expressions.push(t.stringLiteral("${"));
+        isScopedTraversal = true;
+      } else {
+        if (isScopedTraversal) {
+          expressions.push(t.stringLiteral("}"));
+          isScopedTraversal = false;
+        }
+      }
+      expressions.push(expr);
+    }
+
+    if (isScopedTraversal) {
+      expressions.push(t.stringLiteral("}"));
+    }
+
+    return expressionForSerialStringConcatenation(expressions);
   }
 
   if (tfe.isFunctionCallExpression(node)) {
@@ -370,12 +412,7 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isRelativeTraversalExpression(node)) {
-    const segments = node.meta.traversal.map((tv) => {
-      if (tfe.isIndexTraversalPart(tv)) {
-        return tv.key;
-      }
-      return tv.segment;
-    });
+    const segments = node.meta.traversal;
 
     // The left hand side / source of a relative traversal is not a proper
     // object / resource / data thing that is being referenced
