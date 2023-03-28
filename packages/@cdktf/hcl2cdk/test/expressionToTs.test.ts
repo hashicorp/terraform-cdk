@@ -115,7 +115,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"replace(\\"hello-\\" + Op.add(22, 22), \\"44\\", \\"world\\")"`
+      `"replace(\\"hello-\\" + cdktf.Op.add(22, 22), \\"44\\", \\"world\\")"`
     );
   });
 
@@ -160,7 +160,7 @@ describe("expressionToTs", () => {
     });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count)"`
+      `"cdktf.Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count)"`
     );
   });
 
@@ -198,7 +198,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ resources: ["aws_kms_key.key", "examplebucket"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"conditional(Op.gt(awsKmsKeyKey.deletion_window_in_days, 3), examplebucket.id, [])"`
+      `"cdktf.conditional(cdktf.Op.gt(awsKmsKeyKey.deletion_window_in_days, 3), examplebucket.id, [])"`
     );
   });
 
@@ -293,7 +293,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ variables: ["input"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"conditional(Op.equal(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\\" + input.value)"`
+      `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\\" + input.value)"`
     );
   });
 });

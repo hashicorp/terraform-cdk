@@ -18,7 +18,7 @@ export type Reference = {
 
 const DOLLAR_REGEX = /\$/g;
 
-function sanitizeTerraformExpression(input: string): string {
+function wrapTerraformExpression(input: string): string {
   if (!isNaN(parseInt(input, 10))) {
     return input;
   }
@@ -34,14 +34,26 @@ function sanitizeTerraformExpression(input: string): string {
   return `"${input}"`;
 }
 
-function convertTerraformOperatorNameToCdktf(operator: string): string {
-  switch (operator) {
-    case "greaterThan":
-      return "gt";
-    default:
-      return operator;
-  }
-}
+const tfBinaryOperatorsToCdktf: Record<string, string> = {
+  logicalOr: "or",
+  logicalAnd: "and",
+  greaterThan: "gt",
+  greaterThanOrEqual: "gte",
+  lessThan: "lt",
+  lessThanOrEqual: "lte",
+  equal: "eq",
+  notEqual: "neq",
+  add: "add",
+  subtract: "sub",
+  multiply: "mul",
+  divide: "div",
+  modulo: "mod",
+};
+
+const tfUnaryOperatorsToCdktf: Record<string, string> = {
+  logicalNot: "not",
+  negative: "negate",
+};
 
 function convertTFExpressionAstToTs(
   node: tfe.ExpressionType,
@@ -63,14 +75,10 @@ function convertTFExpressionAstToTs(
 
   if (tfe.isScopeTraversalExpression(node)) {
     const segments = node.meta.traversal.map((tv) => {
-      if (tfe.isNameTraversalPart(tv)) {
-        return tv.segment;
-      }
       if (tfe.isIndexTraversalPart(tv)) {
         return tv.key;
       }
-
-      return "";
+      return tv.segment;
     });
 
     if (segments[0] === "var") {
@@ -113,20 +121,32 @@ function convertTFExpressionAstToTs(
 
   if (tfe.isBinaryOpExpression(node)) {
     const left = convertTFExpressionAstToTs(
-      node.children[0],
+      tfe.getChildWithValue(node, node.meta.lhsExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
     const right = convertTFExpressionAstToTs(
-      node.children[1],
+      tfe.getChildWithValue(node, node.meta.rhsExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
 
-    const fnName = convertTerraformOperatorNameToCdktf(node.meta.operator);
-    const fn = t.memberExpression(t.identifier("Op"), t.identifier(fnName));
+    let fnName = node.meta.operator;
+    if (
+      Object.hasOwnProperty.call(tfBinaryOperatorsToCdktf, node.meta.operator)
+    ) {
+      fnName = tfBinaryOperatorsToCdktf[node.meta.operator];
+    } else {
+      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+    }
+
+    const opClass = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("Op")
+    );
+    const fn = t.memberExpression(opClass, t.identifier(fnName));
 
     return t.callExpression(fn, [left, right]);
   }
@@ -164,8 +184,8 @@ function convertTFExpressionAstToTs(
   }
 
   if (tfe.isSplatExpression(node)) {
-    const baseExpression = convertTFExpressionAstToTs(
-      node.children[0],
+    const sourceExpression = convertTFExpressionAstToTs(
+      tfe.getChildWithValue(node, node.meta.sourceExpression)!,
       scope,
       nodeIds,
       scopedIds
@@ -173,14 +193,14 @@ function convertTFExpressionAstToTs(
 
     // We don't convert the relative expression because everything after the splat is going to be
     // a string
-    let relativeExpression = "";
-    // Check if the splat ended at the .* token
-    if (node.children.length > 1 && node.children[1].meta?.value) {
-      relativeExpression = node.children[1].meta.value;
-    }
+    let relativeExpression = node.meta.eachExpression.startsWith(
+      node.meta.anonSymbolExpression
+    )
+      ? node.meta.eachExpression.slice(2)
+      : node.meta.eachExpression;
 
     const baseExpressionWithFqn = t.memberExpression(
-      baseExpression,
+      sourceExpression,
       t.identifier("fqn")
     );
 
@@ -193,28 +213,32 @@ function convertTFExpressionAstToTs(
 
   if (tfe.isConditionalExpression(node)) {
     const condition = convertTFExpressionAstToTs(
-      node.children[0],
+      tfe.getChildWithValue(node, node.meta.conditionExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
 
     const trueExpression = convertTFExpressionAstToTs(
-      node.children[1],
+      tfe.getChildWithValue(node, node.meta.trueExpression)!,
       scope,
-
       nodeIds,
       scopedIds
     );
 
     const falseExpression = convertTFExpressionAstToTs(
-      node.children[2],
+      tfe.getChildWithValue(node, node.meta.falseExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
 
-    return t.callExpression(t.identifier("conditional"), [
+    const conditionalFn = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("conditional")
+    );
+
+    return t.callExpression(conditionalFn, [
       condition,
       trueExpression,
       falseExpression,
@@ -231,13 +255,10 @@ function convertTFExpressionAstToTs(
 
   if (tfe.isRelativeTraversalExpression(node)) {
     const segments = node.meta.traversal.map((tv) => {
-      if (tfe.isNameTraversalPart(tv)) {
-        return tv.segment;
-      }
       if (tfe.isIndexTraversalPart(tv)) {
         return tv.key;
       }
-      return "";
+      return tv.segment;
     });
 
     // The left hand side / source of a relative traversal is not a proper
@@ -308,7 +329,7 @@ export async function convertTerraformExpressionToTs(
   scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
-  const sanitizedInput = sanitizeTerraformExpression(input);
+  const sanitizedInput = wrapTerraformExpression(input);
   const isWrapped = sanitizedInput.length !== input.length;
   const ast = await getExpressionAst("main.tf", sanitizedInput);
 
