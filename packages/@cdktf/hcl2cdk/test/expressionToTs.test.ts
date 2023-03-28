@@ -468,4 +468,15 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(`"\\"\${self.path}\\""`);
   });
+
+  test("converts join function with variables", async () => {
+    const expression = '${join("-", [var.tags.app, var.tags.env])}';
+    const scope = getScope({ variables: ["tags"] });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.tags",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"join(\\"-\\", [\\"\${\\" + tags.value + \\"}.app\\", \\"\${\\" + tags.value + \\"}.env\\"])"`
+    );
+  });
 });

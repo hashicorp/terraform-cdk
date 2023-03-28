@@ -65,6 +65,9 @@ function traversalPartsToString(
   }
   return traversals.reduce((acc, part) => {
     if (part.type === "nameTraversal") {
+      if (acc === seed) {
+        return `${acc}${part.segment}`;
+      }
       return `${acc}.${part.segment}`;
     }
     return `${acc}[${part.segment}]`;
@@ -140,15 +143,17 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
 
     acc.push(node);
     return acc;
-  }, []);
+  }, [] as t.Expression[]);
 
-  return reducedNodes.reduce((acc, node) => {
-    if (!acc) {
-      return node;
+  return reducedNodes.reduce(
+    (acc: t.Expression | undefined, node: t.Expression) => {
+      if (!acc) {
+        return node;
+      }
+
+      return t.binaryExpression("+", acc as t.Expression, node);
     }
-
-    return t.binaryExpression("+", acc as t.Expression, node);
-  });
+  );
 }
 
 function convertTFExpressionAstToTs(
@@ -302,7 +307,6 @@ function convertTFExpressionAstToTs(
       return parts[0].expr;
     }
 
-    let prev = null;
     let isScopedTraversal = false;
     let expressions = [];
     for (const { node, expr } of parts) {
@@ -426,7 +430,7 @@ function convertTFExpressionAstToTs(
     // TODO: Replace with lookupNested from https://github.com/hashicorp/terraform-cdk/pull/2672
     return expressionForSerialStringConcatenation([
       source,
-      t.stringLiteral(traversalPartsToString(segments)),
+      t.stringLiteral(traversalPartsToString(segments, true)),
     ]);
   }
 
