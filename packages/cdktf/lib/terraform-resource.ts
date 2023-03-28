@@ -10,6 +10,7 @@ import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
+import { PreCondition, PostCondition } from "./terraform-conditions";
 import {
   SSHProvisionerConnection,
   WinrmProvisionerConnection,
@@ -41,6 +42,9 @@ export interface TerraformResourceLifecycle {
   readonly createBeforeDestroy?: boolean;
   readonly preventDestroy?: boolean;
   readonly ignoreChanges?: string[] | "all";
+  readonly replaceTriggeredBy?: Array<ITerraformDependable | string>;
+  readonly precondition?: PreCondition[];
+  readonly postcondition?: PostCondition[];
 }
 
 export interface TerraformMetaArguments {

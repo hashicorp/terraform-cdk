@@ -8,6 +8,7 @@ import { Expression } from ".";
 import { isArray } from "util";
 import { ITerraformAddressable } from "./terraform-addressable";
 import { Token } from "./tokens";
+import { PreCondition } from "./terraform-conditions";
 
 const TERRAFORM_OUTPUT_SYMBOL = Symbol.for("cdktf/TerraformOutput");
 
@@ -23,6 +24,7 @@ export interface TerraformOutputConfig {
    * @default false
    */
   readonly staticId?: boolean;
+  readonly precondition?: PreCondition;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -31,6 +33,7 @@ export class TerraformOutput extends TerraformElement {
   public description?: string;
   public sensitive?: boolean;
   public dependsOn?: ITerraformDependable[];
+  public precondition?: PreCondition;
 
   constructor(scope: Construct, id: string, config: TerraformOutputConfig) {
     super(scope, id);
@@ -40,6 +43,7 @@ export class TerraformOutput extends TerraformElement {
     this.sensitive = config.sensitive;
     this.dependsOn = config.dependsOn;
     this.staticId = config.staticId || false;
+    this.precondition = config.precondition;
     Object.defineProperty(this, TERRAFORM_OUTPUT_SYMBOL, { value: true });
   }
 
