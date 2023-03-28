@@ -102,9 +102,147 @@ export type MetaType =
   | UnaryOpExpressionMeta
   | BinaryOpExpressionMeta;
 
-export type ExpressionAst = {
-  type: string;
-  meta: MetaType;
-  children: ExpressionAst[];
+export type CommonExpressionAst = {
+  children: ExpressionType[];
   range: CodeRange;
 };
+
+export type ExpressionAst = CommonExpressionAst & {
+  type: string;
+  meta: MetaType;
+};
+
+export type TemplateWrapExpression = CommonExpressionAst & {
+  type: "templateWrap";
+  meta: ExpressionMeta; // Doesn't have any special meta attributes
+};
+
+export type ForExpression = CommonExpressionAst & {
+  type: "for";
+  meta: ForExpressionMeta;
+};
+
+export type FunctionCallExpression = CommonExpressionAst & {
+  type: "function";
+  meta: FunctionCallMeta;
+};
+
+export type ScopeTraversalExpression = CommonExpressionAst & {
+  type: "scopeTraversal";
+  meta: ScopeTraversalExpressionMeta;
+};
+
+export type RelativeTraversalExpression = CommonExpressionAst & {
+  type: "relativeTraversal";
+  meta: RelativeTraversalExpressionMeta;
+};
+
+export type LiteralValueExpression = CommonExpressionAst & {
+  type: "literalValue";
+  meta: LiteralValueExpressionMeta;
+};
+
+export type IndexExpression = CommonExpressionAst & {
+  type: "index";
+  meta: IndexExpressionMeta;
+};
+
+export type SplatExpression = CommonExpressionAst & {
+  type: "splat";
+  meta: SplatExpressionMeta;
+};
+
+export type ConditionalExpression = CommonExpressionAst & {
+  type: "conditional";
+  meta: ConditionalExpressionMeta;
+};
+
+export type UnaryOpExpression = CommonExpressionAst & {
+  type: "unaryOp";
+  meta: UnaryOpExpressionMeta;
+};
+
+export type BinaryOpExpression = CommonExpressionAst & {
+  type: "binaryOp";
+  meta: BinaryOpExpressionMeta;
+};
+
+export type ExpressionType =
+  | ForExpression
+  | TemplateWrapExpression
+  | FunctionCallExpression
+  | ScopeTraversalExpression
+  | RelativeTraversalExpression
+  | LiteralValueExpression
+  | IndexExpression
+  | SplatExpression
+  | ConditionalExpression
+  | UnaryOpExpression
+  | BinaryOpExpression;
+
+export function isForExpression(ast: ExpressionType): ast is ForExpression {
+  return ast.type === "for";
+}
+
+export function isTemplateWrapExpression(
+  ast: ExpressionType
+): ast is TemplateWrapExpression {
+  return ast.type === "templateWrap";
+}
+
+export function isFunctionCallExpression(
+  ast: ExpressionType
+): ast is FunctionCallExpression {
+  return ast.type === "function";
+}
+
+export function isScopeTraversalExpression(
+  ast: ExpressionType
+): ast is ScopeTraversalExpression {
+  return ast.type === "scopeTraversal";
+}
+
+export function isRelativeTraversalExpression(
+  ast: ExpressionType
+): ast is RelativeTraversalExpression {
+  return ast.type === "relativeTraversal";
+}
+
+export function isLiteralValueExpression(
+  ast: ExpressionType
+): ast is LiteralValueExpression {
+  return ast.type === "literalValue";
+}
+
+export function isIndexExpression(ast: ExpressionType): ast is IndexExpression {
+  return ast.type === "index";
+}
+
+export function isSplatExpression(ast: ExpressionType): ast is SplatExpression {
+  return ast.type === "splat";
+}
+
+export function isConditionalExpression(
+  ast: ExpressionType
+): ast is ConditionalExpression {
+  return ast.type === "conditional";
+}
+
+export function isUnaryOpExpression(
+  ast: ExpressionType
+): ast is UnaryOpExpression {
+  return ast.type === "unaryOp";
+}
+
+export function isBinaryOpExpression(
+  ast: ExpressionType
+): ast is BinaryOpExpression {
+  return ast.type === "binaryOp";
+}
+
+export function* traverseAst(ast: ExpressionType): Generator<ExpressionType> {
+  yield ast;
+  for (const child of ast.children) {
+    yield* traverseAst(child);
+  }
+}

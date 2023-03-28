@@ -12,7 +12,7 @@ import path from "path";
 import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 import { Reference, findAllReferencesInAst } from "./references";
-import { ExpressionAst } from "./syntax-tree";
+import { ExpressionType } from "./syntax-tree";
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
@@ -176,9 +176,9 @@ export async function getReferencesInExpression(
 export async function getExpressionAst(
   filename: string,
   expression: string
-): Promise<ExpressionAst | null> {
+): Promise<ExpressionType | null> {
   const res = await wasm.getExpressionAst(filename, expression);
-  const ast = JSON.parse(res) as ExpressionAst;
+  const ast = JSON.parse(res) as ExpressionType;
 
   if (!ast) {
     return null;
