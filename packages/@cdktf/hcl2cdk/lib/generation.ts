@@ -244,7 +244,8 @@ export const valueToTs = async (
       const unwrappedItem =
         Array.isArray(item) &&
         (shouldRemoveArrayBasedOnType(attributeType) ||
-          path.endsWith("lifecycle"))
+          path.endsWith("lifecycle") ||
+          path.endsWith("connection"))
           ? item[0]
           : item;
 
@@ -483,7 +484,7 @@ export async function resource(
   }
   let expressions: t.Statement[] = [];
   const varName = variableName(scope, resource, key);
-  const { for_each, count, ...config } = item[0];
+  const { for_each, count, provisioner, ...config } = item[0];
   const mappedConfig = mapConfigPerResourceType(resource, config);
 
   let forEachIteratorName: string | undefined;
@@ -619,6 +620,21 @@ export async function resource(
           },
         }
       : undefined;
+
+  if (provisioner) {
+    mappedConfig.provisioners = await Promise.all(
+      Object.entries(provisioner).flatMap(([type, p]: [string, any]) =>
+        p.map((pp: Record<string, any>) =>
+          valueToTs(
+            scope,
+            { type, ...pp },
+            "path-for-provisioners-can-be-ignored",
+            nodeIds
+          )
+        )
+      )
+    );
+  }
 
   expressions = expressions.concat(
     await asExpression(

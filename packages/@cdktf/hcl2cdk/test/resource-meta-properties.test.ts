@@ -205,7 +205,7 @@ describe("meta-properties", () => {
     );
 
     testCase.test(
-      "remote-exec",
+      "remote-exec with global connection block",
       `
       provider "aws" {
         region = "us-east-1"
@@ -227,6 +227,37 @@ describe("meta-properties", () => {
             "puppet apply",
             "consul join \${aws_instance.web.private_ip}",
           ]
+        }
+      }
+      `,
+      [binding.aws],
+      Synth.yes
+    );
+
+    testCase.test(
+      "remote-exec with connection block",
+      `
+      provider "aws" {
+        region = "us-east-1"
+      }
+      resource "aws_instance" "example" {
+        ami           = "ami-a1b2c3d4"
+        instance_type = "t2.micro"
+        iam_instance_profile = "aws_iam_instance_profile"
+      
+      
+        provisioner "remote-exec" {
+          inline = [
+            "puppet apply",
+            "consul join \${aws_instance.web.private_ip}",
+          ]
+            
+          connection {
+            type     = "ssh"
+            user     = "root"
+            password = "password"
+            host     = self.public_ip
+          }
         }
       }
       `,
