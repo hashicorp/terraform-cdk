@@ -66,7 +66,7 @@ export const Watch = ({
         parallelism,
         terraformParallelism,
       },
-      ac.signal,
+      ac.signal as any,
       (state) => {
         setCurrentState(state);
       }

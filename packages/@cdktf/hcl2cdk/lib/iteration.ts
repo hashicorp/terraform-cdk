@@ -27,7 +27,7 @@ export function forEachGlobal<T, R>(
   }, {});
 }
 
-export function forEachProvider<T, R>(
+export function forEachProvider<T extends { alias?: string }, R>(
   scope: ProgramScope,
   record: Record<string, T[]> | undefined,
   iterator: (
@@ -41,7 +41,7 @@ export function forEachProvider<T, R>(
   return Object.entries(record || {}).reduce((carry, [key, items]) => {
     return {
       ...carry,
-      ...items.reduce((innerCarry, item: T & { alias?: string }) => {
+      ...items.reduce((innerCarry, item: T) => {
         const id = item.alias ? `${key}.${item.alias}` : `${key}`;
         return {
           ...innerCarry,

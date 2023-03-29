@@ -58,7 +58,7 @@ export const Get = ({
               ...payload.trackingPayload,
             }),
         });
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
         exit(new Error(e));
       }

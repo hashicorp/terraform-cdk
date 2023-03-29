@@ -17,16 +17,16 @@
     "@skorfmann/terraform-cloud": "^1.9.1",
     "@types/express": "^4.17.13",
     "@types/fs-extra": "^8.1.0",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^29.5.0",
     "archiver": "^5.3.0",
     "execa": "^5.1.1",
     "express": "^4.17.2",
     "fs-extra": "^8.1.0",
     "has-ansi": "^4.0.1",
-    "jest": "^27.2.1",
-    "jsii-rosetta": "^1.77.0",
+    "jest": "^29.5.0",
+    "jsii-rosetta": "^5.0.1",
     "strip-ansi": "^6.0.0",
-    "ts-jest": "^27.0.7",
-    "typescript": "^3.9.7"
+    "ts-jest": "^29.0.5",
+    "typescript": "^5.0.2"
   }
 }
