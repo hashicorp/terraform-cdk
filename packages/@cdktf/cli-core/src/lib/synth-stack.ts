@@ -121,7 +121,7 @@ might fail while synthesizing with an out of memory error.`);
         cwd: workingDirectory,
         signal: abortSignal,
       });
-    } catch (e) {
+    } catch (e: any) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}
 
 Synth command: {blue ${command}}

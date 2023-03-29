@@ -185,7 +185,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
 
   try {
     await post(`${BASE_URL}telemetry/${reportParams.product}`, postData);
-  } catch (e) {
+  } catch (e: any) {
     // Log errors writing to checkpoint
     processLoggerError(e.message);
   }

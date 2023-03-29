@@ -29,6 +29,7 @@ export interface ISynthesisSession {
 
   /**
    * Additional context passed to synthesizeNode through `sessionContext`.
+   * @internal
    */
   [key: string]: any;
 }

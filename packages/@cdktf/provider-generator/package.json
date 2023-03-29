@@ -35,16 +35,16 @@
     "codemaker": "^1.76.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
-    "jsii-srcmak": "^0.1.847"
+    "jsii-srcmak": "^0.1.867"
   },
   "devDependencies": {
     "@types/deepmerge": "^2.2.0",
     "@types/fs-extra": "^8.1.2",
     "@types/glob": "^7.2.0",
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^29.5.0",
     "@types/reserved-words": "^0.1.0",
-    "jest": "^26.6.3",
-    "ts-jest": "^26.5.6",
-    "typescript": "^3.9.10"
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^5.0.2"
   }
 }
