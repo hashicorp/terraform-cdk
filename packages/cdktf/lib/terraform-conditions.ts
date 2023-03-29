@@ -19,12 +19,12 @@ export interface TerraformCondition {
 /**
  * Terraform checks a precondition before evaluating the object it is associated with.
  */
-export interface PreCondition extends TerraformCondition {}
+export interface Precondition extends TerraformCondition {}
 
 /**
  * Terraform checks a postcondition after evaluating the object it is associated with.
  */
-export interface PostCondition extends TerraformCondition {}
+export interface Postcondition extends TerraformCondition {}
 
 /**
  * Add one or more validation blocks within the variable block to specify custom conditions
