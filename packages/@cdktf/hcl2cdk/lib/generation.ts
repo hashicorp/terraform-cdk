@@ -27,6 +27,7 @@ import {
   constructAst,
   extractIteratorVariablesFromExpression,
   isNestedDynamicBlock,
+  convertTerraformExpressionToTs,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -173,16 +174,23 @@ export const valueToTs = async (
         scopedIds
       );
 
-      const iteratorVariables = await extractIteratorVariablesFromExpression(
-        item
-      );
+      // const iteratorVariables = await extractIteratorVariablesFromExpression(
+      //   item
+      // );
+      //
+      // const ast = referencesToAst(
+      //   scope,
+      //   item,
+      //   references,
+      //   scopedIds,
+      //   iteratorVariables);
+      // const ast = referencesToAst(scope, item, references, scopedIds);
 
-      const ast = referencesToAst(
+      const ast = await convertTerraformExpressionToTs(
+        `"${item}"`,
         scope,
-        item,
-        references,
-        scopedIds,
-        iteratorVariables
+        nodeIds,
+        scopedIds
       );
 
       return coerceType(

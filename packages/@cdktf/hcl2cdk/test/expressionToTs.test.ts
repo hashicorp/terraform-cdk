@@ -508,4 +508,11 @@ describe("expressionToTs", () => {
       `"dataAwsRoute53ZoneExample.zoneId"`
     );
   });
+
+  test("convert an each expression", async () => {
+    const expression = `"\${each.value.name}"`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(`"\\"\${each.value.name}\\""`);
+  });
 });

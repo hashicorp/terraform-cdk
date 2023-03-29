@@ -206,6 +206,10 @@ function convertTFExpressionAstToTs(
       return variableAccessor;
     }
 
+    if (!hasReference) {
+      return varIdentifier;
+    }
+
     const rootSegment = segments[0].segment;
     const subSegments =
       rootSegment === "data" ? segments.slice(3) : segments.slice(2);
