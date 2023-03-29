@@ -198,7 +198,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.network_interface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -210,7 +210,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.network_interface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -234,7 +234,7 @@ describe("expressionToTs", () => {
       "aws_kms_key.key",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.conditional(cdktf.Op.gt(awsKmsKeyKey.deletion_window_in_days, 3), examplebucket.id, [])"`
+      `"cdktf.conditional(cdktf.Op.gt(awsKmsKeyKey.deletionWindowInDays, 3), examplebucket.id, [])"`
     );
   });
 
@@ -477,6 +477,15 @@ describe("expressionToTs", () => {
     ]);
     expect(code(result)).toMatchInlineSnapshot(
       `"join(\\"-\\", [\\"\${\\" + tags.value + \\"}.app\\", \\"\${\\" + tags.value + \\"}.env\\"])"`
+    );
+  });
+
+  test("doesn't wrap any extra templates", async () => {
+    const expression = `"app-\${terraform.workspace}"`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"app-\${terraform.workspace}\\""`
     );
   });
 });

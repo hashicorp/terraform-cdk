@@ -127,6 +127,7 @@ function traversalToVariableName(scope: Scope, node: tfe.ExpressionType) {
       : rootSegment;
   const name =
     rootSegment === "data" ? segments[2].segment : segments[1].segment;
+
   return variableName(scope, resource, name);
 }
 
@@ -218,9 +219,17 @@ function convertTFExpressionAstToTs(
         ? subSegments.slice(indexOfNumericAccessor)
         : [];
 
+    const rootSegment = segments[0].segment;
     const ref = refSegments.reduce(
-      (acc: t.Expression, seg) =>
-        t.memberExpression(acc, t.identifier(seg.segment)),
+      (acc: t.Expression, seg, index) =>
+        t.memberExpression(
+          acc,
+          t.identifier(
+            index === 0 && rootSegment === "module"
+              ? camelCase(seg.segment + "Output")
+              : camelCase(seg.segment)
+          )
+        ),
       varIdentifier
     );
 
@@ -310,7 +319,7 @@ function convertTFExpressionAstToTs(
     let isScopedTraversal = false;
     let expressions = [];
     for (const { node, expr } of parts) {
-      if (tfe.isScopeTraversalExpression(node)) {
+      if (tfe.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
         expressions.push(t.stringLiteral("${"));
         isScopedTraversal = true;
       } else {
