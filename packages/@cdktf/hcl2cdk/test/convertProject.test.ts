@@ -95,7 +95,6 @@ app.synth();`,
       `{
         "compilerOptions": {
           "alwaysStrict": true,
-          "charset": "utf8",
           "declaration": true,
           "experimentalDecorators": true,
           "inlineSourceMap": true,

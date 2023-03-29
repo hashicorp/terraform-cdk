@@ -104,7 +104,7 @@ function mockPty(ptyEvents: string[]): typeof spawnPty {
     return {
       actions,
       progress: new Promise((resolve) => {
-        setTimeout(() => resolve(), ptyEvents.length * 200);
+        setTimeout(() => resolve(""), ptyEvents.length * 200);
       }),
       exitCode: new Promise((resolve) => {
         setTimeout(() => resolve(0), ptyEvents.length * 200);

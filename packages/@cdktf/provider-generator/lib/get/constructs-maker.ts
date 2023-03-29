@@ -662,7 +662,7 @@ export const determineGoModuleName = async (dir: string): Promise<string> => {
     let files: string[] = [];
     try {
       files = await fs.readdir(currentDir);
-    } catch (e) {
+    } catch (e: any) {
       // directory might not exist yet, but we still walk upwards from there, so ignore 'ENOENT'
       if (e.code !== "ENOENT") {
         throw e;

@@ -93,19 +93,15 @@ describe("convertFiles", () => {
     });
   });
 
-  test("invalid files", async () => {
-    try {
-      await convertFiles(path.join(__dirname, "fixtures", "invalid-files"));
-    } catch (e) {
-      expect(e.message).toMatch(/Invalid multi-line string/);
-    }
+  test("invalid files", () => {
+    expect(
+      convertFiles(path.join(__dirname, "fixtures", "invalid-files"))
+    ).rejects.toMatch(/Invalid multi-line string/);
   });
 
-  test("invalid path", async () => {
-    try {
-      await convertFiles(path.join("/some/not/existing/path"));
-    } catch (e) {
-      expect(e.message).toMatch(/no such file or directory/);
-    }
+  test("invalid path", () => {
+    expect(convertFiles(path.join("/some/not/existing/path"))).rejects.toMatch(
+      /no such file or directory/
+    );
   });
 });

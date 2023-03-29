@@ -177,7 +177,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       this.onStdout("init"),
       this.onStderr("init")
@@ -245,7 +245,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       this.onStdout("plan", [VariableRequiredFilter]),
       this.onStderr("plan", [VariableRequiredFilter])
@@ -407,7 +407,7 @@ export class TerraformCli implements Terraform {
         {
           cwd: this.workdir,
           env: process.env,
-          signal: this.abortSignal,
+          signal: this.abortSignal as any,
         },
         this.onStdout("version"),
         this.onStderr("version")
@@ -426,7 +426,7 @@ export class TerraformCli implements Terraform {
       {
         cwd: this.workdir,
         env: process.env,
-        signal: this.abortSignal,
+        signal: this.abortSignal as any,
       },
       // We don't need to log the output here since we use it later on
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function

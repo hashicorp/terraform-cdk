@@ -64,7 +64,7 @@ export const terraformCheck = async (): Promise<void> => {
         console.warn(warningMessage);
       }
     }
-  } catch (e) {
+  } catch (e: any) {
     console.error(e.message);
     process.exit(1);
   }

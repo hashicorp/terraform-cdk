@@ -339,7 +339,7 @@ export class CdktfProject {
       type: "synthesizing",
     });
     const stacks = await SynthStack.synth(
-      this.abortSignal,
+      this.abortSignal as any,
       this.synthCommand,
       this.outDir,
       this.workingDirectory,

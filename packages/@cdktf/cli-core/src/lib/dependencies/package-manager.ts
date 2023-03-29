@@ -186,7 +186,7 @@ class NodePackageManager extends PackageManager {
           name: `@${dep.name.split("@")[1]}`,
           version: dep.name.split("@")[2],
         }));
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages using 'yarn list --json': ${e.message}`
       );
@@ -207,7 +207,7 @@ class NodePackageManager extends PackageManager {
       return Object.entries(json?.dependencies || {})
         .filter(([depName]) => depName.startsWith("@cdktf/provider-"))
         .map(([name, dep]) => ({ name, version: dep.version }));
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages using 'npm list --json': ${e.message}`
       );
@@ -232,7 +232,7 @@ class PythonPackageManager extends PackageManager {
           "utf8"
         )
       )["app"];
-    } catch (e) {
+    } catch (e: any) {
       throw Errors.Usage(
         `Could not find find and parse cdktf.json in ${this.workingDirectory}`
       );
@@ -362,7 +362,7 @@ class PythonPackageManager extends PackageManager {
       return list.filter((item) =>
         item.name.startsWith("cdktf-cdktf-provider")
       );
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages using 'pipenv run pip list --format=json': ${e.message}`
       );
@@ -382,7 +382,7 @@ class PythonPackageManager extends PackageManager {
       return list.filter((item) =>
         item.name.startsWith("cdktf-cdktf-provider")
       );
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages using 'pip list --format=json': ${e.message}`
       );
@@ -482,7 +482,7 @@ class NugetPackageManager extends PackageManager {
         })
         .filter((match) => !!match)
         .map((match) => ({ name: match![1], version: match![3] }));
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages using 'dotnet list package': ${e.message}`
       );
@@ -613,7 +613,7 @@ class MavenPackageManager extends PackageManager {
             ?.elements?.[0].text as string,
         }))
         .filter((dep) => dep.name.startsWith("com.hashicorp.cdktf-provider-"));
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages reading the pom.xml: ${e.message}`
       );
@@ -750,7 +750,7 @@ class GoPackageManager extends PackageManager {
         .filter(
           (providerInfo) => !!providerInfo.name && !!providerInfo.version
         );
-    } catch (e) {
+    } catch (e: any) {
       throw new Error(
         `Could not determine installed packages reading the go.sum: ${e.message}`
       );
