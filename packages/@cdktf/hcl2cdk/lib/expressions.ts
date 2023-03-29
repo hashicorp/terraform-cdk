@@ -484,10 +484,7 @@ function convertTFExpressionAstToTs(
     const collectionChild = tfe.getChildWithValue(
       node,
       node.meta.collectionExpression
-    );
-    if (!collectionChild) {
-      throw new Error("Unable to convert for expression");
-    }
+    )!;
 
     let collectionExpression = convertTFExpressionAstToTs(
       collectionChild,
