@@ -167,7 +167,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new scaleway.objectResource.ObjectResource(this, \\"some_file\\", {
       bucket: scalewayObjectBucketSomeBucket.name,
       file: \\"myfile\\",
-      hash: '\${filemd5(\\"myfile\\")}',
+      hash: cdktf.Fn.filemd5(\\"myfile\\"),
       key: \\"object_path\\",
     });
   }
@@ -332,7 +332,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
     const test = new cdktf.TerraformVariable(this, \\"test\\", {});
-    const localTest = \`\\\\\${\${test.value}} + 1\`;
+    const localTest = \\"\${\\" + test.value + \\"} + 1\\";
     const cdktfTerraformOutputTest = new cdktf.TerraformOutput(this, \\"test_1\\", {
       value: localTest,
     });
@@ -399,20 +399,23 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const tags = new cdktf.TerraformVariable(this, \\"tags\\", {});
     new aws.instance.Instance(this, \\"play\\", {
-      ami: \`\\\\\${join(\\"-\\", [\${tags.app.value}, \${tags.env.value}])}\`,
+      ami: cdktf.Fn.join(\\"-\\", [
+        \\"\${\\" + tags.value + \\"}.app\\",
+        \\"\${\\" + tags.value + \\"}.env\\",
+      ]),
       associatePublicIpAddress: true,
       connection: [
         {
           host: \\"\${self.public_ip}\\",
-          private_key: '\${file(\\"./terraform_key\\")}',
+          private_key: cdktf.Fn.file(\\"./terraform_key\\"),
           type: \\"ssh\\",
           user: \\"ubuntu\\",
         },
       ],
       instanceType: \\"t3.small\\",
-      keyName: \\"\${aws_key_pair.master_key.id}\\",
-      subnetId: \\"\${aws_subnet.main.id}\\",
-      vpcSecurityGroupIds: [\\"\${aws_security_group.ssh.id}\\"],
+      keyName: awsKeyPairMasterKey.id,
+      subnetId: awsSubnetMain.id,
+      vpcSecurityGroupIds: [awsSecurityGroupSsh.id],
     });
   }
 }

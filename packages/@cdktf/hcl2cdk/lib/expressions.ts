@@ -404,27 +404,37 @@ function convertTFExpressionAstToTs(
       ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
       : node.meta.eachExpression;
 
-    if (canUseFqn(sourceExpressionChild)) {
+    if (t.isIdentifier(sourceExpression) && canUseFqn(sourceExpressionChild)) {
       sourceExpression = t.memberExpression(
         sourceExpression,
         t.identifier("fqn")
       );
     }
 
-    return t.binaryExpression(
-      "+",
+    return expressionForSerialStringConcatenation([
+      t.stringLiteral("${"),
       sourceExpression,
-      t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression)
-    );
+      t.stringLiteral("}"),
+      t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression),
+    ]);
   }
 
   if (tfe.isConditionalExpression(node)) {
-    const condition = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.conditionExpression)!,
+    const conditionChild = tfe.getChildWithValue(
+      node,
+      node.meta.conditionExpression
+    )!;
+    let condition = convertTFExpressionAstToTs(
+      conditionChild,
       scope,
       nodeIds,
       scopedIds
     );
+    if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
+      // We have a resource or data source here, which we would need to
+      // reference using fqn
+      condition = t.memberExpression(condition, t.identifier("fqn"));
+    }
 
     const trueExpression = convertTFExpressionAstToTs(
       tfe.getChildWithValue(node, node.meta.trueExpression)!,
@@ -472,12 +482,13 @@ function convertTFExpressionAstToTs(
       scopedIds
     );
 
-    // TODO: consider if replacing with propertyAccess makes sense, since it might look
-    // less readable for HCL users
-    return expressionForSerialStringConcatenation([
-      source,
-      t.stringLiteral(traversalPartsToString(segments, true)),
-    ]);
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        source,
+        t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment))),
+      ]
+    );
   }
 
   if (tfe.isForExpression(node)) {

@@ -186,7 +186,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketFoo.fqn + \\".*.id\\""`
+      `"\\"\${\\" + awsS3BucketFoo.fqn + \\"}.*.id\\""`
     );
   });
 
@@ -221,7 +221,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.toset(awsS3BucketExamplebucket.fqn + \\".*\\")"`
+      `"cdktf.Fn.toset(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*\\")"`
     );
   });
 
@@ -245,7 +245,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.element(awsS3BucketExamplebucket, 0) + \\".id\\""`
+      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [\\"id\\"])"`
     );
   });
 
@@ -256,7 +256,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.element(awsS3BucketExamplebucket.fqn + \\".*.id\\", 0)"`
+      `"cdktf.Fn.element(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*.id\\", 0)"`
     );
   });
 
@@ -379,7 +379,7 @@ describe("expressionToTs", () => {
       "var.vnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.flatten(vnets.value + \\"[*].subnets[*].name\\")"`
+      `"cdktf.Fn.flatten(\\"\${\\" + vnets.value + \\"}[*].subnets[*].name\\")"`
     );
   });
 
@@ -395,7 +395,7 @@ describe("expressionToTs", () => {
       "var.vnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for vnet in \${\\" + (vnets.value + \\"[*]\\") + \\"} : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
+      `"\\"\${{ for vnet in \${\\" + (\\"\${\\" + vnets.value + \\"}[*]\\") + \\"} : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
     );
   });
 
@@ -514,5 +514,28 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(`"\\"\${each.value.name}\\""`);
+  });
+
+  test("converts a property of a function containing a resource", async () => {
+    const expression = `"\${element(aws_s3_bucket.examplebucket, 0).id}"`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [\\"id\\"])"`
+    );
+  });
+
+  test("convert a function with references with splats", async () => {
+    const expression = `"\${concat(var.private_subnets.*.id, var.public_subnets.*.id)}"`;
+    const scope = getScope({
+      variables: ["private_subnets", "public_subnets"],
+    });
+    const result = await convertTerraformExpressionToTs(expression, scope, [
+      "var.private_subnets",
+      "var.public_subnets",
+    ]);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Fn.concat(\\"\${\\" + privateSubnets.value + \\"}.*.id\\", \\"\${\\" + publicSubnets.value + \\"}.*.id\\")"`
+    );
   });
 });

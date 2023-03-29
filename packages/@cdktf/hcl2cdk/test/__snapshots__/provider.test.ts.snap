@@ -52,13 +52,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
       providers: [
         {
           moduleAlias: \\"aws\\",
-          provider: \`\\\\\${\${awsWest.fqn}}\`,
+          provider: awsWest,
         },
       ],
     });
     new aws.instance.Instance(this, \\"foo\\", {
       foo: \\"bar\\",
-      provider: \`\\\\\${\${awsWest.fqn}}\`,
+      provider: awsWest,
     });
   }
 }
