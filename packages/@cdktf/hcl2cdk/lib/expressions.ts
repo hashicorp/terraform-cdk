@@ -7,6 +7,7 @@ import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 import { TFExpressionSyntaxTree as tfe } from "@cdktf/hcl2json";
+import { functionsMap } from "./function-bindings/functions";
 
 export type Reference = {
   start: number;
@@ -17,6 +18,7 @@ export type Reference = {
 };
 
 const DOLLAR_REGEX = /\$/g;
+const leaveCommentText = `Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`;
 
 function wrapTerraformExpression(input: string): string {
   if (!isNaN(parseInt(input, 10))) {
@@ -345,7 +347,36 @@ function convertTFExpressionAstToTs(
       convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
     );
 
-    return t.callExpression(t.identifier(functionName), argumentExpressions);
+    const mapping = functionsMap[functionName];
+    if (!mapping) {
+      logger.error(
+        `Unknown function ${functionName} encountered. ${leaveCommentText}`
+      );
+      return t.callExpression(t.identifier(functionName), argumentExpressions);
+    }
+
+    // TODO: Insert mapping transformer here
+    // Sample code that might work?
+    // if (mapping.transformer) {
+    //   const newTfAst = mapping.transformer(node);
+    //   if (newTfAst !== node) {
+    //     newTfAst.children = node.children;
+    //     return convertTFExpressionAstToTs(
+    //       newTfAst,
+    //       scope,
+    //       nodeIds,
+    //       scopedIds
+    //     );
+    //   }
+    // }
+
+    const callee = t.memberExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
+      t.identifier(mapping.name)
+    );
+
+    // TODO: Needs coercion goodness here
+    return t.callExpression(callee, argumentExpressions);
   }
 
   if (tfe.isSplatExpression(node)) {
@@ -575,7 +606,7 @@ export async function extractReferencesFromExpression(
         `Found a reference that is unknown: ${input} has reference "${value}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`
+${leaveCommentText}`
       );
       return carry;
     }
