@@ -472,7 +472,8 @@ function convertTFExpressionAstToTs(
       scopedIds
     );
 
-    // TODO: Replace with lookupNested from https://github.com/hashicorp/terraform-cdk/pull/2672
+    // TODO: consider if replacing with propertyAccess makes sense, since it might look
+    // less readable for HCL users
     return expressionForSerialStringConcatenation([
       source,
       t.stringLiteral(traversalPartsToString(segments, true)),
