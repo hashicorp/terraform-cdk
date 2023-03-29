@@ -43,7 +43,7 @@ To improve the translation capabilities of `cdktf convert` for languages other t
 
 ### Addition of meta resource properties like condtions
 
-We added support for advanced lifecycle features like [`preconditions`](/terraform/language/expressions/custom-conditions#preconditions-and-postconditions), so all generated function bindings made a breaking change.
+We added support for advanced lifecycle features like [`preconditions`](/terraform/language/expressions/custom-conditions#preconditions-and-postconditions), so all generated resource or data source bindings made a breaking change.
 
 ## 0.15.5
 
