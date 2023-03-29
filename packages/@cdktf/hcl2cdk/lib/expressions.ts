@@ -206,7 +206,9 @@ function convertTFExpressionAstToTs(
       return variableAccessor;
     }
 
-    const subSegments = segments.slice(2);
+    const rootSegment = segments[0].segment;
+    const subSegments =
+      rootSegment === "data" ? segments.slice(3) : segments.slice(2);
     const indexOfNumericAccessor = subSegments.findIndex((seg) =>
       tfe.isIndexTraversalPart(seg)
     );
@@ -221,7 +223,6 @@ function convertTFExpressionAstToTs(
         ? subSegments.slice(indexOfNumericAccessor)
         : [];
 
-    const rootSegment = segments[0].segment;
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
         t.memberExpression(
@@ -483,13 +484,24 @@ function convertTFExpressionAstToTs(
       throw new Error("Unable to convert for expression");
     }
 
-    const collectionExpression = convertTFExpressionAstToTs(
+    let collectionExpression = convertTFExpressionAstToTs(
       collectionChild,
       scope,
       nodeIds,
       scopedIds
     );
 
+    if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
+      // We have a resource or data source here, which we would need to
+      // reference using fqn
+      collectionExpression = t.memberExpression(
+        collectionExpression,
+        t.identifier("fqn")
+      );
+    }
+
+    const collectionRequiresWrapping = !t.isStringLiteral(collectionExpression);
+    const expressions = [];
     const conditionBody = node.meta.keyVar
       ? `${node.meta.keyVar}, ${node.meta.valVar}`
       : node.meta.valVar;
@@ -499,7 +511,7 @@ function convertTFExpressionAstToTs(
     const grouped = node.meta.groupedValue ? "..." : "";
     const valueExpression = `${node.meta.valueExpression}${grouped}`;
 
-    const prefix = `\${${openBrace} for ${conditionBody} in`;
+    const prefix = `\${${openBrace} for ${conditionBody} in `;
     const keyValue = node.meta.keyExpression
       ? ` : ${node.meta.keyExpression} => ${valueExpression}`
       : ` : ${valueExpression}`;
@@ -508,11 +520,17 @@ function convertTFExpressionAstToTs(
       conditional ? ` if ${conditional}` : ""
     }${closeBrace}}`;
 
-    return t.binaryExpression(
-      "+",
-      t.binaryExpression("+", t.stringLiteral(prefix), collectionExpression),
-      t.stringLiteral(suffix)
-    );
+    expressions.push(t.stringLiteral(prefix));
+    if (collectionRequiresWrapping) {
+      expressions.push(t.stringLiteral("${"));
+    }
+    expressions.push(collectionExpression);
+    if (collectionRequiresWrapping) {
+      expressions.push(t.stringLiteral("}"));
+    }
+    expressions.push(t.stringLiteral(suffix));
+
+    return expressionForSerialStringConcatenation(expressions);
   }
 
   return t.stringLiteral("");

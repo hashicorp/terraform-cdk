@@ -269,7 +269,7 @@ describe("expressionToTs", () => {
       "var.users",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for name, user in\\" + users.value + \\" : user.role => name...}}\\""`
+      `"\\"\${{ for name, user in \${\\" + users.value + \\"} : user.role => name...}}\\""`
     );
   });
 
@@ -281,7 +281,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for s in\\" + list.value + \\" : s => upper(s)}}\\""`
+      `"\\"\${{ for s in \${\\" + list.value + \\"} : s => upper(s)}}\\""`
     );
   });
 
@@ -293,7 +293,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${[ for s in\\" + list.value + \\" : upper(s)]}\\""`
+      `"\\"\${[ for s in \${\\" + list.value + \\"} : upper(s)]}\\""`
     );
   });
 
@@ -304,7 +304,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${[ for s in\\" + list.value + \\" : upper(s) if s != \\\\\\"\\\\\\"]}\\""`
+      `"\\"\${[ for s in \${\\" + list.value + \\"} : upper(s) if s != \\\\\\"\\\\\\"]}\\""`
     );
   });
 
@@ -383,6 +383,8 @@ describe("expressionToTs", () => {
     );
   });
 
+  // TOIMPROVE: I don't think we can handle this case yet, since the variable
+  // needs to be wrapped in an iterator. I'm leaving this in, but it's broken
   test("complicated nested variable access with map", async () => {
     const expression = `{ 
     for vnet in var.vnets[*]:
@@ -393,7 +395,7 @@ describe("expressionToTs", () => {
       "var.vnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for vnet in\\" + (vnets.value + \\"[*]\\") + \\" : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
+      `"\\"\${{ for vnet in \${\\" + (vnets.value + \\"[*]\\") + \\"} : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
     );
   });
 
@@ -412,7 +414,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ variables: ["route"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.flatten(\\"\${[ for k, v in\\" + route.value + \\" : [\\\\n      for n, s in v : [\\\\n        {\\\\n          key = k,\\\\n          name = n,\\\\n          svc_url = s\\\\n        }\\\\n      ]\\\\n    ]]}\\")"`
+      `"cdktf.Fn.flatten(\\"\${[ for k, v in \${\\" + route.value + \\"} : [\\\\n      for n, s in v : [\\\\n        {\\\\n          key = k,\\\\n          name = n,\\\\n          svc_url = s\\\\n        }\\\\n      ]\\\\n    ]]}\\")"`
     );
   });
 
@@ -486,6 +488,24 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"app-\${terraform.workspace}\\""`
+    );
+  });
+
+  test("converts a for expression", async () => {
+    const expression = `[for record in aws_route53_record.example : record.fqdn]`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${[ for record in \${\\" + awsRoute53RecordExample.fqn + \\"} : record.fqdn]}\\""`
+    );
+  });
+
+  test("converts a data source", async () => {
+    const expression = `"\${data.aws_route53_zone.example.zone_id}"`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"dataAwsRoute53ZoneExample.zoneId"`
     );
   });
 });
