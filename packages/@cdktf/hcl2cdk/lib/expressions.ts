@@ -6,7 +6,7 @@ import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
-import { TFExpressionSyntaxTree as tfe } from "@cdktf/hcl2json";
+import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
 
 export type Reference = {
@@ -58,11 +58,11 @@ const tfUnaryOperatorsToCdktf: Record<string, string> = {
 };
 
 function traversalPartsToString(
-  traversals: tfe.TerraformTraversalPart[],
+  traversals: tex.TerraformTraversalPart[],
   asSuffix = false
 ) {
   let seed = "";
-  if (asSuffix && tfe.isNameTraversalPart(traversals[0])) {
+  if (asSuffix && tex.isNameTraversalPart(traversals[0])) {
     seed = ".";
   }
   return traversals.reduce((acc, part) => {
@@ -76,8 +76,8 @@ function traversalPartsToString(
   }, seed);
 }
 
-function canUseFqn(expression: tfe.ExpressionType) {
-  if (!tfe.isScopeTraversalExpression(expression)) {
+function canUseFqn(expression: tex.ExpressionType) {
+  if (!tex.isScopeTraversalExpression(expression)) {
     return false;
   }
 
@@ -86,8 +86,8 @@ function canUseFqn(expression: tfe.ExpressionType) {
   return !["var", "local"].includes(rootSegment);
 }
 
-function containsReference(expression: tfe.ExpressionType) {
-  if (!tfe.isScopeTraversalExpression(expression)) {
+function containsReference(expression: tex.ExpressionType) {
+  if (!tex.isScopeTraversalExpression(expression)) {
     return false;
   }
 
@@ -112,8 +112,8 @@ function containsReference(expression: tfe.ExpressionType) {
   return true;
 }
 
-function traversalToVariableName(scope: Scope, node: tfe.ExpressionType) {
-  if (!tfe.isScopeTraversalExpression(node)) {
+function traversalToVariableName(scope: Scope, node: tex.ExpressionType) {
+  if (!tex.isScopeTraversalExpression(node)) {
     logger.error(
       `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
         Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue`
@@ -160,12 +160,12 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
 }
 
 function convertTFExpressionAstToTs(
-  node: tfe.ExpressionType,
+  node: tex.ExpressionType,
   scope: ProgramScope,
   nodeIds: readonly string[],
   scopedIds: readonly string[]
 ): t.Expression {
-  if (tfe.isLiteralValueExpression(node)) {
+  if (tex.isLiteralValueExpression(node)) {
     const literalType = node.meta.type;
     if (literalType === "number") {
       return t.numericLiteral(Number(node.meta.value));
@@ -177,7 +177,7 @@ function convertTFExpressionAstToTs(
     return t.stringLiteral(node.meta.value);
   }
 
-  if (tfe.isScopeTraversalExpression(node)) {
+  if (tex.isScopeTraversalExpression(node)) {
     const hasReference = containsReference(node);
 
     const segments = node.meta.traversal;
@@ -214,7 +214,7 @@ function convertTFExpressionAstToTs(
     const subSegments =
       rootSegment === "data" ? segments.slice(3) : segments.slice(2);
     const indexOfNumericAccessor = subSegments.findIndex((seg) =>
-      tfe.isIndexTraversalPart(seg)
+      tex.isIndexTraversalPart(seg)
     );
 
     const refSegments =
@@ -251,9 +251,9 @@ function convertTFExpressionAstToTs(
     ]);
   }
 
-  if (tfe.isUnaryOpExpression(node)) {
+  if (tex.isUnaryOpExpression(node)) {
     const operand = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.valueExpression)!,
+      tex.getChildWithValue(node, node.meta.valueExpression)!,
       scope,
       nodeIds,
       scopedIds
@@ -277,15 +277,15 @@ function convertTFExpressionAstToTs(
     return t.callExpression(fn, [operand]);
   }
 
-  if (tfe.isBinaryOpExpression(node)) {
+  if (tex.isBinaryOpExpression(node)) {
     const left = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.lhsExpression)!,
+      tex.getChildWithValue(node, node.meta.lhsExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
     const right = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.rhsExpression)!,
+      tex.getChildWithValue(node, node.meta.rhsExpression)!,
       scope,
       nodeIds,
       scopedIds
@@ -309,7 +309,7 @@ function convertTFExpressionAstToTs(
     return t.callExpression(fn, [left, right]);
   }
 
-  if (tfe.isTemplateExpression(node) || tfe.isTemplateWrapExpression(node)) {
+  if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
     const parts = node.children.map((child) => ({
       node: child,
       expr: convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds),
@@ -326,7 +326,7 @@ function convertTFExpressionAstToTs(
     let isScopedTraversal = false;
     let expressions = [];
     for (const { node, expr } of parts) {
-      if (tfe.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
+      if (tex.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
         expressions.push(t.stringLiteral("${"));
         isScopedTraversal = true;
       } else {
@@ -345,7 +345,7 @@ function convertTFExpressionAstToTs(
     return expressionForSerialStringConcatenation(expressions);
   }
 
-  if (tfe.isFunctionCallExpression(node)) {
+  if (tex.isFunctionCallExpression(node)) {
     const functionName = node.meta.name;
 
     const argumentExpressions = node.children.map((child) =>
@@ -384,8 +384,8 @@ function convertTFExpressionAstToTs(
     return t.callExpression(callee, argumentExpressions);
   }
 
-  if (tfe.isSplatExpression(node)) {
-    const sourceExpressionChild = tfe.getChildWithValue(
+  if (tex.isSplatExpression(node)) {
+    const sourceExpressionChild = tex.getChildWithValue(
       node,
       node.meta.sourceExpression
     )!;
@@ -419,8 +419,8 @@ function convertTFExpressionAstToTs(
     ]);
   }
 
-  if (tfe.isConditionalExpression(node)) {
-    const conditionChild = tfe.getChildWithValue(
+  if (tex.isConditionalExpression(node)) {
+    const conditionChild = tex.getChildWithValue(
       node,
       node.meta.conditionExpression
     )!;
@@ -437,14 +437,14 @@ function convertTFExpressionAstToTs(
     }
 
     const trueExpression = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.trueExpression)!,
+      tex.getChildWithValue(node, node.meta.trueExpression)!,
       scope,
       nodeIds,
       scopedIds
     );
 
     const falseExpression = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.falseExpression)!,
+      tex.getChildWithValue(node, node.meta.falseExpression)!,
       scope,
       nodeIds,
       scopedIds
@@ -462,7 +462,7 @@ function convertTFExpressionAstToTs(
     ]);
   }
 
-  if (tfe.isTupleExpression(node)) {
+  if (tex.isTupleExpression(node)) {
     const expressions = node.children.map((child) =>
       convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
     );
@@ -470,13 +470,13 @@ function convertTFExpressionAstToTs(
     return t.arrayExpression(expressions);
   }
 
-  if (tfe.isRelativeTraversalExpression(node)) {
+  if (tex.isRelativeTraversalExpression(node)) {
     const segments = node.meta.traversal;
 
     // The left hand side / source of a relative traversal is not a proper
     // object / resource / data thing that is being referenced
     const source = convertTFExpressionAstToTs(
-      tfe.getChildWithValue(node, node.meta.sourceExpression)!,
+      tex.getChildWithValue(node, node.meta.sourceExpression)!,
       scope,
       nodeIds,
       scopedIds
@@ -491,8 +491,8 @@ function convertTFExpressionAstToTs(
     );
   }
 
-  if (tfe.isForExpression(node)) {
-    const collectionChild = tfe.getChildWithValue(
+  if (tex.isForExpression(node)) {
+    const collectionChild = tex.getChildWithValue(
       node,
       node.meta.collectionExpression
     )!;
