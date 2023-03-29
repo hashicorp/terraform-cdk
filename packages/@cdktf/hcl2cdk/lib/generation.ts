@@ -242,7 +242,9 @@ export const valueToTs = async (
       }
 
       const unwrappedItem =
-        shouldRemoveArrayBasedOnType(attributeType) && Array.isArray(item)
+        Array.isArray(item) &&
+        (shouldRemoveArrayBasedOnType(attributeType) ||
+          path.endsWith("lifecycle"))
           ? item[0]
           : item;
 
@@ -260,7 +262,7 @@ export const valueToTs = async (
         (
           await Promise.all(
             Object.entries(unwrappedItem).map(async ([key, value]) => {
-              if (key === "lifecycle" || value === undefined) {
+              if (value === undefined) {
                 return undefined;
               }
 
@@ -303,11 +305,13 @@ export const valueToTs = async (
                 // Map type attributes must not be wrapped in arrays
                 !isMapAttribute(itemAttributeType) &&
                 key !== "tags" &&
-                key !== "forEach";
+                key !== "forEach" &&
+                key !== "lifecycle";
 
               const keepKeyName: boolean =
                 !isModule &&
                 key !== "depends_on" &&
+                !path.includes("lifecycle") &&
                 (key === "for_each" ||
                   !typeMetadata ||
                   isMapAttribute(attributeType));
@@ -697,7 +701,7 @@ async function asExpression(
   isProvider: boolean,
   reference?: Reference
 ) {
-  const { lifecycle, providers, ...otherOptions } = config as any;
+  const { providers, ...otherOptions } = config as any;
 
   const constructId = uniqueId(scope.constructs, name);
   const overrideId = !isProvider && constructId !== name;
@@ -732,7 +736,7 @@ async function asExpression(
     ? referenceToVariableName(scope, reference)
     : variableName(scope, type, name);
 
-  if (reference || lifecycle || overrideId) {
+  if (reference || overrideId) {
     statements.push(
       t.variableDeclaration("const", [
         t.variableDeclarator(t.identifier(varName), expression),
@@ -740,21 +744,6 @@ async function asExpression(
     );
   } else {
     statements.push(t.expressionStatement(expression));
-  }
-
-  if (lifecycle) {
-    statements.push(
-      addOverrideExpression(
-        varName,
-        "lifecycle",
-        await valueToTs(
-          scope,
-          lifecycle,
-          "path-for-lifecycle-blocks-can-be-ignored",
-          nodeIds
-        )
-      )
-    );
   }
 
   if (overrideId) {

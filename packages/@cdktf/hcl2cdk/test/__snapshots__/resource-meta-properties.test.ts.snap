@@ -61,15 +61,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ami: \\"ami-a1b2c3d4\\",
       iamInstanceProfile: \\"aws_iam_instance_profile\\",
       instanceType: \\"t2.micro\\",
-    });
-    awsInstanceExample.addOverride(\\"lifecycle\\", [
-      {
-        create_before_destroy: true,
-        ignore_changes: [\\"ami\\", \\"instance_type\\"],
-        prevent_destroy: true,
-        replace_triggered_by: [awsIamRolePolicyExample.id],
+      lifecycle: {
+        createBeforeDestroy: true,
+        ignoreChanges: [\\"ami\\", \\"instance_type\\"],
+        preventDestroy: true,
+        replaceTriggeredBy: [awsIamRolePolicyExample.id],
       },
-    ]);
+    });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsInstanceExample.overrideLogicalId(\\"example\\");
   }
@@ -89,28 +87,26 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, \\"aws\\", {
       region: \\"us-east-1\\",
     });
-    const awsInstanceExample = new aws.instance.Instance(this, \\"example\\", {
+    new aws.instance.Instance(this, \\"example\\", {
       ami: \\"ami-a1b2c3d4\\",
       iamInstanceProfile: \\"aws_iam_instance_profile\\",
       instanceType: \\"t2.micro\\",
-    });
-    awsInstanceExample.addOverride(\\"lifecycle\\", [
-      {
+      lifecycle: {
         postcondition: [
           {
             condition: '\${self.public_dns != \\"\\"}',
-            error_message:
+            errorMessage:
               \\"EC2 instance must be in a VPC that has public DNS hostnames enabled.\\",
           },
         ],
         precondition: [
           {
             condition: '\${self.tags[\\"Component\\"] == \\"nomad-server\\"}',
-            error_message: \\"Please add the nomad-server tag to this instance.\\",
+            errorMessage: \\"Please add the nomad-server tag to this instance.\\",
           },
         ],
       },
-    ]);
+    });
   }
 }
 "
