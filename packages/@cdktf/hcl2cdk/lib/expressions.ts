@@ -10,7 +10,8 @@ import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
 import { coerceType } from "./coerceType";
 import { AttributeType } from "@cdktf/provider-generator";
-import { getDesiredType } from "./terraformSchema";
+import { getDesiredType, getTypeAtPath } from "./terraformSchema";
+import { toSnakeCase } from "codemaker";
 
 export type Reference = {
   start: number;
@@ -177,7 +178,7 @@ function convertTFExpressionAstToTs(
     if (literalType === "number") {
       return t.numericLiteral(Number(node.meta.value));
     }
-    if (literalType === "boolean") {
+    if (literalType === "bool") {
       return t.booleanLiteral(Boolean(node.meta.value));
     }
 
@@ -531,15 +532,102 @@ function convertTFExpressionAstToTs(
   return t.stringLiteral("");
 }
 
+/*
+ * Transforms a babel AST into a list of string accessors
+ * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
+ */
+function destructureAst(ast: t.Expression): string[] | undefined {
+  switch (ast.type) {
+    case "Identifier":
+      return [ast.name];
+    case "MemberExpression":
+      const object = destructureAst(ast.object);
+      const property = destructureAst(ast.property as t.Expression);
+      if (object && property) {
+        return [...object, ...property];
+      } else {
+        return undefined;
+      }
+    default:
+      return undefined;
+  }
+}
+
 export function findExpressionType(
-  _scope: ProgramScope,
-  node: tex.ExpressionType
+  scope: ProgramScope,
+  ast: t.Expression
 ): AttributeType {
-  if (tex.isLiteralValueExpression(node)) {
-    return node.meta.type as AttributeType;
+  const isReferenceWithoutTemplateString =
+    ast.type === "MemberExpression" && ast.object.type === "Identifier";
+
+  // If we have a property to cdktf.propertyAccess call it's dynamic
+  if (
+    ast.type === "CallExpression" &&
+    ast.callee.type === "MemberExpression" &&
+    ast.callee.property.type === "Identifier" &&
+    ast.callee.property.name === "propertyAccess"
+  ) {
+    return "dynamic";
   }
 
-  return "dynamic";
+  if (ast.type === "StringLiteral") {
+    return "string";
+  }
+  if (ast.type === "NumericLiteral") {
+    return "number";
+  }
+  if (ast.type === "BooleanLiteral") {
+    return "bool";
+  }
+
+  // If we only have one reference this is a
+  if (isReferenceWithoutTemplateString) {
+    const destructuredAst = destructureAst(ast);
+    if (!destructuredAst) {
+      logger.debug(
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+      );
+      return "dynamic";
+    }
+
+    const [astVariableName, ...attributes] = destructuredAst;
+    const variable = Object.values(scope.variables).find(
+      (x) => x.variableName === astVariableName
+    );
+
+    if (!variable) {
+      logger.debug(
+        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
+          scope.variables,
+          null,
+          2
+        )}`
+      );
+      // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
+      return "dynamic";
+    }
+
+    if (variable.resource === "var") {
+      return "dynamic";
+    }
+
+    const { resource: resourceType } = variable;
+    const [provider, ...resourceNameFragments] = resourceType.split("_");
+    const tfResourcePath = `${provider}.${resourceNameFragments.join(
+      "_"
+    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
+    const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
+
+    // If this is an attribute type we can return it
+    if (typeof type === "string" || Array.isArray(type)) {
+      return type;
+    }
+
+    // Either nothing is found or it's a block type
+    return "dynamic";
+  }
+
+  return "string";
 }
 
 export async function convertTerraformExpressionToTs(
@@ -557,21 +645,17 @@ export async function convertTerraformExpressionToTs(
   }
   // console.log("AST", JSON.stringify(ast, null, 2));
 
+  let tsExpression;
   if (isWrapped) {
-    const tsExpression = convertTFExpressionAstToTs(ast.children[0], scope);
-    return coerceType(
-      scope,
-      tsExpression,
-      findExpressionType(scope, ast.children[0]),
-      getDesiredType(scope, path)
-    );
+    tsExpression = convertTFExpressionAstToTs(ast.children[0], scope);
+  } else {
+    tsExpression = convertTFExpressionAstToTs(ast, scope);
   }
 
-  const tsExpression = convertTFExpressionAstToTs(ast, scope);
   return coerceType(
     scope,
     tsExpression,
-    findExpressionType(scope, ast.children[0]),
+    findExpressionType(scope, tsExpression),
     getDesiredType(scope, path)
   );
 }
@@ -759,6 +843,7 @@ export function variableName(
     variableName,
     resource,
   };
+
   return variableName;
 }
 
