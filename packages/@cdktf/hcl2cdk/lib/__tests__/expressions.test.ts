@@ -327,7 +327,7 @@ describe("expressions", () => {
           useFqn: true,
           isVariable: false,
           start: 2,
-          end: 29,
+          end: 35,
         },
       ]);
     });

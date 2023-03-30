@@ -404,14 +404,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
         \\"\${\\" + tags.value + \\"}.env\\",
       ]),
       associatePublicIpAddress: true,
-      connection: [
-        {
-          host: \\"\${self.public_ip}\\",
-          private_key: cdktf.Fn.file(\\"./terraform_key\\"),
-          type: \\"ssh\\",
-          user: \\"ubuntu\\",
-        },
-      ],
+      connection: {
+        host: \\"\${self.public_ip}\\",
+        private_key: cdktf.Fn.file(\\"./terraform_key\\"),
+        type: \\"ssh\\",
+        user: \\"ubuntu\\",
+      },
       instanceType: \\"t3.small\\",
       keyName: awsKeyPairMasterKey.id,
       subnetId: awsSubnetMain.id,
