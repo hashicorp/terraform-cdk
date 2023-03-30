@@ -235,6 +235,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, \\"aws\\", {
       region: \\"us-east-1\\",
     });
+    const awsInstanceWeb = new aws.instance.Instance(this, \\"web\\", {
+      ami: \\"ami-a1b2c3d4\\",
+      instanceType: \\"t2.micro\\",
+    });
     new aws.instance.Instance(this, \\"example\\", {
       ami: \\"ami-a1b2c3d4\\",
       iamInstanceProfile: \\"aws_iam_instance_profile\\",
