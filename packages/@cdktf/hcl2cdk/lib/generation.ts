@@ -25,7 +25,6 @@ import {
   referenceToVariableName,
   extractDynamicBlocks,
   constructAst,
-  extractIteratorVariablesFromExpression,
   isNestedDynamicBlock,
   convertTerraformExpressionToTs,
 } from "./expressions";

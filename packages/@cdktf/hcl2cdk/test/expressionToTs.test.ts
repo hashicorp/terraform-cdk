@@ -6,7 +6,7 @@
 import { convertTerraformExpressionToTs } from "../lib/expressions";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { Scope } from "../lib/types";
+import { ProgramScope } from "../lib/types";
 
 function code(e: t.Expression): string {
   return generate(e).code;
@@ -24,8 +24,8 @@ function getScope({
   data,
   variables,
   locals,
-}: GetScopeParams = {}): Scope {
-  const scopeVariables: Scope["variables"] = {};
+}: GetScopeParams = {}): ProgramScope {
+  const scopeVariables: ProgramScope["variables"] = {};
 
   resources?.forEach((varName) => {
     let [resourceType, resourceName] = varName.split(".");

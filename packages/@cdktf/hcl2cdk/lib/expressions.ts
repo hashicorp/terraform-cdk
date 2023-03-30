@@ -112,7 +112,10 @@ function containsReference(expression: tex.ExpressionType) {
   return true;
 }
 
-function traversalToVariableName(scope: Scope, node: tex.ExpressionType) {
+function traversalToVariableName(
+  scope: ProgramScope,
+  node: tex.ExpressionType
+) {
   if (!tex.isScopeTraversalExpression(node)) {
     logger.error(
       `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
