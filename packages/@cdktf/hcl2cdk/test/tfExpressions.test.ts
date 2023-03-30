@@ -46,7 +46,7 @@ describe("tfExpressions", () => {
               kms_key_id = aws_kms_key.examplekms.arn
             }`,
     [binding.aws],
-    Synth.yes,
+    Synth.never,
     {
       resources: ["aws_s3_bucket", "aws_kms_key", "aws_s3_bucket_object"],
     }
@@ -99,7 +99,7 @@ describe("tfExpressions", () => {
             value = local.users_by_role
           }`,
     [],
-    Synth.yes
+    Synth.never
   );
 
   testCase.test(
@@ -123,7 +123,7 @@ describe("tfExpressions", () => {
               type    = "metric alert"
             }`,
     [binding.datadog],
-    Synth.yes,
+    Synth.never,
     {
       resources: ["datadog_monitor"],
     }

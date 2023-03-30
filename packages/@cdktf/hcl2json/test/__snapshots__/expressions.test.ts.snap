@@ -26,6 +26,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -41,6 +42,7 @@ Object {
                   },
                 },
                 "segment": "tags",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -56,6 +58,7 @@ Object {
                   },
                 },
                 "segment": "app",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.tags.app",
@@ -93,6 +96,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -108,6 +112,7 @@ Object {
                   },
                 },
                 "segment": "tags",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -123,6 +128,7 @@ Object {
                   },
                 },
                 "segment": "env",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.tags.env",
@@ -201,6 +207,7 @@ Object {
               },
             },
             "segment": "var",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -216,9 +223,9 @@ Object {
               },
             },
             "segment": "setting",
+            "type": "nameTraversal",
           },
           Object {
-            "key": "\\"bucket_name\\"",
             "range": Object {
               "end": Object {
                 "byte": 30,
@@ -231,6 +238,8 @@ Object {
                 "line": 0,
               },
             },
+            "segment": "\\"bucket_name\\"",
+            "type": "indexTraversal",
           },
           Object {
             "range": Object {
@@ -246,6 +255,7 @@ Object {
               },
             },
             "segment": "arn",
+            "type": "nameTraversal",
           },
         ],
         "value": "var.setting[\\"bucket_name\\"].arn",
@@ -306,6 +316,7 @@ Object {
               },
             },
             "segment": "var",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -321,6 +332,7 @@ Object {
               },
             },
             "segment": "foo",
+            "type": "nameTraversal",
           },
         ],
         "value": "var.foo",
@@ -379,6 +391,7 @@ Object {
           },
         },
         "segment": "foo",
+        "type": "nameTraversal",
       },
     ],
     "value": "foo",
@@ -423,6 +436,7 @@ Object {
                   },
                 },
                 "segment": "module",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -438,6 +452,7 @@ Object {
                   },
                 },
                 "segment": "foo",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -453,6 +468,7 @@ Object {
                   },
                 },
                 "segment": "output",
+                "type": "nameTraversal",
               },
             ],
             "value": "module.foo.output",
@@ -530,6 +546,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -545,6 +562,7 @@ Object {
                   },
                 },
                 "segment": "bar",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.bar",
@@ -719,6 +737,7 @@ Object {
               },
             },
             "segment": "module",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -734,6 +753,7 @@ Object {
               },
             },
             "segment": "foo",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -749,6 +769,7 @@ Object {
               },
             },
             "segment": "output",
+            "type": "nameTraversal",
           },
         ],
         "value": "module.foo.output",
@@ -831,6 +852,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -846,6 +868,7 @@ Object {
                   },
                 },
                 "segment": "users",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.users",
@@ -883,6 +906,7 @@ Object {
                   },
                 },
                 "segment": "user",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -898,6 +922,7 @@ Object {
                   },
                 },
                 "segment": "role",
+                "type": "nameTraversal",
               },
             ],
             "value": "user.role",
@@ -935,6 +960,7 @@ Object {
                   },
                 },
                 "segment": "name",
+                "type": "nameTraversal",
               },
             ],
             "value": "name",
@@ -967,7 +993,10 @@ Object {
             "line": 0,
           },
         },
+        "closeRangeValue": "}",
         "collectionExpression": "var.users",
+        "groupedValue": true,
+        "keyExpression": "user.role",
         "keyVar": "name",
         "openRange": Object {
           "end": Object {
@@ -981,10 +1010,10 @@ Object {
             "line": 0,
           },
         },
+        "openRangeValue": "{",
         "valVar": "user",
         "value": "{ for name, user in var.users : user.role => name... }",
-        "valueExpressionRange": "name",
-        "valueHasEllipses": true,
+        "valueExpression": "name",
       },
       "range": Object {
         "end": Object {
@@ -1042,6 +1071,7 @@ Object {
               },
             },
             "segment": "data",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -1057,6 +1087,7 @@ Object {
               },
             },
             "segment": "type",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -1072,6 +1103,7 @@ Object {
               },
             },
             "segment": "name",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -1087,6 +1119,7 @@ Object {
               },
             },
             "segment": "attr",
+            "type": "nameTraversal",
           },
         ],
         "value": "data.type.name.attr",
@@ -1169,6 +1202,7 @@ Object {
                   },
                 },
                 "segment": "module",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -1184,6 +1218,7 @@ Object {
                   },
                 },
                 "segment": "foo",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -1199,6 +1234,7 @@ Object {
                   },
                 },
                 "segment": "output",
+                "type": "nameTraversal",
               },
             ],
             "value": "module.foo.output",
@@ -1355,6 +1391,7 @@ Object {
                   },
                 },
                 "segment": "module",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -1370,6 +1407,7 @@ Object {
                   },
                 },
                 "segment": "foo",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -1385,6 +1423,7 @@ Object {
                   },
                 },
                 "segment": "output",
+                "type": "nameTraversal",
               },
             ],
             "value": "module.foo.output",
@@ -1552,6 +1591,7 @@ Object {
                       },
                     },
                     "segment": "module",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -1567,6 +1607,7 @@ Object {
                       },
                     },
                     "segment": "foo",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -1582,6 +1623,7 @@ Object {
                       },
                     },
                     "segment": "output",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "module.foo.output",
@@ -1659,6 +1701,7 @@ Object {
                       },
                     },
                     "segment": "var",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -1674,6 +1717,7 @@ Object {
                       },
                     },
                     "segment": "bar",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "var.bar",
@@ -1848,6 +1892,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -1863,6 +1908,7 @@ Object {
                   },
                 },
                 "segment": "users",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.users",
@@ -1900,6 +1946,7 @@ Object {
                   },
                 },
                 "segment": "name",
+                "type": "nameTraversal",
               },
             ],
             "value": "name",
@@ -1937,6 +1984,7 @@ Object {
                   },
                 },
                 "segment": "user",
+                "type": "nameTraversal",
               },
             ],
             "value": "user",
@@ -1976,6 +2024,7 @@ Object {
                       },
                     },
                     "segment": "user",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -1991,6 +2040,7 @@ Object {
                       },
                     },
                     "segment": "is_admin",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "user.is_admin",
@@ -2026,6 +2076,7 @@ Object {
               },
             },
             "value": "!user.is_admin",
+            "valueExpression": "user.is_admin",
           },
           "range": Object {
             "end": Object {
@@ -2055,8 +2106,11 @@ Object {
             "line": 3,
           },
         },
+        "closeRangeValue": "}",
         "collectionExpression": "var.users",
         "conditionalExpression": "!user.is_admin",
+        "groupedValue": false,
+        "keyExpression": "name",
         "keyVar": "name",
         "openRange": Object {
           "end": Object {
@@ -2070,13 +2124,13 @@ Object {
             "line": 0,
           },
         },
+        "openRangeValue": "{",
         "valVar": "user",
         "value": "{
             for name, user in var.users : name => user
             if !user.is_admin
           }",
-        "valueExpressionRange": "user",
-        "valueHasEllipses": false,
+        "valueExpression": "user",
       },
       "range": Object {
         "end": Object {
@@ -2139,6 +2193,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -2154,6 +2209,7 @@ Object {
                   },
                 },
                 "segment": "separator",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.separator",
@@ -2195,6 +2251,7 @@ Object {
                           },
                         },
                         "segment": "module",
+                        "type": "nameTraversal",
                       },
                       Object {
                         "range": Object {
@@ -2210,6 +2267,7 @@ Object {
                           },
                         },
                         "segment": "foo",
+                        "type": "nameTraversal",
                       },
                       Object {
                         "range": Object {
@@ -2225,6 +2283,7 @@ Object {
                           },
                         },
                         "segment": "output",
+                        "type": "nameTraversal",
                       },
                     ],
                     "value": "module.foo.output",
@@ -2302,6 +2361,7 @@ Object {
                           },
                         },
                         "segment": "var",
+                        "type": "nameTraversal",
                       },
                       Object {
                         "range": Object {
@@ -2317,6 +2377,7 @@ Object {
                           },
                         },
                         "segment": "bar",
+                        "type": "nameTraversal",
                       },
                     ],
                     "value": "var.bar",
@@ -2627,6 +2688,7 @@ Object {
                       },
                     },
                     "segment": "aws_s3_bucket",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -2642,6 +2704,7 @@ Object {
                       },
                     },
                     "segment": "examplebucket",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "aws_s3_bucket.examplebucket",
@@ -2825,6 +2888,7 @@ Object {
                       },
                     },
                     "segment": "aws_kms_key",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -2840,6 +2904,7 @@ Object {
                       },
                     },
                     "segment": "examplekms",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -2855,6 +2920,7 @@ Object {
                       },
                     },
                     "segment": "deletion_window_in_days",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "aws_kms_key.examplekms.deletion_window_in_days",
@@ -2934,6 +3000,7 @@ Object {
                   },
                 },
                 "segment": "aws_s3_bucket",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -2949,6 +3016,7 @@ Object {
                   },
                 },
                 "segment": "examplebucket",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -2964,6 +3032,7 @@ Object {
                   },
                 },
                 "segment": "id",
+                "type": "nameTraversal",
               },
             ],
             "value": "aws_s3_bucket.examplebucket.id",
@@ -3068,6 +3137,7 @@ Object {
                       },
                     },
                     "segment": "aws_s3_bucket",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -3083,6 +3153,7 @@ Object {
                       },
                     },
                     "segment": "examplebucket_two",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "aws_s3_bucket.examplebucket_two",
@@ -3222,6 +3293,7 @@ Object {
               },
             },
             "segment": "id",
+            "type": "nameTraversal",
           },
         ],
         "value": "element(aws_s3_bucket.examplebucket_two, 0).id",
@@ -3282,6 +3354,7 @@ Object {
               },
             },
             "segment": "module",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -3297,6 +3370,7 @@ Object {
               },
             },
             "segment": "foo",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -3312,6 +3386,7 @@ Object {
               },
             },
             "segment": "output",
+            "type": "nameTraversal",
           },
         ],
         "value": "module.foo.output",
@@ -3374,6 +3449,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -3389,6 +3465,7 @@ Object {
                   },
                 },
                 "segment": "members",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.members",
@@ -3426,6 +3503,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -3441,6 +3519,7 @@ Object {
                   },
                 },
                 "segment": "admins",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.admins",
@@ -3525,6 +3604,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -3540,6 +3620,7 @@ Object {
                   },
                 },
                 "segment": "settings",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.settings",
@@ -3579,6 +3660,7 @@ Object {
                       },
                     },
                     "segment": "var",
+                    "type": "nameTraversal",
                   },
                   Object {
                     "range": Object {
@@ -3594,6 +3676,7 @@ Object {
                       },
                     },
                     "segment": "prefix",
+                    "type": "nameTraversal",
                   },
                 ],
                 "value": "var.prefix",
@@ -3712,6 +3795,7 @@ Object {
               },
             },
             "segment": "var",
+            "type": "nameTraversal",
           },
           Object {
             "range": Object {
@@ -3727,9 +3811,9 @@ Object {
               },
             },
             "segment": "setting",
+            "type": "nameTraversal",
           },
           Object {
-            "key": "\\"bucket_name\\"",
             "range": Object {
               "end": Object {
                 "byte": 30,
@@ -3742,6 +3826,8 @@ Object {
                 "line": 0,
               },
             },
+            "segment": "\\"bucket_name\\"",
+            "type": "indexTraversal",
           },
         ],
         "value": "var.setting[\\"bucket_name\\"]",
@@ -3804,6 +3890,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -3819,6 +3906,7 @@ Object {
                   },
                 },
                 "segment": "settings",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.settings",
@@ -3856,6 +3944,7 @@ Object {
                   },
                 },
                 "segment": "var",
+                "type": "nameTraversal",
               },
               Object {
                 "range": Object {
@@ -3871,6 +3960,7 @@ Object {
                   },
                 },
                 "segment": "bucket_name_key",
+                "type": "nameTraversal",
               },
             ],
             "value": "var.bucket_name_key",
@@ -3949,9 +4039,9 @@ Array [
 exports[`getReferencesInExpression mixed property access 1`] = `
 Array [
   Object {
-    "endPosition": 15,
+    "endPosition": 34,
     "startPosition": 4,
-    "value": "var.setting",
+    "value": "var.setting.\\"bucket_name\\".arn",
   },
 ]
 `;
@@ -4151,9 +4241,9 @@ Array [
 exports[`getReferencesInExpression property access 1`] = `
 Array [
   Object {
-    "endPosition": 15,
+    "endPosition": 30,
     "startPosition": 4,
-    "value": "var.setting",
+    "value": "var.setting.\\"bucket_name\\"",
   },
 ]
 `;

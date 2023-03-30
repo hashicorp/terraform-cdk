@@ -215,8 +215,8 @@ type RangeAst struct {
 }
 
 type TraversalAst struct {
+	Type    string        `json:"type"`
 	Segment string        `json:"segment,omitempty"`
-	Key     string        `json:"key,omitempty"`
 	Each    *TraversalAst `json:"each,omitempty"`
 	Range   RangeAst      `json:"range,omitempty"`
 }
@@ -250,7 +250,7 @@ func convertTraversal(t hcl.Traversal) ([]TraversalAst, string) {
 		switch p.(type) {
 		case hcl.TraverseRoot:
 			root := p.(hcl.TraverseRoot)
-			res = append(res, TraversalAst{Segment: root.Name, Range: convertRangeToAst(root.SrcRange)})
+			res = append(res, TraversalAst{Type: "nameTraversal", Segment: root.Name, Range: convertRangeToAst(root.SrcRange)})
 			if full == "" {
 				full = root.Name
 			} else {
@@ -258,7 +258,7 @@ func convertTraversal(t hcl.Traversal) ([]TraversalAst, string) {
 			}
 		case hcl.TraverseAttr:
 			attr := p.(hcl.TraverseAttr)
-			res = append(res, TraversalAst{Segment: attr.Name, Range: convertRangeToAst(attr.SrcRange)})
+			res = append(res, TraversalAst{Type: "nameTraversal", Segment: attr.Name, Range: convertRangeToAst(attr.SrcRange)})
 			if full == "" {
 				full = attr.Name
 			} else {
@@ -274,7 +274,7 @@ func convertTraversal(t hcl.Traversal) ([]TraversalAst, string) {
 				val = key.AsBigFloat().String()
 			}
 
-			res = append(res, TraversalAst{Key: val, Range: convertRangeToAst(index.SrcRange)})
+			res = append(res, TraversalAst{Type: "indexTraversal", Segment: val, Range: convertRangeToAst(index.SrcRange)})
 			if full == "" {
 				full = val
 			} else {
@@ -390,10 +390,15 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		if actualExpr.CondExpr != nil {
 			w.Current.Meta["conditionalExpression"] = w.Input[actualExpr.CondExpr.Range().Start.Byte:actualExpr.CondExpr.Range().End.Byte]
 		}
-		w.Current.Meta["valueExpressionRange"] = w.Input[actualExpr.ValExpr.Range().Start.Byte:actualExpr.ValExpr.Range().End.Byte]
-		w.Current.Meta["valueHasEllipses"] = actualExpr.Group
+		if actualExpr.KeyExpr != nil {
+			w.Current.Meta["keyExpression"] = w.Input[actualExpr.KeyExpr.Range().Start.Byte:actualExpr.KeyExpr.Range().End.Byte]
+		}
+		w.Current.Meta["valueExpression"] = w.Input[actualExpr.ValExpr.Range().Start.Byte:actualExpr.ValExpr.Range().End.Byte]
+		w.Current.Meta["groupedValue"] = actualExpr.Group
 		w.Current.Meta["openRange"] = convertRangeToAst(actualExpr.OpenRange)
+		w.Current.Meta["openRangeValue"] = w.Input[actualExpr.OpenRange.Start.Byte:actualExpr.OpenRange.End.Byte]
 		w.Current.Meta["closeRange"] = convertRangeToAst(actualExpr.CloseRange)
+		w.Current.Meta["closeRangeValue"] = w.Input[actualExpr.CloseRange.Start.Byte:actualExpr.CloseRange.End.Byte]
 	case *hclsyntax.ConditionalExpr:
 		w.Current.Type = "conditional"
 		w.Current.Meta["conditionExpression"] = w.Input[actualExpr.Condition.Range().Start.Byte:actualExpr.Condition.Range().End.Byte]
@@ -401,9 +406,10 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		w.Current.Meta["falseExpression"] = w.Input[actualExpr.FalseResult.Range().Start.Byte:actualExpr.FalseResult.Range().End.Byte]
 	case *hclsyntax.UnaryOpExpr:
 		w.Current.Type = "unaryOp"
-		val, _ := actualExpr.Value(nil)
 		w.Current.Meta["operator"] = getOperationName(actualExpr.Op)
+		w.Current.Meta["valueExpression"] = w.Input[actualExpr.Val.Range().Start.Byte:actualExpr.Val.Range().End.Byte]
 		w.Current.Meta["symbolRange"] = convertRangeToAst(actualExpr.SymbolRange)
+		val, _ := actualExpr.Value(nil)
 		w.Current.Meta["returnType"] = val.Type()
 	case *hclsyntax.BinaryOpExpr:
 		w.Current.Type = "binaryOp"

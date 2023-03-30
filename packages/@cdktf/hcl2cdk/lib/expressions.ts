@@ -4,8 +4,10 @@ import * as t from "@babel/types";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
-import { getReferencesInExpression } from "@cdktf/hcl2json";
+import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
+import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
+import { functionsMap } from "./function-bindings/functions";
 
 export type Reference = {
   start: number;
@@ -16,6 +18,566 @@ export type Reference = {
 };
 
 const DOLLAR_REGEX = /\$/g;
+const leaveCommentText = `Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`;
+
+function wrapTerraformExpression(input: string): string {
+  if (!isNaN(parseInt(input, 10))) {
+    return input;
+  }
+  if (
+    input.startsWith("[") ||
+    input.startsWith("{") ||
+    input.startsWith(`"`) ||
+    input.startsWith("'")
+  ) {
+    return input;
+  }
+
+  return `"${input}"`;
+}
+
+const tfBinaryOperatorsToCdktf = {
+  logicalOr: "or",
+  logicalAnd: "and",
+  greaterThan: "gt",
+  greaterThanOrEqual: "gte",
+  lessThan: "lt",
+  lessThanOrEqual: "lte",
+  equal: "eq",
+  notEqual: "neq",
+  add: "add",
+  subtract: "sub",
+  multiply: "mul",
+  divide: "div",
+  modulo: "mod",
+};
+
+const tfUnaryOperatorsToCdktf = {
+  logicalNot: "not",
+  negative: "negate",
+};
+
+type supportedBinaryOperators = keyof typeof tfBinaryOperatorsToCdktf;
+type supportedUnaryOperators = keyof typeof tfUnaryOperatorsToCdktf;
+
+function traversalPartsToString(
+  traversals: tex.TerraformTraversalPart[],
+  asSuffix = false
+) {
+  let seed = "";
+  if (asSuffix && tex.isNameTraversalPart(traversals[0])) {
+    seed = ".";
+  }
+  return traversals.reduce((acc, part) => {
+    if (part.type === "nameTraversal") {
+      if (acc === seed) {
+        return `${acc}${part.segment}`;
+      }
+      return `${acc}.${part.segment}`;
+    }
+    return `${acc}[${part.segment}]`;
+  }, seed);
+}
+
+function canUseFqn(expression: tex.ExpressionType) {
+  if (!tex.isScopeTraversalExpression(expression)) {
+    return false;
+  }
+
+  const rootSegment = expression.meta.traversal[0].segment;
+
+  return !["var", "local"].includes(rootSegment);
+}
+
+function containsReference(expression: tex.ExpressionType) {
+  if (!tex.isScopeTraversalExpression(expression)) {
+    return false;
+  }
+
+  const segments = expression.meta.traversal;
+  const rootSegment = segments[0].segment;
+  const fullAccessor = expression.meta.fullAccessor;
+
+  if (
+    rootSegment === "count" || // count variable
+    rootSegment === "each" || // each variable
+    // https://www.terraform.io/docs/language/expressions/references.html#filesystem-and-workspace-info
+    fullAccessor.startsWith("path.module") ||
+    fullAccessor.startsWith("path.root") ||
+    fullAccessor.startsWith("path.cwd") ||
+    fullAccessor.startsWith("terraform.workspace") ||
+    fullAccessor.startsWith("self.") // block local value
+  ) {
+    logger.debug(`skipping ${fullAccessor}`);
+    return false;
+  }
+
+  return true;
+}
+
+function traversalToVariableName(
+  scope: ProgramScope,
+  node: tex.ExpressionType
+) {
+  if (!tex.isScopeTraversalExpression(node)) {
+    logger.error(
+      `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
+        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue`
+    );
+    return "";
+  }
+
+  const segments = node.meta.traversal;
+  const rootSegment = segments[0].segment;
+  const resource =
+    rootSegment === "data"
+      ? `${segments[0].segment}.${segments[1].segment}`
+      : rootSegment;
+  const name =
+    rootSegment === "data" ? segments[2].segment : segments[1].segment;
+
+  return variableName(scope, resource, name);
+}
+
+function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
+  const reducedNodes = nodes.reduce((acc, node) => {
+    const prev = acc[acc.length - 1];
+    if (!prev) return [node];
+
+    if (t.isStringLiteral(prev) && t.isStringLiteral(node)) {
+      acc.pop();
+      acc.push(t.stringLiteral(prev.value + node.value));
+      return acc;
+    }
+
+    acc.push(node);
+    return acc;
+  }, [] as t.Expression[]);
+
+  return reducedNodes.reduce(
+    (acc: t.Expression | undefined, node: t.Expression) => {
+      if (!acc) {
+        return node;
+      }
+
+      return t.binaryExpression("+", acc as t.Expression, node);
+    }
+  );
+}
+
+function convertTFExpressionAstToTs(
+  node: tex.ExpressionType,
+  scope: ProgramScope,
+  nodeIds: readonly string[],
+  scopedIds: readonly string[]
+): t.Expression {
+  if (tex.isLiteralValueExpression(node)) {
+    const literalType = node.meta.type;
+    if (literalType === "number") {
+      return t.numericLiteral(Number(node.meta.value));
+    }
+    if (literalType === "boolean") {
+      return t.booleanLiteral(Boolean(node.meta.value));
+    }
+
+    return t.stringLiteral(node.meta.value);
+  }
+
+  if (tex.isScopeTraversalExpression(node)) {
+    const hasReference = containsReference(node);
+
+    const segments = node.meta.traversal;
+    const varIdentifier = hasReference
+      ? t.identifier(camelCase(traversalToVariableName(scope, node)))
+      : // This is a variable reference that we don't understand yet, so we wrap it in a template string
+        // for Terraform to handle
+        t.stringLiteral(`\${${node.meta.fullAccessor}}`);
+
+    if (["var", "local"].includes(segments[0].segment)) {
+      const variableAccessor =
+        segments[0].segment === "var"
+          ? t.memberExpression(varIdentifier, t.identifier("value"))
+          : varIdentifier;
+
+      if (segments.length > 2) {
+        return expressionForSerialStringConcatenation([
+          t.stringLiteral("${"),
+          variableAccessor,
+          t.stringLiteral(
+            "}" + traversalPartsToString(segments.slice(2), true)
+          ),
+        ]);
+      }
+
+      return variableAccessor;
+    }
+
+    if (!hasReference) {
+      return varIdentifier;
+    }
+
+    const rootSegment = segments[0].segment;
+    const subSegments =
+      rootSegment === "data" ? segments.slice(3) : segments.slice(2);
+    const indexOfNumericAccessor = subSegments.findIndex((seg) =>
+      tex.isIndexTraversalPart(seg)
+    );
+
+    const refSegments =
+      indexOfNumericAccessor > -1
+        ? subSegments.slice(0, indexOfNumericAccessor)
+        : subSegments;
+
+    const nonRefSegments =
+      indexOfNumericAccessor > -1
+        ? subSegments.slice(indexOfNumericAccessor)
+        : [];
+
+    const ref = refSegments.reduce(
+      (acc: t.Expression, seg, index) =>
+        t.memberExpression(
+          acc,
+          t.identifier(
+            index === 0 && rootSegment === "module"
+              ? camelCase(seg.segment + "Output")
+              : camelCase(seg.segment)
+          )
+        ),
+      varIdentifier
+    );
+
+    if (nonRefSegments.length === 0) {
+      return ref;
+    }
+
+    return expressionForSerialStringConcatenation([
+      t.stringLiteral("${"),
+      ref,
+      t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
+    ]);
+  }
+
+  if (tex.isUnaryOpExpression(node)) {
+    const operand = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.valueExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    let fnName = node.meta.operator;
+    if (tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators]) {
+      fnName = tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators];
+    } else {
+      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+    }
+
+    const opClass = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("Op")
+    );
+    const fn = t.memberExpression(opClass, t.identifier(fnName));
+
+    return t.callExpression(fn, [operand]);
+  }
+
+  if (tex.isBinaryOpExpression(node)) {
+    const left = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.lhsExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+    const right = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.rhsExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    let fnName = node.meta.operator;
+    if (tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators]) {
+      fnName = tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators];
+    } else {
+      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+    }
+
+    const opClass = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("Op")
+    );
+    const fn = t.memberExpression(opClass, t.identifier(fnName));
+
+    return t.callExpression(fn, [left, right]);
+  }
+
+  if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
+    const parts = node.children.map((child) => ({
+      node: child,
+      expr: convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds),
+    }));
+
+    if (parts.length === 0) {
+      return t.stringLiteral(node.meta.value);
+    }
+
+    if (parts.length === 1) {
+      return parts[0].expr;
+    }
+
+    let isScopedTraversal = false;
+    let expressions = [];
+    for (const { node, expr } of parts) {
+      if (tex.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
+        expressions.push(t.stringLiteral("${"));
+        isScopedTraversal = true;
+      } else {
+        if (isScopedTraversal) {
+          expressions.push(t.stringLiteral("}"));
+          isScopedTraversal = false;
+        }
+      }
+      expressions.push(expr);
+    }
+
+    if (isScopedTraversal) {
+      expressions.push(t.stringLiteral("}"));
+    }
+
+    return expressionForSerialStringConcatenation(expressions);
+  }
+
+  if (tex.isFunctionCallExpression(node)) {
+    const functionName = node.meta.name;
+
+    const argumentExpressions = node.children.map((child) =>
+      convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
+    );
+
+    const mapping = functionsMap[functionName];
+    if (!mapping) {
+      logger.error(
+        `Unknown function ${functionName} encountered. ${leaveCommentText}`
+      );
+      return t.callExpression(t.identifier(functionName), argumentExpressions);
+    }
+
+    // TODO: Insert mapping transformer here
+    // Sample code that might work?
+    // if (mapping.transformer) {
+    //   const newTfAst = mapping.transformer(node);
+    //   if (newTfAst !== node) {
+    //     newTfAst.children = node.children;
+    //     return convertTFExpressionAstToTs(
+    //       newTfAst,
+    //       scope,
+    //       nodeIds,
+    //       scopedIds
+    //     );
+    //   }
+    // }
+
+    const callee = t.memberExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
+      t.identifier(mapping.name)
+    );
+
+    // TODO: Needs coercion goodness here
+    return t.callExpression(callee, argumentExpressions);
+  }
+
+  if (tex.isSplatExpression(node)) {
+    const sourceExpressionChild = tex.getChildWithValue(
+      node,
+      node.meta.sourceExpression
+    )!;
+    let sourceExpression = convertTFExpressionAstToTs(
+      sourceExpressionChild,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    // We don't convert the relative expression because everything after the splat is going to be
+    // a string
+    let relativeExpression = node.meta.eachExpression.startsWith(
+      node.meta.anonSymbolExpression
+    )
+      ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
+      : node.meta.eachExpression;
+
+    if (t.isIdentifier(sourceExpression) && canUseFqn(sourceExpressionChild)) {
+      sourceExpression = t.memberExpression(
+        sourceExpression,
+        t.identifier("fqn")
+      );
+    }
+
+    return expressionForSerialStringConcatenation([
+      t.stringLiteral("${"),
+      sourceExpression,
+      t.stringLiteral("}"),
+      t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression),
+    ]);
+  }
+
+  if (tex.isConditionalExpression(node)) {
+    const conditionChild = tex.getChildWithValue(
+      node,
+      node.meta.conditionExpression
+    )!;
+    let condition = convertTFExpressionAstToTs(
+      conditionChild,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+    if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
+      // We have a resource or data source here, which we would need to
+      // reference using fqn
+      condition = t.memberExpression(condition, t.identifier("fqn"));
+    }
+
+    const trueExpression = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.trueExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    const falseExpression = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.falseExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    const conditionalFn = t.memberExpression(
+      t.identifier("cdktf"),
+      t.identifier("conditional")
+    );
+
+    return t.callExpression(conditionalFn, [
+      condition,
+      trueExpression,
+      falseExpression,
+    ]);
+  }
+
+  if (tex.isTupleExpression(node)) {
+    const expressions = node.children.map((child) =>
+      convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
+    );
+
+    return t.arrayExpression(expressions);
+  }
+
+  if (tex.isRelativeTraversalExpression(node)) {
+    const segments = node.meta.traversal;
+
+    // The left hand side / source of a relative traversal is not a proper
+    // object / resource / data thing that is being referenced
+    const source = convertTFExpressionAstToTs(
+      tex.getChildWithValue(node, node.meta.sourceExpression)!,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        source,
+        t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment))),
+      ]
+    );
+  }
+
+  if (tex.isForExpression(node)) {
+    const collectionChild = tex.getChildWithValue(
+      node,
+      node.meta.collectionExpression
+    )!;
+
+    let collectionExpression = convertTFExpressionAstToTs(
+      collectionChild,
+      scope,
+      nodeIds,
+      scopedIds
+    );
+
+    if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
+      // We have a resource or data source here, which we would need to
+      // reference using fqn
+      collectionExpression = t.memberExpression(
+        collectionExpression,
+        t.identifier("fqn")
+      );
+    }
+
+    const collectionRequiresWrapping = !t.isStringLiteral(collectionExpression);
+    const expressions = [];
+    const conditionBody = node.meta.keyVar
+      ? `${node.meta.keyVar}, ${node.meta.valVar}`
+      : node.meta.valVar;
+
+    const openBrace = node.meta.openRangeValue;
+    const closeBrace = node.meta.closeRangeValue;
+    const grouped = node.meta.groupedValue ? "..." : "";
+    const valueExpression = `${node.meta.valueExpression}${grouped}`;
+
+    const prefix = `\${${openBrace} for ${conditionBody} in `;
+    const keyValue = node.meta.keyExpression
+      ? ` : ${node.meta.keyExpression} => ${valueExpression}`
+      : ` : ${valueExpression}`;
+    const conditional = node.meta.conditionalExpression;
+    const suffix = `${keyValue}${
+      conditional ? ` if ${conditional}` : ""
+    }${closeBrace}}`;
+
+    expressions.push(t.stringLiteral(prefix));
+    if (collectionRequiresWrapping) {
+      expressions.push(t.stringLiteral("${"));
+    }
+    expressions.push(collectionExpression);
+    if (collectionRequiresWrapping) {
+      expressions.push(t.stringLiteral("}"));
+    }
+    expressions.push(t.stringLiteral(suffix));
+
+    return expressionForSerialStringConcatenation(expressions);
+  }
+
+  return t.stringLiteral("");
+}
+
+export async function convertTerraformExpressionToTs(
+  input: string,
+  scope: ProgramScope,
+  nodeIds: readonly string[],
+  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
+): Promise<t.Expression> {
+  logger.debug(`convertTerraformExpressionToTs(${input})`);
+  const sanitizedInput = wrapTerraformExpression(input);
+  const isWrapped = sanitizedInput.length !== input.length;
+  const ast = await getExpressionAst("main.tf", sanitizedInput);
+
+  if (!ast) {
+    throw new Error(`Unable to parse terraform expression: ${input}`);
+  }
+  // console.log("AST", JSON.stringify(ast, null, 2));
+
+  if (isWrapped) {
+    return convertTFExpressionAstToTs(
+      ast.children[0],
+      scope,
+      nodeIds,
+      scopedIds
+    );
+  }
+
+  return convertTFExpressionAstToTs(ast, scope, nodeIds, scopedIds);
+}
 
 export async function extractReferencesFromExpression(
   input: string,
@@ -77,7 +639,7 @@ export async function extractReferencesFromExpression(
         `Found a reference that is unknown: ${input} has reference "${value}". The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`
+${leaveCommentText}`
       );
       return carry;
     }

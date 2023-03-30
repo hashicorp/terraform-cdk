@@ -13,10 +13,21 @@ export type CodeRange = {
   start: CodeMarker;
 };
 
-export type TerraformTraversalPart = {
+export type TerraformTraversalPartCommon = {
   segment: string;
   range: CodeRange;
 };
+
+export type TerraformNameTraversalPart = TerraformTraversalPartCommon & {
+  type: "nameTraversal";
+};
+export type TerraformIndexTraversalPart = TerraformTraversalPartCommon & {
+  type: "indexTraversal";
+};
+
+export type TerraformTraversalPart =
+  | TerraformNameTraversalPart
+  | TerraformIndexTraversalPart;
 
 // Expression Meta Types
 export type ExpressionMeta = {
@@ -28,10 +39,13 @@ export type ForExpressionMeta = ExpressionMeta & {
   valVar: string;
   collectionExpression: string;
   conditionalExpression: string;
-  valueExpressionRange: CodeRange;
-  valueHasEllipses: boolean;
+  valueExpression: string;
+  keyExpression: string;
+  groupedValue: boolean;
   openRange: CodeRange;
+  openRangeValue: string;
   closeRange: CodeRange;
+  closeRangeValue: string;
 };
 
 export type FunctionCallMeta = ExpressionMeta & {
@@ -78,6 +92,7 @@ export type ConditionalExpressionMeta = ExpressionMeta & {
 
 export type UnaryOpExpressionMeta = ExpressionMeta & {
   operator: string;
+  valueExpression: string;
   symbolRange: CodeRange;
   returnType: string;
 };
@@ -114,6 +129,16 @@ export type ExpressionAst = CommonExpressionAst & {
 
 export type TemplateWrapExpression = CommonExpressionAst & {
   type: "templateWrap";
+  meta: ExpressionMeta; // Doesn't have any special meta attributes
+};
+
+export type TemplateExpression = CommonExpressionAst & {
+  type: "template";
+  meta: ExpressionMeta; // Doesn't have any special meta attributes
+};
+
+export type TupleExpression = CommonExpressionAst & {
+  type: "tuple";
   meta: ExpressionMeta; // Doesn't have any special meta attributes
 };
 
@@ -170,7 +195,9 @@ export type BinaryOpExpression = CommonExpressionAst & {
 export type ExpressionType =
   | ForExpression
   | TemplateWrapExpression
+  | TemplateExpression
   | FunctionCallExpression
+  | TupleExpression
   | ScopeTraversalExpression
   | RelativeTraversalExpression
   | LiteralValueExpression
@@ -188,6 +215,12 @@ export function isTemplateWrapExpression(
   ast: ExpressionType
 ): ast is TemplateWrapExpression {
   return ast.type === "templateWrap";
+}
+
+export function isTemplateExpression(
+  ast: ExpressionType
+): ast is TemplateExpression {
+  return ast.type === "template";
 }
 
 export function isFunctionCallExpression(
@@ -240,9 +273,28 @@ export function isBinaryOpExpression(
   return ast.type === "binaryOp";
 }
 
-export function* traverseAst(ast: ExpressionType): Generator<ExpressionType> {
-  yield ast;
-  for (const child of ast.children) {
-    yield* traverseAst(child);
+export function isTupleExpression(ast: ExpressionType): ast is TupleExpression {
+  return ast.type === "tuple";
+}
+
+export function isNameTraversalPart(
+  part: TerraformTraversalPart
+): part is TerraformNameTraversalPart {
+  return part.type === "nameTraversal";
+}
+
+export function isIndexTraversalPart(
+  part: TerraformTraversalPart
+): part is TerraformIndexTraversalPart {
+  return part.type === "indexTraversal";
+}
+
+export function getChildWithValue(node: ExpressionAst, value: string) {
+  if (!node.children) {
+    return null;
   }
+
+  return node.children.find((child) => {
+    return child.meta.value === value;
+  });
 }

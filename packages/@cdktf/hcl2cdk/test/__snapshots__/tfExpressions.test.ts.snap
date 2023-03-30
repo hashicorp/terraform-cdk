@@ -11,7 +11,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const admins = new cdktf.TerraformVariable(this, \\"admins\\", {});
     const members = new cdktf.TerraformVariable(this, \\"members\\", {});
     new cdktf.TerraformOutput(this, \\"arithmetics\\", {
-      value: \`\\\\\${\${members.value} + \${admins.value}}\`,
+      value: cdktf.Op.add(members.value, admins.value),
     });
   }
 }
@@ -43,7 +43,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: \`\\\\\${\${awsKmsKeyExamplekms.deletionWindowInDays} > 3 ? \${awsS3BucketExamplebucket.id} : []}\`,
+      bucket: cdktf.conditional(
+        cdktf.Op.gt(awsKmsKeyExamplekms.deletionWindowInDays, 3),
+        awsS3BucketExamplebucket.id,
+        []
+      ),
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
@@ -62,16 +66,16 @@ class MyConvertedCode extends cdktf.TerraformStack {
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
     const users = new cdktf.TerraformVariable(this, \\"users\\", {});
-    const adminUsers = \`\\\\\${{
-                for name, user in \${users.value} : name => user
-                if user.is_admin
-              }}\`;
-    const regularUsers = \`\\\\\${{
-                for name, user in \${users.value} : name => user
-                if !user.is_admin
-              }}\`;
+    const adminUsers =
+      \\"\${{ for name, user in \${\\" +
+      users.value +
+      \\"} : name => user if user.is_admin}}\\";
+    const regularUsers =
+      \\"\${{ for name, user in \${\\" +
+      users.value +
+      \\"} : name => user if !user.is_admin}}\\";
     new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-      value: \`\\\\\${\${adminUsers}},\\\\\${\${regularUsers}}\`,
+      value: \\"\${\\" + adminUsers + \\"},\${\\" + regularUsers + \\"}\\",
     });
   }
 }
@@ -87,9 +91,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
     const users = new cdktf.TerraformVariable(this, \\"users\\", {});
-    const usersByRole = \`\\\\\${{
-              for name, user in \${users.value} : user.role => name...
-            }}\`;
+    const usersByRole =
+      \\"\${{ for name, user in \${\\" + users.value + \\"} : user.role => name...}}\\";
     new cdktf.TerraformOutput(this, \\"so-it-does-not-get-removed\\", {
       value: usersByRole,
     });
@@ -117,7 +120,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new datadog.monitor.Monitor(this, \\"hard_query\\", {
       message: \\"here we go\\",
       name: \\"queries are hard\\",
-      query: \`\\\\\${join(\\" && \\", [for o in \${users.value} : \\"!(!\\\\\${o.id})\\"])}\`,
+      query: cdktf.Fn.join(
+        \\" && \\",
+        \\"\${[ for o in \${\\" + users.value + '} : \\"!(!\${o.id})\\"]}'
+      ),
       type: \\"metric alert\\",
     });
   }
@@ -142,7 +148,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
     new aws.s3Bucket.S3Bucket(this, \\"examplebucket\\", {
       acl: \\"private\\",
-      bucket: \`\\\\\${\${settings.value}[0][\\"bucket_name\\"]}\`,
+      bucket: \\"\${\\" + settings.value + '}[0][\\"bucket_name\\"]',
     });
   }
 }
@@ -180,7 +186,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
         zone: \\"us-east1-b\\",
       });
     new cdktf.TerraformOutput(this, \\"public_ip\\", {
-      value: \`\\\\\${\${googleComputeInstanceExample.networkInterface}.0.access_config.0.assigned_nat_ip}\`,
+      value:
+        \\"\${\\" +
+        googleComputeInstanceExample.networkInterface +
+        \\"}[0].access_config[0].assigned_nat_ip\\",
     });
   }
 }
@@ -204,7 +213,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const settings = new cdktf.TerraformVariable(this, \\"settings\\", {});
     new aws.s3Bucket.S3Bucket(this, \\"examplebucket\\", {
       acl: \\"private\\",
-      bucket: \`\\\\\${\${settings.value}[\\"bucket_name\\"]}\`,
+      bucket: \\"\${\\" + settings.value + '}[\\"bucket_name\\"]',
     });
   }
 }

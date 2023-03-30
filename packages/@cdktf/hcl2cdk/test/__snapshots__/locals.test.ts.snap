@@ -11,7 +11,16 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const owner = \\"Community Team\\";
     const serviceName = \\"forum\\";
     new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-      value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+      value:
+        \\"\${\\" +
+        serviceName +
+        \\"},\${\\" +
+        owner +
+        \\"},\${\\" +
+        isItGreat +
+        \\"},\${\\" +
+        howMany +
+        \\"}\\",
     });
   }
 }
@@ -29,7 +38,16 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const howMany = 42;
     const isItGreat = true;
     new cdktf.TerraformOutput(this, \\"combined-so-it-does-not-get-removed\\", {
-      value: \`\\\\\${\${serviceName}},\\\\\${\${owner}},\\\\\${\${isItGreat}},\\\\\${\${howMany}}\`,
+      value:
+        \\"\${\\" +
+        serviceName +
+        \\"},\${\\" +
+        owner +
+        \\"},\${\\" +
+        isItGreat +
+        \\"},\${\\" +
+        howMany +
+        \\"}\\",
     });
   }
 }

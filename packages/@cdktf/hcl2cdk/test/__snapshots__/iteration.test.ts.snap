@@ -46,24 +46,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"example_3\\",
       {
         allowOverwrite: true,
-        name: cdktf.Token.asString(
-          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
-            \\"name\\",
-          ])
-        ),
-        records: [
-          cdktf.Token.asString(
-            cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
-              \\"record\\",
-            ])
-          ),
-        ],
+        name: \\"\${each.value.name}\\",
+        records: [\\"\${each.value.record}\\"],
         ttl: 60,
-        type: cdktf.Token.asString(
-          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
-            \\"type\\",
-          ])
-        ),
+        type: \\"\${each.value.type}\\",
         zoneId: cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId),
         forEach: awsRoute53RecordExampleForEachIterator,
       }
@@ -77,7 +63,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         {
           certificateArn: cdktf.Token.asString(awsAcmCertificateExample.arn),
           validationRecordFqdns: cdktf.Token.asList(
-            \`\\\\\${[for record in \${awsRoute53RecordExample.fqn} : record.fqdn]}\`
+            \\"\${[ for record in \${\\" +
+              awsRoute53RecordExample.fqn +
+              \\"} : record.fqdn]}\\"
           ),
         }
       );
@@ -122,7 +110,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const users = new cdktf.TerraformVariable(this, \\"users\\", {});
     const awsIamUserLb = new aws.iamUser.IamUser(this, \\"lb\\", {
-      name: \`\\\\\${element(\${users.value}, count.index)}\`,
+      name: cdktf.Fn.element(users.value, \\"\${count.index}\\"),
       path: \\"/system/\\",
       tags: {
         \\"tag-key\\": \\"tag-value\\",
@@ -170,9 +158,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
           \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
         setting:
           awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.dynamic({
-            name: '\${setting.value[\\"name\\"]}',
+            name: \\"\${\\" + settingValue + '}[\\"name\\"]',
             namespace: namespace.value,
-            value: '\${setting.value[\\"value\\"]}',
+            value: \\"\${\\" + settingValue + '}[\\"value\\"]',
           }),
       }
     );
@@ -213,7 +201,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"examplebucket\\",
       {
         acl: \\"private\\",
-        bucket: awsS3BucketExamplebucketForEachIterator.key,
+        bucket: \\"\${each.key}\\",
         forEach: awsS3BucketExamplebucketForEachIterator,
       }
     );
@@ -226,7 +214,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
         cdktf.Token.asAny(\`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`)
       );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: awsS3BucketObjectExamplebucketObjectForEachIterator.key,
+      bucket: \\"\${each.key}\\",
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
@@ -260,7 +248,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       cdktf.Token.asAny(users.value)
     );
     new aws.iamUser.IamUser(this, \\"lb\\", {
-      name: awsIamUserLbForEachIterator.key,
+      name: \\"\${each.key}\\",
       path: \\"/system/\\",
       tags: {
         \\"tag-key\\": \\"tag-value\\",
@@ -319,8 +307,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
             )}\`)
       );
     new azuread.user.User(this, \\"azure_users\\", {
-      displayName: azureadUserAzureUsersForEachIterator.key,
-      userPrincipalName: \`\\\\\${\${azureadUserAzureUsersForEachIterator.value}}\\\\\${\${azureAdDomainName.value}}\`,
+      displayName: \\"\${each.key}\\",
+      userPrincipalName: \\"\${each.value}\${\\" + azureAdDomainName.value + \\"}\\",
       forEach: azureadUserAzureUsersForEachIterator,
     });
   }
@@ -380,7 +368,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
           {
             resource_access: [],
             resource_app_id:
-              '\${required_resource_access.value[\\"resource_app_id\\"]}',
+              \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_app_id\\"]',
           },
         ],
       }
@@ -392,11 +380,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
     azureadApplicationBootstrap.addOverride(
       \\"dynamic.required_resource_access.0.content.0.dynamic.resource_access\\",
       {
-        for_each: '\${required_resource_access.value[\\"resource_access\\"]}',
+        for_each: \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_access\\"]',
         content: [
           {
-            id: '\${resource_access.value[\\"id\\"]}',
-            type: '\${resource_access.value[\\"type\\"]}',
+            id: \\"\${\\" + resourceAccessValue + '}[\\"id\\"]',
+            type: \\"\${\\" + resourceAccessValue + '}[\\"type\\"]',
           },
         ],
       }
