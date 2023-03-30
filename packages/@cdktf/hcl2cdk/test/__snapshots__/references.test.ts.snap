@@ -221,9 +221,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: cdktf.propertyAccess(
-        cdktf.Fn.element(awsS3BucketExamplebucket, 0),
-        [\\"id\\"]
+      bucket: cdktf.Token.asString(
+        cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [
+          \\"id\\",
+        ])
       ),
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
