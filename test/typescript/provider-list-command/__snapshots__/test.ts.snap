@@ -4,8 +4,8 @@ exports[`provider list command lists both local and prebuilt providers with tabu
 "────────────┬──────────────┬───────┬─────────┬─────────────────────────────────┐
 ──           ───            ─       ──        ────               ──
  Provider   │ Provider     │ CDKTF │         │ Package Name       Package      │
-Name         Version                Constraint                   Version
-
+Name         Version                Constraint                   Version 
+                                     
 ────────────┼──────────────┼───────┼─────────┼─────────────────────────────────┤
 ──           ───            ─       ──        ────               ──
  local      │ 2.2.3        │       │ =2.2.3  │                                 │

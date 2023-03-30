@@ -38,7 +38,7 @@ describe("provider add command", () => {
 
           Found pre-built provider.
 
-          Installing package HashiCorp.Cdktf.Providers.Random @ 2.0.52 using \\"dotnet add package HashiCorp.Cdktf.Providers.Random --version 2.0.52\\".
+          Installing package HashiCorp.Cdktf.Providers.Random @ 2.0.52 using "dotnet add package HashiCorp.Cdktf.Providers.Random --version 2.0.52".
 
           Package installed.
           "

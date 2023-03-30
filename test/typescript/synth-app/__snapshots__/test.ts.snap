@@ -2,178 +2,178 @@
 
 exports[`full integration test synth synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"aws_sns_topic\\": [
-          \\"display_name\\",
-          \\"provider\\",
-          \\"lifecycle\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "overrides": {
+        "aws_sns_topic": [
+          "display_name",
+          "provider",
+          "lifecycle"
         ],
-        \\"stack\\": [
-          \\"terraform\\"
+        "stack": [
+          "terraform"
         ]
       },
-      \\"stackName\\": \\"hello-terra\\",
-      \\"version\\": \\"stubbed\\"
+      "stackName": "hello-terra",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"hello-terra\\": {
-        \\"instance-http-endpoint\\": \\"instancehttpendpoint\\",
-        \\"instance-password\\": \\"instancepassword\\",
-        \\"sns-topic-arn\\": \\"snstopicarn\\",
-        \\"tf-env-var-output\\": \\"tfenvvaroutput\\"
+    "outputs": {
+      "hello-terra": {
+        "instance-http-endpoint": "instancehttpendpoint",
+        "instance-password": "instancepassword",
+        "sns-topic-arn": "snstopicarn",
+        "tf-env-var-output": "tfenvvaroutput"
       }
     }
   },
-  \\"output\\": {
-    \\"instancehttpendpoint\\": {
-      \\"value\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
+  "output": {
+    "instancehttpendpoint": {
+      "value": "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
     },
-    \\"instancepassword\\": {
-      \\"value\\": \\"\${base64decode(aws_instance.Instance.password_data)}\\"
+    "instancepassword": {
+      "value": "\${base64decode(aws_instance.Instance.password_data)}"
     },
-    \\"snstopicarn\\": {
-      \\"value\\": \\"\${aws_sns_topic.Topic.arn}\\"
+    "snstopicarn": {
+      "value": "\${aws_sns_topic.Topic.arn}"
     },
-    \\"tfenvvaroutput\\": {
-      \\"value\\": \\"no-value-found\\"
+    "tfenvvaroutput": {
+      "value": "no-value-found"
     }
   },
-  \\"provider\\": {
-    \\"aws\\": [
+  "provider": {
+    "aws": [
       {
-        \\"ignore_tags\\": {
-          \\"keys\\": [
-            \\"foo\\"
+        "ignore_tags": {
+          "keys": [
+            "foo"
           ]
         },
-        \\"region\\": \\"eu-central-1\\"
+        "region": "eu-central-1"
       }
     ]
   },
-  \\"resource\\": {
-    \\"aws_instance\\": {
-      \\"Instance\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/Instance\\",
-            \\"uniqueId\\": \\"Instance\\"
+  "resource": {
+    "aws_instance": {
+      "Instance": {
+        "//": {
+          "metadata": {
+            "path": "hello-terra/Instance",
+            "uniqueId": "Instance"
           }
         },
-        \\"ami\\": \\"ami-12345678\\",
-        \\"credit_specification\\": {
-          \\"cpu_credits\\": \\"standard\\"
+        "ami": "ami-12345678",
+        "credit_specification": {
+          "cpu_credits": "standard"
         },
-        \\"ebs_block_device\\": [
+        "ebs_block_device": [
           {
-            \\"device_name\\": \\"/dev/sda1\\",
-            \\"volume_size\\": 100
+            "device_name": "/dev/sda1",
+            "volume_size": 100
           }
         ],
-        \\"instance_type\\": \\"t2.micro\\",
-        \\"metadata_options\\": {
-          \\"http_endpoint\\": \\"true\\"
+        "instance_type": "t2.micro",
+        "metadata_options": {
+          "http_endpoint": "true"
         }
       },
-      \\"Instance2\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/Instance2\\",
-            \\"uniqueId\\": \\"Instance2\\"
+      "Instance2": {
+        "//": {
+          "metadata": {
+            "path": "hello-terra/Instance2",
+            "uniqueId": "Instance2"
           }
         },
-        \\"ami\\": \\"ami-12345678\\",
-        \\"credit_specification\\": {
-          \\"cpu_credits\\": \\"\${aws_instance.Instance.credit_specification[0].cpu_credits}\\"
+        "ami": "ami-12345678",
+        "credit_specification": {
+          "cpu_credits": "\${aws_instance.Instance.credit_specification[0].cpu_credits}"
         },
-        \\"instance_type\\": \\"t2.micro\\",
-        \\"metadata_options\\": {
-          \\"http_endpoint\\": \\"\${aws_instance.Instance.metadata_options[0].http_endpoint}\\"
+        "instance_type": "t2.micro",
+        "metadata_options": {
+          "http_endpoint": "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
         }
       }
     },
-    \\"aws_sns_topic\\": {
-      \\"Topic\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/Topic\\",
-            \\"uniqueId\\": \\"Topic\\"
+    "aws_sns_topic": {
+      "Topic": {
+        "//": {
+          "metadata": {
+            "path": "hello-terra/Topic",
+            "uniqueId": "Topic"
           }
         },
-        \\"display_name\\": \\"topic\\",
-        \\"lifecycle\\": {
-          \\"create_before_destroy\\": true
+        "display_name": "topic",
+        "lifecycle": {
+          "create_before_destroy": true
         },
-        \\"provider\\": \\"aws\\"
+        "provider": "aws"
       }
     },
-    \\"aws_wafv2_web_acl\\": {
-      \\"wafv2\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-terra/wafv2\\",
-            \\"uniqueId\\": \\"wafv2\\"
+    "aws_wafv2_web_acl": {
+      "wafv2": {
+        "//": {
+          "metadata": {
+            "path": "hello-terra/wafv2",
+            "uniqueId": "wafv2"
           }
         },
-        \\"default_action\\": {
-          \\"allow\\": {}
+        "default_action": {
+          "allow": {}
         },
-        \\"name\\": \\"managed-rule-example\\",
-        \\"rule\\": [
+        "name": "managed-rule-example",
+        "rule": [
           {
-            \\"name\\": \\"managed-rule-example\\",
-            \\"override_action\\": {
-              \\"count\\": {}
+            "name": "managed-rule-example",
+            "override_action": {
+              "count": {}
             },
-            \\"priority\\": 1,
-            \\"statement\\": {
-              \\"managed_rule_group_statement\\": {
-                \\"excluded_rule\\": [
+            "priority": 1,
+            "statement": {
+              "managed_rule_group_statement": {
+                "excluded_rule": [
                   {
-                    \\"name\\": \\"SizeRestrictions_QUERYSTRING\\"
+                    "name": "SizeRestrictions_QUERYSTRING"
                   },
                   {
-                    \\"name\\": \\"SQLInjection_QUERYSTRING\\"
+                    "name": "SQLInjection_QUERYSTRING"
                   }
                 ],
-                \\"name\\": \\"managed-rule-example\\",
-                \\"vendor_name\\": \\"AWS\\"
+                "name": "managed-rule-example",
+                "vendor_name": "AWS"
               }
             },
-            \\"visibility_config\\": {
-              \\"cloudwatch_metrics_enabled\\": true,
-              \\"metric_name\\": \\"managed-rule-example\\",
-              \\"sampled_requests_enabled\\": true
+            "visibility_config": {
+              "cloudwatch_metrics_enabled": true,
+              "metric_name": "managed-rule-example",
+              "sampled_requests_enabled": true
             }
           }
         ],
-        \\"scope\\": \\"REGIONAL\\",
-        \\"visibility_config\\": {
-          \\"cloudwatch_metrics_enabled\\": true,
-          \\"metric_name\\": \\"managed-rule-example\\",
-          \\"sampled_requests_enabled\\": true
+        "scope": "REGIONAL",
+        "visibility_config": {
+          "cloudwatch_metrics_enabled": true,
+          "metric_name": "managed-rule-example",
+          "sampled_requests_enabled": true
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       },
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
         }
       }
     },
-    \\"required_providers\\": {
-      \\"aws\\": {
-        \\"source\\": \\"aws\\",
-        \\"version\\": \\"2.70.4\\"
+    "required_providers": {
+      "aws": {
+        "source": "aws",
+        "version": "2.70.4"
       }
     }
   }

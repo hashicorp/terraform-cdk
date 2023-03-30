@@ -24,6 +24,66 @@ describe("full integration test", () => {
     expect(driver.synthesizedStack("hello-modules").toString())
       .toMatchInlineSnapshot(`
       "{
+        "//": {
+          "metadata": {
+            "backend": "local",
+            "stackName": "hello-modules",
+            "version": "stubbed"
+          },
+          "outputs": {}
+        },
+        "module": {
+          "gcloud": {
+            "//": {
+              "metadata": {
+                "path": "hello-modules/gcloud",
+                "uniqueId": "gcloud"
+              }
+            },
+            "source": "terraform-google-modules/gcloud/google",
+            "version": "2.0.3"
+          },
+          "iam": {
+            "//": {
+              "metadata": {
+                "path": "hello-modules/iam",
+                "uniqueId": "iam"
+              }
+            },
+            "account_alias": "cdktf",
+            "source": "terraform-aws-modules/iam/aws//modules/iam-account",
+            "version": "3.12.0"
+          },
+          "localmodule": {
+            "//": {
+              "metadata": {
+                "path": "hello-modules/local-module",
+                "uniqueId": "localmodule"
+              }
+            },
+            "set": [
+              "test",
+              "sets"
+            ],
+            "source": "./assets/localmodulelocalmodule/1A068C39166AE65C43D174678BD00022"
+          }
+        },
+        "terraform": {
+          "backend": {
+            "local": {
+              "path": "terraform.tfstate"
+            }
+          }
+        }
+      }"
+    `);
+  });
+
+  onWindows("build modules windows", async () => {
+    await driver.synth();
+    expect(driver.synthesizedStack("hello-modules").toString())
+      .toMatchInlineSnapshot(`
+      "{
         \\"//\\": {
           \\"metadata\\": {
             \\"backend\\": \\"local\\",
@@ -65,7 +125,7 @@ describe("full integration test", () => {
               \\"test\\",
               \\"sets\\"
             ],
-            \\"source\\": \\"./assets/localmodulelocalmodule/1A068C39166AE65C43D174678BD00022\\"
+            \\"source\\": \\"./assets/localmodulelocalmodule/405986F9ABA62210358043A25250C05C\\"
           }
         },
         \\"terraform\\": {
@@ -77,65 +137,5 @@ describe("full integration test", () => {
         }
       }"
     `);
-  });
-
-  onWindows("build modules windows", async () => {
-    await driver.synth();
-    expect(driver.synthesizedStack("hello-modules").toString())
-      .toMatchInlineSnapshot(`
-"{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"hello-modules\\",
-      \\"version\\": \\"stubbed\\"
-    },
-    \\"outputs\\": {}
-  },
-  \\"module\\": {
-    \\"gcloud\\": {
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/gcloud\\",
-          \\"uniqueId\\": \\"gcloud\\"
-        }
-      },
-      \\"source\\": \\"terraform-google-modules/gcloud/google\\",
-      \\"version\\": \\"2.0.3\\"
-    },
-    \\"iam\\": {
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/iam\\",
-          \\"uniqueId\\": \\"iam\\"
-        }
-      },
-      \\"account_alias\\": \\"cdktf\\",
-      \\"source\\": \\"terraform-aws-modules/iam/aws//modules/iam-account\\",
-      \\"version\\": \\"3.12.0\\"
-    },
-    \\"localmodule\\": {
-      \\"//\\": {
-        \\"metadata\\": {
-          \\"path\\": \\"hello-modules/local-module\\",
-          \\"uniqueId\\": \\"localmodule\\"
-        }
-      },
-      \\"set\\": [
-        \\"test\\",
-        \\"sets\\"
-      ],
-      \\"source\\": \\"./assets/localmodulelocalmodule/405986F9ABA62210358043A25250C05C\\"
-    }
-  },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
-      }
-    }
-  }
-}"
-`);
   });
 });

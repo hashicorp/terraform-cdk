@@ -1,10 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`provider list command lists both local and prebuilt providers with tabular output 1`] = `
-"───────────┬─────────────────────┬─────────┬─────────────────────┬─────────────┐
+"[2023-03-30T12:20:49.635] [ERROR] default - /usr/local/Cellar/pipenv/2022.9.24/libexec/lib/python3.11/site-packages/pipenv/vendor/attr/_make.py:876: RuntimeWarning: Running interpreter doesn't sufficiently support code object introspection.  Some features like bare super() or accessing __class__ will not work with slotted classes.
+  set_closure_cell(cell, cls)
+
+
+[2023-03-30T12:20:54.080] [ERROR] default - /usr/local/Cellar/pipenv/2022.9.24/libexec/lib/python3.11/site-packages/pipenv/vendor/attr/_make.py:876: RuntimeWarning: Running interpreter doesn't sufficiently support code object introspection.  Some features like bare super() or accessing __class__ will not work with slotted classes.
+  set_closure_cell(cell, cls)
+
+
+───────────┬─────────────────────┬─────────┬─────────────────────┬─────────────┐
 ───         ───           ─       ──        ───────               ───
  Provider  │ Provider      CDKTF │         │ Package Name        │ Package     │
-Name        Version               Constraint                      Version
+Name        Version               Constraint                      Version 
 ───────────┼─────────────────────┼─────────┼─────────────────────┼─────────────┤
 ───         ───           ─       ──        ───────               ───
  local     │ 2.2.3               │ =2.2.3  │                     │             │
