@@ -17,8 +17,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"example\\",
       {
         name: \\"example\\",
-        policy:
-          '\${jsonencode({\\\\n          \\"Statement\\" = [{\\\\n            \\"Action\\" = \\"s3:*\\",\\\\n            \\"Effect\\" = \\"Allow\\",\\\\n          }],\\\\n        })}',
+        policy: cdktf.Fn.jsonencode(\\"\\"),
         role: \\"role\\",
       }
     );
@@ -52,8 +51,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"example\\",
       {
         name: \\"example\\",
-        policy:
-          '\${jsonencode({\\\\n          \\"Statement\\" = [{\\\\n            \\"Action\\" = \\"s3:*\\",\\\\n            \\"Effect\\" = \\"Allow\\",\\\\n          }],\\\\n        })}',
+        policy: cdktf.Fn.jsonencode(\\"\\"),
         role: \\"role\\",
       }
     );
@@ -94,14 +92,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
       lifecycle: {
         postcondition: [
           {
-            condition: '\${self.public_dns != \\"\\"}',
+            condition: cdktf.Op.neq(\\"\${self.public_dns}\\", \\"\\"),
             errorMessage:
               \\"EC2 instance must be in a VPC that has public DNS hostnames enabled.\\",
           },
         ],
         precondition: [
           {
-            condition: '\${self.tags[\\"Component\\"] == \\"nomad-server\\"}',
+            condition: cdktf.Op.eq('\${self.tags[\\"Component\\"]}', \\"nomad-server\\"),
             errorMessage: \\"Please add the nomad-server tag to this instance.\\",
           },
         ],
@@ -252,7 +250,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
           },
           inline: [
             \\"puppet apply\\",
-            \\"consul join \${aws_instance.web.private_ip}\\",
+            \\"consul join \${\\" + awsInstanceWeb.privateIp + \\"}\\",
           ],
         },
       ],
@@ -289,7 +287,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
           type: \\"remote-exec\\",
           inline: [
             \\"puppet apply\\",
-            \\"consul join \${aws_instance.web.private_ip}\\",
+            \\"consul join \${\\" + awsInstanceWeb.privateIp + \\"}\\",
           ],
         },
       ],
