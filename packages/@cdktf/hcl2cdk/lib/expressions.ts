@@ -36,7 +36,7 @@ function wrapTerraformExpression(input: string): string {
   return `"${input}"`;
 }
 
-const tfBinaryOperatorsToCdktf: Record<string, string> = {
+const tfBinaryOperatorsToCdktf = {
   logicalOr: "or",
   logicalAnd: "and",
   greaterThan: "gt",
@@ -52,10 +52,13 @@ const tfBinaryOperatorsToCdktf: Record<string, string> = {
   modulo: "mod",
 };
 
-const tfUnaryOperatorsToCdktf: Record<string, string> = {
+const tfUnaryOperatorsToCdktf = {
   logicalNot: "not",
   negative: "negate",
 };
+
+type supportedBinaryOperators = keyof typeof tfBinaryOperatorsToCdktf;
+type supportedUnaryOperators = keyof typeof tfUnaryOperatorsToCdktf;
 
 function traversalPartsToString(
   traversals: tex.TerraformTraversalPart[],
@@ -263,10 +266,8 @@ function convertTFExpressionAstToTs(
     );
 
     let fnName = node.meta.operator;
-    if (
-      Object.hasOwnProperty.call(tfUnaryOperatorsToCdktf, node.meta.operator)
-    ) {
-      fnName = tfUnaryOperatorsToCdktf[node.meta.operator];
+    if (tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators]) {
+      fnName = tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators];
     } else {
       throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
     }
@@ -295,10 +296,8 @@ function convertTFExpressionAstToTs(
     );
 
     let fnName = node.meta.operator;
-    if (
-      Object.hasOwnProperty.call(tfBinaryOperatorsToCdktf, node.meta.operator)
-    ) {
-      fnName = tfBinaryOperatorsToCdktf[node.meta.operator];
+    if (tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators]) {
+      fnName = tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators];
     } else {
       throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
     }
