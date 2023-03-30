@@ -62,7 +62,7 @@ export interface AcmCertificateDomainValidationOptions {
 export function acmCertificateDomainValidationOptionsToTerraform(struct?: AcmCertificateDomainValidationOptions): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -145,7 +145,7 @@ export interface AcmCertificateOptions {
 export function acmCertificateOptionsToTerraform(struct?: AcmCertificateOptionsOutputReference | AcmCertificateOptions): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     certificate_transparency_logging_preference: cdktf.stringToTerraform(struct!.certificateTransparencyLoggingPreference),
@@ -209,7 +209,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_acm_certificate\\";
+  public static readonly tfResourceType = "aws_acm_certificate";
 
   // ===========
   // INITIALIZER
@@ -322,7 +322,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // domain_validation_options - computed: true, optional: false, required: false
-  private _domainValidationOptions = new AcmCertificateDomainValidationOptionsList(this, \\"domain_validation_options\\", false);
+  private _domainValidationOptions = new AcmCertificateDomainValidationOptionsList(this, "domain_validation_options", false);
   public get domainValidationOptions() {
     return this._domainValidationOptions;
   }
@@ -413,7 +413,7 @@ export class AcmCertificate extends cdktf.TerraformResource {
   }
 
   // options - computed: false, optional: true, required: false
-  private _options = new AcmCertificateOptionsOutputReference(this, \\"options\\");
+  private _options = new AcmCertificateOptionsOutputReference(this, "options");
   public get options() {
     return this._options;
   }

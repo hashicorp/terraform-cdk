@@ -115,6 +115,7 @@ function mockPty(ptyEvents: string[]): typeof spawnPty {
 
 describe("pty events", () => {
   it("transitions when pty receives an approval question", (done) => {
+    let isDone = false;
     const mockDeployMachine = deployMachine.withConfig({
       services: {
         runTerraformInPty: (context, event) =>
@@ -127,7 +128,8 @@ describe("pty events", () => {
     });
 
     const ptyService = interpret(mockDeployMachine).onTransition((state) => {
-      if (state.matches({ running: "awaiting_approval" })) {
+      if (state.matches({ running: "awaiting_approval" }) && !isDone) {
+        isDone = true;
         done();
       }
     });

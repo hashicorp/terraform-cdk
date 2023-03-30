@@ -26,7 +26,7 @@ from the 'Security & Credentials' section of the AWS console.
   */
   readonly forbiddenAccountIds?: string[];
   /**
-  * Explicitly allow the provider to perform \\"insecure\\" SSL requests. If omitted,default value is \`false\`
+  * Explicitly allow the provider to perform "insecure" SSL requests. If omitted,default value is \`false\`
   * 
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs#insecure AwsProvider#insecure}
   */
@@ -166,7 +166,7 @@ export interface AwsProviderAssumeRole {
 export function awsProviderAssumeRoleToTerraform(struct?: AwsProviderAssumeRole): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     external_id: cdktf.stringToTerraform(struct!.externalId),
@@ -992,7 +992,7 @@ export interface AwsProviderEndpoints {
 export function awsProviderEndpointsToTerraform(struct?: AwsProviderEndpoints | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     accessanalyzer: cdktf.stringToTerraform(struct!.accessanalyzer),
@@ -1151,7 +1151,7 @@ export interface AwsProviderIgnoreTags {
 export function awsProviderIgnoreTagsToTerraform(struct?: AwsProviderIgnoreTags): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     key_prefixes: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.keyPrefixes),
@@ -1168,7 +1168,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws\\";
+  public static readonly tfResourceType = "aws";
 
   // ===========
   // INITIALIZER
@@ -1659,7 +1659,7 @@ export interface ElasticstackProviderElasticsearch {
 export function elasticstackProviderElasticsearchToTerraform(struct?: ElasticstackProviderElasticsearch): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     api_key: cdktf.stringToTerraform(struct!.apiKey),
@@ -1685,7 +1685,7 @@ export class ElasticstackProvider extends cdktf.TerraformProvider {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"elasticstack\\";
+  public static readonly tfResourceType = "elasticstack";
 
   // ===========
   // INITIALIZER

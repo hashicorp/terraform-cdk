@@ -71,7 +71,7 @@ describe("getReferencesInExpression", () => {
         input.substring(ref.startPosition, ref.endPosition)
       )
     ).toMatchInlineSnapshot(`
-              Array [
+              [
                 "var.settings",
                 "var.other_settings",
                 "var.yet_another_setting",

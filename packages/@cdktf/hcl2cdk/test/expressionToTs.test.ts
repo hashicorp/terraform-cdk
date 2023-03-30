@@ -77,7 +77,7 @@ describe("expressionToTs", () => {
     const expression = "hello";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
-    expect(code(result)).toMatchInlineSnapshot(`"\\"hello\\""`);
+    expect(code(result)).toMatchInlineSnapshot(`""hello""`);
   });
 
   test("converts a simple expression with a template", async () => {
@@ -108,7 +108,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace(\\"hello\\", \\"l\\", \\"w\\")"`
+      `"cdktf.Fn.replace("hello", "l", "w")"`
     );
   });
 
@@ -117,7 +117,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace(\\"hello-\\" + cdktf.Op.add(22, 22), \\"44\\", \\"world\\")"`
+      `"cdktf.Fn.replace("hello-" + cdktf.Op.add(22, 22), "44", "world")"`
     );
   });
 
@@ -138,7 +138,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo.id",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"simple-\${\\" + awsS3BucketFoo.id + \\"}\\""`
+      `""simple-\${" + awsS3BucketFoo.id + "}""`
     );
   });
 
@@ -149,7 +149,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo.prop.test",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"simple-\${\\" + awsS3BucketFoo.prop.test + \\"}\\""`
+      `""simple-\${" + awsS3BucketFoo.prop.test + "}""`
     );
   });
 
@@ -159,9 +159,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, [
       "local.foo",
     ]);
-    expect(code(result)).toMatchInlineSnapshot(
-      `"\\"simple-\${\\" + foo + \\"}\\""`
-    );
+    expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo + "}""`);
   });
 
   test("plain resource references in arithmetics", async () => {
@@ -186,7 +184,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.foo",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketFoo.fqn + \\"}.*.id\\""`
+      `""\${" + awsS3BucketFoo.fqn + "}.*.id""`
     );
   });
 
@@ -198,7 +196,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `""\${" + awsS3BucketExamplebucket.networkInterface + "}[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -210,7 +208,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `""\${" + awsS3BucketExamplebucket.networkInterface + "}[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -221,7 +219,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.toset(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*\\")"`
+      `"cdktf.Fn.toset("\${" + awsS3BucketExamplebucket.fqn + "}.*")"`
     );
   });
 
@@ -245,7 +243,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [\\"id\\"])"`
+      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), ["id"])"`
     );
   });
 
@@ -256,7 +254,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.element(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*.id\\", 0)"`
+      `"cdktf.Fn.element("\${" + awsS3BucketExamplebucket.fqn + "}.*.id", 0)"`
     );
   });
 
@@ -269,7 +267,7 @@ describe("expressionToTs", () => {
       "var.users",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for name, user in \${\\" + users.value + \\"} : user.role => name...}}\\""`
+      `""\${{ for name, user in \${" + users.value + "} : user.role => name...}}""`
     );
   });
 
@@ -281,7 +279,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for s in \${\\" + list.value + \\"} : s => upper(s)}}\\""`
+      `""\${{ for s in \${" + list.value + "} : s => upper(s)}}""`
     );
   });
 
@@ -293,7 +291,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${[ for s in \${\\" + list.value + \\"} : upper(s)]}\\""`
+      `""\${[ for s in \${" + list.value + "} : upper(s)]}""`
     );
   });
 
@@ -304,7 +302,7 @@ describe("expressionToTs", () => {
       "var.list",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${[ for s in \${\\" + list.value + \\"} : upper(s) if s != \\\\\\"\\\\\\"]}\\""`
+      `""\${[ for s in \${" + list.value + "} : upper(s) if s != \\"\\"]}""`
     );
   });
 
@@ -315,7 +313,7 @@ describe("expressionToTs", () => {
       "aws_s3_bucket.examplebucket",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket + \\"}[0].id\\""`
+      `""\${" + awsS3BucketExamplebucket + "}[0].id""`
     );
   });
 
@@ -357,7 +355,7 @@ describe("expressionToTs", () => {
       "var.input",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.conditional(cdktf.Op.eq(input.value, \\"test\\"), \\"azure-ad-int\\", \\"azure-ad-\${\\" + input.value + \\"}\\")"`
+      `"cdktf.conditional(cdktf.Op.eq(input.value, "test"), "azure-ad-int", "azure-ad-\${" + input.value + "}")"`
     );
   });
 
@@ -368,7 +366,7 @@ describe("expressionToTs", () => {
       "var.test2",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.element(\\"\${\\" + test2.value + \\"}[\\\\\\"val1\\\\\\"]\\", 0)"`
+      `"cdktf.Fn.element("\${" + test2.value + "}[\\"val1\\"]", 0)"`
     );
   });
 
@@ -379,7 +377,7 @@ describe("expressionToTs", () => {
       "var.vnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.flatten(\\"\${\\" + vnets.value + \\"}[*].subnets[*].name\\")"`
+      `"cdktf.Fn.flatten("\${" + vnets.value + "}[*].subnets[*].name")"`
     );
   });
 
@@ -395,7 +393,7 @@ describe("expressionToTs", () => {
       "var.vnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${{ for vnet in \${\\" + (\\"\${\\" + vnets.value + \\"}[*]\\") + \\"} : (vnet.vnet_name) => vnet.subnets[*].name}}\\""`
+      `""\${{ for vnet in \${" + ("\${" + vnets.value + "}[*]") + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
     );
   });
 
@@ -414,7 +412,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ variables: ["route"] });
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.flatten(\\"\${[ for k, v in \${\\" + route.value + \\"} : [\\\\n      for n, s in v : [\\\\n        {\\\\n          key = k,\\\\n          name = n,\\\\n          svc_url = s\\\\n        }\\\\n      ]\\\\n    ]]}\\")"`
+      `"cdktf.Fn.flatten("\${[ for k, v in \${" + route.value + "} : [\\n      for n, s in v : [\\n        {\\n          key = k,\\n          name = n,\\n          svc_url = s\\n        }\\n      ]\\n    ]]}")"`
     );
   });
 
@@ -440,7 +438,7 @@ describe("expressionToTs", () => {
       "local.how_many",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + serviceName + \\"},\${\\" + owner + \\"},\${\\" + isItGreat + \\"},\${\\" + howMany + \\"}\\""`
+      `""\${" + serviceName + "},\${" + owner + "},\${" + isItGreat + "},\${" + howMany + "}""`
     );
   });
 
@@ -451,7 +449,7 @@ describe("expressionToTs", () => {
       "var.test",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + test.value + \\"} + 1\\""`
+      `""\${" + test.value + "} + 1""`
     );
   });
 
@@ -468,7 +466,7 @@ describe("expressionToTs", () => {
     const expression = "${self.path}";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
-    expect(code(result)).toMatchInlineSnapshot(`"\\"\${self.path}\\""`);
+    expect(code(result)).toMatchInlineSnapshot(`""\${self.path}""`);
   });
 
   test("converts join function with variables", async () => {
@@ -478,7 +476,7 @@ describe("expressionToTs", () => {
       "var.tags",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.join(\\"-\\", [\\"\${\\" + tags.value + \\"}.app\\", \\"\${\\" + tags.value + \\"}.env\\"])"`
+      `"cdktf.Fn.join("-", ["\${" + tags.value + "}.app", "\${" + tags.value + "}.env"])"`
     );
   });
 
@@ -487,7 +485,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"app-\${terraform.workspace}\\""`
+      `""app-\${terraform.workspace}""`
     );
   });
 
@@ -496,7 +494,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${[ for record in \${\\" + awsRoute53RecordExample.fqn + \\"} : record.fqdn]}\\""`
+      `""\${[ for record in \${" + awsRoute53RecordExample.fqn + "} : record.fqdn]}""`
     );
   });
 
@@ -513,7 +511,7 @@ describe("expressionToTs", () => {
     const expression = `"\${each.value.name}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
-    expect(code(result)).toMatchInlineSnapshot(`"\\"\${each.value.name}\\""`);
+    expect(code(result)).toMatchInlineSnapshot(`""\${each.value.name}""`);
   });
 
   test("converts a property of a function containing a resource", async () => {
@@ -521,7 +519,7 @@ describe("expressionToTs", () => {
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(expression, scope, []);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [\\"id\\"])"`
+      `"cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), ["id"])"`
     );
   });
 
@@ -535,7 +533,7 @@ describe("expressionToTs", () => {
       "var.public_subnets",
     ]);
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.concat(\\"\${\\" + privateSubnets.value + \\"}.*.id\\", \\"\${\\" + publicSubnets.value + \\"}.*.id\\")"`
+      `"cdktf.Fn.concat("\${" + privateSubnets.value + "}.*.id", "\${" + publicSubnets.value + "}.*.id")"`
     );
   });
 });

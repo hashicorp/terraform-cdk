@@ -449,7 +449,7 @@ describe("expressions", () => {
           ]) as any
         ).code
       ).toMatchInlineSnapshot(
-        `"\`\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\`;"`
+        `"\`\\\${"\\\${each.value}\\\${\${azureAdDomainName.value}}"}\`;"`
       );
     });
   });
@@ -484,13 +484,13 @@ describe("expressions", () => {
 
     it("should convert iterator value deep accessor", () => {
       expect(run("each.value.list.map.name")).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"list\\", \\"map\\", \\"name\\"]);"`
+        `"cdktf.propertyAccess(myIterator.value, ["list", "map", "name"]);"`
       );
     });
 
     it("should convert iterator value with map access", () => {
       expect(run(`each.value[0]["map"]["name"]`)).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"0\\", \\"map\\", \\"name\\"]);"`
+        `"cdktf.propertyAccess(myIterator.value, ["0", "map", "name"]);"`
       );
     });
   });

@@ -8,8 +8,6 @@ import { ConstructsMaker } from "../../constructs-maker";
 import { expectModuleToMatchSnapshot } from "../util";
 
 test("generate some modules", async () => {
-  jest.setTimeout(120000);
-
   const workdir = fs.mkdtempSync(
     path.join(os.tmpdir(), "module-generator.test")
   );
@@ -28,7 +26,7 @@ test("generate some modules", async () => {
     "utf-8"
   );
   expect(output).toMatchSnapshot();
-});
+}, 120000);
 
 expectModuleToMatchSnapshot("no module outputs", "generator", [
   "module-no-outputs.test.fixture.tf",
@@ -44,8 +42,6 @@ expectModuleToMatchSnapshot("no newline", "generator", [
 ]);
 
 test("generate multiple aws modules", async () => {
-  jest.setTimeout(120000);
-
   const workdir = fs.mkdtempSync(
     path.join(os.tmpdir(), "module-generator-aws.test")
   );
@@ -71,15 +67,13 @@ test("generate multiple aws modules", async () => {
     "utf-8"
   );
   expect(rdsOutput).toMatchSnapshot();
-});
+}, 120000);
 
 expectModuleToMatchSnapshot("getX variables", "generator", [
   "module-get-x.test.fixture.tf",
 ]);
 
 test("generate module that can't be initialized", async () => {
-  jest.setTimeout(120000);
-
   const workdir = fs.mkdtempSync(
     path.join(os.tmpdir(), "module-generator.test-no-init")
   );
@@ -98,4 +92,4 @@ test("generate module that can't be initialized", async () => {
     "utf-8"
   );
   expect(output).toMatchSnapshot();
-});
+}, 120000);

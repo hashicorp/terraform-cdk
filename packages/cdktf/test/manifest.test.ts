@@ -33,10 +33,10 @@ test("get stack manifest", () => {
   );
 
   expect(stackManifest).toMatchInlineSnapshot(`
-    Object {
-      "annotations": Array [],
+    {
+      "annotations": [],
       "constructPath": "this-is-a-stack",
-      "dependencies": Array [],
+      "dependencies": [],
       "name": "this-is-a-stack",
       "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
       "workingDirectory": "stacks/this-is-a-stack",
@@ -56,15 +56,15 @@ test("write manifest", () => {
   expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
     .toMatchInlineSnapshot(`
     "{
-      \\"version\\": \\"0.0.0\\",
-      \\"stacks\\": {
-        \\"this-is-a-stack\\": {
-          \\"name\\": \\"this-is-a-stack\\",
-          \\"constructPath\\": \\"this-is-a-stack\\",
-          \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
-          \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
-          \\"annotations\\": [],
-          \\"dependencies\\": []
+      "version": "0.0.0",
+      "stacks": {
+        "this-is-a-stack": {
+          "name": "this-is-a-stack",
+          "constructPath": "this-is-a-stack",
+          "workingDirectory": "stacks/this-is-a-stack",
+          "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+          "annotations": [],
+          "dependencies": []
         }
       }
     }"
@@ -90,31 +90,31 @@ describe("manifest annotations", () => {
     expect(fs.readFileSync(path.join(outdir, Manifest.fileName)).toString())
       .toMatchInlineSnapshot(`
       "{
-        \\"version\\": \\"stubbed\\",
-        \\"stacks\\": {
-          \\"this-is-a-stack\\": {
-            \\"name\\": \\"this-is-a-stack\\",
-            \\"constructPath\\": \\"this-is-a-stack\\",
-            \\"workingDirectory\\": \\"stacks/this-is-a-stack\\",
-            \\"synthesizedStackPath\\": \\"stacks/this-is-a-stack/cdk.tf.json\\",
-            \\"annotations\\": [
+        "version": "stubbed",
+        "stacks": {
+          "this-is-a-stack": {
+            "name": "this-is-a-stack",
+            "constructPath": "this-is-a-stack",
+            "workingDirectory": "stacks/this-is-a-stack",
+            "synthesizedStackPath": "stacks/this-is-a-stack/cdk.tf.json",
+            "annotations": [
               {
-                \\"constructPath\\": \\"this-is-a-stack\\",
-                \\"level\\": \\"@cdktf/info\\",
-                \\"message\\": \\"an info\\"
+                "constructPath": "this-is-a-stack",
+                "level": "@cdktf/info",
+                "message": "an info"
               },
               {
-                \\"constructPath\\": \\"this-is-a-stack\\",
-                \\"level\\": \\"@cdktf/warn\\",
-                \\"message\\": \\"a warning\\"
+                "constructPath": "this-is-a-stack",
+                "level": "@cdktf/warn",
+                "message": "a warning"
               },
               {
-                \\"constructPath\\": \\"this-is-a-stack\\",
-                \\"level\\": \\"@cdktf/error\\",
-                \\"message\\": \\"an error\\"
+                "constructPath": "this-is-a-stack",
+                "level": "@cdktf/error",
+                "message": "an error"
               }
             ],
-            \\"dependencies\\": []
+            "dependencies": []
           }
         }
       }"

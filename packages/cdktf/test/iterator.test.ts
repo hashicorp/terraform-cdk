@@ -149,15 +149,15 @@ test("iterator access nested types", () => {
     "${toset(test_resource.input.list_value)}"
   );
   expect(synth.resource.test_resource.test.tags).toMatchInlineSnapshot(`
-    Object {
-      "boolean_map": "\${lookup(each.value[\\"map\\"], \\"a\\", false)}",
-      "list": "\${join(\\",\\", each.value[\\"list_attribute\\"])}",
-      "map": "\${lookup(each.value[\\"map\\"], \\"a\\", \\"default\\")}",
-      "number": "\${tostring(each.value[\\"number_attribute\\"])}",
-      "number_list": "\${tostring(sum(each.value[\\"number_list_attribute\\"]))}",
-      "number_map": "\${lookup(each.value[\\"map\\"], \\"a\\", 1)}",
-      "string": "\${each.value[\\"string_attribute\\"]}",
-      "string_map": "\${lookup(each.value[\\"map\\"], \\"a\\", \\"default\\")}",
+    {
+      "boolean_map": "\${lookup(each.value["map"], "a", false)}",
+      "list": "\${join(",", each.value["list_attribute"])}",
+      "map": "\${lookup(each.value["map"], "a", "default")}",
+      "number": "\${tostring(each.value["number_attribute"])}",
+      "number_list": "\${tostring(sum(each.value["number_list_attribute"]))}",
+      "number_map": "\${lookup(each.value["map"], "a", 1)}",
+      "string": "\${each.value["string_attribute"]}",
+      "string_map": "\${lookup(each.value["map"], "a", "default")}",
     }
   `);
 });

@@ -33,11 +33,11 @@ describe("jest-adapter", () => {
           foo: expect.arrayContaining([expect.anything()]),
         })
       ).toThrowErrorMatchingInlineSnapshot(`
-        "Expected test_resource with properties {\\"name\\":\\"bazs\\",\\"foo\\":\\"expect.ArrayContaining\\"} to be present in synthesized stack.
+        "Expected test_resource with properties {"name":"bazs","foo":"expect.ArrayContaining"} to be present in synthesized stack.
         Found 1 test_resource resources instead:
         [
           {
-            \\"name\\": \\"bar\\"
+            "name": "bar"
           }
         ]"
       `);
