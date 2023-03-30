@@ -188,8 +188,7 @@ export const valueToTs = async (
       const ast = await convertTerraformExpressionToTs(
         `"${item}"`,
         scope,
-        nodeIds,
-        scopedIds
+        path
       );
 
       return coerceType(

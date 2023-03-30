@@ -10,6 +10,7 @@ import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
 import { coerceType } from "./coerceType";
 import { AttributeType } from "@cdktf/provider-generator";
+import { getDesiredType } from "./terraformSchema";
 
 export type Reference = {
   start: number;
@@ -531,7 +532,7 @@ function convertTFExpressionAstToTs(
 }
 
 export function findExpressionType(
-  scope: ProgramScope,
+  _scope: ProgramScope,
   node: tex.ExpressionType
 ): AttributeType {
   if (tex.isLiteralValueExpression(node)) {
@@ -561,7 +562,7 @@ export async function convertTerraformExpressionToTs(
     return coerceType(
       scope,
       tsExpression,
-      getExpressionType(scope, ast.children[0]),
+      findExpressionType(scope, ast.children[0]),
       getDesiredType(scope, path)
     );
   }
@@ -570,7 +571,7 @@ export async function convertTerraformExpressionToTs(
   return coerceType(
     scope,
     tsExpression,
-    getExpressionType(scope, ast.children[0]),
+    findExpressionType(scope, ast.children[0]),
     getDesiredType(scope, path)
   );
 }
