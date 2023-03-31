@@ -102,7 +102,11 @@ describe("findExpressionType", () => {
       variables,
       providerSchema: s3BucketSchema,
     };
-    const ast = await convertTerraformExpressionToTs(input, scope as any, "");
+    const ast = await convertTerraformExpressionToTs(
+      input,
+      scope as any,
+      () => "string"
+    );
     const result = findExpressionType(scope as any, ast);
 
     expect(result).toEqual(expected);

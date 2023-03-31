@@ -33,13 +33,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsRoute53RecordExampleForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${{
-          for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
-            name   = dvo.resource_record_name
-            record = dvo.resource_record_value
-            type   = dvo.resource_record_type
-          }
-        }}\`)
+        cdktf.Token.asAny(
+          \\"\${{ for dvo in \${\\" +
+            awsAcmCertificateExample.domainValidationOptions +
+            \\"} : dvo.domain_name => {\\\\n            name   = dvo.resource_record_name\\\\n            record = dvo.resource_record_value\\\\n            type   = dvo.resource_record_type\\\\n          }}}\\"
+        )
       );
     const awsRoute53RecordExample = new aws.route53Record.Route53Record(
       this,
@@ -196,7 +194,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsS3BucketExamplebucketForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${toset(\${buckets.value}.*)}\`)
+        cdktf.Token.asAny(cdktf.Fn.toset(\\"\${\\" + buckets.value + \\"}.*\\"))
       );
     const awsS3BucketExamplebucket = new aws.s3Bucket.S3Bucket(
       this,
@@ -213,7 +211,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsS3BucketObjectExamplebucketObjectForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`)
+        cdktf.Token.asAny(
+          cdktf.Fn.toset(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*\\")
+        )
       );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
       bucket: \\"\${each.key}\\",
@@ -303,10 +303,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const azureadUserAzureUsersForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${merge(
-              \${oneSetOfUsers.value},
-              \${otherSetOfUsers.value},
-            )}\`)
+        cdktf.Token.asAny(
+          cdktf.Fn.merge([oneSetOfUsers.value, otherSetOfUsers.value])
+        )
       );
     new azuread.user.User(this, \\"azure_users\\", {
       displayName: \\"\${each.key}\\",

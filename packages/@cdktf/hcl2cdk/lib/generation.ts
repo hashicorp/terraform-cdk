@@ -5,7 +5,6 @@ import template from "@babel/template";
 import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
-import { toSnakeCase } from "codemaker";
 
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
@@ -18,8 +17,6 @@ import {
   Output,
 } from "./schema";
 import {
-  referencesToAst,
-  extractReferencesFromExpression,
   Reference,
   variableName,
   referenceToVariableName,
@@ -35,8 +32,11 @@ import {
   BlockType,
   Schema,
 } from "@cdktf/provider-generator";
-import { getTypeAtPath, isMapAttribute } from "./terraformSchema";
-import { coerceType } from "./coerceType";
+import {
+  getTypeAtPath,
+  isMapAttribute,
+  getDesiredType,
+} from "./terraformSchema";
 import { Errors } from "@cdktf/commons";
 
 function getReference(graph: DirectedGraph, id: string) {
@@ -62,97 +62,6 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
-/*
- * Transforms a babel AST into a list of string accessors
- * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
- */
-function destructureAst(ast: t.Expression): string[] | undefined {
-  switch (ast.type) {
-    case "Identifier":
-      return [ast.name];
-    case "MemberExpression":
-      const object = destructureAst(ast.object);
-      const property = destructureAst(ast.property as t.Expression);
-      if (object && property) {
-        return [...object, ...property];
-      } else {
-        return undefined;
-      }
-    default:
-      return undefined;
-  }
-}
-
-function findTypeOfReference(
-  scope: ProgramScope,
-  ast: t.Expression,
-  references: Reference[]
-): AttributeType {
-  const isReferenceWithoutTemplateString =
-    references.length === 1 &&
-    ast.type === "MemberExpression" &&
-    ast.object.type === "Identifier";
-
-  // If we have a property to cdktf.propertyAccess call it's dynamic
-  if (
-    ast.type === "CallExpression" &&
-    ast.callee.type === "MemberExpression" &&
-    ast.callee.property.type === "Identifier" &&
-    ast.callee.property.name === "propertyAccess"
-  ) {
-    return "dynamic";
-  }
-
-  // If we only have one reference this is a
-  if (isReferenceWithoutTemplateString) {
-    if (references[0].isVariable) {
-      return "dynamic";
-    }
-
-    const destructuredAst = destructureAst(ast);
-    if (!destructuredAst) {
-      logger.debug(
-        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
-      );
-      return "dynamic";
-    }
-
-    const [astVariableName, ...attributes] = destructuredAst;
-    const variable = Object.values(scope.variables).find(
-      (x) => x.variableName === astVariableName
-    );
-
-    if (!variable) {
-      logger.debug(
-        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
-          scope.variables,
-          null,
-          2
-        )}`
-      );
-      // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
-      return "dynamic";
-    }
-
-    const { resource: resourceType } = variable;
-    const [provider, ...resourceNameFragments] = resourceType.split("_");
-    const tfResourcePath = `${provider}.${resourceNameFragments.join(
-      "_"
-    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
-    const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
-
-    // If this is an attribute type we can return it
-    if (typeof type === "string" || Array.isArray(type)) {
-      return type;
-    }
-
-    // Either nothing is found or it's a block type
-    return "dynamic";
-  }
-
-  return "string";
-}
-
 export const valueToTs = async (
   scope: ResourceScope,
   item: TerraformResourceBlock,
@@ -163,32 +72,10 @@ export const valueToTs = async (
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
-      // const references = await extractReferencesFromExpression(
-      //   item,
-      //   nodeIds,
-      //   scopedIds
-      // );
+      return await convertTerraformExpressionToTs(`"${item}"`, scope, () =>
+        getDesiredType(scope, path)
+      );
 
-      // const iteratorVariables = await extractIteratorVariablesFromExpression(
-      //   item
-      // );
-      //
-      // const ast = referencesToAst(
-      //   scope,
-      //   item,
-      //   references,
-      //   scopedIds,
-      //   iteratorVariables);
-      // const ast = referencesToAst(scope, item, references, scopedIds);
-
-      return await convertTerraformExpressionToTs(`"${item}"`, scope, path);
-
-    // return coerceType(
-    //   scope,
-    //   ast,
-    //   findTypeOfReference(scope, ast, references),
-    //   getDesiredType(scope, path)
-    // );
     case "boolean":
       return t.booleanLiteral(item);
     case "number":
@@ -474,23 +361,16 @@ export async function resource(
 
   let forEachIteratorName: string | undefined;
   if (for_each) {
-    const references = await extractReferencesFromExpression(
-      for_each,
-      nodeIds,
-      ["each"]
-    );
-
     forEachIteratorName = variableName(
       scope,
       resource,
       `${key}_for_each_iterator`
     );
-    const referenceAst = referencesToAst(scope, for_each, references);
-    const referenceType = findTypeOfReference(scope, referenceAst, references);
-    const targetType: AttributeType =
-      Array.isArray(referenceType) && referenceType[0] === "map"
-        ? ["map", "dynamic"]
-        : ["list", "dynamic"];
+    const referenceAst = await convertTerraformExpressionToTs(
+      `"${for_each}"`,
+      scope,
+      () => ["list", "dynamic"]
+    );
 
     const iterator = t.variableDeclaration("const", [
       t.variableDeclarator(
@@ -504,7 +384,7 @@ export async function resource(
             t.identifier("fromList")
           ),
 
-          [coerceType(scope, referenceAst, referenceType, targetType)]
+          [referenceAst]
         )
       ),
     ]);
@@ -528,71 +408,71 @@ export async function resource(
       )
   );
   // all others can be handled by the CDKTF runtime
-  const dynamicBlocksUsingRuntime = dynBlocks.filter(
-    (block) => !dynamicBlocksUsingOverrides.includes(block)
-  );
+  // const dynamicBlocksUsingRuntime = dynBlocks.filter(
+  //   (block) => !dynamicBlocksUsingOverrides.includes(block)
+  // );
 
-  for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
-    const dynamicBlockIteratorName = variableName(
-      scope,
-      resource,
-      `${key}_dynamic_iterator_${i}`
-    );
-    const references = await extractReferencesFromExpression(
-      block.for_each,
-      nodeIds,
-      ["each"]
-    );
-    const referenceAst = referencesToAst(scope, block.for_each, references);
-    const referenceType = findTypeOfReference(scope, referenceAst, references);
-    const iterator = t.variableDeclaration("const", [
-      t.variableDeclarator(
-        t.identifier(dynamicBlockIteratorName),
-        t.callExpression(
-          t.memberExpression(
-            t.memberExpression(
-              t.identifier("cdktf"),
-              t.identifier("TerraformIterator")
-            ),
-            t.identifier("fromList")
-          ),
-          [coerceType(scope, referenceAst, referenceType, ["list", "dynamic"])]
-        )
-      ),
-    ]);
-    t.addComment(iterator, "leading", loopComment);
-    expressions.push(iterator);
-    const dynamicCallExpression = t.callExpression(
-      t.memberExpression(
-        t.identifier(dynamicBlockIteratorName),
-        t.identifier("dynamic")
-      ),
-      [
-        await valueToTs(
-          scope,
-          Array.isArray(block.content) ? block.content[0] : block.content,
-          block.path.replace(block.scopedVar, ""),
-          nodeIds,
-          []
-        ),
-      ]
-    );
+  // for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
+  //   const dynamicBlockIteratorName = variableName(
+  //     scope,
+  //     resource,
+  //     `${key}_dynamic_iterator_${i}`
+  //   );
+  //   const references = await extractReferencesFromExpression(
+  //     block.for_each,
+  //     nodeIds,
+  //     ["each"]
+  //   );
+  //   const referenceAst = referencesToAst(scope, block.for_each, references);
+  //   const referenceType = findTypeOfReference(scope, referenceAst, references);
+  //   const iterator = t.variableDeclaration("const", [
+  //     t.variableDeclarator(
+  //       t.identifier(dynamicBlockIteratorName),
+  //       t.callExpression(
+  //         t.memberExpression(
+  //           t.memberExpression(
+  //             t.identifier("cdktf"),
+  //             t.identifier("TerraformIterator")
+  //           ),
+  //           t.identifier("fromList")
+  //         ),
+  //         [coerceType(scope, referenceAst, referenceType, ["list", "dynamic"])]
+  //       )
+  //     ),
+  //   ]);
+  //   t.addComment(iterator, "leading", loopComment);
+  //   expressions.push(iterator);
+  //   const dynamicCallExpression = t.callExpression(
+  //     t.memberExpression(
+  //       t.identifier(dynamicBlockIteratorName),
+  //       t.identifier("dynamic")
+  //     ),
+  //     [
+  //       await valueToTs(
+  //         scope,
+  //         Array.isArray(block.content) ? block.content[0] : block.content,
+  //         block.path.replace(block.scopedVar, ""),
+  //         nodeIds,
+  //         []
+  //       ),
+  //     ]
+  //   );
 
-    const parts = block.path
-      .replace(`dynamic.${block.scopedVar}`, "")
-      .split(".")
-      .filter((p) => p.length > 0);
+  //   const parts = block.path
+  //     .replace(`dynamic.${block.scopedVar}`, "")
+  //     .split(".")
+  //     .filter((p) => p.length > 0);
 
-    const parent = parts.reduce((acc, part) => {
-      if (Array.isArray(acc) && !Number.isNaN(parseInt(part, 10))) {
-        return acc[parseInt(part, 10)];
-      } else {
-        return acc[part];
-      }
-    }, mappedConfig);
-    parent[block.scopedVar] = dynamicCallExpression;
-    delete parent.dynamic;
-  }
+  //   const parent = parts.reduce((acc, part) => {
+  //     if (Array.isArray(acc) && !Number.isNaN(parseInt(part, 10))) {
+  //       return acc[parseInt(part, 10)];
+  //     } else {
+  //       return acc[part];
+  //     }
+  //   }, mappedConfig);
+  //   parent[block.scopedVar] = dynamicCallExpression;
+  //   delete parent.dynamic;
+  // }
 
   const overrideReference =
     dynamicBlocksUsingOverrides.length || count
@@ -635,17 +515,17 @@ export async function resource(
         )
       );
     } else {
-      const references = await extractReferencesFromExpression(count, nodeIds, [
-        "count",
-      ]);
-      expressions.push(
-        addOverrideExpression(
-          varName,
-          "count",
-          referencesToAst(scope, count, references),
-          loopComment
-        )
-      );
+      // const references = await extractReferencesFromExpression(count, nodeIds, [
+      //   "count",
+      // ]);
+      // expressions.push(
+      //   addOverrideExpression(
+      //     varName,
+      //     "count",
+      //     referencesToAst(scope, count, references),
+      //     loopComment
+      //   )
+      // );
     }
   }
 
