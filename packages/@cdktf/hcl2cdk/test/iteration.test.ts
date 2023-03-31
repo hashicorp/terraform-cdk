@@ -292,7 +292,7 @@ describe("iteration", () => {
           }
           `,
     [binding.azuread],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["azuread_user"],
     }

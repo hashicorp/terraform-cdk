@@ -13,7 +13,7 @@ import {
   AttributeType,
   sanitizeClassOrNamespaceName,
 } from "@cdktf/provider-generator";
-import { getDesiredType, getTypeAtPath } from "./terraformSchema";
+import { getTypeAtPath } from "./terraformSchema";
 import { toSnakeCase } from "codemaker";
 
 export type Reference = {
@@ -24,7 +24,6 @@ export type Reference = {
   isVariable?: boolean;
 };
 
-const DOLLAR_REGEX = /\$/g;
 const leaveCommentText = `Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue.`;
 
 function wrapTerraformExpression(input: string): string {
@@ -184,7 +183,7 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
 
 function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
-  scope: ProgramScope
+  scope: ResourceScope
 ): t.Expression {
   if (tex.isLiteralValueExpression(node)) {
     const literalType = node.meta.type;
@@ -202,6 +201,25 @@ function convertTFExpressionAstToTs(
     const hasReference = containsReference(node);
 
     const segments = node.meta.traversal;
+
+    if (segments[0].segment === "each") {
+      return iteratorVariableToAst(scope, node);
+    }
+
+    if (segments[0].segment === "self") {
+      return t.callExpression(
+        t.memberExpression(
+          t.memberExpression(
+            t.identifier("cdktf"),
+            t.identifier("TerraformSelf")
+          ),
+          t.identifier("getAny")
+        ),
+
+        [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
+      );
+    }
+
     const varIdentifier = hasReference
       ? t.identifier(camelCase(traversalToVariableName(scope, node)))
       : // This is a variable reference that we don't understand yet, so we wrap it in a template string
@@ -698,8 +716,8 @@ export function findExpressionType(
 
 export async function convertTerraformExpressionToTs(
   input: string,
-  scope: ProgramScope,
-  path: string
+  scope: ResourceScope,
+  targetType: () => AttributeType
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
   const sanitizedInput = wrapTerraformExpression(input);
@@ -709,7 +727,6 @@ export async function convertTerraformExpressionToTs(
   if (!ast) {
     throw new Error(`Unable to parse terraform expression: ${input}`);
   }
-  // console.log("AST", JSON.stringify(ast, null, 2));
 
   let tsExpression;
   if (isWrapped) {
@@ -722,7 +739,7 @@ export async function convertTerraformExpressionToTs(
     scope,
     tsExpression,
     findExpressionType(scope, tsExpression),
-    getDesiredType(scope, path)
+    targetType()
   );
 }
 
@@ -1086,32 +1103,34 @@ export function getPropertyAccessPath(input: string): string[] {
 
 export function iteratorVariableToAst(
   scope: ResourceScope,
-  iteratorVariable: IteratorVariableReference
+  node: tex.ScopeTraversalExpression
 ) {
   if (!scope.forEachIteratorName) {
     throw new Error(
-      `Can not create AST for iterator variable of '${iteratorVariable.value}' without forEachIteratorName`
+      `Can not create AST for iterator variable of '${node.meta.value}' without forEachIteratorName`
     );
   }
 
-  if (iteratorVariable.value === "each.key") {
+  if (node.meta.value === "each.key") {
     return t.memberExpression(
       t.identifier(scope.forEachIteratorName),
       t.identifier("key")
     );
   }
-  if (iteratorVariable.value === "each.value") {
+  if (node.meta.value === "each.value") {
     return t.memberExpression(
       t.identifier(scope.forEachIteratorName),
       t.identifier("value")
     );
   }
+  const segments = node.meta.traversal;
 
   if (
-    iteratorVariable.value.startsWith("each.value") &&
-    (iteratorVariable.value.includes("[") ||
-      iteratorVariable.value.includes("."))
+    segments.length > 2 &&
+    segments[0].segment === "each" &&
+    segments[1].segment === "value"
   ) {
+    const segmentsAfterEachValue = segments.slice(2);
     return t.callExpression(
       t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
       [
@@ -1120,95 +1139,21 @@ export function iteratorVariableToAst(
           t.identifier("value")
         ),
         t.arrayExpression(
-          getPropertyAccessPath(
-            iteratorVariable.value.replace(/each\.value\.?/, "")
-          ).map((p) => t.stringLiteral(p))
+          segmentsAfterEachValue.map((part) => {
+            if (part.type === "nameTraversal") {
+              return t.stringLiteral(part.segment);
+            } else {
+              return t.stringLiteral(`[${part.segment}]`);
+            }
+          })
         ),
       ]
     );
   }
 
   throw new Error(
-    `Can not create AST for iterator variable of '${iteratorVariable.value}'`
+    `Can not create AST for iterator variable of '${node.meta.value}'`
   );
-}
-
-export function referencesToAst(
-  scope: ResourceScope,
-  input: string,
-  refs: Reference[],
-  scopedIds: readonly string[] = [], // dynamics introduce new scoped variables that are not the globally accessible ids
-  iteratorVariables: IteratorVariableReference[] = []
-): t.Expression {
-  logger.debug(
-    `Transforming string '${input}' with references ${JSON.stringify(
-      refs
-    )} to AST`
-  );
-
-  const refAsts = refs
-    .sort((a, b) => a.start - b.start)
-    .filter((ref) => !scopedIds.includes(ref.referencee.id))
-    .map((ref) => ({ ...ref, ast: referenceToAst(scope, ref) }));
-
-  const iteratorVarAsts = iteratorVariables
-    .sort((a, b) => a.start - b.start)
-    .map((iteratorVariable) => ({
-      ...iteratorVariable,
-      ast: iteratorVariableToAst(scope, iteratorVariable),
-    }));
-
-  const asts = [...refAsts, ...iteratorVarAsts].sort(
-    (a, b) => a.start - b.start
-  );
-  if (asts.length === 0) {
-    return t.stringLiteral(input);
-  }
-
-  if (
-    asts.length === 1 &&
-    asts[0].start === "${".length &&
-    asts[0].end === input.length - "}".length &&
-    !("useFqn" in asts[0] && asts[0].useFqn)
-  ) {
-    return asts[0].ast;
-  }
-
-  // string parts in the template string
-  const quasis: t.TemplateElement[] = [];
-  // dynamic values in the template string
-  const expressions: t.Expression[] = [];
-
-  let lastEnd = 0;
-
-  asts.forEach(({ start, end, ast }) => {
-    // leading quasi
-    if (start !== lastEnd) {
-      quasis.push(
-        t.templateElement({
-          raw: input.substring(lastEnd, start).replace(DOLLAR_REGEX, "\\$"),
-        })
-      );
-    }
-
-    expressions.push(ast);
-
-    lastEnd = end;
-  });
-
-  // trailing quasi
-  quasis.push(
-    t.templateElement(
-      {
-        raw: input
-          .substring(lastEnd, input.length)
-          .replace(DOLLAR_REGEX, "\\$"),
-      },
-      true
-    )
-  );
-
-  return t.templateLiteral(quasis, expressions);
 }
 
 export type DynamicBlock = {
