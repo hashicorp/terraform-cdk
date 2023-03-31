@@ -111,7 +111,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const users = new cdktf.TerraformVariable(this, \\"users\\", {});
     const awsIamUserLb = new aws.iamUser.IamUser(this, \\"lb\\", {
       name: cdktf.Token.asString(
-        cdktf.Fn.element(users.value, \\"\${count.index}\\")
+        cdktf.Fn.element(users.value, cdktf.Token.asNumber(\\"\${count.index}\\"))
       ),
       path: \\"/system/\\",
       tags: {
