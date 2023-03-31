@@ -65,7 +65,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.never,
+    Synth.yes,
     { resources: ["aws_iam_user_group_membership"] }
   );
 
@@ -97,7 +97,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
-    Synth.never,
+    Synth.yes,
     { resources: ["aws_eks_cluster"] }
   );
 });
