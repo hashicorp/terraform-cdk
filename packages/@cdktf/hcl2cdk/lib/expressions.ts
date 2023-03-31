@@ -563,6 +563,31 @@ function destructureAst(ast: t.Expression): string[] | undefined {
   }
 }
 
+function typeForCallExpression(ast: t.CallExpression): AttributeType {
+  // Find all cdktf.Fn.* calls
+  if (
+    t.isMemberExpression(ast.callee) &&
+    t.isMemberExpression(ast.callee.object) &&
+    t.isIdentifier(ast.callee.object.object) &&
+    ast.callee.object.object.name === "cdktf" &&
+    t.isIdentifier(ast.callee.object.property) &&
+    ast.callee.object.property.name === "Fn" &&
+    t.isIdentifier(ast.callee.property)
+  ) {
+    const meta = functionsMap[ast.callee.property.name];
+    // TODO: change format so that map key is the function name in TS
+    if (meta) {
+      return meta.returnType;
+    } else {
+      return "dynamic";
+    }
+  }
+
+  // cdktf.conditional, cdktf.propertyAccess, cdktf.Op.* are all dynamic
+  // By default we assume dynamic
+  return "dynamic";
+}
+
 export function findExpressionType(
   scope: ProgramScope,
   ast: t.Expression
@@ -571,13 +596,8 @@ export function findExpressionType(
     ast.type === "MemberExpression" && ast.object.type === "Identifier";
 
   // If we have a property to cdktf.propertyAccess call it's dynamic
-  if (
-    ast.type === "CallExpression" &&
-    ast.callee.type === "MemberExpression" &&
-    ast.callee.property.type === "Identifier" &&
-    ast.callee.property.name === "propertyAccess"
-  ) {
-    return "dynamic";
+  if (ast.type === "CallExpression") {
+    return typeForCallExpression(ast);
   }
 
   if (ast.type === "StringLiteral") {
