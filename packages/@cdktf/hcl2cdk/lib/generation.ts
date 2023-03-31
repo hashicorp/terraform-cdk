@@ -502,17 +502,15 @@ export async function resource(
         )
       );
     } else {
-      // const references = await extractReferencesFromExpression(count, nodeIds, [
-      //   "count",
-      // ]);
-      // expressions.push(
-      //   addOverrideExpression(
-      //     varName,
-      //     "count",
-      //     referencesToAst(scope, count, references),
-      //     loopComment
-      //   )
-      // );
+      const referenceAst = await convertTerraformExpressionToTs(
+        `"${count}"`,
+        scope,
+        () => "number"
+      );
+
+      expressions.push(
+        addOverrideExpression(varName, "count", referenceAst, loopComment)
+      );
     }
   }
 

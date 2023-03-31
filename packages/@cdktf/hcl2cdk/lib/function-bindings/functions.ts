@@ -84,3 +84,12 @@ export const functionsMap: Record<string, FunctionMeta> = {
     parameters: [{ type: "dynamic" }, { type: "string" }, { type: "dynamic" }],
   },
 };
+
+export const tsFunctionsMap = Object.entries(functionsMap).reduce(
+  (acc, [name, fnInfo]) => {
+    // Swap the names around
+    acc[fnInfo.name] = { ...fnInfo, name: name };
+    return acc;
+  },
+  {} as Record<string, FunctionMeta>
+);
