@@ -43,10 +43,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: cdktf.conditional(
-        cdktf.Op.gt(awsKmsKeyExamplekms.deletionWindowInDays, 3),
-        awsS3BucketExamplebucket.id,
-        []
+      bucket: cdktf.Token.asString(
+        cdktf.conditional(
+          cdktf.Op.gt(awsKmsKeyExamplekms.deletionWindowInDays, 3),
+          awsS3BucketExamplebucket.id,
+          []
+        )
       ),
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
