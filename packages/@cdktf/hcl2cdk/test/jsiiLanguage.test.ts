@@ -24,7 +24,7 @@ describe("JSII Language Support", () => {
     
     resource "aws_s3_bucket_object" "examplebucket_object" {
       key        = "someobject"
-      bucket     = aws_s3_bucket.examplebucket.name
+      bucket     = aws_s3_bucket.examplebucket.bucket
       source     = "index.html"
       kms_key_id = aws_kms_key.examplekms.arn
     }
