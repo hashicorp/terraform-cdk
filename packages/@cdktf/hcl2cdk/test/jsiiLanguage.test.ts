@@ -67,6 +67,6 @@ describe("JSII Language Support", () => {
     }
     `,
     [binding.aws],
-    Synth.never
+    Synth.yes_all_languages
   );
 });
