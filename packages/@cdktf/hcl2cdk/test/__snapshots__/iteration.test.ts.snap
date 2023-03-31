@@ -44,10 +44,24 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"example_3\\",
       {
         allowOverwrite: true,
-        name: \\"\${each.value.name}\\",
-        records: [\\"\${each.value.record}\\"],
+        name: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"name\\",
+          ])
+        ),
+        records: [
+          cdktf.Token.asString(
+            cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+              \\"record\\",
+            ])
+          ),
+        ],
         ttl: 60,
-        type: \\"\${each.value.type}\\",
+        type: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"type\\",
+          ])
+        ),
         zoneId: cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId),
         forEach: awsRoute53RecordExampleForEachIterator,
       }
@@ -158,9 +172,15 @@ class MyConvertedCode extends cdktf.TerraformStack {
           \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
         setting:
           awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.dynamic({
-            name: \\"\${\\" + settingValue + '}[\\"name\\"]',
+            name: cdktf.propertyAccess(
+              awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
+              ['[\\"name\\"]']
+            ),
             namespace: namespace.value,
-            value: \\"\${\\" + settingValue + '}[\\"value\\"]',
+            value: cdktf.propertyAccess(
+              awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
+              ['[\\"value\\"]']
+            ),
           }),
       }
     );
@@ -201,7 +221,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"examplebucket\\",
       {
         acl: \\"private\\",
-        bucket: \\"\${each.key}\\",
+        bucket: cdktf.Token.asString(
+          awsS3BucketExamplebucketForEachIterator.key
+        ),
         forEach: awsS3BucketExamplebucketForEachIterator,
       }
     );
@@ -216,7 +238,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         )
       );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: \\"\${each.key}\\",
+      bucket: cdktf.Token.asString(
+        awsS3BucketObjectExamplebucketObjectForEachIterator.key
+      ),
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
@@ -250,7 +274,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       cdktf.Token.asAny(users.value)
     );
     new aws.iamUser.IamUser(this, \\"lb\\", {
-      name: \\"\${each.key}\\",
+      name: cdktf.Token.asString(awsIamUserLbForEachIterator.key),
       path: \\"/system/\\",
       tags: {
         \\"tag-key\\": \\"tag-value\\",
@@ -308,8 +332,15 @@ class MyConvertedCode extends cdktf.TerraformStack {
         )
       );
     new azuread.user.User(this, \\"azure_users\\", {
-      displayName: \\"\${each.key}\\",
-      userPrincipalName: \\"\${each.value}\${\\" + azureAdDomainName.value + \\"}\\",
+      displayName: cdktf.Token.asString(
+        azureadUserAzureUsersForEachIterator.key
+      ),
+      userPrincipalName:
+        \\"\${\\" +
+        azureadUserAzureUsersForEachIterator.value +
+        \\"\${\\" +
+        azureAdDomainName.value +
+        \\"}\\",
       forEach: azureadUserAzureUsersForEachIterator,
     });
   }

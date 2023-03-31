@@ -434,10 +434,8 @@ describe("expressions", () => {
         t.program([
           t.expressionStatement(
             iteratorVariableToAst(
-              {
-                forEachIteratorName: "myIterator",
-              } as any,
-              ast!.children[0] as tex.ScopeTraversalExpression
+              ast!.children[0] as tex.ScopeTraversalExpression,
+              "myIterator"
             )
           ),
         ]) as any

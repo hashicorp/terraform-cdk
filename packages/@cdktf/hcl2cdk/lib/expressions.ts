@@ -189,8 +189,8 @@ function convertTFExpressionAstToTs(
 
     const segments = node.meta.traversal;
 
-    if (segments[0].segment === "each") {
-      return iteratorVariableToAst(scope, node);
+    if (segments[0].segment === "each" && scope.forEachIteratorName) {
+      return iteratorVariableToAst(node, scope.forEachIteratorName);
     }
 
     if (segments[0].segment === "self") {
@@ -205,6 +205,12 @@ function convertTFExpressionAstToTs(
 
         [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
       );
+    }
+
+    // setting.value, setting.value[1].id
+    const dynamicBlock = scope.scopedVariables?.[segments[0].segment];
+    if (dynamicBlock) {
+      return iteratorVariableToAst(node, dynamicBlock, segments[0].segment);
     }
 
     const varIdentifier = hasReference
@@ -1085,24 +1091,16 @@ export function getPropertyAccessPath(input: string): string[] {
 }
 
 export function iteratorVariableToAst(
-  scope: ResourceScope,
-  node: tex.ScopeTraversalExpression
-) {
-  if (!scope.forEachIteratorName) {
-    throw new Error(
-      `Can not create AST for iterator variable of '${node.meta.value}' without forEachIteratorName`
-    );
+  node: tex.ScopeTraversalExpression,
+  iteratorName: string,
+  block: string = "each"
+): t.Expression {
+  if (node.meta.value === `${block}.key`) {
+    return t.memberExpression(t.identifier(iteratorName), t.identifier("key"));
   }
-
-  if (node.meta.value === "each.key") {
+  if (node.meta.value === `${block}.value`) {
     return t.memberExpression(
-      t.identifier(scope.forEachIteratorName),
-      t.identifier("key")
-    );
-  }
-  if (node.meta.value === "each.value") {
-    return t.memberExpression(
-      t.identifier(scope.forEachIteratorName),
+      t.identifier(iteratorName),
       t.identifier("value")
     );
   }
@@ -1110,17 +1108,14 @@ export function iteratorVariableToAst(
 
   if (
     segments.length > 2 &&
-    segments[0].segment === "each" &&
+    segments[0].segment === block &&
     segments[1].segment === "value"
   ) {
     const segmentsAfterEachValue = segments.slice(2);
     return t.callExpression(
       t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
       [
-        t.memberExpression(
-          t.identifier(scope.forEachIteratorName),
-          t.identifier("value")
-        ),
+        t.memberExpression(t.identifier(iteratorName), t.identifier("value")),
         t.arrayExpression(
           segmentsAfterEachValue.map((part) => {
             if (part.type === "nameTraversal") {
