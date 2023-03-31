@@ -7,7 +7,7 @@ import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
 import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
-import { functionsMap } from "./function-bindings/functions";
+import { functionsMap, tsFunctionsMap } from "./function-bindings/functions";
 import { coerceType } from "./coerceType";
 import {
   AttributeType,
@@ -634,8 +634,7 @@ function typeForCallExpression(ast: t.CallExpression): AttributeType {
     ast.callee.object.property.name === "Fn" &&
     t.isIdentifier(ast.callee.property)
   ) {
-    const meta = functionsMap[ast.callee.property.name];
-    // TODO: change format so that map key is the function name in TS
+    const meta = tsFunctionsMap[ast.callee.property.name];
     if (meta) {
       return meta.returnType;
     } else {

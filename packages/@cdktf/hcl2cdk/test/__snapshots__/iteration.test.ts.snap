@@ -134,7 +134,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
+    awsIamUserLb.addOverride(\\"count\\", cdktf.Fn.lengthOf(users.value));
   }
 }
 "
