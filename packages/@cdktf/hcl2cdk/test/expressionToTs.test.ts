@@ -303,7 +303,7 @@ describe("expressionToTs", () => {
     const result = await convertTerraformExpressionToTs(expression, scope, "");
     // TODO: See if we have a way to preserve comments
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.compact([awsS3BucketExamplebucket, input.value])"`
+      `"cdktf.Fn.compact(cdktf.Token.asList([awsS3BucketExamplebucket, input.value]))"`
     );
   });
 
@@ -414,7 +414,7 @@ describe("expressionToTs", () => {
     const scope = getScope({ variables: ["tags"] });
     const result = await convertTerraformExpressionToTs(expression, scope, "");
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.join(\\"-\\", [\\"\${\\" + tags.value + \\"}.app\\", \\"\${\\" + tags.value + \\"}.env\\"])"`
+      `"cdktf.Fn.join(\\"-\\", cdktf.Token.asList([\\"\${\\" + tags.value + \\"}.app\\", \\"\${\\" + tags.value + \\"}.env\\"]))"`
     );
   });
 
@@ -468,7 +468,7 @@ describe("expressionToTs", () => {
     });
     const result = await convertTerraformExpressionToTs(expression, scope, "");
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.concat(\\"\${\\" + privateSubnets.value + \\"}.*.id\\", \\"\${\\" + publicSubnets.value + \\"}.*.id\\")"`
+      `"cdktf.Fn.concat([\\"\${\\" + privateSubnets.value + \\"}.*.id\\", \\"\${\\" + publicSubnets.value + \\"}.*.id\\"])"`
     );
   });
 });

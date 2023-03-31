@@ -378,8 +378,41 @@ function convertTFExpressionAstToTs(
       t.identifier(mapping.name)
     );
 
-    // TODO: Needs coercion goodness here
-    return t.callExpression(callee, argumentExpressions);
+    if (mapping.parameters.length > 0 && mapping.parameters[0].variadic) {
+      return t.callExpression(callee, [
+        t.arrayExpression(
+          argumentExpressions.map((argExpr) =>
+            coerceType(
+              scope,
+              argExpr,
+              findExpressionType(scope, argExpr),
+              mapping.parameters[0].type
+            )
+          )
+        ),
+      ]);
+    }
+
+    if (mapping.parameters.length !== argumentExpressions.length) {
+      logger.error(
+        `Function ${functionName} expects ${mapping.parameters.length} arguments, but ${argumentExpressions.length} were provided. ${leaveCommentText}`
+      );
+
+      // No coercion in this case
+      return t.callExpression(callee, argumentExpressions);
+    }
+
+    return t.callExpression(
+      callee,
+      argumentExpressions.map((argExpr, index) =>
+        coerceType(
+          scope,
+          argExpr,
+          findExpressionType(scope, argExpr),
+          mapping.parameters[index].type
+        )
+      )
+    );
   }
 
   if (tex.isSplatExpression(node)) {

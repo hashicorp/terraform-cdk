@@ -124,7 +124,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
       name: \\"queries are hard\\",
       query: cdktf.Fn.join(
         \\" && \\",
-        \\"\${[ for o in \${\\" + users.value + '} : \\"!(!\${o.id})\\"]}'
+        cdktf.Token.asList(
+          \\"\${[ for o in \${\\" + users.value + '} : \\"!(!\${o.id})\\"]}'
+        )
       ),
       type: \\"metric alert\\",
     });

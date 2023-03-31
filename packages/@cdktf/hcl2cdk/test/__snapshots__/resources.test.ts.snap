@@ -399,10 +399,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const tags = new cdktf.TerraformVariable(this, \\"tags\\", {});
     new aws.instance.Instance(this, \\"play\\", {
-      ami: cdktf.Fn.join(\\"-\\", [
-        \\"\${\\" + tags.value + \\"}.app\\",
-        \\"\${\\" + tags.value + \\"}.env\\",
-      ]),
+      ami: cdktf.Fn.join(
+        \\"-\\",
+        cdktf.Token.asList([
+          \\"\${\\" + tags.value + \\"}.app\\",
+          \\"\${\\" + tags.value + \\"}.env\\",
+        ])
+      ),
       associatePublicIpAddress: true,
       connection: [
         {
