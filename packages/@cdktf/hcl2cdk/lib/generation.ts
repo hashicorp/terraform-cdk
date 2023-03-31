@@ -66,8 +66,6 @@ export const valueToTs = async (
   scope: ResourceScope,
   item: TerraformResourceBlock,
   path: string,
-  nodeIds: string[],
-  scopedIds: string[] = [],
   isModule = false
 ): Promise<t.Expression> => {
   switch (typeof item) {
@@ -130,9 +128,7 @@ export const valueToTs = async (
       if (Array.isArray(unwrappedItem)) {
         return t.arrayExpression(
           await Promise.all(
-            unwrappedItem.map((i) =>
-              valueToTs(scope, i, `${path}.[]`, nodeIds, scopedIds)
-            )
+            unwrappedItem.map((i) => valueToTs(scope, i, `${path}.[]`))
           )
         );
       }
@@ -200,16 +196,8 @@ export const valueToTs = async (
                   keepKeyName ? key : escapeAttributeName(camelCase(key))
                 ),
                 shouldBeArray
-                  ? t.arrayExpression([
-                      await valueToTs(
-                        scope,
-                        value,
-                        itemPath,
-                        nodeIds,
-                        scopedIds
-                      ),
-                    ])
-                  : await valueToTs(scope, value, itemPath, nodeIds, scopedIds)
+                  ? t.arrayExpression([await valueToTs(scope, value, itemPath)])
+                  : await valueToTs(scope, value, itemPath)
               );
             })
           )
@@ -221,8 +209,7 @@ export const valueToTs = async (
 
 export async function backendToExpression(
   scope: ProgramScope,
-  tf: TerraformConfig["backend"],
-  nodeIds: string[]
+  tf: TerraformConfig["backend"]
 ): Promise<t.Statement[]> {
   return (
     await Promise.all(
@@ -244,8 +231,7 @@ export async function backendToExpression(
                         await valueToTs(
                           scope,
                           value,
-                          "path-for-backends-can-be-ignored",
-                          nodeIds
+                          "path-for-backends-can-be-ignored"
                         )
                       )
                     )
@@ -354,7 +340,6 @@ export async function resource(
   graph: DirectedGraph
 ): Promise<t.Statement[]> {
   const [provider, ...name] = type.split("_");
-  const nodeIds = graph.nodes();
   const resource = resourceType(provider, name, item);
 
   if (!provider) {
@@ -414,71 +399,75 @@ export async function resource(
       )
   );
   // all others can be handled by the CDKTF runtime
-  // const dynamicBlocksUsingRuntime = dynBlocks.filter(
-  //   (block) => !dynamicBlocksUsingOverrides.includes(block)
-  // );
+  const dynamicBlocksUsingRuntime = dynBlocks.filter(
+    (block) => !dynamicBlocksUsingOverrides.includes(block)
+  );
 
-  // for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
-  //   const dynamicBlockIteratorName = variableName(
-  //     scope,
-  //     resource,
-  //     `${key}_dynamic_iterator_${i}`
-  //   );
-  //   const references = await extractReferencesFromExpression(
-  //     block.for_each,
-  //     nodeIds,
-  //     ["each"]
-  //   );
-  //   const referenceAst = referencesToAst(scope, block.for_each, references);
-  //   const referenceType = findTypeOfReference(scope, referenceAst, references);
-  //   const iterator = t.variableDeclaration("const", [
-  //     t.variableDeclarator(
-  //       t.identifier(dynamicBlockIteratorName),
-  //       t.callExpression(
-  //         t.memberExpression(
-  //           t.memberExpression(
-  //             t.identifier("cdktf"),
-  //             t.identifier("TerraformIterator")
-  //           ),
-  //           t.identifier("fromList")
-  //         ),
-  //         [coerceType(scope, referenceAst, referenceType, ["list", "dynamic"])]
-  //       )
-  //     ),
-  //   ]);
-  //   t.addComment(iterator, "leading", loopComment);
-  //   expressions.push(iterator);
-  //   const dynamicCallExpression = t.callExpression(
-  //     t.memberExpression(
-  //       t.identifier(dynamicBlockIteratorName),
-  //       t.identifier("dynamic")
-  //     ),
-  //     [
-  //       await valueToTs(
-  //         scope,
-  //         Array.isArray(block.content) ? block.content[0] : block.content,
-  //         block.path.replace(block.scopedVar, ""),
-  //         nodeIds,
-  //         []
-  //       ),
-  //     ]
-  //   );
+  for (const [i, block] of dynamicBlocksUsingRuntime.entries()) {
+    const dynamicBlockIteratorName = variableName(
+      scope,
+      resource,
+      `${key}_dynamic_iterator_${i}`
+    );
 
-  //   const parts = block.path
-  //     .replace(`dynamic.${block.scopedVar}`, "")
-  //     .split(".")
-  //     .filter((p) => p.length > 0);
+    const referenceAst = await convertTerraformExpressionToTs(
+      `"${block.for_each}"`,
+      scope,
+      () => ["list", "dynamic"]
+    );
 
-  //   const parent = parts.reduce((acc, part) => {
-  //     if (Array.isArray(acc) && !Number.isNaN(parseInt(part, 10))) {
-  //       return acc[parseInt(part, 10)];
-  //     } else {
-  //       return acc[part];
-  //     }
-  //   }, mappedConfig);
-  //   parent[block.scopedVar] = dynamicCallExpression;
-  //   delete parent.dynamic;
-  // }
+    const iterator = t.variableDeclaration("const", [
+      t.variableDeclarator(
+        t.identifier(dynamicBlockIteratorName),
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(
+              t.identifier("cdktf"),
+              t.identifier("TerraformIterator")
+            ),
+            t.identifier("fromList")
+          ),
+          [referenceAst]
+        )
+      ),
+    ]);
+    t.addComment(iterator, "leading", loopComment);
+    expressions.push(iterator);
+    const dynamicCallExpression = t.callExpression(
+      t.memberExpression(
+        t.identifier(dynamicBlockIteratorName),
+        t.identifier("dynamic")
+      ),
+      [
+        await valueToTs(
+          {
+            ...scope,
+            scopedVariables: {
+              [block.scopedVar]: dynamicBlockIteratorName,
+            },
+          },
+          Array.isArray(block.content) ? block.content[0] : block.content,
+          block.path.replace(block.scopedVar, ""),
+          false
+        ),
+      ]
+    );
+
+    const parts = block.path
+      .replace(`dynamic.${block.scopedVar}`, "")
+      .split(".")
+      .filter((p) => p.length > 0);
+
+    const parent = parts.reduce((acc, part) => {
+      if (Array.isArray(acc) && !Number.isNaN(parseInt(part, 10))) {
+        return acc[parseInt(part, 10)];
+      } else {
+        return acc[part];
+      }
+    }, mappedConfig);
+    parent[block.scopedVar] = dynamicCallExpression;
+    delete parent.dynamic;
+  }
 
   const overrideReference =
     dynamicBlocksUsingOverrides.length || count
@@ -513,7 +502,6 @@ export async function resource(
       resource,
       key,
       mappedConfig,
-      nodeIds,
       false,
       false,
       getReference(graph, id) || overrideReference
@@ -529,8 +517,7 @@ export async function resource(
           await valueToTs(
             { ...scope, withinOverrideExpression: true },
             count,
-            "path-for-counts-can-be-ignored",
-            nodeIds
+            "path-for-counts-can-be-ignored"
           ),
           loopComment
         )
@@ -553,25 +540,21 @@ export async function resource(
   // Check for dynamic blocks
   expressions = expressions.concat(
     await Promise.all(
-      dynamicBlocksUsingOverrides.map(
-        async ({ path, for_each, content, scopedVar }) => {
-          return addOverrideExpression(
-            varName,
-            path.substring(1), // The path starts with a dot that we don't want
-            await valueToTs(
-              { ...scope, withinOverrideExpression: true },
-              {
-                for_each,
-                content,
-              },
-              "path-for-dynamic-blocks-can-be-ignored",
-              nodeIds,
-              [scopedVar]
-            ),
-            loopComment
-          );
-        }
-      )
+      dynamicBlocksUsingOverrides.map(async ({ path, for_each, content }) => {
+        return addOverrideExpression(
+          varName,
+          path.substring(1), // The path starts with a dot that we don't want
+          await valueToTs(
+            { ...scope, withinOverrideExpression: true },
+            {
+              for_each,
+              content,
+            },
+            "path-for-dynamic-blocks-can-be-ignored"
+          ),
+          loopComment
+        );
+      })
     )
   );
 
@@ -583,7 +566,6 @@ async function asExpression(
   type: string,
   name: string,
   config: TerraformResourceBlock,
-  nodeIds: string[],
   isModuleImport: boolean,
   isProvider: boolean,
   reference?: Reference
@@ -611,8 +593,6 @@ async function asExpression(
               : undefined,
         },
         `${type}`,
-        nodeIds,
-        [],
         isModuleImport
       ),
     ]
@@ -644,10 +624,8 @@ export async function output(
   scope: ProgramScope,
   key: string,
   _id: string,
-  item: Output,
-  graph: DirectedGraph
+  item: Output
 ) {
-  const nodeIds = graph.nodes();
   const [{ value, description, sensitive }] = item;
 
   return asExpression(
@@ -659,7 +637,6 @@ export async function output(
       description,
       sensitive,
     },
-    nodeIds,
     false,
     false
   );
@@ -674,7 +651,6 @@ export async function variable(
 ) {
   // We don't handle type information right now
   const [{ type, ...props }] = item;
-  const nodeIds = graph.nodes();
 
   if (!getReference(graph, id)) {
     return [];
@@ -685,7 +661,6 @@ export async function variable(
     "cdktf.TerraformVariable",
     key,
     props,
-    nodeIds,
     false,
     false,
     getReference(graph, id)
@@ -700,7 +675,6 @@ export async function local(
   graph: DirectedGraph
 ): Promise<t.VariableDeclaration[]> {
   logger.debug(`Initializing local resource ${key} with id ${id}`);
-  const nodeIds = graph.nodes();
   if (!getReference(graph, id)) {
     logger.debug(`No reference found for ${key}`);
     return [];
@@ -709,12 +683,7 @@ export async function local(
     t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(variableName(scope, "local", key)),
-        await valueToTs(
-          scope,
-          item,
-          "path-for-local-blocks-can-be-ignored",
-          nodeIds
-        )
+        await valueToTs(scope, item, "path-for-local-blocks-can-be-ignored")
       ),
     ]),
   ];
@@ -728,7 +697,6 @@ export async function modules(
   graph: DirectedGraph
 ) {
   const [{ source, version, ...props }] = item;
-  const nodeIds = graph.nodes();
 
   const moduleConstraint = new TerraformModuleConstraint(source);
 
@@ -737,7 +705,6 @@ export async function modules(
     moduleConstraint.className,
     key,
     props,
-    nodeIds,
     true,
     false,
     getReference(graph, id)
@@ -751,7 +718,6 @@ export async function provider(
   item: Provider[0],
   graph: DirectedGraph
 ) {
-  const nodeIds = graph.nodes();
   const { version, ...props } = item;
 
   const importKey = key === "null" ? "NullProvider" : key;
@@ -761,7 +727,6 @@ export async function provider(
     `${importKey}.${pascalCase(key)}Provider`,
     key,
     props,
-    nodeIds,
     false,
     true,
     getReference(graph, id)
