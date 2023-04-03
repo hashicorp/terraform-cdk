@@ -135,10 +135,16 @@ function getAssertElementWithProperties(
     properties: Record<string, any> = {}
   ): AssertionReturn {
     let stack: SynthesizedStack;
+
+    // Rececived could either be a JSON string or a path to a file
+    const stackContent = fs.existsSync(received)
+      ? fs.readFileSync(received, "utf8")
+      : received;
+
     try {
-      stack = JSON.parse(received) as SynthesizedStack;
+      stack = JSON.parse(stackContent) as SynthesizedStack;
     } catch (e) {
-      throw new Error(`invalid JSON string passed: ${received}`);
+      throw new Error(`invalid JSON string passed: ${stackContent}`);
     }
 
     const items =
