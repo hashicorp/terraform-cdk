@@ -35,11 +35,7 @@ import {
   BlockType,
   Schema,
 } from "@cdktf/provider-generator";
-import {
-  getTypeAtPath,
-  getDesiredType,
-  isMapAttribute,
-} from "./terraformSchema";
+import { getTypeAtPath, isMapAttribute } from "./terraformSchema";
 import { coerceType } from "./coerceType";
 import { Errors } from "@cdktf/commons";
 
@@ -167,11 +163,11 @@ export const valueToTs = async (
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
-      const references = await extractReferencesFromExpression(
-        item,
-        nodeIds,
-        scopedIds
-      );
+      // const references = await extractReferencesFromExpression(
+      //   item,
+      //   nodeIds,
+      //   scopedIds
+      // );
 
       // const iteratorVariables = await extractIteratorVariablesFromExpression(
       //   item
@@ -185,19 +181,14 @@ export const valueToTs = async (
       //   iteratorVariables);
       // const ast = referencesToAst(scope, item, references, scopedIds);
 
-      const ast = await convertTerraformExpressionToTs(
-        `"${item}"`,
-        scope,
-        nodeIds,
-        scopedIds
-      );
+      return await convertTerraformExpressionToTs(`"${item}"`, scope, path);
 
-      return coerceType(
-        scope,
-        ast,
-        findTypeOfReference(scope, ast, references),
-        getDesiredType(scope, path)
-      );
+    // return coerceType(
+    //   scope,
+    //   ast,
+    //   findTypeOfReference(scope, ast, references),
+    //   getDesiredType(scope, path)
+    // );
     case "boolean":
       return t.booleanLiteral(item);
     case "number":

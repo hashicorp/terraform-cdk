@@ -8,6 +8,10 @@ import { getReferencesInExpression, getExpressionAst } from "@cdktf/hcl2json";
 import { getFullProviderName } from "./provider";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
+import { coerceType } from "./coerceType";
+import { AttributeType } from "@cdktf/provider-generator";
+import { getDesiredType, getTypeAtPath } from "./terraformSchema";
+import { toSnakeCase } from "codemaker";
 
 export type Reference = {
   start: number;
@@ -177,16 +181,14 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
 
 function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
-  scope: ProgramScope,
-  nodeIds: readonly string[],
-  scopedIds: readonly string[]
+  scope: ProgramScope
 ): t.Expression {
   if (tex.isLiteralValueExpression(node)) {
     const literalType = node.meta.type;
     if (literalType === "number") {
       return t.numericLiteral(Number(node.meta.value));
     }
-    if (literalType === "boolean") {
+    if (literalType === "bool") {
       return t.booleanLiteral(Boolean(node.meta.value));
     }
 
@@ -270,9 +272,7 @@ function convertTFExpressionAstToTs(
   if (tex.isUnaryOpExpression(node)) {
     const operand = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.valueExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     let fnName = node.meta.operator;
@@ -294,15 +294,11 @@ function convertTFExpressionAstToTs(
   if (tex.isBinaryOpExpression(node)) {
     const left = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.lhsExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
     const right = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.rhsExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     let fnName = node.meta.operator;
@@ -324,7 +320,7 @@ function convertTFExpressionAstToTs(
   if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
     const parts = node.children.map((child) => ({
       node: child,
-      expr: convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds),
+      expr: convertTFExpressionAstToTs(child, scope),
     }));
 
     if (parts.length === 0) {
@@ -361,7 +357,7 @@ function convertTFExpressionAstToTs(
     const functionName = node.meta.name;
 
     const argumentExpressions = node.children.map((child) =>
-      convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
+      convertTFExpressionAstToTs(child, scope)
     );
 
     const mapping = functionsMap[functionName];
@@ -392,8 +388,41 @@ function convertTFExpressionAstToTs(
       t.identifier(mapping.name)
     );
 
-    // TODO: Needs coercion goodness here
-    return t.callExpression(callee, argumentExpressions);
+    if (mapping.parameters.length > 0 && mapping.parameters[0].variadic) {
+      return t.callExpression(callee, [
+        t.arrayExpression(
+          argumentExpressions.map((argExpr) =>
+            coerceType(
+              scope,
+              argExpr,
+              findExpressionType(scope, argExpr),
+              mapping.parameters[0].type
+            )
+          )
+        ),
+      ]);
+    }
+
+    if (mapping.parameters.length !== argumentExpressions.length) {
+      logger.error(
+        `Function ${functionName} expects ${mapping.parameters.length} arguments, but ${argumentExpressions.length} were provided. ${leaveCommentText}`
+      );
+
+      // No coercion in this case
+      return t.callExpression(callee, argumentExpressions);
+    }
+
+    return t.callExpression(
+      callee,
+      argumentExpressions.map((argExpr, index) =>
+        coerceType(
+          scope,
+          argExpr,
+          findExpressionType(scope, argExpr),
+          mapping.parameters[index].type
+        )
+      )
+    );
   }
 
   if (tex.isSplatExpression(node)) {
@@ -403,9 +432,7 @@ function convertTFExpressionAstToTs(
     )!;
     let sourceExpression = convertTFExpressionAstToTs(
       sourceExpressionChild,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     // We don't convert the relative expression because everything after the splat is going to be
@@ -436,12 +463,7 @@ function convertTFExpressionAstToTs(
       node,
       node.meta.conditionExpression
     )!;
-    let condition = convertTFExpressionAstToTs(
-      conditionChild,
-      scope,
-      nodeIds,
-      scopedIds
-    );
+    let condition = convertTFExpressionAstToTs(conditionChild, scope);
     if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
       // We have a resource or data source here, which we would need to
       // reference using fqn
@@ -450,16 +472,12 @@ function convertTFExpressionAstToTs(
 
     const trueExpression = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.trueExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     const falseExpression = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.falseExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     const conditionalFn = t.memberExpression(
@@ -476,7 +494,7 @@ function convertTFExpressionAstToTs(
 
   if (tex.isTupleExpression(node)) {
     const expressions = node.children.map((child) =>
-      convertTFExpressionAstToTs(child, scope, nodeIds, scopedIds)
+      convertTFExpressionAstToTs(child, scope)
     );
 
     return t.arrayExpression(expressions);
@@ -489,9 +507,7 @@ function convertTFExpressionAstToTs(
     // object / resource / data thing that is being referenced
     const source = convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.sourceExpression)!,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     return t.callExpression(
@@ -511,9 +527,7 @@ function convertTFExpressionAstToTs(
 
     let collectionExpression = convertTFExpressionAstToTs(
       collectionChild,
-      scope,
-      nodeIds,
-      scopedIds
+      scope
     );
 
     if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
@@ -561,11 +575,128 @@ function convertTFExpressionAstToTs(
   return t.stringLiteral("");
 }
 
+/*
+ * Transforms a babel AST into a list of string accessors
+ * e.g. foo.bar.baz -> ["foo", "bar", "baz"]
+ */
+function destructureAst(ast: t.Expression): string[] | undefined {
+  switch (ast.type) {
+    case "Identifier":
+      return [ast.name];
+    case "MemberExpression":
+      const object = destructureAst(ast.object);
+      const property = destructureAst(ast.property as t.Expression);
+      if (object && property) {
+        return [...object, ...property];
+      } else {
+        return undefined;
+      }
+    default:
+      return undefined;
+  }
+}
+
+function typeForCallExpression(ast: t.CallExpression): AttributeType {
+  // Find all cdktf.Fn.* calls
+  if (
+    t.isMemberExpression(ast.callee) &&
+    t.isMemberExpression(ast.callee.object) &&
+    t.isIdentifier(ast.callee.object.object) &&
+    ast.callee.object.object.name === "cdktf" &&
+    t.isIdentifier(ast.callee.object.property) &&
+    ast.callee.object.property.name === "Fn" &&
+    t.isIdentifier(ast.callee.property)
+  ) {
+    const meta = functionsMap[ast.callee.property.name];
+    // TODO: change format so that map key is the function name in TS
+    if (meta) {
+      return meta.returnType;
+    } else {
+      return "dynamic";
+    }
+  }
+
+  // cdktf.conditional, cdktf.propertyAccess, cdktf.Op.* are all dynamic
+  // By default we assume dynamic
+  return "dynamic";
+}
+
+export function findExpressionType(
+  scope: ProgramScope,
+  ast: t.Expression
+): AttributeType {
+  const isReferenceWithoutTemplateString =
+    ast.type === "MemberExpression" && ast.object.type === "Identifier";
+
+  // If we have a property to cdktf.propertyAccess call it's dynamic
+  if (ast.type === "CallExpression") {
+    return typeForCallExpression(ast);
+  }
+
+  if (ast.type === "StringLiteral") {
+    return "string";
+  }
+  if (ast.type === "NumericLiteral") {
+    return "number";
+  }
+  if (ast.type === "BooleanLiteral") {
+    return "bool";
+  }
+
+  // If we only have one reference this is a
+  if (isReferenceWithoutTemplateString) {
+    const destructuredAst = destructureAst(ast);
+    if (!destructuredAst) {
+      logger.debug(
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+      );
+      return "dynamic";
+    }
+
+    const [astVariableName, ...attributes] = destructuredAst;
+    const variable = Object.values(scope.variables).find(
+      (x) => x.variableName === astVariableName
+    );
+
+    if (!variable) {
+      logger.debug(
+        `Could not find variable ${astVariableName} given scope: ${JSON.stringify(
+          scope.variables,
+          null,
+          2
+        )}`
+      );
+      // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
+      return "dynamic";
+    }
+
+    if (variable.resource === "var") {
+      return "dynamic";
+    }
+
+    const { resource: resourceType } = variable;
+    const [provider, ...resourceNameFragments] = resourceType.split("_");
+    const tfResourcePath = `${provider}.${resourceNameFragments.join(
+      "_"
+    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
+    const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
+
+    // If this is an attribute type we can return it
+    if (typeof type === "string" || Array.isArray(type)) {
+      return type;
+    }
+
+    // Either nothing is found or it's a block type
+    return "dynamic";
+  }
+
+  return "string";
+}
+
 export async function convertTerraformExpressionToTs(
   input: string,
   scope: ProgramScope,
-  nodeIds: readonly string[],
-  scopedIds: readonly string[] = [] // dynamics introduce new scoped variables that are not the globally accessible ids
+  path: string
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
   const sanitizedInput = wrapTerraformExpression(input);
@@ -577,16 +708,19 @@ export async function convertTerraformExpressionToTs(
   }
   // console.log("AST", JSON.stringify(ast, null, 2));
 
+  let tsExpression;
   if (isWrapped) {
-    return convertTFExpressionAstToTs(
-      ast.children[0],
-      scope,
-      nodeIds,
-      scopedIds
-    );
+    tsExpression = convertTFExpressionAstToTs(ast.children[0], scope);
+  } else {
+    tsExpression = convertTFExpressionAstToTs(ast, scope);
   }
 
-  return convertTFExpressionAstToTs(ast, scope, nodeIds, scopedIds);
+  return coerceType(
+    scope,
+    tsExpression,
+    findExpressionType(scope, tsExpression),
+    getDesiredType(scope, path)
+  );
 }
 
 export async function extractReferencesFromExpression(
@@ -771,6 +905,7 @@ export function variableName(
     variableName,
     resource,
   };
+
   return variableName;
 }
 
