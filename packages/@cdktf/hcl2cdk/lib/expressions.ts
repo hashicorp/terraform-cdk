@@ -33,6 +33,16 @@ function wrapTerraformExpression(input: string): string {
     return input;
   }
 
+  if (input.startsWith("<<")) {
+    // For Heredocs, we need to ensure that the string ends with an empty newline as
+    // the HCL parser doesn't find the ending token otherwise
+    if (!input.endsWith("\n")) {
+      return input + "\n";
+    }
+
+    return input;
+  }
+
   return `"${input}"`;
 }
 
