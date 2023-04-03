@@ -241,4 +241,31 @@ describe("references", () => {
     Synth.no_missing_map_access,
     { resources: ["aws_eip"] }
   );
+
+  testCase.test(
+    "access use fqn for data source",
+    `
+    provider "aws" {
+      region                      = "us-east-1"
+    }
+    data "aws_availability_zones" "changeme_az_list_ebs_snapshot" {
+      state = "available"
+    }
+    resource "aws_ebs_volume" "changeme_ebs_volume_snapshot" {
+      availability_zone = data.aws_availability_zones.changeme_az_list_ebs_snapshot.names[0]
+      size              = 10
+      type              = "standard"
+      encrypted         = false
+      tags = {
+        Name = "changeme_ebs_volume_tag"
+      }
+    }
+    `,
+    [binding.aws],
+    Synth.yes,
+    {
+      resources: ["aws_ebs_volume"],
+      dataSources: ["aws_availability_zones"],
+    }
+  );
 });

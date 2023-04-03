@@ -249,17 +249,10 @@ function convertTFExpressionAstToTs(
       tex.isIndexTraversalPart(seg)
     );
 
-    const refSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(0, indexOfNumericAccessor)
-        : subSegments;
+    const refSegments = indexOfNumericAccessor > -1 ? [] : subSegments;
+    const nonRefSegments = indexOfNumericAccessor > -1 ? subSegments : [];
 
-    const nonRefSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(indexOfNumericAccessor)
-        : [];
-
-    const ref = refSegments.reduce(
+    let ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
         t.memberExpression(
           acc,
@@ -278,7 +271,7 @@ function convertTFExpressionAstToTs(
 
     return expressionForSerialStringConcatenation([
       t.stringLiteral("${"),
-      ref,
+      t.memberExpression(ref, t.identifier("fqn")),
       t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
     ]);
   }

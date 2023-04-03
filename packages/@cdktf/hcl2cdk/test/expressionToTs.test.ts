@@ -243,7 +243,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.network_interface[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -257,7 +257,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.network_interface[0].access_config[0].assigned_nat_ip\\""`
     );
   });
 
@@ -379,7 +379,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket + \\"}[0].id\\""`
+      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}[0].id\\""`
     );
   });
 
@@ -687,6 +687,21 @@ describe("expressionToTs", () => {
     );
     expect(code(result)).toMatchInlineSnapshot(
       `"cdktf.Token.asString(cdktf.TerraformSelf.getAny(\\"subnet.id\\"))"`
+    );
+  });
+
+  test("convert a data source with numeric access", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.names[0]}"`;
+    const scope = getScope({
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.names[0]\\""`
     );
   });
 });
