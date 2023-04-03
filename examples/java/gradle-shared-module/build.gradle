@@ -5,9 +5,6 @@ subprojects {
     apply plugin: 'java'
 
     repositories {
-        flatDir {
-            dirs("../../../dist/java/com/hashicorp/cdktf/0.0.0/")
-        }
         mavenLocal()
         mavenCentral()
         maven {
@@ -78,7 +75,7 @@ if(System.getenv("CI")?.toBoolean()) {
             all {
                 resolutionStrategy.dependencySubstitution {
                     substitute(module("com.hashicorp:cdktf"))
-                            .using(module("com.hashicorp:cdktf:0.0.0"))
+                            .using(fileTree(dir: "../../../dist/java/com/hashicorp/cdktf/0.0.0/", include: "*.jar"))
                             .withoutClassifier()
                 }
             }
