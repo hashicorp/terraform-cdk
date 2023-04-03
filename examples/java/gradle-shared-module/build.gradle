@@ -5,6 +5,9 @@ subprojects {
     apply plugin: 'java'
 
     repositories {
+        flatDir {
+            dirs("../../../dist/java/com/hashicorp/cdktf/0.0.0/")
+        }
         mavenLocal()
         mavenCentral()
         maven {
