@@ -6,6 +6,7 @@ import {
   TerraformIterator,
   Fn,
   TerraformHclModule,
+  TerraformCount,
 } from "../lib";
 import { TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
@@ -347,5 +348,48 @@ test("iterator chaining on data sources", () => {
   expect(synth).toHaveProperty(
     "data.test_data_source.chained.name",
     "${each.value}"
+  );
+});
+
+test("count can count values", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformCount.of(3);
+
+  new TestDataSource(stack, "test", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty("data.test_data_source.test.count", 3);
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.name",
+    "data${count.index}"
+  );
+});
+
+test("count can count references", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const resource = new TestResource(stack, "test", { name: "foo" });
+  const it = TerraformCount.of(resource.numericValue);
+
+  new TestDataSource(stack, "test_data", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test_data.count",
+    "${test_resource.test.numeric_value}"
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test_data.name",
+    "data${count.index}"
   );
 });
