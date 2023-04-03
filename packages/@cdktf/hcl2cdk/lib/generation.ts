@@ -488,8 +488,7 @@ export async function resource(
           valueToTs(
             scope,
             { type, ...pp },
-            "path-for-provisioners-can-be-ignored",
-            nodeIds
+            "path-for-provisioners-can-be-ignored"
           )
         )
       )

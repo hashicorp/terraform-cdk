@@ -703,7 +703,11 @@ describe("expressionToTs", () => {
 EOF
 `;
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, "");
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"[{\\\\n    \\\\\\"Condition\\\\\\": {\\\\n        \\\\\\"KeyPrefixEquals\\\\\\": \\\\\\"docs/\\\\\\"\\\\n    },\\\\n    \\\\\\"Redirect\\\\\\": {\\\\n        \\\\\\"ReplaceKeyPrefixWith\\\\\\": \\\\\\"documents/\\\\\\"\\\\n    }\\\\n}]\\\\n\\""`
     );
@@ -714,7 +718,11 @@ EOF
 hello world
 EOF`;
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, "");
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
     expect(code(result)).toMatchInlineSnapshot(`"\\"hello world\\\\n\\""`);
   });
 
@@ -723,7 +731,11 @@ EOF`;
               hello world
           EOF`;
     const scope = getScope();
-    const result = await convertTerraformExpressionToTs(expression, scope, "");
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
     expect(code(result)).toMatchInlineSnapshot(`"\\"hello world\\\\n\\""`);
   });
 });

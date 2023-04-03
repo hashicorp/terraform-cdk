@@ -442,23 +442,29 @@ describe("expressions", () => {
       ).code;
     }
 
-    it("should convert iterator key accessor", () => {
-      expect(run("each.key")).toMatchInlineSnapshot(`"myIterator.key;"`);
+    it("should convert iterator key accessor", async () => {
+      expect(await run('"${each.key}"')).toMatchInlineSnapshot(
+        `"myIterator.key;"`
+      );
     });
 
-    it("should convert iterator value accessor", () => {
-      expect(run("each.value")).toMatchInlineSnapshot(`"myIterator.value;"`);
+    it("should convert iterator value accessor", async () => {
+      expect(await run('"${each.value}"')).toMatchInlineSnapshot(
+        `"myIterator.value;"`
+      );
     });
 
-    it("should convert iterator value deep accessor", () => {
-      expect(run("each.value.list.map.name")).toMatchInlineSnapshot(
+    it("should convert iterator value deep accessor", async () => {
+      expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
         `"cdktf.propertyAccess(myIterator.value, [\\"list\\", \\"map\\", \\"name\\"]);"`
       );
     });
 
-    it("should convert iterator value with map access", () => {
-      expect(run(`each.value[0]["map"]["name"]`)).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"0\\", \\"map\\", \\"name\\"]);"`
+    it("should convert iterator value with map access", async () => {
+      expect(
+        await run('"${each.value[0]["map"]["name"]}"')
+      ).toMatchInlineSnapshot(
+        `"cdktf.propertyAccess(myIterator.value, [\\"[0]\\", \\"[\\\\\\"map\\\\\\"]\\", \\"[\\\\\\"name\\\\\\"]\\"]);"`
       );
     });
   });
