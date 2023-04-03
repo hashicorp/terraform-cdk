@@ -9,7 +9,10 @@ import { getFullProviderName } from "./provider";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
 import { coerceType } from "./coerceType";
-import { AttributeType } from "@cdktf/provider-generator";
+import {
+  AttributeType,
+  sanitizeClassOrNamespaceName,
+} from "@cdktf/provider-generator";
 import { getDesiredType, getTypeAtPath } from "./terraformSchema";
 import { toSnakeCase } from "codemaker";
 
@@ -930,7 +933,7 @@ export function constructAst(
 
     // Special handling for provider blocks, e.g. aws_AwsProvider
     if (type === `${pascalCase(provider)}Provider`) {
-      return type;
+      return sanitizeClassOrNamespaceName(type, true);
     }
 
     const fullProviderName = getFullProviderName(
@@ -978,10 +981,12 @@ export function constructAst(
     }
 
     if (isDataSource) {
-      return camelCase(`data_${provider}_${resource}`);
+      return camelCase(
+        sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
+      );
     }
 
-    return camelCase(resource);
+    return camelCase(sanitizeClassOrNamespaceName(resource));
   }
 
   // resources or data sources
@@ -993,7 +998,9 @@ export function constructAst(
       const namespace = getResourceNamespace(provider, resource, true);
       const resourceName =
         getUniqueName(provider, parts.join("_")) ||
-        pascalCase(`data_${provider}_${resource}`);
+        pascalCase(
+          sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
+        );
 
       if (namespace) {
         return t.memberExpression(
@@ -1014,7 +1021,8 @@ export function constructAst(
     const [provider, resource] = parts;
     const namespace = getResourceNamespace(provider, resource, false);
     const resourceName =
-      getUniqueName(provider, parts.join("_")) || pascalCase(resource);
+      getUniqueName(provider, parts.join("_")) ||
+      pascalCase(sanitizeClassOrNamespaceName(resource));
 
     if (namespace) {
       return t.memberExpression(

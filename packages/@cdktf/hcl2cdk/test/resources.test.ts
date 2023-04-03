@@ -413,4 +413,28 @@ resource "kubernetes_secret" "secrets-xxx" {
       resources: ["scaleway_object", "scaleway_object_bucket"],
     }
   );
+
+  testCase.test(
+    "handles special resource names without schema",
+    `
+    provider "scaleway" {
+      zone   = "fr-par-1"
+      region = "fr-par"
+    }
+
+    resource "scaleway_object_bucket" "some_bucket" {
+      name = "some-unique-name"
+    }
+    
+    resource scaleway_object "some_file" {
+      bucket = scaleway_object_bucket.some_bucket.name
+      key = "object_path"
+    
+      file = "myfile"
+      hash = filemd5("myfile")
+    }
+      `,
+    [],
+    Synth.never
+  );
 });

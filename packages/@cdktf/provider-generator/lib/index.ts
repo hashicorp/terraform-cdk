@@ -17,6 +17,7 @@ export {
   Block,
   Attribute,
 } from "./get/generator/provider-schema";
+export { sanitizeClassOrNamespaceName } from "./get/generator/resource-parser";
 
 import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
