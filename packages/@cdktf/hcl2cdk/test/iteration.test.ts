@@ -35,7 +35,7 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_kms_key", "aws_s3_bucket", "aws_s3_bucket_object"],
     }
@@ -62,7 +62,7 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_iam_user"],
     }
@@ -88,7 +88,7 @@ describe("iteration", () => {
               }
             }`,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_iam_user"],
     }
@@ -112,7 +112,7 @@ describe("iteration", () => {
         }
         `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_instance"],
     }
@@ -147,7 +147,7 @@ describe("iteration", () => {
             }
           }`,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_elastic_beanstalk_environment"],
     }
@@ -198,7 +198,7 @@ describe("iteration", () => {
   }
   `,
     [binding.azuread],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["azuread_application"],
     }
@@ -254,7 +254,7 @@ describe("iteration", () => {
       }
       `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: [
         "aws_lb_listener",
