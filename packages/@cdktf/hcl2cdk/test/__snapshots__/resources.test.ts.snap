@@ -438,7 +438,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ),
       associatePublicIpAddress: true,
       connection: {
-        host: \\"\${self.public_ip}\\",
+        host: cdktf.TerraformSelf.getAny(\\"public_ip\\"),
         private_key: cdktf.Fn.file(\\"./terraform_key\\"),
         type: \\"ssh\\",
         user: \\"ubuntu\\",

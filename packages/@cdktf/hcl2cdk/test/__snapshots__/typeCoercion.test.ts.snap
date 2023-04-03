@@ -111,8 +111,15 @@ class MyConvertedCode extends cdktf.TerraformStack {
       this,
       \\"iam_user_group_membership_user_groups\\",
       {
-        groups: cdktf.Token.asList('\${each.value[\\"groups\\"]}'),
-        user: \\"\${each.key}\\",
+        groups: cdktf.Token.asList(
+          cdktf.propertyAccess(
+            awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.value,
+            ['[\\"groups\\"]']
+          )
+        ),
+        user: cdktf.Token.asString(
+          awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.key
+        ),
         forEach:
           awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator,
       }

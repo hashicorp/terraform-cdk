@@ -105,7 +105,7 @@ describe("findExpressionType", () => {
     const ast = await convertTerraformExpressionToTs(
       input,
       scope as any,
-      () => "string"
+      () => "dynamic"
     );
     const result = findExpressionType(scope as any, ast);
 
