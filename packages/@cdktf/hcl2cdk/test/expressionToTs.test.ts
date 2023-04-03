@@ -538,4 +538,41 @@ describe("expressionToTs", () => {
       `"cdktf.Fn.concat(\\"\${\\" + privateSubnets.value + \\"}.*.id\\", \\"\${\\" + publicSubnets.value + \\"}.*.id\\")"`
     );
   });
+
+  test("convert heredocs", async () => {
+    const expression = `<<EOF
+[{
+    "Condition": {
+        "KeyPrefixEquals": "docs/"
+    },
+    "Redirect": {
+        "ReplaceKeyPrefixWith": "documents/"
+    }
+}]
+EOF
+`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"[{\\\\n    \\\\\\"Condition\\\\\\": {\\\\n        \\\\\\"KeyPrefixEquals\\\\\\": \\\\\\"docs/\\\\\\"\\\\n    },\\\\n    \\\\\\"Redirect\\\\\\": {\\\\n        \\\\\\"ReplaceKeyPrefixWith\\\\\\": \\\\\\"documents/\\\\\\"\\\\n    }\\\\n}]\\\\n\\""`
+    );
+  });
+
+  test("convert heredocs without a trailing newline", async () => {
+    const expression = `<<EOF
+hello world
+EOF`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(`"\\"hello world\\\\n\\""`);
+  });
+
+  test("convert indented heredocs", async () => {
+    const expression = `<<-EOF
+              hello world
+          EOF`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(expression, scope, []);
+    expect(code(result)).toMatchInlineSnapshot(`"\\"hello world\\\\n\\""`);
+  });
 });
