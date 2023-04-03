@@ -64,6 +64,19 @@ const getFileName = (provider: ProviderName, baseName: string): string => {
   return `${toSnakeCase(baseName).replace(/_/g, "-")}/index.ts`;
 };
 
+export function sanitizeClassOrNamespaceName(
+  baseName: string,
+  isProvider = false
+) {
+  const resourceIsNamedProvider = !isProvider && baseName === "provider";
+
+  if (isReservedClassOrNamespaceName(baseName) || resourceIsNamedProvider) {
+    return `${baseName}_resource`;
+  } else {
+    return baseName;
+  }
+}
+
 class Parser {
   private structs = new Array<Struct>();
 
@@ -107,11 +120,7 @@ class Parser {
       };
     }
 
-    const resourceIsNamedProvider = !isProvider && baseName === "provider";
-
-    if (isReservedClassOrNamespaceName(baseName) || resourceIsNamedProvider) {
-      baseName = `${baseName}_resource`;
-    }
+    baseName = sanitizeClassOrNamespaceName(baseName, isProvider);
 
     const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
