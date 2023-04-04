@@ -732,12 +732,10 @@ export function findExpressionType(
   return "string";
 }
 
-export async function convertTerraformExpressionToTs(
-  input: string,
-  scope: ResourceScope,
-  targetType: () => AttributeType
-): Promise<t.Expression> {
-  logger.debug(`convertTerraformExpressionToTs(${input})`);
+export async function expressionAst(
+  input: string
+): Promise<tex.ExpressionType> {
+  console.log("expressionAst", input);
   const sanitizedInput = wrapTerraformExpression(input);
   const isWrapped = sanitizedInput.length !== input.length;
   const ast = await getExpressionAst("main.tf", sanitizedInput);
@@ -746,12 +744,23 @@ export async function convertTerraformExpressionToTs(
     throw new Error(`Unable to parse terraform expression: ${input}`);
   }
 
-  let tsExpression;
   if (isWrapped) {
-    tsExpression = convertTFExpressionAstToTs(ast.children[0], scope);
-  } else {
-    tsExpression = convertTFExpressionAstToTs(ast, scope);
+    return ast.children[0];
   }
+  return ast;
+}
+
+export async function convertTerraformExpressionToTs(
+  input: string,
+  scope: ResourceScope,
+  targetType: () => AttributeType
+): Promise<t.Expression> {
+  logger.debug(`convertTerraformExpressionToTs(${input})`);
+  console.log("convertTerraformExpressionToTs", input);
+  const tsExpression = convertTFExpressionAstToTs(
+    await expressionAst(input),
+    scope
+  );
 
   return coerceType(
     scope,

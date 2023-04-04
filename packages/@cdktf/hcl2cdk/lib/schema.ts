@@ -25,7 +25,7 @@ const variableConfig = tfObject({
   description: z.string(),
   sensitive: z.boolean(),
   nullable: z.boolean().optional(),
-  validation: z.array(z.record(validationConfig)).optional(),
+  validation: z.array(validationConfig).optional(),
 });
 export type Variable = z.infer<typeof variableConfig>;
 
