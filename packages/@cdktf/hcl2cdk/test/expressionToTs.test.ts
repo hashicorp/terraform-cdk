@@ -189,6 +189,7 @@ function getScope({
     scopedVariables: scopedVariables || {},
     forEachIteratorName,
     withinOverrideExpression,
+    nodeIds: [],
   };
 
   return scope;
@@ -870,6 +871,21 @@ EOF`;
     );
     expect(code(result)).toMatchInlineSnapshot(
       `""\${required_resource_access.value[\\"resource_access\\"]}""`
+    );
+  });
+
+  test("convert using operations while containing substring", async () => {
+    const expression =
+      // prettier-ignore
+      '"${length(var.image_id) > 4 && substr(var.image_id, 0, 4) == \"ami-\"}"';
+    const scope = getScope({});
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.names[0]""`
     );
   });
 

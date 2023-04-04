@@ -24,6 +24,8 @@ import {
   constructAst,
   isNestedDynamicBlock,
   convertTerraformExpressionToTs,
+  expressionAst,
+  findUsedReferences,
 } from "./expressions";
 import {
   TerraformModuleConstraint,
@@ -38,6 +40,7 @@ import {
   getDesiredType,
 } from "./terraformSchema";
 import { Errors } from "@cdktf/commons";
+import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -70,6 +73,14 @@ export const valueToTs = async (
 ): Promise<t.Expression> => {
   switch (typeof item) {
     case "string":
+      if (
+        (await findUsedReferences(scope.nodeIds, item)).some((ref) =>
+          path.startsWith(ref.referencee.id)
+        )
+      ) {
+        return t.stringLiteral(item);
+      }
+
       return await convertTerraformExpressionToTs(`"${item}"`, scope, () =>
         getDesiredType(scope, path)
       );
@@ -189,7 +200,8 @@ export const valueToTs = async (
                 !path.includes("lifecycle") &&
                 (key === "for_each" ||
                   !typeMetadata ||
-                  isMapAttribute(attributeType));
+                  isMapAttribute(attributeType)) &&
+                !(path.startsWith("var.") && path.includes("validation"));
 
               return t.objectProperty(
                 t.stringLiteral(
@@ -657,6 +669,59 @@ export async function output(
   );
 }
 
+export async function variableTypeToAst(type: string): Promise<t.Expression> {
+  function parsedTypeToAst(type: tex.ExpressionType): t.Expression {
+    if (tex.isScopeTraversalExpression(type)) {
+      switch (type.meta.value) {
+        case "string":
+          return t.identifier("cdktf.VariableType.STRING");
+        case "number":
+          return t.identifier("cdktf.VariableType.NUMBER");
+        case "bool":
+          return t.identifier("cdktf.VariableType.BOOL");
+        case "any":
+        default:
+          return t.identifier("cdktf.VariableType.ANY");
+      }
+    }
+
+    if (tex.isFunctionCallExpression(type)) {
+      switch (type.meta.name) {
+        case "list":
+        case "set":
+        case "map":
+        case "tuple":
+        case "object":
+          return t.callExpression(
+            t.identifier(`cdktf.VariableType.${type.meta.name}`),
+            type.children.map((child) => parsedTypeToAst(child))
+          );
+      }
+    }
+
+    if (tex.isObjectExpression(type)) {
+      return t.objectExpression(
+        Object.entries(type.meta.items).map(([key, value]) =>
+          t.objectProperty(
+            t.stringLiteral(key),
+            // This does not deal with complex types nested within objects
+            // If such a type is found it will result in an Any type
+            // e.g. { foo: list(string) } will result in { foo: any }
+            parsedTypeToAst({
+              type: "scopeTraversal",
+              meta: { value },
+            } as any)
+          )
+        )
+      );
+    }
+
+    return t.identifier("cdktf.VariableType.ANY");
+  }
+
+  return parsedTypeToAst(await expressionAst(type));
+}
+
 export async function variable(
   scope: ProgramScope,
   key: string,
@@ -664,7 +729,6 @@ export async function variable(
   item: Variable,
   graph: DirectedGraph
 ) {
-  // We don't handle type information right now
   const [{ type, ...props }] = item;
 
   if (!getReference(graph, id)) {
@@ -673,9 +737,9 @@ export async function variable(
 
   return asExpression(
     scope,
-    "cdktf.TerraformVariable",
+    id,
     key,
-    props,
+    { ...props, type: type ? await variableTypeToAst(type) : undefined },
     false,
     false,
     getReference(graph, id)

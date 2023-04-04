@@ -405,6 +405,7 @@ describe("expressions", () => {
         constructs: new Set<string>(),
         variables: {},
         hasTokenBasedTypeCoercion: false,
+        nodeIds: [],
       };
       expect(
         generate(

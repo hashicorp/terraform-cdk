@@ -120,7 +120,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const users = new cdktf.TerraformVariable(this, "users", {});
+    const users = new cdktf.TerraformVariable(this, "users", {
+      type: cdktf.VariableType.set(cdktf.VariableType.STRING),
+    });
     const awsIamUserLb = new aws.iamUser.IamUser(this, "lb", {
       name: cdktf.Token.asString(
         cdktf.Fn.element(users.value, cdktf.Token.asNumber("\${count.index}"))
@@ -154,8 +156,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const namespace = new cdktf.TerraformVariable(this, "namespace", {});
-    const settings = new cdktf.TerraformVariable(this, "settings", {});
+    const namespace = new cdktf.TerraformVariable(this, "namespace", {
+      type: cdktf.VariableType.STRING,
+    });
+    const settings = new cdktf.TerraformVariable(this, "settings", {
+      type: cdktf.VariableType.list(
+        cdktf.VariableType.map(cdktf.VariableType.STRING)
+      ),
+    });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
@@ -203,7 +211,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const buckets = new cdktf.TerraformVariable(this, "buckets", {});
+    const buckets = new cdktf.TerraformVariable(this, "buckets", {
+      type: cdktf.VariableType.list(cdktf.VariableType.STRING),
+    });
     const awsKmsKeyExamplekms = new aws.kmsKey.KmsKey(this, "examplekms", {
       deletionWindowInDays: 7,
       description: "KMS key 1",
@@ -265,7 +275,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const users = new cdktf.TerraformVariable(this, "users", {});
+    const users = new cdktf.TerraformVariable(this, "users", {
+      type: cdktf.VariableType.set(cdktf.VariableType.STRING),
+    });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
@@ -377,6 +389,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
             resource_app_id: "00000003-0000-0000-c000-000000000000",
           },
         ],
+        type: cdktf.VariableType.list(
+          cdktf.VariableType.object({
+            resource_access: cdktf.VariableType.ANY,
+            resource_app_id: cdktf.VariableType.STRING,
+          })
+        ),
       }
     );
     const azureadApplicationBootstrap = new azuread.application.Application(

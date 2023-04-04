@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression.]`;
+exports[`getExpressionAst fails on malformed expressions 1`] = `[Error: getExpressionAst errors on input string '"\${module.foo.output"': main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression. ]`;
 
 exports[`getExpressionAst list expressions 1`] = `
 {
@@ -1850,6 +1850,12 @@ exports[`getExpressionAst parses maps 1`] = `
     },
   ],
   "meta": {
+    "items": {
+      "a": ""\${replace(module.foo.output, "-", var.bar)}"",
+      "x": ""\${module.foo.output}"",
+      "y": ""val"",
+      "z": "true",
+    },
     "value": "{ x = "\${module.foo.output}", y = "val", z = true, a = "\${replace(module.foo.output, "-", var.bar)}" }",
   },
   "range": {
@@ -4019,7 +4025,7 @@ exports[`getExpressionAst variable property access 1`] = `
 }
 `;
 
-exports[`getReferencesInExpression fails on malformed expressions 1`] = `[Error: main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression.]`;
+exports[`getReferencesInExpression fails on malformed expressions 1`] = `[Error: getExpressionAst errors on input string '"\${module.foo.output"': main.tf:0,1-3: Unclosed template interpolation sequence; There is no closing brace for this interpolation sequence before the end of the quoted template. This might be caused by incorrect nesting inside the given expression. ]`;
 
 exports[`getReferencesInExpression list expressions 1`] = `
 [

@@ -109,7 +109,7 @@ func main() {
 		src := args[1].String()
 		ast, diags := hclsyntax.ParseExpression([]byte(src), filename, hcl.Pos{})
 		if diags != nil && diags.HasErrors() {
-			return nil, fmt.Errorf(diags.Error())
+			return nil, fmt.Errorf("getExpressionAst errors on input string '%s': %s ", src, diags.Error())
 		}
 
 		res, _ := expressionToMarshalledAst(src, ast)
@@ -353,6 +353,13 @@ func (w *ExpressionWalker) Enter(node hclsyntax.Node) hcl.Diagnostics {
 		w.Current.Type = "tuple"
 	case *hclsyntax.ObjectConsExpr:
 		w.Current.Type = "object"
+		items := make(map[string]string)
+		for _, item := range actualExpr.Items {
+			key := w.Input[item.KeyExpr.Range().Start.Byte:item.KeyExpr.Range().End.Byte]
+			value := w.Input[item.ValueExpr.Range().Start.Byte:item.ValueExpr.Range().End.Byte]
+			items[key] = value
+		}
+		w.Current.Meta["items"] = items
 	case *hclsyntax.TemplateExpr:
 		w.Current.Type = "template"
 	case *hclsyntax.TemplateJoinExpr:
