@@ -542,7 +542,10 @@ export async function resource(
           varName,
           path.substring(1), // The path starts with a dot that we don't want
           await valueToTs(
-            { ...scope, withinOverrideExpression: true },
+            {
+              ...scope,
+              withinOverrideExpression: true,
+            },
             {
               for_each,
               content,

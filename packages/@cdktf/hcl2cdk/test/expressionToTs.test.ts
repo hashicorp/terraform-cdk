@@ -19,6 +19,7 @@ type GetScopeParams = {
   variables?: string[];
   locals?: string[];
   forEachIteratorName?: string;
+  withinOverrideExpression?: boolean;
 };
 
 function getScope({
@@ -27,6 +28,7 @@ function getScope({
   variables,
   locals,
   forEachIteratorName,
+  withinOverrideExpression = false,
 }: GetScopeParams = {}): ResourceScope {
   const scopeVariables: ResourceScope["variables"] = {};
 
@@ -71,6 +73,7 @@ function getScope({
     variables: scopeVariables,
     hasTokenBasedTypeCoercion: true,
     forEachIteratorName,
+    withinOverrideExpression,
   };
 
   return scope;
@@ -737,5 +740,18 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`"\\"hello world\\\\n\\""`);
+  });
+
+  test("convert override expressions", async () => {
+    const expression = '"${required_resource_access.value["resource_access"]}"';
+    const scope = getScope({ withinOverrideExpression: true });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${required_resource_access.value[\\\\\\"resource_access\\\\\\"]}\\""`
+    );
   });
 });

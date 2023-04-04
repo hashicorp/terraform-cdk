@@ -226,11 +226,17 @@ function convertTFExpressionAstToTs(
       return iteratorVariableToAst(node, dynamicBlock, segments[0].segment);
     }
 
-    const varIdentifier = hasReference
-      ? t.identifier(camelCase(traversalToVariableName(scope, node)))
-      : // This is a variable reference that we don't understand yet, so we wrap it in a template string
-        // for Terraform to handle
-        t.stringLiteral(`\${${node.meta.fullAccessor}}`);
+    // This may be a variable reference that we don't understand yet, so we wrap it in a template string
+    // for Terraform to handle
+    let varIdentifier: t.Expression = t.stringLiteral(
+      `\${${node.meta.fullAccessor}}`
+    );
+
+    if (hasReference && !scope.withinOverrideExpression) {
+      varIdentifier = t.identifier(
+        camelCase(traversalToVariableName(scope, node))
+      );
+    }
 
     if (["var", "local"].includes(segments[0].segment)) {
       const variableAccessor =
@@ -251,7 +257,7 @@ function convertTFExpressionAstToTs(
       return variableAccessor;
     }
 
-    if (!hasReference) {
+    if (!hasReference || scope.withinOverrideExpression) {
       return varIdentifier;
     }
 

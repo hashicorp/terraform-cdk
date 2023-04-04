@@ -395,12 +395,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
     azureadApplicationBootstrap.addOverride(
       \\"dynamic.required_resource_access\\",
       {
-        for_each: requiredResourceAccess.value,
+        for_each: \\"\${var.required_resource_access}\\".value,
         content: [
           {
             resource_access: [],
             resource_app_id:
-              \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_app_id\\"]',
+              '\${required_resource_access.value[\\"resource_app_id\\"]}',
           },
         ],
       }
@@ -412,11 +412,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
     azureadApplicationBootstrap.addOverride(
       \\"dynamic.required_resource_access.0.content.0.dynamic.resource_access\\",
       {
-        for_each: \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_access\\"]',
+        for_each: '\${required_resource_access.value[\\"resource_access\\"]}',
         content: [
           {
-            id: \\"\${\\" + resourceAccessValue + '}[\\"id\\"]',
-            type: \\"\${\\" + resourceAccessValue + '}[\\"type\\"]',
+            id: '\${resource_access.value[\\"id\\"]}',
+            type: '\${resource_access.value[\\"type\\"]}',
           },
         ],
       }
