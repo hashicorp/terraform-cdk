@@ -17,19 +17,31 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const exampleSpotAndFargateName = new cdktf.TerraformVariable(
       this,
       "example_spot_and_fargate_name",
-      {}
+      {
+        type: cdktf.VariableType.STRING,
+      }
     );
     const privateSubnets = new cdktf.TerraformVariable(
       this,
       "private_subnets",
-      {}
+      {
+        type: cdktf.VariableType.list(
+          cdktf.VariableType.object({
+            id: cdktf.VariableType.STRING,
+          })
+        ),
+      }
     );
-    const publicSubnets = new cdktf.TerraformVariable(
-      this,
-      "public_subnets",
-      {}
-    );
-    const roleArn = new cdktf.TerraformVariable(this, "role_arn", {});
+    const publicSubnets = new cdktf.TerraformVariable(this, "public_subnets", {
+      type: cdktf.VariableType.list(
+        cdktf.VariableType.object({
+          id: cdktf.VariableType.STRING,
+        })
+      ),
+    });
+    const roleArn = new cdktf.TerraformVariable(this, "role_arn", {
+      type: cdktf.VariableType.STRING,
+    });
     new aws.eksCluster.EksCluster(
       this,
       "example_spot_and_fargate_eks_cluster",
@@ -65,7 +77,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const zoneId = new cdktf.TerraformVariable(this, "zone_id", {});
+    const zoneId = new cdktf.TerraformVariable(this, "zone_id", {
+      type: cdktf.VariableType.STRING,
+    });
     new aws.route53Record.Route53Record(
       this,
       "example_aws_route53_simple_record",
@@ -99,7 +113,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const iamGroupsUsers = new cdktf.TerraformVariable(
       this,
       "iam_groups_users",
-      {}
+      {
+        type: cdktf.VariableType.map(
+          cdktf.VariableType.object({
+            groups: cdktf.VariableType.ANY,
+          })
+        ),
+      }
     );
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
@@ -177,7 +197,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const zoneId = new cdktf.TerraformVariable(this, "zone_id", {});
+    const zoneId = new cdktf.TerraformVariable(this, "zone_id", {
+      type: cdktf.VariableType.STRING,
+    });
     new aws.route53Record.Route53Record(
       this,
       "example_aws_route53_simple_record",

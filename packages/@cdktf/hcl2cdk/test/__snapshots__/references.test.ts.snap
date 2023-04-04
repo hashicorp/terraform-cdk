@@ -71,6 +71,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const bucketName = new cdktf.TerraformVariable(this, "bucket_name", {
       default: "demo",
+      type: cdktf.VariableType.STRING,
     });
     const dataAwsS3BucketExamplebucket =
       new aws.dataAwsS3Bucket.DataAwsS3Bucket(this, "examplebucket", {
@@ -102,6 +103,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const bucketName = new cdktf.TerraformVariable(this, "bucket_name", {
       default: "demo",
+      type: cdktf.VariableType.STRING,
     });
     new aws.s3Bucket.S3Bucket(this, "examplebucket", {
       acl: "private",
@@ -256,6 +258,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const bucketName = new cdktf.TerraformVariable(this, "bucket_name", {
       default: "demo",
+      type: cdktf.VariableType.STRING,
     });
     new aws.s3Bucket.S3Bucket(this, "examplebucket", {
       acl: "private",

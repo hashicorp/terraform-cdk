@@ -86,8 +86,6 @@ export async function convertToTypescript(
   logger.debug("Converting to typescript");
   const plan = await getParsedHcl(hcl);
 
-  logger.debug(`Parsed HCL: ${JSON.stringify(plan, null, 2)}`);
-
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
   const scope: ProgramScope = {
@@ -105,6 +103,7 @@ export async function convertToTypescript(
     constructs: new Set<string>(),
     variables: {},
     hasTokenBasedTypeCoercion: false,
+    nodeIds: [],
   };
 
   const graph = new DirectedGraph<{
@@ -145,6 +144,7 @@ export async function convertToTypescript(
 
   // Finding references becomes easier of the to be referenced ids are already known
   const nodeIds = Object.keys(nodeMap);
+  scope.nodeIds = nodeIds;
   async function addEdges(id: string, value: TerraformResourceBlock) {
     (await findUsedReferences(nodeIds, value)).forEach((ref) => {
       if (
@@ -158,6 +158,12 @@ export async function convertToTypescript(
             } to ${id} but ${id} does not exist. 
             These nodes exist: ${graph.nodes().join("\n")}`
           );
+        }
+
+        // The graph should have no self-references
+        if (id === ref.referencee.id) {
+          logger.debug(`Skipping self-reference for ${id}`);
+          return;
         }
 
         logger.debug(`Adding edge from ${ref.referencee.id} to ${id}`);
@@ -258,6 +264,16 @@ export async function convertToTypescript(
       `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
     );
   } while (nodesToVisit.length > 0 && nodesVisitedThisIteration != 0);
+
+  if (nodesToVisit.length > 0) {
+    throw new Error(
+      `There are ${
+        nodesToVisit.length
+      } terraform elements that could not be visited. 
+      This is likely due to a cycle in the dependency graph. 
+      These nodes are: ${nodesToVisit.join(", ")}`
+    );
+  }
 
   logger.debug(
     `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`

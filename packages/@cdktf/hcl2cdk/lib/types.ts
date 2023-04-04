@@ -19,6 +19,7 @@ export type ProgramScope = {
   >;
   // Temporary flag to indicate if we need to import the cdktf library to access the token class
   hasTokenBasedTypeCoercion: boolean;
+  nodeIds: string[]; // temporarily added until replaced
 };
 
 export type ResourceScope = ProgramScope & {

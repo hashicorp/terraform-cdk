@@ -104,6 +104,10 @@ export type BinaryOpExpressionMeta = ExpressionMeta & {
   rhsExpression: string;
 };
 
+export type ObjectExpressionMeta = ExpressionMeta & {
+  items: Record<string, string>;
+};
+
 export type MetaType =
   | ExpressionMeta
   | ScopeTraversalExpressionMeta
@@ -115,7 +119,8 @@ export type MetaType =
   | SplatExpressionMeta
   | ConditionalExpressionMeta
   | UnaryOpExpressionMeta
-  | BinaryOpExpressionMeta;
+  | BinaryOpExpressionMeta
+  | ObjectExpressionMeta;
 
 export type CommonExpressionAst = {
   children: ExpressionType[];
@@ -192,6 +197,11 @@ export type BinaryOpExpression = CommonExpressionAst & {
   meta: BinaryOpExpressionMeta;
 };
 
+export type ObjectExpression = CommonExpressionAst & {
+  type: "object";
+  meta: ObjectExpressionMeta; // Doesn't have any special meta attributes
+};
+
 export type ExpressionType =
   | ForExpression
   | TemplateWrapExpression
@@ -205,7 +215,8 @@ export type ExpressionType =
   | SplatExpression
   | ConditionalExpression
   | UnaryOpExpression
-  | BinaryOpExpression;
+  | BinaryOpExpression
+  | ObjectExpression;
 
 export function isForExpression(ast: ExpressionType): ast is ForExpression {
   return ast.type === "for";
@@ -275,6 +286,12 @@ export function isBinaryOpExpression(
 
 export function isTupleExpression(ast: ExpressionType): ast is TupleExpression {
   return ast.type === "tuple";
+}
+
+export function isObjectExpression(
+  part: ExpressionType
+): part is ObjectExpression {
+  return part.type === "object";
 }
 
 export function isNameTraversalPart(
