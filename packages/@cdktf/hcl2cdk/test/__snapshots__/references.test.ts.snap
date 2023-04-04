@@ -217,9 +217,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
       \\"examplebucket\\",
       {
         acl: \\"private\\",
-        bucket: \\"examplebuckettftest\\",
+        bucket: \\"examplebuckettftest-\${count.index}\\",
       }
     );
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    awsS3BucketExamplebucket.addOverride(\\"count\\", 2);
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
       bucket: cdktf.Token.asString(
         cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), [
