@@ -131,6 +131,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       tags: {
         "tag-key": "tag-value",
       },
+      count: awsIamUserLbCountIterator,
     });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
@@ -456,6 +457,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.provider.AwsProvider(this, "aws", {
       region: "us-east-1",
     });
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    const awsInstanceMultipleServersCountIterator = cdktf.TerraformCount.of(
+      cdktf.Token.asNumber(\\"4\\")
+    );
     const awsInstanceMultipleServers = new aws.instance.Instance(
       this,
       "multiple_servers",
@@ -465,6 +473,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
         tags: {
           Name: "Server \${count.index}",
         },
+        count: awsInstanceMultipleServersCountIterator,
       }
     );
     /*In most cases loops should be handled in the programming language context and 
