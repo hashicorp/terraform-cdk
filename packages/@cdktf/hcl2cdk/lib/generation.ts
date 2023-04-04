@@ -538,6 +538,10 @@ export async function resource(
   expressions = expressions.concat(
     await Promise.all(
       dynamicBlocksUsingOverrides.map(async ({ path, for_each, content }) => {
+        // We need to let the expression conversion know all available
+        // dynamic block names, so we don't replace them. The "dynamic-block"
+        // scoped variable indicates to the expression conversion to use the
+        // key name instead of an iterator
         const scopedVariablesInPath = Object.fromEntries(
           path
             .split(".")
