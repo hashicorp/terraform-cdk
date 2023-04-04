@@ -20,6 +20,7 @@ type GetScopeParams = {
   locals?: string[];
   forEachIteratorName?: string;
   withinOverrideExpression?: boolean;
+  scopedVariables?: Record<string, string>;
 };
 
 function getScope({
@@ -28,6 +29,7 @@ function getScope({
   variables,
   locals,
   forEachIteratorName,
+  scopedVariables,
   withinOverrideExpression = false,
 }: GetScopeParams = {}): ResourceScope {
   const scopeVariables: ResourceScope["variables"] = {};
@@ -72,6 +74,7 @@ function getScope({
     constructs: new Set<string>(),
     variables: scopeVariables,
     hasTokenBasedTypeCoercion: true,
+    scopedVariables: scopedVariables || {},
     forEachIteratorName,
     withinOverrideExpression,
   };
@@ -744,7 +747,12 @@ EOF`;
 
   test("convert override expressions", async () => {
     const expression = '"${required_resource_access.value["resource_access"]}"';
-    const scope = getScope({ withinOverrideExpression: true });
+    const scope = getScope({
+      withinOverrideExpression: true,
+      scopedVariables: {
+        required_resource_access: "dynamic-block",
+      },
+    });
     const result = await convertTerraformExpressionToTs(
       expression,
       scope,
