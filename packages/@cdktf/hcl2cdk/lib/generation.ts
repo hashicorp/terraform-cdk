@@ -538,13 +538,24 @@ export async function resource(
   expressions = expressions.concat(
     await Promise.all(
       dynamicBlocksUsingOverrides.map(async ({ path, for_each, content }) => {
+        const scopedVariablesInPath = Object.fromEntries(
+          path
+            .split(".")
+            .filter(
+              (p) =>
+                p !== "" &&
+                !["dynamic", "content"].includes(p) &&
+                isNaN(parseInt(p))
+            )
+            .map((p) => [p, "dynamic-block"])
+        );
         return addOverrideExpression(
           varName,
           path.substring(1), // The path starts with a dot that we don't want
           await valueToTs(
             {
               ...scope,
-              withinOverrideExpression: true,
+              scopedVariables: scopedVariablesInPath,
             },
             {
               for_each,

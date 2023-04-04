@@ -203,7 +203,7 @@ function convertTFExpressionAstToTs(
     const segments = node.meta.traversal;
 
     if (segments[0].segment === "each" && scope.forEachIteratorName) {
-      return iteratorVariableToAst(node, scope.forEachIteratorName);
+      return dynamicVariableToAst(node, scope.forEachIteratorName);
     }
 
     if (segments[0].segment === "self") {
@@ -223,7 +223,14 @@ function convertTFExpressionAstToTs(
     // setting.value, setting.value[1].id
     const dynamicBlock = scope.scopedVariables?.[segments[0].segment];
     if (dynamicBlock) {
-      return iteratorVariableToAst(node, dynamicBlock, segments[0].segment);
+      if (dynamicBlock === "dynamic-block") {
+        return dynamicVariableToAst(
+          node,
+          dynamicBlock,
+          traversalPartsToString(segments)
+        );
+      }
+      return dynamicVariableToAst(node, dynamicBlock, segments[0].segment);
     }
 
     // This may be a variable reference that we don't understand yet, so we wrap it in a template string
@@ -1112,11 +1119,18 @@ export function getPropertyAccessPath(input: string): string[] {
     .map((p) => (p.startsWith(`"`) && p.endsWith(`"`) ? p.slice(1, -1) : p));
 }
 
-export function iteratorVariableToAst(
+export function dynamicVariableToAst(
   node: tex.ScopeTraversalExpression,
   iteratorName: string,
   block: string = "each"
 ): t.Expression {
+  if (iteratorName === "dynamic-block") {
+    return expressionForSerialStringConcatenation([
+      t.stringLiteral("${"),
+      t.stringLiteral(block),
+      t.stringLiteral("}"),
+    ]);
+  }
   if (node.meta.value === `${block}.key`) {
     return t.memberExpression(t.identifier(iteratorName), t.identifier("key"));
   }
