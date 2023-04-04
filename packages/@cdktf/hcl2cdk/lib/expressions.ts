@@ -239,7 +239,7 @@ function convertTFExpressionAstToTs(
       `\${${node.meta.fullAccessor}}`
     );
 
-    if (hasReference && !scope.withinOverrideExpression) {
+    if (hasReference) {
       varIdentifier = t.identifier(
         camelCase(traversalToVariableName(scope, node))
       );

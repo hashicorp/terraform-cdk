@@ -395,7 +395,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     azureadApplicationBootstrap.addOverride(
       \\"dynamic.required_resource_access\\",
       {
-        for_each: \\"\${var.required_resource_access}\\".value,
+        for_each: requiredResourceAccess.value,
         content: [
           {
             resource_access: [],

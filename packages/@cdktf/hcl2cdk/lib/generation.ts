@@ -555,6 +555,7 @@ export async function resource(
           await valueToTs(
             {
               ...scope,
+              withinOverrideExpression: true,
               scopedVariables: scopedVariablesInPath,
             },
             {
