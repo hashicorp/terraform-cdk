@@ -24,6 +24,7 @@ export type ProgramScope = {
 
 export type ResourceScope = ProgramScope & {
   forEachIteratorName?: string; // set if a for_each is used in this resource
+  countIteratorName?: string; // set if a count is used in this resource
   withinOverrideExpression?: boolean; // set if we are currently within an override expression
   scopedVariables?: Record<string, string>; // set if we are currently within an dynamic block expression
 };

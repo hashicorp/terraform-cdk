@@ -397,6 +397,34 @@ export async function resource(
     mappedConfig.forEach = t.identifier(forEachIteratorName);
   }
 
+  let countIteratorName: string | undefined;
+  if (count) {
+    countIteratorName = variableName(scope, resource, `${key}_count_iterator`);
+    const referenceAst = await convertTerraformExpressionToTs(
+      `"${count}"`,
+      scope,
+      () => "number"
+    );
+    const iterator = t.variableDeclaration("const", [
+      t.variableDeclarator(
+        t.identifier(countIteratorName),
+        t.callExpression(
+          t.memberExpression(
+            t.memberExpression(
+              t.identifier("cdktf"),
+              t.identifier("TerraformCount")
+            ),
+            t.identifier("of")
+          ),
+          [referenceAst]
+        )
+      ),
+    ]);
+    t.addComment(iterator, "leading", loopComment);
+    mappedConfig.count = t.identifier(countIteratorName);
+    expressions.push(iterator);
+  }
+
   const dynBlocks = extractDynamicBlocks(mappedConfig);
   const nestedDynamicBlocks = dynBlocks.filter((block) =>
     isNestedDynamicBlock(dynBlocks, block)
@@ -509,7 +537,7 @@ export async function resource(
 
   expressions = expressions.concat(
     await asExpression(
-      { ...scope, forEachIteratorName },
+      { ...scope, forEachIteratorName, countIteratorName },
       resource,
       key,
       mappedConfig,
@@ -518,33 +546,6 @@ export async function resource(
       getReference(graph, id) || overrideReference
     )
   );
-
-  if (count) {
-    if (typeof count === "number") {
-      expressions.push(
-        addOverrideExpression(
-          varName,
-          "count",
-          await valueToTs(
-            { ...scope, withinOverrideExpression: true },
-            count,
-            "path-for-counts-can-be-ignored"
-          ),
-          loopComment
-        )
-      );
-    } else {
-      const referenceAst = await convertTerraformExpressionToTs(
-        `"${count}"`,
-        scope,
-        () => "number"
-      );
-
-      expressions.push(
-        addOverrideExpression(varName, "count", referenceAst, loopComment)
-      );
-    }
-  }
 
   // Check for dynamic blocks
   expressions = expressions.concat(

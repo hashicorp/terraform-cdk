@@ -237,6 +237,10 @@ function convertTFExpressionAstToTs(
       return dynamicVariableToAst(node, scope.forEachIteratorName);
     }
 
+    if (segments[0].segment === "count" && scope.countIteratorName) {
+      return iteratorVariableToAst(node, scope.countIteratorName, "count");
+    }
+
     if (segments[0].segment === "self") {
       return t.callExpression(
         t.memberExpression(
@@ -1199,6 +1203,14 @@ export function dynamicVariableToAst(
       t.identifier("value")
     );
   }
+
+  if (block === "count" && node.meta.value === `${block}.index`) {
+    return t.memberExpression(
+      t.identifier(iteratorName),
+      t.identifier("index")
+    );
+  }
+
   const segments = node.meta.traversal;
 
   if (
