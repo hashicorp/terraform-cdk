@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { iteratorVariableToAst, getPropertyAccessPath } from "../expressions";
+import { dynamicVariableToAst, getPropertyAccessPath } from "../expressions";
 import { ProgramScope } from "../types";
 import {
   extractReferencesFromExpression,
@@ -433,7 +433,7 @@ describe("expressions", () => {
       return generate(
         t.program([
           t.expressionStatement(
-            iteratorVariableToAst(
+            dynamicVariableToAst(
               ast!.children[0] as tex.ScopeTraversalExpression,
               "myIterator"
             )
