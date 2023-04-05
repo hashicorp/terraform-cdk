@@ -12,22 +12,22 @@ describe("iteration", () => {
           variable "buckets" {
             type    = list(string)
           }
-    
+
           resource "aws_kms_key" "examplekms" {
             description             = "KMS key 1"
             deletion_window_in_days = 7
           }
-          
+
           resource "aws_s3_bucket" "examplebucket" {
             for_each = toset(var.buckets.*)
-    
+
             bucket = each.key
             acl    = "private"
           }
-          
+
           resource "aws_s3_bucket_object" "examplebucket_object" {
             for_each = toset(aws_s3_bucket.examplebucket.*)
-    
+
             key        = "someobject"
             bucket     = each.key
             source     = "index.html"
@@ -35,7 +35,7 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_kms_key", "aws_s3_bucket", "aws_s3_bucket_object"],
     }
@@ -50,19 +50,19 @@ describe("iteration", () => {
           variable "users" {
             type = set(string)
           }
-    
+
           resource "aws_iam_user" "lb" {
             for_each = var.users
             name = each.key
             path = "/system/"
-          
+
             tags = {
               tag-key = "tag-value"
             }
           }
           `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_iam_user"],
     }
@@ -77,18 +77,18 @@ describe("iteration", () => {
             variable "users" {
               type = set(string)
             }
-    
+
             resource "aws_iam_user" "lb" {
               count = length(var.users)
               name = element(var.users, count.index)
               path = "/system/"
-            
+
               tags = {
                 tag-key = "tag-value"
               }
             }`,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_iam_user"],
     }
@@ -102,17 +102,17 @@ describe("iteration", () => {
         }
         resource "aws_instance" "multiple_servers" {
           count = 4
-        
+
           ami           = "ami-0c2b8ca1dad447f8a"
           instance_type = "t2.micro"
-        
+
           tags = {
             Name = "Server \${count.index}"
           }
         }
         `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_instance"],
     }
@@ -127,16 +127,16 @@ describe("iteration", () => {
           variable "settings" {
             type = list(map(string))
           }
-    
+
           variable "namespace" {
             type = string
           }
-    
+
           resource "aws_elastic_beanstalk_environment" "tfenvtest" {
             name                = "tf-test-name"
             application         = "best-app"
             solution_stack_name = "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6"
-          
+
             dynamic "setting" {
               for_each = var.settings
               content {
@@ -147,7 +147,7 @@ describe("iteration", () => {
             }
           }`,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["aws_elastic_beanstalk_environment"],
     }
@@ -159,6 +159,7 @@ describe("iteration", () => {
     provider "azuread" {
       tenant_id = "00000000-0000-0000-0000-000000000000"
     }
+
   variable required_resource_access {
     type = list(object({
       resource_app_id = string
@@ -167,7 +168,7 @@ describe("iteration", () => {
         type = string
       }))
     }))
-  
+
     default = [{
       resource_app_id = "00000003-0000-0000-c000-000000000000"
       resource_access = [{
@@ -176,16 +177,16 @@ describe("iteration", () => {
       }]
     }]
   }
-  
+
   resource "azuread_application" "bootstrap" {
     display_name               = "test"
     group_membership_claims    = "All"
-  
+
     dynamic "required_resource_access" {
       for_each = var.required_resource_access
       content {
         resource_app_id = required_resource_access.value["resource_app_id"]
-  
+
         dynamic "resource_access" {
           for_each = required_resource_access.value["resource_access"]
           content {
@@ -198,7 +199,7 @@ describe("iteration", () => {
   }
   `,
     [binding.azuread],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["azuread_application"],
     }
@@ -209,17 +210,17 @@ describe("iteration", () => {
       provider "aws" {
         region = "us-east-1"
       }
-    
+
       resource "aws_acm_certificate" "example" {
         domain_name       = "example.com"
         validation_method = "DNS"
       }
-      
+
       data "aws_route53_zone" "example" {
         name         = "example.com"
         private_zone = false
       }
-      
+
       resource "aws_route53_record" "example" {
         for_each = {
           for dvo in aws_acm_certificate.example.domain_validation_options : dvo.domain_name => {
@@ -228,7 +229,7 @@ describe("iteration", () => {
             type   = dvo.resource_record_type
           }
         }
-      
+
         allow_overwrite = true
         name            = each.value.name
         records         = [each.value.record]
@@ -236,17 +237,17 @@ describe("iteration", () => {
         type            = each.value.type
         zone_id         = data.aws_route53_zone.example.zone_id
       }
-      
+
       resource "aws_acm_certificate_validation" "example" {
         certificate_arn         = aws_acm_certificate.example.arn
         validation_record_fqdns = [for record in aws_route53_record.example : record.fqdn]
       }
-      
+
       resource "aws_lb_listener" "example" {
         # ... other configuration ...
-        
+
         certificate_arn   = aws_acm_certificate_validation.example.certificate_arn
-        load_balancer_arn = "best-lb-arn" 
+        load_balancer_arn = "best-lb-arn"
         default_action  {
           type             = "forward"
           target_group_arn = "best-target"
@@ -254,7 +255,7 @@ describe("iteration", () => {
       }
       `,
     [binding.aws],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: [
         "aws_lb_listener",
@@ -286,13 +287,13 @@ describe("iteration", () => {
               var.one_set_of_users,
               var.other_set_of_users,
             )
-          
+
             user_principal_name = "\${each.value}\${var.azure_ad_domain_name}"
             display_name        = each.key
           }
           `,
     [binding.azuread],
-    Synth.no_iteration_does_not_work,
+    Synth.yes,
     {
       resources: ["azuread_user"],
     }

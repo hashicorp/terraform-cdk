@@ -33,23 +33,35 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsRoute53RecordExampleForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${{
-          for dvo in \${awsAcmCertificateExample.domainValidationOptions} : dvo.domain_name => {
-            name   = dvo.resource_record_name
-            record = dvo.resource_record_value
-            type   = dvo.resource_record_type
-          }
-        }}\`)
+        cdktf.Token.asAny(
+          \\"\${{ for dvo in \${\\" +
+            awsAcmCertificateExample.domainValidationOptions +
+            \\"} : dvo.domain_name => {\\\\n            name   = dvo.resource_record_name\\\\n            record = dvo.resource_record_value\\\\n            type   = dvo.resource_record_type\\\\n          }}}\\"
+        )
       );
     const awsRoute53RecordExample = new aws.route53Record.Route53Record(
       this,
       \\"example_3\\",
       {
         allowOverwrite: true,
-        name: \\"\${each.value.name}\\",
-        records: [\\"\${each.value.record}\\"],
+        name: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"name\\",
+          ])
+        ),
+        records: [
+          cdktf.Token.asString(
+            cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+              \\"record\\",
+            ])
+          ),
+        ],
         ttl: 60,
-        type: \\"\${each.value.type}\\",
+        type: cdktf.Token.asString(
+          cdktf.propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
+            \\"type\\",
+          ])
+        ),
         zoneId: cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId),
         forEach: awsRoute53RecordExampleForEachIterator,
       }
@@ -122,7 +134,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    awsIamUserLb.addOverride(\\"count\\", \`\\\\\${length(\${users.value})}\`);
+    awsIamUserLb.addOverride(\\"count\\", cdktf.Fn.lengthOf(users.value));
   }
 }
 "
@@ -160,9 +172,15 @@ class MyConvertedCode extends cdktf.TerraformStack {
           \\"64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6\\",
         setting:
           awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.dynamic({
-            name: \\"\${\\" + settingValue + '}[\\"name\\"]',
+            name: cdktf.propertyAccess(
+              awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
+              ['[\\"name\\"]']
+            ),
             namespace: namespace.value,
-            value: \\"\${\\" + settingValue + '}[\\"value\\"]',
+            value: cdktf.propertyAccess(
+              awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
+              ['[\\"value\\"]']
+            ),
           }),
       }
     );
@@ -196,14 +214,16 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsS3BucketExamplebucketForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${toset(\${buckets.value}.*)}\`)
+        cdktf.Token.asAny(cdktf.Fn.toset(\\"\${\\" + buckets.value + \\"}.*\\"))
       );
     const awsS3BucketExamplebucket = new aws.s3Bucket.S3Bucket(
       this,
       \\"examplebucket\\",
       {
         acl: \\"private\\",
-        bucket: \\"\${each.key}\\",
+        bucket: cdktf.Token.asString(
+          awsS3BucketExamplebucketForEachIterator.key
+        ),
         forEach: awsS3BucketExamplebucketForEachIterator,
       }
     );
@@ -213,10 +233,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsS3BucketObjectExamplebucketObjectForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${toset(\${awsS3BucketExamplebucket.fqn}.*)}\`)
+        cdktf.Token.asAny(
+          cdktf.Fn.toset(\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.*\\")
+        )
       );
     new aws.s3BucketObject.S3BucketObject(this, \\"examplebucket_object\\", {
-      bucket: \\"\${each.key}\\",
+      bucket: cdktf.Token.asString(
+        awsS3BucketObjectExamplebucketObjectForEachIterator.key
+      ),
       key: \\"someobject\\",
       kmsKeyId: cdktf.Token.asString(awsKmsKeyExamplekms.arn),
       source: \\"index.html\\",
@@ -250,7 +274,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       cdktf.Token.asAny(users.value)
     );
     new aws.iamUser.IamUser(this, \\"lb\\", {
-      name: \\"\${each.key}\\",
+      name: cdktf.Token.asString(awsIamUserLbForEachIterator.key),
       path: \\"/system/\\",
       tags: {
         \\"tag-key\\": \\"tag-value\\",
@@ -303,14 +327,20 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const azureadUserAzureUsersForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(\`\\\\\${merge(
-              \${oneSetOfUsers.value},
-              \${otherSetOfUsers.value},
-            )}\`)
+        cdktf.Token.asAny(
+          cdktf.Fn.merge([oneSetOfUsers.value, otherSetOfUsers.value])
+        )
       );
     new azuread.user.User(this, \\"azure_users\\", {
-      displayName: \\"\${each.key}\\",
-      userPrincipalName: \\"\${each.value}\${\\" + azureAdDomainName.value + \\"}\\",
+      displayName: cdktf.Token.asString(
+        azureadUserAzureUsersForEachIterator.key
+      ),
+      userPrincipalName:
+        \\"\${\\" +
+        azureadUserAzureUsersForEachIterator.value +
+        \\"\${\\" +
+        azureAdDomainName.value +
+        \\"}\\",
       forEach: azureadUserAzureUsersForEachIterator,
     });
   }
@@ -370,7 +400,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
           {
             resource_access: [],
             resource_app_id:
-              \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_app_id\\"]',
+              '\${required_resource_access.value[\\"resource_app_id\\"]}',
           },
         ],
       }
@@ -382,11 +412,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
     azureadApplicationBootstrap.addOverride(
       \\"dynamic.required_resource_access.0.content.0.dynamic.resource_access\\",
       {
-        for_each: \\"\${\\" + requiredResourceAccessValue + '}[\\"resource_access\\"]',
+        for_each: '\${required_resource_access.value[\\"resource_access\\"]}',
         content: [
           {
-            id: \\"\${\\" + resourceAccessValue + '}[\\"id\\"]',
-            type: \\"\${\\" + resourceAccessValue + '}[\\"type\\"]',
+            id: '\${resource_access.value[\\"id\\"]}',
+            type: '\${resource_access.value[\\"type\\"]}',
           },
         ],
       }

@@ -266,7 +266,7 @@ export async function convertToTypescript(
   const backendExpressions = (
     await Promise.all(
       plan.terraform?.map((terraform) =>
-        backendToExpression(scope, terraform.backend, nodeIds)
+        backendToExpression(scope, terraform.backend)
       ) || [Promise.resolve([])]
     )
   ).reduce((carry, item) => [...carry, ...item], []);

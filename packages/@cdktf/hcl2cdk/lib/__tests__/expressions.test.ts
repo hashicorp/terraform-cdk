@@ -2,16 +2,14 @@
 // SPDX-License-Identifier: MPL-2.0
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import {
-  iteratorVariableToAst,
-  referencesToAst,
-  getPropertyAccessPath,
-} from "../expressions";
+import { dynamicVariableToAst, getPropertyAccessPath } from "../expressions";
 import { ProgramScope } from "../types";
 import {
   extractReferencesFromExpression,
   referenceToAst,
 } from "../expressions";
+import { getExpressionAst } from "@cdktf/hcl2json";
+import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 
 const nodeIds = [
   "var.input",
@@ -429,68 +427,44 @@ describe("expressions", () => {
     });
   });
 
-  describe("#referencesToAst", () => {
-    it("nested terraform expressions without space", async () => {
-      const scope: ProgramScope = {
-        providerSchema: { format_version: "0.1" },
-        providerGenerator: {},
-        constructs: new Set<string>(),
-        variables: {},
-        hasTokenBasedTypeCoercion: false,
-      };
-      const expr = `\${"\${each.value}\${var.azure_ad_domain_name}"}`;
-      const references = await extractReferencesFromExpression(expr, [
-        "var.azure_ad_domain_name",
-      ]);
-      expect(
-        generate(
-          t.program([
-            t.expressionStatement(referencesToAst(scope, expr, references, [])),
-          ]) as any
-        ).code
-      ).toMatchInlineSnapshot(
-        `"\`\\\\\${\\"\\\\\${each.value}\\\\\${\${azureAdDomainName.value}}\\"}\`;"`
-      );
-    });
-  });
-
   describe("#iteratorVariableToAst", () => {
-    function run(value: string) {
+    async function run(value: string) {
+      const ast = await getExpressionAst("main.tf", value);
       return generate(
         t.program([
           t.expressionStatement(
-            iteratorVariableToAst(
-              {
-                forEachIteratorName: "myIterator",
-              } as any,
-              {
-                start: 0,
-                end: value.length,
-                value,
-              }
+            dynamicVariableToAst(
+              ast!.children[0] as tex.ScopeTraversalExpression,
+              "myIterator"
             )
           ),
         ]) as any
       ).code;
     }
 
-    it("should convert iterator key accessor", () => {
-      expect(run("each.key")).toMatchInlineSnapshot(`"myIterator.key;"`);
+    it("should convert iterator key accessor", async () => {
+      expect(await run('"${each.key}"')).toMatchInlineSnapshot(
+        `"myIterator.key;"`
+      );
     });
 
-    it("should convert iterator value accessor", () => {
-      expect(run("each.value")).toMatchInlineSnapshot(`"myIterator.value;"`);
+    it("should convert iterator value accessor", async () => {
+      expect(await run('"${each.value}"')).toMatchInlineSnapshot(
+        `"myIterator.value;"`
+      );
     });
 
-    it("should convert iterator value deep accessor", () => {
-      expect(run("each.value.list.map.name")).toMatchInlineSnapshot(
+    it("should convert iterator value deep accessor", async () => {
+      expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
         `"cdktf.propertyAccess(myIterator.value, [\\"list\\", \\"map\\", \\"name\\"]);"`
       );
     });
 
-    it("should convert iterator value with map access", () => {
-      expect(run(`each.value[0]["map"]["name"]`)).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"0\\", \\"map\\", \\"name\\"]);"`
+    it("should convert iterator value with map access", async () => {
+      expect(
+        await run('"${each.value[0]["map"]["name"]}"')
+      ).toMatchInlineSnapshot(
+        `"cdktf.propertyAccess(myIterator.value, [\\"[0]\\", \\"[\\\\\\"map\\\\\\"]\\", \\"[\\\\\\"name\\\\\\"]\\"]);"`
       );
     });
   });

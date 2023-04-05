@@ -140,7 +140,8 @@ describe("references", () => {
       }
       
       resource "aws_s3_bucket" "examplebucket" {
-        bucket = "examplebuckettftest"
+        count  = 2
+        bucket = "examplebuckettftest-\${count.index}"
         acl    = "private"
       }
       
@@ -151,7 +152,7 @@ describe("references", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
     [binding.aws],
-    Synth.never,
+    Synth.no_cant_resolve_construct,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
     }
