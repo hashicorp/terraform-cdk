@@ -25,7 +25,7 @@ type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes_all_languages, // Synth and snapshot all languages
   yes,
-  no_iteration_does_not_work,
+  no_cant_resolve_construct,
   no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }

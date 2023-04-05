@@ -544,15 +544,14 @@ export async function resource(
         // key name instead of an iterator
         const scopedVariablesInPath = Object.fromEntries(
           path
+            .substring(1) // The path starts with a dot that results in an empty split
             .split(".")
             .filter(
-              (p) =>
-                p !== "" &&
-                !["dynamic", "content"].includes(p) &&
-                isNaN(parseInt(p))
+              (p) => !["dynamic", "content"].includes(p) && isNaN(parseInt(p))
             )
             .map((p) => [p, "dynamic-block"])
         );
+
         return addOverrideExpression(
           varName,
           path.substring(1), // The path starts with a dot that we don't want

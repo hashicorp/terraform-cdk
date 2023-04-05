@@ -152,7 +152,7 @@ describe("references", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
     [binding.aws],
-    Synth.yes,
+    Synth.no_cant_resolve_construct,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
     }
