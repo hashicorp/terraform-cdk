@@ -239,9 +239,23 @@ describe("expressionToTs", () => {
     );
   });
 
-  test("use no fqn if property is present on numeric access", async () => {
+  test("use no fqn if property is present on numeric access using dot notation", async () => {
     const expression =
       "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}";
+    const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
+    );
+  });
+
+  test("use no fqn if property is present on numeric access using []", async () => {
+    const expression =
+      "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
       expression,
