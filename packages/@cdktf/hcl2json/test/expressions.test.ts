@@ -81,7 +81,7 @@ describe("getReferencesInExpression", () => {
   });
 
   test("fails on malformed expressions", () => {
-    expect(
+    return expect(
       getReferencesInExpression("main.tf", '"${module.foo.output"')
     ).rejects.toMatchSnapshot();
   });
@@ -137,11 +137,13 @@ describe("getExpressionAst", () => {
     ],
     ["list expressions", `"\${ [var.tags.app, var.tags.env] }"`],
   ])("%s", async (_, input) => {
-    expect(getExpressionAst("main.tf", input)).resolves.toMatchSnapshot();
+    return expect(
+      getExpressionAst("main.tf", input)
+    ).resolves.toMatchSnapshot();
   });
 
   test("fails on malformed expressions", async () => {
-    expect(
+    return expect(
       getExpressionAst("main.tf", '"${module.foo.output"')
     ).rejects.toMatchSnapshot();
   });
