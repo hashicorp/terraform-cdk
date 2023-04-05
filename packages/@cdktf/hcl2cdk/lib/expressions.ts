@@ -181,6 +181,37 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
   );
 }
 
+function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
+  const segments = node.meta.traversal;
+  let resource = segments[0].segment;
+  let result = [];
+  let attributes = [];
+
+  if (segments[0].segment === "data") {
+    result.push(segments[0].segment);
+    resource = segments[1].segment;
+    attributes = segments.slice(3); // we want to skip the variable name
+  } else {
+    attributes = segments.slice(2); // we want to skip the variable name
+  }
+
+  const [provider, ...resourceNameFragments] = resource.split("_");
+
+  result.push(provider);
+  result.push(resourceNameFragments.join("_"));
+  result = [
+    ...result,
+    ...attributes.map((seg) => {
+      if (tex.isIndexTraversalPart(seg)) {
+        return `[${seg.segment}]`;
+      }
+      return seg.segment;
+    }),
+  ];
+
+  return result.join(".");
+}
+
 function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
@@ -269,21 +300,15 @@ function convertTFExpressionAstToTs(
     }
 
     const rootSegment = segments[0].segment;
-    const subSegments =
-      rootSegment === "data" ? segments.slice(3) : segments.slice(2);
-    const indexOfNumericAccessor = subSegments.findIndex((seg) =>
+    const attributeIndex = rootSegment === "data" ? 3 : 2;
+    const attributeSegments = segments.slice(attributeIndex);
+    const indexOfNumericAccessor = attributeSegments.findIndex((seg) =>
       tex.isIndexTraversalPart(seg)
     );
+    const needsFqn = indexOfNumericAccessor > -1;
 
-    const refSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(0, indexOfNumericAccessor)
-        : subSegments;
-
-    const nonRefSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(indexOfNumericAccessor)
-        : [];
+    const refSegments = needsFqn ? [] : attributeSegments;
+    const nonRefSegments = needsFqn ? attributeSegments : [];
 
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
@@ -304,7 +329,7 @@ function convertTFExpressionAstToTs(
 
     return expressionForSerialStringConcatenation([
       t.stringLiteral("${"),
-      ref,
+      needsFqn ? t.memberExpression(ref, t.identifier("fqn")) : ref,
       t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
     ]);
   }
@@ -687,7 +712,7 @@ export function findExpressionType(
     const destructuredAst = destructureAst(ast);
     if (!destructuredAst) {
       logger.debug(
-        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)} `
       );
       return "dynamic";
     }
@@ -703,7 +728,7 @@ export function findExpressionType(
           scope.variables,
           null,
           2
-        )}`
+        )} `
       );
       // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
       return "dynamic";
@@ -717,7 +742,7 @@ export function findExpressionType(
     const [provider, ...resourceNameFragments] = resourceType.split("_");
     const tfResourcePath = `${provider}.${resourceNameFragments.join(
       "_"
-    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
+    )}.${attributes.map((x) => toSnakeCase(x)).join(".")} `;
     const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
 
     // If this is an attribute type we can return it
@@ -743,7 +768,7 @@ export async function convertTerraformExpressionToTs(
   const ast = await getExpressionAst("main.tf", sanitizedInput);
 
   if (!ast) {
-    throw new Error(`Unable to parse terraform expression: ${input}`);
+    throw new Error(`Unable to parse terraform expression: ${input} `);
   }
 
   let tsExpression;
@@ -773,7 +798,7 @@ export async function extractReferencesFromExpression(
   );
 
   logger.debug(
-    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)}`
+    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)} `
   );
 
   return possibleVariableSpots.reduce((carry, spot) => {
@@ -792,14 +817,14 @@ export async function extractReferencesFromExpression(
       value.startsWith("terraform.workspace") ||
       value.startsWith("self.") // block local value
     ) {
-      logger.debug(`skipping ${value}`);
+      logger.debug(`skipping ${value} `);
       return carry;
     }
 
     const referenceParts = value.split(".");
 
     logger.debug(
-      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`
+      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)} `
     );
     const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
@@ -818,10 +843,10 @@ export async function extractReferencesFromExpression(
       // This is most likely a false positive, so we just ignore it
       // We include the log below to help debugging
       logger.error(
-        `Found a reference that is unknown: ${input} has reference "${value}". The id was not found in ${JSON.stringify(
+        `Found a reference that is unknown: ${input} has reference "${value}".The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-${leaveCommentText}`
+${leaveCommentText} `
       );
       return carry;
     }
