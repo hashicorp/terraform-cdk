@@ -102,6 +102,11 @@ export const binding = {
     type: ProviderType.provider,
     path: "providers/scaleway",
   },
+  external: {
+    fqn: "hashicorp/external@=2.3.1",
+    type: ProviderType.provider,
+    path: "providers/external",
+  },
   awsVpc: {
     fqn: "terraform-aws-modules/vpc/aws@=3.19.0",
     type: ProviderType.module,

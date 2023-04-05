@@ -144,6 +144,9 @@ function traversalToVariableName(
   }
 
   const segments = node.meta.traversal;
+  if (segments.length === 1) {
+    return node.meta.fullAccessor;
+  }
   const rootSegment = segments[0].segment;
   const resource =
     rootSegment === "data"
