@@ -13,7 +13,7 @@ describe("sanitizeVarFiles", () => {
         p.replace(cwd, "<rootDir>")
       )
     ).toMatchInlineSnapshot(`
-      Array [
+      [
         "<rootDir>/terraform.tfvars",
         "<rootDir>/hey-there.auto.tfvars",
         "<rootDir>/foo.tfvars",

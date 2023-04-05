@@ -2,9 +2,9 @@
 
 exports[`boolean output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": true
+  "output": {
+    "test-output": {
+      "value": true
     }
   }
 }"
@@ -12,31 +12,31 @@ exports[`boolean output 1`] = `
 
 exports[`dependent output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"depends_on\\": [
-        \\"\${test_resource.weird-long-running-resource}\\"
+  "output": {
+    "test-output": {
+      "depends_on": [
+        "\${test_resource.weird-long-running-resource}"
       ],
-      \\"value\\": 1
+      "value": 1
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"weird-long-running-resource\\": {
-        \\"name\\": \\"foo\\"
+  "resource": {
+    "test_resource": {
+      "weird-long-running-resource": {
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -45,10 +45,10 @@ exports[`dependent output 1`] = `
 
 exports[`description output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"description\\": \\"test-description\\",
-      \\"value\\": 1
+  "output": {
+    "test-output": {
+      "description": "test-description",
+      "value": 1
     }
   }
 }"
@@ -56,28 +56,28 @@ exports[`description output 1`] = `
 
 exports[`expression output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": \\"\${upper(\\\\\\"foo\\\\\\")}\\"
+  "output": {
+    "test-output": {
+      "value": "\${upper(\\"foo\\")}"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"foo\\": {
-        \\"name\\": \\"foo\\"
+  "resource": {
+    "test_resource": {
+      "foo": {
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -86,28 +86,28 @@ exports[`expression output 1`] = `
 
 exports[`full resource output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": \\"\${test_resource.foo}\\"
+  "output": {
+    "test-output": {
+      "value": "\${test_resource.foo}"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"foo\\": {
-        \\"name\\": \\"foo\\"
+  "resource": {
+    "test_resource": {
+      "foo": {
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -116,11 +116,11 @@ exports[`full resource output 1`] = `
 
 exports[`list output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": [
-        \\"foo\\",
-        \\"bar\\"
+  "output": {
+    "test-output": {
+      "value": [
+        "foo",
+        "bar"
       ]
     }
   }
@@ -129,10 +129,10 @@ exports[`list output 1`] = `
 
 exports[`map output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": {
-        \\"foo\\": \\"bar\\"
+  "output": {
+    "test-output": {
+      "value": {
+        "foo": "bar"
       }
     }
   }
@@ -141,9 +141,9 @@ exports[`map output 1`] = `
 
 exports[`number output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": 1
+  "output": {
+    "test-output": {
+      "value": 1
     }
   }
 }"
@@ -151,31 +151,31 @@ exports[`number output 1`] = `
 
 exports[`resource map output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": {
-        \\"myResource\\": \\"\${test_resource.foo}\\",
-        \\"something\\": \\"else\\"
+  "output": {
+    "test-output": {
+      "value": {
+        "myResource": "\${test_resource.foo}",
+        "something": "else"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"foo\\": {
-        \\"name\\": \\"foo\\"
+  "resource": {
+    "test_resource": {
+      "foo": {
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -184,34 +184,34 @@ exports[`resource map output 1`] = `
 
 exports[`resource[] output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": [
-        \\"\${test_resource.foo1}\\",
-        \\"\${test_resource.foo2}\\"
+  "output": {
+    "test-output": {
+      "value": [
+        "\${test_resource.foo1}",
+        "\${test_resource.foo2}"
       ]
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"foo1\\": {
-        \\"name\\": \\"foo1\\"
+  "resource": {
+    "test_resource": {
+      "foo1": {
+        "name": "foo1"
       },
-      \\"foo2\\": {
-        \\"name\\": \\"foo2\\"
+      "foo2": {
+        "name": "foo2"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -220,10 +220,10 @@ exports[`resource[] output 1`] = `
 
 exports[`sensitive output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"sensitive\\": true,
-      \\"value\\": 1
+  "output": {
+    "test-output": {
+      "sensitive": true,
+      "value": 1
     }
   }
 }"
@@ -231,9 +231,9 @@ exports[`sensitive output 1`] = `
 
 exports[`static output id (without feature flags enabled) 1`] = `
 "{
-  \\"output\\": {
-    \\"my_static_output_name\\": {
-      \\"value\\": \\"1\\"
+  "output": {
+    "my_static_output_name": {
+      "value": "1"
     }
   }
 }"
@@ -241,9 +241,9 @@ exports[`static output id (without feature flags enabled) 1`] = `
 
 exports[`string output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": \\"1\\"
+  "output": {
+    "test-output": {
+      "value": "1"
     }
   }
 }"
@@ -251,13 +251,13 @@ exports[`string output 1`] = `
 
 exports[`variable output 1`] = `
 "{
-  \\"output\\": {
-    \\"test-output\\": {
-      \\"value\\": \\"\${var.test-variable}\\"
+  "output": {
+    "test-output": {
+      "value": "\${var.test-variable}"
     }
   },
-  \\"variable\\": {
-    \\"test-variable\\": {
+  "variable": {
+    "test-variable": {
     }
   }
 }"

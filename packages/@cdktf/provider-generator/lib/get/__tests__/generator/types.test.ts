@@ -432,7 +432,7 @@ test("incompatible resource names", async () => {
 
   const files = fs.readdirSync(path.join(workdir, "providers/test"));
   expect(files).toMatchInlineSnapshot(`
-    Array [
+    [
       "function-resource",
       "index.ts",
       "object-resource",

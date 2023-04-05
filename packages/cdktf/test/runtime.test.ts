@@ -14,13 +14,13 @@ describe("Runtime", () => {
 
       expect(resolveExpression(listMapper(identity)(["a", "b", "c", "d"])))
         .toMatchInlineSnapshot(`
-              Array [
-                "a",
-                "b",
-                "c",
-                "d",
-              ]
-            `);
+        [
+          "a",
+          "b",
+          "c",
+          "d",
+        ]
+      `);
       expect(identity).toHaveBeenCalledTimes(4);
     });
 
@@ -33,14 +33,14 @@ describe("Runtime", () => {
       expect(
         resolveExpression(listMapper(identity)(["a", reference, "b", "c", "d"]))
       ).toMatchInlineSnapshot(`
-              Array [
-                "a",
-                "\${some_resource.my_resource.some_attribute_array}",
-                "b",
-                "c",
-                "d",
-              ]
-            `);
+        [
+          "a",
+          "\${some_resource.my_resource.some_attribute_array}",
+          "b",
+          "c",
+          "d",
+        ]
+      `);
       expect(identity).toHaveBeenCalledTimes(5);
     });
 
@@ -68,7 +68,7 @@ describe("Runtime", () => {
           x: listMapper(identity)(Token.asList(reference)),
         })
       ).toMatchInlineSnapshot(`
-        Object {
+        {
           "x": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
@@ -84,7 +84,7 @@ describe("Runtime", () => {
           match_labels: hashMapper(anyToTerraform)(reference),
         })
       ).toMatchInlineSnapshot(`
-        Object {
+        {
           "match_labels": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
@@ -101,7 +101,7 @@ describe("Runtime", () => {
           x: listMapper(identity)(reference),
         })
       ).toMatchInlineSnapshot(`
-        Object {
+        {
           "x": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
@@ -118,7 +118,7 @@ describe("Runtime", () => {
           x: listMapper(identity)(reference),
         })
       ).toMatchInlineSnapshot(`
-        Object {
+        {
           "x": "\${some_resource.my_resource.some_attribute_array}",
         }
       `);
@@ -135,8 +135,8 @@ describe("Runtime", () => {
           x: listMapper(identity)(["a", reference, "b"]),
         })
       ).toMatchInlineSnapshot(`
-        Object {
-          "x": Array [
+        {
+          "x": [
             "a",
             "\${some_resource.my_resource.some_attribute_array}",
             "b",

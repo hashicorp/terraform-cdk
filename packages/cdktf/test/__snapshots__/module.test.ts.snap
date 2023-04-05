@@ -2,17 +2,17 @@
 
 exports[`depends on 1`] = `
 "{
-  \\"module\\": {
-    \\"test_1\\": {
-      \\"source\\": \\"./assets/local-module-test_1/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test_1": {
+      "source": "./assets/local-module-test_1/EF2B4CE432B6BA0BE6788E2EB57445E5"
     },
-    \\"test_2\\": {
-      \\"depends_on\\": [
-        \\"module.test_1\\"
+    "test_2": {
+      "depends_on": [
+        "module.test_1"
       ],
-      \\"module_parameter\\": \\"myParam\\",
-      \\"source\\": \\"my-module\\",
-      \\"version\\": \\"1.0\\"
+      "module_parameter": "myParam",
+      "source": "my-module",
+      "version": "1.0"
     }
   }
 }"
@@ -20,11 +20,11 @@ exports[`depends on 1`] = `
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"module_parameter\\": \\"myParam\\",
-      \\"source\\": \\"my-module\\",
-      \\"version\\": \\"1.0\\"
+  "module": {
+    "test": {
+      "module_parameter": "myParam",
+      "source": "my-module",
+      "version": "1.0"
     }
   }
 }"
@@ -32,28 +32,28 @@ exports[`minimal configuration 1`] = `
 
 exports[`simple provider 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"module_parameter\\": \\"myParam\\",
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
+  "module": {
+    "test": {
+      "module_parameter": "myParam",
+      "providers": {
+        "test": "test.provider1"
       },
-      \\"source\\": \\"my-module\\",
-      \\"version\\": \\"1.0\\"
+      "source": "my-module",
+      "version": "1.0"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider1\\"
+        "access_key": "key",
+        "alias": "provider1"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }

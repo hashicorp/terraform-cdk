@@ -2,67 +2,67 @@
 
 exports[`python terraform functions test synth synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"overrides\\": {
-        \\"null_resource\\": [
-          \\"triggers\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "overrides": {
+        "null_resource": [
+          "triggers"
         ],
-        \\"stack\\": [
-          \\"terraform\\"
+        "stack": [
+          "terraform"
         ]
       },
-      \\"stackName\\": \\"python-simple\\",
-      \\"version\\": \\"stubbed\\"
+      "stackName": "python-simple",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"python-simple\\": {
-        \\"computed\\": \\"computed\\"
+    "outputs": {
+      "python-simple": {
+        "computed": "computed"
       }
     }
   },
-  \\"output\\": {
-    \\"computed\\": {
-      \\"value\\": \\"\${element(merge({\\\\\\"id\\\\\\" = null_resource.nullresource.id}, {\\\\\\"value\\\\\\" = \\\\\\"123\\\\\\"}), 1)}\\"
+  "output": {
+    "computed": {
+      "value": "\${element(merge({\\\"id\\\" = null_resource.nullresource.id}, {\\\"value\\\" = \\\"123\\\"}), 1)}"
     }
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"nullresource\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"python-simple/null-resource\\",
-            \\"uniqueId\\": \\"nullresource\\"
+  "resource": {
+    "null_resource": {
+      "nullresource": {
+        "//": {
+          "metadata": {
+            "path": "python-simple/null-resource",
+            "uniqueId": "nullresource"
           }
         },
-        \\"triggers\\": {
-          \\"cluster_instance_ids\\": \\"foo\\"
+        "triggers": {
+          "cluster_instance_ids": "foo"
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       },
-      \\"remote\\": {
-        \\"organization\\": \\"test\\",
-        \\"workspaces\\": {
-          \\"name\\": \\"test\\"
+      "remote": {
+        "organization": "test",
+        "workspaces": {
+          "name": "test"
         }
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       }
     }
   }

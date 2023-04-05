@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`merge arrays 1`] = `"{\\"foo\\":[1,2,3,4]}"`;
+exports[`merge arrays 1`] = `"{"foo":[1,2,3,4]}"`;
 
-exports[`merge objects 1`] = `"{\\"foo\\":{\\"bar\\":2,\\"baz\\":3}}"`;
+exports[`merge objects 1`] = `"{"foo":{"bar":2,"baz":3}}"`;

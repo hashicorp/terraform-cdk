@@ -131,7 +131,7 @@ describe("edge provider test", () => {
 
       // Expands single item references
       expect(item.singlereq).toMatchInlineSnapshot(`
-        Object {
+        {
           "computedbool": "\${list_block_resource.list.singlereq[0].computedbool}",
           "computednum": "\${list_block_resource.list.singlereq[0].computednum}",
           "computedstr": "\${list_block_resource.list.singlereq[0].computedstr}",

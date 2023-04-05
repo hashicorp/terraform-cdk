@@ -15,9 +15,9 @@ test("static values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${abs(-42)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${abs(-42)}"
         }
       }
     }"
@@ -37,14 +37,14 @@ test("dynamic values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${abs(var.test-var)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${abs(var.test-var)}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "test-var": {
+          "type": "number"
         }
       }
     }"
@@ -64,14 +64,14 @@ test("spreaded mixed values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${max(10, var.test-var, 200)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${max(10, var.test-var, 200)}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "test-var": {
+          "type": "number"
         }
       }
     }"
@@ -91,14 +91,14 @@ test("spreaded token value", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${max(var.test-var)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${max(var.test-var)}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"list(number)\\"
+      "variable": {
+        "test-var": {
+          "type": "list(number)"
         }
       }
     }"
@@ -114,9 +114,9 @@ test("string values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${parseint(\\\\\\"-210\\\\\\", 10)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${parseint(\\"-210\\", 10)}"
         }
       }
     }"
@@ -140,14 +140,14 @@ test("mixed string spreads values", () => {
   });
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${format(\\\\\\"There are %d out of %d lights are on in %s\\\\\\", var.test-var, 4, \\\\\\"Hamburg\\\\\\")}\\"
+      "output": {
+        "test-output": {
+          "value": "\${format(\\"There are %d out of %d lights are on in %s\\", var.test-var, 4, \\"Hamburg\\")}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "test-var": {
+          "type": "number"
         }
       }
     }"
@@ -180,17 +180,17 @@ test("combined functions", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${try(lookup(element(var.list, var.index), \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\"), timestamp(), uuid())}\\"
+      "output": {
+        "test-output": {
+          "value": "\${try(lookup(element(var.list, var.index), \\"internal\\", \\"waaat\\"), timestamp(), uuid())}"
         }
       },
-      \\"variable\\": {
-        \\"index\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "index": {
+          "type": "number"
         },
-        \\"list\\": {
-          \\"type\\": \\"list(object({\\\\n      internal = number\\\\n      external = number\\\\n      protocol = string\\\\n    }))\\"
+        "list": {
+          "type": "list(object({\\n      internal = number\\n      external = number\\n      protocol = string\\n    }))"
         }
       }
     }"
@@ -211,14 +211,14 @@ test("function with varadic args", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${merge(var.test-var, [1, 2, 3])}\\"
+      "output": {
+        "test-output": {
+          "value": "\${merge(var.test-var, [1, 2, 3])}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"list(number)\\"
+      "variable": {
+        "test-var": {
+          "type": "list(number)"
         }
       }
     }"
@@ -246,17 +246,17 @@ test("complex example", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${cidrsubnet(lookup(merge(var.test-var1, var.test-var2), \\\\\\"key\\\\\\", \\\\\\"default\\\\\\"), 4, 2)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${cidrsubnet(lookup(merge(var.test-var1, var.test-var2), \\"key\\", \\"default\\"), 4, 2)}"
         }
       },
-      \\"variable\\": {
-        \\"test-var1\\": {
-          \\"type\\": \\"object({ key = number})\\"
+      "variable": {
+        "test-var1": {
+          "type": "object({ key = number})"
         },
-        \\"test-var2\\": {
-          \\"type\\": \\"object({ key = number})\\"
+        "test-var2": {
+          "type": "object({ key = number})"
         }
       }
     }"
@@ -277,14 +277,14 @@ test("interpolation within string ", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${cidrsubnet(\\\\\\"172.16.0.0/\${var.test-var}\\\\\\", 2, 3)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${cidrsubnet(\\"172.16.0.0/\${var.test-var}\\", 2, 3)}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "test-var": {
+          "type": "number"
         }
       }
     }"
@@ -309,14 +309,14 @@ test("functions with object inputs", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${lookup({\\\\\\"var\\\\\\" = var.test-var, \\\\\\"stat\\\\\\" = 4, \\\\\\"internal\\\\\\" = true, \\\\\\"yes\\\\\\" = \\\\\\"no\\\\\\"}, \\\\\\"internal\\\\\\", \\\\\\"waaat\\\\\\")}\\"
+      "output": {
+        "test-output": {
+          "value": "\${lookup({\\"var\\" = var.test-var, \\"stat\\" = 4, \\"internal\\" = true, \\"yes\\" = \\"no\\"}, \\"internal\\", \\"waaat\\")}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"number\\"
+      "variable": {
+        "test-var": {
+          "type": "number"
         }
       }
     }"
@@ -333,9 +333,9 @@ test("quoted primitives in list", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${join(\\\\\\", \\\\\\", [\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"])}\\"
+      "output": {
+        "test-output": {
+          "value": "\${join(\\", \\", [\\"world\\", \\"hello\\"])}"
         }
       }
     }"
@@ -352,9 +352,9 @@ test("quoted primitives, unquoted functions", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${join(\\\\\\", \\\\\\", [join(\\\\\\" \\\\\\", reverse([\\\\\\"world\\\\\\", \\\\\\"hello\\\\\\"]))])}\\"
+      "output": {
+        "test-output": {
+          "value": "\${join(\\", \\", [join(\\" \\", reverse([\\"world\\", \\"hello\\"]))])}"
         }
       }
     }"
@@ -380,9 +380,9 @@ test("nested objects and arrays as args", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${jsonencode({\\\\\\"Statement\\\\\\" = [{\\\\\\"Action\\\\\\" = \\\\\\"sts:AssumeRole\\\\\\", \\\\\\"Effect\\\\\\" = \\\\\\"Allow\\\\\\", \\\\\\"Principal\\\\\\" = {\\\\\\"Service\\\\\\" = \\\\\\"lambda.amazonaws.com\\\\\\"}}], \\\\\\"Version\\\\\\" = \\\\\\"2012-10-17\\\\\\"})}\\"
+      "output": {
+        "test-output": {
+          "value": "\${jsonencode({\\"Statement\\" = [{\\"Action\\" = \\"sts:AssumeRole\\", \\"Effect\\" = \\"Allow\\", \\"Principal\\" = {\\"Service\\" = \\"lambda.amazonaws.com\\"}}], \\"Version\\" = \\"2012-10-17\\"})}"
         }
       }
     }"
@@ -401,15 +401,15 @@ test("terraform local", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"locals\\": {
-        \\"list\\": [
-          \\"world\\",
-          \\"hello\\"
+      "locals": {
+        "list": [
+          "world",
+          "hello"
         ]
       },
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${reverse(local.list)}\\"
+      "output": {
+        "test-output": {
+          "value": "\${reverse(local.list)}"
         }
       }
     }"
@@ -431,15 +431,15 @@ test("undefined and null", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"locals\\": {
-        \\"value\\": \\"hello world\\"
+      "locals": {
+        "value": "hello world"
       },
-      \\"output\\": {
-        \\"json-object\\": {
-          \\"value\\": \\"\${jsonencode({\\\\\\"a\\\\\\" = \\\\\\"hello\\\\\\", \\\\\\"b\\\\\\" = 123, \\\\\\"c\\\\\\" = null})}\\"
+      "output": {
+        "json-object": {
+          "value": "\${jsonencode({\\"a\\" = \\"hello\\", \\"b\\" = 123, \\"c\\" = null})}"
         },
-        \\"test-output\\": {
-          \\"value\\": \\"\${coalesce(local.value, 42, false)}\\"
+        "test-output": {
+          "value": "\${coalesce(local.value, 42, false)}"
         }
       }
     }"
@@ -491,9 +491,9 @@ test("throws no error when wrapping unescaped double quotes in Fn.rawString", ()
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"test-output\\": {
-          \\"value\\": \\"\${md5(\\\\\\"\\\\\\\\\\\\\\"\\\\\\")}\\"
+      "output": {
+        "test-output": {
+          "value": "\${md5(\\"\\\\\\"\\")}"
         }
       }
     }"
@@ -539,8 +539,8 @@ test("tomap does not destroy incoming ref", () => {
     )
   ).toMatchInlineSnapshot(`
     "{
-      \\"locals\\": {
-        \\"test\\": \\"\${tomap(test.instance.attr)}\\"
+      "locals": {
+        "test": "\${tomap(test.instance.attr)}"
       }
     }"
   `);
@@ -550,6 +550,6 @@ it("errors mentioning function name and argument", () => {
   expect(() =>
     Fn.replace("this value is ok", `this one " not`, "this is okay")
   ).toThrowErrorMatchingInlineSnapshot(
-    `"Argument 1 of replace failed the validation: Error: 'this one \\" not' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
+    `"Argument 1 of replace failed the validation: Error: 'this one " not' can not be used as value directly since it has unescaped double quotes in it. To safely use the value please use Fn.rawString on your string."`
   );
 });

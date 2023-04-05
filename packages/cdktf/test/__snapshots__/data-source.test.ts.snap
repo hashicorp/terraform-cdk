@@ -2,33 +2,33 @@
 
 exports[`dependent data source 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"data_source\\": {
-        \\"depends_on\\": [
-          \\"test_resource.resource\\"
+  "data": {
+    "test_data_source": {
+      "data_source": {
+        "depends_on": [
+          "test_resource.resource"
         ],
-        \\"name\\": \\"foo\\"
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"name\\": \\"foo\\"
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -37,23 +37,23 @@ exports[`dependent data source 1`] = `
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -62,30 +62,30 @@ exports[`minimal configuration 1`] = `
 
 exports[`with any map 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.any_map[\\\\\\"id\\\\\\"]}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${data.test_data_source.test.any_map[\\"id\\"]}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -94,30 +94,30 @@ exports[`with any map 1`] = `
 
 exports[`with boolean map 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.boolean_map[\\\\\\"id\\\\\\"]}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${data.test_data_source.test.boolean_map[\\"id\\"]}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -126,30 +126,30 @@ exports[`with boolean map 1`] = `
 
 exports[`with complex computed list 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.complex_computed_list[0].id}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${data.test_data_source.test.complex_computed_list[0].id}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -158,30 +158,30 @@ exports[`with complex computed list 1`] = `
 
 exports[`with number map 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.number_map[\\\\\\"id\\\\\\"]}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${data.test_data_source.test.number_map[\\"id\\"]}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -190,30 +190,30 @@ exports[`with number map 1`] = `
 
 exports[`with string map 1`] = `
 "{
-  \\"data\\": {
-    \\"test_data_source\\": {
-      \\"test\\": {
-        \\"name\\": \\"foo\\"
+  "data": {
+    "test_data_source": {
+      "test": {
+        "name": "foo"
       }
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${data.test_data_source.test.string_map[\\\\\\"id\\\\\\"]}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${data.test_data_source.test.string_map[\\"id\\"]}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }

@@ -134,9 +134,9 @@ describe("matchers", () => {
         Found 1 test_resource resources instead:
         [
           {
-            \\"name\\": \\"test\\",
-            \\"tags\\": {
-              \\"foo\\": \\"bar\\"
+            "name": "test",
+            "tags": {
+              "foo": "bar"
             }
           }
         ]"

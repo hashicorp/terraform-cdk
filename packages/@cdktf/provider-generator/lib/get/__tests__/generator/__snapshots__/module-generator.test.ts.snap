@@ -7744,7 +7744,7 @@ export interface EksConfig extends TerraformModuleUserConfig {
    */
   readonly iamPath?: string;
   /**
-   * Any additional arguments to pass to the authenticator such as the role to assume. e.g. [\\"-r\\", \\"MyEksRole\\"].
+   * Any additional arguments to pass to the authenticator such as the role to assume. e.g. ["-r", "MyEksRole"].
    * @default 
    */
   readonly kubeconfigAwsAuthenticatorAdditionalArgs?: string[];
@@ -7759,7 +7759,7 @@ export interface EksConfig extends TerraformModuleUserConfig {
    */
   readonly kubeconfigAwsAuthenticatorCommandArgs?: string[];
   /**
-   * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = \\"eks\\"}.
+   * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = "eks"}.
    * @default [object Object]
    * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
    */
