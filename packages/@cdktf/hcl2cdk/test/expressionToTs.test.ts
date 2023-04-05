@@ -65,6 +65,11 @@ const providerSchema = {
                 description_kind: "plain",
                 computed: true,
               },
+              testing_map: {
+                type: ["map", "string"],
+                description_kind: "plain",
+                computed: true,
+              },
             },
             block_types: {
               filter: {
@@ -870,6 +875,22 @@ EOF`;
     );
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.names[0]\\""`
+    );
+  });
+
+  test("convert a reference to a map access", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.testing_map.foo}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.testing_map.foo\\""`
     );
   });
 });

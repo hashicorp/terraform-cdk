@@ -305,7 +305,26 @@ function convertTFExpressionAstToTs(
     const indexOfNumericAccessor = attributeSegments.findIndex((seg) =>
       tex.isIndexTraversalPart(seg)
     );
-    const needsFqn = indexOfNumericAccessor > -1;
+    let hasMapAccessor = false;
+    if (indexOfNumericAccessor < 0) {
+      // only do this if we have to, if we already have a
+      // numeric accessor, we don't have to do this additional work
+      const resourcePath = getTfResourcePathFromNode(node);
+      let parts = resourcePath.split(".");
+      const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
+      while (parts.length > minParts) {
+        const type = getTypeAtPath(scope.providerSchema, parts.join("."));
+        if (type !== null) {
+          if (Array.isArray(type) && type[0] === "map") {
+            hasMapAccessor = true;
+            break;
+          }
+        }
+        parts.pop();
+      }
+    }
+
+    const needsFqn = indexOfNumericAccessor > -1 || hasMapAccessor;
 
     const refSegments = needsFqn ? [] : attributeSegments;
     const nonRefSegments = needsFqn ? attributeSegments : [];
