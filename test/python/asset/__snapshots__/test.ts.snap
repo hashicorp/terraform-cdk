@@ -2,54 +2,54 @@
 
 exports[`python full integration test assets synth generates JSON and copies files 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"python-assets\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "python-assets",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"python-assets\\": {
-        \\"fixture-output\\": \\"fixtureoutput\\",
-        \\"fixtures-output\\": \\"fixturesoutput\\"
+    "outputs": {
+      "python-assets": {
+        "fixture-output": "fixtureoutput",
+        "fixtures-output": "fixturesoutput"
       }
     }
   },
-  \\"output\\": {
-    \\"fixtureoutput\\": {
-      \\"value\\": \\"assets/fixture/hash/fixture.txt\\"
+  "output": {
+    "fixtureoutput": {
+      "value": "assets/fixture/hash/fixture.txt"
     },
-    \\"fixturesoutput\\": {
-      \\"value\\": \\"assets/fixtures/hash/archive.zip\\"
+    "fixturesoutput": {
+      "value": "assets/fixtures/hash/archive.zip"
     }
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"nullresource\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"python-assets/null-resource\\",
-            \\"uniqueId\\": \\"nullresource\\"
+  "resource": {
+    "null_resource": {
+      "nullresource": {
+        "//": {
+          "metadata": {
+            "path": "python-assets/null-resource",
+            "uniqueId": "nullresource"
           }
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       }
     }
   }

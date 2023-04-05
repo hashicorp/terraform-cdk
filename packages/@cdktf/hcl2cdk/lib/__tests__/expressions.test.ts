@@ -456,7 +456,7 @@ describe("expressions", () => {
 
     it("should convert iterator value deep accessor", async () => {
       expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"list\\", \\"map\\", \\"name\\"]);"`
+        `"cdktf.propertyAccess(myIterator.value, ["list", "map", "name"]);"`
       );
     });
 
@@ -464,7 +464,7 @@ describe("expressions", () => {
       expect(
         await run('"${each.value[0]["map"]["name"]}"')
       ).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, [\\"[0]\\", \\"[\\\\\\"map\\\\\\"]\\", \\"[\\\\\\"name\\\\\\"]\\"]);"`
+        `"cdktf.propertyAccess(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
       );
     });
   });

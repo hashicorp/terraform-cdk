@@ -187,13 +187,13 @@ describe("output id map", () => {
     const { outputs } = tf["//"];
 
     expect(outputs).toMatchInlineSnapshot(`
-      Object {
-        "MyStack": Object {
-          "MyCustomConstruct": Object {
+      {
+        "MyStack": {
+          "MyCustomConstruct": {
             "output": "MyStack_MyCustomConstruct_output_E06F5428",
             "output1": "MyStack_MyCustomConstruct_output1_55CB8869",
           },
-          "MyCustomOtherConstruct": Object {
+          "MyCustomOtherConstruct": {
             "output": "MyStack_MyCustomOtherConstruct_output_BCB14270",
             "output1": "MyStack_MyCustomOtherConstruct_output1_BEDB5493",
           },

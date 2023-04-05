@@ -58,13 +58,13 @@ test("Output", async () => {
   expect(stripAnsi(lastFrame())).toMatchInlineSnapshot(`
     "foo = baz
     map = {
-      \\"keyA\\": \\"valueA\\",
-      \\"keyB\\": \\"valueB\\"
+      "keyA": "valueA",
+      "keyB": "valueB"
     }
     list = [
-      \\"A\\",
-      \\"B\\",
-      \\"C\\"
+      "A",
+      "B",
+      "C"
     ]
     password = <sensitive>"
   `);

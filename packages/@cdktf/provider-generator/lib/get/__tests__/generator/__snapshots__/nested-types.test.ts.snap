@@ -39,7 +39,7 @@ export interface NestedTypesResourceArchiveRulesFilter {
 export function nestedTypesResourceArchiveRulesFilterToTerraform(struct?: NestedTypesResourceArchiveRulesFilter | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     eq: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.eq),
@@ -185,7 +185,7 @@ export interface NestedTypesResourceArchiveRules {
 export function nestedTypesResourceArchiveRulesToTerraform(struct?: NestedTypesResourceArchiveRules | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     filter: cdktf.listMapper(nestedTypesResourceArchiveRulesFilterToTerraform, false)(struct!.filter),
@@ -244,7 +244,7 @@ export class NestedTypesResourceArchiveRulesOutputReference extends cdktf.Comple
   }
 
   // filter - computed: false, optional: false, required: true
-  private _filter = new NestedTypesResourceArchiveRulesFilterList(this, \\"filter\\", false);
+  private _filter = new NestedTypesResourceArchiveRulesFilterList(this, "filter", false);
   public get filter() {
     return this._filter;
   }
@@ -298,7 +298,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"nested_types_resource\\";
+  public static readonly tfResourceType = "nested_types_resource";
 
   // ===========
   // INITIALIZER
@@ -350,7 +350,7 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   }
 
   // archive_rules - computed: false, optional: true, required: false
-  private _archiveRules = new NestedTypesResourceArchiveRulesList(this, \\"archive_rules\\", false);
+  private _archiveRules = new NestedTypesResourceArchiveRulesList(this, "archive_rules", false);
   public get archiveRules() {
     return this._archiveRules;
   }

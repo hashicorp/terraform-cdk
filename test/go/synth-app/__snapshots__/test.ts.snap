@@ -2,42 +2,42 @@
 
 exports[`Go full integration test synth synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"go-simple\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "go-simple",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"random\\": [
+  "provider": {
+    "random": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"random_pet\\": {
-      \\"pet\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"go-simple/pet\\",
-            \\"uniqueId\\": \\"pet\\"
+  "resource": {
+    "random_pet": {
+      "pet": {
+        "//": {
+          "metadata": {
+            "path": "go-simple/pet",
+            "uniqueId": "pet"
           }
         },
-        \\"prefix\\": \\"my\\"
+        "prefix": "my"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"random\\": {
-        \\"source\\": \\"hashicorp/random\\",
-        \\"version\\": \\"3.1.3\\"
+    "required_providers": {
+      "random": {
+        "source": "hashicorp/random",
+        "version": "3.1.3"
       }
     }
   }

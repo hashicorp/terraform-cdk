@@ -2,42 +2,42 @@
 
 exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"hello-deploy\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "hello-deploy",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"hello-deploy_test-Foo_Bar_186E52EA\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
-            \\"uniqueId\\": \\"hello-deploy_test-Foo_Bar_186E52EA\\"
+  "resource": {
+    "null_resource": {
+      "hello-deploy_test-Foo_Bar_186E52EA": {
+        "//": {
+          "metadata": {
+            "path": "hello-deploy/test-Foo_Bar",
+            "uniqueId": "hello-deploy_test-Foo_Bar_186E52EA"
           }
         },
-        \\"provisioner\\": [
+        "provisioner": [
           {
-            \\"local-exec\\": {
-              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            "local-exec": {
+              "command": "echo \\"hello deploy\\""
             }
           }
         ]
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     }
   }
@@ -46,42 +46,42 @@ exports[`full integration test with allowSepCharsInLogicalIds feature 1`] = `
 
 exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"hello-deploy\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "hello-deploy",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"testFooBar\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
-            \\"uniqueId\\": \\"testFooBar\\"
+  "resource": {
+    "null_resource": {
+      "testFooBar": {
+        "//": {
+          "metadata": {
+            "path": "hello-deploy/test-Foo_Bar",
+            "uniqueId": "testFooBar"
           }
         },
-        \\"provisioner\\": [
+        "provisioner": [
           {
-            \\"local-exec\\": {
-              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            "local-exec": {
+              "command": "echo \\"hello deploy\\""
             }
           }
         ]
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     }
   }
@@ -90,42 +90,42 @@ exports[`full integration test with excludeStackIdFromLogicalIds feature 1`] = `
 
 exports[`full integration test without features 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"hello-deploy\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "hello-deploy",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"hellodeploy_testFooBar_186E52EA\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"hello-deploy/test-Foo_Bar\\",
-            \\"uniqueId\\": \\"hellodeploy_testFooBar_186E52EA\\"
+  "resource": {
+    "null_resource": {
+      "hellodeploy_testFooBar_186E52EA": {
+        "//": {
+          "metadata": {
+            "path": "hello-deploy/test-Foo_Bar",
+            "uniqueId": "hellodeploy_testFooBar_186E52EA"
           }
         },
-        \\"provisioner\\": [
+        "provisioner": [
           {
-            \\"local-exec\\": {
-              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            "local-exec": {
+              "command": "echo \\"hello deploy\\""
             }
           }
         ]
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     }
   }

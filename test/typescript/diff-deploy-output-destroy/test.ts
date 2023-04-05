@@ -47,8 +47,8 @@ describe("full integration test", () => {
     const outputOutput = JSON.parse(fs.readFileSync(outputOutputsPath, "utf8"));
 
     expect(deployOutput).toMatchInlineSnapshot(`
-      Object {
-        "hello-deploy": Object {
+      {
+        "hello-deploy": {
           "output": "hello",
         },
       }

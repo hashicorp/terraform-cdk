@@ -2,26 +2,26 @@
 
 exports[`add provider 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
+  "module": {
+    "test": {
+      "providers": {
+        "test": "test.provider1"
       },
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider1\\"
+        "access_key": "key",
+        "alias": "provider1"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -30,37 +30,37 @@ exports[`add provider 1`] = `
 
 exports[`complex providers 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"param1\\": \\"name\\",
-      \\"param2\\": 1,
-      \\"param3\\": [
-        \\"id1\\",
-        \\"id2\\"
+  "module": {
+    "test": {
+      "param1": "name",
+      "param2": 1,
+      "param3": [
+        "id1",
+        "id2"
       ],
-      \\"providers\\": {
-        \\"test.dst\\": \\"test.provider2\\",
-        \\"test.src\\": \\"test.provider1\\"
+      "providers": {
+        "test.dst": "test.provider2",
+        "test.src": "test.provider1"
       },
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider1\\"
+        "access_key": "key",
+        "alias": "provider1"
       },
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider2\\"
+        "access_key": "key",
+        "alias": "provider2"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -69,31 +69,31 @@ exports[`complex providers 1`] = `
 
 exports[`depend on module 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test": {
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"depends_on\\": [
-          \\"module.test\\"
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "depends_on": [
+          "module.test"
         ],
-        \\"name\\": \\"foo\\"
+        "name": "foo"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -102,15 +102,15 @@ exports[`depend on module 1`] = `
 
 exports[`depend on other module 1`] = `
 "{
-  \\"module\\": {
-    \\"test_1\\": {
-      \\"source\\": \\"./assets/local-module-test_1/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test_1": {
+      "source": "./assets/local-module-test_1/EF2B4CE432B6BA0BE6788E2EB57445E5"
     },
-    \\"test_2\\": {
-      \\"depends_on\\": [
-        \\"module.test_1\\"
+    "test_2": {
+      "depends_on": [
+        "module.test_1"
       ],
-      \\"source\\": \\"./assets/local-module-test_2/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test_2/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   }
 }"
@@ -118,9 +118,9 @@ exports[`depend on other module 1`] = `
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test": {
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   }
 }"
@@ -128,34 +128,34 @@ exports[`minimal configuration 1`] = `
 
 exports[`multiple providers 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"providers\\": {
-        \\"differentType\\": \\"differentType\\",
-        \\"test\\": \\"test\\"
+  "module": {
+    "test": {
+      "providers": {
+        "differentType": "differentType",
+        "test": "test"
       },
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"differentType\\": [
+  "provider": {
+    "differentType": [
       {
-        \\"access_key\\": \\"key\\"
+        "access_key": "key"
       }
     ],
-    \\"test\\": [
+    "test": [
       {
-        \\"access_key\\": \\"key\\"
+        "access_key": "key"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"differentType\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "differentType": {
+        "version": "~> 2.0"
       },
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -164,15 +164,15 @@ exports[`multiple providers 1`] = `
 
 exports[`pass variables 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"param1\\": \\"name\\",
-      \\"param2\\": 1,
-      \\"param3\\": [
-        \\"id1\\",
-        \\"id2\\"
+  "module": {
+    "test": {
+      "param1": "name",
+      "param2": 1,
+      "param3": [
+        "id1",
+        "id2"
       ],
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   }
 }"
@@ -180,28 +180,28 @@ exports[`pass variables 1`] = `
 
 exports[`reference module 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test": {
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"name\\": \\"\${module.test.name}\\"
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "name": "\${module.test.name}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -210,29 +210,29 @@ exports[`reference module 1`] = `
 
 exports[`reference module list 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test": {
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"resource\\": {
-        \\"name\\": \\"test\\",
-        \\"names\\": \\"\${module.test.names}\\"
+  "resource": {
+    "test_resource": {
+      "resource": {
+        "name": "test",
+        "names": "\${module.test.names}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -241,10 +241,10 @@ exports[`reference module list 1`] = `
 
 exports[`set variable 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"param1\\": \\"value1\\",
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+  "module": {
+    "test": {
+      "param1": "value1",
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   }
 }"
@@ -252,26 +252,26 @@ exports[`set variable 1`] = `
 
 exports[`simple provider 1`] = `
 "{
-  \\"module\\": {
-    \\"test\\": {
-      \\"providers\\": {
-        \\"test\\": \\"test.provider1\\"
+  "module": {
+    "test": {
+      "providers": {
+        "test": "test.provider1"
       },
-      \\"source\\": \\"./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5\\"
+      "source": "./assets/local-module-test/EF2B4CE432B6BA0BE6788E2EB57445E5"
     }
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"key\\",
-        \\"alias\\": \\"provider1\\"
+        "access_key": "key",
+        "alias": "provider1"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }

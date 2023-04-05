@@ -17,7 +17,7 @@ export async function mkdtemp(closure: (dir: string) => Promise<void>) {
 describe("parseConfig", () => {
   it("provides default with no input", async () => {
     expect(parseConfig()).toMatchInlineSnapshot(`
-      Object {
+      {
         "codeMakerOutput": ".gen",
         "output": "cdktf.out",
       }
@@ -31,10 +31,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformProviders": Array [
+          "terraformProviders": [
             TerraformProviderConstraint {
               "fqn": "aws",
               "name": "aws",
@@ -53,10 +53,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformProviders": Array [
+          "terraformProviders": [
             TerraformProviderConstraint {
               "fqn": "hashicorp/aws",
               "name": "aws",
@@ -80,10 +80,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformProviders": Array [
+          "terraformProviders": [
             TerraformProviderConstraint {
               "fqn": "aws",
               "name": "aws",
@@ -104,10 +104,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "terraform-aws-modules/vpc/aws",
               "name": "vpc",
@@ -143,10 +143,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "terraform-aws-modules/iam/aws/modules/iam-account",
               "name": "iam-account",
@@ -172,10 +172,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "customAWSVpc",
               "name": "customAWSVpc",
@@ -202,10 +202,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "terraform-aws-modules/vpc/aws",
               "name": "vpc",
@@ -244,10 +244,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "hashicorp/consul/aws",
               "name": "consul",
@@ -268,10 +268,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "app-terraform-io/example-corp/k8s-cluster/azurerm",
               "name": "k8s-cluster",
@@ -290,10 +290,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "hashicorp/example",
               "name": "example",
@@ -312,10 +312,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "hashicorp/example",
               "name": "example",
@@ -334,10 +334,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "hashicorp/terraform-consul-aws",
               "name": "terraform-consul-aws",
@@ -356,10 +356,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "vpc",
               "name": "vpc",
@@ -378,10 +378,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "storage",
               "name": "storage",
@@ -402,10 +402,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "infra/main-vpc",
               "name": "main-vpc",
@@ -424,10 +424,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "storage",
               "name": "storage",
@@ -446,10 +446,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "vpc",
               "name": "vpc",
@@ -468,10 +468,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "vpc",
               "name": "vpc",
@@ -490,10 +490,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "vpc-module",
               "name": "vpc-module",
@@ -512,10 +512,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "vpc-module",
               "name": "vpc-module",
@@ -536,10 +536,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "examplecorp-terraform-modules/vpc",
               "name": "vpc",
@@ -560,10 +560,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "storage/v1/modules/foomodule",
               "name": "foomodule",
@@ -582,10 +582,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "hashicorp/consul/aws/modules/consul-cluster",
               "name": "consul-cluster",
@@ -604,10 +604,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "network/modules/vpc",
               "name": "vpc",
@@ -628,10 +628,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "network-module/modules/vpc",
               "name": "vpc",
@@ -652,10 +652,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "examplecorp-terraform-modules/network/modules/vpc",
               "name": "vpc",
@@ -676,10 +676,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "network/modules/vpc",
               "name": "vpc",
@@ -700,10 +700,10 @@ describe("parseConfig", () => {
       };
 
       expect(parseConfig(JSON.stringify(input))).toMatchInlineSnapshot(`
-        Object {
+        {
           "codeMakerOutput": ".gen",
           "output": "cdktf.out",
-          "terraformModules": Array [
+          "terraformModules": [
             TerraformModuleConstraint {
               "fqn": "cloudposse/terraform-null-label",
               "name": "terraform-null-label",

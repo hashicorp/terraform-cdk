@@ -2,59 +2,59 @@
 
 exports[`java full integration synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"java-simple\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "java-simple",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ],
-    \\"random\\": [
+    "random": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"NullResource\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"java-simple/NullResource\\",
-            \\"uniqueId\\": \\"NullResource\\"
+  "resource": {
+    "null_resource": {
+      "NullResource": {
+        "//": {
+          "metadata": {
+            "path": "java-simple/NullResource",
+            "uniqueId": "NullResource"
           }
         }
       }
     },
-    \\"random_string\\": {
-      \\"RandomString\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"java-simple/RandomString\\",
-            \\"uniqueId\\": \\"RandomString\\"
+    "random_string": {
+      "RandomString": {
+        "//": {
+          "metadata": {
+            "path": "java-simple/RandomString",
+            "uniqueId": "RandomString"
           }
         },
-        \\"length\\": 42
+        "length": 42
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       },
-      \\"random\\": {
-        \\"source\\": \\"hashicorp/random\\",
-        \\"version\\": \\"3.1.3\\"
+      "random": {
+        "source": "hashicorp/random",
+        "version": "3.1.3"
       }
     }
   }

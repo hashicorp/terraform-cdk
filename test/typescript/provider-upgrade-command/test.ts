@@ -101,7 +101,7 @@ describe("provider upgrade command", () => {
         await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
-        Array [
+        [
           "hashicorp/random@=3.2.0",
         ]
       `);

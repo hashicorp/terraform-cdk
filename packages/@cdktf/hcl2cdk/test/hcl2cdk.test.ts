@@ -63,22 +63,22 @@ describe("convert", () => {
     );
 
     expect(stats).toMatchInlineSnapshot(`
-      Object {
+      {
         "convertedLines": 54,
-        "data": Object {},
+        "data": {},
         "language": "typescript",
         "numberOfModules": 0,
         "numberOfProviders": 3,
-        "resources": Object {
-          "aws": Object {
+        "resources": {
+          "aws": {
             "kms_key": 1,
             "s3_bucket": 3,
             "s3_bucket_object": 2,
           },
-          "google": Object {
+          "google": {
             "compute_autoscaler": 1,
           },
-          "other": Object {
+          "other": {
             "other": 1,
           },
         },

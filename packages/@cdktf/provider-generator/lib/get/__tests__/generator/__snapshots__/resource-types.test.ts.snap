@@ -130,7 +130,7 @@ export interface CloudfrontDistributionCacheBehaviorForwardedValuesCookies {
 export function cloudfrontDistributionCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
@@ -229,7 +229,7 @@ export interface CloudfrontDistributionCacheBehaviorForwardedValues {
 export function cloudfrontDistributionCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
@@ -335,7 +335,7 @@ export class CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference e
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
+  private _cookies = new CloudfrontDistributionCacheBehaviorForwardedValuesCookiesOutputReference(this, "cookies");
   public get cookies() {
     return this._cookies;
   }
@@ -365,7 +365,7 @@ export interface CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation {
 export function cloudfrontDistributionCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     event_type: cdktf.stringToTerraform(struct!.eventType),
@@ -558,7 +558,7 @@ export interface CloudfrontDistributionCacheBehavior {
 export function cloudfrontDistributionCacheBehaviorToTerraform(struct?: CloudfrontDistributionCacheBehavior | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
@@ -878,7 +878,7 @@ export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.Co
   }
 
   // forwarded_values - computed: false, optional: false, required: true
-  private _forwardedValues = new CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
+  private _forwardedValues = new CloudfrontDistributionCacheBehaviorForwardedValuesOutputReference(this, "forwarded_values");
   public get forwardedValues() {
     return this._forwardedValues;
   }
@@ -891,7 +891,7 @@ export class CloudfrontDistributionCacheBehaviorOutputReference extends cdktf.Co
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
-  private _lambdaFunctionAssociation = new CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
+  private _lambdaFunctionAssociation = new CloudfrontDistributionCacheBehaviorLambdaFunctionAssociationList(this, "lambda_function_association", true);
   public get lambdaFunctionAssociation() {
     return this._lambdaFunctionAssociation;
   }
@@ -948,7 +948,7 @@ export interface CloudfrontDistributionCustomErrorResponse {
 export function cloudfrontDistributionCustomErrorResponseToTerraform(struct?: CloudfrontDistributionCustomErrorResponse | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     error_caching_min_ttl: cdktf.numberToTerraform(struct!.errorCachingMinTtl),
@@ -1115,7 +1115,7 @@ export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookie
 export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
@@ -1214,7 +1214,7 @@ export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
 export function cloudfrontDistributionDefaultCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionDefaultCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
@@ -1320,7 +1320,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputRefe
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
+  private _cookies = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookiesOutputReference(this, "cookies");
   public get cookies() {
     return this._cookies;
   }
@@ -1350,7 +1350,7 @@ export interface CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssocia
 export function cloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     event_type: cdktf.stringToTerraform(struct!.eventType),
@@ -1539,7 +1539,7 @@ export interface CloudfrontDistributionDefaultCacheBehavior {
 export function cloudfrontDistributionDefaultCacheBehaviorToTerraform(struct?: CloudfrontDistributionDefaultCacheBehaviorOutputReference | CloudfrontDistributionDefaultCacheBehavior): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
@@ -1827,7 +1827,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // forwarded_values - computed: false, optional: false, required: true
-  private _forwardedValues = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
+  private _forwardedValues = new CloudfrontDistributionDefaultCacheBehaviorForwardedValuesOutputReference(this, "forwarded_values");
   public get forwardedValues() {
     return this._forwardedValues;
   }
@@ -1840,7 +1840,7 @@ export class CloudfrontDistributionDefaultCacheBehaviorOutputReference extends c
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
-  private _lambdaFunctionAssociation = new CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
+  private _lambdaFunctionAssociation = new CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociationList(this, "lambda_function_association", true);
   public get lambdaFunctionAssociation() {
     return this._lambdaFunctionAssociation;
   }
@@ -1873,7 +1873,7 @@ export interface CloudfrontDistributionLoggingConfig {
 export function cloudfrontDistributionLoggingConfigToTerraform(struct?: CloudfrontDistributionLoggingConfigOutputReference | CloudfrontDistributionLoggingConfig): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     bucket: cdktf.stringToTerraform(struct!.bucket),
@@ -1985,7 +1985,7 @@ export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookie
 export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference | CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     forward: cdktf.stringToTerraform(struct!.forward),
@@ -2084,7 +2084,7 @@ export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
 export function cloudfrontDistributionOrderedCacheBehaviorForwardedValuesToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference | CloudfrontDistributionOrderedCacheBehaviorForwardedValues): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.headers),
@@ -2190,7 +2190,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputRefe
   }
 
   // cookies - computed: false, optional: false, required: true
-  private _cookies = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this, \\"cookies\\");
+  private _cookies = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookiesOutputReference(this, "cookies");
   public get cookies() {
     return this._cookies;
   }
@@ -2220,7 +2220,7 @@ export interface CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssocia
 export function cloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationToTerraform(struct?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     event_type: cdktf.stringToTerraform(struct!.eventType),
@@ -2413,7 +2413,7 @@ export interface CloudfrontDistributionOrderedCacheBehavior {
 export function cloudfrontDistributionOrderedCacheBehaviorToTerraform(struct?: CloudfrontDistributionOrderedCacheBehavior | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     allowed_methods: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedMethods),
@@ -2733,7 +2733,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends c
   }
 
   // forwarded_values - computed: false, optional: false, required: true
-  private _forwardedValues = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference(this, \\"forwarded_values\\");
+  private _forwardedValues = new CloudfrontDistributionOrderedCacheBehaviorForwardedValuesOutputReference(this, "forwarded_values");
   public get forwardedValues() {
     return this._forwardedValues;
   }
@@ -2746,7 +2746,7 @@ export class CloudfrontDistributionOrderedCacheBehaviorOutputReference extends c
   }
 
   // lambda_function_association - computed: false, optional: true, required: false
-  private _lambdaFunctionAssociation = new CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationList(this, \\"lambda_function_association\\", true);
+  private _lambdaFunctionAssociation = new CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociationList(this, "lambda_function_association", true);
   public get lambdaFunctionAssociation() {
     return this._lambdaFunctionAssociation;
   }
@@ -2795,7 +2795,7 @@ export interface CloudfrontDistributionOriginCustomHeader {
 export function cloudfrontDistributionOriginCustomHeaderToTerraform(struct?: CloudfrontDistributionOriginCustomHeader | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     name: cdktf.stringToTerraform(struct!.name),
@@ -2929,7 +2929,7 @@ export interface CloudfrontDistributionOriginCustomOriginConfig {
 export function cloudfrontDistributionOriginCustomOriginConfigToTerraform(struct?: CloudfrontDistributionOriginCustomOriginConfigOutputReference | CloudfrontDistributionOriginCustomOriginConfig): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     http_port: cdktf.numberToTerraform(struct!.httpPort),
@@ -3097,7 +3097,7 @@ export interface CloudfrontDistributionOriginS3OriginConfig {
 export function cloudfrontDistributionOriginS3OriginConfigToTerraform(struct?: CloudfrontDistributionOriginS3OriginConfigOutputReference | CloudfrontDistributionOriginS3OriginConfig): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     origin_access_identity: cdktf.stringToTerraform(struct!.originAccessIdentity),
@@ -3185,7 +3185,7 @@ export interface CloudfrontDistributionOrigin {
 export function cloudfrontDistributionOriginToTerraform(struct?: CloudfrontDistributionOrigin | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     domain_name: cdktf.stringToTerraform(struct!.domainName),
@@ -3314,7 +3314,7 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
   }
 
   // custom_header - computed: false, optional: true, required: false
-  private _customHeader = new CloudfrontDistributionOriginCustomHeaderList(this, \\"custom_header\\", true);
+  private _customHeader = new CloudfrontDistributionOriginCustomHeaderList(this, "custom_header", true);
   public get customHeader() {
     return this._customHeader;
   }
@@ -3330,7 +3330,7 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
   }
 
   // custom_origin_config - computed: false, optional: true, required: false
-  private _customOriginConfig = new CloudfrontDistributionOriginCustomOriginConfigOutputReference(this, \\"custom_origin_config\\");
+  private _customOriginConfig = new CloudfrontDistributionOriginCustomOriginConfigOutputReference(this, "custom_origin_config");
   public get customOriginConfig() {
     return this._customOriginConfig;
   }
@@ -3346,7 +3346,7 @@ export class CloudfrontDistributionOriginOutputReference extends cdktf.ComplexOb
   }
 
   // s3_origin_config - computed: false, optional: true, required: false
-  private _s3OriginConfig = new CloudfrontDistributionOriginS3OriginConfigOutputReference(this, \\"s3_origin_config\\");
+  private _s3OriginConfig = new CloudfrontDistributionOriginS3OriginConfigOutputReference(this, "s3_origin_config");
   public get s3OriginConfig() {
     return this._s3OriginConfig;
   }
@@ -3391,7 +3391,7 @@ export interface CloudfrontDistributionOriginGroupFailoverCriteria {
 export function cloudfrontDistributionOriginGroupFailoverCriteriaToTerraform(struct?: CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference | CloudfrontDistributionOriginGroupFailoverCriteria): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     status_codes: cdktf.listMapper(cdktf.numberToTerraform, false)(struct!.statusCodes),
@@ -3453,7 +3453,7 @@ export interface CloudfrontDistributionOriginGroupMember {
 export function cloudfrontDistributionOriginGroupMemberToTerraform(struct?: CloudfrontDistributionOriginGroupMember | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     origin_id: cdktf.stringToTerraform(struct!.originId),
@@ -3559,7 +3559,7 @@ export interface CloudfrontDistributionOriginGroup {
 export function cloudfrontDistributionOriginGroupToTerraform(struct?: CloudfrontDistributionOriginGroup | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     origin_id: cdktf.stringToTerraform(struct!.originId),
@@ -3638,7 +3638,7 @@ export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.Comp
   }
 
   // failover_criteria - computed: false, optional: false, required: true
-  private _failoverCriteria = new CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference(this, \\"failover_criteria\\");
+  private _failoverCriteria = new CloudfrontDistributionOriginGroupFailoverCriteriaOutputReference(this, "failover_criteria");
   public get failoverCriteria() {
     return this._failoverCriteria;
   }
@@ -3651,7 +3651,7 @@ export class CloudfrontDistributionOriginGroupOutputReference extends cdktf.Comp
   }
 
   // member - computed: false, optional: false, required: true
-  private _member = new CloudfrontDistributionOriginGroupMemberList(this, \\"member\\", false);
+  private _member = new CloudfrontDistributionOriginGroupMemberList(this, "member", false);
   public get member() {
     return this._member;
   }
@@ -3697,7 +3697,7 @@ export interface CloudfrontDistributionRestrictionsGeoRestriction {
 export function cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(struct?: CloudfrontDistributionRestrictionsGeoRestrictionOutputReference | CloudfrontDistributionRestrictionsGeoRestriction): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     locations: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.locations),
@@ -3784,7 +3784,7 @@ export interface CloudfrontDistributionRestrictions {
 export function cloudfrontDistributionRestrictionsToTerraform(struct?: CloudfrontDistributionRestrictionsOutputReference | CloudfrontDistributionRestrictions): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     geo_restriction: cloudfrontDistributionRestrictionsGeoRestrictionToTerraform(struct!.geoRestriction),
@@ -3824,7 +3824,7 @@ export class CloudfrontDistributionRestrictionsOutputReference extends cdktf.Com
   }
 
   // geo_restriction - computed: false, optional: false, required: true
-  private _geoRestriction = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this, \\"geo_restriction\\");
+  private _geoRestriction = new CloudfrontDistributionRestrictionsGeoRestrictionOutputReference(this, "geo_restriction");
   public get geoRestriction() {
     return this._geoRestriction;
   }
@@ -3862,7 +3862,7 @@ export interface CloudfrontDistributionViewerCertificate {
 export function cloudfrontDistributionViewerCertificateToTerraform(struct?: CloudfrontDistributionViewerCertificateOutputReference | CloudfrontDistributionViewerCertificate): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     acm_certificate_arn: cdktf.stringToTerraform(struct!.acmCertificateArn),
@@ -4018,7 +4018,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_cloudfront_distribution\\";
+  public static readonly tfResourceType = "aws_cloudfront_distribution";
 
   // ===========
   // INITIALIZER
@@ -4073,7 +4073,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // ==========
 
   // active_trusted_signers - computed: true, optional: false, required: false
-  private _activeTrustedSigners = new cdktf.StringMap(this, \\"active_trusted_signers\\");
+  private _activeTrustedSigners = new cdktf.StringMap(this, "active_trusted_signers");
   public get activeTrustedSigners() {
     return this._activeTrustedSigners;
   }
@@ -4308,7 +4308,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // cache_behavior - computed: false, optional: true, required: false
-  private _cacheBehavior = new CloudfrontDistributionCacheBehaviorList(this, \\"cache_behavior\\", true);
+  private _cacheBehavior = new CloudfrontDistributionCacheBehaviorList(this, "cache_behavior", true);
   public get cacheBehavior() {
     return this._cacheBehavior;
   }
@@ -4324,7 +4324,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // custom_error_response - computed: false, optional: true, required: false
-  private _customErrorResponse = new CloudfrontDistributionCustomErrorResponseList(this, \\"custom_error_response\\", true);
+  private _customErrorResponse = new CloudfrontDistributionCustomErrorResponseList(this, "custom_error_response", true);
   public get customErrorResponse() {
     return this._customErrorResponse;
   }
@@ -4340,7 +4340,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // default_cache_behavior - computed: false, optional: false, required: true
-  private _defaultCacheBehavior = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this, \\"default_cache_behavior\\");
+  private _defaultCacheBehavior = new CloudfrontDistributionDefaultCacheBehaviorOutputReference(this, "default_cache_behavior");
   public get defaultCacheBehavior() {
     return this._defaultCacheBehavior;
   }
@@ -4353,7 +4353,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // logging_config - computed: false, optional: true, required: false
-  private _loggingConfig = new CloudfrontDistributionLoggingConfigOutputReference(this, \\"logging_config\\");
+  private _loggingConfig = new CloudfrontDistributionLoggingConfigOutputReference(this, "logging_config");
   public get loggingConfig() {
     return this._loggingConfig;
   }
@@ -4369,7 +4369,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // ordered_cache_behavior - computed: false, optional: true, required: false
-  private _orderedCacheBehavior = new CloudfrontDistributionOrderedCacheBehaviorList(this, \\"ordered_cache_behavior\\", false);
+  private _orderedCacheBehavior = new CloudfrontDistributionOrderedCacheBehaviorList(this, "ordered_cache_behavior", false);
   public get orderedCacheBehavior() {
     return this._orderedCacheBehavior;
   }
@@ -4385,7 +4385,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // origin - computed: false, optional: false, required: true
-  private _origin = new CloudfrontDistributionOriginList(this, \\"origin\\", true);
+  private _origin = new CloudfrontDistributionOriginList(this, "origin", true);
   public get origin() {
     return this._origin;
   }
@@ -4398,7 +4398,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // origin_group - computed: false, optional: true, required: false
-  private _originGroup = new CloudfrontDistributionOriginGroupList(this, \\"origin_group\\", true);
+  private _originGroup = new CloudfrontDistributionOriginGroupList(this, "origin_group", true);
   public get originGroup() {
     return this._originGroup;
   }
@@ -4414,7 +4414,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // restrictions - computed: false, optional: false, required: true
-  private _restrictions = new CloudfrontDistributionRestrictionsOutputReference(this, \\"restrictions\\");
+  private _restrictions = new CloudfrontDistributionRestrictionsOutputReference(this, "restrictions");
   public get restrictions() {
     return this._restrictions;
   }
@@ -4427,7 +4427,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   }
 
   // viewer_certificate - computed: false, optional: false, required: true
-  private _viewerCertificate = new CloudfrontDistributionViewerCertificateOutputReference(this, \\"viewer_certificate\\");
+  private _viewerCertificate = new CloudfrontDistributionViewerCertificateOutputReference(this, "viewer_certificate");
   public get viewerCertificate() {
     return this._viewerCertificate;
   }
@@ -4503,7 +4503,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_fms_admin_account\\";
+  public static readonly tfResourceType = "aws_fms_admin_account";
 
   // ===========
   // INITIALIZER
@@ -4734,7 +4734,7 @@ export interface S3BucketCorsRule {
 export function s3BucketCorsRuleToTerraform(struct?: S3BucketCorsRule | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     allowed_headers: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.allowedHeaders),
@@ -4932,7 +4932,7 @@ export interface S3BucketGrant {
 export function s3BucketGrantToTerraform(struct?: S3BucketGrant | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     id: cdktf.stringToTerraform(struct!.id),
@@ -5100,7 +5100,7 @@ export interface S3BucketLifecycleRuleExpiration {
 export function s3BucketLifecycleRuleExpirationToTerraform(struct?: S3BucketLifecycleRuleExpirationOutputReference | S3BucketLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     date: cdktf.stringToTerraform(struct!.date),
@@ -5211,7 +5211,7 @@ export interface S3BucketLifecycleRuleNoncurrentVersionExpiration {
 export function s3BucketLifecycleRuleNoncurrentVersionExpirationToTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference | S3BucketLifecycleRuleNoncurrentVersionExpiration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     days: cdktf.numberToTerraform(struct!.days),
@@ -5280,7 +5280,7 @@ export interface S3BucketLifecycleRuleNoncurrentVersionTransition {
 export function s3BucketLifecycleRuleNoncurrentVersionTransitionToTerraform(struct?: S3BucketLifecycleRuleNoncurrentVersionTransition | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     days: cdktf.numberToTerraform(struct!.days),
@@ -5405,7 +5405,7 @@ export interface S3BucketLifecycleRuleTransition {
 export function s3BucketLifecycleRuleTransitionToTerraform(struct?: S3BucketLifecycleRuleTransition | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     date: cdktf.stringToTerraform(struct!.date),
@@ -5588,7 +5588,7 @@ export interface S3BucketLifecycleRule {
 export function s3BucketLifecycleRuleToTerraform(struct?: S3BucketLifecycleRule | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
@@ -5773,7 +5773,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   }
 
   // expiration - computed: false, optional: true, required: false
-  private _expiration = new S3BucketLifecycleRuleExpirationOutputReference(this, \\"expiration\\");
+  private _expiration = new S3BucketLifecycleRuleExpirationOutputReference(this, "expiration");
   public get expiration() {
     return this._expiration;
   }
@@ -5789,7 +5789,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   }
 
   // noncurrent_version_expiration - computed: false, optional: true, required: false
-  private _noncurrentVersionExpiration = new S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference(this, \\"noncurrent_version_expiration\\");
+  private _noncurrentVersionExpiration = new S3BucketLifecycleRuleNoncurrentVersionExpirationOutputReference(this, "noncurrent_version_expiration");
   public get noncurrentVersionExpiration() {
     return this._noncurrentVersionExpiration;
   }
@@ -5805,7 +5805,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   }
 
   // noncurrent_version_transition - computed: false, optional: true, required: false
-  private _noncurrentVersionTransition = new S3BucketLifecycleRuleNoncurrentVersionTransitionList(this, \\"noncurrent_version_transition\\", true);
+  private _noncurrentVersionTransition = new S3BucketLifecycleRuleNoncurrentVersionTransitionList(this, "noncurrent_version_transition", true);
   public get noncurrentVersionTransition() {
     return this._noncurrentVersionTransition;
   }
@@ -5821,7 +5821,7 @@ export class S3BucketLifecycleRuleOutputReference extends cdktf.ComplexObject {
   }
 
   // transition - computed: false, optional: true, required: false
-  private _transition = new S3BucketLifecycleRuleTransitionList(this, \\"transition\\", true);
+  private _transition = new S3BucketLifecycleRuleTransitionList(this, "transition", true);
   public get transition() {
     return this._transition;
   }
@@ -5870,7 +5870,7 @@ export interface S3BucketLogging {
 export function s3BucketLoggingToTerraform(struct?: S3BucketLogging | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     target_bucket: cdktf.stringToTerraform(struct!.targetBucket),
@@ -5995,7 +5995,7 @@ export interface S3BucketObjectLockConfigurationRuleDefaultRetention {
 export function s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform(struct?: S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference | S3BucketObjectLockConfigurationRuleDefaultRetention): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     days: cdktf.numberToTerraform(struct!.days),
@@ -6105,7 +6105,7 @@ export interface S3BucketObjectLockConfigurationRule {
 export function s3BucketObjectLockConfigurationRuleToTerraform(struct?: S3BucketObjectLockConfigurationRuleOutputReference | S3BucketObjectLockConfigurationRule): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     default_retention: s3BucketObjectLockConfigurationRuleDefaultRetentionToTerraform(struct!.defaultRetention),
@@ -6145,7 +6145,7 @@ export class S3BucketObjectLockConfigurationRuleOutputReference extends cdktf.Co
   }
 
   // default_retention - computed: false, optional: false, required: true
-  private _defaultRetention = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this, \\"default_retention\\");
+  private _defaultRetention = new S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference(this, "default_retention");
   public get defaultRetention() {
     return this._defaultRetention;
   }
@@ -6173,7 +6173,7 @@ export interface S3BucketObjectLockConfiguration {
 export function s3BucketObjectLockConfigurationToTerraform(struct?: S3BucketObjectLockConfigurationOutputReference | S3BucketObjectLockConfiguration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     object_lock_enabled: cdktf.stringToTerraform(struct!.objectLockEnabled),
@@ -6233,7 +6233,7 @@ export class S3BucketObjectLockConfigurationOutputReference extends cdktf.Comple
   }
 
   // rule - computed: false, optional: true, required: false
-  private _rule = new S3BucketObjectLockConfigurationRuleOutputReference(this, \\"rule\\");
+  private _rule = new S3BucketObjectLockConfigurationRuleOutputReference(this, "rule");
   public get rule() {
     return this._rule;
   }
@@ -6258,7 +6258,7 @@ export interface S3BucketReplicationConfigurationRulesDestinationAccessControlTr
 export function s3BucketReplicationConfigurationRulesDestinationAccessControlTranslationToTerraform(struct?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference | S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     owner: cdktf.stringToTerraform(struct!.owner),
@@ -6338,7 +6338,7 @@ export interface S3BucketReplicationConfigurationRulesDestination {
 export function s3BucketReplicationConfigurationRulesDestinationToTerraform(struct?: S3BucketReplicationConfigurationRulesDestinationOutputReference | S3BucketReplicationConfigurationRulesDestination): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     account_id: cdktf.stringToTerraform(struct!.accountId),
@@ -6467,7 +6467,7 @@ export class S3BucketReplicationConfigurationRulesDestinationOutputReference ext
   }
 
   // access_control_translation - computed: false, optional: true, required: false
-  private _accessControlTranslation = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this, \\"access_control_translation\\");
+  private _accessControlTranslation = new S3BucketReplicationConfigurationRulesDestinationAccessControlTranslationOutputReference(this, "access_control_translation");
   public get accessControlTranslation() {
     return this._accessControlTranslation;
   }
@@ -6496,7 +6496,7 @@ export interface S3BucketReplicationConfigurationRulesFilter {
 export function s3BucketReplicationConfigurationRulesFilterToTerraform(struct?: S3BucketReplicationConfigurationRulesFilterOutputReference | S3BucketReplicationConfigurationRulesFilter): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     prefix: cdktf.stringToTerraform(struct!.prefix),
@@ -6584,7 +6584,7 @@ export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSse
 export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference | S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     enabled: cdktf.booleanToTerraform(struct!.enabled),
@@ -6648,7 +6648,7 @@ export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
 export function s3BucketReplicationConfigurationRulesSourceSelectionCriteriaToTerraform(struct?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference | S3BucketReplicationConfigurationRulesSourceSelectionCriteria): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     sse_kms_encrypted_objects: s3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsToTerraform(struct!.sseKmsEncryptedObjects),
@@ -6688,7 +6688,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputR
   }
 
   // sse_kms_encrypted_objects - computed: false, optional: true, required: false
-  private _sseKmsEncryptedObjects = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this, \\"sse_kms_encrypted_objects\\");
+  private _sseKmsEncryptedObjects = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjectsOutputReference(this, "sse_kms_encrypted_objects");
   public get sseKmsEncryptedObjects() {
     return this._sseKmsEncryptedObjects;
   }
@@ -6746,7 +6746,7 @@ export interface S3BucketReplicationConfigurationRules {
 export function s3BucketReplicationConfigurationRulesToTerraform(struct?: S3BucketReplicationConfigurationRules | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     id: cdktf.stringToTerraform(struct!.id),
@@ -6901,7 +6901,7 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
   }
 
   // destination - computed: false, optional: false, required: true
-  private _destination = new S3BucketReplicationConfigurationRulesDestinationOutputReference(this, \\"destination\\");
+  private _destination = new S3BucketReplicationConfigurationRulesDestinationOutputReference(this, "destination");
   public get destination() {
     return this._destination;
   }
@@ -6914,7 +6914,7 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
   }
 
   // filter - computed: false, optional: true, required: false
-  private _filter = new S3BucketReplicationConfigurationRulesFilterOutputReference(this, \\"filter\\");
+  private _filter = new S3BucketReplicationConfigurationRulesFilterOutputReference(this, "filter");
   public get filter() {
     return this._filter;
   }
@@ -6930,7 +6930,7 @@ export class S3BucketReplicationConfigurationRulesOutputReference extends cdktf.
   }
 
   // source_selection_criteria - computed: false, optional: true, required: false
-  private _sourceSelectionCriteria = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference(this, \\"source_selection_criteria\\");
+  private _sourceSelectionCriteria = new S3BucketReplicationConfigurationRulesSourceSelectionCriteriaOutputReference(this, "source_selection_criteria");
   public get sourceSelectionCriteria() {
     return this._sourceSelectionCriteria;
   }
@@ -6981,7 +6981,7 @@ export interface S3BucketReplicationConfiguration {
 export function s3BucketReplicationConfigurationToTerraform(struct?: S3BucketReplicationConfigurationOutputReference | S3BucketReplicationConfiguration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     role: cdktf.stringToTerraform(struct!.role),
@@ -7041,7 +7041,7 @@ export class S3BucketReplicationConfigurationOutputReference extends cdktf.Compl
   }
 
   // rules - computed: false, optional: false, required: true
-  private _rules = new S3BucketReplicationConfigurationRulesList(this, \\"rules\\", true);
+  private _rules = new S3BucketReplicationConfigurationRulesList(this, "rules", true);
   public get rules() {
     return this._rules;
   }
@@ -7067,7 +7067,7 @@ export interface S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEnc
 export function s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToTerraform(struct?: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference | S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     kms_master_key_id: cdktf.stringToTerraform(struct!.kmsMasterKeyId),
@@ -7154,7 +7154,7 @@ export interface S3BucketServerSideEncryptionConfigurationRule {
 export function s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct?: S3BucketServerSideEncryptionConfigurationRuleOutputReference | S3BucketServerSideEncryptionConfigurationRule): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     apply_server_side_encryption_by_default: s3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultToTerraform(struct!.applyServerSideEncryptionByDefault),
@@ -7194,7 +7194,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
   }
 
   // apply_server_side_encryption_by_default - computed: false, optional: false, required: true
-  private _applyServerSideEncryptionByDefault = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this, \\"apply_server_side_encryption_by_default\\");
+  private _applyServerSideEncryptionByDefault = new S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefaultOutputReference(this, "apply_server_side_encryption_by_default");
   public get applyServerSideEncryptionByDefault() {
     return this._applyServerSideEncryptionByDefault;
   }
@@ -7218,7 +7218,7 @@ export interface S3BucketServerSideEncryptionConfiguration {
 export function s3BucketServerSideEncryptionConfigurationToTerraform(struct?: S3BucketServerSideEncryptionConfigurationOutputReference | S3BucketServerSideEncryptionConfiguration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     rule: s3BucketServerSideEncryptionConfigurationRuleToTerraform(struct!.rule),
@@ -7258,7 +7258,7 @@ export class S3BucketServerSideEncryptionConfigurationOutputReference extends cd
   }
 
   // rule - computed: false, optional: false, required: true
-  private _rule = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this, \\"rule\\");
+  private _rule = new S3BucketServerSideEncryptionConfigurationRuleOutputReference(this, "rule");
   public get rule() {
     return this._rule;
   }
@@ -7284,7 +7284,7 @@ export interface S3BucketVersioning {
 export function s3BucketVersioningToTerraform(struct?: S3BucketVersioningOutputReference | S3BucketVersioning): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     enabled: cdktf.booleanToTerraform(struct!.enabled),
@@ -7384,7 +7384,7 @@ export interface S3BucketWebsite {
 export function s3BucketWebsiteToTerraform(struct?: S3BucketWebsiteOutputReference | S3BucketWebsite): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     error_document: cdktf.stringToTerraform(struct!.errorDocument),
@@ -7517,7 +7517,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_s3_bucket\\";
+  public static readonly tfResourceType = "aws_s3_bucket";
 
   // ===========
   // INITIALIZER
@@ -7808,7 +7808,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // cors_rule - computed: false, optional: true, required: false
-  private _corsRule = new S3BucketCorsRuleList(this, \\"cors_rule\\", false);
+  private _corsRule = new S3BucketCorsRuleList(this, "cors_rule", false);
   public get corsRule() {
     return this._corsRule;
   }
@@ -7824,7 +7824,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // grant - computed: false, optional: true, required: false
-  private _grant = new S3BucketGrantList(this, \\"grant\\", true);
+  private _grant = new S3BucketGrantList(this, "grant", true);
   public get grant() {
     return this._grant;
   }
@@ -7840,7 +7840,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule = new S3BucketLifecycleRuleList(this, \\"lifecycle_rule\\", false);
+  private _lifecycleRule = new S3BucketLifecycleRuleList(this, "lifecycle_rule", false);
   public get lifecycleRule() {
     return this._lifecycleRule;
   }
@@ -7856,7 +7856,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // logging - computed: false, optional: true, required: false
-  private _logging = new S3BucketLoggingList(this, \\"logging\\", true);
+  private _logging = new S3BucketLoggingList(this, "logging", true);
   public get logging() {
     return this._logging;
   }
@@ -7872,7 +7872,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // object_lock_configuration - computed: false, optional: true, required: false
-  private _objectLockConfiguration = new S3BucketObjectLockConfigurationOutputReference(this, \\"object_lock_configuration\\");
+  private _objectLockConfiguration = new S3BucketObjectLockConfigurationOutputReference(this, "object_lock_configuration");
   public get objectLockConfiguration() {
     return this._objectLockConfiguration;
   }
@@ -7888,7 +7888,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // replication_configuration - computed: false, optional: true, required: false
-  private _replicationConfiguration = new S3BucketReplicationConfigurationOutputReference(this, \\"replication_configuration\\");
+  private _replicationConfiguration = new S3BucketReplicationConfigurationOutputReference(this, "replication_configuration");
   public get replicationConfiguration() {
     return this._replicationConfiguration;
   }
@@ -7904,7 +7904,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // server_side_encryption_configuration - computed: false, optional: true, required: false
-  private _serverSideEncryptionConfiguration = new S3BucketServerSideEncryptionConfigurationOutputReference(this, \\"server_side_encryption_configuration\\");
+  private _serverSideEncryptionConfiguration = new S3BucketServerSideEncryptionConfigurationOutputReference(this, "server_side_encryption_configuration");
   public get serverSideEncryptionConfiguration() {
     return this._serverSideEncryptionConfiguration;
   }
@@ -7920,7 +7920,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // versioning - computed: false, optional: true, required: false
-  private _versioning = new S3BucketVersioningOutputReference(this, \\"versioning\\");
+  private _versioning = new S3BucketVersioningOutputReference(this, "versioning");
   public get versioning() {
     return this._versioning;
   }
@@ -7936,7 +7936,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   }
 
   // website - computed: false, optional: true, required: false
-  private _website = new S3BucketWebsiteOutputReference(this, \\"website\\");
+  private _website = new S3BucketWebsiteOutputReference(this, "website");
   public get website() {
     return this._website;
   }
@@ -8084,7 +8084,7 @@ export interface SecurityGroupEgress {
 export function securityGroupEgressToTerraform(struct?: SecurityGroupEgress | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
@@ -8397,7 +8397,7 @@ export interface SecurityGroupIngress {
 export function securityGroupIngressToTerraform(struct?: SecurityGroupIngress | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     cidr_blocks: struct!.cidrBlocks === undefined ? null : cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
@@ -8682,7 +8682,7 @@ export interface SecurityGroupTimeouts {
 export function securityGroupTimeoutsToTerraform(struct?: SecurityGroupTimeouts | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     create: cdktf.stringToTerraform(struct!.create),
@@ -8779,7 +8779,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_security_group\\";
+  public static readonly tfResourceType = "aws_security_group";
 
   // ===========
   // INITIALIZER
@@ -8844,7 +8844,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // egress - computed: true, optional: true, required: false
-  private _egress = new SecurityGroupEgressList(this, \\"egress\\", true);
+  private _egress = new SecurityGroupEgressList(this, "egress", true);
   public get egress() {
     return this._egress;
   }
@@ -8876,7 +8876,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // ingress - computed: true, optional: true, required: false
-  private _ingress = new SecurityGroupIngressList(this, \\"ingress\\", true);
+  private _ingress = new SecurityGroupIngressList(this, "ingress", true);
   public get ingress() {
     return this._ingress;
   }
@@ -8977,7 +8977,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   }
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new SecurityGroupTimeoutsOutputReference(this, \\"timeouts\\");
+  private _timeouts = new SecurityGroupTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
     return this._timeouts;
   }

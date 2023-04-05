@@ -19,17 +19,17 @@ describe("#synthScope", () => {
       })
     ).toMatchInlineSnapshot(`
       "{
-        \\"data\\": {
-          \\"test_data_source\\": {
-            \\"test-data-source\\": {
-              \\"name\\": \\"foo\\"
+        "data": {
+          "test_data_source": {
+            "test-data-source": {
+              "name": "foo"
             }
           }
         },
-        \\"resource\\": {
-          \\"test_resource\\": {
-            \\"test-resource\\": {
-              \\"name\\": \\"bar\\"
+        "resource": {
+          "test_resource": {
+            "test-resource": {
+              "name": "bar"
             }
           }
         }
@@ -58,13 +58,13 @@ describe("#synthScope", () => {
       })
     ).toMatchInlineSnapshot(`
       "{
-        \\"resource\\": {
-          \\"test_resource\\": {
-            \\"my-resource_test-resource_4F34504B\\": {
-              \\"name\\": \\"bar\\"
+        "resource": {
+          "test_resource": {
+            "my-resource_test-resource_4F34504B": {
+              "name": "bar"
             },
-            \\"resource\\": {
-              \\"name\\": \\"\${test_resource.my-resource_test-resource_4F34504B.string_value}\\"
+            "resource": {
+              "name": "\${test_resource.my-resource_test-resource_4F34504B.string_value}"
             }
           }
         }

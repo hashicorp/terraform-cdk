@@ -2,57 +2,57 @@
 
 exports[`multiple stacks CLI-driven workflow synth 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"first\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "first",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"first\\": {
-        \\"output\\": \\"output\\"
+    "outputs": {
+      "first": {
+        "output": "output"
       }
     }
   },
-  \\"output\\": {
-    \\"output\\": {
-      \\"value\\": \\"first\\"
+  "output": {
+    "output": {
+      "value": "first"
     }
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"first/test\\",
-            \\"uniqueId\\": \\"test\\"
+  "resource": {
+    "null_resource": {
+      "test": {
+        "//": {
+          "metadata": {
+            "path": "first/test",
+            "uniqueId": "test"
           }
         },
-        \\"provisioner\\": [
+        "provisioner": [
           {
-            \\"local-exec\\": {
-              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            "local-exec": {
+              "command": "echo \\"hello deploy\\""
             }
           }
         ]
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "null",
+        "version": "3.1.1"
       }
     }
   }
@@ -61,60 +61,59 @@ exports[`multiple stacks CLI-driven workflow synth 1`] = `
 
 exports[`multiple stacks CLI-driven workflow synth 2`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"second\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "second",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"second\\": {
-        \\"output\\": \\"output\\"
+    "outputs": {
+      "second": {
+        "output": "output"
       }
     }
   },
-  \\"output\\": {
-    \\"output\\": {
-      \\"value\\": \\"second\\"
+  "output": {
+    "output": {
+      "value": "second"
     }
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"test\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"second/test\\",
-            \\"uniqueId\\": \\"test\\"
+  "resource": {
+    "null_resource": {
+      "test": {
+        "//": {
+          "metadata": {
+            "path": "second/test",
+            "uniqueId": "test"
           }
         },
-        \\"provisioner\\": [
+        "provisioner": [
           {
-            \\"local-exec\\": {
-              \\"command\\": \\"echo \\\\\\"hello deploy\\\\\\"\\"
+            "local-exec": {
+              "command": "echo \\"hello deploy\\""
             }
           }
         ]
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "null",
+        "version": "3.1.1"
       }
     }
   }
 }"
 `;
-

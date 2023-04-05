@@ -299,7 +299,7 @@ describe("bindings for Terraform functions", () => {
     expect(
       generate(terraformThingToTs(dummy2, "dynamic")).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace(TodoReference-module-foo-output, \\"-\\", TodoReference-var-bar)"`
+      `"cdktf.Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`
     );
   });
 
@@ -589,7 +589,7 @@ describe("bindings for Terraform functions", () => {
           )
         ).code
     ).toThrowErrorMatchingInlineSnapshot(
-      `"Terraform function call to \\"bcrypt\\" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`
+      `"Terraform function call to "bcrypt" is not valid! Parameter at index 0 of type string is not optional but received no value. The following parameters were passed: []"`
     );
   });
 

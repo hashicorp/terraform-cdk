@@ -2,41 +2,41 @@
 
 exports[`csharp full integration test synth synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"csharp-simple\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "csharp-simple",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"null\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"csharp-simple/null\\",
-            \\"uniqueId\\": \\"null\\"
+  "resource": {
+    "null_resource": {
+      "null": {
+        "//": {
+          "metadata": {
+            "path": "csharp-simple/null",
+            "uniqueId": "null"
           }
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       }
     }
   }
