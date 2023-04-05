@@ -59,7 +59,7 @@ const nativeNodeModulesPlugin = {
     bundle: true,
     outdir: "./bundle",
     format: "cjs",
-    target: "node14",
+    target: "node16",
     minify: enableWatch ? false : true,
     sourcemap: enableWatch ? false : true,
     watch: enableWatch && {

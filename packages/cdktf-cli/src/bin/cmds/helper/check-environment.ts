@@ -46,7 +46,7 @@ async function checkGoVersion() {
 
 async function checkNodeVersion() {
   const out = await getNodeVersion();
-  throwIfLowerVersion("Node.js", "14.17.0", out);
+  throwIfLowerVersion("Node.js", "16.3.0", out);
 }
 
 export async function checkEnvironment() {
