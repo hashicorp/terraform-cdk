@@ -1,5 +1,9 @@
 ## Unreleased
 
+### Update to NodeJS 16.3+
+
+We are currently requiring at least NodeJS version 14 which will see its end of life on April 30th 2023. Due to this we are updating the minimum required NodeJS version to be 16.3.
+
 ### Update to .NET 6.0
 
 We updated our C# template to .NET 6.0 as JSII updated recently and dropped support for `netcoreapp3.1`:
