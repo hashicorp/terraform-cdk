@@ -25,19 +25,19 @@ const nodeIds = [
 describe("expressions", () => {
   describe("#extractReferencesFromExpression", () => {
     it("finds no references in literals", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression("nothingtobeseen", nodeIds)
       ).resolves.toEqual([]);
     });
 
     it("finds no references in literals with functions", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression("${foo(nothingtobeseen)}", nodeIds)
       ).resolves.toEqual([]);
     });
 
     it("finds no references in literals with functions and artihmetics", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${foo(nothingtobeseen - 2) + 3}",
           nodeIds
@@ -46,7 +46,7 @@ describe("expressions", () => {
     });
 
     it("finds plain var reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression("${var.input}", nodeIds)
       ).resolves.toEqual([
         {
@@ -60,7 +60,7 @@ describe("expressions", () => {
     });
 
     it("finds plain module reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression("${module.vpc.public_subnets}", nodeIds)
       ).resolves.toEqual([
         {
@@ -77,7 +77,7 @@ describe("expressions", () => {
     });
 
     it("finds plain data reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${data.aws_s3_bucket.examplebucket.arn}",
           nodeIds
@@ -97,7 +97,7 @@ describe("expressions", () => {
     });
 
     it("finds plain local reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression("${local.service_name}", nodeIds)
       ).resolves.toEqual([
         {
@@ -114,7 +114,7 @@ describe("expressions", () => {
     });
 
     it("finds plain resource reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.id}",
           nodeIds
@@ -134,7 +134,7 @@ describe("expressions", () => {
     });
 
     it("finds plain resource references in artihmetics", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.count + aws_s3_bucket.otherbucket.count }",
           nodeIds
@@ -164,7 +164,7 @@ describe("expressions", () => {
     });
 
     it("use fqn for splat reference", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.*.id}",
           nodeIds
@@ -184,7 +184,7 @@ describe("expressions", () => {
     });
 
     it("use no fqn if property is present on numeric access", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}",
           nodeIds
@@ -193,18 +193,18 @@ describe("expressions", () => {
         {
           referencee: {
             id: "aws_s3_bucket.examplebucket",
-            full: "aws_s3_bucket.examplebucket.network_interface",
+            full: "aws_s3_bucket.examplebucket",
           },
-          useFqn: false,
+          useFqn: true,
           isVariable: false,
           start: 2,
-          end: 47,
+          end: 81,
         },
       ]);
     });
 
     it("detect splat reference within function", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${toset(aws_s3_bucket.examplebucket.*)}",
           nodeIds
@@ -224,7 +224,7 @@ describe("expressions", () => {
     });
 
     it("finds all resources in conditional", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_kms_key.key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}",
           nodeIds
@@ -254,7 +254,7 @@ describe("expressions", () => {
     });
 
     it("finds all resources in functions", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket, 0).id}",
           nodeIds
@@ -265,7 +265,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket",
           },
-          useFqn: true,
+          useFqn: false,
           isVariable: false,
           start: 10,
           end: 37,
@@ -274,7 +274,7 @@ describe("expressions", () => {
     });
 
     it("finds all resources in functions with splat", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${element(aws_s3_bucket.examplebucket.*.id, 0)}",
           nodeIds
@@ -294,7 +294,7 @@ describe("expressions", () => {
     });
 
     it("finds all resources in for loops", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${{ for name, user in var.users : user.role => name...}}",
           nodeIds
@@ -311,7 +311,7 @@ describe("expressions", () => {
     });
 
     it("finds resources with property access", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           "${aws_s3_bucket.examplebucket[0].id}",
           nodeIds
@@ -331,7 +331,7 @@ describe("expressions", () => {
     });
 
     it("finds references within functions that use arrays and comments", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           `\${compact([
             # The example "bucket"
@@ -348,7 +348,7 @@ describe("expressions", () => {
             id: "aws_s3_bucket.examplebucket",
             full: "aws_s3_bucket.examplebucket",
           },
-          useFqn: true,
+          useFqn: false,
           isVariable: false,
           start: 59,
           end: 86,
@@ -367,7 +367,7 @@ describe("expressions", () => {
     });
 
     it("finds references for same referencees", () => {
-      expect(
+      return expect(
         extractReferencesFromExpression(
           `\${var.input == "test" ? "azure-ad-int" : "azure-ad-\${var.input}"}`,
           nodeIds

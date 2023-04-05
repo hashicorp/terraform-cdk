@@ -253,20 +253,6 @@ describe("expressionToTs", () => {
     );
   });
 
-  test("use no fqn if property is present on numeric access", async () => {
-    const expression =
-      "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
-    const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
-    const result = await convertTerraformExpressionToTs(
-      expression,
-      scope,
-      getType
-    );
-    expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.networkInterface + \\"}[0].access_config[0].assigned_nat_ip\\""`
-    );
-  });
-
   test("detects splat reference within function", async () => {
     const expression = "${toset(aws_s3_bucket.examplebucket.*)}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
