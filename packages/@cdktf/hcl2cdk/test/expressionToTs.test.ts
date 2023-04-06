@@ -885,7 +885,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.names[0]""`
+      `"cdktf.Token.asString(cdktf.Op.and(cdktf.Op.gt(cdktf.Fn.lengthOf(imageId.value), 4), cdktf.Op.eq(cdktf.Fn.substr(imageId.stringValue, 0, 4), "ami-")))"`
     );
   });
 
