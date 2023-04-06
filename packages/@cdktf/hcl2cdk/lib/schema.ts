@@ -1,9 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as z from "zod";
-import { ZodRawShape } from "zod/lib/src/types/base";
 
-const tfObject = <T extends ZodRawShape>(config: T) =>
+const tfObject = <T extends z.ZodRawShape>(config: T) =>
   z.array(z.object(config).partial());
 
 const outputConfig = tfObject({
