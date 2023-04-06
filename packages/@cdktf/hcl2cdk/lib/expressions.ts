@@ -310,17 +310,19 @@ function convertTFExpressionAstToTs(
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
-      let parts = resourcePath.split(".");
+      const parts = resourcePath.split(".");
       const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
-      while (parts.length > minParts) {
+      let usingSubPathType = false;
+      while (parts.length >= minParts) {
         const type = getTypeAtPath(scope.providerSchema, parts.join("."));
         if (type !== null) {
-          if (Array.isArray(type) && type[0] === "map") {
+          if (Array.isArray(type) && type[0] === "map" && usingSubPathType) {
             hasMapAccessor = true;
             break;
           }
         }
         parts.pop();
+        usingSubPathType = true;
       }
     }
 

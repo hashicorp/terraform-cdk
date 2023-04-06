@@ -18,7 +18,18 @@ const providerSchema = {
   provider_schemas: {
     "registry.terraform.io/hashicorp/aws": {
       provider: {},
-      resource_schemas: {},
+      resource_schemas: {
+        aws_s3_bucket: {
+          block: {
+            attributes: {
+              foo: {
+                type: ["map", "string"],
+                description_kind: "plain",
+              },
+            },
+          },
+        },
+      },
       data_source_schemas: {
         aws_availability_zones: {
           version: 0,
@@ -891,6 +902,53 @@ EOF`;
     );
     expect(code(result)).toMatchInlineSnapshot(
       `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.testing_map.foo\\""`
+    );
+  });
+
+  test("convert attribute up to a map and not within attribute reference", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.testing_map}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => ["map", "string"]
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Token.asStringMap(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap)"`
+    );
+  });
+
+  test("convert resource reference with map attribute", async () => {
+    const expression = `"\${aws_s3_bucket.examplebucket.foo.bar}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      resources: ["aws_s3_bucket"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => "string"
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.foo.bar\\""`
+    );
+  });
+  test("convert resource reference with map", async () => {
+    const expression = `"\${aws_s3_bucket.examplebucket.foo}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      resources: ["aws_s3_bucket"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => ["map", "string"]
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Token.asStringMap(awsS3BucketExamplebucket.foo)"`
     );
   });
 });
