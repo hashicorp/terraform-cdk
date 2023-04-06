@@ -200,6 +200,12 @@ function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
 
   const [provider, ...resourceNameFragments] = resource.split("_");
 
+  // Hack: This happens in the case of `external` provider
+  // where the data source does not have a provider name prefix
+  if (resourceNameFragments.length === 0) {
+    resourceNameFragments.push(provider);
+  }
+
   result.push(provider);
   result.push(resourceNameFragments.join("_"));
   result = [
@@ -316,9 +322,9 @@ function convertTFExpressionAstToTs(
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
-      const parts = resourcePath.split(".");
-      const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
       let usingSubPathType = false;
+      let parts = resourcePath.split(".").filter((p) => p !== "");
+      const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
       while (parts.length >= minParts) {
         const type = getTypeAtPath(scope.providerSchema, parts.join("."));
         if (type !== null) {

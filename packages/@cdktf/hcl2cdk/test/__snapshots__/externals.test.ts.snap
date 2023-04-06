@@ -10,13 +10,12 @@ import * as external from \\"./.gen/providers/external\\";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    /*The following providers are missing schema information and might need manual adjustments to synthesize correctly: external.
-    For a more precise conversion please use the --provider flag in convert.*/
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
     new aws.provider.AwsProvider(this, \\"aws\\", {
       region: \\"us-east-1\\",
     });
+    new external.provider.ExternalProvider(this, \\"external\\", {});
     const changemeSpotAndFargateRegion = new cdktf.TerraformVariable(
       this,
       \\"changeme_spot_and_fargate_region\\",
@@ -46,17 +45,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
         }
       );
     const dataExternalChangemeExternalThumbprintData =
-      new external.dataExternal.DataExternal(
-        this,
-        \\"changeme_external_thumbprint_data\\",
-        {
-          dependsOn: [awsEksClusterChangemeSpotAndFargateEksCluster],
-          program: [
-            \\"\${path.module}/oidc_thumbprint.sh\\",
-            changemeSpotAndFargateRegion.value,
-          ],
-        }
-      );
+      new external.DataExternal(this, \\"changeme_external_thumbprint_data\\", {
+        dependsOn: [awsEksClusterChangemeSpotAndFargateEksCluster],
+        program: [
+          \\"\${path.module}/oidc_thumbprint.sh\\",
+          changemeSpotAndFargateRegion.value,
+        ],
+      });
     new aws.iamOpenidConnectProvider.IamOpenidConnectProvider(
       this,
       \\"changeme_iam_openid_connect_provider\\",
@@ -70,8 +65,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
         ],
         url:
           \\"\${\\" +
-          dataAwsEksClusterChangemeSpotAndFargateEksClusterData.identity +
-          \\"}[0].oidc[0].issuer\\",
+          dataAwsEksClusterChangemeSpotAndFargateEksClusterData.fqn +
+          \\"}.identity[0].oidc[0].issuer\\",
       }
     );
   }
