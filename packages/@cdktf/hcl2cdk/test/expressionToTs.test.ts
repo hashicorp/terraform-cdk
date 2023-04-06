@@ -1004,7 +1004,9 @@ EOF`;
       () => ["map", "string"]
     );
 
-    expect(code(result)).toMatchInlineSnapshot();
+    expect(code(result)).toMatchInlineSnapshot(
+      `"dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap"`
+    );
   });
 
   test("dont convert external unknown fields", async () => {
@@ -1020,7 +1022,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap"`
+      `"cdktf.Token.asStringMap(\\"\${\\" + dataExternalChangemeExternalThumbprintData.fqn + \\"}.result.thumbprint\\")"`
     );
   });
 
@@ -1051,6 +1053,8 @@ EOF`;
       scope,
       () => ["map", "string"]
     );
-    expect(code(result)).toMatchInlineSnapshot();
+    expect(code(result)).toMatchInlineSnapshot(
+      `"awsS3BucketExamplebucket.foo"`
+    );
   });
 });
