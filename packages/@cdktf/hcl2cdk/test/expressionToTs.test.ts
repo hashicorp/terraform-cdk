@@ -359,7 +359,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.network_interface[0].access_config[0].assigned_nat_ip\\""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -373,7 +373,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.network_interface[0].access_config[0].assigned_nat_ip\\""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -495,7 +495,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}[0].id\\""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}[0].id""`
     );
   });
 
@@ -885,7 +885,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.names[0]\\""`
+      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.names[0]""`
     );
   });
 
@@ -901,7 +901,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + \\"}.testing_map.foo\\""`
+      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.testing_map.foo""`
     );
   });
 
@@ -933,7 +933,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.foo.bar\\""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.foo.bar""`
     );
   });
   test("convert resource reference with map", async () => {
