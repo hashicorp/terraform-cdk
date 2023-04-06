@@ -24,8 +24,8 @@ describe("variableTypeToAst", () => {
       )
     ).toMatchInlineSnapshot(`
       "cdktf.VariableType.object({
-        \\"address\\": cdktf.VariableType.STRING,
-        \\"name\\": cdktf.VariableType.STRING
+        "address": cdktf.VariableType.STRING,
+        "name": cdktf.VariableType.STRING
       })"
     `);
   });
@@ -37,9 +37,9 @@ describe("variableTypeToAst", () => {
       )
     ).toMatchInlineSnapshot(`
       "cdktf.VariableType.list(cdktf.VariableType.object({
-        \\"external\\": cdktf.VariableType.NUMBER,
-        \\"internal\\": cdktf.VariableType.NUMBER,
-        \\"protocol\\": cdktf.VariableType.STRING
+        "external": cdktf.VariableType.NUMBER,
+        "internal": cdktf.VariableType.NUMBER,
+        "protocol": cdktf.VariableType.STRING
       }))"
     `);
   });
