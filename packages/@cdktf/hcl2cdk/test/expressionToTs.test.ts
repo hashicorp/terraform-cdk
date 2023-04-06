@@ -917,7 +917,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asStringMap(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap)"`
+      `"dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap"`
     );
   });
 
@@ -948,7 +948,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asStringMap(awsS3BucketExamplebucket.foo)"`
+      `"awsS3BucketExamplebucket.foo"`
     );
   });
 });
