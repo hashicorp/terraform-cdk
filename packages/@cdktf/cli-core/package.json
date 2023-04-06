@@ -109,7 +109,7 @@
     "@types/fs-extra": "^8.1.2",
     "@types/ink": "^2.0.3",
     "@types/ink-spinner": "^3.0.1",
-    "@types/inquirer": "^7.3.3",
+    "@types/inquirer": "^8.2.5",
     "@types/jest": "^29.5.0",
     "@types/json-schema": "^7.0.11",
     "@types/lodash.isequal": "^4.5.6",
