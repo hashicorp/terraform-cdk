@@ -733,7 +733,7 @@ export function findExpressionType(
     const destructuredAst = destructureAst(ast);
     if (!destructuredAst) {
       logger.debug(
-        `Could not destructure ast: ${JSON.stringify(ast, null, 2)} `
+        `Could not destructure ast: ${JSON.stringify(ast, null, 2)}`
       );
       return "dynamic";
     }
@@ -749,7 +749,7 @@ export function findExpressionType(
           scope.variables,
           null,
           2
-        )} `
+        )}`
       );
       // We don't know, this should not happen, but if it does we assume the worst case and make it dynamic
       return "dynamic";
@@ -763,7 +763,7 @@ export function findExpressionType(
     const [provider, ...resourceNameFragments] = resourceType.split("_");
     const tfResourcePath = `${provider}.${resourceNameFragments.join(
       "_"
-    )}.${attributes.map((x) => toSnakeCase(x)).join(".")} `;
+    )}.${attributes.map((x) => toSnakeCase(x)).join(".")}`;
     const type = getTypeAtPath(scope.providerSchema, tfResourcePath);
 
     // If this is an attribute type we can return it
@@ -789,7 +789,7 @@ export async function convertTerraformExpressionToTs(
   const ast = await getExpressionAst("main.tf", sanitizedInput);
 
   if (!ast) {
-    throw new Error(`Unable to parse terraform expression: ${input} `);
+    throw new Error(`Unable to parse terraform expression: ${input}`);
   }
 
   let tsExpression;
@@ -819,7 +819,7 @@ export async function extractReferencesFromExpression(
   );
 
   logger.debug(
-    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)} `
+    `found possible variable spots: ${JSON.stringify(possibleVariableSpots)}`
   );
 
   return possibleVariableSpots.reduce((carry, spot) => {
@@ -838,14 +838,14 @@ export async function extractReferencesFromExpression(
       value.startsWith("terraform.workspace") ||
       value.startsWith("self.") // block local value
     ) {
-      logger.debug(`skipping ${value} `);
+      logger.debug(`skipping ${value}`);
       return carry;
     }
 
     const referenceParts = value.split(".");
 
     logger.debug(
-      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)} `
+      `Searching for node id '${value}' in ${JSON.stringify(nodeIds)}`
     );
     const corespondingNodeId = [...nodeIds, ...scopedIds].find((id) => {
       const parts = id.split(".");
@@ -867,7 +867,7 @@ export async function extractReferencesFromExpression(
         `Found a reference that is unknown: ${input} has reference "${value}".The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
-${leaveCommentText} `
+${leaveCommentText}`
       );
       return carry;
     }
