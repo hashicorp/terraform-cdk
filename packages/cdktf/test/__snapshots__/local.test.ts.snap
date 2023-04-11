@@ -36,6 +36,21 @@ exports[`local reference 1`] = `
 }"
 `;
 
+exports[`local used in template string 1`] = `
+"{
+  "locals": {
+    "test-local": {
+      "type": "string"
+    }
+  },
+  "output": {
+    "test-output": {
+      "value": "The value is \${local.test-local}"
+    }
+  }
+}"
+`;
+
 exports[`multiple locals 1`] = `
 "{
   "locals": {

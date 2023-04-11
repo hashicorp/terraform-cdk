@@ -198,6 +198,21 @@ exports[`validation block variable self reference 1`] = `
 }"
 `;
 
+exports[`variable used in template string 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "The value is \${var.test-variable}"
+    }
+  },
+  "variable": {
+    "test-variable": {
+      "type": "string"
+    }
+  }
+}"
+`;
+
 exports[`variable with variable default 1`] = `
 "{
   "variable": {
