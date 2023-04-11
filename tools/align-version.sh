@@ -6,7 +6,7 @@
 # usage: align-version.sh [SUFFIX]
 #
 # aligns lerna version to package.json
-# this is executed in CI builds so artifacts include the actual version instead of 0.0.0.0
+# this is executed in CI builds so artifacts include the actual version instead of 0.0.0
 #
 # if SUFFIX is provided, appends this to the version as-is
 #
