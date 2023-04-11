@@ -30,6 +30,8 @@ jobs:
       - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
         # The Sentry CLI also requires this, https://github.com/actions/checkout/issues/760
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: installing dependencies
         run: yarn install --frozen-lockfile
       - name: Configure git user
