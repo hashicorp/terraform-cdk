@@ -305,7 +305,7 @@ function convertTFExpressionAstToTs(
     const hasNumericAccessor =
       attributeSegments.findIndex((seg) => tex.isIndexTraversalPart(seg)) >= 0;
     let hasMapAccessor = false;
-    if (hasNumericAccessor) {
+    if (!hasNumericAccessor) {
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
