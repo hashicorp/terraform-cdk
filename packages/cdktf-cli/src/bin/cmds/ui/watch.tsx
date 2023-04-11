@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { AbortController } from "node-abort-controller";
 import React, { useEffect, useState } from "react";
 import { watch, WatchState } from "@cdktf/cli-core";
 import { StreamView, WatchStatusBottomBar } from "./components";
