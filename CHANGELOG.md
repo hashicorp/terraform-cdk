@@ -47,7 +47,7 @@ We added support for advanced lifecycle features like [`preconditions`](/terrafo
 
 ### Minimum required Node version updated to 16.13
 
-Since the long-term support for Node 14 is ending we updated our minimal compatible node version to 16.13 and above.
+Since the long-term support for Node 14 is ending, we updated our minimum compatible node version to 16.13.
 
 ## 0.15.5
 
