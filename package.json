@@ -115,6 +115,6 @@
     ]
   },
   "resolutions": {
-    "@types/node": "14.18.33"
+    "@types/node": "16.18.23"
   }
 }

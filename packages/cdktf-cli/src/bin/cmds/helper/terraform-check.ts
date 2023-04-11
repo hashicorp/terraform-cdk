@@ -5,7 +5,6 @@ import { logger } from "@cdktf/commons";
 import * as semver from "semver";
 import { existsSync } from "fs-extra";
 import * as path from "path";
-import { AbortController } from "node-abort-controller"; // polyfill until we update to node 14
 
 const MIN_SUPPORTED_VERSION = "1.2.0";
 const VERSION_REGEXP = /Terraform v\d+.\d+.\d+/;
