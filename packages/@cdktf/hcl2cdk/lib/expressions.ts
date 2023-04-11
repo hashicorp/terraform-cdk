@@ -302,11 +302,10 @@ function convertTFExpressionAstToTs(
     const rootSegment = segments[0].segment;
     const attributeIndex = rootSegment === "data" ? 3 : 2;
     const attributeSegments = segments.slice(attributeIndex);
-    const indexOfNumericAccessor = attributeSegments.findIndex((seg) =>
-      tex.isIndexTraversalPart(seg)
-    );
+    const hasNumericAccessor =
+      attributeSegments.findIndex((seg) => tex.isIndexTraversalPart(seg)) >= 0;
     let hasMapAccessor = false;
-    if (indexOfNumericAccessor < 0) {
+    if (hasNumericAccessor) {
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
@@ -326,7 +325,7 @@ function convertTFExpressionAstToTs(
       }
     }
 
-    const needsFqn = indexOfNumericAccessor > -1 || hasMapAccessor;
+    const needsFqn = hasNumericAccessor || hasMapAccessor;
 
     const refSegments = needsFqn ? [] : attributeSegments;
     const nonRefSegments = needsFqn ? attributeSegments : [];
