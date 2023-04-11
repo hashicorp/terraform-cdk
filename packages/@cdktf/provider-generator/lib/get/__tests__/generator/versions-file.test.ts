@@ -28,7 +28,8 @@ jest.mock("../../generator/provider-schema", () => {
 
 jest.setTimeout(600_000);
 global.setImmediate =
-  global.setImmediate || ((fn: any, ...args: any[]) => global.setTimeout(fn, 0, ...args));
+  global.setImmediate ||
+  ((fn: any, ...args: any[]) => global.setTimeout(fn, 0, ...args));
 
 describe("versions.json file generation", () => {
   const languages = [Language.TYPESCRIPT, Language.PYTHON];
