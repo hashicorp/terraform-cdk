@@ -181,6 +181,37 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
   );
 }
 
+function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
+  const segments = node.meta.traversal;
+  let resource = segments[0].segment;
+  let result = [];
+  let attributes = [];
+
+  if (segments[0].segment === "data") {
+    result.push(segments[0].segment);
+    resource = segments[1].segment;
+    attributes = segments.slice(3); // we want to skip the variable name
+  } else {
+    attributes = segments.slice(2); // we want to skip the variable name
+  }
+
+  const [provider, ...resourceNameFragments] = resource.split("_");
+
+  result.push(provider);
+  result.push(resourceNameFragments.join("_"));
+  result = [
+    ...result,
+    ...attributes.map((seg) => {
+      if (tex.isIndexTraversalPart(seg)) {
+        return `[${seg.segment}]`;
+      }
+      return seg.segment;
+    }),
+  ];
+
+  return result.join(".");
+}
+
 function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
@@ -269,21 +300,35 @@ function convertTFExpressionAstToTs(
     }
 
     const rootSegment = segments[0].segment;
-    const subSegments =
-      rootSegment === "data" ? segments.slice(3) : segments.slice(2);
-    const indexOfNumericAccessor = subSegments.findIndex((seg) =>
-      tex.isIndexTraversalPart(seg)
-    );
+    const attributeIndex = rootSegment === "data" ? 3 : 2;
+    const attributeSegments = segments.slice(attributeIndex);
+    const hasNumericAccessor =
+      attributeSegments.findIndex((seg) => tex.isIndexTraversalPart(seg)) >= 0;
+    let hasMapAccessor = false;
+    if (!hasNumericAccessor) {
+      // only do this if we have to, if we already have a
+      // numeric accessor, we don't have to do this additional work
+      const resourcePath = getTfResourcePathFromNode(node);
+      const parts = resourcePath.split(".");
+      const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
+      let usingSubPathType = false;
+      while (parts.length >= minParts) {
+        const type = getTypeAtPath(scope.providerSchema, parts.join("."));
+        if (type !== null) {
+          if (Array.isArray(type) && type[0] === "map" && usingSubPathType) {
+            hasMapAccessor = true;
+            break;
+          }
+        }
+        parts.pop();
+        usingSubPathType = true;
+      }
+    }
 
-    const refSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(0, indexOfNumericAccessor)
-        : subSegments;
+    const needsFqn = hasNumericAccessor || hasMapAccessor;
 
-    const nonRefSegments =
-      indexOfNumericAccessor > -1
-        ? subSegments.slice(indexOfNumericAccessor)
-        : [];
+    const refSegments = needsFqn ? [] : attributeSegments;
+    const nonRefSegments = needsFqn ? attributeSegments : [];
 
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
@@ -304,7 +349,7 @@ function convertTFExpressionAstToTs(
 
     return expressionForSerialStringConcatenation([
       t.stringLiteral("${"),
-      ref,
+      needsFqn ? t.memberExpression(ref, t.identifier("fqn")) : ref,
       t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
     ]);
   }
@@ -818,7 +863,7 @@ export async function extractReferencesFromExpression(
       // This is most likely a false positive, so we just ignore it
       // We include the log below to help debugging
       logger.error(
-        `Found a reference that is unknown: ${input} has reference "${value}". The id was not found in ${JSON.stringify(
+        `Found a reference that is unknown: ${input} has reference "${value}".The id was not found in ${JSON.stringify(
           nodeIds
         )} with temporary values ${JSON.stringify(scopedIds)}.
 ${leaveCommentText}`

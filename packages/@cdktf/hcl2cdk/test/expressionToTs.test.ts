@@ -13,7 +13,118 @@ function code(e: t.Expression): string {
   return generate(e).code;
 }
 
+const providerSchema = {
+  format_version: "1.0",
+  provider_schemas: {
+    "registry.terraform.io/hashicorp/aws": {
+      provider: {},
+      resource_schemas: {
+        aws_s3_bucket: {
+          block: {
+            attributes: {
+              foo: {
+                type: ["map", "string"],
+                description_kind: "plain",
+              },
+            },
+          },
+        },
+      },
+      data_source_schemas: {
+        aws_availability_zones: {
+          version: 0,
+          block: {
+            attributes: {
+              all_availability_zones: {
+                type: "bool",
+                description_kind: "plain",
+                optional: true,
+              },
+              exclude_names: {
+                type: ["set", "string"],
+                description_kind: "plain",
+                optional: true,
+              },
+              exclude_zone_ids: {
+                type: ["set", "string"],
+                description_kind: "plain",
+                optional: true,
+              },
+              group_names: {
+                type: ["set", "string"],
+                description_kind: "plain",
+                computed: true,
+              },
+              id: {
+                type: "string",
+                description_kind: "plain",
+                optional: true,
+                computed: true,
+              },
+              names: {
+                type: ["list", "string"],
+                description_kind: "plain",
+                computed: true,
+              },
+              state: {
+                type: "string",
+                description_kind: "plain",
+                optional: true,
+              },
+              zone_ids: {
+                type: ["list", "string"],
+                description_kind: "plain",
+                computed: true,
+              },
+              testing_map: {
+                type: ["map", "string"],
+                description_kind: "plain",
+                computed: true,
+              },
+            },
+            block_types: {
+              filter: {
+                nesting_mode: "set",
+                block: {
+                  attributes: {
+                    name: {
+                      type: "string",
+                      description_kind: "plain",
+                      required: true,
+                    },
+                    values: {
+                      type: ["set", "string"],
+                      description_kind: "plain",
+                      required: true,
+                    },
+                  },
+                  description_kind: "plain",
+                },
+              },
+              timeouts: {
+                nesting_mode: "single",
+                block: {
+                  attributes: {
+                    read: {
+                      type: "string",
+                      description_kind: "plain",
+                      optional: true,
+                    },
+                  },
+                  description_kind: "plain",
+                },
+              },
+            },
+            description_kind: "plain",
+          },
+        },
+      },
+    },
+  },
+};
+
 type GetScopeParams = {
+  provider?: Record<string, any>;
   resources?: string[];
   data?: string[];
   variables?: string[];
@@ -24,6 +135,7 @@ type GetScopeParams = {
 };
 
 function getScope({
+  provider,
   resources,
   data,
   variables,
@@ -69,7 +181,7 @@ function getScope({
   });
 
   const scope = {
-    providerSchema: {},
+    providerSchema: provider ?? {},
     providerGenerator: {},
     constructs: new Set<string>(),
     variables: scopeVariables,
@@ -247,7 +359,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.networkInterface + "}[0].access_config[0].assigned_nat_ip""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -261,7 +373,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.networkInterface + "}[0].access_config[0].assigned_nat_ip""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -383,7 +495,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket + "}[0].id""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}[0].id""`
     );
   });
 
@@ -758,6 +870,85 @@ EOF`;
     );
     expect(code(result)).toMatchInlineSnapshot(
       `""\${required_resource_access.value[\\"resource_access\\"]}""`
+    );
+  });
+
+  test("convert a data source with numeric access", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.names[0]}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.names[0]""`
+    );
+  });
+
+  test("convert a reference to a map access", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.testing_map.foo}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.testing_map.foo""`
+    );
+  });
+
+  test("convert attribute up to a map and not within attribute reference", async () => {
+    const expression = `"\${data.aws_availability_zones.changeme_az_list_ebs_snapshot.testing_map}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      data: ["aws_subnet_ids"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => ["map", "string"]
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap"`
+    );
+  });
+
+  test("convert resource reference with map attribute", async () => {
+    const expression = `"\${aws_s3_bucket.examplebucket.foo.bar}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      resources: ["aws_s3_bucket"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => "string"
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.foo.bar""`
+    );
+  });
+  test("convert resource reference with map", async () => {
+    const expression = `"\${aws_s3_bucket.examplebucket.foo}"`;
+    const scope = getScope({
+      provider: providerSchema,
+      resources: ["aws_s3_bucket"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => ["map", "string"]
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"awsS3BucketExamplebucket.foo"`
     );
   });
 });
