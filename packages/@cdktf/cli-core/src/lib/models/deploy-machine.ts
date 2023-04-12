@@ -116,6 +116,8 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         "Do you really want to destroy all resources in workspace"
       )
     ) {
+      hideOutput = true;
+      send({ type: "OUTPUT_RECEIVED", output });
       send({ type: "REQUEST_APPROVAL" });
     } else if (
       noColorLine.includes("var.") &&
