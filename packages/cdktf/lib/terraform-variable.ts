@@ -180,4 +180,11 @@ export class TerraformVariable
       },
     };
   }
+
+  /**
+   * @returns a string token referencing the value of this variable
+   */
+  toString(): string {
+    return this.stringValue;
+  }
 }

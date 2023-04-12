@@ -82,4 +82,11 @@ export class TerraformLocal
       },
     };
   }
+
+  /**
+   * @returns a string token referencing the value of this local
+   */
+  toString(): string {
+    return this.asString;
+  }
 }
