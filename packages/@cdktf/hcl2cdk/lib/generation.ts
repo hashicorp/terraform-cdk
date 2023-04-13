@@ -399,7 +399,7 @@ export async function resource(
 
   let countIteratorName: string | undefined;
   if (count) {
-    countIteratorName = variableName(scope, resource, `${key}_count_iterator`);
+    countIteratorName = variableName(scope, resource, `${key}_count`);
     const referenceAst = await convertTerraformExpressionToTs(
       `"${count}"`,
       scope,
