@@ -299,8 +299,8 @@ import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
 import imports.dnsimple.provider.DnsimpleProvider;
 import imports.dnsimple.provider.DnsimpleProviderConfig;
-import imports.dnsimple.record.Record;
-import imports.dnsimple.record.RecordConfig;
+import imports.dnsimple.zone_record.ZoneRecord;
+import imports.dnsimple.zone_record.ZoneRecordConfig;
 
 public class MainImportClasses extends TerraformStack {
 
@@ -338,8 +338,8 @@ public class MainImportClasses extends TerraformStack {
                 .build()
         );
 
-        new Record(this, "web-www", RecordConfig.builder()
-                .domain("example.com")
+        new ZoneRecord(this, "web-www", ZoneRecordConfig.builder()
+                .zoneName("example.com")
                 .name("web")
                 .value(instance.getPublicIp())
                 .type("A")
@@ -361,7 +361,7 @@ from constructs import Construct
 from cdktf import App, TerraformStack, TerraformVariable, Token
 from imports.aws.provider import AwsProvider
 from imports.dnsimple.provider import DnsimpleProvider
-from imports.dnsimple.record import Record
+from imports.dnsimple.zone_record import ZoneRecord
 
 class ProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -393,8 +393,8 @@ class ProviderStack(TerraformStack):
             account = dnsimpleAccount.string_value
         )
 
-        Record(self, "web-www",
-            domain = "example.com",
+        ZoneRecord(self, "web-www",
+            zoneName = "example.com",
             name = "web",
             value = instance.public_ip,
             type = "A"
@@ -415,7 +415,7 @@ using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.Instance;
 using dnsimple.Provider;
-using dnsimple.Record;
+using dnsimple.ZoneRecord;
 
 
 namespace Examples
@@ -463,9 +463,9 @@ namespace Examples
                 Account = dnsimpleAccount.StringValue
             });
 
-            new Record(this, "web-www", new RecordConfig
+            new ZoneRecord(this, "web-www", new ZoneRecordConfig
             {
-                Domain = "example.com",
+                ZoneName = "example.com",
                 Name = "web",
                 Value = instance.PublicIp,
                 Type = "A"
@@ -482,7 +482,7 @@ import (
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
 
 	dnsimple "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/provider"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/record"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/zonerecord"
 
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
 	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
@@ -517,8 +517,8 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 		Account: dnsimpleAccount.StringValue(),
 	})
 
-	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{
-		Domain: jsii.String("example.com"),
+	zonerecord.NewZoneRecord(stack, jsii.String("web-www"), &zonerecord.ZoneRecordConfig{
+		ZoneName: jsii.String("example.com"),
 		Name:   jsii.String("web"),
 		Value:  instance.PublicIp(),
 		Type:   jsii.String("A"),

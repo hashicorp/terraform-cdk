@@ -868,7 +868,8 @@ this.allResources = new TerraformLocal(this, "merged_items", [
 ```
 
 ```java
-this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
+this.allResources = new TerraformLocal(this, "merge_items",
+        Fn.concat(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
 ```
 
 ```python
@@ -876,7 +877,7 @@ self.allResources =  TerraformLocal(self, "merge_items", Fn.concat(resourceFromS
 ```
 
 ```csharp
-this.allResources = new TerraformLocal(this, "merge_items", Fn.mergeLists(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
+this.allResources = new TerraformLocal(this, "merge_items", Fn.concat(Arrays.asList(resourceFromStackA.items, resourceFromStackB.items)));
 ```
 
 ```go
@@ -991,15 +992,21 @@ stack.addOverride("terraform.backend", {
 ```
 
 ```java
-stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>(){{
-    put("local", null); // delete the default local backend
-    put("remote", new HashMap<String, Object>(){{
-        put("organization", "test");
-        put("workspaces", new HashMap<String, String>(){{
-            put("name", "test");
-        }});
-    }});
-}});
+stack.addOverride("terraform.backend", new HashMap<String, HashMap<String, Object>>() {
+    {
+        put("local", null); // delete the default local backend
+        put("remote", new HashMap<String, Object>() {
+            {
+                put("organization", "test");
+                put("workspaces", new HashMap<String, String>() {
+                    {
+                        put("name", "test");
+                    }
+                });
+            }
+        });
+    }
+});
 ```
 
 ```python
