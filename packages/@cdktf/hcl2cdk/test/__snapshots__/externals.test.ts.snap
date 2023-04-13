@@ -21,6 +21,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       "changeme_spot_and_fargate_region",
       {
         default: "us-east-1",
+        type: cdktf.VariableType.STRING,
       }
     );
     const awsEksClusterChangemeSpotAndFargateEksCluster =
