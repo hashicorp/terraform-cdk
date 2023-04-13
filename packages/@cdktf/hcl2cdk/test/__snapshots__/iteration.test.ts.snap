@@ -125,7 +125,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     const awsIamUserLb = new aws.iamUser.IamUser(this, "lb", {
       name: cdktf.Token.asString(
-        cdktf.Fn.element(users.value, cdktf.Token.asNumber("\${count.index}"))
+        cdktf.Fn.element(
+          users.value,
+          cdktf.Token.asNumber(awsIamUserLbCountIterator.index)
+        )
       ),
       path: "/system/",
       tags: {
@@ -133,11 +136,6 @@ class MyConvertedCode extends cdktf.TerraformStack {
       },
       count: awsIamUserLbCountIterator,
     });
-    /*In most cases loops should be handled in the programming language context and 
-    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-    you need to keep this like it is.*/
-    awsIamUserLb.addOverride("count", cdktf.Fn.lengthOf(users.value));
   }
 }
 "
@@ -462,7 +460,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
     const awsInstanceMultipleServersCountIterator = cdktf.TerraformCount.of(
-      cdktf.Token.asNumber(\\"4\\")
+      cdktf.Token.asNumber("4")
     );
     const awsInstanceMultipleServers = new aws.instance.Instance(
       this,
@@ -471,16 +469,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
         ami: "ami-0c2b8ca1dad447f8a",
         instanceType: "t2.micro",
         tags: {
-          Name: "Server \${count.index}",
+          Name:
+            "Server \${" + awsInstanceMultipleServersCountIterator.index + "}",
         },
         count: awsInstanceMultipleServersCountIterator,
       }
     );
-    /*In most cases loops should be handled in the programming language context and 
-    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
-    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
-    you need to keep this like it is.*/
-    awsInstanceMultipleServers.addOverride("count", 4);
   }
 }
 "
