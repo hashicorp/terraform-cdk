@@ -6,7 +6,7 @@
     "aws@~> 3.0",
     "kubernetes@~> 2.0",
     "hashicorp/random@~> 3.1",
-    "dnsimple/dnsimple@~> 0.17",
+    "dnsimple/dnsimple@~> 1.0",
     "kreuzwerker/docker@~> 3.0",
     "integrations/github@~> 5.22"
   ],
