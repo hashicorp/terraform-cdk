@@ -199,7 +199,7 @@ export type BinaryOpExpression = CommonExpressionAst & {
 
 export type ObjectExpression = CommonExpressionAst & {
   type: "object";
-  meta: ObjectExpressionMeta; // Doesn't have any special meta attributes
+  meta: ObjectExpressionMeta;
 };
 
 export type ExpressionType =
