@@ -431,7 +431,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"\\"\${\\" + awsS3BucketExamplebucket.fqn + \\"}.network_interface[0].access_config[0].assigned_nat_ip\\""`
+      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
     );
   });
 
@@ -1022,7 +1022,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asStringMap(\\"\${\\" + dataExternalChangemeExternalThumbprintData.fqn + \\"}.result.thumbprint\\")"`
+      `"cdktf.Token.asStringMap("\${" + dataExternalChangemeExternalThumbprintData.fqn + "}.result.thumbprint")"`
     );
   });
 
