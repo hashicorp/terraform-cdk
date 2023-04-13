@@ -509,17 +509,16 @@ export async function resource(
     delete parent.dynamic;
   }
 
-  const overrideReference =
-    dynamicBlocksUsingOverrides.length || count
-      ? {
-          start: 0,
-          end: 0,
-          referencee: {
-            id: `${type}.${key}`,
-            full: `${type}.${key}`,
-          },
-        }
-      : undefined;
+  const overrideReference = dynamicBlocksUsingOverrides.length
+    ? {
+        start: 0,
+        end: 0,
+        referencee: {
+          id: `${type}.${key}`,
+          full: `${type}.${key}`,
+        },
+      }
+    : undefined;
 
   if (provisioner) {
     mappedConfig.provisioners = await Promise.all(
