@@ -155,6 +155,8 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: Release
         run: npx -p jsii-release jsii-release-npm
         env:
@@ -177,6 +179,8 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: Release
         run: npx -p jsii-release jsii-release-pypi
         env:
@@ -199,6 +203,8 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: Release
         run: npx -p jsii-release jsii-release-maven
         env:
@@ -246,6 +252,8 @@ jobs:
         with:
           name: dist
           path: dist
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: Release
         run: npx -p jsii-release jsii-release-golang
         env:
