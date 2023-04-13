@@ -218,7 +218,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsS3BucketExamplebucketCountIterator = cdktf.TerraformCount.of(
+    const awsS3BucketExamplebucketCount = cdktf.TerraformCount.of(
       cdktf.Token.asNumber("2")
     );
     const awsS3BucketExamplebucket = new aws.s3Bucket.S3Bucket(
@@ -227,10 +227,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
       {
         acl: "private",
         bucket:
-          "examplebuckettftest-\${" +
-          awsS3BucketExamplebucketCountIterator.index +
-          "}",
-        count: awsS3BucketExamplebucketCountIterator,
+          "examplebuckettftest-\${" + awsS3BucketExamplebucketCount.index + "}",
+        count: awsS3BucketExamplebucketCount,
       }
     );
     new aws.s3BucketObject.S3BucketObject(this, "examplebucket_object", {

@@ -123,18 +123,25 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const users = new cdktf.TerraformVariable(this, "users", {
       type: cdktf.VariableType.set(cdktf.VariableType.STRING),
     });
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    const awsIamUserLbCount = cdktf.TerraformCount.of(
+      cdktf.Fn.lengthOf(users.value)
+    );
     const awsIamUserLb = new aws.iamUser.IamUser(this, "lb", {
       name: cdktf.Token.asString(
         cdktf.Fn.element(
           users.value,
-          cdktf.Token.asNumber(awsIamUserLbCountIterator.index)
+          cdktf.Token.asNumber(awsIamUserLbCount.index)
         )
       ),
       path: "/system/",
       tags: {
         "tag-key": "tag-value",
       },
-      count: awsIamUserLbCountIterator,
+      count: awsIamUserLbCount,
     });
   }
 }
@@ -459,7 +466,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsInstanceMultipleServersCountIterator = cdktf.TerraformCount.of(
+    const awsInstanceMultipleServersCount = cdktf.TerraformCount.of(
       cdktf.Token.asNumber("4")
     );
     const awsInstanceMultipleServers = new aws.instance.Instance(
@@ -469,10 +476,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         ami: "ami-0c2b8ca1dad447f8a",
         instanceType: "t2.micro",
         tags: {
-          Name:
-            "Server \${" + awsInstanceMultipleServersCountIterator.index + "}",
+          Name: "Server \${" + awsInstanceMultipleServersCount.index + "}",
         },
-        count: awsInstanceMultipleServersCountIterator,
+        count: awsInstanceMultipleServersCount,
       }
     );
   }
