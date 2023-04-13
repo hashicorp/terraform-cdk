@@ -11,7 +11,7 @@ import (
 
 	// DOCS_BLOCK_END:providers-import-providers
 	dnsimple "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/provider"
-	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/record"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/dnsimple/dnsimple/zonerecord"
 
 	// DOCS_BLOCK_START:providers-import-providers
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
@@ -48,8 +48,8 @@ func NewProvidersStack(scope constructs.Construct, name string) cdktf.TerraformS
 		Account: dnsimpleAccount.StringValue(),
 	})
 
-	record.NewRecord(stack, jsii.String("web-www"), &record.RecordConfig{
-		Domain: jsii.String("example.com"),
+	zonerecord.NewZoneRecord(stack, jsii.String("web-www"), &zonerecord.ZoneRecordConfig{
+		ZoneName: jsii.String("example.com"),
 		Name:   jsii.String("web"),
 		Value:  instance.PublicIp(),
 		Type:   jsii.String("A"),

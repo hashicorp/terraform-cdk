@@ -16,8 +16,8 @@ import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
 import imports.dnsimple.provider.DnsimpleProvider;
 import imports.dnsimple.provider.DnsimpleProviderConfig;
-import imports.dnsimple.record.Record;
-import imports.dnsimple.record.RecordConfig;
+import imports.dnsimple.zone_record.ZoneRecord;
+import imports.dnsimple.zone_record.ZoneRecordConfig;
 
 public class MainImportClasses extends TerraformStack {
 
@@ -55,8 +55,8 @@ public class MainImportClasses extends TerraformStack {
                 .build()
         );
 
-        new Record(this, "web-www", RecordConfig.builder()
-                .domain("example.com")
+        new ZoneRecord(this, "web-www", ZoneRecordConfig.builder()
+                .zoneName("example.com")
                 .name("web")
                 .value(instance.getPublicIp())
                 .type("A")

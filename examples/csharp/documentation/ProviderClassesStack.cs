@@ -11,7 +11,7 @@ using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.Instance;
 using dnsimple.Provider;
-using dnsimple.Record;
+using dnsimple.ZoneRecord;
 
 
 namespace Examples
@@ -59,9 +59,9 @@ namespace Examples
                 Account = dnsimpleAccount.StringValue
             });
 
-            new Record(this, "web-www", new RecordConfig
+            new ZoneRecord(this, "web-www", new ZoneRecordConfig
             {
-                Domain = "example.com",
+                ZoneName = "example.com",
                 Name = "web",
                 Value = instance.PublicIp,
                 Type = "A"
