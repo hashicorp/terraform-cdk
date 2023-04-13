@@ -238,7 +238,7 @@ function convertTFExpressionAstToTs(
     }
 
     if (segments[0].segment === "count" && scope.countIteratorName) {
-      return iteratorVariableToAst(node, scope.countIteratorName, "count");
+      return dynamicVariableToAst(node, scope.countIteratorName, "count");
     }
 
     if (segments[0].segment === "self") {
