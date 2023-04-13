@@ -130,7 +130,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const awsIamUserLbCount = cdktf.TerraformCount.of(
       cdktf.Fn.lengthOf(users.value)
     );
-    const awsIamUserLb = new aws.iamUser.IamUser(this, "lb", {
+    new aws.iamUser.IamUser(this, "lb", {
       name: cdktf.Token.asString(
         cdktf.Fn.element(
           users.value,
@@ -469,18 +469,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const awsInstanceMultipleServersCount = cdktf.TerraformCount.of(
       cdktf.Token.asNumber("4")
     );
-    const awsInstanceMultipleServers = new aws.instance.Instance(
-      this,
-      "multiple_servers",
-      {
-        ami: "ami-0c2b8ca1dad447f8a",
-        instanceType: "t2.micro",
-        tags: {
-          Name: "Server \${" + awsInstanceMultipleServersCount.index + "}",
-        },
-        count: awsInstanceMultipleServersCount,
-      }
-    );
+    new aws.instance.Instance(this, "multiple_servers", {
+      ami: "ami-0c2b8ca1dad447f8a",
+      instanceType: "t2.micro",
+      tags: {
+        Name: "Server \${" + awsInstanceMultipleServersCount.index + "}",
+      },
+      count: awsInstanceMultipleServersCount,
+    });
   }
 }
 "
