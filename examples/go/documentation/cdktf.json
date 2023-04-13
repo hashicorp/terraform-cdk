@@ -6,7 +6,7 @@
         "hashicorp/aws@~> 3.70.0",
         "hashicorp/kubernetes@~> 2.0",
         "hashicorp/random@~> 3.4",
-        "dnsimple/dnsimple@~> 0.15",
+        "dnsimple/dnsimple@~> 1.0",
         "integrations/github@~> 5.16"
     ],
     "terraformModules": [
