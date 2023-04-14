@@ -510,7 +510,7 @@ resource "kubernetes_secret" "secrets-xxx" {
     }
     `,
     [binding.aws],
-    Synth.yes,
+    Synth.no_missing_type_coercion,
     {
       resources: ["aws_ecs_task_definition"],
     }
