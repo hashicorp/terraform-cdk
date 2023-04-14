@@ -72,9 +72,10 @@ describe("dependency manager", () => {
     });
 
     it("should return no extra space in toString() result before version", () => {
-      const constraint =
-        new ProviderConstraint("random", "*");
-      expect(constraint.toString()).toEqual("registry.terraform.io/hashicorp/random@*");
+      const constraint = new ProviderConstraint("random", "*");
+      expect(constraint.toString()).toEqual(
+        "registry.terraform.io/hashicorp/random@*"
+      );
     });
   });
 
