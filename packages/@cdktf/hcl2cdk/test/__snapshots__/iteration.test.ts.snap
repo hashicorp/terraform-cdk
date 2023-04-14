@@ -230,7 +230,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     you need to keep this like it is.*/
     const awsS3BucketExamplebucketForEachIterator =
       cdktf.TerraformIterator.fromList(
-        cdktf.Token.asAny(cdktf.Fn.toset("\${" + buckets.value + "}.*"))
+        cdktf.Token.asAny(
+          cdktf.Fn.toset(cdktf.propertyAccess(buckets.value, ["*"]))
+        )
       );
     const awsS3BucketExamplebucket = new aws.s3Bucket.S3Bucket(
       this,
@@ -250,7 +252,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const awsS3BucketObjectExamplebucketObjectForEachIterator =
       cdktf.TerraformIterator.fromList(
         cdktf.Token.asAny(
-          cdktf.Fn.toset("\${" + awsS3BucketExamplebucket.fqn + "}.*")
+          cdktf.Fn.toset(cdktf.propertyAccess(awsS3BucketExamplebucket, ["*"]))
         )
       );
     new aws.s3BucketObject.S3BucketObject(this, "examplebucket_object", {

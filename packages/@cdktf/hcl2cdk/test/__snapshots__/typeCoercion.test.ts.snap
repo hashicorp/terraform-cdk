@@ -82,8 +82,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
         vpcConfig: {
           subnetIds: cdktf.Token.asList(
             cdktf.Fn.concat([
-              "\${" + privateSubnets.value + "}.*.id",
-              "\${" + publicSubnets.value + "}.*.id",
+              cdktf.propertyAccess(privateSubnets.value, ["*", "id"]),
+              cdktf.propertyAccess(publicSubnets.value, ["*", "id"]),
             ])
           ),
         },

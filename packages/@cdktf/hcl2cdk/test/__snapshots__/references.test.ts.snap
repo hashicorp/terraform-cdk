@@ -274,7 +274,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ),
     });
     new cdktf.TerraformOutput(this, "values", {
-      value: "\${" + keyValuePairs.value + "}[*].bar",
+      value: cdktf.propertyAccess(keyValuePairs.value, ["*", "bar"]),
     });
   }
 }

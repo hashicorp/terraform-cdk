@@ -403,7 +403,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketFoo.fqn + "}.*.id""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketFoo, ["*", "id"]))"`
     );
   });
 
@@ -458,7 +458,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.toset("\${" + awsS3BucketExamplebucket.fqn + "}.*"))"`
+      `"cdktf.Token.asString(cdktf.Fn.toset(cdktf.propertyAccess(awsS3BucketExamplebucket, ["*"])))"`
     );
   });
 
@@ -498,7 +498,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.element("\${" + awsS3BucketExamplebucket.fqn + "}.*.id", 0))"`
+      `"cdktf.Token.asString(cdktf.Fn.element(cdktf.propertyAccess(awsS3BucketExamplebucket, ["*", "id"]), 0))"`
     );
   });
 
@@ -642,7 +642,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.flatten("\${" + vnets.value + "}[*].subnets[*].name"))"`
+      `"cdktf.Token.asString(cdktf.Fn.flatten(cdktf.propertyAccess(vnets.value, ["*", "subnets", "*", "name"])))"`
     );
   });
 
@@ -660,7 +660,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for vnet in \${" + ("\${" + vnets.value + "}[*]") + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
+      `""\${{ for vnet in \${" + cdktf.propertyAccess(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
     );
   });
 
@@ -842,7 +842,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.concat(["\${" + privateSubnets.value + "}.*.id", "\${" + publicSubnets.value + "}.*.id"]))"`
+      `"cdktf.Token.asString(cdktf.Fn.concat([cdktf.propertyAccess(privateSubnets.value, ["*", "id"]), cdktf.propertyAccess(publicSubnets.value, ["*", "id"])]))"`
     );
   });
 
