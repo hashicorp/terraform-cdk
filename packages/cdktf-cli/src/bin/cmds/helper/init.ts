@@ -177,7 +177,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     const { providerSchema } = await readSchema(
       Object.entries(providerRequirements).map(([name, version]) =>
         ConstructsMakerProviderTarget.from(
-          new TerraformProviderConstraint(`${name}@ ${version}`),
+          new TerraformProviderConstraint(`${name}@${version}`),
           LANGUAGES[0]
         )
       )
