@@ -27,6 +27,7 @@ export enum Synth {
   yes,
   no_cant_resolve_construct,
   no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
+  no_missing_type_coercion, // We don't type coerce numbers yet
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
