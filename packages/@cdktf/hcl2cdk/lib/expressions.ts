@@ -341,10 +341,10 @@ async function convertTFExpressionAstToTs(
       }
     }
 
-    const needsFqn = hasNumericAccessor || hasMapAccessor;
+    const needsPropertyAccess = hasNumericAccessor || hasMapAccessor;
 
-    const refSegments = needsFqn ? [] : attributeSegments;
-    const nonRefSegments = needsFqn ? attributeSegments : [];
+    const refSegments = needsPropertyAccess ? [] : attributeSegments;
+    const nonRefSegments = needsPropertyAccess ? attributeSegments : [];
 
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
@@ -363,11 +363,15 @@ async function convertTFExpressionAstToTs(
       return ref;
     }
 
-    return expressionForSerialStringConcatenation([
-      t.stringLiteral("${"),
-      needsFqn ? t.memberExpression(ref, t.identifier("fqn")) : ref,
-      t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
-    ]);
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        ref,
+        t.arrayExpression(
+          nonRefSegments.map((s) => t.stringLiteral(s.segment))
+        ),
+      ]
+    );
   }
 
   if (tex.isUnaryOpExpression(node)) {

@@ -417,7 +417,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -431,7 +431,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -445,7 +445,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.fqn + "}.network_interface[0].access_config[0].assigned_nat_ip""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -567,7 +567,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.fqn + "}[0].id""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["0", "id"]))"`
     );
   });
 
@@ -972,7 +972,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.names[0]""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["names", "0"]))"`
     );
   });
 
@@ -988,7 +988,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn + "}.testing_map.foo""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
     );
   });
 
@@ -1022,7 +1022,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asStringMap("\${" + dataExternalChangemeExternalThumbprintData.fqn + "}.result.thumbprint")"`
+      `"cdktf.Token.asStringMap(cdktf.propertyAccess(dataExternalChangemeExternalThumbprintData, ["result", "thumbprint"]))"`
     );
   });
 
@@ -1038,23 +1038,24 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + awsS3BucketExamplebucket.fqn + "}.foo.bar""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["foo", "bar"]))"`
     );
   });
 
-  test("convert resource reference with map", async () => {
-    const expression = `"\${aws_s3_bucket.examplebucket.foo}"`;
+  test("convert complex variable reference in template", async () => {
+    const expression = `"\${var.default_tags.project}-client-tg"`;
     const scope = getScope({
       provider: awsProviderSchema,
       resources: ["aws_s3_bucket"],
+      variables: ["default_tags"],
     });
     const result = await convertTerraformExpressionToTs(
       expression,
       scope,
-      () => ["map", "string"]
+      () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"awsS3BucketExamplebucket.foo"`
+      `""\${" + ("\${" + defaultTags.value + "}.project") + "}-client-tg""`
     );
   });
 
