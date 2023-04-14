@@ -221,10 +221,10 @@ function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
   return result.join(".");
 }
 
-function convertTFExpressionAstToTs(
+async function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
-): t.Expression {
+): Promise<t.Expression> {
   if (tex.isLiteralValueExpression(node)) {
     const literalType = node.meta.type;
     if (literalType === "number") {
@@ -368,7 +368,7 @@ function convertTFExpressionAstToTs(
   }
 
   if (tex.isUnaryOpExpression(node)) {
-    const operand = convertTFExpressionAstToTs(
+    const operand = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.valueExpression)!,
       scope
     );
@@ -390,11 +390,11 @@ function convertTFExpressionAstToTs(
   }
 
   if (tex.isBinaryOpExpression(node)) {
-    const left = convertTFExpressionAstToTs(
+    const left = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.lhsExpression)!,
       scope
     );
-    const right = convertTFExpressionAstToTs(
+    const right = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.rhsExpression)!,
       scope
     );
@@ -416,10 +416,12 @@ function convertTFExpressionAstToTs(
   }
 
   if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
-    const parts = node.children.map((child) => ({
-      node: child,
-      expr: convertTFExpressionAstToTs(child, scope),
-    }));
+    const parts = await Promise.all(
+      node.children.map(async (child) => ({
+        node: child,
+        expr: await convertTFExpressionAstToTs(child, scope),
+      }))
+    );
 
     if (parts.length === 0) {
       return t.stringLiteral(node.meta.value);
@@ -430,7 +432,7 @@ function convertTFExpressionAstToTs(
     }
 
     let isScopedTraversal = false;
-    let expressions = [];
+    let expressions: t.Expression[] = [];
     for (const { node, expr } of parts) {
       if (tex.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
         expressions.push(t.stringLiteral("${"));
@@ -451,11 +453,24 @@ function convertTFExpressionAstToTs(
     return expressionForSerialStringConcatenation(expressions);
   }
 
+  if (tex.isObjectExpression(node)) {
+    return t.objectExpression(
+      await Promise.all(
+        Object.entries(node.meta.items).map(async ([key, value]) =>
+          t.objectProperty(
+            t.identifier(key),
+            await convertTFExpressionAstToTs(await expressionAst(value), scope)
+          )
+        )
+      )
+    );
+  }
+
   if (tex.isFunctionCallExpression(node)) {
     const functionName = node.meta.name;
 
-    const argumentExpressions = node.children.map((child) =>
-      convertTFExpressionAstToTs(child, scope)
+    const argumentExpressions = await Promise.all(
+      node.children.map((child) => convertTFExpressionAstToTs(child, scope))
     );
 
     const mapping = functionsMap[functionName];
@@ -528,7 +543,7 @@ function convertTFExpressionAstToTs(
       node,
       node.meta.sourceExpression
     )!;
-    let sourceExpression = convertTFExpressionAstToTs(
+    let sourceExpression = await convertTFExpressionAstToTs(
       sourceExpressionChild,
       scope
     );
@@ -561,19 +576,19 @@ function convertTFExpressionAstToTs(
       node,
       node.meta.conditionExpression
     )!;
-    let condition = convertTFExpressionAstToTs(conditionChild, scope);
+    let condition = await convertTFExpressionAstToTs(conditionChild, scope);
     if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
       // We have a resource or data source here, which we would need to
       // reference using fqn
       condition = t.memberExpression(condition, t.identifier("fqn"));
     }
 
-    const trueExpression = convertTFExpressionAstToTs(
+    const trueExpression = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.trueExpression)!,
       scope
     );
 
-    const falseExpression = convertTFExpressionAstToTs(
+    const falseExpression = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.falseExpression)!,
       scope
     );
@@ -595,7 +610,7 @@ function convertTFExpressionAstToTs(
       convertTFExpressionAstToTs(child, scope)
     );
 
-    return t.arrayExpression(expressions);
+    return t.arrayExpression(await Promise.all(expressions));
   }
 
   if (tex.isRelativeTraversalExpression(node)) {
@@ -603,7 +618,7 @@ function convertTFExpressionAstToTs(
 
     // The left hand side / source of a relative traversal is not a proper
     // object / resource / data thing that is being referenced
-    const source = convertTFExpressionAstToTs(
+    const source = await convertTFExpressionAstToTs(
       tex.getChildWithValue(node, node.meta.sourceExpression)!,
       scope
     );
@@ -623,7 +638,7 @@ function convertTFExpressionAstToTs(
       node.meta.collectionExpression
     )!;
 
-    let collectionExpression = convertTFExpressionAstToTs(
+    let collectionExpression = await convertTFExpressionAstToTs(
       collectionChild,
       scope
     );
@@ -813,7 +828,7 @@ export async function convertTerraformExpressionToTs(
   targetType: () => AttributeType
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
-  const tsExpression = convertTFExpressionAstToTs(
+  const tsExpression = await convertTFExpressionAstToTs(
     await expressionAst(input),
     scope
   );
