@@ -117,7 +117,7 @@ export class ProviderConstraint {
   }
 
   public toString() {
-    return `${this.source}${this.version ? `@ ${this.version}` : ""}`;
+    return `${this.source}${this.version ? `@${this.version}` : ""}`;
   }
 }
 
