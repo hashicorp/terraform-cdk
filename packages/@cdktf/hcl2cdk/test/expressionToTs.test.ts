@@ -323,7 +323,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace("hello-" + cdktf.Op.add(22, 22), "44", "world")"`
+      `"cdktf.Fn.replace("hello-" + cdktf.Token.asString(cdktf.Op.add(22, 22)), "44", "world")"`
     );
   });
 
@@ -572,15 +572,15 @@ describe("expressionToTs", () => {
   });
 
   test("convert unary operators", async () => {
-    const expression = "${!var.enabled}";
+    const expression = `\${!var.enabled}`;
     const scope = getScope({ variables: ["enabled"] });
     const result = await convertTerraformExpressionToTs(
       expression,
       scope,
-      getType
+      () => "bool"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Op.not(enabled.value))"`
+      `"cdktf.Token.asBoolean(cdktf.Op.not(enabled.value))"`
     );
   });
 

@@ -455,13 +455,9 @@ async function convertTFExpressionAstToTs(
         expressions.push(t.stringLiteral("${"));
         isScopedTraversal = true;
       } else if (
-        // Special case for `propertyAccess`, but
-        // we should ideally be doing type coercion here
-        // or within the `expressionForSerialStringConcatenation` function used below
-        t.isCallExpression(expr) &&
-        t.isMemberExpression(expr.callee) &&
-        t.isIdentifier(expr.callee.property) &&
-        expr.callee.property.name === "propertyAccess"
+        // we should ideally be doing type coercion more
+        // carefully here, because it may not always be needed
+        t.isCallExpression(expr)
       ) {
         expressions.push(
           template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
