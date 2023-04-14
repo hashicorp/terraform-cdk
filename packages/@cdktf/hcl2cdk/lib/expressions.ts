@@ -582,19 +582,20 @@ async function convertTFExpressionAstToTs(
       ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
       : node.meta.eachExpression;
 
-    if (t.isIdentifier(sourceExpression) && canUseFqn(sourceExpressionChild)) {
-      sourceExpression = t.memberExpression(
-        sourceExpression,
-        t.identifier("fqn")
-      );
-    }
+    const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
 
-    return expressionForSerialStringConcatenation([
-      t.stringLiteral("${"),
-      sourceExpression,
-      t.stringLiteral("}"),
-      t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression),
-    ]);
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        sourceExpression,
+        t.arrayExpression([
+          // we don't need to use the anonSymbolExpression here because
+          // it only changes between .* and [*] which we don't care about
+          t.stringLiteral("*"),
+          ...segments.map(t.stringLiteral),
+        ]),
+      ]
+    );
   }
 
   if (tex.isConditionalExpression(node)) {

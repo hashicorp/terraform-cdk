@@ -246,6 +246,41 @@ class MyConvertedCode extends cdktf.TerraformStack {
 "
 `;
 
+exports[`references resources with splat expressions should work typescript snapshot 1`] = `
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
+class MyConvertedCode extends cdktf.TerraformStack {
+  constructor(scope: constructs.Construct, name: string) {
+    super(scope, name);
+    /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
+    You can read more about this at https://cdk.tf/variables*/
+    const keyValuePairs = new cdktf.TerraformVariable(this, "key_value_pairs", {
+      default: [
+        {
+          bar: "not food",
+          foo: "foo",
+        },
+        {
+          bar: "not beer",
+          foo: "bar",
+        },
+      ],
+      description: "List of key value pairs",
+      type: cdktf.VariableType.list(
+        cdktf.VariableType.object({
+          bar: cdktf.VariableType.STRING,
+          foo: cdktf.VariableType.STRING,
+        })
+      ),
+    });
+    new cdktf.TerraformOutput(this, "values", {
+      value: "\${" + keyValuePairs.value + "}[*].bar",
+    });
+  }
+}
+"
+`;
+
 exports[`references variable references typescript snapshot 1`] = `
 "import * as constructs from "constructs";
 import * as cdktf from "cdktf";

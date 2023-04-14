@@ -13,12 +13,12 @@ describe("references", () => {
           description             = "KMS key 1"
           deletion_window_in_days = 7
         }
-        
+
         resource "aws_s3_bucket" "examplebucket" {
           bucket = "examplebuckettftest"
           acl    = "private"
         }
-        
+
         resource "aws_s3_bucket_object" "examplebucket_object" {
           key        = "someobject"
           bucket     = aws_s3_bucket.examplebucket.id
@@ -38,11 +38,11 @@ describe("references", () => {
         provider "aws" {
           region                      = "us-east-1"
         }
-    
+
         locals {
           bucket_name = "foo"
         }
-        
+
         resource "aws_s3_bucket" "examplebucket" {
           bucket = local.bucket_name
           acl    = "private"
@@ -64,7 +64,7 @@ describe("references", () => {
           type    = string
           default = "demo"
         }
-        
+
         resource "aws_s3_bucket" "examplebucket" {
           bucket = var.bucket_name
           acl    = "private"
@@ -86,11 +86,11 @@ describe("references", () => {
           type    = string
           default = "demo"
         }
-        
+
         data "aws_s3_bucket" "examplebucket" {
           bucket = var.bucket_name
         }
-        
+
         resource "aws_s3_bucket_object" "examplebucket_object" {
           key        = "someobject"
           bucket     = data.aws_s3_bucket.examplebucket.arn
@@ -113,7 +113,7 @@ describe("references", () => {
           type    = string
           default = "demo"
         }
-        
+
         resource "aws_s3_bucket" "examplebucket" {
           bucket = var.bucket_name
           acl    = "private"
@@ -138,13 +138,13 @@ describe("references", () => {
         description             = "KMS key 1"
         deletion_window_in_days = 7
       }
-      
+
       resource "aws_s3_bucket" "examplebucket" {
         count  = 2
         bucket = "examplebuckettftest-\${count.index}"
         acl    = "private"
       }
-      
+
       resource "aws_s3_bucket_object" "examplebucket_object" {
         key        = "someobject"
         bucket     = element(aws_s3_bucket.examplebucket, 0).id
@@ -239,6 +239,33 @@ describe("references", () => {
       }
       `,
     [binding.aws],
+    Synth.yes,
+    { resources: ["aws_eip"] }
+  );
+
+  testCase.test(
+    "resources with splat expressions should work",
+    `
+      variable "key_value_pairs" {
+        type        = list(object({
+          foo = string
+          bar = string
+        }))
+        description = "List of key value pairs"
+        default = [{
+          foo = "foo"
+          bar = "not food",
+        }, {
+          foo = "bar"
+          bar = "not beer",
+        }]
+      }
+
+      output "values" {
+        value = var.key_value_pairs[*].bar
+      }
+      `,
+    [],
     Synth.yes,
     { resources: ["aws_eip"] }
   );
