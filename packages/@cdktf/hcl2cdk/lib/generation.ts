@@ -86,9 +86,13 @@ export const valueToTs = async (
       );
 
     case "boolean":
-      return t.booleanLiteral(item);
+      return await convertTerraformExpressionToTs(`${item}`, scope, () =>
+        getDesiredType(scope, path)
+      );
     case "number":
-      return t.numericLiteral(item);
+      return await convertTerraformExpressionToTs(`${item}`, scope, () =>
+        getDesiredType(scope, path)
+      );
     case "object":
       if (item === undefined || item === null) {
         return t.nullLiteral();
