@@ -122,4 +122,27 @@ describe("type coercion", () => {
     Synth.yes,
     { resources: ["aws_eks_cluster"] }
   );
+
+  testCase.test(
+    "coerces string literal to number",
+    `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
+
+      resource "aws_security_group_rule" "client_alb_allow_outbound" {
+        security_group_id = "sg-1234567890"
+        type              = "egress"
+        protocol          = -1
+        from_port         = 0
+        to_port           = 0
+        cidr_blocks       = ["0.0.0.0/0"]
+        ipv6_cidr_blocks  = ["::/0"]
+        description       = "Allow any outbound traffic."
+      }
+      `,
+    [binding.aws],
+    Synth.yes,
+    { resources: ["aws_security_group_rule"] }
+  );
 });
