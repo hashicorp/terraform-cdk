@@ -17,7 +17,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
       "example",
       {
         name: "example",
-        policy: cdktf.Fn.jsonencode(""),
+        policy: cdktf.Fn.jsonencode({
+          Statement: [
+            {
+              Action: "s3:*",
+              Effect: "Allow",
+            },
+          ],
+        }),
         role: "role",
       }
     );
@@ -51,7 +58,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
       "example",
       {
         name: "example",
-        policy: cdktf.Fn.jsonencode(""),
+        policy: cdktf.Fn.jsonencode({
+          Statement: [
+            {
+              Action: "s3:*",
+              Effect: "Allow",
+            },
+          ],
+        }),
         role: "role",
       }
     );
