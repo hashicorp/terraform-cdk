@@ -30,6 +30,9 @@ function wrapTerraformExpression(input: string): string {
   if (!isNaN(parseInt(input, 10))) {
     return input;
   }
+  if (input === "true" || input === "false") {
+    return input;
+  }
   if (
     input.startsWith("[") ||
     input.startsWith("{") ||
