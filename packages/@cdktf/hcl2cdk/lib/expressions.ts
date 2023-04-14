@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as t from "@babel/types";
+import template from "@babel/template";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
@@ -299,13 +300,18 @@ async function convertTFExpressionAstToTs(
           : varIdentifier;
 
       if (segments.length > 2) {
-        return expressionForSerialStringConcatenation([
-          t.stringLiteral("${"),
-          variableAccessor,
-          t.stringLiteral(
-            "}" + traversalPartsToString(segments.slice(2), true)
+        return t.callExpression(
+          t.memberExpression(
+            t.identifier("cdktf"),
+            t.identifier("propertyAccess")
           ),
-        ]);
+          [
+            variableAccessor,
+            t.arrayExpression(
+              segments.slice(2).map((s) => t.stringLiteral(s.segment))
+            ),
+          ]
+        );
       }
 
       return variableAccessor;
@@ -441,9 +447,26 @@ async function convertTFExpressionAstToTs(
     let isScopedTraversal = false;
     let expressions: t.Expression[] = [];
     for (const { node, expr } of parts) {
-      if (tex.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
+      if (
+        tex.isScopeTraversalExpression(node) &&
+        !t.isStringLiteral(expr) &&
+        !t.isCallExpression(expr)
+      ) {
         expressions.push(t.stringLiteral("${"));
         isScopedTraversal = true;
+      } else if (
+        // Special case for `propertyAccess`, but
+        // we should ideally be doing type coercion here
+        // or within the `expressionForSerialStringConcatenation` function used below
+        t.isCallExpression(expr) &&
+        t.isMemberExpression(expr.callee) &&
+        t.isIdentifier(expr.callee.property) &&
+        expr.callee.property.name === "propertyAccess"
+      ) {
+        expressions.push(
+          template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
+        );
+        continue;
       } else {
         if (isScopedTraversal) {
           expressions.push(t.stringLiteral("}"));
