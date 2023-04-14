@@ -26,7 +26,12 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
   const resourceName = parts.shift() as string;
 
   const fullProviderName = getFullProviderName(schema, providerName);
-  const fullResourceName = `${providerName}_${resourceName}`;
+  // Hack: In the case of 'external', the name of the data source 'external' doesn't have a prefix
+  // so we repeat the name as both provider prefix and the data source name
+  const fullResourceName =
+    providerName === resourceName
+      ? providerName
+      : `${providerName}_${resourceName}`;
 
   if (!fullProviderName) {
     // No provider found with that name
