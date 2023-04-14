@@ -225,6 +225,8 @@ function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
 ): t.Expression {
+  console.log("convertTFExpressionAstToTs", JSON.stringify(node, null, 2));
+
   if (tex.isLiteralValueExpression(node)) {
     const literalType = node.meta.type;
     if (literalType === "number") {
@@ -449,6 +451,17 @@ function convertTFExpressionAstToTs(
     }
 
     return expressionForSerialStringConcatenation(expressions);
+  }
+
+  if (tex.isObjectExpression(node)) {
+    return t.objectExpression(
+      Object.entries(node.meta.items).map(([key, value]) =>
+        t.objectProperty(
+          t.identifier(key),
+          convertTFExpressionAstToTs(tex.getChildWithValue(node, value)!, scope)
+        )
+      )
+    );
   }
 
   if (tex.isFunctionCallExpression(node)) {
