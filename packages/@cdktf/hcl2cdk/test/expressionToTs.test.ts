@@ -629,7 +629,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.element("\${" + test2.value + "}[\\"val1\\"]", 0))"`
+      `"cdktf.Token.asString(cdktf.Fn.element(cdktf.propertyAccess(test2.value, ["\\"val1\\""]), 0))"`
     );
   });
 
@@ -762,7 +762,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.join("-", cdktf.Token.asList(["\${" + tags.value + "}.app", "\${" + tags.value + "}.env"]))"`
+      `"cdktf.Fn.join("-", cdktf.Token.asList([cdktf.propertyAccess(tags.value, ["app"]), cdktf.propertyAccess(tags.value, ["env"])]))"`
     );
   });
 
@@ -1055,7 +1055,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${" + ("\${" + defaultTags.value + "}.project") + "}-client-tg""`
+      `"cdktf.Token.asString(cdktf.propertyAccess(defaultTags.value, ["project"])) + "-client-tg""`
     );
   });
 

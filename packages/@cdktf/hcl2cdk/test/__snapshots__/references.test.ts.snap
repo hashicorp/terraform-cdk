@@ -295,7 +295,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     new aws.eip.Eip(this, "nat", {
       tags: {
-        Name: "\${" + ("\${" + defaultTags.value + "}.project") + "}-nat-eip",
+        Name:
+          cdktf.Token.asString(
+            cdktf.propertyAccess(defaultTags.value, ["project"])
+          ) + "-nat-eip",
       },
       vpc: true,
     });
