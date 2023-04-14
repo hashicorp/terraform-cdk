@@ -6,6 +6,7 @@ import { Tokenization, Token } from "./tokens/token";
 import { App } from "./app";
 import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
+import { Construct } from "constructs";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
@@ -201,10 +202,20 @@ class PropertyAccess extends TFExpression {
 
     const serializedArgs = this.args
       .map((arg) => this.resolveArg(context, arg))
-      .map((a) => `[${a}]`) // property access
+      .map((a) => {
+        if (a === `"*"`) {
+          return ".*";
+        }
+        return `[${a}]`;
+      }) // property access
       .join("");
 
-    const expr = `${this.resolveArg(context, this.target)}${serializedArgs}`;
+    const targetExpr =
+      Construct.isConstruct(this.target) && "fqn" in this.target
+        ? this.target.fqn
+        : this.resolveArg(context, this.target);
+
+    const expr = `${targetExpr}${serializedArgs}`;
 
     return suppressBraces ? expr : `\${${expr}}`;
   }

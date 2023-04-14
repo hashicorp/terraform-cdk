@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { TerraformStack, Fn, Token } from "../lib";
+import { TerraformStack, Fn, Token, Testing } from "../lib";
 import {
   conditional,
   propertyAccess,
@@ -12,6 +12,7 @@ import {
 } from "../lib/tfExpression";
 import { resolve } from "../lib/_tokens";
 import { Op } from "../lib/terraform-operators";
+import { TestResource } from "./helper";
 
 const appScope = new Construct(undefined as any, "randomScope");
 
@@ -48,6 +49,25 @@ test("propertyAccess resolves target properly", () => {
   ).toMatchInlineSnapshot(
     `"\${tolist(some_resource.my_resource.some_attribute_array)[0]["name"]}"`
   );
+});
+
+test("propertyAccess renders splat access correctly", () => {
+  expect(
+    resolveExpression(
+      propertyAccess(ref("some_resource.my_resource", stack), ["*", "name"])
+    )
+  ).toMatchInlineSnapshot(`"\${some_resource.my_resource.*["name"]}"`);
+});
+
+test("propertyAccess handles construct as target", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "stack");
+  const resource = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+  expect(
+    resolveExpression(propertyAccess(resource, ["*", "name"]))
+  ).toMatchInlineSnapshot(`"\${test_resource.resource.*["name"]}"`);
 });
 
 test("conditional renders correctly", () => {
