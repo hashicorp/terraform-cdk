@@ -220,7 +220,7 @@ describe("references", () => {
     { resources: [] }
   );
 
-  testCase.skip(
+  testCase.test(
     "variables with maps need to use accessor syntax",
     `
       variable "default_tags" {
@@ -239,7 +239,7 @@ describe("references", () => {
       }
       `,
     [binding.aws],
-    Synth.no_missing_map_access,
+    Synth.yes,
     { resources: ["aws_eip"] }
   );
 });
