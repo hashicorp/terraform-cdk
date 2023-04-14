@@ -234,7 +234,7 @@ async function convertTFExpressionAstToTs(
       return t.numericLiteral(Number(node.meta.value));
     }
     if (literalType === "bool") {
-      return t.booleanLiteral(Boolean(node.meta.value));
+      return t.booleanLiteral(node.meta.value === "true" ? true : false);
     }
 
     return t.stringLiteral(node.meta.value);
