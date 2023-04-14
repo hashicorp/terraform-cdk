@@ -1072,6 +1072,7 @@ export function constructAst(
       scope.providerSchema,
       provider
     );
+
     if (fullProviderName && scope.providerGenerator[fullProviderName]) {
       return camelCase(
         scope.providerGenerator[fullProviderName]?.getNamespaceNameForResource(

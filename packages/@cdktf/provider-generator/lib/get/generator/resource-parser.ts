@@ -606,6 +606,11 @@ export class ResourceParser {
 
   // Used by convert to determine the right name for a namespace
   public getNamespaceNameForResource(terraformType: string) {
+    // Special case external provider since the name of resource doesn't have a prefix
+    if (terraformType === "data_external_") {
+      terraformType = "data_external";
+    }
+
     const resource = this.resources[terraformType];
     if (!resource) {
       return "";
