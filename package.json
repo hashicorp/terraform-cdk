@@ -3,6 +3,7 @@
   "version": "0.15.5",
   "private": true,
   "scripts": {
+    "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
     "build": "lerna run --scope 'cdktf*' --scope @cdktf/* build",
     "format": "prettier --cache --write .",
     "package": "lerna run package && tools/collect-dist.sh",
