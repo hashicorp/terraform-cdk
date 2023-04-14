@@ -324,16 +324,19 @@ async function convertTFExpressionAstToTs(
     const rootSegment = segments[0].segment;
     const attributeIndex = rootSegment === "data" ? 3 : 2;
     const attributeSegments = segments.slice(attributeIndex);
-    const hasNumericAccessor =
-      attributeSegments.findIndex((seg) => tex.isIndexTraversalPart(seg)) >= 0;
-    let hasMapAccessor = false;
-    if (!hasNumericAccessor) {
+    const numericAccessorIndex = attributeSegments.findIndex((seg) =>
+      tex.isIndexTraversalPart(seg)
+    );
+    let mapAccessorIndex = -1;
+    if (numericAccessorIndex === -1) {
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
       let usingSubPathType = false;
       let parts = resourcePath.split(".").filter((p) => p !== "");
       const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
+      const originalParts = parts.length;
+      let hasMapAccessor = false;
       while (parts.length >= minParts) {
         const type = getTypeAtPath(scope.providerSchema, parts.join("."));
         if (type !== null) {
@@ -345,12 +348,23 @@ async function convertTFExpressionAstToTs(
         parts.pop();
         usingSubPathType = true;
       }
+
+      if (hasMapAccessor) {
+        mapAccessorIndex = originalParts - parts.length - 1;
+      }
     }
 
-    const needsPropertyAccess = hasNumericAccessor || hasMapAccessor;
+    const needsPropertyAccess =
+      numericAccessorIndex >= 0 || mapAccessorIndex >= 0;
 
-    const refSegments = needsPropertyAccess ? [] : attributeSegments;
-    const nonRefSegments = needsPropertyAccess ? attributeSegments : [];
+    const nonRefSegmentStart = Math.min(numericAccessorIndex, mapAccessorIndex);
+
+    const refSegments = needsPropertyAccess
+      ? attributeSegments.slice(0, nonRefSegmentStart)
+      : attributeSegments;
+    const nonRefSegments = needsPropertyAccess
+      ? attributeSegments.slice(nonRefSegmentStart)
+      : [];
 
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
