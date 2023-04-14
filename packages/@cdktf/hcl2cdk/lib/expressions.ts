@@ -73,7 +73,7 @@ const tfBinaryOperatorsToCdktf = {
 
 const tfUnaryOperatorsToCdktf = {
   logicalNot: "not",
-  negative: "negate",
+  negate: "negate",
 };
 
 type supportedBinaryOperators = keyof typeof tfBinaryOperatorsToCdktf;
