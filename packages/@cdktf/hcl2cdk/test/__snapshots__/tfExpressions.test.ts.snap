@@ -178,7 +178,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     new aws.s3Bucket.S3Bucket(this, "examplebucket", {
       acl: "private",
-      bucket: "\${" + settings.value + '}[0]["bucket_name"]',
+      bucket: cdktf.Token.asString(
+        cdktf.propertyAccess(settings.value, ["0", '"bucket_name"'])
+      ),
     });
   }
 }
@@ -216,10 +218,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
         zone: "us-east1-b",
       });
     new cdktf.TerraformOutput(this, "public_ip", {
-      value:
-        "\${" +
-        googleComputeInstanceExample.fqn +
-        "}.network_interface[0].access_config[0].assigned_nat_ip",
+      value: cdktf.propertyAccess(googleComputeInstanceExample, [
+        "network_interface",
+        "0",
+        "access_config",
+        "0",
+        "assigned_nat_ip",
+      ]),
     });
   }
 }
@@ -245,7 +250,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
     });
     new aws.s3Bucket.S3Bucket(this, "examplebucket", {
       acl: "private",
-      bucket: "\${" + settings.value + '}["bucket_name"]',
+      bucket: cdktf.Token.asString(
+        cdktf.propertyAccess(settings.value, ['"bucket_name"'])
+      ),
     });
   }
 }

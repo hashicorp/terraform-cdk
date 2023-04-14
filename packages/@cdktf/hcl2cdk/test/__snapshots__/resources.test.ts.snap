@@ -21,10 +21,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
         }
       );
     new aws.ebsVolume.EbsVolume(this, "changeme_ebs_volume_snapshot", {
-      availabilityZone:
-        "\${" +
-        dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.fqn +
-        "}.names[0]",
+      availabilityZone: cdktf.Token.asString(
+        cdktf.propertyAccess(
+          dataAwsAvailabilityZonesChangemeAzListEbsSnapshot,
+          ["names", "0"]
+        )
+      ),
       encrypted: false,
       size: 10,
       tags: {
@@ -522,8 +524,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ami: cdktf.Fn.join(
         "-",
         cdktf.Token.asList([
-          "\${" + tags.value + "}.app",
-          "\${" + tags.value + "}.env",
+          cdktf.propertyAccess(tags.value, ["app"]),
+          cdktf.propertyAccess(tags.value, ["env"]),
         ])
       ),
       associatePublicIpAddress: true,
