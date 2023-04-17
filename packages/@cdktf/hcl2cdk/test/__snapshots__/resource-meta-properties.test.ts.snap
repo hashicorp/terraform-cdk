@@ -205,7 +205,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         },
         {
           type: "file",
-          content: "ami used: \${" + cdktf.TerraformSelf.getAny("ami") + "}",
+          content:
+            "ami used: " +
+            cdktf.Token.asString(cdktf.TerraformSelf.getAny("ami")),
           destination: "/tmp/file.log",
         },
       ],
@@ -235,9 +237,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
         {
           type: "local-exec",
           command:
-            "echo \${" +
-            cdktf.TerraformSelf.getAny("private_ip") +
-            "} >> private_ips.txt",
+            "echo " +
+            cdktf.Token.asString(cdktf.TerraformSelf.getAny("private_ip")) +
+            " >> private_ips.txt",
         },
       ],
     });

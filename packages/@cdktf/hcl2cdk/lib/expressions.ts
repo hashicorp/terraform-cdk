@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as t from "@babel/types";
+import template from "@babel/template";
 import reservedWords from "reserved-words";
 import { camelCase, logger, pascalCase } from "./utils";
 import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
@@ -299,13 +300,18 @@ async function convertTFExpressionAstToTs(
           : varIdentifier;
 
       if (segments.length > 2) {
-        return expressionForSerialStringConcatenation([
-          t.stringLiteral("${"),
-          variableAccessor,
-          t.stringLiteral(
-            "}" + traversalPartsToString(segments.slice(2), true)
+        return t.callExpression(
+          t.memberExpression(
+            t.identifier("cdktf"),
+            t.identifier("propertyAccess")
           ),
-        ]);
+          [
+            variableAccessor,
+            t.arrayExpression(
+              segments.slice(2).map((s) => t.stringLiteral(s.segment))
+            ),
+          ]
+        );
       }
 
       return variableAccessor;
@@ -318,16 +324,20 @@ async function convertTFExpressionAstToTs(
     const rootSegment = segments[0].segment;
     const attributeIndex = rootSegment === "data" ? 3 : 2;
     const attributeSegments = segments.slice(attributeIndex);
-    const hasNumericAccessor =
-      attributeSegments.findIndex((seg) => tex.isIndexTraversalPart(seg)) >= 0;
-    let hasMapAccessor = false;
-    if (!hasNumericAccessor) {
+    const numericAccessorIndex = attributeSegments.findIndex((seg) =>
+      tex.isIndexTraversalPart(seg)
+    );
+    let minAccessorIndex = numericAccessorIndex;
+    let mapAccessorIndex = -1;
+    if (numericAccessorIndex === -1) {
       // only do this if we have to, if we already have a
       // numeric accessor, we don't have to do this additional work
       const resourcePath = getTfResourcePathFromNode(node);
       let usingSubPathType = false;
       let parts = resourcePath.split(".").filter((p) => p !== "");
       const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
+      const originalParts = parts.length;
+      let hasMapAccessor = false;
       while (parts.length >= minParts) {
         const type = getTypeAtPath(scope.providerSchema, parts.join("."));
         if (type !== null) {
@@ -339,12 +349,21 @@ async function convertTFExpressionAstToTs(
         parts.pop();
         usingSubPathType = true;
       }
+
+      if (hasMapAccessor) {
+        mapAccessorIndex = originalParts - parts.length - 1;
+        minAccessorIndex = mapAccessorIndex;
+      }
     }
 
-    const needsFqn = hasNumericAccessor || hasMapAccessor;
+    const needsPropertyAccess = minAccessorIndex >= 0;
 
-    const refSegments = needsFqn ? [] : attributeSegments;
-    const nonRefSegments = needsFqn ? attributeSegments : [];
+    const refSegments = needsPropertyAccess
+      ? attributeSegments.slice(0, minAccessorIndex)
+      : attributeSegments;
+    const nonRefSegments = needsPropertyAccess
+      ? attributeSegments.slice(minAccessorIndex)
+      : [];
 
     const ref = refSegments.reduce(
       (acc: t.Expression, seg, index) =>
@@ -363,11 +382,15 @@ async function convertTFExpressionAstToTs(
       return ref;
     }
 
-    return expressionForSerialStringConcatenation([
-      t.stringLiteral("${"),
-      needsFqn ? t.memberExpression(ref, t.identifier("fqn")) : ref,
-      t.stringLiteral("}" + traversalPartsToString(nonRefSegments, true)),
-    ]);
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        ref,
+        t.arrayExpression(
+          nonRefSegments.map((s) => t.stringLiteral(s.segment))
+        ),
+      ]
+    );
   }
 
   if (tex.isUnaryOpExpression(node)) {
@@ -437,9 +460,22 @@ async function convertTFExpressionAstToTs(
     let isScopedTraversal = false;
     let expressions: t.Expression[] = [];
     for (const { node, expr } of parts) {
-      if (tex.isScopeTraversalExpression(node) && !t.isStringLiteral(expr)) {
+      if (
+        tex.isScopeTraversalExpression(node) &&
+        !t.isStringLiteral(expr) &&
+        !t.isCallExpression(expr)
+      ) {
         expressions.push(t.stringLiteral("${"));
         isScopedTraversal = true;
+      } else if (
+        // we should ideally be doing type coercion more
+        // carefully here, because it may not always be needed
+        t.isCallExpression(expr)
+      ) {
+        expressions.push(
+          template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
+        );
+        continue;
       } else {
         if (isScopedTraversal) {
           expressions.push(t.stringLiteral("}"));
@@ -559,19 +595,20 @@ async function convertTFExpressionAstToTs(
       ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
       : node.meta.eachExpression;
 
-    if (t.isIdentifier(sourceExpression) && canUseFqn(sourceExpressionChild)) {
-      sourceExpression = t.memberExpression(
-        sourceExpression,
-        t.identifier("fqn")
-      );
-    }
+    const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
 
-    return expressionForSerialStringConcatenation([
-      t.stringLiteral("${"),
-      sourceExpression,
-      t.stringLiteral("}"),
-      t.stringLiteral(node.meta.anonSymbolExpression + relativeExpression),
-    ]);
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [
+        sourceExpression,
+        t.arrayExpression([
+          // we don't need to use the anonSymbolExpression here because
+          // it only changes between .* and [*] which we don't care about
+          t.stringLiteral("*"),
+          ...segments.map(t.stringLiteral),
+        ]),
+      ]
+    );
   }
 
   if (tex.isConditionalExpression(node)) {

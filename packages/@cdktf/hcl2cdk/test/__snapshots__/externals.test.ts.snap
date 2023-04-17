@@ -24,7 +24,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new cdktf.TerraformOutput(this, "foo", {
-      value: "\${" + dataExternalThumbprint.fqn + "}.result.thumbprint",
+      value: cdktf.propertyAccess(dataExternalThumbprint, [
+        "result",
+        "thumbprint",
+      ]),
     });
   }
 }

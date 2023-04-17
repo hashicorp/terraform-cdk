@@ -52,7 +52,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ),
     });
     new local.dataLocalFile.DataLocalFile(this, "foo", {
-      filename: "./\${" + ("\${" + dockerPorts.value + "}[0].protocol") + "}.img",
+      filename:
+        "./" +
+        cdktf.Token.asString(
+          cdktf.propertyAccess(dockerPorts.value, ["0", "protocol"])
+        ) +
+        ".img",
     });
   }
 }
@@ -84,7 +89,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
       }
     );
     new local.dataLocalFile.DataLocalFile(this, "foo", {
-      filename: "./\${" + ("\${" + userInformation.value + "}.name") + "}.img",
+      filename:
+        "./" +
+        cdktf.Token.asString(
+          cdktf.propertyAccess(userInformation.value, ["name"])
+        ) +
+        ".img",
     });
   }
 }
