@@ -37,10 +37,9 @@ public class MainIterator extends TerraformStack {
         super(scope, id);
 
         AwsProvider provider = new AwsProvider(this, "provider", AwsProviderConfig.builder()
-            .region("us-east-1")
-            .build()
-        );
-        
+                .region("us-east-1")
+                .build());
+
         // DOCS_BLOCK_START:iterators-iterators-complex-types
         TerraformLocal myList = new TerraformLocal(this, "my-list", Arrays.asList(
                 new HashMap() {
@@ -72,51 +71,53 @@ public class MainIterator extends TerraformStack {
                 .tags(iterator.getStringMap("tags"))
                 .build());
         // DOCS_BLOCK_END:iterators-iterators-complex-types
-        
+
         // DOCS_BLOCK_START:iterators-list-attributes
         String orgName = "my-org";
         new GithubProvider(this, "github", GithubProviderConfig.builder()
                 .organization(orgName)
-                .build()
-        );
+                .build());
         Team team = new Team(this, "core-team", TeamConfig.builder()
                 .name("core")
-                .build()
-        );
+                .build());
 
-        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org", DataGithubOrganizationConfig.builder()
-                .name(orgName)
-                .build()
-        );
+        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org",
+                DataGithubOrganizationConfig.builder()
+                        .name(orgName)
+                        .build());
 
         ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
 
-        Map<String, Object> content = new HashMap<String, Object>() {{
-            put("username", Token.asString(orgMemberIterator.getValue()));
-            put("role", "maintainer");
-        }};
+        Map<String, Object> content = new HashMap<String, Object>() {
+            {
+                put("username", Token.asString(orgMemberIterator.getValue()));
+                put("role", "maintainer");
+            }
+        };
 
         new TeamMembers(this, "members", TeamMembersConfig.builder()
                 .teamId(team.getId())
                 .members(orgMemberIterator.dynamic(content))
-                .build()
-        );
+                .build());
         // DOCS_BLOCK_END:iterators-list-attributes
 
         // DOCS_BLOCK_START:iterators-count
         TerraformVariable servers = TerraformVariable.Builder.create(this, "servers")
                 .type(VariableType.NUMBER)
                 .build();
-        
+
         TerraformCount count = TerraformCount.of(servers.getNumberValue());
-        
+
         new Instance(this, "server", new InstanceConfig()
                 .count(count)
                 .ami("ami-a1b2c3d4")
                 .instanceType("t2.micro")
-                .tags(Map.of(
-                        "Name", "Server ${" + count.getIndex() + "}"))
-                );
+                .tags(
+                        new HashMap<String, String>() {
+                            {
+                                put("Name", "Server ${" + count.getIndex() + "}");
+                            }
+                        }));
         // DOCS_BLOCK_END:iterators-count
     }
 }
