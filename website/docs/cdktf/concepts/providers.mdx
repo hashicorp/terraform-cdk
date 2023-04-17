@@ -394,7 +394,7 @@ class ProviderStack(TerraformStack):
         )
 
         ZoneRecord(self, "web-www",
-            zoneName = "example.com",
+            zone_name = "example.com",
             name = "web",
             value = instance.public_ip,
             type = "A"

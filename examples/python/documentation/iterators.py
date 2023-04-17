@@ -1,7 +1,7 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-from cdktf import TerraformStack, Token, App
+from cdktf import TerraformStack, Token, App, TerraformCount
 from constructs import Construct
 from imports.aws.provider import AwsProvider
 from imports.github.data_github_organization import DataGithubOrganization
@@ -41,6 +41,23 @@ class IteratorStackOne(TerraformStack):
             tags=iterator.get_map("tags")
         )
         # DOCS_BLOCK_END:iterators-iterators-complex-types
+
+        # DOCS_BLOCK_START:iterators-count
+        servers = TerraformVariable(self, "servers",
+            type="number"
+        )
+
+        count = cdktf.TerraformCount.of(servers.number_value)
+
+        Instance(self, "server",
+            count=count,
+            ami="ami-a1b2c3d4",
+            instance_type="t2.micro",
+            tags={
+                "Name": "Server ${" + count.index + "}"
+            }
+        )
+        # DOCS_BLOCK_END:iterators-count
 
 class IteratorStackTwo(TerraformStack):
     def __init__(self, scope: Construct, id: str):

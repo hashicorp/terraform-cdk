@@ -7,6 +7,7 @@ import (
 	"github.com/aws/constructs-go/constructs/v10"
 	"github.com/aws/jsii-runtime-go"
 	"github.com/hashicorp/terraform-cdk-go/cdktf"
+	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/instance"
 	aws "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/provider"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/hashicorp/aws/s3bucket"
 	"github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/integrations/github/datagithuborganization"
@@ -81,6 +82,21 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 		}),
 	})
 	// DOCS_BLOCK_END:iterators-list-attributes
+
+	// DOCS_BLOCK_START:iterators-count
+	servers := cdktf.NewTerraformVariable(stack, jsii.String("servers"), &cdktf.TerraformVariableConfig{
+		Type: cdktf.VariableType_NUMBER(),
+	})
+	count := cdktf.TerraformCount_Of(servers.NumberValue())
+	instance.NewInstance(stack, jsii.String("server"), &instance.InstanceConfig{
+		count:        count,
+		ami:          jsii.String("ami-a1b2c3d4"),
+		instanceType: jsii.String("t2.micro"),
+		tags: map[string]*string{
+			"Name": jsii.String("Server ${" + *cdktf.Token_AsString(count.Index(), nil) + "}"),
+		},
+	})
+	// DOCS_BLOCK_END:iterators-count
 
 	return stack
 }

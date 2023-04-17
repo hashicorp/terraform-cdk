@@ -18,6 +18,7 @@ import imports.github.team.Team;
 import imports.github.team.TeamConfig;
 import imports.github.team_members.TeamMembers;
 import imports.github.team_members.TeamMembersConfig;
+import imports.aws.instance.Instance;
 
 // DOCS_BLOCK_START:iterators-iterators-complex-types
 import imports.aws.s3_bucket.S3Bucket;
@@ -101,5 +102,21 @@ public class MainIterator extends TerraformStack {
                 .build()
         );
         // DOCS_BLOCK_END:iterators-list-attributes
+
+        // DOCS_BLOCK_START:iterators-count
+        TerraformVariable servers = TerraformVariable.Builder.create(this, "servers")
+                .type(VariableType.NUMBER)
+                .build();
+        
+        TerraformCount count = TerraformCount.of(servers.getNumberValue());
+        
+        new Instance(this, "server", new InstanceConfig()
+                .count(count)
+                .ami("ami-a1b2c3d4")
+                .instanceType("t2.micro")
+                .tags(Map.of(
+                        "Name", "Server ${" + count.getIndex() + "}"))
+                );
+        // DOCS_BLOCK_END:iterators-count
     }
 }
