@@ -89,10 +89,10 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 	})
 	count := cdktf.TerraformCount_Of(servers.NumberValue())
 	instance.NewInstance(stack, jsii.String("server"), &instance.InstanceConfig{
-		count:        count,
-		ami:          jsii.String("ami-a1b2c3d4"),
-		instanceType: jsii.String("t2.micro"),
-		tags: map[string]*string{
+		Count:        count,
+		Ami:          jsii.String("ami-a1b2c3d4"),
+		InstanceType: jsii.String("t2.micro"),
+		Tags: map[string]*string{
 			"Name": jsii.String("Server ${" + *cdktf.Token_AsString(count.Index(), nil) + "}"),
 		},
 	})
