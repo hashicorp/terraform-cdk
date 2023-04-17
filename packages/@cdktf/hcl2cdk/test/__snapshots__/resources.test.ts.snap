@@ -238,7 +238,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
               value: "Hello from the client!",
             },
           ],
-          essential: "true",
+          essential: true,
           image: "crccheck/hello-world",
           name: "client",
           portMappings: [
@@ -250,9 +250,9 @@ class MyConvertedCode extends cdktf.TerraformStack {
           ],
         },
       ]),
-      cpu: 256,
+      cpu: cdktf.Token.asString(256),
       family: "client",
-      memory: 512,
+      memory: cdktf.Token.asString(512),
       networkMode: "awsvpc",
       requiresCompatibilities: ["FARGATE"],
     });
