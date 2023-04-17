@@ -92,7 +92,7 @@ func NewIteratorsStack(scope constructs.Construct, name string) cdktf.TerraformS
 		Count:        count,
 		Ami:          jsii.String("ami-a1b2c3d4"),
 		InstanceType: jsii.String("t2.micro"),
-		Tags: map[string]*string{
+		Tags: &map[string]*string{
 			"Name": jsii.String("Server ${" + *cdktf.Token_AsString(count.Index(), nil) + "}"),
 		},
 	})
