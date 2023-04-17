@@ -8,6 +8,8 @@ package com.mycompany.app;
 import com.hashicorp.cdktf.*;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
+import imports.aws.provider.S3Bucket;
+import imports.aws.provider.S3BucketConfig;
 import software.constructs.Construct;
 
 import imports.github.data_github_organization.DataGithubOrganization;
