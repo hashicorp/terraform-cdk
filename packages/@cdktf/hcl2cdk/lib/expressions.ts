@@ -327,6 +327,7 @@ async function convertTFExpressionAstToTs(
     const numericAccessorIndex = attributeSegments.findIndex((seg) =>
       tex.isIndexTraversalPart(seg)
     );
+    let minAccessorIndex = numericAccessorIndex;
     let mapAccessorIndex = -1;
     if (numericAccessorIndex === -1) {
       // only do this if we have to, if we already have a
@@ -351,19 +352,17 @@ async function convertTFExpressionAstToTs(
 
       if (hasMapAccessor) {
         mapAccessorIndex = originalParts - parts.length - 1;
+        minAccessorIndex = mapAccessorIndex;
       }
     }
 
-    const needsPropertyAccess =
-      numericAccessorIndex >= 0 || mapAccessorIndex >= 0;
-
-    const nonRefSegmentStart = Math.min(numericAccessorIndex, mapAccessorIndex);
+    const needsPropertyAccess = minAccessorIndex >= 0;
 
     const refSegments = needsPropertyAccess
-      ? attributeSegments.slice(0, nonRefSegmentStart)
+      ? attributeSegments.slice(0, minAccessorIndex)
       : attributeSegments;
     const nonRefSegments = needsPropertyAccess
-      ? attributeSegments.slice(nonRefSegmentStart)
+      ? attributeSegments.slice(minAccessorIndex)
       : [];
 
     const ref = refSegments.reduce(

@@ -23,8 +23,8 @@ class MyConvertedCode extends cdktf.TerraformStack {
     new aws.ebsVolume.EbsVolume(this, "changeme_ebs_volume_snapshot", {
       availabilityZone: cdktf.Token.asString(
         cdktf.propertyAccess(
-          dataAwsAvailabilityZonesChangemeAzListEbsSnapshot,
-          ["names", "0"]
+          dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names,
+          ["0"]
         )
       ),
       encrypted: false,

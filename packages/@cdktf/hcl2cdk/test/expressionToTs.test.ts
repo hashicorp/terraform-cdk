@@ -417,7 +417,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -431,7 +431,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -445,7 +445,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["network_interface", "0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -972,7 +972,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["names", "0"]))"`
+      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names, ["0"]))"`
     );
   });
 
