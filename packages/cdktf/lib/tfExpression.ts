@@ -8,6 +8,8 @@ import { TerraformStack } from "./terraform-stack";
 import { ITerraformDependable } from "./terraform-dependable";
 import { Construct } from "constructs";
 
+const TERRAFORM_IDENTIFIER_REGEX = /^[_a-zA-Z][_a-zA-Z0-9]*$/;
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 class TFExpression extends Intrinsic implements IResolvable {
   protected resolveArg(context: IResolveContext, arg: any): string {
@@ -201,11 +203,21 @@ class PropertyAccess extends TFExpression {
     context.suppressBraces = true;
 
     const serializedArgs = this.args
-      .map((arg) => this.resolveArg(context, arg))
-      .map((a) => {
-        if (a === `"*"`) {
-          return ".*";
+      .map((arg) => {
+        if (arg === `*`) {
+          return "[*]";
         }
+
+        const a = this.resolveArg(context, arg);
+        const isPlainString =
+          typeof arg === "string" && TERRAFORM_IDENTIFIER_REGEX.test(arg);
+        const isPlainNumber =
+          typeof arg === "number" && !Token.isUnresolved(arg);
+
+        if (isPlainString || isPlainNumber) {
+          return `.${arg}`;
+        }
+
         return `[${a}]`;
       }) // property access
       .join("");

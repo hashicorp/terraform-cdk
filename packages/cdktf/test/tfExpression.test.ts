@@ -25,17 +25,78 @@ test("can render reference", () => {
   ).toMatchInlineSnapshot(`"\${aws_s3_bucket.best.bucket_domain_name}"`);
 });
 
-test("propertyAccess renders correctly", () => {
-  expect(
-    resolveExpression(
-      propertyAccess(
-        ref("some_resource.my_resource.some_attribute_array", stack),
-        [0, "name"]
+describe("propertyAccess", () => {
+  it("for resource with count using literal attribute name", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("aws_s3_bucket.bucket"), [0, "id"]))
+    ).toEqual(`\${aws_s3_bucket.bucket.0.id}`);
+  });
+
+  it("for resource with count using expression for count index", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [ref("count.index"), "id"])
       )
-    )
-  ).toMatchInlineSnapshot(
-    `"\${some_resource.my_resource.some_attribute_array[0]["name"]}"`
-  );
+    ).toEqual(`\${aws_s3_bucket.bucket[count.index].id}`);
+  });
+
+  it("for resource with count using expression for attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [0, ref("var.id_field")])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket.0[var.id_field]}`);
+  });
+
+  it("for resource with count using expression for count index and attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [
+          ref("count.index"),
+          Fn.max([0, 1]),
+        ])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[count.index][max(0, 1)]}`);
+  });
+
+  it("for resource with count using splat expression", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), ["*", "id"])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[*].id}`);
+  });
+
+  it("for resource with count using splat expression and expression for attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [
+          "*",
+          ref("var.id_property"),
+        ])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[*][var.id_property]}`);
+  });
+
+  it("for resource attribute using literal attribute name", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("some_resource.this"), ["list"]))
+    ).toEqual(`\${some_resource.this.list}`);
+  });
+
+  it("for resource attribute using expression for attribute name", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("some_resource.this"), [ref("var.list_property")])
+      )
+    ).toEqual(`\${some_resource.this[var.list_property]}`);
+  });
+
+  it("for map with an attribute name containing a colon", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("local.map"), ["My:Key"]))
+    ).toEqual(`\${local.map[\"My:Key\"]}`);
+  });
 });
 
 test("propertyAccess resolves target properly", () => {
@@ -47,7 +108,7 @@ test("propertyAccess resolves target properly", () => {
       )
     )
   ).toMatchInlineSnapshot(
-    `"\${tolist(some_resource.my_resource.some_attribute_array)[0]["name"]}"`
+    `"\${tolist(some_resource.my_resource.some_attribute_array).0.name}"`
   );
 });
 
@@ -56,7 +117,7 @@ test("propertyAccess renders splat access correctly", () => {
     resolveExpression(
       propertyAccess(ref("some_resource.my_resource", stack), ["*", "name"])
     )
-  ).toMatchInlineSnapshot(`"\${some_resource.my_resource.*["name"]}"`);
+  ).toMatchInlineSnapshot(`"\${some_resource.my_resource[*].name}"`);
 });
 
 test("propertyAccess handles construct as target", () => {
@@ -67,7 +128,7 @@ test("propertyAccess handles construct as target", () => {
   });
   expect(
     resolveExpression(propertyAccess(resource, ["*", "name"]))
-  ).toMatchInlineSnapshot(`"\${test_resource.resource.*["name"]}"`);
+  ).toMatchInlineSnapshot(`"\${test_resource.resource[*].name}"`);
 });
 
 test("conditional renders correctly", () => {
