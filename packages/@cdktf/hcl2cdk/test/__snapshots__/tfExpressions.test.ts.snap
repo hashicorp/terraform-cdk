@@ -218,13 +218,10 @@ class MyConvertedCode extends cdktf.TerraformStack {
         zone: "us-east1-b",
       });
     new cdktf.TerraformOutput(this, "public_ip", {
-      value: cdktf.propertyAccess(googleComputeInstanceExample, [
-        "network_interface",
-        "0",
-        "access_config",
-        "0",
-        "assigned_nat_ip",
-      ]),
+      value: cdktf.propertyAccess(
+        googleComputeInstanceExample.networkInterface,
+        ["0", "access_config", "0", "assigned_nat_ip"]
+      ),
     });
   }
 }

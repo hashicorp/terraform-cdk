@@ -223,6 +223,10 @@ describe("references", () => {
   testCase.test(
     "variables with maps need to use accessor syntax",
     `
+      provider "aws" {
+        region = "us-east-1"
+      }
+
       variable "default_tags" {
         type        = map(string)
         description = "Map of default tags to apply to resources"
