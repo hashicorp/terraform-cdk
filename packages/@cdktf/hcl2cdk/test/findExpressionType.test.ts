@@ -94,7 +94,7 @@ describe("findExpressionType", () => {
     ['"${var.test}"', "dynamic"],
     ['"${var.test}"', "dynamic"],
     ["22", "number"],
-    // ["true", "bool"], // TODO: Fix this
+    ["true", "bool"],
     ['"hello"', "string"],
     ['"${aws_s3_bucket.examplebucket.bucket}"', "string"],
   ])("finds type for %s as %s", async (input, expected) => {

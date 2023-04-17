@@ -30,6 +30,9 @@ function wrapTerraformExpression(input: string): string {
   if (!isNaN(parseInt(input, 10))) {
     return input;
   }
+  if (input === "true" || input === "false") {
+    return input;
+  }
   if (
     input.startsWith("[") ||
     input.startsWith("{") ||
@@ -70,7 +73,7 @@ const tfBinaryOperatorsToCdktf = {
 
 const tfUnaryOperatorsToCdktf = {
   logicalNot: "not",
-  negative: "negate",
+  negate: "negate",
 };
 
 type supportedBinaryOperators = keyof typeof tfBinaryOperatorsToCdktf;
@@ -231,7 +234,7 @@ async function convertTFExpressionAstToTs(
       return t.numericLiteral(Number(node.meta.value));
     }
     if (literalType === "bool") {
-      return t.booleanLiteral(Boolean(node.meta.value));
+      return t.booleanLiteral(node.meta.value === "true" ? true : false);
     }
 
     return t.stringLiteral(node.meta.value);

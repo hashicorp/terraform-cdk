@@ -1057,4 +1057,17 @@ EOF`;
       `"awsS3BucketExamplebucket.foo"`
     );
   });
+
+  test("convert boolean values", async () => {
+    const expression = `"\${false}"`;
+    const scope = getScope({
+      provider: awsProviderSchema,
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      () => "bool"
+    );
+    expect(code(result)).toMatchInlineSnapshot(`"false"`);
+  });
 });
