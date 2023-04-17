@@ -298,4 +298,35 @@ describe("iteration", () => {
       resources: ["azuread_user"],
     }
   );
+
+  testCase.test(
+    "ensure availability zone is not ignored",
+    `
+      provider "aws" {
+        region                      = "us-east-1"
+      }
+
+      data "aws_availability_zones" "available" {
+        state = "available"
+      }
+
+      variable "public_subnet_count" {
+        type        = number
+        description = "Number of public subnets to create"
+        default     = 2
+      }
+
+      resource "aws_subnet" "public" {
+        count  = var.public_subnet_count
+        vpc_id = "10123"
+        cidr_block = "10.0.1.0/24"
+        availability_zone = data.aws_availability_zones.available.names[count.index]
+      } 
+    `,
+    [binding.azuread],
+    Synth.yes,
+    {
+      resources: ["azuread_user"],
+    }
+  );
 });

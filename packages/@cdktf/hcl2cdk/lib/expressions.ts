@@ -577,6 +577,31 @@ async function convertTFExpressionAstToTs(
     );
   }
 
+  if (tex.isIndexExpression(node)) {
+    const collectionExpressionChild = tex.getChildWithValue(
+      node,
+      node.meta.collectionExpression
+    );
+    const keyExpressionChild = tex.getChildWithValue(
+      node,
+      node.meta.keyExpression
+    );
+
+    const collectionExpression = await convertTFExpressionAstToTs(
+      collectionExpressionChild!,
+      scope
+    );
+    const keyExpression = await convertTFExpressionAstToTs(
+      keyExpressionChild!,
+      scope
+    );
+
+    return t.callExpression(
+      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+      [collectionExpression, t.arrayExpression([keyExpression])]
+    );
+  }
+
   if (tex.isSplatExpression(node)) {
     const sourceExpressionChild = tex.getChildWithValue(
       node,
