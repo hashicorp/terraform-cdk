@@ -47,7 +47,7 @@ class IteratorStackOne(TerraformStack):
             type="number"
         )
 
-        count = cdktf.TerraformCount.of(servers.number_value)
+        count = TerraformCount.of(servers.number_value)
 
         Instance(self, "server",
             count=count,
