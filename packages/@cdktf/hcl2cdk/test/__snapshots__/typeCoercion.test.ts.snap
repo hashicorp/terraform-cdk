@@ -20,7 +20,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
         description: "Allow any outbound traffic.",
         fromPort: 0,
         ipv6CidrBlocks: ["::/0"],
-        protocol: -1,
+        protocol: cdktf.Token.asString(cdktf.Op.negate(1)),
         securityGroupId: "sg-1234567890",
         toPort: 0,
         type: "egress",
