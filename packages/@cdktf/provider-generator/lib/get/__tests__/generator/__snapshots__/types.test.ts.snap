@@ -1908,7 +1908,7 @@ export * as licenseResource from './license-resource';
 `;
 
 exports[`incompatible resource names: license-resource 1`] = `
-"// https://www.terraform.io/docs/providers/test/r/license
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license
 // generated from terraform resource schema
 
 import { Construct } from 'constructs';
@@ -1918,27 +1918,27 @@ import * as cdktf from 'cdktf';
 
 export interface LicenseResourceConfig extends cdktf.TerraformMetaArguments {
   /**
-  * Docs at Terraform Registry: {@link https://www.terraform.io/docs/providers/test/r/license#dummy LicenseResource#dummy}
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license#dummy LicenseResource#dummy}
   */
   readonly dummy?: string;
 }
 
 /**
-* Represents a {@link https://www.terraform.io/docs/providers/test/r/license test_license}
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license test_license}
 */
 export class LicenseResource extends cdktf.TerraformResource {
 
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_license\\";
+  public static readonly tfResourceType = "test_license";
 
   // ===========
   // INITIALIZER
   // ===========
 
   /**
-  * Create a new {@link https://www.terraform.io/docs/providers/test/r/license test_license} Resource
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license test_license} Resource
   *
   * @param scope The scope in which to define this construct
   * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
