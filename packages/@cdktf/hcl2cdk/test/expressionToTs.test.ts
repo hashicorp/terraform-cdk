@@ -1087,4 +1087,17 @@ EOF`;
       `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
     );
   });
+
+  test("accept escaped quotes within string", async () => {
+    const expression = `"welcome to \"cdktf\""`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
+    );
+  });
 });
