@@ -8,8 +8,6 @@ package com.mycompany.app;
 import com.hashicorp.cdktf.*;
 import imports.aws.provider.AwsProvider;
 import imports.aws.provider.AwsProviderConfig;
-import imports.aws.provider.S3Bucket;
-import imports.aws.provider.S3BucketConfig;
 import software.constructs.Construct;
 
 import imports.github.data_github_organization.DataGithubOrganization;
@@ -21,6 +19,7 @@ import imports.github.team.TeamConfig;
 import imports.github.team_members.TeamMembers;
 import imports.github.team_members.TeamMembersConfig;
 import imports.aws.instance.Instance;
+import imports.aws.instance.InstanceConfig;
 
 // DOCS_BLOCK_START:iterators-iterators-complex-types
 import imports.aws.s3_bucket.S3Bucket;
@@ -110,7 +109,7 @@ public class MainIterator extends TerraformStack {
 
         TerraformCount count = TerraformCount.of(servers.getNumberValue());
 
-        new Instance(this, "server", new InstanceConfig()
+        new Instance(this, "server", InstanceConfig.builder()
                 .count(count)
                 .ami("ami-a1b2c3d4")
                 .instanceType("t2.micro")
@@ -119,7 +118,8 @@ public class MainIterator extends TerraformStack {
                             {
                                 put("Name", "Server ${" + count.getIndex() + "}");
                             }
-                        }));
+                        })
+                .build());
         // DOCS_BLOCK_END:iterators-count
     }
 }

@@ -481,7 +481,7 @@ new Instance(this, "server", {
 
         TerraformCount count = TerraformCount.of(servers.getNumberValue());
 
-        new Instance(this, "server", new InstanceConfig()
+        new Instance(this, "server", InstanceConfig.builder()
                 .count(count)
                 .ami("ami-a1b2c3d4")
                 .instanceType("t2.micro")
@@ -490,7 +490,8 @@ new Instance(this, "server", {
                             {
                                 put("Name", "Server ${" + count.getIndex() + "}");
                             }
-                        }));
+                        })
+                .build());
 ```
 
 ```csharp
