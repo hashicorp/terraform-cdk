@@ -423,6 +423,14 @@ async function convertTFExpressionAstToTs(
       }))
     );
 
+    const lastPart = parts[parts.length - 1];
+    if (t.isStringLiteral(lastPart.expr) && lastPart.expr.value === "\n") {
+      // This is a bit of a hack, but the trailing newline we add due to
+      // heredocs looks ugly and unnecessary in the generated code, so we
+      // try to remove it
+      parts.pop();
+    }
+
     if (parts.length === 0) {
       return t.stringLiteral(node.meta.value);
     }

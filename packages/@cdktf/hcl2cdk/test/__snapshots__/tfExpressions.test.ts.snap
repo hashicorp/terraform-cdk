@@ -81,13 +81,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
     const adminUsers =
       "\${{ for name, user in \${" +
       users.value +
-      "} : name => user if user.is_admin}}" +
-      "\\n";
+      "} : name => user if user.is_admin}}";
     const regularUsers =
       "\${{ for name, user in \${" +
       users.value +
-      "} : name => user if !user.is_admin}}" +
-      "\\n";
+      "} : name => user if !user.is_admin}}";
     new cdktf.TerraformOutput(this, "combined-so-it-does-not-get-removed", {
       value: "\${" + adminUsers + "},\${" + regularUsers + "}",
     });
@@ -112,10 +110,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       ),
     });
     const usersByRole =
-      "\${{ for name, user in \${" +
-      users.value +
-      "} : user.role => name...}}" +
-      "\\n";
+      "\${{ for name, user in \${" + users.value + "} : user.role => name...}}";
     new cdktf.TerraformOutput(this, "so-it-does-not-get-removed", {
       value: usersByRole,
     });
@@ -200,7 +195,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
     super(scope, name);
     new cdktf.TerraformOutput(this, "hash", {
       value:
-        '{\\n  "example_hash_key": {"S": "something"},\\n  "example_attribute": {"N": "11111"}\\n}\\n\\n',
+        '{\\n  "example_hash_key": {"S": "something"},\\n  "example_attribute": {"N": "11111"}\\n}\\n',
     });
   }
 }
