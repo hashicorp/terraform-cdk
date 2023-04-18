@@ -283,10 +283,10 @@ describe("java full integration", () => {
         expect(t.for_each).toBe("${toset(list_block_resource.list.req)}");
       });
       it("renders each.value for str attribute", () => {
-        expect(t.str).toBe('${each.value["reqstr"]}');
+        expect(t.str).toBe("${each.value.reqstr}");
       });
       it("renders each.value for num attribute", () => {
-        expect(t.num).toBe('${each.value["reqnum"]}');
+        expect(t.num).toBe("${each.value.reqnum}");
       });
     });
     describe("string map", () => {
@@ -312,9 +312,9 @@ describe("java full integration", () => {
         expect(t).toHaveProperty("dynamic", {
           req: {
             content: {
-              reqbool: '${each.value["reqbool"]}',
-              reqnum: '${each.value["reqnum"]}',
-              reqstr: '${each.value["reqstr"]}',
+              reqbool: "${each.value.reqbool}",
+              reqnum: "${each.value.reqnum}",
+              reqstr: "${each.value.reqstr}",
             },
             for_each: "${toset(list_block_resource.list.req)}",
             iterator: "each",
