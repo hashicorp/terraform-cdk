@@ -469,7 +469,7 @@ new Instance(this, "server", {
             ami="ami-a1b2c3d4",
             instance_type="t2.micro",
             tags={
-                "Name": "Server ${" + count.index + "}"
+                "Name": "Server ${" + Token().as_string(count.index) + "}"
             }
         )
 ```
