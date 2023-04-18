@@ -55,7 +55,7 @@ class IteratorStackOne(TerraformStack):
             ami="ami-a1b2c3d4",
             instance_type="t2.micro",
             tags={
-                "Name": "Server ${" + count.index + "}"
+                "Name": "Server ${" + Token().as_string(count.index) + "}"
             }
         )
         # DOCS_BLOCK_END:iterators-count
