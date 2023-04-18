@@ -10,6 +10,7 @@ using Constructs;
 using HashiCorp.Cdktf;
 using aws.Provider;
 using aws.S3Bucket;
+using aws.Instance;
 using github.Provider;
 using github.DataGithubOrganization;
 using github.Team;
@@ -94,6 +95,21 @@ namespace Examples
                 })
             });
             // DOCS_BLOCK_END:iterators-list-attributes
+
+            // DOCS_BLOCK_START:iterators-count
+            var servers = new TerraformVariable(this, "servers", new TerraformVariableConfig {
+                Type = "number"
+            });
+            var count = TerraformCount.Of(servers.NumberValue);
+            new Instance(this, "server", new InstanceConfig {
+                Count = count,
+                Ami = "ami-a1b2c3d4",
+                InstanceType = "t2.micro",
+                Tags = new Dictionary<string, string> {
+                    { "Name", "Server ${" + count.Index + "}" }
+                }
+            });
+            // DOCS_BLOCK_END:iterators-count
         }
     }
 }

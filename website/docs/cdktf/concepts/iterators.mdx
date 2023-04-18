@@ -342,30 +342,29 @@ new TeamMembers(this, "members", {
         String orgName = "my-org";
         new GithubProvider(this, "github", GithubProviderConfig.builder()
                 .organization(orgName)
-                .build()
-        );
+                .build());
         Team team = new Team(this, "core-team", TeamConfig.builder()
                 .name("core")
-                .build()
-        );
+                .build());
 
-        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org", DataGithubOrganizationConfig.builder()
-                .name(orgName)
-                .build()
-        );
+        DataGithubOrganization orgMembers = new DataGithubOrganization(this, "org",
+                DataGithubOrganizationConfig.builder()
+                        .name(orgName)
+                        .build());
 
         ListTerraformIterator orgMemberIterator = TerraformIterator.fromList(orgMembers.getMembers());
 
-        Map<String, Object> content = new HashMap<String, Object>() {{
-            put("username", Token.asString(orgMemberIterator.getValue()));
-            put("role", "maintainer");
-        }};
+        Map<String, Object> content = new HashMap<String, Object>() {
+            {
+                put("username", Token.asString(orgMemberIterator.getValue()));
+                put("role", "maintainer");
+            }
+        };
 
         new TeamMembers(this, "members", TeamMembersConfig.builder()
                 .teamId(team.getId())
                 .members(orgMemberIterator.dynamic(content))
-                .build()
-        );
+                .build());
 ```
 
 ```csharp
@@ -422,6 +421,107 @@ new TeamMembers(this, "members", {
 			"role":     jsii.String("maintainer"),
 		}),
 	})
+```
+
+</CodeTabs>
+
+## Using Count
+
+You can also use the `TerraformCount` class to achieve the equivalent of setting `count` on resources in HCL Terraform. Refer to the [Terraform docs](/terraform/language/meta-arguments/count) for more information on the count meta argument.
+This is useful when there's a numeric value that is only known at runtime that affects the amount of resources that should be created and those resources are almost identical. For most cases, however, Iterators are preferred over `count`. Refer to the [Terraform docs](/terraform/language/meta-arguments/count#when-to-use-for_each-instead-of-count) for the underlying reasons.
+
+The following examples use `TerraformCount` to create a specific amount of instances that is defined via a Terraform variable.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#iterators-count -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#iterators-count -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#iterators-count -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#iterators-count -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#iterators-count -->
+
+<CodeTabs>
+
+```ts
+const servers = new TerraformVariable(this, "servers", {
+  type: "number",
+});
+
+const count = TerraformCount.of(servers.numberValue);
+
+new Instance(this, "server", {
+  count: count,
+  ami: "ami-a1b2c3d4",
+  instanceType: "t2.micro",
+  tags: {
+    Name: "Server ${" + count.index + "}",
+  },
+});
+```
+
+```python
+        servers = TerraformVariable(self, "servers",
+            type="number"
+        )
+
+        count = TerraformCount.of(servers.number_value)
+
+        Instance(self, "server",
+            count=count,
+            ami="ami-a1b2c3d4",
+            instance_type="t2.micro",
+            tags={
+                "Name": "Server ${" + count.index + "}"
+            }
+        )
+```
+
+```java
+        TerraformVariable servers = TerraformVariable.Builder.create(this, "servers")
+                .type(VariableType.NUMBER)
+                .build();
+
+        TerraformCount count = TerraformCount.of(servers.getNumberValue());
+
+        new Instance(this, "server", InstanceConfig.builder()
+                .count(count)
+                .ami("ami-a1b2c3d4")
+                .instanceType("t2.micro")
+                .tags(
+                        new HashMap<String, String>() {
+                            {
+                                put("Name", "Server ${" + count.getIndex() + "}");
+                            }
+                        })
+                .build());
+```
+
+```csharp
+var servers = new TerraformVariable(this, "servers", new TerraformVariableConfig {
+    Type = "number"
+});
+var count = TerraformCount.Of(servers.NumberValue);
+new Instance(this, "server", new InstanceConfig {
+    Count = count,
+    Ami = "ami-a1b2c3d4",
+    InstanceType = "t2.micro",
+    Tags = new Dictionary<string, string> {
+        { "Name", "Server ${" + count.Index + "}" }
+    }
+});
+```
+
+```go
+servers := cdktf.NewTerraformVariable(stack, jsii.String("servers"), &cdktf.TerraformVariableConfig{
+	Type: cdktf.VariableType_NUMBER(),
+})
+count := cdktf.TerraformCount_Of(servers.NumberValue())
+instance.NewInstance(stack, jsii.String("server"), &instance.InstanceConfig{
+	Count:        count,
+	Ami:          jsii.String("ami-a1b2c3d4"),
+	InstanceType: jsii.String("t2.micro"),
+	Tags: &map[string]*string{
+		"Name": jsii.String("Server ${" + *cdktf.Token_AsString(count.Index(), nil) + "}"),
+	},
+})
 ```
 
 </CodeTabs>
