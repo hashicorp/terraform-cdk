@@ -43,12 +43,18 @@ const RESERVED_KEYWORDS_FOR_NAMESPACES = [
   "await",
 ];
 
+const COLLIDING_NAMESPACE_NAMES = [
+  // e.g. hashicorp/consul – collides with the LICENSE file on case-insensitive filesystems in the Go package (#2627)
+  "license",
+];
+
 const isReservedClassOrNamespaceName = (className: string): boolean => {
   return [
     "string",
     "object",
     "function",
     ...RESERVED_KEYWORDS_FOR_NAMESPACES,
+    ...COLLIDING_NAMESPACE_NAMES,
   ].includes(className.toLowerCase());
 };
 
