@@ -4,6 +4,7 @@
 from cdktf import TerraformStack, Token, App, TerraformCount
 from constructs import Construct
 from imports.aws.provider import AwsProvider
+from imports.aws.instance import Instance
 from imports.github.data_github_organization import DataGithubOrganization
 from imports.github.provider import GithubProvider
 from imports.github.team import Team
