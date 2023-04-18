@@ -116,7 +116,7 @@ function traversalToVariableName(
   if (!tex.isScopeTraversalExpression(node)) {
     logger.error(
       `Unexpected expression type ${node.type} with value ${node.meta.value} passed to convert to a variable. 
-        Please leave a comment at https://cdk.tf/bugs/convert-expressions if you run into this issue`
+        ${leaveCommentText}`
     );
     return "";
   }

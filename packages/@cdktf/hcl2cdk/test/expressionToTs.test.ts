@@ -1097,7 +1097,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
+      `""welcome to \\\\\\"cdktf\\\\\\"""`
     );
   });
 });
