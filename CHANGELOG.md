@@ -1,4 +1,4 @@
-## Unreleased
+## 0.16.0
 
 ### Update to .NET 6.0
 
@@ -48,6 +48,108 @@ We added support for advanced lifecycle features like [`preconditions`](/terrafo
 ### Minimum required Node version updated to 16.13
 
 Since the long-term support for Node 14 is ending, we updated our minimum compatible node version to 16.13.
+
+### fix
+
+- fix(tests): update edge provider tests [\#2814](https://github.com/hashicorp/terraform-cdk/pull/2814)
+- fix: Accept nested quotes within strings [\#2813](https://github.com/hashicorp/terraform-cdk/pull/2813)
+- fix(hcl2cdk): Handle multi-line strings better [\#2812](https://github.com/hashicorp/terraform-cdk/pull/2812)
+- fix(lib): Fix access expressions rendering invalid Terraform [\#2811](https://github.com/hashicorp/terraform-cdk/pull/2811)
+- fix: Support index expressions [\#2809](https://github.com/hashicorp/terraform-cdk/pull/2809)
+- fix: type coercion on primitive values [\#2805](https://github.com/hashicorp/terraform-cdk/pull/2805)
+- fix(hcl2cdk): handle object expressions [\#2804](https://github.com/hashicorp/terraform-cdk/pull/2804)
+- fix(cli): fix version constraint for Terraform provider including space [\#2803](https://github.com/hashicorp/terraform-cdk/pull/2803)
+- fix(lib): allow propertyAccess to handle splat and resources [\#2802](https://github.com/hashicorp/terraform-cdk/pull/2802)
+- fix: Use property access when refrencing numeric and map accessors [\#2801](https://github.com/hashicorp/terraform-cdk/pull/2801)
+- fix(lib): fix Symbol for Terraform dynamic expression causing crashes when using Iterator.dynamic() on blocks [\#2794](https://github.com/hashicorp/terraform-cdk/pull/2794)
+- fix(cli): send terraform output before approval [\#2790](https://github.com/hashicorp/terraform-cdk/pull/2790)
+- fix(hcl2cdk): handle external provider data [\#2777](https://github.com/hashicorp/terraform-cdk/pull/2777)
+- fix(hcl2cdk): Handle referencing lists, sets and maps better when converting [\#2775](https://github.com/hashicorp/terraform-cdk/pull/2775)
+- fix(tests): set JSII env var to not print Node version warning [\#2772](https://github.com/hashicorp/terraform-cdk/pull/2772)
+- fix: Revert "chore: upgrade our Docker image to be based on Node 0.16" [\#2771](https://github.com/hashicorp/terraform-cdk/pull/2771)
+- fix(hcl2cdk): flaky tests on hcl2cdk expressions [\#2769](https://github.com/hashicorp/terraform-cdk/pull/2769)
+- fix(hcl2cdk): use better fallbacks for resource and namespace nammings without a schema [\#2763](https://github.com/hashicorp/terraform-cdk/pull/2763)
+- fix(hcl2cdk): Heredocs expression parsing [\#2758](https://github.com/hashicorp/terraform-cdk/pull/2758)
+- fix(docs): Fix typo in commands.mdx [\#2752](https://github.com/hashicorp/terraform-cdk/pull/2752)
+- fix(docs): fix typo in upgrade-guide-v0-15.mdx [\#2738](https://github.com/hashicorp/terraform-cdk/pull/2738)
+- fix(cli): remove deprecated tsconfig option [\#2737](https://github.com/hashicorp/terraform-cdk/pull/2737)
+- fix(provider-generator): Fix generating bindings for providers that have only block types in their schema [\#2736](https://github.com/hashicorp/terraform-cdk/pull/2736)
+- fix(hcl2cdk): handle namespace level renamings [\#2722](https://github.com/hashicorp/terraform-cdk/pull/2722)
+- fix(lib): Don't append copyright header to version file used for releasing Go [\#2721](https://github.com/hashicorp/terraform-cdk/pull/2721)
+- fix(cli): remove extra quotes [\#2712](https://github.com/hashicorp/terraform-cdk/pull/2712)
+- fix(hcl2cdk): handle JSII Rosetta translation properly [\#2706](https://github.com/hashicorp/terraform-cdk/pull/2706)
+- fix(lib): make ComplexMap an interpolating parent [\#2700](https://github.com/hashicorp/terraform-cdk/pull/2700)
+- fix(tests): fix keyword argument for python test [\#2699](https://github.com/hashicorp/terraform-cdk/pull/2699)
+- fix(cli): fix watch telemetry [\#2698](https://github.com/hashicorp/terraform-cdk/pull/2698)
+- fix: don't post about large PRs since this currently happens repeatedly and spams the timeline of PRs [\#2697](https://github.com/hashicorp/terraform-cdk/pull/2697)
+- fix(provider-generator): Use registry.terraform.io links instead of old terraform.io [\#2696](https://github.com/hashicorp/terraform-cdk/pull/2696)
+- fix(lib): Update old terraform.io links [\#2694](https://github.com/hashicorp/terraform-cdk/pull/2694)
+- fix(docs): Replace old terraform.io links [\#2693](https://github.com/hashicorp/terraform-cdk/pull/2693)
+- fix: change trigger for adding PR labels to pull_request_target [\#2689](https://github.com/hashicorp/terraform-cdk/pull/2689)
+- fix(lib): support objects with keys that need escaping like e.g. colons [\#2678](https://github.com/hashicorp/terraform-cdk/pull/2678)
+- fix: set older C# version until JSII releases an update and we can upgrade to v6.0 [\#2676](https://github.com/hashicorp/terraform-cdk/pull/2676)
+- fix(docs): fix stack escape hatch override example for TS, Python, and Java [\#2663](https://github.com/hashicorp/terraform-cdk/pull/2663)
+- fix(hcl2cdk): fix type coercion [\#2632](https://github.com/hashicorp/terraform-cdk/pull/2632)
+- fix(provider-generator): fix resources named 'license' causing collisions with LICENSE file on case-insensitive filesystems for Go packages [\#2630](https://github.com/hashicorp/terraform-cdk/pull/2630)
+- fix(docs): source java iterator snippets from examples [\#2595](https://github.com/hashicorp/terraform-cdk/pull/2595)
+
+### feat
+
+- feat(docs): Add example for TerraformCount to iterators.mdx [\#2808](https://github.com/hashicorp/terraform-cdk/pull/2808)
+- feat(hcl2cdk): support count using TerraformCount [\#2796](https://github.com/hashicorp/terraform-cdk/pull/2796)
+- feat(lib): fix using variables and locals directly in template strings [\#2791](https://github.com/hashicorp/terraform-cdk/pull/2791)
+- feat(hcl2cdk): support variable types and validations [\#2773](https://github.com/hashicorp/terraform-cdk/pull/2773)
+- feat(lib): add support for terraform count [\#2766](https://github.com/hashicorp/terraform-cdk/pull/2766)
+- feat(hcl2cdk): support resource metadata [\#2745](https://github.com/hashicorp/terraform-cdk/pull/2745)
+- feat(lib): TerraformIterators allow chaining [\#2739](https://github.com/hashicorp/terraform-cdk/pull/2739)
+- feat(hcl2cdk): use TerraformIterator API instead of overrides [\#2732](https://github.com/hashicorp/terraform-cdk/pull/2732)
+- feat(lib): Add `TerraformCachedAsset` [\#2679](https://github.com/hashicorp/terraform-cdk/pull/2679)
+- feat(cli): Upgrade init template to .NET 6.0 [\#2673](https://github.com/hashicorp/terraform-cdk/pull/2673)
+- feat(lib): Generate Terraform function bindings using `terraform metadata functions` [\#2659](https://github.com/hashicorp/terraform-cdk/pull/2659)
+
+### chore
+
+- chore: use nx feature for parallelizing and caching [\#2806](https://github.com/hashicorp/terraform-cdk/pull/2806)
+- chore: pin provider versions in documentation examples [\#2799](https://github.com/hashicorp/terraform-cdk/pull/2799)
+- chore: add chown to release steps [\#2798](https://github.com/hashicorp/terraform-cdk/pull/2798)
+- chore: add chown to release process [\#2797](https://github.com/hashicorp/terraform-cdk/pull/2797)
+- chore: upgrade our Docker image to be based on Node 0.16 [\#2789](https://github.com/hashicorp/terraform-cdk/pull/2789)
+- chore: update to node 16 [\#2788](https://github.com/hashicorp/terraform-cdk/pull/2788)
+- chore: upgrade dependencies in hcl2cdk and hcl2json [\#2779](https://github.com/hashicorp/terraform-cdk/pull/2779)
+- chore: update go version [\#2778](https://github.com/hashicorp/terraform-cdk/pull/2778)
+- chore(lib): update to JSII 5 [\#2776](https://github.com/hashicorp/terraform-cdk/pull/2776)
+- chore: upgrade our Docker image to be based on Node 0.16 [\#2770](https://github.com/hashicorp/terraform-cdk/pull/2770)
+- chore(examples): Disable Java Gradle example [\#2760](https://github.com/hashicorp/terraform-cdk/pull/2760)
+- chore(docs): change to `synth` from `synthScope` for #2755 [\#2756](https://github.com/hashicorp/terraform-cdk/pull/2756)
+- chore: Make iterators working again with convert [\#2754](https://github.com/hashicorp/terraform-cdk/pull/2754)
+- chore: Enable type coercion again [\#2750](https://github.com/hashicorp/terraform-cdk/pull/2750)
+- chore: Use new Terraform Expression AST for generating Typescript expression [\#2744](https://github.com/hashicorp/terraform-cdk/pull/2744)
+- chore: Add tree traversal, and better types for terraform expression AST [\#2740](https://github.com/hashicorp/terraform-cdk/pull/2740)
+- chore(hcl2cdk): prepare for convert using Terraform function bindings [\#2734](https://github.com/hashicorp/terraform-cdk/pull/2734)
+- chore: Add 'getExpressionAst' method to go bridge [\#2729](https://github.com/hashicorp/terraform-cdk/pull/2729)
+- chore: fix copyright headers automation [\#2725](https://github.com/hashicorp/terraform-cdk/pull/2725)
+- chore: improve development performance by excluding synth [\#2723](https://github.com/hashicorp/terraform-cdk/pull/2723)
+- chore(docs): explain constructs in contrast to modules better [\#2715](https://github.com/hashicorp/terraform-cdk/pull/2715)
+- chore: Reduce warnings to get to the bottom of documentation issues [\#2713](https://github.com/hashicorp/terraform-cdk/pull/2713)
+- chore: update jsii-srcmak in provider-generator [\#2707](https://github.com/hashicorp/terraform-cdk/pull/2707)
+- chore: uprade jsii versions to latest [\#2701](https://github.com/hashicorp/terraform-cdk/pull/2701)
+- chore: add /dashboard short link [\#2695](https://github.com/hashicorp/terraform-cdk/pull/2695)
+- chore(docs): Migrate link formats [\#2687](https://github.com/hashicorp/terraform-cdk/pull/2687)
+- chore: Remove links within headers of documentation pages [\#2686](https://github.com/hashicorp/terraform-cdk/pull/2686)
+- chore: add copyright headers automation [\#2683](https://github.com/hashicorp/terraform-cdk/pull/2683)
+- chore: set label to run integration tests if workflow file or test/ directory changes [\#2677](https://github.com/hashicorp/terraform-cdk/pull/2677)
+- chore: Automate go package copyright/license inculsion [\#2666](https://github.com/hashicorp/terraform-cdk/pull/2666)
+- chore: fix incorrect changelog [\#2661](https://github.com/hashicorp/terraform-cdk/pull/2661)
+- chore: create pull request template [\#2654](https://github.com/hashicorp/terraform-cdk/pull/2654)
+- chore: fix naming issue with csharp stack template [\#2626](https://github.com/hashicorp/terraform-cdk/pull/2626)
+
+### refactor
+
+- refactor(hcl2json): rename wasm method to match its implementation and expose it more direct aswell [\#2724](https://github.com/hashicorp/terraform-cdk/pull/2724)
+
+### Other
+
+- Revert "feat(lib): Add `TerraformCachedAsset`" [\#2719](https://github.com/hashicorp/terraform-cdk/pull/2719)
 
 ## 0.15.5
 
@@ -1824,85 +1926,4 @@ Up until CDK for Terraform version `0.2` only a single stack was supported. For 
 
 **Fixed bugs:**
 
-- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cdk/issues/198)
-
-## 0.0.11 (July 15, 2020)
-
-**Implemented enhancements:**
-
-- Defaults are opposite of Terraform but should default to being non-destructive [\#155](https://github.com/hashicorp/terraform-cdk/issues/155)
-- Version check for new cdktf cli [\#130](https://github.com/hashicorp/terraform-cdk/issues/130)
-- Set NODE_ENV for CLI [\#129](https://github.com/hashicorp/terraform-cdk/issues/129)
-- Make local state persistent [\#116](https://github.com/hashicorp/terraform-cdk/issues/116)
-- Improved resource name structure in Diff / Deploy / Destroy [\#135](https://github.com/hashicorp/terraform-cdk/issues/135)
-
-**Fixed bugs:**
-
-- cdktf destroy errors saying stale plan [\#182](https://github.com/hashicorp/terraform-cdk/issues/182)
-- Migrating from local state to remote state doesn't work [\#168](https://github.com/hashicorp/terraform-cdk/issues/168)
-- Display Typescript Errors for Synth [\#161](https://github.com/hashicorp/terraform-cdk/issues/161)
-- cdktf init is broken [\#157](https://github.com/hashicorp/terraform-cdk/issues/157)
-- Handle stale stacks in cdktf [\#150](https://github.com/hashicorp/terraform-cdk/issues/150)
-- cdktf init Terraform Cloud workspace creation doesn't work [\#144](https://github.com/hashicorp/terraform-cdk/issues/144)
-- Case sensitive tags are incorrectly downcased [\#75](https://github.com/hashicorp/terraform-cdk/issues/75)
-
-## 0.0.10 (July 7, 2020)
-
-- Bug when creating Terraform Cloud workspace via `cdktf init` (#144)
-
-## 0.0.9 (Jul 7, 2020)
-
-- Fix `cdktf init` issue (#139)
-
-## 0.0.8 (July 5, 2020)
-
-Minor bug fixes and documentation for getting started guides.
-
-## 0.0.7 (July 3, 2020)
-
-- Support for `cdktf diff` (#90)
-- Support for `cdktf deploy` (#92)
-- Support for `cdktf destroy` (#111)
-- Support for Terraform Cloud via `cdktf login` (#96)
-- Support for logging across the project (#100)
-- New UI for `cdktf synth` and `cdktf get` (#103)
-- Basic error handling support (#110)
-
-There are other minor bug fixes included in the release. (#109, #122, #128).
-
-## 0.0.6 (May 14, 2020)
-
-- Typescript examples and template defaults for synthesize commands to compile application (#63)
-- Terraform Output doesn't handle Optional Types (#83)
-
-## 0.0.5 (May 13, 2020)
-
-- Document Terraform outputs and remote backend (#64)
-- Fix providers file workflow (#66)
-- Stack escape hatch (#81)
-
-## 0.0.4 (May 12, 2020)
-
-- Getting started guide for Python (#73)
-- Change output directory to `cdktf.out` for Terraform configuration (#70)
-- Fix output directory argument for `cdktf synth` (#62)
-
-## 0.0.3 (May 11, 2020)
-
-Enable synthesis to Python
-
-## 0.0.2-alpha.2 (May 9, 2020)
-
-Minor output changes and updated README.md example.
-
-## 0.0.2-alpha.1 (May 9, 2020)
-
-Alpha release for Github and NPM
-
-## 0.0.2 (May 8, 2020)
-
-Initial release to GitHub and NPM.
-
-## 0.0.1 (May 8, 2020)
-
-Initial release of `cdktf-cli` and `cdktf` to Github and NPM registry.
+- `cdktf init` was broken on Windows [\#198](https://github.com/hashicorp/terraform-cd
