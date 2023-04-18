@@ -15,7 +15,7 @@ describe("tfExpressions", () => {
           variable "admins" {
             type = number
           }
-          
+
           output "arithmetics" {
             value = var.members + var.admins
           }`,
@@ -33,12 +33,12 @@ describe("tfExpressions", () => {
         description             = "KMS key 1"
         deletion_window_in_days = 7
       }
-      
+
       resource "aws_s3_bucket" "examplebucket" {
         bucket = "examplebuckettftest"
         acl    = "private"
       }
-      
+
       resource "aws_s3_bucket_object" "examplebucket_object" {
         key        = "someobject"
         bucket     = aws_kms_key.examplekms.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []
@@ -60,7 +60,7 @@ describe("tfExpressions", () => {
                 is_admin = boolean
               }))
             }
-            
+
             locals {
               admin_users = {
                 for name, user in var.users : name => user
@@ -71,7 +71,7 @@ describe("tfExpressions", () => {
                 if !user.is_admin
               }
             }
-            
+
             output "combined-so-it-does-not-get-removed" {
               value = "\${local.admin_users},\${local.regular_users}"
             }
@@ -88,13 +88,13 @@ describe("tfExpressions", () => {
               role = string
             }))
           }
-          
+
           locals {
             users_by_role = {
               for name, user in var.users : user.role => name...
             }
           }
-          
+
           output "so-it-does-not-get-removed" {
             value = local.users_by_role
           }`,
@@ -109,13 +109,13 @@ describe("tfExpressions", () => {
               api_key = "api_key"
               app_key = "app_key"
             }
-    
+
             variable "users" {
               type = list(object({
                 id = string
               }))
             }
-            
+
             resource "datadog_monitor" "hard_query" {
               name    = "queries are hard"
               message = "here we go"
@@ -208,6 +208,25 @@ describe("tfExpressions", () => {
     Synth.yes,
     {
       resources: ["google_compute_instance"],
+    }
+  );
+
+  testCase.test(
+    "multi-line strings are supported",
+    `
+      output "hash" {
+        value = <<ITEM
+{
+  "example_hash_key": {"S": "something"},
+  "example_attribute": {"N": "11111"}
+}
+ITEM
+      }
+      `,
+    [],
+    Synth.yes,
+    {
+      resources: [],
     }
   );
 });

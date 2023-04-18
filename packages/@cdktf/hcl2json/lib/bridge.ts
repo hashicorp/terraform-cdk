@@ -13,6 +13,7 @@ import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 import { Reference, findAllReferencesInAst } from "./references";
 import { ExpressionType } from "./syntax-tree";
+import { wrapTerraformExpression } from "./util";
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
@@ -138,9 +139,8 @@ export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const wrappedExpression = !expression.startsWith(`"`)
-    ? `"${expression}"`
-    : expression;
+  const { wrap: wrappedExpression, wrapOffset: startOffset } =
+    wrapTerraformExpression(`"${expression}"`);
 
   const ast = await getExpressionAst(filename, wrappedExpression);
   if (!ast) {
@@ -155,8 +155,8 @@ export async function getReferencesInExpression(
   return refs.map((ref) => {
     return {
       ...ref,
-      startPosition: ref.startPosition - 1,
-      endPosition: ref.endPosition - 1,
+      startPosition: ref.startPosition - startOffset,
+      endPosition: ref.endPosition - startOffset,
     };
   });
 }
