@@ -1,5 +1,7 @@
 ## 0.16.0
 
+**Breaking changes**
+
 ### Update to .NET 6.0
 
 We updated our C# template to .NET 6.0 as JSII updated recently and dropped support for `netcoreapp3.1`:
@@ -7,8 +9,6 @@ We updated our C# template to .NET 6.0 as JSII updated recently and dropped supp
 > The runtime library for .NET & generated .NET bindings will no longer support netcoreapp3.1 after this release. Users are advised to upgrade their apps to use net6.0 or net7.0 instead.
 
 from [JSII v.1.76.0 release notes](https://github.com/aws/jsii/releases/tag/v1.76.0)
-
-**Breaking changes**
 
 ### Changes to Terraform function bindings
 
