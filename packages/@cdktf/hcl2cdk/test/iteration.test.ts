@@ -323,10 +323,11 @@ describe("iteration", () => {
         availability_zone = data.aws_availability_zones.available.names[count.index]
       } 
     `,
-    [binding.azuread],
+    [binding.aws],
     Synth.yes,
     {
-      resources: ["azuread_user"],
+      resources: ["aws_subnet"],
+      dataSources: ["aws_availability_zones"],
     }
   );
 });
