@@ -212,8 +212,6 @@ import * as aws from "./.gen/providers/aws";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    /*The following providers are missing schema information and might need manual adjustments to synthesize correctly: aws.
-    For a more precise conversion please use the --provider flag in convert.*/
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
     new aws.provider.AwsProvider(this, "aws", {
@@ -244,12 +242,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
       publicSubnetCount.numberValue
     );
     new aws.subnet.Subnet(this, "public", {
-      availability_zone: cdktf.propertyAccess(
-        dataAwsAvailabilityZonesAvailable.names,
-        [awsSubnetPublicCount.index]
+      availabilityZone: cdktf.Token.asString(
+        cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, [
+          awsSubnetPublicCount.index,
+        ])
       ),
-      cidr_block: "10.0.1.0/24",
-      vpc_id: "10123",
+      cidrBlock: "10.0.1.0/24",
+      vpcId: "10123",
       count: awsSubnetPublicCount,
     });
   }
