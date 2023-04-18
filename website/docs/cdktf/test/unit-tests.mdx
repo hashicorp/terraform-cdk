@@ -62,7 +62,9 @@ describe("Unit testing using assertions", () => {
     const stack = new MyApplicationsAbstraction(app, "my-app", {});
     const synthesized = Testing.synth(stack);
 
-    expect(synthesized).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
+    expect(synthesized).toHaveResourceWithProperties(Image, {
+      name: "ubuntu:latest",
+    });
   });
 });
 ```
