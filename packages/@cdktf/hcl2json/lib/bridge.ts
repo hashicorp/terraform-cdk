@@ -13,6 +13,7 @@ import { deepMerge } from "./deepmerge";
 import { gunzipSync } from "zlib";
 import { Reference, findAllReferencesInAst } from "./references";
 import { ExpressionType } from "./syntax-tree";
+import { wrapTerraformExpression } from "./util";
 
 interface GoBridge {
   parse: (filename: string, hcl: string) => Promise<string>;
@@ -138,9 +139,20 @@ export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
-  const wrappedExpression = !expression.startsWith(`"`)
-    ? `"${expression}"`
-    : expression;
+  // We have to do this twice because of the problem with HEREDOCS
+  // Our current hcl2json implementation removes HEREDOCS and replaces them
+  // with a multi-line string, which is causing all kinds of problems
+  let offset = 0;
+  let quoteWrappedExpression = expression;
+  if (!expression.startsWith('"') && !expression.startsWith("'")) {
+    quoteWrappedExpression = `"${expression}"`;
+    offset = 1;
+  }
+
+  const { wrap: wrappedExpression, wrapOffset: startOffset } =
+    wrapTerraformExpression(`${quoteWrappedExpression}`);
+
+  offset += startOffset;
 
   const ast = await getExpressionAst(filename, wrappedExpression);
   if (!ast) {
@@ -155,8 +167,8 @@ export async function getReferencesInExpression(
   return refs.map((ref) => {
     return {
       ...ref,
-      startPosition: ref.startPosition - 1,
-      endPosition: ref.endPosition - 1,
+      startPosition: ref.startPosition - offset,
+      endPosition: ref.endPosition - offset,
     };
   });
 }

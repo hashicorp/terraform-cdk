@@ -187,6 +187,21 @@ class MyConvertedCode extends cdktf.TerraformStack {
 "
 `;
 
+exports[`tfExpressions multi-line strings are supported typescript snapshot 1`] = `
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
+class MyConvertedCode extends cdktf.TerraformStack {
+  constructor(scope: constructs.Construct, name: string) {
+    super(scope, name);
+    new cdktf.TerraformOutput(this, "hash", {
+      value:
+        '{\\n  "example_hash_key": {"S": "something"},\\n  "example_attribute": {"N": "11111"}\\n}\\n',
+    });
+  }
+}
+"
+`;
+
 exports[`tfExpressions numeric property access typescript snapshot 1`] = `
 "import * as constructs from "constructs";
 import * as cdktf from "cdktf";

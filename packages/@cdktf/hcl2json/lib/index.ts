@@ -8,4 +8,6 @@ export {
   getExpressionAst,
 } from "./bridge";
 
+export { wrapTerraformExpression } from "./util";
+
 export * as TFExpressionSyntaxTree from "./syntax-tree";
