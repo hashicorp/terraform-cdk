@@ -6,7 +6,7 @@ import { FnGenerated } from "./functions/terraform-functions.generated";
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class Fn extends FnGenerated {
   /**
-   * {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
+   * {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
    * @param {string} str
    * @param {number} [cost]
    */
@@ -18,7 +18,7 @@ export class Fn extends FnGenerated {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+   * {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
    * @param {any} inputMap
    * @param {string} key
    * @param {Array<any>} defaultValue
@@ -30,7 +30,7 @@ export class Fn extends FnGenerated {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
+   * {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
    * @param {string} separator
    * @param {Array<string>} list
    */
@@ -41,7 +41,7 @@ export class Fn extends FnGenerated {
   }
 
   /**
-   * {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
+   * {@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
    * @param {number} start
    * @param {number} limit
    * @param {number} [step=1]

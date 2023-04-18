@@ -23841,10 +23841,10 @@ new Fn();
 | <code><a href="#cdktf.Fn.yamldecode">yamldecode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamldecode yamldecode} parses a string as a subset of YAML, and produces a representation of its value.                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.yamlencode">yamlencode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.zipmap">zipmap</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/zipmap zipmap} constructs a map from a list of keys and a corresponding list of values.                                                                                                                                                                                                           |
-| <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code>                     | {@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                  |
-| <code><a href="#cdktf.Fn.join">join</a></code>                         | {@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                 |
-| <code><a href="#cdktf.Fn.lookup">lookup</a></code>                     | {@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                          |
-| <code><a href="#cdktf.Fn.range">range</a></code>                       | {@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.                                                                                                                                                                                                           |
+| <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
+| <code><a href="#cdktf.Fn.join">join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
+| <code><a href="#cdktf.Fn.lookup">lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
+| <code><a href="#cdktf.Fn.range">range</a></code>                       | {@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.rawString">rawString</a></code>               | Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string).                                                                                                                                                                                |
 
 ---
@@ -25847,7 +25847,7 @@ import { Fn } from 'cdktf'
 Fn.bcrypt(str: string, cost?: number)
 ```
 
-{@link https://www.terraform.io/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
+{@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.
 
 ###### `str`<sup>Required</sup> <a name="str" id="cdktf.Fn.bcrypt.parameter.str"></a>
 
@@ -25869,7 +25869,7 @@ import { Fn } from 'cdktf'
 Fn.join(separator: string, list: string[])
 ```
 
-{@link https://www.terraform.io/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
+{@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.
 
 ###### `separator`<sup>Required</sup> <a name="separator" id="cdktf.Fn.join.parameter.separator"></a>
 
@@ -25891,7 +25891,7 @@ import { Fn } from 'cdktf'
 Fn.lookup(inputMap: any, key: string, defaultValue: any)
 ```
 
-{@link https://www.terraform.io/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
+{@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
 
 ###### `inputMap`<sup>Required</sup> <a name="inputMap" id="cdktf.Fn.lookup.parameter.inputMap"></a>
 
@@ -25919,7 +25919,7 @@ import { Fn } from 'cdktf'
 Fn.range(start: number, limit: number, step?: number)
 ```
 
-{@link https://www.terraform.io/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
+{@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.
 
 ###### `start`<sup>Required</sup> <a name="start" id="cdktf.Fn.range.parameter.start"></a>
 
