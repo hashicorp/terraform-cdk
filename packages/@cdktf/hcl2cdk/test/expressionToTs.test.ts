@@ -1071,4 +1071,20 @@ EOF`;
     );
     expect(code(result)).toMatchInlineSnapshot(`"false"`);
   });
+
+  test("convert a data source with count", async () => {
+    const expression = `"\${data.aws_availability_zones.available.names[count.index]}"`;
+    const scope = getScope({
+      provider: awsProviderSchema,
+      data: ["aws_availability_zones"],
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
+    );
+  });
 });
