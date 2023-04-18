@@ -139,8 +139,20 @@ export async function getReferencesInExpression(
   filename: string,
   expression: string
 ): Promise<Reference[]> {
+  // We have to do this twice because of the problem with HEREDOCS
+  // Our current hcl2json implementation removes HEREDOCS and replaces them
+  // with a multi-line string, which is causing all kinds of problems
+  let offset = 0;
+  let quoteWrappedExpression = expression;
+  if (!expression.startsWith('"') && !expression.startsWith("'")) {
+    quoteWrappedExpression = `"${expression}"`;
+    offset = 1;
+  }
+
   const { wrap: wrappedExpression, wrapOffset: startOffset } =
-    wrapTerraformExpression(`"${expression}"`);
+    wrapTerraformExpression(`${quoteWrappedExpression}`);
+
+  offset += startOffset;
 
   const ast = await getExpressionAst(filename, wrappedExpression);
   if (!ast) {
@@ -155,8 +167,8 @@ export async function getReferencesInExpression(
   return refs.map((ref) => {
     return {
       ...ref,
-      startPosition: ref.startPosition - startOffset,
-      endPosition: ref.endPosition - startOffset,
+      startPosition: ref.startPosition - offset,
+      endPosition: ref.endPosition - offset,
     };
   });
 }
