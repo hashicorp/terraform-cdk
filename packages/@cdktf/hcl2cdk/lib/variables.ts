@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import * as t from "@babel/types";
 import { ProgramScope, Reference } from "./types";
 import { camelCase, pascalCase } from "./utils";
