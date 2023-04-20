@@ -2,14 +2,15 @@
 // SPDX-License-Identifier: MPL-2.0
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { dynamicVariableToAst, getPropertyAccessPath } from "../expressions";
-import { ProgramScope } from "../types";
+import { dynamicVariableToAst } from "../expressions";
+import { ProgramScope, Reference } from "../types";
 import {
   extractReferencesFromExpression,
-  referenceToAst,
-} from "../expressions";
+  referenceToVariableName,
+} from "../references";
 import { getExpressionAst } from "@cdktf/hcl2json";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
+import { camelCase } from "../utils";
 
 const nodeIds = [
   "var.input",
@@ -21,6 +22,48 @@ const nodeIds = [
   "aws_kms_key.key",
   "local.service_name",
 ];
+
+// Transforms a path with segments into literals describing the path
+function getPropertyAccessPath(input: string): string[] {
+  return input
+    .split(/(\[|\]|\.)/g)
+    .filter((p) => p.length > 0 && p !== "." && p !== "[" && p !== "]")
+    .map((p) => (p.startsWith(`"`) && p.endsWith(`"`) ? p.slice(1, -1) : p));
+}
+
+export function referenceToAst(scope: ProgramScope, ref: Reference) {
+  const [resource, , ...selector] = ref.referencee.full.split(".");
+
+  const variableReference = t.identifier(
+    camelCase(referenceToVariableName(scope, ref))
+  );
+
+  if (resource === "data") {
+    selector.shift(); // remove the data part so that the name is not used in the selector
+  }
+
+  const accessor = selector.reduce(
+    (carry, member, index) =>
+      t.memberExpression(
+        carry,
+        t.identifier(
+          index === 0 && resource === "module"
+            ? camelCase(member + "Output")
+            : camelCase(member)
+        )
+      ),
+    variableReference as t.Expression
+  );
+
+  if (ref.useFqn) {
+    return t.memberExpression(accessor, t.identifier("fqn"));
+  }
+
+  if (ref.isVariable) {
+    return t.memberExpression(accessor, t.identifier("value"));
+  }
+  return accessor;
+}
 
 describe("expressions", () => {
   describe("#extractReferencesFromExpression", () => {

@@ -17,7 +17,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences } from "./expressions";
+import { findUsedReferences } from "./references";
 import {
   backendToExpression,
   cdktfImport,

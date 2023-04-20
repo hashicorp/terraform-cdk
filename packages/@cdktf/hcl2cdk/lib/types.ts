@@ -28,3 +28,24 @@ export type ResourceScope = ProgramScope & {
   withinOverrideExpression?: boolean; // set if we are currently within an override expression
   scopedVariables?: Record<string, string>; // set if we are currently within an dynamic block expression
 };
+
+export type Reference = {
+  start: number;
+  end: number;
+  referencee: { id: string; full: string }; // identifier for resource
+  useFqn?: boolean;
+  isVariable?: boolean;
+};
+
+export type DynamicBlock = {
+  path: string;
+  for_each: string;
+  content: TerraformResourceBlock;
+  scopedVar: string;
+};
+
+export type IteratorVariableReference = {
+  start: number;
+  end: number;
+  value: string;
+};

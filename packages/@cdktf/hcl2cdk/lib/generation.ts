@@ -16,17 +16,9 @@ import {
   Variable,
   Output,
 } from "./schema";
-import {
-  Reference,
-  variableName,
-  referenceToVariableName,
-  extractDynamicBlocks,
-  constructAst,
-  isNestedDynamicBlock,
-  convertTerraformExpressionToTs,
-  expressionAst,
-  findUsedReferences,
-} from "./expressions";
+import { convertTerraformExpressionToTs, expressionAst } from "./expressions";
+import { Reference } from "./types";
+import { findUsedReferences } from "./references";
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
@@ -41,6 +33,12 @@ import {
 } from "./terraformSchema";
 import { Errors } from "@cdktf/commons";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
+import { extractDynamicBlocks, isNestedDynamicBlock } from "./dynamic-blocks";
+import {
+  constructAst,
+  referenceToVariableName,
+  variableName,
+} from "./variables";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
