@@ -163,537 +163,617 @@ function getTfResourcePathFromNode(node: tex.ScopeTraversalExpression) {
   return result.join(".");
 }
 
+function convertLiteralValueExpressionToTs(
+  node: tex.LiteralValueExpression,
+  _scope: ResourceScope
+) {
+  const literalType = node.meta.type;
+  if (literalType === "number") {
+    return t.numericLiteral(Number(node.meta.value));
+  }
+  if (literalType === "bool") {
+    return t.booleanLiteral(node.meta.value === "true" ? true : false);
+  }
+
+  return t.stringLiteral(node.meta.value);
+}
+
+function convertScopeTraversalExpressionToTs(
+  node: tex.ScopeTraversalExpression,
+  scope: ResourceScope
+) {
+  const hasReference = containsReference(node);
+
+  const segments = node.meta.traversal;
+
+  if (segments[0].segment === "each" && scope.forEachIteratorName) {
+    return dynamicVariableToAst(node, scope.forEachIteratorName);
+  }
+
+  if (segments[0].segment === "count" && scope.countIteratorName) {
+    return dynamicVariableToAst(node, scope.countIteratorName, "count");
+  }
+
+  if (segments[0].segment === "self") {
+    return t.callExpression(
+      t.memberExpression(
+        t.memberExpression(
+          t.identifier("cdktf"),
+          t.identifier("TerraformSelf")
+        ),
+        t.identifier("getAny")
+      ),
+
+      [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
+    );
+  }
+
+  // setting.value, setting.value[1].id
+  const dynamicBlock = scope.scopedVariables?.[segments[0].segment];
+  if (dynamicBlock) {
+    if (dynamicBlock === "dynamic-block") {
+      return dynamicVariableToAst(
+        node,
+        dynamicBlock,
+        traversalPartsToString(segments)
+      );
+    }
+    return dynamicVariableToAst(node, dynamicBlock, segments[0].segment);
+  }
+
+  // This may be a variable reference that we don't understand yet, so we wrap it in a template string
+  // for Terraform to handle
+  let varIdentifier: t.Expression = t.stringLiteral(
+    `\${${node.meta.fullAccessor}}`
+  );
+
+  if (hasReference) {
+    varIdentifier = t.identifier(
+      camelCase(traversalToVariableName(scope, node))
+    );
+  }
+
+  if (["var", "local"].includes(segments[0].segment)) {
+    const variableAccessor =
+      segments[0].segment === "var"
+        ? t.memberExpression(varIdentifier, t.identifier("value"))
+        : varIdentifier;
+
+    if (segments.length > 2) {
+      return t.callExpression(
+        t.memberExpression(
+          t.identifier("cdktf"),
+          t.identifier("propertyAccess")
+        ),
+        [
+          variableAccessor,
+          t.arrayExpression(
+            segments.slice(2).map((s) => t.stringLiteral(s.segment))
+          ),
+        ]
+      );
+    }
+
+    return variableAccessor;
+  }
+
+  if (!hasReference || scope.withinOverrideExpression) {
+    return varIdentifier;
+  }
+
+  const rootSegment = segments[0].segment;
+  const attributeIndex = rootSegment === "data" ? 3 : 2;
+  const attributeSegments = segments.slice(attributeIndex);
+  const numericAccessorIndex = attributeSegments.findIndex((seg) =>
+    tex.isIndexTraversalPart(seg)
+  );
+  let minAccessorIndex = numericAccessorIndex;
+  let mapAccessorIndex = -1;
+  if (numericAccessorIndex === -1) {
+    // only do this if we have to, if we already have a
+    // numeric accessor, we don't have to do this additional work
+    const resourcePath = getTfResourcePathFromNode(node);
+    let usingSubPathType = false;
+    let parts = resourcePath.split(".").filter((p) => p !== "");
+    const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
+    const originalParts = parts.length;
+    let hasMapAccessor = false;
+    while (parts.length >= minParts) {
+      const type = getTypeAtPath(scope.providerSchema, parts.join("."));
+      if (type !== null) {
+        if (Array.isArray(type) && type[0] === "map" && usingSubPathType) {
+          hasMapAccessor = true;
+          break;
+        }
+      }
+      parts.pop();
+      usingSubPathType = true;
+    }
+
+    if (hasMapAccessor) {
+      mapAccessorIndex = originalParts - parts.length - 1;
+      minAccessorIndex = mapAccessorIndex;
+    }
+  }
+
+  const needsPropertyAccess = minAccessorIndex >= 0;
+
+  const refSegments = needsPropertyAccess
+    ? attributeSegments.slice(0, minAccessorIndex)
+    : attributeSegments;
+  const nonRefSegments = needsPropertyAccess
+    ? attributeSegments.slice(minAccessorIndex)
+    : [];
+
+  const ref = refSegments.reduce(
+    (acc: t.Expression, seg, index) =>
+      t.memberExpression(
+        acc,
+        t.identifier(
+          index === 0 && rootSegment === "module"
+            ? camelCase(seg.segment + "Output")
+            : camelCase(seg.segment)
+        )
+      ),
+    varIdentifier
+  );
+
+  if (nonRefSegments.length === 0) {
+    return ref;
+  }
+
+  return t.callExpression(
+    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+    [
+      ref,
+      t.arrayExpression(nonRefSegments.map((s) => t.stringLiteral(s.segment))),
+    ]
+  );
+}
+
+async function convertUnaryOpExpressionToTs(
+  node: tex.UnaryOpExpression,
+  scope: ResourceScope
+) {
+  const operand = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.valueExpression)!,
+    scope
+  );
+
+  let fnName = node.meta.operator;
+  if (tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators]) {
+    fnName = tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators];
+  } else {
+    throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+  }
+
+  const opClass = t.memberExpression(t.identifier("cdktf"), t.identifier("Op"));
+  const fn = t.memberExpression(opClass, t.identifier(fnName));
+
+  return t.callExpression(fn, [operand]);
+}
+
+async function convertBinaryOpExpressionToTs(
+  node: tex.BinaryOpExpression,
+  scope: ResourceScope
+) {
+  const left = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.lhsExpression)!,
+    scope
+  );
+  const right = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.rhsExpression)!,
+    scope
+  );
+
+  let fnName = node.meta.operator;
+  if (tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators]) {
+    fnName = tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators];
+  } else {
+    throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
+  }
+
+  const opClass = t.memberExpression(t.identifier("cdktf"), t.identifier("Op"));
+  const fn = t.memberExpression(opClass, t.identifier(fnName));
+
+  return t.callExpression(fn, [left, right]);
+}
+
+async function convertTemplateExpressionToTs(
+  node: tex.TemplateExpression | tex.TemplateWrapExpression,
+  scope: ResourceScope
+) {
+  const parts = await Promise.all(
+    node.children.map(async (child) => ({
+      node: child,
+      expr: await convertTFExpressionAstToTs(child, scope),
+    }))
+  );
+
+  const lastPart = parts[parts.length - 1];
+  if (t.isStringLiteral(lastPart.expr) && lastPart.expr.value === "\n") {
+    // This is a bit of a hack, but the trailing newline we add due to
+    // heredocs looks ugly and unnecessary in the generated code, so we
+    // try to remove it
+    parts.pop();
+  }
+
+  if (parts.length === 0) {
+    return t.stringLiteral(node.meta.value);
+  }
+
+  if (parts.length === 1) {
+    return parts[0].expr;
+  }
+
+  let isScopedTraversal = false;
+  let expressions: t.Expression[] = [];
+  for (const { node, expr } of parts) {
+    if (
+      tex.isScopeTraversalExpression(node) &&
+      !t.isStringLiteral(expr) &&
+      !t.isCallExpression(expr)
+    ) {
+      expressions.push(t.stringLiteral("${"));
+      isScopedTraversal = true;
+    } else if (
+      // we should ideally be doing type coercion more
+      // carefully here, because it may not always be needed
+      t.isCallExpression(expr)
+    ) {
+      expressions.push(
+        template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
+      );
+      continue;
+    } else {
+      if (isScopedTraversal) {
+        expressions.push(t.stringLiteral("}"));
+        isScopedTraversal = false;
+      }
+    }
+    expressions.push(expr);
+  }
+
+  if (isScopedTraversal) {
+    expressions.push(t.stringLiteral("}"));
+  }
+
+  return expressionForSerialStringConcatenation(expressions);
+}
+
+async function convertObjectExpressionToTs(
+  node: tex.ObjectExpression,
+  scope: ResourceScope
+) {
+  return t.objectExpression(
+    await Promise.all(
+      Object.entries(node.meta.items).map(async ([key, value]) =>
+        t.objectProperty(
+          t.identifier(key),
+          await convertTFExpressionAstToTs(await expressionAst(value), scope)
+        )
+      )
+    )
+  );
+}
+
+async function convertFunctionCallExpressionToTs(
+  node: tex.FunctionCallExpression,
+  scope: ResourceScope
+) {
+  const functionName = node.meta.name;
+
+  const argumentExpressions = await Promise.all(
+    node.children.map((child) => convertTFExpressionAstToTs(child, scope))
+  );
+
+  const mapping = functionsMap[functionName];
+  if (!mapping) {
+    logger.error(
+      `Unknown function ${functionName} encountered. ${leaveCommentText}`
+    );
+    return t.callExpression(t.identifier(functionName), argumentExpressions);
+  }
+
+  // TODO: Insert mapping transformer here
+  // Sample code that might work?
+  // if (mapping.transformer) {
+  //   const newTfAst = mapping.transformer(node);
+  //   if (newTfAst !== node) {
+  //     newTfAst.children = node.children;
+  //     return convertTFExpressionAstToTs(
+  //       newTfAst,
+  //       scope,
+  //       nodeIds,
+  //       scopedIds
+  //     );
+  //   }
+  // }
+
+  const callee = t.memberExpression(
+    t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
+    t.identifier(mapping.name)
+  );
+
+  if (mapping.parameters.length > 0 && mapping.parameters[0].variadic) {
+    return t.callExpression(callee, [
+      t.arrayExpression(
+        argumentExpressions.map((argExpr) =>
+          coerceType(
+            scope,
+            argExpr,
+            findExpressionType(scope, argExpr),
+            mapping.parameters[0].type
+          )
+        )
+      ),
+    ]);
+  }
+
+  if (mapping.parameters.length !== argumentExpressions.length) {
+    logger.error(
+      `Function ${functionName} expects ${mapping.parameters.length} arguments, but ${argumentExpressions.length} were provided. ${leaveCommentText}`
+    );
+
+    // No coercion in this case
+    return t.callExpression(callee, argumentExpressions);
+  }
+
+  return t.callExpression(
+    callee,
+    argumentExpressions.map((argExpr, index) =>
+      coerceType(
+        scope,
+        argExpr,
+        findExpressionType(scope, argExpr),
+        mapping.parameters[index].type
+      )
+    )
+  );
+}
+
+async function convertIndexExpressionToTs(
+  node: tex.IndexExpression,
+  scope: ResourceScope
+) {
+  const collectionExpressionChild = tex.getChildWithValue(
+    node,
+    node.meta.collectionExpression
+  );
+  const keyExpressionChild = tex.getChildWithValue(
+    node,
+    node.meta.keyExpression
+  );
+
+  const collectionExpression = await convertTFExpressionAstToTs(
+    collectionExpressionChild!,
+    scope
+  );
+  const keyExpression = await convertTFExpressionAstToTs(
+    keyExpressionChild!,
+    scope
+  );
+
+  return t.callExpression(
+    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+    [collectionExpression, t.arrayExpression([keyExpression])]
+  );
+}
+
+async function convertSplatExpressionToTs(
+  node: tex.SplatExpression,
+  scope: ResourceScope
+) {
+  const sourceExpressionChild = tex.getChildWithValue(
+    node,
+    node.meta.sourceExpression
+  )!;
+  let sourceExpression = await convertTFExpressionAstToTs(
+    sourceExpressionChild,
+    scope
+  );
+
+  // We don't convert the relative expression because everything after the splat is going to be
+  // a string
+  let relativeExpression = node.meta.eachExpression.startsWith(
+    node.meta.anonSymbolExpression
+  )
+    ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
+    : node.meta.eachExpression;
+
+  const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
+
+  return t.callExpression(
+    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+    [
+      sourceExpression,
+      t.arrayExpression([
+        // we don't need to use the anonSymbolExpression here because
+        // it only changes between .* and [*] which we don't care about
+        t.stringLiteral("*"),
+        ...segments.map(t.stringLiteral),
+      ]),
+    ]
+  );
+}
+
+async function convertConditionalExpressionToTs(
+  node: tex.ConditionalExpression,
+  scope: ResourceScope
+) {
+  const conditionChild = tex.getChildWithValue(
+    node,
+    node.meta.conditionExpression
+  )!;
+  let condition = await convertTFExpressionAstToTs(conditionChild, scope);
+  if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
+    // We have a resource or data source here, which we would need to
+    // reference using fqn
+    condition = t.memberExpression(condition, t.identifier("fqn"));
+  }
+
+  const trueExpression = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.trueExpression)!,
+    scope
+  );
+
+  const falseExpression = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.falseExpression)!,
+    scope
+  );
+
+  const conditionalFn = t.memberExpression(
+    t.identifier("cdktf"),
+    t.identifier("conditional")
+  );
+
+  return t.callExpression(conditionalFn, [
+    condition,
+    trueExpression,
+    falseExpression,
+  ]);
+}
+
+async function convertTupleExpressionToTs(
+  node: tex.TupleExpression,
+  scope: ResourceScope
+) {
+  const expressions = node.children.map((child) =>
+    convertTFExpressionAstToTs(child, scope)
+  );
+
+  return t.arrayExpression(await Promise.all(expressions));
+}
+
+async function convertRelativeTraversalExpressionToTs(
+  node: tex.RelativeTraversalExpression,
+  scope: ResourceScope
+) {
+  const segments = node.meta.traversal;
+
+  // The left hand side / source of a relative traversal is not a proper
+  // object / resource / data thing that is being referenced
+  const source = await convertTFExpressionAstToTs(
+    tex.getChildWithValue(node, node.meta.sourceExpression)!,
+    scope
+  );
+
+  return t.callExpression(
+    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
+    [source, t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment)))]
+  );
+}
+
+async function convertForExpressionToTs(
+  node: tex.ForExpression,
+  scope: ResourceScope
+) {
+  const collectionChild = tex.getChildWithValue(
+    node,
+    node.meta.collectionExpression
+  )!;
+
+  let collectionExpression = await convertTFExpressionAstToTs(
+    collectionChild,
+    scope
+  );
+
+  if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
+    // We have a resource or data source here, which we would need to
+    // reference using fqn
+    collectionExpression = t.memberExpression(
+      collectionExpression,
+      t.identifier("fqn")
+    );
+  }
+
+  const collectionRequiresWrapping = !t.isStringLiteral(collectionExpression);
+  const expressions = [];
+  const conditionBody = node.meta.keyVar
+    ? `${node.meta.keyVar}, ${node.meta.valVar}`
+    : node.meta.valVar;
+
+  const openBrace = node.meta.openRangeValue;
+  const closeBrace = node.meta.closeRangeValue;
+  const grouped = node.meta.groupedValue ? "..." : "";
+  const valueExpression = `${node.meta.valueExpression}${grouped}`;
+
+  const prefix = `\${${openBrace} for ${conditionBody} in `;
+  const keyValue = node.meta.keyExpression
+    ? ` : ${node.meta.keyExpression} => ${valueExpression}`
+    : ` : ${valueExpression}`;
+  const conditional = node.meta.conditionalExpression;
+  const suffix = `${keyValue}${
+    conditional ? ` if ${conditional}` : ""
+  }${closeBrace}}`;
+
+  expressions.push(t.stringLiteral(prefix));
+  if (collectionRequiresWrapping) {
+    expressions.push(t.stringLiteral("${"));
+  }
+  expressions.push(collectionExpression);
+  if (collectionRequiresWrapping) {
+    expressions.push(t.stringLiteral("}"));
+  }
+  expressions.push(t.stringLiteral(suffix));
+
+  return expressionForSerialStringConcatenation(expressions);
+}
+
 async function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
 ): Promise<t.Expression> {
   if (tex.isLiteralValueExpression(node)) {
-    const literalType = node.meta.type;
-    if (literalType === "number") {
-      return t.numericLiteral(Number(node.meta.value));
-    }
-    if (literalType === "bool") {
-      return t.booleanLiteral(node.meta.value === "true" ? true : false);
-    }
-
-    return t.stringLiteral(node.meta.value);
+    return convertLiteralValueExpressionToTs(node, scope);
   }
 
   if (tex.isScopeTraversalExpression(node)) {
-    const hasReference = containsReference(node);
-
-    const segments = node.meta.traversal;
-
-    if (segments[0].segment === "each" && scope.forEachIteratorName) {
-      return dynamicVariableToAst(node, scope.forEachIteratorName);
-    }
-
-    if (segments[0].segment === "count" && scope.countIteratorName) {
-      return dynamicVariableToAst(node, scope.countIteratorName, "count");
-    }
-
-    if (segments[0].segment === "self") {
-      return t.callExpression(
-        t.memberExpression(
-          t.memberExpression(
-            t.identifier("cdktf"),
-            t.identifier("TerraformSelf")
-          ),
-          t.identifier("getAny")
-        ),
-
-        [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
-      );
-    }
-
-    // setting.value, setting.value[1].id
-    const dynamicBlock = scope.scopedVariables?.[segments[0].segment];
-    if (dynamicBlock) {
-      if (dynamicBlock === "dynamic-block") {
-        return dynamicVariableToAst(
-          node,
-          dynamicBlock,
-          traversalPartsToString(segments)
-        );
-      }
-      return dynamicVariableToAst(node, dynamicBlock, segments[0].segment);
-    }
-
-    // This may be a variable reference that we don't understand yet, so we wrap it in a template string
-    // for Terraform to handle
-    let varIdentifier: t.Expression = t.stringLiteral(
-      `\${${node.meta.fullAccessor}}`
-    );
-
-    if (hasReference) {
-      varIdentifier = t.identifier(
-        camelCase(traversalToVariableName(scope, node))
-      );
-    }
-
-    if (["var", "local"].includes(segments[0].segment)) {
-      const variableAccessor =
-        segments[0].segment === "var"
-          ? t.memberExpression(varIdentifier, t.identifier("value"))
-          : varIdentifier;
-
-      if (segments.length > 2) {
-        return t.callExpression(
-          t.memberExpression(
-            t.identifier("cdktf"),
-            t.identifier("propertyAccess")
-          ),
-          [
-            variableAccessor,
-            t.arrayExpression(
-              segments.slice(2).map((s) => t.stringLiteral(s.segment))
-            ),
-          ]
-        );
-      }
-
-      return variableAccessor;
-    }
-
-    if (!hasReference || scope.withinOverrideExpression) {
-      return varIdentifier;
-    }
-
-    const rootSegment = segments[0].segment;
-    const attributeIndex = rootSegment === "data" ? 3 : 2;
-    const attributeSegments = segments.slice(attributeIndex);
-    const numericAccessorIndex = attributeSegments.findIndex((seg) =>
-      tex.isIndexTraversalPart(seg)
-    );
-    let minAccessorIndex = numericAccessorIndex;
-    let mapAccessorIndex = -1;
-    if (numericAccessorIndex === -1) {
-      // only do this if we have to, if we already have a
-      // numeric accessor, we don't have to do this additional work
-      const resourcePath = getTfResourcePathFromNode(node);
-      let usingSubPathType = false;
-      let parts = resourcePath.split(".").filter((p) => p !== "");
-      const minParts = attributeIndex; // we need to stop before data.aws.resource_name or aws.resource_name
-      const originalParts = parts.length;
-      let hasMapAccessor = false;
-      while (parts.length >= minParts) {
-        const type = getTypeAtPath(scope.providerSchema, parts.join("."));
-        if (type !== null) {
-          if (Array.isArray(type) && type[0] === "map" && usingSubPathType) {
-            hasMapAccessor = true;
-            break;
-          }
-        }
-        parts.pop();
-        usingSubPathType = true;
-      }
-
-      if (hasMapAccessor) {
-        mapAccessorIndex = originalParts - parts.length - 1;
-        minAccessorIndex = mapAccessorIndex;
-      }
-    }
-
-    const needsPropertyAccess = minAccessorIndex >= 0;
-
-    const refSegments = needsPropertyAccess
-      ? attributeSegments.slice(0, minAccessorIndex)
-      : attributeSegments;
-    const nonRefSegments = needsPropertyAccess
-      ? attributeSegments.slice(minAccessorIndex)
-      : [];
-
-    const ref = refSegments.reduce(
-      (acc: t.Expression, seg, index) =>
-        t.memberExpression(
-          acc,
-          t.identifier(
-            index === 0 && rootSegment === "module"
-              ? camelCase(seg.segment + "Output")
-              : camelCase(seg.segment)
-          )
-        ),
-      varIdentifier
-    );
-
-    if (nonRefSegments.length === 0) {
-      return ref;
-    }
-
-    return t.callExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-      [
-        ref,
-        t.arrayExpression(
-          nonRefSegments.map((s) => t.stringLiteral(s.segment))
-        ),
-      ]
-    );
+    return convertScopeTraversalExpressionToTs(node, scope);
   }
 
   if (tex.isUnaryOpExpression(node)) {
-    const operand = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.valueExpression)!,
-      scope
-    );
-
-    let fnName = node.meta.operator;
-    if (tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators]) {
-      fnName = tfUnaryOperatorsToCdktf[fnName as supportedUnaryOperators];
-    } else {
-      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
-    }
-
-    const opClass = t.memberExpression(
-      t.identifier("cdktf"),
-      t.identifier("Op")
-    );
-    const fn = t.memberExpression(opClass, t.identifier(fnName));
-
-    return t.callExpression(fn, [operand]);
+    return await convertUnaryOpExpressionToTs(node, scope);
   }
 
   if (tex.isBinaryOpExpression(node)) {
-    const left = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.lhsExpression)!,
-      scope
-    );
-    const right = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.rhsExpression)!,
-      scope
-    );
-
-    let fnName = node.meta.operator;
-    if (tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators]) {
-      fnName = tfBinaryOperatorsToCdktf[fnName as supportedBinaryOperators];
-    } else {
-      throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
-    }
-
-    const opClass = t.memberExpression(
-      t.identifier("cdktf"),
-      t.identifier("Op")
-    );
-    const fn = t.memberExpression(opClass, t.identifier(fnName));
-
-    return t.callExpression(fn, [left, right]);
+    return await convertBinaryOpExpressionToTs(node, scope);
   }
 
   if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
-    const parts = await Promise.all(
-      node.children.map(async (child) => ({
-        node: child,
-        expr: await convertTFExpressionAstToTs(child, scope),
-      }))
-    );
-
-    const lastPart = parts[parts.length - 1];
-    if (t.isStringLiteral(lastPart.expr) && lastPart.expr.value === "\n") {
-      // This is a bit of a hack, but the trailing newline we add due to
-      // heredocs looks ugly and unnecessary in the generated code, so we
-      // try to remove it
-      parts.pop();
-    }
-
-    if (parts.length === 0) {
-      return t.stringLiteral(node.meta.value);
-    }
-
-    if (parts.length === 1) {
-      return parts[0].expr;
-    }
-
-    let isScopedTraversal = false;
-    let expressions: t.Expression[] = [];
-    for (const { node, expr } of parts) {
-      if (
-        tex.isScopeTraversalExpression(node) &&
-        !t.isStringLiteral(expr) &&
-        !t.isCallExpression(expr)
-      ) {
-        expressions.push(t.stringLiteral("${"));
-        isScopedTraversal = true;
-      } else if (
-        // we should ideally be doing type coercion more
-        // carefully here, because it may not always be needed
-        t.isCallExpression(expr)
-      ) {
-        expressions.push(
-          template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
-        );
-        continue;
-      } else {
-        if (isScopedTraversal) {
-          expressions.push(t.stringLiteral("}"));
-          isScopedTraversal = false;
-        }
-      }
-      expressions.push(expr);
-    }
-
-    if (isScopedTraversal) {
-      expressions.push(t.stringLiteral("}"));
-    }
-
-    return expressionForSerialStringConcatenation(expressions);
+    return await convertTemplateExpressionToTs(node, scope);
   }
 
   if (tex.isObjectExpression(node)) {
-    return t.objectExpression(
-      await Promise.all(
-        Object.entries(node.meta.items).map(async ([key, value]) =>
-          t.objectProperty(
-            t.identifier(key),
-            await convertTFExpressionAstToTs(await expressionAst(value), scope)
-          )
-        )
-      )
-    );
+    return convertObjectExpressionToTs(node, scope);
   }
 
   if (tex.isFunctionCallExpression(node)) {
-    const functionName = node.meta.name;
-
-    const argumentExpressions = await Promise.all(
-      node.children.map((child) => convertTFExpressionAstToTs(child, scope))
-    );
-
-    const mapping = functionsMap[functionName];
-    if (!mapping) {
-      logger.error(
-        `Unknown function ${functionName} encountered. ${leaveCommentText}`
-      );
-      return t.callExpression(t.identifier(functionName), argumentExpressions);
-    }
-
-    // TODO: Insert mapping transformer here
-    // Sample code that might work?
-    // if (mapping.transformer) {
-    //   const newTfAst = mapping.transformer(node);
-    //   if (newTfAst !== node) {
-    //     newTfAst.children = node.children;
-    //     return convertTFExpressionAstToTs(
-    //       newTfAst,
-    //       scope,
-    //       nodeIds,
-    //       scopedIds
-    //     );
-    //   }
-    // }
-
-    const callee = t.memberExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
-      t.identifier(mapping.name)
-    );
-
-    if (mapping.parameters.length > 0 && mapping.parameters[0].variadic) {
-      return t.callExpression(callee, [
-        t.arrayExpression(
-          argumentExpressions.map((argExpr) =>
-            coerceType(
-              scope,
-              argExpr,
-              findExpressionType(scope, argExpr),
-              mapping.parameters[0].type
-            )
-          )
-        ),
-      ]);
-    }
-
-    if (mapping.parameters.length !== argumentExpressions.length) {
-      logger.error(
-        `Function ${functionName} expects ${mapping.parameters.length} arguments, but ${argumentExpressions.length} were provided. ${leaveCommentText}`
-      );
-
-      // No coercion in this case
-      return t.callExpression(callee, argumentExpressions);
-    }
-
-    return t.callExpression(
-      callee,
-      argumentExpressions.map((argExpr, index) =>
-        coerceType(
-          scope,
-          argExpr,
-          findExpressionType(scope, argExpr),
-          mapping.parameters[index].type
-        )
-      )
-    );
+    return convertFunctionCallExpressionToTs(node, scope);
   }
 
   if (tex.isIndexExpression(node)) {
-    const collectionExpressionChild = tex.getChildWithValue(
-      node,
-      node.meta.collectionExpression
-    );
-    const keyExpressionChild = tex.getChildWithValue(
-      node,
-      node.meta.keyExpression
-    );
-
-    const collectionExpression = await convertTFExpressionAstToTs(
-      collectionExpressionChild!,
-      scope
-    );
-    const keyExpression = await convertTFExpressionAstToTs(
-      keyExpressionChild!,
-      scope
-    );
-
-    return t.callExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-      [collectionExpression, t.arrayExpression([keyExpression])]
-    );
+    return convertIndexExpressionToTs(node, scope);
   }
 
   if (tex.isSplatExpression(node)) {
-    const sourceExpressionChild = tex.getChildWithValue(
-      node,
-      node.meta.sourceExpression
-    )!;
-    let sourceExpression = await convertTFExpressionAstToTs(
-      sourceExpressionChild,
-      scope
-    );
-
-    // We don't convert the relative expression because everything after the splat is going to be
-    // a string
-    let relativeExpression = node.meta.eachExpression.startsWith(
-      node.meta.anonSymbolExpression
-    )
-      ? node.meta.eachExpression.slice(node.meta.anonSymbolExpression.length)
-      : node.meta.eachExpression;
-
-    const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
-
-    return t.callExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-      [
-        sourceExpression,
-        t.arrayExpression([
-          // we don't need to use the anonSymbolExpression here because
-          // it only changes between .* and [*] which we don't care about
-          t.stringLiteral("*"),
-          ...segments.map(t.stringLiteral),
-        ]),
-      ]
-    );
+    return convertSplatExpressionToTs(node, scope);
   }
 
   if (tex.isConditionalExpression(node)) {
-    const conditionChild = tex.getChildWithValue(
-      node,
-      node.meta.conditionExpression
-    )!;
-    let condition = await convertTFExpressionAstToTs(conditionChild, scope);
-    if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
-      // We have a resource or data source here, which we would need to
-      // reference using fqn
-      condition = t.memberExpression(condition, t.identifier("fqn"));
-    }
-
-    const trueExpression = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.trueExpression)!,
-      scope
-    );
-
-    const falseExpression = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.falseExpression)!,
-      scope
-    );
-
-    const conditionalFn = t.memberExpression(
-      t.identifier("cdktf"),
-      t.identifier("conditional")
-    );
-
-    return t.callExpression(conditionalFn, [
-      condition,
-      trueExpression,
-      falseExpression,
-    ]);
+    return convertConditionalExpressionToTs(node, scope);
   }
 
   if (tex.isTupleExpression(node)) {
-    const expressions = node.children.map((child) =>
-      convertTFExpressionAstToTs(child, scope)
-    );
-
-    return t.arrayExpression(await Promise.all(expressions));
+    return convertTupleExpressionToTs(node, scope);
   }
 
   if (tex.isRelativeTraversalExpression(node)) {
-    const segments = node.meta.traversal;
-
-    // The left hand side / source of a relative traversal is not a proper
-    // object / resource / data thing that is being referenced
-    const source = await convertTFExpressionAstToTs(
-      tex.getChildWithValue(node, node.meta.sourceExpression)!,
-      scope
-    );
-
-    return t.callExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-      [
-        source,
-        t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment))),
-      ]
-    );
+    return convertRelativeTraversalExpressionToTs(node, scope);
   }
 
   if (tex.isForExpression(node)) {
-    const collectionChild = tex.getChildWithValue(
-      node,
-      node.meta.collectionExpression
-    )!;
-
-    let collectionExpression = await convertTFExpressionAstToTs(
-      collectionChild,
-      scope
-    );
-
-    if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
-      // We have a resource or data source here, which we would need to
-      // reference using fqn
-      collectionExpression = t.memberExpression(
-        collectionExpression,
-        t.identifier("fqn")
-      );
-    }
-
-    const collectionRequiresWrapping = !t.isStringLiteral(collectionExpression);
-    const expressions = [];
-    const conditionBody = node.meta.keyVar
-      ? `${node.meta.keyVar}, ${node.meta.valVar}`
-      : node.meta.valVar;
-
-    const openBrace = node.meta.openRangeValue;
-    const closeBrace = node.meta.closeRangeValue;
-    const grouped = node.meta.groupedValue ? "..." : "";
-    const valueExpression = `${node.meta.valueExpression}${grouped}`;
-
-    const prefix = `\${${openBrace} for ${conditionBody} in `;
-    const keyValue = node.meta.keyExpression
-      ? ` : ${node.meta.keyExpression} => ${valueExpression}`
-      : ` : ${valueExpression}`;
-    const conditional = node.meta.conditionalExpression;
-    const suffix = `${keyValue}${
-      conditional ? ` if ${conditional}` : ""
-    }${closeBrace}}`;
-
-    expressions.push(t.stringLiteral(prefix));
-    if (collectionRequiresWrapping) {
-      expressions.push(t.stringLiteral("${"));
-    }
-    expressions.push(collectionExpression);
-    if (collectionRequiresWrapping) {
-      expressions.push(t.stringLiteral("}"));
-    }
-    expressions.push(t.stringLiteral(suffix));
-
-    return expressionForSerialStringConcatenation(expressions);
+    return convertForExpressionToTs(node, scope);
   }
 
   return t.stringLiteral("");
