@@ -312,6 +312,7 @@ export function getChildWithValue(node: ExpressionAst, value: string) {
   }
 
   return node.children.find((child) => {
+    if (!child.meta) return false;
     return child.meta.value === value;
   });
 }

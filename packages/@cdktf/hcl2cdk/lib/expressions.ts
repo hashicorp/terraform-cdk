@@ -445,13 +445,20 @@ function convertObjectExpressionToTs(
   scope: ResourceScope
 ) {
   return t.objectExpression(
-    Object.entries(node.meta.items).map(([key, value]) => {
-      const valueChild = getChildWithValue(node, value)!;
-      return t.objectProperty(
-        t.identifier(key),
-        convertTFExpressionAstToTs(valueChild, scope)
-      );
-    })
+    Object.entries(node.meta.items)
+      .map(([key, value]) => {
+        const valueChild = getChildWithValue(node, value);
+        if (!valueChild) {
+          logger.error(`Unable to value for object key '${key}': ${value}`);
+          return null;
+        }
+
+        return t.objectProperty(
+          t.identifier(key),
+          convertTFExpressionAstToTs(valueChild, scope)
+        );
+      })
+      .filter((s) => s !== null) as t.ObjectProperty[]
   );
 }
 

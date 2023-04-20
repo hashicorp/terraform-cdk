@@ -1089,15 +1089,25 @@ EOF`;
   });
 
   test("accept escaped quotes within string", async () => {
-    const expression = `"welcome to \"cdktf\""`;
+    const expression = `"\${jsonencode({
+          "Statement" = [{
+            "Action" = "s3:*",
+            "Effect" = "Allow",
+          }],
+        })}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
       expression,
       scope,
       getType
     );
-    expect(code(result)).toMatchInlineSnapshot(
-      `""welcome to \\\\\\"cdktf\\\\\\"""`
-    );
+    expect(code(result)).toMatchInlineSnapshot(`
+      "cdktf.Fn.jsonencode({
+        "Statement": [{
+          "Action": "s3:*",
+          "Effect": "Allow"
+        }]
+      })"
+    `);
   });
 });
