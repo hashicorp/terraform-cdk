@@ -19,6 +19,7 @@ import { AttributeType } from "@cdktf/provider-generator";
 import { getTypeAtPath } from "./terraformSchema";
 import { containsReference } from "./references";
 import { variableName } from "./variables";
+import { getChildWithValue } from "@cdktf/hcl2json/lib/syntax-tree";
 
 const tfBinaryOperatorsToCdktf = {
   logicalOr: "or",
@@ -331,11 +332,11 @@ function convertScopeTraversalExpressionToTs(
   );
 }
 
-async function convertUnaryOpExpressionToTs(
+function convertUnaryOpExpressionToTs(
   node: tex.UnaryOpExpression,
   scope: ResourceScope
 ) {
-  const operand = await convertTFExpressionAstToTs(
+  const operand = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.valueExpression)!,
     scope
   );
@@ -353,15 +354,15 @@ async function convertUnaryOpExpressionToTs(
   return t.callExpression(fn, [operand]);
 }
 
-async function convertBinaryOpExpressionToTs(
+function convertBinaryOpExpressionToTs(
   node: tex.BinaryOpExpression,
   scope: ResourceScope
 ) {
-  const left = await convertTFExpressionAstToTs(
+  const left = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.lhsExpression)!,
     scope
   );
-  const right = await convertTFExpressionAstToTs(
+  const right = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.rhsExpression)!,
     scope
   );
@@ -379,16 +380,14 @@ async function convertBinaryOpExpressionToTs(
   return t.callExpression(fn, [left, right]);
 }
 
-async function convertTemplateExpressionToTs(
+function convertTemplateExpressionToTs(
   node: tex.TemplateExpression | tex.TemplateWrapExpression,
   scope: ResourceScope
 ) {
-  const parts = await Promise.all(
-    node.children.map(async (child) => ({
-      node: child,
-      expr: await convertTFExpressionAstToTs(child, scope),
-    }))
-  );
+  const parts = node.children.map((child) => ({
+    node: child,
+    expr: convertTFExpressionAstToTs(child, scope),
+  }));
 
   const lastPart = parts[parts.length - 1];
   if (t.isStringLiteral(lastPart.expr) && lastPart.expr.value === "\n") {
@@ -441,30 +440,29 @@ async function convertTemplateExpressionToTs(
   return expressionForSerialStringConcatenation(expressions);
 }
 
-async function convertObjectExpressionToTs(
+function convertObjectExpressionToTs(
   node: tex.ObjectExpression,
   scope: ResourceScope
 ) {
   return t.objectExpression(
-    await Promise.all(
-      Object.entries(node.meta.items).map(async ([key, value]) =>
-        t.objectProperty(
-          t.identifier(key),
-          await convertTFExpressionAstToTs(await expressionAst(value), scope)
-        )
-      )
-    )
+    Object.entries(node.meta.items).map(([key, value]) => {
+      const valueChild = getChildWithValue(node, value)!;
+      return t.objectProperty(
+        t.identifier(key),
+        convertTFExpressionAstToTs(valueChild, scope)
+      );
+    })
   );
 }
 
-async function convertFunctionCallExpressionToTs(
+function convertFunctionCallExpressionToTs(
   node: tex.FunctionCallExpression,
   scope: ResourceScope
 ) {
   const functionName = node.meta.name;
 
-  const argumentExpressions = await Promise.all(
-    node.children.map((child) => convertTFExpressionAstToTs(child, scope))
+  const argumentExpressions = node.children.map((child) =>
+    convertTFExpressionAstToTs(child, scope)
   );
 
   const mapping = functionsMap[functionName];
@@ -532,7 +530,7 @@ async function convertFunctionCallExpressionToTs(
   );
 }
 
-async function convertIndexExpressionToTs(
+function convertIndexExpressionToTs(
   node: tex.IndexExpression,
   scope: ResourceScope
 ) {
@@ -545,14 +543,11 @@ async function convertIndexExpressionToTs(
     node.meta.keyExpression
   );
 
-  const collectionExpression = await convertTFExpressionAstToTs(
+  const collectionExpression = convertTFExpressionAstToTs(
     collectionExpressionChild!,
     scope
   );
-  const keyExpression = await convertTFExpressionAstToTs(
-    keyExpressionChild!,
-    scope
-  );
+  const keyExpression = convertTFExpressionAstToTs(keyExpressionChild!, scope);
 
   return t.callExpression(
     t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
@@ -560,7 +555,7 @@ async function convertIndexExpressionToTs(
   );
 }
 
-async function convertSplatExpressionToTs(
+function convertSplatExpressionToTs(
   node: tex.SplatExpression,
   scope: ResourceScope
 ) {
@@ -568,7 +563,7 @@ async function convertSplatExpressionToTs(
     node,
     node.meta.sourceExpression
   )!;
-  let sourceExpression = await convertTFExpressionAstToTs(
+  let sourceExpression = convertTFExpressionAstToTs(
     sourceExpressionChild,
     scope
   );
@@ -597,7 +592,7 @@ async function convertSplatExpressionToTs(
   );
 }
 
-async function convertConditionalExpressionToTs(
+function convertConditionalExpressionToTs(
   node: tex.ConditionalExpression,
   scope: ResourceScope
 ) {
@@ -605,19 +600,19 @@ async function convertConditionalExpressionToTs(
     node,
     node.meta.conditionExpression
   )!;
-  let condition = await convertTFExpressionAstToTs(conditionChild, scope);
+  let condition = convertTFExpressionAstToTs(conditionChild, scope);
   if (t.isIdentifier(condition) && canUseFqn(conditionChild)) {
     // We have a resource or data source here, which we would need to
     // reference using fqn
     condition = t.memberExpression(condition, t.identifier("fqn"));
   }
 
-  const trueExpression = await convertTFExpressionAstToTs(
+  const trueExpression = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.trueExpression)!,
     scope
   );
 
-  const falseExpression = await convertTFExpressionAstToTs(
+  const falseExpression = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.falseExpression)!,
     scope
   );
@@ -634,7 +629,7 @@ async function convertConditionalExpressionToTs(
   ]);
 }
 
-async function convertTupleExpressionToTs(
+function convertTupleExpressionToTs(
   node: tex.TupleExpression,
   scope: ResourceScope
 ) {
@@ -642,10 +637,10 @@ async function convertTupleExpressionToTs(
     convertTFExpressionAstToTs(child, scope)
   );
 
-  return t.arrayExpression(await Promise.all(expressions));
+  return t.arrayExpression(expressions);
 }
 
-async function convertRelativeTraversalExpressionToTs(
+function convertRelativeTraversalExpressionToTs(
   node: tex.RelativeTraversalExpression,
   scope: ResourceScope
 ) {
@@ -653,7 +648,7 @@ async function convertRelativeTraversalExpressionToTs(
 
   // The left hand side / source of a relative traversal is not a proper
   // object / resource / data thing that is being referenced
-  const source = await convertTFExpressionAstToTs(
+  const source = convertTFExpressionAstToTs(
     tex.getChildWithValue(node, node.meta.sourceExpression)!,
     scope
   );
@@ -664,7 +659,7 @@ async function convertRelativeTraversalExpressionToTs(
   );
 }
 
-async function convertForExpressionToTs(
+function convertForExpressionToTs(
   node: tex.ForExpression,
   scope: ResourceScope
 ) {
@@ -673,10 +668,7 @@ async function convertForExpressionToTs(
     node.meta.collectionExpression
   )!;
 
-  let collectionExpression = await convertTFExpressionAstToTs(
-    collectionChild,
-    scope
-  );
+  let collectionExpression = convertTFExpressionAstToTs(collectionChild, scope);
 
   if (t.isIdentifier(collectionExpression) && canUseFqn(collectionChild)) {
     // We have a resource or data source here, which we would need to
@@ -720,10 +712,10 @@ async function convertForExpressionToTs(
   return expressionForSerialStringConcatenation(expressions);
 }
 
-async function convertTFExpressionAstToTs(
+function convertTFExpressionAstToTs(
   node: tex.ExpressionType,
   scope: ResourceScope
-): Promise<t.Expression> {
+): t.Expression {
   if (tex.isLiteralValueExpression(node)) {
     return convertLiteralValueExpressionToTs(node, scope);
   }
@@ -733,15 +725,15 @@ async function convertTFExpressionAstToTs(
   }
 
   if (tex.isUnaryOpExpression(node)) {
-    return await convertUnaryOpExpressionToTs(node, scope);
+    return convertUnaryOpExpressionToTs(node, scope);
   }
 
   if (tex.isBinaryOpExpression(node)) {
-    return await convertBinaryOpExpressionToTs(node, scope);
+    return convertBinaryOpExpressionToTs(node, scope);
   }
 
   if (tex.isTemplateExpression(node) || tex.isTemplateWrapExpression(node)) {
-    return await convertTemplateExpressionToTs(node, scope);
+    return convertTemplateExpressionToTs(node, scope);
   }
 
   if (tex.isObjectExpression(node)) {
@@ -802,7 +794,7 @@ export async function convertTerraformExpressionToTs(
   targetType: () => AttributeType
 ): Promise<t.Expression> {
   logger.debug(`convertTerraformExpressionToTs(${input})`);
-  const tsExpression = await convertTFExpressionAstToTs(
+  const tsExpression = convertTFExpressionAstToTs(
     await expressionAst(input),
     scope
   );
