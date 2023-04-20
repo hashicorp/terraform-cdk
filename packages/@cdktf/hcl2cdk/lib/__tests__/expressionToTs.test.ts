@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { convertTerraformExpressionToTs } from "../lib/expressions";
+import { convertTerraformExpressionToTs } from "../expressions";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
-import { ResourceScope } from "../lib/types";
+import { ResourceScope } from "../types";
 import { AttributeType } from "@cdktf/provider-generator";
 
 function code(e: t.Expression): string {
