@@ -1124,4 +1124,18 @@ EOF`;
       })"
     `);
   });
+
+  test("support variadic parameters in any position", async () => {
+    const expression = `"\${cidrsubnets("fd00:fd12:3456:7890::/56", 16, 16, 16, 32)}"`;
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Token.asString(cdktf.Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`
+    );
+  });
 });

@@ -493,28 +493,42 @@ function convertFunctionCallExpressionToTs(
     t.identifier(mapping.name)
   );
 
-  if (mapping.parameters.length > 0 && mapping.parameters[0].variadic) {
-    return t.callExpression(callee, [
-      t.arrayExpression(
-        argumentExpressions.map((argExpr) =>
-          coerceType(
-            scope,
-            argExpr,
-            findExpressionType(scope, argExpr),
-            mapping.parameters[0].type
-          )
-        )
-      ),
-    ]);
-  }
-
-  if (mapping.parameters.length !== argumentExpressions.length) {
-    logger.error(
-      `Function ${functionName} expects ${mapping.parameters.length} arguments, but ${argumentExpressions.length} were provided. ${leaveCommentText}`
+  if (
+    mapping.parameters.length > 0 &&
+    mapping.parameters[mapping.parameters.length - 1].variadic
+  ) {
+    const lastParameterType =
+      mapping.parameters[mapping.parameters.length - 1].type;
+    const nonVariadicArguments = argumentExpressions.slice(
+      0,
+      mapping.parameters.length - 1
     );
 
-    // No coercion in this case
-    return t.callExpression(callee, argumentExpressions);
+    const fnCallArguments = [
+      ...nonVariadicArguments.map((argExpr, index) =>
+        coerceType(
+          scope,
+          argExpr,
+          findExpressionType(scope, argExpr),
+          mapping.parameters[index].type
+        )
+      ),
+
+      t.arrayExpression(
+        argumentExpressions
+          .slice(mapping.parameters.length - 1)
+          .map((argExpr) =>
+            coerceType(
+              scope,
+              argExpr,
+              findExpressionType(scope, argExpr),
+              lastParameterType
+            )
+          )
+      ),
+    ];
+
+    return t.callExpression(callee, fnCallArguments);
   }
 
   return t.callExpression(
