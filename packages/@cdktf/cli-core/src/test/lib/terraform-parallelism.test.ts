@@ -48,34 +48,42 @@ const stackWithName = (name: string) => {
   return {
     [name]: {
       name,
-      backend: {
-        type: "local",
-        config: {
-          path: `${name}.tfstate`,
-        },
-      },
-      config: {
-        required_providers: {
-          null: {
-            source: "hashicorp/null",
-            version: "3.1.0",
+      constructPath: name,
+      workingDirectory: `cdktf.out/stacks/${name}`,
+      synthesizedStackPath: `stacks/${name}/cdk.tf.json`,
+      annotations: [],
+      dependencies: [],
+      content: JSON.stringify({
+        name,
+        backend: {
+          type: "local",
+          config: {
+            path: `${name}.tfstate`,
           },
         },
-      },
-      terraformVersion: "0.14.0",
-      variables: {},
-      outputs: {},
-      resources: [
-        {
-          name,
-          type: "null_resource",
-          config: {
-            triggers: {
-              foo: "bar",
+        config: {
+          required_providers: {
+            null: {
+              source: "hashicorp/null",
+              version: "3.1.0",
             },
           },
         },
-      ],
+        terraformVersion: "0.14.0",
+        variables: {},
+        outputs: {},
+        resources: [
+          {
+            name,
+            type: "null_resource",
+            config: {
+              triggers: {
+                foo: "bar",
+              },
+            },
+          },
+        ],
+      }),
     },
   };
 };
