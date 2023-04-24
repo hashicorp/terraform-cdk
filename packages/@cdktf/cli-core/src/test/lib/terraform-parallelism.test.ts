@@ -42,6 +42,44 @@ let inNewWorkingDirectory: () => {
 };
 
 jest.setTimeout(120_000);
+const projectName = `cdktf-api-test`;
+
+const stackWithName = (name: string) => {
+  return {
+    [name]: {
+      name,
+      backend: {
+        type: "local",
+        config: {
+          path: `${name}.tfstate`,
+        },
+      },
+      config: {
+        required_providers: {
+          null: {
+            source: "hashicorp/null",
+            version: "3.1.0",
+          },
+        },
+      },
+      terraformVersion: "0.14.0",
+      variables: {},
+      outputs: {},
+      resources: [
+        {
+          name,
+          type: "null_resource",
+          config: {
+            triggers: {
+              foo: "bar",
+            },
+          },
+        },
+      ],
+    },
+  };
+};
+
 describe("terraform parallelism", () => {
   beforeAll(async () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
@@ -50,8 +88,8 @@ describe("terraform parallelism", () => {
       templatePath: path.join(__dirname, "../../../templates/typescript"),
       projectId: "test",
       projectInfo: {
-        Description: "cdktf-api-test",
-        Name: "cdktf-api-test",
+        Description: projectName,
+        Name: projectName,
       },
       sendCrashReports: false,
       dist: path.join(__dirname, "../../../../../../dist"),
@@ -93,10 +131,12 @@ describe("terraform parallelism", () => {
       };
     };
   }, 120_000);
+
   beforeEach(() => {
     (exec as jest.Mock).mockClear();
     (spawn as jest.Mock).mockClear();
   });
+
   afterAll(() => {
     jest.resetModules();
   });
@@ -113,6 +153,15 @@ describe("terraform parallelism", () => {
             event.approve();
           }
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.deploy({
