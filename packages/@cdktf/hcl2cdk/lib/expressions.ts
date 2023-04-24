@@ -467,33 +467,26 @@ function convertFunctionCallExpressionToTs(
   scope: ResourceScope
 ) {
   const functionName = node.meta.name;
-
-  const argumentExpressions = node.children.map((child) =>
-    convertTFExpressionAstToTs(child, scope)
-  );
-
   const mapping = functionsMap[functionName];
+
   if (!mapping) {
     logger.error(
       `Unknown function ${functionName} encountered. ${leaveCommentText}`
     );
+    const argumentExpressions = node.children.map((child) =>
+      convertTFExpressionAstToTs(child, scope)
+    );
+
     return t.callExpression(t.identifier(functionName), argumentExpressions);
   }
 
-  // TODO: Insert mapping transformer here
-  // Sample code that might work?
-  // if (mapping.transformer) {
-  //   const newTfAst = mapping.transformer(node);
-  //   if (newTfAst !== node) {
-  //     newTfAst.children = node.children;
-  //     return convertTFExpressionAstToTs(
-  //       newTfAst,
-  //       scope,
-  //       nodeIds,
-  //       scopedIds
-  //     );
-  //   }
-  // }
+  let transformedNode: tex.FunctionCallExpression = mapping.transformer
+    ? mapping.transformer(node)
+    : node;
+
+  const argumentExpressions = transformedNode.children.map((child) =>
+    convertTFExpressionAstToTs(child, scope)
+  );
 
   const callee = t.memberExpression(
     t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),

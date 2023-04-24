@@ -766,6 +766,20 @@ describe("expressionToTs", () => {
     );
   });
 
+  test("converts join function with many arguments variables", async () => {
+    const expression =
+      '${join("-", var.tags.app, var.tags.env, var.tags.other)}';
+    const scope = getScope({ variables: ["tags"] });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `"cdktf.Fn.join("-", cdktf.Token.asList(cdktf.Fn.concat([cdktf.propertyAccess(tags.value, ["app"]), cdktf.propertyAccess(tags.value, ["env"]), cdktf.propertyAccess(tags.value, ["other"])])))"`
+    );
+  });
+
   test("doesn't wrap any extra templates", async () => {
     const expression = `"app-\${terraform.workspace}"`;
     const scope = getScope();
