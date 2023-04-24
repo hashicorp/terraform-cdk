@@ -197,6 +197,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.deploy({
         stackNames: ["first"],
         autoApprove: true,
@@ -221,6 +230,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.destroy({
         stackNames: ["second"],
         autoApprove: true,
@@ -241,6 +259,15 @@ describe("terraform parallelism", () => {
         onUpdate: (event) => {
           events.push(event);
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.destroy({
@@ -270,6 +297,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.diff({
         stackName: "first",
         terraformParallelism: 1,
@@ -291,6 +327,15 @@ describe("terraform parallelism", () => {
             event.approve();
           }
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.diff({
