@@ -46,45 +46,43 @@ const projectName = `cdktf-api-test`;
 
 const stackWithName = (name: string) => {
   return {
-    [name]: {
+    name,
+    constructPath: name,
+    workingDirectory: `cdktf.out/stacks/${name}`,
+    synthesizedStackPath: `stacks/${name}/cdk.tf.json`,
+    annotations: [],
+    dependencies: [],
+    content: JSON.stringify({
       name,
-      constructPath: name,
-      workingDirectory: `cdktf.out/stacks/${name}`,
-      synthesizedStackPath: `stacks/${name}/cdk.tf.json`,
-      annotations: [],
-      dependencies: [],
-      content: JSON.stringify({
-        name,
-        backend: {
-          type: "local",
-          config: {
-            path: `${name}.tfstate`,
-          },
-        },
+      backend: {
+        type: "local",
         config: {
-          required_providers: {
-            null: {
-              source: "hashicorp/null",
-              version: "3.1.0",
+          path: `${name}.tfstate`,
+        },
+      },
+      config: {
+        required_providers: {
+          null: {
+            source: "hashicorp/null",
+            version: "3.1.0",
+          },
+        },
+      },
+      terraformVersion: "0.14.0",
+      variables: {},
+      outputs: {},
+      resources: [
+        {
+          name,
+          type: "null_resource",
+          config: {
+            triggers: {
+              foo: "bar",
             },
           },
         },
-        terraformVersion: "0.14.0",
-        variables: {},
-        outputs: {},
-        resources: [
-          {
-            name,
-            type: "null_resource",
-            config: {
-              triggers: {
-                foo: "bar",
-              },
-            },
-          },
-        ],
-      }),
-    },
+      ],
+    }),
   };
 };
 
