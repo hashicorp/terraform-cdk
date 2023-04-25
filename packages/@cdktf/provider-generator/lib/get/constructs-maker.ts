@@ -615,8 +615,8 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
 
     for (const target of targets) {
       await this.reportTelemetry({
-        payload: target.trackingPayload,
-        language: target.targetLanguage,
+        trackingPayload: target.trackingPayload,
+        targetLanguage: target.targetLanguage,
       });
     }
   }
