@@ -6,7 +6,7 @@ import * as chalk from "chalk";
 import indentString from "indent-string";
 import { Manifest, StackManifest, TerraformStackMetadata } from "cdktf";
 import { performance } from "perf_hooks";
-import { logger, sendTelemetry, shell } from "@cdktf/commons";
+import { logger, readConfigSync, sendTelemetry, shell } from "@cdktf/commons";
 
 const chalkColour = new chalk.Instance();
 
@@ -206,11 +206,17 @@ Command output on stdout:
     stacks: SynthesizedStack[],
     synthOrigin?: SynthOrigin
   ): Promise<void> {
+    const config = readConfigSync();
     await sendTelemetry("synth", {
       totalTime: totalTime,
+      language: config.language,
       synthOrigin,
       stackMetadata: stacks.map(
         (stack) => JSON.parse(stack.content)["//"].metadata
+      ),
+      requiredProviders: stacks.map(
+        (stack: any) =>
+          JSON.parse(stack.content)["terraform"].required_providers
       ),
     });
   }
