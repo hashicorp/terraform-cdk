@@ -42,6 +42,50 @@ let inNewWorkingDirectory: () => {
 };
 
 jest.setTimeout(120_000);
+const projectName = `cdktf-api-test`;
+
+const stackWithName = (name: string) => {
+  return {
+    name,
+    constructPath: name,
+    workingDirectory: `cdktf.out/stacks/${name}`,
+    synthesizedStackPath: `stacks/${name}/cdk.tf.json`,
+    annotations: [],
+    dependencies: [],
+    content: JSON.stringify({
+      name,
+      backend: {
+        type: "local",
+        config: {
+          path: `${name}.tfstate`,
+        },
+      },
+      config: {
+        required_providers: {
+          null: {
+            source: "hashicorp/null",
+            version: "3.1.0",
+          },
+        },
+      },
+      terraformVersion: "1.2.8",
+      variables: {},
+      outputs: {},
+      resources: [
+        {
+          name,
+          type: "null_resource",
+          config: {
+            triggers: {
+              foo: "bar",
+            },
+          },
+        },
+      ],
+    }),
+  };
+};
+
 describe("terraform parallelism", () => {
   beforeAll(async () => {
     const workingDirectory = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
@@ -50,8 +94,8 @@ describe("terraform parallelism", () => {
       templatePath: path.join(__dirname, "../../../templates/typescript"),
       projectId: "test",
       projectInfo: {
-        Description: "cdktf-api-test",
-        Name: "cdktf-api-test",
+        Description: projectName,
+        Name: projectName,
       },
       sendCrashReports: false,
       dist: path.join(__dirname, "../../../../../../dist"),
@@ -93,10 +137,12 @@ describe("terraform parallelism", () => {
       };
     };
   }, 120_000);
+
   beforeEach(() => {
     (exec as jest.Mock).mockClear();
     (spawn as jest.Mock).mockClear();
   });
+
   afterAll(() => {
     jest.resetModules();
   });
@@ -113,6 +159,15 @@ describe("terraform parallelism", () => {
             event.approve();
           }
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.deploy({
@@ -140,6 +195,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.deploy({
         stackNames: ["first"],
         autoApprove: true,
@@ -164,6 +228,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.destroy({
         stackNames: ["second"],
         autoApprove: true,
@@ -184,6 +257,15 @@ describe("terraform parallelism", () => {
         onUpdate: (event) => {
           events.push(event);
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.destroy({
@@ -213,6 +295,15 @@ describe("terraform parallelism", () => {
         },
       });
 
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
+      });
+
       await cdktfProject.diff({
         stackName: "first",
         terraformParallelism: 1,
@@ -234,6 +325,15 @@ describe("terraform parallelism", () => {
             event.approve();
           }
         },
+      });
+
+      cdktfProject.synth = jest.fn().mockImplementation(async () => {
+        return [
+          stackWithName("first"),
+          stackWithName("second"),
+          stackWithName("third"),
+          stackWithName("fourth"),
+        ];
       });
 
       await cdktfProject.diff({
