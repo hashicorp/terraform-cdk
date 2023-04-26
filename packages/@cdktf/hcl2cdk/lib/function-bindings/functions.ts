@@ -5,6 +5,7 @@
 
 import { AttributeType } from "@cdktf/provider-generator";
 import { functionsMapGenerated } from "./functions.generated";
+import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 
 type FunctionCall = any; // TODO: this will come from the types for hcl2json (aka from the Terraform AST)
 
@@ -47,10 +48,24 @@ export const functionsMap: Record<string, FunctionMeta> = {
      * wheras CDKTF only supports join(separator, list) (to make it simpler to use as JSII does not support variadic parameters)
      * and we'd need to convert this to join(separator, concat(listA, listB)) if multiple variadic args are passed
      */
-    transformer: (fc) => {
+    transformer: (fc: tex.FunctionCallExpression) => {
       if (fc.children.length <= 2) {
         return fc; // just one child -> nothing to do
       }
+
+      const concatFunction = {
+        type: "function",
+        meta: {
+          name: "concat",
+          expandedFinalArgument: fc.meta.expandedFinalArgument,
+          nameRange: {},
+          openParenRange: {},
+          closeParenRange: {},
+          argsRanges: [],
+        },
+        children: fc.children.slice(1),
+      };
+
       return {
         type: "function",
         meta: {
@@ -58,13 +73,7 @@ export const functionsMap: Record<string, FunctionMeta> = {
         },
         children: [
           fc.children[0], // the first parameter is the separator, so keep it as is
-          {
-            type: "function",
-            meta: {
-              name: "concat",
-            },
-            children: fc.children.slice(1), // all other children are the lists that are concatenated using concat()
-          },
+          concatFunction,
         ],
       };
     },
