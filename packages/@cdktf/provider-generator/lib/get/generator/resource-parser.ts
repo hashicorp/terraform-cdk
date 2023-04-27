@@ -27,6 +27,7 @@ import {
   StructAttributeTypeModel,
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
+import deepEqual from "deep-equal";
 
 // Can't be used in expressions like "export * as <keyword> from ... "
 // filtered from all keywords from: https://github.com/microsoft/TypeScript/blob/503604c884bd0557c851b11b699ef98cdb65b93b/src/compiler/types.ts#L114-L197
@@ -244,7 +245,23 @@ class Parser {
     }
 
     if (Array.isArray(attributeType)) {
-      if (attributeType.length !== 2) {
+      // In a weird case the attributes can occur double in the schema
+      // so what normally was ["map", "string"] becomes ["map", "string", "map", "string"]
+      // As we only ready the first two items which are correct we can ignore it here
+      function isDoubledComplexAttributeType(attribute: any) {
+        return (
+          attribute.length === 4 &&
+          // These are guaranteed to be strings
+          attribute[0] === attribute[2] &&
+          // These might be arrays, strings, or objects
+          deepEqual(attribute[1], attribute[3])
+        );
+      }
+
+      if (
+        attributeType.length !== 2 &&
+        !isDoubledComplexAttributeType(attributeType)
+      ) {
         throw new Error(`unexpected array`);
       }
 

@@ -33,11 +33,13 @@
     "@cdktf/hcl2json": "0.0.0",
     "@types/node": "16.18.23",
     "codemaker": "^1.76.0",
+    "deep-equal": "^2.2.1",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
     "jsii-srcmak": "^0.1.867"
   },
   "devDependencies": {
+    "@types/deep-equal": "^1.0.1",
     "@types/deepmerge": "^2.2.0",
     "@types/fs-extra": "^8.1.2",
     "@types/glob": "^7.2.0",

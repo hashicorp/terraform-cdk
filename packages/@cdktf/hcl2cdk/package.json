@@ -39,7 +39,7 @@
     "glob": "9.3.4",
     "graphology": "^0.25.1",
     "graphology-types": "^0.24.7",
-    "jsii-rosetta": "^5.0.1",
+    "jsii-rosetta": "^5.0.7",
     "prettier": "^2.8.6",
     "reserved-words": "^0.1.2",
     "zod": "^3.21.4"
