@@ -109,6 +109,7 @@ export async function determineDeps(
       if (!(await fs.pathExists(file))) {
         throw Errors.Internal(
           `unable to find ${file} under the "dist" directory (${dist})`,
+          new Error(),
           { version }
         );
       }
@@ -127,8 +128,7 @@ export async function determineDeps(
 
   if (version === "0.0.0") {
     throw Errors.Usage(
-      `cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`,
-      {}
+      `cannot use version 0.0.0, use --cdktf-version, --dist or CDKTF_DIST to install from a "dist" directory`
     );
   }
 

@@ -234,7 +234,8 @@ class PythonPackageManager extends PackageManager {
       )["app"];
     } catch (e: any) {
       throw Errors.Usage(
-        `Could not find find and parse cdktf.json in ${this.workingDirectory}`
+        `Could not find find and parse cdktf.json in ${this.workingDirectory}`,
+        e
       );
     }
   }
