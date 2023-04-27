@@ -188,8 +188,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
         language: "typescript",
         providerSchema: providerSchema ?? {},
       });
-    } catch (err) {
-      throw Errors.Internal((err as Error).toString(), {
+    } catch (err: any) {
+      throw Errors.Internal((err as Error).toString(), err, {
         fromTerraformProject: true,
       });
     }
@@ -557,6 +557,7 @@ async function fetchRemoteTemplate(templateUrl: string): Promise<Template> {
     if (!templatePath) {
       throw Errors.Usage(
         chalkColour`Could not find a {whiteBright cdktf.json} in the extracted directory`,
+        new Error(),
         {}
       );
     }

@@ -49,9 +49,10 @@ export class LocalProviderConstraints {
           }
         )
       );
-    } catch (e) {
+    } catch (e: any) {
       throw Errors.External(
-        "constraints.json file is malformed. The root must be a JSON object."
+        "constraints.json file is malformed. The root must be a JSON object.",
+        e
       );
     }
 

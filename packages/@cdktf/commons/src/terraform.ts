@@ -12,5 +12,5 @@ export const terraformVersion = exec(
 )
   .then((versionString) => JSON.parse(versionString).terraform_version)
   .catch((err) =>
-    Errors.Usage(`Unknown: Error loading terraform version ${err}`)
+    Errors.Usage(`Unknown: Error loading terraform version ${err}`, err)
   );

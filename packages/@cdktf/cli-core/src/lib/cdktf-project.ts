@@ -365,14 +365,16 @@ export class CdktfProject {
 
     try {
       await stack.diff(opts);
-    } catch (e) {
+    } catch (e: any) {
       throw Errors.External(
-        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
+        e
       );
     }
     if (stack.error) {
       throw Errors.External(
-        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
+        new Error(stack.error)
       );
     }
   }

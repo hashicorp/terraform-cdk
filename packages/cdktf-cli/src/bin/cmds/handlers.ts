@@ -110,8 +110,8 @@ export async function convert({ language, provider, stack }: any) {
     output = all;
 
     await sendTelemetry("convert", { ...stats, error: false });
-  } catch (err) {
-    throw Errors.Internal((err as Error).message, { language });
+  } catch (err: any) {
+    throw Errors.Internal((err as Error).message, err, { language });
   }
 
   console.log(output);
