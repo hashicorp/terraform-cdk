@@ -392,7 +392,7 @@ export class CdktfProject {
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
-    await this.initializeStacksToRunInSerial();
+    await this.initializeStacksToRunInSerial(opts.noColor);
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -566,9 +566,11 @@ export class CdktfProject {
   }
 
   // Serially run terraform init to prohibit text file busy errors for the cache files
-  private async initializeStacksToRunInSerial(): Promise<void> {
+  private async initializeStacksToRunInSerial(
+    noColor?: boolean
+  ): Promise<void> {
     for (const stack of this.stacksToRun) {
-      await stack.initalizeTerraform();
+      await stack.initalizeTerraform(noColor);
     }
   }
 }
