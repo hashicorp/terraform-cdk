@@ -15,7 +15,7 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
 
       - name: checkrun-timechart
-        uses: urcomputeringpal/checkrun-timechart-action@v0.0.6
+        uses: urcomputeringpal/checkrun-timechart-action@v0.0.6 # TSCCR: no entry for repository "urcomputeringpal/checkrun-timechart-action"
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
         with:
@@ -28,7 +28,7 @@ jobs:
       # knows all the statuses (see https://github.com/WyriHaximus/github-action-wait-for-status#output),
       # we can leverage it to provide a global status to mergify.
       - name: "mergify status"
-        uses: actions/github-script@v6.3.3
+        uses: actions/github-script@d7906e4ad0b1822421a7e6a35d5ca353c962f410 # v6.4.1
         if: ${{ steps.waitforstatuschecks.outputs.status != 'success' }}
         with:
           script: |
