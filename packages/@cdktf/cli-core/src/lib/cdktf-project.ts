@@ -361,6 +361,7 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
+    await stack.initalizeTerraform(opts.noColor);
 
     try {
       await stack.diff(opts);
@@ -389,6 +390,7 @@ export class CdktfProject {
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
+    await this.initializeStacksToRunInSerial();
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -545,6 +547,7 @@ export class CdktfProject {
       this.getStackExecutor(stack, {})
     );
 
+    await this.initializeStacksToRunInSerial();
     const outputs = await Promise.all(
       this.stacksToRun.map(async (s) => {
         const output = await s.fetchOutputs();
@@ -558,5 +561,12 @@ export class CdktfProject {
       (acc, curr) => ({ ...acc, ...curr }),
       {}
     ) as NestedTerraformOutputs;
+  }
+
+  // Serially run terraform init to prohibit text file busy errors for the cache files
+  private async initializeStacksToRunInSerial(): Promise<void> {
+    for (const stack of this.stacksToRun) {
+      await stack.initalizeTerraform();
+    }
   }
 }
