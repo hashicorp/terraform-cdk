@@ -10,6 +10,7 @@ import {
   GetOptions,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
+  get as getLib,
 } from "@cdktf/provider-generator";
 
 import {
@@ -50,9 +51,9 @@ import {
   initializErrorReporting,
   DependencyManager,
   ProviderConstraint,
-  get as getLib,
   providerAdd as providerAddLib,
 } from "@cdktf/cli-core";
+
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
 import {

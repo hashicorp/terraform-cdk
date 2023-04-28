@@ -3,11 +3,12 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as os from "os";
-import { CdktfProject, get, init } from "../../lib/index";
+import { CdktfProject, init } from "../../lib/index";
 import { Language } from "@cdktf/commons";
 import { SynthesizedStack } from "../../lib/synth-stack";
 import { getMultipleStacks } from "../../lib/helpers/stack-helpers";
 import { LogMessage } from "../../lib/cdktf-project";
+import { get } from "@cdktf/provider-generator";
 
 function eventNames(events: any[]) {
   return events

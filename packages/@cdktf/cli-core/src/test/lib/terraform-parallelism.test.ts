@@ -6,9 +6,10 @@
 import path from "path";
 import * as fs from "fs-extra";
 import os from "os";
-import { CdktfProject, init, get } from "../../lib/index";
+import { CdktfProject, init } from "../../lib/index";
 import { spawn } from "@cdktf/node-pty-prebuilt-multiarch";
 import { exec, Language } from "@cdktf/commons";
+import { get } from "@cdktf/provider-generator";
 
 jest.mock("@cdktf/commons", () => {
   const originalModule = jest.requireActual("@cdktf/commons");

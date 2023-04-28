@@ -7,13 +7,16 @@ import React, { Fragment } from "react";
 
 import { Text, Box, useApp, Newline } from "ink";
 import Spinner from "ink-spinner";
-import { GetOptions } from "@cdktf/provider-generator";
+import {
+  GetOptions,
+  get,
+  GetStatus as Status,
+} from "@cdktf/provider-generator";
 import {
   Language,
   sendTelemetry,
   TerraformDependencyConstraint,
 } from "@cdktf/commons";
-import { get, GetStatus as Status } from "@cdktf/cli-core";
 
 interface GetConfig {
   codeMakerOutput: string;
