@@ -167,8 +167,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
 
     importPath = path.resolve(process.cwd(), fromTerraformProject);
 
-    const combinedTfFile = getTerraformConfigFromDir(importPath);
-
+    const combinedTfFile = await getTerraformConfigFromDir(importPath);
     const providerRequirements = await parseProviderRequirements(
       combinedTfFile
     );

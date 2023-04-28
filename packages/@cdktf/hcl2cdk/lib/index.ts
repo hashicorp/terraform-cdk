@@ -6,12 +6,13 @@ import {
   ProviderSchema,
   TerraformProviderGenerator,
   CodeMaker,
+  get,
 } from "@cdktf/provider-generator";
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
 import * as glob from "glob";
-import * as fs from "fs";
+import * as fs from "fs/promises";
 import { DirectedGraph } from "graphology";
 import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
@@ -43,6 +44,13 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
+import {
+  CdktfConfig,
+  Language,
+  TerraformModuleConstraint,
+  TerraformProviderConstraint,
+} from "@cdktf/commons";
+import * as os from "os";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -428,7 +436,43 @@ For a more precise conversion please use the --provider flag in convert.`
 type File = { contents: string; fileName: string };
 
 function translatorForVisitor(visitor: any) {
-  return (file: File, throwOnTranslationError: boolean) => {
+  return async (file: File, throwOnTranslationError: boolean) => {
+    const config = CdktfConfig.read();
+    // To translate properly we need TS bindings in the working directory
+    // We need a working directory
+    const workingDirectory = await fs.mkdtemp(
+      path.join(os.tmpdir(), "cdktf-convert-")
+    );
+
+    // Switch to the working directory
+    process.chdir(workingDirectory);
+
+    // We need a config to generate bindings in the working directory
+
+    logger.debug(
+      `Generating TS bindings in ${workingDirectory} for ${JSON.stringify(
+        [...config.terraformProviders, ...config.terraformModules],
+        null,
+        2
+      )}`
+    );
+    // We need to generate the bindings
+    await get({
+      constructsOptions: {
+        codeMakerOutput: ".gen",
+        targetLanguage: Language.TYPESCRIPT,
+      },
+      constraints: [
+        ...config.terraformProviders.map(
+          (c) => new TerraformProviderConstraint(c)
+        ),
+        ...config.terraformModules.map((c) => new TerraformModuleConstraint(c)),
+      ],
+    });
+
+    logger.debug(`Bindings generated`);
+
+    // Now we can translate
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
       visitor,
@@ -501,21 +545,23 @@ export async function convert(
 
   return {
     ...tsCode,
-    all: translater(
+    all: await translater(
       { fileName, contents: tsCode.all },
       throwOnTranslationError
     ),
-    imports: translater({ fileName, contents: tsCode.imports }, false),
-    code: translater({ fileName, contents: tsCode.code }, false),
+    imports: await translater({ fileName, contents: tsCode.imports }, false),
+    code: await translater({ fileName, contents: tsCode.code }, false),
     stats: { ...tsCode.stats, language },
   };
 }
 
-export function getTerraformConfigFromDir(importPath: string) {
+export async function getTerraformConfigFromDir(importPath: string) {
   const absPath = path.resolve(importPath);
-  const fileContents = glob
-    .sync("./*.tf", { cwd: absPath })
-    .map((p) => fs.readFileSync(path.resolve(absPath, p), "utf8"));
+  const fileContents = await Promise.all(
+    glob
+      .sync("./*.tf", { cwd: absPath })
+      .map((p) => fs.readFile(path.resolve(absPath, p), "utf8"))
+  );
 
   return fileContents.join("\n");
 }

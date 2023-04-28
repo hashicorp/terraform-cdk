@@ -378,6 +378,12 @@ export class CdktfConfig {
     return providers;
   }
 
+  public get terraformModules(): (TerraformDependencyConstraint | string)[] {
+    const modules = this.getProperty("terraformModules");
+    if (!Array.isArray(modules)) return [];
+    return modules;
+  }
+
   public writeTerraformProviders(
     providers: (TerraformDependencyConstraint | string)[]
   ) {

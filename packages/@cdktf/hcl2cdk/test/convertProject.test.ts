@@ -227,7 +227,7 @@ describe.skip("convertProject", () => {
     const mainTs = fs.readFileSync(path.resolve(targetPath, "main.ts"), "utf8");
 
     const { code, cdktfJson } = await convertProject(
-      getTerraformConfigFromDir(importPath),
+      await getTerraformConfigFromDir(importPath),
       {
         language: "typescript",
         providerSchema: cachedProviderSchema,

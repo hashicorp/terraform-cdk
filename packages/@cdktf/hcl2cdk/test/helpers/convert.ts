@@ -351,14 +351,7 @@ app.synth();
 
       if (includeSynthTests && shouldSynth === Synth.yes_all_languages) {
         describe.each(["python", "csharp", "java", "go"])("%s", (language) => {
-          let projectDir = "";
           let convertResult: any;
-
-          beforeAll(async () => {
-            projectDir = await getProjectDirectory(providers);
-
-            process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
-          }, 500_000);
 
           it("snapshot", async () => {
             let { providerSchema } = await getProviderSchema(providers);
