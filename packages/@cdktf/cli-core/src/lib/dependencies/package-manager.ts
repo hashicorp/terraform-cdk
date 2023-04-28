@@ -272,7 +272,8 @@ class PythonPackageManager extends PackageManager {
       );
       if (!fs.existsSync(requirementsFilePath)) {
         throw Errors.Usage(
-          `Could not find requirements.txt in ${this.workingDirectory}`
+          `Could not find requirements.txt in ${this.workingDirectory}`,
+          new Error()
         );
       }
 
@@ -501,7 +502,8 @@ class MavenPackageManager extends PackageManager {
     const pomPath = path.join(this.workingDirectory, "pom.xml");
     if (!existsSync(pomPath)) {
       throw Errors.Usage(
-        "No pom.xml found in current working directory. Please run the command from the root of your project."
+        "No pom.xml found in current working directory. Please run the command from the root of your project.",
+        new Error()
       );
     }
 
@@ -526,7 +528,10 @@ class MavenPackageManager extends PackageManager {
       ?.elements?.find((el) => el.name === "dependencies");
 
     if (!dependencies) {
-      throw Errors.Usage(`Could not find dependencies section in the pom.xml`);
+      throw Errors.Usage(
+        `Could not find dependencies section in the pom.xml`,
+        new Error()
+      );
     }
     dependencies.elements = (dependencies?.elements || []).filter(
       (el) =>
@@ -559,7 +564,8 @@ class MavenPackageManager extends PackageManager {
     const parts = packageName.split(".");
     if (parts.length !== 3) {
       throw Errors.Internal(
-        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`
+        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`,
+        new Error()
       );
     }
 
@@ -589,7 +595,8 @@ class MavenPackageManager extends PackageManager {
       const pomPath = path.join(this.workingDirectory, "pom.xml");
       if (!existsSync(pomPath)) {
         throw Errors.Usage(
-          "No pom.xml found in current working directory. Please run the command from the root of your project."
+          "No pom.xml found in current working directory. Please run the command from the root of your project.",
+          new Error()
         );
       }
 
@@ -663,7 +670,8 @@ class GoPackageManager extends PackageManager {
     const parts = packageName.split("/");
     if (parts.length !== 4) {
       throw Errors.Internal(
-        `Expecting Go package name to be in the format of github.com/<org>/<repo>/<package>, got ${packageName}`
+        `Expecting Go package name to be in the format of github.com/<org>/<repo>/<package>, got ${packageName}`,
+        new Error()
       );
     }
 
@@ -710,7 +718,8 @@ class GoPackageManager extends PackageManager {
       const goSumPath = path.join(this.workingDirectory, "go.sum");
       if (!existsSync(goSumPath)) {
         throw Errors.Usage(
-          "No go.sum found in current working directory. Please run the command from the root of your project."
+          "No go.sum found in current working directory. Please run the command from the root of your project.",
+          new Error()
         );
       }
 
@@ -728,7 +737,8 @@ class GoPackageManager extends PackageManager {
           const parts = line.split(" ");
           if (parts.length !== 3) {
             throw Errors.Internal(
-              `Expected line in go.sum to be in the format of '<package> <version> <checksum>', got: ${line}`
+              `Expected line in go.sum to be in the format of '<package> <version> <checksum>', got: ${line}`,
+              new Error()
             );
           }
 

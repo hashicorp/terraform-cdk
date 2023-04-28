@@ -15,7 +15,8 @@ export function isCdktfProjectDirectory(directory: string): boolean {
 export function throwIfNotProjectDirectory(directory = process.cwd()): void {
   if (!isCdktfProjectDirectory(directory)) {
     throw Errors.Usage(
-      `${directory} is not a cdktf project directory, no cdktf.json found or cdktf.json is missing language / app keys`
+      `${directory} is not a cdktf project directory, no cdktf.json found or cdktf.json is missing language / app keys`,
+      new Error()
     );
   }
 }

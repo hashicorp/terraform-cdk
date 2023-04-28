@@ -885,7 +885,10 @@ export function wrapCodeInConstructor(
       );
       break;
     default:
-      throw Errors.Internal("Unsupported code container: " + codeContainer);
+      throw Errors.Internal(
+        "Unsupported code container: " + codeContainer,
+        new Error()
+      );
   }
 
   return template.statement(

@@ -19,13 +19,19 @@ function throwIfLowerVersion(
   stdout: string | undefined
 ) {
   if (!stdout) {
-    throw Errors.Usage(`${language} version could not be determined`);
+    throw Errors.Usage(
+      `${language} version could not be determined`,
+      new Error()
+    );
   }
 
   const version = semver.coerce(stdout);
   if (!version || !semver.valid(version)) {
     console.error(
-      Errors.Internal(`Unable to parse ${language} version "${stdout}"`)
+      Errors.Internal(
+        `Unable to parse ${language} version "${stdout}"`,
+        new Error()
+      )
     );
     return;
   }
@@ -33,7 +39,8 @@ function throwIfLowerVersion(
   if (semver.lt(version, minVersion)) {
     console.error(
       Errors.Usage(
-        `${language} version "${version}" is not supported. Please upgrade to at least ${minVersion}`
+        `${language} version "${version}" is not supported. Please upgrade to at least ${minVersion}`,
+        new Error()
       )
     );
   }
@@ -123,13 +130,15 @@ export async function verifySimilarLibraryVersion() {
 
   if (semver.major(libVersion) !== semver.major(cliVersion)) {
     throw Errors.Usage(
-      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
+      `The major version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same major version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`,
+      new Error()
     );
   }
 
   if (semver.minor(libVersion) !== semver.minor(cliVersion)) {
     throw Errors.Usage(
-      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`
+      `The minor version of the library (${libVersion}) and the CLI (${cliVersion}) are different. Please update the library to the same minor version and regenerate your provider bindings with 'cdktf get' and update your prebuilt providers. For more information see https://cdk.tf/troubleshooting/cdktf-version-mismatch`,
+      new Error()
     );
   }
 }

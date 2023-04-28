@@ -111,7 +111,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const tfVersion = await getTerraformVersion();
   if (tfVersion && semver.lt(tfVersion, "1.1.0") && isRemote) {
     throw Errors.Usage(
-      `Terraform version ${tfVersion} is not supported for remote configuration. We use the CloudBackend to configure the connection to Terraform Cloud, which is only supported in Terraform 1.1 and higher. Please upgrade to version 1.1.0 or higher or use the local mode by passing --local (afterwards you can use the RemoteBackend to work with Terraform Cloud without upgrading your Terraform version.`
+      `Terraform version ${tfVersion} is not supported for remote configuration. We use the CloudBackend to configure the connection to Terraform Cloud, which is only supported in Terraform 1.1 and higher. Please upgrade to version 1.1.0 or higher or use the local mode by passing --local (afterwards you can use the RemoteBackend to work with Terraform Cloud without upgrading your Terraform version.`,
+      new Error()
     );
   }
 
@@ -459,7 +460,8 @@ async function getTerraformProject(): Promise<string | undefined> {
 
   if (!fs.existsSync(terraformProject)) {
     throw Errors.Usage(
-      `Could not find folder '${terraformProject}' to initialize from.`
+      `Could not find folder '${terraformProject}' to initialize from.`,
+      new Error()
     );
   }
 

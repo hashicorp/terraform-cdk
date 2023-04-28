@@ -25,7 +25,7 @@ export function IsErrorType(error: any, type: ErrorType): boolean {
 function reportPrefixedError(type: ErrorType, command: string) {
   return (
     message: string,
-    originalError: Error = new Error(),
+    originalError: Error,
     context?: Record<string, any>
   ) => {
     report(command, { ...context, message, type });

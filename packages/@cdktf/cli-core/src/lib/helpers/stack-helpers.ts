@@ -13,14 +13,15 @@ export function getSingleStack(
 ) {
   if (!stacks) {
     throw Errors.Internal(
-      "Trying to access a stack before it has been synthesized"
+      "Trying to access a stack before it has been synthesized",
+      new Error()
     );
   }
 
   if (stackName) {
     const stack = stacks.find((s) => s.name === stackName);
     if (!stack) {
-      throw Errors.Usage("Could not find stack: " + stackName);
+      throw Errors.Usage("Could not find stack: " + stackName, new Error());
     }
 
     return stack;
@@ -35,7 +36,8 @@ export function getSingleStack(
       targetAction || "<verb>"
     } <stack> with one of these stacks: ${stacks
       .map((s) => s.name)
-      .join(", ")} `
+      .join(", ")} `,
+    new Error()
   );
 }
 
@@ -53,7 +55,8 @@ export function getMultipleStacks(
         targetAction || "<verb>"
       } <stack> with one of these stacks: ${stacks
         .map((s) => s.name)
-        .join(", ")} `
+        .join(", ")} `,
+      new Error()
     );
   }
 
@@ -63,7 +66,10 @@ export function getMultipleStacks(
     );
 
     if (matchingStacks.length === 0) {
-      throw Errors.Usage(`Could not find stack for pattern '${pattern}'`);
+      throw Errors.Usage(
+        `Could not find stack for pattern '${pattern}'`,
+        new Error()
+      );
     }
 
     return matchingStacks;
@@ -214,7 +220,8 @@ export function checkIfAllDependantsAreIncluded(
     throw Errors.Usage(
       `The following dependant stacks are not included in the stacks to run: ${missingDependants.join(
         ", "
-      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`,
+      new Error()
     );
   }
 }
@@ -243,7 +250,8 @@ export function checkIfAllDependenciesAreIncluded(
     throw Errors.Usage(
       `The following dependencies are not included in the stacks to run: ${missingDependencies.join(
         ", "
-      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`
+      )}. Either add them or add the --ignore-missing-stack-dependencies flag.`,
+      new Error()
     );
   }
 }

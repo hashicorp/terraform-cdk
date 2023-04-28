@@ -337,7 +337,8 @@ export class CdktfConfig {
     const cdktfConfig = require(this.cdktfConfigPath);
     if (typeof cdktfConfig !== "object" || cdktfConfig === null) {
       throw Errors.External(
-        "cdktf.json is malformed. The root must be a JSON object."
+        "cdktf.json is malformed. The root must be a JSON object.",
+        new Error()
       ); // TODO: define a schema and validate against it
     }
     return cdktfConfig;
@@ -362,7 +363,8 @@ export class CdktfConfig {
       throw Errors.Usage(
         `${rawLanguage} is not a valid language. It must be one of ${Object.values(
           Language
-        )}`
+        )}`,
+        new Error()
       );
 
     return language;
@@ -400,7 +402,8 @@ export class CdktfConfig {
     const cdktfConfigPath = findFileAboveCwd("cdktf.json", path);
     if (!cdktfConfigPath) {
       throw Errors.External(
-        "Could not find cdktf.json. Make sure there is a cdktf.json file in the current directory or one of its parents."
+        "Could not find cdktf.json. Make sure there is a cdktf.json file in the current directory or one of its parents.",
+        new Error()
       );
     }
     logger.trace(`cdktf.json found at ${cdktfConfigPath}`);

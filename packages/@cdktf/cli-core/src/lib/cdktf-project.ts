@@ -386,7 +386,10 @@ export class CdktfProject {
   ) {
     // We only support refresh only on deploy, a bit of a leaky abstraction here
     if (opts.refreshOnly && method !== "deploy") {
-      throw Errors.Internal(`Refresh only is only supported on deploy`);
+      throw Errors.Internal(
+        `Refresh only is only supported on deploy`,
+        new Error()
+      );
     }
     const maxParallelRuns =
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
@@ -468,7 +471,8 @@ export class CdktfProject {
       throw Errors.External(
         `Some stacks failed to deploy: ${unprocessedStacks
           .map((s) => s.stack.name)
-          .join(", ")}. Please check the logs for more information.`
+          .join(", ")}. Please check the logs for more information.`,
+        new Error()
       );
     }
   }
@@ -487,7 +491,8 @@ export class CdktfProject {
       );
       if (!stackExecutor) {
         throw Errors.Internal(
-          `Could not find stack "${stackName}" that was stopped`
+          `Could not find stack "${stackName}" that was stopped`,
+          new Error()
         );
       }
 
@@ -499,7 +504,8 @@ export class CdktfProject {
         );
         if (!dependantStack) {
           throw Errors.Internal(
-            `Could not find stack "${dependant}" that was stopped`
+            `Could not find stack "${dependant}" that was stopped`,
+            new Error()
           );
         }
 
@@ -525,7 +531,8 @@ export class CdktfProject {
       throw Errors.External(
         `Some stacks failed to destroy: ${unprocessedStacks
           .map((s) => s.stack.name)
-          .join(", ")}. Please check the logs for more information.`
+          .join(", ")}. Please check the logs for more information.`,
+        new Error()
       );
     }
   }

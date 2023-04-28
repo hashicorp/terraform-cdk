@@ -94,7 +94,8 @@ export function extractVariableNameFromPrompt(line: string) {
   const lineWithVar = lines.find((line) => line.includes("var."));
   if (!lineWithVar) {
     throw Errors.Internal(
-      `Could not find variable name in prompt: ${line}. This is most likely a bug in cdktf. Please report it at https://cdk.tf/bug`
+      `Could not find variable name in prompt: ${line}. This is most likely a bug in cdktf. Please report it at https://cdk.tf/bug`,
+      new Error()
     );
   }
   return lineWithVar.split("var.")[1].trim();
@@ -308,7 +309,8 @@ export function terraformPtyService(
   return (send: Sender<DeployEvent>, onReceive: Receiver<DeployEvent>) => {
     if (event.type !== "START") {
       throw Errors.Internal(
-        `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`
+        `Terraform CLI invocation state machine: Unexpected event caused transition to the running state: ${event.type}`,
+        new Error()
       );
     }
 

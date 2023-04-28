@@ -42,13 +42,15 @@ export function sanitizeVarFiles(
     const resolvedPath = path.resolve(cwd, varFile);
     if (!fs.existsSync(resolvedPath)) {
       throw Errors.Usage(
-        `Could not find var-file ${varFile} at ${resolvedPath}`
+        `Could not find var-file ${varFile} at ${resolvedPath}`,
+        new Error()
       );
     }
 
     if (!fs.lstatSync(resolvedPath).isFile()) {
       throw Errors.Usage(
-        `The var-file ${varFile} at ${resolvedPath} is no file.`
+        `The var-file ${varFile} at ${resolvedPath} is no file.`,
+        new Error()
       );
     }
 

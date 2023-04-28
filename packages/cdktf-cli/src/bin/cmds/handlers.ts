@@ -277,7 +277,8 @@ export async function init(argv: any) {
 
   if (["", ".", process.cwd()].includes(argv.fromTerraformProject)) {
     throw Errors.Usage(
-      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder."
+      "--from-terraform-project requires a path to an existing Terraform project to be set, e.g. --from-terraform-project=../my-tf-codebase This folder can not be the same as the current working directory since cdktf init will initialize the new project in that folder.",
+      new Error()
     );
   }
 
@@ -325,7 +326,10 @@ export async function login(argv: { tfeHostname: string }) {
       );
       console.log(chalkColour`\nWelcome {bold ${username}}!`);
     } else {
-      throw Errors.Usage(`Configured Terraform Cloud token is invalid.`);
+      throw Errors.Usage(
+        `Configured Terraform Cloud token is invalid.`,
+        new Error()
+      );
     }
   }
 
@@ -346,7 +350,7 @@ export async function login(argv: { tfeHostname: string }) {
   } else {
     token = await terraformLogin.askToLogin();
     if (token === "") {
-      throw Errors.Usage(`No Terraform Cloud token was provided.`);
+      throw Errors.Usage(`No Terraform Cloud token was provided.`, new Error());
     }
   }
 
@@ -459,7 +463,8 @@ export async function providerAdd(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed.",
+      new Error()
     );
   const needsGet = await providerAddLib({
     providers: argv.provider,
@@ -489,7 +494,8 @@ export async function providerUpgrade(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed."
+      "Could not determine CDKTF version. Please make sure you are in a directory containing a CDKTF project and have all dependencies installed.",
+      new Error()
     );
 
   const manager = new DependencyManager(
@@ -548,7 +554,8 @@ export async function providerList(argv: any) {
 
   if (!cdktfVersion)
     throw Errors.External(
-      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed.",
+      new Error()
     );
 
   const manager = new DependencyManager(

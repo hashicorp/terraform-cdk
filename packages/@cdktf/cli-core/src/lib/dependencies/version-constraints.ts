@@ -70,7 +70,8 @@ export function versionMatchesConstraint(
         return semver.lt(version, cleanedParsedVersion);
       default:
         throw Errors.External(
-          `Unknown constraint operator: ${parsed.operator} in version constraint ${constraint}`
+          `Unknown constraint operator: ${parsed.operator} in version constraint ${constraint}`,
+          new Error()
         );
     }
   });

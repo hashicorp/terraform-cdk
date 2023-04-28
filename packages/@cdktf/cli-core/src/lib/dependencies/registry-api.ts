@@ -31,7 +31,10 @@ async function fetchVersions(
   });
   if (!result.ok) {
     if (result.status !== 404) {
-      throw Errors.External(`Failed to fetch ${url}. Status: ${result.status}`);
+      throw Errors.External(
+        `Failed to fetch ${url}. Status: ${result.status}`,
+        new Error()
+      );
     }
 
     return null;

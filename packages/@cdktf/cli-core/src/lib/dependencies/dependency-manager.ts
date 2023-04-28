@@ -169,7 +169,8 @@ export class DependencyManager {
     }
 
     throw Errors.Usage(
-      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`
+      `Trying to upgrade ${constraint.simplifiedName} but it is not installed, please use "cdktf provider add ${constraint.simplifiedName}" to add it.`,
+      new Error()
     );
   }
 
@@ -274,7 +275,8 @@ export class DependencyManager {
     const packageName = await this.tryGetPackageName(constraint);
     if (!packageName) {
       throw Errors.Usage(
-        `Could not find pre-built provider for ${constraint.source}`
+        `Could not find pre-built provider for ${constraint.source}`,
+        new Error()
       );
     }
     return packageName;
@@ -289,7 +291,8 @@ export class DependencyManager {
     );
     if (!prebuiltProviderNpmVersions) {
       throw Errors.Usage(
-        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`,
+        new Error()
       );
     }
 
@@ -300,7 +303,8 @@ export class DependencyManager {
 
     if (!packageVersion) {
       throw Errors.Usage(
-        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`
+        `No pre-built provider found for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion} for language ${this.targetLanguage}.`,
+        new Error()
       );
     }
 
@@ -367,7 +371,8 @@ export class DependencyManager {
         );
       } else {
         throw Errors.Usage(
-          `Could not find a version for the provider '${constraint}' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers.`
+          `Could not find a version for the provider '${constraint}' in the public registry. This could be due to a typo, please take a look at https://cdk.tf/registry-providers to find all supported providers.`,
+          new Error()
         );
       }
     }
@@ -418,7 +423,10 @@ export class DependencyManager {
     };
     const regex = regexes[this.targetLanguage];
     if (!regex) {
-      throw Errors.Usage("Language not supported for pre-built providers");
+      throw Errors.Usage(
+        "Language not supported for pre-built providers",
+        new Error()
+      );
     }
 
     const match = regex.exec(name);
