@@ -538,3 +538,33 @@ test("list of list attributes", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test("list of list of strings", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "list-list-string.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(__dirname, "fixtures", "list-list-string.test.fixture.json"),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  // const resourceOutput = fs.readFileSync(
+  //   path.join(workdir, "providers/test/airbyte-connection/index.ts"),
+  //   "utf-8"
+  // );
+  // expect(resourceOutput).toMatchSnapshot();
+
+  const datasourceOutput = fs.readFileSync(
+    path.join(
+      workdir,
+      "providers/test/data-airbyte-source-schema-catalog/index.ts"
+    ),
+    "utf-8"
+  );
+  expect(datasourceOutput).toMatchSnapshot();
+});
