@@ -1,0 +1,51 @@
+{
+    "format_version": "1.0",
+    "provider_schemas": {
+      "registry.terraform.io/hashicorp/test": {
+        "data_source_schemas": {
+          "airbyte_source_schema_catalog": {
+            "version": 0,
+            "block": {
+              "attributes": {
+                "sync_catalog": {
+                  "nested_type": {
+                    "attributes": {
+                      "source_schema": {
+                        "nested_type": {
+                          "attributes": {
+                            "source_defined_primary_key": {
+                              "type": [
+                                "list",
+                                [
+                                  "list",
+                                  "string"
+                                ]
+                              ],
+                              "description": "If the source defines the primary key, paths to the fields that will be used as a primary key. If not provided by the source, the end user will have to specify the primary key themselves.",
+                              "description_kind": "plain",
+                              "computed": true
+                            }
+                          },
+                          "nesting_mode": "single"
+                        },
+                        "description": "The immutable schema defined by the source",
+                        "description_kind": "plain",
+                        "computed": true
+                      }
+                    },
+                    "nesting_mode": "list"
+                  },
+                  "description": "Describes the available schema (catalog). Each stream is split in two parts; the immutable schema from source and mutable configuration for destination.",
+                  "description_kind": "plain",
+                  "computed": true
+                }
+              },
+              "description": "Get an Airbyte Source Schema Catalog by Source id",
+              "description_kind": "markdown"
+            }
+          }
+        }
+      }
+    }
+  }
+  
