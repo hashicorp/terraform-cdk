@@ -9,11 +9,9 @@ export {
   DependencyManager,
   ProviderConstraint,
 } from "./dependencies/dependency-manager";
-export { ProviderDependencySpec } from "./cdktf-config";
 export { getAllPrebuiltProviders } from "./dependencies/prebuilt-providers";
 export { providerAdd } from "./provider-add";
 export { TerraformCli } from "./models/terraform-cli";
-export { CdktfConfig } from "./cdktf-config";
 export {
   askForCrashReportingConsent,
   initializErrorReporting,

@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { CdktfConfig } from "../cdktf-config";
+import { CdktfConfig } from "@cdktf/commons";
 import { ProviderConstraint } from "./dependency-manager";
 
 /**

@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import fs from "fs-extra";
 import path from "path";
-import { Errors, logger } from "@cdktf/commons";
-import { CdktfConfig } from "./cdktf-config";
+import { Errors, logger, CdktfConfig } from "@cdktf/commons";
 
 import * as z from "zod";
 

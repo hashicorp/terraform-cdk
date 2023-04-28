@@ -23,6 +23,7 @@ import {
   collectDebugInformation,
   getPackageVersion,
   TerraformDependencyConstraint,
+  CdktfConfig,
 } from "@cdktf/commons";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
@@ -49,8 +50,6 @@ import {
   initializErrorReporting,
   DependencyManager,
   ProviderConstraint,
-  CdktfConfig,
-  ProviderDependencySpec,
   get as getLib,
   providerAdd as providerAddLib,
 } from "@cdktf/cli-core";
@@ -66,7 +65,7 @@ const chalkColour = new chalk.Instance();
 const config = readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
-  let providersFromConfig: (string | ProviderDependencySpec)[] = [];
+  let providersFromConfig: (string | TerraformDependencyConstraint)[] = [];
 
   try {
     const config = CdktfConfig.read();

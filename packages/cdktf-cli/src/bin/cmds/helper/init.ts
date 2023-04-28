@@ -15,7 +15,6 @@ import {
   init,
   Project,
   askForCrashReportingConsent,
-  CdktfConfig,
   providerAdd,
   getAllPrebuiltProviders,
 } from "@cdktf/cli-core";
@@ -40,6 +39,7 @@ import {
   logger,
   Errors,
   sendTelemetry,
+  CdktfConfig,
 } from "@cdktf/commons";
 import { templates, templatesDir } from "./init-templates";
 import ciDetect from "@npmcli/ci-detect";

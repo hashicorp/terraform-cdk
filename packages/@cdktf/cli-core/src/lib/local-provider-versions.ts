@@ -1,9 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Errors, logger } from "@cdktf/commons";
+import { Errors, logger, CdktfConfig } from "@cdktf/commons";
 import fs from "fs-extra";
 import path from "path";
-import { CdktfConfig } from "./cdktf-config";
 import {
   DEFAULT_HOSTNAME,
   DEFAULT_NAMESPACE,
