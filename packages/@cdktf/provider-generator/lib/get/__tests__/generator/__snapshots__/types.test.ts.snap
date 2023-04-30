@@ -2783,6 +2783,186 @@ export class Complex extends cdktf.TerraformResource {
 "
 `;
 
+exports[`list of list of strings 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface DataAirbyteSourceSchemaCatalogConfig extends cdktf.TerraformMetaArguments {
+}
+export interface DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema {
+}
+
+export function dataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaToTerraform(struct?: DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false);
+  }
+
+  public get internalValue(): DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // source_defined_primary_key - computed: true, optional: false, required: false
+  private _sourceDefinedPrimaryKey = new cdktf.StringListList(this, "source_defined_primary_key", false);
+  public get sourceDefinedPrimaryKey() {
+    return this._sourceDefinedPrimaryKey;
+  }
+}
+export interface DataAirbyteSourceSchemaCatalogSyncCatalog {
+}
+
+export function dataAirbyteSourceSchemaCatalogSyncCatalogToTerraform(struct?: DataAirbyteSourceSchemaCatalogSyncCatalog): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+  }
+}
+
+export class DataAirbyteSourceSchemaCatalogSyncCatalogOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): DataAirbyteSourceSchemaCatalogSyncCatalog | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: DataAirbyteSourceSchemaCatalogSyncCatalog | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+    }
+  }
+
+  // source_schema - computed: true, optional: false, required: false
+  private _sourceSchema = new DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchemaOutputReference(this, "source_schema");
+  public get sourceSchema() {
+    return this._sourceSchema;
+  }
+}
+
+export class DataAirbyteSourceSchemaCatalogSyncCatalogList extends cdktf.ComplexList {
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): DataAirbyteSourceSchemaCatalogSyncCatalogOutputReference {
+    return new DataAirbyteSourceSchemaCatalogSyncCatalogOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog airbyte_source_schema_catalog}
+*/
+export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "airbyte_source_schema_catalog";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog airbyte_source_schema_catalog} Data Source
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options DataAirbyteSourceSchemaCatalogConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: DataAirbyteSourceSchemaCatalogConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'airbyte_source_schema_catalog',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // sync_catalog - computed: true, optional: false, required: false
+  private _syncCatalog = new DataAirbyteSourceSchemaCatalogSyncCatalogList(this, "sync_catalog", false);
+  public get syncCatalog() {
+    return this._syncCatalog;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+    };
+  }
+}
+"
+`;
+
 exports[`list of string map attribute 1`] = `
 "// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/list_of_string_map
 // generated from terraform resource schema
