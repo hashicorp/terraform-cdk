@@ -38,6 +38,17 @@
                   "description": "Describes the available schema (catalog). Each stream is split in two parts; the immutable schema from source and mutable configuration for destination.",
                   "description_kind": "plain",
                   "computed": true
+                },
+                "non_computed_list_list_string": {
+                  "type": [
+                    "list",
+                    [
+                      "list",
+                      "string"
+                    ]
+                  ],
+                  "description": "Non-computed list of list of string.",
+                  "optional": true
                 }
               },
               "description": "Get an Airbyte Source Schema Catalog by Source id",
