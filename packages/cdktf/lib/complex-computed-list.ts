@@ -310,6 +310,80 @@ export class BooleanList extends ComplexList {
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
+export class StringListList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return Token.asList(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}[${index}]`
+      )
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class NumberListList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    return Token.asNumberList(
+      this.terraformResource.interpolationForAttribute(
+        `${this.terraformAttribute}[${index}]`
+      )
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class BooleanListList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    // This isn't fully supported
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${index}]`
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+export class AnyListList extends ComplexList {
+  constructor(
+    protected terraformResource: IInterpolatingParent,
+    protected terraformAttribute: string,
+    protected wrapsSet: boolean
+  ) {
+    super(terraformResource, terraformAttribute, wrapsSet);
+  }
+
+  public get(index: number) {
+    // This isn't fully supported
+    return this.terraformResource.interpolationForAttribute(
+      `${this.terraformAttribute}[${index}]`
+    );
+  }
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class ComplexMap
   extends ComplexResolvable
   implements ITerraformAddressable
