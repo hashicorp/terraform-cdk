@@ -148,18 +148,7 @@ export class ListAttributeTypeModel implements CollectionAttributeTypeModel {
   }
 
   get storedClassType() {
-    // TODO: this fails by producing StringListList for ["list", ["list", "string"]]
-    if (
-      this.elementType.typeModelType === "list" &&
-      (this.elementType as ListAttributeTypeModel).elementType.typeModelType ===
-        "simple"
-    ) {
-      throw new Error(
-        `Trying to get the stored class type for a list with items of the type ${this.elementType.typeModelType}. The type resulting type would be "${this.elementType.storedClassType}List" which not supported currently`
-      );
-    } else {
-      return `${this.elementType.storedClassType}List`;
-    }
+    return `${this.elementType.storedClassType}List`;
   }
 
   get inputTypeDefinition() {
