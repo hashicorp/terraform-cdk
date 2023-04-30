@@ -2793,6 +2793,12 @@ import * as cdktf from 'cdktf';
 // Configuration
 
 export interface DataAirbyteSourceSchemaCatalogConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Non-computed list of list of string.
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog#non_computed_list_list_string DataAirbyteSourceSchemaCatalog#non_computed_list_list_string}
+  */
+  readonly nonComputedListListString?: string[][] | cdktf.IResolvable;
 }
 export interface DataAirbyteSourceSchemaCatalogSyncCatalogSourceSchema {
 }
@@ -2939,6 +2945,7 @@ export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
       connection: config.connection,
       forEach: config.forEach
     });
+    this._nonComputedListListString = config.nonComputedListListString;
   }
 
   // ==========
@@ -2951,12 +2958,29 @@ export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
     return this._syncCatalog;
   }
 
+  // non_computed_list_list_string - computed: false, optional: true, required: false
+  private _nonComputedListListString?: string[][] | cdktf.IResolvable; 
+  public get nonComputedListListString() {
+    return this.interpolationForAttribute('non_computed_list_list_string');
+  }
+  public set nonComputedListListString(value: string[][] | cdktf.IResolvable) {
+    this._nonComputedListListString = value;
+  }
+  public resetNonComputedListListString() {
+    this._nonComputedListListString = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nonComputedListListStringInput() {
+    return this._nonComputedListListString;
+  }
+
   // =========
   // SYNTHESIS
   // =========
 
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
+      non_computed_list_list_string: cdktf.listMapper(cdktf.listMapper(cdktf.stringToTerraform, false), false)(this._nonComputedListListString),
     };
   }
 }
