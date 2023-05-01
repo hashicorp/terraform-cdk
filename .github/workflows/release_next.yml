@@ -24,7 +24,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
           fetch-depth: 0 # gives standard-version access to all previous commits
       - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
@@ -74,12 +74,12 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_TOKEN }}
       - name: Upload artifact
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
         with:
           name: dist
           path: dist
       - name: Upload edge-provider bindings
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
         if: ${{ !inputs.skip_setup }}
         with:
           name: edge-provider-bindings
@@ -151,7 +151,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
@@ -175,7 +175,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download build artifacts
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
@@ -199,7 +199,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
@@ -227,7 +227,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
@@ -248,7 +248,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
@@ -273,7 +273,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: version
         id: get_version
         run: |
@@ -311,7 +311,7 @@ jobs:
       - unit_test
     steps:
       - name: Send failures to Slack
-        uses: slackapi/slack-github-action@v1.23.0
+        uses: slackapi/slack-github-action@007b2c3c751a190b6f0f040e47ed024deaa72844
         with:
           payload: |
             {
