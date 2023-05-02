@@ -30,7 +30,11 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
     "@cdktf/commons": "0.0.0",
@@ -59,7 +63,6 @@
     "ink-testing-library": "^2.1.0",
     "ink-use-stdout-dimensions": "^1.0.5",
     "ink": "^3.2.0",
-    "inquirer": "^8.2.5",
     "jsii-pacmak": "^1.79.0",
     "jsii-srcmak": "^0.1.867",
     "jsii": "^5.0.1",
@@ -136,7 +139,6 @@
     "@types/fs-extra": "^8.1.2",
     "@types/ink": "^2.0.3",
     "@types/ink-spinner": "^3.0.1",
-    "@types/inquirer": "^8.2.5",
     "@types/jest": "^29.5.0",
     "@types/json-schema": "^7.0.11",
     "@types/lodash.isequal": "^4.5.6",
