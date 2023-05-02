@@ -73,6 +73,13 @@ export class CdktfConfig {
     return this.getProperty("codeMakerOutput") as string;
   }
 
+  public get output(): string {
+    return path.resolve(
+      path.dirname(this.cdktfConfigPath),
+      this.getProperty("output") as string
+    );
+  }
+
   public get terraformProviders(): (ProviderDependencySpec | string)[] {
     const providers = this.getProperty("terraformProviders");
     if (!Array.isArray(providers)) return [];

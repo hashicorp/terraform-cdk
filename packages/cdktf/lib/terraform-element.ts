@@ -8,15 +8,20 @@ import { ref } from "./tfExpression";
 
 const TERRAFORM_ELEMENT_SYMBOL = Symbol.for("cdktf/TerraformElement");
 
+export interface PluginMetadata {
+  [key: string]: any;
+}
 export interface TerraformElementMetadata {
   readonly path: string;
   readonly uniqueId: string;
   readonly stackTrace: string[];
+  readonly plugin: PluginMetadata;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformElement extends Construct {
   protected readonly rawOverrides: any = {};
+  protected pluginMetadata: PluginMetadata = {};
 
   /**
    * An explicit logical ID provided by `overrideLogicalId`.
@@ -142,7 +147,12 @@ export class TerraformElement extends Construct {
         uniqueId: this.friendlyUniqueId,
         stackTrace: this.node.metadata.find((e) => e.type === "stacktrace")
           ?.trace,
+        plugin: this.pluginMetadata,
       } as TerraformElementMetadata,
     };
+  }
+
+  public setPluginMetadata(key: string, value: any) {
+    this.pluginMetadata[key] = value;
   }
 }

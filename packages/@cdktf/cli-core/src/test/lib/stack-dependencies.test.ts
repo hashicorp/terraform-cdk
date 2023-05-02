@@ -14,6 +14,7 @@ function createStack(
     constructPath: ".",
     synthesizedStackPath: ".",
     workingDirectory: ".",
+    plugin: {},
   };
 }
 

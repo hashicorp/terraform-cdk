@@ -1,0 +1,83 @@
+{
+  "name": "@cdktf/plugin",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "The foundation to build your CDKTF Plugin on",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "pretest": "yarn build",
+    "pretest:ci": "yarn build",
+    "test": "yarn lint && jest",
+    "test:ci": "yarn lint && jest --ci",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/plugin"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "license": "MPL-2.0",
+  "dependencies": {
+    "constructs": "^10.0.25"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-var-requires": 0,
+      "react/no-unescaped-entities": 0,
+      "no-sequences": "error",
+      "no-irregular-whitespace": [
+        "error",
+        {
+          "skipTemplates": true
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
+  }
+}

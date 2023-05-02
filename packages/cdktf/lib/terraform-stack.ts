@@ -66,6 +66,7 @@ export class TerraformStack extends Construct {
     {};
   public synthesizer: IStackSynthesizer;
   public dependencies: TerraformStack[] = [];
+  public plugin: { [pluginName: string]: any } = {};
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -343,6 +344,14 @@ export class TerraformStack extends Construct {
         `Validation failed with the following errors:\n  ${errorList}`
       );
     }
+  }
+
+  public setPluginMetadata(key: string, value: any) {
+    this.plugin[key] = value;
+  }
+
+  public getPluginMetadata(key: string): unknown {
+    return this.plugin[key];
   }
 }
 
