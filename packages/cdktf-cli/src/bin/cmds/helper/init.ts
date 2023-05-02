@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs-extra";
 import * as chalk from "chalk";
-import * as inquirer from "inquirer";
+import { input, confirm, select, checkbox } from "@inquirer/prompts";
 import extract from "extract-zip";
 import { TerraformLogin } from "../helper/terraform-login";
 
@@ -275,14 +275,12 @@ async function askForProviders(): Promise<string[] | undefined> {
   console.log(
     chalkColour`{yellow Note: You can always add providers using 'cdktf provider add' later on}`
   );
-  const { providers: selection } = await inquirer.prompt([
-    {
-      type: "checkbox",
-      name: "providers",
-      message: "What providers do you want to use?",
-      choices: options,
-    },
-  ]);
+
+  const selection = await checkbox({
+    message: "What providers do you want to use?",
+    choices: options.map((value) => ({ name: value, value })),
+  });
+
   return Object.entries(prebuiltProviders)
     .filter((provider) => selection.includes(provider[0]))
     .map((provider) => provider[1].split("@")[0]);
@@ -311,50 +309,43 @@ async function gatherInfo(
   const currentDirectory = path.basename(process.cwd());
   const projectDescriptionDefault =
     "A simple getting started project for cdktf.";
-  const questions = [];
-  if (!projectName) {
-    questions.push({
-      name: "projectName",
+
+  const projectNameInfo =
+    projectName ||
+    (await input({
       message: "Project Name",
       default: currentDirectory,
-    });
-  }
-  if (!projectDescription) {
-    questions.push({
-      name: "projectDescription",
+    }));
+
+  const projectDescriptionInfo =
+    projectDescription ||
+    (await input({
       message: "Project Description",
       default: projectDescriptionDefault,
-    });
-  }
+    }));
+
   const useTerraformEnterprise =
     token != "" && terraformRemoteHostname != tfcHostname;
 
+  let useTerraformCloud = false;
   if (token != "") {
     // We only ask this question if a --tfe-hostname is not provided explicitly
     // Otherwise, we take it as a signal that the user wants to use Terraform Enterprise.
     if (terraformRemoteHostname === tfcHostname) {
-      questions.push({
-        name: "useTerraformCloud",
-        type: "confirm",
+      useTerraformCloud = await confirm({
         message: "Would you like to use Terraform Cloud?",
         default: true,
       });
     }
   }
 
-  const answers: {
-    projectName?: string;
-    projectDescription?: string;
-    useTerraformCloud?: boolean;
-  } = questions.length > 0 ? await inquirer.prompt(questions) : {};
-
   // Either the user answers yes to using Terraform Cloud,
   // or we've skipped asking the question, but we've inferred that the user wants to use Terraform Enterprise.
-  const isRemote = answers.useTerraformCloud || useTerraformEnterprise;
+  const isRemote = useTerraformCloud || useTerraformEnterprise;
 
   const project: Project = {
-    Name: projectName || answers.projectName || "",
-    Description: projectDescription || answers.projectDescription || "",
+    Name: projectNameInfo,
+    Description: projectDescriptionInfo,
     OrganizationName: "",
     WorkspaceName: "",
     TerraformRemoteHostname: isRemote ? terraformRemoteHostname : "",
@@ -371,14 +362,10 @@ async function gatherInfo(
     );
 
     // todo: add validation for the organization name and workspace. add error handling
-    const { organization: organizationSelect } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "organization",
-        message: `Terraform Cloud Organization Name`,
-        choices: organizationIds,
-      },
-    ]);
+    const organizationSelect = await select({
+      message: "Terraform Cloud Organization Name",
+      choices: organizationIds.map((value) => ({ name: value, value })),
+    });
 
     console.log(
       chalkColour`\nWe are going to create a new {blueBright Terraform Cloud Workspace} for your project.\n`
@@ -386,13 +373,10 @@ async function gatherInfo(
 
     let workspaceName;
     while (!workspaceName) {
-      const { workspace: tryWorkspaceName } = await inquirer.prompt([
-        {
-          name: "workspace",
-          message: `Terraform Cloud Workspace Name`,
-          default: project.Name,
-        },
-      ]);
+      const tryWorkspaceName = await input({
+        message: `Terraform Cloud Workspace Name`,
+        default: project.Name,
+      });
 
       const isWorkspaceNameTaken =
         await terraformCloudClient.isExistingWorkspaceWithName(
@@ -424,10 +408,8 @@ async function getTerraformProject(): Promise<string | undefined> {
   if (!isInteractiveTerminal()) {
     return Promise.resolve(undefined);
   }
-  const { shouldUseTerraformProject } = await inquirer.prompt({
-    name: "shouldUseTerraformProject",
+  const shouldUseTerraformProject = await confirm({
     message: "Do you want to start from an existing Terraform project?",
-    type: "confirm",
     default: false,
   });
 
@@ -435,14 +417,10 @@ async function getTerraformProject(): Promise<string | undefined> {
     return undefined;
   }
 
-  let { terraformProject } = await inquirer.prompt([
-    {
-      name: "terraformProject",
-      message: "Please enter the path to the Terraform project",
-      type: "input",
-      default: "",
-    },
-  ]);
+  let terraformProject = await input({
+    message: "Please enter the path to the Terraform project",
+    default: "",
+  });
 
   if (!terraformProject || terraformProject === "") {
     return undefined;
@@ -470,30 +448,23 @@ async function getTemplate(templateName: string): Promise<Template> {
     const templateOptionRemote = "<remote zip file>";
     const options = [...templates, templateOptionRemote];
     // Prompt for template
-    const { template: selection } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "template",
-        message: "What template do you want to use?",
-        choices: options,
-      },
-    ]);
+    const selection = await select({
+      message: "What template do you want to use?",
+      choices: options.map((value) => ({ name: value, value })),
+    });
 
     if (selection === templateOptionRemote) {
-      const { templateName: remoteTemplateName } = await inquirer.prompt([
-        {
-          name: "templateName",
-          message:
-            "Please enter an URL pointing to the template zip file you want to use:",
-          validate: (value: string) => {
-            if (value === "") {
-              return "Url can not be empty";
-            } else {
-              return true;
-            }
-          },
+      const remoteTemplateName = await input({
+        message:
+          "Please enter an URL pointing to the template zip file you want to use:",
+        validate: (value: string) => {
+          if (value === "") {
+            return "Url can not be empty";
+          } else {
+            return true;
+          }
         },
-      ]);
+      });
 
       templateName = remoteTemplateName;
     } else {

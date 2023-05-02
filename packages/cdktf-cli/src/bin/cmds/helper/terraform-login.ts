@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
-import * as inquirer from "inquirer";
+import { confirm, password } from "@inquirer/prompts";
 import * as open from "open";
 import * as chalk from "chalk";
 import * as terraformCloudClient from "./terraform-cloud-client";
@@ -45,14 +45,10 @@ the following file for use by subsequent Terraform commands:
 
     let isLogin = false;
 
-    const { tfCloud } = await inquirer.prompt([
-      {
-        name: "tfCloud",
-        type: "confirm",
-        message:
-          "Do you want to continue with Terraform Cloud remote state management?",
-      },
-    ]);
+    const tfCloud = await confirm({
+      message:
+        "Do you want to continue with Terraform Cloud remote state management?",
+    });
 
     if (tfCloud) {
       isLogin = true;
@@ -70,13 +66,10 @@ the following file for use by subsequent Terraform commands:
   }
 
   public async askForToken() {
-    const { token } = await inquirer.prompt([
-      {
-        name: "token",
-        message: `Token for ${this.tfeHostname} 🔑`,
-        type: "password",
-      },
-    ]);
+    const token = await password({
+      message: `Token for ${this.tfeHostname} 🔑`,
+      mask: "*",
+    });
     return token;
   }
 
