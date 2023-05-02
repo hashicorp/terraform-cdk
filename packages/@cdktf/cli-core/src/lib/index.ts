@@ -13,10 +13,7 @@ export { getAllPrebuiltProviders } from "./dependencies/prebuilt-providers";
 export { providerAdd } from "./provider-add";
 export { TerraformCli } from "./models/terraform-cli";
 export { CdktfConfig } from "./cdktf-config";
-export {
-  askForCrashReportingConsent,
-  initializErrorReporting,
-} from "./error-reporting";
+export { initializErrorReporting } from "./error-reporting";
 export { CdktfStack } from "./cdktf-stack";
 export { init, Project, InitArgs } from "./init";
 export { get, GetStatus, runGetInDir } from "./get";

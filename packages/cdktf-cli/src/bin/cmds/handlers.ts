@@ -60,6 +60,7 @@ import {
   verifySimilarLibraryVersion,
 } from "./helper/check-environment";
 import { sanitizeVarFiles } from "./helper/var-files";
+import { askForCrashReportingConsent } from "./helper/error-reporting";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -117,7 +118,7 @@ export async function convert({ language, provider, stack }: any) {
 }
 
 export async function deploy(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -166,7 +167,7 @@ export async function deploy(argv: any) {
 }
 
 export async function destroy(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -201,7 +202,7 @@ export async function destroy(argv: any) {
 }
 
 export async function diff(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -238,7 +239,7 @@ export async function get(argv: {
 }) {
   throwIfNotProjectDirectory();
   await displayVersionMessage();
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   await checkEnvironment();
   await verifySimilarLibraryVersion();
   const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
@@ -297,7 +298,7 @@ export async function init(argv: any) {
 }
 
 export async function list(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -353,7 +354,7 @@ export async function login(argv: { tfeHostname: string }) {
 }
 
 export async function synth(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();
@@ -377,7 +378,7 @@ export async function synth(argv: any) {
 }
 
 export async function watch(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   const command = argv.app;
@@ -407,7 +408,7 @@ export async function watch(argv: any) {
 }
 
 export async function output(argv: any) {
-  await initializErrorReporting(true);
+  await initializErrorReporting(askForCrashReportingConsent);
   throwIfNotProjectDirectory();
   await displayVersionMessage();
   await checkEnvironment();

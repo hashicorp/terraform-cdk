@@ -11,7 +11,6 @@ import { logger } from "@cdktf/commons";
 import * as path from "path";
 import * as fs from "fs-extra";
 import ciDetect from "@npmcli/ci-detect";
-import inquirer from "inquirer";
 
 export function shouldReportCrash(
   projectPath = process.cwd()
@@ -46,18 +45,6 @@ export function persistReportCrashReportDecision(
   );
 }
 
-export async function askForCrashReportingConsent() {
-  const answer: { reportCrash: boolean } = await inquirer.prompt({
-    name: "reportCrash",
-    message:
-      "Do you want to send crash reports to the CDKTF team? Refer to https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/configuration-file#enable-crash-reporting-for-the-cli for more information",
-    type: "confirm",
-    default: true,
-  });
-
-  return answer.reportCrash;
-}
-
 function isPromise(p: any): p is Promise<any> {
   return (
     typeof p === "object" &&
@@ -66,18 +53,20 @@ function isPromise(p: any): p is Promise<any> {
   );
 }
 
-export async function initializErrorReporting(askForConsent = false) {
+export async function initializErrorReporting(
+  runConsentPrompt?: () => Promise<boolean>
+) {
   let shouldReport = shouldReportCrash();
   const ci: string | false = ciDetect();
 
   // We have no info yet, so we need to ask the user
-  if (shouldReport === undefined && askForConsent) {
+  if (shouldReport === undefined && runConsentPrompt) {
     // But only if it's a user
     if (ci) {
       return;
     }
 
-    shouldReport = await askForCrashReportingConsent();
+    shouldReport = await runConsentPrompt();
     persistReportCrashReportDecision(shouldReport);
   }
 
