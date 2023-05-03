@@ -2,6 +2,7 @@
   "language": "typescript",
   "app": "npx ts-node main.ts",
   "terraformProviders": [
-    "kreuzwerker/docker@~> 2.0"
+    "kreuzwerker/docker@~> 2.0",
+    "hashicorp/aws@~> 4.65"
   ]
 }
