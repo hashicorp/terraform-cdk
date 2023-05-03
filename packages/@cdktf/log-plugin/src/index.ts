@@ -31,10 +31,11 @@ export function setLogCommand(scope: Construct, command: string) {
 }
 
 function addToListOfLoggableConstructs(scope: Construct) {
-  const loggableConstructs: string[] =
-    LogPlugin.getInCdktfConstructMetadata(scope, LOGGABLE_CONSTRUCTS) || [];
+  const loggableConstructs =
+    (LogPlugin.getInStackManifest(scope, LOGGABLE_CONSTRUCTS) as string[]) ||
+    [];
 
-  LogPlugin.setInCdktfConstructMetadata(scope, LOGGABLE_CONSTRUCTS, [
+  LogPlugin.setInStackManifest(scope, LOGGABLE_CONSTRUCTS, [
     ...loggableConstructs,
     scope.node.id,
   ]);

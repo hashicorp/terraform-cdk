@@ -4,8 +4,6 @@ import { execSync } from "child_process";
 import Handlebars from "handlebars";
 import { LogPlugin } from "./plugin";
 
-console.log("Log plugin reports,", process.argv);
-
 function getLogs(stack: string, construct: string, handlebarArgs = {}) {
   const state = LogPlugin.getStateOfConstruct(stack, construct);
 

@@ -50,12 +50,11 @@ class LoggableLambda extends LambdaFunction {
     scope: Construct,
     name: string,
     config: LambdaFunctionConfig,
-    cloudWatch: CloudwatchLogGroup,
     region: string
   ) {
     super(scope, name, config);
 
-    const logGroupName = cloudWatch.nameInput; // TODO: Does it work without input?
+    const logGroupName = `/aws/lambda/${config.functionName}`;
 
     const getLatestLogGroup = `aws logs describe-log-streams  --region '${region}' --log-group-name '${logGroupName}' --max-items 1 --order-by LastEventTime --descending --query logStreams[*].logStreamName | jq -r .[0]`;
 
@@ -213,7 +212,6 @@ class MyStack extends TerraformStack {
           },
         ],
       },
-      cloudWatchGroup,
       provider.regionInput
     );
   }

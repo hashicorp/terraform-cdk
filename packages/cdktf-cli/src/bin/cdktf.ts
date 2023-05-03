@@ -13,7 +13,7 @@ import {
   collectDebugInformation,
   CDKTF_DISABLE_PLUGIN_CACHE_ENV,
 } from "@cdktf/commons";
-import { execSync } from "child_process";
+import { execFileSync } from "child_process";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -118,9 +118,11 @@ getPluginCommands().forEach((cmd) => {
     `Plugin at ${cmd.binaryPath}`,
     (y) => y,
     (argv) => {
-      console.log(`${cmd.binaryPath} ${argv._.slice(1).join(" ")}`);
       try {
-        execSync(`${cmd.binaryPath} ${argv._.join(" ")}`);
+        execFileSync(cmd.binaryPath, argv._.slice(1) as string[], {
+          stdio: "inherit",
+          cwd: process.cwd(),
+        });
       } catch (e) {
         process.exit(1);
       }

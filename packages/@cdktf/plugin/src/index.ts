@@ -118,6 +118,8 @@ export class Plugin {
 
     const parsedState = JSON.parse(String(output));
 
+    console.log({ parsedState });
+
     // TODO: needs some zod parsing
     const rootModuleValues = parsedState.values.root_module;
     const resource = rootModuleValues.resources.find(
