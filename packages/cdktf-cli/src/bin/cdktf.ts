@@ -13,6 +13,7 @@ import {
   collectDebugInformation,
   CDKTF_DISABLE_PLUGIN_CACHE_ENV,
 } from "@cdktf/commons";
+import { execSync } from "child_process";
 
 const ensurePluginCache = (): string => {
   const pluginCachePath =
@@ -70,7 +71,33 @@ const customCompletion = function (
 // for the possible overload (which supports falling back to default completions)
 // https://github.com/yargs/yargs/blob/d33e9972291406490cd8fdad0b3589be234e0f12/lib/completion.ts#L202
 
-yargs
+// Implements https://github.com/rust-lang/cargo/blob/master/src/bin/cargo/main.rs#L87
+type PluginCommand = {
+  command: string;
+  binaryPath: string;
+};
+function getPluginCommands(): PluginCommand[] {
+  const path_dirs = process.env.PATH?.split(":") || [];
+  const local_bin = path.join(process.cwd(), "node_modules", ".bin");
+  const paths = [local_bin, ...path_dirs];
+
+  return paths.flatMap((p) => {
+    if (!fs.existsSync(p)) {
+      return [];
+    }
+
+    return fs
+      .readdirSync(p)
+      .filter((f) => f.startsWith("cdktf-"))
+      .map((f) => {
+        const command = f.replace("cdktf-", "");
+        const binaryPath = path.join(p, f);
+        return { command, binaryPath };
+      });
+  });
+}
+
+let builder = yargs
   .command(require("./cmds/init"))
   .command(require("./cmds/get"))
   .command(require("./cmds/convert"))
@@ -83,7 +110,24 @@ yargs
   .command(require("./cmds/watch"))
   .command(require("./cmds/output"))
   .command(require("./cmds/debug"))
-  .command(require("./cmds/provider"))
+  .command(require("./cmds/provider"));
+
+getPluginCommands().forEach((cmd) => {
+  builder = builder.command(
+    cmd.command,
+    `Plugin at ${cmd.binaryPath}`,
+    (y) => y,
+    (argv) => {
+      try {
+        execSync(`${cmd.binaryPath} ${argv._.join(" ")}`);
+      } catch (e) {
+        process.exit(1);
+      }
+    }
+  );
+});
+
+builder
   .recommendCommands()
   .exitProcess(false)
   .wrap(yargs.terminalWidth())
