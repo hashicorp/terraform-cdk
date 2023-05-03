@@ -152,6 +152,10 @@ export class TerraformElement extends Construct {
     };
   }
 
+  public getPluginMetadata(key: string) {
+    return this.pluginMetadata[key];
+  }
+
   public setPluginMetadata(key: string, value: any) {
     this.pluginMetadata[key] = value;
   }

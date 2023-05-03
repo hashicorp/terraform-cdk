@@ -118,6 +118,7 @@ getPluginCommands().forEach((cmd) => {
     `Plugin at ${cmd.binaryPath}`,
     (y) => y,
     (argv) => {
+      console.log(`${cmd.binaryPath} ${argv._.slice(1).join(" ")}`);
       try {
         execSync(`${cmd.binaryPath} ${argv._.join(" ")}`);
       } catch (e) {

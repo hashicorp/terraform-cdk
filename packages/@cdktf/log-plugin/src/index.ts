@@ -2,10 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 
 import { Construct } from "constructs";
-import { Annotations, TerraformResource, TerraformStack } from "cdktf";
+import { Annotations } from "cdktf";
+import { LogPlugin } from "./plugin";
 
-export const LOGGABLE_CONSTRUCTS = "log-plugin:loggable-constructs";
-export const LOG_COMMAND = "log-plugin:command";
+export const LOGGABLE_CONSTRUCTS = "loggable-constructs";
+export const LOG_COMMAND = "command";
 /**
  * Anotates a construct as loggable.
  *
@@ -19,25 +20,22 @@ export const LOG_COMMAND = "log-plugin:command";
  * @param command The command to run, use e.g. {{ state.arn }} to access the arn of the constructs terraform state.
  */
 export function setLogCommand(scope: Construct, command: string) {
-  // TODO: move into "storeInCdktfConstructMetadata" function in plugin package
-  if (TerraformResource.isTerraformResource(scope)) {
-    scope.setPluginMetadata(LOG_COMMAND, command);
+  try {
+    LogPlugin.setInCdktfConstructMetadata(scope, LOG_COMMAND, command);
     addToListOfLoggableConstructs(scope);
-  } else {
+  } catch (e) {
     Annotations.of(scope).addWarning(
-      "Tried to set plugin metadata on a non-terraform construct."
+      `Could not add log command to construct: ${e}`
     );
   }
 }
 
-export function addToListOfLoggableConstructs(scope: Construct) {
-  const loggableConstructs = (TerraformStack.of(scope).getPluginMetadata(
-    LOGGABLE_CONSTRUCTS
-  ) || []) as string[];
+function addToListOfLoggableConstructs(scope: Construct) {
+  const loggableConstructs: string[] =
+    LogPlugin.getInCdktfConstructMetadata(scope, LOGGABLE_CONSTRUCTS) || [];
 
-  loggableConstructs.push(scope.node.id);
-  TerraformStack.of(scope).setPluginMetadata(
-    LOGGABLE_CONSTRUCTS,
-    loggableConstructs
-  );
+  LogPlugin.setInCdktfConstructMetadata(scope, LOGGABLE_CONSTRUCTS, [
+    ...loggableConstructs,
+    scope.node.id,
+  ]);
 }
