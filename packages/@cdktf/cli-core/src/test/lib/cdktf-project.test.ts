@@ -92,7 +92,7 @@ describe("CdktfProject", () => {
 
   it("should be able to create a CdktfProject", () => {
     const cdktfProject = new CdktfProject({
-      synthCommand: "npx ts-node main.ts",
+      synthCommand: "npx tsx main.ts",
       ...inNewWorkingDirectory(),
       onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
     });
@@ -103,7 +103,7 @@ describe("CdktfProject", () => {
     it("runs synth command in the target dir and is done", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -122,7 +122,7 @@ describe("CdktfProject", () => {
       const events: any[] = [];
       const logs: LogMessage[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -151,7 +151,7 @@ describe("CdktfProject", () => {
     it("fails if no stack specified", () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -168,7 +168,7 @@ describe("CdktfProject", () => {
     it("runs synth once and waits for approval", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -195,7 +195,7 @@ describe("CdktfProject", () => {
     it("runs synth once and deploys on autoApprove", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -227,7 +227,7 @@ describe("CdktfProject", () => {
     it("runs synth once and waits for approval", async () => {
       let events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -264,7 +264,7 @@ describe("CdktfProject", () => {
     it("runs synth once and destroys on autoApprove", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -293,7 +293,7 @@ describe("CdktfProject", () => {
     it("Errors if a stack can not be found", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -310,7 +310,7 @@ describe("CdktfProject", () => {
     it("Errors if a dependent stack can not be found", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -327,7 +327,7 @@ describe("CdktfProject", () => {
     it("Does not error if a dependent stack can not be found but the ignore option is passed", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -347,7 +347,7 @@ describe("CdktfProject", () => {
     it("deploys stacks in the right order", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -392,7 +392,7 @@ describe("CdktfProject", () => {
     it("error in an deploying stack does not abort already running stacks", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...installFixturesInWorkingDirectory(
           inNewWorkingDirectory(),
           "parallel-error"
@@ -451,7 +451,7 @@ describe("CdktfProject", () => {
     it("deploys stacks in the right order with auto approve", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -487,7 +487,7 @@ describe("CdktfProject", () => {
     it("only aborts dependant stacks when deploying", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -540,7 +540,7 @@ describe("CdktfProject", () => {
     it("destroys stacks in the right order", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -549,7 +549,7 @@ describe("CdktfProject", () => {
 
       // To destroy sth we need to deploy first, with a different project to not polute the event list
       new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       }).deploy({
@@ -593,7 +593,7 @@ describe("CdktfProject", () => {
     it("only aborts dependant when destroying", async () => {
       let events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -661,7 +661,7 @@ describe("CdktfProject", () => {
       let events: any[] = [];
       let eventsDuringWaitForApprove: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...installFixturesInWorkingDirectory(
           inNewWorkingDirectory(),
           "parallel"

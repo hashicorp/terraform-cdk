@@ -17,7 +17,7 @@ exports.post = ctx => {
   if (!npm_cdktf) { throw new Error(`missing context "npm_cdktf"`); }
 
   installDeps([npm_cdktf, `constructs@10`]);
-  installDeps(['@types/node', 'typescript', 'jest', '@types/jest', "ts-jest", "ts-node"], true);
+  installDeps(['@types/node', 'typescript', 'jest', '@types/jest', "ts-jest", "tsx"], true);
 
   console.log(readFileSync('./help', 'utf-8'));
 };

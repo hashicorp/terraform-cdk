@@ -151,7 +151,7 @@ describe("terraform parallelism", () => {
     it("passes the terraform parallelism flag to terraform", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node main.ts",
+        synthCommand: "npx tsx main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -185,7 +185,7 @@ describe("terraform parallelism", () => {
     it("ignores the terraform parallelism flag if negative", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -221,7 +221,7 @@ describe("terraform parallelism", () => {
     it("passes the terraform parallelism flag to terraform", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -252,7 +252,7 @@ describe("terraform parallelism", () => {
     it("doesn't pass the terraform parallelism flag if negative", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -285,7 +285,7 @@ describe("terraform parallelism", () => {
     it("passes the terraform parallelism flag to terraform", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node main.ts",
+        synthCommand: "npx tsx main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);
@@ -317,7 +317,7 @@ describe("terraform parallelism", () => {
     it("ignores the terraform parallelism flag if negative", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({
-        synthCommand: "npx ts-node ./main.ts",
+        synthCommand: "npx tsx ./main.ts",
         ...inNewWorkingDirectory(),
         onUpdate: (event) => {
           events.push(event);

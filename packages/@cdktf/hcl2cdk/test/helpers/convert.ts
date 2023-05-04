@@ -130,7 +130,7 @@ async function generateBindings(
     path.resolve(tempDir, "cdktf.json"),
     JSON.stringify({
       language: "typescript",
-      app: "npx ts-node main.ts",
+      app: "npx tsx main.ts",
       terraformProviders:
         binding.type === ProviderType.provider ? [binding.fqn] : [],
       terraformModules:
