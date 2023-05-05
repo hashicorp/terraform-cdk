@@ -105,7 +105,6 @@ export function assertPropertiesWithEquality(
   switch (typeof expected) {
     case "object":
       if (Array.isArray(expected)) {
-        console.log("is array");
         const messages: string[] = [];
         const isArray = Array.isArray(received);
         const arraysAreDeepEqual = expected.every((item, index) => {
@@ -137,7 +136,6 @@ export function assertPropertiesWithEquality(
           expected as Record<string, unknown>
         ).every((key) => {
           if ((received as any)[key] !== undefined) {
-            console.log("(received as any)[key] !== undefined)");
             const pass = assertPropertiesWithEquality(
               (expected as any)[key],
               (received as any)[key]
@@ -147,7 +145,6 @@ export function assertPropertiesWithEquality(
           }
 
           if ((received as any)[snakeCase(key)] !== undefined) {
-            console.log("(received as any)[snakeCase(key)] !== undefined)");
             const pass = assertPropertiesWithEquality(
               (expected as any)[key],
               (received as any)[snakeCase(key)]
@@ -161,27 +158,19 @@ export function assertPropertiesWithEquality(
       }
     case "function":
       if (expected.name === "any") {
-        console.log("any");
         const pass = expected();
-        console.log("pass in any:", pass);
         return { pass: pass.pass, message: pass.message };
       }
       if (expected.name === "containedIn") {
-        console.log("containedIn");
         const pass = expected(received);
         return { pass: pass.pass, message: pass.message };
       }
       if (expected.name === "regex") {
-        console.log("regex");
         const pass = expected(received);
         return { pass: pass.pass, message: pass.message };
       }
-      console.log("unknown function");
       return { pass: false, message: `unknown function: ${expected.name}` };
     default:
-      console.log("default");
-      console.log(`expected: ${expected}, received: ${received}`);
-      console.log("result:", expected === received);
       return {
         pass: expected === received,
         message: `expected: ${expected}, received: ${received}`,
@@ -206,7 +195,7 @@ export function assertPropertiesExist(
   let message = "";
   const pass = receivedValues.every((value) => {
     if (!expectedValues.includes(value)) {
-      message = `does not have property: ${value}`;
+      message = `has the property ${value} which is not present in the test case`;
       return false;
     }
     return true;
@@ -229,7 +218,7 @@ export function assertPropertiesDontExist(
   let message = "";
   const pass = receivedValues.every((value) => {
     if (excludesProperties.includes(value)) {
-      message = `has excluded property: ${value}`;
+      message = `has the excluded property: ${value}`;
       return false;
     }
     return true;
@@ -244,7 +233,7 @@ type AllItemMatcher = {
   assertion: (
     expected: any,
     received: any
-  ) => boolean | { pass: boolean; message: string };
+  ) => { pass: boolean; message: string };
   strictAssertion?: (
     expected: any,
     received: any
@@ -259,7 +248,7 @@ type OneItemMatcher = {
   assertion: (
     expected: any,
     received: any
-  ) => boolean | { pass: boolean; message: string };
+  ) => { pass: boolean; message: string };
   strictAssertion?: (
     expected: any,
     received: any
@@ -282,25 +271,13 @@ function allItemMatches({
   strictAssertion,
   excludedProperties,
 }: AllItemMatcher): { pass: boolean; message: string } {
-  // maybe want to have choice of all or some - all meaning that all resource of type must match, some meaning that at least one resource of type must match
   const items = findItemsByTypeInStack("resource", received, resourceType);
 
   let assertionMessage = "";
   const assertionPass = Object.values(items).every((item: any) => {
     const pass = assertion(expected, item);
-    console.log("pass in all items matches", pass);
-    if (typeof pass === "boolean") {
-      console.log("item", item);
-      console.log("assertion boolean");
-      return pass;
-    } else {
-      if (pass.pass) {
-        return pass.pass;
-      } else {
-        assertionMessage = pass.message;
-        return pass.pass;
-      }
-    }
+    assertionMessage = pass.message;
+    return pass.pass;
   });
 
   let strictAssertionMessage = "";
@@ -331,7 +308,11 @@ function allItemMatches({
 
   return {
     pass: assertionPass && strictAssertionPass && excludedPropertiesPass,
-    message: `${assertionMessage}\n ${strictAssertionMessage}\n ${excludedPropertiesMessage}\n`,
+    message: `
+      ${resourceType.tfResourceType} ${assertionMessage} \n 
+      ${resourceType.tfResourceType} ${strictAssertionMessage} \n 
+      ${resourceType.tfResourceType} ${excludedPropertiesMessage}\n
+    `,
   };
 }
 
@@ -353,13 +334,9 @@ function someItemMatches(
 ): { pass: boolean; message: string } {
   // maybe want to have choice of all or some - all meaning that all resource of type must match, some meaning that at least one resource of type must match
   const items = findItemsByTypeInStack("resource", received, resourceType);
-  console.log("items", items);
   let message = "";
   const pass = Object.values(items).some((item: any) => {
-    console.log("item", item);
-    console.log("going into assertion");
     const assertionResult = assertion(expected, item);
-    console.log("leaving assertion");
     if (typeof assertionResult === "boolean") {
       return assertionResult;
     } else {
@@ -371,7 +348,6 @@ function someItemMatches(
       }
     }
   });
-  console.log("pass", { pass, message });
   return { pass, message };
 }
 
@@ -410,12 +386,14 @@ function oneItemMatches({
   // figure out the return type of assertPropertiesWithEquality, this is very hacky
   return {
     pass:
-      (typeof assertionPass === "boolean"
-        ? assertionPass
-        : assertionPass.pass) &&
+      assertionPass.pass &&
       strictAssertionPass.pass &&
       excludedPropertiesPass.pass,
-    message: `expected: ${expected}, received: ${item}`,
+    message: `expected: ${JSON.stringify(
+      expected,
+      null,
+      2
+    )}\n\nreceived: ${JSON.stringify(item, null, 2)}`,
   };
 }
 
@@ -439,27 +417,18 @@ export function toHaveResourceWithProperties(
     resourceType: TerraformConstructor
   ) => { pass: boolean; message: string }
 ): AssertionReturn {
-  // currently just returning the assertion - need scaffolding to return messages about each test case
   const pass = assertion(received, resourceType);
 
-  // Abstract this out to a function that takes in the pass status and the message
-  if (pass.pass) {
-    return {
-      pass: true,
-      message: `Insert message here`,
-    };
-  } else {
-    return {
-      pass: false,
-      message: `Insert message here`,
-    };
-  }
+  return {
+    pass: pass.pass,
+    message: pass.message,
+  };
 }
 
 /**
  * Fine grain assertions for CDKTF.
  */
-export class Match {
+export class Assert {
   public static allMatch(
     properties: Record<string, any> = {},
     excludedProperties?: string[]
