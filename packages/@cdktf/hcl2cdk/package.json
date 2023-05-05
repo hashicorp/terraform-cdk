@@ -22,6 +22,11 @@
     "url": "git://github.com/hashicorp/terraform-cdk.git",
     "directory": "packages/@cdktf/hcl2cdk"
   },
+  "keywords": [
+    "terraform",
+    "hcl",
+    "json"
+  ],
   "author": {
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
