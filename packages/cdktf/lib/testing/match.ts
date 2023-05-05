@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { snakeCase } from "../util";
 
 // Maybe make use of more types for function params throughout this file
