@@ -16,7 +16,6 @@ import {
   Project,
   askForCrashReportingConsent,
   CdktfConfig,
-  providerAdd,
   getAllPrebuiltProviders,
 } from "@cdktf/cli-core";
 import {
@@ -156,6 +155,9 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const sendCrashReports =
     argv.enableCrashReporting ??
     (ci ? false : await askForCrashReportingConsent());
+  const providers = argv.providers?.length
+    ? argv.providers
+    : await askForProviders();
 
   let convertResult, importPath;
   if (fromTerraformProject) {
@@ -195,7 +197,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
   }
 
-  await init({
+  const needsGet = await init({
     cdktfVersion: argv.cdktfVersion,
     destination,
     dist: argv.dist,
@@ -203,6 +205,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
     projectInfo,
     templatePath: templateInfo.Path,
     sendCrashReports: sendCrashReports,
+    providers,
+    providersForceLocal: argv.providersForceLocal,
   });
 
   if (convertResult && importPath) {
@@ -245,18 +249,8 @@ This means that your Terraform state file will be stored locally on disk in a fi
   }
 
   const cdktfConfig = CdktfConfig.read(destination);
-  let needsGet = false;
-  const providers = argv.providers?.length
-    ? argv.providers
-    : await askForProviders();
+
   if (providers?.length) {
-    needsGet = await providerAdd({
-      providers: providers,
-      language: cdktfConfig.language,
-      projectDirectory: destination,
-      cdktfVersion: argv.cdktfVersion,
-      forceLocal: argv.providersForceLocal,
-    });
     telemetryData.addedProviders = providers;
   }
 
