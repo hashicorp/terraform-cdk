@@ -7,6 +7,8 @@ import { Errors } from "@cdktf/commons";
 
 import { sscaff } from "sscaff";
 import { FUTURE_FLAGS } from "cdktf/lib/features";
+import { CdktfConfig } from "./cdktf-config";
+import { providerAdd } from "./provider-add";
 
 const readPackageJson = () => {
   const pkgPath = pkgUp.sync({ cwd: __dirname });
@@ -51,6 +53,8 @@ export async function init({
   projectInfo,
   templatePath,
   sendCrashReports,
+  providers,
+  providersForceLocal,
 }: InitArgs) {
   const deps: any = await determineDeps(cdktfVersion, dist);
 
@@ -65,6 +69,18 @@ export async function init({
     projectId,
     sendCrashReports,
   });
+  const cdktfConfig = CdktfConfig.read(destination);
+
+  let needsGet = false;
+  if (providers && providers.length) {
+    needsGet = await providerAdd({
+      providers: providers,
+      language: cdktfConfig.language,
+      projectDirectory: destination,
+      forceLocal: providersForceLocal,
+    });
+  }
+  return needsGet;
 }
 
 export interface Deps {
