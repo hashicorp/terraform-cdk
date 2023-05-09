@@ -12,6 +12,8 @@ on:
 jobs:
   add-copyright-headers:
     runs-on: ubuntu-latest
+    env:
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
     permissions:
       contents: write
     steps:
@@ -38,4 +40,4 @@ jobs:
         run: |-
           git add .
           git commit -s -m "chore: add required copyright headers"
-          git push origin HEAD:${{ github.event.pull_request.head.ref }}
+          git push origin HEAD:$HEAD_REF
