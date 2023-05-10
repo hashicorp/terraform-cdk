@@ -10,6 +10,7 @@ import {
 import * as fs from "fs-extra";
 import { logger } from "@cdktf/commons";
 import * as path from "path";
+import { CdktfConfig } from "./cdktf-config";
 
 export enum GetStatus {
   STARTING = "starting",
@@ -81,4 +82,23 @@ export async function get({
     onUpdate(GetStatus.DONE);
     logger.debug("Provider bindings generated");
   }
+}
+
+export async function runGetInDir(dir: string, clean = true) {
+  const config = CdktfConfig.read(dir);
+
+  const constraints = [
+    ...config.terraformProviders.map((c) => new TerraformProviderConstraint(c)),
+    ...config.terraformModules.map((c) => new TerraformModuleConstraint(c)),
+  ];
+
+  await get({
+    constraints,
+    constructsOptions: {
+      codeMakerOutput: path.resolve(dir, config.codeMakerOutput),
+      targetLanguage: config.language,
+      jsiiParallelism: 1,
+    },
+    cleanDirectory: clean,
+  });
 }

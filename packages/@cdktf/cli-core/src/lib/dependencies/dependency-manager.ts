@@ -1,8 +1,13 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Language, Errors, logger } from "@cdktf/commons";
+import {
+  Language,
+  Errors,
+  logger,
+  TerraformDependencyConstraint,
+} from "@cdktf/commons";
 import { toPascalCase, toSnakeCase } from "codemaker";
-import { CdktfConfig, ProviderDependencySpec } from "../cdktf-config";
+import { CdktfConfig } from "../cdktf-config";
 import { CdktfConfigManager } from "./cdktf-config-manager";
 import { PackageManager } from "./package-manager";
 import {
@@ -48,7 +53,7 @@ export class ProviderConstraint {
   }
 
   static fromConfigEntry(
-    provider: string | ProviderDependencySpec
+    provider: string | TerraformDependencyConstraint
   ): ProviderConstraint {
     if (typeof provider === "string") {
       const [src, version] = provider.split("@");
