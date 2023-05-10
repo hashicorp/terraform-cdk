@@ -8,9 +8,9 @@ import { ref } from "./tfExpression";
 
 const TERRAFORM_ELEMENT_SYMBOL = Symbol.for("cdktf/TerraformElement");
 
-export interface PluginMetadata {
+export type PluginMetadata = {
   [key: string]: any;
-}
+};
 export interface TerraformElementMetadata {
   readonly path: string;
   readonly uniqueId: string;
