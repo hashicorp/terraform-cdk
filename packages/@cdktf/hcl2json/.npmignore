@@ -5,6 +5,7 @@
 !.jsii
 
 test
+jest.config.js
 
 # Exclude jsii outdir
 dist
@@ -19,5 +20,6 @@ go.sum
 go.mod
 package.sh
 build-go.sh
+prebuild.sh
 tsconfig.json
 Dockerfile
