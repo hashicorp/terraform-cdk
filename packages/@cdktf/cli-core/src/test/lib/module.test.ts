@@ -81,4 +81,22 @@ describe("addModule", () => {
       ]
     `);
   });
+
+  it("handles local modules", async () => {
+    const project = generateProject();
+
+    await addModule("./my-module", project, noOp);
+
+    expect(
+      JSON.parse(fs.readFileSync(path.join(project, "cdktf.json"), "utf8"))
+        .terraformModules
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          "name": "my-module",
+          "source": "./my-module",
+        },
+      ]
+    `);
+  });
 });
