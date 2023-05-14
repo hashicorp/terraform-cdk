@@ -10,48 +10,6 @@
     "@jridgewell/gen-mapping" "^0.1.0"
     "@jridgewell/trace-mapping" "^0.3.9"
 
-"@ast-grep/napi-darwin-arm64@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-darwin-arm64/-/napi-darwin-arm64-0.1.4.tgz#544b3436ce43378967206e2ed717f1b2982b1418"
-  integrity sha512-UojJa1eXGZ+cV4LCJxqc9Ix7y4DviFGWSMzTZ04SQTUXD9gzVUuady8fKj/UOpnNm7TmmVxQ8Iv/0PPt7yveog==
-
-"@ast-grep/napi-darwin-x64@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-darwin-x64/-/napi-darwin-x64-0.1.4.tgz#b20e43756b74f60c74f7552e6e538ca0ba822fa3"
-  integrity sha512-vj8lkiv/nAhFT9oX1YzuIfUfGSnfsTwMKTcrk8iahl7syEYqmZV0eX5zqAvRzVqaJL0ipBIhnJy3vS3p5Vonwg==
-
-"@ast-grep/napi-linux-x64-gnu@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-linux-x64-gnu/-/napi-linux-x64-gnu-0.1.4.tgz#c777d8df1975bda705950a68e9b18492e880faa3"
-  integrity sha512-O5834wvH40hf5ai9b4+0e8scJmxmhV60n7c5vvuYZNY6I2Fyo7gcBrLAp7GyQFrLl93hHZeVxmp9MiBrv7Iobg==
-
-"@ast-grep/napi-win32-arm64-msvc@0.1.4":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-arm64-msvc/-/napi-win32-arm64-msvc-0.5.2.tgz#cd160b30756dd0d1e95ec12d38f52cd5c1d22065"
-  integrity sha512-/lfS1561USbbS1LP/0ZSwjcwzNtivwvhJSlKmeC6Ux1JzRRf8PnWnnW0GOh8XDO27/n2jCJ3vc3V8XlQkumazA==
-
-"@ast-grep/napi-win32-ia32-msvc@0.1.4":
-  version "0.5.2"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-ia32-msvc/-/napi-win32-ia32-msvc-0.5.2.tgz#365afa07149fd1cfd9018d71cb92afe4bd62da8a"
-  integrity sha512-IIssdS2sR7wPKG6Mp+uedQZhfiBZwgb8/geH+CzwDW1hgTi6NQp5YLclHZRnT06+dlPOB8lELHnrilhScd4ORQ==
-
-"@ast-grep/napi-win32-x64-msvc@0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi-win32-x64-msvc/-/napi-win32-x64-msvc-0.1.4.tgz#de3c3b6ada3b1cc231bb4720eaf6ad1606c337d7"
-  integrity sha512-d1FDuZb94E3z6rUeZWKGafGx8tThJ/wV+Jd1NFucSoYVEP6Gcmer8puJviTe+08rkyFZXToJ4IAoBJ105bqmsQ==
-
-"@ast-grep/napi@^0.1.4":
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/@ast-grep/napi/-/napi-0.1.4.tgz#b0f73555a1745647d2549f995d436bd76d13040e"
-  integrity sha512-KnArM3ZVSAJM58rrLwNNN4xgLN7G8jdXHpfc02JjE3GFhNcBN/sQqmr/aNKpdmB4m5n4t8/seL4gKqXyswaSmQ==
-  optionalDependencies:
-    "@ast-grep/napi-darwin-arm64" "0.1.4"
-    "@ast-grep/napi-darwin-x64" "0.1.4"
-    "@ast-grep/napi-linux-x64-gnu" "0.1.4"
-    "@ast-grep/napi-win32-arm64-msvc" "0.1.4"
-    "@ast-grep/napi-win32-ia32-msvc" "0.1.4"
-    "@ast-grep/napi-win32-x64-msvc" "0.1.4"
-
 "@babel/code-frame@7.12.11":
   version "7.12.11"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.12.11.tgz#f4ad435aa263db935b8f10f2c552d23fb716a63f"

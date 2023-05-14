@@ -482,7 +482,8 @@ export async function providerAdd(argv: any) {
 }
 
 export async function stackAdd(argv: { stackName?: string }) {
-  await addStack(argv.stackName!, process.cwd());
+  const output = await addStack(argv.stackName!, process.cwd());
+  console.log(output);
 }
 
 export async function providerUpgrade(argv: any) {
