@@ -52,6 +52,7 @@ import {
   CdktfConfig,
   get as getLib,
   providerAdd as providerAddLib,
+  addStack,
 } from "@cdktf/cli-core";
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
@@ -478,6 +479,10 @@ export async function providerAdd(argv: any) {
       parallelism: 1,
     });
   }
+}
+
+export async function stackAdd(argv: { stackName?: string }) {
+  await addStack(argv.stackName!, process.cwd());
 }
 
 export async function providerUpgrade(argv: any) {
