@@ -68,6 +68,8 @@ export async function init({
     futureFlags,
     projectId,
     sendCrashReports,
+    stackFile: "MyStack",
+    stackName: "MyStack",
   });
   const cdktfConfig = CdktfConfig.read(destination);
 
