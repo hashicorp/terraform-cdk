@@ -59,4 +59,26 @@ describe("addModule", () => {
       "
     `);
   });
+
+  it("handles private modules", async () => {
+    const project = generateProject();
+    await addModule(
+      "app.terraform.io/yourorg/eks/aws/modules/irsa_policy@~> 4.0.1",
+      project,
+      noOp
+    );
+
+    expect(
+      JSON.parse(fs.readFileSync(path.join(project, "cdktf.json"), "utf8"))
+        .terraformModules
+    ).toMatchInlineSnapshot(`
+      [
+        {
+          "name": "modules",
+          "source": "app.terraform.io/yourorg/eks/aws/modules/irsa_policy",
+          "version": "~> 4.0.1",
+        },
+      ]
+    `);
+  });
 });

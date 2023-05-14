@@ -8,7 +8,6 @@ export function isRegistryModule(source: string) {
   if (
     source.startsWith(".") ||
     parts.length < 3 ||
-    parts.length > 4 ||
     source.includes("github.com") ||
     source.includes("bitbucket.org")
   ) {

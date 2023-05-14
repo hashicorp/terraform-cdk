@@ -264,6 +264,8 @@ describe("parseConfig", () => {
       const input = {
         terraformModules: [
           "app.terraform.io/example-corp/k8s-cluster/azurerm@1.1.0",
+          // See https://github.com/hashicorp/terraform-cdk/issues/951
+          "app.terraform.io/yourorg/eks/aws/modules/irsa_policy@~> 4.0.1",
         ],
       };
 
@@ -278,6 +280,13 @@ describe("parseConfig", () => {
               "namespace": "example-corp/azurerm",
               "source": "app.terraform.io/example-corp/k8s-cluster/azurerm",
               "version": "1.1.0",
+            },
+            TerraformModuleConstraint {
+              "fqn": "app-terraform-io/yourorg/eks/aws/modules/irsa_policy",
+              "name": "modules",
+              "namespace": "aws/irsa_policy",
+              "source": "app.terraform.io/yourorg/eks/aws/modules/irsa_policy",
+              "version": "~> 4.0.1",
             },
           ],
         }
