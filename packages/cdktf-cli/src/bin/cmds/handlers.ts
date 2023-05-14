@@ -53,6 +53,7 @@ import {
   get as getLib,
   providerAdd as providerAddLib,
   addStack,
+  addModule,
 } from "@cdktf/cli-core";
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
@@ -479,6 +480,11 @@ export async function providerAdd(argv: any) {
       parallelism: 1,
     });
   }
+}
+
+export async function moduleAdd(argv: { module: string }) {
+  const output = await addModule(argv.module, process.cwd());
+  console.log(output);
 }
 
 export async function stackAdd(argv: { stackName?: string }) {

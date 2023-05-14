@@ -91,6 +91,16 @@ export class CdktfConfig {
     this.writeCdktfConfig(cdktfConfig);
   }
 
+  public writeTerraformModules(
+    modules: (Omit<TerraformDependencyConstraint, "fqn"> | string)[]
+  ) {
+    const cdktfConfig = this.readCdktfConfig();
+    // TODO: deduplicate modules
+    // TODO: Sanitize inputs
+    cdktfConfig.terraformModules = modules;
+    this.writeCdktfConfig(cdktfConfig);
+  }
+
   public get projectDirectory(): string {
     return path.dirname(this.cdktfConfigPath);
   }

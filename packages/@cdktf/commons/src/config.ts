@@ -93,6 +93,14 @@ export class TerraformModuleConstraint
     return this.namespace ? `${this.namespace}/${this.name}` : this.name;
   }
 
+  public asConfig() {
+    return {
+      name: this.name,
+      source: this.source,
+      version: this.version,
+    };
+  }
+
   private parseDependencyConstraint(
     item: string
   ): TerraformDependencyConstraint {
