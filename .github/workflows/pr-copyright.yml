@@ -18,7 +18,7 @@ jobs:
       contents: write
     steps:
       - name: Checkout
-        uses: actions/checkout@ac593985615ec2ede58e132d2e21d2b1cbd6127c # v3.3.0
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.3.0
         with:
           ref: ${{ github.event.pull_request.head.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name }}
@@ -27,7 +27,7 @@ jobs:
           git config user.name "hashicorp-copywrite[bot]"
           git config user.email "110428419+hashicorp-copywrite[bot]@users.noreply.github.com"
       - name: Setup Copywrite tool
-        uses: hashicorp/setup-copywrite@3ace06ad72e6ec679ea8572457b17dbc3960b8ce # v1.0.0
+        uses: hashicorp/setup-copywrite@867a1a2a064a0626db322392806428f7dc59cb3e # v1.0.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Add headers using Copywrite tool
