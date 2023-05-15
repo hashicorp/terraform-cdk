@@ -8,7 +8,9 @@ class Command implements yargs.CommandModule {
     "A set of subcommands that facilitates construct management";
 
   public readonly builder = (args: yargs.Argv) =>
-    args.command(require("./construct-add"));
+    args
+      .command(require("./construct-add"))
+      .command(require("./construct-init"));
 
   public readonly handler = () => {
     yargs.showHelp();

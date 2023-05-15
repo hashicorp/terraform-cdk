@@ -15,7 +15,7 @@ export { TerraformCli } from "./models/terraform-cli";
 export { CdktfConfig } from "./cdktf-config";
 export { addStack } from "./stack";
 export { addModule } from "./module";
-export { addConstruct } from "./construct";
+export { addConstruct, initConstruct } from "./construct";
 export {
   askForCrashReportingConsent,
   initializErrorReporting,

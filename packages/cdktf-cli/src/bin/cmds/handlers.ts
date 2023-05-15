@@ -55,6 +55,7 @@ import {
   addStack,
   addModule,
   addConstruct,
+  initConstruct,
 } from "@cdktf/cli-core";
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
@@ -495,6 +496,15 @@ export async function stackAdd(argv: { stackName?: string }) {
 
 export async function constructAdd(argv: { constructName: string }) {
   const output = await addConstruct(argv.constructName!, process.cwd());
+  console.log(output);
+}
+
+export async function constructInit(argv: {
+  name: string;
+  language?: string[];
+}) {
+  const languagesUsed = argv.language ?? ["language"];
+  const output = await initConstruct(argv, languagesUsed, process.cwd());
   console.log(output);
 }
 
