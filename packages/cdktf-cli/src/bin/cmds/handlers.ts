@@ -54,6 +54,7 @@ import {
   providerAdd as providerAddLib,
   addStack,
   addModule,
+  addConstruct,
 } from "@cdktf/cli-core";
 import { Output } from "./ui/output";
 import { throwIfNotProjectDirectory } from "./helper/check-directory";
@@ -489,6 +490,11 @@ export async function moduleAdd(argv: { module: string }) {
 
 export async function stackAdd(argv: { stackName?: string }) {
   const output = await addStack(argv.stackName!, process.cwd());
+  console.log(output);
+}
+
+export async function constructAdd(argv: { constructName: string }) {
+  const output = await addConstruct(argv.constructName!, process.cwd());
   console.log(output);
 }
 

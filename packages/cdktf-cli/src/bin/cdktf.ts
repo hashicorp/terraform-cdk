@@ -86,6 +86,7 @@ yargs
   .command(require("./cmds/provider"))
   .command(require("./cmds/module"))
   .command(require("./cmds/stack"))
+  .command(require("./cmds/construct"))
   .recommendCommands()
   .exitProcess(false)
   .wrap(yargs.terminalWidth())
