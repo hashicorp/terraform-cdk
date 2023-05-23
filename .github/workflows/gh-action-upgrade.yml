@@ -14,7 +14,7 @@ jobs:
       PR_TITLE: "chore: update github workflow actions"
 
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.5.2
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
 
@@ -24,7 +24,7 @@ jobs:
           gh pr close -d --comment "Closing this because I'm about to open a newer PR." ${prlist}
 
       - name: Run GitHub Actions Version Updater
-        uses: saadmk11/github-actions-version-updater@v0.7.3
+        uses: saadmk11/github-actions-version-updater@v0.7.3 # TSCCR: no entry for repository "saadmk11/github-actions-version-updater"
         with:
           token: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
           commit_message: ${{ env.PR_TITLE }}
