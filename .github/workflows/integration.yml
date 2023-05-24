@@ -93,7 +93,7 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: Get yarn cache directory path
         id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
@@ -140,7 +140,7 @@ jobs:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: Get yarn cache directory path
         id: global-cache-dir-path
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
