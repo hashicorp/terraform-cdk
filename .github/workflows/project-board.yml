@@ -14,7 +14,7 @@ jobs:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: Get project data
         env:
           GITHUB_TOKEN: ${{ secrets.PROJECT_BOARD_UPDATE_GH_TOKEN }}
