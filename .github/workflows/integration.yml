@@ -135,6 +135,7 @@ jobs:
       TERRAFORM_VERSION: ${{ matrix.terraform }}
       GITHUB_API_TOKEN_CDKTF: ${{ secrets.GITHUB_TOKEN }}
     timeout-minutes: 60
+    shell: bash
 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
