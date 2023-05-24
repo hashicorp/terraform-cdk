@@ -158,6 +158,7 @@ jobs:
         uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753
         with:
           go-version: 1.18.x
+          cache: false # This is disabled because we don't have a go.sum file and setup-go expects it to use caching. Thus, caching is always broken anyways
       - name: Download dist
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
