@@ -63,6 +63,10 @@ function getReference(graph: DirectedGraph, id: string) {
   }
 }
 
+export function attributeNameToCdktfName(name: string) {
+  return escapeAttributeName(camelCase(name));
+}
+
 export const valueToTs = async (
   scope: ResourceScope,
   item: TerraformResourceBlock,
@@ -207,7 +211,7 @@ export const valueToTs = async (
 
               return t.objectProperty(
                 t.stringLiteral(
-                  keepKeyName ? key : escapeAttributeName(camelCase(key))
+                  keepKeyName ? key : attributeNameToCdktfName(key)
                 ),
                 shouldBeArray
                   ? t.arrayExpression([await valueToTs(scope, value, itemPath)])
