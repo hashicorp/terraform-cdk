@@ -9,6 +9,7 @@ import { Manifest } from "../manifest";
 import { FUTURE_FLAGS } from "../features";
 import { IConstruct, Construct } from "constructs";
 import { setupJest } from "./adapters/jest";
+import { setupVitest } from "./adapters/vitest";
 import { invokeAspects } from "../synthesize/synthesizer";
 import {
   getToHaveResourceWithProperties,
@@ -250,5 +251,9 @@ export class Testing {
 
   public static setupJest() {
     setupJest();
+  }
+
+  public static setupVitest(vitestExpect?: any) {
+    setupVitest(vitestExpect);
   }
 }

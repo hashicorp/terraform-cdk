@@ -4,3 +4,4 @@ tsconfig.json
 tsconfig.tsbuildinfo
 .jsii
 !scripts/generate-documentation.js
+!types/**.d.ts

@@ -28,16 +28,16 @@ export class AssertionReturn {
   constructor(public readonly message: string, public readonly pass: boolean) {}
 }
 
-export type MatcherReturnJest = { message: () => string; pass: boolean };
+export type MatcherReturnExpect = { message: () => string; pass: boolean };
 
 /**
- * Reformats the contents of the base testing matcher return type AssertionReturn into type useable by jest
+ * Reformats the contents of the base testing matcher return type AssertionReturn into type useable by Jest and Vitest.
  * @param toReturn
- * @returns {MatcherReturnJest}
+ * @returns {MatcherReturnExpect}
  */
-export function returnMatcherToJest(
+export function returnMatcherToExpect(
   toReturn: AssertionReturn
-): MatcherReturnJest {
+): MatcherReturnExpect {
   return {
     message: () => toReturn.message,
     pass: toReturn.pass,
