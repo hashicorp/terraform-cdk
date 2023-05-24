@@ -13,11 +13,19 @@ We generate all files necessary to start testing when you run `cdktf init` so th
 
 If you would like to add testing to an existing project, refer the following resources according to your chosen language:
 
-- **TypeScript:** Follow TypeScript's [Getting Started guide](https://jestjs.io/docs/getting-started) for testing with Jest. Then, add these lines in a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
+- **TypeScript (with Jest):** Follow Jest's [Getting Started guide](https://jestjs.io/docs/getting-started) for testing with TypeScript. Then, add `cdktf/types/jest` to the [`types` array](https://www.typescriptlang.org/tsconfig#types) in your `tsconfig.json` file and the following to a [setup file](https://jestjs.io/docs/configuration#setupfiles-array):
 
   ```js
   const cdktf = require("cdktf");
   cdktf.Testing.setupJest();
+  ```
+
+- **TypeScript (with Vitest):** Follow Vitest's [Getting Started guide](https://vitest.dev/guide/). Then, add `cdktf/types/vitest` to the [`types` array](https://www.typescriptlang.org/tsconfig#types) in your `tsconfig.json` file and the following to a [setup file](https://vitest.dev/config/#setupfiles):
+
+  ```js
+  const cdktf = require("cdktf");
+  const { expect } = require("vitest");
+  cdktf.Testing.setupVitest(expect);
   ```
 
 - **Python:** Follow the [Get Started guide](https://docs.pytest.org/en/7.1.x/getting-started.html) for pytest. The assertions for CDKTF are available in the `cdktf` package under `Testing`.
@@ -190,7 +198,7 @@ func TestShouldUseUbuntuImage(t *testing.T){
 
 ### Snapshot Testing
 
-Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is only supported in Typescript with Jest. Refer to the [Jest docs](https://jestjs.io/docs/snapshot-testing) for details.
+Snapshot tests are useful when you want to make sure your infrastructure does not change unexpectedly. Snapshot Testing is only supported in Typescript with [Jest](https://jestjs.io/docs/snapshot-testing) or [Vitest](https://vitest.dev/guide/snapshot.html).
 
 ```typescript
 import { Testing } from "cdktf";
