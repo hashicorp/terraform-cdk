@@ -135,15 +135,13 @@ jobs:
       TERRAFORM_VERSION: ${{ matrix.terraform }}
       GITHUB_API_TOKEN_CDKTF: ${{ secrets.GITHUB_TOKEN }}
     timeout-minutes: 60
-    defaults:
-      run:
-        shell: bash
 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        shell: bash
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
