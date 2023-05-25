@@ -46,6 +46,7 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
+    "@types/deep-equal": "^1.0.1",
     "@types/glob": "^8.1.0",
     "@types/jest": "^29.5.0",
     "@types/node": "16.18.23",
