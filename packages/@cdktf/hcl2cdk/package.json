@@ -26,6 +26,7 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
+  "keywords": ["cdk", "cdktf", "terraform", "hcl"],
   "license": "MPL-2.0",
   "dependencies": {
     "@babel/generator": "^7.21.4",

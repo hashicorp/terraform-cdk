@@ -27,6 +27,7 @@
       ]
     }
   },
+  "keywords": ["cdk", "cdktf", "terraform"],
   "jsii": {
     "outdir": "dist",
     "versionFormat": "short",
