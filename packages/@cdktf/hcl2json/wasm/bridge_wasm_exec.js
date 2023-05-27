@@ -8,8 +8,15 @@
 
 globalThis.require = require;
 globalThis.fs = require("fs");
-globalThis.TextEncoder = require("util").TextEncoder;
-globalThis.TextDecoder = require("util").TextDecoder;
+
+// Node 20 already has a `TextEncoder` and `TextDecoder` properties. 
+// Setting them again will cause an error as they're read-only.
+if (!globalThis.TextEncoder) {
+  globalThis.TextEncoder = require("util").TextEncoder;
+}
+if (!globalThis.TextDecoder) {
+  globalThis.TextDecoder = require("util").TextDecoder;
+}
 
 globalThis.performance = {
 	now() {
