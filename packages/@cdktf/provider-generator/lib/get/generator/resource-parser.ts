@@ -58,6 +58,10 @@ const isReservedClassOrNamespaceName = (className: string): boolean => {
   ].includes(className.toLowerCase());
 };
 
+const isReservedStructClassName = (className: string): boolean => {
+  return className.toLowerCase().endsWith("list");
+};
+
 const getFileName = (provider: ProviderName, baseName: string): string => {
   if (baseName === "index") {
     return "index-resource/index.ts";
@@ -564,9 +568,15 @@ class Parser {
     nesting_mode: string,
     isSingleItem = false
   ) {
-    const name = this.uniqueClassName(
-      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
+    const possibleName = toPascalCase(
+      scope.map((x) => toSnakeCase(x.name)).join("_")
     );
+    const name = this.uniqueClassName(
+      isReservedStructClassName(possibleName)
+        ? `${possibleName}Struct`
+        : possibleName
+    );
+
     const parent = scope[scope.length - 1];
     // blockType.nesting_mode => list/set & blockType.max_items === 1,
     const isClass = (parent.isComputed && !parent.isOptional) || isSingleItem;
