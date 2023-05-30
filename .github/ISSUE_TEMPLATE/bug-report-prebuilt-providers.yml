@@ -1,4 +1,4 @@
-name: "🐛 Bug Report"
+name: "🐛 Pre-built Provider Bug Report"
 description: "If something isn't working with the pre-built providers 🤔"
 title: "PROVIDER_NAME: short issue description"
 labels: [bug, new, pre-built providers]
