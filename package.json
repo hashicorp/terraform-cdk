@@ -1,6 +1,6 @@
 {
   "name": "root",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "private": true,
   "scripts": {
     "build-and-package": "lerna run --scope 'cdktf*' --scope @cdktf/* build,package && tools/collect-dist.sh",
