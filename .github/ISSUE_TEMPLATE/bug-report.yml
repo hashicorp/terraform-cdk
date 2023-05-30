@@ -66,7 +66,7 @@ body:
     attributes:
       label: Providers
       description: |
-        Please run `cdktf provider list` on the command line and paste the output in here. Alternatively, manually list the versions of all providers you are using.
+        Please run `cdktf provider list` on the command line and paste the output in here. Or, manually list the versions of all providers you are using.
         If you are not running the latest versions, please upgrade because your issue may have already been fixed.
       placeholder: |
         ┌────────────────────┬──────────────────┬─────────┬────────────┬────────────────────────┬─────────────────┐
@@ -86,7 +86,7 @@ body:
     attributes:
       label: Gist
       description: |
-        Please provide a link to a [GitHub Gist](https://gist.github.com/) containing a reproducible code sample and/or your complete debug output.
+        If possible, please provide a link to a [GitHub Gist](https://gist.github.com/) containing a reproducible code sample and/or your complete debug output.
       placeholder: |
         https://gist.github.com/gdb/b6365e79be6052e7531e7ba6ea8caf23
     validations:
@@ -116,9 +116,11 @@ body:
       label: References
       description: |
         Are there any other GitHub issues (open or closed) or pull requests that should be linked here? Or links to documentation pages?
-        Information about referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
-      value: |
-        - #0000
+        Guide to referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
+      placeholder: |
+        - #123
+        - #456
+        - https://developer.hashicorp.com/terraform/cdktf/concepts/aspects
     validations:
       required: false
 
