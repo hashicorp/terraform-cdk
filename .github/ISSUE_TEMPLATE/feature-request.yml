@@ -1,25 +1,33 @@
-name: "📕 Documentation Issue"
-description: "👀 Report an issue with the CDKTF docs and tutorials on developer.hashicorp.com"
+name: "🚀 Feature Request"
+description: "I have a suggestion (and might want to implement myself 🙂)"
 title: ""
-labels: [documentation, new]
+labels: [enhancement, new]
 assignees: []
 body:
+  - type: markdown
+    attributes:
+      value: |
+        We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47) where there are more people ready to help.
+
   - type: textarea
     id: description
     attributes:
       label: Description
-      description: A clear and concise description of the issue in plain English.
+      description: A clear and concise description of the feature request in plain English.
     validations:
       required: true
 
   - type: textarea
-    id: links
+    id: references
     attributes:
-      label: Links
+      label: References
       description: |
-        Include links to affected or related documentation page(s).
+        Are there any other GitHub issues (open or closed) or pull requests that should be linked here? Or links to documentation pages?
+        Information about referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
+      value: |
+        - #0000
     validations:
-      required: true
+      required: false
 
   - type: checkboxes
     id: contribution
