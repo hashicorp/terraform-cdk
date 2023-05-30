@@ -23,9 +23,11 @@ body:
       label: References
       description: |
         Are there any other GitHub issues (open or closed) or pull requests that should be linked here? Or links to documentation pages?
-        Information about referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
-      value: |
-        - #0000
+        Guide to referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
+      placeholder: |
+        - #123
+        - #456
+        - https://developer.hashicorp.com/terraform/cdktf/concepts/aspects
     validations:
       required: false
 
