@@ -1,6 +1,6 @@
 name: "📕 Documentation Issue"
 description: "👀 Report an issue with the CDKTF docs and tutorials on developer.hashicorp.com"
-title: ""
+title: "COMPONENT: short issue description"
 labels: [documentation, new]
 assignees: []
 body:
