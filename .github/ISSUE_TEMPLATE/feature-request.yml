@@ -7,6 +7,12 @@ body:
   - type: markdown
     attributes:
       value: |
+        ⬆️⬆️ Don't forget to update the issue title! ⬆️⬆️
+
+  - type: markdown
+    attributes:
+      value: |
+        **Note**
         We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47) where there are more people ready to help.
 
   - type: textarea
