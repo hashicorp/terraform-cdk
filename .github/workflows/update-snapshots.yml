@@ -82,6 +82,7 @@ jobs:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     env:
       CHECKPOINT_DISABLE: "1"
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.3.0
@@ -95,7 +96,7 @@ jobs:
 
       - name: Set git identity
         run: |-
-          git config user.name github-team-tf-cdk
+          git config user.name team-tf-cdk
           git config user.email github-team-tf-cdk@hashicorp.com
 
       - name: Get yarn cache directory path
@@ -135,19 +136,13 @@ jobs:
           git add .
           git diff --cached --exit-code || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
 
-      - name: Commit changes
+      - name: Commit and push changes
         if: steps.self_mutation.outputs.self_mutation_happened
         run: |
           git fetch
           git add .
           git commit -s -m "chore: update snapshots (posix)"
-
-      - name: Push changes
-        if: steps.self_mutation.outputs.self_mutation_happened
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6
-        with:
-          github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
-          branch: ${{ github.event.pull_request.head.ref }}
+          git push origin HEAD:$HEAD_REF
 
   update-snapshots-windows:
     # running after linux will base this run on those results
@@ -161,6 +156,7 @@ jobs:
       checks: write
     env:
       CHECKPOINT_DISABLE: "1"
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
@@ -192,7 +188,7 @@ jobs:
 
       - name: Set git identity
         run: |-
-          git config user.name github-team-tf-cdk
+          git config user.name team-tf-cdk
           git config user.email github-team-tf-cdk@hashicorp.com
 
       - name: Download dist
@@ -223,16 +219,10 @@ jobs:
           git add .
           git diff --cached --exit-code || echo "self_mutation_happened=true" >> $GITHUB_OUTPUT
 
-      - name: Commit changes
+      - name: Commit and push changes
         if: steps.self_mutation.outputs.self_mutation_happened
         run: |
           git fetch
           git add .
           git commit -s -m "chore: update snapshots (windows)"
-
-      - name: Push changes
-        if: steps.self_mutation.outputs.self_mutation_happened
-        uses: ad-m/github-push-action@40bf560936a8022e68a3c00e7d2abefaf01305a6
-        with:
-          github_token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
-          branch: ${{ github.event.pull_request.head.ref }}
+          git push origin HEAD:$HEAD_REF
