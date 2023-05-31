@@ -1,9 +1,14 @@
 name: "📕 Documentation Issue"
-description: 👀 Report an issue with the CDKTF docs and tutorials on developer.hashicorp.com
-title: "(page name): (short issue description)"
+description: "👀 Report an issue with the CDKTF docs and tutorials on developer.hashicorp.com"
+title: "COMPONENT: short issue description"
 labels: [documentation, new]
 assignees: []
 body:
+  - type: markdown
+    attributes:
+      value: |
+        We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47) where there are more people ready to help.
+
   - type: textarea
     id: description
     attributes:
@@ -17,7 +22,12 @@ body:
     attributes:
       label: Links
       description: |
-        Include links to affected documentation page(s).
+        Include links to affected or related documentation page(s) or issues.
+        Guide to referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
+      placeholder: |
+        - https://developer.hashicorp.com/terraform/cdktf/concepts/aspects
+        - #123
+        - #456
     validations:
       required: true
 
