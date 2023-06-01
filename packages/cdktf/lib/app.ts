@@ -32,11 +32,18 @@ export interface AppConfig {
   readonly context?: { [key: string]: any };
 
   /**
-   * Whether to skip the validation during synthesis of the app
+   * Whether to skip all validations during synthesis of the app
    *
    * @default - false
    */
   readonly skipValidation?: boolean;
+
+  /**
+   * Whether to skip backend validation during synthesis of the app
+   *
+   * @default - false
+   */
+  readonly skipBackendValidation?: boolean;
 }
 
 /**
@@ -56,9 +63,14 @@ export class App extends Construct {
   public readonly manifest: Manifest;
 
   /**
-   * Whether to skip the validation during synthesis of the app
+   * Whether to skip all validations during synthesis of the app
    */
-  public readonly skipValidation?: boolean;
+  public readonly skipValidation: boolean;
+
+  /**
+   * Whether to skip backend validation during synthesis of the app
+   */
+  public readonly skipBackendValidation: boolean;
 
   /**
    * Defines an app
@@ -70,7 +82,8 @@ export class App extends Construct {
 
     this.outdir = process.env.CDKTF_OUTDIR ?? config.outdir ?? "cdktf.out";
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
-    this.skipValidation = config.skipValidation;
+    this.skipValidation = config.skipValidation || false;
+    this.skipBackendValidation = config.skipBackendValidation || false;
 
     this.loadContext(config.context);
 
@@ -86,7 +99,9 @@ export class App extends Construct {
     }
     this.manifest = new Manifest(version, this.outdir);
 
-    node.addValidation(new ValidateBackends(this));
+    if (!this.skipBackendValidation) {
+      node.addValidation(new ValidateBackends(this));
+    }
   }
 
   public static isApp(x: any): x is App {
