@@ -28,6 +28,8 @@ async function run(command) {
   console.log(output);
 
   const match = /Maximum resident set size \(kbytes\): (\d+)/.exec(output);
+
+  console.log(JSON.stringify({ match, output }));
   let maxMemoryKbytes = null;
   if (match) {
     maxMemoryKbytes = Number(match[1]);
