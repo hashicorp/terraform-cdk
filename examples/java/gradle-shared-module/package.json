@@ -1,4 +1,6 @@
 {
+  "//": "this example is currently disabled as it somehow fails to install in CI but works locally, using mvn install would probably need to be switched to a Gradle only solution. Tracked in #2759",
+  "private": "true",
   "name": "@examples/java-gradle-shared-module",
   "version": "0.0.0",
   "license": "MPL-2.0",

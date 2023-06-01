@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-# Copyright (c) HashiCorp, Inc.
-# SPDX-License-Identifier: MPL-2.0
-
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
 
 const exec = (cmd) => require("child_process").execSync(cmd).toString();
 const lastReleasedVersion = require("../package.json").version;

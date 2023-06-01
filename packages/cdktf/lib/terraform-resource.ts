@@ -10,6 +10,8 @@ import { ref, dependable } from "./tfExpression";
 import { IResolvable } from "./tokens/resolvable";
 import { IInterpolatingParent } from "./terraform-addressable";
 import { ITerraformIterator } from "./terraform-iterator";
+import { Precondition, Postcondition } from "./terraform-conditions";
+import { TerraformCount } from "./terraform-count";
 import {
   SSHProvisionerConnection,
   WinrmProvisionerConnection,
@@ -29,7 +31,7 @@ export interface ITerraformResource {
   readonly friendlyUniqueId: string;
 
   dependsOn?: string[];
-  count?: number;
+  count?: number | TerraformCount;
   provider?: TerraformProvider;
   lifecycle?: TerraformResourceLifecycle;
   forEach?: ITerraformIterator;
@@ -41,11 +43,14 @@ export interface TerraformResourceLifecycle {
   readonly createBeforeDestroy?: boolean;
   readonly preventDestroy?: boolean;
   readonly ignoreChanges?: string[] | "all";
+  readonly replaceTriggeredBy?: Array<ITerraformDependable | string>;
+  readonly precondition?: Precondition[];
+  readonly postcondition?: Postcondition[];
 }
 
 export interface TerraformMetaArguments {
   readonly dependsOn?: ITerraformDependable[];
-  readonly count?: number;
+  readonly count?: number | TerraformCount;
   readonly provider?: TerraformProvider;
   readonly lifecycle?: TerraformResourceLifecycle;
   readonly forEach?: ITerraformIterator;
@@ -77,7 +82,7 @@ export class TerraformResource
   // TerraformMetaArguments
 
   public dependsOn?: string[];
-  public count?: number;
+  public count?: number | TerraformCount;
   public provider?: TerraformProvider;
   public lifecycle?: TerraformResourceLifecycle;
   public forEach?: ITerraformIterator;
@@ -181,7 +186,9 @@ export class TerraformResource
     );
     return {
       dependsOn: this.dependsOn,
-      count: this.count,
+      count: TerraformCount.isTerraformCount(this.count)
+        ? this.count.toTerraform()
+        : this.count,
       provider: this.provider?.fqn,
       lifecycle: this.lifecycle,
       forEach: this.forEach?._getForEachExpression(),
@@ -237,7 +244,9 @@ export class TerraformResource
 
   public interpolationForAttribute(terraformAttribute: string) {
     return ref(
-      `${this.terraformResourceType}.${this.friendlyUniqueId}.${terraformAttribute}`,
+      `${this.terraformResourceType}.${this.friendlyUniqueId}${
+        this.forEach ? ".*" : ""
+      }.${terraformAttribute}`,
       this.cdktfStack
     );
   }

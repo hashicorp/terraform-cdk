@@ -8,7 +8,6 @@ import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
-import { AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 import { TerraformProviderLock } from "./terraform-provider-lock";
 
 export type StackUpdate =
@@ -227,13 +226,16 @@ export class CdktfStack {
     };
   }
 
-  private async initalizeTerraform(noColor?: boolean) {
-    const terraform = await getTerraformClient(
+  private async terraformClient() {
+    return await getTerraformClient(
       this.options.abortSignal,
       this.options.stack,
       this.createTerraformLogHandler.bind(this)
     );
+  }
 
+  public async initalizeTerraform(noColor?: boolean) {
+    const terraform = await this.terraformClient();
     const needsInit = await this.checkNeedsInit();
     if (!needsInit) {
       // Skip terraform init as everything's up to date
@@ -354,7 +356,7 @@ export class CdktfStack {
   }) {
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform(noColor);
+      const terraform = await this.terraformClient();
 
       await terraform.plan({
         destroy: false,
@@ -378,7 +380,7 @@ export class CdktfStack {
     const { refreshOnly, terraformParallelism, noColor, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform(noColor);
+      const terraform = await this.terraformClient();
 
       const { cancelled } = await terraform.deploy(
         {
@@ -464,7 +466,7 @@ export class CdktfStack {
     const { terraformParallelism, noColor, vars, varFiles } = opts;
     await this.run(async () => {
       this.updateState({ type: "planning", stackName: this.stack.name });
-      const terraform = await this.initalizeTerraform(noColor);
+      const terraform = await this.terraformClient();
       const { cancelled } = await terraform.destroy(
         {
           autoApprove: this.options.autoApprove,
@@ -532,7 +534,7 @@ export class CdktfStack {
 
   public async fetchOutputs() {
     await this.run(async () => {
-      const terraform = await this.initalizeTerraform();
+      const terraform = await this.terraformClient();
 
       const outputs = await terraform.output();
       const outputsByConstructId = getConstructIdsForOutputs(

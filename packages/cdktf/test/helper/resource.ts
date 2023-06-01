@@ -17,6 +17,7 @@ export interface TestResourceConfig extends TerraformMetaArguments {
   tags?: { [key: string]: string };
   nestedType?: { [key: string]: string };
   listBlock?: IResolvable;
+  listAttribute?: IResolvable;
 }
 
 export class TestResource extends TerraformResource {
@@ -26,6 +27,7 @@ export class TestResource extends TerraformResource {
   public tags?: { [key: string]: string };
   public nestedType?: { [key: string]: string };
   public listBlock?: IResolvable; // real life bindings also allow an interface here, but we don't use that in our tests using this
+  public listAttribute?: IResolvable;
 
   constructor(scope: Construct, id: string, config: TestResourceConfig) {
     super(scope, id, {
@@ -47,6 +49,7 @@ export class TestResource extends TerraformResource {
     this.tags = config.tags;
     this.nestedType = config.nestedType;
     this.listBlock = config.listBlock;
+    this.listAttribute = config.listAttribute;
   }
 
   protected synthesizeAttributes(): { [name: string]: any } {
@@ -56,6 +59,7 @@ export class TestResource extends TerraformResource {
       tags: this.tags,
       nested_type: this.nestedType,
       list_block: listMapper((a) => a, true)(this.listBlock), // identity function to skip writing a toTerraform function
+      list_attribute: listMapper((a) => a, false)(this.listAttribute), // identity function to skip writing a toTerraform function
     };
   }
 

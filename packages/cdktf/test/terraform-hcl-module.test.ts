@@ -83,7 +83,7 @@ test("multiple providers can't have the same module alias", () => {
       source: "./test/fixtures/hcl-module/",
       providers: [provider1, provider2],
     });
-  } catch (e) {
+  } catch (e: any) {
     expect(e.message).toMatch(
       /Error: Multiple providers have the same alias: "test"/
     );

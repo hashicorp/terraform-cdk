@@ -18,43 +18,43 @@ exports[`full integration test relative folder asset copied 3`] = `"this is c"`;
 
 exports[`full integration test synth 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"fixed\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "fixed",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"fixed\\": {
-        \\"fixtures-name\\": \\"fixturesname\\",
-        \\"local-asset-name\\": \\"localassetname\\",
-        \\"relative-asset-name\\": \\"relativeassetname\\",
-        \\"relative-assets-name\\": \\"relativeassetsname\\",
-        \\"zipped-fixtures-name\\": \\"zippedfixturesname\\"
+    "outputs": {
+      "fixed": {
+        "fixtures-name": "fixturesname",
+        "local-asset-name": "localassetname",
+        "relative-asset-name": "relativeassetname",
+        "relative-assets-name": "relativeassetsname",
+        "zipped-fixtures-name": "zippedfixturesname"
       }
     }
   },
-  \\"output\\": {
-    \\"fixturesname\\": {
-      \\"value\\": \\"fixtures\\"
+  "output": {
+    "fixturesname": {
+      "value": "fixtures"
     },
-    \\"localassetname\\": {
-      \\"value\\": \\"local-asset.txt\\"
+    "localassetname": {
+      "value": "local-asset.txt"
     },
-    \\"relativeassetname\\": {
-      \\"value\\": \\"relative-asset.txt\\"
+    "relativeassetname": {
+      "value": "relative-asset.txt"
     },
-    \\"relativeassetsname\\": {
-      \\"value\\": \\"relative\\"
+    "relativeassetsname": {
+      "value": "relative"
     },
-    \\"zippedfixturesname\\": {
-      \\"value\\": \\"archive.zip\\"
+    "zippedfixturesname": {
+      "value": "archive.zip"
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     }
   }

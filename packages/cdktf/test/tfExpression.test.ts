@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { TerraformStack, Fn, Token } from "../lib";
+import { TerraformStack, Fn, Token, Testing } from "../lib";
 import {
   conditional,
   propertyAccess,
@@ -12,6 +12,7 @@ import {
 } from "../lib/tfExpression";
 import { resolve } from "../lib/_tokens";
 import { Op } from "../lib/terraform-operators";
+import { TestResource } from "./helper";
 
 const appScope = new Construct(undefined as any, "randomScope");
 
@@ -24,17 +25,78 @@ test("can render reference", () => {
   ).toMatchInlineSnapshot(`"\${aws_s3_bucket.best.bucket_domain_name}"`);
 });
 
-test("propertyAccess renders correctly", () => {
-  expect(
-    resolveExpression(
-      propertyAccess(
-        ref("some_resource.my_resource.some_attribute_array", stack),
-        [0, "name"]
+describe("propertyAccess", () => {
+  it("for resource with count using literal attribute name", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("aws_s3_bucket.bucket"), [0, "id"]))
+    ).toEqual(`\${aws_s3_bucket.bucket.0.id}`);
+  });
+
+  it("for resource with count using expression for count index", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [ref("count.index"), "id"])
       )
-    )
-  ).toMatchInlineSnapshot(
-    `"\${some_resource.my_resource.some_attribute_array[0][\\"name\\"]}"`
-  );
+    ).toEqual(`\${aws_s3_bucket.bucket[count.index].id}`);
+  });
+
+  it("for resource with count using expression for attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [0, ref("var.id_field")])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket.0[var.id_field]}`);
+  });
+
+  it("for resource with count using expression for count index and attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [
+          ref("count.index"),
+          Fn.max([0, 1]),
+        ])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[count.index][max(0, 1)]}`);
+  });
+
+  it("for resource with count using splat expression", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), ["*", "id"])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[*].id}`);
+  });
+
+  it("for resource with count using splat expression and expression for attribute", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("aws_s3_bucket.bucket"), [
+          "*",
+          ref("var.id_property"),
+        ])
+      )
+    ).toEqual(`\${aws_s3_bucket.bucket[*][var.id_property]}`);
+  });
+
+  it("for resource attribute using literal attribute name", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("some_resource.this"), ["list"]))
+    ).toEqual(`\${some_resource.this.list}`);
+  });
+
+  it("for resource attribute using expression for attribute name", () => {
+    expect(
+      resolveExpression(
+        propertyAccess(ref("some_resource.this"), [ref("var.list_property")])
+      )
+    ).toEqual(`\${some_resource.this[var.list_property]}`);
+  });
+
+  it("for map with an attribute name containing a colon", () => {
+    expect(
+      resolveExpression(propertyAccess(ref("local.map"), ["My:Key"]))
+    ).toEqual(`\${local.map[\"My:Key\"]}`);
+  });
 });
 
 test("propertyAccess resolves target properly", () => {
@@ -46,8 +108,27 @@ test("propertyAccess resolves target properly", () => {
       )
     )
   ).toMatchInlineSnapshot(
-    `"\${tolist(some_resource.my_resource.some_attribute_array)[0][\\"name\\"]}"`
+    `"\${tolist(some_resource.my_resource.some_attribute_array).0.name}"`
   );
+});
+
+test("propertyAccess renders splat access correctly", () => {
+  expect(
+    resolveExpression(
+      propertyAccess(ref("some_resource.my_resource", stack), ["*", "name"])
+    )
+  ).toMatchInlineSnapshot(`"\${some_resource.my_resource[*].name}"`);
+});
+
+test("propertyAccess handles construct as target", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "stack");
+  const resource = new TestResource(stack, "resource", {
+    name: "foo",
+  });
+  expect(
+    resolveExpression(propertyAccess(resource, ["*", "name"]))
+  ).toMatchInlineSnapshot(`"\${test_resource.resource[*].name}"`);
 });
 
 test("conditional renders correctly", () => {
@@ -71,13 +152,13 @@ string
       ])
     )
   ).toMatchInlineSnapshot(
-    `"\${length(\\"\\\\nThis\\\\nis\\\\na\\\\nmulti\\\\nline\\\\nstring\\\\n  \\")}"`
+    `"\${length("\\nThis\\nis\\na\\nmulti\\nline\\nstring\\n  ")}"`
   );
 });
 
 test("functions escape terraform reference like strings", () => {
   expect(resolveExpression(call("length", [`\${}`]))).toMatchInlineSnapshot(
-    `"\${length(\\"$\${}\\")}"`
+    `"\${length("$\${}")}"`
   );
 });
 
@@ -98,7 +179,7 @@ test("functions don't escape terraform references that have been tokenized", () 
 test("functions escape string markers", () => {
   expect(
     resolveExpression(call("length", [rawString(`"`)]))
-  ).toMatchInlineSnapshot(`"\${length(\\"\\\\\\"\\")}"`);
+  ).toMatchInlineSnapshot(`"\${length("\\"")}"`);
 });
 
 test("functions escape object keys", () => {
@@ -107,16 +188,14 @@ test("functions escape object keys", () => {
       call("keys", [{ "key:with:colons": "value", normal_key: "value" }])
     )
   ).toMatchInlineSnapshot(
-    `"\${keys({\\"key:with:colons\\" = \\"value\\", \\"normal_key\\" = \\"value\\"})}"`
+    `"\${keys({"key:with:colons" = "value", "normal_key" = "value"})}"`
   );
 });
 
 test("string index expression argument renders correctly", () => {
   expect(
     resolveExpression(Op.or(true, { a: "foo", b: "bar " }))
-  ).toMatchInlineSnapshot(
-    `"\${(true || {\\"a\\" = \\"foo\\", \\"b\\" = \\"bar \\"})}"`
-  );
+  ).toMatchInlineSnapshot(`"\${(true || {"a" = "foo", "b" = "bar "})}"`);
 });
 
 test("null expression argument renders correctly", () => {
@@ -145,7 +224,7 @@ test("reference inside a string literal inside a terraform function adds extra t
       ])
     )
   ).toMatchInlineSnapshot(
-    `"\${join(\\", \\", [\\"one ref is plain \${docker_container.foo.barA} and the other one as well: \${docker_container.foo.barB}\\", docker_container.foo.barC, \\"\${docker_container.foo.barD} woop woop\\"])}"`
+    `"\${join(", ", ["one ref is plain \${docker_container.foo.barA} and the other one as well: \${docker_container.foo.barB}", docker_container.foo.barC, "\${docker_container.foo.barD} woop woop"])}"`
   );
 });
 
@@ -163,7 +242,7 @@ test("a reference within a string in a function needs a Terraform Expression wra
       ])
     )
   ).toMatchInlineSnapshot(
-    `"\${length(\\"this is the ref: \${docker_container.foo.bar}\\")}"`
+    `"\${length("this is the ref: \${docker_container.foo.bar}")}"`
   );
 });
 
@@ -173,7 +252,7 @@ test("a reference used within a function and within a string only has a Terrafor
   expect(
     resolveExpression(call("x", [reference, `this is the ref: ${reference}`]))
   ).toMatchInlineSnapshot(
-    `"\${x(docker_container.foo.bar, \\"this is the ref: \${docker_container.foo.bar}\\")}"`
+    `"\${x(docker_container.foo.bar, "this is the ref: \${docker_container.foo.bar}")}"`
   );
 });
 
@@ -188,6 +267,6 @@ test("nesting can undo the wrapping", () => {
       ])
     )
   ).toMatchInlineSnapshot(
-    `"\${x(docker_container.foo.bar, \\"this is the ref: \${y(\\"my ref: \${docker_container.foo.bar}\\", docker_container.foo.bar)}\\")}"`
+    `"\${x(docker_container.foo.bar, "this is the ref: \${y("my ref: \${docker_container.foo.bar}", docker_container.foo.bar)}")}"`
   );
 });

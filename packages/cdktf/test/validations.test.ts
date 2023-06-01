@@ -130,7 +130,7 @@ describe("ValidateBinaryVersion", () => {
     );
     expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
       "Validation failed with the following errors:
-        [MyStack/testResource] Could not determine version of terraform (running echo \\"foo\\")"
+        [MyStack/testResource] Could not determine version of terraform (running echo "foo")"
     `);
   });
 });

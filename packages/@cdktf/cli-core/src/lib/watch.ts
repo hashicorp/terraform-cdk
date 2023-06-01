@@ -22,8 +22,11 @@ function getOrWriteDefaultWatchConfig(projectPath = process.cwd()) {
   let cdktfJson;
   try {
     cdktfJson = require(cdktfJsonPath);
-  } catch (err) {
-    throw Errors.Internal(`Could not find cdktf.json file in ${projectPath}`);
+  } catch (err: any) {
+    throw Errors.Internal(
+      `Could not find cdktf.json file in ${projectPath}`,
+      err
+    );
   }
 
   if (cdktfJson.watchPattern) {

@@ -5,7 +5,9 @@ import { forExpression } from ".";
 import { IResolvable, Lazy, Token } from "./tokens";
 import { captureStackTrace } from "./tokens/private/stack-trace";
 
-const DYNAMIC_EXPRESSION_SYMBOL = Symbol.for("cdktf/TerraformDynamicBlock");
+const DYNAMIC_EXPRESSION_SYMBOL = Symbol.for(
+  "cdktf/TerraformDynamicExpression"
+);
 
 /**
  * A TerraformDynamicExpression is returned by TerraformIterator.dynamic

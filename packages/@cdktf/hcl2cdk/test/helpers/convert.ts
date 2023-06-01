@@ -15,8 +15,9 @@ import {
   ConstructsMakerProviderTarget,
   readSchema,
 } from "@cdktf/provider-generator";
-
 import deepmerge from "deepmerge";
+
+const includeSynthTests = Boolean(process.env.CI);
 
 // Polyfill for older TS versions
 type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
@@ -24,7 +25,9 @@ type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes_all_languages, // Synth and snapshot all languages
   yes,
+  no_cant_resolve_construct,
   no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
+  no_missing_type_coercion, // We don't type coerce numbers yet
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
 
@@ -100,6 +103,11 @@ export const binding = {
     type: ProviderType.provider,
     path: "providers/scaleway",
   },
+  external: {
+    fqn: "hashicorp/external@=2.3.1",
+    type: ProviderType.provider,
+    path: "providers/external",
+  },
   awsVpc: {
     fqn: "terraform-aws-modules/vpc/aws@=3.19.0",
     type: ProviderType.module,
@@ -151,30 +159,35 @@ async function copyBindingsForProvider(
   await fs.copy(absolutePath!, target);
 }
 
-// Prepare for tests / warm up cache
-const baseProjectPromise = new Promise<string>(async (resolve) => {
-  const projectDir = await fs.mkdtemp(
-    path.join(os.tmpdir(), "cdktf-convert-base-")
-  );
-  await execa(
-    cdktfBin,
-    [
-      "init",
-      "--local",
-      `--dist=${cdktfDist}`,
-      "--project-name='hello'",
-      "--project-description='world'",
-      "--template=typescript",
-      "--enable-crash-reporting=false",
-    ],
-    {
-      cwd: projectDir,
-    }
-  );
+// We lie to TS here, this could be undefined but we know better
+let baseProjectPromise: Promise<string>;
+if (includeSynthTests) {
+  // Prepare for tests / warm up cache
+  baseProjectPromise = new Promise<string>(async (resolve) => {
+    const projectDir = await fs.mkdtemp(
+      path.join(os.tmpdir(), "cdktf-convert-base-")
+    );
+    await execa(
+      cdktfBin,
+      [
+        "init",
+        "--local",
+        `--dist=${cdktfDist}`,
+        "--project-name='hello'",
+        "--project-description='world'",
+        "--template=typescript",
+        "--enable-crash-reporting=false",
+      ],
+      {
+        cwd: projectDir,
+      }
+    );
 
-  resolve(projectDir);
-});
-// getProviderSchema(Object.values(binding));
+    resolve(projectDir);
+  });
+
+  // getProviderSchema(Object.values(binding));
+}
 
 async function getProjectDirectory(providers: ProviderDefinition[]) {
   const baseDir = await baseProjectPromise;
@@ -296,8 +309,8 @@ const createTestCase =
         }, 500_000);
 
         if (
-          shouldSynth === Synth.yes ||
-          shouldSynth === Synth.yes_all_languages
+          includeSynthTests &&
+          (shouldSynth === Synth.yes || shouldSynth === Synth.yes_all_languages)
         ) {
           it("synth", async () => {
             const filename = name.replace(/\s/g, "-");
@@ -328,10 +341,15 @@ app.synth();
               expect.stringContaining(`Generated Terraform code for the stacks`)
             );
           }, 500_000);
+        } else if (
+          shouldSynth === Synth.yes ||
+          shouldSynth === Synth.yes_all_languages
+        ) {
+          it.skip("synth", () => {});
         }
       });
 
-      if (shouldSynth === Synth.yes_all_languages) {
+      if (includeSynthTests && shouldSynth === Synth.yes_all_languages) {
         describe.each(["python", "csharp", "java", "go"])("%s", (language) => {
           let projectDir = "";
           let convertResult: any;
@@ -355,6 +373,10 @@ app.synth();
             });
             expect(convertResult.all).toMatchSnapshot();
           }, 500_000);
+        });
+      } else if (shouldSynth === Synth.yes_all_languages) {
+        describe.skip.each(["python", "csharp", "java", "go"])("%s", () => {
+          it.skip("snapshot", () => {});
         });
       }
     };

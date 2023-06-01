@@ -50,7 +50,6 @@ import {
   DependencyManager,
   ProviderConstraint,
   CdktfConfig,
-  ProviderDependencySpec,
   get as getLib,
   providerAdd as providerAddLib,
 } from "@cdktf/cli-core";
@@ -66,7 +65,7 @@ const chalkColour = new chalk.Instance();
 const config = readConfigSync();
 
 async function getProviderRequirements(provider: string[]) {
-  let providersFromConfig: (string | ProviderDependencySpec)[] = [];
+  let providersFromConfig: (string | TerraformDependencyConstraint)[] = [];
 
   try {
     const config = CdktfConfig.read();
@@ -110,8 +109,8 @@ export async function convert({ language, provider, stack }: any) {
     output = all;
 
     await sendTelemetry("convert", { ...stats, error: false });
-  } catch (err) {
-    throw Errors.Internal((err as Error).message, { language });
+  } catch (err: any) {
+    throw Errors.Internal((err as Error).message, err, { language });
   }
 
   console.log(output);

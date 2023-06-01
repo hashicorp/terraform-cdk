@@ -35,7 +35,7 @@ from constructs import Construct
 from cdktf import App, TerraformStack, TerraformVariable, Token
 from imports.aws.provider import AwsProvider
 from imports.dnsimple.provider import DnsimpleProvider
-from imports.dnsimple.record import Record
+from imports.dnsimple.zone_record import ZoneRecord
 
 class ProviderStack(TerraformStack):
     def __init__(self, scope: Construct, id: str):
@@ -67,8 +67,8 @@ class ProviderStack(TerraformStack):
             account = dnsimpleAccount.string_value
         )
 
-        Record(self, "web-www",
-            domain = "example.com",
+        ZoneRecord(self, "web-www",
+            zone_name = "example.com",
             name = "web",
             value = instance.public_ip,
             type = "A"

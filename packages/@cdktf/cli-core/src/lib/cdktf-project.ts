@@ -1,6 +1,5 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { AbortController, AbortSignal } from "node-abort-controller"; // polyfill until we update to node 16
 import { Errors, ensureAllSettledBeforeThrowing, logger } from "@cdktf/commons";
 import { SynthesizedStack, SynthOrigin, SynthStack } from "./synth-stack";
 import { printAnnotations } from "./synth";
@@ -339,7 +338,7 @@ export class CdktfProject {
       type: "synthesizing",
     });
     const stacks = await SynthStack.synth(
-      this.abortSignal,
+      this.abortSignal as any,
       this.synthCommand,
       this.outDir,
       this.workingDirectory,
@@ -362,17 +361,20 @@ export class CdktfProject {
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
+    await stack.initalizeTerraform(opts.noColor);
 
     try {
       await stack.diff(opts);
-    } catch (e) {
+    } catch (e: any) {
       throw Errors.External(
-        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
+        e
       );
     }
     if (stack.error) {
       throw Errors.External(
-        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`
+        `Stack failed to plan: ${stack.stack.name}. Please check the logs for more information.`,
+        new Error(stack.error)
       );
     }
   }
@@ -390,6 +392,7 @@ export class CdktfProject {
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
+    await this.initializeStacksToRunInSerial(opts.noColor);
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -546,6 +549,7 @@ export class CdktfProject {
       this.getStackExecutor(stack, {})
     );
 
+    await this.initializeStacksToRunInSerial();
     const outputs = await Promise.all(
       this.stacksToRun.map(async (s) => {
         const output = await s.fetchOutputs();
@@ -559,5 +563,14 @@ export class CdktfProject {
       (acc, curr) => ({ ...acc, ...curr }),
       {}
     ) as NestedTerraformOutputs;
+  }
+
+  // Serially run terraform init to prohibit text file busy errors for the cache files
+  private async initializeStacksToRunInSerial(
+    noColor?: boolean
+  ): Promise<void> {
+    for (const stack of this.stacksToRun) {
+      await stack.initalizeTerraform(noColor);
+    }
   }
 }

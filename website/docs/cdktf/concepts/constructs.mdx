@@ -8,9 +8,330 @@ description: >-
 
 # Constructs
 
-Construct is a general term that you can use to describe parts of your CDK for Terraform (CDKTF) project because every element in a CDKTF application is a descendent of the [`Construct` base class](https://github.com/aws/constructs/blob/10.x/API.md#class-construct--). The entire application, each `stack`, and each resource are all constructs.
+## What is a construct?
 
-You can also import custom construct classes that represent infrastructure configurations written in your programming language. Custom constructs are helpful because they enforce configuration best practices, they let you reuse configurations rather than rewriting them multiple times, and they abstract some configuration details away. For example, you might import a construct that configures a Kubernetes deployment. When you create a new instance in your application, you can customize the deployment via the exposed properties without learning all of the implementation details.
+In CDKTF, a construct is a building block that can represent anything from a single resource to a complex subset of your infrastructure. Each CDKTF program can be thought of as a tree being made up of constructs.
+
+Since constructs can also represent a collection of resources, they are often compared with Terraform modules, but constructs provide a superset of what Terraform modules can do.
+
+## Various use cases of constructs
+
+- Terraform modules are limited in the sense that they can generate resources based on HCL configuration, but constructs are not constrained to just creating, and can also modify, enrich, and validate resources created outside of the construct.
+
+- Constructs can build complex resources that can be used as any other provider-supplied resource without using a different syntax like in Terraform.
+
+- Constructs allow strict type checking and parameter validation for creating resources. This is not possible in Terraform modules.
+
+- Constructs can be used to codify best practices across the organization / codebase.
+
+- Constructs can be tested like any other code within the CDKTF supported languages.
+
+### Constructs can enrich and modify resource configuration to match best practices
+
+While Terraform modules can be used to generate a part of infrastructure, constructs can be used to enrich and modify existing resource configurations. This enables authors to codify best practices within constructs, and users of those constructs can be assured that their infrastructure is compliant.
+
+The following example extends the AWS S3 Bucket resource to add required tags. Any consumer of this `TaggedS3Bucket` can be assured that the correct tags are applied to their resource.
+
+```ts
+class TaggedS3Bucket extends S3Bucket {
+  constructor(scope: Construct, name: string, config: S3BucketConfig) {
+    super(scope, name, config);
+
+    this.tagsInput = {
+      ...this.tagsInput,
+      owner: "my-team",
+      purpose: "storage",
+    };
+  }
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    new TaggedS3Bucket(this, "my-bucket", {
+      bucket: "my-bucket",
+    });
+  }
+}
+```
+
+Constructs are not limited to modifying specific resources and can be used to operate on entire stacks. The following example is a construct that can be used to list all S3 buckets in a stack and output them as a list.
+
+```ts
+import { Construct } from "constructs";
+class OutputAllBucketNames extends Construct {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    const buckets = [];
+    Aspects.of(TerraformStack.of(this)).add({
+      visit: (node) => {
+        if (node instanceof S3Bucket) {
+          buckets.push(node);
+        }
+      },
+    });
+
+    new TerraformOutput(this, "all_buckets", {
+      value: new Lazy({
+        produce: () => {
+          return buckets;
+        },
+      }),
+    });
+  }
+}
+```
+
+Constructs can also be used to mutate many existing resources after creation. In the following example, the `DataDogInspector` construct takes in a list of various constructs and whenever it encounters an `S3Bucket`, it enables logging to DataDog for that bucket. This is especially useful for applying team level compliance requirements that happen after the original infrastructure is created.
+
+```ts
+import { Construct } from "constructs";
+class DataDogInspector extends Construct {
+  constructor(constructsToInspect: Construct[]) {
+    super();
+    constructsToInspect.forEach((c) => {
+      if (c instanceof S3Bucket) {
+        new DataDogS3Logging(c);
+      }
+    });
+  }
+}
+```
+
+### Constructs allow consumers of the construct to change behaviour conditionally
+
+Since constructs are classes, they support declaring methods to programmatically add or modify infrastructure based on conditions. This enables the construct's consumer to selectively enhance their infrastructure.
+
+In the following example, the `CustomS3Bucket` construct exposes a `giveAccess` method that can be used by the consumer to programmatically generate IAM policies for accessing the bucket for any resource that requires it.
+
+```ts
+import { Construct } from "constructs";
+class CustomS3Bucket extends S3Bucket {
+  constructor(scope: Construct, name: string, config: S3BucketConfig) {
+    super(scope, name);
+
+    // create the s3 bucket
+    // ...
+  }
+
+  public giveAccess(item: LambdaFunction | CloudfrontDistribution) {
+    if (item instanceof LambdaFunction) {
+      // Create IAM Policy for Lambda to access S3
+      // ...
+    }
+
+    if (item instanceof CloudfrontDistribution) {
+      // Create IAM Policy for CloudFront to access S3
+      // ...
+    }
+  }
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    const bucket = new CustomS3Bucket(this, "my-bucket", {
+      bucket: "my-bucket",
+    });
+
+    const lambda = new LambdaFunction(this, "my-lambda", {
+      // ...
+    });
+
+    const cloudfront = new CloudfrontDistribution(this, "my-cloudfront", {
+      // ...
+    });
+
+    bucket.giveAccess(lambda);
+    bucket.giveAccess(cloudfront);
+  }
+}
+```
+
+### Constructs can be used to codify relationships between systems
+
+Constructs can also be used to represent relationships between different parts of the infrastructure in a type-safe manner. Creating relationships through constructs also has the benefit that the relationship is easily understandable in most modern IDEs.
+
+In the following example, we have a contrived `Cluster` construct that allows various web services to be registered with it. During development, any consumer of the `Cluster` class will be able to see that any `Cluster` construct accepts `Webservice` constructs to be connected to it.
+
+```ts
+import { Construct } from "constructs";
+
+class Cluster extends Construct {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+  }
+
+  addService(webservice: Webservice) {
+    // e.g. register a service in a k8s cluster
+  }
+}
+
+class Webservice extends Construct {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+  }
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+
+    const cluster = new Cluster(this, "cluster");
+    const webservice = new Webservice(this, "webservice");
+
+    cluster.addService(webservice);
+  }
+}
+```
+
+### You can codify architectural patterns
+
+If you have complex architectural patterns you can codify them and have an abstraction where you can create a flexible architecture with less work. In this DataPipeline example you can see that each of the steps in the pipeline is bringing their own logic on how to connect to the next step and how to write their output into an S3Bucket. This means as long as a set of resources can fulfill this contract one could build a pipeline using e.g. LambdaFunctions, EC2 Instances, and CloudwatchEvents if one implemented the `PipelineStep` class for these types.
+
+```ts
+abstract class PipelineStep extends Construct {
+  abstract connect(next: PipelineStep);
+  abstract finalize(sink: S3Bucket);
+}
+
+class DataPipeline extends Construct {
+  _nextStep: PipelineStep;
+
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    // this is always the first step
+    this._nextStep = new PipelineWebhookStep(this);
+  }
+
+  public addStep(step: PipelineStep) {
+    this._nextStep.connect(step);
+    this.addAccessPermissions(this._nextStep, step);
+    this._nextStep = step;
+  }
+
+  public finalize() {
+    this._nextStep.finalize();
+  }
+}
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    const pipeline = new DataPipeline(this, "my-pipeline");
+    pipeline.addStep(new TransformInputPipelineStep(this));
+    pipeline.addStep(new AggregateValuesPipelineStep(this));
+    pipeline.addStep(new PipelineStoreResultStep(this));
+    pipeline.finalize();
+  }
+}
+```
+
+### You can codify security constraints earlier in the process
+
+You can shift left security concerns for developers from the end of the workflow (like code review, CI, or solutions like Sentinel policies) to the point where the configuration is authored. This can be done through type hints (disallowing options that are not safe on the type system level) or through validation. Validations allow dynamic verification and are shown to users as hints during cdktf synth. If they are set to the error level, they also fail the synth.
+
+#### Through Types
+
+```ts
+import { Construct } from "constructs";
+import { Ec2InstanceConfig as GeneratedEc2InstanceConfig } from "./.gen/providers/aws/lib/ec2-instance";
+
+enum AllowedInstanceSizes {
+  Nano = "t3.nano"
+  Micro = "t3.micro"
+  Small = "t3.small"
+  Medium = "t3.medium"
+}
+interface Ec2InstanceConfig extends GeneratedEc2InstanceConfig {
+  instanceSize: AllowedInstanceSizes;
+}
+
+class Ec2Instance extends Construct {
+  constructor(scope: Construct, name: string, config: Ec2InstanceConfig) {
+    super(scope, name, config);
+  }
+}
+```
+
+#### Through Validations
+
+```ts
+import { Construct } from "constructs";
+
+class S3Bucket extends Construct {
+  constructor(scope: Construct, name: string, config: S3BucketConfig) {
+    super(scope, name);
+
+    if (
+      this.isOpenToThePublic(config) &&
+      !config.tags["reason-why-this-is-public"]
+    ) {
+      Annotation.of(this).addWarning(
+        `This S3Bucket is open to the public and no reason why is stated in the tags, please add a "reason-why-this-is-public" tag`
+      );
+    }
+  }
+}
+```
+
+### Constructs and Testing
+
+Since Constructs can contain logic and are not just a data structure, they can be tested. This allows you to test the composition of your constructs and the logic they contain. This can be done with snapshot testing or unit testing.
+
+```ts
+import { Testing } from "cdktf";
+import MyApplicationsAbstraction from "../main";
+import { Ec2 } from "./custom-ec2-construct";
+
+
+describe("Construct is of correct composition and plans successfully", () => {
+    // make assertions about the composition of constructs
+    it("has EC2 of correct size", () => {
+        expect(
+          Testing.synthScope((scope) => {
+            new MyApplicationsAbstraction(scope, "app", {});
+          })
+        ).toHaveResourceWithProperties(Ec2, {
+          instanceSize: "t3.micro",
+        });
+    });
+
+  // assert that plan runs sucessfully before a deploy
+  it("successfully plans", () => {
+    const app = Testing.app();
+    const stack = new TerraformStack(app, "test");
+    const myAppAbstraction = new MyApplicationsAbstraction(stack, "app", {});
+
+    expect(Testing.fullSynth(stack)).toPlanSuccessfully();
+  });
+
+  // catch unexpected changes with snapshot testing
+  it("matches snapshot", () => {
+    expect(
+        Testing.synthScope((scope) => {
+            new MyApplicationsAbstraction(scope, "app", {});
+        })
+    ).toMatchSnapshot();
+});
+```
+
+### Interoperability
+
+You can use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
+
+You can use the [`cdktf get`](/terraform/cdktf/cli-reference/commands#get) command to download Terraform modules and use them as constructs in your CDKTF project. You can also [publish these generated constructs](/terraform/cdktf/develop-custom-constructs/publishing-and-distribution#translate-constructs-to-terraform-modules) representing a module to your registry of choice.
+
+You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/terraform/cdktf/concepts/hcl-interoperability) page for more details.
+
+## Constructs vs. Stacks
+
+[Stacks](/terraform/cdktf/concepts/stacks) represent a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. For example, you may want to have one stack that describes the infrastructure for development and another with slightly different inputs for testing.
+
+Constructs also provide a way to logically structure a set of resources, but you can only use them as part of a stack. A single stack may contain multiple constructs that act as building blocks to create the full infrastructure configuration. For example, you could use one construct to define a Kubernetes deployment and a different construct to define an AWS DynamoDB table.
 
 ## Construct Types
 
@@ -23,22 +344,6 @@ The Cloud Development Kit community has identified three major construct types t
 - **L2** constructs define resources and include an intent-driven API with additional helper methods, properties, and functionality. For example, you could create a custom L2 construct that contains a method for adding files to an S3 Bucket and a method for granting resource access to a particular user group.
 
 - **L3** constructs define common design patterns and larger pieces of functionality. For example, you could create a custom L3 construct that configures all of the necessary resources to deploy and host a static website frontend.
-
-## Modules vs. Constructs
-
-Both Terraform [modules](/terraform/cdktf/concepts/modules) and constructs allow you to reuse configurations and customize those configurations via exposed properties. However, constructs let you compose more complex objects while maintaining type safety because they can use the built-in functionality from your preferred programming language.
-
-### Interoperability
-
-You can use the [`cdktf convert`](/terraform/cdktf/cli-reference/commands#convert) command to translate existing projects written in HashiCorp Configuration Language (HCL) into CDKTF-compatible projects. You could then use the output as a starting point to create custom constructs.
-
-You cannot create a Terraform module directly from an existing CDKTF construct, but you can use the synthesized output of a CDKTF project as a Terraform Module. Refer to the [HCL interoperability](/terraform/cdktf/concepts/hcl-interoperability) page for more details.
-
-## Constructs vs. Stacks
-
-[Stacks](/terraform/cdktf/concepts/stacks) represent a collection of infrastructure that CDK for Terraform (CDKTF) synthesizes as a dedicated Terraform configuration. Stacks allow you to separate the state management for multiple environments within an application. For example, you may want to have one stack that describes the infrastructure for development and another with slightly different inputs for testing.
-
-Constructs also provide a way to logically structure a set of resources, but you can only use them as part of a stack. A single stack may contain multiple constructs that act as building blocks to create the full infrastructure configuration. For example, you could use one construct to define a Kubernetes deployment and a different construct to define an AWS DynamoDB table.
 
 ## Use Constructs
 

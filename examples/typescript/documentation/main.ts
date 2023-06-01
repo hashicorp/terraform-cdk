@@ -31,6 +31,7 @@ import {
   remoteStateRunner,
   VariablesStack,
 } from "./variables";
+import { IteratorsCountStack } from "./iterators-count";
 
 const app = new App();
 
@@ -43,6 +44,7 @@ new DataSourcesStack(app, "data-sources");
 new FunctionsStack(app, "functions");
 new HCLInteropStack(app, "hcl-interop");
 new IteratorsStack(app, "iterators");
+new IteratorsCountStack(app, "iterators-count");
 new ModulesStack(app, "modules");
 new ProvidersStack(app, "providers");
 new CloudBackendStack(app, "remote-backends");

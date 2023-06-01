@@ -28,7 +28,7 @@ export async function shell(
       },
       (chunk: string | Uint8Array) => stderr.push(chunk)
     );
-  } catch (e) {
+  } catch (e: any) {
     if (stderr.length > 0) {
       e.stderr = stderr.map((chunk) => chunk.toString()).join("");
     }

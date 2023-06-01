@@ -28,13 +28,15 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v3.0.11
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
@@ -56,7 +58,7 @@ jobs:
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: Upload dist
         if: ${{ !inputs.skip_setup }}
-        uses: actions/upload-artifact@v3.1.1
+        uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
         with:
           name: dist
           path: dist
@@ -78,12 +80,14 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
       - name: install test dependencies
         run: cd test && yarn
       - name: integration tests
@@ -106,20 +110,20 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - uses: actions/checkout@v3.1.0
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
       - name: HashiCorp - Setup Terraform
-        uses: hashicorp/setup-terraform@v2.0.3
+        uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
         with:
           terraform_wrapper: false
           terraform_version: ${{ matrix.terraform }}
       - name: Install pipenv
         run: pip install pipenv
       - name: Install Go
-        uses: actions/setup-go@v3.3.1
+        uses: actions/setup-go@fac708d6674e30b6ba41289acaab6d4b75aa0753
         with:
           go-version: 1.16.x
       - name: Download dist
-        uses: actions/download-artifact@v3.0.1
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
           name: dist
           path: dist

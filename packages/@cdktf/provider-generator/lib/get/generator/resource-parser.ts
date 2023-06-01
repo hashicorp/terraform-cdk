@@ -43,13 +43,23 @@ const RESERVED_KEYWORDS_FOR_NAMESPACES = [
   "await",
 ];
 
+const COLLIDING_NAMESPACE_NAMES = [
+  // e.g. hashicorp/consul – collides with the LICENSE file on case-insensitive filesystems in the Go package (#2627)
+  "license",
+];
+
 const isReservedClassOrNamespaceName = (className: string): boolean => {
   return [
     "string",
     "object",
     "function",
     ...RESERVED_KEYWORDS_FOR_NAMESPACES,
+    ...COLLIDING_NAMESPACE_NAMES,
   ].includes(className.toLowerCase());
+};
+
+const isReservedStructClassName = (className: string): boolean => {
+  return className.toLowerCase().endsWith("list");
 };
 
 const getFileName = (provider: ProviderName, baseName: string): string => {
@@ -63,6 +73,19 @@ const getFileName = (provider: ProviderName, baseName: string): string => {
 
   return `${toSnakeCase(baseName).replace(/_/g, "-")}/index.ts`;
 };
+
+export function sanitizeClassOrNamespaceName(
+  baseName: string,
+  isProvider = false
+) {
+  const resourceIsNamedProvider = !isProvider && baseName === "provider";
+
+  if (isReservedClassOrNamespaceName(baseName) || resourceIsNamedProvider) {
+    return `${baseName}_resource`;
+  } else {
+    return baseName;
+  }
+}
 
 class Parser {
   private structs = new Array<Struct>();
@@ -93,7 +116,10 @@ class Parser {
     if (isProvider) {
       baseName = `${provider}_${baseName}`;
       if (!("attributes" in schema.block)) {
-        schema.block = { attributes: {}, block_types: {} };
+        schema.block = {
+          attributes: {},
+          block_types: (schema.block as Block).block_types || {},
+        };
       }
       // somehow missing from provider schema
       schema.block.attributes["alias"] = {
@@ -104,11 +130,7 @@ class Parser {
       };
     }
 
-    const resourceIsNamedProvider = !isProvider && baseName === "provider";
-
-    if (isReservedClassOrNamespaceName(baseName) || resourceIsNamedProvider) {
-      baseName = `${baseName}_resource`;
-    }
+    baseName = sanitizeClassOrNamespaceName(baseName, isProvider);
 
     const className = this.uniqueClassName(toPascalCase(baseName));
     // avoid naming collision - see https://github.com/hashicorp/terraform-cdk/issues/299
@@ -546,9 +568,15 @@ class Parser {
     nesting_mode: string,
     isSingleItem = false
   ) {
-    const name = this.uniqueClassName(
-      toPascalCase(scope.map((x) => toSnakeCase(x.name)).join("_"))
+    const possibleName = toPascalCase(
+      scope.map((x) => toSnakeCase(x.name)).join("_")
     );
+    const name = this.uniqueClassName(
+      isReservedStructClassName(possibleName)
+        ? `${possibleName}Struct`
+        : possibleName
+    );
+
     const parent = scope[scope.length - 1];
     // blockType.nesting_mode => list/set & blockType.max_items === 1,
     const isClass = (parent.isComputed && !parent.isOptional) || isSingleItem;
@@ -594,6 +622,11 @@ export class ResourceParser {
 
   // Used by convert to determine the right name for a namespace
   public getNamespaceNameForResource(terraformType: string) {
+    // Special case external provider since the name of resource doesn't have a prefix
+    if (terraformType === "data_external_") {
+      terraformType = "data_external";
+    }
+
     const resource = this.resources[terraformType];
     if (!resource) {
       return "";

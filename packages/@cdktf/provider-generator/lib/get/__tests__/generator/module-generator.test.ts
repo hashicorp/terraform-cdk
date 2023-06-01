@@ -8,8 +8,6 @@ import { ConstructsMaker } from "../../constructs-maker";
 import { expectModuleToMatchSnapshot } from "../util";
 
 test("generate some modules", async () => {
-  jest.setTimeout(120000);
-
   const workdir = fs.mkdtempSync(
     path.join(os.tmpdir(), "module-generator.test")
   );
@@ -28,7 +26,7 @@ test("generate some modules", async () => {
     "utf-8"
   );
   expect(output).toMatchSnapshot();
-});
+}, 120000);
 
 expectModuleToMatchSnapshot("no module outputs", "generator", [
   "module-no-outputs.test.fixture.tf",
@@ -71,6 +69,32 @@ test("generate multiple aws modules", async () => {
     "utf-8"
   );
   expect(rdsOutput).toMatchSnapshot();
+}, 120000);
+
+test("generate nested module", async () => {
+  jest.setTimeout(120000);
+
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "module-generator-nested.test")
+  );
+  const constraint = new TerraformModuleConstraint(
+    "terraform-aws-modules/vpc/aws//modules/vpc-endpoints@3.19.0"
+  );
+
+  const maker = new ConstructsMaker({
+    codeMakerOutput: workdir,
+    targetLanguage: Language.TYPESCRIPT,
+  });
+  await maker.generate([constraint]);
+
+  const output = fs.readFileSync(
+    path.join(
+      workdir,
+      "modules/terraform-aws-modules/aws/vpc/modules/vpc-endpoints.ts"
+    ),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
 });
 
 expectModuleToMatchSnapshot("getX variables", "generator", [
@@ -98,4 +122,4 @@ test("generate module that can't be initialized", async () => {
     "utf-8"
   );
   expect(output).toMatchSnapshot();
-});
+}, 120000);

@@ -2,35 +2,50 @@
 
 exports[`function local 1`] = `
 "{
-  \\"locals\\": {
-    \\"instance_ids\\": \\"\${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}\\"
+  "locals": {
+    "instance_ids": "\${concat(aws_instance.blue.*.id, aws_instance.green.*.id)}"
   }
 }"
 `;
 
 exports[`local reference 1`] = `
 "{
-  \\"locals\\": {
-    \\"resource_name\\": \\"my_resource\\"
+  "locals": {
+    "resource_name": "my_resource"
   },
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${local.resource_name}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${local.resource_name}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
+    }
+  }
+}"
+`;
+
+exports[`local used in template string 1`] = `
+"{
+  "locals": {
+    "test-local": {
+      "type": "string"
+    }
+  },
+  "output": {
+    "test-output": {
+      "value": "The value is \${local.test-local}"
     }
   }
 }"
@@ -38,19 +53,19 @@ exports[`local reference 1`] = `
 
 exports[`multiple locals 1`] = `
 "{
-  \\"locals\\": {
-    \\"local1\\": \\"1\\",
-    \\"local2\\": \\"2\\"
+  "locals": {
+    "local1": "1",
+    "local2": "2"
   }
 }"
 `;
 
 exports[`object local 1`] = `
 "{
-  \\"locals\\": {
-    \\"common_tags\\": {
-      \\"Owner\\": \\"owner\\",
-      \\"Service\\": \\"service_name\\"
+  "locals": {
+    "common_tags": {
+      "Owner": "owner",
+      "Service": "service_name"
     }
   }
 }"
@@ -58,8 +73,8 @@ exports[`object local 1`] = `
 
 exports[`string local 1`] = `
 "{
-  \\"locals\\": {
-    \\"greeting\\": \\"Hello, \${var.name}\\"
+  "locals": {
+    "greeting": "Hello, \${var.name}"
   }
 }"
 `;

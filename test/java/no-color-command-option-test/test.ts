@@ -7,7 +7,9 @@ import { onPosix, TestDriver } from "../../test-helper";
 describe("no-color option for cdktf deploy, diff, destroy", () => {
   let driver: TestDriver;
   beforeAll(async () => {
-    driver = new TestDriver(__dirname);
+    driver = new TestDriver(__dirname, {
+      JSII_SILENCE_WARNING_DEPRECATED_NODE_VERSION: "true",
+    }); // this warning triggers our hasAnsi check
     await driver.setupJavaProject();
   }, 500_000);
 

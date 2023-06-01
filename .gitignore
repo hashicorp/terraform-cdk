@@ -23,6 +23,7 @@ tsconfig.json
 **/.terraform
 **/*.tfstate
 **/*.tfstate.backup
+**/*.d.ts.map
 
 # https://github.com/github/gitignore/blob/master/Global/VisualStudioCode.gitignore
 .vscode/*

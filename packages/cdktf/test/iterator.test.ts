@@ -6,6 +6,7 @@ import {
   TerraformIterator,
   Fn,
   TerraformHclModule,
+  TerraformCount,
 } from "../lib";
 import { TestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
@@ -149,15 +150,15 @@ test("iterator access nested types", () => {
     "${toset(test_resource.input.list_value)}"
   );
   expect(synth.resource.test_resource.test.tags).toMatchInlineSnapshot(`
-    Object {
-      "boolean_map": "\${lookup(each.value[\\"map\\"], \\"a\\", false)}",
-      "list": "\${join(\\",\\", each.value[\\"list_attribute\\"])}",
-      "map": "\${lookup(each.value[\\"map\\"], \\"a\\", \\"default\\")}",
-      "number": "\${tostring(each.value[\\"number_attribute\\"])}",
-      "number_list": "\${tostring(sum(each.value[\\"number_list_attribute\\"]))}",
-      "number_map": "\${lookup(each.value[\\"map\\"], \\"a\\", 1)}",
-      "string": "\${each.value[\\"string_attribute\\"]}",
-      "string_map": "\${lookup(each.value[\\"map\\"], \\"a\\", \\"default\\")}",
+    {
+      "boolean_map": "\${lookup(each.value.map, "a", false)}",
+      "list": "\${join(",", each.value.list_attribute)}",
+      "map": "\${lookup(each.value.map, "a", "default")}",
+      "number": "\${tostring(each.value.number_attribute)}",
+      "number_list": "\${tostring(sum(each.value.number_list_attribute))}",
+      "number_map": "\${lookup(each.value.map, "a", 1)}",
+      "string": "\${each.value.string_attribute}",
+      "string_map": "\${lookup(each.value.map, "a", "default")}",
     }
   `);
 });
@@ -273,5 +274,122 @@ test("iterator across stacks", () => {
   expect(sourceSynth).toHaveProperty(
     "output.cross-stack-output-test_resourceinputlist_value.value",
     "${test_resource.input.list_value}"
+  );
+});
+
+test("iterator chaining on resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const input = new TestResource(stack, "input", { name: "foo" });
+  const it = TerraformIterator.fromList(input.listValue);
+
+  const resource = new TestResource(stack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const chainedIt = TerraformIterator.fromList(resource.listValue);
+  new TestResource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.for_each",
+    "${toset(test_resource.input.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.test.name",
+    "${each.value}"
+  );
+
+  // Chained properties
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.for_each",
+    "${toset(test_resource.test.*.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "resource.test_resource.chained.name",
+    "${each.value}"
+  );
+});
+
+test("iterator chaining on data sources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformIterator.fromList(["a", "b", "c"]);
+
+  const data = new TestDataSource(stack, "test", {
+    forEach: it,
+    name: it.value,
+  });
+
+  const chainedIt = TerraformIterator.fromList(data.listValue);
+  new TestDataSource(stack, "chained", {
+    forEach: chainedIt,
+    name: chainedIt.value,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty("data.test_data_source.test.for_each");
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.name",
+    "${each.value}"
+  );
+
+  // Chained properties
+  expect(synth).toHaveProperty(
+    "data.test_data_source.chained.for_each",
+    "${toset(data.test_data_source.test.*.list_value)}"
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.chained.name",
+    "${each.value}"
+  );
+});
+
+test("count can count values", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const it = TerraformCount.of(3);
+
+  new TestDataSource(stack, "test", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty("data.test_data_source.test.count", 3);
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test.name",
+    "data${count.index}"
+  );
+});
+
+test("count can count references", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const resource = new TestResource(stack, "test", { name: "foo" });
+  const it = TerraformCount.of(resource.numericValue);
+
+  new TestDataSource(stack, "test_data", {
+    count: it,
+    name: `data${it.index}`,
+  });
+
+  const synth = JSON.parse(Testing.synth(stack));
+
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test_data.count",
+    "${test_resource.test.numeric_value}"
+  );
+  expect(synth).toHaveProperty(
+    "data.test_data_source.test_data.name",
+    "data${count.index}"
   );
 });

@@ -2,71 +2,71 @@
 
 exports[`python full integration 3rd party synth generates JSON 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"references\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "references",
+      "version": "stubbed"
     },
-    \\"outputs\\": {
-      \\"references\\": {
-        \\"containerCapAdd\\": \\"containerCapAdd\\"
+    "outputs": {
+      "references": {
+        "containerCapAdd": "containerCapAdd"
       }
     }
   },
-  \\"output\\": {
-    \\"containerCapAdd\\": {
-      \\"value\\": \\"\${tolist(docker_container.nginxContainer.capabilities[0].add)}\\"
+  "output": {
+    "containerCapAdd": {
+      "value": "\${tolist(docker_container.nginxContainer.capabilities[0].add)}"
     }
   },
-  \\"provider\\": {
-    \\"docker\\": [
+  "provider": {
+    "docker": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"docker_container\\": {
-      \\"nginxContainer\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"references/nginxContainer\\",
-            \\"uniqueId\\": \\"nginxContainer\\"
+  "resource": {
+    "docker_container": {
+      "nginxContainer": {
+        "//": {
+          "metadata": {
+            "path": "references/nginxContainer",
+            "uniqueId": "nginxContainer"
           }
         },
-        \\"image\\": \\"\${docker_image.nginxImage.repo_digest}\\",
-        \\"name\\": \\"nginx-python-cdktf\\",
-        \\"ports\\": [
+        "image": "\${docker_image.nginxImage.repo_digest}",
+        "name": "nginx-python-cdktf",
+        "ports": [
           {
-            \\"external\\": 8000,
-            \\"internal\\": 80
+            "external": 8000,
+            "internal": 80
           }
         ],
-        \\"privileged\\": \\"\${docker_image.nginxImage.keep_locally}\\"
+        "privileged": "\${docker_image.nginxImage.keep_locally}"
       }
     },
-    \\"docker_image\\": {
-      \\"nginxImage\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"references/nginxImage\\",
-            \\"uniqueId\\": \\"nginxImage\\"
+    "docker_image": {
+      "nginxImage": {
+        "//": {
+          "metadata": {
+            "path": "references/nginxImage",
+            "uniqueId": "nginxImage"
           }
         },
-        \\"keep_locally\\": true,
-        \\"name\\": \\"nginx:latest\\"
+        "keep_locally": true,
+        "name": "nginx:latest"
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"docker\\": {
-        \\"source\\": \\"kreuzwerker/docker\\",
-        \\"version\\": \\"2.16.0\\"
+    "required_providers": {
+      "docker": {
+        "source": "kreuzwerker/docker",
+        "version": "2.16.0"
       }
     }
   }

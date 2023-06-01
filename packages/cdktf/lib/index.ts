@@ -35,6 +35,8 @@ export * from "./tfExpression";
 export * from "./terraform-addressable";
 export * from "./terraform-iterator";
 export * from "./terraform-provisioner";
+export * from "./terraform-conditions";
+export * from "./terraform-count";
 
 // required for JSII because Fn extends from it
 export * from "./functions/terraform-functions.generated";

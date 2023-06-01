@@ -26,11 +26,11 @@ describe("provider add command", () => {
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
-                  Array [
-                    "hashicorp/null@~> 3.1.0",
-                    "hashicorp/local@=2.2.3",
-                  ]
-              `);
+          [
+            "hashicorp/null@~> 3.1.0",
+            "hashicorp/local@=2.2.3",
+          ]
+        `);
 
         expect(res.stdout).toContain(
           `Local providers have been updated. Running cdktf get to update...`
@@ -60,7 +60,7 @@ describe("provider add command", () => {
         ]);
         const config = JSON.parse(driver.readLocalFile("cdktf.json"));
         expect(config.terraformProviders).toMatchInlineSnapshot(`
-                  Array [
+                  [
                     "hashicorp/null@~> 3.1.0",
                     "hashicorp/local@=2.2.3",
                   ]

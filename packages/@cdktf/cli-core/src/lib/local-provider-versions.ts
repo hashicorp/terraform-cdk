@@ -37,9 +37,10 @@ export class LocalProviderVersions {
     let providerVersions;
     try {
       providerVersions = JSON.parse(versionsJson) as Record<string, string>;
-    } catch (e) {
+    } catch (e: any) {
       throw Errors.External(
-        "versions.json file is malformed. The root must be a JSON object."
+        "versions.json file is malformed. The root must be a JSON object.",
+        e
       );
     }
 

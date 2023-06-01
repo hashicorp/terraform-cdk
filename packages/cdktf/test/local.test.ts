@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Testing, TerraformStack, TerraformLocal } from "../lib";
+import {
+  Testing,
+  TerraformStack,
+  TerraformLocal,
+  TerraformOutput,
+} from "../lib";
 import { TestResource } from "./helper";
 import { TestProvider } from "./helper/provider";
 
@@ -63,6 +68,20 @@ test("multiple locals", () => {
   new TerraformLocal(stack, "local1", "1");
 
   new TerraformLocal(stack, "local2", "2");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("local used in template string", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const l = new TerraformLocal(stack, "test-local", {
+    type: "string",
+  });
+  new TerraformOutput(stack, "test-output", {
+    value: `The value is ${l}`,
+  });
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

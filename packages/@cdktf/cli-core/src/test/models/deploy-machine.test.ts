@@ -10,7 +10,9 @@ import {
   extractVariableNameFromPrompt,
   terraformPtyService,
   handleLineReceived,
+  bufferUnterminatedLines,
 } from "../../lib/models/deploy-machine";
+import { EOL } from "os";
 
 describe("extractVariableNameFromPrompt", () => {
   it.each([
@@ -104,7 +106,7 @@ function mockPty(ptyEvents: string[]): typeof spawnPty {
     return {
       actions,
       progress: new Promise((resolve) => {
-        setTimeout(() => resolve(), ptyEvents.length * 200);
+        setTimeout(() => resolve(""), ptyEvents.length * 200);
       }),
       exitCode: new Promise((resolve) => {
         setTimeout(() => resolve(0), ptyEvents.length * 200);
@@ -115,6 +117,7 @@ function mockPty(ptyEvents: string[]): typeof spawnPty {
 
 describe("pty events", () => {
   it("transitions when pty receives an approval question", (done) => {
+    let isDone = false;
     const mockDeployMachine = deployMachine.withConfig({
       services: {
         runTerraformInPty: (context, event) =>
@@ -127,7 +130,45 @@ describe("pty events", () => {
     });
 
     const ptyService = interpret(mockDeployMachine).onTransition((state) => {
-      if (state.matches({ running: "awaiting_approval" })) {
+      if (state.matches({ running: "awaiting_approval" }) && !isDone) {
+        isDone = true;
+        done();
+      }
+    });
+
+    ptyService.start();
+
+    ptyService.send({
+      type: "START",
+      pty: {
+        file: "",
+        args: [],
+        options: {
+          cwd: "",
+        },
+      },
+    });
+  });
+
+  it("transitions when pty receives an approval question that is split across two buffers", (done) => {
+    let isDone = false;
+    const mockDeployMachine = deployMachine.withConfig({
+      services: {
+        runTerraformInPty: (context, event) =>
+          terraformPtyService(
+            context,
+            event,
+            mockPty([
+              `Do you want to per`,
+              `form these actions\nEnter a value:`,
+            ])
+          ),
+      },
+    });
+
+    const ptyService = interpret(mockDeployMachine).onTransition((state) => {
+      if (state.matches({ running: "awaiting_approval" }) && !isDone) {
+        isDone = true;
         done();
       }
     });
@@ -195,7 +236,7 @@ describe("pty events", () => {
           Only 'override' will be accepted to override.
           
           Enter a value:`,
-              `discarded using the UI or API`,
+              `discarded using the UI or API\n`,
             ])
           ),
       },
@@ -268,5 +309,57 @@ describe("handleLineReceived", () => {
     expect(send).toHaveBeenCalledWith({
       type: "REQUEST_APPROVAL",
     });
+  });
+});
+
+describe("bufferUnterminatedLines", () => {
+  it.each(
+    [
+      {
+        description: "should output the single terminated line",
+        in: [`a${EOL}`],
+        out: [`a${EOL}`],
+      },
+      {
+        description: "should output the first and only terminated line",
+        in: [`a${EOL}`, "b"],
+        out: [`a${EOL}`],
+      },
+      {
+        description: "should not output an unterminated line",
+        in: ["a"],
+        out: [],
+      },
+      {
+        description: "should not output two unterminated lines",
+        in: ["a", "b"],
+        out: [],
+      },
+      {
+        description: "should output the part that was terminated",
+        in: [`a${EOL}b${EOL}c`],
+        out: [`a${EOL}b${EOL}`],
+      },
+      {
+        description:
+          "should output everything after it that was terminated later",
+        in: [`a${EOL}b${EOL}c`, EOL],
+        out: [`a${EOL}b${EOL}`, `c${EOL}`],
+      },
+    ].map((testCase) => [testCase.description, testCase.in, testCase.out])
+  )("%s", (_desc, input, output) => {
+    const realOutput: string[] = [];
+    const handler = (str: string) => realOutput.push(str);
+    const receiver = bufferUnterminatedLines(handler);
+    input.forEach((i) => receiver(i));
+    expect(realOutput).toEqual(output);
+  });
+
+  it("should return the current buffer", () => {
+    const handler = jest.fn();
+    const receiver = bufferUnterminatedLines(handler);
+    receiver("Hi");
+    expect(handler).not.toHaveBeenCalled();
+    expect(receiver.getBuffer()).toBe("Hi");
   });
 });

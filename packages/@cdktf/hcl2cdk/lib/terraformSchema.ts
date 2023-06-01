@@ -7,7 +7,7 @@ import {
   Schema,
 } from "@cdktf/provider-generator";
 import { getFullProviderName } from "./provider";
-import { Scope } from "./types";
+import { ProgramScope } from "./types";
 
 function getResourceAtPath(schema: ProviderSchema, path: string) {
   const parts = path.split(".");
@@ -26,7 +26,12 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
   const resourceName = parts.shift() as string;
 
   const fullProviderName = getFullProviderName(schema, providerName);
-  const fullResourceName = `${providerName}_${resourceName}`;
+  // Hack: In the case of 'external', the name of the data source 'external' doesn't have a prefix
+  // so we repeat the name as both provider prefix and the data source name
+  const fullResourceName =
+    providerName === resourceName
+      ? providerName
+      : `${providerName}_${resourceName}`;
 
   if (!fullProviderName) {
     // No provider found with that name
@@ -150,7 +155,10 @@ export const isMapAttribute = (
   attribute: Schema | AttributeType | BlockType | null
 ) => (Array.isArray(attribute) ? attribute[0] === "map" : false);
 
-export function getDesiredType(scope: Scope, path: string): AttributeType {
+export function getDesiredType(
+  scope: ProgramScope,
+  path: string
+): AttributeType {
   const attributeOrBlockType = getTypeAtPath(scope.providerSchema, path);
 
   // Attribute type is not defined

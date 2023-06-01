@@ -6,6 +6,7 @@ import {
   TerraformVariable,
   VariableType,
   Fn,
+  TerraformOutput,
 } from "../lib";
 import { TestResource } from "./helper";
 import { TestProvider } from "./helper/provider";
@@ -169,6 +170,20 @@ test("nullable variable", () => {
     type: "string",
     nullable: true,
   });
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("variable used in template string", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+
+  const v = new TerraformVariable(stack, "test-variable", {
+    type: "string",
+  });
+  new TerraformOutput(stack, "test-output", {
+    value: `The value is ${v}`,
+  });
+
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
 

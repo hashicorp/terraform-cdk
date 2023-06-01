@@ -70,6 +70,13 @@ describe("dependency manager", () => {
         "registry.example.com/acme/customprovider"
       );
     });
+
+    it("should return no extra space in toString() result before version", () => {
+      const constraint = new ProviderConstraint("random", "*");
+      expect(constraint.toString()).toEqual(
+        "registry.terraform.io/hashicorp/random@*"
+      );
+    });
   });
 
   describe("addLocalProvider", () => {

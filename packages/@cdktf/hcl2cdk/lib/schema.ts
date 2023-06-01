@@ -1,9 +1,8 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as z from "zod";
-import { ZodRawShape } from "zod/lib/src/types/base";
 
-const tfObject = <T extends ZodRawShape>(config: T) =>
+const tfObject = <T extends z.ZodRawShape>(config: T) =>
   z.array(z.object(config).partial());
 
 const outputConfig = tfObject({
@@ -25,7 +24,7 @@ const variableConfig = tfObject({
   description: z.string(),
   sensitive: z.boolean(),
   nullable: z.boolean().optional(),
-  validation: z.array(z.record(validationConfig)).optional(),
+  validation: z.array(validationConfig).optional(),
 });
 export type Variable = z.infer<typeof variableConfig>;
 

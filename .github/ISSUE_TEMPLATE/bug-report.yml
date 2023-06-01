@@ -1,0 +1,161 @@
+name: "🐛 Bug Report"
+description: "If something isn't working as expected 🤔"
+title: "COMPONENT: short issue description"
+labels: [bug, new]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⬆️⬆️ Don't forget to update the issue title! ⬆️⬆️
+
+  - type: markdown
+    attributes:
+      value: |
+        **Note**
+        We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47) where there are more people ready to help.
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected Behavior
+      description: |
+        What should have happened? Please give a clear and concise description in plain English.
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual Behavior
+      description: |
+        What actually happened? Please give a clear and concise description in plain English.
+        Feel free to include screenshots, but do NOT paste your full debug output here; link that in a GitHub Gist further down in this form.
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Please list the steps required to reproduce the issue.
+      placeholder: |
+        1. Do this
+        2. Then do that
+        3. And then that
+    validations:
+      required: true
+
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: |
+        Please run `cdktf debug` on the command line and paste the output in here. Alternatively, manually list your cdktf and OS/language versions.
+        If you are not running the latest versions, please upgrade because your issue may have already been fixed.
+      placeholder: |
+        language: typescript
+        cdktf-cli: 0.16.1
+        node: v18.16.0
+        cdktf: 0.16.1
+        constructs: 10.2.14
+        jsii: 1.82.0
+        terraform: 1.4.6
+        arch: arm64
+        os: darwin 21.6.0
+    validations:
+      required: true
+
+  - type: textarea
+    id: providers
+    attributes:
+      label: Providers
+      description: |
+        Please run `cdktf provider list` on the command line and paste the output in here. Or, manually list the versions of all providers you are using.
+        If you are not running the latest versions, please upgrade because your issue may have already been fixed.
+      placeholder: |
+        ┌────────────────────┬──────────────────┬─────────┬────────────┬────────────────────────┬─────────────────┐
+        │ Provider Name      │ Provider Version │ CDKTF   │ Constraint │ Package Name           │ Package Version │
+        ├────────────────────┼──────────────────┼─────────┼────────────┼────────────────────────┼─────────────────┤
+        │ aws                │ 4.65.0           │ ^0.16.0 │            │ @cdktf/provider-aws    │ 14.0.2          │
+        ├────────────────────┼──────────────────┼─────────┼────────────┼────────────────────────┼─────────────────┤
+        │ kreuzwerker/docker │ 3.0.2            │ ^0.16.0 │            │ @cdktf/provider-docker │ 7.0.0           │
+        ├────────────────────┼──────────────────┼─────────┼────────────┼────────────────────────┼─────────────────┤
+        │ tls                │ 4.0.4            │ ^0.16.0 │            │ @cdktf/provider-tls    │ 6.0.0           │
+        └────────────────────┴──────────────────┴─────────┴────────────┴────────────────────────┴─────────────────┘
+    validations:
+      required: false
+
+  - type: input
+    id: gist
+    attributes:
+      label: Gist
+      description: |
+        If possible, please provide a link to a [GitHub Gist](https://gist.github.com/) containing a reproducible code sample and/or your complete debug output.
+      placeholder: |
+        https://gist.github.com/gdb/b6365e79be6052e7531e7ba6ea8caf23
+    validations:
+      required: false
+
+  - type: textarea
+    id: solutions
+    attributes:
+      label: Possible Solutions
+      description: |
+        Do you have any ideas or suggestions for how the issue might be resolved?
+    validations:
+      required: false
+
+  - type: textarea
+    id: workarounds
+    attributes:
+      label: Workarounds
+      description: |
+        Did you discover any workarounds on your own? If so, please list them here.
+    validations:
+      required: false
+
+  - type: textarea
+    id: miscellaneous
+    attributes:
+      label: Anything Else?
+      description: |
+        Is there anything else we should know? For example, is there anything atypical about your setup that could be affecting this issue?
+    validations:
+      required: false
+
+  - type: textarea
+    id: references
+    attributes:
+      label: References
+      description: |
+        Are there any other GitHub issues (open or closed) or pull requests that should be linked here? Or links to documentation pages?
+        Guide to referencing Github issues: https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
+      placeholder: |
+        - #123
+        - #456
+        - https://developer.hashicorp.com/terraform/cdktf/concepts/aspects
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Help Wanted
+      description: Is this something you're able to or interested in helping out with? This is not required but a helpful way to signal to us that you're planning to open a PR with a fix.
+      options:
+        - label: I'm interested in contributing a fix myself
+          required: false
+
+  - type: textarea
+    id: community
+    attributes:
+      label: Community Note
+      description: Please do not remove, edit, or change the following note for our community. Just leave everything in this textbox as-is.
+      value: |
+        - Please vote on this issue by adding a 👍 [reaction](https://blog.github.com/2016-03-10-add-reactions-to-pull-requests-issues-and-comments/) to the original issue to help the community and maintainers prioritize this request
+        - Please do not leave "+1" or other comments that do not add relevant new information or questions, they generate extra noise for issue followers and do not help prioritize the request
+        - If you are interested in working on this issue or have submitted a pull request, please leave a comment
+    validations:
+      required: true

@@ -16,6 +16,7 @@ import * as pty from "@cdktf/node-pty-prebuilt-multiarch";
 import { Errors, logger } from "@cdktf/commons";
 import { missingVariable } from "../errors";
 import stripAnsi from "strip-ansi";
+import { EOL } from "os";
 import { spawnPty } from "./pty-process";
 
 interface PtySpawnConfig {
@@ -99,6 +100,36 @@ export function extractVariableNameFromPrompt(line: string) {
   return lineWithVar.split("var.")[1].trim();
 }
 
+interface BufferedReceiverFunction {
+  (output: string): void;
+  /**
+   * used to get the last buffer when the PTY exits to log a debug message if there's output left in there
+   * (might help debugging on Windows if EOL from Nodejs doesn't work in WSL)
+   */
+  getBuffer: () => string;
+}
+
+// used to only send completed lines (= with a newline at the end of them) to our logic (#2827)
+export function bufferUnterminatedLines(
+  handler: (output: string) => void
+): BufferedReceiverFunction {
+  let buffer = "";
+  function bufferedReceiverFunction(output: string) {
+    buffer += output;
+    const lines = buffer.split(EOL);
+
+    // if the string ends with \n this will be an empty string
+    // else it will contain an "unfinished" line
+    // the fallback to an empty string is to make TS happy and should never happen
+    buffer = lines.pop() || "";
+
+    if (lines.length > 0) handler(lines.join(EOL) + "\n");
+  }
+  bufferedReceiverFunction.getBuffer = () => buffer;
+
+  return bufferedReceiverFunction;
+}
+
 export function handleLineReceived(send: (event: DeployEvent) => void) {
   return (output: string) => {
     let hideOutput = false;
@@ -116,6 +147,8 @@ export function handleLineReceived(send: (event: DeployEvent) => void) {
         "Do you really want to destroy all resources in workspace"
       )
     ) {
+      hideOutput = true;
+      send({ type: "OUTPUT_RECEIVED", output });
       send({ type: "REQUEST_APPROVAL" });
     } else if (
       noColorLine.includes("var.") &&
@@ -280,7 +313,7 @@ export function terraformPtyService(
     }
 
     // Communication from the pty to the caller
-    const receiver = handleLineReceived(send);
+    const receiver = bufferUnterminatedLines(handleLineReceived(send));
     const { exitCode, actions } = spawn(event.pty, (data) => {
       receiver(data);
     });
@@ -293,6 +326,13 @@ export function terraformPtyService(
     });
 
     exitCode.then((exitCode) => {
+      const lastBuffer = receiver.getBuffer();
+      if (lastBuffer.length > 0) {
+        logger.debug(
+          `Terraform CLI exited but the last outputted line was not terminated with a newline and hence is still in the buffer and wasn't printed: "${lastBuffer}"`
+        );
+      }
+
       send({ type: "EXITED", exitCode });
     });
 

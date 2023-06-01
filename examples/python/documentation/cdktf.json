@@ -5,9 +5,9 @@
     "aws@~> 3.0",
     "kubernetes@~> 2.0",
     "hashicorp/random@~> 3.1",
-    "dnsimple/dnsimple",
-    "kreuzwerker/docker",
-    "integrations/github"
+    "dnsimple/dnsimple@~> 1.0",
+    "kreuzwerker/docker@~> 3.0",
+    "integrations/github@~> 5.22"
   ],
   "terraformModules": [
     {

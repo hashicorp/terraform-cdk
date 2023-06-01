@@ -17,7 +17,7 @@ import * as rosetta from "jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
-import { findUsedReferences } from "./expressions";
+import { findUsedReferences } from "./references";
 import {
   backendToExpression,
   cdktfImport,
@@ -33,7 +33,7 @@ import {
   variable,
   wrapCodeInConstructor,
 } from "./generation";
-import { TerraformResourceBlock, Scope } from "./types";
+import { TerraformResourceBlock, ProgramScope } from "./types";
 import {
   forEachProvider,
   forEachGlobal,
@@ -43,6 +43,7 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
+import { attributeNameToCdktfName } from "./generation";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -86,11 +87,9 @@ export async function convertToTypescript(
   logger.debug("Converting to typescript");
   const plan = await getParsedHcl(hcl);
 
-  logger.debug(`Parsed HCL: ${JSON.stringify(plan, null, 2)}`);
-
   // Each key in the scope needs to be unique, therefore we save them in a set
   // Each variable needs to be unique as well, we save them in a record so we can identify if two variables are the same
-  const scope: Scope = {
+  const scope: ProgramScope = {
     providerSchema,
     providerGenerator: Object.keys(
       providerSchema.provider_schemas || {}
@@ -105,6 +104,7 @@ export async function convertToTypescript(
     constructs: new Set<string>(),
     variables: {},
     hasTokenBasedTypeCoercion: false,
+    nodeIds: [],
   };
 
   const graph = new DirectedGraph<{
@@ -145,6 +145,7 @@ export async function convertToTypescript(
 
   // Finding references becomes easier of the to be referenced ids are already known
   const nodeIds = Object.keys(nodeMap);
+  scope.nodeIds = nodeIds;
   async function addEdges(id: string, value: TerraformResourceBlock) {
     (await findUsedReferences(nodeIds, value)).forEach((ref) => {
       if (
@@ -160,6 +161,12 @@ export async function convertToTypescript(
           );
         }
 
+        // The graph should have no self-references
+        if (id === ref.referencee.id) {
+          logger.debug(`Skipping self-reference for ${id}`);
+          return;
+        }
+
         logger.debug(`Adding edge from ${ref.referencee.id} to ${id}`);
         graph.addDirectedEdge(ref.referencee.id, id, { ref });
       }
@@ -169,7 +176,7 @@ export async function convertToTypescript(
   // We recursively inspect each resource value to find references to other values
   // We add these to a dependency graph so that the programming code has the right order
   async function addGlobalEdges(
-    _scope: Scope,
+    _scope: ProgramScope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -177,7 +184,7 @@ export async function convertToTypescript(
     await addEdges(id, value);
   }
   async function addProviderEdges(
-    _scope: Scope,
+    _scope: ProgramScope,
     _key: string,
     id: string,
     value: TerraformResourceBlock
@@ -185,7 +192,7 @@ export async function convertToTypescript(
     await addEdges(id, value);
   }
   async function addNamespacedEdges(
-    _scope: Scope,
+    _scope: ProgramScope,
     _type: string,
     _key: string,
     id: string,
@@ -259,6 +266,16 @@ export async function convertToTypescript(
     );
   } while (nodesToVisit.length > 0 && nodesVisitedThisIteration != 0);
 
+  if (nodesToVisit.length > 0) {
+    throw new Error(
+      `There are ${
+        nodesToVisit.length
+      } terraform elements that could not be visited. 
+      This is likely due to a cycle in the dependency graph. 
+      These nodes are: ${nodesToVisit.join(", ")}`
+    );
+  }
+
   logger.debug(
     `${nodesToVisit.length} unvisited nodes: ${nodesToVisit.join(", ")}`
   );
@@ -266,7 +283,7 @@ export async function convertToTypescript(
   const backendExpressions = (
     await Promise.all(
       plan.terraform?.map((terraform) =>
-        backendToExpression(scope, terraform.backend, nodeIds)
+        backendToExpression(scope, terraform.backend)
       ) || [Promise.resolve([])]
     )
   ).reduce((carry, item) => [...carry, ...item], []);
@@ -543,4 +560,4 @@ export async function convertProject(
   };
 }
 
-export { isRegistryModule };
+export { isRegistryModule, attributeNameToCdktfName };

@@ -28,7 +28,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_boolean_list\\";
+  public static readonly tfResourceType = "aws_boolean_list";
 
   // ===========
   // INITIALIZER
@@ -93,7 +93,7 @@ export class BooleanList extends cdktf.TerraformResource {
   }
 
   // foo_computed - computed: true, optional: false, required: false
-  private _fooComputed = new cdktf.BooleanList(this, \\"foo_computed\\", false);
+  private _fooComputed = new cdktf.BooleanList(this, "foo_computed", false);
   public get fooComputed() {
     return this._fooComputed;
   }
@@ -140,7 +140,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_boolean_map\\";
+  public static readonly tfResourceType = "aws_boolean_map";
 
   // ===========
   // INITIALIZER
@@ -176,7 +176,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  private _fooComputed = new cdktf.BooleanMap(this, \\"foo_computed\\");
+  private _fooComputed = new cdktf.BooleanMap(this, "foo_computed");
   public get fooComputed() {
     return this._fooComputed;
   }
@@ -244,7 +244,7 @@ export interface ComputedComplexEgress {
 export function computedComplexEgressToTerraform(struct?: ComputedComplexEgress): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -351,7 +351,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_computed_complex\\";
+  public static readonly tfResourceType = "aws_computed_complex";
 
   // ===========
   // INITIALIZER
@@ -385,7 +385,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: false, required: false
-  private _egress = new ComputedComplexEgressList(this, \\"egress\\", true);
+  private _egress = new ComputedComplexEgressList(this, "egress", true);
   public get egress() {
     return this._egress;
   }
@@ -419,7 +419,7 @@ export interface ComputedComplexNestedResourcesAutoscalingGroups {
 export function computedComplexNestedResourcesAutoscalingGroupsToTerraform(struct?: ComputedComplexNestedResourcesAutoscalingGroups): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -483,7 +483,7 @@ export interface ComputedComplexNestedResources {
 export function computedComplexNestedResourcesToTerraform(struct?: ComputedComplexNestedResources): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -518,7 +518,7 @@ export class ComputedComplexNestedResourcesOutputReference extends cdktf.Complex
   }
 
   // autoscaling_groups - computed: true, optional: false, required: false
-  private _autoscalingGroups = new ComputedComplexNestedResourcesAutoscalingGroupsList(this, \\"autoscaling_groups\\", false);
+  private _autoscalingGroups = new ComputedComplexNestedResourcesAutoscalingGroupsList(this, "autoscaling_groups", false);
   public get autoscalingGroups() {
     return this._autoscalingGroups;
   }
@@ -556,7 +556,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_computed_complex_nested\\";
+  public static readonly tfResourceType = "aws_computed_complex_nested";
 
   // ===========
   // INITIALIZER
@@ -590,7 +590,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // ==========
 
   // resources - computed: true, optional: false, required: false
-  private _resources = new ComputedComplexNestedResourcesList(this, \\"resources\\", false);
+  private _resources = new ComputedComplexNestedResourcesList(this, "resources", false);
   public get resources() {
     return this._resources;
   }
@@ -630,7 +630,7 @@ export interface BlockTypeNestedComputedListInputsStartingPositionConfiguration 
 export function blockTypeNestedComputedListInputsStartingPositionConfigurationToTerraform(struct?: BlockTypeNestedComputedListInputsStartingPositionConfiguration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -698,7 +698,7 @@ export interface BlockTypeNestedComputedListInputs {
 export function blockTypeNestedComputedListInputsToTerraform(struct?: BlockTypeNestedComputedListInputs | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     name_prefix: cdktf.stringToTerraform(struct!.namePrefix),
@@ -768,7 +768,7 @@ export class BlockTypeNestedComputedListInputsOutputReference extends cdktf.Comp
   }
 
   // starting_position_configuration - computed: true, optional: false, required: false
-  private _startingPositionConfiguration = new BlockTypeNestedComputedListInputsStartingPositionConfigurationList(this, \\"starting_position_configuration\\", false);
+  private _startingPositionConfiguration = new BlockTypeNestedComputedListInputsStartingPositionConfigurationList(this, "starting_position_configuration", false);
   public get startingPositionConfiguration() {
     return this._startingPositionConfiguration;
   }
@@ -807,7 +807,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_block_type_nested_computed_list\\";
+  public static readonly tfResourceType = "aws_block_type_nested_computed_list";
 
   // ===========
   // INITIALIZER
@@ -842,7 +842,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==========
 
   // inputs - computed: false, optional: true, required: false
-  private _inputs = new BlockTypeNestedComputedListInputsList(this, \\"inputs\\", false);
+  private _inputs = new BlockTypeNestedComputedListInputsList(this, "inputs", false);
   public get inputs() {
     return this._inputs;
   }
@@ -927,7 +927,7 @@ export interface ComputedOptionalComplexEgress {
 export function computedOptionalComplexEgressToTerraform(struct?: ComputedOptionalComplexEgress | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     cidr_blocks: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.cidrBlocks),
@@ -1207,7 +1207,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_computed_optional_complex\\";
+  public static readonly tfResourceType = "aws_computed_optional_complex";
 
   // ===========
   // INITIALIZER
@@ -1242,7 +1242,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==========
 
   // egress - computed: true, optional: true, required: false
-  private _egress = new ComputedOptionalComplexEgressList(this, \\"egress\\", true);
+  private _egress = new ComputedOptionalComplexEgressList(this, "egress", true);
   public get egress() {
     return this._egress;
   }
@@ -1297,7 +1297,7 @@ export interface DeeplyNestedBlockTypesLifecycleRuleExpiration {
 export function deeplyNestedBlockTypesLifecycleRuleExpirationToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference | DeeplyNestedBlockTypesLifecycleRuleExpiration): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     date: cdktf.stringToTerraform(struct!.date),
@@ -1368,7 +1368,7 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
 export function deeplyNestedBlockTypesLifecycleRuleToTerraform(struct?: DeeplyNestedBlockTypesLifecycleRule | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     abort_incomplete_multipart_upload_days: cdktf.numberToTerraform(struct!.abortIncompleteMultipartUploadDays),
@@ -1443,7 +1443,7 @@ export class DeeplyNestedBlockTypesLifecycleRuleOutputReference extends cdktf.Co
   }
 
   // expiration - computed: false, optional: true, required: false
-  private _expiration = new DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference(this, \\"expiration\\");
+  private _expiration = new DeeplyNestedBlockTypesLifecycleRuleExpirationOutputReference(this, "expiration");
   public get expiration() {
     return this._expiration;
   }
@@ -1487,7 +1487,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_deeply_nested_block_types\\";
+  public static readonly tfResourceType = "aws_deeply_nested_block_types";
 
   // ===========
   // INITIALIZER
@@ -1522,7 +1522,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==========
 
   // lifecycle_rule - computed: false, optional: true, required: false
-  private _lifecycleRule = new DeeplyNestedBlockTypesLifecycleRuleList(this, \\"lifecycle_rule\\", false);
+  private _lifecycleRule = new DeeplyNestedBlockTypesLifecycleRuleList(this, "lifecycle_rule", false);
   public get lifecycleRule() {
     return this._lifecycleRule;
   }
@@ -1577,7 +1577,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_ignored_attributes\\";
+  public static readonly tfResourceType = "aws_ignored_attributes";
 
   // ===========
   // INITIALIZER
@@ -1685,7 +1685,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_incompatible_attribute_names\\";
+  public static readonly tfResourceType = "aws_incompatible_attribute_names";
 
   // ===========
   // INITIALIZER
@@ -1832,7 +1832,7 @@ export class FunctionResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_function\\";
+  public static readonly tfResourceType = "test_function";
 
   // ===========
   // INITIALIZER
@@ -1902,7 +1902,95 @@ export * as objectResource from './object-resource';
 export * as functionResource from './function-resource';
 export * as staticResource from './static-resource';
 export * as providerResource from './provider-resource';
+export * as licenseResource from './license-resource';
 
+"
+`;
+
+exports[`incompatible resource names: license-resource 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface LicenseResourceConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license#dummy LicenseResource#dummy}
+  */
+  readonly dummy?: string;
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license test_license}
+*/
+export class LicenseResource extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "test_license";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license test_license} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options LicenseResourceConfig = {}
+  */
+  public constructor(scope: Construct, id: string, config: LicenseResourceConfig = {}) {
+    super(scope, id, {
+      terraformResourceType: 'test_license',
+      terraformGeneratorMetadata: {
+        providerName: 'test'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._dummy = config.dummy;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // dummy - computed: false, optional: true, required: false
+  private _dummy?: string; 
+  public get dummy() {
+    return this.getStringAttribute('dummy');
+  }
+  public set dummy(value: string) {
+    this._dummy = value;
+  }
+  public resetDummy() {
+    this._dummy = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dummyInput() {
+    return this._dummy;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      dummy: cdktf.stringToTerraform(this._dummy),
+    };
+  }
+}
 "
 `;
 
@@ -1930,7 +2018,7 @@ export class ObjectResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_object\\";
+  public static readonly tfResourceType = "test_object";
 
   // ===========
   // INITIALIZER
@@ -2017,7 +2105,7 @@ export class ProviderResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_provider\\";
+  public static readonly tfResourceType = "test_provider";
 
   // ===========
   // INITIALIZER
@@ -2104,7 +2192,7 @@ export class StaticResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_static\\";
+  public static readonly tfResourceType = "test_static";
 
   // ===========
   // INITIALIZER
@@ -2191,7 +2279,7 @@ export class StringResource extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_string\\";
+  public static readonly tfResourceType = "test_string";
 
   // ===========
   // INITIALIZER
@@ -2271,7 +2359,7 @@ export interface ComplexLl {
 export function complexLlToTerraform(struct?: ComplexLl): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -2359,7 +2447,7 @@ export interface ComplexLs {
 export function complexLsToTerraform(struct?: ComplexLs): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -2447,7 +2535,7 @@ export interface ComplexSl {
 export function complexSlToTerraform(struct?: ComplexSl): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -2535,7 +2623,7 @@ export interface ComplexSs {
 export function complexSsToTerraform(struct?: ComplexSs): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
   }
@@ -2626,7 +2714,7 @@ export class Complex extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"test_complex\\";
+  public static readonly tfResourceType = "test_complex";
 
   // ===========
   // INITIALIZER
@@ -2660,25 +2748,25 @@ export class Complex extends cdktf.TerraformResource {
   // ==========
 
   // ll - computed: true, optional: false, required: false
-  private _ll = new ComplexLlListList(this, \\"ll\\", false);
+  private _ll = new ComplexLlListList(this, "ll", false);
   public get ll() {
     return this._ll;
   }
 
   // ls - computed: true, optional: false, required: false
-  private _ls = new ComplexLsListList(this, \\"ls\\", false);
+  private _ls = new ComplexLsListList(this, "ls", false);
   public get ls() {
     return this._ls;
   }
 
   // sl - computed: true, optional: false, required: false
-  private _sl = new ComplexSlListList(this, \\"sl\\", true);
+  private _sl = new ComplexSlListList(this, "sl", true);
   public get sl() {
     return this._sl;
   }
 
   // ss - computed: true, optional: false, required: false
-  private _ss = new ComplexSsListList(this, \\"ss\\", true);
+  private _ss = new ComplexSsListList(this, "ss", true);
   public get ss() {
     return this._ss;
   }
@@ -2721,7 +2809,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_list_of_string_map\\";
+  public static readonly tfResourceType = "aws_list_of_string_map";
 
   // ===========
   // INITIALIZER
@@ -2756,7 +2844,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  private _keys = new cdktf.StringMapList(this, \\"keys\\", false);
+  private _keys = new cdktf.StringMapList(this, "keys", false);
   public get keys() {
     return this._keys;
   }
@@ -2816,7 +2904,7 @@ export class MapOfStringList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_map_of_string_list\\";
+  public static readonly tfResourceType = "aws_map_of_string_list";
 
   // ===========
   // INITIALIZER
@@ -2851,7 +2939,7 @@ export class MapOfStringList extends cdktf.TerraformResource {
   // ==========
 
   // keys - computed: true, optional: false, required: false
-  private _keys = new cdktf.StringListMap(this, \\"keys\\");
+  private _keys = new cdktf.StringListMap(this, "keys");
   public get keys() {
     return this._keys;
   }
@@ -2913,7 +3001,7 @@ export class NumberList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_number_list\\";
+  public static readonly tfResourceType = "aws_number_list";
 
   // ===========
   // INITIALIZER
@@ -3019,7 +3107,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_number_map\\";
+  public static readonly tfResourceType = "aws_number_map";
 
   // ===========
   // INITIALIZER
@@ -3055,7 +3143,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  private _fooComputed = new cdktf.NumberMap(this, \\"foo_computed\\");
+  private _fooComputed = new cdktf.NumberMap(this, "foo_computed");
   public get fooComputed() {
     return this._fooComputed;
   }
@@ -3138,7 +3226,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_primitive_boolean\\";
+  public static readonly tfResourceType = "aws_primitive_boolean";
 
   // ===========
   // INITIALIZER
@@ -3271,7 +3359,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_primitive_dynamic\\";
+  public static readonly tfResourceType = "aws_primitive_dynamic";
 
   // ===========
   // INITIALIZER
@@ -3308,7 +3396,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ==========
 
   // foo_computed - computed: true, optional: false, required: false
-  private _fooComputed = new cdktf.AnyMap(this, \\"foo_computed\\");
+  private _fooComputed = new cdktf.AnyMap(this, "foo_computed");
   public get fooComputed() {
     return this._fooComputed;
   }
@@ -3405,7 +3493,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_primitive_number\\";
+  public static readonly tfResourceType = "aws_primitive_number";
 
   // ===========
   // INITIALIZER
@@ -3538,7 +3626,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_primitive_string\\";
+  public static readonly tfResourceType = "aws_primitive_string";
 
   // ===========
   // INITIALIZER
@@ -3675,7 +3763,7 @@ export class NameConflict extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_name_conflict\\";
+  public static readonly tfResourceType = "aws_name_conflict";
 
   // ===========
   // INITIALIZER
@@ -3813,7 +3901,7 @@ export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#timeouts_list BlockTypeSetList#timeouts_list}
   */
-  readonly timeoutsList?: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable;
+  readonly timeoutsList?: BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable;
 }
 export interface BlockTypeSetListTimeoutsSet {
   /**
@@ -3825,7 +3913,7 @@ export interface BlockTypeSetListTimeoutsSet {
 export function blockTypeSetListTimeoutsSetToTerraform(struct?: BlockTypeSetListTimeoutsSet | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     create: cdktf.stringToTerraform(struct!.create),
@@ -3912,24 +4000,24 @@ export class BlockTypeSetListTimeoutsSetList extends cdktf.ComplexList {
     return new BlockTypeSetListTimeoutsSetOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
-export interface BlockTypeSetListTimeoutsList {
+export interface BlockTypeSetListTimeoutsListStruct {
   /**
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#create BlockTypeSetList#create}
   */
   readonly create?: string;
 }
 
-export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList | cdktf.IResolvable): any {
+export function blockTypeSetListTimeoutsListStructToTerraform(struct?: BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     create: cdktf.stringToTerraform(struct!.create),
   }
 }
 
-export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexObject {
+export class BlockTypeSetListTimeoutsListStructOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
 
@@ -3943,7 +4031,7 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined {
+  public get internalValue(): BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable | undefined {
     if (this.resolvableValue) {
       return this.resolvableValue;
     }
@@ -3956,7 +4044,7 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined) {
+  public set internalValue(value: BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
@@ -3990,8 +4078,8 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
   }
 }
 
-export class BlockTypeSetListTimeoutsListList extends cdktf.ComplexList {
-  public internalValue? : BlockTypeSetListTimeoutsList[] | cdktf.IResolvable
+export class BlockTypeSetListTimeoutsListStructList extends cdktf.ComplexList {
+  public internalValue? : BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -4005,8 +4093,8 @@ export class BlockTypeSetListTimeoutsListList extends cdktf.ComplexList {
   /**
   * @param index the index of the item to return
   */
-  public get(index: number): BlockTypeSetListTimeoutsListOutputReference {
-    return new BlockTypeSetListTimeoutsListOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  public get(index: number): BlockTypeSetListTimeoutsListStructOutputReference {
+    return new BlockTypeSetListTimeoutsListStructOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 
@@ -4018,7 +4106,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_block_type_set_list\\";
+  public static readonly tfResourceType = "aws_block_type_set_list";
 
   // ===========
   // INITIALIZER
@@ -4054,7 +4142,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==========
 
   // timeouts_set - computed: false, optional: true, required: false
-  private _timeoutsSet = new BlockTypeSetListTimeoutsSetList(this, \\"timeouts_set\\", true);
+  private _timeoutsSet = new BlockTypeSetListTimeoutsSetList(this, "timeouts_set", true);
   public get timeoutsSet() {
     return this._timeoutsSet;
   }
@@ -4070,11 +4158,11 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList = new BlockTypeSetListTimeoutsListList(this, \\"timeouts_list\\", false);
+  private _timeoutsList = new BlockTypeSetListTimeoutsListStructList(this, "timeouts_list", false);
   public get timeoutsList() {
     return this._timeoutsList;
   }
-  public putTimeoutsList(value: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable) {
+  public putTimeoutsList(value: BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable) {
     this._timeoutsList.internalValue = value;
   }
   public resetTimeoutsList() {
@@ -4092,7 +4180,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform, true)(this._timeoutsSet.internalValue),
-      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform, true)(this._timeoutsList.internalValue),
+      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListStructToTerraform, true)(this._timeoutsList.internalValue),
     };
   }
 }
@@ -4126,7 +4214,7 @@ export interface SingleBlockTypeTimeouts {
 export function singleBlockTypeTimeoutsToTerraform(struct?: SingleBlockTypeTimeouts | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
-    throw new Error(\\"A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration\\");
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
   }
   return {
     create: cdktf.stringToTerraform(struct!.create),
@@ -4200,7 +4288,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_single_block_type\\";
+  public static readonly tfResourceType = "aws_single_block_type";
 
   // ===========
   // INITIALIZER
@@ -4235,7 +4323,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==========
 
   // timeouts - computed: false, optional: true, required: false
-  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this, \\"timeouts\\");
+  private _timeouts = new SingleBlockTypeTimeoutsOutputReference(this, "timeouts");
   public get timeouts() {
     return this._timeouts;
   }
@@ -4295,7 +4383,7 @@ export class StringList extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_string_list\\";
+  public static readonly tfResourceType = "aws_string_list";
 
   // ===========
   // INITIALIZER
@@ -4428,7 +4516,7 @@ export class StringMap extends cdktf.TerraformResource {
   // =================
   // STATIC PROPERTIES
   // =================
-  public static readonly tfResourceType = \\"aws_string_map\\";
+  public static readonly tfResourceType = "aws_string_map";
 
   // ===========
   // INITIALIZER
@@ -4465,7 +4553,7 @@ export class StringMap extends cdktf.TerraformResource {
   // ==========
 
   // subject_alternative_names_computed - computed: true, optional: false, required: false
-  private _subjectAlternativeNamesComputed = new cdktf.StringMap(this, \\"subject_alternative_names_computed\\");
+  private _subjectAlternativeNamesComputed = new cdktf.StringMap(this, "subject_alternative_names_computed");
   public get subjectAlternativeNamesComputed() {
     return this._subjectAlternativeNamesComputed;
   }

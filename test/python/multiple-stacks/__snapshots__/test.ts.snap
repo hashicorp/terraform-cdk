@@ -2,41 +2,41 @@
 
 exports[`python full integration test synth synth generates JSON for both stacks 1`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"python-simple-one\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "python-simple-one",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"nullresource\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"python-simple-one/null-resource\\",
-            \\"uniqueId\\": \\"nullresource\\"
+  "resource": {
+    "null_resource": {
+      "nullresource": {
+        "//": {
+          "metadata": {
+            "path": "python-simple-one/null-resource",
+            "uniqueId": "nullresource"
           }
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       }
     }
   }
@@ -45,41 +45,41 @@ exports[`python full integration test synth synth generates JSON for both stacks
 
 exports[`python full integration test synth synth generates JSON for both stacks 2`] = `
 "{
-  \\"//\\": {
-    \\"metadata\\": {
-      \\"backend\\": \\"local\\",
-      \\"stackName\\": \\"python-simple-two\\",
-      \\"version\\": \\"stubbed\\"
+  "//": {
+    "metadata": {
+      "backend": "local",
+      "stackName": "python-simple-two",
+      "version": "stubbed"
     },
-    \\"outputs\\": {}
+    "outputs": {}
   },
-  \\"provider\\": {
-    \\"null\\": [
+  "provider": {
+    "null": [
       {}
     ]
   },
-  \\"resource\\": {
-    \\"null_resource\\": {
-      \\"nullresource\\": {
-        \\"//\\": {
-          \\"metadata\\": {
-            \\"path\\": \\"python-simple-two/null-resource\\",
-            \\"uniqueId\\": \\"nullresource\\"
+  "resource": {
+    "null_resource": {
+      "nullresource": {
+        "//": {
+          "metadata": {
+            "path": "python-simple-two/null-resource",
+            "uniqueId": "nullresource"
           }
         }
       }
     }
   },
-  \\"terraform\\": {
-    \\"backend\\": {
-      \\"local\\": {
-        \\"path\\": \\"terraform.tfstate\\"
+  "terraform": {
+    "backend": {
+      "local": {
+        "path": "terraform.tfstate"
       }
     },
-    \\"required_providers\\": {
-      \\"null\\": {
-        \\"source\\": \\"hashicorp/null\\",
-        \\"version\\": \\"3.1.1\\"
+    "required_providers": {
+      "null": {
+        "source": "hashicorp/null",
+        "version": "3.1.1"
       }
     }
   }

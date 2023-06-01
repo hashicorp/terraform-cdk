@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`full integration test main.ts is valid 1`] = `
-"import * as cdktf from \\"cdktf\\";
-import * as Test from \\"./.gen/modules/modules/test\\";
+"import * as cdktf from "cdktf";
+import * as Test from "./.gen/modules/modules/test";
 
-import { Construct } from \\"constructs\\";
-import { App, TerraformStack } from \\"cdktf\\";
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
-    const test = new Test.Test(this, \\"test\\", {});
-    new cdktf.TerraformOutput(this, \\"module_value\\", {
+    const test = new Test.Test(this, "test", {});
+    new cdktf.TerraformOutput(this, "module_value", {
       value: test.fooOutput,
     });
   }
 }
 
 const app = new App();
-new MyStack(app, \\"init-from-tf\\");
+new MyStack(app, "init-from-tf");
 app.synth();
 "
 `;

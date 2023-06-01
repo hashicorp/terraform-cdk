@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`outputs multiple outputs typescript snapshot 1`] = `
-"import * as constructs from \\"constructs\\";
-import * as cdktf from \\"cdktf\\";
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new cdktf.TerraformOutput(this, \\"first_cidr_out\\", {
-      value: \\"first\\",
+    new cdktf.TerraformOutput(this, "first_cidr_out", {
+      value: "first",
     });
-    new cdktf.TerraformOutput(this, \\"second_cidr_out\\", {
-      value: \\"second\\",
+    new cdktf.TerraformOutput(this, "second_cidr_out", {
+      value: "second",
     });
   }
 }
@@ -18,12 +18,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`outputs number output typescript snapshot 1`] = `
-"import * as constructs from \\"constructs\\";
-import * as cdktf from \\"cdktf\\";
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new cdktf.TerraformOutput(this, \\"test\\", {
+    new cdktf.TerraformOutput(this, "test", {
       value: 42,
     });
   }
@@ -32,13 +32,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`outputs output typescript snapshot 1`] = `
-"import * as constructs from \\"constructs\\";
-import * as cdktf from \\"cdktf\\";
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new cdktf.TerraformOutput(this, \\"cidr_out\\", {
-      value: \\"test\\",
+    new cdktf.TerraformOutput(this, "cidr_out", {
+      value: "test",
     });
   }
 }
@@ -46,14 +46,14 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`outputs output withdescription typescript snapshot 1`] = `
-"import * as constructs from \\"constructs\\";
-import * as cdktf from \\"cdktf\\";
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new cdktf.TerraformOutput(this, \\"cidr_out\\", {
-      value: \\"test\\",
-      description: \\"Best output\\",
+    new cdktf.TerraformOutput(this, "cidr_out", {
+      value: "test",
+      description: "Best output",
       sensitive: true,
     });
   }
@@ -62,13 +62,13 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`outputs sensitive output typescript snapshot 1`] = `
-"import * as constructs from \\"constructs\\";
-import * as cdktf from \\"cdktf\\";
+"import * as constructs from "constructs";
+import * as cdktf from "cdktf";
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new cdktf.TerraformOutput(this, \\"cidr_out\\", {
-      value: \\"test\\",
+    new cdktf.TerraformOutput(this, "cidr_out", {
+      value: "test",
       sensitive: true,
     });
   }

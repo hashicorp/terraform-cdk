@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
-    "charset": "utf8",
+    "baseUrl": ".",
     "declaration": true,
+    "declarationMap": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
@@ -22,6 +23,7 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
+    "skipLibCheck": true,
     "stripInternal": true,
     "target": "ES2018",
     "incremental": false,

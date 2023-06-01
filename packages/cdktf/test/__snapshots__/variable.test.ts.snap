@@ -2,9 +2,9 @@
 
 exports[`any type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"any\\"
+  "variable": {
+    "test-variable": {
+      "type": "any"
     }
   }
 }"
@@ -12,9 +12,9 @@ exports[`any type 1`] = `
 
 exports[`bool type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"bool\\"
+  "variable": {
+    "test-variable": {
+      "type": "bool"
     }
   }
 }"
@@ -22,9 +22,9 @@ exports[`bool type 1`] = `
 
 exports[`collection type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"list(string)\\"
+  "variable": {
+    "test-variable": {
+      "type": "list(string)"
     }
   }
 }"
@@ -32,9 +32,9 @@ exports[`collection type 1`] = `
 
 exports[`default value 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"default\\": \\"my-val\\"
+  "variable": {
+    "test-variable": {
+      "default": "my-val"
     }
   }
 }"
@@ -42,9 +42,9 @@ exports[`default value 1`] = `
 
 exports[`description 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"description\\": \\"A Test Variable\\"
+  "variable": {
+    "test-variable": {
+      "description": "A Test Variable"
     }
   }
 }"
@@ -52,9 +52,9 @@ exports[`description 1`] = `
 
 exports[`map collection type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"map(bool)\\"
+  "variable": {
+    "test-variable": {
+      "type": "map(bool)"
     }
   }
 }"
@@ -62,10 +62,10 @@ exports[`map collection type 1`] = `
 
 exports[`nullable variable 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"nullable\\": true,
-      \\"type\\": \\"string\\"
+  "variable": {
+    "test-variable": {
+      "nullable": true,
+      "type": "string"
     }
   }
 }"
@@ -73,9 +73,9 @@ exports[`nullable variable 1`] = `
 
 exports[`number type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"number\\"
+  "variable": {
+    "test-variable": {
+      "type": "number"
     }
   }
 }"
@@ -83,13 +83,13 @@ exports[`number type 1`] = `
 
 exports[`object type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"default\\": {
-        \\"internal\\": 8300,
-        \\"protocol\\": \\"tcp\\"
+  "variable": {
+    "test-variable": {
+      "default": {
+        "internal": 8300,
+        "protocol": "tcp"
       },
-      \\"type\\": \\"object({internal=number, protocol=string})\\"
+      "type": "object({internal=number, protocol=string})"
     }
   }
 }"
@@ -97,29 +97,29 @@ exports[`object type 1`] = `
 
 exports[`reference 1`] = `
 "{
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"resource\\": {
-    \\"test_resource\\": {
-      \\"test-resource\\": {
-        \\"name\\": \\"\${var.test-variable}\\"
+  "resource": {
+    "test_resource": {
+      "test-resource": {
+        "name": "\${var.test-variable}"
       }
     }
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\"
+  "variable": {
+    "test-variable": {
+      "type": "string"
     }
   }
 }"
@@ -127,10 +127,10 @@ exports[`reference 1`] = `
 
 exports[`sensitive variable 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"sensitive\\": true,
-      \\"type\\": \\"string\\"
+  "variable": {
+    "test-variable": {
+      "sensitive": true,
+      "type": "string"
     }
   }
 }"
@@ -138,9 +138,9 @@ exports[`sensitive variable 1`] = `
 
 exports[`set collection type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"set(number)\\"
+  "variable": {
+    "test-variable": {
+      "type": "set(number)"
     }
   }
 }"
@@ -148,9 +148,9 @@ exports[`set collection type 1`] = `
 
 exports[`string type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\"
+  "variable": {
+    "test-variable": {
+      "type": "string"
     }
   }
 }"
@@ -158,9 +158,9 @@ exports[`string type 1`] = `
 
 exports[`tuple type 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"tuple(bool, list(number))\\"
+  "variable": {
+    "test-variable": {
+      "type": "tuple(bool, list(number))"
     }
   }
 }"
@@ -168,13 +168,13 @@ exports[`tuple type 1`] = `
 
 exports[`validation block variable 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\",
-      \\"validation\\": [
+  "variable": {
+    "test-variable": {
+      "type": "string",
+      "validation": [
         {
-          \\"condition\\": \\"\${can(regex(\\\\\\"^ami-\\\\\\", \\\\\\"ami-test\\\\\\"))}\\",
-          \\"error_message\\": \\"Validation failed..\\"
+          "condition": "\${can(regex(\\"^ami-\\", \\"ami-test\\"))}",
+          "error_message": "Validation failed.."
         }
       ]
     }
@@ -184,13 +184,13 @@ exports[`validation block variable 1`] = `
 
 exports[`validation block variable self reference 1`] = `
 "{
-  \\"variable\\": {
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\",
-      \\"validation\\": [
+  "variable": {
+    "test-variable": {
+      "type": "string",
+      "validation": [
         {
-          \\"condition\\": \\"\${length(var.test-variable)} > 4 && \${substr(var.test-variable, 0, 4)} == \\\\\\"ami-\\\\\\"\\",
-          \\"error_message\\": \\"The image_id value must be a valid AMI id, starting with \\\\\\"ami-\\\\\\".\\"
+          "condition": "\${length(var.test-variable)} > 4 && \${substr(var.test-variable, 0, 4)} == \\"ami-\\"",
+          "error_message": "The image_id value must be a valid AMI id, starting with \\"ami-\\"."
         }
       ]
     }
@@ -198,15 +198,30 @@ exports[`validation block variable self reference 1`] = `
 }"
 `;
 
+exports[`variable used in template string 1`] = `
+"{
+  "output": {
+    "test-output": {
+      "value": "The value is \${var.test-variable}"
+    }
+  },
+  "variable": {
+    "test-variable": {
+      "type": "string"
+    }
+  }
+}"
+`;
+
 exports[`variable with variable default 1`] = `
 "{
-  \\"variable\\": {
-    \\"other-variable\\": {
-      \\"default\\": \\"\${var.test-variable}\\",
-      \\"type\\": \\"string\\"
+  "variable": {
+    "other-variable": {
+      "default": "\${var.test-variable}",
+      "type": "string"
     },
-    \\"test-variable\\": {
-      \\"type\\": \\"string\\"
+    "test-variable": {
+      "type": "string"
     }
   }
 }"

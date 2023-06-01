@@ -45,8 +45,8 @@ describe("multiple stacks", () => {
       expect(driver.list()).toMatchInlineSnapshot(`
       "
       Stack name                      Path
-      first                           cdktf.out\\\\stacks\\\\first
-      second                          cdktf.out\\\\stacks\\\\second
+      first                           cdktf.out\\stacks\\first
+      second                          cdktf.out\\stacks\\second
       "
     `);
     });

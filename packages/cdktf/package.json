@@ -20,6 +20,14 @@
   },
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "typesVersions": {
+    "<=3.9": {
+      "*": [
+        ".types-compat/ts3.9/*"
+      ]
+    }
+  },
+  "keywords": ["cdk", "cdktf", "terraform"],
   "jsii": {
     "outdir": "dist",
     "versionFormat": "short",
@@ -99,10 +107,10 @@
   },
   "license": "MPL-2.0",
   "devDependencies": {
-    "@types/jest": "^25.2.3",
+    "@types/jest": "^29.5.0",
     "@types/json-stable-stringify": "^1.0.34",
     "@types/minimatch": "^5.1.2",
-    "@types/node": "^14.18.33",
+    "@types/node": "16.18.23",
     "@types/semver": "^7.3.13",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
@@ -110,12 +118,12 @@
     "eslint": "^7.32.0",
     "eslint-plugin-jsdoc": "^39.6.2",
     "eslint-plugin-no-instanceof": "1.0.1",
-    "jest": "^26.6.3",
-    "jsii": "^1.77.0",
-    "jsii-docgen": "^7.0.234",
-    "jsii-pacmak": "^1.77.0",
-    "ts-jest": "^26.5.6",
-    "typescript": "^3.9.10"
+    "jest": "^29.5.0",
+    "jsii": "^5.0.1",
+    "jsii-docgen": "^7.1.41",
+    "jsii-pacmak": "^1.79.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^5.0.2"
   },
   "dependencies": {
     "archiver": "5.3.1",

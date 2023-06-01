@@ -2,17 +2,17 @@
 
 exports[`minimal configuration 1`] = `
 "{
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"foo\\"
+        "access_key": "foo"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -21,24 +21,24 @@ exports[`minimal configuration 1`] = `
 
 exports[`token resolution 1`] = `
 "{
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"\${var.access-key}\\"
+        "access_key": "\${var.access-key}"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   },
-  \\"variable\\": {
-    \\"access-key\\": {
-      \\"sensitive\\": true,
-      \\"type\\": \\"string\\"
+  "variable": {
+    "access-key": {
+      "sensitive": true,
+      "type": "string"
     }
   }
 }"
@@ -46,21 +46,21 @@ exports[`token resolution 1`] = `
 
 exports[`with alias 1`] = `
 "{
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
-        \\"access_key\\": \\"foo\\"
+        "access_key": "foo"
       },
       {
-        \\"access_key\\": \\"bar\\",
-        \\"alias\\": \\"route53\\"
+        "access_key": "bar",
+        "alias": "route53"
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }
@@ -69,16 +69,16 @@ exports[`with alias 1`] = `
 
 exports[`with generator metadata 1`] = `
 "{
-  \\"provider\\": {
-    \\"test\\": [
+  "provider": {
+    "test": [
       {
       }
     ]
   },
-  \\"terraform\\": {
-    \\"required_providers\\": {
-      \\"test\\": {
-        \\"version\\": \\"~> 2.0\\"
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
       }
     }
   }

@@ -23,13 +23,18 @@ export function IsErrorType(error: any, type: ErrorType): boolean {
 }
 
 function reportPrefixedError(type: ErrorType, command: string) {
-  return (message: string, context?: Record<string, any>) => {
+  return (
+    message: string,
+    originalError: Error = new Error(),
+    context?: Record<string, any>
+  ) => {
     report(command, { ...context, message, type });
     const err: any = new Error(`${type} Error: ${message}`);
     Object.entries(context || {}).forEach(([key, value]) => {
       err[key] = value;
     });
     err.__type = type;
+    err.stack = originalError.stack;
     return err;
   };
 }

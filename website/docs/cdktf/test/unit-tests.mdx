@@ -27,9 +27,9 @@ If you would like to add testing to an existing project, refer the following res
 
 ### Write Assertions
 
-The following Typescript example uses `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then it uses custom matchers to verify the code acts as intended.
+The following Typescript example uses `Testing.synth` to test a part of the application. Given the desired scope to test, a JSON string representing the synthesized HCL-JSON is returned. Then the custom assertions under `Testing` in the cdktf package can be used to verify the code acts as intended. `Testing.synth` can test the `Stack` that extends the `TerraformStack`.
 
-The other examples use `Testing.synth` to test a part of the application. Given the desired scope to test, a JSON string representing the synthesized HCL-JSON is returned. Then the custom assertions under `Testing` in the cdktf package can be used to verify the code acts as intended.
+The other examples use `Testing.synthScope` to test a part of the application. This creates a scope to test a subset of the application and returns a JSON string representing the synthesized HCL-JSON. Then it uses custom matchers to verify the code acts as intended. `Testing.synthScope` can test the `Constructs` that extends the `IConstruct`.
 
 Examples in
 
@@ -50,19 +50,21 @@ import MyApplicationsAbstraction from "../app"; // Could be a class extending fr
 
 describe("Unit testing using assertions", () => {
   it("should contain a container", () => {
-    expect(
-      Testing.synthScope((scope) => {
-        new MyApplicationsAbstraction(scope, "my-app", {});
-      })
-    ).toHaveResource(Container);
+    const app = Testing.app();
+    const stack = new MyApplicationsAbstraction(app, "my-app", {});
+    const synthesized = Testing.synth(stack);
+
+    expect(synthesized).toHaveResource(Container);
   });
 
   it("should use an ubuntu image", () => {
-    expect(
-      Testing.synthScope((scope) => {
-        new MyApplicationsAbstraction(scope, "my-app", {});
-      })
-    ).toHaveResourceWithProperties(Image, { name: "ubuntu:latest" });
+    const app = Testing.app();
+    const stack = new MyApplicationsAbstraction(app, "my-app", {});
+    const synthesized = Testing.synth(stack);
+
+    expect(synthesized).toHaveResourceWithProperties(Image, {
+      name: "ubuntu:latest",
+    });
   });
 });
 ```
@@ -161,14 +163,14 @@ import (
 	"github.com/aws/jsii-runtime-go"
 )
 
-var stack = NewMyApplicationsAbstraction(cdktf.Assertions_App(nil), "stack")
-var synth = cdktf.Assertions_Synth(stack)
+var stack = NewMyApplicationsAbstraction(cdktf.Testing_App(nil), "stack")
+var synth = cdktf.Testing_Synth(stack)
 
 func TestShouldContainContainer(t *testing.T){
-	assertion := cdktf.Assertions_ToHaveResource(synth, container.Container_TfResourceType())
+	assertion := cdktf.Testing_ToHaveResource(synth, container.Container_TfResourceType())
 
 	if !*assertion  {
-		t.Error(assertion.Message())
+		t.Error("Assertion Failed")
 	}
 }
 
@@ -176,10 +178,10 @@ func TestShouldUseUbuntuImage(t *testing.T){
 	properties := map[string]interface{}{
 		"name": "ubuntu:latest",
 	}
-	assertion := cdktf.Assertions_ToHaveResourceWithProperties(synth, image.Image_TfResourceType(), &properties)
+	assertion := cdktf.Testing_ToHaveResourceWithProperties(synth, image.Image_TfResourceType(), &properties)
 
 	if !*assertion  {
-		t.Error(assertion.Message())
+		t.Error("Assertion Failed")
 	}
 }
 ```
@@ -316,7 +318,7 @@ func TestCheckValidity(t *testing.T){
 	assertion := cdktf.Testing_ToBeValidTerraform(cdktf.Testing_FullSynth(stack))
 
 	if !*assertion  {
-		t.Error(assertion.Message())
+		t.Error("Assertion Failed")
 	}
 }
 ```
