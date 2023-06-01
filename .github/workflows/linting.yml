@@ -1,5 +1,7 @@
 name: Linting
 on:
+  merge_group:
+    types: [checks_requested]
   pull_request: {} # All changes need linting
   workflow_call:
     inputs:
