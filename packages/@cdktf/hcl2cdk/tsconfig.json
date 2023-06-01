@@ -2,6 +2,7 @@
   "compilerOptions": {
     "alwaysStrict": true,
     "declaration": true,
+    "declarationMap": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,

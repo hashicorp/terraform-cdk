@@ -2,9 +2,11 @@
   "name": "terraform-cdk-docs-preview",
   "private": "true",
   "scripts": {
-    "build": "./scripts/website-build.sh"
+    "build": "./scripts/website-build.sh",
+    "content-check": "hc-content"
   },
   "devDependencies": {
+    "@hashicorp/platform-content-conformance": "^0.0.10",
     "next": "^12.1.0"
   },
   "engines": {

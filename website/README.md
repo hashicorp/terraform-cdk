@@ -32,6 +32,16 @@ To preview your content, complete the following steps:
 1. Open `http://localhost:3000` in your web browser. While the preview is running, you can edit pages and Next.js will automatically rebuild them.
 1. When you're done with the preview, press `ctrl-C` in your terminal to stop the server.
 
+### Validating Content
+
+Content changes are automatically validated against a set of rules as part of the pull request process. If you want to run these checks locally to validate your content before committing your changes, you can run the following command:
+
+```
+npm run content-check
+```
+
+If the validation fails, actionable error messages will be displayed to help you address detected issues.
+
 ## Deployment
 
 The website reads content from release tags to generate documentation for previous versions of CDK for Terraform. Changes merged into `main` will be included in the documentation for the next product release.

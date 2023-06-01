@@ -9,7 +9,6 @@ export {
   DependencyManager,
   ProviderConstraint,
 } from "./dependencies/dependency-manager";
-export { ProviderDependencySpec } from "./cdktf-config";
 export { getAllPrebuiltProviders } from "./dependencies/prebuilt-providers";
 export { providerAdd } from "./provider-add";
 export { TerraformCli } from "./models/terraform-cli";
@@ -20,7 +19,7 @@ export {
 } from "./error-reporting";
 export { CdktfStack } from "./cdktf-stack";
 export { init, Project, InitArgs } from "./init";
-export { get, GetStatus } from "./get";
+export { get, GetStatus, runGetInDir } from "./get";
 export { SynthesizedStack } from "./synth-stack";
 export { CdktfProject, ProjectUpdate } from "./cdktf-project";
 export { watch, State as WatchState } from "./watch";

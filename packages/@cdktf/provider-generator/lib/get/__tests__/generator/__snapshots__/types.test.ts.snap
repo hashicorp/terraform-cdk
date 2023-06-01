@@ -4105,7 +4105,7 @@ export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#timeouts_list BlockTypeSetList#timeouts_list}
   */
-  readonly timeoutsList?: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable;
+  readonly timeoutsList?: BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable;
 }
 export interface BlockTypeSetListTimeoutsSet {
   /**
@@ -4204,14 +4204,14 @@ export class BlockTypeSetListTimeoutsSetList extends cdktf.ComplexList {
     return new BlockTypeSetListTimeoutsSetOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
-export interface BlockTypeSetListTimeoutsList {
+export interface BlockTypeSetListTimeoutsListStruct {
   /**
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#create BlockTypeSetList#create}
   */
   readonly create?: string;
 }
 
-export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetListTimeoutsList | cdktf.IResolvable): any {
+export function blockTypeSetListTimeoutsListStructToTerraform(struct?: BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable): any {
   if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
   if (cdktf.isComplexElement(struct)) {
     throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
@@ -4221,7 +4221,7 @@ export function blockTypeSetListTimeoutsListToTerraform(struct?: BlockTypeSetLis
   }
 }
 
-export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexObject {
+export class BlockTypeSetListTimeoutsListStructOutputReference extends cdktf.ComplexObject {
   private isEmptyObject = false;
   private resolvableValue?: cdktf.IResolvable;
 
@@ -4235,7 +4235,7 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
   }
 
-  public get internalValue(): BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined {
+  public get internalValue(): BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable | undefined {
     if (this.resolvableValue) {
       return this.resolvableValue;
     }
@@ -4248,7 +4248,7 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
     return hasAnyValues ? internalValueResult : undefined;
   }
 
-  public set internalValue(value: BlockTypeSetListTimeoutsList | cdktf.IResolvable | undefined) {
+  public set internalValue(value: BlockTypeSetListTimeoutsListStruct | cdktf.IResolvable | undefined) {
     if (value === undefined) {
       this.isEmptyObject = false;
       this.resolvableValue = undefined;
@@ -4282,8 +4282,8 @@ export class BlockTypeSetListTimeoutsListOutputReference extends cdktf.ComplexOb
   }
 }
 
-export class BlockTypeSetListTimeoutsListList extends cdktf.ComplexList {
-  public internalValue? : BlockTypeSetListTimeoutsList[] | cdktf.IResolvable
+export class BlockTypeSetListTimeoutsListStructList extends cdktf.ComplexList {
+  public internalValue? : BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable
 
   /**
   * @param terraformResource The parent resource
@@ -4297,8 +4297,8 @@ export class BlockTypeSetListTimeoutsListList extends cdktf.ComplexList {
   /**
   * @param index the index of the item to return
   */
-  public get(index: number): BlockTypeSetListTimeoutsListOutputReference {
-    return new BlockTypeSetListTimeoutsListOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  public get(index: number): BlockTypeSetListTimeoutsListStructOutputReference {
+    return new BlockTypeSetListTimeoutsListStructOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
   }
 }
 
@@ -4362,11 +4362,11 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   }
 
   // timeouts_list - computed: false, optional: true, required: false
-  private _timeoutsList = new BlockTypeSetListTimeoutsListList(this, "timeouts_list", false);
+  private _timeoutsList = new BlockTypeSetListTimeoutsListStructList(this, "timeouts_list", false);
   public get timeoutsList() {
     return this._timeoutsList;
   }
-  public putTimeoutsList(value: BlockTypeSetListTimeoutsList[] | cdktf.IResolvable) {
+  public putTimeoutsList(value: BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable) {
     this._timeoutsList.internalValue = value;
   }
   public resetTimeoutsList() {
@@ -4384,7 +4384,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   protected synthesizeAttributes(): { [name: string]: any } {
     return {
       timeouts_set: cdktf.listMapper(blockTypeSetListTimeoutsSetToTerraform, true)(this._timeoutsSet.internalValue),
-      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListToTerraform, true)(this._timeoutsList.internalValue),
+      timeouts_list: cdktf.listMapper(blockTypeSetListTimeoutsListStructToTerraform, true)(this._timeoutsList.internalValue),
     };
   }
 }

@@ -1,16 +1,14 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
-import { Language, Errors, CONFIG_DEFAULTS } from "@cdktf/commons";
+import {
+  Language,
+  Errors,
+  CONFIG_DEFAULTS,
+  TerraformDependencyConstraint,
+} from "@cdktf/commons";
 import path from "path";
 import { logger } from "@cdktf/commons";
-
-export type ProviderDependencySpec = {
-  name: string;
-  source: string;
-  version?: string;
-  namespace?: string;
-};
 
 function findFileAboveCwd(
   file: string,
@@ -73,14 +71,20 @@ export class CdktfConfig {
     return this.getProperty("codeMakerOutput") as string;
   }
 
-  public get terraformProviders(): (ProviderDependencySpec | string)[] {
+  public get terraformProviders(): (TerraformDependencyConstraint | string)[] {
     const providers = this.getProperty("terraformProviders");
     if (!Array.isArray(providers)) return [];
     return providers;
   }
 
+  public get terraformModules(): (TerraformDependencyConstraint | string)[] {
+    const modules = this.getProperty("terraformModules");
+    if (!Array.isArray(modules)) return [];
+    return modules;
+  }
+
   public writeTerraformProviders(
-    providers: (ProviderDependencySpec | string)[]
+    providers: (TerraformDependencyConstraint | string)[]
   ) {
     const cdktfConfig = this.readCdktfConfig();
     cdktfConfig.terraformProviders = providers;

@@ -30,6 +30,7 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
+  "keywords": ["cdk", "cdktf", "terraform"],
   "license": "MPL-2.0",
   "dependencies": {
     "@npmcli/ci-detect": "^1.4.0",
@@ -42,15 +43,15 @@
     "fs-extra": "^8.1.0",
     "is-valid-domain": "^0.1.6",
     "log4js": "^6.7.0",
-    "typescript": "^5.0.2",
-    "uuid": "^8.3.2",
-    "jest": "^29.5.0",
-    "ts-jest": "^29.0.5"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/follow-redirects": "^1.14.1",
     "@types/fs-extra": "^8.1.2",
-    "@types/uuid": "^8.3.4"
+    "@types/uuid": "^8.3.4",
+    "jest": "^29.5.0",
+    "ts-jest": "^29.0.5",
+    "typescript": "^5.0.2"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",

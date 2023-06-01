@@ -43,6 +43,7 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
+import { attributeNameToCdktfName } from "./generation";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -559,4 +560,4 @@ export async function convertProject(
   };
 }
 
-export { isRegistryModule };
+export { isRegistryModule, attributeNameToCdktfName };

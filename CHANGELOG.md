@@ -1,3 +1,22 @@
+## 0.16.3
+
+In `0.16.2` the release to maven failed, we fixed the issue and release this version so that maven is included in the release.
+
+## 0.16.2
+
+### fix
+
+- fix(provider-generator): remove duplicates between wrapper classes and interfaces generated from provider schemas [\#2895](https://github.com/hashicorp/terraform-cdk/pull/2895)
+- fix(cli): run terraform init in serial so no text file is busy in the cache [\#2843](https://github.com/hashicorp/terraform-cdk/pull/2843)
+- fix(cli): buffer the output from the Terraform CLI and only forward output that has been terminated by a newline [\#2844](https://github.com/hashicorp/terraform-cdk/pull/2844)
+- fix(cli): fix no-color flag passing [\#2845](https://github.com/hashicorp/terraform-cdk/pull/2845)
+- fix(hcl2cdk): Support conversion of functions that have variate arguments at the end [\#2833](https://github.com/hashicorp/terraform-cdk/pull/2833)
+
+### chore
+
+- chore: Mock synth to make parallelism test fail less [\#2831](https://github.com/hashicorp/terraform-cdk/pull/2831)
+- chore: Refactor hcl2cdk to read nicer [\#2826](https://github.com/hashicorp/terraform-cdk/pull/2826)
+
 ## 0.16.1
 
 ### fix
