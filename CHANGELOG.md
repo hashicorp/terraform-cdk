@@ -1,3 +1,7 @@
+## 0.16.3
+
+In `0.16.2` the release to maven failed, we fixed the issue and release this version so that maven is included in the release.
+
 ## 0.16.2
 
 ### fix
