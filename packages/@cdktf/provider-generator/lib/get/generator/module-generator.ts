@@ -60,6 +60,42 @@ export class ModuleGenerator {
     }
     this.code.closeBlock();
 
+    // Add a link to the Terraform Registry if it is sourced from there
+    // https://developer.hashicorp.com/terraform/language/modules/sources
+    // Registry modules are referred to as <NAMESPACE>/<NAME>/<PROVIDER>
+    // Other sources contain dots, e.g.
+    // app.terraform.io/example-corp/k8s-cluster/azurerm (private registries)
+    // github.com/hashicorp/example (Github)
+    // git@github.com:hashicorp/example.git
+    // bitbucket.org/hashicorp/terraform-consul-aws (Bitbucket)
+    // ... and more
+    // ../module and ./module (local paths)
+    const isNonRegistryModule = target.source.includes(".");
+    let registryPath;
+    // Submodules also exist (e.g. terraform-aws-modules/vpc/aws//modules/vpc-endpoints)
+    // And linking directly to them in the Registry requires including the version
+    // like e.g. https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/latest/submodules/vpc-endpoints
+    if (target.source.includes("//")) {
+      registryPath = target.source.replace(
+        "//modules",
+        `/${target.version || "latest"}/submodules`
+      );
+      // terraform-aws-modules/vpc/aws//modules/vpc-endpoints
+      // ->
+      // terraform-aws-modules/vpc/aws/latest/submodules/vpc-endpoints
+    } else {
+      // not submodule specified, just append the version
+      registryPath = `${target.source}/${target.version || "latest"}`;
+    }
+    this.code.line(`/**`);
+    this.code.line(` * Defines an ${baseName} based on a Terraform module`);
+    this.code.line(` *`);
+    this.code.line(
+      isNonRegistryModule
+        ? ` * Source at ${target.source}`
+        : ` * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`
+    );
+    this.code.line(` */`);
     this.code.openBlock(`export class ${baseName} extends TerraformModule`);
 
     this.code.line(`private readonly inputs: { [name: string]: any } = { }`);

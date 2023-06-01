@@ -7,6 +7,12 @@ body:
   - type: markdown
     attributes:
       value: |
+        ⬆️⬆️ Don't forget to update the issue title! ⬆️⬆️
+
+  - type: markdown
+    attributes:
+      value: |
+        **Note**
         We use GitHub issues for tracking bugs and enhancements. For questions, please use [the community forum](https://discuss.hashicorp.com/c/terraform-core/cdk-for-terraform/47) where there are more people ready to help.
 
   - type: textarea
@@ -89,6 +95,15 @@ body:
         If possible, please provide a link to a [GitHub Gist](https://gist.github.com/) containing a reproducible code sample and/or your complete debug output.
       placeholder: |
         https://gist.github.com/gdb/b6365e79be6052e7531e7ba6ea8caf23
+    validations:
+      required: false
+
+  - type: textarea
+    id: solutions
+    attributes:
+      label: Possible Solutions
+      description: |
+        Do you have any ideas or suggestions for how the issue might be resolved?
     validations:
       required: false
 
