@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import prettier from "prettier";
 import generate from "@babel/generator";
 import { parse } from "@babel/parser";
