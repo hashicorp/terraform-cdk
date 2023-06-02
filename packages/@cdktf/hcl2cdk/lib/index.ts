@@ -43,7 +43,6 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
-import { postProcessTypescriptContentForLanguage } from "./post-process";
 import { attributeNameToCdktfName } from "./generation";
 import { postProcessTypescriptContentForLanguage } from "./post-process";
 
