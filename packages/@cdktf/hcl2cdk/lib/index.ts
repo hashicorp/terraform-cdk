@@ -43,6 +43,7 @@ import {
 import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
+import { postProcessTypescriptContentForLanguage } from "./post-process";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -428,7 +429,13 @@ For a more precise conversion please use the --provider flag in convert.`
 type File = { contents: string; fileName: string };
 
 function translatorForVisitor(visitor: any) {
-  return (file: File, throwOnTranslationError: boolean) => {
+  return async (file: File, throwOnTranslationError: boolean) => {
+    const postProcessedContent = postProcessTypescriptContentForLanguage(
+      file,
+      visitor.language
+    );
+    file.contents = postProcessedContent;
+
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
       visitor,
