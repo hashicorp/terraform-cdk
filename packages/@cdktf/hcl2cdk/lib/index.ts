@@ -431,7 +431,7 @@ For a more precise conversion please use the --provider flag in convert.`
 type File = { contents: string; fileName: string };
 
 function translatorForVisitor(visitor: any) {
-  return async (file: File, throwOnTranslationError: boolean) => {
+  return (file: File, throwOnTranslationError: boolean) => {
     const postProcessedContent = postProcessTypescriptContentForLanguage(
       file,
       visitor.language
