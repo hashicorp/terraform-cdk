@@ -26,7 +26,12 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform", "hcl"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform",
+    "hcl"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
     "@babel/generator": "^7.21.4",
@@ -47,6 +52,8 @@
   },
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
+    "@babel/parser": "^7.22.4",
+    "@babel/preset-typescript": "^7.21.5",
     "@types/glob": "^8.1.0",
     "@types/jest": "^29.5.0",
     "@types/node": "16.18.23",
