@@ -384,19 +384,23 @@ export class CdktfProject {
       );
     }
 
-    await this.projectTelemetry("diff", {
-      stackMetadata: stacks.map((stack) =>
-        JSON.parse(stack.content)["//"]
-          ? JSON.parse(stack.content)["//"].metadata
-          : {}
-      ),
-      errors: stack.error,
-      requiredProviders: stacks.map((stack: any) =>
-        JSON.parse(stack.content)["terraform"]
-          ? JSON.parse(stack.content)["terraform"].required_providers
-          : {}
-      ),
-    });
+    try {
+      await this.projectTelemetry("diff", {
+        stackMetadata: stacks.map((stack) =>
+          JSON.parse(stack.content)["//"]
+            ? JSON.parse(stack.content)["//"].metadata
+            : {}
+        ),
+        errors: stack.error,
+        requiredProviders: stacks.map((stack: any) =>
+          JSON.parse(stack.content)["terraform"]
+            ? JSON.parse(stack.content)["terraform"].required_providers
+            : {}
+        ),
+      });
+    } catch (e) {
+      logger.debug("Failed to send telemetry", e);
+    }
   }
 
   private async execute(
@@ -491,19 +495,23 @@ export class CdktfProject {
       );
     }
 
-    await this.projectTelemetry("deploy", {
-      stackMetadata: stacksToRun.map((stack) =>
-        JSON.parse(stack.content)["//"]
-          ? JSON.parse(stack.content)["//"].metadata
-          : {}
-      ),
-      failedStacks: unprocessedStacks.map((stack) => stack.error),
-      requiredProviders: stacksToRun.map((stack: any) =>
-        JSON.parse(stack.content)["terraform"]
-          ? JSON.parse(stack.content)["terraform"].required_providers
-          : {}
-      ),
-    });
+    try {
+      await this.projectTelemetry("deploy", {
+        stackMetadata: stacksToRun.map((stack) =>
+          JSON.parse(stack.content)["//"]
+            ? JSON.parse(stack.content)["//"].metadata
+            : {}
+        ),
+        failedStacks: unprocessedStacks.map((stack) => stack.error),
+        requiredProviders: stacksToRun.map((stack: any) =>
+          JSON.parse(stack.content)["terraform"]
+            ? JSON.parse(stack.content)["terraform"].required_providers
+            : {}
+        ),
+      });
+    } catch (e) {
+      logger.debug("Failed to send telemetry", e);
+    }
   }
 
   public async destroy(opts: MutationOptions = {}) {
@@ -562,19 +570,23 @@ export class CdktfProject {
       );
     }
 
-    await this.projectTelemetry("destroy", {
-      stackMetadata: stacksToRun.map((stack) =>
-        JSON.parse(stack.content)["//"]
-          ? JSON.parse(stack.content)["//"].metadata
-          : {}
-      ),
-      failedStacks: unprocessedStacks.map((stack) => stack.error),
-      requiredProviders: stacksToRun.map((stack: any) =>
-        JSON.parse(stack.content)["terraform"]
-          ? JSON.parse(stack.content)["terraform"].required_providers
-          : {}
-      ),
-    });
+    try {
+      await this.projectTelemetry("destroy", {
+        stackMetadata: stacksToRun.map((stack) =>
+          JSON.parse(stack.content)["//"]
+            ? JSON.parse(stack.content)["//"].metadata
+            : {}
+        ),
+        failedStacks: unprocessedStacks.map((stack) => stack.error),
+        requiredProviders: stacksToRun.map((stack: any) =>
+          JSON.parse(stack.content)["terraform"]
+            ? JSON.parse(stack.content)["terraform"].required_providers
+            : {}
+        ),
+      });
+    } catch (e) {
+      logger.debug("Failed to send telemetry", e);
+    }
   }
 
   public async projectTelemetry(command: string, payload: any): Promise<void> {
