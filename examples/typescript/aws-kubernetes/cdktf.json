@@ -1,6 +1,6 @@
 {
   "language": "typescript",
-  "app": "npx ts-node main.ts",
+  "app": "npx tsx main.ts",
   "terraformProviders": [
     "kubernetes@~> 2.7.1",
     "aws@~> 5.0.0"
