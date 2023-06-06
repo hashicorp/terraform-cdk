@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { getTypeAtPath } from "./terraformSchema";
 import { ResourceScope, TerraformResourceBlock } from "./types";
 import * as t from "@babel/types";
