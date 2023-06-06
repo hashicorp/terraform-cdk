@@ -248,6 +248,7 @@ function getScope({
     withinOverrideExpression,
     nodeIds: [],
     importables: [],
+    topLevelConfig: {},
   };
 
   return scope;

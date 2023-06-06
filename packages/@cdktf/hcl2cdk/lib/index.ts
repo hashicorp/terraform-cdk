@@ -31,6 +31,7 @@ import {
   wrapCodeInConstructor,
   addImportForCodeContainer,
   buildImports,
+  generateConfigType,
 } from "./generation";
 import { TerraformResourceBlock, ProgramScope } from "./types";
 import {
@@ -111,6 +112,7 @@ export async function convertToTypescript(
     hasTokenBasedTypeCoercion: false,
     nodeIds: [],
     importables: [],
+    topLevelConfig: {},
   };
 
   const graph = new DirectedGraph<{
@@ -385,6 +387,12 @@ For a more precise conversion please use the --provider flag in convert.`
   const constructImports = buildImports(scope.importables);
 
   const code = [...(backendExpressions || []), ...expressions];
+  const configTypeName =
+    Object.keys(scope.topLevelConfig).length > 0 ? "MyConfig" : undefined;
+
+  const classConfig = configTypeName
+    ? [generateConfigType(configTypeName, scope.topLevelConfig)]
+    : [];
 
   // We split up the generated code so that users can have more control over what to insert where
   return {
@@ -392,7 +400,13 @@ For a more precise conversion please use the --provider flag in convert.`
     all: await gen([
       ...constructImports,
       ...moduleImports(plan.module),
-      wrapCodeInConstructor(codeContainer, code),
+      ...classConfig,
+      wrapCodeInConstructor(
+        codeContainer,
+        code,
+        "MyConvertedCode",
+        configTypeName
+      ),
     ]),
     imports: await gen([...constructImports, ...moduleImports(plan.module)]),
     code: await gen(code),
