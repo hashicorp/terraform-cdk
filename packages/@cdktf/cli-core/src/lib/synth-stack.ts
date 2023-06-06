@@ -105,7 +105,7 @@ are used with locally generated bindings. You can ignore this if you don't use C
 If not present, the cdktf-cli sets it to NODE_OPTIONS="${nodeOptsSetting}" by default. But as
 your environment already contains a NODE_OPTIONS variable, we won't override it. Hence, the app command
 might fail while synthesizing with an out of memory error.`);
-    } else {
+    } else if (!env.NODE_OPTIONS) {
       // increase memory to allow ts-node (when using TypeScript) to handle large amounts of generated code in memory
       env.NODE_OPTIONS = `${env.NODE_OPTIONS || ""} ${nodeOptsSetting}`.trim();
     }
