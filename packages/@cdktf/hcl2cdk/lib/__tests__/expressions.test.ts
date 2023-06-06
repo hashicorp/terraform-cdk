@@ -450,6 +450,7 @@ describe("expressions", () => {
         hasTokenBasedTypeCoercion: false,
         nodeIds: [],
         importables: [],
+        topLevelConfig: {},
       };
       expect(
         generate(
