@@ -238,7 +238,12 @@ export class CdktfStack {
     const terraform = await this.terraformClient();
     const needsLockfileUpdate = await this.checkNeedsLockfileUpdate();
     const needsUpgrade = await this.checkNeedsUpgrade();
-    await terraform.init({ needsUpgrade, noColor ?? false, needsLockfileUpdate, this.options.migrateState ?? false });
+    await terraform.init({
+      needsUpgrade,
+      noColor: noColor ?? false,
+      needsLockfileUpdate,
+      migrateState: this.options.migrateState ?? false,
+    });
     return terraform;
   }
 
