@@ -14,7 +14,7 @@ const { performance } = require("perf_hooks");
 async function run(command) {
   const start = performance.now();
   const res = await exec(
-    `/usr/bin/time --format='(%Xtext+%Ddata %Mmax)' ${command}`,
+    `/usr/bin/time --format='+++(%Xtext+%Ddata %Mmax)+++' ${command}`,
     {
       env: {
         ...process.env,
