@@ -39,6 +39,7 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
   }
 
   const provider = schema.provider_schemas?.[fullProviderName];
+
   if (!provider) {
     // Could not find provider
     return null;
@@ -59,10 +60,11 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
     return null;
   }
 
-  if (parts.length === 0) {
-    // No property specified
-    return null;
-  }
+  // TODO: Take a look if this causes any issues
+  // if (parts.length === 0) {
+  //   // No property specified
+  //   return null;
+  // }
 
   return { resource, parts };
 }
