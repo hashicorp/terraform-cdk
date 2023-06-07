@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("provider", () => {
   testCase.test(
     "empty provider",
     `provider "docker" {}`,
     [binding.docker],
+    Snapshot.yes,
     Synth.yes
   );
   testCase.test(
@@ -18,6 +19,7 @@ describe("provider", () => {
   resource "null_resource" "test" {}
   `,
     [binding.null],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -37,6 +39,7 @@ describe("provider", () => {
     }
   `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {}
   );
@@ -67,6 +70,7 @@ describe("provider", () => {
     }        
     `,
     [binding.aws, binding.awsVpc],
+    Snapshot.yes,
     Synth.never,
     {
       resources: ["aws_instance"],
@@ -95,6 +99,7 @@ describe("provider", () => {
       }
       `,
     [binding.auth0],
+    Snapshot.yes,
     Synth.yes,
     {}
   );

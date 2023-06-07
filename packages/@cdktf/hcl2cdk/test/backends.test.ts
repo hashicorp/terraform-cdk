@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth } from "./helpers/convert";
+import { testCase, Synth, Snapshot } from "./helpers/convert";
 
 describe("backends", () => {
   testCase.test(
@@ -13,6 +13,7 @@ describe("backends", () => {
           }     
           `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -31,6 +32,7 @@ describe("backends", () => {
           }
           `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -49,6 +51,7 @@ describe("backends", () => {
           }
           `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -76,6 +79,7 @@ describe("backends", () => {
       }
       `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 });

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("externals", () => {
   testCase.test(
@@ -26,6 +26,7 @@ describe("externals", () => {
     }
       `,
     [binding.external],
+    Snapshot.yes,
     Synth.yes,
     {
       dataSources: ["external"],

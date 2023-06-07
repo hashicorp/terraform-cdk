@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth } from "./helpers/convert";
+import { testCase, Synth, Snapshot } from "./helpers/convert";
 
 describe("locals", () => {
   testCase.test(
@@ -20,6 +20,7 @@ describe("locals", () => {
     }
     `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -40,6 +41,7 @@ describe("locals", () => {
       value = "\${local.service_name},\${local.owner},\${local.is_it_great},\${local.how_many}"
     }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 });

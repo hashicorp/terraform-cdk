@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("meta-properties", () => {
   describe("depends_on", () => {
@@ -31,6 +31,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
   });
@@ -86,6 +87,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.google],
+      Snapshot.yes,
       Synth.yes
     );
   });
@@ -126,6 +128,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
 
@@ -153,6 +156,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
   });
@@ -181,6 +185,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
 
@@ -201,6 +206,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
 
@@ -237,6 +243,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
 
@@ -274,6 +281,7 @@ describe("meta-properties", () => {
       }
       `,
       [binding.aws],
+      Snapshot.yes,
       Synth.yes
     );
   });
