@@ -61,6 +61,7 @@ import {
 } from "./helper/check-environment";
 import { sanitizeVarFiles } from "./helper/var-files";
 import { askForCrashReportingConsent } from "./helper/error-reporting";
+import { startPerformanceMonitoring } from "./helper/performance";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -236,38 +237,47 @@ export async function get(argv: {
   language: Language;
   parallelism: number;
   force?: boolean;
+  showPerformanceInfo?: boolean;
 }) {
-  throwIfNotProjectDirectory();
-  await displayVersionMessage();
-  await initializErrorReporting(askForCrashReportingConsent);
-  await checkEnvironment();
-  await verifySimilarLibraryVersion();
-  const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
-  const providers = config.terraformProviders ?? [];
-  const modules = config.terraformModules ?? [];
-  const { output, language, parallelism, force } = argv;
+  const printPerformanceInfo = argv.showPerformanceInfo
+    ? startPerformanceMonitoring()
+    : () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
 
-  const constraints: TerraformDependencyConstraint[] = [
-    ...providers.map((c) => new TerraformProviderConstraint(c)),
-    ...modules.map((c) => new TerraformModuleConstraint(c)),
-  ];
+  try {
+    throwIfNotProjectDirectory();
+    await displayVersionMessage();
+    await initializErrorReporting(askForCrashReportingConsent);
+    await checkEnvironment();
+    await verifySimilarLibraryVersion();
+    const config = readConfigSync(); // read config again to be up-to-date (if called via 'add' command)
+    const providers = config.terraformProviders ?? [];
+    const modules = config.terraformModules ?? [];
+    const { output, language, parallelism, force } = argv;
 
-  if (constraints.length === 0) {
-    logger.warn(
-      `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`
+    const constraints: TerraformDependencyConstraint[] = [
+      ...providers.map((c) => new TerraformProviderConstraint(c)),
+      ...modules.map((c) => new TerraformModuleConstraint(c)),
+    ];
+
+    if (constraints.length === 0) {
+      logger.warn(
+        `WARNING: No providers or modules found in "cdktf.json" config file, therefore cdktf get does nothing.`
+      );
+      return;
+    }
+
+    await renderInk(
+      React.createElement(Get, {
+        codeMakerOutput: output,
+        language: language,
+        constraints,
+        parallelism,
+        force,
+      })
     );
-    return;
+  } finally {
+    printPerformanceInfo();
   }
-
-  await renderInk(
-    React.createElement(Get, {
-      codeMakerOutput: output,
-      language: language,
-      constraints,
-      parallelism,
-      force,
-    })
-  );
 }
 
 export async function init(argv: any) {
@@ -354,27 +364,38 @@ export async function login(argv: { tfeHostname: string }) {
 }
 
 export async function synth(argv: any) {
-  await initializErrorReporting(askForCrashReportingConsent);
-  throwIfNotProjectDirectory();
-  await displayVersionMessage();
-  await checkEnvironment();
-  const checkCodeMakerOutput = argv.checkCodeMakerOutput;
-  const command = argv.app;
-  const outDir = argv.output;
+  const printPerformanceInfo = argv.showPerformanceInfo
+    ? startPerformanceMonitoring()
+    : () => {}; // eslint-disable-line @typescript-eslint/no-empty-function
 
-  if (checkCodeMakerOutput && !(await fs.pathExists(config.codeMakerOutput))) {
-    console.error(
-      `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
+  try {
+    await initializErrorReporting(askForCrashReportingConsent);
+    throwIfNotProjectDirectory();
+    await displayVersionMessage();
+    await checkEnvironment();
+    const checkCodeMakerOutput = argv.checkCodeMakerOutput;
+    const command = argv.app;
+    const outDir = argv.output;
+
+    if (
+      checkCodeMakerOutput &&
+      !(await fs.pathExists(config.codeMakerOutput))
+    ) {
+      console.error(
+        `ERROR: synthesis failed, run "cdktf get" to generate providers in ${config.codeMakerOutput}`
+      );
+      process.exit(1);
+    }
+
+    await renderInk(
+      React.createElement(Synth, {
+        outDir,
+        synthCommand: command,
+      })
     );
-    process.exit(1);
+  } finally {
+    printPerformanceInfo();
   }
-
-  await renderInk(
-    React.createElement(Synth, {
-      outDir,
-      synthCommand: command,
-    })
-  );
 }
 
 export async function watch(argv: any) {

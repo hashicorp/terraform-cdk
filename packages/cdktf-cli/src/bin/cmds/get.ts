@@ -39,6 +39,11 @@ class Command extends BaseCommand {
         required: false,
         desc: "Number of concurrently generated provider / module bindings. Only applies for languages that are not Typescript (translated by JSII). Defaults to infinity, denoted by -1",
         default: -1,
+      })
+      .option("show-performance-info", {
+        type: "boolean",
+        required: false,
+        desc: "Shows performance information after generation",
       });
 
   public async handleCommand(argv: any) {
