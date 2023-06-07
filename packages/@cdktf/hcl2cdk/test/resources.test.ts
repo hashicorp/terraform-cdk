@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("resources", () => {
   testCase.test(
@@ -16,6 +16,7 @@ describe("resources", () => {
       cidr_block = "10.0.0.0/16"
     }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_vpc"],
@@ -133,6 +134,7 @@ describe("resources", () => {
         }
       }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_cloudfront_distribution"],
@@ -149,6 +151,7 @@ describe("resources", () => {
         vpc_id = "subnet_id"
       }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       dataSources: ["aws_subnet"],
@@ -198,6 +201,7 @@ describe("resources", () => {
       }
     }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_security_group"],
@@ -228,6 +232,7 @@ describe("resources", () => {
     }
     `,
     [binding.google],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["google_compute_autoscaler"],
@@ -252,6 +257,7 @@ describe("resources", () => {
     }
     `,
     [binding.kubernetes],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["kubernetes_secret"],
@@ -276,6 +282,7 @@ describe("resources", () => {
   }
   `,
     [binding.kubernetes],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["kubernetes_secret"],
@@ -296,6 +303,7 @@ describe("resources", () => {
     }
     `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -336,6 +344,7 @@ describe("resources", () => {
       }
         `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_guardduty_filter"],
@@ -370,6 +379,7 @@ describe("resources", () => {
       }
         `,
     [binding.aws],
+    Snapshot.yes,
     Synth.never,
     {
       resources: ["aws_instance"],
@@ -408,6 +418,7 @@ describe("resources", () => {
       }
         `,
     [binding.scaleway],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["scaleway_object", "scaleway_object_bucket"],
@@ -435,6 +446,7 @@ describe("resources", () => {
       }
         `,
     [],
+    Snapshot.yes,
     Synth.never
   );
 
@@ -458,6 +470,7 @@ describe("resources", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_ebs_volume"],
@@ -510,6 +523,7 @@ describe("resources", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.no_missing_type_coercion,
     {
       resources: ["aws_ecs_task_definition"],

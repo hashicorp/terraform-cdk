@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { binding, Synth, testCase } from "./helpers/convert";
+import { binding, Snapshot, Synth, testCase } from "./helpers/convert";
 
 describe("JSII Language Support", () => {
   testCase.test(
@@ -67,6 +67,7 @@ describe("JSII Language Support", () => {
     }
     `,
     [binding.aws],
+    Snapshot.yes_all_languages,
     Synth.yes_all_languages
   );
 });

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("tfExpressions", () => {
   testCase.test(
@@ -20,6 +20,7 @@ describe("tfExpressions", () => {
             value = var.members + var.admins
           }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -46,6 +47,7 @@ describe("tfExpressions", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_kms_key", "aws_s3_bucket_object"],
@@ -77,6 +79,7 @@ describe("tfExpressions", () => {
             }
             `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -99,6 +102,7 @@ describe("tfExpressions", () => {
             value = local.users_by_role
           }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -123,6 +127,7 @@ describe("tfExpressions", () => {
               type    = "metric alert"
             }`,
     [binding.datadog],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["datadog_monitor"],
@@ -145,6 +150,7 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
@@ -167,6 +173,7 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
@@ -205,6 +212,7 @@ describe("tfExpressions", () => {
       }
       `,
     [binding.google],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["google_compute_instance"],
@@ -224,6 +232,7 @@ ITEM
       }
       `,
     [],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: [],

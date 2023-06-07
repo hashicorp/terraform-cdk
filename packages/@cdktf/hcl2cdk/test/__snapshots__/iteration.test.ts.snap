@@ -418,6 +418,7 @@ class MyConvertedCode extends TerraformStack {
         azureAdDomainName.value +
         "}",
       forEach: azureUsersForEachIterator,
+      timeouts: config.timeouts,
     });
   }
 }

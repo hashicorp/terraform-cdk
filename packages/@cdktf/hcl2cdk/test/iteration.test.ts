@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("iteration", () => {
   testCase.test(
@@ -35,6 +35,7 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_kms_key", "aws_s3_bucket", "aws_s3_bucket_object"],
@@ -62,6 +63,7 @@ describe("iteration", () => {
           }
           `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_iam_user"],
@@ -88,6 +90,7 @@ describe("iteration", () => {
               }
             }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_iam_user"],
@@ -112,6 +115,7 @@ describe("iteration", () => {
         }
         `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_instance"],
@@ -147,6 +151,7 @@ describe("iteration", () => {
             }
           }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_elastic_beanstalk_environment"],
@@ -199,6 +204,7 @@ describe("iteration", () => {
   }
   `,
     [binding.azuread],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["azuread_application"],
@@ -255,6 +261,7 @@ describe("iteration", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: [
@@ -293,6 +300,7 @@ describe("iteration", () => {
           }
           `,
     [binding.azuread],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["azuread_user"],
@@ -324,6 +332,7 @@ describe("iteration", () => {
       } 
     `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_subnet"],

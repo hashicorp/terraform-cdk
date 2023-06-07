@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("variables", () => {
   testCase.test(
@@ -18,6 +18,7 @@ describe("variables", () => {
       }
       `,
     [binding.local],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -44,6 +45,7 @@ describe("variables", () => {
             filename = "./\${var.docker_ports[0].protocol}.img"
           }`,
     [binding.local],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -65,6 +67,7 @@ describe("variables", () => {
       }
       `,
     [binding.local],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -87,6 +90,7 @@ describe("variables", () => {
       }
       `,
     [binding.local],
+    Snapshot.yes,
     Synth.yes
   );
 });
