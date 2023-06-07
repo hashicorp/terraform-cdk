@@ -31,7 +31,11 @@
     "name": "HashiCorp",
     "url": "https://hashicorp.com"
   },
-  "keywords": ["cdk", "cdktf", "terraform"],
+  "keywords": [
+    "cdk",
+    "cdktf",
+    "terraform"
+  ],
   "license": "MPL-2.0",
   "dependencies": {
     "@cdktf/cli-core": "0.0.0",
@@ -51,6 +55,8 @@
     "jsii-pacmak": "^1.79.0",
     "minimatch": "^5.1.0",
     "node-fetch": "^2.6.7",
+    "pidtree": "^0.6.0",
+    "pidusage": "^3.0.2",
     "tunnel-agent": "^0.6.0",
     "xml-js": "^1.6.11",
     "yargs": "^17.6",
@@ -120,6 +126,7 @@
     "@types/nock": "^11.1.0",
     "@types/node": "16.18.23",
     "@types/parse-gitignore": "^1.0.0",
+    "@types/pidusage": "^2.0.2",
     "@types/react": "18.0.25",
     "@types/semver": "^7.3.13",
     "@types/stream-buffers": "^3.0.4",
