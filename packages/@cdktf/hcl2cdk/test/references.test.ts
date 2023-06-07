@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("references", () => {
   testCase.test(
@@ -26,6 +26,7 @@ describe("references", () => {
           kms_key_id = aws_kms_key.examplekms.arn
         }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
@@ -48,6 +49,7 @@ describe("references", () => {
           acl    = "private"
         }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
@@ -70,6 +72,7 @@ describe("references", () => {
           acl    = "private"
         }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
@@ -97,6 +100,7 @@ describe("references", () => {
           source     = "index.html"
         }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object"],
@@ -122,6 +126,7 @@ describe("references", () => {
           }
         }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["aws_s3_bucket"],
@@ -152,6 +157,7 @@ describe("references", () => {
         kms_key_id = aws_kms_key.examplekms.arn
       }`,
     [binding.aws],
+    Snapshot.yes,
     Synth.no_cant_resolve_construct,
     {
       resources: ["aws_s3_bucket", "aws_s3_bucket_object", "aws_kms_key"],
@@ -171,6 +177,7 @@ describe("references", () => {
     }
     `,
     [binding.auth0],
+    Snapshot.yes,
     Synth.yes,
     { resources: [] }
   );
@@ -184,6 +191,7 @@ describe("references", () => {
     }
     `,
     [binding.local],
+    Snapshot.yes,
     Synth.yes,
     {
       dataSources: ["local_file"],
@@ -216,6 +224,7 @@ describe("references", () => {
     }
     `,
     [binding.auth0],
+    Snapshot.yes,
     Synth.yes,
     { resources: [] }
   );
@@ -243,6 +252,7 @@ describe("references", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_eip"] }
   );
@@ -270,6 +280,7 @@ describe("references", () => {
       }
       `,
     [],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_eip"] }
   );

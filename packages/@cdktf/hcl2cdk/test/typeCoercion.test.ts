@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("type coercion", () => {
   testCase.test(
@@ -21,6 +21,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_route53_record"] }
   );
@@ -43,6 +44,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_route53_record"] }
   );
@@ -65,6 +67,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_route53_zone", "aws_route53_record"] }
   );
@@ -87,6 +90,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_iam_user_group_membership"] }
   );
@@ -119,6 +123,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_eks_cluster"] }
   );
@@ -142,6 +147,7 @@ describe("type coercion", () => {
       }
       `,
     [binding.aws],
+    Snapshot.yes,
     Synth.yes,
     { resources: ["aws_security_group_rule"] }
   );

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth } from "./helpers/convert";
+import { testCase, Synth, Snapshot } from "./helpers/convert";
 
 describe("outputs", () => {
   testCase.test(
@@ -13,6 +13,7 @@ describe("outputs", () => {
           value = "test"
       }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
   testCase.test(
@@ -24,6 +25,7 @@ describe("outputs", () => {
       }`,
 
     [],
+    Snapshot.yes,
     Synth.yes
   );
   testCase.test(
@@ -35,6 +37,7 @@ describe("outputs", () => {
           description = "Best output"
       }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -48,6 +51,7 @@ describe("outputs", () => {
           value = "second"
       }`,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -59,6 +63,7 @@ describe("outputs", () => {
     }
     `,
     [],
+    Snapshot.yes,
     Synth.yes
   );
 });

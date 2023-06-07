@@ -35,6 +35,7 @@ class MyConvertedCode extends TerraformStack {
       dependsOn: [example],
       iamInstanceProfile: "aws_iam_instance_profile",
       instanceType: "t2.micro",
+      timeouts: config.timeouts,
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsInstanceExample.overrideLogicalId("example");
@@ -83,6 +84,7 @@ class MyConvertedCode extends TerraformStack {
         preventDestroy: true,
         replaceTriggeredBy: [example.id],
       },
+      timeouts: config.timeouts,
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsInstanceExample.overrideLogicalId("example");
@@ -128,6 +130,7 @@ class MyConvertedCode extends TerraformStack {
           },
         ],
       },
+      timeouts: config.timeouts,
     });
   }
 }
@@ -182,6 +185,7 @@ class MyConvertedCode extends TerraformStack {
       ],
       tags: ["foo", "bar"],
       zone: "us-central1-a",
+      timeouts: config.timeouts,
     });
   }
 }
@@ -219,6 +223,7 @@ class MyConvertedCode extends TerraformStack {
           destination: "/tmp/file.log",
         },
       ],
+      timeouts: config.timeouts,
     });
   }
 }
@@ -253,6 +258,7 @@ class MyConvertedCode extends TerraformStack {
             " >> private_ips.txt",
         },
       ],
+      timeouts: config.timeouts,
     });
   }
 }
@@ -277,6 +283,7 @@ class MyConvertedCode extends TerraformStack {
     const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
+      timeouts: config.timeouts,
     });
     new Instance(this, "example", {
       ami: "ami-a1b2c3d4",
@@ -294,6 +301,7 @@ class MyConvertedCode extends TerraformStack {
           inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
+      timeouts: config.timeouts,
     });
   }
 }
@@ -318,6 +326,7 @@ class MyConvertedCode extends TerraformStack {
     const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
+      timeouts: config.timeouts,
     });
     new Instance(this, "example", {
       ami: "ami-a1b2c3d4",
@@ -335,6 +344,7 @@ class MyConvertedCode extends TerraformStack {
           inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
+      timeouts: config.timeouts,
     });
   }
 }

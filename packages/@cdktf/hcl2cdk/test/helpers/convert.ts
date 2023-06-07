@@ -30,6 +30,10 @@ export enum Synth {
   no_missing_type_coercion, // We don't type coerce numbers yet
   never, // Some examples are built so that they will never synth but test a specific generation edge case
 }
+export enum Snapshot {
+  yes_all_languages, // Synth and snapshot all languages
+  yes,
+}
 
 type PathToCopy = string;
 type ProviderFqn = string;
@@ -441,6 +445,7 @@ const createTestCase =
     name: string,
     hcl: string,
     providers: ProviderDefinition[],
+    shouldSnapshot: Snapshot,
     shouldSynth: Synth,
     schemaFilter?: SchemaFilter
   ) => {
@@ -463,69 +468,47 @@ const createTestCase =
     }
 
     const testBody = () => {
-      describe("typescript", () => {
-        let convertResult: any;
-        beforeAll(async () => {
-          convertResult = await runConvert("typescript");
-        }, 500_000);
-
-        it("snapshot", async () => {
-          expect(convertResult.all).toMatchSnapshot();
-        }, 500_000);
-
-        if (
-          includeSynthTests &&
-          (shouldSynth === Synth.yes || shouldSynth === Synth.yes_all_languages)
-        ) {
-          it("synth", async () => {
-            await synthForLanguage(
+      describe("snapshot", () => {
+        it.each(
+          shouldSnapshot === Snapshot.yes_all_languages
+            ? ["typescript", "python", "csharp", "java", "go"]
+            : ["typescript"]
+        )(
+          "%s",
+          async (language) => {
+            const projectDir = await getProjectDirectory(
               "typescript",
-              name,
-              convertResult,
               providers
             );
-          }, 500_000);
-        } else if (
-          shouldSynth === Synth.yes ||
-          shouldSynth === Synth.yes_all_languages
-        ) {
-          it.skip("synth", () => {});
-        }
-      });
-
-      if (includeSynthTests && shouldSynth === Synth.yes_all_languages) {
-        describe.each(["python", "csharp", "java", "go"])("%s", (language) => {
-          let projectDir = "";
-          let convertResult: any;
-
-          beforeAll(async () => {
-            projectDir = await getProjectDirectory("typescript", providers);
-
             process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
-          }, 500_000);
-
-          it("snapshot", async () => {
-            convertResult = await runConvert(language);
+            const convertResult = await runConvert(language);
             expect(convertResult.all).toMatchSnapshot();
-          }, 500_000);
-
-          if (language === "python") {
-            // Skipped becaue import ...gen.providers.aws as aws is an invalid syntax
-            it.skip("synth", async () => {
-              await synthForLanguage("python", name, convertResult, providers);
-            }, 500_000);
-          }
-
-          if (language === "csharp") {
-            it.skip("synth", async () => {
-              await synthForLanguage("csharp", name, convertResult, providers);
-            }, 500_000);
-          }
+          },
+          500_000
+        );
+      });
+      if (includeSynthTests) {
+        describe("synth", () => {
+          it.each(
+            shouldSynth === Synth.yes_all_languages
+              ? ["typescript", "python", "csharp"]
+              : ["typescript"]
+          )(
+            "%s",
+            async (language) => {
+              const projectDir = await getProjectDirectory(
+                "typescript",
+                providers
+              );
+              process.chdir(projectDir); // JSII rosetta needs to be run in the project directory with bindings included
+              const convertResult = await runConvert(language);
+              await synthForLanguage(language, name, convertResult, providers);
+            },
+            500_000
+          );
         });
-      } else if (shouldSynth === Synth.yes_all_languages) {
-        describe.skip.each(["python", "csharp", "java", "go"])("%s", () => {
-          it.skip("snapshot", () => {});
-        });
+      } else {
+        describe.skip("synth", () => {});
       }
     };
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("modules", () => {
   testCase.test(
@@ -28,6 +28,7 @@ describe("modules", () => {
           }
         }`,
     [binding.awsVpc],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -46,6 +47,7 @@ describe("modules", () => {
           name = "my-vpc-b"
         }`,
     [binding.awsVpc],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -75,6 +77,7 @@ describe("modules", () => {
             value = module.vpc.public_subnets
           }`,
     [binding.awsVpc],
+    Snapshot.yes,
     Synth.yes
   );
 
@@ -86,6 +89,7 @@ describe("modules", () => {
     }        
     `,
     [],
+    Snapshot.yes,
     Synth.never
   );
 
@@ -98,6 +102,7 @@ describe("modules", () => {
     }
     `,
     [],
+    Snapshot.yes,
     Synth.never
   );
 
@@ -132,6 +137,7 @@ describe("modules", () => {
       }
       `,
     [],
+    Snapshot.yes,
     Synth.never
   );
 });

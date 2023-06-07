@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("Partial code (missing properties)", () => {
   testCase.test(
@@ -16,7 +16,8 @@ describe("Partial code (missing properties)", () => {
       }
       `,
     [binding.docker],
-    Synth.yes_all_languages,
+    Snapshot.yes_all_languages,
+    Synth.never,
     {
       resources: ["docker_config"],
     }
