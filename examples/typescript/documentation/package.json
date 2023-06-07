@@ -6,9 +6,9 @@
   "types": "main.ts",
   "license": "MPL-2.0",
   "scripts": {
-    "get": "cdktf get",
+    "get": "cdktf get --show-performance-info",
     "build": "yarn get",
-    "synth": "cdktf synth",
+    "synth": "cdktf synth --show-performance-info",
     "compile": "tsc --pretty",
     "watch": "tsc -w",
     "test": "jest",
