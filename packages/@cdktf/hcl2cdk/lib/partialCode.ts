@@ -88,7 +88,7 @@ export function getRequiredAttributes(
   ).reduce((acc, [key, value]) => {
     if (
       value.nesting_mode === "single" &&
-      !(value as any).attributes.some((x: any) => !x.required)
+      !(value as any).attributes?.some((x: any) => !x.required)
     ) {
       return [...acc, key];
     }
