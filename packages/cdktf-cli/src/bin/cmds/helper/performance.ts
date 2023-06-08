@@ -11,7 +11,10 @@ async function getCombinedMemoryUsageInBytes(
 ): Promise<number> {
   const allPids = await pidtree(pid, { root: true });
   const usages = await pidusage(allPids);
-  return Object.values(usages).reduce((a, b) => a + b.memory, 0);
+  return Object.values(usages).reduce(
+    (carry, item) => (item && "memory" in item ? carry + item.memory : carry),
+    0
+  );
 }
 
 export function startPerformanceMonitoring() {
