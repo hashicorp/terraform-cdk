@@ -6,13 +6,13 @@ on:
     - cron: 37 13 * * 1
   workflow_dispatch: {}
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      GH_TOKEN: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
-      PR_TITLE: "chore: update github workflow actions"
+env:
+  GH_TOKEN: ${{ secrets.GH_TOKEN_ACTIONS_UPDATER }}
+  PR_TITLE: "chore: update github workflow actions"
 
+jobs:
+  update:
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
         with:
@@ -32,3 +32,28 @@ jobs:
           pull_request_team_reviewers: cdktf
           pull_request_labels: "dependencies"
           update_version_with: "release-commit-sha"
+  pin:
+    runs-on: ubuntu-latest
+    needs: [update]
+    steps:
+      - name: Find and checkout the PR just created
+        run: |
+          prnumber=$(gh search prs --repo ${{ github.repository }} --state open --match title "$PR_TITLE" --json number --jq '.[].number')
+          gh pr checkout ${prnumber}
+      - name: Setup TSCCR helper
+        uses: hashicorp/setup-tsccr@v1
+      - name: Pin all workflows based on TSCCR
+        run: tsccr-helper -pin-all-workflows .
+      - name: Set git identity
+        run: |-
+          git config user.name "hashicorp-tsccr[bot]"
+          git config user.email "hashicorp-tsccr[bot]@users.noreply.github.com"
+      - name: Check if there are any changes
+        id: get_changes
+        run: echo "changed=$(git status --porcelain | wc -l)" >> $GITHUB_OUTPUT
+      - name: Push changes
+        if: steps.get_changes.outputs.changed != 0
+        run: |-
+          git add .
+          git commit -s -m "chore: pin all workflows based on HashiCorp TSCCR"
+          git push origin HEAD:$HEAD_REF
