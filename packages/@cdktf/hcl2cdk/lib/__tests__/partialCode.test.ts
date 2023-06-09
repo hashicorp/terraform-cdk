@@ -5,7 +5,6 @@
 
 import { fillWithConfigAccessors } from "../partialCode";
 import { ProgramScope } from "../types";
-import * as t from "@babel/types";
 
 const getScope = () =>
   ({
@@ -430,15 +429,24 @@ describe("fillWithConfigAccessors", () => {
     `);
   });
 
-  it("takes dynamic blocks into account and ignores them", () => {
+  it("takes dynamic blocks into account", () => {
     const scope = getScope();
     const result = fillWithConfigAccessors(
       scope,
       {
         a: "a",
         b: "b",
-        c: { d: "d" },
-        d: t.callExpression(t.identifier("dynamic"), []),
+        dynamic: {
+          c: [
+            {
+              for_each: "var.foo",
+              content: {
+                d: "d",
+              },
+            },
+          ],
+        },
+        d: [{ e: "e" }],
       },
       "aws.image"
     );
@@ -447,16 +455,20 @@ describe("fillWithConfigAccessors", () => {
       {
         "a": "a",
         "b": "b",
-        "c": {
-          "d": "d",
-        },
-        "d": {
-          "arguments": [],
-          "callee": {
-            "name": "dynamic",
-            "type": "Identifier",
+        "d": [
+          {
+            "e": "e",
           },
-          "type": "CallExpression",
+        ],
+        "dynamic": {
+          "c": [
+            {
+              "content": {
+                "d": "d",
+              },
+              "for_each": "var.foo",
+            },
+          ],
         },
       }
     `);
