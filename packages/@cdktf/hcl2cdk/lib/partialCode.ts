@@ -26,6 +26,10 @@ function deduplicateName(existingNames: string[], name: string) {
   return newName;
 }
 
+function isDynamicBlock(value: any) {
+  return t.isExpression(value);
+}
+
 export function fillWithConfigAccessors(
   scope: ResourceScope,
   config: TerraformResourceBlock,
@@ -45,7 +49,9 @@ export function fillWithConfigAccessors(
     const mutated = Object.entries(config).reduce(
       (acc, [key, value]) => ({
         ...acc,
-        [key]: fillWithConfigAccessors(scope, value, `${path}.${key}`),
+        [key]: isDynamicBlock(value)
+          ? value
+          : fillWithConfigAccessors(scope, value, `${path}.${key}`),
       }),
       {} as Record<string, TerraformResourceBlock>
     );
@@ -57,17 +63,10 @@ export function fillWithConfigAccessors(
     // Add accessors for all required attributes that are missing
     requiredAttributes.forEach((key) => {
       const value = mutated[key];
-      const isNotDirectlyAccessible = value === undefined;
-      const isNotAccessibleThroughDynamic = !(
-        "dynamic" in mutated &&
-        key in (mutated.dynamic as Record<string, unknown>)
-      );
+      const isDirectlyAccessible = value !== undefined;
       const isEmptyArray = Array.isArray(value) && value.length === 0;
 
-      if (
-        (isNotDirectlyAccessible && isNotAccessibleThroughDynamic) ||
-        isEmptyArray
-      ) {
+      if (!isDirectlyAccessible || isEmptyArray) {
         const fieldName = getConfigFieldName(scope.topLevelConfig, key);
         mutated[key] = t.memberExpression(
           t.identifier("config"),

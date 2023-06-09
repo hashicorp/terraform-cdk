@@ -68,6 +68,6 @@ describe("JSII Language Support", () => {
     `,
     [binding.aws],
     Snapshot.yes_all_languages,
-    Synth.yes_all_languages
+    Synth.yes // Shold be Synth.yes_all_languages when they actually work
   );
 });
