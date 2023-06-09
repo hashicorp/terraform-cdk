@@ -13,23 +13,3 @@ jobs:
           # The config file lives under .github/labeler.yml
           repo-token: "${{ secrets.PULL_REQUEST_LABELER }}"
           sync-labels: false # If set to true we could not easily overwrite it individually
-
-  pr_size:
-    runs-on: ubuntu-latest
-    name: Label the PR size
-    steps:
-      - uses: codelytv/pr-size-labeler@54ef36785e9f4cb5ecf1949cfc9b00dbb621d761
-        with:
-          GITHUB_TOKEN: ${{ secrets.PULL_REQUEST_LABELER }}
-          xs_label: "size/xs"
-          xs_max_size: "10"
-          s_label: "size/s"
-          s_max_size: "100"
-          m_label: "size/m"
-          m_max_size: "500"
-          l_label: "size/l"
-          l_max_size: "1000"
-          xl_label: "size/xl"
-          fail_if_xl: "false"
-          # Ignoring generate files
-          files_to_ignore: "website/docs/cdktf/api-reference/csharp.mdx website/docs/cdktf/api-reference/go.mdx website/docs/cdktf/api-reference/java.mdx website/docs/cdktf/api-reference/python.mdx website/docs/cdktf/api-reference/typescript.mdx"
