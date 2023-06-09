@@ -487,7 +487,11 @@ const createTestCase =
           500_000
         );
       });
-      if (includeSynthTests) {
+
+      if (
+        includeSynthTests &&
+        [Synth.yes_all_languages, Synth.yes].includes(shouldSynth)
+      ) {
         describe("synth", () => {
           it.each(
             shouldSynth === Synth.yes_all_languages
