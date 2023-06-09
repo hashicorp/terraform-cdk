@@ -6,9 +6,24 @@
 import { getTypeAtPath } from "./terraformSchema";
 import { ResourceScope, TerraformResourceBlock } from "./types";
 import * as t from "@babel/types";
+import { camelCase } from "./utils";
 
-function getConfigFieldName(_scope: ResourceScope, name: string) {
-  return name; // sanitize and care about duplicates
+function getConfigFieldName(
+  topLevelConfig: Record<string, unknown>,
+  name: string
+) {
+  const sanitizedName = camelCase(name);
+  return deduplicateName(Object.keys(topLevelConfig), sanitizedName);
+}
+
+function deduplicateName(existingNames: string[], name: string) {
+  let newName = name;
+  let i = 1;
+  while (existingNames.includes(newName)) {
+    newName = `${name}${i}`;
+    i++;
+  }
+  return newName;
 }
 
 export function fillWithConfigAccessors(
@@ -41,8 +56,19 @@ export function fillWithConfigAccessors(
 
     // Add accessors for all required attributes that are missing
     requiredAttributes.forEach((key) => {
-      if (mutated[key] === undefined) {
-        const fieldName = getConfigFieldName(scope, key);
+      const value = mutated[key];
+      const isNotDirectlyAccessible = value === undefined;
+      const isNotAccessibleThroughDynamic = !(
+        "dynamic" in mutated &&
+        key in (mutated.dynamic as Record<string, unknown>)
+      );
+      const isEmptyArray = Array.isArray(value) && value.length === 0;
+
+      if (
+        (isNotDirectlyAccessible && isNotAccessibleThroughDynamic) ||
+        isEmptyArray
+      ) {
+        const fieldName = getConfigFieldName(scope.topLevelConfig, key);
         mutated[key] = t.memberExpression(
           t.identifier("config"),
           t.identifier(fieldName)
@@ -88,7 +114,7 @@ export function getRequiredAttributes(
   ).reduce((acc, [key, value]) => {
     if (
       value.nesting_mode === "single" &&
-      !(value as any).attributes?.some((x: any) => !x.required)
+      !Object.values(value.block.attributes || {}).some((x) => !x.required)
     ) {
       return [...acc, key];
     }
