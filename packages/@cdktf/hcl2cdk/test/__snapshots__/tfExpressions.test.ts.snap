@@ -214,7 +214,6 @@ class MyConvertedCode extends TerraformStack {
       bucket: Token.asString(
         propertyAccess(settings.value, ["0", '"bucket_name"'])
       ),
-      timeouts: config.timeouts,
     });
   }
 }

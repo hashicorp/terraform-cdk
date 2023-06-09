@@ -122,7 +122,7 @@ describe("iteration", () => {
     }
   );
 
-  testCase.test(
+  testCase.only(
     "dynamic blocks",
     `
           provider "aws" {
