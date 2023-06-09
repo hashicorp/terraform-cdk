@@ -56,4 +56,4 @@ jobs:
         run: |-
           git add .
           git commit -s -m "chore: pin all workflows based on HashiCorp TSCCR"
-          git push origin HEAD:$HEAD_REF
+          git push
