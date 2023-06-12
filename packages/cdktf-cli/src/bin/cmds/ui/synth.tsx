@@ -39,7 +39,10 @@ export const Synth = ({
     { outDir, synthCommand },
     (project) =>
       project.synth().then(() => {
-        exit();
+        // If we immediately exit, the state will not be printed
+        setTimeout(() => {
+          exit();
+        }, 1000);
       })
   );
 
