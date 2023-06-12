@@ -185,7 +185,6 @@ class MyConvertedCode extends TerraformStack {
       ],
       tags: ["foo", "bar"],
       zone: "us-central1-a",
-      timeouts: config.timeouts,
     });
   }
 }
