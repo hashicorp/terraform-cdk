@@ -6,6 +6,10 @@
 import pidtree from "pidtree";
 import pidusage from "pidusage";
 
+/**
+ * We need to get the memory usage of the entire process tree, not just the
+ * current process since we start a lot of sub-processes with child_process.exec().
+ */
 async function getCombinedMemoryUsageInBytes(
   pid = process.pid
 ): Promise<number> {
