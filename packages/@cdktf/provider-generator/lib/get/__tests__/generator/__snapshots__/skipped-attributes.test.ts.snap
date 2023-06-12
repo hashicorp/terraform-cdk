@@ -1,0 +1,349 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`skips attributes in the disallow list: quicksight-template 1`] = `
+"// generated from terraform resource schema
+
+import { QuicksightTemplateDefinition, 
+quicksightTemplateDefinitionToTerraform, 
+QuicksightTemplateDefinitionOutputReference, 
+QuicksightTemplatePermissions, 
+quicksightTemplatePermissionsToTerraform, 
+QuicksightTemplatePermissionsList, 
+QuicksightTemplateSourceEntity, 
+quicksightTemplateSourceEntityToTerraform, 
+QuicksightTemplateSourceEntityOutputReference, 
+QuicksightTemplateTimeouts, 
+quicksightTemplateTimeoutsToTerraform, 
+QuicksightTemplateTimeoutsOutputReference} from './index-structs'
+export * from './index-structs'
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+export interface QuicksightTemplateConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#aws_account_id QuicksightTemplate#aws_account_id}
+  */
+  readonly awsAccountId?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#id QuicksightTemplate#id}
+  *
+  * Please be aware that the id field is automatically added to all resources in Terraform providers using a Terraform provider SDK version below 2.
+  * If you experience problems setting this value it might not be settable. Please take a look at the provider documentation to ensure it should be settable.
+  */
+  readonly id?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#name QuicksightTemplate#name}
+  */
+  readonly name: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#tags QuicksightTemplate#tags}
+  */
+  readonly tags?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#tags_all QuicksightTemplate#tags_all}
+  */
+  readonly tagsAll?: { [key: string]: string };
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#template_id QuicksightTemplate#template_id}
+  */
+  readonly templateId: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#version_description QuicksightTemplate#version_description}
+  */
+  readonly versionDescription: string;
+  /**
+  * definition block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#definition QuicksightTemplate#definition}
+  */
+  readonly definition?: QuicksightTemplateDefinition;
+  /**
+  * permissions block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#permissions QuicksightTemplate#permissions}
+  */
+  readonly permissions?: QuicksightTemplatePermissions[] | cdktf.IResolvable;
+  /**
+  * source_entity block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#source_entity QuicksightTemplate#source_entity}
+  */
+  readonly sourceEntity?: QuicksightTemplateSourceEntity;
+  /**
+  * timeouts block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#timeouts QuicksightTemplate#timeouts}
+  */
+  readonly timeouts?: QuicksightTemplateTimeouts;
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template aws_quicksight_template}
+*/
+export class QuicksightTemplate extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "aws_quicksight_template";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template aws_quicksight_template} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options QuicksightTemplateConfig
+  */
+  public constructor(scope: Construct, id: string, config: QuicksightTemplateConfig) {
+    super(scope, id, {
+      terraformResourceType: 'aws_quicksight_template',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._awsAccountId = config.awsAccountId;
+    this._id = config.id;
+    this._name = config.name;
+    this._tags = config.tags;
+    this._tagsAll = config.tagsAll;
+    this._templateId = config.templateId;
+    this._versionDescription = config.versionDescription;
+    this._definition.internalValue = config.definition;
+    this._permissions.internalValue = config.permissions;
+    this._sourceEntity.internalValue = config.sourceEntity;
+    this._timeouts.internalValue = config.timeouts;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // arn - computed: true, optional: false, required: false
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+
+  // aws_account_id - computed: true, optional: true, required: false
+  private _awsAccountId?: string; 
+  public get awsAccountId() {
+    return this.getStringAttribute('aws_account_id');
+  }
+  public set awsAccountId(value: string) {
+    this._awsAccountId = value;
+  }
+  public resetAwsAccountId() {
+    this._awsAccountId = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get awsAccountIdInput() {
+    return this._awsAccountId;
+  }
+
+  // created_time - computed: true, optional: false, required: false
+  public get createdTime() {
+    return this.getStringAttribute('created_time');
+  }
+
+  // id - computed: true, optional: true, required: false
+  private _id?: string; 
+  public get id() {
+    return this.getStringAttribute('id');
+  }
+  public set id(value: string) {
+    this._id = value;
+  }
+  public resetId() {
+    this._id = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get idInput() {
+    return this._id;
+  }
+
+  // last_updated_time - computed: true, optional: false, required: false
+  public get lastUpdatedTime() {
+    return this.getStringAttribute('last_updated_time');
+  }
+
+  // name - computed: false, optional: false, required: true
+  private _name?: string; 
+  public get name() {
+    return this.getStringAttribute('name');
+  }
+  public set name(value: string) {
+    this._name = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get nameInput() {
+    return this._name;
+  }
+
+  // source_entity_arn - computed: true, optional: false, required: false
+  public get sourceEntityArn() {
+    return this.getStringAttribute('source_entity_arn');
+  }
+
+  // status - computed: true, optional: false, required: false
+  public get status() {
+    return this.getStringAttribute('status');
+  }
+
+  // tags - computed: false, optional: true, required: false
+  private _tags?: { [key: string]: string }; 
+  public get tags() {
+    return this.getStringMapAttribute('tags');
+  }
+  public set tags(value: { [key: string]: string }) {
+    this._tags = value;
+  }
+  public resetTags() {
+    this._tags = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsInput() {
+    return this._tags;
+  }
+
+  // tags_all - computed: true, optional: true, required: false
+  private _tagsAll?: { [key: string]: string }; 
+  public get tagsAll() {
+    return this.getStringMapAttribute('tags_all');
+  }
+  public set tagsAll(value: { [key: string]: string }) {
+    this._tagsAll = value;
+  }
+  public resetTagsAll() {
+    this._tagsAll = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get tagsAllInput() {
+    return this._tagsAll;
+  }
+
+  // template_id - computed: false, optional: false, required: true
+  private _templateId?: string; 
+  public get templateId() {
+    return this.getStringAttribute('template_id');
+  }
+  public set templateId(value: string) {
+    this._templateId = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get templateIdInput() {
+    return this._templateId;
+  }
+
+  // version_description - computed: false, optional: false, required: true
+  private _versionDescription?: string; 
+  public get versionDescription() {
+    return this.getStringAttribute('version_description');
+  }
+  public set versionDescription(value: string) {
+    this._versionDescription = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get versionDescriptionInput() {
+    return this._versionDescription;
+  }
+
+  // version_number - computed: true, optional: false, required: false
+  public get versionNumber() {
+    return this.getNumberAttribute('version_number');
+  }
+
+  // definition - computed: false, optional: true, required: false
+  private _definition = new QuicksightTemplateDefinitionOutputReference(this, "definition");
+  public get definition() {
+    return this._definition;
+  }
+  public putDefinition(value: QuicksightTemplateDefinition) {
+    this._definition.internalValue = value;
+  }
+  public resetDefinition() {
+    this._definition.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get definitionInput() {
+    return this._definition.internalValue;
+  }
+
+  // permissions - computed: false, optional: true, required: false
+  private _permissions = new QuicksightTemplatePermissionsList(this, "permissions", false);
+  public get permissions() {
+    return this._permissions;
+  }
+  public putPermissions(value: QuicksightTemplatePermissions[] | cdktf.IResolvable) {
+    this._permissions.internalValue = value;
+  }
+  public resetPermissions() {
+    this._permissions.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get permissionsInput() {
+    return this._permissions.internalValue;
+  }
+
+  // source_entity - computed: false, optional: true, required: false
+  private _sourceEntity = new QuicksightTemplateSourceEntityOutputReference(this, "source_entity");
+  public get sourceEntity() {
+    return this._sourceEntity;
+  }
+  public putSourceEntity(value: QuicksightTemplateSourceEntity) {
+    this._sourceEntity.internalValue = value;
+  }
+  public resetSourceEntity() {
+    this._sourceEntity.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceEntityInput() {
+    return this._sourceEntity.internalValue;
+  }
+
+  // timeouts - computed: false, optional: true, required: false
+  private _timeouts = new QuicksightTemplateTimeoutsOutputReference(this, "timeouts");
+  public get timeouts() {
+    return this._timeouts;
+  }
+  public putTimeouts(value: QuicksightTemplateTimeouts) {
+    this._timeouts.internalValue = value;
+  }
+  public resetTimeouts() {
+    this._timeouts.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get timeoutsInput() {
+    return this._timeouts.internalValue;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      aws_account_id: cdktf.stringToTerraform(this._awsAccountId),
+      id: cdktf.stringToTerraform(this._id),
+      name: cdktf.stringToTerraform(this._name),
+      tags: cdktf.hashMapper(cdktf.stringToTerraform)(this._tags),
+      tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
+      template_id: cdktf.stringToTerraform(this._templateId),
+      version_description: cdktf.stringToTerraform(this._versionDescription),
+      definition: quicksightTemplateDefinitionToTerraform(this._definition.internalValue),
+      permissions: cdktf.listMapper(quicksightTemplatePermissionsToTerraform, true)(this._permissions.internalValue),
+      source_entity: quicksightTemplateSourceEntityToTerraform(this._sourceEntity.internalValue),
+      timeouts: quicksightTemplateTimeoutsToTerraform(this._timeouts.internalValue),
+    };
+  }
+}
+"
+`;
