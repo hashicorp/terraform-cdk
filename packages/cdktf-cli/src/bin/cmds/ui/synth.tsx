@@ -4,7 +4,7 @@
  */
 
 import React from "react";
-import { Text } from "ink";
+import { Text, useApp } from "ink";
 
 import { useCdktfProject } from "./hooks/cdktf-project";
 import { StreamView } from "./components";
@@ -34,9 +34,13 @@ export const Synth = ({
   outDir,
   synthCommand,
 }: SynthConfig): React.ReactElement => {
+  const { exit } = useApp();
   const { returnValue, logEntries, status } = useCdktfProject(
     { outDir, synthCommand },
-    (project) => project.synth()
+    (project) =>
+      project.synth().then(() => {
+        exit();
+      })
   );
 
   return (
