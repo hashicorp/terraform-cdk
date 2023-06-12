@@ -3,7 +3,7 @@
   "app": "npx ts-node main.ts",
   "terraformProviders": [
     "kubernetes@~> 2.7.1",
-    "aws@~> 3.70.0"
+    "aws@~> 5.0.0"
   ],
   "terraformModules": [
     "terraform-aws-modules/vpc/aws@ ~> 3.2.0",
