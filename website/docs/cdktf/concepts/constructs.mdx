@@ -260,7 +260,7 @@ class Ec2Instance extends Construct {
 #### Through Validations
 
 ```ts
-import { Construct } from "constructs";
+import { Annotations, Construct } from "constructs";
 
 class S3Bucket extends Construct {
   constructor(scope: Construct, name: string, config: S3BucketConfig) {
@@ -270,7 +270,7 @@ class S3Bucket extends Construct {
       this.isOpenToThePublic(config) &&
       !config.tags["reason-why-this-is-public"]
     ) {
-      Annotation.of(this).addWarning(
+      Annotations.of(this).addWarning(
         `This S3Bucket is open to the public and no reason why is stated in the tags, please add a "reason-why-this-is-public" tag`
       );
     }
