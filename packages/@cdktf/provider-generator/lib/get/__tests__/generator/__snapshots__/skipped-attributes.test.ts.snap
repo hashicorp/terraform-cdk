@@ -1,23 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`skips attributes in the disallow list: quicksight-template 1`] = `
-"// generated from terraform resource schema
+"// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template
+// generated from terraform resource schema
 
-import { QuicksightTemplateDefinition, 
-quicksightTemplateDefinitionToTerraform, 
-QuicksightTemplateDefinitionOutputReference, 
-QuicksightTemplatePermissions, 
-quicksightTemplatePermissionsToTerraform, 
-QuicksightTemplatePermissionsList, 
-QuicksightTemplateSourceEntity, 
-quicksightTemplateSourceEntityToTerraform, 
-QuicksightTemplateSourceEntityOutputReference, 
-QuicksightTemplateTimeouts, 
-quicksightTemplateTimeoutsToTerraform, 
-QuicksightTemplateTimeoutsOutputReference} from './index-structs'
-export * from './index-structs'
 import { Construct } from 'constructs';
 import * as cdktf from 'cdktf';
+
+// Configuration
+
 export interface QuicksightTemplateConfig extends cdktf.TerraformMetaArguments {
   /**
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#aws_account_id QuicksightTemplate#aws_account_id}
@@ -55,7 +46,7 @@ export interface QuicksightTemplateConfig extends cdktf.TerraformMetaArguments {
   * 
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#definition QuicksightTemplate#definition}
   */
-  readonly definition?: QuicksightTemplateDefinition;
+  readonly definition?: any;
   /**
   * permissions block
   * 
@@ -74,6 +65,617 @@ export interface QuicksightTemplateConfig extends cdktf.TerraformMetaArguments {
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#timeouts QuicksightTemplate#timeouts}
   */
   readonly timeouts?: QuicksightTemplateTimeouts;
+}
+export interface QuicksightTemplatePermissions {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#actions QuicksightTemplate#actions}
+  */
+  readonly actions: string[];
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#principal QuicksightTemplate#principal}
+  */
+  readonly principal: string;
+}
+
+export function quicksightTemplatePermissionsToTerraform(struct?: QuicksightTemplatePermissions | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    actions: cdktf.listMapper(cdktf.stringToTerraform, false)(struct!.actions),
+    principal: cdktf.stringToTerraform(struct!.principal),
+  }
+}
+
+export class QuicksightTemplatePermissionsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): QuicksightTemplatePermissions | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._actions !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.actions = this._actions;
+    }
+    if (this._principal !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.principal = this._principal;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplatePermissions | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._actions = undefined;
+      this._principal = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._actions = value.actions;
+      this._principal = value.principal;
+    }
+  }
+
+  // actions - computed: false, optional: false, required: true
+  private _actions?: string[]; 
+  public get actions() {
+    return cdktf.Fn.tolist(this.getListAttribute('actions'));
+  }
+  public set actions(value: string[]) {
+    this._actions = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get actionsInput() {
+    return this._actions;
+  }
+
+  // principal - computed: false, optional: false, required: true
+  private _principal?: string; 
+  public get principal() {
+    return this.getStringAttribute('principal');
+  }
+  public set principal(value: string) {
+    this._principal = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get principalInput() {
+    return this._principal;
+  }
+}
+
+export class QuicksightTemplatePermissionsList extends cdktf.ComplexList {
+  public internalValue? : QuicksightTemplatePermissions[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): QuicksightTemplatePermissionsOutputReference {
+    return new QuicksightTemplatePermissionsOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#data_set_arn QuicksightTemplate#data_set_arn}
+  */
+  readonly dataSetArn: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#data_set_placeholder QuicksightTemplate#data_set_placeholder}
+  */
+  readonly dataSetPlaceholder: string;
+}
+
+export function quicksightTemplateSourceEntitySourceAnalysisDataSetReferencesToTerraform(struct?: QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    data_set_arn: cdktf.stringToTerraform(struct!.dataSetArn),
+    data_set_placeholder: cdktf.stringToTerraform(struct!.dataSetPlaceholder),
+  }
+}
+
+export class QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param complexObjectIndex the index of this item in the list
+  * @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean) {
+    super(terraformResource, terraformAttribute, complexObjectIsFromSet, complexObjectIndex);
+  }
+
+  public get internalValue(): QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._dataSetArn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.dataSetArn = this._dataSetArn;
+    }
+    if (this._dataSetPlaceholder !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.dataSetPlaceholder = this._dataSetPlaceholder;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._dataSetArn = undefined;
+      this._dataSetPlaceholder = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._dataSetArn = value.dataSetArn;
+      this._dataSetPlaceholder = value.dataSetPlaceholder;
+    }
+  }
+
+  // data_set_arn - computed: false, optional: false, required: true
+  private _dataSetArn?: string; 
+  public get dataSetArn() {
+    return this.getStringAttribute('data_set_arn');
+  }
+  public set dataSetArn(value: string) {
+    this._dataSetArn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dataSetArnInput() {
+    return this._dataSetArn;
+  }
+
+  // data_set_placeholder - computed: false, optional: false, required: true
+  private _dataSetPlaceholder?: string; 
+  public get dataSetPlaceholder() {
+    return this.getStringAttribute('data_set_placeholder');
+  }
+  public set dataSetPlaceholder(value: string) {
+    this._dataSetPlaceholder = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dataSetPlaceholderInput() {
+    return this._dataSetPlaceholder;
+  }
+}
+
+export class QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesList extends cdktf.ComplexList {
+  public internalValue? : QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences[] | cdktf.IResolvable
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  * @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)
+  */
+  constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean) {
+    super(terraformResource, terraformAttribute, wrapsSet)
+  }
+
+  /**
+  * @param index the index of the item to return
+  */
+  public get(index: number): QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesOutputReference {
+    return new QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesOutputReference(this.terraformResource, this.terraformAttribute, index, this.wrapsSet);
+  }
+}
+export interface QuicksightTemplateSourceEntitySourceAnalysis {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#arn QuicksightTemplate#arn}
+  */
+  readonly arn: string;
+  /**
+  * data_set_references block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#data_set_references QuicksightTemplate#data_set_references}
+  */
+  readonly dataSetReferences: QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences[] | cdktf.IResolvable;
+}
+
+export function quicksightTemplateSourceEntitySourceAnalysisToTerraform(struct?: QuicksightTemplateSourceEntitySourceAnalysisOutputReference | QuicksightTemplateSourceEntitySourceAnalysis): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    arn: cdktf.stringToTerraform(struct!.arn),
+    data_set_references: cdktf.listMapper(quicksightTemplateSourceEntitySourceAnalysisDataSetReferencesToTerraform, true)(struct!.dataSetReferences),
+  }
+}
+
+export class QuicksightTemplateSourceEntitySourceAnalysisOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): QuicksightTemplateSourceEntitySourceAnalysis | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._arn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.arn = this._arn;
+    }
+    if (this._dataSetReferences?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.dataSetReferences = this._dataSetReferences?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplateSourceEntitySourceAnalysis | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._arn = undefined;
+      this._dataSetReferences.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._arn = value.arn;
+      this._dataSetReferences.internalValue = value.dataSetReferences;
+    }
+  }
+
+  // arn - computed: false, optional: false, required: true
+  private _arn?: string; 
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+  public set arn(value: string) {
+    this._arn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get arnInput() {
+    return this._arn;
+  }
+
+  // data_set_references - computed: false, optional: false, required: true
+  private _dataSetReferences = new QuicksightTemplateSourceEntitySourceAnalysisDataSetReferencesList(this, "data_set_references", false);
+  public get dataSetReferences() {
+    return this._dataSetReferences;
+  }
+  public putDataSetReferences(value: QuicksightTemplateSourceEntitySourceAnalysisDataSetReferences[] | cdktf.IResolvable) {
+    this._dataSetReferences.internalValue = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get dataSetReferencesInput() {
+    return this._dataSetReferences.internalValue;
+  }
+}
+export interface QuicksightTemplateSourceEntitySourceTemplate {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#arn QuicksightTemplate#arn}
+  */
+  readonly arn: string;
+}
+
+export function quicksightTemplateSourceEntitySourceTemplateToTerraform(struct?: QuicksightTemplateSourceEntitySourceTemplateOutputReference | QuicksightTemplateSourceEntitySourceTemplate): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    arn: cdktf.stringToTerraform(struct!.arn),
+  }
+}
+
+export class QuicksightTemplateSourceEntitySourceTemplateOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): QuicksightTemplateSourceEntitySourceTemplate | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._arn !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.arn = this._arn;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplateSourceEntitySourceTemplate | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._arn = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._arn = value.arn;
+    }
+  }
+
+  // arn - computed: false, optional: false, required: true
+  private _arn?: string; 
+  public get arn() {
+    return this.getStringAttribute('arn');
+  }
+  public set arn(value: string) {
+    this._arn = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get arnInput() {
+    return this._arn;
+  }
+}
+export interface QuicksightTemplateSourceEntity {
+  /**
+  * source_analysis block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#source_analysis QuicksightTemplate#source_analysis}
+  */
+  readonly sourceAnalysis?: QuicksightTemplateSourceEntitySourceAnalysis;
+  /**
+  * source_template block
+  * 
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#source_template QuicksightTemplate#source_template}
+  */
+  readonly sourceTemplate?: QuicksightTemplateSourceEntitySourceTemplate;
+}
+
+export function quicksightTemplateSourceEntityToTerraform(struct?: QuicksightTemplateSourceEntityOutputReference | QuicksightTemplateSourceEntity): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    source_analysis: quicksightTemplateSourceEntitySourceAnalysisToTerraform(struct!.sourceAnalysis),
+    source_template: quicksightTemplateSourceEntitySourceTemplateToTerraform(struct!.sourceTemplate),
+  }
+}
+
+export class QuicksightTemplateSourceEntityOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false, 0);
+  }
+
+  public get internalValue(): QuicksightTemplateSourceEntity | undefined {
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._sourceAnalysis?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.sourceAnalysis = this._sourceAnalysis?.internalValue;
+    }
+    if (this._sourceTemplate?.internalValue !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.sourceTemplate = this._sourceTemplate?.internalValue;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplateSourceEntity | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this._sourceAnalysis.internalValue = undefined;
+      this._sourceTemplate.internalValue = undefined;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this._sourceAnalysis.internalValue = value.sourceAnalysis;
+      this._sourceTemplate.internalValue = value.sourceTemplate;
+    }
+  }
+
+  // source_analysis - computed: false, optional: true, required: false
+  private _sourceAnalysis = new QuicksightTemplateSourceEntitySourceAnalysisOutputReference(this, "source_analysis");
+  public get sourceAnalysis() {
+    return this._sourceAnalysis;
+  }
+  public putSourceAnalysis(value: QuicksightTemplateSourceEntitySourceAnalysis) {
+    this._sourceAnalysis.internalValue = value;
+  }
+  public resetSourceAnalysis() {
+    this._sourceAnalysis.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceAnalysisInput() {
+    return this._sourceAnalysis.internalValue;
+  }
+
+  // source_template - computed: false, optional: true, required: false
+  private _sourceTemplate = new QuicksightTemplateSourceEntitySourceTemplateOutputReference(this, "source_template");
+  public get sourceTemplate() {
+    return this._sourceTemplate;
+  }
+  public putSourceTemplate(value: QuicksightTemplateSourceEntitySourceTemplate) {
+    this._sourceTemplate.internalValue = value;
+  }
+  public resetSourceTemplate() {
+    this._sourceTemplate.internalValue = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get sourceTemplateInput() {
+    return this._sourceTemplate.internalValue;
+  }
+}
+export interface QuicksightTemplateTimeouts {
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#create QuicksightTemplate#create}
+  */
+  readonly create?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#delete QuicksightTemplate#delete}
+  */
+  readonly delete?: string;
+  /**
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/quicksight_template#update QuicksightTemplate#update}
+  */
+  readonly update?: string;
+}
+
+export function quicksightTemplateTimeoutsToTerraform(struct?: QuicksightTemplateTimeouts | cdktf.IResolvable): any {
+  if (!cdktf.canInspect(struct) || cdktf.Tokenization.isResolvable(struct)) { return struct; }
+  if (cdktf.isComplexElement(struct)) {
+    throw new Error("A complex element was used as configuration, this is not supported: https://cdk.tf/complex-object-as-configuration");
+  }
+  return {
+    create: cdktf.stringToTerraform(struct!.create),
+    delete: cdktf.stringToTerraform(struct!.delete),
+    update: cdktf.stringToTerraform(struct!.update),
+  }
+}
+
+export class QuicksightTemplateTimeoutsOutputReference extends cdktf.ComplexObject {
+  private isEmptyObject = false;
+  private resolvableValue?: cdktf.IResolvable;
+
+  /**
+  * @param terraformResource The parent resource
+  * @param terraformAttribute The attribute on the parent resource this class is referencing
+  */
+  public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string) {
+    super(terraformResource, terraformAttribute, false);
+  }
+
+  public get internalValue(): QuicksightTemplateTimeouts | cdktf.IResolvable | undefined {
+    if (this.resolvableValue) {
+      return this.resolvableValue;
+    }
+    let hasAnyValues = this.isEmptyObject;
+    const internalValueResult: any = {};
+    if (this._create !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.create = this._create;
+    }
+    if (this._delete !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.delete = this._delete;
+    }
+    if (this._update !== undefined) {
+      hasAnyValues = true;
+      internalValueResult.update = this._update;
+    }
+    return hasAnyValues ? internalValueResult : undefined;
+  }
+
+  public set internalValue(value: QuicksightTemplateTimeouts | cdktf.IResolvable | undefined) {
+    if (value === undefined) {
+      this.isEmptyObject = false;
+      this.resolvableValue = undefined;
+      this._create = undefined;
+      this._delete = undefined;
+      this._update = undefined;
+    }
+    else if (cdktf.Tokenization.isResolvable(value)) {
+      this.isEmptyObject = false;
+      this.resolvableValue = value;
+    }
+    else {
+      this.isEmptyObject = Object.keys(value).length === 0;
+      this.resolvableValue = undefined;
+      this._create = value.create;
+      this._delete = value.delete;
+      this._update = value.update;
+    }
+  }
+
+  // create - computed: false, optional: true, required: false
+  private _create?: string; 
+  public get create() {
+    return this.getStringAttribute('create');
+  }
+  public set create(value: string) {
+    this._create = value;
+  }
+  public resetCreate() {
+    this._create = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get createInput() {
+    return this._create;
+  }
+
+  // delete - computed: false, optional: true, required: false
+  private _delete?: string; 
+  public get delete() {
+    return this.getStringAttribute('delete');
+  }
+  public set delete(value: string) {
+    this._delete = value;
+  }
+  public resetDelete() {
+    this._delete = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get deleteInput() {
+    return this._delete;
+  }
+
+  // update - computed: false, optional: true, required: false
+  private _update?: string; 
+  public get update() {
+    return this.getStringAttribute('update');
+  }
+  public set update(value: string) {
+    this._update = value;
+  }
+  public resetUpdate() {
+    this._update = undefined;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get updateInput() {
+    return this._update;
+  }
 }
 
 /**
@@ -118,7 +720,7 @@ export class QuicksightTemplate extends cdktf.TerraformResource {
     this._tagsAll = config.tagsAll;
     this._templateId = config.templateId;
     this._versionDescription = config.versionDescription;
-    this._definition.internalValue = config.definition;
+    this._definition = config.definition;
     this._permissions.internalValue = config.permissions;
     this._sourceEntity.internalValue = config.sourceEntity;
     this._timeouts.internalValue = config.timeouts;
@@ -262,19 +864,19 @@ export class QuicksightTemplate extends cdktf.TerraformResource {
   }
 
   // definition - computed: false, optional: true, required: false
-  private _definition = new QuicksightTemplateDefinitionOutputReference(this, "definition");
+  private _definition?: any; 
   public get definition() {
-    return this._definition;
+    return this.interpolationForAttribute('definition');
   }
-  public putDefinition(value: QuicksightTemplateDefinition) {
-    this._definition.internalValue = value;
+  public set definition(value: any) {
+    this._definition = value;
   }
   public resetDefinition() {
-    this._definition.internalValue = undefined;
+    this._definition = undefined;
   }
   // Temporarily expose input value. Use with caution.
   public get definitionInput() {
-    return this._definition.internalValue;
+    return this._definition;
   }
 
   // permissions - computed: false, optional: true, required: false
@@ -338,7 +940,7 @@ export class QuicksightTemplate extends cdktf.TerraformResource {
       tags_all: cdktf.hashMapper(cdktf.stringToTerraform)(this._tagsAll),
       template_id: cdktf.stringToTerraform(this._templateId),
       version_description: cdktf.stringToTerraform(this._versionDescription),
-      definition: quicksightTemplateDefinitionToTerraform(this._definition.internalValue),
+      definition: cdktf.anyToTerraform(this._definition),
       permissions: cdktf.listMapper(quicksightTemplatePermissionsToTerraform, true)(this._permissions.internalValue),
       source_entity: quicksightTemplateSourceEntityToTerraform(this._sourceEntity.internalValue),
       timeouts: quicksightTemplateTimeoutsToTerraform(this._timeouts.internalValue),

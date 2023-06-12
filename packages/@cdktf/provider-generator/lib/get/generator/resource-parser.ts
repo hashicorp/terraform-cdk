@@ -25,8 +25,11 @@ import {
   SetAttributeTypeModel,
   MapAttributeTypeModel,
   StructAttributeTypeModel,
+  SkippedAttributeTypeModel,
 } from "./models";
 import { detectAttributeLoops } from "./loop-detection";
+import { shouldSkipAttribute } from "./skipped-attributes";
+import { Errors } from "@cdktf/commons";
 
 // Can't be used in expressions like "export * as <keyword> from ... "
 // filtered from all keywords from: https://github.com/microsoft/TypeScript/blob/503604c884bd0557c851b11b699ef98cdb65b93b/src/compiler/types.ts#L114-L197
@@ -232,6 +235,11 @@ class Parser {
     attributeType: AttributeType | AttributeNestedType,
     parentKind?: string
   ): AttributeTypeModel {
+    const parent = scope[scope.length - 1];
+    if (shouldSkipAttribute(parent.attributePath.join("."))) {
+      return new MapAttributeTypeModel(new SimpleAttributeTypeModel("any"));
+    }
+
     if (typeof attributeType === "string") {
       switch (attributeType) {
         case "bool":
@@ -357,6 +365,15 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
+      const attributePath = [
+        ...parentType.attributePath,
+        terraformAttributeName,
+      ].join(".");
+      if (shouldSkipAttribute(attributePath)) {
+        throw Errors.Internal(
+          `Skipping attribute ${attributePath} is not implemented since it's an attribute and not a block type`
+        );
+      }
       const type = this.renderAttributeType(
         [
           parentType,
@@ -393,6 +410,33 @@ class Parser {
     for (const [blockTypeName, blockType] of Object.entries(
       block.block_types || {}
     )) {
+      if (
+        shouldSkipAttribute(
+          [...parentType.attributePath, blockTypeName].join(".")
+        )
+      ) {
+        const name = toCamelCase(blockTypeName);
+        const parent = new Scope({
+          name: blockTypeName,
+          parent: parentType,
+          isProvider: parentType.isProvider,
+        });
+        attributes.push(
+          new AttributeModel({
+            name,
+            terraformName: blockTypeName,
+            terraformFullName: parent.fullName(blockTypeName),
+            type: new SkippedAttributeTypeModel(),
+            description: `${blockTypeName} block`,
+            storageName: `_${name}`,
+            optional: true,
+            computed: false,
+            provider: parentType.isProvider,
+            required: false,
+          })
+        );
+        continue;
+      }
       // create a struct for this block
       const blockAttributes = this.renderAttributesForBlock(
         new Scope({

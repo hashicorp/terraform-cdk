@@ -16,6 +16,51 @@ export interface AttributeTypeModel {
   readonly isTokenizable: boolean; // can the type be represented by a token type
 }
 
+export class SkippedAttributeTypeModel implements AttributeTypeModel {
+  constructor() {}
+
+  get typeModelType() {
+    return "simple";
+  }
+
+  get struct() {
+    return undefined;
+  }
+
+  get isComplex() {
+    return false;
+  }
+
+  getStoredClassInitializer(_name: string) {
+    // not used
+    return "";
+  }
+
+  get storedClassType() {
+    return "any";
+  }
+
+  get inputTypeDefinition() {
+    return "any";
+  }
+
+  getAttributeAccessFunction(name: string) {
+    return `this.interpolationForAttribute('${name}')`;
+  }
+
+  get toTerraformFunction() {
+    return `cdktf.anyToTerraform`;
+  }
+
+  get hasReferenceClass() {
+    return false;
+  }
+
+  get isTokenizable() {
+    return false;
+  }
+}
+
 export class SimpleAttributeTypeModel implements AttributeTypeModel {
   constructor(public readonly type: string) {}
 
