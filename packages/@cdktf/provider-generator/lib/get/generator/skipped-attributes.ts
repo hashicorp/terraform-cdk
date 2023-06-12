@@ -7,6 +7,11 @@
  * To mitigate this issue we replace their entire tree of attributes with
  * a single any attribute. This can still be used, although less conveniently.
  */
-export const SKIPPED_ATTRIBUTES: string[] = [
-  "aws.quicksight_template.definition",
-];
+const SKIPPED_ATTRIBUTES: string[] = ["aws.quicksight_template.definition"];
+
+/**
+ * We skip some deeply nested attributes to shorten the generated code.
+ */
+export function shouldSkipAttribute(terraformFullName: string) {
+  return SKIPPED_ATTRIBUTES.includes(terraformFullName);
+}

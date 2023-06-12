@@ -13,6 +13,7 @@ export interface ScopeProps {
 
 export class Scope {
   public readonly name: string;
+  public readonly provider?: string;
   public readonly parent?: Scope;
   public readonly isProvider: boolean;
   public isComputed: boolean;
@@ -33,13 +34,39 @@ export class Scope {
   }
 
   public fullName(attributeName: string) {
+    return `${this.baseName}.${attributeName}`;
+  }
+
+  public get baseName() {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
     let scope: Scope | undefined = this;
-    let name = attributeName;
+    let name = "";
     while (scope) {
-      name = `${scope.name}.${name}`;
+      if (name === "") {
+        name = scope.name;
+      } else {
+        name = `${scope.name}.${name}`;
+      }
       scope = scope.parent;
     }
     return name;
+  }
+
+  public get attributePath() {
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
+    let scope: Scope | undefined = this;
+    const path: string[] = [];
+    while (scope) {
+      path.unshift(scope.name);
+      scope = scope.parent;
+    }
+
+    return path.map((p, i) => {
+      if (i === 0) {
+        return p;
+      }
+      const last = path[i - 1];
+      return p.replace(`${last}_`, "");
+    });
   }
 }
