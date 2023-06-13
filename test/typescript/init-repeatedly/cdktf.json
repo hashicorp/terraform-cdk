@@ -1,8 +1,12 @@
 {
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
-  "terraformProviders": [
-    "null"
+  "terraformProviders": ["null"],
+  "terraformModules": [
+    {
+      "name": "our-local-module",
+      "source": "./local-module"
+    }
   ],
   "context": {
     "excludeStackIdFromLogicalIds": "true"
