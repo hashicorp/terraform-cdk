@@ -917,3 +917,13 @@ new SecurityGroup(this, "security2", new SecurityGroupConfig
 ```
 
 </CodeTabs>
+
+## Special Cases
+
+### Large Resource Configurations
+
+A few individual Terraform Resources have very deeply nested schemas with a lot of attributes. This blows up the config classes and slows down the code generation for languages besides Typescript. To work around this we sometimes limit the depth of the config classes and use `any` on deeper level, some attributes we directly expose as `any` on the top level config class.
+
+- `aws` Provider:
+  - `aws_quicksight_template.definition`, `aws_quicksight_dashboard.definition`, and `aws_quicksight_analysis.definition` are set to `any`
+  - `wafv2` related resources have a lot of deeply nested attributes that might be skipped
