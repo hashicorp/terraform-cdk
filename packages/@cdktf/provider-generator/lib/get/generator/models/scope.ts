@@ -65,8 +65,8 @@ export class Scope {
       if (i === 0) {
         return p;
       }
-      const last = path[i - 1];
-      return p.replace(`${last}_`, "");
+      const prev = path[i - 1];
+      return p.replace(`${prev}_`, "");
     });
   }
 }
