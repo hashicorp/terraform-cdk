@@ -127,11 +127,12 @@ export function useCdktfProject<T>(
         setReturnValue(value);
         setStatus({ type: "done" });
 
-        if (process.platform === "win32") {
-          setTimeout(() => {
+        setTimeout(() => {
+          exit();
+          if (process.platform === "win32") {
             process.exit(0);
-          }, 100);
-        }
+          }
+        }, 100);
       })
       .catch((err) => {
         exit(new Error(err));
