@@ -43,6 +43,12 @@ import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
 import { attributeNameToCdktfName } from "./generation";
+import {
+  replaceCsharpImports,
+  replaceGoImports,
+  replaceJavaImports,
+  replacePythonImports,
+} from "./jsii-rosetta-workarounds";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -382,6 +388,7 @@ For a more precise conversion please use the --provider flag in convert.`
 
   // We split up the generated code so that users can have more control over what to insert where
   return {
+    // TODO: Remove imports and code because rosetta won't be able to translate them
     all: await gen([
       ...constructImports,
       ...moduleImports(plan.module),
@@ -405,9 +412,28 @@ For a more precise conversion please use the --provider flag in convert.`
 }
 
 type File = { contents: string; fileName: string };
+const translators = {
+  python: {
+    visitor: new rosetta.PythonVisitor(),
+    postTranslationMutation: replacePythonImports,
+  },
+  java: {
+    visitor: new rosetta.JavaVisitor(),
+    postTranslationMutation: replaceJavaImports,
+  },
+  csharp: {
+    visitor: new rosetta.CSharpVisitor(),
+    postTranslationMutation: replaceCsharpImports,
+  },
+  go: {
+    visitor: new rosetta.GoVisitor(),
+    postTranslationMutation: replaceGoImports,
+  },
+};
 
-function translatorForVisitor(visitor: any) {
+function translatorForLanguage(language: keyof typeof translators) {
   return (file: File, throwOnTranslationError: boolean) => {
+    const { visitor, postTranslationMutation } = translators[language];
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
       visitor,
@@ -418,33 +444,23 @@ function translatorForVisitor(visitor: any) {
       throwOnTranslationError &&
       diagnostics.filter((diag) => diag.isError).length > 0
     ) {
-      logger.debug(
-        `Could not translate TS to ${visitor.language}:\n${file.contents}`
-      );
+      logger.debug(`Could not translate TS to ${language}:\n${file.contents}`);
       throw new Error(
-        `Could not translate TS to ${visitor.language}: ${diagnostics
+        `Could not translate TS to ${language}: ${diagnostics
           .map((diag) => diag.formattedMessage)
           .join("\n")}`
       );
     }
 
-    return translation;
+    return postTranslationMutation(translation);
   };
 }
-
-const translations = {
-  typescript: (file: File, _throwOnTranslationError: boolean) => file.contents,
-  python: translatorForVisitor(new rosetta.PythonVisitor()),
-  java: translatorForVisitor(new rosetta.JavaVisitor()),
-  csharp: translatorForVisitor(new rosetta.CSharpVisitor()),
-  go: translatorForVisitor(new rosetta.GoVisitor()),
-};
 
 type ConvertOptions = {
   /**
    * The language to convert to
    */
-  language: keyof typeof translations;
+  language: keyof typeof translators | "typescript";
   /**
    * The provider schema to use for conversion
    */
@@ -470,7 +486,10 @@ export async function convert(
   }: ConvertOptions
 ) {
   const fileName = "terraform.tf";
-  const translater = translations[language];
+  const translater =
+    language === "typescript"
+      ? (file: File, _throwOnTranslationError: boolean) => file.contents
+      : translatorForLanguage(language);
 
   if (!translater) {
     throw new Error("Unsupported language used: " + language);
