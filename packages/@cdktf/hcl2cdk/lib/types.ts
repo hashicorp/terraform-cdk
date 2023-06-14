@@ -49,3 +49,8 @@ export type IteratorVariableReference = {
   end: number;
   value: string;
 };
+
+export type ImportableConstruct = {
+  constructName: string;
+  namespace?: string;
+};
