@@ -10,6 +10,9 @@ describe("granular-imports", () => {
       project = "my-project"
       region  = "us-central1"
     }
+
+    provider "local" {}
+
     resource "google_compute_autoscaler" "example" {
       name   = "example-autoscaler"
       zone   = "us-east1-b"
@@ -25,11 +28,17 @@ describe("granular-imports", () => {
         }
       }
     }
+      variable "image_id" {
+        type = string
+      }
+      data "local_file" "foo" {
+        filename = "./\${var.image_id}.img"
+      }
     `,
-    [binding.google],
+    [binding.google, binding.local],
     Synth.yes,
     {
-      resources: ["google_compute_autoscaler"],
+      resources: ["google_compute_autoscaler", "local_file"],
     }
   );
 });
