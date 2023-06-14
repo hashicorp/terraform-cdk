@@ -51,22 +51,4 @@ export class Scope {
     }
     return name;
   }
-
-  public get attributePath() {
-    // eslint-disable-next-line @typescript-eslint/no-this-alias
-    let scope: Scope | undefined = this;
-    const path: string[] = [];
-    while (scope) {
-      path.unshift(scope.name);
-      scope = scope.parent;
-    }
-
-    return path.map((p, i) => {
-      if (i === 0) {
-        return p;
-      }
-      const prev = path[i - 1];
-      return p.replace(`${prev}_`, "");
-    });
-  }
 }

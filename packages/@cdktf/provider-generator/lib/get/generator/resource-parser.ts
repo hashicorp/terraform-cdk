@@ -236,7 +236,7 @@ class Parser {
     parentKind?: string
   ): AttributeTypeModel {
     const parent = scope[scope.length - 1];
-    if (shouldSkipAttribute(parent.attributePath.join("."))) {
+    if (shouldSkipAttribute(parent.baseName)) {
       return new MapAttributeTypeModel(new SimpleAttributeTypeModel("any"));
     }
 
@@ -365,13 +365,11 @@ class Parser {
     for (const [terraformAttributeName, att] of Object.entries(
       block.attributes || {}
     )) {
-      const attributePath = [
-        ...parentType.attributePath,
-        terraformAttributeName,
-      ].join(".");
-      if (shouldSkipAttribute(attributePath)) {
+      if (shouldSkipAttribute(parentType.fullName(terraformAttributeName))) {
         throw Errors.Internal(
-          `Skipping attribute ${attributePath} is not implemented since it's an attribute and not a block type`
+          `Skipping attribute ${parentType.fullName(
+            terraformAttributeName
+          )} is not implemented since it's an attribute and not a block type`
         );
       }
       const type = this.renderAttributeType(
@@ -410,11 +408,7 @@ class Parser {
     for (const [blockTypeName, blockType] of Object.entries(
       block.block_types || {}
     )) {
-      if (
-        shouldSkipAttribute(
-          [...parentType.attributePath, blockTypeName].join(".")
-        )
-      ) {
+      if (shouldSkipAttribute(parentType.fullName(blockTypeName))) {
         const name = toCamelCase(blockTypeName);
         const parent = new Scope({
           name: blockTypeName,
