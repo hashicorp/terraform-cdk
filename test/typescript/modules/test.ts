@@ -54,18 +54,18 @@ describe("full integration test", () => {
             "source": "terraform-aws-modules/iam/aws//modules/iam-account",
             "version": "3.12.0"
           },
-          "localmodule": {
+          "local-module": {
             "//": {
               "metadata": {
                 "path": "hello-modules/local-module",
-                "uniqueId": "localmodule"
+                "uniqueId": "local-module"
               }
             },
             "set": [
               "test",
               "sets"
             ],
-            "source": "./assets/localmodulelocalmodule/1A068C39166AE65C43D174678BD00022"
+            "source": "./assets/local-module-local-module/1A068C39166AE65C43D174678BD00022"
           }
         },
         "terraform": {
