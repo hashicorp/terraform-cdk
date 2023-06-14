@@ -857,6 +857,16 @@ export const providerImports = (providers: string[]) =>
     )() as t.Statement;
   });
 
+export const providerConstructImports = (importable: ImportableConstruct) => {
+  const { provider, constructName, namespace } = importable;
+  const parts = provider.split("/");
+  const name = parts.length > 1 ? parts[1] : parts[0];
+
+  return template(
+    `import { ${constructName} } from "./.gen/providers/${provider}/lib/${namespace}"`
+  )() as t.Statement;
+};
+
 export const moduleImports = (modules: Record<string, Module> | undefined) => {
   const uniqueModules = new Set<string>();
   Object.values(modules || {}).map(([module]) =>
