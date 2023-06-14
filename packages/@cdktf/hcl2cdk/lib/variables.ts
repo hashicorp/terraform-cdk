@@ -108,10 +108,13 @@ export function constructAst(
   }
 
   if (type.startsWith("var.")) {
-    return t.memberExpression(
-      t.identifier("cdktf"),
-      t.identifier("TerraformVariable")
-    );
+    importables.push({
+      provider: "cdktf",
+      constructName: "TerraformVariable",
+      namespace: "",
+    });
+
+    return t.identifier("TerraformVariable");
   }
 
   // resources or data sources

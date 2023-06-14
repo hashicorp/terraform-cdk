@@ -387,15 +387,18 @@ export async function resource(
       () => ["list", "dynamic"]
     );
 
+    importables.push({
+      provider: "cdktf",
+      constructName: "TerraformIterator",
+      namespace: "",
+    });
+
     const iterator = t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(forEachIteratorName),
         t.callExpression(
           t.memberExpression(
-            t.memberExpression(
-              t.identifier("cdktf"),
-              t.identifier("TerraformIterator")
-            ),
+            t.identifier("TerraformIterator"),
             t.identifier("fromList")
           ),
 
@@ -417,15 +420,18 @@ export async function resource(
       scope,
       () => "number"
     );
+
+    importables.push({
+      provider: "cdktf",
+      constructName: "TerraformCount",
+      namespace: "",
+    });
     const iterator = t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(countIteratorName),
         t.callExpression(
           t.memberExpression(
-            t.memberExpression(
-              t.identifier("cdktf"),
-              t.identifier("TerraformCount")
-            ),
+            t.identifier("TerraformCount"),
             t.identifier("of")
           ),
           [referenceAst]
@@ -468,15 +474,18 @@ export async function resource(
       () => ["list", "dynamic"]
     );
 
+    importables.push({
+      provider: "cdktf",
+      constructName: "TerraformIterator",
+      namespace: "",
+    });
+
     const iterator = t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(dynamicBlockIteratorName),
         t.callExpression(
           t.memberExpression(
-            t.memberExpression(
-              t.identifier("cdktf"),
-              t.identifier("TerraformIterator")
-            ),
+            t.identifier("TerraformIterator"),
             t.identifier("fromList")
           ),
           [referenceAst]
@@ -857,13 +866,21 @@ export const providerImports = (providers: string[]) =>
     )() as t.Statement;
   });
 
-export const providerConstructImports = (importable: ImportableConstruct) => {
-  const { provider, constructName, namespace } = importable;
-  const parts = provider.split("/");
-  const name = parts.length > 1 ? parts[1] : parts[0];
+export const providerConstructImports = (importable: ImportableConstruct[]) => {
+  const provider = importable[0].provider;
+  const namespace = importable[0].namespace;
+  const names = importable.map((i) => i.constructName);
+
+  if (provider === "cdktf" || provider === "constructs") {
+    return template(
+      `import { ${names.join(", ")} } from "${provider}"`
+    )() as t.Statement;
+  }
 
   return template(
-    `import { ${constructName} } from "./.gen/providers/${provider}/lib/${namespace}"`
+    `import { ${names.join(
+      ", "
+    )} } from "./.gen/providers/${provider}/lib/${namespace}"`
   )() as t.Statement;
 };
 
@@ -896,25 +913,44 @@ export async function gen(statements: t.Statement[]) {
   return code;
 }
 
+export function addImportForCodeContainer(
+  codeContainer: string,
+  importables: ImportableConstruct[]
+) {
+  switch (codeContainer) {
+    case "constructs.Construct":
+      importables.push({
+        provider: "constructs",
+        constructName: "Construct",
+        namespace: "",
+      });
+      break;
+
+    case "cdktf.TerraformStack":
+      importables.push({
+        provider: "cdktf",
+        constructName: "TerraformStack",
+        namespace: "",
+      });
+      break;
+    default:
+      throw Errors.Internal("Unsupported code container: " + codeContainer);
+  }
+}
+
 export function wrapCodeInConstructor(
   codeContainer: string,
   code: t.Statement[],
   className = "MyConvertedCode"
 ) {
-  let baseContainerClass: t.MemberExpression;
+  let baseContainerClass: t.Identifier;
   switch (codeContainer) {
     case "constructs.Construct":
-      baseContainerClass = t.memberExpression(
-        t.identifier("constructs"),
-        t.identifier("Construct")
-      );
+      baseContainerClass = t.identifier("Construct");
       break;
 
     case "cdktf.TerraformStack":
-      baseContainerClass = t.memberExpression(
-        t.identifier("cdktf"),
-        t.identifier("TerraformStack")
-      );
+      baseContainerClass = t.identifier("TerraformStack");
       break;
     default:
       throw Errors.Internal("Unsupported code container: " + codeContainer);
@@ -923,7 +959,7 @@ export function wrapCodeInConstructor(
   return template.statement(
     `
   class %%className%% extends %%base%% {
-    constructor(scope: constructs.Construct, name: string) {
+    constructor(scope: Construct, name: string) {
       super(scope, name);
       %%code%%
     }
