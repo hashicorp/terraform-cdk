@@ -134,6 +134,7 @@ export function constructAst(
         );
 
       importables.push({
+        provider: provider,
         constructName: resourceName,
         namespace,
       });
@@ -167,6 +168,7 @@ export function constructAst(
       pascalCase(sanitizeClassOrNamespaceName(resource));
 
     importables.push({
+      provider: provider,
       constructName: resourceName,
       namespace,
     });
