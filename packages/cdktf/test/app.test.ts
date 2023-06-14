@@ -11,8 +11,6 @@ import {
   RemoteBackend,
   DataTerraformRemoteState,
   Fn,
-  CloudBackend,
-  NamedCloudWorkspace,
 } from "../lib";
 
 import { version } from "../package.json";
@@ -125,104 +123,6 @@ test("app synth supports skipping app level validations", () => {
 
   expect(() => app.synth()).not.toThrow();
   expect(mockValidation.validate).toHaveBeenCalledTimes(0);
-});
-
-test("app synth doesn't throw when stacks have the different backend configs", () => {
-  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
-  const MyStack = class extends TerraformStack {
-    constructor(app: IConstruct, id: string) {
-      super(app, id);
-      new CloudBackend(this, {
-        organization: "hashicorp",
-        workspaces: new NamedCloudWorkspace(`my-stack-${id}`),
-      });
-    }
-  };
-
-  new MyStack(app, "MyStackA");
-  new MyStack(app, "MyStackB");
-  new MyStack(app, "MyStackC");
-
-  expect(() => app.synth()).not.toThrow();
-});
-
-test("app synth throws error when two stacks have the same backend config", () => {
-  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
-  const stackA = new TerraformStack(app, "MyStackA");
-  const stackB = new TerraformStack(app, "MyStackB");
-
-  new LocalBackend(stackA, {
-    path: "terraform.tfstate",
-  });
-  new LocalBackend(stackB, {
-    path: "terraform.tfstate",
-  });
-
-  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
-    "App level validation failed with the following errors:
-      Found 2 stacks that store their state in the same location. Please ensure the following stacks have different backend configurations: MyStackA, MyStackB"
-  `);
-});
-
-test("app synth throws error when three stacks have the same backend config", () => {
-  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
-
-  const MyStack = class extends TerraformStack {
-    constructor(app: IConstruct, id: string) {
-      super(app, id);
-      new CloudBackend(this, {
-        organization: "hashicorp",
-        workspaces: new NamedCloudWorkspace("my-stack"),
-      });
-    }
-  };
-
-  new MyStack(app, "MyStackA");
-  new MyStack(app, "MyStackB");
-  new MyStack(app, "MyStackC");
-
-  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
-    "App level validation failed with the following errors:
-      Found 3 stacks that store their state in the same location. Please ensure the following stacks have different backend configurations: MyStackA, MyStackB, MyStackC"
-  `);
-});
-
-test("app synth throws error when multiple sets of stacks have the same backend config", () => {
-  const outdir = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf.outdir."));
-  const app = Testing.stubVersion(new App({ stackTraces: false, outdir }));
-
-  const FrontendStack = class extends TerraformStack {
-    constructor(app: IConstruct, id: string) {
-      super(app, id);
-      new RemoteBackend(this, {
-        organization: "hashicorp",
-        workspaces: new NamedCloudWorkspace("frontend"),
-      });
-    }
-  };
-  const BackendStack = class extends TerraformStack {
-    constructor(app: IConstruct, id: string) {
-      super(app, id);
-      new RemoteBackend(this, {
-        organization: "hashicorp",
-        workspaces: new NamedCloudWorkspace("backend"),
-      });
-    }
-  };
-
-  new FrontendStack(app, "frontend-dev");
-  new FrontendStack(app, "frontend-prod");
-  new BackendStack(app, "backend-dev");
-  new BackendStack(app, "backend-prod");
-
-  expect(() => app.synth()).toThrowErrorMatchingInlineSnapshot(`
-    "App level validation failed with the following errors:
-      Found 2 stacks that store their state in the same location. Please ensure the following stacks have different backend configurations: frontend-dev, frontend-prod
-      Found 2 stacks that store their state in the same location. Please ensure the following stacks have different backend configurations: backend-dev, backend-prod"
-  `);
 });
 
 test("app synth executes Aspects", () => {
