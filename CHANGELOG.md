@@ -1,3 +1,35 @@
+## 0.17.0
+
+### feat
+
+- feat(provider-generator): allow removing big, cost intensive structures [\#2932](https://github.com/hashicorp/terraform-cdk/pull/2932)
+- feat(cli): add flag to display memory / time used for get and synth [\#2914](https://github.com/hashicorp/terraform-cdk/pull/2914)
+- feat(cli): Improve telemetry reporting [\#2840](https://github.com/hashicorp/terraform-cdk/pull/2840)
+- feat: make testing more resilient towards usage with app.synth [\#2762](https://github.com/hashicorp/terraform-cdk/pull/2762)
+- feat(provider-generator): Add docstring to main class generated for modules [\#2589](https://github.com/hashicorp/terraform-cdk/pull/2589)
+
+### fix
+
+- fix(cli): exit ink app when done synthesizing [\#2933](https://github.com/hashicorp/terraform-cdk/pull/2933)
+- fix(lib): Support Computed List<List<primitive>> [\#2850](https://github.com/hashicorp/terraform-cdk/pull/2850)
+- fix(cli): Give hint when cdktf synth failed to create config [\#2714](https://github.com/hashicorp/terraform-cdk/pull/2714)
+- fix(cli): Always run init, but selectively skip locking providers [\#2617](https://github.com/hashicorp/terraform-cdk/pull/2617)
+
+### chore
+
+- chore: remove legacy comment [\#2938](https://github.com/hashicorp/terraform-cdk/pull/2938)
+- chore: pin all workflows after update [\#2926](https://github.com/hashicorp/terraform-cdk/pull/2926)
+- chore: remove PR sizing [\#2925](https://github.com/hashicorp/terraform-cdk/pull/2925)
+- chore: remove update snapshots CI job [\#2924](https://github.com/hashicorp/terraform-cdk/pull/2924)
+- chore: fix CODEOWNERS [\#2921](https://github.com/hashicorp/terraform-cdk/pull/2921)
+- chore: add merge queue and remove timechart [\#2909](https://github.com/hashicorp/terraform-cdk/pull/2909)
+- chore(hcl2cdk): add testing infrastructure for convert in Python & CSharp [\#2716](https://github.com/hashicorp/terraform-cdk/pull/2716)
+
+### refactor
+
+- refactor: exit after cdktf project commands finishes [\#2934](https://github.com/hashicorp/terraform-cdk/pull/2934)
+- refactor(cli): upgrade inquirer to @inquirer/prompts [\#2853](https://github.com/hashicorp/terraform-cdk/pull/2853)
+
 ## 0.16.3
 
 In `0.16.2` the release to maven failed, we fixed the issue and release this version so that maven is included in the release.
