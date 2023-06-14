@@ -20,24 +20,24 @@ exports[`full integration test synth synth generates JSON 1`] = `
     },
     "outputs": {
       "hello-terra": {
-        "instance-http-endpoint": "instancehttpendpoint",
-        "instance-password": "instancepassword",
-        "sns-topic-arn": "snstopicarn",
-        "tf-env-var-output": "tfenvvaroutput"
+        "instance-http-endpoint": "instance-http-endpoint",
+        "instance-password": "instance-password",
+        "sns-topic-arn": "sns-topic-arn",
+        "tf-env-var-output": "tf-env-var-output"
       }
     }
   },
   "output": {
-    "instancehttpendpoint": {
+    "instance-http-endpoint": {
       "value": "\${aws_instance.Instance.metadata_options[0].http_endpoint}"
     },
-    "instancepassword": {
+    "instance-password": {
       "value": "\${base64decode(aws_instance.Instance.password_data)}"
     },
-    "snstopicarn": {
+    "sns-topic-arn": {
       "value": "\${aws_sns_topic.Topic.arn}"
     },
-    "tfenvvaroutput": {
+    "tf-env-var-output": {
       "value": "no-value-found"
     }
   },

@@ -17,11 +17,11 @@ exports[`python full integration test synth synth generates JSON for both stacks
   },
   "resource": {
     "null_resource": {
-      "nullresource": {
+      "null-resource": {
         "//": {
           "metadata": {
             "path": "python-simple-one/null-resource",
-            "uniqueId": "nullresource"
+            "uniqueId": "null-resource"
           }
         }
       }
@@ -60,11 +60,11 @@ exports[`python full integration test synth synth generates JSON for both stacks
   },
   "resource": {
     "null_resource": {
-      "nullresource": {
+      "null-resource": {
         "//": {
           "metadata": {
             "path": "python-simple-two/null-resource",
-            "uniqueId": "nullresource"
+            "uniqueId": "null-resource"
           }
         }
       }
