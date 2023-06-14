@@ -20,8 +20,6 @@ import { schema } from "./schema";
 import { findUsedReferences } from "./references";
 import {
   backendToExpression,
-  cdktfImport,
-  constructsImport,
   gen,
   local,
   moduleImports,
@@ -32,6 +30,7 @@ import {
   variable,
   wrapCodeInConstructor,
   providerConstructImports,
+  addImportForCodeContainer,
 } from "./generation";
 import {
   TerraformResourceBlock,
@@ -362,12 +361,12 @@ export async function convertToTypescript(
       ...(plan.data?.terraform_remote_state || {}),
     }).length > 0;
 
+  // TODO: Fix
   const cdktfImports =
     hasBackend ||
     hasPlanOrOutputOrTerraformRemoteState ||
-    scope.hasTokenBasedTypeCoercion ||
-    codeContainer.startsWith("cdktf.")
-      ? [cdktfImport]
+    scope.hasTokenBasedTypeCoercion
+      ? []
       : [];
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
@@ -412,19 +411,41 @@ For a more precise conversion please use the --provider flag in convert.`
     );
   }
 
-  const uniqueImports: Record<string, boolean> = {};
-  const constructImports: t.Statement[] = [];
-  importables.forEach((importable) => {
-    const uniqueSig = `${importable.provider}.${importable.constructName}.${
-      importable.namespace || ""
-    }`;
-    if (uniqueImports[uniqueSig]) {
-      return;
-    }
-    uniqueImports[uniqueSig] = true;
-    const importStatement = providerConstructImports(importable);
-    constructImports.push(importStatement);
+  // Always add constructs
+  importables.push({
+    constructName: "Construct",
+    namespace: "",
+    provider: "constructs",
   });
+
+  // Add specific import for codeContainer
+  addImportForCodeContainer(codeContainer, importables);
+
+  const groupedImportables = importables.reduce((acc, importable) => {
+    const groupName = `${importable.provider}.${importable.namespace}`;
+    const fullName = `${importable.provider}.${importable.namespace}.${importable.constructName}`;
+
+    if (acc[groupName]) {
+      const existsAlready = acc[groupName].some(
+        (importable) =>
+          `${importable.provider}.${importable.namespace}.${importable.constructName}` ===
+          fullName
+      );
+      if (existsAlready) {
+        return acc;
+      }
+      acc[groupName].push(importable);
+    } else {
+      acc[groupName] = [importable];
+    }
+
+    return acc;
+  }, {} as Record<string, ImportableConstruct[]>);
+
+  const constructImports = Object.values(groupedImportables).map((grouped) =>
+    providerConstructImports(grouped)
+  );
+
   if (constructImports.length > 0) {
     constructImports[0] = t.addComment(
       constructImports[0],
@@ -439,17 +460,11 @@ See https://cdk.tf/provider-generation for more details.`
   // We split up the generated code so that users can have more control over what to insert where
   return {
     all: await gen([
-      constructsImport,
-      ...cdktfImports,
       ...constructImports,
       ...moduleImports(plan.module),
       wrapCodeInConstructor(codeContainer, code),
     ]),
-    imports: await gen([
-      ...cdktfImports,
-      ...constructImports,
-      ...moduleImports(plan.module),
-    ]),
+    imports: await gen([...constructImports, ...moduleImports(plan.module)]),
     code: await gen(code),
     providers: Object.entries(providerRequirements).map(([source, version]) =>
       version === "*" ? source : `${source}@${version}`
