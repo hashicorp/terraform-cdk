@@ -184,7 +184,10 @@ const prepareBaseProject = (language: string) =>
     resolve(projectDir);
   });
 
-const baseProjectPromisePerLanguage = ["typescript", "python", "csharp"].reduce(
+const requiredLanguages = includeSynthTests
+  ? ["typescript", "python", "csharp"]
+  : ["typescript"];
+const baseProjectPromisePerLanguage = requiredLanguages.reduce(
   (acc, language) => ({ ...acc, [language]: prepareBaseProject(language) }),
   {} as Record<string, Promise<string>>
 );
