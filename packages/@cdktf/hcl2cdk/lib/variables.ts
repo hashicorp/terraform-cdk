@@ -174,18 +174,10 @@ export function constructAst(
     });
 
     if (namespace) {
-      return t.memberExpression(
-        t.memberExpression(
-          t.identifier(provider), // e.g. aws
-          t.identifier(namespace) // e.g. instance
-        ),
-        t.identifier(resourceName) // e.g. Instance
-      );
+      return t.identifier(resourceName); // e.g. Instance
     }
-    return t.memberExpression(
-      t.identifier(provider), // e.g. google
-      t.identifier(resourceName) // e.g. BigQueryTable
-    );
+
+    return t.identifier(resourceName); // e.g. BigQueryTable
   }
 
   return t.identifier(pascalCase(type));

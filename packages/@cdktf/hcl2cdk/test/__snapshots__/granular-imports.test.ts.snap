@@ -10,11 +10,11 @@ import { ComputeAutoscaler } from "./.gen/providers/google/lib/computeAutoscaler
 class MyConvertedCode extends cdktf.TerraformStack {
   constructor(scope: constructs.Construct, name: string) {
     super(scope, name);
-    new google.provider.GoogleProvider(this, "google", {
+    new GoogleProvider(this, "google", {
       project: "my-project",
       region: "us-central1",
     });
-    new google.computeAutoscaler.ComputeAutoscaler(this, "example", {
+    new ComputeAutoscaler(this, "example", {
       autoscalingPolicy: {
         cooldownPeriod: 60,
         cpuUtilization: {
