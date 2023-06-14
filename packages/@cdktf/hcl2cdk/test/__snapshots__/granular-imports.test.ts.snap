@@ -35,7 +35,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
       target: "target-for-example-autoscaler",
       zone: "us-east1-b",
     });
-    new local.dataLocalFile.DataLocalFile(this, "foo", {
+    new DataLocalFile(this, "foo", {
       filename: "./\${" + imageId.value + "}.img",
     });
   }

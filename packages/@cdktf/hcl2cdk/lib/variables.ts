@@ -140,19 +140,10 @@ export function constructAst(
       });
 
       if (namespace) {
-        return t.memberExpression(
-          t.memberExpression(
-            t.identifier(provider), // e.g. aws
-            t.identifier(namespace) // e.g. dataAwsInstance
-          ),
-          t.identifier(resourceName) // e.g. DataAwsInstance
-        );
+        return t.identifier(resourceName); // e.g. DataAwsInstance
       }
 
-      return t.memberExpression(
-        t.identifier(provider), // e.g. aws
-        t.identifier(resourceName) // e.g. DataAwsNatGateway
-      );
+      return t.identifier(resourceName); // e.g. DataAwsNatGateway
     }
 
     const [provider, resource] = parts;
