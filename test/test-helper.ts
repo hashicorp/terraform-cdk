@@ -40,7 +40,6 @@ export class QueryableStack {
    * it's a data source or resource and which type it has
    */
   public byId(id: string): Record<string, any> {
-    const sanitizedId = id.replace(/_/g, "");
     const constructs = (
       [
         ...Object.values(this.stack.resource || {}),
@@ -51,7 +50,7 @@ export class QueryableStack {
       {} as Record<string, any>
     );
 
-    return constructs[sanitizedId];
+    return constructs[id];
   }
 
   public output(id: string): string {

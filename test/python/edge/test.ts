@@ -202,7 +202,7 @@ describe.skip("full integration test", () => {
     it("item references multi-item list from set", () => {
       const item = stack.byId("list_from_set");
 
-      expect(item.req).toEqual("${tolist(set_block_resource.setblock.set)}");
+      expect(item.req).toEqual("${tolist(set_block_resource.set_block.set)}");
     });
 
     it("output references to complex list type (no block)", () => {
