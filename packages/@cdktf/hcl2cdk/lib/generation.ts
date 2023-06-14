@@ -6,7 +6,12 @@ import * as t from "@babel/types";
 import { DirectedGraph } from "graphology";
 import prettier from "prettier";
 
-import { TerraformResourceBlock, ProgramScope, ResourceScope } from "./types";
+import {
+  TerraformResourceBlock,
+  ProgramScope,
+  ResourceScope,
+  ImportableConstruct,
+} from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
 import {
   Resource,
@@ -355,7 +360,8 @@ export async function resource(
   key: string,
   id: string,
   item: Resource,
-  graph: DirectedGraph
+  graph: DirectedGraph,
+  importables: ImportableConstruct[]
 ): Promise<t.Statement[]> {
   const [provider, ...name] = type.split("_");
   const resource = resourceType(provider, name, item);
@@ -548,7 +554,8 @@ export async function resource(
       mappedConfig,
       false,
       false,
-      getReference(graph, id) || overrideReference
+      getReference(graph, id) || overrideReference,
+      importables
     )
   );
 
@@ -601,7 +608,8 @@ async function asExpression(
   config: TerraformResourceBlock,
   isModuleImport: boolean,
   isProvider: boolean,
-  reference?: Reference
+  reference?: Reference,
+  importables: ImportableConstruct[] = []
 ) {
   const { providers, ...otherOptions } = config as any;
 
@@ -609,7 +617,7 @@ async function asExpression(
   const overrideId = !isProvider && constructId !== name;
 
   const expression = t.newExpression(
-    constructAst(scope, type, isModuleImport),
+    constructAst(scope, type, isModuleImport, importables),
     [
       t.thisExpression(),
       t.stringLiteral(constructId),
@@ -657,7 +665,9 @@ export async function output(
   scope: ProgramScope,
   key: string,
   _id: string,
-  item: Output
+  item: Output,
+  _graph: DirectedGraph,
+  importables: ImportableConstruct[]
 ) {
   const [{ value, description, sensitive }] = item;
 
@@ -671,7 +681,9 @@ export async function output(
       sensitive,
     },
     false,
-    false
+    false,
+    undefined,
+    importables
   );
 }
 
@@ -733,7 +745,8 @@ export async function variable(
   key: string,
   id: string,
   item: Variable,
-  graph: DirectedGraph
+  graph: DirectedGraph,
+  importables: ImportableConstruct[]
 ) {
   const [{ type, ...props }] = item;
 
@@ -748,7 +761,8 @@ export async function variable(
     { ...props, type: type ? await variableTypeToAst(type) : undefined },
     false,
     false,
-    getReference(graph, id)
+    getReference(graph, id),
+    importables
   );
 }
 
@@ -779,7 +793,8 @@ export async function modules(
   key: string,
   id: string,
   item: Module,
-  graph: DirectedGraph
+  graph: DirectedGraph,
+  importables: ImportableConstruct[]
 ) {
   const [{ source, version, ...props }] = item;
 
@@ -792,7 +807,8 @@ export async function modules(
     props,
     true,
     false,
-    getReference(graph, id)
+    getReference(graph, id),
+    importables
   );
 }
 
@@ -801,7 +817,8 @@ export async function provider(
   key: string,
   id: string,
   item: Provider[0],
-  graph: DirectedGraph
+  graph: DirectedGraph,
+  importables: ImportableConstruct[]
 ) {
   const { version, ...props } = item;
 
@@ -814,7 +831,8 @@ export async function provider(
     props,
     false,
     true,
-    getReference(graph, id)
+    getReference(graph, id),
+    importables
   );
 }
 

@@ -33,7 +33,11 @@ import {
   variable,
   wrapCodeInConstructor,
 } from "./generation";
-import { TerraformResourceBlock, ProgramScope } from "./types";
+import {
+  TerraformResourceBlock,
+  ProgramScope,
+  ImportableConstruct,
+} from "./types";
 import {
   forEachProvider,
   forEachGlobal,
@@ -113,6 +117,8 @@ export async function convertToTypescript(
     ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
   }>();
 
+  const importables: ImportableConstruct[] = [];
+
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
@@ -120,8 +126,8 @@ export async function convertToTypescript(
     string,
     (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
   > = {
-    ...forEachProvider(scope, plan.provider, provider),
-    ...forEachGlobal(scope, "var", plan.variable, variable),
+    ...forEachProvider(scope, plan.provider, provider, importables),
+    ...forEachGlobal(scope, "var", plan.variable, variable, importables),
     // locals are a special case
     ...forEachGlobal(
       scope,
@@ -129,12 +135,13 @@ export async function convertToTypescript(
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
-      local
+      local,
+      importables
     ),
-    ...forEachGlobal(scope, "out", plan.output, output),
-    ...forEachGlobal(scope, "module", plan.module, modules),
-    ...forEachNamespaced(scope, plan.resource, resource),
-    ...forEachNamespaced(scope, plan.data, resource, "data"),
+    ...forEachGlobal(scope, "out", plan.output, output, importables),
+    ...forEachGlobal(scope, "module", plan.module, modules, importables),
+    ...forEachNamespaced(scope, plan.resource, resource, importables),
+    ...forEachNamespaced(scope, plan.data, resource, importables, "data"),
   };
 
   // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
@@ -203,8 +210,14 @@ export async function convertToTypescript(
 
   await Promise.all(
     Object.values({
-      ...forEachProvider(scope, plan.provider, addProviderEdges),
-      ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
+      ...forEachProvider(scope, plan.provider, addProviderEdges, importables),
+      ...forEachGlobal(
+        scope,
+        "var",
+        plan.variable,
+        addGlobalEdges,
+        importables
+      ),
       // locals are a special case
       ...forEachGlobal(
         scope,
@@ -212,12 +225,30 @@ export async function convertToTypescript(
         Array.isArray(plan.locals)
           ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
           : {},
-        addGlobalEdges
+        addGlobalEdges,
+        importables
       ),
-      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
-      ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
-      ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
-      ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
+      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges, importables),
+      ...forEachGlobal(
+        scope,
+        "module",
+        plan.module,
+        addGlobalEdges,
+        importables
+      ),
+      ...forEachNamespaced(
+        scope,
+        plan.resource,
+        addNamespacedEdges,
+        importables
+      ),
+      ...forEachNamespaced(
+        scope,
+        plan.data,
+        addNamespacedEdges,
+        importables,
+        "data"
+      ),
     }).map((addEdgesToGraph) => addEdgesToGraph(graph))
   );
 

@@ -4,7 +4,7 @@
  */
 
 import * as t from "@babel/types";
-import { ProgramScope, Reference } from "./types";
+import { ImportableConstruct, ProgramScope, Reference } from "./types";
 import { camelCase, pascalCase } from "./utils";
 import { sanitizeClassOrNamespaceName } from "@cdktf/provider-generator";
 import { getFullProviderName } from "./provider";
@@ -100,7 +100,8 @@ function getResourceNamespace(
 export function constructAst(
   scope: ProgramScope,
   type: string,
-  isModuleImport: boolean
+  isModuleImport: boolean,
+  importables: ImportableConstruct[]
 ) {
   if (isModuleImport) {
     return t.memberExpression(t.identifier(type), t.identifier(type));
@@ -132,6 +133,11 @@ export function constructAst(
           sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
         );
 
+      importables.push({
+        constructName: resourceName,
+        namespace,
+      });
+
       if (namespace) {
         return t.memberExpression(
           t.memberExpression(
@@ -159,6 +165,11 @@ export function constructAst(
     const resourceName =
       getUniqueName(provider, parts.join("_"), scope) ||
       pascalCase(sanitizeClassOrNamespaceName(resource));
+
+    importables.push({
+      constructName: resourceName,
+      namespace,
+    });
 
     if (namespace) {
       return t.memberExpression(
