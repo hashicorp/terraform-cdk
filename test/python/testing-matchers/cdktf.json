@@ -4,7 +4,5 @@
   "terraformProviders": ["kreuzwerker/docker@~> 2.0"],
   "terraformModules": [],
   "codeMakerOutput": "imports",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

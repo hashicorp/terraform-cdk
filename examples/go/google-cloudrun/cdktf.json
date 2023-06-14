@@ -5,8 +5,5 @@
   "sendCrashReports": "false",
   "terraformProviders": [],
   "terraformModules": [],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true",
-    "allowSepCharsInLogicalIds": "true"
-  }
+  "context": {}
 }

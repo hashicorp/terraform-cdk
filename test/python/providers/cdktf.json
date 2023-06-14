@@ -5,7 +5,5 @@
     "kreuzwerker/docker@= 2.16.0"
   ],
   "codeMakerOutput": "imports",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

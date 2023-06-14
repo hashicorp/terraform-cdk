@@ -4,7 +4,5 @@
   "terraformProviders": [],
   "terraformModules": [],
   "codeMakerOutput": "imports",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

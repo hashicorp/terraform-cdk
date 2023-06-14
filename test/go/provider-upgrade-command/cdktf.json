@@ -3,7 +3,5 @@
   "app": "go run main.go",
   "terraformProviders": [],
   "codeMakerOutput": "generated",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

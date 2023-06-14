@@ -4,7 +4,5 @@
   "terraformProviders": [
     "null"
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

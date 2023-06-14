@@ -25,7 +25,5 @@
       "source": "./local_module/"
     }
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

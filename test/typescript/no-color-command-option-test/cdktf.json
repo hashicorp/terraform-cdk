@@ -3,7 +3,5 @@
     "app": "npm run --silent compile && node main.js",
     "terraformProviders": [],
     "terraformModules": [],
-    "context": {
-      "excludeStackIdFromLogicalIds": "true"
-    }
+    "context": {}
   }

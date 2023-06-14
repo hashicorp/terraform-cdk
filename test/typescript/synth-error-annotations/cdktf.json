@@ -2,7 +2,5 @@
   "language": "typescript",
   "app": "npm run --silent compile && node main.js",
   "terraformProviders": ["hashicorp/random@~> 3.1.0"],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

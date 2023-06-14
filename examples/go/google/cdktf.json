@@ -16,8 +16,5 @@
       "version": "14.3.0"
     }
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true",
-    "allowSepCharsInLogicalIds": "true"
-  }
+  "context": {}
 }

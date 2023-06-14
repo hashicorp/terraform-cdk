@@ -21,28 +21,6 @@ describe("full integration test", () => {
     await driver.get();
   });
 
-  test("with excludeStackIdFromLogicalIds feature", async () => {
-    writeConfig(
-      driver.workingDirectory,
-      jsonWithContext({ excludeStackIdFromLogicalIds: "true" })
-    );
-    await driver.synth();
-    expect(
-      loadStackJson(driver.workingDirectory, "hello-deploy")
-    ).toMatchSnapshot();
-  });
-
-  test("with allowSepCharsInLogicalIds feature", async () => {
-    writeConfig(
-      driver.workingDirectory,
-      jsonWithContext({ allowSepCharsInLogicalIds: "true" })
-    );
-    await driver.synth();
-    expect(
-      loadStackJson(driver.workingDirectory, "hello-deploy")
-    ).toMatchSnapshot();
-  });
-
   test("without features", async () => {
     writeConfig(driver.workingDirectory, cdktfJSON);
     await driver.synth();
@@ -50,10 +28,6 @@ describe("full integration test", () => {
       loadStackJson(driver.workingDirectory, "hello-deploy")
     ).toMatchSnapshot();
   });
-
-  const jsonWithContext = (context) => {
-    return Object.assign({}, cdktfJSON, { context });
-  };
 
   const loadStackJson = (workingDir, stackName) => {
     const stack = fs.readFileSync(

@@ -5,7 +5,5 @@
     "hashicorp/random@= 3.1.0",
     "hashicorp/local@= 2.1.0"
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

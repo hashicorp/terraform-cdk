@@ -4,7 +4,5 @@
   "terraformProviders": [
     "aws@2.70.4"
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }
