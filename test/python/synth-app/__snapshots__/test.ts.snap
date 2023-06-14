@@ -25,11 +25,11 @@ exports[`python full integration test synth synth generates JSON 1`] = `
   },
   "resource": {
     "null_resource": {
-      "nullresource": {
+      "null-resource": {
         "//": {
           "metadata": {
             "path": "python-simple/null-resource",
-            "uniqueId": "nullresource"
+            "uniqueId": "null-resource"
           }
         },
         "triggers": {

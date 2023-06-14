@@ -26,7 +26,7 @@ describe("full integration test synth", () => {
 
   test("should not pass TF_VAR environment variables", () => {
     expect(
-      driver.synthesizedStack("hello-terra").output("tfenvvaroutput")
+      driver.synthesizedStack("hello-terra").output("tf-env-var-output")
     ).toBe("no-value-found");
   });
 });

@@ -33,10 +33,10 @@ describe("iterators integration test", () => {
       "each"
     );
 
-    expect(stack.output("testlisttype")).toEqual(
+    expect(stack.output("test-list-type")).toEqual(
       '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}'
     );
-    expect(stack.output("testnestedlisttype")).toHaveProperty(
+    expect(stack.output("test-nested-list-type")).toHaveProperty(
       "nested.in.an.object",
       '${[ for key, val in toset(var.pets): {"name" = val.name, "age" = val.age}]}'
     );

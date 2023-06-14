@@ -25,7 +25,7 @@ describe("python full integration test assets", () => {
       fs.readFileSync(
         path.resolve(
           driver.stackDirectory("python-assets"),
-          stack.output("fixtureoutput")
+          stack.output("fixture-output")
         ),
         "utf-8"
       )
@@ -34,7 +34,7 @@ describe("python full integration test assets", () => {
     const stat = fs.statSync(
       path.resolve(
         driver.stackDirectory("python-assets"),
-        stack.output("fixtureoutput")
+        stack.output("fixtures-output")
       )
     );
     expect(stat.isFile()).toBe(true);

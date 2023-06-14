@@ -10,16 +10,16 @@ exports[`python full integration test assets synth generates JSON and copies fil
     },
     "outputs": {
       "python-assets": {
-        "fixture-output": "fixtureoutput",
-        "fixtures-output": "fixturesoutput"
+        "fixture-output": "fixture-output",
+        "fixtures-output": "fixtures-output"
       }
     }
   },
   "output": {
-    "fixtureoutput": {
+    "fixture-output": {
       "value": "assets/fixture/hash/fixture.txt"
     },
-    "fixturesoutput": {
+    "fixtures-output": {
       "value": "assets/fixtures/hash/archive.zip"
     }
   },
@@ -30,11 +30,11 @@ exports[`python full integration test assets synth generates JSON and copies fil
   },
   "resource": {
     "null_resource": {
-      "nullresource": {
+      "null-resource": {
         "//": {
           "metadata": {
             "path": "python-assets/null-resource",
-            "uniqueId": "nullresource"
+            "uniqueId": "null-resource"
           }
         }
       }
