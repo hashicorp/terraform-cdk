@@ -32,6 +32,7 @@ import {
   VariablesStack,
 } from "./variables";
 import { IteratorsCountStack } from "./iterators-count";
+import { SkippedAttributesStack } from "./skipped-attributes";
 
 const app = new App();
 
@@ -51,6 +52,7 @@ new CloudBackendStack(app, "remote-backends");
 new ResourcesStack(app, "resources");
 new TokensStack(app, "tokens", "test-vpc");
 new VariablesStack(app, "variables");
+new SkippedAttributesStack(app, "skipped-attributes");
 
 app.synth();
 

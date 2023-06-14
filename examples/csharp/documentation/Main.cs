@@ -69,6 +69,7 @@ namespace MyCompany.MyApp
             new Examples.Consumer(app, "cdktf-consumer");
             new Examples.OperatorsStack(app, "operators");
             new Examples.FunctionsRawStack(app, "functions-raw");
+            new Examples.SkippedAttributesStack(app, "skipped-attributes");
 
             TerraformStack stack = new TerraformStack(app, "stack-escape-hatches");
             // DOCS_BLOCK_START:stack-escape-hatches

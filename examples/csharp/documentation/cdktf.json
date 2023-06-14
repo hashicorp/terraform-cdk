@@ -2,7 +2,7 @@
   "language": "csharp",
   "app": "dotnet run -p MyTerraformStack.csproj",
   "terraformProviders": [
-    "aws@~> 3.0",
+    "aws@~> 5.0",
     "kubernetes@~> 2.0",
     "hashicorp/random@~> 3.1",
     "dnsimple/dnsimple@~> 1.0",

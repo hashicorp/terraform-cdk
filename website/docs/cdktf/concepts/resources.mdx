@@ -927,3 +927,116 @@ A few individual Terraform Resources have very deeply nested schemas with a lot 
 - `aws` Provider:
   - `aws_quicksight_template.definition`, `aws_quicksight_dashboard.definition`, and `aws_quicksight_analysis.definition` are set to `any`
   - `wafv2` related resources have a lot of deeply nested attributes that might be skipped
+
+You can need to use snake cased keys inside of the `any` object together with the object syntax of your language of choice. Alternatively you can also use the escape hatch syntax to set the value.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#skipped-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#skipped-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#skipped-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#skipped-attributes -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#skipped-attributes -->
+
+```ts
+
+```
+
+```java
+                List<Number> myPorts = Arrays.asList(22, 80, 443, 5432);
+                List<SecurityGroupIngress> ingress = new ArrayList();
+                myPorts.forEach(port -> ingress.add(
+                                SecurityGroupIngress.builder()
+                                                .toPort(port)
+                                                .fromPort(port)
+                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                .protocol("-1")
+                                                .build()));
+
+                new SecurityGroup(this, "sec2grp", SecurityGroupConfig.builder()
+                                .name("security1")
+                                .vpcId("vpcs")
+                                .egress(Arrays.asList(
+                                                SecurityGroupEgress.builder()
+                                                                .fromPort(0)
+                                                                .toPort(0)
+                                                                .cidrBlocks(Arrays.asList("0.0.0.0/0"))
+                                                                .protocol("-1")
+                                                                .build()))
+                                .ingress(ingress)
+                                .build());
+```
+
+```python
+        ports = [22, 80, 443, 5432]
+
+        SecurityGroup(self, "sec1grp",
+            name="security1",
+            vpc_id="vpcs",
+            egress=[
+                {
+                    "fromPort": 0,
+                    "toPort": 0,
+                    "ciderBlocks": ["0.0.0.0/0"],
+                    "protocol": "-1"
+                }
+            ],
+            ingress=[
+                SecurityGroupIngress(
+                    from_port=port,
+                    to_port=port,
+                    protocol="-1",
+                    cidr_blocks=["0.0.0.0/0"]
+                ) for port in ports
+            ]
+        )
+```
+
+```csharp
+int[] ports = new int[] { 22, 80, 443, 5432 };
+new SecurityGroup(this, "security2", new SecurityGroupConfig
+{
+    Name = "security2",
+    VpcId = "vpcs",
+    Egress = new SecurityGroupEgress[] {
+        new SecurityGroupEgress {
+            FromPort = 0,
+            ToPort = 0,
+            CidrBlocks = new string[] { "0.0.0.0/0" },
+            Protocol = "-1"
+        }
+    },
+    Ingress = ports.Select(port => new SecurityGroupIngress
+    {
+        FromPort = port,
+        ToPort = port,
+        CidrBlocks = new string[] { "0.0.0.0/0" },
+        Protocol = "-1"
+    }).ToArray()
+});
+```
+
+```go
+	ports := []float64{22, 80, 443, 5432}
+	ingress := make([]securitygroup.SecurityGroupIngress, 0)
+	for _, port := range ports {
+		ingress = append(ingress, securitygroup.SecurityGroupIngress{
+			FromPort:   jsii.Number(port),
+			ToPort:     jsii.Number(port),
+			CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+			Protocol:   jsii.String("-1"),
+		})
+	}
+
+	securitygroup.NewSecurityGroup(stack, jsii.String("security2"), &securitygroup.SecurityGroupConfig{
+		Name:  jsii.String("security2"),
+		VpcId: jsii.String("vpcs"),
+		Egress: &[]securitygroup.SecurityGroupEgress{
+			{
+				FromPort:   jsii.Number(0),
+				ToPort:     jsii.Number(0),
+				CidrBlocks: &[]*string{jsii.String("0.0.0.0/0")},
+				Protocol:   jsii.String("-1"),
+			},
+		},
+		Ingress: &ingress,
+	})
+```
