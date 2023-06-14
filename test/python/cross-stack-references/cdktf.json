@@ -6,7 +6,5 @@
     "hashicorp/local@= 2.1.0"
   ],
   "codeMakerOutput": "imports",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

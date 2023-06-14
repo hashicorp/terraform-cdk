@@ -3,7 +3,5 @@
   "app": "go run main.go",
   "terraformProviders": ["hashicorp/null@~> 3.1.0"],
   "codeMakerOutput": "generated",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

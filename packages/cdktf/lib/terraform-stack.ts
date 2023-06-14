@@ -10,10 +10,6 @@ import { LocalBackend } from "./backends/local-backend";
 import { ref } from "./tfExpression";
 import { TerraformOutput } from "./terraform-output";
 import { TerraformRemoteState } from "./terraform-remote-state";
-import {
-  EXCLUDE_STACK_ID_FROM_LOGICAL_IDS,
-  ALLOW_SEP_CHARS_IN_LOGICAL_IDS,
-} from "./features";
 import { makeUniqueId } from "./private/unique";
 import { IStackSynthesizer } from "./synthesize/types";
 import { StackSynthesizer } from "./synthesize/synthesizer";
@@ -193,20 +189,10 @@ export class TerraformStack extends Construct {
       ? tfElement.cdktfStack
       : this;
 
-    let stackIndex;
-    if (node.tryGetContext(EXCLUDE_STACK_ID_FROM_LOGICAL_IDS)) {
-      stackIndex = node.scopes.indexOf(stack);
-    } else {
-      stackIndex = 0;
-    }
+    const stackIndex = node.scopes.indexOf(stack);
 
     const components = node.scopes.slice(stackIndex + 1).map((c) => c.node.id);
-    return components.length > 0
-      ? makeUniqueId(
-          components,
-          node.tryGetContext(ALLOW_SEP_CHARS_IN_LOGICAL_IDS)
-        )
-      : "";
+    return components.length > 0 ? makeUniqueId(components) : "";
   }
 
   public allProviders(): TerraformProvider[] {

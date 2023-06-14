@@ -100,19 +100,6 @@ When you declare providers in JSON, add the constraint in the `version` property
 }
 ```
 
-## Enable Features (Deprecated)
-
-CDKTF used to use feature flags to enable potentially breaking behaviors in a release. These are no longer needed since most of the changes we introduce from here can not be hidden behind feature flags. When the feature flags are removed, the behavior will be the same as this configuration:
-
-```json
-{
-  "context": {
-    "excludeStackIdFromLogicalIds": "true",
-    "allowSepCharsInLogicalIds": "true"
-  }
-}
-```
-
 ## Configure Files to Watch
 
 When using `cdktf watch`, CDKTF inspects the `cdktf.json`s `watchPattern` property to determine which files to watch. If you do not specify a `watchPattern` property, CDKTF adds the default watch pattern for your language on the first run. The `watchPattern` expects an array of glob patterns, e.g. `["main.ts", "../constructs/**/*.ts", "lib/*.ts"]`.

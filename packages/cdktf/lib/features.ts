@@ -10,16 +10,6 @@
 // --------------------------------------------------------------------------------
 
 /**
- * When set, the stack id is excluded from generated logical ids for constructs within the stack.
- */
-export const EXCLUDE_STACK_ID_FROM_LOGICAL_IDS = "excludeStackIdFromLogicalIds";
-
-/**
- * When set, '_' and '-' are allowed in logical ids.
- */
-export const ALLOW_SEP_CHARS_IN_LOGICAL_IDS = "allowSepCharsInLogicalIds";
-
-/**
  * This map includes context keys and values for feature flags that enable
  * capabilities "from the future", which we could not introduce as the default
  * behavior due to backwards compatibility for existing projects.
@@ -32,7 +22,4 @@ export const ALLOW_SEP_CHARS_IN_LOGICAL_IDS = "allowSepCharsInLogicalIds";
  *
  * Tests must cover the default (disabled) case and the future (enabled) case.
  */
-export const FUTURE_FLAGS = {
-  [EXCLUDE_STACK_ID_FROM_LOGICAL_IDS]: "true",
-  [ALLOW_SEP_CHARS_IN_LOGICAL_IDS]: "true",
-};
+export const FUTURE_FLAGS = {};

@@ -190,12 +190,12 @@ describe("output id map", () => {
       {
         "MyStack": {
           "MyCustomConstruct": {
-            "output": "MyStack_MyCustomConstruct_output_E06F5428",
-            "output1": "MyStack_MyCustomConstruct_output1_55CB8869",
+            "output": "MyCustomConstruct_output_AFA0492F",
+            "output1": "MyCustomConstruct_output1_11AB14A2",
           },
           "MyCustomOtherConstruct": {
-            "output": "MyStack_MyCustomOtherConstruct_output_BCB14270",
-            "output1": "MyStack_MyCustomOtherConstruct_output1_BEDB5493",
+            "output": "MyCustomOtherConstruct_output_D26A811A",
+            "output1": "MyCustomOtherConstruct_output1_9A3A64D2",
           },
         },
       }

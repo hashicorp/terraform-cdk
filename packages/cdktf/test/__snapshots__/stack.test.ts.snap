@@ -72,14 +72,14 @@ exports[`stack synthesis merges all elements into a single output 1`] = `
 exports[`stack synthesis no flags 1`] = `
 "{
   "module": {
-    "MyStack_EksModule_1F7A8254": {
+    "EksModule": {
       "cluster_name": "my_cluster_name",
       "source": "terraform-aws-modules/eks/aws",
       "version": "7.0.1"
     }
   },
   "output": {
-    "MyStack_eksversion_FB719174": {
+    "eks_version": {
       "value": "7.0.1"
     }
   },
@@ -92,8 +92,8 @@ exports[`stack synthesis no flags 1`] = `
   },
   "resource": {
     "aws_bucket": {
-      "MyStack_Resource1_1D44B20C": {
-        "foo": "MyStack_Resource1_1D44B20C",
+      "Resource1": {
+        "foo": "Resource1",
         "prop1": "bar1",
         "prop2": 1234,
         "prop3": {

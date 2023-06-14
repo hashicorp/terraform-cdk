@@ -26,8 +26,5 @@
       "source": "./local_module/"
     }
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true",
-    "allowSepCharsInLogicalIds": "true"
-  }
+  "context": {}
 }

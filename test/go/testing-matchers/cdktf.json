@@ -3,7 +3,5 @@
   "app": "go run main.go",
   "codeMakerOutput": "generated",
   "terraformProviders": ["kreuzwerker/docker@~> 2.0"],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

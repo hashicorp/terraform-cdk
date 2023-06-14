@@ -5,8 +5,5 @@
   "output": "./",
   "codeMakerOutput": "./src/main/java/imports",
   "terraformProviders": [],
-  "context": {
-    "excludeStackIdFromLogicalIds": true,
-    "allowSepCharsInLogicalIds": true
-  }
+  "context": {}
 }

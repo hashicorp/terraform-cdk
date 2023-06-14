@@ -4,8 +4,5 @@
   "terraformProviders": ["google@~> 3.3"],
   "terraformModules": [],
   "codeMakerOutput": "imports",
-  "context": {
-    "excludeStackIdFromLogicalIds": "true",
-"allowSepCharsInLogicalIds": "true"
-  }
+  "context": {}
 }

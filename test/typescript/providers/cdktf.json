@@ -6,7 +6,5 @@
     "nomad",
     "kubernetes"
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": "true"
-  }
+  "context": {}
 }

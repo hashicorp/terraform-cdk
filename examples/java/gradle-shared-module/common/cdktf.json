@@ -6,8 +6,5 @@
   "terraformProviders": [
     "hashicorp/vsphere@~> 2.0.2"
   ],
-  "context": {
-    "excludeStackIdFromLogicalIds": true,
-    "allowSepCharsInLogicalIds": true
-  }
+  "context": {}
 }

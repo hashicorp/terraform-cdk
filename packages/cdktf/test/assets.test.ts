@@ -75,7 +75,7 @@ describe("createAssetsFromLocalModules", () => {
   test("local source without skipAssetCreationFromLocalModules", () => {
     const localSource = "../";
     const assetRegex =
-      /^.\/assets\/MyStack_localmodulemoduleOptionsNotExists_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
+      /^.\/assets\/local-module-moduleOptionsNotExists\/[a-zA-z\d]+$/;
 
     const app = Testing.stubVersion(
       new App({
@@ -99,7 +99,7 @@ describe("createAssetsFromLocalModules", () => {
   test("local source with skipAssetCreationFromLocalModules set to false", () => {
     const localSource = "../";
     const assetRegex =
-      /^.\/assets\/MyStack_localmodulemoduleOptionsTrue_[a-zA-z\d]{8}\/[a-zA-z\d]+$/;
+      /^.\/assets\/local-module-moduleOptionsTrue\/[a-zA-z\d]+$/;
 
     const app = Testing.stubVersion(
       new App({

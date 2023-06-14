@@ -6,8 +6,5 @@
         "scaleway/scaleway@>= 2.2.0"
     ],
     "terraformModules": [],
-    "context": {
-        "excludeStackIdFromLogicalIds": "true",
-        "allowSepCharsInLogicalIds": "true"
-    }
+    "context": {}
 }
