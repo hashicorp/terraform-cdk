@@ -8,7 +8,9 @@ import { LocalProvider } from "./.gen/providers/local/lib/provider";
 import {
   VariableType,
   TerraformVariable,
+  TerraformOutput,
   Token,
+  TerraformCount,
   Op,
   TerraformStack,
 } from "cdktf";
@@ -29,6 +31,22 @@ class MyConvertedCode extends TerraformStack {
     const imageId = new TerraformVariable(this, "image_id", {
       type: VariableType.STRING,
     });
+    const cdktfTerraformOutputImageId = new TerraformOutput(
+      this,
+      "image_id_3",
+      {
+        value: imageId.value,
+      }
+    );
+    /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+    cdktfTerraformOutputImageId.overrideLogicalId("image_id");
+    /*In most cases loops should be handled in the programming language context and 
+    not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
+    you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
+    you need to keep this like it is.*/
+    const googleComputeAutoscalerExampleCount = TerraformCount.of(
+      Token.asNumber("2")
+    );
     new ComputeAutoscaler(this, "example", {
       autoscalingPolicy: {
         cooldownPeriod: 60,
@@ -41,6 +59,7 @@ class MyConvertedCode extends TerraformStack {
       name: "example-autoscaler",
       target: "target-for-example-autoscaler",
       zone: "us-east1-b",
+      count: googleComputeAutoscalerExampleCount,
     });
     const googleComputeInstanceGroupManagerDefault =
       new ComputeInstanceGroupManager(this, "default", {
@@ -60,7 +79,7 @@ class MyConvertedCode extends TerraformStack {
     });
     const googleComputeAutoscalerDefault = new ComputeAutoscaler(
       this,
-      "default_6",
+      "default_7",
       {
         autoscalingPolicy: {
           cooldownPeriod: 60,

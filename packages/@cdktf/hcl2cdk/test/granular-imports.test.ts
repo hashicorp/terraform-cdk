@@ -17,6 +17,7 @@ describe("granular-imports", () => {
       name   = "example-autoscaler"
       zone   = "us-east1-b"
       target = "target-for-example-autoscaler"
+      count = 2
 
       autoscaling_policy = {
         max_replicas    = 8
@@ -63,6 +64,11 @@ describe("granular-imports", () => {
     variable "image_id" {
       type = string
     }
+
+    output "image_id" {
+      value = var.image_id
+    }
+
     data "local_file" "foo" {
       filename = "./\${var.image_id}.img"
     }
