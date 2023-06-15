@@ -1,5 +1,7 @@
 {
+  "//": "This example test is disabled via the 'private' attribute since it is flaky",
   "name": "@examples/java-google",
+  "private": true,
   "version": "0.0.0",
   "license": "MPL-2.0",
   "scripts": {
