@@ -10,7 +10,7 @@ description: >-
 
 ## AWS Quicksight
 
-A few individual Terraform Resources have very deeply nested schemas with a lot of attributes. This blows up the config classes and slows down the code generation for languages besides Typescript. To work around this we sometimes limit the depth of the config classes and use `any` on deeper level, some attributes we directly expose as `any` on the top level config class.
+A few individual Terraform Resources have very deeply nested schemas with a lot of attributes. This blows up the config classes and slows down the code generation for languages besides TypeScript. To work around this we sometimes limit the depth of the config classes and use `any` on deeper levels, and we directly expose some attributes as `any` on the top level config class.
 
 - `aws_quicksight_template.definition`, `aws_quicksight_dashboard.definition`, and `aws_quicksight_analysis.definition` are set to `any`
 
