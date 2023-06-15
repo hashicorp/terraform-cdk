@@ -26,28 +26,28 @@ exports[`full integration test synth 1`] = `
     },
     "outputs": {
       "fixed": {
-        "fixtures-name": "fixturesname",
-        "local-asset-name": "localassetname",
-        "relative-asset-name": "relativeassetname",
-        "relative-assets-name": "relativeassetsname",
-        "zipped-fixtures-name": "zippedfixturesname"
+        "fixtures-name": "fixtures-name",
+        "local-asset-name": "local-asset-name",
+        "relative-asset-name": "relative-asset-name",
+        "relative-assets-name": "relative-assets-name",
+        "zipped-fixtures-name": "zipped-fixtures-name"
       }
     }
   },
   "output": {
-    "fixturesname": {
+    "fixtures-name": {
       "value": "fixtures"
     },
-    "localassetname": {
+    "local-asset-name": {
       "value": "local-asset.txt"
     },
-    "relativeassetname": {
+    "relative-asset-name": {
       "value": "relative-asset.txt"
     },
-    "relativeassetsname": {
+    "relative-assets-name": {
       "value": "relative"
     },
-    "zippedfixturesname": {
+    "zipped-fixtures-name": {
       "value": "archive.zip"
     }
   },
