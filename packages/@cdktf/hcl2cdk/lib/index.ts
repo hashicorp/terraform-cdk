@@ -108,6 +108,7 @@ export async function convertToTypescript(
     variables: {},
     hasTokenBasedTypeCoercion: false,
     nodeIds: [],
+    importables: [],
   };
 
   const graph = new DirectedGraph<{
@@ -116,8 +117,6 @@ export async function convertToTypescript(
     ) => Promise<Array<t.Statement | t.VariableDeclaration>>;
   }>();
 
-  const importables: ImportableConstruct[] = [];
-
   // Get all items in the JSON as a map of id to function that generates the AST
   // We will use this to construct the nodes for a dependency graph
   // We need to use a function here because the same node has different representation based on if it's referenced by another one
@@ -125,8 +124,8 @@ export async function convertToTypescript(
     string,
     (g: typeof graph) => Promise<Array<t.Statement | t.VariableDeclaration>>
   > = {
-    ...forEachProvider(scope, plan.provider, provider, importables),
-    ...forEachGlobal(scope, "var", plan.variable, variable, importables),
+    ...forEachProvider(scope, plan.provider, provider),
+    ...forEachGlobal(scope, "var", plan.variable, variable),
     // locals are a special case
     ...forEachGlobal(
       scope,
@@ -134,13 +133,12 @@ export async function convertToTypescript(
       Array.isArray(plan.locals)
         ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
         : {},
-      local,
-      importables
+      local
     ),
-    ...forEachGlobal(scope, "out", plan.output, output, importables),
-    ...forEachGlobal(scope, "module", plan.module, modules, importables),
-    ...forEachNamespaced(scope, plan.resource, resource, importables),
-    ...forEachNamespaced(scope, plan.data, resource, importables, "data"),
+    ...forEachGlobal(scope, "out", plan.output, output),
+    ...forEachGlobal(scope, "module", plan.module, modules),
+    ...forEachNamespaced(scope, plan.resource, resource),
+    ...forEachNamespaced(scope, plan.data, resource, "data"),
   };
 
   // Add all nodes to the dependency graph so we can detect if an edge is added for an unknown link
@@ -209,14 +207,8 @@ export async function convertToTypescript(
 
   await Promise.all(
     Object.values({
-      ...forEachProvider(scope, plan.provider, addProviderEdges, importables),
-      ...forEachGlobal(
-        scope,
-        "var",
-        plan.variable,
-        addGlobalEdges,
-        importables
-      ),
+      ...forEachProvider(scope, plan.provider, addProviderEdges),
+      ...forEachGlobal(scope, "var", plan.variable, addGlobalEdges),
       // locals are a special case
       ...forEachGlobal(
         scope,
@@ -224,30 +216,12 @@ export async function convertToTypescript(
         Array.isArray(plan.locals)
           ? plan.locals.reduce((carry, locals) => ({ ...carry, ...locals }), {})
           : {},
-        addGlobalEdges,
-        importables
+        addGlobalEdges
       ),
-      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges, importables),
-      ...forEachGlobal(
-        scope,
-        "module",
-        plan.module,
-        addGlobalEdges,
-        importables
-      ),
-      ...forEachNamespaced(
-        scope,
-        plan.resource,
-        addNamespacedEdges,
-        importables
-      ),
-      ...forEachNamespaced(
-        scope,
-        plan.data,
-        addNamespacedEdges,
-        importables,
-        "data"
-      ),
+      ...forEachGlobal(scope, "out", plan.output, addGlobalEdges),
+      ...forEachGlobal(scope, "module", plan.module, addGlobalEdges),
+      ...forEachNamespaced(scope, plan.resource, addNamespacedEdges),
+      ...forEachNamespaced(scope, plan.data, addNamespacedEdges, "data"),
     }).map((addEdgesToGraph) => addEdgesToGraph(graph))
   );
 
@@ -351,23 +325,23 @@ export async function convertToTypescript(
 
   // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
   // If none are used we don't want to leave a stray import
-  const hasBackend = plan.terraform?.some(
-    (tf) => Object.keys(tf.backend || {}).length > 0
-  );
-  const hasPlanOrOutputOrTerraformRemoteState =
-    Object.keys({
-      ...plan.variable,
-      ...plan.output,
-      ...(plan.data?.terraform_remote_state || {}),
-    }).length > 0;
+  // const hasBackend = plan.terraform?.some(
+  //   (tf) => Object.keys(tf.backend || {}).length > 0
+  // );
+  // const hasPlanOrOutputOrTerraformRemoteState =
+  //   Object.keys({
+  //     ...plan.variable,
+  //     ...plan.output,
+  //     ...(plan.data?.terraform_remote_state || {}),
+  //   }).length > 0;
 
   // TODO: Fix
-  const cdktfImports =
-    hasBackend ||
-    hasPlanOrOutputOrTerraformRemoteState ||
-    scope.hasTokenBasedTypeCoercion
-      ? []
-      : [];
+  // const cdktfImports =
+  //   hasBackend ||
+  //   hasPlanOrOutputOrTerraformRemoteState ||
+  //   scope.hasTokenBasedTypeCoercion
+  //     ? []
+  //     : [];
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
     expressions[0] = t.addComment(
@@ -412,23 +386,30 @@ For a more precise conversion please use the --provider flag in convert.`
   }
 
   // Always add constructs
-  importables.push({
+  scope.importables.push({
     constructName: "Construct",
-    namespace: "",
     provider: "constructs",
   });
 
-  // Add specific import for codeContainer
-  addImportForCodeContainer(codeContainer, importables);
+  if (scope.hasTokenBasedTypeCoercion) {
+    scope.importables.push({
+      constructName: "Token",
+      provider: "cdktf",
+    });
+  }
 
-  const groupedImportables = importables.reduce((acc, importable) => {
-    const groupName = `${importable.provider}.${importable.namespace}`;
-    const fullName = `${importable.provider}.${importable.namespace}.${importable.constructName}`;
+  // Add specific import for codeContainer
+  addImportForCodeContainer(scope, codeContainer);
+
+  const groupedImportables = scope.importables.reduce((acc, importable) => {
+    const ns = importable.namespace || "";
+    const groupName = `${importable.provider}.${ns}`;
+    const fullName = `${importable.provider}.${ns}.${importable.constructName}`;
 
     if (acc[groupName]) {
       const existsAlready = acc[groupName].some(
         (importable) =>
-          `${importable.provider}.${importable.namespace}.${importable.constructName}` ===
+          `${importable.provider}.${ns}.${importable.constructName}` ===
           fullName
       );
       if (existsAlready) {

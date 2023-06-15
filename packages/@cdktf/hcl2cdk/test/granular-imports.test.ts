@@ -28,12 +28,44 @@ describe("granular-imports", () => {
         }
       }
     }
-      variable "image_id" {
-        type = string
+
+    resource "google_compute_instance_group_manager" "default" {
+      name = "my-igm"
+      zone = "us-central1-f"
+
+      version {
+        instance_template = 1
+        name              = "primary"
       }
-      data "local_file" "foo" {
-        filename = "./\${var.image_id}.img"
+
+      target_pools       = []
+      base_instance_name = "autoscaler-sample"
+    }
+
+    resource "google_compute_autoscaler" "default" {
+      name   = "my-autoscaler"
+      zone   = "us-central1-f"
+      target = google_compute_instance_group_manager.default.id
+
+      autoscaling_policy {
+        max_replicas    = 5 + 2
+        min_replicas    = 1
+        cooldown_period = 60
+
+        metric {
+          name                       = "pubsub.googleapis.com/subscription/num_undelivered_messages"
+          filter                     = "resource.type = pubsub_subscription AND resource.label.subscription_id = our-subscription"
+          single_instance_assignment = 65535
+        }
       }
+    }
+
+    variable "image_id" {
+      type = string
+    }
+    data "local_file" "foo" {
+      filename = "./\${var.image_id}.img"
+    }
     `,
     [binding.google, binding.local],
     Synth.yes,

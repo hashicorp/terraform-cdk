@@ -5,8 +5,15 @@ exports[`granular-imports blocks should be arrays typescript snapshot 1`] = `
 See https://cdk.tf/provider-generation for more details.*/
 import { GoogleProvider } from "./.gen/providers/google/lib/provider";
 import { LocalProvider } from "./.gen/providers/local/lib/provider";
-import { TerraformVariable, TerraformStack } from "cdktf";
+import {
+  VariableType,
+  TerraformVariable,
+  Token,
+  Op,
+  TerraformStack,
+} from "cdktf";
 import { ComputeAutoscaler } from "./.gen/providers/google/lib/computeAutoscaler";
+import { ComputeInstanceGroupManager } from "./.gen/providers/google/lib/computeInstanceGroupManager";
 import { DataLocalFile } from "./.gen/providers/local/lib/dataLocalFile";
 import { Construct } from "constructs";
 class MyConvertedCode extends TerraformStack {
@@ -20,7 +27,7 @@ class MyConvertedCode extends TerraformStack {
     });
     new LocalProvider(this, "local", {});
     const imageId = new TerraformVariable(this, "image_id", {
-      type: cdktf.VariableType.STRING,
+      type: VariableType.STRING,
     });
     new ComputeAutoscaler(this, "example", {
       autoscalingPolicy: {
@@ -35,9 +42,46 @@ class MyConvertedCode extends TerraformStack {
       target: "target-for-example-autoscaler",
       zone: "us-east1-b",
     });
+    const googleComputeInstanceGroupManagerDefault =
+      new ComputeInstanceGroupManager(this, "default", {
+        baseInstanceName: "autoscaler-sample",
+        name: "my-igm",
+        targetPools: [],
+        version: [
+          {
+            instanceTemplate: Token.asString(1),
+            name: "primary",
+          },
+        ],
+        zone: "us-central1-f",
+      });
     new DataLocalFile(this, "foo", {
       filename: "./\${" + imageId.value + "}.img",
     });
+    const googleComputeAutoscalerDefault = new ComputeAutoscaler(
+      this,
+      "default_6",
+      {
+        autoscalingPolicy: {
+          cooldownPeriod: 60,
+          maxReplicas: Token.asNumber(Op.add(5, 2)),
+          metric: [
+            {
+              filter:
+                "resource.type = pubsub_subscription AND resource.label.subscription_id = our-subscription",
+              name: "pubsub.googleapis.com/subscription/num_undelivered_messages",
+              single_instance_assignment: 65535,
+            },
+          ],
+          minReplicas: 1,
+        },
+        name: "my-autoscaler",
+        target: Token.asString(googleComputeInstanceGroupManagerDefault.id),
+        zone: "us-central1-f",
+      }
+    );
+    /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
+    googleComputeAutoscalerDefault.overrideLogicalId("default");
   }
 }
 "
