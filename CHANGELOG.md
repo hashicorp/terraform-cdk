@@ -17,6 +17,7 @@
 
 ### chore
 
+- chore: remove existing feature flags [\#2937](https://github.com/hashicorp/terraform-cdk/pull/2937)
 - chore: remove legacy comment [\#2938](https://github.com/hashicorp/terraform-cdk/pull/2938)
 - chore: pin all workflows after update [\#2926](https://github.com/hashicorp/terraform-cdk/pull/2926)
 - chore: remove PR sizing [\#2925](https://github.com/hashicorp/terraform-cdk/pull/2925)
