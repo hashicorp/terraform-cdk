@@ -348,8 +348,12 @@ function convertUnaryOpExpressionToTs(
     throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
   }
 
-  const opClass = t.memberExpression(t.identifier("cdktf"), t.identifier("Op"));
-  const fn = t.memberExpression(opClass, t.identifier(fnName));
+  scope.importables.push({
+    constructName: "Op",
+    provider: "cdktf",
+  });
+
+  const fn = t.memberExpression(t.identifier("Op"), t.identifier(fnName));
 
   return t.callExpression(fn, [operand]);
 }
@@ -374,9 +378,12 @@ function convertBinaryOpExpressionToTs(
     throw new Error(`Cannot convert unknown operator ${node.meta.operator}`);
   }
 
-  const opClass = t.memberExpression(t.identifier("cdktf"), t.identifier("Op"));
-  const fn = t.memberExpression(opClass, t.identifier(fnName));
+  scope.importables.push({
+    constructName: "Op",
+    provider: "cdktf",
+  });
 
+  const fn = t.memberExpression(t.identifier("Op"), t.identifier(fnName));
   return t.callExpression(fn, [left, right]);
 }
 
@@ -420,8 +427,13 @@ function convertTemplateExpressionToTs(
       // carefully here, because it may not always be needed
       t.isCallExpression(expr)
     ) {
+      scope.importables.push({
+        constructName: "Token",
+        provider: "cdktf",
+      });
+
       expressions.push(
-        template.expression(`cdktf.Token.asString(%%expr%%)`)({ expr })
+        template.expression(`Token.asString(%%expr%%)`)({ expr })
       );
       continue;
     } else {

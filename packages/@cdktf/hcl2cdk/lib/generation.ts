@@ -360,8 +360,7 @@ export async function resource(
   key: string,
   id: string,
   item: Resource,
-  graph: DirectedGraph,
-  importables: ImportableConstruct[]
+  graph: DirectedGraph
 ): Promise<t.Statement[]> {
   const [provider, ...name] = type.split("_");
   const resource = resourceType(provider, name, item);
@@ -387,10 +386,9 @@ export async function resource(
       () => ["list", "dynamic"]
     );
 
-    importables.push({
+    scope.importables.push({
       provider: "cdktf",
       constructName: "TerraformIterator",
-      namespace: "",
     });
 
     const iterator = t.variableDeclaration("const", [
@@ -421,11 +419,11 @@ export async function resource(
       () => "number"
     );
 
-    importables.push({
+    scope.importables.push({
       provider: "cdktf",
       constructName: "TerraformCount",
-      namespace: "",
     });
+
     const iterator = t.variableDeclaration("const", [
       t.variableDeclarator(
         t.identifier(countIteratorName),
@@ -474,10 +472,9 @@ export async function resource(
       () => ["list", "dynamic"]
     );
 
-    importables.push({
+    scope.importables.push({
       provider: "cdktf",
       constructName: "TerraformIterator",
-      namespace: "",
     });
 
     const iterator = t.variableDeclaration("const", [
@@ -563,8 +560,7 @@ export async function resource(
       mappedConfig,
       false,
       false,
-      getReference(graph, id) || overrideReference,
-      importables
+      getReference(graph, id) || overrideReference
     )
   );
 
@@ -617,8 +613,7 @@ async function asExpression(
   config: TerraformResourceBlock,
   isModuleImport: boolean,
   isProvider: boolean,
-  reference?: Reference,
-  importables: ImportableConstruct[] = []
+  reference?: Reference
 ) {
   const { providers, ...otherOptions } = config as any;
 
@@ -626,7 +621,7 @@ async function asExpression(
   const overrideId = !isProvider && constructId !== name;
 
   const expression = t.newExpression(
-    constructAst(scope, type, isModuleImport, importables),
+    constructAst(scope, type, isModuleImport),
     [
       t.thisExpression(),
       t.stringLiteral(constructId),
@@ -675,8 +670,7 @@ export async function output(
   key: string,
   _id: string,
   item: Output,
-  _graph: DirectedGraph,
-  importables: ImportableConstruct[]
+  _graph: DirectedGraph
 ) {
   const [{ value, description, sensitive }] = item;
 
@@ -691,28 +685,38 @@ export async function output(
     },
     false,
     false,
-    undefined,
-    importables
+    undefined
   );
 }
 
-export async function variableTypeToAst(type: string): Promise<t.Expression> {
+export async function variableTypeToAst(
+  scope: ProgramType,
+  type: string
+): Promise<t.Expression> {
+  const addVariableTypeToImports = () =>
+    scope.importables.push({
+      constructName: "VariableType",
+      provider: "cdktf",
+    });
+
   function parsedTypeToAst(type: tex.ExpressionType): t.Expression {
     if (tex.isScopeTraversalExpression(type)) {
+      addVariableTypeToImports();
       switch (type.meta.value) {
         case "string":
-          return t.identifier("cdktf.VariableType.STRING");
+          return t.identifier("VariableType.STRING");
         case "number":
-          return t.identifier("cdktf.VariableType.NUMBER");
+          return t.identifier("VariableType.NUMBER");
         case "bool":
-          return t.identifier("cdktf.VariableType.BOOL");
+          return t.identifier("VariableType.BOOL");
         case "any":
         default:
-          return t.identifier("cdktf.VariableType.ANY");
+          return t.identifier("VariableType.ANY");
       }
     }
 
     if (tex.isFunctionCallExpression(type)) {
+      addVariableTypeToImports();
       switch (type.meta.name) {
         case "list":
         case "set":
@@ -720,7 +724,7 @@ export async function variableTypeToAst(type: string): Promise<t.Expression> {
         case "tuple":
         case "object":
           return t.callExpression(
-            t.identifier(`cdktf.VariableType.${type.meta.name}`),
+            t.identifier(`VariableType.${type.meta.name}`),
             type.children.map((child) => parsedTypeToAst(child))
           );
       }
@@ -743,7 +747,8 @@ export async function variableTypeToAst(type: string): Promise<t.Expression> {
       );
     }
 
-    return t.identifier("cdktf.VariableType.ANY");
+    addVariableTypeToImports();
+    return t.identifier("VariableType.ANY");
   }
 
   return parsedTypeToAst(await expressionAst(type));
@@ -754,8 +759,7 @@ export async function variable(
   key: string,
   id: string,
   item: Variable,
-  graph: DirectedGraph,
-  importables: ImportableConstruct[]
+  graph: DirectedGraph
 ) {
   const [{ type, ...props }] = item;
 
@@ -767,11 +771,10 @@ export async function variable(
     scope,
     id,
     key,
-    { ...props, type: type ? await variableTypeToAst(type) : undefined },
+    { ...props, type: type ? await variableTypeToAst(scope, type) : undefined },
     false,
     false,
-    getReference(graph, id),
-    importables
+    getReference(graph, id)
   );
 }
 
@@ -802,8 +805,7 @@ export async function modules(
   key: string,
   id: string,
   item: Module,
-  graph: DirectedGraph,
-  importables: ImportableConstruct[]
+  graph: DirectedGraph
 ) {
   const [{ source, version, ...props }] = item;
 
@@ -816,8 +818,7 @@ export async function modules(
     props,
     true,
     false,
-    getReference(graph, id),
-    importables
+    getReference(graph, id)
   );
 }
 
@@ -826,8 +827,7 @@ export async function provider(
   key: string,
   id: string,
   item: Provider[0],
-  graph: DirectedGraph,
-  importables: ImportableConstruct[]
+  graph: DirectedGraph
 ) {
   const { version, ...props } = item;
 
@@ -840,8 +840,7 @@ export async function provider(
     props,
     false,
     true,
-    getReference(graph, id),
-    importables
+    getReference(graph, id)
   );
 }
 
@@ -914,23 +913,21 @@ export async function gen(statements: t.Statement[]) {
 }
 
 export function addImportForCodeContainer(
-  codeContainer: string,
-  importables: ImportableConstruct[]
+  scope: ProgramScope,
+  codeContainer: string
 ) {
   switch (codeContainer) {
     case "constructs.Construct":
-      importables.push({
+      scope.importables.push({
         provider: "constructs",
         constructName: "Construct",
-        namespace: "",
       });
       break;
 
     case "cdktf.TerraformStack":
-      importables.push({
+      scope.importables.push({
         provider: "cdktf",
         constructName: "TerraformStack",
-        namespace: "",
       });
       break;
     default:

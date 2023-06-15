@@ -247,6 +247,7 @@ function getScope({
     forEachIteratorName,
     withinOverrideExpression,
     nodeIds: [],
+    importables: [],
   };
 
   return scope;

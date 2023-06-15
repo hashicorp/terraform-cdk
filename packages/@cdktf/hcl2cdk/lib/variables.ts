@@ -4,7 +4,7 @@
  */
 
 import * as t from "@babel/types";
-import { ImportableConstruct, ProgramScope, Reference } from "./types";
+import { ProgramScope, Reference } from "./types";
 import { camelCase, pascalCase } from "./utils";
 import { sanitizeClassOrNamespaceName } from "@cdktf/provider-generator";
 import { getFullProviderName } from "./provider";
@@ -100,18 +100,16 @@ function getResourceNamespace(
 export function constructAst(
   scope: ProgramScope,
   type: string,
-  isModuleImport: boolean,
-  importables: ImportableConstruct[]
+  isModuleImport: boolean
 ) {
   if (isModuleImport) {
     return t.memberExpression(t.identifier(type), t.identifier(type));
   }
 
   if (type.startsWith("var.")) {
-    importables.push({
+    scope.importables.push({
       provider: "cdktf",
       constructName: "TerraformVariable",
-      namespace: "",
     });
 
     return t.identifier("TerraformVariable");
@@ -136,7 +134,7 @@ export function constructAst(
           sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
         );
 
-      importables.push({
+      scope.importables.push({
         provider: provider,
         constructName: resourceName,
         namespace,
@@ -161,7 +159,7 @@ export function constructAst(
       getUniqueName(provider, parts.join("_"), scope) ||
       pascalCase(sanitizeClassOrNamespaceName(resource));
 
-    importables.push({
+    scope.importables.push({
       provider: provider,
       constructName: resourceName,
       namespace,

@@ -73,6 +73,12 @@ export const coerceType = (
         ["var", "local"].includes(knownVars.resource)
     );
 
+  const addTokenToImports = () =>
+    scope.importables.push({
+      constructName: "Token",
+      provider: "cdktf",
+    });
+
   if (Array.isArray(to)) {
     if (to[0] === "list" || to[0] === "set") {
       switch (to[1]) {
@@ -81,23 +87,23 @@ export const coerceType = (
             return changeValueAccessor(ast as t.MemberExpression, "listValue");
           }
 
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asList(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asList(%%ast%%)`)({
             ast: ast,
           });
         case "number":
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asNumberList(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asNumberList(%%ast%%)`)({
             ast: ast,
           });
         case "bool":
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asAny(%%ast%%)`)({
             ast: ast,
           });
         default:
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asAny(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asAny(%%ast%%)`)({
             ast: ast,
           });
       }
@@ -106,23 +112,23 @@ export const coerceType = (
     if (to[0] === "map") {
       switch (to[1]) {
         case "string":
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asStringMap(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asStringMap(%%ast%%)`)({
             ast: ast,
           });
         case "number":
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asNumberMap(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asNumberMap(%%ast%%)`)({
             ast: ast,
           });
         case "bool":
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asBooleanMap(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asBooleanMap(%%ast%%)`)({
             ast: ast,
           });
         default:
-          scope.hasTokenBasedTypeCoercion = true;
-          return template.expression(`cdktf.Token.asAnyMap(%%ast%%)`)({
+          addTokenToImports();
+          return template.expression(`Token.asAnyMap(%%ast%%)`)({
             ast: ast,
           });
       }
@@ -134,24 +140,24 @@ export const coerceType = (
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "numberValue");
       }
-      scope.hasTokenBasedTypeCoercion = true;
-      return template.expression(`cdktf.Token.asNumber(%%ast%%)`)({
+      addTokenToImports();
+      return template.expression(`Token.asNumber(%%ast%%)`)({
         ast: ast,
       });
     case "string":
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "stringValue");
       }
-      scope.hasTokenBasedTypeCoercion = true;
-      return template.expression(`cdktf.Token.asString(%%ast%%)`)({
+      addTokenToImports();
+      return template.expression(`Token.asString(%%ast%%)`)({
         ast: ast,
       });
     case "bool":
       if (isTerraformVariableOrLocal) {
         return changeValueAccessor(ast as t.MemberExpression, "booleanValue");
       }
-      scope.hasTokenBasedTypeCoercion = true;
-      return template.expression(`cdktf.Token.asBoolean(%%ast%%)`)({
+      addTokenToImports();
+      return template.expression(`Token.asBoolean(%%ast%%)`)({
         ast: ast,
       });
   }
