@@ -19,20 +19,20 @@ jobs:
       fail-fast: false
       matrix:
         repository:
-          - cdktf/cdktf-local-exec
-          - cdktf/cdktf-tf-module-stack
-          - cdktf/cdktf-multi-stack-tfe
-          - cdktf/projen-cdktf-hybrid-construct
-          - cdktf/cdktf-repository-manager
           - cdktf/cdktf-cdk8s
-          - cdktf/cdktf-multistack-serverless-example
-          - cdktf/docker-on-aws-ecs-with-terraform-cdk-using-typescript
-          - cdktf/kubernetes-on-gcp-with-terraform-cdk
-          - cdktf/cdktf-integration-serverless-python-gcp-example
-          - cdktf/cdktf-integration-serverless-python-example
-          - cdktf/ecs-microservices-cdktf
-          - cdktf/cdktf-integration-serverless-java-gcp-example
           - cdktf/cdktf-integration-serverless-java-example
+          - cdktf/cdktf-integration-serverless-java-gcp-example
+          - cdktf/cdktf-integration-serverless-python-example
+          - cdktf/cdktf-integration-serverless-python-gcp-example
+          - cdktf/cdktf-local-exec
+          - cdktf/cdktf-multi-stack-tfe
+          - cdktf/cdktf-multistack-serverless-example
+          - cdktf/cdktf-repository-manager
+          - cdktf/cdktf-tf-module-stack
+          - cdktf/docker-on-aws-ecs-with-terraform-cdk-using-typescript
+          - cdktf/ecs-microservices-cdktf
+          - cdktf/kubernetes-on-gcp-with-terraform-cdk
+          - cdktf/projen-cdktf-hybrid-construct
 
     steps:
       # extract version number from package.json
