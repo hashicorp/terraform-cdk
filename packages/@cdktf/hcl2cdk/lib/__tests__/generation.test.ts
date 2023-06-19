@@ -5,10 +5,18 @@
 
 import generate from "@babel/generator";
 import { variableTypeToAst } from "../generation";
+import { ProgramScope } from "../types";
 
 describe("variableTypeToAst", () => {
   async function run(type: string) {
-    return generate(await variableTypeToAst(type)).code;
+    return generate(
+      await variableTypeToAst(
+        {
+          importables: [],
+        } as unknown as ProgramScope,
+        type
+      )
+    ).code;
   }
 
   it("should convert a simple type", async () => {
