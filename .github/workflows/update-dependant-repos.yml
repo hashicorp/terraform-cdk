@@ -1,0 +1,60 @@
+name: Update Dependant Repositories
+on:
+  workflow_call:
+    inputs:
+      cdktf_version:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      cdktf_version:
+        required: true
+        type: string
+
+jobs:
+  update_dependant_repositories:
+    name: Update cdktf version in demos and constructs
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        repository:
+          - cdktf/cdktf-local-exec
+          - cdktf/cdktf-tf-module-stack
+          - cdktf/cdktf-multi-stack-tfe
+          - cdktf/projen-cdktf-hybrid-construct
+          - cdktf/cdktf-repository-manager
+          - cdktf/cdktf-cdk8s
+          - cdktf/cdktf-multistack-serverless-example
+          - cdktf/docker-on-aws-ecs-with-terraform-cdk-using-typescript
+          - cdktf/kubernetes-on-gcp-with-terraform-cdk
+          - cdktf/cdktf-integration-serverless-python-gcp-example
+          - cdktf/cdktf-integration-serverless-python-example
+          - cdktf/ecs-microservices-cdktf
+          - cdktf/cdktf-integration-serverless-java-gcp-example
+          - cdktf/cdktf-integration-serverless-java-example
+
+    steps:
+      # extract version number from package.json
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+      - name: version
+        id: get_version
+        run: |
+          version=$(node -p "require('./package.json').version")
+          echo "version=${version}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
+        with:
+          repository: ${{ matrix.repository }}
+          ref: main
+          path: repo
+      - name:
+          Update cdktf version
+          # If a script exist run the script, otherwise create an issue
+        run: |
+          if [ -f "./repo/scripts/update-cdktf.sh" ]; then
+              ./repo/scripts/update-cdktf.sh ${{ inputs.cdktf_version }}
+          else 
+              gh issue create --title "Update to CDKTF ${{ inputs.cdktf_version }}" --label "cdktf-${{ inputs.cdktf_version }}" -R ${{ matrix.repository }}
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.DEPENDANT_REPO_UPDATE }}
