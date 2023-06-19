@@ -961,7 +961,7 @@ export const providerConstructImports = (importable: ImportableConstruct[]) => {
   return template(
     `import { ${names.join(
       ", "
-    )} } from "./.gen/providers/${provider}/lib/${namespace}"`
+    )} } from "./.gen/providers/${provider}/${namespace}"`
   )() as t.Statement;
 };
 
