@@ -188,22 +188,21 @@ function convertScopeTraversalExpressionToTs(
   const segments = node.meta.traversal;
 
   if (segments[0].segment === "each" && scope.forEachIteratorName) {
-    return dynamicVariableToAst(node, scope.forEachIteratorName);
+    return dynamicVariableToAst(scope, node, scope.forEachIteratorName);
   }
 
   if (segments[0].segment === "count" && scope.countIteratorName) {
-    return dynamicVariableToAst(node, scope.countIteratorName, "count");
+    return dynamicVariableToAst(scope, node, scope.countIteratorName, "count");
   }
 
   if (segments[0].segment === "self") {
+    scope.importables.push({
+      constructName: "TerraformSelf",
+      provider: "cdktf",
+    });
+
     return t.callExpression(
-      t.memberExpression(
-        t.memberExpression(
-          t.identifier("cdktf"),
-          t.identifier("TerraformSelf")
-        ),
-        t.identifier("getAny")
-      ),
+      t.memberExpression(t.identifier("TerraformSelf"), t.identifier("getAny")),
 
       [t.stringLiteral(traversalPartsToString(segments.slice(1)))]
     );
@@ -214,12 +213,13 @@ function convertScopeTraversalExpressionToTs(
   if (dynamicBlock) {
     if (dynamicBlock === "dynamic-block") {
       return dynamicVariableToAst(
+        scope,
         node,
         dynamicBlock,
         traversalPartsToString(segments)
       );
     }
-    return dynamicVariableToAst(node, dynamicBlock, segments[0].segment);
+    return dynamicVariableToAst(scope, node, dynamicBlock, segments[0].segment);
   }
 
   // This may be a variable reference that we don't understand yet, so we wrap it in a template string
@@ -241,18 +241,16 @@ function convertScopeTraversalExpressionToTs(
         : varIdentifier;
 
     if (segments.length > 2) {
-      return t.callExpression(
-        t.memberExpression(
-          t.identifier("cdktf"),
-          t.identifier("propertyAccess")
+      scope.importables.push({
+        constructName: "propertyAccess",
+        provider: "cdktf",
+      });
+      return t.callExpression(t.identifier("propertyAccess"), [
+        variableAccessor,
+        t.arrayExpression(
+          segments.slice(2).map((s) => t.stringLiteral(s.segment))
         ),
-        [
-          variableAccessor,
-          t.arrayExpression(
-            segments.slice(2).map((s) => t.stringLiteral(s.segment))
-          ),
-        ]
-      );
+      ]);
     }
 
     return variableAccessor;
@@ -323,13 +321,14 @@ function convertScopeTraversalExpressionToTs(
     return ref;
   }
 
-  return t.callExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-    [
-      ref,
-      t.arrayExpression(nonRefSegments.map((s) => t.stringLiteral(s.segment))),
-    ]
-  );
+  scope.importables.push({
+    constructName: "propertyAccess",
+    provider: "cdktf",
+  });
+  return t.callExpression(t.identifier("propertyAccess"), [
+    ref,
+    t.arrayExpression(nonRefSegments.map((s) => t.stringLiteral(s.segment))),
+  ]);
 }
 
 function convertUnaryOpExpressionToTs(
@@ -500,8 +499,13 @@ function convertFunctionCallExpressionToTs(
     convertTFExpressionAstToTs(child, scope)
   );
 
+  scope.importables.push({
+    constructName: "Fn",
+    provider: "cdktf",
+  });
+
   const callee = t.memberExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
+    t.identifier("Fn"),
     t.identifier(mapping.name)
   );
 
@@ -575,10 +579,15 @@ function convertIndexExpressionToTs(
   );
   const keyExpression = convertTFExpressionAstToTs(keyExpressionChild!, scope);
 
-  return t.callExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-    [collectionExpression, t.arrayExpression([keyExpression])]
-  );
+  scope.importables.push({
+    constructName: "propertyAccess",
+    provider: "cdktf",
+  });
+
+  return t.callExpression(t.identifier("propertyAccess"), [
+    collectionExpression,
+    t.arrayExpression([keyExpression]),
+  ]);
 }
 
 function convertSplatExpressionToTs(
@@ -603,19 +612,20 @@ function convertSplatExpressionToTs(
     : node.meta.eachExpression;
 
   const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
+  scope.importables.push({
+    constructName: "propertyAccess",
+    provider: "cdktf",
+  });
 
-  return t.callExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-    [
-      sourceExpression,
-      t.arrayExpression([
-        // we don't need to use the anonSymbolExpression here because
-        // it only changes between .* and [*] which we don't care about
-        t.stringLiteral("*"),
-        ...segments.map(t.stringLiteral),
-      ]),
-    ]
-  );
+  return t.callExpression(t.identifier("propertyAccess"), [
+    sourceExpression,
+    t.arrayExpression([
+      // we don't need to use the anonSymbolExpression here because
+      // it only changes between .* and [*] which we don't care about
+      t.stringLiteral("*"),
+      ...segments.map(t.stringLiteral),
+    ]),
+  ]);
 }
 
 function convertConditionalExpressionToTs(
@@ -643,12 +653,12 @@ function convertConditionalExpressionToTs(
     scope
   );
 
-  const conditionalFn = t.memberExpression(
-    t.identifier("cdktf"),
-    t.identifier("conditional")
-  );
+  scope.importables.push({
+    constructName: "conditional",
+    provider: "cdktf",
+  });
 
-  return t.callExpression(conditionalFn, [
+  return t.callExpression(t.identifier("conditional"), [
     condition,
     trueExpression,
     falseExpression,
@@ -679,10 +689,15 @@ function convertRelativeTraversalExpressionToTs(
     scope
   );
 
-  return t.callExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-    [source, t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment)))]
-  );
+  scope.importables.push({
+    constructName: "propertyAccess",
+    provider: "cdktf",
+  });
+
+  return t.callExpression(t.identifier("propertyAccess"), [
+    source,
+    t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment))),
+  ]);
 }
 
 function convertForExpressionToTs(
@@ -851,6 +866,7 @@ export async function extractIteratorVariablesFromExpression(
 }
 
 export function dynamicVariableToAst(
+  scope: ProgramScope,
   node: tex.ScopeTraversalExpression,
   iteratorName: string,
   block: string = "each"
@@ -887,21 +903,22 @@ export function dynamicVariableToAst(
     segments[1].segment === "value"
   ) {
     const segmentsAfterEachValue = segments.slice(2);
-    return t.callExpression(
-      t.memberExpression(t.identifier("cdktf"), t.identifier("propertyAccess")),
-      [
-        t.memberExpression(t.identifier(iteratorName), t.identifier("value")),
-        t.arrayExpression(
-          segmentsAfterEachValue.map((part) => {
-            if (part.type === "nameTraversal") {
-              return t.stringLiteral(part.segment);
-            } else {
-              return t.stringLiteral(`[${part.segment}]`);
-            }
-          })
-        ),
-      ]
-    );
+    scope.importables.push({
+      provider: "cdktf",
+      constructName: "propertyAccess",
+    });
+    return t.callExpression(t.identifier("propertyAccess"), [
+      t.memberExpression(t.identifier(iteratorName), t.identifier("value")),
+      t.arrayExpression(
+        segmentsAfterEachValue.map((part) => {
+          if (part.type === "nameTraversal") {
+            return t.stringLiteral(part.segment);
+          } else {
+            return t.stringLiteral(`[${part.segment}]`);
+          }
+        })
+      ),
+    ]);
   }
 
   throw new Error(
