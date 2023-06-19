@@ -1,16 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`locals locals typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import { TerraformOutput, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     const howMany = 42;
     const isItGreat = true;
     const owner = "Community Team";
     const serviceName = "forum";
-    new cdktf.TerraformOutput(this, "combined-so-it-does-not-get-removed", {
+    new TerraformOutput(this, "combined-so-it-does-not-get-removed", {
       value:
         "\${" +
         serviceName +
@@ -28,16 +28,16 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`locals multiple locals blocks typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import { TerraformOutput, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     const owner = "Community Team";
     const serviceName = "forum";
     const howMany = 42;
     const isItGreat = true;
-    new cdktf.TerraformOutput(this, "combined-so-it-does-not-get-removed", {
+    new TerraformOutput(this, "combined-so-it-does-not-get-removed", {
       value:
         "\${" +
         serviceName +

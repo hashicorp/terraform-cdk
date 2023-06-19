@@ -1,8 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`modules all module types typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 import * as Consul from "./.gen/modules/consul";
 import * as TerraformConsulAws from "./.gen/modules/hashicorp/terraform-consul-aws";
 import * as Example from "./.gen/modules/hashicorp/example";
@@ -11,8 +11,8 @@ import * as K8SCluster from "./.gen/modules/example-corp/azurerm/k8s-cluster";
 import * as Consul from "./.gen/modules/hashicorp/aws/consul";
 import * as Storage from "./.gen/modules/storage";
 import * as Vpc from "./.gen/modules/vpc";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     new Consul.Consul(this, "consul", {});
     new TerraformConsulAws.TerraformConsulAws(this, "consul-butbucket", {});
@@ -28,11 +28,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`modules duplicate modules typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     new Vpc.Vpc(this, "vpca", {
       name: "my-vpc-a",
@@ -46,11 +46,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`modules local module typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 import * as AwsVpc from "./.gen/modules/aws_vpc";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     new AwsVpc.AwsVpc(this, "aws_vpc", {});
   }
@@ -59,11 +59,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`modules modules typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     new Vpc.Vpc(this, "vpc", {
       azs: ["eu-west-1a", "eu-west-1b", "eu-west-1c"],
@@ -84,11 +84,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`modules referenced modules typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformOutput, TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     const vpc = new Vpc.Vpc(this, "vpc", {
       azs: ["eu-west-1a", "eu-west-1b", "eu-west-1c"],
@@ -103,7 +103,7 @@ class MyConvertedCode extends cdktf.TerraformStack {
         Terraform: "true",
       },
     });
-    new cdktf.TerraformOutput(this, "subnet_ids", {
+    new TerraformOutput(this, "subnet_ids", {
       value: vpc.publicSubnetsOutput,
     });
   }
@@ -112,11 +112,11 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`modules terraform workspace typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
+"import { Construct } from "constructs";
+import { TerraformStack } from "cdktf";
 import * as MyModule from "./.gen/modules/my-module";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     new MyModule.MyModule(this, "example", {
       namePrefix: "app-\${terraform.workspace}",

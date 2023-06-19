@@ -275,7 +275,7 @@ describe("expressionToTs", () => {
       scope,
       getType
     );
-    expect(code(result)).toMatchInlineSnapshot(`"cdktf.Token.asString(22)"`);
+    expect(code(result)).toMatchInlineSnapshot(`"Token.asString(22)"`);
   });
 
   test("converts a variable reference", async () => {
@@ -298,7 +298,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(fooBar.value)"`
+      `"Token.asString(fooBar.value)"`
     );
   });
 
@@ -311,7 +311,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace("hello", "l", "w")"`
+      `"Token.asString(Fn.replace("hello", "l", "w"))"`
     );
   });
 
@@ -324,7 +324,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace("hello-" + cdktf.Token.asString(cdktf.Op.add(22, 22)), "44", "world")"`
+      `"Token.asString(Fn.replace("hello-" + Token.asString(Op.add(22, 22)), "44", "world"))"`
     );
   });
 
@@ -338,7 +338,7 @@ describe("expressionToTs", () => {
     );
     // TODO: This seems broken
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(fooBar.value)"`
+      `"Token.asString(fooBar.value)"`
     );
   });
 
@@ -391,7 +391,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count))"`
+      `"Token.asString(Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count))"`
     );
   });
 
@@ -404,7 +404,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketFoo, ["*", "id"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketFoo, ["*", "id"]))"`
     );
   });
 
@@ -418,7 +418,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -432,7 +432,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -446,7 +446,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -459,7 +459,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.toset(cdktf.propertyAccess(awsS3BucketExamplebucket, ["*"])))"`
+      `"Token.asString(Fn.toset(propertyAccess(awsS3BucketExamplebucket, ["*"])))"`
     );
   });
 
@@ -473,7 +473,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.conditional(cdktf.Op.gt(awsKmsKeyKey.deletionWindowInDays, 3), examplebucket.id, []))"`
+      `"Token.asString(conditional(Op.gt(awsKmsKeyKey.deletionWindowInDays, 3), examplebucket.id, []))"`
     );
   });
 
@@ -486,7 +486,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
+      `"Token.asString(propertyAccess(Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
     );
   });
 
@@ -499,7 +499,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.element(cdktf.propertyAccess(awsS3BucketExamplebucket, ["*", "id"]), 0))"`
+      `"Token.asString(Fn.element(propertyAccess(awsS3BucketExamplebucket, ["*", "id"]), 0))"`
     );
   });
 
@@ -568,7 +568,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["0", "id"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketExamplebucket, ["0", "id"]))"`
     );
   });
 
@@ -581,7 +581,7 @@ describe("expressionToTs", () => {
       () => "bool"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asBoolean(cdktf.Op.not(enabled.value))"`
+      `"Token.asBoolean(Op.not(enabled.value))"`
     );
   });
 
@@ -604,7 +604,7 @@ describe("expressionToTs", () => {
     );
     // TODO: See if we have a way to preserve comments
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.compact(cdktf.Token.asList([awsS3BucketExamplebucket, input.value])))"`
+      `"Token.asString(Fn.compact(Token.asList([awsS3BucketExamplebucket, input.value])))"`
     );
   });
 
@@ -617,7 +617,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.conditional(cdktf.Op.eq(input.value, "test"), "azure-ad-int", "azure-ad-\${" + input.value + "}"))"`
+      `"Token.asString(conditional(Op.eq(input.value, "test"), "azure-ad-int", "azure-ad-\${" + input.value + "}"))"`
     );
   });
 
@@ -630,7 +630,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.element(cdktf.propertyAccess(test2.value, ["\\"val1\\""]), 0))"`
+      `"Token.asString(Fn.element(propertyAccess(test2.value, ["\\"val1\\""]), 0))"`
     );
   });
 
@@ -643,7 +643,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.flatten(cdktf.propertyAccess(vnets.value, ["*", "subnets", "*", "name"])))"`
+      `"Token.asString(Fn.flatten(propertyAccess(vnets.value, ["*", "subnets", "*", "name"])))"`
     );
   });
 
@@ -661,7 +661,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for vnet in \${" + cdktf.propertyAccess(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
+      `""\${{ for vnet in \${" + propertyAccess(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
     );
   });
 
@@ -684,7 +684,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.flatten("\${[ for k, v in \${" + route.value + "} : [\\n      for n, s in v : [\\n        {\\n          key = k,\\n          name = n,\\n          svc_url = s\\n        }\\n      ]\\n    ]]}"))"`
+      `"Token.asString(Fn.flatten("\${[ for k, v in \${" + route.value + "} : [\\n      for n, s in v : [\\n        {\\n          key = k,\\n          name = n,\\n          svc_url = s\\n        }\\n      ]\\n    ]]}"))"`
     );
   });
 
@@ -697,7 +697,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Op.not(enabled))"`
+      `"Token.asString(Op.not(enabled))"`
     );
   });
 
@@ -750,7 +750,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.TerraformSelf.getAny("path"))"`
+      `"Token.asString(TerraformSelf.getAny("path"))"`
     );
   });
 
@@ -763,7 +763,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.join("-", cdktf.Token.asList([cdktf.propertyAccess(tags.value, ["app"]), cdktf.propertyAccess(tags.value, ["env"])]))"`
+      `"Token.asString(Fn.join("-", Token.asList([propertyAccess(tags.value, ["app"]), propertyAccess(tags.value, ["env"])])))"`
     );
   });
 
@@ -777,7 +777,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Fn.join("-", cdktf.Token.asList(cdktf.Fn.concat([cdktf.propertyAccess(tags.value, ["app"]), cdktf.propertyAccess(tags.value, ["env"]), cdktf.propertyAccess(tags.value, ["other"])])))"`
+      `"Token.asString(Fn.join("-", Token.asList(Fn.concat([propertyAccess(tags.value, ["app"]), propertyAccess(tags.value, ["env"]), propertyAccess(tags.value, ["other"])]))))"`
     );
   });
 
@@ -816,7 +816,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(dataAwsRoute53ZoneExample.zoneId)"`
+      `"Token.asString(dataAwsRoute53ZoneExample.zoneId)"`
     );
   });
 
@@ -829,7 +829,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(myIterator.value, ["name"]))"`
+      `"Token.asString(propertyAccess(myIterator.value, ["name"]))"`
     );
   });
 
@@ -842,7 +842,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(cdktf.Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
+      `"Token.asString(propertyAccess(Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
     );
   });
 
@@ -857,7 +857,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.concat([cdktf.propertyAccess(privateSubnets.value, ["*", "id"]), cdktf.propertyAccess(publicSubnets.value, ["*", "id"])]))"`
+      `"Token.asString(Fn.concat([propertyAccess(privateSubnets.value, ["*", "id"]), propertyAccess(publicSubnets.value, ["*", "id"])]))"`
     );
   });
 
@@ -873,7 +873,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(myIterator.key)"`
+      `"Token.asString(myIterator.key)"`
     );
   });
 
@@ -889,7 +889,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.TerraformSelf.getAny("subnet.id"))"`
+      `"Token.asString(TerraformSelf.getAny("subnet.id"))"`
     );
   });
 
@@ -971,7 +971,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Op.and(cdktf.Op.gt(cdktf.Fn.lengthOf(imageId.value), 4), cdktf.Op.eq(cdktf.Fn.substr(imageId.stringValue, 0, 4), "ami-")))"`
+      `"Token.asString(Op.and(Op.gt(Fn.lengthOf(imageId.value), 4), Op.eq(Fn.substr(imageId.stringValue, 0, 4), "ami-")))"`
     );
   });
 
@@ -987,7 +987,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names, ["0"]))"`
+      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names, ["0"]))"`
     );
   });
 
@@ -1003,7 +1003,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
+      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
     );
   });
 
@@ -1037,7 +1037,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asStringMap(cdktf.propertyAccess(dataExternalChangemeExternalThumbprintData, ["result", "thumbprint"]))"`
+      `"Token.asStringMap(propertyAccess(dataExternalChangemeExternalThumbprintData, ["result", "thumbprint"]))"`
     );
   });
 
@@ -1053,7 +1053,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(awsS3BucketExamplebucket, ["foo", "bar"]))"`
+      `"Token.asString(propertyAccess(awsS3BucketExamplebucket, ["foo", "bar"]))"`
     );
   });
 
@@ -1070,7 +1070,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(defaultTags.value, ["project"])) + "-client-tg""`
+      `"Token.asString(propertyAccess(defaultTags.value, ["project"])) + "-client-tg""`
     );
   });
 
@@ -1099,7 +1099,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
+      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
     );
   });
 
@@ -1117,12 +1117,12 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`
-      "cdktf.Fn.jsonencode({
+      "Token.asString(Fn.jsonencode({
         "Statement": [{
           "Action": "s3:*",
           "Effect": "Allow"
         }]
-      })"
+      }))"
     `);
   });
 
@@ -1136,7 +1136,7 @@ EOF`;
     );
 
     expect(code(result)).toMatchInlineSnapshot(
-      `"cdktf.Token.asString(cdktf.Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`
+      `"Token.asString(Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`
     );
   });
 });
