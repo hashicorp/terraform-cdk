@@ -690,7 +690,7 @@ export async function output(
 }
 
 export async function variableTypeToAst(
-  scope: ProgramType,
+  scope: ProgramScope,
   type: string
 ): Promise<t.Expression> {
   const addVariableTypeToImports = () =>
