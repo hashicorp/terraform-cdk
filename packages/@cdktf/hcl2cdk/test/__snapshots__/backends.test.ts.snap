@@ -1,12 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`backends local backend typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import { LocalBackend, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
-    new cdktf.LocalBackend(this, {
+    new LocalBackend(this, {
       path: "relative/path/to/terraform.tfstate",
     });
   }
@@ -15,12 +15,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`backends remote backend typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import { RemoteBackend, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
-    new cdktf.RemoteBackend(this, {
+    new RemoteBackend(this, {
       hostname: "app.terraform.io",
       organization: "company",
       workspaces: [
@@ -35,17 +35,21 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`backends remote state types typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import {
+  DataTerraformRemoteStateEtcdV3,
+  DataTerraformRemoteStateS3,
+  TerraformStack,
+} from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
-    new cdktf.DataTerraformRemoteStateEtcdV3(this, "etcdv3", {
+    new DataTerraformRemoteStateEtcdV3(this, "etcdv3", {
       endpoints: ["etcd-1:2379", "etcd-2:2379", "etcd-3:2379"],
       lock: true,
       prefix: "terraform-state/",
     });
-    new cdktf.DataTerraformRemoteStateS3(this, "s3", {
+    new DataTerraformRemoteStateS3(this, "s3", {
       bucket: "mybucket",
       key: "path/to/my/key",
       region: "us-east-1",
@@ -56,12 +60,12 @@ class MyConvertedCode extends cdktf.TerraformStack {
 `;
 
 exports[`backends remote state typescript snapshot 1`] = `
-"import * as constructs from "constructs";
-import * as cdktf from "cdktf";
-class MyConvertedCode extends cdktf.TerraformStack {
-  constructor(scope: constructs.Construct, name: string) {
+"import { Construct } from "constructs";
+import { DataTerraformRemoteState, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
-    new cdktf.DataTerraformRemoteState(this, "vpc", {
+    new DataTerraformRemoteState(this, "vpc", {
       organization: "hashicorp",
       workspaces: [
         {

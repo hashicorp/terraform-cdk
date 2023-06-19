@@ -8,6 +8,7 @@ import generate from "@babel/generator";
 import { AttributeType } from "@cdktf/provider-generator";
 import { coerceType } from "../coerceType";
 import { functionsMap } from "../function-bindings/functions";
+import { ProgramScope } from "../types";
 
 type BaseThing = {
   type: string;
@@ -51,6 +52,16 @@ type ScopeTraversal = BaseThing & {
       range?: unknown; // optional as we don't care about it
     }[];
   };
+};
+
+const scope: ProgramScope = {
+  providerSchema: {},
+  providerGenerator: {},
+  constructs: new Set(),
+  variables: {},
+  hasTokenBasedTypeCoercion: false,
+  nodeIds: [],
+  importables: [],
 };
 
 type Thing =
@@ -297,9 +308,9 @@ const dummy2: Thing = {
 describe("bindings for Terraform functions", () => {
   it("should convert Terraform AST into TS AST", () => {
     expect(
-      generate(terraformThingToTs(dummy2, "dynamic")).code
+      generate(terraformThingToTs(scope, dummy2, "dynamic")).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`
+      `"Fn.replace(TodoReference-module-foo-output, "-", TodoReference-var-bar)"`
     );
   });
 
@@ -307,6 +318,7 @@ describe("bindings for Terraform functions", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -332,13 +344,14 @@ describe("bindings for Terraform functions", () => {
           "number"
         )
       ).code
-    ).toMatchInlineSnapshot(`"cdktf.Fn.lengthOf(TodoReference-var-list)"`);
+    ).toMatchInlineSnapshot(`"Fn.lengthOf(TodoReference-var-list)"`);
   });
 
   it("should convert Terraform AST into TS AST for overriden function with variadic args for optional params", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -379,7 +392,7 @@ describe("bindings for Terraform functions", () => {
         )
       ).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`
+      `"Fn.bcrypt(TodoReference-var-str, TodoReference-var-cost)"`
     );
   });
 
@@ -387,6 +400,7 @@ describe("bindings for Terraform functions", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -412,13 +426,14 @@ describe("bindings for Terraform functions", () => {
           "string"
         )
       ).code
-    ).toMatchInlineSnapshot(`"cdktf.Fn.bcrypt(TodoReference-var-str)"`);
+    ).toMatchInlineSnapshot(`"Fn.bcrypt(TodoReference-var-str)"`);
   });
 
   it("should convert Terraform AST into TS AST for function with variadic param", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -459,7 +474,7 @@ describe("bindings for Terraform functions", () => {
         )
       ).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`
+      `"Fn.try([TodoReference-var-strA, TodoReference-var-strB])"`
     );
   });
 
@@ -467,6 +482,7 @@ describe("bindings for Terraform functions", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -507,7 +523,7 @@ describe("bindings for Terraform functions", () => {
         )
       ).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.join(TodoReference-var-str, TodoReference-var-list)"`
+      `"Fn.join(TodoReference-var-str, TodoReference-var-list)"`
     );
   });
 
@@ -515,6 +531,7 @@ describe("bindings for Terraform functions", () => {
     expect(
       generate(
         terraformThingToTs(
+          scope,
           {
             type: "function",
             meta: {
@@ -569,7 +586,7 @@ describe("bindings for Terraform functions", () => {
         )
       ).code
     ).toMatchInlineSnapshot(
-      `"cdktf.Fn.join(TodoReference-var-str, cdktf.Token.asList(cdktf.Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`
+      `"Fn.join(TodoReference-var-str, Token.asList(Fn.concat([TodoReference-var-listA, TodoReference-var-listB])))"`
     );
   });
 
@@ -578,6 +595,7 @@ describe("bindings for Terraform functions", () => {
       () =>
         generate(
           terraformThingToTs(
+            scope,
             {
               type: "function",
               meta: {
@@ -597,17 +615,18 @@ describe("bindings for Terraform functions", () => {
 });
 
 function terraformThingToTs(
+  scope: ProgramScope,
   tfAst: Thing,
   targetType: AttributeType | undefined
 ): t.Expression {
   switch (tfAst.type) {
     case "function": {
-      return terraformFunctionCallToTs(tfAst, targetType);
+      return terraformFunctionCallToTs(scope, tfAst, targetType);
     }
     case "TemplateWrap": {
       // If there's just one child, we can skip them
       if (tfAst.children.length === 1) {
-        return terraformThingToTs(tfAst.children[0], targetType);
+        return terraformThingToTs(scope, tfAst.children[0], targetType);
       }
       throw new Error(
         "TemplateWrap with not exactly one child is not supported yet: " +
@@ -618,7 +637,7 @@ function terraformThingToTs(
       return terraformScopeTraversalToTs(tfAst, targetType);
     }
     case "Template": {
-      return terraformTemplateToTs(tfAst, targetType);
+      return terraformTemplateToTs(scope, tfAst, targetType);
     }
     case "LiteralValue": {
       return terraformLiteralValueToTs(tfAst, targetType);
@@ -638,11 +657,12 @@ function terraformScopeTraversalToTs(
 }
 
 function terraformTemplateToTs(
+  scope: ProgramScope,
   tfAst: Template,
   targetType: AttributeType | undefined
 ): t.Expression {
   if (tfAst.children.length === 1) {
-    return terraformThingToTs(tfAst.children[0], targetType);
+    return terraformThingToTs(scope, tfAst.children[0], targetType);
   }
   throw new Error("Template currently only supports exactly one child");
 }
@@ -670,6 +690,7 @@ function terraformLiteralValueToTs(
 }
 
 function terraformFunctionCallToTs(
+  scope: ProgramScope,
   tfAst: FunctionCall,
   targetType: AttributeType | undefined
 ): t.Expression {
@@ -683,11 +704,16 @@ function terraformFunctionCallToTs(
   if (mapping.transformer) {
     const newTfAst = mapping.transformer(tfAst);
     if (newTfAst !== tfAst)
-      return terraformFunctionCallToTs(newTfAst, targetType);
+      return terraformFunctionCallToTs(scope, newTfAst, targetType);
   }
 
+  scope.importables.push({
+    constructName: "Fn",
+    provider: "cdktf",
+  });
+
   const callee = t.memberExpression(
-    t.memberExpression(t.identifier("cdktf"), t.identifier("Fn")),
+    t.identifier("Fn"),
     t.identifier(mapping.name)
   );
 
@@ -699,13 +725,13 @@ function terraformFunctionCallToTs(
         t.arrayExpression(
           tfAst.children
             .slice(idx)
-            .map((child) => terraformThingToTs(child, param.type))
+            .map((child) => terraformThingToTs(scope, child, param.type))
         )
       );
     } else {
       const child = tfAst.children[idx];
       if (child) {
-        args.push(terraformThingToTs(child, param.type));
+        args.push(terraformThingToTs(scope, child, param.type));
       } else if (!param.optional) {
         throw new Error(
           `Terraform function call to "${name}" is not valid! Parameter at index ${idx} of type ${

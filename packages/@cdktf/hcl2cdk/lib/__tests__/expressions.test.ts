@@ -474,11 +474,21 @@ describe("expressions", () => {
 
   describe("#iteratorVariableToAst", () => {
     async function run(value: string) {
+      const scope: ProgramScope = {
+        providerSchema: { format_version: "0.1" },
+        providerGenerator: {},
+        constructs: new Set<string>(),
+        variables: {},
+        hasTokenBasedTypeCoercion: false,
+        nodeIds: [],
+        importables: [],
+      };
       const ast = await getExpressionAst("main.tf", value);
       return generate(
         t.program([
           t.expressionStatement(
             dynamicVariableToAst(
+              scope,
               ast!.children[0] as tex.ScopeTraversalExpression,
               "myIterator"
             )
@@ -501,7 +511,7 @@ describe("expressions", () => {
 
     it("should convert iterator value deep accessor", async () => {
       expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, ["list", "map", "name"]);"`
+        `"propertyAccess(myIterator.value, ["list", "map", "name"]);"`
       );
     });
 
@@ -509,7 +519,7 @@ describe("expressions", () => {
       expect(
         await run('"${each.value[0]["map"]["name"]}"')
       ).toMatchInlineSnapshot(
-        `"cdktf.propertyAccess(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
+        `"propertyAccess(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
       );
     });
   });

@@ -21,7 +21,7 @@ describe("variableTypeToAst", () => {
 
   it("should convert a simple type", async () => {
     expect(await run("${string}")).toMatchInlineSnapshot(
-      `"cdktf.VariableType.STRING"`
+      `"VariableType.STRING"`
     );
   });
 
@@ -31,9 +31,9 @@ describe("variableTypeToAst", () => {
         "${object({\n          name    = string\n          address = string\n        })}"
       )
     ).toMatchInlineSnapshot(`
-      "cdktf.VariableType.object({
-        "address": cdktf.VariableType.STRING,
-        "name": cdktf.VariableType.STRING
+      "VariableType.object({
+        "address": VariableType.STRING,
+        "name": VariableType.STRING
       })"
     `);
   });
@@ -44,29 +44,29 @@ describe("variableTypeToAst", () => {
         "${list(object({\n            internal = number\n            external = number\n            protocol = string\n        }))}"
       )
     ).toMatchInlineSnapshot(`
-      "cdktf.VariableType.list(cdktf.VariableType.object({
-        "external": cdktf.VariableType.NUMBER,
-        "internal": cdktf.VariableType.NUMBER,
-        "protocol": cdktf.VariableType.STRING
+      "VariableType.list(VariableType.object({
+        "external": VariableType.NUMBER,
+        "internal": VariableType.NUMBER,
+        "protocol": VariableType.STRING
       }))"
     `);
   });
 
   it("should convert a set type", async () => {
     expect(await run("${set(string)}")).toMatchInlineSnapshot(
-      `"cdktf.VariableType.set(cdktf.VariableType.STRING)"`
+      `"VariableType.set(VariableType.STRING)"`
     );
   });
 
   it("should convert a map type", async () => {
     expect(await run("${map(string)}")).toMatchInlineSnapshot(
-      `"cdktf.VariableType.map(cdktf.VariableType.STRING)"`
+      `"VariableType.map(VariableType.STRING)"`
     );
   });
 
   it("should convert a tuple type", async () => {
     expect(await run("${tuple(string, number, bool)}")).toMatchInlineSnapshot(
-      `"cdktf.VariableType.tuple(cdktf.VariableType.STRING, cdktf.VariableType.NUMBER, cdktf.VariableType.BOOL)"`
+      `"VariableType.tuple(VariableType.STRING, VariableType.NUMBER, VariableType.BOOL)"`
     );
   });
 });
