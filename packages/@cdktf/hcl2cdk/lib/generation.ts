@@ -44,6 +44,7 @@ import {
   referenceToVariableName,
   variableName,
 } from "./variables";
+import { snakeCase } from "cdktf/lib/util";
 
 function getReference(graph: DirectedGraph, id: string) {
   logger.debug(`Finding reference for ${id}`);
@@ -949,13 +950,17 @@ export function wrapCodeInConstructor(
 
 export const providerConstructImports = (importable: ImportableConstruct[]) => {
   const provider = importable[0].provider;
-  const namespace = importable[0].namespace;
+  let namespace = importable[0].namespace;
   const names = importable.map((i) => i.constructName);
 
   if (provider === "cdktf" || provider === "constructs") {
     return template(
       `import { ${names.join(", ")} } from "${provider}"`
     )() as t.Statement;
+  }
+
+  if (namespace) {
+    namespace = snakeCase(namespace);
   }
 
   return template(
