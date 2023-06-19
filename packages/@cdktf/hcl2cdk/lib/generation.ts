@@ -960,7 +960,7 @@ export const providerConstructImports = (importable: ImportableConstruct[]) => {
   }
 
   if (namespace) {
-    namespace = snakeCase(namespace);
+    namespace = snakeCase(namespace).replace(/_/g, "-");
   }
 
   return template(
