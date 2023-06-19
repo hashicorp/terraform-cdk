@@ -236,38 +236,37 @@ export async function backendToExpression(
 ): Promise<t.Statement[]> {
   return (
     await Promise.all(
-      Object.entries(tf || {}).map(async ([type, [config]]) =>
-        t.expressionStatement(
-          t.newExpression(
-            t.memberExpression(
-              t.identifier("cdktf"),
-              t.identifier(pascalCase(`${type}Backend`))
-            ),
-            [
-              t.thisExpression(),
-              t.objectExpression(
-                (
-                  await Promise.all(
-                    Object.entries(config).map(async ([property, value]) =>
-                      t.objectProperty(
-                        t.identifier(camelCase(property)),
-                        await valueToTs(
-                          scope,
-                          value,
-                          "path-for-backends-can-be-ignored"
-                        )
+      Object.entries(tf || {}).map(async ([type, [config]]) => {
+        const backendIdentifier = pascalCase(`${type}Backend`);
+        scope.importables.push({
+          constructName: backendIdentifier,
+          provider: "cdktf",
+        });
+        return t.expressionStatement(
+          t.newExpression(t.identifier(backendIdentifier), [
+            t.thisExpression(),
+            t.objectExpression(
+              (
+                await Promise.all(
+                  Object.entries(config).map(async ([property, value]) =>
+                    t.objectProperty(
+                      t.identifier(camelCase(property)),
+                      await valueToTs(
+                        scope,
+                        value,
+                        "path-for-backends-can-be-ignored"
                       )
                     )
                   )
-                ).reduce(
-                  (carry, item) => [...carry, item],
-                  [] as t.ObjectProperty[]
                 )
-              ),
-            ]
-          )
-        )
-      )
+              ).reduce(
+                (carry, item) => [...carry, item],
+                [] as t.ObjectProperty[]
+              )
+            ),
+          ])
+        );
+      })
     )
   ).reduce((carry, item) => [...carry, item], [] as t.Statement[]);
 }

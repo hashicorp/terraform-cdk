@@ -29,15 +29,10 @@ import {
   resource,
   variable,
   wrapCodeInConstructor,
-  providerConstructImports,
   addImportForCodeContainer,
   buildImports,
 } from "./generation";
-import {
-  TerraformResourceBlock,
-  ProgramScope,
-  ImportableConstruct,
-} from "./types";
+import { TerraformResourceBlock, ProgramScope } from "./types";
 import {
   forEachProvider,
   forEachGlobal,
@@ -323,26 +318,6 @@ export async function convertToTypescript(
   logger.debug(
     `Found these modules: ${JSON.stringify(moduleRequirements, null, 2)}`
   );
-
-  // Variables, Outputs, and Backends are defined in the CDKTF project so we need to import from it
-  // If none are used we don't want to leave a stray import
-  // const hasBackend = plan.terraform?.some(
-  //   (tf) => Object.keys(tf.backend || {}).length > 0
-  // );
-  // const hasPlanOrOutputOrTerraformRemoteState =
-  //   Object.keys({
-  //     ...plan.variable,
-  //     ...plan.output,
-  //     ...(plan.data?.terraform_remote_state || {}),
-  //   }).length > 0;
-
-  // TODO: Fix
-  // const cdktfImports =
-  //   hasBackend ||
-  //   hasPlanOrOutputOrTerraformRemoteState ||
-  //   scope.hasTokenBasedTypeCoercion
-  //     ? []
-  //     : [];
 
   if (Object.keys(plan.variable || {}).length > 0 && expressions.length > 0) {
     expressions[0] = t.addComment(
