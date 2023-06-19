@@ -47,6 +47,10 @@ jobs:
           repository: ${{ matrix.repository }}
           ref: main
           path: repo
+      - name: Set git user
+        run: |
+          git config --global user.name "team-tf-cdk"
+          git config --global user.email "team-tf-cdk@users.noreply.github.com"
       - name:
           Update cdktf version
           # If a script exist run the script, otherwise create an issue
