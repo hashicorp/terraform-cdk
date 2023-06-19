@@ -35,6 +35,7 @@ exports[`type coercion expressions need to be coerced to required type typescrip
 import {
   VariableType,
   TerraformVariable,
+  propertyAccess,
   Fn,
   Token,
   TerraformStack,
@@ -83,8 +84,8 @@ class MyConvertedCode extends TerraformStack {
       vpcConfig: {
         subnetIds: Token.asList(
           Fn.concat([
-            cdktf.propertyAccess(privateSubnets.value, ["*", "id"]),
-            cdktf.propertyAccess(publicSubnets.value, ["*", "id"]),
+            propertyAccess(privateSubnets.value, ["*", "id"]),
+            propertyAccess(publicSubnets.value, ["*", "id"]),
           ])
         ),
       },
@@ -141,6 +142,7 @@ import {
   TerraformVariable,
   Token,
   TerraformIterator,
+  propertyAccess,
   TerraformStack,
 } from "cdktf";
 /*
@@ -172,7 +174,7 @@ class MyConvertedCode extends TerraformStack {
       TerraformIterator.fromList(Token.asAny(iamGroupsUsers.value));
     new IamUserGroupMembership(this, "iam_user_group_membership_user_groups", {
       groups: Token.asList(
-        cdktf.propertyAccess(
+        propertyAccess(
           awsIamUserGroupMembershipIamUserGroupMembershipUserGroupsForEachIterator.value,
           ['["groups"]']
         )
