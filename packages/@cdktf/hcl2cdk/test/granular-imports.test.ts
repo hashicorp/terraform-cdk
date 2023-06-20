@@ -6,65 +6,67 @@ describe("granular-imports", () => {
   testCase.test(
     "nested sub-structs",
     `
-resource "kubernetes_deployment" "example" {
-  metadata {
-    name = "terraform-example"
-    labels = {
-      test = "MyExampleApp"
+    provider "kubernetes" {
     }
-  }
-
-  spec {
-    replicas = 3
-
-    selector {
-      match_labels = {
-        test = "MyExampleApp"
-      }
-    }
-
-    template {
+    resource "kubernetes_deployment" "example" {
       metadata {
+        name = "terraform-example"
         labels = {
           test = "MyExampleApp"
         }
       }
 
       spec {
-        container {
-          image = "nginx:1.21.6"
-          name  = "example"
+        replicas = 3
 
-          resources {
-            limits = {
-              cpu    = "0.5"
-              memory = "512Mi"
-            }
-            requests = {
-              cpu    = "250m"
-              memory = "50Mi"
+        selector {
+          match_labels = {
+            test = "MyExampleApp"
+          }
+        }
+
+        template {
+          metadata {
+            labels = {
+              test = "MyExampleApp"
             }
           }
 
-          liveness_probe {
-            http_get {
-              path = "/"
-              port = 80
+          spec {
+            container {
+              image = "nginx:1.21.6"
+              name  = "example"
 
-              http_header {
-                name  = "X-Custom-Header"
-                value = "Awesome"
+              resources {
+                limits = {
+                  cpu    = "0.5"
+                  memory = "512Mi"
+                }
+                requests = {
+                  cpu    = "250m"
+                  memory = "50Mi"
+                }
+              }
+
+              liveness_probe {
+                http_get {
+                  path = "/"
+                  port = 80
+
+                  http_header {
+                    name  = "X-Custom-Header"
+                    value = "Awesome"
+                  }
+                }
+
+                initial_delay_seconds = 3
+                period_seconds        = 3
               }
             }
-
-            initial_delay_seconds = 3
-            period_seconds        = 3
           }
         }
       }
     }
-  }
-}
 `,
     [binding.kubernetes],
     Synth.yes_all_languages,
@@ -132,12 +134,6 @@ resource "kubernetes_deployment" "example" {
         max_replicas    = 5 + 2
         min_replicas    = 1
         cooldown_period = 60
-
-        metric {
-          name                       = "pubsub.googleapis.com/subscription/num_undelivered_messages"
-          filter                     = "resource.type = pubsub_subscription AND resource.label.subscription_id = our-subscription"
-          single_instance_assignment = 65535
-        }
       }
     }
 

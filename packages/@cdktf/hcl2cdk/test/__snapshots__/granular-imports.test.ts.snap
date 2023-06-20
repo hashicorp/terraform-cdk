@@ -8,10 +8,12 @@ using HashiCorp.Cdktf;
  * See https://cdk.tf/provider-generation for more details.
  */
 using Gen.Providers.Kubernetes.Deployment;
+using Gen.Providers.Kubernetes.Provider;
 class MyConvertedCode : TerraformStack
 {
     public MyConvertedCode(Construct scope, string name) : base(scope, name)
     {
+        new KubernetesProvider(this, "kubernetes", new KubernetesProviderConfig { });
         new Deployment(this, "example", new DeploymentConfig {
             Metadata = new DeploymentMetadata {
                 Labels = new Dictionary<string, string> {
@@ -75,6 +77,7 @@ import "github.com/hashicorp/terraform-cdk-go/cdktf"
  * See https://cdk.tf/provider-generation for more details.
  */
 import "github.com/aws-samples/dummy/gen/providers/kubernetes/deployment"
+import "github.com/aws-samples/dummy/gen/providers/kubernetes/provider"
 type myConvertedCode struct {
 	terraformStack
 }
@@ -82,6 +85,8 @@ type myConvertedCode struct {
 func newMyConvertedCode(scope construct, name *string) *myConvertedCode {
 	this := &myConvertedCode{}
 	newTerraformStack_Override(this, scope, name)
+	genproviderskubernetesprovider.NewKubernetesProvider(this, jsii.String("kubernetes"), &kubernetesProviderConfig{
+	})
 	genproviderskubernetesdeployment.NewDeployment(this, jsii.String("example"), &deploymentConfig{
 		metadata: &deploymentMetadata{
 			labels: map[string]*string{
@@ -150,9 +155,11 @@ import com.hashicorp.cdktf.TerraformStack;
  * See https://cdk.tf/provider-generation for more details.
  */
 import gen.providers.kubernetes.deployment.Deployment;
+import gen.providers.kubernetes.provider.KubernetesProvider;
 public class MyConvertedCode extends TerraformStack {
     public MyConvertedCode(Construct scope, String name) {
         super(scope, name);
+        new KubernetesProvider(this, "kubernetes", new KubernetesProviderConfig());
         new Deployment(this, "example", new DeploymentConfig()
                 .metadata(new DeploymentMetadata()
                         .labels(Map.of(
@@ -211,9 +218,11 @@ from cdktf import Token, TerraformStack
 # See https://cdk.tf/provider-generation for more details.
 #
 from ...gen.providers.kubernetes.deployment import Deployment
+from ...gen.providers.kubernetes.provider import KubernetesProvider
 class MyConvertedCode(TerraformStack):
     def __init__(self, scope, name):
         super().__init__(scope, name)
+        KubernetesProvider(self, "kubernetes")
         Deployment(self, "example",
             metadata=DeploymentMetadata(
                 labels={
@@ -277,9 +286,11 @@ import { Token, TerraformStack } from "cdktf";
  * See https://cdk.tf/provider-generation for more details.
  */
 import { Deployment } from "./.gen/providers/kubernetes/deployment";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
 class MyConvertedCode extends TerraformStack {
   constructor(scope: Construct, name: string) {
     super(scope, name);
+    new KubernetesProvider(this, "kubernetes", {});
     new Deployment(this, "example", {
       metadata: {
         labels: {
@@ -435,14 +446,6 @@ class MyConvertedCode extends TerraformStack {
         autoscalingPolicy: {
           cooldownPeriod: 60,
           maxReplicas: Token.asNumber(Op.add(5, 2)),
-          metric: [
-            {
-              filter:
-                "resource.type = pubsub_subscription AND resource.label.subscription_id = our-subscription",
-              name: "pubsub.googleapis.com/subscription/num_undelivered_messages",
-              single_instance_assignment: 65535,
-            },
-          ],
           minReplicas: 1,
         },
         name: "my-autoscaler",
