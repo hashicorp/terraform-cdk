@@ -207,7 +207,8 @@ const getFileContent: Record<
 > = {
   typescript: ({ all }, stackName) => `
 ${all}
-const app = new cdktf.App();
+import { App } from "cdktf";
+const app = new App();
 new MyConvertedCode(app, "${stackName}");
 app.synth();`,
   python: ({ all }, stackName) => `
