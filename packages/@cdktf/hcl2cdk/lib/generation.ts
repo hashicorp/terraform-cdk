@@ -949,7 +949,7 @@ export function wrapCodeInConstructor(
 }
 
 export const providerConstructImports = (importable: ImportableConstruct[]) => {
-  const provider = importable[0].provider;
+  let provider = importable[0].provider;
   let namespace = importable[0].namespace;
   const names = importable.map((i) => i.constructName);
 
@@ -961,6 +961,11 @@ export const providerConstructImports = (importable: ImportableConstruct[]) => {
 
   if (namespace) {
     namespace = snakeCase(namespace).replace(/_/g, "-");
+  }
+
+  // Special cases to undo provider names that we override
+  if (provider === "NullProvider") {
+    provider = "null";
   }
 
   return template(
@@ -1008,6 +1013,7 @@ export function buildImports(importables: ImportableConstruct[]) {
       const importStatement = providerConstructImports(
         groupedImportables[groupName]
       );
+
       if (groupName.startsWith("3.") && !commentAdded) {
         commentAdded = true;
         t.addComment(
