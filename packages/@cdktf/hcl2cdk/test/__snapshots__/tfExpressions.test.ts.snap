@@ -251,7 +251,7 @@ class MyConvertedCode extends TerraformStack {
       project: "my-project",
       region: "us-central1",
     });
-    const googleComputeInstanceExample = new ComputeInstance(this, "example", {
+    const example = new ComputeInstance(this, "example", {
       bootDisk: {
         initializeParams: {
           image: "debian-cloud/debian-9",
@@ -268,7 +268,7 @@ class MyConvertedCode extends TerraformStack {
       zone: "us-east1-b",
     });
     new TerraformOutput(this, "public_ip", {
-      value: propertyAccess(googleComputeInstanceExample.networkInterface, [
+      value: propertyAccess(example.networkInterface, [
         "0",
         "access_config",
         "0",

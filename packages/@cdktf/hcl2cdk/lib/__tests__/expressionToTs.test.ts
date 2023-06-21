@@ -350,9 +350,7 @@ describe("expressionToTs", () => {
       scope,
       getType
     );
-    expect(code(result)).toMatchInlineSnapshot(
-      `""simple-\${" + awsS3BucketFoo.id + "}""`
-    );
+    expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo.id + "}""`);
   });
 
   test("convert a resource reference with nested properties", async () => {
@@ -364,7 +362,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""simple-\${" + awsS3BucketFoo.prop.test + "}""`
+      `""simple-\${" + foo.prop.test + "}""`
     );
   });
 
@@ -391,7 +389,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Op.add(awsS3BucketExamplebucket.count, awsS3BucketOtherbucket.count))"`
+      `"Token.asString(Op.add(examplebucket.count, otherbucket.count))"`
     );
   });
 
@@ -404,7 +402,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketFoo, ["*", "id"]))"`
+      `"Token.asString(propertyAccess(foo, ["*", "id"]))"`
     );
   });
 
@@ -418,7 +416,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -432,7 +430,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -446,7 +444,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketExamplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -459,7 +457,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.toset(propertyAccess(awsS3BucketExamplebucket, ["*"])))"`
+      `"Token.asString(Fn.toset(propertyAccess(examplebucket, ["*"])))"`
     );
   });
 
@@ -473,7 +471,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(conditional(Op.gt(awsKmsKeyKey.deletionWindowInDays, 3), examplebucket.id, []))"`
+      `"Token.asString(conditional(Op.gt(key.deletionWindowInDays, 3), examplebucket.id, []))"`
     );
   });
 
@@ -486,7 +484,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
+      `"Token.asString(propertyAccess(Fn.element(examplebucket, 0), ["id"]))"`
     );
   });
 
@@ -499,7 +497,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.element(propertyAccess(awsS3BucketExamplebucket, ["*", "id"]), 0))"`
+      `"Token.asString(Fn.element(propertyAccess(examplebucket, ["*", "id"]), 0))"`
     );
   });
 
@@ -568,7 +566,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketExamplebucket, ["0", "id"]))"`
+      `"Token.asString(propertyAccess(examplebucket, ["0", "id"]))"`
     );
   });
 
@@ -604,7 +602,7 @@ describe("expressionToTs", () => {
     );
     // TODO: See if we have a way to preserve comments
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.compact(Token.asList([awsS3BucketExamplebucket, input.value])))"`
+      `"Token.asString(Fn.compact(Token.asList([examplebucket, input.value])))"`
     );
   });
 
@@ -803,7 +801,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${[ for record in \${" + awsRoute53RecordExample.fqn + "} : record.fqdn]}""`
+      `""\${[ for record in \${" + example.fqn + "} : record.fqdn]}""`
     );
   });
 
@@ -816,7 +814,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(dataAwsRoute53ZoneExample.zoneId)"`
+      `"Token.asString(example.zoneId)"`
     );
   });
 
@@ -842,7 +840,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(Fn.element(awsS3BucketExamplebucket, 0), ["id"]))"`
+      `"Token.asString(propertyAccess(Fn.element(examplebucket, 0), ["id"]))"`
     );
   });
 
@@ -987,7 +985,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names, ["0"]))"`
+      `"Token.asString(propertyAccess(changemeAzListEbsSnapshot.names, ["0"]))"`
     );
   });
 
@@ -1003,7 +1001,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesChangemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
+      `"Token.asString(propertyAccess(changemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
     );
   });
 
@@ -1020,7 +1018,7 @@ EOF`;
     );
 
     expect(code(result)).toMatchInlineSnapshot(
-      `"dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.testingMap"`
+      `"Token.asStringMap(changemeAzListEbsSnapshot.testingMap)"`
     );
   });
 
@@ -1037,7 +1035,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asStringMap(propertyAccess(dataExternalChangemeExternalThumbprintData, ["result", "thumbprint"]))"`
+      `"Token.asStringMap(propertyAccess(changemeExternalThumbprintData, ["result", "thumbprint"]))"`
     );
   });
 
@@ -1053,7 +1051,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(awsS3BucketExamplebucket, ["foo", "bar"]))"`
+      `"Token.asString(propertyAccess(examplebucket, ["foo", "bar"]))"`
     );
   });
 
@@ -1099,7 +1097,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(dataAwsAvailabilityZonesAvailable.names, ["\${count.index}"]))"`
+      `"Token.asString(propertyAccess(available.names, ["\${count.index}"]))"`
     );
   });
 
