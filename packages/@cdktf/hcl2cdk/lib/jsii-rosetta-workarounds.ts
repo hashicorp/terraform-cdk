@@ -7,14 +7,14 @@ export function replacePythonImports(code: string) {
     .map((line) => {
       // Replace from-import lines with lib
       const fromImportLibRegex =
-        /from \.\.\.gen\.providers\.(.*)(?:\.lib)?\.(.*) import/;
+        /from \.\.\.gen\.providers\.([^.]+)(?:\.lib)?\.(.*) import/;
       if (fromImportLibRegex.test(line)) {
         return line.replace(fromImportLibRegex, "from imports.$1.$2 import");
       }
 
       // Replace import lines with lib
       const importLibRegex =
-        /import \.\.\.gen\.providers\.(.*)(?:\.lib)?\.(.*) as (.*)/;
+        /import \.\.\.gen\.providers\.([^.]+)(?:\.lib)?\.(.*) as (.*)/;
       if (importLibRegex.test(line)) {
         return line.replace(importLibRegex, "import imports.$1.$2 as $3");
       }
@@ -39,7 +39,7 @@ export function replaceJavaImports(code: string) {
     .map((line) => {
       // Replace using lines with lib and precices import
       const importWithLib =
-        /import gen\.providers\.(.*)(?:\.lib)?\.(.*)\.(.*);/;
+        /import gen\.providers\.([^.]+)(?:\.lib)?\.([^.]+)\.(.*);/;
       const matchWithLib = line.match(importWithLib);
       if (matchWithLib) {
         const [, provider, resource, className] = matchWithLib;
@@ -47,7 +47,7 @@ export function replaceJavaImports(code: string) {
       }
 
       // Replace using lines
-      const importWithoutLib = /import gen\.providers\.(.*)\.(.*)\.\*;/;
+      const importWithoutLib = /import gen\.providers\.([^.]+)\.([^.]+)\.\*;/;
       const matchWithoutLib = line.match(importWithoutLib);
       if (matchWithoutLib) {
         const [, provider, resource] = matchWithoutLib;
@@ -64,7 +64,8 @@ export function replaceCsharpImports(code: string) {
     .split("\n")
     .map((line) => {
       // Replace using lines with lib
-      const fromImportLibRegex = /using Gen\.Providers\.(.*)(?:\.Lib)?\.(.*);/;
+      const fromImportLibRegex =
+        /using Gen\.Providers\.([^.]*)(?:\.Lib)?\.(.*);/;
       const match = line.match(fromImportLibRegex);
       if (match) {
         const [, provider, resource] = match;
@@ -91,7 +92,7 @@ export function replaceGoImports(code: string) {
     .map((line) => {
       // Replace using lines with lib
       const fromImportLibRegex =
-        /import \"github.com\/aws-samples\/dummy\/gen\/providers\/(.*)(?:\/lib)?\/(.*)\"/;
+        /import \"github.com\/aws-samples\/dummy\/gen\/providers\/([^\/]*)(?:\/lib)?\/(.*)\"/;
       const matchLib = line.match(fromImportLibRegex);
       if (matchLib) {
         const [, provider, resource] = matchLib;
@@ -100,7 +101,7 @@ export function replaceGoImports(code: string) {
 
       // Replace using lines
       const fromImportRegex =
-        /import \"github.com\/aws-samples\/dummy\/gen\/providers\/(.*)\/(.*)\"/;
+        /import \"github.com\/aws-samples\/dummy\/gen\/providers\/([^\/]+)\/(.*)\"/;
       const match = line.match(fromImportRegex);
       if (match) {
         const [, provider, resource] = match;
