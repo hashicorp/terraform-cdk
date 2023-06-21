@@ -1,0 +1,164 @@
+on:
+  workflow_call:
+    inputs:
+      providerFqn:
+        description: "Provider FQN to convert, e.g. hashicorp/aws"
+        required: true
+        type: string
+      additionalProviderFqns:
+        description: "Additional provider FQNs to convert, e.g. 'hashicorp/azurerm,hashicorp/google'"
+        required: false
+        type: string
+      maxRunners:
+        description: "Maximum number of runners to use"
+        required: false
+        default: 10
+        type: number
+      gitUser:
+        description: "Git user to commit as"
+        required: false
+        default: "team-tf-cdk"
+        type: string
+      gitEmail:
+        description: "Git email to commit as"
+        required: false
+        default: "github-team-tf-cdk@hashicorp.com"
+        type: string
+      parallelFileConversions:
+        description: "Number of files to convert in parallel"
+        required: false
+        default: 5
+        type: number
+      parallelConversionsPerDocument:
+        description: "Number of conversions to run in parallel per document"
+        required: false
+        default: 3
+        type: number
+      languages:
+        description: "Languages to convert to as comma-separated list, e.g. 'typescript,python'"
+        required: false
+        default: "typescript,python"
+        type: string
+      files:
+        description: "Files to convert as comma-separated glob list, e.g. '*/ec2_*.html.markdown,*/s3_*.html.markdown'"
+        required: false
+        default: "**/*"
+        type: string
+    secrets:
+      GH_PR_TOKEN:
+        description: "GitHub token to create PRs with"
+        required: true
+
+name: CDKTF Provider Documentation
+jobs:
+  cdktfDocsSetupBranch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - run: git config --global user.email "${{ inputs.gitEmail }}"
+      - run: git config --global user.name "${{ inputs.gitUser }}"
+      - run: git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+      - run: git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+
+  cdktfDocsMatrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        id: global-cache
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Setup Node.js
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: "18.x"
+      - name: Install cdktf-registry-docs
+        run: npm install -g cdktf-registry-docs@1.12.0
+      - name: Create plugin cache
+        run: |
+          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+      - id: set-matrix
+        run: |
+          matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files=${{ inputs.files }} .)
+          echo "matrix=$matrix" >> $GITHUB_OUTPUT
+        env:
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+
+  cdktfDocsConvert:
+    needs:
+      - cdktfDocsSetupBranch
+      - cdktfDocsMatrix
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        files: ${{fromJSON(needs.cdktfDocsMatrix.outputs.matrix)}}
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    env:
+      CHECKPOINT_DISABLE: "1"
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+      - run: git config --global user.email "${{ inputs.gitEmail }}"
+      - run: git config --global user.name "${{ inputs.gitUser }}"
+      - run: git config --global --add safe.directory $(pwd)
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
+        id: global-cache
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+      - name: Setup Node.js
+        uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
+        with:
+          node-version: "18.x"
+      - name: Install cdktf-registry-docs
+        run: npm install -g cdktf-registry-docs@1.12.0
+      - name: Run conversion
+        # It's a bit hacky with the additionalProviderFqns handling of optionally putting this flag in
+        # Maybe it's easier solved through duplication and an if statement
+        run: |
+          cdktf-registry-docs convert \
+            --files='${{ matrix.files }}' \
+            --languages='${{inputs.languages}}' \
+            --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
+            --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
+            --provider-from-registry="${{ inputs.providerFqn }}" \
+            ${{ inputs.additionalProviderFqns == '' && '.' || format('--additional-providers-from-registry={0} .',inputs.additionalProviderFqns) }}
+        env:
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+      - name: Commit changes
+        run: |
+          git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          git add .
+          git commit -m "cdktf: update ${{ matrix.files }}"
+          git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
+          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+
+  cdktfDocsCreatePR:
+    needs:
+      - cdktfDocsConvert
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
+        with:
+          ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+      - name: Create pull request
+        run: |
+          gh pr create --title "cdktf: update cdktf docs" --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/cdktf-registry-docs/blob/main/.github/workflows/pr-based-rollout.yml)." --base main --head origin:d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+        env:
+          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
