@@ -24,7 +24,7 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const awsAcmCertificateExample = new AcmCertificate(this, "example", {
+    const example = new AcmCertificate(this, "example", {
       domainName: "example.com",
       validationMethod: "DNS",
     });
@@ -42,31 +42,29 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsRoute53RecordExampleForEachIterator = TerraformIterator.fromList(
+    const exampleForEachIterator = TerraformIterator.fromList(
       Token.asAny(
         "\${{ for dvo in \${" +
-          awsAcmCertificateExample.domainValidationOptions +
+          example.domainValidationOptions +
           "} : dvo.domain_name => {\\n            name   = dvo.resource_record_name\\n            record = dvo.resource_record_value\\n            type   = dvo.resource_record_type\\n          }}}"
       )
     );
     const awsRoute53RecordExample = new Route53Record(this, "example_3", {
       allowOverwrite: true,
       name: Token.asString(
-        propertyAccess(awsRoute53RecordExampleForEachIterator.value, ["name"])
+        propertyAccess(exampleForEachIterator.value, ["name"])
       ),
       records: [
         Token.asString(
-          propertyAccess(awsRoute53RecordExampleForEachIterator.value, [
-            "record",
-          ])
+          propertyAccess(exampleForEachIterator.value, ["record"])
         ),
       ],
       ttl: 60,
       type: Token.asString(
-        propertyAccess(awsRoute53RecordExampleForEachIterator.value, ["type"])
+        propertyAccess(exampleForEachIterator.value, ["type"])
       ),
       zoneId: Token.asString(dataAwsRoute53ZoneExample.zoneId),
-      forEach: awsRoute53RecordExampleForEachIterator,
+      forEach: exampleForEachIterator,
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsRoute53RecordExample.overrideLogicalId("example");
@@ -74,7 +72,7 @@ class MyConvertedCode extends TerraformStack {
       this,
       "example_4",
       {
-        certificateArn: Token.asString(awsAcmCertificateExample.arn),
+        certificateArn: example.arn,
         validationRecordFqdns: Token.asList(
           "\${[ for record in \${" +
             awsRoute53RecordExample.fqn +
@@ -134,18 +132,16 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsIamUserLbCount = TerraformCount.of(
-      Token.asNumber(Fn.lengthOf(users.value))
-    );
+    const lbCount = TerraformCount.of(Token.asNumber(Fn.lengthOf(users.value)));
     new IamUser(this, "lb", {
       name: Token.asString(
-        Fn.element(users.value, Token.asNumber(awsIamUserLbCount.index))
+        Fn.element(users.value, Token.asNumber(lbCount.index))
       ),
       path: "/system/",
       tags: {
         "tag-key": "tag-value",
       },
-      count: awsIamUserLbCount,
+      count: lbCount,
     });
   }
 }
@@ -186,22 +182,17 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0 =
-      TerraformIterator.fromList(Token.asAny(settings.value));
+    const tfenvtestDynamicIterator0 = TerraformIterator.fromList(
+      Token.asAny(settings.value)
+    );
     new ElasticBeanstalkEnvironment(this, "tfenvtest", {
       application: "best-app",
       name: "tf-test-name",
       solutionStackName: "64bit Amazon Linux 2018.03 v2.11.4 running Go 1.12.6",
-      setting: awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.dynamic({
-        name: propertyAccess(
-          awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
-          ['["name"]']
-        ),
+      setting: tfenvtestDynamicIterator0.dynamic({
+        name: propertyAccess(tfenvtestDynamicIterator0.value, ['["name"]']),
         namespace: namespace.value,
-        value: propertyAccess(
-          awsElasticBeanstalkEnvironmentTfenvtestDynamicIterator0.value,
-          ['["value"]']
-        ),
+        value: propertyAccess(tfenvtestDynamicIterator0.value, ['["value"]']),
       }),
     });
   }
@@ -243,29 +234,21 @@ class MyConvertedCode extends TerraformStack {
         type: VariableType.NUMBER,
       }
     );
-    const dataAwsAvailabilityZonesAvailable = new DataAwsAvailabilityZones(
-      this,
-      "available",
-      {
-        state: "available",
-      }
-    );
+    const available = new DataAwsAvailabilityZones(this, "available", {
+      state: "available",
+    });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsSubnetPublicCount = TerraformCount.of(
-      publicSubnetCount.numberValue
-    );
+    const publicCount = TerraformCount.of(publicSubnetCount.numberValue);
     new Subnet(this, "public", {
       availabilityZone: Token.asString(
-        propertyAccess(dataAwsAvailabilityZonesAvailable.names, [
-          awsSubnetPublicCount.index,
-        ])
+        propertyAccess(available.names, [publicCount.index])
       ),
       cidrBlock: "10.0.1.0/24",
       vpcId: "10123",
-      count: awsSubnetPublicCount,
+      count: publicCount,
     });
   }
 }
@@ -302,7 +285,7 @@ class MyConvertedCode extends TerraformStack {
     const buckets = new TerraformVariable(this, "buckets", {
       type: VariableType.list(VariableType.STRING),
     });
-    const awsKmsKeyExamplekms = new KmsKey(this, "examplekms", {
+    const examplekms = new KmsKey(this, "examplekms", {
       deletionWindowInDays: 7,
       description: "KMS key 1",
     });
@@ -310,30 +293,27 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsS3BucketExamplebucketForEachIterator = TerraformIterator.fromList(
+    const examplebucketForEachIterator = TerraformIterator.fromList(
       Token.asAny(Fn.toset(propertyAccess(buckets.value, ["*"])))
     );
-    const awsS3BucketExamplebucket = new S3Bucket(this, "examplebucket", {
+    const examplebucket = new S3Bucket(this, "examplebucket", {
       acl: "private",
-      bucket: Token.asString(awsS3BucketExamplebucketForEachIterator.key),
-      forEach: awsS3BucketExamplebucketForEachIterator,
+      bucket: Token.asString(examplebucketForEachIterator.key),
+      forEach: examplebucketForEachIterator,
     });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsS3BucketObjectExamplebucketObjectForEachIterator =
-      TerraformIterator.fromList(
-        Token.asAny(Fn.toset(propertyAccess(awsS3BucketExamplebucket, ["*"])))
-      );
+    const examplebucketObjectForEachIterator = TerraformIterator.fromList(
+      Token.asAny(Fn.toset(propertyAccess(examplebucket, ["*"])))
+    );
     new S3BucketObject(this, "examplebucket_object", {
-      bucket: Token.asString(
-        awsS3BucketObjectExamplebucketObjectForEachIterator.key
-      ),
+      bucket: examplebucketObjectForEachIterator.key,
       key: "someobject",
-      kmsKeyId: Token.asString(awsKmsKeyExamplekms.arn),
+      kmsKeyId: examplekms.arn,
       source: "index.html",
-      forEach: awsS3BucketObjectExamplebucketObjectForEachIterator,
+      forEach: examplebucketObjectForEachIterator,
     });
   }
 }
@@ -370,16 +350,16 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsIamUserLbForEachIterator = TerraformIterator.fromList(
+    const lbForEachIterator = TerraformIterator.fromList(
       Token.asAny(users.value)
     );
     new IamUser(this, "lb", {
-      name: Token.asString(awsIamUserLbForEachIterator.key),
+      name: Token.asString(lbForEachIterator.key),
       path: "/system/",
       tags: {
         "tag-key": "tag-value",
       },
-      forEach: awsIamUserLbForEachIterator,
+      forEach: lbForEachIterator,
     });
   }
 }
@@ -426,18 +406,18 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const azureadUserAzureUsersForEachIterator = TerraformIterator.fromList(
+    const azureUsersForEachIterator = TerraformIterator.fromList(
       Token.asAny(Fn.merge([oneSetOfUsers.value, otherSetOfUsers.value]))
     );
     new User(this, "azure_users", {
-      displayName: Token.asString(azureadUserAzureUsersForEachIterator.key),
+      displayName: Token.asString(azureUsersForEachIterator.key),
       userPrincipalName:
         "\${" +
-        azureadUserAzureUsersForEachIterator.value +
+        azureUsersForEachIterator.value +
         "\${" +
         azureAdDomainName.value +
         "}",
-      forEach: azureadUserAzureUsersForEachIterator,
+      forEach: azureUsersForEachIterator,
     });
   }
 }
@@ -484,7 +464,7 @@ class MyConvertedCode extends TerraformStack {
         ),
       }
     );
-    const azureadApplicationBootstrap = new Application(this, "bootstrap", {
+    const bootstrap = new Application(this, "bootstrap", {
       displayName: "test",
       requiredResourceAccess: [],
       groupMembershipClaims: Token.asList("All"),
@@ -493,24 +473,21 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    azureadApplicationBootstrap.addOverride(
-      "dynamic.required_resource_access",
-      {
-        for_each: requiredResourceAccess.value,
-        content: [
-          {
-            resource_access: [],
-            resource_app_id:
-              '\${required_resource_access.value["resource_app_id"]}',
-          },
-        ],
-      }
-    );
+    bootstrap.addOverride("dynamic.required_resource_access", {
+      for_each: requiredResourceAccess.value,
+      content: [
+        {
+          resource_access: [],
+          resource_app_id:
+            '\${required_resource_access.value["resource_app_id"]}',
+        },
+      ],
+    });
     /*In most cases loops should be handled in the programming language context and 
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    azureadApplicationBootstrap.addOverride(
+    bootstrap.addOverride(
       "dynamic.required_resource_access.0.content.0.dynamic.resource_access",
       {
         for_each: '\${required_resource_access.value["resource_access"]}',
@@ -546,16 +523,14 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const awsInstanceMultipleServersCount = TerraformCount.of(
-      Token.asNumber("4")
-    );
+    const multipleServersCount = TerraformCount.of(Token.asNumber("4"));
     new Instance(this, "multiple_servers", {
       ami: "ami-0c2b8ca1dad447f8a",
       instanceType: "t2.micro",
       tags: {
-        Name: "Server \${" + awsInstanceMultipleServersCount.index + "}",
+        Name: "Server \${" + multipleServersCount.index + "}",
       },
-      count: awsInstanceMultipleServersCount,
+      count: multipleServersCount,
     });
   }
 }

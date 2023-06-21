@@ -205,15 +205,11 @@ class MyConvertedCode extends TerraformStack {
       region: "fr-par",
       zone: "fr-par-1",
     });
-    const scalewayObjectBucketSomeBucket = new ObjectBucket(
-      this,
-      "some_bucket",
-      {
-        name: "some-unique-name",
-      }
-    );
+    const someBucket = new ObjectBucket(this, "some_bucket", {
+      name: "some-unique-name",
+    });
     new ObjectResource(this, "some_file", {
-      bucket: scalewayObjectBucketSomeBucket.name,
+      bucket: someBucket.name,
       file: "myfile",
       hash: Token.asString(Fn.filemd5("myfile")),
       key: "object_path",
@@ -296,15 +292,11 @@ class MyConvertedCode extends TerraformStack {
       region: "fr-par",
       zone: "fr-par-1",
     });
-    const scalewayObjectBucketSomeBucket = new ObjectBucket(
-      this,
-      "some_bucket",
-      {
-        name: "some-unique-name",
-      }
-    );
+    const someBucket = new ObjectBucket(this, "some_bucket", {
+      name: "some-unique-name",
+    });
     new ObjectResource(this, "some_file", {
-      bucket: scalewayObjectBucketSomeBucket.name,
+      bucket: someBucket.name,
       file: "myfile",
       hash: Fn.filemd5("myfile"),
       key: "object_path",

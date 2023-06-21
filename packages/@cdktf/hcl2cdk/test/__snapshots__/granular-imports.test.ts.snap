@@ -406,9 +406,7 @@ class MyConvertedCode extends TerraformStack {
     not inside of the Terraform context. If you are looping over something external, e.g. a variable or a file input
     you should consider using a for loop. If you are looping over something only known to Terraform, e.g. a result of a data source
     you need to keep this like it is.*/
-    const googleComputeAutoscalerExampleCount = TerraformCount.of(
-      Token.asNumber("2")
-    );
+    const exampleCount = TerraformCount.of(Token.asNumber("2"));
     new ComputeAutoscaler(this, "example", {
       autoscalingPolicy: {
         cooldownPeriod: 60,
@@ -421,21 +419,20 @@ class MyConvertedCode extends TerraformStack {
       name: "example-autoscaler",
       target: "target-for-example-autoscaler",
       zone: "us-east1-b",
-      count: googleComputeAutoscalerExampleCount,
+      count: exampleCount,
     });
-    const googleComputeInstanceGroupManagerDefault =
-      new ComputeInstanceGroupManager(this, "default", {
-        baseInstanceName: "autoscaler-sample",
-        name: "my-igm",
-        targetPools: [],
-        version: [
-          {
-            instanceTemplate: Token.asString(1),
-            name: "primary",
-          },
-        ],
-        zone: "us-central1-f",
-      });
+    const defaultVar = new ComputeInstanceGroupManager(this, "default", {
+      baseInstanceName: "autoscaler-sample",
+      name: "my-igm",
+      targetPools: [],
+      version: [
+        {
+          instanceTemplate: Token.asString(1),
+          name: "primary",
+        },
+      ],
+      zone: "us-central1-f",
+    });
     new DataLocalFile(this, "foo", {
       filename: "./\${" + imageId.value + "}.img",
     });
@@ -449,7 +446,7 @@ class MyConvertedCode extends TerraformStack {
           minReplicas: 1,
         },
         name: "my-autoscaler",
-        target: Token.asString(googleComputeInstanceGroupManagerDefault.id),
+        target: defaultVar.id,
         zone: "us-central1-f",
       }
     );

@@ -16,7 +16,7 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const awsIamRolePolicyExample = new IamRolePolicy(this, "example", {
+    const example = new IamRolePolicy(this, "example", {
       name: "example",
       policy: Token.asString(
         Fn.jsonencode({
@@ -32,7 +32,7 @@ class MyConvertedCode extends TerraformStack {
     });
     const awsInstanceExample = new Instance(this, "example_2", {
       ami: "ami-a1b2c3d4",
-      dependsOn: [awsIamRolePolicyExample],
+      dependsOn: [example],
       iamInstanceProfile: "aws_iam_instance_profile",
       instanceType: "t2.micro",
     });
@@ -59,7 +59,7 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const awsIamRolePolicyExample = new IamRolePolicy(this, "example", {
+    const example = new IamRolePolicy(this, "example", {
       name: "example",
       policy: Token.asString(
         Fn.jsonencode({
@@ -81,7 +81,7 @@ class MyConvertedCode extends TerraformStack {
         createBeforeDestroy: true,
         ignoreChanges: ["ami", "instance_type"],
         preventDestroy: true,
-        replaceTriggeredBy: [awsIamRolePolicyExample.id],
+        replaceTriggeredBy: [example.id],
       },
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
@@ -149,7 +149,7 @@ class MyConvertedCode extends TerraformStack {
     new GoogleProvider(this, "google", {
       region: "us-central1",
     });
-    const googleEurope = new GoogleProvider(this, "google_1", {
+    const europe = new GoogleProvider(this, "google_1", {
       alias: "europe",
       region: "europe-west1",
     });
@@ -174,7 +174,7 @@ class MyConvertedCode extends TerraformStack {
           network: "default",
         },
       ],
-      provider: googleEurope,
+      provider: europe,
       scratchDisk: [
         {
           interface: "SCSI",
@@ -274,7 +274,7 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const awsInstanceWeb = new Instance(this, "web", {
+    const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
     });
@@ -291,10 +291,7 @@ class MyConvertedCode extends TerraformStack {
             type: "ssh",
             user: "root",
           },
-          inline: [
-            "puppet apply",
-            "consul join \${" + awsInstanceWeb.privateIp + "}",
-          ],
+          inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
     });
@@ -318,7 +315,7 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const awsInstanceWeb = new Instance(this, "web", {
+    const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
     });
@@ -335,10 +332,7 @@ class MyConvertedCode extends TerraformStack {
       provisioners: [
         {
           type: "remote-exec",
-          inline: [
-            "puppet apply",
-            "consul join \${" + awsInstanceWeb.privateIp + "}",
-          ],
+          inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
     });
