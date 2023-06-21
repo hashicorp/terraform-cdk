@@ -468,7 +468,7 @@ describe("expressions", () => {
             ),
           ]) as any
         ).code
-      ).toMatchInlineSnapshot(`"awsKmsKeyKey.deletionWindowInDays;"`);
+      ).toMatchInlineSnapshot(`"key.deletionWindowInDays;"`);
     });
   });
 
