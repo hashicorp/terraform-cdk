@@ -35,6 +35,11 @@ class MyConvertedCode(constructs.Construct):
       expect(replacePythonImports(code)).toEqual(
         "from imports.aws.rdsCluster import RdsCluster"
       );
+
+      const withoutLibCode = `from ...gen.providers.azurerm.resource_group import ResourceGroup`;
+      expect(replacePythonImports(withoutLibCode)).toEqual(
+        "from imports.azurerm.resource_group import ResourceGroup"
+      );
     });
 
     it("resource imports", () => {
@@ -67,6 +72,12 @@ class MyConvertedCode(constructs.Construct):
       const code = `import gen.providers.aws.lib.s3Bucket.S3Bucket;`;
 
       expect(replaceJavaImports(code)).toEqual(
+        "import imports.aws.s3Bucket.S3Bucket;"
+      );
+
+      const withoutLibImport = `import gen.providers.aws.s3Bucket.S3Bucket;`;
+
+      expect(replaceJavaImports(withoutLibImport)).toEqual(
         "import imports.aws.s3Bucket.S3Bucket;"
       );
     });
