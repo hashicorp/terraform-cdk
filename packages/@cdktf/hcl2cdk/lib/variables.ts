@@ -180,9 +180,10 @@ export function variableName(
   resource: string,
   name: string
 ): string {
+  const consistentResourceName = resource.replace(/\./g, "_");
   // name collision, we need to prefix the name
   if (scope.variables[name]) {
-    if (resource === scope.variables[name].resource) {
+    if (consistentResourceName === scope.variables[name].resource) {
       return scope.variables[name].variableName;
     }
 
@@ -190,17 +191,11 @@ export function variableName(
     return validVarName(camelCase([resource, name].join("_")));
   }
 
-  const variableName = validVarName(
-    camelCase(
-      ["var", "local", "module"].includes(resource)
-        ? name
-        : [resource, name].join("_")
-    )
-  );
+  const variableName = validVarName(camelCase(name));
 
   scope.variables[name] = {
     variableName,
-    resource,
+    resource: consistentResourceName,
   };
 
   return variableName;
