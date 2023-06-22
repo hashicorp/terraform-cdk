@@ -28,6 +28,11 @@ export function replacePythonImports(code: string) {
         return line.replace("import ...gen.providers.", "import imports.");
       }
 
+      // Replace modules
+      if (line.startsWith("import ...gen.modules.")) {
+        return line.replace("import ...gen.modules.", "import imports.");
+      }
+
       return line;
     })
     .join("\n");
@@ -52,6 +57,14 @@ export function replaceJavaImports(code: string) {
       if (matchWithoutLib) {
         const [, provider, resource] = matchWithoutLib;
         return `import imports.${provider}.${resource}.*;`;
+      }
+
+      // Replace using lines
+      const importModules = /import gen\.modules\.(.+)\.\*;/;
+      const importModulesMatch = line.match(importModules);
+      if (importModulesMatch) {
+        const [, module] = importModulesMatch;
+        return `import imports.${module}.*;`;
       }
 
       return line;
@@ -81,6 +94,12 @@ export function replaceCsharpImports(code: string) {
           .toLocaleLowerCase()}${importLine.substring(1)}`;
       }
 
+      if (line.startsWith("using Gen.Modules.")) {
+        const importLine = line.replace("using Gen.Modules.", "");
+
+        return `using ${importLine}`;
+      }
+
       return line;
     })
     .join("\n");
@@ -106,6 +125,14 @@ export function replaceGoImports(code: string) {
       if (match) {
         const [, provider, resource] = match;
         return `import "cdk.tf/go/stack/generated/${provider}/${resource}"`;
+      }
+
+      const importModulesRegex =
+        /import (.*) \"github.com\/aws-samples\/dummy\/gen\/modules\/(.*)\"/;
+      const matchModules = line.match(importModulesRegex);
+      if (matchModules) {
+        const [, name, module] = matchModules;
+        return `import ${name} "cdk.tf/go/stack/generated/${module}"`;
       }
 
       return line;
