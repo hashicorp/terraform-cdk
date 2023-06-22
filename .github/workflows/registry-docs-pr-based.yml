@@ -32,7 +32,7 @@ on:
       parallelConversionsPerDocument:
         description: "Number of conversions to run in parallel per document"
         required: false
-        default: 5
+        default: 3
         type: number
       languages:
         description: "Languages to convert to as comma-separated list, e.g. 'typescript,python'"
