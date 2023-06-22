@@ -27,12 +27,12 @@ on:
       parallelFileConversions:
         description: "Number of files to convert in parallel"
         required: false
-        default: 5
+        default: 1
         type: number
       parallelConversionsPerDocument:
         description: "Number of conversions to run in parallel per document"
         required: false
-        default: 3
+        default: 5
         type: number
       languages:
         description: "Languages to convert to as comma-separated list, e.g. 'typescript,python'"
