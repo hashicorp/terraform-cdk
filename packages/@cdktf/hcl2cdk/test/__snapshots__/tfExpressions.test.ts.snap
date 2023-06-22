@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`tfExpressions arithmetics typescript snapshot 1`] = `
+exports[`tfExpressions arithmetics snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -28,7 +28,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions conditionals typescript snapshot 1`] = `
+exports[`tfExpressions conditionals snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Op, conditional, Token, TerraformStack } from "cdktf";
 /*
@@ -70,7 +70,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions for expression 1 typescript snapshot 1`] = `
+exports[`tfExpressions for expression 1 snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -106,7 +106,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions for expression 2 typescript snapshot 1`] = `
+exports[`tfExpressions for expression 2 snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -136,7 +136,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions for expression 3 typescript snapshot 1`] = `
+exports[`tfExpressions for expression 3 snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -183,7 +183,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions list access through square brackets typescript snapshot 1`] = `
+exports[`tfExpressions list access through square brackets snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -220,7 +220,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions multi-line strings are supported typescript snapshot 1`] = `
+exports[`tfExpressions multi-line strings are supported snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformOutput, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {
@@ -235,7 +235,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions numeric property access typescript snapshot 1`] = `
+exports[`tfExpressions numeric property access snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformOutput, propertyAccess, TerraformStack } from "cdktf";
 /*
@@ -280,7 +280,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`tfExpressions property access through square brackets typescript snapshot 1`] = `
+exports[`tfExpressions property access through square brackets snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,

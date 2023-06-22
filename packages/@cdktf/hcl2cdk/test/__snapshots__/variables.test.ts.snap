@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`variables basic typescript snapshot 1`] = `
+exports[`variables basic snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { VariableType, TerraformVariable, TerraformStack } from "cdktf";
 /*
@@ -26,7 +26,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`variables complex type and default typescript snapshot 1`] = `
+exports[`variables complex type and default snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -74,7 +74,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`variables sensitive and required typescript snapshot 1`] = `
+exports[`variables sensitive and required snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -114,7 +114,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`variables validations typescript snapshot 1`] = `
+exports[`variables validations snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { VariableType, TerraformVariable, TerraformStack } from "cdktf";
 /*

@@ -483,6 +483,7 @@ describe("expressions", () => {
         hasTokenBasedTypeCoercion: false,
         nodeIds: [],
         importables: [],
+        topLevelConfig: {},
       };
       const ast = await getExpressionAst("main.tf", value);
       return generate(

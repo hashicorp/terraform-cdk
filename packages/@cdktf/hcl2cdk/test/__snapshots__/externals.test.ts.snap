@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`externals handle simple external data typescript snapshot 1`] = `
+exports[`externals handle simple external data snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,

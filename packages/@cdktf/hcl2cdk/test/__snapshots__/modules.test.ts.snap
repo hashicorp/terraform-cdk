@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`modules all module types typescript snapshot 1`] = `
+exports[`modules all module types snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import * as Consul from "./.gen/modules/consul";
@@ -27,7 +27,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`modules duplicate modules typescript snapshot 1`] = `
+exports[`modules duplicate modules snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
@@ -45,7 +45,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`modules local module typescript snapshot 1`] = `
+exports[`modules local module snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import * as AwsVpc from "./.gen/modules/aws_vpc";
@@ -58,7 +58,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`modules modules typescript snapshot 1`] = `
+exports[`modules modules snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
@@ -83,7 +83,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`modules referenced modules typescript snapshot 1`] = `
+exports[`modules referenced modules snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformOutput, TerraformStack } from "cdktf";
 import * as Vpc from "./.gen/modules/terraform-aws-modules/aws/vpc";
@@ -111,7 +111,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`modules terraform workspace typescript snapshot 1`] = `
+exports[`modules terraform workspace snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 import * as MyModule from "./.gen/modules/my-module";

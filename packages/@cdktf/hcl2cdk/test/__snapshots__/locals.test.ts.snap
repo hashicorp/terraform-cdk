@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`locals locals typescript snapshot 1`] = `
+exports[`locals locals snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformOutput, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {
@@ -27,7 +27,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`locals multiple locals blocks typescript snapshot 1`] = `
+exports[`locals multiple locals blocks snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformOutput, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {

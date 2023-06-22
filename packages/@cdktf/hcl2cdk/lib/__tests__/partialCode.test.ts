@@ -90,6 +90,7 @@ const getScope = () =>
     nodeIds: [],
     providerGenerator: {},
     variables: {},
+    importables: [],
 
     // This should be mutated
     topLevelConfig: {},
