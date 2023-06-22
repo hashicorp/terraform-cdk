@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`provider empty provider typescript snapshot 1`] = `
+exports[`provider empty provider snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*
@@ -17,7 +17,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`provider null provider typescript snapshot 1`] = `
+exports[`provider null provider snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*
@@ -36,7 +36,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`provider provider alias typescript snapshot 1`] = `
+exports[`provider provider alias snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*
@@ -74,7 +74,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`provider provider with complex config typescript snapshot 1`] = `
+exports[`provider provider with complex config snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*
@@ -102,7 +102,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`provider required namespaced provider typescript snapshot 1`] = `
+exports[`provider required namespaced provider snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformVariable, TerraformStack } from "cdktf";
 /*

@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { testCase, Synth, binding } from "./helpers/convert";
+import { testCase, Synth, binding, Snapshot } from "./helpers/convert";
 
 describe("granular-imports", () => {
   testCase.test(
@@ -69,6 +69,7 @@ describe("granular-imports", () => {
     }
 `,
     [binding.kubernetes],
+    Snapshot.yes,
     Synth.yes_all_languages,
     {
       resources: ["kubernetes_deployment"],
@@ -151,6 +152,7 @@ describe("granular-imports", () => {
 
     `,
     [binding.google, binding.local],
+    Snapshot.yes,
     Synth.yes,
     {
       resources: ["google_compute_autoscaler", "local_file"],

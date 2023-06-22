@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`iteration complex for each loops typescript snapshot 1`] = `
+exports[`iteration complex for each loops snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   Token,
@@ -101,7 +101,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration count loops typescript snapshot 1`] = `
+exports[`iteration count loops snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -148,7 +148,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration dynamic blocks typescript snapshot 1`] = `
+exports[`iteration dynamic blocks snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -164,8 +164,13 @@ import {
  */
 import { ElasticBeanstalkEnvironment } from "./.gen/providers/aws/elastic-beanstalk-environment";
 import { AwsProvider } from "./.gen/providers/aws/provider";
+interface MyConfig {
+  name: any;
+  namespace: any;
+  value: any;
+}
 class MyConvertedCode extends TerraformStack {
-  constructor(scope: Construct, name: string) {
+  constructor(scope: constructs.Construct, name: string, config: MyConfig) {
     super(scope, name);
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
@@ -200,7 +205,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration ensure availability zone is not ignored typescript snapshot 1`] = `
+exports[`iteration ensure availability zone is not ignored snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -255,7 +260,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration for each on list using splat typescript snapshot 1`] = `
+exports[`iteration for each on list using splat snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -320,7 +325,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration for_each loops typescript snapshot 1`] = `
+exports[`iteration for_each loops snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -366,7 +371,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration for_each with var usage typescript snapshot 1`] = `
+exports[`iteration for_each with var usage snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   TerraformVariable,
@@ -425,7 +430,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration nested dynamic blocks typescript snapshot 1`] = `
+exports[`iteration nested dynamic blocks snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { VariableType, TerraformVariable, Token, TerraformStack } from "cdktf";
 /*
@@ -505,7 +510,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`iteration simple count typescript snapshot 1`] = `
+exports[`iteration simple count snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Token, TerraformCount, TerraformStack } from "cdktf";
 /*
