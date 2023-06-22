@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`type coercion coerces string literal to number typescript snapshot 1`] = `
+exports[`type coercion coerces string literal to number snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Op, Token, TerraformStack } from "cdktf";
 /*
@@ -30,7 +30,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`type coercion expressions need to be coerced to required type typescript snapshot 1`] = `
+exports[`type coercion expressions need to be coerced to required type snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -95,7 +95,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`type coercion function arguments get coerced to the correct type typescript snapshot 1`] = `
+exports[`type coercion function arguments get coerced to the correct type snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -135,7 +135,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`type coercion references used in resource for_eachs need to understand how the value is used typescript snapshot 1`] = `
+exports[`type coercion references used in resource for_eachs need to understand how the value is used snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   VariableType,
@@ -186,7 +186,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`type coercion references used in resources need to use Token.asString typescript snapshot 1`] = `
+exports[`type coercion references used in resources need to use Token.asString snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Token, TerraformStack } from "cdktf";
 /*
@@ -221,7 +221,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`type coercion variables used in resources need to use stringValue typescript snapshot 1`] = `
+exports[`type coercion variables used in resources need to use stringValue snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { VariableType, TerraformVariable, Token, TerraformStack } from "cdktf";
 /*

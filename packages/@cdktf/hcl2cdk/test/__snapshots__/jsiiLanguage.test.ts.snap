@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`JSII Language Support complex aws example csharp snapshot 1`] = `
+exports[`JSII Language Support complex aws example snapshot csharp 1`] = `
 "using Constructs;
 using HashiCorp.Cdktf;
 /*
@@ -66,7 +66,7 @@ class MyConvertedCode : TerraformStack
 }"
 `;
 
-exports[`JSII Language Support complex aws example go snapshot 1`] = `
+exports[`JSII Language Support complex aws example snapshot go 1`] = `
 "import "github.com/aws/constructs-go/constructs"
 import "github.com/hashicorp/terraform-cdk-go/cdktf"
 /*
@@ -145,7 +145,7 @@ func newMyConvertedCode(scope construct, name *string) *myConvertedCode {
 }"
 `;
 
-exports[`JSII Language Support complex aws example java snapshot 1`] = `
+exports[`JSII Language Support complex aws example snapshot java 1`] = `
 "import software.constructs.Construct;
 import com.hashicorp.cdktf.TerraformStack;
 /*
@@ -209,7 +209,7 @@ public class MyConvertedCode extends TerraformStack {
 }"
 `;
 
-exports[`JSII Language Support complex aws example python snapshot 1`] = `
+exports[`JSII Language Support complex aws example snapshot python 1`] = `
 "from constructs import Construct
 from cdktf import TerraformStack
 #
@@ -274,7 +274,7 @@ class MyConvertedCode(TerraformStack):
         )"
 `;
 
-exports[`JSII Language Support complex aws example typescript snapshot 1`] = `
+exports[`JSII Language Support complex aws example snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*

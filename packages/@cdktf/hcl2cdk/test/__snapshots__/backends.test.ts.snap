@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`backends local backend typescript snapshot 1`] = `
+exports[`backends local backend snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { LocalBackend, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {
@@ -14,7 +14,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`backends remote backend typescript snapshot 1`] = `
+exports[`backends remote backend snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { RemoteBackend, TerraformStack } from "cdktf";
 class MyConvertedCode extends TerraformStack {
@@ -34,7 +34,26 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`backends remote state types typescript snapshot 1`] = `
+exports[`backends remote state snapshot typescript 1`] = `
+"import { Construct } from "constructs";
+import { DataTerraformRemoteState, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    new DataTerraformRemoteState(this, "vpc", {
+      organization: "hashicorp",
+      workspaces: [
+        {
+          name: "vpc-prod",
+        },
+      ],
+    });
+  }
+}
+"
+`;
+
+exports[`backends remote state types snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import {
   DataTerraformRemoteStateEtcdV3,
@@ -53,25 +72,6 @@ class MyConvertedCode extends TerraformStack {
       bucket: "mybucket",
       key: "path/to/my/key",
       region: "us-east-1",
-    });
-  }
-}
-"
-`;
-
-exports[`backends remote state typescript snapshot 1`] = `
-"import { Construct } from "constructs";
-import { DataTerraformRemoteState, TerraformStack } from "cdktf";
-class MyConvertedCode extends TerraformStack {
-  constructor(scope: Construct, name: string) {
-    super(scope, name);
-    new DataTerraformRemoteState(this, "vpc", {
-      organization: "hashicorp",
-      workspaces: [
-        {
-          name: "vpc-prod",
-        },
-      ],
     });
   }
 }

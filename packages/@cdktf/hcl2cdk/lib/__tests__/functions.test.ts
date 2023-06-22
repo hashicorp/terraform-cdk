@@ -62,6 +62,7 @@ const scope: ProgramScope = {
   hasTokenBasedTypeCoercion: false,
   nodeIds: [],
   importables: [],
+  topLevelConfig: {},
 };
 
 type Thing =

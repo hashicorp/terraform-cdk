@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`meta-properties depends_on depends on typescript snapshot 1`] = `
+exports[`meta-properties depends_on depends on snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Fn, Token, TerraformStack } from "cdktf";
 /*
@@ -35,7 +35,6 @@ class MyConvertedCode extends TerraformStack {
       dependsOn: [example],
       iamInstanceProfile: "aws_iam_instance_profile",
       instanceType: "t2.micro",
-      timeouts: config.timeouts,
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsInstanceExample.overrideLogicalId("example");
@@ -44,7 +43,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`meta-properties lifecycle all lifecycle properties typescript snapshot 1`] = `
+exports[`meta-properties lifecycle all lifecycle properties snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { Fn, Token, TerraformStack } from "cdktf";
 /*
@@ -84,7 +83,6 @@ class MyConvertedCode extends TerraformStack {
         preventDestroy: true,
         replaceTriggeredBy: [example.id],
       },
-      timeouts: config.timeouts,
     });
     /*This allows the Terraform resource name to match the original name. You can remove the call if you don't need them to match.*/
     awsInstanceExample.overrideLogicalId("example");
@@ -93,7 +91,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`meta-properties lifecycle preconditions and postconditions typescript snapshot 1`] = `
+exports[`meta-properties lifecycle preconditions and postconditions snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformSelf, Op, TerraformStack } from "cdktf";
 /*
@@ -130,14 +128,13 @@ class MyConvertedCode extends TerraformStack {
           },
         ],
       },
-      timeouts: config.timeouts,
     });
   }
 }
 "
 `;
 
-exports[`meta-properties provider passing providers typescript snapshot 1`] = `
+exports[`meta-properties provider passing providers snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformStack } from "cdktf";
 /*
@@ -191,7 +188,7 @@ class MyConvertedCode extends TerraformStack {
 "
 `;
 
-exports[`meta-properties provisioner file typescript snapshot 1`] = `
+exports[`meta-properties provisioner file snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformSelf, Token, TerraformStack } from "cdktf";
 /*
@@ -222,14 +219,13 @@ class MyConvertedCode extends TerraformStack {
           destination: "/tmp/file.log",
         },
       ],
-      timeouts: config.timeouts,
     });
   }
 }
 "
 `;
 
-exports[`meta-properties provisioner local-exec typescript snapshot 1`] = `
+exports[`meta-properties provisioner local-exec snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformSelf, Token, TerraformStack } from "cdktf";
 /*
@@ -257,14 +253,13 @@ class MyConvertedCode extends TerraformStack {
             " >> private_ips.txt",
         },
       ],
-      timeouts: config.timeouts,
     });
   }
 }
 "
 `;
 
-exports[`meta-properties provisioner remote-exec with connection block typescript snapshot 1`] = `
+exports[`meta-properties provisioner remote-exec with connection block snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformSelf, TerraformStack } from "cdktf";
 /*
@@ -282,7 +277,6 @@ class MyConvertedCode extends TerraformStack {
     const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
-      timeouts: config.timeouts,
     });
     new Instance(this, "example", {
       ami: "ami-a1b2c3d4",
@@ -300,14 +294,13 @@ class MyConvertedCode extends TerraformStack {
           inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
-      timeouts: config.timeouts,
     });
   }
 }
 "
 `;
 
-exports[`meta-properties provisioner remote-exec with global connection block typescript snapshot 1`] = `
+exports[`meta-properties provisioner remote-exec with global connection block snapshot typescript 1`] = `
 "import { Construct } from "constructs";
 import { TerraformSelf, TerraformStack } from "cdktf";
 /*
@@ -325,7 +318,6 @@ class MyConvertedCode extends TerraformStack {
     const web = new Instance(this, "web", {
       ami: "ami-a1b2c3d4",
       instanceType: "t2.micro",
-      timeouts: config.timeouts,
     });
     new Instance(this, "example", {
       ami: "ami-a1b2c3d4",
@@ -343,7 +335,6 @@ class MyConvertedCode extends TerraformStack {
           inline: ["puppet apply", "consul join \${" + web.privateIp + "}"],
         },
       ],
-      timeouts: config.timeouts,
     });
   }
 }
