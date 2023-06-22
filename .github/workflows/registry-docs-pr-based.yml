@@ -44,6 +44,11 @@ on:
         required: false
         default: "**/*"
         type: string
+      cdktfRegistryDocsVersion:
+        description: "Version of cdktf-registry-docs to use"
+        required: false
+        default: "1.12.0"
+        type: string
     secrets:
       GH_PR_TOKEN:
         description: "GitHub token to create PRs with"
@@ -84,7 +89,7 @@ jobs:
         with:
           node-version: "18.x"
       - name: Install cdktf-registry-docs
-        run: npm install -g cdktf-registry-docs@1.12.0
+        run: npm install -g cdktf-registry-docs@${{ inputs.cdktfRegistryDocsVersion }}
       - name: Create plugin cache
         run: |
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
@@ -126,8 +131,10 @@ jobs:
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: "18.x"
+
       - name: Install cdktf-registry-docs
-        run: npm install -g cdktf-registry-docs@1.12.0
+        run: npm install -g cdktf-registry-docs@${{ inputs.cdktfRegistryDocsVersion }}
+
       - name: Run conversion
         # It's a bit hacky with the additionalProviderFqns handling of optionally putting this flag in
         # Maybe it's easier solved through duplication and an if statement
@@ -141,7 +148,15 @@ jobs:
             ${{ inputs.additionalProviderFqns == '' && '.' || format('--additional-providers-from-registry={0} .',inputs.additionalProviderFqns) }}
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+
+      - name: Find changes
+        id: changes
+        run: |-
+          git add .
+          git diff --staged --patch --exit-code > /dev/null || echo "changes_happened=true" >> $GITHUB_OUTPUT
+
       - name: Commit changes
+        if: steps.changes.outputs.changes_happened
         run: |
           git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git add .
