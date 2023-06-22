@@ -49,6 +49,14 @@ class MyConvertedCode(constructs.Construct):
         "import imports.aws.rdsCluster as RdsCluster"
       );
     });
+
+    it("fixes module imports", () => {
+      const code = `import ...gen.modules.hello_module as HelloModule`;
+
+      expect(replacePythonImports(code)).toEqual(
+        "import imports.hello_module as HelloModule"
+      );
+    });
   });
 
   describe("replaceCsharpImports", () => {
@@ -56,6 +64,16 @@ class MyConvertedCode(constructs.Construct):
       const code = `using Gen.Providers.Aws.Lib.RdsCluster;`;
 
       expect(replaceCsharpImports(code)).toEqual("using aws.RdsCluster;");
+    });
+
+    it("fixes module imports", () => {
+      const code = `using Gen.Modules.HelloModule`;
+
+      expect(replaceCsharpImports(code)).toEqual("using HelloModule");
+
+      const anotherCode = `using Gen.Modules.Hello.Module`;
+
+      expect(replaceCsharpImports(anotherCode)).toEqual("using Hello.Module");
     });
   });
 
@@ -81,6 +99,20 @@ class MyConvertedCode(constructs.Construct):
         "import imports.aws.s3Bucket.S3Bucket;"
       );
     });
+
+    it("fixes module imports", () => {
+      const code = `import gen.modules.hello.module.*;`;
+
+      expect(replaceJavaImports(code)).toEqual(
+        "import imports.hello.module.*;"
+      );
+
+      const anotherCode = `import gen.modules.helloModule.*;`;
+
+      expect(replaceJavaImports(anotherCode)).toEqual(
+        "import imports.helloModule.*;"
+      );
+    });
   });
 
   describe("replaceGoImports", () => {
@@ -97,6 +129,15 @@ class MyConvertedCode(constructs.Construct):
 
       expect(replaceGoImports(code)).toEqual(
         `import "cdk.tf/go/stack/generated/aws/dbInstance"`
+      );
+    });
+
+    it("fixes module imports", () => {
+      const code = `import helloModule "github.com/aws-samples/dummy/gen/modules/hello_module"`;
+
+      expect(replaceGoImports(code)).toEqual(
+        // "github.com/hashicorp/terraform-cdk/examples/go/documentation/generated/terraform-aws-modules/aws/vpc"
+        `import helloModule "cdk.tf/go/stack/generated/hello_module"`
       );
     });
   });
