@@ -6,11 +6,11 @@ on:
         required: true
         type: string
       additionalProviderFqns:
-        description: "Additional provider FQNs to convert, e.g. 'hashicorp/azurerm,hashicorp/google'"
+        description: "Additional provider FQNs that are required to convert because they are used in examples, e.g. 'hashicorp/azurerm,hashicorp/google'"
         required: false
         type: string
       maxRunners:
-        description: "Maximum number of runners to use"
+        description: "Maximum number of parallel runners to use"
         required: false
         default: 10
         type: number
