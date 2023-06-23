@@ -284,8 +284,7 @@ const preSynth: Record<
 
     await fs.writeFile(
       path.join(projectDir, "NuGet.Config"),
-      `
-      <?xml version="1.0" encoding="utf-8"?>
+      `<?xml version="1.0" encoding="utf-8"?>
       <configuration>
         <packageSources>
           <add key="Locally Distributed Packages" value="./../../../dist/dotnet/" />
