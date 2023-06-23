@@ -79,11 +79,6 @@ jobs:
       - name: Get yarn cache directory path
         id: global-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
-        id: global-cache
-        with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
       - name: Setup Node.js
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
@@ -174,6 +169,6 @@ jobs:
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
       - name: Create pull request
         run: |
-          gh pr create --title "cdktf: update cdktf docs" --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/cdktf-registry-docs/blob/main/.github/workflows/pr-based-rollout.yml)." --base main --head origin:d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          gh pr create --title "cdktf: update cdktf docs" --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/registry-docs-pr-based.yml)." --base main --head origin:d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
         env:
           GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
