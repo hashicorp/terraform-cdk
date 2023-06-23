@@ -52,17 +52,27 @@ the following file for use by subsequent Terraform commands:
 
     if (tfCloud) {
       isLogin = true;
-      this.openBrowser();
+      await this.openBrowser();
     }
 
     return isLogin;
   }
 
-  openBrowser() {
+  async openBrowser() {
     console.log(`\nopening webpage using your browser.....\n`);
     console.log(chalkColour`If the web browser didn't open the window automatically, you can go to the following url:
         {whiteBright ${this.terraformLoginURL}}\n`);
-    return open.default(this.terraformLoginURL);
+    try {
+      await open.default(this.terraformLoginURL, {
+        allowNonzeroExitCode: true,
+        wait: true,
+      });
+    } catch (e) {
+      logger.debug(
+        `Ignored error while trying to open ${this.terraformLoginURL}`,
+        e
+      );
+    }
   }
 
   public async askForToken() {
