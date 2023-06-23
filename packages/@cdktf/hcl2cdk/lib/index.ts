@@ -428,19 +428,19 @@ For a more precise conversion please use the --provider flag in convert.`
 type File = { contents: string; fileName: string };
 const translators = {
   python: {
-    visitor: new rosetta.PythonVisitor(),
+    visitor: () => new rosetta.PythonVisitor(),
     postTranslationMutation: replacePythonImports,
   },
   java: {
-    visitor: new rosetta.JavaVisitor(),
+    visitor: () => new rosetta.JavaVisitor(),
     postTranslationMutation: replaceJavaImports,
   },
   csharp: {
-    visitor: new rosetta.CSharpVisitor(),
+    visitor: () => new rosetta.CSharpVisitor(),
     postTranslationMutation: replaceCsharpImports,
   },
   go: {
-    visitor: new rosetta.GoVisitor(),
+    visitor: () => new rosetta.GoVisitor(),
     postTranslationMutation: replaceGoImports,
   },
 };
@@ -450,7 +450,7 @@ function translatorForLanguage(language: keyof typeof translators) {
     const { visitor, postTranslationMutation } = translators[language];
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
-      visitor,
+      visitor(),
       throwOnTranslationError ? { includeCompilerDiagnostics: true } : {}
     );
 
