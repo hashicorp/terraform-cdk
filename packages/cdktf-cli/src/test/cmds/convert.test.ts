@@ -27,11 +27,9 @@ describe("convert command", () => {
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
       expect(result.stdout).toContain(
-        `import * as NullProvider from "./.gen/providers/null";`
+        `import { Resource } from "./.gen/providers/null/resource";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
-      );
+      expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
   }, 30_000);
   it("reads provider version from existing cdktf.json", async () => {
@@ -50,11 +48,9 @@ describe("convert command", () => {
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
       expect(result.stdout).toContain(
-        `import * as NullProvider from "./.gen/providers/null";`
+        `import { Resource } from "./.gen/providers/null/resource";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
-      );
+      expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
   }, 30_000);
   it("works if no cdktf.json could be found", async () => {
@@ -69,11 +65,9 @@ describe("convert command", () => {
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
       expect(result.stdout).toContain(
-        `import * as NullProvider from "./.gen/providers/null";`
+        `import { Resource } from "./.gen/providers/null/resource";`
       );
-      expect(result.stdout).toContain(
-        `new NullProvider.resource.Resource(this, "dummy", {});`
-      );
+      expect(result.stdout).toContain(`new Resource(this, "dummy", {});`);
     });
   }, 30_000);
 
@@ -134,11 +128,9 @@ describe("convert command", () => {
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
       expect(result.stdout).toContain(
-        `import * as kubernetes from "./.gen/providers/kubernetes";`
+        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`
       );
-      expect(result.stdout).toContain(
-        `new kubernetes.deployment.Deployment(this, "myapp", {`
-      );
+      expect(result.stdout).toContain(`new Deployment(this, "myapp", {`);
       expect(result.stdout).toContain(`template: {`);
     });
   }, 30_000);
@@ -200,11 +192,9 @@ describe("convert command", () => {
         `The following providers are missing schema information and might need manual adjustments to synthesize correctly`
       );
       expect(result.stdout).toContain(
-        `import * as kubernetes from "./.gen/providers/kubernetes";`
+        `import { Deployment } from "./.gen/providers/kubernetes/deployment";`
       );
-      expect(result.stdout).toContain(
-        `new kubernetes.deployment.Deployment(this, "myapp", {`
-      );
+      expect(result.stdout).toContain(`new Deployment(this, "myapp", {`);
       expect(result.stdout).toContain(`template: {`);
     });
   }, 30_000);
