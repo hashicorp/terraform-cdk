@@ -6,6 +6,7 @@ import { logger } from "./logging";
 import { exec } from "./util";
 import { terraformVersion } from "./terraform";
 import { DISPLAY_VERSION } from "./version";
+import { pathExists } from "fs-extra";
 
 export function getLanguage(projectPath = process.cwd()): string | undefined {
   try {
@@ -73,7 +74,59 @@ export function getNodeVersion() {
 async function getNodeModuleVersion(
   packageName: string
 ): Promise<string | undefined> {
+  // Use the presence of the pnpm lock file as a signal that
+  // we should interrogate packages via pnpm instead of npm.
+  const usingPnpm = await pathExists("pnpm-lock.yaml");
+
+  return usingPnpm
+    ? getPnpmNodeModuleVersion(packageName)
+    : getNpmNodeModuleVersion(packageName);
+}
+
+async function getPnpmNodeModuleVersion(
+  packageName: string
+): Promise<string | undefined> {
   let output;
+
+  try {
+    output = await exec("pnpm", ["list", packageName, "--json"], {
+      env: { ...process.env },
+    });
+  } catch (e) {
+    logger.debug(`Unable to run 'pnpm list ${packageName} --json': ${e}`);
+    return undefined;
+  }
+
+  let json;
+  try {
+    json = JSON.parse(output);
+  } catch (e) {
+    logger.debug(
+      `Unable to parse output of 'pnpm list ${packageName} --json': ${e}`
+    );
+    return undefined;
+  }
+
+  if (
+    !json ||
+    !Array.isArray(json) ||
+    json.length === 0 ||
+    !json[0]?.dependencies?.[packageName]?.version
+  ) {
+    logger.debug(
+      `Unable to find '${packageName}' in 'npm list ${packageName} --json': ${output}`
+    );
+    return undefined;
+  }
+
+  return json[0].dependencies[packageName].version;
+}
+
+async function getNpmNodeModuleVersion(
+  packageName: string
+): Promise<string | undefined> {
+  let output;
+
   try {
     output = await exec("npm", ["list", packageName, "--json"], {
       env: { ...process.env },
