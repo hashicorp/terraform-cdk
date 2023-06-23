@@ -242,7 +242,7 @@ app.synth()
 const getAppCommand: Record<string, (stackName: string) => string> = {
   typescript: (stackName) => `npx ts-node ${stackName}.ts`,
   python: (stackName) => `pipenv run python ${stackName}.py`,
-  csharp: (stackName) => `dotnet run -p ${stackName}.csproj`,
+  csharp: (stackName) => `dotnet run --project ${stackName}.csproj`,
 };
 
 const preSynth: Record<
@@ -279,6 +279,20 @@ const preSynth: Record<
     </ItemGroup>
   
   </Project>`,
+      "utf8"
+    );
+
+    await fs.writeFile(
+      path.join(projectDir, "NuGet.Config"),
+      `
+      <?xml version="1.0" encoding="utf-8"?>
+      <configuration>
+        <packageSources>
+          <add key="Locally Distributed Packages" value="./../../../dist/dotnet/" />
+          <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+        </packageSources>
+      </configuration>
+`,
       "utf8"
     );
   },
