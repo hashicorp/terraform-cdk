@@ -172,6 +172,9 @@ function parseType(type: string) {
   if (type === "map") {
     return "{ [key: string]: string }";
   }
+  if (type === "tuple") {
+    return "tuple";
+  }
   if (type === "any") {
     return "any";
   }
@@ -185,7 +188,7 @@ function parseType(type: string) {
 }
 
 function parseComplexType(type: string): string | undefined {
-  const complex = /^(object|list|map|set)\(([\s\S]+)\)/;
+  const complex = /^(object|list|map|set|tuple)\(([\s\S]+)\)/;
   const match = complex.exec(type);
   if (!match) {
     return undefined;
@@ -199,6 +202,16 @@ function parseComplexType(type: string): string | undefined {
 
   if (kind === "list" || kind === "set") {
     return `${parseType(innerType)}[]`;
+  }
+
+  if (kind === "tuple") {
+    const innerTuple: string[] = innerType.slice(1, -1).split(",");
+    let tupleTypes: string[] = [];
+    innerTuple.forEach((el) => {
+      tupleTypes.push(parseType(el.trim()));
+    });
+
+    return `tuple[${tupleTypes}]`;
   }
 
   if (kind === "map") {
