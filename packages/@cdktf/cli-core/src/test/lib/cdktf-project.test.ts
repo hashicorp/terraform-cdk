@@ -389,6 +389,52 @@ describe("CdktfProject", () => {
       ]);
     });
 
+    it("includes stack dependencies when requested", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      await cdktfProject.deploy({
+        stackNames: ["third"],
+        includeDependencies: true,
+        parallelism: 1,
+      });
+
+      return expect(events.length).toBeGreaterThan(3);
+    });
+
+    it("includes dependant stacks when requested", async () => {
+      const events: any[] = [];
+      const cdktfProject = new CdktfProject({
+        synthCommand: "npx ts-node ./main.ts",
+        ...inNewWorkingDirectory(),
+        onUpdate: (event) => {
+          events.push(event);
+
+          if (event.type === "waiting for approval") {
+            event.approve();
+          }
+        },
+      });
+
+      await cdktfProject.deploy({
+        stackNames: ["second"],
+        includeDependants: true,
+        parallelism: 1,
+      });
+
+      return expect(events.length).toBeGreaterThan(3);
+    });
+
     it("error in an deploying stack does not abort already running stacks", async () => {
       const events: any[] = [];
       const cdktfProject = new CdktfProject({

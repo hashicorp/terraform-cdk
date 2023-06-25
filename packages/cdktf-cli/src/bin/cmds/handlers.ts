@@ -132,6 +132,8 @@ export async function deploy(argv: any) {
   const terraformParallelism = argv.terraformParallelism;
   const ignoreMissingStackDependencies =
     argv.ignoreMissingStackDependencies || false;
+  const includeDependencies = argv.includeDependencies || false;
+  const includeDependants = argv.includeDependants || false;
   const parallelism = argv.parallelism;
   const vars = argv.var;
   const varFiles = sanitizeVarFiles(argv.varFile);
@@ -157,6 +159,8 @@ export async function deploy(argv: any) {
       onOutputsRetrieved,
       outputsPath,
       ignoreMissingStackDependencies,
+      includeDependencies,
+      includeDependants,
       parallelism,
       refreshOnly,
       terraformParallelism,

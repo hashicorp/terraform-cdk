@@ -24,8 +24,10 @@ import {
   checkIfAllDependantsAreIncluded,
   checkIfAllDependenciesAreIncluded,
   findAllNestedDependantStacks,
+  getDependantStacks,
   getMultipleStacks,
   getSingleStack,
+  getStackDependencies,
   getStackWithNoUnmetDependants,
   getStackWithNoUnmetDependencies,
 } from "./helpers/stack-helpers";
@@ -96,6 +98,8 @@ export type MutationOptions = MultipleStackOptions &
   AutoApproveOptions & {
     refreshOnly?: boolean;
     ignoreMissingStackDependencies?: boolean;
+    includeDependencies?: boolean;
+    includeDependants?: boolean;
     parallelism?: number;
     terraformParallelism?: number;
     vars?: string[];
@@ -486,8 +490,17 @@ export class CdktfProject {
       ? await this.readSynthesizedStacks()
       : await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
+
+    if (!opts.includeDependencies) {
+      this.stacksToRun.concat(getStackDependencies(stacksToRun, stacks).map(s => this.getStackExecutor(s, { autoApprove: true })));
+    }
+
+    if (!opts.includeDependants) {
+      this.stacksToRun.concat(getDependantStacks(stacksToRun, stacks).map(s => this.getStackExecutor(s, { autoApprove: true })));
+    }
+
     if (!opts.ignoreMissingStackDependencies) {
-      checkIfAllDependenciesAreIncluded(stacksToRun);
+      checkIfAllDependenciesAreIncluded(stacksToRun, stacks);
     }
 
     this.stopAllStacksThatCanNotRunWithout = (stackName: string) => {

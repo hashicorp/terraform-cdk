@@ -192,18 +192,30 @@ export async function getStackWithNoUnmetDependants(
   return await getStackWithNoUnmetDependants(stackExecutors);
 }
 
+export function getDependantStacks(stacksToRun: SynthesizedStack[],
+  allStacks: SynthesizedStack[]): SynthesizedStack[] {
+
+  return stacksToRun
+    .map((stack) =>
+      allStacks.filter((s) => s.dependencies.includes(stack.name))
+    )
+    .flat();
+}
+
+export function getStackDependencies(stacksToRun: SynthesizedStack[], allStacks: SynthesizedStack[]): SynthesizedStack[] {
+  return stacksToRun
+    .map((stack) => stack.dependencies)
+    .map((dependencies) => allStacks.filter((stack) => dependencies.includes(stack.name)))
+    .flat();
+}
+
 // Throws an error if there is a dependant stack that is not included
 export function checkIfAllDependantsAreIncluded(
   stacksToRun: SynthesizedStack[],
   allStacks: SynthesizedStack[]
 ) {
   const allDependants = new Set<string>();
-  stacksToRun
-    .map((stack) =>
-      allStacks.filter((s) => s.dependencies.includes(stack.name))
-    )
-    .flat()
-    .forEach((dependant) => allDependants.add(dependant.name));
+  getDependantStacks(stacksToRun, allStacks).forEach((dependant) => allDependants.add(dependant.name));
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependants = [...allDependants].filter(
@@ -226,13 +238,11 @@ export function checkIfAllDependantsAreIncluded(
   have to wait for a stack to be deployed that is not included to be run
 */
 export function checkIfAllDependenciesAreIncluded(
-  stacksToRun: SynthesizedStack[]
+  stacksToRun: SynthesizedStack[],
+  allStacks: SynthesizedStack[]
 ) {
   const allDependencies = new Set<string>();
-  stacksToRun
-    .map((stack) => stack.dependencies)
-    .flat()
-    .forEach((dependency) => allDependencies.add(dependency));
+  getStackDependencies(stacksToRun, allStacks).forEach((dependency) => allDependencies.add(dependency.name));
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependencies = [...allDependencies].filter(

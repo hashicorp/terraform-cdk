@@ -59,6 +59,8 @@ interface DeployConfig {
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
   ignoreMissingStackDependencies?: boolean;
+  includeDependencies?: boolean;
+  includeDependants?: boolean;
   parallelism?: number;
   refreshOnly?: boolean;
   terraformParallelism?: number;
@@ -77,6 +79,8 @@ export const Deploy = ({
   onOutputsRetrieved,
   outputsPath,
   ignoreMissingStackDependencies,
+  includeDependencies,
+  includeDependants,
   parallelism,
   refreshOnly,
   terraformParallelism,
@@ -94,6 +98,8 @@ export const Deploy = ({
         stackNames: targetStacks,
         autoApprove,
         ignoreMissingStackDependencies,
+        includeDependencies,
+        includeDependants,
         parallelism,
         refreshOnly,
         terraformParallelism,

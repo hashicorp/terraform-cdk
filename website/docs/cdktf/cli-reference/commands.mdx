@@ -159,6 +159,8 @@ Options:
       --auto-approve                            Auto approve                                                                                                                                        [boolean] [default: false]
       --outputs-file                            Path to file where stack outputs will be written as JSON                                                                                                              [string]
       --outputs-file-include-sensitive-outputs  Whether to include sensitive outputs in the output file                                                                                             [boolean] [default: false]
+      --include-dependencies                    If stack has dependencies, ensure they are included in deploy  [boolean] [default: false]
+      --include-dependants                      If stack has dependants, ensure they are included in deploy  [boolean] [default: false]
       --ignore-missing-stack-dependencies       Don't check if all stacks specified in the command have their dependencies included as well                                                         [boolean] [default: false]
       --parallelism                             Number of concurrent CDKTF stacks to run. Defaults to infinity, denoted by -1                                                                           [number] [default: -1]
       --refresh-only                            Select the "refresh only" planning mode, which checks whether remote objects still match the outcome of the most recent Terraform apply but does not propose any actions to
