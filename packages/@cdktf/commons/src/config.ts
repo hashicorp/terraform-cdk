@@ -43,6 +43,7 @@ export interface TerraformDependencyConstraint {
   readonly version?: string;
   readonly fqn: string;
   readonly namespace?: string;
+  readonly convert?: boolean;
 }
 
 function getLocalMatch(source: string): RegExpMatchArray | null {
@@ -62,6 +63,7 @@ export class TerraformModuleConstraint
   public readonly fqn: string;
   public readonly version?: string;
   public readonly namespace?: string;
+  public readonly convert: boolean = false;
 
   constructor(item: TerraformDependencyConstraint | string) {
     if (typeof item === "string") {
@@ -77,6 +79,7 @@ export class TerraformModuleConstraint
       this.fqn = item.name;
       this.version = item.version;
       this.namespace = item.namespace;
+      this.convert = item.convert || false;
     }
 
     const localMatch = getLocalMatch(this.source);

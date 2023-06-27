@@ -16,6 +16,7 @@ import {
   ProviderSchema,
   readProviderSchema,
   readModuleSchema,
+  readModuleFiles,
 } from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
@@ -216,7 +217,10 @@ export class ConstructsMaker {
 
   constructor(
     private readonly options: GetOptions,
-    private readonly reportTelemetry: (params: any) => void = () => {}
+    private readonly reportTelemetry: (params: any) => void = () => {},
+    private readonly convertHclToTypescript: (
+      hcl: string
+    ) => Promise<string> = (hcl) => Promise.resolve(hcl)
   ) {
     this.codeMakerOutdir = path.resolve(this.options.codeMakerOutput);
     fs.mkdirpSync(this.codeMakerOutdir);
@@ -339,6 +343,32 @@ export class ConstructsMaker {
   }
 
   private async generateTypescriptModule(target: ConstructsMakerModuleTarget) {
+    if (target.constraint.convert) {
+      await this.generateConvertedTypescriptModule(target);
+    } else {
+      await this.generateConventionalTypescriptModule(target);
+    }
+  }
+
+  private async generateConvertedTypescriptModule(
+    target: ConstructsMakerModuleTarget
+  ) {
+    const endGetFilesTimer = logTimespan(`Getting files for ${target.name}`);
+    const files = await readModuleFiles(target);
+    endGetFilesTimer();
+
+    const endConvertTimer = logTimespan(`Converting files for ${target.name}`);
+    const code = await this.convertHclToTypescript(files.join("\n"));
+    endConvertTimer();
+
+    this.code.openFile(target.fileName);
+    this.code.line(code);
+    this.code.closeFile(target.fileName);
+  }
+
+  private async generateConventionalTypescriptModule(
+    target: ConstructsMakerModuleTarget
+  ) {
     const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
     const schema = await readModuleSchema(target);
     endSchemaReadTimer();

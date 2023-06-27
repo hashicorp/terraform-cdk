@@ -35,6 +35,7 @@
   "dependencies": {
     "@npmcli/ci-detect": "^1.4.0",
     "@sentry/node": "^6.19.7",
+    "@cdktf/hcl2cdk": "0.0.0",
     "cdktf": "0.0.0",
     "codemaker": "^1.76.0",
     "constructs": "^10.0.25",

@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { ConstructsMaker, GetOptions } from "@cdktf/provider-generator";
+import {
+  ConstructsMaker,
+  ConstructsMakerTarget,
+  GetOptions,
+  readSchema,
+} from "@cdktf/provider-generator";
 import {
   Language,
   TerraformModuleConstraint,
@@ -11,6 +16,7 @@ import * as fs from "fs-extra";
 import { logger } from "@cdktf/commons";
 import * as path from "path";
 import { CdktfConfig } from "./cdktf-config";
+import { convertToTypescript } from "@cdktf/hcl2cdk";
 
 export enum GetStatus {
   STARTING = "starting",
@@ -49,7 +55,19 @@ export async function get({
   logger.debug(`Starting get with outdir ${constructsOptions.codeMakerOutput}`);
   const constructsMaker = new ConstructsMaker(
     constructsOptions,
-    reportTelemetry
+    reportTelemetry,
+    async (hcl) => {
+      const targets = constraints.map((constraint) =>
+        ConstructsMakerTarget.from(constraint, constructsOptions.targetLanguage)
+      );
+      const { providerSchema } = await readSchema(targets);
+      const { all } = await convertToTypescript(
+        hcl,
+        providerSchema!,
+        "constructs.Construct"
+      );
+      return all;
+    }
   );
 
   if (cleanDirectory) {

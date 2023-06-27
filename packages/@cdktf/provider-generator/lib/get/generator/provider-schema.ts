@@ -7,6 +7,7 @@ import { ModuleSchema, Input } from "./module-schema";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
 import { convertFiles } from "@cdktf/hcl2json";
 import { ConstructsMakerProviderTarget } from "../constructs-maker";
+import { glob } from "glob";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
 
@@ -223,17 +224,17 @@ const transformOutputs = (outputs: any) => {
   return result;
 };
 
-const harvestModuleSchema = async (
+const getModules = async (
   workingDirectory: string,
   modules: string[]
-): Promise<Record<string, any>> => {
+): Promise<Record<string, ModuleIndexItem>> => {
   const fileName = path.join(
     workingDirectory,
     ".terraform",
     "modules",
     "modules.json"
   );
-  const result: Record<string, any> = {};
+  const result: Record<string, ModuleIndexItem> = {};
 
   if (!fs.existsSync(fileName)) {
     throw new Error(
@@ -252,24 +253,43 @@ const harvestModuleSchema = async (
       throw new Error(`Couldn't find ${m}`);
     }
 
-    const parsed = await convertFiles(path.join(workingDirectory, m.Dir));
-
-    if (!parsed) {
-      throw new Error(
-        `Modules were not generated properly - couldn't parse ${m.Dir}`
-      );
-    }
-
-    const schema: ModuleSchema = {
-      inputs: transformVariables(parsed.variable),
-      outputs: transformOutputs(parsed.output),
-      name: mod,
-    };
-
-    result[mod] = schema;
+    result[mod] = m;
   }
-
   return result;
+};
+
+const harvestModuleSchema = async (
+  workingDirectory: string,
+  modules: string[]
+): Promise<Record<string, any>> => {
+  const mods = await getModules(workingDirectory, modules);
+
+  const parsed = await Promise.all(
+    Object.entries(mods).map(async ([mod, m]) => {
+      const parsed = await convertFiles(path.join(workingDirectory, m.Dir));
+
+      if (!parsed) {
+        throw new Error(
+          `Modules were not generated properly - couldn't parse ${m.Dir}`
+        );
+      }
+
+      const schema: ModuleSchema = {
+        inputs: transformVariables(parsed.variable),
+        outputs: transformOutputs(parsed.output),
+        name: mod,
+      };
+      return schema;
+    })
+  );
+
+  return parsed.reduce(
+    (acc, cur) => ({
+      ...acc,
+      [cur.name]: cur,
+    }),
+    {}
+  );
 };
 
 export interface TerraformConfig {
@@ -353,4 +373,40 @@ export async function readModuleSchema(target: ConstructsMakerModuleTarget) {
   });
 
   return moduleSchema;
+}
+
+export async function readModuleFiles(target: ConstructsMakerModuleTarget) {
+  const config: TerraformConfig = {
+    terraform: {},
+  };
+
+  if (!config.module) config.module = {};
+  const source = (target.constraint as any).localSource || target.source;
+  config.module[target.moduleKey] = { source: source };
+  if (target.version) {
+    config.module[target.moduleKey]["version"] = target.version;
+  }
+
+  const files: string[] = [];
+
+  await withTempDir("fetchSchema", async () => {
+    const outdir = process.cwd();
+    const filePath = path.join(outdir, "main.tf.json");
+    await fs.writeFile(filePath, JSON.stringify(config));
+
+    await exec(terraformBinaryName, ["get"], { cwd: outdir });
+
+    const mods = await getModules(outdir, Object.keys(config.module || {}));
+    for (const mod of Object.values(mods)) {
+      const moduleDir = path.join(outdir, mod.Dir);
+
+      glob
+        .sync("**/*.tf", { cwd: moduleDir, ignore: ["modules/**"] })
+        .forEach((file) => {
+          files.push(fs.readFileSync(path.join(moduleDir, file), "utf-8"));
+        });
+    }
+  });
+
+  return files;
 }

@@ -18,7 +18,7 @@ export async function withTempDir(
     await closure();
   } finally {
     process.chdir(prevdir);
-    await fs.remove(parent);
+    // await fs.remove(parent);
   }
 }
 
