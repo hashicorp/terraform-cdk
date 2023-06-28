@@ -71,6 +71,11 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
+export interface TerraformResourceImport {
+  readonly id: string;
+  readonly provider?: TerraformProvider;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformResource
   extends TerraformElement
@@ -90,6 +95,7 @@ export class TerraformResource
   public provisioners?: Array<
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
+  public imported?: TerraformResourceImport;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -203,6 +209,15 @@ export class TerraformResource
     };
 
     return {
+      import: this.imported
+        ? [
+            {
+              provider: this.imported.provider,
+              id: this.imported.id,
+              to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+            },
+          ]
+        : undefined,
       resource: {
         [this.terraformResourceType]: {
           [this.friendlyUniqueId]: attributes,
@@ -212,14 +227,17 @@ export class TerraformResource
   }
 
   public toMetadata(): any {
-    if (!Object.keys(this.rawOverrides).length) {
-      return {};
-    }
-
     return {
-      overrides: {
-        [this.terraformResourceType]: Object.keys(this.rawOverrides),
-      },
+      overrides: Object.keys(this.rawOverrides).length
+        ? {
+            [this.terraformResourceType]: Object.keys(this.rawOverrides),
+          }
+        : undefined,
+      imports: this.imported
+        ? {
+            [this.terraformResourceType]: [this.friendlyUniqueId],
+          }
+        : undefined,
     };
   }
 
@@ -230,5 +248,12 @@ export class TerraformResource
       }.${terraformAttribute}`,
       this.cdktfStack
     );
+  }
+
+  public importFrom(id: string, provider?: TerraformProvider) {
+    this.imported = { id, provider };
+  }
+  public resetImport() {
+    this.imported = undefined;
   }
 }
