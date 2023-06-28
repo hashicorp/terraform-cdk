@@ -5,10 +5,15 @@ import { Terraform } from "./models/terraform";
 import { getConstructIdsForOutputs, NestedTerraformOutputs } from "./output";
 import { logger } from "@cdktf/commons";
 import { extractJsonLogIfPresent } from "./server/terraform-logs";
-import { TerraformCli, OutputFilter } from "./models/terraform-cli";
+import {
+  TerraformCli,
+  OutputFilter,
+  findGeneratedConfigurationFile,
+} from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
 import { TerraformProviderLock } from "./terraform-provider-lock";
+import { convertConfigurationFile } from "./convert";
 
 export type StackUpdate =
   | {
@@ -61,6 +66,16 @@ export type StackUpdate =
   | {
       type: "dismissed";
       stackName: string;
+    }
+  | {
+      type: "import with configuration detected";
+      stackName: string;
+      configuration: string;
+    }
+  | {
+      type: "import with configuration converted";
+      stackName: string;
+      configuration: string;
     };
 
 export type StackUserInputUpdate =
@@ -362,6 +377,40 @@ export class CdktfStack {
         noColor,
       });
       this.updateState({ type: "planned", stackName: this.stack.name });
+
+      // Find generated file
+      const configFile = await findGeneratedConfigurationFile(
+        this.stack.workingDirectory
+      );
+      if (configFile) {
+        this.updateState({
+          type: "import with configuration detected",
+          stackName: this.stack.name,
+          configuration: configFile,
+        });
+
+        const convertedCode = await convertConfigurationFile(configFile);
+        this.updateState({
+          type: "import with configuration converted",
+          stackName: this.stack.name,
+          configuration: convertedCode,
+        });
+        const onLog = this.options.onLog;
+        if (onLog) {
+          onLog({
+            message: `Import without configuration detected. Terraform has created configuration for it:
+${configFile}
+
+CDKTF has translated the code to the following:
+
+${convertedCode}
+
+Please review the code and make any necessary changes before adding it to your codebase.
+Make sure to only copy the code within the construct's constructor.`,
+            isError: false,
+          });
+        }
+      }
     });
   }
 

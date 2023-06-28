@@ -26,6 +26,9 @@ export class ResourceEmitter {
     this.emitHeader("STATIC PROPERTIES");
     this.emitStaticProperties(resource);
 
+    this.emitHeader("STATIC Methods");
+    this.emitStaticMethods(resource);
+
     this.emitHeader("INITIALIZER");
     this.emitInitializer(resource);
 
@@ -49,6 +52,14 @@ export class ResourceEmitter {
   private emitStaticProperties(resource: ResourceModel) {
     this.code.line(
       `public static readonly tfResourceType = "${resource.terraformResourceType}";`
+    );
+  }
+
+  private emitStaticMethods(resource: ResourceModel) {
+    this.code.line(
+      `public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${resource.terraformResourceType}", importId: id, provider });
+      }`
     );
   }
 
