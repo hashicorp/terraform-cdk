@@ -5,10 +5,11 @@ import { App, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
-class MyStack extends TerraformStack {
+class StackWithImport extends TerraformStack {
   constructor(scope: Construct, ns: string) {
     super(scope, ns);
 
+    const bucketId = "best-bucket-in-the-world";
     // Step 1: Create a S3Bucket in the AWS web ui
     // https://s3.console.aws.amazon.com/s3/buckets?region=us-east-1&region=us-east-1
 
@@ -17,11 +18,37 @@ class MyStack extends TerraformStack {
     });
 
     // Step 2: Create importable resource
-    const bucketId = "best-bucket-in-the-world";
     new S3Bucket(this, "bucket", {}).importFrom(bucketId);
+
+    // Step 3: Run `cdktf apply`
+    // Step 4: Remove the `importFrom` call, the resource is now imported
+  }
+}
+
+class StackWithImportAndConfigurationGeneration extends TerraformStack {
+  constructor(scope: Construct, ns: string) {
+    super(scope, ns);
+
+    const bucketId = "best-bucket-in-the-world";
+    // Step 1: Create a S3Bucket in the AWS web ui
+    // https://s3.console.aws.amazon.com/s3/buckets?region=us-east-1&region=us-east-1
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    // Step 2: Create import block
+    S3Bucket.import(this, "bucket", bucketId);
+
+    // Step 3: Run `cdktf plan` and get the configuration to put in below
+    // Step 4: Remove the `import` call, the resource is now imported
   }
 }
 
 const app = new App();
-new MyStack(app, "typescript-aws-cloudfront-proxy");
+new StackWithImport(app, "ts-import");
+new StackWithImportAndConfigurationGeneration(
+  app,
+  "ts-import-with-configuration"
+);
 app.synth();

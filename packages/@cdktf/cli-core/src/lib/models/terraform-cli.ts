@@ -26,6 +26,8 @@ import { waitFor } from "xstate/lib/waitFor";
 import { missingVariable } from "../errors";
 import { terraformJsonSchema } from "../terraform-json";
 import { spawnPty } from "./pty-process";
+import path from "path";
+import * as fs from "fs-extra";
 
 export class TerraformCliPlan
   extends AbstractTerraformPlan
@@ -214,7 +216,19 @@ export class TerraformCli implements Terraform {
       varFiles = [],
       noColor = false,
     } = opts;
-    const options = ["plan", "-input=false"];
+    const options = [
+      "plan",
+      "-input=false",
+      "-generate-config-out=generated_resources.tf",
+    ];
+
+    const generatedConfigFile = path.join(
+      this.workdir,
+      "generated_resources.tf"
+    );
+    if (fs.existsSync(generatedConfigFile)) {
+      fs.remove(generatedConfigFile);
+    }
 
     if (!this.isCloudStack) {
       const planFile = "plan";
@@ -463,4 +477,14 @@ export class TerraformCli implements Terraform {
   public async abort() {
     return;
   }
+}
+
+export async function findGeneratedConfigurationFile(
+  workingDir: string
+): Promise<string | null> {
+  const generatedConfigPath = path.join(workingDir, "generated_resources.tf");
+  if (!fs.existsSync(generatedConfigPath)) {
+    return null;
+  }
+  return fs.readFileSync(generatedConfigPath, "utf-8");
 }
