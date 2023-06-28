@@ -1,26 +1,32 @@
-name: Project Board
+name: Update project board on issue changes
 
 on:
-  pull_request:
-    paths:
-      - "tools/update-github-project-board/**"
+  issues:
+    types:
+      - opened
+      - edited
+      - closed
+      - reopened
+      - labeled
+      - unlabeled
+      - milestoned
+      - demilestoned
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "Issue number"
+        required: true
+        type: number
 
-  # schedule:
-  # At every full hour
-  # - cron: "0 * * * *"
-  workflow_dispatch: {}
 jobs:
-  update-project-board:
+  trigger-external-update:
     if: github.repository == 'hashicorp/terraform-cdk'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-      - name: Get project data
+      - name: Update project board
         env:
-          GITHUB_TOKEN: ${{ secrets.PROJECT_BOARD_UPDATE_GH_TOKEN }}
-          ORGANIZATION: hashicorp
-          PROJECT_NUMBER: 125
+          GH_TOKEN: ${{ secrets.PROJECT_BOARD_UPDATE_GH_TOKEN }}
+          ISSUE: ${{ inputs.issue || github.event.issue.number }}
         run: |
-          cd tools/update-github-project-board
-          npm install
-          npm start
+          sleep 5
+          gh workflow run update-project-board-issue.yml -R hashicorp/terraform-cdk-team -f issue=$ISSUE -f repository=terraform-cdk
