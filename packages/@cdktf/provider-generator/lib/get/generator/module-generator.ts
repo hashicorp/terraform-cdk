@@ -173,7 +173,7 @@ function parseType(type: string) {
     return "{ [key: string]: string }";
   }
   if (type === "tuple") {
-    return "tuple";
+    return "string[]";
   }
   if (type === "any") {
     return "any";
@@ -205,13 +205,7 @@ function parseComplexType(type: string): string | undefined {
   }
 
   if (kind === "tuple") {
-    const innerTuple: string[] = innerType.slice(1, -1).split(",");
-    let tupleTypes: string[] = [];
-    innerTuple.forEach((el) => {
-      tupleTypes.push(parseType(el.trim()));
-    });
-
-    return `tuple[${tupleTypes}]`;
+    return `any[]`;
   }
 
   if (kind === "map") {
