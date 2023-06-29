@@ -38,11 +38,13 @@ export class ImportableResource extends TerraformElement {
   public toTerraform(): any {
     const expectedResourceAddress = `${this.config.terraformResourceType}.${this.friendlyUniqueId}`;
     return {
-      import: {
-        to: expectedResourceAddress,
-        id: this.config.importId,
-        provider: this.config.provider ? this.config.provider.fqn : undefined,
-      },
+      import: [
+        {
+          to: expectedResourceAddress,
+          id: this.config.importId,
+          provider: this.config.provider ? this.config.provider.fqn : undefined,
+        },
+      ],
     };
   }
 
