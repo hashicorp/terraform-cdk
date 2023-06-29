@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import * as hcl2cdk from "@cdktf/hcl2cdk";
 import { CdktfConfig } from "./cdktf-config";
 import {
