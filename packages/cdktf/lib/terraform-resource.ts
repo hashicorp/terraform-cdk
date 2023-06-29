@@ -22,6 +22,7 @@ import {
   LocalExecProvisioner,
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
+import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -252,6 +253,12 @@ export class TerraformResource
 
   public importFrom(id: string, provider?: TerraformProvider) {
     this.imported = { id, provider };
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Import blocks are only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
   }
   public resetImport() {
     this.imported = undefined;
