@@ -1,11 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { keysToSnakeCase, deepMerge, terraformBinaryName } from "../util";
+import { keysToSnakeCase, deepMerge } from "../util";
 import { DataTerraformRemoteState } from "./remote-backend";
 import { TerraformRemoteState } from "../terraform-remote-state";
 import { TerraformBackend } from "../terraform-backend";
-import { ValidateBinaryVersion } from "../validations";
+import { ValidateTerraformVersion } from "../validations/validate-terraform-version";
 
 /**
  * checks whether the given hostname belongs to tfc or (else) to tfe
@@ -30,10 +30,8 @@ export class CloudBackend extends TerraformBackend {
     super(scope, "backend", "cloud");
 
     this.node.addValidation(
-      new ValidateBinaryVersion(
-        "terraform",
+      new ValidateTerraformVersion(
         ">=1.1",
-        `${terraformBinaryName} version`,
         `The cloud block is only supported for Terraform >=1.1. Please upgrade your Terraform version.`
       )
     );

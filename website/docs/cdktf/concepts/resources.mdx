@@ -381,6 +381,8 @@ If you need to use the special [`self` object](/terraform/language/resources/pro
 If you need to ensure a condition is met either before or after a resource was created you can specify [conditions](/terraform/language/expressions/custom-conditions#preconditions-and-postconditions).
 To add one configure the `lifecycle` key on your resource with an object containing a `precondition` and / or a `postcondition`. These keys take a list of conditions with a `condition` key containing a Terraform Expression to be evaluated and an `errorMessage` key containing a string to be displayed if the condition is not met.
 
+## Importing Resources
+
 ## Escape Hatch
 
 Terraform provides [meta-arguments](/terraform/language/resources/syntax#meta-arguments) to change resource behavior. For example, the `for_each` meta-argument creates multiple resource instances according to a map, or set of strings. The escape hatch allows you to use these meta-arguments to your CDKTF application and to override attributes that CDKTF cannot yet fully express.
