@@ -67,7 +67,6 @@ class MyConvertedCode extends TerraformStack {
     new Instance(this, "foo", {
       foo: "bar",
       provider: west,
-      timeouts: config.timeouts,
     });
   }
 }
