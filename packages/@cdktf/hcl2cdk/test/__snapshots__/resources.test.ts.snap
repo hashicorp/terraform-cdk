@@ -16,16 +16,16 @@ class MyConvertedCode extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-east-1",
     });
-    const dataAwsAvailabilityZonesChangemeAzListEbsSnapshot =
-      new DataAwsAvailabilityZones(this, "changeme_az_list_ebs_snapshot", {
+    const changemeAzListEbsSnapshot = new DataAwsAvailabilityZones(
+      this,
+      "changeme_az_list_ebs_snapshot",
+      {
         state: "available",
-      });
+      }
+    );
     new EbsVolume(this, "changeme_ebs_volume_snapshot", {
       availabilityZone: Token.asString(
-        propertyAccess(
-          dataAwsAvailabilityZonesChangemeAzListEbsSnapshot.names,
-          ["0"]
-        )
+        propertyAccess(changemeAzListEbsSnapshot.names, ["0"])
       ),
       encrypted: false,
       size: 10,
@@ -585,9 +585,9 @@ class MyConvertedCode extends TerraformStack {
         user: "ubuntu",
       },
       instanceType: "t3.small",
-      keyName: awsKeyPairMasterKey.id,
-      subnetId: awsSubnetMain.id,
-      vpcSecurityGroupIds: [awsSecurityGroupSsh.id],
+      keyName: masterKey.id,
+      subnetId: main.id,
+      vpcSecurityGroupIds: [ssh.id],
     });
   }
 }
