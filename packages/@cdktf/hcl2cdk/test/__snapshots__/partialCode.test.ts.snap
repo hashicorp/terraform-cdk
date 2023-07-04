@@ -14,7 +14,7 @@ class MyConfig
 }
 class MyConvertedCode : TerraformStack
 {
-    public MyConvertedCode(constructs.Construct scope, string name, MyConfig config) : base(scope, name)
+    public MyConvertedCode(Construct scope, string name, MyConfig config) : base(scope, name)
     {
         new Config(this, "service_config", new ConfigConfig {
             Name = "my-config",
@@ -39,7 +39,7 @@ type myConvertedCode struct {
 	terraformStack
 }
 
-func newMyConvertedCode(scope constructs.Construct, name *string, config myConfig) *myConvertedCode {
+func newMyConvertedCode(scope construct, name *string, config myConfig) *myConvertedCode {
 	this := &myConvertedCode{}
 	newTerraformStack_Override(this, scope, name)
 	genprovidersdockerconfig.NewConfig(this, jsii.String("service_config"), &configConfig{
@@ -108,7 +108,7 @@ interface MyConfig {
   data: any;
 }
 class MyConvertedCode extends TerraformStack {
-  constructor(scope: constructs.Construct, name: string, config: MyConfig) {
+  constructor(scope: Construct, name: string, config: MyConfig) {
     super(scope, name);
     new Config(this, "service_config", {
       name: "my-config",
