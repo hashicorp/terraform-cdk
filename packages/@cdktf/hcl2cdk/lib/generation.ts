@@ -947,7 +947,7 @@ export function wrapCodeInConstructor(
     return template.statement(
       `
   class %%className%% extends %%base%% {
-    constructor(scope: constructs.Construct, name: string, config: ${configTypeName}) {
+    constructor(scope: Construct, name: string, config: ${configTypeName}) {
       super(scope, name);
       %%code%%
     }
