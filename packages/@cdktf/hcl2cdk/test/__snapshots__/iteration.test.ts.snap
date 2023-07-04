@@ -164,13 +164,8 @@ import {
  */
 import { ElasticBeanstalkEnvironment } from "./.gen/providers/aws/elastic-beanstalk-environment";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-interface MyConfig {
-  name: any;
-  namespace: any;
-  value: any;
-}
 class MyConvertedCode extends TerraformStack {
-  constructor(scope: Construct, name: string, config: MyConfig) {
+  constructor(scope: Construct, name: string) {
     super(scope, name);
     /*Terraform Variables are not always the best fit for getting inputs in the context of Terraform CDK.
     You can read more about this at https://cdk.tf/variables*/
