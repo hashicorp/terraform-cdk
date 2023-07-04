@@ -32,11 +32,6 @@ export function fillWithConfigAccessors(
   path: string
   // TODO: can we do a better type here?
 ): any {
-  // Iterate through config, find required properties, and add accessors for them into the scope, adding a config.myVar accessor
-  // The "find required" logic should be the same as in the generation in the end, but for now we just do it simple
-  // To get rid of the "any" we need sth importable, so maybe a path from the root type? We can (or already have)
-  // the root type so we might build an access chain? Or we keep the any if it's ok with rosetta.
-
   if (Array.isArray(config)) {
     return config.map((c) => fillWithConfigAccessors(scope, c, `${path}.[]`));
   }
@@ -58,16 +53,17 @@ export function fillWithConfigAccessors(
     requiredAttributes.forEach((key) => {
       const value = mutated[key];
       const isNotDirectlyAccessible = value === undefined;
-      const isNotAccessibleThroughDynamic = !(
-        "dynamic" in mutated &&
-        key in (mutated.dynamic as Record<string, unknown>)
-      );
+      const isReplacedByAst =
+        t.isExpression(mutated) || t.isExpression(value as any);
       const isEmptyArray = Array.isArray(value) && value.length === 0;
 
-      if (
-        (isNotDirectlyAccessible && isNotAccessibleThroughDynamic) ||
-        isEmptyArray
-      ) {
+      // If this was already replaced by an AST node, we don't need to do anything
+      // We assume all fields are filled in by the AST
+      if (isReplacedByAst) {
+        return;
+      }
+
+      if (isNotDirectlyAccessible || isEmptyArray) {
         const fieldName = getConfigFieldName(scope.topLevelConfig, key);
         mutated[key] = t.memberExpression(
           t.identifier("config"),
