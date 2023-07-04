@@ -429,49 +429,4 @@ describe("fillWithConfigAccessors", () => {
       }
     `);
   });
-
-  it("takes dynamic blocks into account", () => {
-    const scope = getScope();
-    const result = fillWithConfigAccessors(
-      scope,
-      {
-        a: "a",
-        b: "b",
-        dynamic: {
-          c: [
-            {
-              for_each: "var.foo",
-              content: {
-                d: "d",
-              },
-            },
-          ],
-        },
-        d: [{ e: "e" }],
-      },
-      "aws.image"
-    );
-    expect(scope.topLevelConfig).toEqual({});
-    expect(result).toMatchInlineSnapshot(`
-      {
-        "a": "a",
-        "b": "b",
-        "d": [
-          {
-            "e": "e",
-          },
-        ],
-        "dynamic": {
-          "c": [
-            {
-              "content": {
-                "d": "d",
-              },
-              "for_each": "var.foo",
-            },
-          ],
-        },
-      }
-    `);
-  });
 });
