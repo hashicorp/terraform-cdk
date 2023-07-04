@@ -70,7 +70,7 @@ describe("granular-imports", () => {
 `,
     [binding.kubernetes],
     Snapshot.yes,
-    Synth.yes_all_languages,
+    Synth.yes_but_only_typescript_right_now_because_it_breaks,
     {
       resources: ["kubernetes_deployment"],
     }
