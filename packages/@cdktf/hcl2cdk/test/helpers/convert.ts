@@ -25,6 +25,7 @@ type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes_all_languages, // Synth and snapshot all languages
   yes,
+  yes_but_only_typescript_right_now_because_it_breaks,
   no_cant_resolve_construct,
   no_missing_map_access, // See https://github.com/hashicorp/terraform-cdk/issues/2670
   no_missing_type_coercion, // We don't type coerce numbers yet
@@ -346,6 +347,7 @@ async function getProjectDirectory(
       `Unsupported language used to synthesize code: ${language}`
     );
   }
+
   const baseDir = await baseProjectPromise;
   const projectDir = await fs.mkdtemp(
     path.join(os.tmpdir(), "cdktf-convert-test-")
@@ -490,6 +492,7 @@ const createTestCase =
           "%s",
           async (language) => {
             const projectDir = await getProjectDirectory(
+              // We need the typescript project directory to start the convert so JSII has the right types
               "typescript",
               providers
             );
