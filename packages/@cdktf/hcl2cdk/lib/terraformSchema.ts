@@ -60,12 +60,6 @@ function getResourceAtPath(schema: ProviderSchema, path: string) {
     return null;
   }
 
-  // TODO: Take a look if this causes any issues
-  // if (parts.length === 0) {
-  //   // No property specified
-  //   return null;
-  // }
-
   return { resource, parts };
 }
 
