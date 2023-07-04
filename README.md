@@ -34,15 +34,15 @@ Choose a language:
 
 ## Documentation
 
-Refer to the [CDKTF documentation](https://www.terraform.io/docs/cdktf/index.html) for more detail about how to build and manage CDKTF applications, including:
+Refer to the [CDKTF documentation](https://developer.hashicorp.com/terraform/cdktf) for more detail about how to build and manage CDKTF applications, including:
 
-- [Application Architecture](https://www.terraform.io/docs/cdktf/concepts/cdktf-architecture.html): Learn the tools and processes that CDKTF uses to leverage the Terraform ecosystem and convert code into Terraform configuration files. It also explains the major components of a CDKTF application and how those pieces fit together.
+- [Application Architecture](https://developer.hashicorp.com/terraform/cdktf/concepts/cdktf-architecture): Learn the tools and processes that CDKTF uses to leverage the Terraform ecosystem and convert code into Terraform configuration files. It also explains the major components of a CDKTF application and how those pieces fit together.
 
-- [Project Setup](https://www.terraform.io/docs/cdktf/create-and-deploy/project-setup.html): Learn how to create a new CDKTF project from a pre-built or custom template. Also learn how to convert an existing HCL project into a CDKTF application.
+- [Project Setup](https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/project-setup): Learn how to create a new CDKTF project from a pre-built or custom template. Also learn how to convert an existing HCL project into a CDKTF application.
 
-- [Unit Tests](https://www.terraform.io/docs/cdktf/test/unit-tests.html): Learn how to test your application in Typescript with jest.
+- [Unit Tests](https://developer.hashicorp.com/terraform/cdktf/test/unit-tests): Learn how to test your application in Typescript with jest.
 
-- [Examples](https://www.terraform.io/docs/cdktf/examples.html): Reference example projects in every supported language and review explanatory videos and other resources.
+- [Examples](https://developer.hashicorp.com/terraform/cdktf/examples-and-guides/examples): Reference example projects in every supported language and review explanatory videos and other resources.
 
 ## Community
 
