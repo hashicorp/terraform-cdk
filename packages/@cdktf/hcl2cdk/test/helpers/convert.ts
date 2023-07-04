@@ -304,7 +304,7 @@ async function synthForLanguage(
   providers: ProviderDefinition[] = []
 ) {
   const stackName = name.replace(/\s/g, "-");
-  const projectDirPromise = getProjectDirectory("typescript", providers);
+  const projectDirPromise = getProjectDirectory(language, providers);
   const projectDir = await projectDirPromise;
 
   // Have a before all somewhere above bootstrap a TS project
