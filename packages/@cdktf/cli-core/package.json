@@ -73,7 +73,7 @@
     "open": "^7.4.2",
     "parse-gitignore": "^1.0.1",
     "pkg-up": "^3.1.0",
-    "semver": "^7.3.8",
+    "semver": "^7.5.3",
     "sscaff": "^1.2.274",
     "stream-buffers": "^3.0.2",
     "strip-ansi": "^6.0.1",
