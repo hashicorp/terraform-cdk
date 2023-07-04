@@ -86,7 +86,6 @@ export function getRequiredAttributes(
   if (!attributeType) {
     return [];
   }
-  // TODO: handle attributes, getTypesAtPath needs to return the parent object (as well?) so we know. For now we ignore attributes
   if (
     typeof attributeType !== "object" ||
     Array.isArray(attributeType) ||

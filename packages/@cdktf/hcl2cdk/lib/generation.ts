@@ -254,7 +254,6 @@ export async function backendToExpression(
                   Object.entries(config).map(async ([property, value]) =>
                     t.objectProperty(
                       t.identifier(camelCase(property)),
-                      // TODO: Possibly add missing config function here as well
                       await valueToTs(
                         scope,
                         value,
@@ -500,7 +499,6 @@ export async function resource(
         t.identifier("dynamic")
       ),
       [
-        // TODO: Possibly add missing config function here as well
         await valueToTs(
           {
             ...scope,
@@ -508,7 +506,11 @@ export async function resource(
               [block.scopedVar]: dynamicBlockIteratorName,
             },
           },
-          Array.isArray(block.content) ? block.content[0] : block.content,
+          fillWithConfigAccessors(
+            scope,
+            Array.isArray(block.content) ? block.content[0] : block.content,
+            block.path.replace(block.scopedVar, "")
+          ),
           block.path.replace(block.scopedVar, ""),
           false
         ),
@@ -546,7 +548,6 @@ export async function resource(
     mappedConfig.provisioners = await Promise.all(
       Object.entries(provisioner).flatMap(([type, p]: [string, any]) =>
         p.map((pp: Record<string, any>) =>
-          // TODO: Possibly add missing config function here as well
           valueToTs(
             scope,
             { type, ...pp },
@@ -632,7 +633,7 @@ async function asExpression(
     [
       t.thisExpression(),
       t.stringLiteral(constructId),
-      // TODO: Possibly add missing config function here as well
+
       await valueToTs(
         scope,
         {
