@@ -114,7 +114,7 @@ async function getPnpmNodeModuleVersion(
     !json[0]?.dependencies?.[packageName]?.version
   ) {
     logger.debug(
-      `Unable to find '${packageName}' in 'npm list ${packageName} --json': ${output}`
+      `Unable to find '${packageName}' in 'pnpm list ${packageName} --json': ${output}`
     );
     return undefined;
   }
