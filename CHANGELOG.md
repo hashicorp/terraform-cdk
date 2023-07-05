@@ -1,3 +1,33 @@
+## 0.17.1
+
+### fix
+
+- fix: Handle \*/ sequences within variable descriptions and defaults for variables in modules [\#2986](https://github.com/hashicorp/terraform-cdk/pull/2986)
+- fix: Upgrade @inquirer/prompts to resolve #2952 [\#2977](https://github.com/hashicorp/terraform-cdk/pull/2977)
+- fix(tests): update integration test snapshot [\#2962](https://github.com/hashicorp/terraform-cdk/pull/2962)
+- fix(cli): catch possible errors when trying to open a url [\#2961](https://github.com/hashicorp/terraform-cdk/pull/2961)
+- fix(cli): Support PNPM when retrieving package dependency information [\#2959](https://github.com/hashicorp/terraform-cdk/pull/2959)
+- fix(hcl2cdk): parse handling of null providers and aliases [\#2947](https://github.com/hashicorp/terraform-cdk/pull/2947)
+- fix(hcl2cdk): use correct import path per language [\#2935](https://github.com/hashicorp/terraform-cdk/pull/2935)
+- fix: do not always overwrite global.performance [\#2922](https://github.com/hashicorp/terraform-cdk/pull/2922)
+
+### chore
+
+- chore(deps): upgrade semver version [\#2981](https://github.com/hashicorp/terraform-cdk/pull/2981)
+- chore(docs): update doc links to new URLs [\#2979](https://github.com/hashicorp/terraform-cdk/pull/2979)
+- chore: Add regression test for input on init [\#2978](https://github.com/hashicorp/terraform-cdk/pull/2978)
+- chore: Update diagram in docs with new provider count [\#2974](https://github.com/hashicorp/terraform-cdk/pull/2974)
+- chore: trigger project board update when issues modified [\#2973](https://github.com/hashicorp/terraform-cdk/pull/2973)
+- chore: remove project board update script [\#2970](https://github.com/hashicorp/terraform-cdk/pull/2970)
+- chore: use resource name only unless conflict [\#2956](https://github.com/hashicorp/terraform-cdk/pull/2956)
+- chore: remove dependency updates [\#2950](https://github.com/hashicorp/terraform-cdk/pull/2950)
+- chore: correct constructs docs "Through Validations" example [\#2927](https://github.com/hashicorp/terraform-cdk/pull/2927)
+
+### feat
+
+- feat: Specific imports for convert [\#2946](https://github.com/hashicorp/terraform-cdk/pull/2946)
+- feat: allow partial snippet translation [\#2920](https://github.com/hashicorp/terraform-cdk/pull/2920)
+
 ## 0.17.0
 
 ### feat
