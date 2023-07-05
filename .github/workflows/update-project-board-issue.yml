@@ -1,0 +1,32 @@
+name: Update project board on issue changes
+
+on:
+  issues:
+    types:
+      - opened
+      - edited
+      - closed
+      - reopened
+      - labeled
+      - unlabeled
+      - milestoned
+      - demilestoned
+  workflow_dispatch:
+    inputs:
+      issue:
+        description: "Issue number"
+        required: true
+        type: number
+
+jobs:
+  trigger-external-update:
+    if: github.repository == 'hashicorp/terraform-cdk'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update project board
+        env:
+          GH_TOKEN: ${{ secrets.PROJECT_BOARD_UPDATE_GH_TOKEN }}
+          ISSUE: ${{ inputs.issue || github.event.issue.number }}
+        run: |
+          sleep 5
+          gh workflow run update-project-board-issue.yml -R hashicorp/terraform-cdk-team -f issue=$ISSUE -f repository=terraform-cdk
