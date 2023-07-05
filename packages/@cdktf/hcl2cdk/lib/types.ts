@@ -6,7 +6,7 @@ import {
 } from "@cdktf/provider-generator";
 
 export type TerraformResourceBlock = unknown;
-export type TypeDeclaration = unknown;
+export type AttributePath = string;
 export type ProgramScope = {
   providerSchema: ProviderSchema;
   providerGenerator: Record<string, TerraformProviderGenerator>;
@@ -22,7 +22,7 @@ export type ProgramScope = {
   hasTokenBasedTypeCoercion: boolean;
   nodeIds: string[]; // temporarily added until replaced
   importables: ImportableConstruct[]; // records all imports for the conversion
-  topLevelConfig: Record<string, TypeDeclaration>;
+  topLevelConfig: Record<string, AttributePath>;
 };
 
 export type ResourceScope = ProgramScope & {
