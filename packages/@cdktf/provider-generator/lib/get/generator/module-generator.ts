@@ -41,14 +41,31 @@ export class ModuleGenerator {
     );
     for (const input of spec.inputs) {
       const optional = input.required && input.default === undefined ? "" : "?";
+      let wasSanitized = false;
       this.code.line(`/**`);
-      this.code.line(` * ${input.description}`);
+      if (input.description) {
+        const sanitizedDescription = input.description.replace(/\*\//g, "* /");
+        if (sanitizedDescription !== input.description) {
+          wasSanitized = true;
+        }
+        this.code.line(` * ${sanitizedDescription}`);
+      }
       if (input.default) {
-        this.code.line(` * @default ${input.default}`);
+        const sanitizedDefault = input.default.replace(/\*\//g, "* /");
+        this.code.line(` * @default ${sanitizedDefault}`);
+        if (sanitizedDefault !== input.default) {
+          wasSanitized = true;
+        }
       }
       if (input.type.includes("map(")) {
         this.code.line(
           ` * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
+        );
+      }
+      if (wasSanitized) {
+        this.code.line(` *`);
+        this.code.line(
+          " * Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space."
         );
       }
       this.code.line(` */`);
