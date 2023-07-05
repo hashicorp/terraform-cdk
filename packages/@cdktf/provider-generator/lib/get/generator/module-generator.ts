@@ -51,7 +51,10 @@ export class ModuleGenerator {
         this.code.line(` * ${sanitizedDescription}`);
       }
       if (input.default) {
-        const sanitizedDefault = input.default.replace(/\*\//g, "* /");
+        const sanitizedDefault =
+          typeof input.default === "string"
+            ? input.default.replace(/\*\//g, "* /")
+            : input.default;
         this.code.line(` * @default ${sanitizedDefault}`);
         if (sanitizedDefault !== input.default) {
           wasSanitized = true;
