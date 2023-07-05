@@ -101,6 +101,12 @@ expectModuleToMatchSnapshot("getX variables", "generator", [
   "module-get-x.test.fixture.tf",
 ]);
 
+expectModuleToMatchSnapshot(
+  "handle */* in module variable default string",
+  "generator",
+  ["module-with-star-default.test.fixture.tf"]
+);
+
 test("generate module that can't be initialized", async () => {
   jest.setTimeout(120000);
 
