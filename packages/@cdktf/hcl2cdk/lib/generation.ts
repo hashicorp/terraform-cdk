@@ -11,7 +11,7 @@ import {
   ProgramScope,
   ResourceScope,
   ImportableConstruct,
-  TypeDeclaration,
+  AttributePath,
 } from "./types";
 import { camelCase, logger, pascalCase, uniqueId } from "./utils";
 import {
@@ -1057,7 +1057,7 @@ export function buildImports(importables: ImportableConstruct[]) {
 
 export function generateConfigType(
   name: string,
-  config: Record<string, TypeDeclaration>
+  config: Record<string, AttributePath>
 ): t.Statement {
   return t.tsInterfaceDeclaration(
     t.identifier(name),

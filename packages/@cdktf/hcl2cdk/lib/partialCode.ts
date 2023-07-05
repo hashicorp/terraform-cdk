@@ -30,7 +30,6 @@ export function fillWithConfigAccessors(
   scope: ResourceScope,
   config: TerraformResourceBlock,
   path: string
-  // TODO: can we do a better type here?
 ): any {
   if (Array.isArray(config)) {
     return config.map((c) => fillWithConfigAccessors(scope, c, `${path}.[]`));
