@@ -9,4 +9,9 @@ set -ex
 cd $(dirname $0)
 
 node ./generate-provider-test.js "$1"
-../run-against-dist npx jest "./providers/$1"
+
+if [ -z "$UPDATE_SNAPSHOTS" ]; then
+    ../run-against-dist npx jest "./providers/$1"
+else 
+    ../run-against-dist npx jest "./providers/$1" -u
+fi
