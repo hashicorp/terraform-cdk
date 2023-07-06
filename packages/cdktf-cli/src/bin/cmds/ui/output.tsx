@@ -15,6 +15,7 @@ type OutputConfig = {
   synthCommand: string;
   onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void;
   outputsPath?: string;
+  skipSynth?: boolean;
 };
 
 export const Output = ({
@@ -23,11 +24,15 @@ export const Output = ({
   synthCommand,
   onOutputsRetrieved,
   outputsPath,
+  skipSynth,
 }: OutputConfig): React.ReactElement => {
   const { status, logEntries, returnValue } = useCdktfProject(
     { outDir, synthCommand },
     async (project) => {
-      const outputs = await project.fetchOutputs({ stackNames: targetStacks });
+      const outputs = await project.fetchOutputs({
+        stackNames: targetStacks,
+        skipSynth,
+      });
       onOutputsRetrieved(outputs);
       return outputs;
     }

@@ -42,6 +42,12 @@ class Command extends BaseCommand {
         desc: "Whether to include sensitive outputs in the output file",
         default: false,
       })
+      .option("skip-synth", {
+        type: "boolean",
+        default: false,
+        required: false,
+        desc: "Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

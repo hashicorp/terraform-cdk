@@ -153,34 +153,19 @@ Command output on stdout:
       process.exit(1);
     }
 
-    if (!(await fs.pathExists(path.join(outdir, Manifest.fileName)))) {
-      const errorMessage = `ERROR: synthesis failed, because app was expected to call 'synth()', but didn't. Thus "${outdir}/${Manifest.fileName}"  was not created.`;
+    // end performance timer
+    const endTime = performance.now();
+
+    let stacks: SynthesizedStack[] = [];
+    try {
+      stacks = await SynthStack.readSynthesizedStacks(outdir);
+    } catch (e: any) {
+      const errorMessage = `ERROR: synthesis failed, because app was expected to call 'synth()', but didn't. Thus "${outdir}/${Manifest.fileName}"  was not created: ${e}`;
       if (graceful) {
         throw new Error(errorMessage);
       }
       logger.error(errorMessage);
       process.exit(1);
-    }
-
-    // end performance timer
-    const endTime = performance.now();
-
-    const stacks: SynthesizedStack[] = [];
-    const manifest = JSON.parse(
-      fs.readFileSync(path.join(outdir, Manifest.fileName)).toString()
-    ) as ManifestJson;
-
-    for (const stackName in manifest.stacks) {
-      const stack = manifest.stacks[stackName];
-      const filePath = path.join(outdir, stack.synthesizedStackPath);
-      const jsonContent: SynthesizedStackMetadata = JSON.parse(
-        fs.readFileSync(filePath).toString()
-      );
-      stacks.push({
-        ...stack,
-        workingDirectory: path.join(outdir, stack.workingDirectory),
-        content: JSON.stringify(jsonContent, null, 2),
-      });
     }
 
     await this.synthTelemetry(endTime - startTime, stacks, synthOrigin);
@@ -196,6 +181,35 @@ Command output on stdout:
 
     for (const orphanedDirectory of orphanedDirectories) {
       fs.rmSync(orphanedDirectory, { recursive: true });
+    }
+
+    return stacks;
+  }
+
+  public static async readSynthesizedStacks(
+    outdir: string
+  ): Promise<SynthesizedStack[]> {
+    const manifestPath = path.join(outdir, Manifest.fileName);
+    if (!(await fs.pathExists(manifestPath))) {
+      throw new Error(`Could not find manifest file at ${manifestPath}.`);
+    }
+
+    const stacks: SynthesizedStack[] = [];
+    const manifest = JSON.parse(
+      fs.readFileSync(manifestPath).toString()
+    ) as ManifestJson;
+
+    for (const stackName in manifest.stacks) {
+      const stack = manifest.stacks[stackName];
+      const filePath = path.join(outdir, stack.synthesizedStackPath);
+      const jsonContent: SynthesizedStackMetadata = JSON.parse(
+        fs.readFileSync(filePath).toString()
+      );
+      stacks.push({
+        ...stack,
+        workingDirectory: path.join(outdir, stack.workingDirectory),
+        content: JSON.stringify(jsonContent, null, 2),
+      });
     }
 
     return stacks;
