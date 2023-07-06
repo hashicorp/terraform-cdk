@@ -16,7 +16,7 @@ export class ResourceEmitter {
     this.code.line();
     const comment = sanitizedComment(this.code);
     comment.line(
-      `* Represents a {@link ${resource.linkToDocs} ${resource.terraformResourceType}}`
+      `Represents a {@link ${resource.linkToDocs} ${resource.terraformResourceType}}`
     );
     comment.end();
     this.code.openBlock(
@@ -92,16 +92,16 @@ export class ResourceEmitter {
     this.code.line();
     const comment = sanitizedComment(this.code);
     comment.line(
-      `* Create a new {@link ${resource.linkToDocs} ${
+      `Create a new {@link ${resource.linkToDocs} ${
         resource.terraformResourceType
       }} ${resource.isDataSource ? "Data Source" : "Resource"}`
     );
-    comment.line(`*`);
-    comment.line(`* @param scope The scope in which to define this construct`);
+    comment.line(``);
+    comment.line(`@param scope The scope in which to define this construct`);
     comment.line(
-      `* @param id The scoped construct ID. Must be unique amongst siblings in the same scope`
+      `@param id The scoped construct ID. Must be unique amongst siblings in the same scope`
     );
-    comment.line(`* @param options ${resource.configStruct.attributeType}`);
+    comment.line(`@param options ${resource.configStruct.attributeType}`);
     comment.end();
     this.code.openBlock(
       `public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`
