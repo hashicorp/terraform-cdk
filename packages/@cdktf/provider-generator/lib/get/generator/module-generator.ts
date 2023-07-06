@@ -3,6 +3,7 @@
 import { CodeMaker, toCamelCase } from "codemaker";
 import { ConstructsMakerModuleTarget } from "../constructs-maker";
 import { AttributeModel } from "./models";
+import { sanitizedComment } from "./sanitized-comments";
 
 export class ModuleGenerator {
   constructor(
@@ -41,37 +42,22 @@ export class ModuleGenerator {
     );
     for (const input of spec.inputs) {
       const optional = input.required && input.default === undefined ? "" : "?";
-      let wasSanitized = false;
+
+      const comment = sanitizedComment(this.code);
       this.code.line(`/**`);
       if (input.description) {
-        const sanitizedDescription = input.description.replace(/\*\//g, "* /");
-        if (sanitizedDescription !== input.description) {
-          wasSanitized = true;
-        }
-        this.code.line(` * ${sanitizedDescription}`);
+        comment.line(` * ${input.description}`);
       }
       if (input.default) {
-        const sanitizedDefault =
-          typeof input.default === "string"
-            ? input.default.replace(/\*\//g, "* /")
-            : input.default;
-        this.code.line(` * @default ${sanitizedDefault}`);
-        if (sanitizedDefault !== input.default) {
-          wasSanitized = true;
-        }
+        comment.line(` * ${input.default}`);
       }
       if (input.type.includes("map(")) {
-        this.code.line(
+        comment.line(
           ` * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
         );
       }
-      if (wasSanitized) {
-        this.code.line(` *`);
-        this.code.line(
-          " * Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space."
-        );
-      }
-      this.code.line(` */`);
+      comment.end();
+
       this.code.line(
         `readonly ${AttributeModel.escapeName(
           toCamelCase(input.name)
