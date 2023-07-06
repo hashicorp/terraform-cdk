@@ -3,6 +3,7 @@
 import { CodeMaker } from "codemaker";
 import { ResourceModel } from "../models";
 import { AttributesEmitter } from "./attributes-emitter";
+import { sanitizedComment } from "../sanitized-comments";
 
 export class ResourceEmitter {
   attributesEmitter: AttributesEmitter;
@@ -13,11 +14,11 @@ export class ResourceEmitter {
 
   public emit(resource: ResourceModel) {
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(
+    const comment = sanitizedComment(this.code);
+    comment.line(
       `* Represents a {@link ${resource.linkToDocs} ${resource.terraformResourceType}}`
     );
-    this.code.line(`*/`);
+    comment.end();
     this.code.openBlock(
       `export class ${resource.className} extends cdktf.${resource.parentClassName}`
     );
@@ -78,21 +79,19 @@ export class ResourceEmitter {
 
   private emitInitializer(resource: ResourceModel) {
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(
+    const comment = sanitizedComment(this.code);
+    comment.line(
       `* Create a new {@link ${resource.linkToDocs} ${
         resource.terraformResourceType
       }} ${resource.isDataSource ? "Data Source" : "Resource"}`
     );
-    this.code.line(`*`);
-    this.code.line(
-      `* @param scope The scope in which to define this construct`
-    );
-    this.code.line(
+    comment.line(`*`);
+    comment.line(`* @param scope The scope in which to define this construct`);
+    comment.line(
       `* @param id The scoped construct ID. Must be unique amongst siblings in the same scope`
     );
-    this.code.line(`* @param options ${resource.configStruct.attributeType}`);
-    this.code.line(`*/`);
+    comment.line(`* @param options ${resource.configStruct.attributeType}`);
+    comment.end();
     this.code.openBlock(
       `public constructor(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`
     );

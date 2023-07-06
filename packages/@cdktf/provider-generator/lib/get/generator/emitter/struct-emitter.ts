@@ -7,6 +7,7 @@ import { downcaseFirst } from "../../../util";
 import * as path from "path";
 import { STRUCT_SHARDING_THRESHOLD } from "../models/resource-model";
 import { AttributeModel } from "../models/attribute-model";
+import { sanitizedComment } from "../sanitized-comments";
 export class StructEmitter {
   attributesEmitter: AttributesEmitter;
 
@@ -49,22 +50,21 @@ export class StructEmitter {
     }
 
     for (const att of struct.assignableAttributes) {
+      const comment = sanitizedComment(this.code);
       if (att.description) {
-        this.code.line(`/**`);
-        this.code.line(`* ${att.description}`);
-        this.code.line(`* `);
-        this.code.line(
+        comment.line(`* ${att.description}`);
+        comment.line(`* `);
+        comment.line(
           `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
         this.warnAboutIdField(att);
-        this.code.line(`*/`);
+        comment.end();
       } else {
-        this.code.line(`/**`);
-        this.code.line(
+        comment.line(
           `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
         this.warnAboutIdField(att);
-        this.code.line(`*/`);
+        comment.end();
       }
 
       this.code.line(`readonly ${att.typeDefinition};`);
@@ -209,13 +209,13 @@ export class StructEmitter {
     }
     this.code.line();
 
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const comment = sanitizedComment(this.code);
+    comment.line(`* @param terraformResource The parent resource`);
+    comment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     if (struct.isSingleItem) {
-      this.code.line(`*/`);
+      comment.end();
       this.code.openBlock(
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
       );
@@ -225,7 +225,7 @@ export class StructEmitter {
       struct.nestingMode === "single" ||
       struct.nestingMode === "object"
     ) {
-      this.code.line(`*/`);
+      comment.end();
       this.code.openBlock(
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string)`
       );
@@ -235,7 +235,7 @@ export class StructEmitter {
       this.code.line(
         `* @param complexObjectKey the key of this item in the map`
       );
-      this.code.line(`*/`);
+      comment.end();
       this.code.openBlock(
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectKey: string)`
       );
@@ -244,13 +244,13 @@ export class StructEmitter {
       );
       this.code.closeBlock();
     } else {
-      this.code.line(
+      comment.line(
         `* @param complexObjectIndex the index of this item in the list`
       );
-      this.code.line(
+      comment.line(
         `* @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
       );
-      this.code.line(`*/`);
+      comment.end();
       this.code.openBlock(
         `public constructor(terraformResource: cdktf.IInterpolatingParent, terraformAttribute: string, complexObjectIndex: number, complexObjectIsFromSet: boolean)`
       );
@@ -314,15 +314,15 @@ export class StructEmitter {
     }
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const constructorComment = sanitizedComment(this.code);
+    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
-    this.code.line(
+    constructorComment.line(
       `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
-    this.code.line(`*/`);
+    constructorComment.end();
     this.code.openBlock(
       `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
     );
@@ -330,9 +330,9 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param index the index of the item to return`);
-    this.code.line(`*/`);
+    const getterComment = sanitizedComment(this.code);
+    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.end();
     this.code.openBlock(
       `public get(index: number): ${struct.outputReferenceName}`
     );
@@ -357,12 +357,12 @@ export class StructEmitter {
     }
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const constructorComment = sanitizedComment(this.code);
+    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
-    this.code.line(`*/`);
+    constructorComment.end();
     this.code.openBlock(
       `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
     );
@@ -370,9 +370,9 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param key the key of the item to return`);
-    this.code.line(`*/`);
+    const getterComment = sanitizedComment(this.code);
+    getterComment.line(`* @param key the key of the item to return`);
+    getterComment.end();
     this.code.openBlock(
       `public get(key: string): ${struct.outputReferenceName}`
     );
@@ -402,15 +402,15 @@ export class StructEmitter {
     }
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const constructorComment = sanitizedComment(this.code);
+    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
-    this.code.line(
+    constructorComment.line(
       `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
-    this.code.line(`*/`);
+    constructorComment.end();
     this.code.openBlock(
       `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
     );
@@ -418,9 +418,9 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param index the index of the item to return`);
-    this.code.line(`*/`);
+    const getterComment = sanitizedComment(this.code);
+    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.end();
     this.code.openBlock(`public get(index: number): ${struct.mapName}`);
     this.code.line(`return new ${struct.mapName}(this, \`[\${index}]\`);`);
     this.code.closeBlock();
@@ -446,12 +446,12 @@ export class StructEmitter {
     }
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const constructorComment = sanitizedComment(this.code);
+    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
-    this.code.line(`*/`);
+    constructorComment.end();
     this.code.openBlock(
       `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string)`
     );
@@ -459,9 +459,9 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param key the key of the item to return`);
-    this.code.line(`*/`);
+    const getterComment = sanitizedComment(this.code);
+    getterComment.line(`* @param key the key of the item to return`);
+    getterComment.end();
     this.code.openBlock(`public get(key: string): ${struct.listName}`);
     this.code.line(
       `return new ${struct.listName}(this, \`[\${key}]\`, ${isSet});`
@@ -489,15 +489,15 @@ export class StructEmitter {
     }
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param terraformResource The parent resource`);
-    this.code.line(
+    const constructorComment = sanitizedComment(this.code);
+    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(
       `* @param terraformAttribute The attribute on the parent resource this class is referencing`
     );
-    this.code.line(
+    constructorComment.line(
       `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
-    this.code.line(`*/`);
+    constructorComment.end();
     this.code.openBlock(
       `constructor(protected terraformResource: cdktf.IInterpolatingParent, protected terraformAttribute: string, protected wrapsSet: boolean)`
     );
@@ -505,9 +505,9 @@ export class StructEmitter {
     this.code.closeBlock();
 
     this.code.line();
-    this.code.line(`/**`);
-    this.code.line(`* @param index the index of the item to return`);
-    this.code.line(`*/`);
+    const getterComment = sanitizedComment(this.code);
+    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.end();
     this.code.openBlock(`public get(index: number): ${struct.listName}`);
     this.code.line(
       `return new ${struct.listName}(this, \`[\${index}]\`, ${
