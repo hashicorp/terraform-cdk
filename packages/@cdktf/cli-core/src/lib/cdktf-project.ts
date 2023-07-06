@@ -371,7 +371,7 @@ export class CdktfProject {
     return stacks;
   }
 
-  public async readSynthedStacks() {
+  public async readSynthesizedStacks() {
     const stacks = await SynthStack.readSynthesizedStacks(this.outDir);
 
     printAnnotations(stacks);
@@ -385,7 +385,7 @@ export class CdktfProject {
 
   public async diff(opts: DiffOptions = {}) {
     const stacks = opts.skipSynth
-      ? await this.readSynthedStacks()
+      ? await this.readSynthesizedStacks()
       : await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
@@ -483,7 +483,7 @@ export class CdktfProject {
 
   public async deploy(opts: MutationOptions = {}) {
     const stacks = opts.skipSynth
-      ? await this.readSynthedStacks()
+      ? await this.readSynthesizedStacks()
       : await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
@@ -541,7 +541,7 @@ export class CdktfProject {
 
   public async destroy(opts: MutationOptions = {}) {
     const stacks = opts.skipSynth
-      ? await this.readSynthedStacks()
+      ? await this.readSynthesizedStacks()
       : await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
@@ -626,7 +626,7 @@ export class CdktfProject {
 
   public async fetchOutputs(opts: FetchOutputOptions) {
     const stacks = opts.skipSynth
-      ? await this.readSynthedStacks()
+      ? await this.readSynthesizedStacks()
       : await this.synth();
 
     const stacksToRun = getMultipleStacks(
