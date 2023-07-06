@@ -35,12 +35,12 @@
     },
     {
       "source": "/feature",
-      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement&template=feature-request.md&title=",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2Cnew&projects=&template=feature-request.yml&title=",
       "permanent": false
     },
     {
       "source": "/bug",
-      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug&template=bug-report.md&title=",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2Cnew&projects=&template=bug-report.yml&title=",
       "permanent": false
     },
     {
@@ -80,7 +80,7 @@
     },
     {
       "source": "/provider",
-      "destination": "https://github.com/orgs/hashicorp/repositories?q=pre-built-provider&type=&language=&sort=",
+      "destination": "https://github.com/orgs/cdktf/repositories?q=topic%3Apre-built-provider&type=all&language=&sort=",
       "permanent": false
     },
     {
@@ -91,21 +91,6 @@
     {
       "source": "/cfn2tf",
       "destination": "https://github.com/skorfmann/cfn2tf",
-      "permanent": false
-    },
-    {
-      "source": "/job-us",
-      "destination": "https://www.hashicorp.com/job/2545021",
-      "permanent": false
-    },
-    {
-      "source": "/job-eu",
-      "destination": "https://www.hashicorp.com/job/2548521",
-      "permanent": false
-    },
-    {
-      "source": "/we-are-hiring",
-      "destination": "https://www.hashicorp.com/job/2545021",
       "permanent": false
     },
     {
