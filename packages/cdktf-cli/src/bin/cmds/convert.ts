@@ -50,12 +50,22 @@ class Command extends BaseCommand {
         type: "boolean",
         default: false,
       })
+      .option("with-project", {
+        type: "boolean",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
     Errors.setScope("convert");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
     const api = requireHandlers();
+    if (argv.withProject !== undefined) {
+      if (argv.language === "typescript") {
+        argv.withProject = false;
+      } else {
+        argv.withProject = true;
+      }
+    }
     await api.convert(argv);
   }
 }
