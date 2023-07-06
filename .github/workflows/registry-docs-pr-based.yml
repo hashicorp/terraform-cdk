@@ -1,6 +1,16 @@
 on:
   workflow_call:
     inputs:
+      repository:
+        description: "Repository to convert, e.g. 'terraform-providers/terraform-provider-aws'"
+        required: false
+        default: "${{ github.repository }}"
+        type: string
+      branch:
+        description: "Branch to convert, e.g. 'main'"
+        required: false
+        default: "main"
+        type: string
       providerFqn:
         description: "Provider FQN to convert, e.g. hashicorp/aws"
         required: true
@@ -60,10 +70,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-      - run: git config --global user.email "${{ inputs.gitEmail }}"
-      - run: git config --global user.name "${{ inputs.gitUser }}"
-      - run: git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
-      - run: git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+
+      - run: |
+          git config --global user.email "${{ inputs.gitEmail }}"
+          git config --global user.name "${{ inputs.gitUser }}"
+          git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
 
   cdktfDocsMatrix:
     runs-on: ubuntu-latest
@@ -76,18 +91,22 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-      - name: Get yarn cache directory path
-        id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        with:
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+
       - name: Setup Node.js
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
           node-version: "18.x"
+
       - name: Install cdktf-registry-docs
         run: npm install -g cdktf-registry-docs@${{ inputs.cdktfRegistryDocsVersion }}
+
       - name: Create plugin cache
         run: |
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+
       - id: set-matrix
         run: |
           matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files=${{ inputs.files }} .)
@@ -111,17 +130,15 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
-      - run: git config --global user.email "${{ inputs.gitEmail }}"
-      - run: git config --global user.name "${{ inputs.gitUser }}"
-      - run: git config --global --add safe.directory $(pwd)
-      - name: Get yarn cache directory path
-        id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8 # v3.3.1
-        id: global-cache
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+          repository: ${{ inputs.repository }}
+          ref: ${{ inputs.branch }}
+
+      - run: |
+          git config --global user.email "${{ inputs.gitEmail }}"
+          git config --global user.name "${{ inputs.gitUser }}"
+          git config --global --add safe.directory $(pwd)
+
       - name: Setup Node.js
         uses: actions/setup-node@64ed1c7eab4cce3362f8c340dee64e5eaeef8f7c # v3.6.0
         with:
@@ -166,7 +183,9 @@ jobs:
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
+          repository: ${{ inputs.repository }}
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+
       - name: Create pull request
         run: |
           gh pr create --title "cdktf: update cdktf docs" --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/registry-docs-pr-based.yml)." --base main --head origin:d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
