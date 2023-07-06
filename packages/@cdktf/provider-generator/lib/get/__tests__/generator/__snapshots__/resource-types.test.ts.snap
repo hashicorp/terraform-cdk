@@ -63,55 +63,55 @@ export interface CloudfrontDistributionConfig extends cdktf.TerraformMetaArgumen
   readonly webAclId?: string;
   /**
   * cache_behavior block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#cache_behavior CloudfrontDistribution#cache_behavior}
   */
   readonly cacheBehavior?: CloudfrontDistributionCacheBehavior[] | cdktf.IResolvable;
   /**
   * custom_error_response block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#custom_error_response CloudfrontDistribution#custom_error_response}
   */
   readonly customErrorResponse?: CloudfrontDistributionCustomErrorResponse[] | cdktf.IResolvable;
   /**
   * default_cache_behavior block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#default_cache_behavior CloudfrontDistribution#default_cache_behavior}
   */
   readonly defaultCacheBehavior: CloudfrontDistributionDefaultCacheBehavior;
   /**
   * logging_config block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#logging_config CloudfrontDistribution#logging_config}
   */
   readonly loggingConfig?: CloudfrontDistributionLoggingConfig;
   /**
   * ordered_cache_behavior block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#ordered_cache_behavior CloudfrontDistribution#ordered_cache_behavior}
   */
   readonly orderedCacheBehavior?: CloudfrontDistributionOrderedCacheBehavior[] | cdktf.IResolvable;
   /**
   * origin block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#origin CloudfrontDistribution#origin}
   */
   readonly origin: CloudfrontDistributionOrigin[] | cdktf.IResolvable;
   /**
   * origin_group block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#origin_group CloudfrontDistribution#origin_group}
   */
   readonly originGroup?: CloudfrontDistributionOriginGroup[] | cdktf.IResolvable;
   /**
   * restrictions block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#restrictions CloudfrontDistribution#restrictions}
   */
   readonly restrictions: CloudfrontDistributionRestrictions;
   /**
   * viewer_certificate block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#viewer_certificate CloudfrontDistribution#viewer_certificate}
   */
   readonly viewerCertificate: CloudfrontDistributionViewerCertificate;
@@ -220,7 +220,7 @@ export interface CloudfrontDistributionCacheBehaviorForwardedValues {
   readonly queryStringCacheKeys?: string[];
   /**
   * cookies block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#cookies CloudfrontDistribution#cookies}
   */
   readonly cookies: CloudfrontDistributionCacheBehaviorForwardedValuesCookies;
@@ -543,13 +543,13 @@ export interface CloudfrontDistributionCacheBehavior {
   readonly viewerProtocolPolicy: string;
   /**
   * forwarded_values block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#forwarded_values CloudfrontDistribution#forwarded_values}
   */
   readonly forwardedValues: CloudfrontDistributionCacheBehaviorForwardedValues;
   /**
   * lambda_function_association block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable;
@@ -1205,7 +1205,7 @@ export interface CloudfrontDistributionDefaultCacheBehaviorForwardedValues {
   readonly queryStringCacheKeys?: string[];
   /**
   * cookies block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#cookies CloudfrontDistribution#cookies}
   */
   readonly cookies: CloudfrontDistributionDefaultCacheBehaviorForwardedValuesCookies;
@@ -1524,13 +1524,13 @@ export interface CloudfrontDistributionDefaultCacheBehavior {
   readonly viewerProtocolPolicy: string;
   /**
   * forwarded_values block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#forwarded_values CloudfrontDistribution#forwarded_values}
   */
   readonly forwardedValues: CloudfrontDistributionDefaultCacheBehaviorForwardedValues;
   /**
   * lambda_function_association block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionDefaultCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable;
@@ -2075,7 +2075,7 @@ export interface CloudfrontDistributionOrderedCacheBehaviorForwardedValues {
   readonly queryStringCacheKeys?: string[];
   /**
   * cookies block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#cookies CloudfrontDistribution#cookies}
   */
   readonly cookies: CloudfrontDistributionOrderedCacheBehaviorForwardedValuesCookies;
@@ -2398,13 +2398,13 @@ export interface CloudfrontDistributionOrderedCacheBehavior {
   readonly viewerProtocolPolicy: string;
   /**
   * forwarded_values block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#forwarded_values CloudfrontDistribution#forwarded_values}
   */
   readonly forwardedValues: CloudfrontDistributionOrderedCacheBehaviorForwardedValues;
   /**
   * lambda_function_association block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#lambda_function_association CloudfrontDistribution#lambda_function_association}
   */
   readonly lambdaFunctionAssociation?: CloudfrontDistributionOrderedCacheBehaviorLambdaFunctionAssociation[] | cdktf.IResolvable;
@@ -3164,19 +3164,19 @@ export interface CloudfrontDistributionOrigin {
   readonly originPath?: string;
   /**
   * custom_header block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#custom_header CloudfrontDistribution#custom_header}
   */
   readonly customHeader?: CloudfrontDistributionOriginCustomHeader[] | cdktf.IResolvable;
   /**
   * custom_origin_config block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#custom_origin_config CloudfrontDistribution#custom_origin_config}
   */
   readonly customOriginConfig?: CloudfrontDistributionOriginCustomOriginConfig;
   /**
   * s3_origin_config block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#s3_origin_config CloudfrontDistribution#s3_origin_config}
   */
   readonly s3OriginConfig?: CloudfrontDistributionOriginS3OriginConfig;
@@ -3544,13 +3544,13 @@ export interface CloudfrontDistributionOriginGroup {
   readonly originId: string;
   /**
   * failover_criteria block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#failover_criteria CloudfrontDistribution#failover_criteria}
   */
   readonly failoverCriteria: CloudfrontDistributionOriginGroupFailoverCriteria;
   /**
   * member block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#member CloudfrontDistribution#member}
   */
   readonly member: CloudfrontDistributionOriginGroupMember[] | cdktf.IResolvable;
@@ -3775,7 +3775,7 @@ export class CloudfrontDistributionRestrictionsGeoRestrictionOutputReference ext
 export interface CloudfrontDistributionRestrictions {
   /**
   * geo_restriction block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/cloudfront_distribution#geo_restriction CloudfrontDistribution#geo_restriction}
   */
   readonly geoRestriction: CloudfrontDistributionRestrictionsGeoRestriction;
@@ -4669,55 +4669,55 @@ export interface S3BucketConfig extends cdktf.TerraformMetaArguments {
   readonly websiteEndpoint?: string;
   /**
   * cors_rule block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#cors_rule S3Bucket#cors_rule}
   */
   readonly corsRule?: S3BucketCorsRule[] | cdktf.IResolvable;
   /**
   * grant block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#grant S3Bucket#grant}
   */
   readonly grant?: S3BucketGrant[] | cdktf.IResolvable;
   /**
   * lifecycle_rule block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#lifecycle_rule S3Bucket#lifecycle_rule}
   */
   readonly lifecycleRule?: S3BucketLifecycleRule[] | cdktf.IResolvable;
   /**
   * logging block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#logging S3Bucket#logging}
   */
   readonly logging?: S3BucketLogging[] | cdktf.IResolvable;
   /**
   * object_lock_configuration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#object_lock_configuration S3Bucket#object_lock_configuration}
   */
   readonly objectLockConfiguration?: S3BucketObjectLockConfiguration;
   /**
   * replication_configuration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#replication_configuration S3Bucket#replication_configuration}
   */
   readonly replicationConfiguration?: S3BucketReplicationConfiguration;
   /**
   * server_side_encryption_configuration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#server_side_encryption_configuration S3Bucket#server_side_encryption_configuration}
   */
   readonly serverSideEncryptionConfiguration?: S3BucketServerSideEncryptionConfiguration;
   /**
   * versioning block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#versioning S3Bucket#versioning}
   */
   readonly versioning?: S3BucketVersioning;
   /**
   * website block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#website S3Bucket#website}
   */
   readonly website?: S3BucketWebsite;
@@ -5575,25 +5575,25 @@ export interface S3BucketLifecycleRule {
   readonly tags?: { [key: string]: string };
   /**
   * expiration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#expiration S3Bucket#expiration}
   */
   readonly expiration?: S3BucketLifecycleRuleExpiration;
   /**
   * noncurrent_version_expiration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#noncurrent_version_expiration S3Bucket#noncurrent_version_expiration}
   */
   readonly noncurrentVersionExpiration?: S3BucketLifecycleRuleNoncurrentVersionExpiration;
   /**
   * noncurrent_version_transition block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#noncurrent_version_transition S3Bucket#noncurrent_version_transition}
   */
   readonly noncurrentVersionTransition?: S3BucketLifecycleRuleNoncurrentVersionTransition[] | cdktf.IResolvable;
   /**
   * transition block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#transition S3Bucket#transition}
   */
   readonly transition?: S3BucketLifecycleRuleTransition[] | cdktf.IResolvable;
@@ -6110,7 +6110,7 @@ export class S3BucketObjectLockConfigurationRuleDefaultRetentionOutputReference 
 export interface S3BucketObjectLockConfigurationRule {
   /**
   * default_retention block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#default_retention S3Bucket#default_retention}
   */
   readonly defaultRetention: S3BucketObjectLockConfigurationRuleDefaultRetention;
@@ -6178,7 +6178,7 @@ export interface S3BucketObjectLockConfiguration {
   readonly objectLockEnabled: string;
   /**
   * rule block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#rule S3Bucket#rule}
   */
   readonly rule?: S3BucketObjectLockConfigurationRule;
@@ -6343,7 +6343,7 @@ export interface S3BucketReplicationConfigurationRulesDestination {
   readonly storageClass?: string;
   /**
   * access_control_translation block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#access_control_translation S3Bucket#access_control_translation}
   */
   readonly accessControlTranslation?: S3BucketReplicationConfigurationRulesDestinationAccessControlTranslation;
@@ -6653,7 +6653,7 @@ export class S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsE
 export interface S3BucketReplicationConfigurationRulesSourceSelectionCriteria {
   /**
   * sse_kms_encrypted_objects block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#sse_kms_encrypted_objects S3Bucket#sse_kms_encrypted_objects}
   */
   readonly sseKmsEncryptedObjects?: S3BucketReplicationConfigurationRulesSourceSelectionCriteriaSseKmsEncryptedObjects;
@@ -6739,19 +6739,19 @@ export interface S3BucketReplicationConfigurationRules {
   readonly status: string;
   /**
   * destination block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#destination S3Bucket#destination}
   */
   readonly destination: S3BucketReplicationConfigurationRulesDestination;
   /**
   * filter block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#filter S3Bucket#filter}
   */
   readonly filter?: S3BucketReplicationConfigurationRulesFilter;
   /**
   * source_selection_criteria block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#source_selection_criteria S3Bucket#source_selection_criteria}
   */
   readonly sourceSelectionCriteria?: S3BucketReplicationConfigurationRulesSourceSelectionCriteria;
@@ -6986,7 +6986,7 @@ export interface S3BucketReplicationConfiguration {
   readonly role: string;
   /**
   * rules block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#rules S3Bucket#rules}
   */
   readonly rules: S3BucketReplicationConfigurationRules[] | cdktf.IResolvable;
@@ -7159,7 +7159,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncrypt
 export interface S3BucketServerSideEncryptionConfigurationRule {
   /**
   * apply_server_side_encryption_by_default block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#apply_server_side_encryption_by_default S3Bucket#apply_server_side_encryption_by_default}
   */
   readonly applyServerSideEncryptionByDefault: S3BucketServerSideEncryptionConfigurationRuleApplyServerSideEncryptionByDefault;
@@ -7223,7 +7223,7 @@ export class S3BucketServerSideEncryptionConfigurationRuleOutputReference extend
 export interface S3BucketServerSideEncryptionConfiguration {
   /**
   * rule block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket#rule S3Bucket#rule}
   */
   readonly rule: S3BucketServerSideEncryptionConfigurationRule;
@@ -8058,7 +8058,7 @@ export interface SecurityGroupConfig extends cdktf.TerraformMetaArguments {
   readonly vpcId?: string;
   /**
   * timeouts block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group#timeouts SecurityGroup#timeouts}
   */
   readonly timeouts?: SecurityGroupTimeouts;

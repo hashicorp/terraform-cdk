@@ -647,7 +647,7 @@ import * as cdktf from 'cdktf';
 export interface BlockTypeNestedComputedListConfig extends cdktf.TerraformMetaArguments {
   /**
   * inputs block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_nested_computed_list#inputs BlockTypeNestedComputedList#inputs}
   */
   readonly inputs?: BlockTypeNestedComputedListInputs[] | cdktf.IResolvable;
@@ -1324,7 +1324,7 @@ import * as cdktf from 'cdktf';
 export interface DeeplyNestedBlockTypesConfig extends cdktf.TerraformMetaArguments {
   /**
   * lifecycle_rule block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/deeply_nested_block_types#lifecycle_rule DeeplyNestedBlockTypes#lifecycle_rule}
   */
   readonly lifecycleRule?: DeeplyNestedBlockTypesLifecycleRule[] | cdktf.IResolvable;
@@ -1401,7 +1401,7 @@ export interface DeeplyNestedBlockTypesLifecycleRule {
   readonly abortIncompleteMultipartUploadDays?: number;
   /**
   * expiration block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/deeply_nested_block_types#expiration DeeplyNestedBlockTypes#expiration}
   */
   readonly expiration?: DeeplyNestedBlockTypesLifecycleRuleExpiration;
@@ -2907,7 +2907,7 @@ import * as cdktf from 'cdktf';
 export interface DataAirbyteSourceSchemaCatalogConfig extends cdktf.TerraformMetaArguments {
   /**
   * Non-computed list of list of string.
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog#non_computed_list_list_string DataAirbyteSourceSchemaCatalog#non_computed_list_list_string}
   */
   readonly nonComputedListListString?: string[][] | cdktf.IResolvable;
@@ -3118,7 +3118,7 @@ import * as cdktf from 'cdktf';
 export interface ListOfStringMapConfig extends cdktf.TerraformMetaArguments {
   /**
   * List of key versions in the keyring.
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/list_of_string_map#settable_keys ListOfStringMap#settable_keys}
   */
   readonly settableKeys?: { [key: string]: string }[] | cdktf.IResolvable;
@@ -3220,7 +3220,7 @@ import * as cdktf from 'cdktf';
 export interface MapOfStringListConfig extends cdktf.TerraformMetaArguments {
   /**
   * Map of String List.
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_string_list#settable_keys MapOfStringList#settable_keys}
   */
   readonly settableKeys?: { [key: string]: string[] } | cdktf.IResolvable;
@@ -4278,13 +4278,13 @@ import * as cdktf from 'cdktf';
 export interface BlockTypeSetListConfig extends cdktf.TerraformMetaArguments {
   /**
   * timeouts_set block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#timeouts_set BlockTypeSetList#timeouts_set}
   */
   readonly timeoutsSet?: BlockTypeSetListTimeoutsSet[] | cdktf.IResolvable;
   /**
   * timeouts_list block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#timeouts_list BlockTypeSetList#timeouts_list}
   */
   readonly timeoutsList?: BlockTypeSetListTimeoutsListStruct[] | cdktf.IResolvable;
@@ -4592,7 +4592,7 @@ import * as cdktf from 'cdktf';
 export interface SingleBlockTypeConfig extends cdktf.TerraformMetaArguments {
   /**
   * timeouts block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/single_block_type#timeouts SingleBlockType#timeouts}
   */
   readonly timeouts?: SingleBlockTypeTimeouts;

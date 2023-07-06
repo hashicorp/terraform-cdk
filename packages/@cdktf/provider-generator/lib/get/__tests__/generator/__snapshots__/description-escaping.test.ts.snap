@@ -16,7 +16,7 @@ export interface DescriptionEscapingConfig extends cdktf.TerraformMetaArguments 
  ('service-{{PROJECT_NUMBER}}@gcp-sa-pubsub.iam.gserviceaccount.com') must have 
  'roles/cloudkms.cryptoKeyEncrypterDecrypter' to use this feature. 
  The expected format is 'projects/*\\/locations/*\\/keyRings/*\\/cryptoKeys/*'
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping#broken_comments DescriptionEscaping#broken_comments}
   */
   readonly brokenComments: boolean | cdktf.IResolvable;
@@ -109,7 +109,7 @@ import * as cdktf from 'cdktf';
 export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
   /**
   * Here comes a code block \`\`\`foo.bar\`\`\` and here is more text.
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks#with_code_block CodeBlocks#with_code_block}
   */
   readonly withCodeBlock: boolean | cdktf.IResolvable;

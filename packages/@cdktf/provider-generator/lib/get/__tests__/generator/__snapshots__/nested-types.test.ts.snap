@@ -12,7 +12,7 @@ import * as cdktf from 'cdktf';
 export interface NestedTypesResourceConfig extends cdktf.TerraformMetaArguments {
   /**
   * name of the resource
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#name NestedTypesResource#name}
   */
   readonly name?: string;
@@ -176,7 +176,7 @@ export interface NestedTypesResourceArchiveRules {
   readonly filter: NestedTypesResourceArchiveRulesFilter[] | cdktf.IResolvable;
   /**
   * The archive rule name
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#rule_name NestedTypesResource#rule_name}
   */
   readonly ruleName: string;

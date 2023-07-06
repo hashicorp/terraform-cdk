@@ -51,7 +51,7 @@ export interface AcmCertificateConfig extends cdktf.TerraformMetaArguments {
   readonly validationMethod?: string;
   /**
   * options block
-  * 
+  *
   * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate#options AcmCertificate#options}
   */
   readonly options?: AcmCertificateOptions;
