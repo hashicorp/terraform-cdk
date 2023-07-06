@@ -109,7 +109,8 @@ export abstract class PackageManager {
 
   public abstract addPackage(
     packageName: string,
-    packageVersion?: string
+    packageVersion?: string,
+    silent?: boolean
   ): Promise<void>;
   // add check if package exists already. might query version in the future and offer to upgrade?
 
@@ -130,7 +131,8 @@ class NodePackageManager extends PackageManager {
 
   public async addPackage(
     packageName: string,
-    packageVersion?: string
+    packageVersion?: string,
+    silent?: boolean
   ): Promise<void> {
     console.log(`Adding package ${packageName} @ ${packageVersion}`);
 
@@ -146,18 +148,27 @@ class NodePackageManager extends PackageManager {
       packageVersion ? packageName + "@" + packageVersion : packageName
     );
 
+    if (silent) {
+      args.push("--silent");
+      args.push("--no-progress");
+    }
+
     // Install exact version
     // Yarn: https://classic.yarnpkg.com/lang/en/docs/cli/add/#toc-yarn-add-exact-e
     // Npm: https://docs.npmjs.com/cli/v8/commands/npm-install#save-exact
     args.push("-E");
 
-    console.log(
-      `Installing package ${packageName} @ ${packageVersion} using ${command}.`
-    );
+    if (!silent) {
+      console.log(
+        `Installing package ${packageName} @ ${packageVersion} using ${command}.`
+      );
+    }
 
     await exec(command, args, { cwd: this.workingDirectory });
 
-    console.log("Package installed.");
+    if (!silent) {
+      console.log("Package installed.");
+    }
   }
 
   public async isNpmVersionAvailable(

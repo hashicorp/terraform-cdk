@@ -43,6 +43,7 @@ export type InitArgs = {
   projectInfo: Project;
   templatePath: string;
   sendCrashReports: boolean;
+  silent?: boolean;
 };
 
 export async function init({
@@ -55,6 +56,7 @@ export async function init({
   sendCrashReports,
   providers,
   providersForceLocal,
+  silent,
 }: InitArgs) {
   const deps: any = await determineDeps(cdktfVersion, dist);
 
@@ -68,6 +70,7 @@ export async function init({
     futureFlags,
     projectId,
     sendCrashReports,
+    silent,
   });
   const cdktfConfig = CdktfConfig.read(destination);
 
@@ -78,6 +81,8 @@ export async function init({
       language: cdktfConfig.language,
       projectDirectory: destination,
       forceLocal: providersForceLocal,
+      dist,
+      silent,
     });
   }
   return needsGet;

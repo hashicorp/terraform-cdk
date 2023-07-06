@@ -62,6 +62,9 @@ import {
 import { sanitizeVarFiles } from "./helper/var-files";
 import { askForCrashReportingConsent } from "./helper/error-reporting";
 import { startPerformanceMonitoring } from "./helper/performance";
+import path from "path";
+import os from "os";
+import pkgUp from "pkg-up";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -82,10 +85,22 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
+const readPackageJson = () => {
+  const pkgPath = pkgUp.sync({ cwd: __dirname });
+  if (!pkgPath) {
+    throw new Error("unable to find package.json");
+  }
+
+  return JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
+};
+
 export async function convert({ language, provider, stack }: any) {
   await initializErrorReporting();
   await displayVersionMessage();
 
+  const pkg = readPackageJson();
+
+  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-convert-"));
   const providerRequirements = await getProviderRequirements(provider);
   // Get all the provider schemas
   const { providerSchema } = await readSchema(
@@ -96,6 +111,24 @@ export async function convert({ language, provider, stack }: any) {
       )
     )
   );
+
+  const origDir = process.cwd();
+  process.chdir(tempDir);
+
+  const dist = path.resolve(__dirname, "../../../../../dist");
+
+  await init({
+    template: "typescript",
+    providers: provider,
+    projectName: path.basename(tempDir),
+    projectDescription: "Temporary project for conversion",
+    local: true,
+    enableCrashReporting: false,
+    fromTerraformProject: "no",
+    dist: pkg.version === "0.0.0" ? dist : undefined,
+    cdktfVersion: "0.0.0",
+    silent: true,
+  });
 
   const input = await readStreamAsString(
     process.stdin,
@@ -114,6 +147,8 @@ export async function convert({ language, provider, stack }: any) {
   } catch (err: any) {
     throw Errors.Internal((err as Error).message, err, { language });
   }
+
+  process.chdir(origDir);
 
   console.log(output);
 }
@@ -238,6 +273,7 @@ export async function get(argv: {
   parallelism: number;
   force?: boolean;
   showPerformanceInfo?: boolean;
+  silent?: boolean;
 }) {
   const printPerformanceInfo = argv.showPerformanceInfo
     ? startPerformanceMonitoring()
@@ -273,10 +309,13 @@ export async function get(argv: {
         constraints,
         parallelism,
         force,
+        silent: argv.silent,
       })
     );
   } finally {
-    printPerformanceInfo();
+    if (!argv.silent) {
+      printPerformanceInfo();
+    }
   }
 }
 
@@ -296,13 +335,16 @@ export async function init(argv: any) {
   const { needsGet, codeMakerOutput, language } = await runInit(argv);
 
   if (needsGet) {
-    console.log(
-      "Local providers have been updated. Running cdktf get to update..."
-    );
+    if (!argv.silent) {
+      console.log(
+        "Local providers have been updated. Running cdktf get to update..."
+      );
+    }
     await get({
       language,
       output: codeMakerOutput,
       parallelism: 1,
+      silent: argv.silent,
     });
   }
 }
@@ -498,6 +540,7 @@ export async function providerAdd(argv: any) {
       language: language,
       output: config.codeMakerOutput,
       parallelism: 1,
+      silent: argv.silent,
     });
   }
 }
