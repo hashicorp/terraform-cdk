@@ -16,6 +16,8 @@ export type ProviderAddArgs = {
   projectDirectory: string;
   cdktfVersion?: string;
   forceLocal?: boolean;
+  dist?: string;
+  silent?: boolean;
 };
 
 export async function providerAdd({
@@ -23,10 +25,12 @@ export async function providerAdd({
   language,
   projectDirectory,
   cdktfVersion,
+  dist,
   forceLocal,
+  silent,
 }: ProviderAddArgs): Promise<boolean> {
   const version =
-    cdktfVersion || (await determineDeps(cdktfVersion)).cdktf_version;
+    cdktfVersion || (await determineDeps(cdktfVersion, dist)).cdktf_version;
 
   const manager = new DependencyManager(language, version, projectDirectory);
 
@@ -38,7 +42,10 @@ export async function providerAdd({
       needsGet = true;
       await manager.addLocalProvider(constraint);
     } else {
-      const { addedLocalProvider } = await manager.addProvider(constraint);
+      const { addedLocalProvider } = await manager.addProvider(
+        constraint,
+        silent
+      );
       if (addedLocalProvider) {
         needsGet = true;
       }

@@ -23,7 +23,7 @@ import {
   parseProviderRequirements,
 } from "@cdktf/hcl2cdk";
 import { isLocalModule } from "@cdktf/provider-generator";
-import { execSync } from "child_process";
+import { ExecSyncOptions, execSync } from "child_process";
 import { v4 as uuid } from "uuid";
 import {
   readSchema,
@@ -81,6 +81,7 @@ type Options = {
   fromTerraformProject?: string;
   enableCrashReporting?: boolean;
   tfeHostname?: string;
+  silent?: boolean;
 };
 
 export async function runInit(argv: Options) {
@@ -96,8 +97,10 @@ export async function runInit(argv: Options) {
     const terraformLogin = new TerraformLogin(terraformRemoteHostname);
     token = await terraformLogin.askToLogin();
   } else {
-    console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
+    if (!argv.silent) {
+      console.log(chalkColour`{yellow Note: By supplying '--local' option you have chosen local storage mode for storing the state of your stack.
 This means that your Terraform state file will be stored locally on disk in a file 'terraform.<STACK NAME>.tfstate' in the root of your project.}`);
+    }
   }
   const isRemote = token != "";
 
@@ -127,11 +130,14 @@ This means that your Terraform state file will be stored locally on disk in a fi
   const projectId = uuid();
   telemetryData.projectId = projectId;
 
-  const fromTerraformProject =
-    argv.fromTerraformProject ||
-    (templateInfo.Name === "typescript"
-      ? await getTerraformProject()
-      : undefined);
+  let fromTerraformProject = argv.fromTerraformProject || undefined;
+  if (!fromTerraformProject) {
+    if (templateInfo.Name === "typescript") {
+      fromTerraformProject = await getTerraformProject();
+    }
+  } else if (fromTerraformProject === "no") {
+    fromTerraformProject = undefined;
+  }
 
   if (!argv.local && useTerraformCloud) {
     if (!("OrganizationName" in projectInfo)) {
@@ -207,6 +213,7 @@ This means that your Terraform state file will be stored locally on disk in a fi
     sendCrashReports: sendCrashReports,
     providers,
     providersForceLocal: argv.providersForceLocal,
+    silent: argv.silent,
   });
 
   if (convertResult && importPath) {
@@ -238,6 +245,12 @@ This means that your Terraform state file will be stored locally on disk in a fi
     }
 
     if (terraformModules.length + terraformProviders.length > 0) {
+      const npmRunGetOptions: ExecSyncOptions = {
+        cwd: destination,
+      };
+      if (argv.silent) {
+        npmRunGetOptions.stdio = "ignore";
+      }
       execSync("npm run get", { cwd: destination });
     }
 

@@ -21,6 +21,7 @@ interface GetConfig {
   constraints: TerraformDependencyConstraint[];
   parallelism: number;
   force?: boolean;
+  silent?: boolean;
 }
 
 export const Get = ({
@@ -29,6 +30,7 @@ export const Get = ({
   constraints,
   parallelism,
   force,
+  silent = false,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
     Status.STARTING
@@ -101,6 +103,10 @@ export const Get = ({
       )}
     </Text>
   );
+
+  if (silent) {
+    return <Text></Text>;
+  }
 
   return (
     <Box>
