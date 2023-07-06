@@ -18,6 +18,7 @@ interface DiffConfig {
   varFiles?: string[];
   noColor?: boolean;
   migrateState?: boolean;
+  skipSynth?: boolean;
 }
 
 export const Diff = ({
@@ -30,6 +31,7 @@ export const Diff = ({
   varFiles,
   noColor,
   migrateState,
+  skipSynth,
 }: DiffConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -42,6 +44,7 @@ export const Diff = ({
         varFiles,
         noColor,
         migrateState,
+        skipSynth,
       })
   );
 

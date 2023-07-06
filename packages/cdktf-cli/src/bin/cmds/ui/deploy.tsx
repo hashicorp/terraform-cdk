@@ -66,6 +66,7 @@ interface DeployConfig {
   varFiles?: string[];
   noColor?: boolean;
   migrateState?: boolean;
+  skipSynth?: boolean;
 }
 
 export const Deploy = ({
@@ -83,6 +84,7 @@ export const Deploy = ({
   varFiles,
   noColor,
   migrateState,
+  skipSynth,
 }: DeployConfig): React.ReactElement => {
   const [outputs, setOutputs] = useState<NestedTerraformOutputs>();
   const { status, logEntries } = useCdktfProject(
@@ -99,6 +101,7 @@ export const Deploy = ({
         varFiles,
         noColor,
         migrateState,
+        skipSynth,
       });
 
       if (onOutputsRetrieved) {

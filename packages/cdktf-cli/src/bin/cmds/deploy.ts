@@ -102,6 +102,12 @@ class Command extends BaseCommand {
         required: false,
         desc: "Load variable values from the given file, in addition to the default files terraform.tfvars and *.auto.tfvars. Use this option more than once to include more than one variables file.",
       })
+      .option("skip-synth", {
+        type: "boolean",
+        default: false,
+        required: false,
+        desc: "Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

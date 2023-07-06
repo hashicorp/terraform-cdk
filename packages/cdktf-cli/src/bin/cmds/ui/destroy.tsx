@@ -26,6 +26,7 @@ interface DestroyConfig {
   migrateState?: boolean;
   vars?: string[];
   varFiles?: string[];
+  skipSynth?: boolean;
 }
 
 export const Destroy = ({
@@ -40,6 +41,7 @@ export const Destroy = ({
   migrateState,
   vars,
   varFiles,
+  skipSynth,
 }: DestroyConfig): React.ReactElement => {
   const { status, logEntries } = useCdktfProject(
     { outDir, synthCommand },
@@ -54,6 +56,7 @@ export const Destroy = ({
         migrateState,
         vars,
         varFiles,
+        skipSynth,
       })
   );
 

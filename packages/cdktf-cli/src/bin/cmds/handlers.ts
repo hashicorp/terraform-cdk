@@ -137,6 +137,7 @@ export async function deploy(argv: any) {
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
+  const skipSynth = argv.skipSynth;
 
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -163,6 +164,7 @@ export async function deploy(argv: any) {
       varFiles,
       noColor,
       migrateState,
+      skipSynth,
     })
   );
 }
@@ -184,6 +186,7 @@ export async function destroy(argv: any) {
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
+  const skipSynth = argv.skipSynth;
 
   await renderInk(
     React.createElement(Destroy, {
@@ -198,6 +201,7 @@ export async function destroy(argv: any) {
       varFiles,
       noColor,
       migrateState,
+      skipSynth,
     })
   );
 }
@@ -216,6 +220,7 @@ export async function diff(argv: any) {
   const varFiles = sanitizeVarFiles(argv.varFile);
   const noColor = argv.noColor;
   const migrateState = argv.migrateState;
+  const skipSynth = argv.skipSynth;
 
   await renderInk(
     React.createElement(Diff, {
@@ -228,6 +233,7 @@ export async function diff(argv: any) {
       varFiles,
       noColor,
       migrateState,
+      skipSynth,
     })
   );
 }
@@ -437,6 +443,7 @@ export async function output(argv: any) {
   const outDir = argv.output;
   const stacks = argv.stacks;
   const includeSensitiveOutputs = argv.outputsFileIncludeSensitiveOutputs;
+  const skipSynth = argv.skipSynth;
   let outputsPath: string | undefined = undefined;
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   let onOutputsRetrieved: (outputs: NestedTerraformOutputs) => void = () => {};
@@ -454,6 +461,7 @@ export async function output(argv: any) {
       synthCommand: command,
       onOutputsRetrieved,
       outputsPath,
+      skipSynth,
     })
   );
 }
