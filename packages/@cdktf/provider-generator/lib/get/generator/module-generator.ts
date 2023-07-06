@@ -45,14 +45,14 @@ export class ModuleGenerator {
 
       const comment = sanitizedComment(this.code);
       if (input.description) {
-        comment.line(` * ${input.description}`);
+        comment.line(input.description);
       }
       if (input.default) {
-        comment.line(` * ${input.default}`);
+        comment.line(input.default);
       }
       if (input.type.includes("map(")) {
         comment.line(
-          ` * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
+          `The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}`
         );
       }
       comment.end();
@@ -94,12 +94,12 @@ export class ModuleGenerator {
     }
 
     const comment = sanitizedComment(this.code);
-    comment.line(` * Defines an ${baseName} based on a Terraform module`);
-    comment.line(` *`);
+    comment.line(`Defines an ${baseName} based on a Terraform module`);
+    comment.line(``);
     comment.line(
       isNonRegistryModule
-        ? ` * Source at ${target.source}`
-        : ` * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`
+        ? `Source at ${target.source}`
+        : `Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`
     );
     comment.end();
     this.code.openBlock(`export class ${baseName} extends TerraformModule`);

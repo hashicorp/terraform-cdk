@@ -52,16 +52,16 @@ export class StructEmitter {
     for (const att of struct.assignableAttributes) {
       const comment = sanitizedComment(this.code);
       if (att.description) {
-        comment.line(`* ${att.description}`);
-        comment.line(`* `);
+        comment.line(att.description);
+        comment.line(``);
         comment.line(
-          `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
         this.warnAboutIdField(att);
         comment.end();
       } else {
         comment.line(
-          `* Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
+          `Docs at Terraform Registry: {@link ${resource.linkToDocs}#${att.terraformName} ${resource.className}#${att.terraformName}}`
         );
         this.warnAboutIdField(att);
         comment.end();
@@ -210,9 +210,9 @@ export class StructEmitter {
     this.code.line();
 
     const comment = sanitizedComment(this.code);
-    comment.line(`* @param terraformResource The parent resource`);
+    comment.line(`@param terraformResource The parent resource`);
     comment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     if (struct.isSingleItem) {
       comment.end();
@@ -245,10 +245,10 @@ export class StructEmitter {
       this.code.closeBlock();
     } else {
       comment.line(
-        `* @param complexObjectIndex the index of this item in the list`
+        `@param complexObjectIndex the index of this item in the list`
       );
       comment.line(
-        `* @param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+        `@param complexObjectIsFromSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
       );
       comment.end();
       this.code.openBlock(
@@ -315,12 +315,12 @@ export class StructEmitter {
 
     this.code.line();
     const constructorComment = sanitizedComment(this.code);
-    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     constructorComment.line(
-      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
     constructorComment.end();
     this.code.openBlock(
@@ -331,7 +331,7 @@ export class StructEmitter {
 
     this.code.line();
     const getterComment = sanitizedComment(this.code);
-    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.line(`@param index the index of the item to return`);
     getterComment.end();
     this.code.openBlock(
       `public get(index: number): ${struct.outputReferenceName}`
@@ -358,9 +358,9 @@ export class StructEmitter {
 
     this.code.line();
     const constructorComment = sanitizedComment(this.code);
-    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     constructorComment.end();
     this.code.openBlock(
@@ -371,7 +371,7 @@ export class StructEmitter {
 
     this.code.line();
     const getterComment = sanitizedComment(this.code);
-    getterComment.line(`* @param key the key of the item to return`);
+    getterComment.line(`@param key the key of the item to return`);
     getterComment.end();
     this.code.openBlock(
       `public get(key: string): ${struct.outputReferenceName}`
@@ -403,12 +403,12 @@ export class StructEmitter {
 
     this.code.line();
     const constructorComment = sanitizedComment(this.code);
-    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     constructorComment.line(
-      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
     constructorComment.end();
     this.code.openBlock(
@@ -419,7 +419,7 @@ export class StructEmitter {
 
     this.code.line();
     const getterComment = sanitizedComment(this.code);
-    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.line(`@param index the index of the item to return`);
     getterComment.end();
     this.code.openBlock(`public get(index: number): ${struct.mapName}`);
     this.code.line(`return new ${struct.mapName}(this, \`[\${index}]\`);`);
@@ -447,9 +447,9 @@ export class StructEmitter {
 
     this.code.line();
     const constructorComment = sanitizedComment(this.code);
-    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     constructorComment.end();
     this.code.openBlock(
@@ -460,7 +460,7 @@ export class StructEmitter {
 
     this.code.line();
     const getterComment = sanitizedComment(this.code);
-    getterComment.line(`* @param key the key of the item to return`);
+    getterComment.line(`@param key the key of the item to return`);
     getterComment.end();
     this.code.openBlock(`public get(key: string): ${struct.listName}`);
     this.code.line(
@@ -490,12 +490,12 @@ export class StructEmitter {
 
     this.code.line();
     const constructorComment = sanitizedComment(this.code);
-    constructorComment.line(`* @param terraformResource The parent resource`);
+    constructorComment.line(`@param terraformResource The parent resource`);
     constructorComment.line(
-      `* @param terraformAttribute The attribute on the parent resource this class is referencing`
+      `@param terraformAttribute The attribute on the parent resource this class is referencing`
     );
     constructorComment.line(
-      `* @param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
+      `@param wrapsSet whether the list is wrapping a set (will add tolist() to be able to access an item via an index)`
     );
     constructorComment.end();
     this.code.openBlock(
@@ -506,7 +506,7 @@ export class StructEmitter {
 
     this.code.line();
     const getterComment = sanitizedComment(this.code);
-    getterComment.line(`* @param index the index of the item to return`);
+    getterComment.line(`@param index the index of the item to return`);
     getterComment.end();
     this.code.openBlock(`public get(index: number): ${struct.listName}`);
     this.code.line(
