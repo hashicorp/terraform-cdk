@@ -44,7 +44,6 @@ export class ModuleGenerator {
       const optional = input.required && input.default === undefined ? "" : "?";
 
       const comment = sanitizedComment(this.code);
-      this.code.line(`/**`);
       if (input.description) {
         comment.line(` * ${input.description}`);
       }
@@ -93,15 +92,16 @@ export class ModuleGenerator {
       // not submodule specified, just append the version
       registryPath = `${target.source}/${target.version || "latest"}`;
     }
-    this.code.line(`/**`);
-    this.code.line(` * Defines an ${baseName} based on a Terraform module`);
-    this.code.line(` *`);
-    this.code.line(
+
+    const comment = sanitizedComment(this.code);
+    comment.line(` * Defines an ${baseName} based on a Terraform module`);
+    comment.line(` *`);
+    comment.line(
       isNonRegistryModule
         ? ` * Source at ${target.source}`
         : ` * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/${registryPath} ${target.source}}`
     );
-    this.code.line(` */`);
+    comment.end();
     this.code.openBlock(`export class ${baseName} extends TerraformModule`);
 
     this.code.line(`private readonly inputs: { [name: string]: any } = { }`);
