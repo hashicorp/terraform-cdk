@@ -192,9 +192,10 @@ export async function getStackWithNoUnmetDependants(
   return await getStackWithNoUnmetDependants(stackExecutors);
 }
 
-export function getDependantStacks(stacksToRun: SynthesizedStack[],
-  allStacks: SynthesizedStack[]): SynthesizedStack[] {
-
+export function getDependantStacks(
+  stacksToRun: SynthesizedStack[],
+  allStacks: SynthesizedStack[]
+): SynthesizedStack[] {
   return stacksToRun
     .map((stack) =>
       allStacks.filter((s) => s.dependencies.includes(stack.name))
@@ -202,10 +203,15 @@ export function getDependantStacks(stacksToRun: SynthesizedStack[],
     .flat();
 }
 
-export function getStackDependencies(stacksToRun: SynthesizedStack[], allStacks: SynthesizedStack[]): SynthesizedStack[] {
+export function getStackDependencies(
+  stacksToRun: SynthesizedStack[],
+  allStacks: SynthesizedStack[]
+): SynthesizedStack[] {
   return stacksToRun
     .map((stack) => stack.dependencies)
-    .map((dependencies) => allStacks.filter((stack) => dependencies.includes(stack.name)))
+    .map((dependencies) =>
+      allStacks.filter((stack) => dependencies.includes(stack.name))
+    )
     .flat();
 }
 
@@ -215,7 +221,9 @@ export function checkIfAllDependantsAreIncluded(
   allStacks: SynthesizedStack[]
 ) {
   const allDependants = new Set<string>();
-  getDependantStacks(stacksToRun, allStacks).forEach((dependant) => allDependants.add(dependant.name));
+  getDependantStacks(stacksToRun, allStacks).forEach((dependant) =>
+    allDependants.add(dependant.name)
+  );
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependants = [...allDependants].filter(
@@ -242,7 +250,9 @@ export function checkIfAllDependenciesAreIncluded(
   allStacks: SynthesizedStack[]
 ) {
   const allDependencies = new Set<string>();
-  getStackDependencies(stacksToRun, allStacks).forEach((dependency) => allDependencies.add(dependency.name));
+  getStackDependencies(stacksToRun, allStacks).forEach((dependency) =>
+    allDependencies.add(dependency.name)
+  );
 
   const stackNames = stacksToRun.map((stack) => stack.name);
   const missingDependencies = [...allDependencies].filter(

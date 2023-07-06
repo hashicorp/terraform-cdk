@@ -492,11 +492,19 @@ export class CdktfProject {
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
 
     if (!opts.includeDependencies) {
-      this.stacksToRun.concat(getStackDependencies(stacksToRun, stacks).map(s => this.getStackExecutor(s, { autoApprove: true })));
+      this.stacksToRun.concat(
+        getStackDependencies(stacksToRun, stacks).map((s) =>
+          this.getStackExecutor(s, { autoApprove: true })
+        )
+      );
     }
 
     if (!opts.includeDependants) {
-      this.stacksToRun.concat(getDependantStacks(stacksToRun, stacks).map(s => this.getStackExecutor(s, { autoApprove: true })));
+      this.stacksToRun.concat(
+        getDependantStacks(stacksToRun, stacks).map((s) =>
+          this.getStackExecutor(s, { autoApprove: true })
+        )
+      );
     }
 
     if (!opts.ignoreMissingStackDependencies) {
