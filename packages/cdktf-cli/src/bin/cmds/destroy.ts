@@ -79,6 +79,12 @@ class Command extends BaseCommand {
         required: false,
         desc: "Pass this flag after switching state backends to approve a state migration for all targeted stacks",
       })
+      .option("skip-synth", {
+        type: "boolean",
+        default: false,
+        required: false,
+        desc: "Skip synthesis of the application, assume the synthesized Terraform code is already present and up to date",
+      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {

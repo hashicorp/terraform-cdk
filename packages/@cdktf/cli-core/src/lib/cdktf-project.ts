@@ -70,20 +70,29 @@ export type MultipleStackOptions = {
   stackNames?: string[];
 };
 
+export type SkipSynthOptions = {
+  skipSynth?: boolean;
+};
+
+export type FetchOutputOptions = SkipSynthOptions & MultipleStackOptions;
+
 export type AutoApproveOptions = {
   autoApprove?: boolean;
 };
 
-export type DiffOptions = SingleStackOptions & {
-  refreshOnly?: boolean;
-  terraformParallelism?: number;
-  vars?: string[];
-  varFiles?: string[];
-  noColor?: boolean;
-  migrateState?: boolean;
-};
+export type DiffOptions = SingleStackOptions &
+  SkipSynthOptions & {
+    refreshOnly?: boolean;
+    terraformParallelism?: number;
+    vars?: string[];
+    varFiles?: string[];
+    noColor?: boolean;
+    migrateState?: boolean;
+    skipSynth?: boolean;
+  };
 
 export type MutationOptions = MultipleStackOptions &
+  SkipSynthOptions &
   AutoApproveOptions & {
     refreshOnly?: boolean;
     ignoreMissingStackDependencies?: boolean;
@@ -362,8 +371,22 @@ export class CdktfProject {
     return stacks;
   }
 
+  public async readSynthedStacks() {
+    const stacks = await SynthStack.readSynthesizedStacks(this.outDir);
+
+    printAnnotations(stacks);
+
+    this.onUpdate({
+      type: "synthesized",
+      stacks,
+    });
+    return stacks;
+  }
+
   public async diff(opts: DiffOptions = {}) {
-    const stacks = await this.synth();
+    const stacks = opts.skipSynth
+      ? await this.readSynthedStacks()
+      : await this.synth();
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );
@@ -459,7 +482,9 @@ export class CdktfProject {
   }
 
   public async deploy(opts: MutationOptions = {}) {
-    const stacks = await this.synth();
+    const stacks = opts.skipSynth
+      ? await this.readSynthedStacks()
+      : await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
       checkIfAllDependenciesAreIncluded(stacksToRun);
@@ -515,7 +540,9 @@ export class CdktfProject {
   }
 
   public async destroy(opts: MutationOptions = {}) {
-    const stacks = await this.synth();
+    const stacks = opts.skipSynth
+      ? await this.readSynthedStacks()
+      : await this.synth();
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
     if (!opts.ignoreMissingStackDependencies) {
@@ -597,8 +624,10 @@ export class CdktfProject {
     });
   }
 
-  public async fetchOutputs(opts: MultipleStackOptions) {
-    const stacks = await this.synth();
+  public async fetchOutputs(opts: FetchOutputOptions) {
+    const stacks = opts.skipSynth
+      ? await this.readSynthedStacks()
+      : await this.synth();
 
     const stacksToRun = getMultipleStacks(
       stacks,
