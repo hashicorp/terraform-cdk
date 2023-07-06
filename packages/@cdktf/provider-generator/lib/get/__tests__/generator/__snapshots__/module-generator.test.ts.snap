@@ -354,2186 +354,2186 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface VpcConfig extends TerraformModuleUserConfig {
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly accessAnalyzerEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Access Analyzer endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Access Analyzer endpoint
+  */
   readonly accessAnalyzerEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Access Analyzer endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Access Analyzer endpoint
+  * 
+  */
   readonly accessAnalyzerEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Access Analyzer endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Access Analyzer endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly accessAnalyzerEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly acmPcaEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ACM PCA endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ACM PCA endpoint
+  */
   readonly acmPcaEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ACM PCA endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ACM PCA endpoint
+  * 
+  */
   readonly acmPcaEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ACM PCA endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ACM PCA endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly acmPcaEndpointSubnetIds?: string[];
   /**
-   * The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN.
-   * @default 64512
-   */
+  * The Autonomous System Number (ASN) for the Amazon side of the gateway. By default the virtual private gateway is created with the current default Amazon ASN.
+  * 64512
+  */
   readonly amazonSideAsn?: string;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly apigwEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for API GW endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for API GW endpoint
+  */
   readonly apigwEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for API GW  endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for API GW  endpoint
+  * 
+  */
   readonly apigwEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for API GW endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for API GW endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly apigwEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for AppMesh endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for AppMesh endpoint
+  */
   readonly appmeshEnvoyManagementEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for AppMesh endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for AppMesh endpoint
+  * 
+  */
   readonly appmeshEnvoyManagementEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for AppMesh endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for AppMesh endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly appmeshEnvoyManagementEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for AppStream API endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for AppStream API endpoint
+  */
   readonly appstreamApiEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for AppStream API endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for AppStream API endpoint
+  * 
+  */
   readonly appstreamApiEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for AppStream API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for AppStream API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly appstreamApiEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for AppStream Streaming endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for AppStream Streaming endpoint
+  */
   readonly appstreamStreamingEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for AppStream Streaming endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for AppStream Streaming endpoint
+  * 
+  */
   readonly appstreamStreamingEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for AppStream Streaming endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for AppStream Streaming endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly appstreamStreamingEndpointSubnetIds?: string[];
   /**
-   * Assign IPv6 address on subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly assignIpv6AddressOnCreation?: boolean;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly athenaEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Athena endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Athena endpoint
+  */
   readonly athenaEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Athena endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Athena endpoint
+  * 
+  */
   readonly athenaEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Athena endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Athena endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly athenaEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly autoScalingPlansEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Auto Scaling Plans endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Auto Scaling Plans endpoint
+  */
   readonly autoScalingPlansEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Auto Scaling Plans endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Auto Scaling Plans endpoint
+  * 
+  */
   readonly autoScalingPlansEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Auto Scaling Plans endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Auto Scaling Plans endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly autoScalingPlansEndpointSubnetIds?: string[];
   /**
-   * A list of availability zones names or ids in the region
-   * @default 
-   */
+  * A list of availability zones names or ids in the region
+  * 
+  */
   readonly azs?: string[];
   /**
-   * The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden
-   * @default 0.0.0.0/0
-   */
+  * The CIDR block for the VPC. Default value is a valid CIDR, but not acceptable by AWS and should be overridden
+  * 0.0.0.0/0
+  */
   readonly cidr?: string;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly cloudDirectoryEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Cloud Directory endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Cloud Directory endpoint
+  */
   readonly cloudDirectoryEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Cloud Directory endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Cloud Directory endpoint
+  * 
+  */
   readonly cloudDirectoryEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Cloud Directory endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Cloud Directory endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly cloudDirectoryEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Cloudformation endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Cloudformation endpoint
+  */
   readonly cloudformationEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Cloudformation endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Cloudformation endpoint
+  * 
+  */
   readonly cloudformationEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Cloudformation endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Cloudformation endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly cloudformationEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CloudTrail endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CloudTrail endpoint
+  */
   readonly cloudtrailEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CloudTrail endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CloudTrail endpoint
+  * 
+  */
   readonly cloudtrailEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CloudTrail endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CloudTrail endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly cloudtrailEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Codeartifact API endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Codeartifact API endpoint
+  */
   readonly codeartifactApiEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Codeartifact API endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Codeartifact API endpoint
+  * 
+  */
   readonly codeartifactApiEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Codeartifact API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Codeartifact API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codeartifactApiEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Codeartifact repositories endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Codeartifact repositories endpoint
+  */
   readonly codeartifactRepositoriesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Codeartifact repositories endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Codeartifact repositories endpoint
+  * 
+  */
   readonly codeartifactRepositoriesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Codeartifact repositories endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Codeartifact repositories endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codeartifactRepositoriesEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly codebuildEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Codebuild endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Codebuild endpoint
+  */
   readonly codebuildEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Codebuild endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Codebuild endpoint
+  * 
+  */
   readonly codebuildEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Codebuilt endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Codebuilt endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codebuildEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly codecommitEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Codecommit endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Codecommit endpoint
+  */
   readonly codecommitEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Codecommit endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Codecommit endpoint
+  * 
+  */
   readonly codecommitEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Codecommit endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Codecommit endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codecommitEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CodeDeploy Commands Secure endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CodeDeploy Commands Secure endpoint
+  */
   readonly codedeployCommandsSecureEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CodeDeploy Commands Secure endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CodeDeploy Commands Secure endpoint
+  * 
+  */
   readonly codedeployCommandsSecureEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CodeDeploy Commands Secure endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CodeDeploy Commands Secure endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codedeployCommandsSecureEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CodeDeploy endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CodeDeploy endpoint
+  */
   readonly codedeployEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CodeDeploy endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CodeDeploy endpoint
+  * 
+  */
   readonly codedeployEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CodeDeploy endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CodeDeploy endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codedeployEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CodePipeline endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CodePipeline endpoint
+  */
   readonly codepipelineEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CodePipeline endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CodePipeline endpoint
+  * 
+  */
   readonly codepipelineEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CodePipeline endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CodePipeline endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly codepipelineEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for config endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for config endpoint
+  */
   readonly configEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for config endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for config endpoint
+  * 
+  */
   readonly configEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for config endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for config endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly configEndpointSubnetIds?: string[];
   /**
-   * Controls if an internet gateway route for public database access should be created
-   */
+  * Controls if an internet gateway route for public database access should be created
+  */
   readonly createDatabaseInternetGatewayRoute?: boolean;
   /**
-   * Controls if a nat gateway route should be created to give internet access to the database subnets
-   */
+  * Controls if a nat gateway route should be created to give internet access to the database subnets
+  */
   readonly createDatabaseNatGatewayRoute?: boolean;
   /**
-   * Controls if database subnet group should be created (n.b. database_subnets must also be set)
-   * @default true
-   */
+  * Controls if database subnet group should be created (n.b. database_subnets must also be set)
+  * true
+  */
   readonly createDatabaseSubnetGroup?: boolean;
   /**
-   * Controls if separate route table for database should be created
-   */
+  * Controls if separate route table for database should be created
+  */
   readonly createDatabaseSubnetRouteTable?: boolean;
   /**
-   * Controls if an Egress Only Internet Gateway is created and its related routes.
-   * @default true
-   */
+  * Controls if an Egress Only Internet Gateway is created and its related routes.
+  * true
+  */
   readonly createEgressOnlyIgw?: boolean;
   /**
-   * Controls if elasticache subnet group should be created
-   * @default true
-   */
+  * Controls if elasticache subnet group should be created
+  * true
+  */
   readonly createElasticacheSubnetGroup?: boolean;
   /**
-   * Controls if separate route table for elasticache should be created
-   */
+  * Controls if separate route table for elasticache should be created
+  */
   readonly createElasticacheSubnetRouteTable?: boolean;
   /**
-   * Whether to create IAM role for VPC Flow Logs
-   */
+  * Whether to create IAM role for VPC Flow Logs
+  */
   readonly createFlowLogCloudwatchIamRole?: boolean;
   /**
-   * Whether to create CloudWatch log group for VPC Flow Logs
-   */
+  * Whether to create CloudWatch log group for VPC Flow Logs
+  */
   readonly createFlowLogCloudwatchLogGroup?: boolean;
   /**
-   * Controls if an Internet Gateway is created for public subnets and the related routes that connect them.
-   * @default true
-   */
+  * Controls if an Internet Gateway is created for public subnets and the related routes that connect them.
+  * true
+  */
   readonly createIgw?: boolean;
   /**
-   * Controls if redshift subnet group should be created
-   * @default true
-   */
+  * Controls if redshift subnet group should be created
+  * true
+  */
   readonly createRedshiftSubnetGroup?: boolean;
   /**
-   * Controls if separate route table for redshift should be created
-   */
+  * Controls if separate route table for redshift should be created
+  */
   readonly createRedshiftSubnetRouteTable?: boolean;
   /**
-   * Controls if VPC should be created (it affects almost all resources)
-   * @default true
-   */
+  * Controls if VPC should be created (it affects almost all resources)
+  * true
+  */
   readonly createVpc?: boolean;
   /**
-   * Additional tags for the Customer Gateway
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the Customer Gateway
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly customerGatewayTags?: { [key: string]: string };
   /**
-   * Maps of Customer Gateway's attributes (BGP ASN and Gateway's Internet-routable external IP address)
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Maps of Customer Gateway's attributes (BGP ASN and Gateway's Internet-routable external IP address)
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly customerGateways?: { [key: string]: { [key: string]: any } };
   /**
-   * Additional tags for the database subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the database subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for database subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for database subnets
+  */
   readonly databaseDedicatedNetworkAcl?: boolean;
   /**
-   * Database subnets inbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Database subnets inbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseInboundAclRules?: { [key: string]: string }[];
   /**
-   * Database subnets outbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Database subnets outbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the database route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the database route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on database subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on database subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly databaseSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Additional tags for the database subnet group
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the database subnet group
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseSubnetGroupTags?: { [key: string]: string };
   /**
-   * Assigns IPv6 database subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 database subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly databaseSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to database subnets name
-   * @default db
-   */
+  * Suffix to append to database subnets name
+  * db
+  */
   readonly databaseSubnetSuffix?: string;
   /**
-   * Additional tags for the database subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the database subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly databaseSubnetTags?: { [key: string]: string };
   /**
-   * A list of database subnets
-   * @default 
-   */
+  * A list of database subnets
+  * 
+  */
   readonly databaseSubnets?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Data Sync endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Data Sync endpoint
+  */
   readonly datasyncEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Data Sync endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Data Sync endpoint
+  * 
+  */
   readonly datasyncEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Data Sync endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Data Sync endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly datasyncEndpointSubnetIds?: string[];
   /**
-   * List of maps of egress rules to set on the Default Network ACL
-   * @default [object Object],[object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * List of maps of egress rules to set on the Default Network ACL
+  * [object Object],[object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultNetworkAclEgress?: { [key: string]: string }[];
   /**
-   * List of maps of ingress rules to set on the Default Network ACL
-   * @default [object Object],[object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * List of maps of ingress rules to set on the Default Network ACL
+  * [object Object],[object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultNetworkAclIngress?: { [key: string]: string }[];
   /**
-   * Name to be used on the Default Network ACL
-   */
+  * Name to be used on the Default Network ACL
+  */
   readonly defaultNetworkAclName?: string;
   /**
-   * Additional tags for the Default Network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the Default Network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultNetworkAclTags?: { [key: string]: string };
   /**
-   * List of virtual gateways for propagation
-   * @default 
-   */
+  * List of virtual gateways for propagation
+  * 
+  */
   readonly defaultRouteTablePropagatingVgws?: string[];
   /**
-   * Configuration block of routes. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table#route
-   * @default 
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Configuration block of routes. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/default_route_table#route
+  * 
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultRouteTableRoutes?: { [key: string]: string }[];
   /**
-   * Additional tags for the default route table
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the default route table
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultRouteTableTags?: { [key: string]: string };
   /**
-   * List of maps of egress rules to set on the default security group
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * List of maps of egress rules to set on the default security group
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultSecurityGroupEgress?: { [key: string]: string }[];
   /**
-   * List of maps of ingress rules to set on the default security group
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * List of maps of ingress rules to set on the default security group
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultSecurityGroupIngress?: { [key: string]: string }[];
   /**
-   * Name to be used on the default security group
-   * @default default
-   */
+  * Name to be used on the default security group
+  * default
+  */
   readonly defaultSecurityGroupName?: string;
   /**
-   * Additional tags for the default security group
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the default security group
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultSecurityGroupTags?: { [key: string]: string };
   /**
-   * Should be true to enable ClassicLink in the Default VPC
-   */
+  * Should be true to enable ClassicLink in the Default VPC
+  */
   readonly defaultVpcEnableClassiclink?: boolean;
   /**
-   * Should be true to enable DNS hostnames in the Default VPC
-   */
+  * Should be true to enable DNS hostnames in the Default VPC
+  */
   readonly defaultVpcEnableDnsHostnames?: boolean;
   /**
-   * Should be true to enable DNS support in the Default VPC
-   * @default true
-   */
+  * Should be true to enable DNS support in the Default VPC
+  * true
+  */
   readonly defaultVpcEnableDnsSupport?: boolean;
   /**
-   * Name to be used on the Default VPC
-   */
+  * Name to be used on the Default VPC
+  */
   readonly defaultVpcName?: string;
   /**
-   * Additional tags for the Default VPC
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the Default VPC
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly defaultVpcTags?: { [key: string]: string };
   /**
-   * Specifies DNS name for DHCP options set (requires enable_dhcp_options set to true)
-   */
+  * Specifies DNS name for DHCP options set (requires enable_dhcp_options set to true)
+  */
   readonly dhcpOptionsDomainName?: string;
   /**
-   * Specify a list of DNS server addresses for DHCP options set, default to AWS provided (requires enable_dhcp_options set to true)
-   * @default AmazonProvidedDNS
-   */
+  * Specify a list of DNS server addresses for DHCP options set, default to AWS provided (requires enable_dhcp_options set to true)
+  * AmazonProvidedDNS
+  */
   readonly dhcpOptionsDomainNameServers?: string[];
   /**
-   * Specify a list of netbios servers for DHCP options set (requires enable_dhcp_options set to true)
-   * @default 
-   */
+  * Specify a list of netbios servers for DHCP options set (requires enable_dhcp_options set to true)
+  * 
+  */
   readonly dhcpOptionsNetbiosNameServers?: string[];
   /**
-   * Specify netbios node_type for DHCP options set (requires enable_dhcp_options set to true)
-   */
+  * Specify netbios node_type for DHCP options set (requires enable_dhcp_options set to true)
+  */
   readonly dhcpOptionsNetbiosNodeType?: string;
   /**
-   * Specify a list of NTP servers for DHCP options set (requires enable_dhcp_options set to true)
-   * @default 
-   */
+  * Specify a list of NTP servers for DHCP options set (requires enable_dhcp_options set to true)
+  * 
+  */
   readonly dhcpOptionsNtpServers?: string[];
   /**
-   * Additional tags for the DHCP option set (requires enable_dhcp_options set to true)
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the DHCP option set (requires enable_dhcp_options set to true)
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly dhcpOptionsTags?: { [key: string]: string };
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for DMS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for DMS endpoint
+  */
   readonly dmsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for DMS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for DMS endpoint
+  * 
+  */
   readonly dmsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for DMS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for DMS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly dmsEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly dynamodbEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for DynamoDB interface endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for DynamoDB interface endpoint
+  */
   readonly dynamodbEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for DynamoDB interface endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for DynamoDB interface endpoint
+  * 
+  */
   readonly dynamodbEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for DynamoDB interface endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for DynamoDB interface endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly dynamodbEndpointSubnetIds?: string[];
   /**
-   * DynamoDB VPC endpoint type. Note - DynamoDB Interface type support is not yet available
-   * @default Gateway
-   */
+  * DynamoDB VPC endpoint type. Note - DynamoDB Interface type support is not yet available
+  * Gateway
+  */
   readonly dynamodbEndpointType?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EBS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EBS endpoint
+  */
   readonly ebsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EBS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EBS endpoint
+  * 
+  */
   readonly ebsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EBS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EBS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly ebsEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly ec2AutoscalingEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EC2 Autoscaling endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EC2 Autoscaling endpoint
+  */
   readonly ec2AutoscalingEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EC2 Autoscaling endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EC2 Autoscaling endpoint
+  * 
+  */
   readonly ec2AutoscalingEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EC2 Autoscaling endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EC2 Autoscaling endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ec2AutoscalingEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly ec2EndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EC2 endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EC2 endpoint
+  */
   readonly ec2EndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EC2 endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EC2 endpoint
+  * 
+  */
   readonly ec2EndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EC2 endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EC2 endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ec2EndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EC2MESSAGES endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EC2MESSAGES endpoint
+  */
   readonly ec2MessagesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EC2MESSAGES endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EC2MESSAGES endpoint
+  * 
+  */
   readonly ec2MessagesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EC2MESSAGES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EC2MESSAGES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ec2MessagesEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly ecrApiEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ECR API endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ECR API endpoint
+  */
   readonly ecrApiEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ECR API endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ECR API endpoint
+  * 
+  */
   readonly ecrApiEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ECR api endpoint. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ECR api endpoint. If omitted, private subnets will be used.
+  * 
+  */
   readonly ecrApiEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly ecrDkrEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ECR DKR endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ECR DKR endpoint
+  */
   readonly ecrDkrEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ECR DKR endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ECR DKR endpoint
+  * 
+  */
   readonly ecrDkrEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ECR dkr endpoint. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ECR dkr endpoint. If omitted, private subnets will be used.
+  * 
+  */
   readonly ecrDkrEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ECS Agent endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ECS Agent endpoint
+  */
   readonly ecsAgentEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ECS Agent endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ECS Agent endpoint
+  * 
+  */
   readonly ecsAgentEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ECS Agent endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ECS Agent endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ecsAgentEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ECS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ECS endpoint
+  */
   readonly ecsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ECS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ECS endpoint
+  * 
+  */
   readonly ecsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ECS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ECS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ecsEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for ECS Telemetry endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for ECS Telemetry endpoint
+  */
   readonly ecsTelemetryEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for ECS Telemetry endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for ECS Telemetry endpoint
+  * 
+  */
   readonly ecsTelemetryEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for ECS Telemetry endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for ECS Telemetry endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ecsTelemetryEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly efsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EFS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EFS endpoint
+  */
   readonly efsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EFS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EFS endpoint
+  * 
+  */
   readonly efsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EFS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EFS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly efsEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Elastic Inference Runtime endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Elastic Inference Runtime endpoint
+  */
   readonly elasticInferenceRuntimeEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Elastic Inference Runtime endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Elastic Inference Runtime endpoint
+  * 
+  */
   readonly elasticInferenceRuntimeEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Elastic Inference Runtime endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Elastic Inference Runtime endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly elasticInferenceRuntimeEndpointSubnetIds?: string[];
   /**
-   * Additional tags for the elasticache subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the elasticache subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly elasticacheAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for elasticache subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for elasticache subnets
+  */
   readonly elasticacheDedicatedNetworkAcl?: boolean;
   /**
-   * Elasticache subnets inbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Elasticache subnets inbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly elasticacheInboundAclRules?: { [key: string]: string }[];
   /**
-   * Elasticache subnets outbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Elasticache subnets outbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly elasticacheOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the elasticache route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the elasticache route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly elasticacheRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on elasticache subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on elasticache subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly elasticacheSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Assigns IPv6 elasticache subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 elasticache subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly elasticacheSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to elasticache subnets name
-   * @default elasticache
-   */
+  * Suffix to append to elasticache subnets name
+  * elasticache
+  */
   readonly elasticacheSubnetSuffix?: string;
   /**
-   * Additional tags for the elasticache subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the elasticache subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly elasticacheSubnetTags?: { [key: string]: string };
   /**
-   * A list of elasticache subnets
-   * @default 
-   */
+  * A list of elasticache subnets
+  * 
+  */
   readonly elasticacheSubnets?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly elasticbeanstalkEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Elastic Beanstalk endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Elastic Beanstalk endpoint
+  */
   readonly elasticbeanstalkEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Elastic Beanstalk endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Elastic Beanstalk endpoint
+  * 
+  */
   readonly elasticbeanstalkEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Elastic Beanstalk endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Elastic Beanstalk endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly elasticbeanstalkEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Elastic Beanstalk Health endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Elastic Beanstalk Health endpoint
+  */
   readonly elasticbeanstalkHealthEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Elastic Beanstalk Health endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Elastic Beanstalk Health endpoint
+  * 
+  */
   readonly elasticbeanstalkHealthEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Elastic Beanstalk Health endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Elastic Beanstalk Health endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly elasticbeanstalkHealthEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly elasticloadbalancingEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Elastic Load Balancing endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Elastic Load Balancing endpoint
+  */
   readonly elasticloadbalancingEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Elastic Load Balancing endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Elastic Load Balancing endpoint
+  * 
+  */
   readonly elasticloadbalancingEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Elastic Load Balancing endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Elastic Load Balancing endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly elasticloadbalancingEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly emrEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for EMR endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for EMR endpoint
+  */
   readonly emrEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for EMR endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for EMR endpoint
+  * 
+  */
   readonly emrEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for EMR endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for EMR endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly emrEndpointSubnetIds?: string[];
   /**
-   * Should be true if you want to provision an Access Analyzer endpoint to the VPC
-   */
+  * Should be true if you want to provision an Access Analyzer endpoint to the VPC
+  */
   readonly enableAccessAnalyzerEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an ACM PCA endpoint to the VPC
-   */
+  * Should be true if you want to provision an ACM PCA endpoint to the VPC
+  */
   readonly enableAcmPcaEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an api gateway endpoint to the VPC
-   */
+  * Should be true if you want to provision an api gateway endpoint to the VPC
+  */
   readonly enableApigwEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a AppMesh endpoint to the VPC
-   */
+  * Should be true if you want to provision a AppMesh endpoint to the VPC
+  */
   readonly enableAppmeshEnvoyManagementEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a AppStream API endpoint to the VPC
-   */
+  * Should be true if you want to provision a AppStream API endpoint to the VPC
+  */
   readonly enableAppstreamApiEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a AppStream Streaming endpoint to the VPC
-   */
+  * Should be true if you want to provision a AppStream Streaming endpoint to the VPC
+  */
   readonly enableAppstreamStreamingEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Athena endpoint to the VPC
-   */
+  * Should be true if you want to provision a Athena endpoint to the VPC
+  */
   readonly enableAthenaEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Auto Scaling Plans endpoint to the VPC
-   */
+  * Should be true if you want to provision an Auto Scaling Plans endpoint to the VPC
+  */
   readonly enableAutoScalingPlansEndpoint?: boolean;
   /**
-   * Should be true to enable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic.
-   */
+  * Should be true to enable ClassicLink for the VPC. Only valid in regions and accounts that support EC2 Classic.
+  */
   readonly enableClassiclink?: boolean;
   /**
-   * Should be true to enable ClassicLink DNS Support for the VPC. Only valid in regions and accounts that support EC2 Classic.
-   */
+  * Should be true to enable ClassicLink DNS Support for the VPC. Only valid in regions and accounts that support EC2 Classic.
+  */
   readonly enableClassiclinkDnsSupport?: boolean;
   /**
-   * Should be true if you want to provision an Cloud Directory endpoint to the VPC
-   */
+  * Should be true if you want to provision an Cloud Directory endpoint to the VPC
+  */
   readonly enableCloudDirectoryEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Cloudformation endpoint to the VPC
-   */
+  * Should be true if you want to provision a Cloudformation endpoint to the VPC
+  */
   readonly enableCloudformationEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a CloudTrail endpoint to the VPC
-   */
+  * Should be true if you want to provision a CloudTrail endpoint to the VPC
+  */
   readonly enableCloudtrailEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Codeartifact API endpoint to the VPC
-   */
+  * Should be true if you want to provision an Codeartifact API endpoint to the VPC
+  */
   readonly enableCodeartifactApiEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Codeartifact repositories endpoint to the VPC
-   */
+  * Should be true if you want to provision an Codeartifact repositories endpoint to the VPC
+  */
   readonly enableCodeartifactRepositoriesEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Codebuild endpoint to the VPC
-   */
+  * Should be true if you want to provision an Codebuild endpoint to the VPC
+  */
   readonly enableCodebuildEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Codecommit endpoint to the VPC
-   */
+  * Should be true if you want to provision an Codecommit endpoint to the VPC
+  */
   readonly enableCodecommitEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an CodeDeploy Commands Secure endpoint to the VPC
-   */
+  * Should be true if you want to provision an CodeDeploy Commands Secure endpoint to the VPC
+  */
   readonly enableCodedeployCommandsSecureEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an CodeDeploy endpoint to the VPC
-   */
+  * Should be true if you want to provision an CodeDeploy endpoint to the VPC
+  */
   readonly enableCodedeployEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a CodePipeline endpoint to the VPC
-   */
+  * Should be true if you want to provision a CodePipeline endpoint to the VPC
+  */
   readonly enableCodepipelineEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an config endpoint to the VPC
-   */
+  * Should be true if you want to provision an config endpoint to the VPC
+  */
   readonly enableConfigEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Data Sync endpoint to the VPC
-   */
+  * Should be true if you want to provision an Data Sync endpoint to the VPC
+  */
   readonly enableDatasyncEndpoint?: boolean;
   /**
-   * Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type
-   */
+  * Should be true if you want to specify a DHCP options set with a custom domain name, DNS servers, NTP servers, netbios servers, and/or netbios server type
+  */
   readonly enableDhcpOptions?: boolean;
   /**
-   * Should be true if you want to provision a DMS endpoint to the VPC
-   */
+  * Should be true if you want to provision a DMS endpoint to the VPC
+  */
   readonly enableDmsEndpoint?: boolean;
   /**
-   * Should be true to enable DNS hostnames in the VPC
-   */
+  * Should be true to enable DNS hostnames in the VPC
+  */
   readonly enableDnsHostnames?: boolean;
   /**
-   * Should be true to enable DNS support in the VPC
-   * @default true
-   */
+  * Should be true to enable DNS support in the VPC
+  * true
+  */
   readonly enableDnsSupport?: boolean;
   /**
-   * Should be true if you want to provision a DynamoDB endpoint to the VPC
-   */
+  * Should be true if you want to provision a DynamoDB endpoint to the VPC
+  */
   readonly enableDynamodbEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an EBS endpoint to the VPC
-   */
+  * Should be true if you want to provision an EBS endpoint to the VPC
+  */
   readonly enableEbsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an EC2 Autoscaling endpoint to the VPC
-   */
+  * Should be true if you want to provision an EC2 Autoscaling endpoint to the VPC
+  */
   readonly enableEc2AutoscalingEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an EC2 endpoint to the VPC
-   */
+  * Should be true if you want to provision an EC2 endpoint to the VPC
+  */
   readonly enableEc2Endpoint?: boolean;
   /**
-   * Should be true if you want to provision an EC2MESSAGES endpoint to the VPC
-   */
+  * Should be true if you want to provision an EC2MESSAGES endpoint to the VPC
+  */
   readonly enableEc2MessagesEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an ecr api endpoint to the VPC
-   */
+  * Should be true if you want to provision an ecr api endpoint to the VPC
+  */
   readonly enableEcrApiEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an ecr dkr endpoint to the VPC
-   */
+  * Should be true if you want to provision an ecr dkr endpoint to the VPC
+  */
   readonly enableEcrDkrEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a ECS Agent endpoint to the VPC
-   */
+  * Should be true if you want to provision a ECS Agent endpoint to the VPC
+  */
   readonly enableEcsAgentEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a ECS endpoint to the VPC
-   */
+  * Should be true if you want to provision a ECS endpoint to the VPC
+  */
   readonly enableEcsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a ECS Telemetry endpoint to the VPC
-   */
+  * Should be true if you want to provision a ECS Telemetry endpoint to the VPC
+  */
   readonly enableEcsTelemetryEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an EFS endpoint to the VPC
-   */
+  * Should be true if you want to provision an EFS endpoint to the VPC
+  */
   readonly enableEfsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Elastic Inference Runtime endpoint to the VPC
-   */
+  * Should be true if you want to provision an Elastic Inference Runtime endpoint to the VPC
+  */
   readonly enableElasticInferenceRuntimeEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Elastic Beanstalk endpoint to the VPC
-   */
+  * Should be true if you want to provision a Elastic Beanstalk endpoint to the VPC
+  */
   readonly enableElasticbeanstalkEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Elastic Beanstalk Health endpoint to the VPC
-   */
+  * Should be true if you want to provision a Elastic Beanstalk Health endpoint to the VPC
+  */
   readonly enableElasticbeanstalkHealthEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Elastic Load Balancing endpoint to the VPC
-   */
+  * Should be true if you want to provision a Elastic Load Balancing endpoint to the VPC
+  */
   readonly enableElasticloadbalancingEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an EMR endpoint to the VPC
-   */
+  * Should be true if you want to provision an EMR endpoint to the VPC
+  */
   readonly enableEmrEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a CloudWatch Events endpoint to the VPC
-   */
+  * Should be true if you want to provision a CloudWatch Events endpoint to the VPC
+  */
   readonly enableEventsEndpoint?: boolean;
   /**
-   * Whether or not to enable VPC Flow Logs
-   */
+  * Whether or not to enable VPC Flow Logs
+  */
   readonly enableFlowLog?: boolean;
   /**
-   * Should be true if you want to provision an Git Codecommit endpoint to the VPC
-   */
+  * Should be true if you want to provision an Git Codecommit endpoint to the VPC
+  */
   readonly enableGitCodecommitEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Glue endpoint to the VPC
-   */
+  * Should be true if you want to provision a Glue endpoint to the VPC
+  */
   readonly enableGlueEndpoint?: boolean;
   /**
-   * Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
-   */
+  * Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for the VPC. You cannot specify the range of IP addresses, or the size of the CIDR block.
+  */
   readonly enableIpv6?: boolean;
   /**
-   * Should be true if you want to provision a Kinesis Firehose endpoint to the VPC
-   */
+  * Should be true if you want to provision a Kinesis Firehose endpoint to the VPC
+  */
   readonly enableKinesisFirehoseEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Kinesis Streams endpoint to the VPC
-   */
+  * Should be true if you want to provision a Kinesis Streams endpoint to the VPC
+  */
   readonly enableKinesisStreamsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a KMS endpoint to the VPC
-   */
+  * Should be true if you want to provision a KMS endpoint to the VPC
+  */
   readonly enableKmsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Lambda endpoint to the VPC
-   */
+  * Should be true if you want to provision a Lambda endpoint to the VPC
+  */
   readonly enableLambdaEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a CloudWatch Logs endpoint to the VPC
-   */
+  * Should be true if you want to provision a CloudWatch Logs endpoint to the VPC
+  */
   readonly enableLogsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a CloudWatch Monitoring endpoint to the VPC
-   */
+  * Should be true if you want to provision a CloudWatch Monitoring endpoint to the VPC
+  */
   readonly enableMonitoringEndpoint?: boolean;
   /**
-   * Should be true if you want to provision NAT Gateways for each of your private networks
-   */
+  * Should be true if you want to provision NAT Gateways for each of your private networks
+  */
   readonly enableNatGateway?: boolean;
   /**
-   * Controls if redshift should have public routing table
-   */
+  * Controls if redshift should have public routing table
+  */
   readonly enablePublicRedshift?: boolean;
   /**
-   * Whether to enable S3 VPC Endpoint for public subnets
-   * @default true
-   */
+  * Whether to enable S3 VPC Endpoint for public subnets
+  * true
+  */
   readonly enablePublicS3Endpoint?: boolean;
   /**
-   * Should be true if you want to provision an QLDB Session endpoint to the VPC
-   */
+  * Should be true if you want to provision an QLDB Session endpoint to the VPC
+  */
   readonly enableQldbSessionEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an RDS endpoint to the VPC
-   */
+  * Should be true if you want to provision an RDS endpoint to the VPC
+  */
   readonly enableRdsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Rekognition endpoint to the VPC
-   */
+  * Should be true if you want to provision a Rekognition endpoint to the VPC
+  */
   readonly enableRekognitionEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an S3 endpoint to the VPC
-   */
+  * Should be true if you want to provision an S3 endpoint to the VPC
+  */
   readonly enableS3Endpoint?: boolean;
   /**
-   * Should be true if you want to provision a SageMaker API endpoint to the VPC
-   */
+  * Should be true if you want to provision a SageMaker API endpoint to the VPC
+  */
   readonly enableSagemakerApiEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Sagemaker Notebook endpoint to the VPC
-   */
+  * Should be true if you want to provision a Sagemaker Notebook endpoint to the VPC
+  */
   readonly enableSagemakerNotebookEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a SageMaker Runtime endpoint to the VPC
-   */
+  * Should be true if you want to provision a SageMaker Runtime endpoint to the VPC
+  */
   readonly enableSagemakerRuntimeEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Secrets Manager endpoint to the VPC
-   */
+  * Should be true if you want to provision an Secrets Manager endpoint to the VPC
+  */
   readonly enableSecretsmanagerEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Service Catalog endpoint to the VPC
-   */
+  * Should be true if you want to provision a Service Catalog endpoint to the VPC
+  */
   readonly enableServicecatalogEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an SES endpoint to the VPC
-   */
+  * Should be true if you want to provision an SES endpoint to the VPC
+  */
   readonly enableSesEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an SMS endpoint to the VPC
-   */
+  * Should be true if you want to provision an SMS endpoint to the VPC
+  */
   readonly enableSmsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a SNS endpoint to the VPC
-   */
+  * Should be true if you want to provision a SNS endpoint to the VPC
+  */
   readonly enableSnsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an SQS endpoint to the VPC
-   */
+  * Should be true if you want to provision an SQS endpoint to the VPC
+  */
   readonly enableSqsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an SSM endpoint to the VPC
-   */
+  * Should be true if you want to provision an SSM endpoint to the VPC
+  */
   readonly enableSsmEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a SSMMESSAGES endpoint to the VPC
-   */
+  * Should be true if you want to provision a SSMMESSAGES endpoint to the VPC
+  */
   readonly enableSsmmessagesEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Step Function endpoint to the VPC
-   */
+  * Should be true if you want to provision a Step Function endpoint to the VPC
+  */
   readonly enableStatesEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Storage Gateway endpoint to the VPC
-   */
+  * Should be true if you want to provision a Storage Gateway endpoint to the VPC
+  */
   readonly enableStoragegatewayEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a STS endpoint to the VPC
-   */
+  * Should be true if you want to provision a STS endpoint to the VPC
+  */
   readonly enableStsEndpoint?: boolean;
   /**
-   * Should be true if you want to provision an Textract endpoint to the VPC
-   */
+  * Should be true if you want to provision an Textract endpoint to the VPC
+  */
   readonly enableTextractEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Transfer endpoint to the VPC
-   */
+  * Should be true if you want to provision a Transfer endpoint to the VPC
+  */
   readonly enableTransferEndpoint?: boolean;
   /**
-   * Should be true if you want to provision a Transfer Server endpoint to the VPC
-   */
+  * Should be true if you want to provision a Transfer Server endpoint to the VPC
+  */
   readonly enableTransferserverEndpoint?: boolean;
   /**
-   * Should be true if you want to create a new VPN Gateway resource and attach it to the VPC
-   */
+  * Should be true if you want to create a new VPN Gateway resource and attach it to the VPC
+  */
   readonly enableVpnGateway?: boolean;
   /**
-   * Should be true if you want to provision an Workspaces endpoint to the VPC
-   */
+  * Should be true if you want to provision an Workspaces endpoint to the VPC
+  */
   readonly enableWorkspacesEndpoint?: boolean;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly eventsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Events endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Events endpoint
+  */
   readonly eventsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CloudWatch Events endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CloudWatch Events endpoint
+  * 
+  */
   readonly eventsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CloudWatch Events endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CloudWatch Events endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly eventsEndpointSubnetIds?: string[];
   /**
-   * List of EIP IDs to be assigned to the NAT Gateways (used in combination with reuse_nat_ips)
-   * @default 
-   */
+  * List of EIP IDs to be assigned to the NAT Gateways (used in combination with reuse_nat_ips)
+  * 
+  */
   readonly externalNatIpIds?: string[];
   /**
-   * List of EIPs to be used for \`nat_public_ips\` output (used in combination with reuse_nat_ips and external_nat_ip_ids)
-   * @default 
-   */
+  * List of EIPs to be used for \`nat_public_ips\` output (used in combination with reuse_nat_ips and external_nat_ip_ids)
+  * 
+  */
   readonly externalNatIps?: string[];
   /**
-   * The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group. When flow_log_destination_arn is set to ARN of Cloudwatch Logs, this argument needs to be provided.
-   */
+  * The ARN for the IAM role that's used to post flow logs to a CloudWatch Logs log group. When flow_log_destination_arn is set to ARN of Cloudwatch Logs, this argument needs to be provided.
+  */
   readonly flowLogCloudwatchIamRoleArn?: string;
   /**
-   * The ARN of the KMS Key to use when encrypting log data for VPC flow logs.
-   */
+  * The ARN of the KMS Key to use when encrypting log data for VPC flow logs.
+  */
   readonly flowLogCloudwatchLogGroupKmsKeyId?: string;
   /**
-   * Specifies the name prefix of CloudWatch Log Group for VPC flow logs.
-   * @default /aws/vpc-flow-log/
-   */
+  * Specifies the name prefix of CloudWatch Log Group for VPC flow logs.
+  * /aws/vpc-flow-log/
+  */
   readonly flowLogCloudwatchLogGroupNamePrefix?: string;
   /**
-   * Specifies the number of days you want to retain log events in the specified log group for VPC flow logs.
-   */
+  * Specifies the number of days you want to retain log events in the specified log group for VPC flow logs.
+  */
   readonly flowLogCloudwatchLogGroupRetentionInDays?: number;
   /**
-   * The ARN of the CloudWatch log group or S3 bucket where VPC Flow Logs will be pushed. If this ARN is a S3 bucket the appropriate permissions need to be set on that bucket's policy. When create_flow_log_cloudwatch_log_group is set to false this argument must be provided.
-   */
+  * The ARN of the CloudWatch log group or S3 bucket where VPC Flow Logs will be pushed. If this ARN is a S3 bucket the appropriate permissions need to be set on that bucket's policy. When create_flow_log_cloudwatch_log_group is set to false this argument must be provided.
+  */
   readonly flowLogDestinationArn?: string;
   /**
-   * Type of flow log destination. Can be s3 or cloud-watch-logs.
-   * @default cloud-watch-logs
-   */
+  * Type of flow log destination. Can be s3 or cloud-watch-logs.
+  * cloud-watch-logs
+  */
   readonly flowLogDestinationType?: string;
   /**
-   * The fields to include in the flow log record, in the order in which they should appear.
-   */
+  * The fields to include in the flow log record, in the order in which they should appear.
+  */
   readonly flowLogLogFormat?: string;
   /**
-   * The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: \`60\` seconds or \`600\` seconds.
-   * @default 600
-   */
+  * The maximum interval of time during which a flow of packets is captured and aggregated into a flow log record. Valid Values: \`60\` seconds or \`600\` seconds.
+  * 600
+  */
   readonly flowLogMaxAggregationInterval?: number;
   /**
-   * The type of traffic to capture. Valid values: ACCEPT, REJECT, ALL.
-   * @default ALL
-   */
+  * The type of traffic to capture. Valid values: ACCEPT, REJECT, ALL.
+  * ALL
+  */
   readonly flowLogTrafficType?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Git Codecommit endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Git Codecommit endpoint
+  */
   readonly gitCodecommitEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Git Codecommit endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Git Codecommit endpoint
+  * 
+  */
   readonly gitCodecommitEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Git Codecommit endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Git Codecommit endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly gitCodecommitEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Glue endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Glue endpoint
+  */
   readonly glueEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Glue endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Glue endpoint
+  * 
+  */
   readonly glueEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Glue endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Glue endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly glueEndpointSubnetIds?: string[];
   /**
-   * Additional tags for the internet gateway
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the internet gateway
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly igwTags?: { [key: string]: string };
   /**
-   * A tenancy option for instances launched into the VPC
-   * @default default
-   */
+  * A tenancy option for instances launched into the VPC
+  * default
+  */
   readonly instanceTenancy?: string;
   /**
-   * Additional tags for the intra subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the intra subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly intraAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for intra subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for intra subnets
+  */
   readonly intraDedicatedNetworkAcl?: boolean;
   /**
-   * Intra subnets inbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Intra subnets inbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly intraInboundAclRules?: { [key: string]: string }[];
   /**
-   * Intra subnets outbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Intra subnets outbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly intraOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the intra route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the intra route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly intraRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on intra subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on intra subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly intraSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Assigns IPv6 intra subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 intra subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly intraSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to intra subnets name
-   * @default intra
-   */
+  * Suffix to append to intra subnets name
+  * intra
+  */
   readonly intraSubnetSuffix?: string;
   /**
-   * Additional tags for the intra subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the intra subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly intraSubnetTags?: { [key: string]: string };
   /**
-   * A list of intra subnets
-   * @default 
-   */
+  * A list of intra subnets
+  * 
+  */
   readonly intraSubnets?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly kinesisFirehoseEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Kinesis Firehose endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Kinesis Firehose endpoint
+  */
   readonly kinesisFirehoseEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Kinesis Firehose endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Kinesis Firehose endpoint
+  * 
+  */
   readonly kinesisFirehoseEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Kinesis Firehose endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Kinesis Firehose endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly kinesisFirehoseEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly kinesisStreamsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Kinesis Streams endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Kinesis Streams endpoint
+  */
   readonly kinesisStreamsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Kinesis Streams endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Kinesis Streams endpoint
+  * 
+  */
   readonly kinesisStreamsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Kinesis Streams endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Kinesis Streams endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly kinesisStreamsEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly kmsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for KMS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for KMS endpoint
+  */
   readonly kmsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for KMS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for KMS endpoint
+  * 
+  */
   readonly kmsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for KMS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for KMS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly kmsEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Lambda endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Lambda endpoint
+  */
   readonly lambdaEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Lambda endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Lambda endpoint
+  * 
+  */
   readonly lambdaEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Lambda endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Lambda endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly lambdaEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly logsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Logs endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Logs endpoint
+  */
   readonly logsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CloudWatch Logs endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CloudWatch Logs endpoint
+  * 
+  */
   readonly logsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CloudWatch Logs endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CloudWatch Logs endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly logsEndpointSubnetIds?: string[];
   /**
-   * Should be true to adopt and manage Default Network ACL
-   */
+  * Should be true to adopt and manage Default Network ACL
+  */
   readonly manageDefaultNetworkAcl?: boolean;
   /**
-   * Should be true to manage default route table
-   */
+  * Should be true to manage default route table
+  */
   readonly manageDefaultRouteTable?: boolean;
   /**
-   * Should be true to adopt and manage default security group
-   */
+  * Should be true to adopt and manage default security group
+  */
   readonly manageDefaultSecurityGroup?: boolean;
   /**
-   * Should be true to adopt and manage Default VPC
-   */
+  * Should be true to adopt and manage Default VPC
+  */
   readonly manageDefaultVpc?: boolean;
   /**
-   * Should be false if you do not want to auto-assign public IP on launch
-   * @default true
-   */
+  * Should be false if you do not want to auto-assign public IP on launch
+  * true
+  */
   readonly mapPublicIpOnLaunch?: boolean;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly monitoringEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Monitoring endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for CloudWatch Monitoring endpoint
+  */
   readonly monitoringEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for CloudWatch Monitoring endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for CloudWatch Monitoring endpoint
+  * 
+  */
   readonly monitoringEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for CloudWatch Monitoring endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for CloudWatch Monitoring endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly monitoringEndpointSubnetIds?: string[];
   /**
-   * Name to be used on all the resources as identifier
-   */
+  * Name to be used on all the resources as identifier
+  */
   readonly name?: string;
   /**
-   * Additional tags for the NAT EIP
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the NAT EIP
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly natEipTags?: { [key: string]: string };
   /**
-   * Additional tags for the NAT gateways
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the NAT gateways
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly natGatewayTags?: { [key: string]: string };
   /**
-   * Should be true if you want only one NAT Gateway per availability zone. Requires \`var.azs\` to be set, and the number of \`public_subnets\` created to be greater than or equal to the number of availability zones specified in \`var.azs\`.
-   */
+  * Should be true if you want only one NAT Gateway per availability zone. Requires \`var.azs\` to be set, and the number of \`public_subnets\` created to be greater than or equal to the number of availability zones specified in \`var.azs\`.
+  */
   readonly oneNatGatewayPerAz?: boolean;
   /**
-   * Additional tags for the outpost subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the outpost subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly outpostAclTags?: { [key: string]: string };
   /**
-   * ARN of Outpost you want to create a subnet in.
-   */
+  * ARN of Outpost you want to create a subnet in.
+  */
   readonly outpostArn?: string;
   /**
-   * AZ where Outpost is anchored.
-   */
+  * AZ where Outpost is anchored.
+  */
   readonly outpostAz?: string;
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for outpost subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for outpost subnets
+  */
   readonly outpostDedicatedNetworkAcl?: boolean;
   /**
-   * Outpost subnets inbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Outpost subnets inbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly outpostInboundAclRules?: { [key: string]: string }[];
   /**
-   * Outpost subnets outbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Outpost subnets outbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly outpostOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Assign IPv6 address on outpost subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on outpost subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly outpostSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Assigns IPv6 outpost subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 outpost subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly outpostSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to outpost subnets name
-   * @default outpost
-   */
+  * Suffix to append to outpost subnets name
+  * outpost
+  */
   readonly outpostSubnetSuffix?: string;
   /**
-   * Additional tags for the outpost subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the outpost subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly outpostSubnetTags?: { [key: string]: string };
   /**
-   * A list of outpost subnets inside the VPC
-   * @default 
-   */
+  * A list of outpost subnets inside the VPC
+  * 
+  */
   readonly outpostSubnets?: string[];
   /**
-   * Additional tags for the private subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the private subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly privateAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for private subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for private subnets
+  */
   readonly privateDedicatedNetworkAcl?: boolean;
   /**
-   * Private subnets inbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Private subnets inbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly privateInboundAclRules?: { [key: string]: string }[];
   /**
-   * Private subnets outbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Private subnets outbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly privateOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the private route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the private route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly privateRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on private subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on private subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly privateSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 private subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly privateSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to private subnets name
-   * @default private
-   */
+  * Suffix to append to private subnets name
+  * private
+  */
   readonly privateSubnetSuffix?: string;
   /**
-   * Additional tags for the private subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the private subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly privateSubnetTags?: { [key: string]: string };
   /**
-   * A list of private subnets inside the VPC
-   * @default 
-   */
+  * A list of private subnets inside the VPC
+  * 
+  */
   readonly privateSubnets?: string[];
   /**
-   * Should be true if you want route table propagation
-   */
+  * Should be true if you want route table propagation
+  */
   readonly propagateIntraRouteTablesVgw?: boolean;
   /**
-   * Should be true if you want route table propagation
-   */
+  * Should be true if you want route table propagation
+  */
   readonly propagatePrivateRouteTablesVgw?: boolean;
   /**
-   * Should be true if you want route table propagation
-   */
+  * Should be true if you want route table propagation
+  */
   readonly propagatePublicRouteTablesVgw?: boolean;
   /**
-   * Additional tags for the public subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the public subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly publicAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for public subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for public subnets
+  */
   readonly publicDedicatedNetworkAcl?: boolean;
   /**
-   * Public subnets inbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Public subnets inbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly publicInboundAclRules?: { [key: string]: string }[];
   /**
-   * Public subnets outbound network ACLs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Public subnets outbound network ACLs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly publicOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the public route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the public route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly publicRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on public subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on public subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly publicSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 public subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly publicSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to public subnets name
-   * @default public
-   */
+  * Suffix to append to public subnets name
+  * public
+  */
   readonly publicSubnetSuffix?: string;
   /**
-   * Additional tags for the public subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the public subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly publicSubnetTags?: { [key: string]: string };
   /**
-   * A list of public subnets inside the VPC
-   * @default 
-   */
+  * A list of public subnets inside the VPC
+  * 
+  */
   readonly publicSubnets?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for QLDB Session endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for QLDB Session endpoint
+  */
   readonly qldbSessionEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for QLDB Session endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for QLDB Session endpoint
+  * 
+  */
   readonly qldbSessionEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for QLDB Session endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for QLDB Session endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly qldbSessionEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for RDS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for RDS endpoint
+  */
   readonly rdsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for RDS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for RDS endpoint
+  * 
+  */
   readonly rdsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for RDS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for RDS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly rdsEndpointSubnetIds?: string[];
   /**
-   * Additional tags for the redshift subnets network ACL
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the redshift subnets network ACL
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftAclTags?: { [key: string]: string };
   /**
-   * Whether to use dedicated network ACL (not default) and custom rules for redshift subnets
-   */
+  * Whether to use dedicated network ACL (not default) and custom rules for redshift subnets
+  */
   readonly redshiftDedicatedNetworkAcl?: boolean;
   /**
-   * Redshift subnets inbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Redshift subnets inbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftInboundAclRules?: { [key: string]: string }[];
   /**
-   * Redshift subnets outbound network ACL rules
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Redshift subnets outbound network ACL rules
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftOutboundAclRules?: { [key: string]: string }[];
   /**
-   * Additional tags for the redshift route tables
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the redshift route tables
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftRouteTableTags?: { [key: string]: string };
   /**
-   * Assign IPv6 address on redshift subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
-   */
+  * Assign IPv6 address on redshift subnet, must be disabled to change IPv6 CIDRs. This is the IPv6 equivalent of map_public_ip_on_launch
+  */
   readonly redshiftSubnetAssignIpv6AddressOnCreation?: boolean;
   /**
-   * Additional tags for the redshift subnet group
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the redshift subnet group
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftSubnetGroupTags?: { [key: string]: string };
   /**
-   * Assigns IPv6 redshift subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
-   * @default 
-   */
+  * Assigns IPv6 redshift subnet id based on the Amazon provided /56 prefix base 10 integer (0-256). Must be of equal length to the corresponding IPv4 subnet list
+  * 
+  */
   readonly redshiftSubnetIpv6Prefixes?: string[];
   /**
-   * Suffix to append to redshift subnets name
-   * @default redshift
-   */
+  * Suffix to append to redshift subnets name
+  * redshift
+  */
   readonly redshiftSubnetSuffix?: string;
   /**
-   * Additional tags for the redshift subnets
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the redshift subnets
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly redshiftSubnetTags?: { [key: string]: string };
   /**
-   * A list of redshift subnets
-   * @default 
-   */
+  * A list of redshift subnets
+  * 
+  */
   readonly redshiftSubnets?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly rekognitionEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Rekognition endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Rekognition endpoint
+  */
   readonly rekognitionEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Rekognition endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Rekognition endpoint
+  * 
+  */
   readonly rekognitionEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Rekognition endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Rekognition endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly rekognitionEndpointSubnetIds?: string[];
   /**
-   * Should be true if you don't want EIPs to be created for your NAT Gateways and will instead pass them in via the 'external_nat_ip_ids' variable
-   */
+  * Should be true if you don't want EIPs to be created for your NAT Gateways and will instead pass them in via the 'external_nat_ip_ids' variable
+  */
   readonly reuseNatIps?: boolean;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly s3EndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for S3 interface endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for S3 interface endpoint
+  */
   readonly s3EndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for S3 interface endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for S3 interface endpoint
+  * 
+  */
   readonly s3EndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for S3 interface endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for S3 interface endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly s3EndpointSubnetIds?: string[];
   /**
-   * S3 VPC endpoint type. Note - S3 Interface type support is only available on AWS provider 3.10 and later
-   * @default Gateway
-   */
+  * S3 VPC endpoint type. Note - S3 Interface type support is only available on AWS provider 3.10 and later
+  * Gateway
+  */
   readonly s3EndpointType?: string;
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly sagemakerApiEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SageMaker API endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SageMaker API endpoint
+  */
   readonly sagemakerApiEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SageMaker API endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SageMaker API endpoint
+  * 
+  */
   readonly sagemakerApiEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SageMaker API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SageMaker API endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly sagemakerApiEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly sagemakerNotebookEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Sagemaker Notebook endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Sagemaker Notebook endpoint
+  */
   readonly sagemakerNotebookEndpointPrivateDnsEnabled?: boolean;
   /**
-   * Region to use for Sagemaker Notebook endpoint
-   */
+  * Region to use for Sagemaker Notebook endpoint
+  */
   readonly sagemakerNotebookEndpointRegion?: string;
   /**
-   * The ID of one or more security groups to associate with the network interface for Sagemaker Notebook endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Sagemaker Notebook endpoint
+  * 
+  */
   readonly sagemakerNotebookEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Sagemaker Notebook endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Sagemaker Notebook endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly sagemakerNotebookEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly sagemakerRuntimeEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SageMaker Runtime endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SageMaker Runtime endpoint
+  */
   readonly sagemakerRuntimeEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SageMaker Runtime endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SageMaker Runtime endpoint
+  * 
+  */
   readonly sagemakerRuntimeEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SageMaker Runtime endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SageMaker Runtime endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly sagemakerRuntimeEndpointSubnetIds?: string[];
   /**
-   * List of secondary CIDR blocks to associate with the VPC to extend the IP Address pool
-   * @default 
-   */
+  * List of secondary CIDR blocks to associate with the VPC to extend the IP Address pool
+  * 
+  */
   readonly secondaryCidrBlocks?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly secretsmanagerEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Secrets Manager endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Secrets Manager endpoint
+  */
   readonly secretsmanagerEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Secrets Manager endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Secrets Manager endpoint
+  * 
+  */
   readonly secretsmanagerEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Secrets Manager endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Secrets Manager endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly secretsmanagerEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Service Catalog endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Service Catalog endpoint
+  */
   readonly servicecatalogEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Service Catalog endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Service Catalog endpoint
+  * 
+  */
   readonly servicecatalogEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Service Catalog endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Service Catalog endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly servicecatalogEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SES endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SES endpoint
+  */
   readonly sesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SES endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SES endpoint
+  * 
+  */
   readonly sesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly sesEndpointSubnetIds?: string[];
   /**
-   * Should be true if you want to provision a single shared NAT Gateway across all of your private networks
-   */
+  * Should be true if you want to provision a single shared NAT Gateway across all of your private networks
+  */
   readonly singleNatGateway?: boolean;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SMS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SMS endpoint
+  */
   readonly smsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SMS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SMS endpoint
+  * 
+  */
   readonly smsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SMS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SMS endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly smsEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly snsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SNS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SNS endpoint
+  */
   readonly snsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SNS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SNS endpoint
+  * 
+  */
   readonly snsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SNS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SNS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly snsEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly sqsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SQS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SQS endpoint
+  */
   readonly sqsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SQS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SQS endpoint
+  * 
+  */
   readonly sqsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SQS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SQS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly sqsEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SSM endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SSM endpoint
+  */
   readonly ssmEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SSM endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SSM endpoint
+  * 
+  */
   readonly ssmEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SSM endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SSM endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ssmEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for SSMMESSAGES endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for SSMMESSAGES endpoint
+  */
   readonly ssmmessagesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for SSMMESSAGES endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for SSMMESSAGES endpoint
+  * 
+  */
   readonly ssmmessagesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for SSMMESSAGES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for SSMMESSAGES endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly ssmmessagesEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly statesEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Step Function endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Step Function endpoint
+  */
   readonly statesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Step Function endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Step Function endpoint
+  * 
+  */
   readonly statesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Step Function endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Step Function endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly statesEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Storage Gateway endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Storage Gateway endpoint
+  */
   readonly storagegatewayEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Storage Gateway endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Storage Gateway endpoint
+  * 
+  */
   readonly storagegatewayEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Storage Gateway endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Storage Gateway endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly storagegatewayEndpointSubnetIds?: string[];
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly stsEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for STS endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for STS endpoint
+  */
   readonly stsEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for STS endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for STS endpoint
+  * 
+  */
   readonly stsEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for STS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for STS endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly stsEndpointSubnetIds?: string[];
   /**
-   * A map of tags to add to all resources
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * A map of tags to add to all resources
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tags?: { [key: string]: string };
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Textract endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Textract endpoint
+  */
   readonly textractEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Textract endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Textract endpoint
+  * 
+  */
   readonly textractEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Textract endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Textract endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly textractEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Transfer endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Transfer endpoint
+  */
   readonly transferEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Transfer endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Transfer endpoint
+  * 
+  */
   readonly transferEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Transfer endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Transfer endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly transferEndpointSubnetIds?: string[];
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Transfer Server endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Transfer Server endpoint
+  */
   readonly transferserverEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Transfer Server endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Transfer Server endpoint
+  * 
+  */
   readonly transferserverEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Transfer Server endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Transfer Server endpoint. Only a single subnet within an AZ is supported. If omitted, private subnets will be used.
+  * 
+  */
   readonly transferserverEndpointSubnetIds?: string[];
   /**
-   * Additional tags for the VPC Endpoints
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the VPC Endpoints
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly vpcEndpointTags?: { [key: string]: string };
   /**
-   * The ARN of the Permissions Boundary for the VPC Flow Log IAM Role
-   */
+  * The ARN of the Permissions Boundary for the VPC Flow Log IAM Role
+  */
   readonly vpcFlowLogPermissionsBoundary?: string;
   /**
-   * Additional tags for the VPC Flow Logs
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the VPC Flow Logs
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly vpcFlowLogTags?: { [key: string]: string };
   /**
-   * Additional tags for the VPC
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the VPC
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly vpcTags?: { [key: string]: string };
   /**
-   * The Availability Zone for the VPN Gateway
-   */
+  * The Availability Zone for the VPN Gateway
+  */
   readonly vpnGatewayAz?: string;
   /**
-   * ID of VPN Gateway to attach to the VPC
-   */
+  * ID of VPN Gateway to attach to the VPC
+  */
   readonly vpnGatewayId?: string;
   /**
-   * Additional tags for the VPN gateway
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the VPN gateway
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly vpnGatewayTags?: { [key: string]: string };
   /**
-   * A policy to attach to the endpoint that controls access to the service. Defaults to full access
-   */
+  * A policy to attach to the endpoint that controls access to the service. Defaults to full access
+  */
   readonly workspacesEndpointPolicy?: string;
   /**
-   * Whether or not to associate a private hosted zone with the specified VPC for Workspaces endpoint
-   */
+  * Whether or not to associate a private hosted zone with the specified VPC for Workspaces endpoint
+  */
   readonly workspacesEndpointPrivateDnsEnabled?: boolean;
   /**
-   * The ID of one or more security groups to associate with the network interface for Workspaces endpoint
-   * @default 
-   */
+  * The ID of one or more security groups to associate with the network interface for Workspaces endpoint
+  * 
+  */
   readonly workspacesEndpointSecurityGroupIds?: string[];
   /**
-   * The ID of one or more subnets in which to create a network interface for Workspaces endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
-   * @default 
-   */
+  * The ID of one or more subnets in which to create a network interface for Workspaces endpoint. Only a single subnet within an AZ is supported. Ifomitted, private subnets will be used.
+  * 
+  */
   readonly workspacesEndpointSubnetIds?: string[];
 }
 /**
- * Defines an Vpc based on a Terraform module
- *
- * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.78.0 terraform-aws-modules/vpc/aws}
- */
+* Defines an Vpc based on a Terraform module
+*
+* Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/2.78.0 terraform-aws-modules/vpc/aws}
+*/
 export class Vpc extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: VpcConfig = {}) {
@@ -6750,348 +6750,348 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface RdsAuroraConfig extends TerraformModuleUserConfig {
   /**
-   * Determines whether major engine upgrades are allowed when changing engine version
-   */
+  * Determines whether major engine upgrades are allowed when changing engine version
+  */
   readonly allowMajorVersionUpgrade?: boolean;
   /**
-   * A list of CIDR blocks which are allowed to access the database
-   * @default 
-   */
+  * A list of CIDR blocks which are allowed to access the database
+  * 
+  */
   readonly allowedCidrBlocks?: string[];
   /**
-   * A list of Security Group ID's to allow access to
-   * @default 
-   */
+  * A list of Security Group ID's to allow access to
+  * 
+  */
   readonly allowedSecurityGroups?: string[];
   /**
-   * Determines whether or not any DB modifications are applied immediately, or during the maintenance window
-   */
+  * Determines whether or not any DB modifications are applied immediately, or during the maintenance window
+  */
   readonly applyImmediately?: boolean;
   /**
-   * Determines whether minor engine upgrades will be performed automatically in the maintenance window
-   * @default true
-   */
+  * Determines whether minor engine upgrades will be performed automatically in the maintenance window
+  * true
+  */
   readonly autoMinorVersionUpgrade?: boolean;
   /**
-   * The target backtrack window, in seconds. Only available for aurora engine currently. To disable backtracking, set this value to 0. Must be between 0 and 259200 (72 hours)
-   */
+  * The target backtrack window, in seconds. Only available for aurora engine currently. To disable backtracking, set this value to 0. Must be between 0 and 259200 (72 hours)
+  */
   readonly backtrackWindow?: number;
   /**
-   * How long to keep backups for (in days)
-   * @default 7
-   */
+  * How long to keep backups for (in days)
+  * 7
+  */
   readonly backupRetentionPeriod?: number;
   /**
-   * The identifier of the CA certificate for the DB instance
-   * @default rds-ca-2019
-   */
+  * The identifier of the CA certificate for the DB instance
+  * rds-ca-2019
+  */
   readonly caCertIdentifier?: string;
   /**
-   * A map of tags to add to only the RDS cluster. Used for AWS Instance Scheduler tagging
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * A map of tags to add to only the RDS cluster. Used for AWS Instance Scheduler tagging
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly clusterTags?: { [key: string]: string };
   /**
-   * Copy all Cluster tags to snapshots
-   */
+  * Copy all Cluster tags to snapshots
+  */
   readonly copyTagsToSnapshot?: boolean;
   /**
-   * Whether cluster should be created (it affects almost all resources)
-   * @default true
-   */
+  * Whether cluster should be created (it affects almost all resources)
+  * true
+  */
   readonly createCluster?: boolean;
   /**
-   * Whether to create the IAM role for RDS enhanced monitoring
-   * @default true
-   */
+  * Whether to create the IAM role for RDS enhanced monitoring
+  * true
+  */
   readonly createMonitoringRole?: boolean;
   /**
-   * Whether to create random password for RDS primary cluster
-   * @default true
-   */
+  * Whether to create random password for RDS primary cluster
+  * true
+  */
   readonly createRandomPassword?: boolean;
   /**
-   * Whether to create security group for RDS cluster
-   * @default true
-   */
+  * Whether to create security group for RDS cluster
+  * true
+  */
   readonly createSecurityGroup?: boolean;
   /**
-   * Name for an automatically created database on cluster creation
-   */
+  * Name for an automatically created database on cluster creation
+  */
   readonly databaseName?: string;
   /**
-   * The name of a DB Cluster parameter group to use
-   */
+  * The name of a DB Cluster parameter group to use
+  */
   readonly dbClusterParameterGroupName?: string;
   /**
-   * The name of a DB parameter group to use
-   */
+  * The name of a DB parameter group to use
+  */
   readonly dbParameterGroupName?: string;
   /**
-   * The existing subnet group name to use
-   */
+  * The existing subnet group name to use
+  */
   readonly dbSubnetGroupName?: string;
   /**
-   * If the DB instance should have deletion protection enabled
-   */
+  * If the DB instance should have deletion protection enabled
+  */
   readonly deletionProtection?: boolean;
   /**
-   * Whether or not to enable the Data API for a serverless Aurora database engine
-   */
+  * Whether or not to enable the Data API for a serverless Aurora database engine
+  */
   readonly enableHttpEndpoint?: boolean;
   /**
-   * List of log types to export to cloudwatch - \`audit\`, \`error\`, \`general\`, \`slowquery\`, \`postgresql\`
-   * @default 
-   */
+  * List of log types to export to cloudwatch - \`audit\`, \`error\`, \`general\`, \`slowquery\`, \`postgresql\`
+  * 
+  */
   readonly enabledCloudwatchLogsExports?: string[];
   /**
-   * Aurora database engine type, currently aurora, aurora-mysql or aurora-postgresql
-   * @default aurora
-   */
+  * Aurora database engine type, currently aurora, aurora-mysql or aurora-postgresql
+  * aurora
+  */
   readonly engine?: string;
   /**
-   * The database engine mode. Valid values: global, parallelquery, provisioned, serverless, multimaster
-   * @default provisioned
-   */
+  * The database engine mode. Valid values: global, parallelquery, provisioned, serverless, multimaster
+  * provisioned
+  */
   readonly engineMode?: string;
   /**
-   * Aurora database engine version
-   * @default 5.6.10a
-   */
+  * Aurora database engine version
+  * 5.6.10a
+  */
   readonly engineVersion?: string;
   /**
-   * The prefix name to use when creating a final snapshot on cluster destroy, appends a random 8 digits to name to ensure it's unique too.
-   * @default final
-   */
+  * The prefix name to use when creating a final snapshot on cluster destroy, appends a random 8 digits to name to ensure it's unique too.
+  * final
+  */
   readonly finalSnapshotIdentifierPrefix?: string;
   /**
-   * The global cluster identifier specified on aws_rds_global_cluster
-   */
+  * The global cluster identifier specified on aws_rds_global_cluster
+  */
   readonly globalClusterIdentifier?: string;
   /**
-   * Specifies whether IAM Database authentication should be enabled or not. Not all versions and instances are supported. Refer to the AWS documentation to see which versions are supported
-   */
+  * Specifies whether IAM Database authentication should be enabled or not. Not all versions and instances are supported. Refer to the AWS documentation to see which versions are supported
+  */
   readonly iamDatabaseAuthenticationEnabled?: boolean;
   /**
-   * Description of the role
-   */
+  * Description of the role
+  */
   readonly iamRoleDescription?: string;
   /**
-   * Whether to force detaching any policies the role has before destroying it
-   */
+  * Whether to force detaching any policies the role has before destroying it
+  */
   readonly iamRoleForceDetachPolicies?: boolean;
   /**
-   * Set of exclusive IAM managed policy ARNs to attach to the IAM role
-   */
+  * Set of exclusive IAM managed policy ARNs to attach to the IAM role
+  */
   readonly iamRoleManagedPolicyArns?: string[];
   /**
-   * Maximum session duration (in seconds) that you want to set for the role
-   */
+  * Maximum session duration (in seconds) that you want to set for the role
+  */
   readonly iamRoleMaxSessionDuration?: number;
   /**
-   * Friendly name of the role
-   */
+  * Friendly name of the role
+  */
   readonly iamRoleName?: string;
   /**
-   * Path to the role
-   */
+  * Path to the role
+  */
   readonly iamRolePath?: string;
   /**
-   * The ARN of the policy that is used to set the permissions boundary for the role
-   */
+  * The ARN of the policy that is used to set the permissions boundary for the role
+  */
   readonly iamRolePermissionsBoundary?: string;
   /**
-   * Whether to use \`iam_role_name\` as is or create a unique name beginning with the \`iam_role_name\` as the prefix
-   */
+  * Whether to use \`iam_role_name\` as is or create a unique name beginning with the \`iam_role_name\` as the prefix
+  */
   readonly iamRoleUseNamePrefix?: boolean;
   /**
-   * A List of ARNs for the IAM roles to associate to the RDS Cluster
-   * @default 
-   */
+  * A List of ARNs for the IAM roles to associate to the RDS Cluster
+  * 
+  */
   readonly iamRoles?: string[];
   /**
-   * Instance type to use at master instance. If instance_type_replica is not set it will use the same type for replica instances
-   */
+  * Instance type to use at master instance. If instance_type_replica is not set it will use the same type for replica instances
+  */
   readonly instanceType?: string;
   /**
-   * Instance type to use at replica instance
-   */
+  * Instance type to use at replica instance
+  */
   readonly instanceTypeReplica?: string;
   /**
-   * Customized instance settings. Supported keys: \`instance_name\`, \`instance_type\`, \`instance_promotion_tier\`, \`publicly_accessible\`
-   * @default 
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Customized instance settings. Supported keys: \`instance_name\`, \`instance_type\`, \`instance_promotion_tier\`, \`publicly_accessible\`
+  * 
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly instancesParameters?: { [key: string]: string }[];
   /**
-   * Whether to create a primary cluster (set to false to be a part of a Global database)
-   * @default true
-   */
+  * Whether to create a primary cluster (set to false to be a part of a Global database)
+  * true
+  */
   readonly isPrimaryCluster?: boolean;
   /**
-   * The ARN for the KMS encryption key if one is set to the cluster
-   */
+  * The ARN for the KMS encryption key if one is set to the cluster
+  */
   readonly kmsKeyId?: string;
   /**
-   * The interval (seconds) between points when Enhanced Monitoring metrics are collected
-   */
+  * The interval (seconds) between points when Enhanced Monitoring metrics are collected
+  */
   readonly monitoringInterval?: number;
   /**
-   * IAM role used by RDS to send enhanced monitoring metrics to CloudWatch
-   */
+  * IAM role used by RDS to send enhanced monitoring metrics to CloudWatch
+  */
   readonly monitoringRoleArn?: string;
   /**
-   * Name used across resources created
-   */
+  * Name used across resources created
+  */
   readonly name?: string;
   /**
-   * Master DB password. Note - when specifying a value here, 'create_random_password' should be set to \`false\`
-   */
+  * Master DB password. Note - when specifying a value here, 'create_random_password' should be set to \`false\`
+  */
   readonly password?: string;
   /**
-   * Specifies whether Performance Insights is enabled or not
-   */
+  * Specifies whether Performance Insights is enabled or not
+  */
   readonly performanceInsightsEnabled?: boolean;
   /**
-   * The ARN for the KMS key to encrypt Performance Insights data
-   */
+  * The ARN for the KMS key to encrypt Performance Insights data
+  */
   readonly performanceInsightsKmsKeyId?: string;
   /**
-   * The port on which to accept connections
-   */
+  * The port on which to accept connections
+  */
   readonly port?: string;
   /**
-   * The metric type to scale on. Valid values are RDSReaderAverageCPUUtilization and RDSReaderAverageDatabaseConnections
-   * @default RDSReaderAverageCPUUtilization
-   */
+  * The metric type to scale on. Valid values are RDSReaderAverageCPUUtilization and RDSReaderAverageDatabaseConnections
+  * RDSReaderAverageCPUUtilization
+  */
   readonly predefinedMetricType?: string;
   /**
-   * When to perform DB backups
-   * @default 02:00-03:00
-   */
+  * When to perform DB backups
+  * 02:00-03:00
+  */
   readonly preferredBackupWindow?: string;
   /**
-   * When to perform DB maintenance
-   * @default sun:05:00-sun:06:00
-   */
+  * When to perform DB maintenance
+  * sun:05:00-sun:06:00
+  */
   readonly preferredMaintenanceWindow?: string;
   /**
-   * Whether the DB should have a public IP address
-   */
+  * Whether the DB should have a public IP address
+  */
   readonly publiclyAccessible?: boolean;
   /**
-   * Number of reader nodes to create.  If \`replica_scale_enable\` is \`true\`, the value of \`replica_scale_min\` is used instead.
-   * @default 1
-   */
+  * Number of reader nodes to create.  If \`replica_scale_enable\` is \`true\`, the value of \`replica_scale_min\` is used instead.
+  * 1
+  */
   readonly replicaCount?: number;
   /**
-   * Average number of connections threshold which will initiate autoscaling. Default value is 70% of db.r4.large's default max_connections
-   * @default 700
-   */
+  * Average number of connections threshold which will initiate autoscaling. Default value is 70% of db.r4.large's default max_connections
+  * 700
+  */
   readonly replicaScaleConnections?: number;
   /**
-   * CPU threshold which will initiate autoscaling
-   * @default 70
-   */
+  * CPU threshold which will initiate autoscaling
+  * 70
+  */
   readonly replicaScaleCpu?: number;
   /**
-   * Whether to enable autoscaling for RDS Aurora (MySQL) read replicas
-   */
+  * Whether to enable autoscaling for RDS Aurora (MySQL) read replicas
+  */
   readonly replicaScaleEnabled?: boolean;
   /**
-   * Cooldown in seconds before allowing further scaling operations after a scale in
-   * @default 300
-   */
+  * Cooldown in seconds before allowing further scaling operations after a scale in
+  * 300
+  */
   readonly replicaScaleInCooldown?: number;
   /**
-   * Maximum number of read replicas permitted when autoscaling is enabled
-   */
+  * Maximum number of read replicas permitted when autoscaling is enabled
+  */
   readonly replicaScaleMax?: number;
   /**
-   * Minimum number of read replicas permitted when autoscaling is enabled
-   * @default 2
-   */
+  * Minimum number of read replicas permitted when autoscaling is enabled
+  * 2
+  */
   readonly replicaScaleMin?: number;
   /**
-   * Cooldown in seconds before allowing further scaling operations after a scale out
-   * @default 300
-   */
+  * Cooldown in seconds before allowing further scaling operations after a scale out
+  * 300
+  */
   readonly replicaScaleOutCooldown?: number;
   /**
-   * ARN of a source DB cluster or DB instance if this DB cluster is to be created as a Read Replica
-   */
+  * ARN of a source DB cluster or DB instance if this DB cluster is to be created as a Read Replica
+  */
   readonly replicationSourceIdentifier?: string;
   /**
-   * Configuration map used to restore from a Percona Xtrabackup in S3 (only MySQL is supported)
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Configuration map used to restore from a Percona Xtrabackup in S3 (only MySQL is supported)
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly s3Import?: { [key: string]: string };
   /**
-   * Map of nested attributes with scaling properties. Only valid when engine_mode is set to \`serverless\`
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Map of nested attributes with scaling properties. Only valid when engine_mode is set to \`serverless\`
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly scalingConfiguration?: { [key: string]: string };
   /**
-   * The description of the security group. If value is set to empty string it will contain cluster name in the description
-   * @default Managed by Terraform
-   */
+  * The description of the security group. If value is set to empty string it will contain cluster name in the description
+  * Managed by Terraform
+  */
   readonly securityGroupDescription?: string;
   /**
-   * Additional tags for the security group
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Additional tags for the security group
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly securityGroupTags?: { [key: string]: string };
   /**
-   * Determines whether a final DB snapshot is created before the DB cluster is deleted. If true is specified, no DB snapshot is created.
-   */
+  * Determines whether a final DB snapshot is created before the DB cluster is deleted. If true is specified, no DB snapshot is created.
+  */
   readonly skipFinalSnapshot?: boolean;
   /**
-   * DB snapshot to create this database from
-   */
+  * DB snapshot to create this database from
+  */
   readonly snapshotIdentifier?: string;
   /**
-   * The source region for an encrypted replica DB cluster
-   */
+  * The source region for an encrypted replica DB cluster
+  */
   readonly sourceRegion?: string;
   /**
-   * Specifies whether the underlying storage layer should be encrypted
-   * @default true
-   */
+  * Specifies whether the underlying storage layer should be encrypted
+  * true
+  */
   readonly storageEncrypted?: boolean;
   /**
-   * List of subnet IDs used by database subnet group created
-   * @default 
-   */
+  * List of subnet IDs used by database subnet group created
+  * 
+  */
   readonly subnets?: string[];
   /**
-   * A map of tags to add to all resources.
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * A map of tags to add to all resources.
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tags?: { [key: string]: string };
   /**
-   * Master DB username
-   * @default root
-   */
+  * Master DB username
+  * root
+  */
   readonly username?: string;
   /**
-   * VPC ID
-   */
+  * VPC ID
+  */
   readonly vpcId?: string;
   /**
-   * List of VPC security groups to associate to the cluster in addition to the SG we create in this module
-   * @default 
-   */
+  * List of VPC security groups to associate to the cluster in addition to the SG we create in this module
+  * 
+  */
   readonly vpcSecurityGroupIds?: string[];
 }
 /**
- * Defines an RdsAurora based on a Terraform module
- *
- * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/rds-aurora/aws/4.1.0 terraform-aws-modules/rds-aurora/aws}
- */
+* Defines an RdsAurora based on a Terraform module
+*
+* Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/rds-aurora/aws/4.1.0 terraform-aws-modules/rds-aurora/aws}
+*/
 export class RdsAurora extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: RdsAuroraConfig = {}) {
@@ -7684,47 +7684,47 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface VpcEndpointsConfig extends TerraformModuleUserConfig {
   /**
-   * Determines whether resources will be created
-   * @default true
-   */
+  * Determines whether resources will be created
+  * true
+  */
   readonly create?: boolean;
   /**
-   * A map of interface and/or gateway endpoints containing their properties and configurations
-   * @default [object Object]
-   */
+  * A map of interface and/or gateway endpoints containing their properties and configurations
+  * [object Object]
+  */
   readonly endpoints?: any;
   /**
-   * Default security group IDs to associate with the VPC endpoints
-   * @default 
-   */
+  * Default security group IDs to associate with the VPC endpoints
+  * 
+  */
   readonly securityGroupIds?: string[];
   /**
-   * Default subnets IDs to associate with the VPC endpoints
-   * @default 
-   */
+  * Default subnets IDs to associate with the VPC endpoints
+  * 
+  */
   readonly subnetIds?: string[];
   /**
-   * A map of tags to use on all resources
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * A map of tags to use on all resources
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tags?: { [key: string]: string };
   /**
-   * Define maximum timeout for creating, updating, and deleting VPC endpoint resources
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Define maximum timeout for creating, updating, and deleting VPC endpoint resources
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly timeouts?: { [key: string]: string };
   /**
-   * The ID of the VPC in which the endpoint will be used
-   */
+  * The ID of the VPC in which the endpoint will be used
+  */
   readonly vpcId?: string;
 }
 /**
- * Defines an VpcEndpoints based on a Terraform module
- *
- * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/3.19.0/submodules/vpc-endpoints terraform-aws-modules/vpc/aws//modules/vpc-endpoints}
- */
+* Defines an VpcEndpoints based on a Terraform module
+*
+* Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/vpc/aws/3.19.0/submodules/vpc-endpoints terraform-aws-modules/vpc/aws//modules/vpc-endpoints}
+*/
 export class VpcEndpoints extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: VpcEndpointsConfig = {}) {
@@ -7800,244 +7800,244 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface EksConfig extends TerraformModuleUserConfig {
   /**
-   * Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`
-   * @default true
-   */
+  * Whether to attach the module managed cluster autoscaling iam policy to the default worker IAM role. This requires \`manage_worker_autoscaling_policy = true\`
+  * true
+  */
   readonly attachWorkerAutoscalingPolicy?: boolean;
   /**
-   * Whether to attach the Amazon managed \`AmazonEKS_CNI_Policy\` IAM policy to the default worker IAM role. WARNING: If set \`false\` the permissions must be assigned to the \`aws-node\` DaemonSet pods via another method or nodes will not be able to join the cluster.
-   * @default true
-   */
+  * Whether to attach the Amazon managed \`AmazonEKS_CNI_Policy\` IAM policy to the default worker IAM role. WARNING: If set \`false\` the permissions must be assigned to the \`aws-node\` DaemonSet pods via another method or nodes will not be able to join the cluster.
+  * true
+  */
   readonly attachWorkerCniPolicy?: boolean;
   /**
-   * Whether to create a security group for the cluster or attach the cluster to \`cluster_security_group_id\`.
-   * @default true
-   */
+  * Whether to create a security group for the cluster or attach the cluster to \`cluster_security_group_id\`.
+  * true
+  */
   readonly clusterCreateSecurityGroup?: boolean;
   /**
-   * Timeout value when creating the EKS cluster.
-   * @default 15m
-   */
+  * Timeout value when creating the EKS cluster.
+  * 15m
+  */
   readonly clusterCreateTimeout?: string;
   /**
-   * Timeout value when deleting the EKS cluster.
-   * @default 15m
-   */
+  * Timeout value when deleting the EKS cluster.
+  * 15m
+  */
   readonly clusterDeleteTimeout?: string;
   /**
-   * A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-   * @default 
-   */
+  * A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
+  * 
+  */
   readonly clusterEnabledLogTypes?: string[];
   /**
-   * Indicates whether or not the Amazon EKS private API server endpoint is enabled.
-   */
+  * Indicates whether or not the Amazon EKS private API server endpoint is enabled.
+  */
   readonly clusterEndpointPrivateAccess?: boolean;
   /**
-   * Indicates whether or not the Amazon EKS public API server endpoint is enabled.
-   * @default true
-   */
+  * Indicates whether or not the Amazon EKS public API server endpoint is enabled.
+  * true
+  */
   readonly clusterEndpointPublicAccess?: boolean;
   /**
-   * IAM role name for the cluster. Only applicable if manage_cluster_iam_resources is set to false.
-   */
+  * IAM role name for the cluster. Only applicable if manage_cluster_iam_resources is set to false.
+  */
   readonly clusterIamRoleName?: string;
   /**
-   * If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)
-   */
+  * If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)
+  */
   readonly clusterLogKmsKeyId?: string;
   /**
-   * Number of days to retain log events. Default retention - 90 days.
-   * @default 90
-   */
+  * Number of days to retain log events. Default retention - 90 days.
+  * 90
+  */
   readonly clusterLogRetentionInDays?: number;
   /**
-   * Name of the EKS cluster. Also used as a prefix in names of related resources.
-   */
+  * Name of the EKS cluster. Also used as a prefix in names of related resources.
+  */
   readonly clusterName: string;
   /**
-   * If provided, the EKS cluster will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the workers
-   */
+  * If provided, the EKS cluster will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the workers
+  */
   readonly clusterSecurityGroupId?: string;
   /**
-   * Kubernetes version to use for the EKS cluster.
-   * @default 1.14
-   */
+  * Kubernetes version to use for the EKS cluster.
+  * 1.14
+  */
   readonly clusterVersion?: string;
   /**
-   * Where to save the Kubectl config file (if \`write_kubeconfig = true\`). Assumed to be a directory if the value ends with a forward slash \`/\`.
-   * @default ./
-   */
+  * Where to save the Kubectl config file (if \`write_kubeconfig = true\`). Assumed to be a directory if the value ends with a forward slash \`/\`.
+  * ./
+  */
   readonly configOutputPath?: string;
   /**
-   * If provided, all IAM roles will be created on this path.
-   * @default /
-   */
+  * If provided, all IAM roles will be created on this path.
+  * /
+  */
   readonly iamPath?: string;
   /**
-   * Any additional arguments to pass to the authenticator such as the role to assume. e.g. ["-r", "MyEksRole"].
-   * @default 
-   */
+  * Any additional arguments to pass to the authenticator such as the role to assume. e.g. ["-r", "MyEksRole"].
+  * 
+  */
   readonly kubeconfigAwsAuthenticatorAdditionalArgs?: string[];
   /**
-   * Command to use to fetch AWS EKS credentials.
-   * @default aws-iam-authenticator
-   */
+  * Command to use to fetch AWS EKS credentials.
+  * aws-iam-authenticator
+  */
   readonly kubeconfigAwsAuthenticatorCommand?: string;
   /**
-   * Default arguments passed to the authenticator command. Defaults to [token -i $cluster_name].
-   * @default 
-   */
+  * Default arguments passed to the authenticator command. Defaults to [token -i $cluster_name].
+  * 
+  */
   readonly kubeconfigAwsAuthenticatorCommandArgs?: string[];
   /**
-   * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = "eks"}.
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = "eks"}.
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly kubeconfigAwsAuthenticatorEnvVariables?: { [key: string]: string };
   /**
-   * Override the default name used for items kubeconfig.
-   */
+  * Override the default name used for items kubeconfig.
+  */
   readonly kubeconfigName?: string;
   /**
-   * Command to run for local-exec resources. Must be a shell-style interpreter. If you are on Windows Git Bash is a good choice.
-   * @default /bin/sh,-c
-   */
+  * Command to run for local-exec resources. Must be a shell-style interpreter. If you are on Windows Git Bash is a good choice.
+  * /bin/sh,-c
+  */
   readonly localExecInterpreter?: string[];
   /**
-   * Whether to apply the aws-auth configmap file.
-   * @default true
-   */
+  * Whether to apply the aws-auth configmap file.
+  * true
+  */
   readonly manageAwsAuth?: boolean;
   /**
-   * Whether to let the module manage cluster IAM resources. If set to false, cluster_iam_role_name must be specified.
-   * @default true
-   */
+  * Whether to let the module manage cluster IAM resources. If set to false, cluster_iam_role_name must be specified.
+  * true
+  */
   readonly manageClusterIamResources?: boolean;
   /**
-   * Whether to let the module manage the cluster autoscaling iam policy.
-   * @default true
-   */
+  * Whether to let the module manage the cluster autoscaling iam policy.
+  * true
+  */
   readonly manageWorkerAutoscalingPolicy?: boolean;
   /**
-   * Whether to let the module manage worker IAM resources. If set to false, iam_instance_profile_name must be specified for workers.
-   * @default true
-   */
+  * Whether to let the module manage worker IAM resources. If set to false, iam_instance_profile_name must be specified for workers.
+  * true
+  */
   readonly manageWorkerIamResources?: boolean;
   /**
-   * Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-   * @default 
-   */
+  * Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
+  * 
+  */
   readonly mapAccounts?: string[];
   /**
-   * Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-   * @default 
-   */
+  * Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
+  * 
+  */
   readonly mapRoles?: any;
   /**
-   * Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-   * @default 
-   */
+  * Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
+  * 
+  */
   readonly mapUsers?: any;
   /**
-   * If provided, all IAM roles will be created with this permissions boundary attached.
-   */
+  * If provided, all IAM roles will be created with this permissions boundary attached.
+  */
   readonly permissionsBoundary?: string;
   /**
-   * A list of subnets to place the EKS cluster and workers within.
-   */
+  * A list of subnets to place the EKS cluster and workers within.
+  */
   readonly subnets: string[];
   /**
-   * A map of tags to add to all resources.
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * A map of tags to add to all resources.
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tags?: { [key: string]: string };
   /**
-   * VPC where the cluster and workers will be deployed.
-   */
+  * VPC where the cluster and workers will be deployed.
+  */
   readonly vpcId: string;
   /**
-   * A list of additional security group ids to attach to worker instances
-   * @default 
-   */
+  * A list of additional security group ids to attach to worker instances
+  * 
+  */
   readonly workerAdditionalSecurityGroupIds?: string[];
   /**
-   * Name filter for AWS EKS worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.
-   */
+  * Name filter for AWS EKS worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.
+  */
   readonly workerAmiNameFilter?: string;
   /**
-   * Name filter for AWS EKS Windows worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.
-   */
+  * Name filter for AWS EKS Windows worker AMI. If not provided, the latest official AMI for the specified 'cluster_version' is used.
+  */
   readonly workerAmiNameFilterWindows?: string;
   /**
-   * The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
-   * @default 602401143452
-   */
+  * The ID of the owner for the AMI to use for the AWS EKS workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
+  * 602401143452
+  */
   readonly workerAmiOwnerId?: string;
   /**
-   * The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
-   * @default 801119661308
-   */
+  * The ID of the owner for the AMI to use for the AWS EKS Windows workers. Valid values are an AWS account ID, 'self' (the current account), or an AWS owner alias (e.g. 'amazon', 'aws-marketplace', 'microsoft').
+  * 801119661308
+  */
   readonly workerAmiOwnerIdWindows?: string;
   /**
-   * Whether to create initial lifecycle hooks provided in worker groups.
-   */
+  * Whether to create initial lifecycle hooks provided in worker groups.
+  */
   readonly workerCreateInitialLifecycleHooks?: boolean;
   /**
-   * Whether to create a security group for the workers or attach the workers to \`worker_security_group_id\`.
-   * @default true
-   */
+  * Whether to create a security group for the workers or attach the workers to \`worker_security_group_id\`.
+  * true
+  */
   readonly workerCreateSecurityGroup?: boolean;
   /**
-   * A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults for valid keys.
-   * @default 
-   */
+  * A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults for valid keys.
+  * 
+  */
   readonly workerGroups?: any;
   /**
-   * A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys.
-   * @default 
-   */
+  * A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys.
+  * 
+  */
   readonly workerGroupsLaunchTemplate?: any;
   /**
-   * If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster.
-   */
+  * If provided, all workers will be attached to this security group. If not given, a security group will be created with necessary ingress/egress to work with the EKS cluster.
+  */
   readonly workerSecurityGroupId?: string;
   /**
-   * Minimum port number from which pods will accept communication. Must be changed to a lower value if some pods in your cluster will expose a port lower than 1025 (e.g. 22, 80, or 443).
-   * @default 1025
-   */
+  * Minimum port number from which pods will accept communication. Must be changed to a lower value if some pods in your cluster will expose a port lower than 1025 (e.g. 22, 80, or 443).
+  * 1025
+  */
   readonly workerSgIngressFromPort?: number;
   /**
-   * Additional policies to be added to workers
-   * @default 
-   */
+  * Additional policies to be added to workers
+  * 
+  */
   readonly workersAdditionalPolicies?: string[];
   /**
-   * Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys.
-   * @default [object Object]
-   */
+  * Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys.
+  * [object Object]
+  */
   readonly workersGroupDefaults?: any;
   /**
-   * User defined workers role name.
-   */
+  * User defined workers role name.
+  */
   readonly workersRoleName?: string;
   /**
-   * Whether to write the aws-auth configmap file.
-   * @default true
-   */
+  * Whether to write the aws-auth configmap file.
+  * true
+  */
   readonly writeAwsAuthConfig?: boolean;
   /**
-   * Whether to write a Kubectl config file containing the cluster configuration. Saved to \`config_output_path\`.
-   * @default true
-   */
+  * Whether to write a Kubectl config file containing the cluster configuration. Saved to \`config_output_path\`.
+  * true
+  */
   readonly writeKubeconfig?: boolean;
 }
 /**
- * Defines an Eks based on a Terraform module
- *
- * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/7.0.1 terraform-aws-modules/eks/aws}
- */
+* Defines an Eks based on a Terraform module
+*
+* Docs at Terraform Registry: {@link https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/7.0.1 terraform-aws-modules/eks/aws}
+*/
 export class Eks extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: EksConfig) {
@@ -8485,16 +8485,16 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface ModuleConfig extends TerraformModuleUserConfig {
   /**
-   * Whether to get AWS account ID, User ID, and ARN in which Terraform is authorized
-   * @default true
-   */
+  * Whether to get AWS account ID, User ID, and ARN in which Terraform is authorized
+  * true
+  */
   readonly fetchCallerIdentity?: boolean;
 }
 /**
- * Defines an Module based on a Terraform module
- *
- * Source at ./module
- */
+* Defines an Module based on a Terraform module
+*
+* Source at ./module
+*/
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: ModuleConfig = {}) {
@@ -8524,18 +8524,18 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface ModuleConfig extends TerraformModuleUserConfig {
   /**
-   * Method path is defined as {resource_path}/{http_method} for single method override, or * /* for overriding all methods in the stage.
-   * @default * /*
+  * Method path is defined as {resource_path}/{http_method} for single method override, or * /* for overriding all methods in the stage.
+  * * /*
    *
-   * Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space.
-   */
+  * Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space.
+  */
   readonly path?: string;
 }
 /**
- * Defines an Module based on a Terraform module
- *
- * Source at ./module
- */
+* Defines an Module based on a Terraform module
+*
+* Source at ./module
+*/
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: ModuleConfig = {}) {
@@ -8565,16 +8565,16 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface ModuleConfig extends TerraformModuleUserConfig {
   /**
-   * Flag to optionally disable usage of this module.
-   * @default true
-   */
+  * Flag to optionally disable usage of this module.
+  * true
+  */
   readonly enabled?: boolean;
 }
 /**
- * Defines an Module based on a Terraform module
- *
- * Source at ./module
- */
+* Defines an Module based on a Terraform module
+*
+* Source at ./module
+*/
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: ModuleConfig = {}) {
@@ -8605,10 +8605,10 @@ import { Construct } from 'constructs';
 export interface ModuleConfig extends TerraformModuleUserConfig {
 }
 /**
- * Defines an Module based on a Terraform module
- *
- * Source at ./module
- */
+* Defines an Module based on a Terraform module
+*
+* Source at ./module
+*/
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: ModuleConfig = {}) {
@@ -8631,20 +8631,20 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface ModuleConfig extends TerraformModuleUserConfig {
   /**
-   * My example var without type set, but with default
-   * @default 1
-   */
+  * My example var without type set, but with default
+  * 1
+  */
   readonly myDefaultTypevar?: number;
   /**
-   * My example var without type set
-   */
+  * My example var without type set
+  */
   readonly myTypelessVar: any;
 }
 /**
- * Defines an Module based on a Terraform module
- *
- * Source at ./module
- */
+* Defines an Module based on a Terraform module
+*
+* Source at ./module
+*/
 export class Module extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: ModuleConfig) {
