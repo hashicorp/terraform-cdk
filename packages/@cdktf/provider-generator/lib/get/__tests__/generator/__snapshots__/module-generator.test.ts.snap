@@ -7,125 +7,125 @@ import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';
 import { Construct } from 'constructs';
 export interface NextJsConfig extends TerraformModuleUserConfig {
   /**
-   * ACM certificate arn for custom_domain
-   */
+  * ACM certificate arn for custom_domain
+  */
   readonly cloudfrontAcmCertificateArn?: string;
   /**
-   * Aliases for custom_domain
-   * @default 
-   */
+  * Aliases for custom_domain
+  * 
+  */
   readonly cloudfrontAliases?: string[];
   /**
-   * Header keys that should be used to calculate the cache key in CloudFront.
-   * @default Authorization
-   */
+  * Header keys that should be used to calculate the cache key in CloudFront.
+  * Authorization
+  */
   readonly cloudfrontCacheKeyHeaders?: string[];
   /**
-   * Controls whether the main CloudFront distribution should be created.
-   * @default true
-   */
+  * Controls whether the main CloudFront distribution should be created.
+  * true
+  */
   readonly cloudfrontCreateDistribution?: boolean;
   /**
-   * When using an external CloudFront distribution provide its arn.
-   */
+  * When using an external CloudFront distribution provide its arn.
+  */
   readonly cloudfrontExternalArn?: string;
   /**
-   * When using an external CloudFront distribution provide its id.
-   */
+  * When using an external CloudFront distribution provide its id.
+  */
   readonly cloudfrontExternalId?: string;
   /**
-   * The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections. One of SSLv3, TLSv1, TLSv1_2016, TLSv1.1_2016, TLSv1.2_2018 or TLSv1.2_2019.
-   * @default TLSv1
-   */
+  * The minimum version of the SSL protocol that you want CloudFront to use for HTTPS connections. One of SSLv3, TLSv1, TLSv1_2016, TLSv1.1_2016, TLSv1.2_2018 or TLSv1.2_2019.
+  * TLSv1
+  */
   readonly cloudfrontMinimumProtocolVersion?: string;
   /**
-   * Id of a custom request policy that overrides the default policy (AllViewer). Can be custom or managed.
-   */
+  * Id of a custom request policy that overrides the default policy (AllViewer). Can be custom or managed.
+  */
   readonly cloudfrontOriginRequestPolicy?: string;
   /**
-   * Price class for the CloudFront distributions (main & proxy config). One of PriceClass_All, PriceClass_200, PriceClass_100.
-   * @default PriceClass_100
-   */
+  * Price class for the CloudFront distributions (main & proxy config). One of PriceClass_All, PriceClass_200, PriceClass_100.
+  * PriceClass_100
+  */
   readonly cloudfrontPriceClass?: string;
   /**
-   * Id of a response headers policy. Can be custom or managed. Default is empty.
-   */
+  * Id of a response headers policy. Can be custom or managed. Default is empty.
+  */
   readonly cloudfrontResponseHeadersPolicy?: string;
   /**
-   * An optional webacl2 arn or webacl id to associate with the cloudfront distribution
-   */
+  * An optional webacl2 arn or webacl id to associate with the cloudfront distribution
+  */
   readonly cloudfrontWebaclId?: string;
   /**
-   * Controls whether resources for image optimization support should be created or not.
-   * @default true
-   */
+  * Controls whether resources for image optimization support should be created or not.
+  * true
+  */
   readonly createImageOptimization?: boolean;
   /**
-   * Use locally built packages rather than download them from npm.
-   */
+  * Use locally built packages rather than download them from npm.
+  */
   readonly debugUseLocalPackages?: boolean;
   /**
-   * Identifier for the deployment group (only lowercase alphanumeric characters and hyphens are allowed).
-   * @default tf-next
-   */
+  * Identifier for the deployment group (only lowercase alphanumeric characters and hyphens are allowed).
+  * tf-next
+  */
   readonly deploymentName?: string;
   /**
-   * Controls whether it should be possible to run multiple deployments in parallel (requires multiple_deployments_base_domain).
-   */
+  * Controls whether it should be possible to run multiple deployments in parallel (requires multiple_deployments_base_domain).
+  */
   readonly enableMultipleDeployments?: boolean;
   /**
-   * Amount of memory in MB the worker Lambda Function for image optimization can use. Valid value between 128 MB to 10,240 MB, in 1 MB increments.
-   * @default 2048
-   */
+  * Amount of memory in MB the worker Lambda Function for image optimization can use. Valid value between 128 MB to 10,240 MB, in 1 MB increments.
+  * 2048
+  */
   readonly imageOptimizationLambdaMemorySize?: number;
   /**
-   * Whether to deploy additional lambda JSON policies. If false, lambda_policy_json will not be attached to the lambda function. (Necessary since policy strings are only known after apply when using Terraforms data.aws_iam_policy_document)
-   */
+  * Whether to deploy additional lambda JSON policies. If false, lambda_policy_json will not be attached to the lambda function. (Necessary since policy strings are only known after apply when using Terraforms data.aws_iam_policy_document)
+  */
   readonly lambdaAttachPolicyJson?: boolean;
   /**
-   * Set to true if the Lambda functions should be attached to a VPC. Use this setting if VPC resources should be accessed by the Lambda functions. When setting this to true, use vpc_security_group_ids and vpc_subnet_ids to specify the VPC networking. Note that attaching to a VPC would introduce a delay on to cold starts
-   */
+  * Set to true if the Lambda functions should be attached to a VPC. Use this setting if VPC resources should be accessed by the Lambda functions. When setting this to true, use vpc_security_group_ids and vpc_subnet_ids to specify the VPC networking. Note that attaching to a VPC would introduce a delay on to cold starts
+  */
   readonly lambdaAttachToVpc?: boolean;
   /**
-   * Additional policy document as JSON to attach to the Lambda Function role
-   */
+  * Additional policy document as JSON to attach to the Lambda Function role
+  */
   readonly lambdaPolicyJson?: string;
   /**
-   * ARN of IAM policy that scopes aws_iam_role access for the lambda
-   */
+  * ARN of IAM policy that scopes aws_iam_role access for the lambda
+  */
   readonly lambdaRolePermissionsBoundary?: string;
   /**
-   * Default wildcard domain where new deployments should be available. Should be in the form of *.example.com.
-   */
+  * Default wildcard domain where new deployments should be available. Should be in the form of *.example.com.
+  */
   readonly multipleDeploymentsBaseDomain?: string;
   /**
-   * Tag metadata to label AWS resources that support tags.
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Tag metadata to label AWS resources that support tags.
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tags?: { [key: string]: string };
   /**
-   * Tag metadata to label AWS S3 buckets. Overrides tags with the same name in input variable tags.
-   * @default [object Object]
-   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
-   */
+  * Tag metadata to label AWS S3 buckets. Overrides tags with the same name in input variable tags.
+  * [object Object]
+  * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
+  */
   readonly tagsS3Bucket?: { [key: string]: string };
   /**
-   * The list of Security Group IDs to be used by the Lambda functions. lambda_attach_to_vpc should be set to true for these to be applied.
-   * @default 
-   */
+  * The list of Security Group IDs to be used by the Lambda functions. lambda_attach_to_vpc should be set to true for these to be applied.
+  * 
+  */
   readonly vpcSecurityGroupIds?: string[];
   /**
-   * The list of VPC subnet IDs to attach the Lambda functions. lambda_attach_to_vpc should be set to true for these to be applied.
-   * @default 
-   */
+  * The list of VPC subnet IDs to attach the Lambda functions. lambda_attach_to_vpc should be set to true for these to be applied.
+  * 
+  */
   readonly vpcSubnetIds?: string[];
 }
 /**
- * Defines an NextJs based on a Terraform module
- *
- * Docs at Terraform Registry: {@link https://registry.terraform.io/modules/milliHQ/next-js/aws/1.0.0-canary.5 milliHQ/next-js/aws}
- */
+* Defines an NextJs based on a Terraform module
+*
+* Docs at Terraform Registry: {@link https://registry.terraform.io/modules/milliHQ/next-js/aws/1.0.0-canary.5 milliHQ/next-js/aws}
+*/
 export class NextJs extends TerraformModule {
   private readonly inputs: { [name: string]: any } = { }
   public constructor(scope: Construct, id: string, config: NextJsConfig = {}) {
