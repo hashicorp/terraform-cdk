@@ -191,7 +191,7 @@ Command output on stdout:
   ): Promise<SynthesizedStack[]> {
     const manifestPath = path.join(outdir, Manifest.fileName);
     if (!(await fs.pathExists(manifestPath))) {
-      throw new Error(`Could not find manifest file at ${manifestPath}.`);
+      throw new Error(`Could not find manifest file at ${manifestPath}. In case --skip-synth was passed, please try again without the flag.`);
     }
 
     const stacks: SynthesizedStack[] = [];
