@@ -102,6 +102,7 @@ export async function convert({ language, provider, stack }: any) {
 
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-convert-"));
   const providerRequirements = await getProviderRequirements(provider);
+
   // Get all the provider schemas
   const { providerSchema } = await readSchema(
     providerRequirements.map((spec) =>
@@ -112,11 +113,17 @@ export async function convert({ language, provider, stack }: any) {
     )
   );
 
+  const input = await readStreamAsString(
+    process.stdin,
+    "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
+  );
+
   const origDir = process.cwd();
   process.chdir(tempDir);
 
   const dist = path.resolve(__dirname, "../../../../../dist");
 
+  logger.setLevel("ERROR");
   await init({
     template: "typescript",
     providers: provider,
@@ -129,11 +136,8 @@ export async function convert({ language, provider, stack }: any) {
     cdktfVersion: "0.0.0",
     silent: true,
   });
+  logger.useDefaultLevel();
 
-  const input = await readStreamAsString(
-    process.stdin,
-    "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
-  );
   let output;
   try {
     const { all, stats } = await hcl2cdkConvert(input, {

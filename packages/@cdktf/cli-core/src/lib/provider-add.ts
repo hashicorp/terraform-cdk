@@ -17,7 +17,6 @@ export type ProviderAddArgs = {
   cdktfVersion?: string;
   forceLocal?: boolean;
   dist?: string;
-  silent?: boolean;
 };
 
 export async function providerAdd({
@@ -27,7 +26,6 @@ export async function providerAdd({
   cdktfVersion,
   dist,
   forceLocal,
-  silent,
 }: ProviderAddArgs): Promise<boolean> {
   const version =
     cdktfVersion || (await determineDeps(cdktfVersion, dist)).cdktf_version;
@@ -42,10 +40,7 @@ export async function providerAdd({
       needsGet = true;
       await manager.addLocalProvider(constraint);
     } else {
-      const { addedLocalProvider } = await manager.addProvider(
-        constraint,
-        silent
-      );
+      const { addedLocalProvider } = await manager.addProvider(constraint);
       if (addedLocalProvider) {
         needsGet = true;
       }
