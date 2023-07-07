@@ -82,7 +82,6 @@ export async function init({
       projectDirectory: destination,
       forceLocal: providersForceLocal,
       dist,
-      silent,
     });
   }
   return needsGet;

@@ -144,14 +144,13 @@ export class DependencyManager {
   }
 
   async addProvider(
-    constraint: ProviderConstraint,
-    silent = false
+    constraint: ProviderConstraint
   ): Promise<{ addedLocalProvider: boolean }> {
-    if (await this.hasPrebuiltProvider(constraint, silent)) {
-      await this.addPrebuiltProvider(constraint, silent);
+    if (await this.hasPrebuiltProvider(constraint)) {
+      await this.addPrebuiltProvider(constraint);
       return { addedLocalProvider: false };
     } else {
-      await this.addLocalProvider(constraint, silent);
+      await this.addLocalProvider(constraint);
       return { addedLocalProvider: true };
     }
   }
@@ -219,46 +218,37 @@ export class DependencyManager {
     }
   }
 
-  async hasPrebuiltProvider(
-    constraint: ProviderConstraint,
-    silent = false
-  ): Promise<boolean> {
+  async hasPrebuiltProvider(constraint: ProviderConstraint): Promise<boolean> {
     logger.debug(
       `determining whether pre-built provider exists for ${constraint.source} with version constraint ${constraint.version} and cdktf version ${this.cdktfVersion}`
     );
 
-    if (!silent) {
-      console.log(`Checking whether pre-built provider exists for the following constraints:
+    logger.info(`Checking whether pre-built provider exists for the following constraints:
   provider: ${constraint.simplifiedName}
   version : ${constraint.version || "latest"}
   language: ${this.targetLanguage}
   cdktf   : ${this.cdktfVersion}
 `);
-    }
 
     if (
       this.targetLanguage === Language.GO &&
       semver.lt(this.cdktfVersion, "0.12.0")
     ) {
-      if (!silent) {
-        console.log(
-          `Before CDKTF 0.12.0 there were no pre-built providers published for Go.`
-        );
-      }
+      logger.info(
+        `Before CDKTF 0.12.0 there were no pre-built providers published for Go.`
+      );
       return false;
     }
 
     const v = await getPrebuiltProviderVersions(constraint, this.cdktfVersion);
     const exists = v !== null;
 
-    if (!silent) {
-      if (exists) {
-        console.log(`Found pre-built provider.`);
-      } else {
-        console.log(
-          `Pre-built provider does not exist for the given constraints.`
-        );
-      }
+    if (exists) {
+      logger.info(`Found pre-built provider.`);
+    } else {
+      logger.info(
+        `Pre-built provider does not exist for the given constraints.`
+      );
     }
 
     return exists;
@@ -362,12 +352,10 @@ export class DependencyManager {
     return null;
   }
 
-  async addLocalProvider(constraint: ProviderConstraint, silent = false) {
-    if (!silent) {
-      console.log(
-        `Adding local provider ${constraint.source} with version constraint ${constraint.version} to cdktf.json`
-      );
-    }
+  async addLocalProvider(constraint: ProviderConstraint) {
+    logger.info(
+      `Adding local provider ${constraint.source} with version constraint ${constraint.version} to cdktf.json`
+    );
 
     if (!constraint.version && constraint.isFromTerraformRegistry()) {
       const v = await getLatestVersion(constraint);
@@ -466,7 +454,7 @@ export class DependencyManager {
 
     const prebuiltProvidersInfo = await Promise.all(
       prebuiltProviderConfigs.map(async (prebuiltProviderConfig) => {
-        const packageName = await this.convertFromPackageNameToNpm(
+        const packageName = this.convertFromPackageNameToNpm(
           prebuiltProviderConfig.name
         );
 
