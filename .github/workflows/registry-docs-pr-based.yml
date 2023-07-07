@@ -109,7 +109,7 @@ jobs:
 
       - id: set-matrix
         run: |
-          matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files=${{ inputs.files }} .)
+          matrix=$(cdktf-registry-docs ci-matrix --max-runners=${{ inputs.maxRunners }} --files='${{ inputs.files }}' .)
           echo "matrix=$matrix" >> $GITHUB_OUTPUT
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
