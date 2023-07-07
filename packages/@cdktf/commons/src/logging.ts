@@ -54,6 +54,14 @@ const logger = {
       level: Sentry.Severity.Critical,
     });
   },
+
+  setLevel(level: string) {
+    cliLogger.level = level;
+  },
+
+  useDefaultLevel() {
+    cliLogger.level = process.env.CDKTF_LOG_LEVEL || "INFO";
+  },
 };
 
 cliLogger.level = process.env.CDKTF_LOG_LEVEL || "INFO";

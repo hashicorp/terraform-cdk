@@ -158,17 +158,13 @@ class NodePackageManager extends PackageManager {
     // Npm: https://docs.npmjs.com/cli/v8/commands/npm-install#save-exact
     args.push("-E");
 
-    if (!silent) {
-      console.log(
-        `Installing package ${packageName} @ ${packageVersion} using ${command}.`
-      );
-    }
+    logger.info(
+      `Installing package ${packageName} @ ${packageVersion} using ${command}.`
+    );
 
     await exec(command, args, { cwd: this.workingDirectory });
 
-    if (!silent) {
-      console.log("Package installed.");
-    }
+    logger.info("Package installed.");
   }
 
   public async isNpmVersionAvailable(

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
+import { logger } from "@cdktf/commons";
 import pidtree from "pidtree";
 import pidusage from "pidusage";
 
@@ -38,7 +39,7 @@ export function startPerformanceMonitoring() {
       memoryMeasurementsInGb.length;
     const memoryInGbMax = Math.max(...memoryMeasurementsInGb);
 
-    console.log(
+    logger.info(
       `Command took ${timeInS.toFixed(2)}s with ${memoryInGbAvg.toFixed(
         2
       )}Gb of memory on average and ${memoryInGbMax.toFixed(
