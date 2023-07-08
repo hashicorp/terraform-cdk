@@ -8489,6 +8489,11 @@ export interface ModuleConfig extends TerraformModuleUserConfig {
   * true
   */
   readonly fetchCallerIdentity?: boolean;
+  /**
+   * RDS DB subnet group resource
+   * @default [["172.0.0.1", "172.0.0.2", 1],["172.0.10.1", "172.0.10.2", 2]]
+   */
+  readonly fetchSubnetIds?: any[][];
 }
 /**
 * Defines an Module based on a Terraform module
@@ -8503,12 +8508,19 @@ export class Module extends TerraformModule {
       source: './module',
     });
     this.fetchCallerIdentity = config.fetchCallerIdentity;
+    this.fetchSubnetIds = config.fetchSubnetIds;
   }
   public get fetchCallerIdentity(): boolean | undefined {
     return this.inputs['get_caller_identity'] as boolean | undefined;
   }
   public set fetchCallerIdentity(value: boolean | undefined) {
     this.inputs['get_caller_identity'] = value;
+  }
+  public get fetchSubnetIds(): any[][] | undefined {
+    return this.inputs['get_subnet_ids'] as any[][] | undefined;
+  }
+  public set fetchSubnetIds(value: any[][] | undefined) {
+    this.inputs['get_subnet_ids'] = value;
   }
   protected synthesizeAttributes() {
     return this.inputs;
