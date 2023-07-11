@@ -85,12 +85,21 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
-const readPackageJson = () => {
+let packagePath: string | undefined;
+const getPackageJsonPath = () => {
+  if (packagePath) {
+    return packagePath;
+  }
   const pkgPath = pkgUp.sync({ cwd: __dirname });
   if (!pkgPath) {
     throw new Error("unable to find package.json");
   }
+  packagePath = pkgPath;
+  return packagePath;
+};
 
+const readPackageJson = () => {
+  const pkgPath = getPackageJsonPath();
   return JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
 };
 
@@ -121,7 +130,8 @@ export async function convert({ language, provider, stack }: any) {
   const origDir = process.cwd();
   process.chdir(tempDir);
 
-  const dist = path.resolve(__dirname, "../../../../../dist");
+  const packagePath = getPackageJsonPath();
+  const dist = path.resolve(packagePath, "./dist");
 
   logger.setLevel("ERROR");
   await init({
