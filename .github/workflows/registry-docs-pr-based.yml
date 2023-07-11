@@ -176,8 +176,7 @@ jobs:
           git checkout -b d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git add .
           git commit -m "cdktf: update ${{ matrix.files }}"
-          git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
-          git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          for i in $(seq 1 10); do  git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase && git push origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} && break || sleep 15; done
 
   cdktfDocsCreatePR:
     needs:
