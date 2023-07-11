@@ -114,6 +114,7 @@ export async function convert({ language, provider, stack }: any) {
 
   const projectRoot = projectRootPath();
   const dist = path.resolve(projectRoot, "../../dist");
+  console.log("Version: ", pkg.version, dist);
 
   logger.setLevel("ERROR");
   await init({
