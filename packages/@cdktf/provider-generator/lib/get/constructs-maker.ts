@@ -410,9 +410,18 @@ export class ConstructsMaker {
     }
 
     if (this.isJavaTarget) {
+      if (
+        this.options.codeMakerOutput.includes("/") ||
+        this.options.codeMakerOutput.includes("\\")
+      ) {
+        throw Errors.Usage(
+          `When using Java the "codeMakerOutput" option in the cdktf.json must be the organization identifier for your project (e.g. com.my-company), not a path. The generated Java code will be placed in a subdirectory of the given directory.`
+        );
+      }
+
       opts.java = {
         outdir: ".", // generated java files aren't packaged, so just include directly in app
-        package: `imports.${target.srcMakName}`,
+        package: `${this.options.codeMakerOutput}.${target.srcMakName}`,
       };
     }
 
