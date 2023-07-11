@@ -85,7 +85,12 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
-export async function convert({ language, provider, stack }: any) {
+export async function convert({
+  language,
+  provider,
+  stack,
+  withoutProject,
+}: any) {
   await initializErrorReporting();
   await displayVersionMessage();
 
@@ -109,26 +114,32 @@ export async function convert({ language, provider, stack }: any) {
     "No stdin was passed, please use it like this: cat main.tf | cdktf convert > imported.ts"
   );
 
+  const needsProject = language !== "typescript";
+  const useProject = needsProject && !withoutProject;
+
   const origDir = process.cwd();
-  process.chdir(tempDir);
+  if (useProject) {
+    process.chdir(tempDir);
 
-  const projectRoot = projectRootPath();
-  const dist = path.resolve(projectRoot, "../../dist");
+    // Support for local development vs published version
+    const projectRoot = projectRootPath();
+    const dist = path.resolve(projectRoot, "../../dist");
 
-  logger.setLevel("ERROR");
-  await init({
-    template: "typescript",
-    providers: provider,
-    projectName: path.basename(tempDir),
-    projectDescription: "Temporary project for conversion",
-    local: true,
-    enableCrashReporting: false,
-    fromTerraformProject: "no",
-    dist: pkg.version === "0.0.0" ? dist : undefined,
-    cdktfVersion: pkg.version,
-    silent: true,
-  });
-  logger.useDefaultLevel();
+    logger.setLevel("ERROR");
+    await init({
+      template: "typescript",
+      providers: provider,
+      projectName: path.basename(tempDir),
+      projectDescription: "Temporary project for conversion",
+      local: true,
+      enableCrashReporting: false,
+      fromTerraformProject: "no",
+      dist: pkg.version === "0.0.0" ? dist : undefined,
+      cdktfVersion: pkg.version,
+      silent: true,
+    });
+    logger.useDefaultLevel();
+  }
 
   let output;
   try {
@@ -144,7 +155,9 @@ export async function convert({ language, provider, stack }: any) {
     throw Errors.Internal((err as Error).message, err, { language });
   }
 
-  process.chdir(origDir);
+  if (useProject) {
+    process.chdir(origDir);
+  }
 
   console.log(output);
 }

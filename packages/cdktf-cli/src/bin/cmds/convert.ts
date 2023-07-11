@@ -50,8 +50,9 @@ class Command extends BaseCommand {
         type: "boolean",
         default: false,
       })
-      .option("with-project", {
+      .option("without-project", {
         type: "boolean",
+        default: false,
       })
       .showHelpOnFail(true);
 
