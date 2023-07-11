@@ -1,7 +1,7 @@
 {
   "language": "java",
   "app": "./gradlew run",
-  "codeMakerOutput": "src/main/java/imports",
+  "codeMakerOutput": "imports",
   "terraformProviders": [
     "aws@~> 3.0",
     "kubernetes@~> 2.0",

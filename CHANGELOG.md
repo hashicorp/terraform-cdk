@@ -9,6 +9,11 @@ Since the long-term support for Node.js 16 ended on 2023-09-11, we updated our m
 ### Potential provider naming collision with instance function `moveTo` on `TerraformResource`
 
 We have added support for resource refactoring and renaming with the addition of the instance function `moveTo` on `TerraformResource`. We forsee the potential for naming collision with providers using `moveTo` as an attribute. In instances where provider bindings fail to compile due to the collision, regenerate your provider bindings and replace the provider related usage of `moveTo` to `moveToAttribute` in your configuration if applicable.
+### Java: `codeMakerOutput` needs to be set to a company identifier
+
+We did not honor the `codeMakerOutput` setting in the `cdktf.json` previously, this is fixed now.
+To have no changes in the generated code you can set `codeMakerOutput: "imports"`.
+If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` generated.
 
 ## 0.18.2
 
