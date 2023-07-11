@@ -4,7 +4,14 @@ import * as fs from "fs-extra";
 import * as path from "path";
 import { projectRootPath } from "./utilities";
 
-export const templatesDir = path.join(projectRootPath(), "templates");
+export const templatesDir = path.join(
+  projectRootPath(),
+  "..",
+  "@cdktf",
+  "cli-core",
+  "templates"
+);
+
 const availableTemplates = fs
   .readdirSync(templatesDir)
   .filter((x) => !x.startsWith("."));
