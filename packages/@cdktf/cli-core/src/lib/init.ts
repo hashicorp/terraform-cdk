@@ -58,7 +58,6 @@ export async function init({
   providersForceLocal,
   silent,
 }: InitArgs) {
-  console.log("INIT DIST: ", dist);
   const deps: any = await determineDeps(cdktfVersion, dist);
 
   const futureFlags = Object.entries(FUTURE_FLAGS)
