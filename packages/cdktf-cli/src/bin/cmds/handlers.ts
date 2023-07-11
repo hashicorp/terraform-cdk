@@ -113,7 +113,7 @@ export async function convert({ language, provider, stack }: any) {
   process.chdir(tempDir);
 
   const projectRoot = projectRootPath();
-  const dist = path.resolve(projectRoot, "./dist");
+  const dist = path.resolve(projectRoot, "../../dist");
 
   logger.setLevel("ERROR");
   await init({
