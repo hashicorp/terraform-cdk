@@ -64,7 +64,7 @@ import { askForCrashReportingConsent } from "./helper/error-reporting";
 import { startPerformanceMonitoring } from "./helper/performance";
 import path from "path";
 import os from "os";
-import pkgUp from "pkg-up";
+import { readPackageJson, projectRootPath } from "./helper/utilities";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();
@@ -84,24 +84,6 @@ async function getProviderRequirements(provider: string[]) {
   }
   return [...provider, ...providersFromConfig];
 }
-
-let packagePath: string | undefined;
-const getPackageJsonPath = () => {
-  if (packagePath) {
-    return packagePath;
-  }
-  const pkgPath = pkgUp.sync({ cwd: __dirname });
-  if (!pkgPath) {
-    throw new Error("unable to find package.json");
-  }
-  packagePath = pkgPath;
-  return packagePath;
-};
-
-const readPackageJson = () => {
-  const pkgPath = getPackageJsonPath();
-  return JSON.parse(fs.readFileSync(pkgPath, "utf-8"));
-};
 
 export async function convert({ language, provider, stack }: any) {
   await initializErrorReporting();
@@ -130,8 +112,8 @@ export async function convert({ language, provider, stack }: any) {
   const origDir = process.cwd();
   process.chdir(tempDir);
 
-  const packagePath = getPackageJsonPath();
-  const dist = path.resolve(packagePath, "./dist");
+  const projectRoot = projectRootPath();
+  const dist = path.resolve(projectRoot, "./dist");
 
   logger.setLevel("ERROR");
   await init({
