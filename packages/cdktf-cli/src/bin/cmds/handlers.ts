@@ -114,7 +114,6 @@ export async function convert({ language, provider, stack }: any) {
 
   const projectRoot = projectRootPath();
   const dist = path.resolve(projectRoot, "../../dist");
-  console.log("Version: ", pkg.version, dist);
 
   logger.setLevel("ERROR");
   await init({
@@ -126,7 +125,7 @@ export async function convert({ language, provider, stack }: any) {
     enableCrashReporting: false,
     fromTerraformProject: "no",
     dist: pkg.version === "0.0.0" ? dist : undefined,
-    cdktfVersion: "0.0.0",
+    cdktfVersion: pkg.version,
     silent: true,
   });
   logger.useDefaultLevel();
