@@ -52,18 +52,17 @@ class MainAspects(TerraformStack):
   def __init__(self, scope: Construct, id: str):
         super().__init__(scope, id)
 
+        myStack = self # for clarification, as the MainAspects stack is not included in the snippet
+
         AwsProvider(self, "aws",
           region="us-east-1"
         )
-        myStack = S3Bucket(self, "bucket", 
+        S3Bucket(self, "bucket", 
           tags = {"owner" : "cdktf"}
         )
 
         RandomProvider(self, "random")
         pet = Pet(self, "pet")
-        
-        # Un-taggable resource -> included to verify functionality 
-        Aspects.of(pet).add(TagsAddingAspect({ "createdBy": "cdktf" }))
 
         # DOCS_BLOCK_START:define-aspects
         
