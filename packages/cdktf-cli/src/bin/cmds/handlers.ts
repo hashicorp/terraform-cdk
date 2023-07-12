@@ -96,7 +96,6 @@ export async function convert({
 
   const pkg = readPackageJson();
 
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-convert-"));
   const providerRequirements = await getProviderRequirements(provider);
 
   // Get all the provider schemas
@@ -119,6 +118,7 @@ export async function convert({
 
   const origDir = process.cwd();
   if (useProject) {
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-convert-"));
     process.chdir(tempDir);
 
     // Support for local development vs published version
