@@ -10,8 +10,10 @@ from imports.random.provider import RandomProvider
 from imports.random.pet import Pet
 
 # DOCS_BLOCK_START:define-aspects
-from constructs import IConstruct
-from cdktf import Aspects, IAspect
+from constructs import Construct, IConstruct
+from cdktf import TerraformStack, Aspects, IAspect
+from imports.aws.instance import Instance
+from imports.aws.provider import AwsProvider
 
 @jsii.implements(IAspect)
 class TagsAddingAspect:
@@ -25,6 +27,20 @@ class TagsAddingAspect:
             # We need to take the input value to not create a circular reference
             currentTags = node.tags_input if node.tags_input is not None else {}
             node.tags = {**self.tagsToAdd, **currentTags}
+
+class MySingleStack(TerraformStack):
+    def __init__(self, scope: Construct, id: str):
+        super().__init__(scope, id)
+        AwsProvider(self, "aws",
+            region = "us-east-1"
+        )
+        Instance(self, "Hello",
+            ami = "ami-2757f631",
+            instance_type = "t2.micro"
+        )
+
+        # Add tags to every resource defined within `MySingleStack`.
+        Aspects.of(self).add(TagsAddingAspect({ "createdBy": "cdktf" }))
 # DOCS_BLOCK_END:define-aspects
 
 # DOCS_BLOCK_START:aspects-validation
