@@ -50,12 +50,6 @@ class Command extends BaseCommand {
         type: "boolean",
         default: false,
       })
-      .option("without-project", {
-        describe:
-          "Convert creates a temporary project by default on non-Typescript languages. Use this flag to disable that behavior. Note: Disabling this will cause conversion to be less correct",
-        type: "boolean",
-        default: false,
-      })
       .showHelpOnFail(true);
 
   public async handleCommand(argv: any) {
