@@ -85,12 +85,7 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
-export async function convert({
-  language,
-  provider,
-  stack,
-  withoutProject,
-}: any) {
+export async function convert({ language, provider, stack }: any) {
   await initializErrorReporting();
   await displayVersionMessage();
 
@@ -114,10 +109,9 @@ export async function convert({
   );
 
   const needsProject = language !== "typescript";
-  const useProject = needsProject && !withoutProject;
 
   const origDir = process.cwd();
-  if (useProject) {
+  if (needsProject) {
     const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-convert-"));
     process.chdir(tempDir);
 
@@ -155,7 +149,7 @@ export async function convert({
     throw Errors.Internal((err as Error).message, err, { language });
   }
 
-  if (useProject) {
+  if (needsProject) {
     process.chdir(origDir);
   }
 
