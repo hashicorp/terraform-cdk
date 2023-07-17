@@ -504,11 +504,19 @@ export class ConstructsMaker {
   private async generateJsiiLanguage(target: ConstructsMakerTarget) {
     // these are the module dependencies we compile against
     const deps = ["@types/node", "constructs", "cdktf"];
-    const opts: srcmak.Options = {
+    // TODO: once https://github.com/cdklabs/jsii-srcmak/pull/1181 is merged we will have this option
+    const opts: srcmak.Options & { exports: any } = {
       entrypoint: target.fileName,
       deps: deps.map((dep) =>
         path.dirname(require.resolve(`${dep}/package.json`))
       ),
+      exports: {
+        ".": {
+          types: `./providers/${target.name}/index.d.ts`,
+          import: `./providers/${target.name}/index.js`,
+          require: `./providers/${target.name}/lazy-index.js`,
+        },
+      },
       moduleKey: target.moduleKey,
     };
 
@@ -568,7 +576,10 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
+
+    console.log(JSON.stringify(opts, null, 2));
     await generateJsiiLanguage(this.code, opts, this.codeMakerOutdir);
+
     jsiiTimer();
   }
 
