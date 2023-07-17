@@ -6,6 +6,12 @@ on:
         default: pr
         required: false
         type: string
+  workflow_dispatch:
+    inputs:
+      concurrency_group_prefix:
+        default: pr
+        required: false
+        type: string
 
 concurrency:
   group: ${{ inputs.concurrency_group_prefix }}-examples-${{ github.head_ref }}
