@@ -329,6 +329,23 @@ describe("expressionToTs", () => {
     );
   });
 
+  test("converts string concatenation of iterator key", async () => {
+    const expression = '${"dynamic-ingress-${ingress.key}"}';
+    const scope = getScope({
+      scopedVariables: {
+        ingress: "dynamic_iterator0",
+      },
+    });
+    const result = await convertTerraformExpressionToTs(
+      expression,
+      scope,
+      getType
+    );
+    expect(code(result)).toMatchInlineSnapshot(
+      `""dynamic-ingress-\${" + Token.asString(dynamic_iterator0.key) + "}""`
+    );
+  });
+
   test("convert a variable reference", async () => {
     const expression = `\${var.foo_bar}`;
     const scope = getScope({ variables: ["foo_bar"] });

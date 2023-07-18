@@ -101,7 +101,10 @@ function traversalToVariableName(
   return variableName(scope, resource, name);
 }
 
-function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
+function expressionForSerialStringConcatenation(
+  nodes: t.Expression[],
+  scope: ResourceScope
+) {
   const reducedNodes = nodes.reduce((acc, node) => {
     const prev = acc[acc.length - 1];
     if (!prev) return [node];
@@ -120,6 +123,21 @@ function expressionForSerialStringConcatenation(nodes: t.Expression[]) {
     (acc: t.Expression | undefined, node: t.Expression) => {
       if (!acc) {
         return node;
+      }
+
+      // wrap access to dynamic blocks in Token.asString() as they return a Lazy
+      // for .key and .value which can't be concatenated in languages like Python
+      // because JSII currently has no support for the toString() method in
+      // languages other than TypeScript: https://github.com/aws/jsii/issues/380
+      // example: dynamic_iterator0.key / dynamic_iterator0.value
+      if (
+        t.isMemberExpression(node) &&
+        t.isIdentifier(node.object) &&
+        Object.values(scope.scopedVariables || {}).includes(node.object.name) &&
+        t.isIdentifier(node.property) &&
+        ["key", "value"].includes(node.property.name)
+      ) {
+        node = template.expression(`Token.asString(%%expr%%)`)({ expr: node });
       }
 
       return t.binaryExpression("+", acc as t.Expression, node);
@@ -448,7 +466,7 @@ function convertTemplateExpressionToTs(
     expressions.push(t.stringLiteral("}"));
   }
 
-  return expressionForSerialStringConcatenation(expressions);
+  return expressionForSerialStringConcatenation(expressions, scope);
 }
 
 function convertObjectExpressionToTs(
@@ -750,7 +768,7 @@ function convertForExpressionToTs(
   }
   expressions.push(t.stringLiteral(suffix));
 
-  return expressionForSerialStringConcatenation(expressions);
+  return expressionForSerialStringConcatenation(expressions, scope);
 }
 
 function convertTFExpressionAstToTs(
@@ -872,11 +890,10 @@ export function dynamicVariableToAst(
   block: string = "each"
 ): t.Expression {
   if (iteratorName === "dynamic-block") {
-    return expressionForSerialStringConcatenation([
-      t.stringLiteral("${"),
-      t.stringLiteral(block),
-      t.stringLiteral("}"),
-    ]);
+    return expressionForSerialStringConcatenation(
+      [t.stringLiteral("${"), t.stringLiteral(block), t.stringLiteral("}")],
+      scope
+    );
   }
   if (node.meta.value === `${block}.key`) {
     return t.memberExpression(t.identifier(iteratorName), t.identifier("key"));
