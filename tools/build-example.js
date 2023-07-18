@@ -10,7 +10,8 @@ const util = require("util");
 const exec = util.promisify(require("child_process").exec);
 
 async function run(command) {
-  await exec(command, {
+  console.log(`Running: ${command}`);
+  const { stdout, stderr } = await exec(command, {
     env: {
       ...process.env,
       CI: "true", // Disable spinner even when we have a TTY
@@ -18,6 +19,8 @@ async function run(command) {
     maxBuffer: 256 * 1024 * 1024, // ~270 MB; Nodejs default is 1024 * 1024 (bytes) which is ~1 MiB
     cwd: path.resolve(__dirname, ".."),
   });
+  console.log(stdout.toString());
+  console.error(stderr.toString());
 }
 
 const exampleToBuild = process.argv[2];
