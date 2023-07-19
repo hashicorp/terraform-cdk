@@ -91,16 +91,16 @@ export const valueToTs = async (
         return t.stringLiteral(item);
       }
 
-      return await convertTerraformExpressionToTs(`"${item}"`, scope, () =>
+      return await convertTerraformExpressionToTs(scope, `"${item}"`, () =>
         getDesiredType(scope, path)
       );
 
     case "boolean":
-      return await convertTerraformExpressionToTs(`${item}`, scope, () =>
+      return await convertTerraformExpressionToTs(scope, `${item}`, () =>
         getDesiredType(scope, path)
       );
     case "number":
-      return await convertTerraformExpressionToTs(`${item}`, scope, () =>
+      return await convertTerraformExpressionToTs(scope, `${item}`, () =>
         getDesiredType(scope, path)
       );
     case "object":
@@ -383,8 +383,8 @@ export async function resource(
       `${key}_for_each_iterator`
     );
     const referenceAst = await convertTerraformExpressionToTs(
-      `"${for_each}"`,
       scope,
+      `"${for_each}"`,
       () => ["list", "dynamic"]
     );
 
@@ -416,8 +416,8 @@ export async function resource(
   if (count) {
     countIteratorName = variableName(scope, resource, `${key}_count`);
     const referenceAst = await convertTerraformExpressionToTs(
-      `"${count}"`,
       scope,
+      `"${count}"`,
       () => "number"
     );
 
@@ -469,8 +469,8 @@ export async function resource(
     );
 
     const referenceAst = await convertTerraformExpressionToTs(
-      `"${block.for_each}"`,
       scope,
+      `"${block.for_each}"`,
       () => ["list", "dynamic"]
     );
 

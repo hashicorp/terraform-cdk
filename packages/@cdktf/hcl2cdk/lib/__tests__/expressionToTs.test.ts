@@ -261,8 +261,8 @@ describe("expressionToTs", () => {
     const expression = "hello";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello""`);
@@ -272,8 +272,8 @@ describe("expressionToTs", () => {
     const expression = "${22}";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`"Token.asString(22)"`);
@@ -283,8 +283,8 @@ describe("expressionToTs", () => {
     const expression = "${var.foo}";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`"foo.stringValue"`);
@@ -294,8 +294,8 @@ describe("expressionToTs", () => {
     const expression = "${var.foo_bar}";
     const scope = getScope({ variables: ["foo_bar"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -307,8 +307,8 @@ describe("expressionToTs", () => {
     const expression = `\${replace("hello", "l", "w")}`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -320,8 +320,8 @@ describe("expressionToTs", () => {
     const expression = `\${replace("hello-\${22+22}", "44", "world")}`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -337,8 +337,8 @@ describe("expressionToTs", () => {
       },
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -350,8 +350,8 @@ describe("expressionToTs", () => {
     const expression = `\${var.foo_bar}`;
     const scope = getScope({ variables: ["foo_bar"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     // TODO: This seems broken
@@ -364,8 +364,8 @@ describe("expressionToTs", () => {
     const expression = `"simple-\${aws_s3_bucket.foo.id}"`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo.id + "}""`);
@@ -375,8 +375,8 @@ describe("expressionToTs", () => {
     const expression = `"simple-\${aws_s3_bucket.foo.prop.test}"`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -388,8 +388,8 @@ describe("expressionToTs", () => {
     const expression = `"simple-\${local.foo}"`;
     const scope = getScope({ locals: ["foo"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`""simple-\${" + foo + "}""`);
@@ -402,8 +402,8 @@ describe("expressionToTs", () => {
       resources: ["aws_s3_bucket.examplebucket", "aws_s3_bucket.otherbucket"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -415,8 +415,8 @@ describe("expressionToTs", () => {
     const expression = `\${aws_s3_bucket.foo.*.id}`;
     const scope = getScope({ resources: ["aws_s3_bucket.foo"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -429,8 +429,8 @@ describe("expressionToTs", () => {
       "${aws_s3_bucket.examplebucket.network_interface.0.access_config.0.assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -443,8 +443,8 @@ describe("expressionToTs", () => {
       "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -457,8 +457,8 @@ describe("expressionToTs", () => {
       "${aws_s3_bucket.examplebucket.network_interface[0].access_config[0].assigned_nat_ip}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -470,8 +470,8 @@ describe("expressionToTs", () => {
     const expression = "${toset(aws_s3_bucket.examplebucket.*)}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -484,8 +484,8 @@ describe("expressionToTs", () => {
       "${aws_kms_key.key.deletion_window_in_days > 3 ? aws_s3_bucket.examplebucket.id : []}";
     const scope = getScope({ resources: ["aws_kms_key.key", "examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -497,8 +497,8 @@ describe("expressionToTs", () => {
     const expression = "${element(aws_s3_bucket.examplebucket, 0).id}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -510,8 +510,8 @@ describe("expressionToTs", () => {
     const expression = "${element(aws_s3_bucket.examplebucket.*.id, 0)}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -525,8 +525,8 @@ describe("expressionToTs", () => {
 
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -539,8 +539,8 @@ describe("expressionToTs", () => {
 
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -553,8 +553,8 @@ describe("expressionToTs", () => {
 
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -566,8 +566,8 @@ describe("expressionToTs", () => {
     const expression = '[for s in var.list : upper(s) if s != ""]';
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -579,8 +579,8 @@ describe("expressionToTs", () => {
     const expression = "${aws_s3_bucket.examplebucket[0].id}";
     const scope = getScope({ resources: ["aws_s3_bucket.examplebucket"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -592,8 +592,8 @@ describe("expressionToTs", () => {
     const expression = `\${!var.enabled}`;
     const scope = getScope({ variables: ["enabled"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => "bool"
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -614,8 +614,8 @@ describe("expressionToTs", () => {
       variables: ["input"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     // TODO: See if we have a way to preserve comments
@@ -628,8 +628,8 @@ describe("expressionToTs", () => {
     const expression = `\${var.input == "test" ? "azure-ad-int" : "azure-ad-\${var.input}"}`;
     const scope = getScope({ variables: ["input"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -641,8 +641,8 @@ describe("expressionToTs", () => {
     const expression = `\${element(var.test2["val1"], 0)}`;
     const scope = getScope({ variables: ["test2"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -654,8 +654,8 @@ describe("expressionToTs", () => {
     const expression = "${flatten(var.vnets[*].subnets[*].name)}";
     const scope = getScope({ variables: ["vnets"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -672,8 +672,8 @@ describe("expressionToTs", () => {
   }`;
     const scope = getScope({ variables: ["vnets"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -695,8 +695,8 @@ describe("expressionToTs", () => {
   ])}`;
     const scope = getScope({ variables: ["route"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -708,8 +708,8 @@ describe("expressionToTs", () => {
     const expression = "${!local.enabled}";
     const scope = getScope({ locals: ["enabled"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -724,8 +724,8 @@ describe("expressionToTs", () => {
       locals: ["service_name", "owner", "is_it_great", "how_many"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -737,8 +737,8 @@ describe("expressionToTs", () => {
     const expression = '"${var.test} + 1"';
     const scope = getScope({ variables: ["test"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -750,8 +750,8 @@ describe("expressionToTs", () => {
     const expression = '"${local.enabled}"';
     const scope = getScope({ locals: ["enabled"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`"enabled"`);
@@ -761,8 +761,8 @@ describe("expressionToTs", () => {
     const expression = "${self.path}";
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -774,8 +774,8 @@ describe("expressionToTs", () => {
     const expression = '${join("-", [var.tags.app, var.tags.env])}';
     const scope = getScope({ variables: ["tags"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -788,8 +788,8 @@ describe("expressionToTs", () => {
       '${join("-", var.tags.app, var.tags.env, var.tags.other)}';
     const scope = getScope({ variables: ["tags"] });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -801,8 +801,8 @@ describe("expressionToTs", () => {
     const expression = `"app-\${terraform.workspace}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -814,8 +814,8 @@ describe("expressionToTs", () => {
     const expression = `[for record in aws_route53_record.example : record.fqdn]`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -827,8 +827,8 @@ describe("expressionToTs", () => {
     const expression = `"\${data.aws_route53_zone.example.zone_id}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -840,8 +840,8 @@ describe("expressionToTs", () => {
     const expression = `"\${each.value.name}"`;
     const scope = getScope({ forEachIteratorName: "myIterator" });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -853,8 +853,8 @@ describe("expressionToTs", () => {
     const expression = `"\${element(aws_s3_bucket.examplebucket, 0).id}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -868,8 +868,8 @@ describe("expressionToTs", () => {
       variables: ["private_subnets", "public_subnets"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -884,8 +884,8 @@ describe("expressionToTs", () => {
       forEachIteratorName: "myIterator",
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -900,8 +900,8 @@ describe("expressionToTs", () => {
       forEachIteratorName: "myIterator",
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -923,8 +923,8 @@ EOF
 `;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -938,8 +938,8 @@ hello world
 EOF`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello world\\n""`);
@@ -951,8 +951,8 @@ EOF`;
           EOF`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`""hello world\\n""`);
@@ -967,8 +967,8 @@ EOF`;
       },
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -982,8 +982,8 @@ EOF`;
       '"${length(var.image_id) > 4 && substr(var.image_id, 0, 4) == \"ami-\"}"';
     const scope = getScope({});
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -998,8 +998,8 @@ EOF`;
       data: ["aws_subnet_ids"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1014,8 +1014,8 @@ EOF`;
       data: ["aws_subnet_ids"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1030,8 +1030,8 @@ EOF`;
     });
 
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => ["map", "string"]
     );
 
@@ -1048,8 +1048,8 @@ EOF`;
     });
 
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1064,8 +1064,8 @@ EOF`;
       resources: ["aws_s3_bucket"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1081,8 +1081,8 @@ EOF`;
       variables: ["default_tags"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1096,8 +1096,8 @@ EOF`;
       provider: awsProviderSchema,
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       () => "bool"
     );
     expect(code(result)).toMatchInlineSnapshot(`"false"`);
@@ -1110,8 +1110,8 @@ EOF`;
       data: ["aws_availability_zones"],
     });
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
@@ -1128,8 +1128,8 @@ EOF`;
         })}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(`
@@ -1146,8 +1146,8 @@ EOF`;
     const expression = `"\${cidrsubnets("fd00:fd12:3456:7890::/56", 16, 16, 16, 32)}"`;
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
-      expression,
       scope,
+      expression,
       getType
     );
 

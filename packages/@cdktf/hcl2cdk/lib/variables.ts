@@ -32,7 +32,7 @@ function validVarName(name: string) {
   return name;
 }
 
-function getUniqueName(provider: string, type: string, scope: ProgramScope) {
+function getUniqueName(scope: ProgramScope, provider: string, type: string) {
   // early abort on cdktf
   if (provider === "cdktf") {
     return pascalCase(type.replace("cdktf_", ""));
@@ -59,10 +59,10 @@ function getUniqueName(provider: string, type: string, scope: ProgramScope) {
 }
 
 function getResourceNamespace(
+  scope: ProgramScope,
   provider: string,
   resource: string,
   isDataSource: boolean,
-  scope: ProgramScope,
   type: string
 ) {
   // happens e.g. for references to cdktf.TerraformStack (and similar) in generated code
@@ -122,14 +122,14 @@ export function constructAst(
       const [, provider, resource] = parts;
 
       const namespace = getResourceNamespace(
+        scope,
         provider,
         resource,
         true,
-        scope,
         type
       );
       const resourceName =
-        getUniqueName(provider, parts.join("_"), scope) ||
+        getUniqueName(scope, provider, parts.join("_")) ||
         pascalCase(
           sanitizeClassOrNamespaceName(`data_${provider}_${resource}`)
         );
@@ -149,14 +149,14 @@ export function constructAst(
 
     const [provider, resource] = parts;
     const namespace = getResourceNamespace(
+      scope,
       provider,
       resource,
       false,
-      scope,
       type
     );
     const resourceName =
-      getUniqueName(provider, parts.join("_"), scope) ||
+      getUniqueName(scope, provider, parts.join("_")) ||
       pascalCase(sanitizeClassOrNamespaceName(resource));
 
     scope.importables.push({

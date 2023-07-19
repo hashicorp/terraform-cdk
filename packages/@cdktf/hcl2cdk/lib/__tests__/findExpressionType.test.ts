@@ -101,8 +101,8 @@ describe("findExpressionType", () => {
       providerSchema: s3BucketSchema,
     };
     const ast = await convertTerraformExpressionToTs(
-      input,
       scope as any,
+      input,
       () => "dynamic"
     );
     const result = findExpressionType(scope as any, ast);
