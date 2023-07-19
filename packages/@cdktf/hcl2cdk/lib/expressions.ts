@@ -137,7 +137,7 @@ function expressionForSerialStringConcatenation(
         t.isIdentifier(node.property) &&
         ["key", "value"].includes(node.property.name)
       ) {
-        node = template.expression(`Token.asString(%%expr%%)`)({ expr: node });
+        node = coerceType(scope, node, "dynamic", "string");
       }
 
       return t.binaryExpression("+", acc as t.Expression, node);
