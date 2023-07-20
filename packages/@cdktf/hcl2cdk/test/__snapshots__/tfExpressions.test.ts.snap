@@ -314,3 +314,17 @@ class MyConvertedCode extends TerraformStack {
 }
 "
 `;
+
+exports[`tfExpressions strings containing single outer quotes are supported snapshot typescript 1`] = `
+"import { Construct } from "constructs";
+import { TerraformOutput, TerraformStack } from "cdktf";
+class MyConvertedCode extends TerraformStack {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    new TerraformOutput(this, "hash", {
+      value: "'static'",
+    });
+  }
+}
+"
+`;

@@ -144,7 +144,7 @@ export async function getReferencesInExpression(
   // with a multi-line string, which is causing all kinds of problems
   let offset = 0;
   let quoteWrappedExpression = expression;
-  if (!expression.startsWith('"') && !expression.startsWith("'")) {
+  if (!expression.startsWith('"')) {
     quoteWrappedExpression = `"${expression}"`;
     offset = 1;
   }

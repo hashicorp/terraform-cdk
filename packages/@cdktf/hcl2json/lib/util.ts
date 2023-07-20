@@ -55,7 +55,7 @@ export function wrapTerraformExpression(input: string): {
     return { wrap: input, wrapOffset: 0 };
   }
 
-  if (input.startsWith(`"`) || input.startsWith("'")) {
+  if (input.startsWith(`"`)) {
     if (input.indexOf("\n") >= 0) {
       const trimWrapped = input.substring(1, input.length - 1);
       return {
