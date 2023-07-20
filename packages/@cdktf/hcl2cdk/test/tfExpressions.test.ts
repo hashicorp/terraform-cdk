@@ -238,4 +238,18 @@ ITEM
       resources: [],
     }
   );
+
+  testCase.test(
+    "strings containing single outer quotes are supported",
+    `
+      output "hash" {
+        value = "'static'"
+      }`,
+    [],
+    Snapshot.yes,
+    Synth.yes,
+    {
+      resources: [],
+    }
+  );
 });
