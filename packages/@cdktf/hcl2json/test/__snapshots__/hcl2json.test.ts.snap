@@ -8475,3 +8475,46 @@ exports[`parse converts VPC module 1`] = `
   }
 }"
 `;
+
+exports[`parse handles escape sequences in templates 1`] = `
+"{
+  "data": {
+    "aws_ssoadmin_instances": {
+      "example": [
+        {}
+      ]
+    }
+  },
+  "resource": {
+    "aws_ssoadmin_instance_access_control_attributes": {
+      "example": [
+        {
+          "attribute": [
+            {
+              "key": "name",
+              "value": [
+                {
+                  "source": [
+                    "$\${path:name.givenName}"
+                  ]
+                }
+              ]
+            },
+            {
+              "key": "last",
+              "value": [
+                {
+                  "source": [
+                    "$\${path:name.familyName}"
+                  ]
+                }
+              ]
+            }
+          ],
+          "instance_arn": "\${tolist(data.aws_ssoadmin_instances.example.arns)[0]}"
+        }
+      ]
+    }
+  }
+}"
+`;

@@ -23,6 +23,14 @@ describe("parse", () => {
     const parsed = await parse("vpc.tf", loadFixture("vpc-module", "main.tf"));
     expect(JSON.stringify(parsed, null, 2)).toMatchSnapshot();
   });
+
+  test("handles escape sequences in templates", async () => {
+    const parsed = await parse(
+      "main.tf",
+      loadFixture("with-escaped-template", "main.tf")
+    );
+    expect(JSON.stringify(parsed, null, 2)).toMatchSnapshot();
+  });
 });
 
 describe("convertFiles", () => {

@@ -59,7 +59,7 @@ const cdktfDist = path.join(__dirname, "../../../../../dist");
 
 export const binding = {
   aws: {
-    fqn: "hashicorp/aws@=4.57.0",
+    fqn: "hashicorp/aws@=5.8.0",
     type: ProviderType.provider,
     path: "providers/aws",
   },
