@@ -45,12 +45,12 @@
     },
     {
       "source": "/feature",
-      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2Cnew&projects=&template=feature-request.yml&title=",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=enhancement%2Cnew&template=feature-request.yml&title=",
       "permanent": false
     },
     {
       "source": "/bug",
-      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2Cnew&projects=&template=bug-report.yml&title=",
+      "destination": "https://github.com/hashicorp/terraform-cdk/issues/new?assignees=&labels=bug%2Cnew&template=bug-report.yml&title=",
       "permanent": false
     },
     {
