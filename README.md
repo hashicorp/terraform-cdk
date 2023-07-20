@@ -24,11 +24,11 @@ CDKTF includes two packages:
 
 Choose a language:
 
-- [TypeScript](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
-- [Python](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
-- [Java](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
-- [C#](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
-- [Go](https://learn.hashicorp.com/tutorials/terraform/cdktf-build?in=terraform/cdktf)
+- [TypeScript](https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-build?in=terraform%2Fcdktf&variants=cdk-language%3Atypescript)
+- [Python](https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-build?in=terraform%2Fcdktf&variants=cdk-language%3Apython)
+- [Java](https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-build?in=terraform%2Fcdktf&variants=cdk-language%3Ajava)
+- [C#](https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-build?in=terraform%2Fcdktf&variants=cdk-language%3Acsharp)
+- [Go](https://developer.hashicorp.com/terraform/tutorials/cdktf/cdktf-build?in=terraform%2Fcdktf&variants=cdk-language%3Ago)
 
 > **Hands-on:** Try the tutorials in the [CDK for Terraform](https://learn.hashicorp.com/collections/terraform/cdktf) collection on HashiCorp Learn.
 
