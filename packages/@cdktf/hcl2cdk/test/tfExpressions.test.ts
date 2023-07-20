@@ -240,6 +240,25 @@ ITEM
   );
 
   testCase.test(
+    "escaping ${} in template strings works",
+    `
+    resource "aws_ssoadmin_instance_access_control_attributes" "example" {
+      attribute {
+        value {
+          source = ["$\${path:name.givenName}"]
+        }
+      }
+    }
+      `,
+    [binding.aws],
+    Snapshot.yes,
+    Synth.yes,
+    {
+      resources: [],
+    }
+  );
+
+  testCase.test(
     "strings containing single outer quotes are supported",
     `
       output "hash" {

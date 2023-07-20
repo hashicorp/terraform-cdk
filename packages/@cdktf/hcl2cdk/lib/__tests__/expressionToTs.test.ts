@@ -650,7 +650,7 @@ describe("expressionToTs", () => {
     );
   });
 
-  test("compliated nested local value", async () => {
+  test("complicated nested local value", async () => {
     const expression = "${flatten(var.vnets[*].subnets[*].name)}";
     const scope = getScope({ variables: ["vnets"] });
     const result = await convertTerraformExpressionToTs(
@@ -1040,7 +1040,7 @@ EOF`;
     );
   });
 
-  test("dont convert external unknown fields", async () => {
+  test("don't convert external unknown fields", async () => {
     const expression = `"\${data.external.changeme_external_thumbprint_data.result.thumbprint}"`;
     const scope = getScope({
       provider: externalProviderSchema,
@@ -1153,6 +1153,20 @@ EOF`;
 
     expect(code(result)).toMatchInlineSnapshot(
       `"Token.asString(Fn.cidrsubnets("fd00:fd12:3456:7890::/56", [16, 16, 16, 32]))"`
+    );
+  });
+
+  test("converts template expression with escaped ${} expression", async () => {
+    const expression = '"${path:name.givenName}"'; // from aws_ssoadmin_instance_access_control_attributes example
+    const scope = getScope();
+    const result = await convertTerraformExpressionToTs(
+      scope,
+      expression,
+      getType
+    );
+
+    expect(code(result)).toMatchInlineSnapshot(
+      `"["$\${path:name.givenName}"]"`
     );
   });
 });
