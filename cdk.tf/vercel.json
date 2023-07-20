@@ -19,6 +19,16 @@
       "permanent": false
     },
     {
+      "source": "/ga",
+      "destination": "https://www.hashicorp.com/blog/cdk-for-terraform-now-generally-available",
+      "permanent": false
+    },
+    {
+      "source": "/ga-aws",
+      "destination": "https://aws.amazon.com/blogs/opensource/announcing-cdk-for-terraform-on-aws/",
+      "permanent": false
+    },
+    {
       "source": "/learn",
       "destination": "https://learn.hashicorp.com/terraform/cdktf/cdktf-intro",
       "permanent": false
