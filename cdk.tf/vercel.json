@@ -84,8 +84,8 @@
       "permanent": false
     },
     {
-      "source": "/provider/:name",
-      "destination": "https://github.com/cdktf/cdktf-provider-:name",
+      "source": "/provider/:id",
+      "destination": "https://github.com/cdktf/cdktf-provider-:id",
       "permanent": false
     },
     {
