@@ -1,3 +1,26 @@
+## 0.17.2
+
+### feat
+
+- feat(cli): allow skipping synth [\#2993](https://github.com/hashicorp/terraform-cdk/pull/2993)
+
+### fix
+
+- fix(provider-generator): wrap dynamic block iterator .key and .value in Token.asString as simply concatenating it won't work in non-TS languages [\#3014](https://github.com/hashicorp/terraform-cdk/pull/3014)
+- fix: remove old lerna option causing it to fail when building a matrix in CI runs [\#3004](https://github.com/hashicorp/terraform-cdk/pull/3004)
+- fix: quote files in shared workflows [\#2994](https://github.com/hashicorp/terraform-cdk/pull/2994)
+- fix: let workflow checkout different repositories [\#2991](https://github.com/hashicorp/terraform-cdk/pull/2991)
+- fix(provider-generator): sanitize all comments [\#2990](https://github.com/hashicorp/terraform-cdk/pull/2990)
+
+### chore
+
+- chore: fix link to examples [\#3015](https://github.com/hashicorp/terraform-cdk/pull/3015)
+- chore: build example script should show stdout and stderr [\#3013](https://github.com/hashicorp/terraform-cdk/pull/3013)
+- chore: retry pushing converted code in registry conversion [\#2999](https://github.com/hashicorp/terraform-cdk/pull/2999)
+- chore: Convert should use a typescript project to convert within [\#2992](https://github.com/hashicorp/terraform-cdk/pull/2992)
+- chore: update cdk.tf links [\#2989](https://github.com/hashicorp/terraform-cdk/pull/2989)
+- chore: add registry translation workflow [\#2958](https://github.com/hashicorp/terraform-cdk/pull/2958)
+
 ## 0.17.1
 
 ### fix
