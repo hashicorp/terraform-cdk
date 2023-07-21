@@ -1,6 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { onPosix, TestDriver, onWindows } from "../../test-helper";
+import {
+  onPosix,
+  TestDriver,
+  onWindows,
+  sanitizeTimestamps,
+} from "../../test-helper";
 
 describe("provider add command", () => {
   describe("pre-built", () => {
@@ -28,15 +33,15 @@ describe("provider add command", () => {
           "add",
           "random@=3.4.2", // this is not the latest version, but theres v3.0.52 of the pre-built provider resulting in exactly this package
         ]);
-        expect(res.stdout).toMatchInlineSnapshot(`
-          "Checking whether pre-built provider exists for the following constraints:
+        expect(sanitizeTimestamps(res.stdout)).toMatchInlineSnapshot(`
+          "[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:
             provider: random
             version : =3.4.2
             language: csharp
             cdktf   : 0.12.2
 
 
-          Found pre-built provider.
+          [<TIMESTAMP>] [INFO] default - Found pre-built provider.
 
           Installing package HashiCorp.Cdktf.Providers.Random @ 2.0.52 using "dotnet add package HashiCorp.Cdktf.Providers.Random --version 2.0.52".
 
@@ -62,15 +67,15 @@ describe("provider add command", () => {
           "add",
           "random@=3.4.2", // this is not the latest version, but theres v2.0.52 of the pre-built provider resulting in exactly this package
         ]);
-        expect(res.stdout).toMatchInlineSnapshot(`
-                  "Checking whether pre-built provider exists for the following constraints:
+        expect(sanitizeTimestamps(res.stdout)).toMatchInlineSnapshot(`
+                  "[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:
                     provider: random
                     version : =3.4.2
                     language: csharp
                     cdktf   : 0.12.2
 
 
-                  Found pre-built provider.
+                  [<TIMESTAMP>] [INFO] default - Found pre-built provider.
 
                   Installing package HashiCorp.Cdktf.Providers.Random @ 2.0.52 using "dotnet add package HashiCorp.Cdktf.Providers.Random --version 2.0.52".
 

@@ -108,17 +108,22 @@ describe("provider add command", () => {
 
       // no snapshot, as the output also contains logs from Go upgrading JSII dependencies which might
       // change in the future and would break this test
-      expect(sanitizeTimestamps(res.stdout))
-        .toContain(`Checking whether pre-built provider exists for the following constraints:
-  provider: random
+      expect(sanitizeTimestamps(res.stdout)).toContain(
+        `[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:`
+      );
+
+      expect(sanitizeTimestamps(res.stdout)).toContain(`provider: random
   version : =3.4.3
   language: go
-  cdktf   : 0.13.0
+  cdktf   : 0.13.0`);
 
+      expect(sanitizeTimestamps(res.stdout)).toContain(
+        `[<TIMESTAMP>] [INFO] default - Found pre-built provider.`
+      );
 
-Found pre-built provider.
-
-Adding package github.com/cdktf/cdktf-provider-random-go/random @ 3.0.11`);
+      expect(sanitizeTimestamps(res.stdout)).toContain(
+        `Adding package github.com/cdktf/cdktf-provider-random-go/random @ 3.0.11`
+      );
 
       expect(sanitizeTimestamps(res.stdout)).toContain(
         "added github.com/cdktf/cdktf-provider-random-go/random/v3 v3.0.11"

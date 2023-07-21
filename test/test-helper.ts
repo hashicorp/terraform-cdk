@@ -335,7 +335,11 @@ export class TestDriver {
 
   setupRemoteTemplateProject = async (overrideUrl?: string) => {
     const templateServer = new TemplateServer(
-      path.resolve(__dirname, "..", "packages/cdktf-cli/templates/typescript")
+      path.resolve(
+        __dirname,
+        "..",
+        "packages/@cdktf/cli-core/templates/typescript"
+      )
     );
     try {
       const url = await templateServer.start();
@@ -365,7 +369,7 @@ export const onPosix = process.platform !== "win32" ? it : it.skip;
  */
 export function sanitizeTimestamps(output: string): string {
   return output.replace(
-    /\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}\]/m,
+    /\[\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}\]/gm,
     "[<TIMESTAMP>]"
   );
 }
