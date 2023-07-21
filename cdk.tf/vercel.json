@@ -85,7 +85,7 @@
     },
     {
       "source": "/provider",
-      "destination": "https://github.com/orgs/cdktf/repositories?q=topic\\:pre-built-provider&type=all&language=&sort=",
+      "destination": "https://github.com/orgs/cdktf/repositories?q=topic\\%3Apre-built-provider&type=all&language=&sort=",
       "permanent": false
     },
     {
