@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { TestDriver } from "../../test-helper";
+import { TestDriver, sanitizeTimestamps } from "../../test-helper";
 
 describe("provider add command", () => {
   let driver: TestDriver;
@@ -27,15 +27,15 @@ describe("provider add command", () => {
         "add",
         "random@=3.1.3", // this is not the latest version, but theres v0.2.55 of the pre-built provider resulting in exactly this package
       ]);
-      expect(res.stdout).toMatchInlineSnapshot(`
-        "Checking whether pre-built provider exists for the following constraints:
+      expect(sanitizeTimestamps(res.stdout)).toMatchInlineSnapshot(`
+        "[<TIMESTAMP>] [INFO] default - Checking whether pre-built provider exists for the following constraints:
           provider: random
           version : =3.1.3
           language: java
           cdktf   : 0.10.4
 
 
-        Found pre-built provider.
+        [<TIMESTAMP>] [INFO] default - Found pre-built provider.
 
         Adding com.hashicorp.cdktf-provider-random @ 0.2.55 to pom.xml
 
