@@ -2,10 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 import jsii
-from constructs import Construct
-from cdktf import TerraformStack
 
-from imports.aws.provider import AwsProvider
 from imports.random.provider import RandomProvider
 from imports.random.pet import Pet
 
