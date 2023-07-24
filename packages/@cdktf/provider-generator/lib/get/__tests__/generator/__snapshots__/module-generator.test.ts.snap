@@ -8491,7 +8491,7 @@ export interface ModuleConfig extends TerraformModuleUserConfig {
   readonly fetchCallerIdentity?: boolean;
   /**
    * RDS DB subnet group resource
-   * @default 172.0.0.1,172.0.0.2,1,172.0.10.1,172.0.10.2,2
+   * 172.0.0.1,172.0.0.2,1,172.0.10.1,172.0.10.2,2
    */
   readonly fetchSubnetIds?: any[][];
 }
