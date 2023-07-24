@@ -247,6 +247,11 @@
       "source":"/dashboard",
       "destination": "https://cdktf.github.io/cdktf-provider-dashboard/",
       "permanent": false
+    },
+    {
+      "source":"/docs-in-the-registry",
+      "destination": "https://www.hashicorp.com/blog/new-multi-language-docs-simplify-cdk-for-terraform-adoption",
+      "permanent": false
     }
   ]
 }
