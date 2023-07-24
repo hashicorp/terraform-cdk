@@ -20,6 +20,7 @@ import {
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { ModuleSchema } from "./generator/module-schema";
+import { glob } from "glob";
 
 export async function generateJsiiLanguage(
   code: CodeMaker,
@@ -621,6 +622,36 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
         trackingPayload: target.trackingPayload,
         targetLanguage: target.targetLanguage,
       });
+    }
+
+    if (this.isPythonTarget) {
+      const endPythonTimer = logTimespan("Python post-processing");
+      // Remove from . import ... statements from root level __init__.py
+      // This removes root-level imports of namespaces, but saves 25s synth time for the aws provider alone
+      const allInitPyPaths = glob
+        .sync("**/__init__.py", {
+          cwd: this.codeMakerOutdir,
+        })
+        // sort by depth, so we start with the shallowest files
+        .sort((a, b) => a.split("/").length - b.split("/").length);
+      console.log({ allInitPyFiles: allInitPyPaths });
+
+      const visitedDirectories: string[] = [];
+      for (const initPyPath of allInitPyPaths) {
+        const directoryPath = path.dirname(initPyPath);
+        if (visitedDirectories.some((dir) => directoryPath.startsWith(dir))) {
+          // we already processed this directory
+          continue;
+        }
+        visitedDirectories.push(directoryPath);
+
+        const absoluteInitPyPath = path.join(this.codeMakerOutdir, initPyPath);
+        const initPy = await fs.readFile(absoluteInitPyPath, "utf8");
+        const initPyWithoutImports = initPy.replace(/from \. import .*\n/g, "");
+        await fs.writeFile(absoluteInitPyPath, initPyWithoutImports);
+      }
+
+      endPythonTimer();
     }
   }
 
