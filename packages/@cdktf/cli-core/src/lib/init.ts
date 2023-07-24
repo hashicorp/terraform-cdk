@@ -46,6 +46,16 @@ export type InitArgs = {
   silent?: boolean;
 };
 
+export const templatesDir = path.join(__dirname, "..", "..", "templates");
+
+const availableTemplates = fs
+  .readdirSync(templatesDir)
+  .filter((x) => !x.startsWith("."));
+export const templates: string[] = [];
+for (const template of availableTemplates) {
+  templates.push(template);
+}
+
 export async function init({
   cdktfVersion,
   destination,
