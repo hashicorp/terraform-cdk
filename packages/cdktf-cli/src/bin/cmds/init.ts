@@ -2,7 +2,6 @@
 // SPDX-License-Identifier: MPL-2.0
 import yargs from "yargs";
 
-import { templates } from "./helper/init-templates";
 import { readPackageJson, requireHandlers } from "./helper/utilities";
 import { Errors } from "@cdktf/commons";
 import { BaseCommand } from "./helper/base-command";
@@ -17,9 +16,7 @@ class Command extends BaseCommand {
       .showHelpOnFail(true)
       .option("template", {
         type: "string",
-        desc: `The template to be used to create a new project. Either URL to zip file or one of the built-in templates: [${templates
-          .map((t) => `"${t}"`)
-          .join(", ")}]`,
+        desc: `The template to be used to create a new project. Either URL to zip file or one of the built-in templates.`,
       })
       .option("project-name", {
         type: "string",
