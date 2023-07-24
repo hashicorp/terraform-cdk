@@ -92,4 +92,5 @@ const nativeNodeModulesPlugin = {
   }
 
   fs.copySync("src/bin/cdktf", "./bundle/bin/cdktf");
+  fs.copySync("../@cdktf/cli-core/templates", "./bundle/templates");
 })();

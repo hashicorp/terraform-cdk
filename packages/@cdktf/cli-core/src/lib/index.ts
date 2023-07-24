@@ -15,7 +15,7 @@ export { TerraformCli } from "./models/terraform-cli";
 export { CdktfConfig } from "./cdktf-config";
 export { initializErrorReporting } from "./error-reporting";
 export { CdktfStack } from "./cdktf-stack";
-export { init, Project, InitArgs } from "./init";
+export { init, Project, InitArgs, templates, templatesDir } from "./init";
 export { get, GetStatus, runGetInDir } from "./get";
 export { SynthesizedStack } from "./synth-stack";
 export { CdktfProject, ProjectUpdate } from "./cdktf-project";

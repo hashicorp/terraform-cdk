@@ -39,7 +39,7 @@ import {
   Errors,
   sendTelemetry,
 } from "@cdktf/commons";
-import { templates, templatesDir } from "./init-templates";
+import { templates, templatesDir } from "@cdktf/cli-core";
 import ciDetect from "@npmcli/ci-detect";
 import { isInteractiveTerminal } from "./check-environment";
 import { getTerraformVersion } from "./terraform-check";
