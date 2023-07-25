@@ -1,6 +1,6 @@
 {
   "language": "typescript",
-  "app": "npm run --silent compile && node main.js",
+  "app": "npx ts-node main.ts",
   "terraformProviders": [
     "hashicorp/random@= 3.1.0",
     "hashicorp/local@= 2.1.0"
