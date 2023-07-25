@@ -71,7 +71,21 @@ export class TestDriver {
   public workingDirectory: string;
 
   constructor(public rootDir: string, addToEnv: Record<string, string> = {}) {
-    this.env = Object.assign({ CI: 1 }, process.env, addToEnv);
+    // Node.js prepends all parent node_modules/.bin directories to the PATH env var
+    // which shadows the cdktf CLI we want to test against and set in run-against-dist.sh
+    // While the code is the same, we want the CLI to be installed in a temporary directory
+    // (handled by run-against-dist) to ensure we don't have broken relative paths in
+    // that don't work then the CLI is installed via NPM. One example for such a bug we want
+    // to catch with this is: https://github.com/hashicorp/terraform-cdk/issues/3025
+    // To achieve this, we prepend the path exported by the run-against-dist script that
+    // it installed the cdktf CLI in
+    const newPath = `${process.env.TEST_PATH_CDKTF_CLI}:${process.env.PATH}`;
+    this.env = Object.assign(
+      { CI: 1 },
+      process.env,
+      { PATH: newPath },
+      addToEnv
+    );
   }
 
   public async exec(

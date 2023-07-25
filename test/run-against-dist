@@ -1,9 +1,36 @@
 #!/bin/bash
 set -euo pipefail
+
+# Load functions for working with local NPM registry (Verdaccio)
+source local-registry.sh
+
+function cleanup {
+  # Restore the original NPM and Yarn registry URLs and stop Verdaccio
+  stopLocalRegistry
+}
+
+function handle_error {
+  cleanup
+  exit 1
+}
+
+function handle_exit {
+  cleanup
+  exit
+}
+
+# Cleanup before exit on any termination signal
+trap 'set +x; handle_error' ERR
+trap 'set +x; handle_exit' SIGQUIT SIGTERM SIGINT SIGKILL SIGHUP
+
 scriptdir=$(cd $(dirname $0) && pwd)
 
 export CDKTF_DIST="${scriptdir}/../dist"
 cwd=$PWD
+cdktf_root="${scriptdir}/.."
+
+# Start the local NPM registry
+startLocalRegistry "$scriptdir"/verdaccio.yaml
 
 cd ${CDKTF_DIST}
 
@@ -14,13 +41,22 @@ if [ ! -d "js" ] || [ ! -d "python" ] || [ ! -d "java" ] || [ ! -d "dotnet" ] ||
   exit 1
 fi
 
+echo "Publishing CLI from 'dist'..."
+for pkg in ${CDKTF_DIST}/js/*.tgz
+do
+  echo $pkg
+  npm publish --force "$pkg"
+done
+
 # install the CLI from dist/js in a temporary area and add to path
-echo "Extracting CLI from 'dist'..."
+echo "Installing CLI from 'dist'..."
 staging=$(mktemp -d)
 cd ${staging}
 npm init -y > /dev/null
-npm install ${CDKTF_DIST}/js/*.tgz
-export PATH=${staging}/node_modules/.bin:$PATH
+npm install --global-style cdktf-cli@0.0.0
+
+export TEST_PATH_CDKTF_CLI=${staging}/node_modules/.bin
+export PATH=$TEST_PATH_CDKTF_CLI:$PATH
 
 # restore working directory
 cd $cwd
