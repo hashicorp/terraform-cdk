@@ -64,6 +64,8 @@ stopLocalRegistry
 export TEST_PATH_CDKTF_CLI=${staging}/node_modules/.bin
 export PATH=$TEST_PATH_CDKTF_CLI:$PATH
 
+echo "Installed CDKTF-CLI version: $(cdktf --version)"
+
 # restore working directory
 cd $cwd
 $@
