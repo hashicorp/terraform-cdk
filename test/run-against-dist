@@ -56,6 +56,11 @@ npm init -y > /dev/null
 # There's only one version in our local registry, so we don't need to specify a version here
 npm install --global-style cdktf-cli
 
+# stop the local registry now that we installed the CLI
+# Some tests install cdktf in an older version from NPM
+# Which we'd block via the local registry otherwise
+stopLocalRegistry
+
 export TEST_PATH_CDKTF_CLI=${staging}/node_modules/.bin
 export PATH=$TEST_PATH_CDKTF_CLI:$PATH
 
