@@ -33,30 +33,30 @@ uplinks:
 
 packages:
   # not handled by us
-  '@cdktf/node-pty-prebuilt-multiarch':
+  "@cdktf/node-pty-prebuilt-multiarch":
     proxy: npmjs
     access: $all
-  
-  'cdktf**':
+
+  "cdktf**":
     # scoped packages
     access: $all
     publish: $all
     proxy: ""
     # no proxy, so we can publish v0.0.0
 
-  '@cdktf/*':
+  "@cdktf/*":
     # scoped packages
     access: $all
     publish: $all
     # no proxy, so we can publish v0.0.0
 
-  '@*/*':
+  "@*/*":
     # scoped packages
     access: $all
     #publish: $all
     proxy: npmjs
 
-  '**':
+  "**":
     # allow all users (including non-authenticated users) to read and
     # publish all packages
     #

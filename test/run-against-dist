@@ -53,7 +53,8 @@ echo "Installing CLI from 'dist'..."
 staging=$(mktemp -d)
 cd ${staging}
 npm init -y > /dev/null
-npm install --global-style cdktf-cli@0.0.0
+# There's only one version in our local registry, so we don't need to specify a version here
+npm install --global-style cdktf-cli
 
 export TEST_PATH_CDKTF_CLI=${staging}/node_modules/.bin
 export PATH=$TEST_PATH_CDKTF_CLI:$PATH
