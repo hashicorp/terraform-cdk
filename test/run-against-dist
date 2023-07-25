@@ -1,8 +1,10 @@
 #!/bin/bash
 set -euo pipefail
 
+scriptdir=$(cd $(dirname $0) && pwd)
+
 # Load functions for working with local NPM registry (Verdaccio)
-source local-registry.sh
+source "$scriptdir"/local-registry.sh
 
 function cleanup {
   # Restore the original NPM and Yarn registry URLs and stop Verdaccio
@@ -22,8 +24,6 @@ function handle_exit {
 # Cleanup before exit on any termination signal
 trap 'set +x; handle_error' ERR
 trap 'set +x; handle_exit' SIGQUIT SIGTERM SIGINT SIGKILL SIGHUP
-
-scriptdir=$(cd $(dirname $0) && pwd)
 
 export CDKTF_DIST="${scriptdir}/../dist"
 cwd=$PWD
