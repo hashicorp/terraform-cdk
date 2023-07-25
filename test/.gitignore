@@ -7,3 +7,6 @@ go/edge/translated.go
 provider-tests/providers/**
 !provider-tests/generate-provider-test.js
 !provider-tests/test-provider.sh
+
+# Used by Verdaccio (local NPM Registry)
+storage/
