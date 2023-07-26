@@ -14,4 +14,4 @@ dist
 coverage
 
 # include all files from templates
-!templates/**/*
+!bundle/templates/**/*
