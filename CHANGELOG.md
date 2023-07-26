@@ -1,3 +1,16 @@
+## 0.17.3
+
+### fix
+
+- fix: don't cross package boundaries for templates [\#3029](https://github.com/hashicorp/terraform-cdk/pull/3029)
+- fix: use local NPM registry for running integration tests on unix systems [\#3031](https://github.com/hashicorp/terraform-cdk/pull/3031)
+- fix: trying to fix tsc error by updating how we invoke ts projects [\#3033](https://github.com/hashicorp/terraform-cdk/pull/3033)
+- fix(docs): python docs for aspect [\#3002](https://github.com/hashicorp/terraform-cdk/pull/3002)
+
+### chore
+
+- chore: update vercel.json [\#3028](https://github.com/hashicorp/terraform-cdk/pull/3028)
+
 ## 0.17.2
 
 ### feat
