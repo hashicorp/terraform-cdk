@@ -51,11 +51,8 @@ export const Get = ({
           constructsOptions,
           cleanDirectory: force,
           onUpdate: setCurrentStatus,
-          reportTelemetry: (payload: {
-            targetLanguage: string;
-            trackingPayload: Record<string, any>;
-          }) =>
-            sendTelemetry("get", {
+          reportTelemetry: async (payload) =>
+            await sendTelemetry("get", {
               language: payload.targetLanguage,
               ...payload.trackingPayload,
             }),
