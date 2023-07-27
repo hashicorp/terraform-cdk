@@ -1,6 +1,6 @@
 {
   "language": "java",
-  "app": "mvn -e -q compile exec:java",
+  "app": "mvn -e -q exec:java",
   "projectId": "{{projectId}}",
   "sendCrashReports": "{{sendCrashReports}}",
   "codeMakerOutput": "src/main/java/imports",

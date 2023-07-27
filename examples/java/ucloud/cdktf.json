@@ -1,5 +1,5 @@
 {
   "language": "java",
-  "app": "mvn -e -q compile exec:java",
+  "app": "mvn -e -q exec:java",
   "terraformProviders": ["ucloud/ucloud@~> 1.29.0"]
 }

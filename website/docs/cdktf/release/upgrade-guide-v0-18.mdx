@@ -1,0 +1,20 @@
+---
+page_title: Upgrading to CDKTF Version 0.18
+description: >-
+  Performance improvements might require you to update your `cdktf.json` file.
+---
+
+# Upgrading to CDK for Terraform Version 0.18
+
+0.18 is focused around improving the synthetization performance across all languages. This means that the generated code is now faster to compile. We achieved this mostly by changing the way we generate the code for the Terraform configuration but also by updates within JSII, the tool we use to support multiple languages.
+
+## Java: Change the `app` field in your `cdktf.json` file for better performance
+
+If you are using Java and want to improve the performance of `cdktf synth` you can change your `app` field in your `cdktf.json` file from the default `mvn -e -q compile exec:java` to `mvn -e -q exec:java`. This will improve the performance of `cdktf synth` by 70-80%.
+
+```json
+{
+  "language": "java",
+  "app": "mvn -e -q exec:java"
+}
+```
