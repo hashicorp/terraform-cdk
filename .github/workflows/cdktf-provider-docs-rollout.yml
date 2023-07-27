@@ -13,7 +13,7 @@ jobs:
         provider:
           - repo: hashicorp/terraform-provider-null
             fqn: "hashicorp/null"
-    uses: hashicorp/terraform-cdk/.github/workflows/registry-docs-pr-based.yml@304e2507209c9657135dc7b4b7ee68030327468f
+    uses: hashicorp/terraform-cdk/.github/workflows/registry-docs-pr-based.yml@ec249b9f5b06b242e4ef6389fc4e32def07ec9fb
     secrets:
       # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
       GH_PR_TOKEN: ${{ secrets.GH_TOKEN_CDKTF_PROVIDER_DOCUMENTATION }}
