@@ -10,6 +10,7 @@ jobs:
     strategy:
       matrix:
         provider:
+          # To onboard new providers, add a new entry to this matrix and make sure the team-tf-cdk github user has write permissions to the repository.
           - repo: hashicorp/terraform-provider-archive
             fqn: "hashicorp/archive"
           - repo: hashicorp/terraform-provider-cloudinit
