@@ -1,0 +1,26 @@
+name: CDKTF Provider Docs Rollout
+
+on:
+  push:
+    branches:
+      - cdktf-documentation-rollout
+  workflow_dispatch: {}
+
+jobs:
+  cdktfDocs:
+    strategy:
+      matrix:
+        provider:
+          - repo: hashicorp/terraform-provider-null
+            fqn: "hashicorp/null"
+    uses: hashicorp/terraform-cdk/.github/workflows/registry-docs-pr-based.yml@304e2507209c9657135dc7b4b7ee68030327468f
+    secrets:
+      # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
+      GH_PR_TOKEN: ${{ secrets.GH_TOKEN_CDKTF_PROVIDER_DOCUMENTATION }}
+    with:
+      repository: ${{ matrix.provider.repo }}
+      providerFqn: ${{ matrix.provider.fqn }}
+      languages: "typescript,python"
+      parallelFileConversions: 1
+      maxRunners: 20
+      cdktfRegistryDocsVersion: "1.14.2"
