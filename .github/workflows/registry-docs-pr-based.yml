@@ -192,6 +192,7 @@ jobs:
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           token: ${{ secrets.GH_PR_TOKEN }}
+          base: main
           branch: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           commit-message: "cdktf: update cdktf docs"
           title: "cdktf: update cdktf docs"
