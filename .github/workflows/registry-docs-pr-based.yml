@@ -188,8 +188,11 @@ jobs:
           repository: ${{ inputs.repository }}
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
 
-      - name: Create pull request
-        run: |
-          gh pr create --title "cdktf: update cdktf docs" --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/registry-docs-pr-based.yml)." --base main --head origin:d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
-        env:
-          GH_TOKEN: ${{ secrets.GH_PR_TOKEN }}
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
+        with:
+          token: ${{ secrets.GH_PR_TOKEN }}
+          branch: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          commit-message: "cdktf: update cdktf docs"
+          title: "cdktf: update cdktf docs"
+          body: "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)."
