@@ -1,18 +1,38 @@
 name: CDKTF Provider Docs Rollout
 
 on:
-  push:
-    branches:
-      - cdktf-documentation-rollout
   workflow_dispatch: {}
+  schedule:
+    - cron: 0 0 * * 1
 
 jobs:
   cdktfDocs:
     strategy:
       matrix:
         provider:
+          - repo: hashicorp/terraform-provider-archive
+            fqn: "hashicorp/archive"
+          - repo: hashicorp/terraform-provider-cloudinit
+            fqn: "hashicorp/cloudinit"
+          - repo: hashicorp/terraform-provider-dns
+            fqn: "hashicorp/dns"
+          - repo: hashicorp/terraform-provider-external
+            fqn: "hashicorp/external"
+          - repo: hashicorp/terraform-provider-http
+            fqn: "hashicorp/http"
+          - repo: hashicorp/terraform-provider-local
+            fqn: "hashicorp/local"
           - repo: hashicorp/terraform-provider-null
             fqn: "hashicorp/null"
+          - repo: hashicorp/terraform-provider-random
+            fqn: "hashicorp/random"
+          - repo: hashicorp/terraform-provider-template
+            fqn: "hashicorp/template"
+          - repo: hashicorp/terraform-provider-time
+            fqn: "hashicorp/time"
+          - repo: hashicorp/terraform-provider-tls
+            fqn: "hashicorp/tls"
+
     uses: hashicorp/terraform-cdk/.github/workflows/registry-docs-pr-based.yml@8bba5cf973f12ea01f1299b11f246183e89845db
     secrets:
       # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
