@@ -35,7 +35,7 @@ interface GetConfig {
   reportTelemetry?: (telemetry: {
     targetLanguage: string;
     trackingPayload: Record<string, any>;
-  }) => void;
+  }) => Promise<void>;
 }
 
 export async function get({
@@ -43,8 +43,8 @@ export async function get({
   constraints,
   constraintsToGenerate,
   cleanDirectory,
-  onUpdate = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
-  reportTelemetry = () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
+  onUpdate = () => undefined,
+  reportTelemetry = async () => undefined,
 }: GetConfig) {
   logger.debug(`Starting get with outdir ${constructsOptions.codeMakerOutput}`);
   const constructsMaker = new ConstructsMaker(

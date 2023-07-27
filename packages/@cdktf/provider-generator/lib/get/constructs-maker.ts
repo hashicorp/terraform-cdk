@@ -216,7 +216,10 @@ export class ConstructsMaker {
 
   constructor(
     private readonly options: GetOptions,
-    private readonly reportTelemetry: (params: any) => void = () => {}
+    private readonly reportTelemetry: (payload: {
+      targetLanguage: string;
+      trackingPayload: Record<string, any>;
+    }) => Promise<void> = async () => {}
   ) {
     this.codeMakerOutdir = path.resolve(this.options.codeMakerOutput);
     fs.mkdirpSync(this.codeMakerOutdir);
