@@ -63,6 +63,10 @@ on:
       GH_PR_TOKEN:
         description: "GitHub token to create PRs with"
         required: true
+    outputs:
+      prUrl:
+        description: "URL of the created PR"
+        value: ${{ jobs.cdktfDocsCreatePR.outputs.prUrl }}
 
 name: CDKTF Provider Documentation
 jobs:
@@ -182,6 +186,8 @@ jobs:
     needs:
       - cdktfDocsConvert
     runs-on: ubuntu-latest
+    outputs:
+      prUrl: ${{ steps.cpr.outputs.pull-request-url }}
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
@@ -189,6 +195,7 @@ jobs:
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
 
       - name: Create Pull Request
+        id: cpr
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           token: ${{ secrets.GH_PR_TOKEN }}
