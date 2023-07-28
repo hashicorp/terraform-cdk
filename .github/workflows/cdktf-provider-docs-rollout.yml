@@ -4,10 +4,14 @@ on:
   workflow_dispatch: {}
   schedule:
     - cron: 0 0 * * 1
+  push:
+    branches:
+      - cdktf-documentation-rollout
 
 jobs:
   cdktfDocs:
     strategy:
+      fail-fast: false
       matrix:
         provider:
           # To onboard new providers, add a new entry to this matrix and make sure the team-tf-cdk github user has write permissions to the repository.
@@ -27,8 +31,6 @@ jobs:
             fqn: "hashicorp/null"
           - repo: hashicorp/terraform-provider-random
             fqn: "hashicorp/random"
-          - repo: hashicorp/terraform-provider-template
-            fqn: "hashicorp/template"
           - repo: hashicorp/terraform-provider-time
             fqn: "hashicorp/time"
           - repo: hashicorp/terraform-provider-tls
