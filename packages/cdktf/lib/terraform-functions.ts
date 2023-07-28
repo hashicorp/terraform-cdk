@@ -1,6 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { propertyAccess, rawString, Token } from ".";
+import { asAny } from "./functions/helpers";
 import { FnGenerated } from "./functions/terraform-functions.generated";
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -26,7 +27,7 @@ export class Fn extends FnGenerated {
   static lookup(inputMap: any, key: string, defaultValue?: any) {
     // overwritten because lookup() uses a variadic argument for its optional defaultValue
     if (defaultValue) return Fn._lookup(inputMap, key, [defaultValue]);
-    return propertyAccess(inputMap, [key]); // -> renders inputMap[key] (which is recommened if no default value is given)
+    return asAny(propertyAccess(inputMap, [key])); // -> renders inputMap[key] (which is recommended if no default value is given)
   }
 
   /**
@@ -36,7 +37,7 @@ export class Fn extends FnGenerated {
    * @param {Array<any>} path
    */
   static lookupNested(inputMap: any, path: any[]) {
-    return propertyAccess(inputMap, path);
+    return asAny(propertyAccess(inputMap, path));
   }
 
   /**
