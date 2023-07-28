@@ -30,7 +30,7 @@ The `element` function gets the first element from the list of Availability Zone
 <CodeTabs>
 
 ```ts
-import { TerraformStack } from "cdktf";
+import { TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 import { Fn, TerraformOutput } from "cdktf";
@@ -55,6 +55,7 @@ export class FunctionsStack extends TerraformStack {
 
 ```java
 import com.hashicorp.cdktf.Fn;
+import com.hashicorp.cdktf.TerraformVariable;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformOutputConfig;
 import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
@@ -151,6 +152,135 @@ func NewFunctionsStack(scope constructs.Construct, name string) cdktf.TerraformS
 ```
 
 </CodeTabs>
+
+## Special functions
+
+### Property Access Helpers
+
+To access nested properties from untyped objects or other datasources that return a dynamic datatype, use the Terraform function `lookup` or, for nested access, the function "Fn.lookupNested()" which is a function offered by CDKTF that allows to avoid nesting `Fn.lookup` calls.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#functions-lookup -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-lookup -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-lookup -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-lookup -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#functions-lookup -->
+
+```ts
+const v = new TerraformVariable(this, "complex_object", {
+  type: "object({users: list(object({name: string}))})",
+});
+new TerraformOutput(this, "users", { value: Fn.lookup(v.value, "users") });
+new TerraformOutput(this, "first_user_name", {
+  value: Fn.lookupNested(v.value, ["users", 0, "name"]),
+});
+```
+
+```python
+v = TerraformVariable(self, "complex-object",
+    type = 'object({users: list(object({name: string}))})',
+)
+TerraformOutput(self, 'users',
+    value=Fn.lookup(v.value, "users")
+)
+TerraformOutput(self, 'first_user_name',
+    value=Fn.lookup_nested(v.value, ["users", 0, "name"])
+)
+```
+
+```java
+TerraformVariable v = new TerraformVariable(this, "complex_object", TerraformVariableConfig.builder()
+        .type("object({users: list(object({name: string}))})")
+        .build());
+new TerraformOutput(this, "users", TerraformOutputConfig.builder()
+        .value(Fn.lookup(v.getValue(), "users"))
+        .build());
+new TerraformOutput(this, "first-user-name", TerraformOutputConfig.builder()
+        .value(Fn.lookupNested(v.getValue(), Arrays.asList("users", "0", "name")))
+        .build());
+```
+
+```csharp
+TerraformVariable v = new TerraformVariable(this, "complex_object", TerraformVariableConfig.builder()
+        .type("object({users: list(object({name: string}))})")
+        .build());
+new TerraformOutput(this, "users", new TerraformOutputConfig
+{
+    Value = Fn.Lookup(v.Value, "users")
+});
+new TerraformOutput(this, "first-user-name", new TerraformOutputConfig
+{
+    Value = Fn.LookupNested(v.Value, new() { "users", "0", "name" })
+});
+```
+
+```go
+v := cdktf.NewTerraformVariable(stack, jsii.String("complex-object"), &cdktf.TerraformVariableConfig{
+	Type: jsii.String("object({users: list(object({name: string}))})"),
+})
+cdktf.NewTerraformOutput(stack, jsii.String("users"), &cdktf.TerraformOutputConfig{
+	Value: cdktf.Fn_Lookup(v.Value(), jsii.String("users"), nil),
+})
+cdktf.NewTerraformOutput(stack, jsii.String("first-user-name"), &cdktf.TerraformOutputConfig{
+	Value: cdktf.Fn_LookupNested(v.Value(), &[]interface{}{"users", 0, "name"}),
+})
+```
+
+### Raw string helper
+
+Another helper function offered by CDKTF is `Fn.rawString` which can be used to escape raw strings that contain characters that CDKTF or Terraform would try to interpret otherwise.
+
+<!-- #NEXT_CODE_BLOCK_SOURCE:ts examples/typescript/documentation#functions-raw-string -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:python examples/python/documentation#functions-raw-string -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:java examples/java/documentation#functions-raw-string -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:csharp examples/csharp/documentation#functions-raw-string -->
+<!-- #NEXT_CODE_BLOCK_SOURCE:go examples/go/documentation#functions-raw-string -->
+
+```ts
+new TerraformOutput(this, "quotes", {
+  value: Fn.rawString(`"b"`),
+});
+new TerraformOutput(this, "template", {
+  value: Fn.rawString("${TEMPLATE}"),
+});
+```
+
+```python
+TerraformOutput(self, 'quotes',
+    value=Fn.raw_string('"b"')
+)
+TerraformOutput(self, 'users',
+    value=Fn.raw_string('${TEMPLATE}')
+)
+```
+
+```java
+new TerraformOutput(this, "quotes", TerraformOutputConfig.builder()
+        .value(Fn.rawString("\"b\""))
+        .build());
+new TerraformOutput(this, "template", TerraformOutputConfig.builder()
+        .value(Fn.rawString("${TEMPLATE}"))
+        .build());
+```
+
+```csharp
+new TerraformOutput(this, "quotes", new TerraformOutputConfig
+{
+    Value = Fn.RawString("\"b\"")
+});
+new TerraformOutput(this, "template", new TerraformOutputConfig
+{
+    Value = Fn.RawString("${TEMPLATE}")
+});
+```
+
+```go
+cdktf.NewTerraformOutput(stack, jsii.String("quotes"), &cdktf.TerraformOutputConfig{
+	Value: cdktf.Fn_RawString(jsii.String("\"b\"")),
+})
+cdktf.NewTerraformOutput(stack, jsii.String("template"), &cdktf.TerraformOutputConfig{
+	Value: cdktf.Fn_RawString(jsii.String("${TEMPLATE}")),
+})
+```
 
 ## Operators
 

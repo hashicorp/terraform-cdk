@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 // DOCS_BLOCK_START:functions
-import { TerraformStack } from "cdktf";
+import { TerraformStack, TerraformVariable } from "cdktf";
 import { Construct } from "constructs";
 import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
 // DOCS_BLOCK_END:functions
@@ -36,6 +36,25 @@ export class FunctionsStack extends TerraformStack {
       value: Fn.element(zones.names, 0),
     });
     // DOCS_BLOCK_END:functions
+
+    // DOCS_BLOCK_START:functions-lookup
+    const v = new TerraformVariable(this, "complex_object", {
+      type: "object({users: list(object({name: string}))})",
+    });
+    new TerraformOutput(this, "users", { value: Fn.lookup(v.value, "users") });
+    new TerraformOutput(this, "first_user_name", {
+      value: Fn.lookupNested(v.value, ["users", 0, "name"]),
+    });
+    // DOCS_BLOCK_END:functions-lookup
+
+    // DOCS_BLOCK_START:functions-raw-string
+    new TerraformOutput(this, "quotes", {
+      value: Fn.rawString(`"b"`),
+    });
+    new TerraformOutput(this, "template", {
+      value: Fn.rawString("${TEMPLATE}"),
+    });
+    // DOCS_BLOCK_END:functions-raw-string
 
     // DOCS_BLOCK_START:operators
 

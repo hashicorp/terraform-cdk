@@ -15,6 +15,7 @@ func main() {
 	NewAspectsStack(app, "aspects")
 	NewPrefixAspectsStack(app, "aspects-validation")
 	NewFunctionsStack(app, "functions")
+	NewFunctionsOtherStack(app, "functions-other")
 	NewOperatorsAndFunctionsRawStack(app, "operators-functions-raw")
 	NewHclInteropStack(app, "hcl-interop")
 	NewProvidersStack(app, "providers")
