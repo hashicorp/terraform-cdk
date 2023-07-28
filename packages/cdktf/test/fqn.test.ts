@@ -106,7 +106,7 @@ test("works when escape is mid-way", () => {
     name: "${test_resource.first-resource}-second",
     tags: {
       firstResourceName:
-        'simple-test-${lookup(test_resource.other-resource, "name", "")}-${test_resource.first-resource.name}',
+        "simple-test-${test_resource.other-resource.name}-${test_resource.first-resource.name}",
     },
   };
 
@@ -147,7 +147,7 @@ test("after escape, reverts to normal", () => {
     name: "${test_resource.first-resource}-second",
     tags: {
       firstResourceName:
-        'simple-test-${test_resource.first-resource.name}-${lookup(test_resource.other-resource, "name", "")}',
+        "simple-test-${test_resource.first-resource.name}-${test_resource.other-resource.name}",
     },
   };
 
@@ -186,7 +186,7 @@ test("can have multiple escapes", () => {
     name: "${test_resource.first-resource}-second",
     tags: {
       firstResourceName:
-        'simple-test-${test_resource.first-resource.name}-${lookup(test_resource.other-resource, "name", "")}',
+        "simple-test-${test_resource.first-resource.name}-${test_resource.other-resource.name}",
     },
   };
 
@@ -291,7 +291,7 @@ test("works with functions", () => {
     name: "${test_resource.first-resource}-second",
     tags: {
       firstResourceName:
-        'simple-test-${test_resource.first-resource.name}-${lookup(test_resource.other-resource, "name", "")}',
+        "simple-test-${test_resource.first-resource.name}-${test_resource.other-resource.name}",
     },
   };
 
@@ -416,7 +416,7 @@ test("allows functions within functions", () => {
     name: "bar",
     tags: {
       firstResourceName:
-        '${lookup(test_resource.other-resource, "name", upper(lookup(test_resource.other-resource, "name", "")))}',
+        '${lookup(test_resource.other-resource, "name", upper(test_resource.other-resource.name))}',
     },
   };
 

@@ -574,20 +574,20 @@ test("Property access using lookup and lookupNested functions", () => {
 
   expect(Testing.synth(stack)).toMatchInlineSnapshot(`
     "{
-      \\"output\\": {
-        \\"lookup\\": {
-          \\"value\\": \\"\${lookup(var.test-var, \\\\\\"z\\\\\\", \\\\\\"defaultzzzz\\\\\\")}\\"
+      "output": {
+        "lookup": {
+          "value": "\${lookup(var.test-var, \\"z\\", \\"defaultzzzz\\")}"
         },
-        \\"native-access\\": {
-          \\"value\\": \\"\${var.test-var[\\\\\\"z\\\\\\"]}\\"
+        "native-access": {
+          "value": "\${var.test-var.z}"
         },
-        \\"native-access-nested\\": {
-          \\"value\\": \\"\${var.test-var[\\\\\\"a\\\\\\"][\\\\\\"b\\\\\\"]}\\"
+        "native-access-nested": {
+          "value": "\${var.test-var.a.b}"
         }
       },
-      \\"variable\\": {
-        \\"test-var\\": {
-          \\"type\\": \\"object({a = object({b = string}), z = string})\\"
+      "variable": {
+        "test-var": {
+          "type": "object({a = object({b = string}), z = string})"
         }
       }
     }"
