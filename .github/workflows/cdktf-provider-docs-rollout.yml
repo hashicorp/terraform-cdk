@@ -32,8 +32,7 @@ jobs:
             fqn: "hashicorp/time"
           - repo: hashicorp/terraform-provider-tls
             fqn: "hashicorp/tls"
-
-    uses: hashicorp/terraform-cdk/.github/workflows/registry-docs-pr-based.yml@1b1be8ee471bb2845356e064e9f10b484f636cd9
+    uses: ./.github/workflows/registry-docs-pr-based.yml
     secrets:
       # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
       GH_PR_TOKEN: ${{ secrets.GH_TOKEN_CDKTF_PROVIDER_DOCUMENTATION }}
