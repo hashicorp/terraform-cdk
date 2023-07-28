@@ -56,6 +56,7 @@ export class FunctionsStack extends TerraformStack {
 ```java
 import com.hashicorp.cdktf.Fn;
 import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.TerraformVariableConfig;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformOutputConfig;
 import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
@@ -180,7 +181,7 @@ v = TerraformVariable(self, "complex-object",
     type = 'object({users: list(object({name: string}))})',
 )
 TerraformOutput(self, 'users',
-    value=Fn.lookup(v.value, "users")
+    value=Fn.lookup(v.value, "users", "default")
 )
 TerraformOutput(self, 'first_user_name',
     value=Fn.lookup_nested(v.value, ["users", 0, "name"])
@@ -200,16 +201,17 @@ new TerraformOutput(this, "first-user-name", TerraformOutputConfig.builder()
 ```
 
 ```csharp
-TerraformVariable v = new TerraformVariable(this, "complex_object", TerraformVariableConfig.builder()
-        .type("object({users: list(object({name: string}))})")
-        .build());
+TerraformVariable v = new TerraformVariable(this, "complex_object", new TerraformVariableConfig
+{
+    Type = "object({users: list(object({name: string}))})",
+});
 new TerraformOutput(this, "users", new TerraformOutputConfig
 {
     Value = Fn.Lookup(v.Value, "users")
 });
 new TerraformOutput(this, "first-user-name", new TerraformOutputConfig
 {
-    Value = Fn.LookupNested(v.Value, new() { "users", "0", "name" })
+    Value = Fn.LookupNested(v.Value, new[] { "users", "0", "name" })
 });
 ```
 
@@ -248,7 +250,7 @@ new TerraformOutput(this, "template", {
 TerraformOutput(self, 'quotes',
     value=Fn.raw_string('"b"')
 )
-TerraformOutput(self, 'users',
+TerraformOutput(self, 'template',
     value=Fn.raw_string('${TEMPLATE}')
 )
 ```
