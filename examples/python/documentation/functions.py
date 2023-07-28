@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: MPL-2.0
 
 from constructs import Construct
-from cdktf import TerraformStack, App
+from cdktf import TerraformStack, App, TerraformVariable
 # DOCS_BLOCK_START:functions-usage-example
 from cdktf import Fn, TerraformOutput
 from imports.aws.provider import AwsProvider
@@ -27,4 +27,25 @@ class FunctionsStack(TerraformStack):
         )
 
         # DOCS_BLOCK_END:functions-usage-example
+
+        # DOCS_BLOCK_START:functions-lookup
+        v = TerraformVariable(self, "complex-object",
+            type = 'object({users: list(object({name: string}))})',
+        )
+        TerraformOutput(self, 'users',
+            value=Fn.lookup(v.value, "users")
+        )
+        TerraformOutput(self, 'first_user_name',
+            value=Fn.lookup_nested(v.value, ["users", 0, "name"])
+        )
+        # DOCS_BLOCK_END:functions-lookup
+
+        # DOCS_BLOCK_START:functions-raw-string
+        TerraformOutput(self, 'quotes',
+            value=Fn.raw_string('"b"')
+        )
+        TerraformOutput(self, 'users',
+            value=Fn.raw_string('${TEMPLATE}')
+        )
+        # DOCS_BLOCK_END:functions-raw-string
 
