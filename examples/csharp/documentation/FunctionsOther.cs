@@ -36,16 +36,17 @@ namespace Examples
             // DOCS_BLOCK_END:functions-raw
 
             // DOCS_BLOCK_START:functions-lookup
-            TerraformVariable v = new TerraformVariable(this, "complex_object", TerraformVariableConfig.builder()
-                    .type("object({users: list(object({name: string}))})")
-                    .build());
+            TerraformVariable v = new TerraformVariable(this, "complex_object", new TerraformVariableConfig
+            {
+                Type = "object({users: list(object({name: string}))})",
+            });
             new TerraformOutput(this, "users", new TerraformOutputConfig
             {
                 Value = Fn.Lookup(v.Value, "users")
             });
             new TerraformOutput(this, "first-user-name", new TerraformOutputConfig
             {
-                Value = Fn.LookupNested(v.Value, new() { "users", "0", "name" })
+                Value = Fn.LookupNested(v.Value, new[] { "users", "0", "name" })
             });
             // DOCS_BLOCK_END:functions-lookup
 

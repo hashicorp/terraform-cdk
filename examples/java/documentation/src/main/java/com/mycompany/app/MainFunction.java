@@ -16,6 +16,7 @@ import java.util.Arrays;
 // DOCS_BLOCK_START:functions-usage-example
 import com.hashicorp.cdktf.Fn;
 import com.hashicorp.cdktf.TerraformVariable;
+import com.hashicorp.cdktf.TerraformVariableConfig;
 import com.hashicorp.cdktf.TerraformOutput;
 import com.hashicorp.cdktf.TerraformOutputConfig;
 import imports.aws.data_aws_availability_zones.DataAwsAvailabilityZones;
