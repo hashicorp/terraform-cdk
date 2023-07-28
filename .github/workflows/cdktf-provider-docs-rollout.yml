@@ -3,7 +3,7 @@ name: CDKTF Provider Docs Rollout
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: 0 0 * * 1
+    - cron: 0 0 * * 1 # Mondays at midnight
 
 jobs:
   cdktfDocs:
