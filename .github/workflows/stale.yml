@@ -11,7 +11,7 @@ jobs:
   stale:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/stale@1160a2240286f5da8ec72b1c0816ce2481aabf84
+      - uses: actions/stale@1160a2240286f5da8ec72b1c0816ce2481aabf84 # v8.0.0
         with:
           # For issues: post a "warning" message after 30 days, then close if another 30 days pass without a response. In another workflow, issues closed for 30 days will be locked.
           stale-issue-message: "Hi there! 👋 We haven't heard from you in 30 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
