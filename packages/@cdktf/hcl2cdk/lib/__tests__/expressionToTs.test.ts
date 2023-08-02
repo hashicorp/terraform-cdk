@@ -1157,7 +1157,7 @@ EOF`;
   });
 
   test("converts template expression with escaped ${} expression", async () => {
-    const expression = '"${path:name.givenName}"'; // from aws_ssoadmin_instance_access_control_attributes example
+    const expression = '["$${path:name.givenName}"]'; // from aws_ssoadmin_instance_access_control_attributes example
     const scope = getScope();
     const result = await convertTerraformExpressionToTs(
       scope,
