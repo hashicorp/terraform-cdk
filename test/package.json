@@ -24,7 +24,7 @@
     "fs-extra": "^8.1.0",
     "has-ansi": "^4.0.1",
     "jest": "^29.5.0",
-    "jsii-rosetta": "^5.0.1",
+    "jsii-rosetta": "^5.1.9",
     "strip-ansi": "^6.0.0",
     "ts-jest": "^29.0.5",
     "typescript": "^5.0.2"
