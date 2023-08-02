@@ -634,7 +634,6 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
         })
         // sort by depth, so we start with the shallowest files
         .sort((a, b) => a.split("/").length - b.split("/").length);
-      console.log({ allInitPyFiles: allInitPyPaths });
 
       const visitedDirectories: string[] = [];
       for (const initPyPath of allInitPyPaths) {
