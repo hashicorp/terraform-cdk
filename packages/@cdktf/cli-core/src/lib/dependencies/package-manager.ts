@@ -101,6 +101,9 @@ export abstract class PackageManager {
       case Language.CSHARP:
         return new NugetPackageManager(workingDirectory);
       case Language.JAVA:
+        if (GradlePackageManager.isGradleProject(workingDirectory)) {
+          return new GradlePackageManager(workingDirectory);
+        }
         return new MavenPackageManager(workingDirectory);
       default:
         throw new Error(`Unknown language: ${language}`);
@@ -498,7 +501,41 @@ class NugetPackageManager extends PackageManager {
   }
 }
 
-class MavenPackageManager extends PackageManager {
+abstract class JavaPackageManager extends PackageManager {
+  public async isNpmVersionAvailable(
+    packageName: string,
+    packageVersion: string
+  ): Promise<boolean> {
+    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
+
+    const parts = packageName.split(".");
+    if (parts.length !== 3) {
+      throw Errors.Internal(
+        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`
+      );
+    }
+
+    const packageIdentifier = parts.pop();
+    const groupId = parts.join(".");
+
+    const url = `https://search.maven.org/solrsearch/select?q=g:${groupId}+AND+a:${packageIdentifier}+AND+v:${packageVersion}&rows=5&wt=json`;
+    logger.debug(
+      `Trying to find package version by querying Maven Central under '${url}'`
+    );
+    const response = await fetch(url);
+
+    const json = (await response.json()) as any;
+    logger.debug(
+      `Got response from the Maven package search for ${packageName}: ${JSON.stringify(
+        json
+      )}`
+    );
+
+    return (json?.response?.numFound ?? 0) > 0;
+  }
+}
+
+class MavenPackageManager extends JavaPackageManager {
   public async addPackage(
     packageName: string,
     packageVersion = "LATEST" // the latest option is deprecated in maven 3.5
@@ -557,38 +594,6 @@ class MavenPackageManager extends PackageManager {
     console.log("Package installed.");
   }
 
-  public async isNpmVersionAvailable(
-    packageName: string,
-    packageVersion: string
-  ): Promise<boolean> {
-    logger.debug(`Checking if ${packageName}@${packageVersion} is available`);
-
-    const parts = packageName.split(".");
-    if (parts.length !== 3) {
-      throw Errors.Internal(
-        `Expected package name to be in format "group.artifact", e.g. "com.hashicorp.cdktf-provider-google", got: ${packageName}`
-      );
-    }
-
-    const packageIdentifier = parts.pop();
-    const groupId = parts.join(".");
-
-    const url = `https://search.maven.org/solrsearch/select?q=g:${groupId}+AND+a:${packageIdentifier}+AND+v:${packageVersion}&rows=5&wt=json`;
-    logger.debug(
-      `Trying to find package version by querying Maven Central under '${url}'`
-    );
-    const response = await fetch(url);
-
-    const json = (await response.json()) as any;
-    logger.debug(
-      `Got response from the Maven package search for ${packageName}: ${JSON.stringify(
-        json
-      )}`
-    );
-
-    return (json?.response?.numFound ?? 0) > 0;
-  }
-
   public async listProviderPackages(): Promise<
     { name: string; version: string }[]
   > {
@@ -626,6 +631,88 @@ class MavenPackageManager extends PackageManager {
         `Could not determine installed packages reading the pom.xml: ${e.message}`
       );
     }
+  }
+}
+
+class GradlePackageManager extends JavaPackageManager {
+  public static isGradleProject(workingDirectory: string): boolean {
+    const buildGradlePath = path.join(workingDirectory, "build.gradle");
+
+    try {
+      fs.accessSync(buildGradlePath, fs.constants.R_OK | fs.constants.W_OK);
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  public async addPackage(
+    packageName: string,
+    packageVersion = "latest.release"
+  ): Promise<void> {
+    const dependencyRegex =
+      /dependencies {(\s*(implementation|api) ('|")(\S)*('|")\s*\n)*}/gm;
+
+    const buildGradlePath = path.join(this.workingDirectory, "build.gradle");
+    const buildGradle = await fs.readFile(buildGradlePath, "utf8");
+
+    const dependencies = dependencyRegex.exec(buildGradle);
+    if (!dependencies || !dependencies.index) {
+      throw Errors.Usage(
+        "Could not find dependencies section in the build.gradle"
+      );
+    }
+
+    // Find the index of the opening bracket of the dependencies section
+    const dependenciesStartIndex = buildGradle.indexOf("{", dependencies.index);
+    const newBuildGradle =
+      buildGradle.slice(0, dependenciesStartIndex + 1) +
+      `\n    implementation '${packageName}:${packageVersion}'` +
+      buildGradle.slice(dependenciesStartIndex + 1);
+    await fs.writeFile(buildGradlePath, newBuildGradle);
+  }
+
+  public async listProviderPackages(): Promise<
+    { name: string; version: string }[]
+  > {
+    const dependencyRegex =
+      /dependencies {(\s*(implementation|api) ('|")(\S)*('|")\s*\n)*}/gm;
+
+    const buildGradlePath = path.join(this.workingDirectory, "build.gradle");
+    const buildGradle = await fs.readFile(buildGradlePath, "utf8");
+    const dependencies = buildGradle.match(dependencyRegex);
+    if (!dependencies) {
+      throw Errors.Usage(
+        "Could not find dependencies section in the build.gradle"
+      );
+    }
+    const dependencyBody = dependencies[0];
+    // e.g. implementation 'com.hashicorp:cdktf-provider-google:8.0.8'
+    // or api 'com.hashicorp:cdktf-provider-google:8.0.8'
+    // We need to get the name and version from this
+    const dependencyRegex2 = /(\S)*('|")/gm;
+    const dependencyLines = dependencyBody.match(dependencyRegex2);
+    if (!dependencyLines) {
+      throw Errors.Usage(
+        "Could not find dependencies section in the build.gradle"
+      );
+    }
+
+    function removeQuotes(str: string): string {
+      return str.replace(/['"]+/g, "");
+    }
+
+    const dependencyList = dependencyLines
+      .map((line) => {
+        const dependency = line.split(":");
+        return {
+          name: `${removeQuotes(dependency[0])}.${dependency[1]}`,
+          version: removeQuotes(dependency[2]),
+        };
+      })
+      .filter(({ name }) => name.startsWith("com.hashicorp.cdktf-provider-"));
+
+    return dependencyList;
   }
 }
 
