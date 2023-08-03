@@ -52,7 +52,7 @@
     "ink-select-input": "^4.2.1",
     "ink-table": "^3.0.0",
     "jsii": "^5.1.10",
-    "jsii-pacmak": "^1.86.0",
+    "jsii-pacmak": "^1.86.1",
     "minimatch": "^5.1.0",
     "node-fetch": "^2.6.7",
     "pidtree": "^0.6.0",
