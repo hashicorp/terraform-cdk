@@ -118,7 +118,7 @@
     "jest": "^29.5.0",
     "jsii": "^5.1.10",
     "jsii-docgen": "^9.1.2",
-    "jsii-pacmak": "^1.86.0",
+    "jsii-pacmak": "^1.86.1",
     "ts-jest": "^29.0.5",
     "typescript": "^5.0.2"
   },
