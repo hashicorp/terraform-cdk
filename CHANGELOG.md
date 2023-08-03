@@ -1,3 +1,64 @@
+## Unreleased
+
+**Breaking changes**
+
+### Python performance improvements disable root-level provider imports
+
+When using a Provider in python one could previously import the resource and data source namespaces on the root level. This is no longer possible and the namespaces must be imported through specifying the paht in the import. The syntax was supported before as well, so you can change your code within `0.17.x` and then upgrade to `0.18.x`.
+
+Before:
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+from imports.aws import provider, sns_topic, lambda_function, iam_role
+
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, ns: str):
+        super().__init__(scope, ns)
+
+        provider.AwsProvider(self, 'Aws', region='eu-central-1')
+
+        sns_topic.SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
+        role = iam_role.IamRole(self, 'Role', name='lambda-role',
+                       assume_role_policy='{}')
+        lambda_function.LambdaFunction(self, 'Lambda', function_name='my-first-lambda-function',
+                       role=role.arn, handler='index.handler', runtime='python3.6')
+
+app = App()
+MyStack(app, "before-change")
+app.synth()
+```
+
+After:
+
+```python
+from constructs import Construct
+from cdktf import App, TerraformStack
+# This syntax was supported before as well
+from imports.aws.provider import AwsProvider
+from imports.aws.sns_topic import SnsTopic
+from imports.aws.lambda_function import LambdaFunction
+from imports.aws.iam_role import IamRole
+
+class MyStack(TerraformStack):
+    def __init__(self, scope: Construct, ns: str):
+        super().__init__(scope, ns)
+
+        AwsProvider(self, 'Aws', region='eu-central-1')
+
+        SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
+        role = IamRole(self, 'Role', name='lambda-role',
+                       assume_role_policy='{}')
+        LambdaFunction(self, 'Lambda', function_name='my-first-lambda-function',
+                       role=role.arn, handler='index.handler', runtime='python3.6')
+
+
+app = App()
+MyStack(app, "after-change")
+app.synth()
+```
+
 ## 0.17.3
 
 ### fix
