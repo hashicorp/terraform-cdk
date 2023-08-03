@@ -42,7 +42,7 @@
     "@cdktf/provider-generator": "0.0.0",
     "camelcase": "^6.3.0",
     "deep-equal": "^2.2.0",
-    "glob": "^10.2.7",
+    "glob": "^10.3.3",
     "graphology": "^0.25.1",
     "graphology-types": "^0.24.7",
     "jsii-rosetta": "^5.0.1",
