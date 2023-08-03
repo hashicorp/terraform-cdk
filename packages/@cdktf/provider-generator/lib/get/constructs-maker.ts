@@ -26,7 +26,7 @@ export async function generateJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options,
   outputPath: string,
-  disalllowedFileGlobs: string[] = []
+  disallowedFileGlobs: string[] = []
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
@@ -36,7 +36,7 @@ export async function generateJsiiLanguage(
 
     // as the above generated the Typescript code for all providers and modules,
     // we need to filter out the ones we don't need so they don't end up in the JSII bundle over and over again.
-    const filesToDelete = disalllowedFileGlobs.flatMap((pattern) =>
+    const filesToDelete = disallowedFileGlobs.flatMap((pattern) =>
       glob.sync(pattern, { cwd: staging })
     );
     await Promise.all(
