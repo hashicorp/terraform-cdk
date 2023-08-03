@@ -242,7 +242,8 @@ export class TerraformProviderConstraint
     return {
       name,
       source: fqn,
-      version,
+      // Terraform doesn't support *, instead no version is specified
+      version: version === "*" ? undefined : version,
       fqn,
       namespace,
     };
