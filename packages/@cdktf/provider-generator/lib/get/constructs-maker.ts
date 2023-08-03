@@ -25,13 +25,24 @@ import { glob } from "glob";
 export async function generateJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options,
-  outputPath: string
+  outputPath: string,
+  disalllowedFileGlobs: string[] = []
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
     // use jsii-srcmak to compile and extract the language-specific source
     // into our project.
     await code.save(staging);
+
+    // as the above generated the Typescript code for all providers and modules,
+    // we need to filter out the ones we don't need so they don't end up in the JSII bundle over and over again.
+    const filesToDelete = disalllowedFileGlobs.flatMap((pattern) =>
+      glob.sync(pattern, { cwd: staging })
+    );
+    await Promise.all(
+      filesToDelete.map((file) => fs.remove(path.join(staging, file)))
+    );
+
     await srcmak.srcmak(staging, opts);
     ["versions.json", "constraints.json"].forEach((file) => {
       try {
@@ -514,6 +525,14 @@ export class ConstructsMaker {
         path.dirname(require.resolve(`${dep}/package.json`))
       ),
       moduleKey: target.moduleKey,
+      exports: target.isProvider // Modules are small enough that we don't need this optimization
+        ? {
+            ".": {
+              import: `./providers/${target.name}/index.js`,
+              require: `./providers/${target.name}/lazy-index.js`,
+            },
+          }
+        : undefined,
     };
 
     // used for testing.
@@ -572,7 +591,9 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
-    await generateJsiiLanguage(this.code, opts, this.codeMakerOutdir);
+    await generateJsiiLanguage(this.code, opts, this.codeMakerOutdir, [
+      target.isModule ? "providers/**" : "modules/**",
+    ]);
     jsiiTimer();
   }
 
