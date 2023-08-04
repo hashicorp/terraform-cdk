@@ -2,6 +2,7 @@ name: Close stale issues and PRs
 
 permissions:
   issues: write
+  pull-requests: write
 
 on:
   schedule:
@@ -13,10 +14,10 @@ jobs:
     steps:
       - uses: actions/stale@1160a2240286f5da8ec72b1c0816ce2481aabf84 # v8.0.0
         with:
-          # For issues: post a "warning" message after 30 days, then close if another 30 days pass without a response. In another workflow, issues closed for 30 days will be locked.
-          stale-issue-message: "Hi there! 👋 We haven't heard from you in 30 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
-          close-issue-message: "I'm closing this issue because we haven't heard back in 60 days. ⌛️ If you still need help, feel free to comment or reopen the issue!"
-          days-before-issue-stale: 30
+          # For issues: post a "warning" message after 15 days, then close if another 30 days pass without a response. In another workflow, issues closed for 30 days will be locked.
+          stale-issue-message: "Hi there! 👋 We haven't heard from you in 15 days and would like to know if the problem has been resolved or if you still need help. If we don't hear from you before then, I'll auto-close this issue in 30 days."
+          close-issue-message: "I'm closing this issue because we haven't heard back in 45 days. ⌛️ If you still need help, feel free to comment or reopen the issue!"
+          days-before-issue-stale: 15
           days-before-issue-close: 30
           stale-issue-label: stale
           only-issue-labels: waiting-on-answer
