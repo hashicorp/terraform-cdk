@@ -29,6 +29,8 @@ jobs:
             fqn: "hashicorp/null"
           - repo: hashicorp/terraform-provider-random
             fqn: "hashicorp/random"
+          - repo: hashicorp/terraform-provider-tfe
+            fqn: "hashicorp/tfe"
           - repo: hashicorp/terraform-provider-time
             fqn: "hashicorp/time"
           - repo: hashicorp/terraform-provider-tls
