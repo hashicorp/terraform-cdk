@@ -50,6 +50,10 @@ export function getMavenVersion() {
   return getBinaryVersion("mvn", "--version");
 }
 
+export function getGradleVersion() {
+  return getBinaryVersion("gradle", "--version");
+}
+
 export async function getPythonVersion() {
   return (
     (await getBinaryVersion("python3", "--version")) ||
@@ -390,8 +394,10 @@ export async function collectDebugInformation() {
       {
         const java = getJavaVersion();
         const maven = getMavenVersion();
+        const gradle = getGradleVersion();
         debugOutput["java"] = (await java) ?? null;
         debugOutput["maven"] = (await maven) ?? null;
+        debugOutput["gradle"] = (await gradle) ?? null;
       }
       break;
     case "csharp":
