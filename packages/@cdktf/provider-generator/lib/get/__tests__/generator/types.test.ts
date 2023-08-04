@@ -435,6 +435,7 @@ test("incompatible resource names", async () => {
     [
       "function-resource",
       "index.ts",
+      "lazy-index.ts",
       "license-resource",
       "object-resource",
       "provider-resource",
