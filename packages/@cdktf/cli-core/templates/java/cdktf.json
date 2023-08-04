@@ -1,6 +1,6 @@
 {
   "language": "java",
-  "app": "mvn -e -q compile exec:java",
+  "app": "./gradlew run",
   "projectId": "{{projectId}}",
   "sendCrashReports": "{{sendCrashReports}}",
   "codeMakerOutput": "src/main/java/imports",
