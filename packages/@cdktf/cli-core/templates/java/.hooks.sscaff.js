@@ -10,13 +10,13 @@ const os = require('os');
 exports.pre = (variables) => {
   try {
     if (os.platform() === 'win32') {
-      execSync('where mvn')
+      execSync('where gradle')
     }
     else {
-      execSync('which mvn')
+      execSync('which gradle')
     }
   } catch {
-    console.error(`Unable to find "mvn". Install from https://maven.apache.org/install.html`);
+    console.error(`Unable to find "gradle". Install from https://maven.apache.org/install.html`);
     process.exit(1);
   }
   variables.constructs_version = variables.constructs_version.replace('^', '').replace('~', '');
@@ -37,10 +37,16 @@ exports.post = options => {
   // This is used for installing artifacts that are local (not from Maven)
   // https://maven.apache.org/plugins/maven-install-plugin/usage.html
   if (mvn_cdktf.endsWith('.jar')) {
-    execSync(`mvn install:install-file -Dfile=${mvn_cdktf} -DgroupId=com.hashicorp -DartifactId=cdktf -Dversion=${cdktf_version} -Dpackaging=jar`, { stdio: 'inherit' })
+    writeFileSync('./build.gradle',
+      readFileSync('./build.gradle', 'utf-8').replace(
+        `implementation "com.hashicorp:cdktf:${cdktf_version}"`, 
+        `implementation files("${mvn_cdktf}")`
+      )
+    );
   }
 
-  execSync(`mvn install`, { stdio: 'inherit' });
+  execSync(`gradle wrapper`, { stdio: 'inherit' });
+  execSync(`./gradlew install`, { stdio: 'inherit' });
   console.log(readFileSync('./help', 'utf-8'));
 };
 
