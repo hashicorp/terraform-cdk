@@ -1,0 +1,24 @@
+name: Remove waiting-on-answer label after new comments
+
+permissions:
+  issues: write
+  pull-requests: write
+
+on:
+  issue_comment:
+    types: [created]
+
+jobs:
+  commented:
+    name: On comment
+    if: |
+      contains(github.event.issue.labels.*.name, 'waiting-on-answer') && !contains(github.event.issue.labels.*.name, 'stale') && 
+      github.event.comment.author_association != 'OWNER' && github.event.comment.author_association != 'MEMBER' && 
+      github.event.comment.author_association != 'COLLABORATOR' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove waiting-on-answer label
+        run: gh issue edit $NUMBER --remove-label "waiting-on-answer"
+        env:
+          NUMBER: ${{ github.event.issue.number }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
