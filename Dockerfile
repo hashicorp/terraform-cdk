@@ -1,7 +1,7 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node16
+FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node16@sha256:deaad1d7f285cd104255ab7bd0edd6de0f51b6562973a384c776ca4cceb81d00
 
 USER root
 
@@ -9,7 +9,7 @@ ARG DEFAULT_TERRAFORM_VERSION
 ARG AVAILABLE_TERRAFORM_VERSIONS
 
 
-RUN apt-get update -y && apt-get install -y unzip jq build-essential time
+RUN apt-get update -y && apt-get install -y unzip jq build-essential time python3-venv
 RUN curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | python3
 RUN npm install -g @sentry/cli --unsafe-perm
 
