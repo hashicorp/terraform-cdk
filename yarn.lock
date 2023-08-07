@@ -462,10 +462,10 @@
   resolved "https://registry.yarnpkg.com/@cdktf/provider-aws/-/provider-aws-0.0.111.tgz#19f27df8ab9411e4b5a468e11600fa3e0579e578"
   integrity sha512-KGWcRXG6B1TRcCb1a5c/n6zJi3/YZwDgDB2m/QpuyHnerq1A9OVPBRoYaS0dzz7lOCFXb/uNc5MxrObjFFy0rg==
 
-"@cdktf/provider-azurerm@^0.8.15":
-  version "0.8.15"
-  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-0.8.15.tgz#d4c19ec23d138f13e466f9e2339b546d9eef75cf"
-  integrity sha512-8KYwinOF8IBYdKNuVGI9K3CZxNbXbVF2l+aWi/d8TAJOgOb/KcwCu9sAQpX51r0Q/KXNyhd1JwnbivslAifzYw==
+"@cdktf/provider-azurerm@^9.0.6":
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/@cdktf/provider-azurerm/-/provider-azurerm-9.0.6.tgz#d261fe4aab19cab62b42b3424681b8b0d39b59c4"
+  integrity sha512-GoeF4XWG7I+JjYnz3ZBgESFmcSpazjOOcG1zlHUzooQQMpbtATzp2M1dwM5YbOLrfq7ABu31QmXCAHI2iXRLWg==
 
 "@cdktf/provider-dnsimple@^0.1.8":
   version "0.1.8"

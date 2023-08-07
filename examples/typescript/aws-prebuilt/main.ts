@@ -2,12 +2,11 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, TerraformStack, TerraformOutput } from "cdktf";
-import {
-  DataAwsRegion,
-  AwsProvider,
-  DynamodbTable,
-  SnsTopic,
-} from "@cdktf/provider-aws";
+
+import { DataAwsRegion } from "@cdktf/provider-aws/lib/data-aws-region";
+import { AwsProvider } from "@cdktf/provider-aws/lib/aws-provider";
+import { DynamodbTable } from "@cdktf/provider-aws/lib/dynamodb-table";
+import { SnsTopic } from "@cdktf/provider-aws/lib/sns-topic";
 
 export class HelloTerra extends TerraformStack {
   constructor(scope: Construct, id: string) {
