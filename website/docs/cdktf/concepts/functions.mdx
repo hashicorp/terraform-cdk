@@ -181,10 +181,10 @@ v = TerraformVariable(self, "complex-object",
     type = 'object({users: list(object({name: string}))})',
 )
 TerraformOutput(self, 'users',
-    value=Fn.lookup(v.value, "users", "default")
+    value=Fn.lookup(v.string_value, "users")
 )
 TerraformOutput(self, 'first_user_name',
-    value=Fn.lookup_nested(v.value, ["users", 0, "name"])
+    value=Fn.lookup_nested(v.string_value, ["users", 0, "name"])
 )
 ```
 

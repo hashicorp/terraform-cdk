@@ -28,17 +28,17 @@ class FunctionsStack(TerraformStack):
 
         # DOCS_BLOCK_END:functions-usage-example
 
-        # INTERNAL NOTE: Due to an JSII bug, we have to pass a default value for lookup in Python
+        # INTERNAL NOTE: Due to an JSII bug, we have to pass the variable as a string_value in Python
         # We can remove it, once https://github.com/aws/jsii/pull/4209 is released
         # DOCS_BLOCK_START:functions-lookup
         v = TerraformVariable(self, "complex-object",
             type = 'object({users: list(object({name: string}))})',
         )
         TerraformOutput(self, 'users',
-            value=Fn.lookup(v.value, "users", "default")
+            value=Fn.lookup(v.string_value, "users")
         )
         TerraformOutput(self, 'first_user_name',
-            value=Fn.lookup_nested(v.value, ["users", 0, "name"])
+            value=Fn.lookup_nested(v.string_value, ["users", 0, "name"])
         )
         # DOCS_BLOCK_END:functions-lookup
 
