@@ -1,6 +1,6 @@
 {
   "language": "java",
-  "app": "mvn -e -q compile exec:java",
+  "app": "./gradlew run",
   "terraformProviders": [
     "kubernetes@~> 1.11.3"
   ]
