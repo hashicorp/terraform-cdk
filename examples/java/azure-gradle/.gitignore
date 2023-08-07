@@ -1,0 +1,14 @@
+.terraform
+cdktf.out
+cdktf.log
+*terraform.*.tfstate*
+
+.classpath
+.project
+.idea
+.settings
+.vscode
+*.iml
+target/
+.gradle/
+build/

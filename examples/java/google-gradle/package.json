@@ -1,0 +1,10 @@
+{
+  "name": "@examples/java-google-gradle",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "./reinstall.sh",
+    "build": "cdktf get",
+    "synth": "cdktf synth"
+  }
+}
