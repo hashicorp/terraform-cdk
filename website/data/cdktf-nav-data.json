@@ -106,6 +106,10 @@
         "path": "create-and-deploy/deployment-patterns"
       },
       {
+        "title": "Performance",
+        "path": "create-and-deploy/performance"
+      },
+      {
         "title": "Remote Templates",
         "path": "create-and-deploy/remote-templates"
       },
