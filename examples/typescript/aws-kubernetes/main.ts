@@ -2,26 +2,22 @@
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
 import { App, Fn, TerraformStack } from "cdktf";
-import {
-  deployment,
-  provider as k8s,
-  service,
-} from "./.gen/providers/kubernetes";
+import { Deployment } from "./.gen/providers/kubernetes/deployment";
+import { KubernetesProvider } from "./.gen/providers/kubernetes/provider";
+import { Service } from "./.gen/providers/kubernetes/service";
 import { Namespace } from "./.gen/providers/kubernetes/namespace";
-import {
-  dataAwsAvailabilityZones,
-  dataAwsEksCluster,
-  dataAwsEksClusterAuth,
-  provider,
-  securityGroup,
-} from "./.gen/providers/aws";
+import { DataAwsAvailabilityZones } from "./.gen/providers/aws/data-aws-availability-zones";
+import { DataAwsEksCluster } from "./.gen/providers/aws/data-aws-eks-cluster";
+import { DataAwsEksClusterAuth } from "./.gen/providers/aws/data-aws-eks-cluster-auth";
+import { AwsProvider } from "./.gen/providers/aws/provider";
+import { SecurityGroup } from "./.gen/providers/aws/security-group";
 import { Eks } from "./.gen/modules/terraform-aws-modules/aws/eks";
 import { Vpc } from "./.gen/modules/terraform-aws-modules/aws/vpc";
 
 class EksClusterStack extends TerraformStack {
   public vpc: Vpc;
-  public eks: dataAwsEksCluster.DataAwsEksCluster;
-  public eksAuth: dataAwsEksClusterAuth.DataAwsEksClusterAuth;
+  public eks: DataAwsEksCluster;
+  public eksAuth: DataAwsEksClusterAuth;
 
   constructor(
     scope: Construct,
@@ -30,16 +26,15 @@ class EksClusterStack extends TerraformStack {
     region = "us-east-1"
   ) {
     super(scope, id);
-    new provider.AwsProvider(this, "aws", {
+    new AwsProvider(this, "aws", {
       region,
     });
 
-    const allAvailabilityZones =
-      new dataAwsAvailabilityZones.DataAwsAvailabilityZones(
-        this,
-        "all-availability-zones",
-        {}
-      ).names;
+    const allAvailabilityZones = new DataAwsAvailabilityZones(
+      this,
+      "all-availability-zones",
+      {}
+    ).names;
 
     // Create VPC
     this.vpc = new Vpc(this, "vpc", {
@@ -65,45 +60,37 @@ class EksClusterStack extends TerraformStack {
     });
 
     // Security roles
-    const mgmtOne = new securityGroup.SecurityGroup(
-      this,
-      "worker_group_mgmt_one",
-      {
-        namePrefix: "worker_group_mgmt_one",
-        vpcId: this.vpc.vpcIdOutput,
+    const mgmtOne = new SecurityGroup(this, "worker_group_mgmt_one", {
+      namePrefix: "worker_group_mgmt_one",
+      vpcId: this.vpc.vpcIdOutput,
 
-        ingress: [
-          {
-            fromPort: 22,
-            toPort: 22,
-            protocol: "tcp",
+      ingress: [
+        {
+          fromPort: 22,
+          toPort: 22,
+          protocol: "tcp",
 
-            cidrBlocks: ["10.0.0.0/8"],
-          },
-        ],
-      }
-    );
+          cidrBlocks: ["10.0.0.0/8"],
+        },
+      ],
+    });
 
-    const mgmtTwo = new securityGroup.SecurityGroup(
-      this,
-      "worker_group_mgmt_two",
-      {
-        namePrefix: "worker_group_mgmt_two",
-        vpcId: this.vpc.vpcIdOutput,
+    const mgmtTwo = new SecurityGroup(this, "worker_group_mgmt_two", {
+      namePrefix: "worker_group_mgmt_two",
+      vpcId: this.vpc.vpcIdOutput,
 
-        ingress: [
-          {
-            fromPort: 22,
-            toPort: 22,
-            protocol: "tcp",
+      ingress: [
+        {
+          fromPort: 22,
+          toPort: 22,
+          protocol: "tcp",
 
-            cidrBlocks: ["192.168.0.0/16"],
-          },
-        ],
-      }
-    );
+          cidrBlocks: ["192.168.0.0/16"],
+        },
+      ],
+    });
 
-    new securityGroup.SecurityGroup(this, "all_worker_mgmt", {
+    new SecurityGroup(this, "all_worker_mgmt", {
       namePrefix: "all_worker_mgmt",
       vpcId: this.vpc.vpcIdOutput,
 
@@ -155,18 +142,14 @@ class EksClusterStack extends TerraformStack {
     });
 
     // We create the Eks cluster within the module, this is so we can access the cluster resource afterwards
-    this.eks = new dataAwsEksCluster.DataAwsEksCluster(this, "eks-cluster", {
+    this.eks = new DataAwsEksCluster(this, "eks-cluster", {
       name: eksModule.clusterIdOutput,
     });
 
     // We need to fetch the authentication data from the EKS cluster as well
-    this.eksAuth = new dataAwsEksClusterAuth.DataAwsEksClusterAuth(
-      this,
-      "eks-auth",
-      {
-        name: eksModule.clusterIdOutput,
-      }
-    );
+    this.eksAuth = new DataAwsEksClusterAuth(this, "eks-auth", {
+      name: eksModule.clusterIdOutput,
+    });
   }
 }
 
@@ -174,12 +157,12 @@ class KubernetesApplicationStack extends TerraformStack {
   constructor(
     scope: Construct,
     id: string,
-    cluster: dataAwsEksCluster.DataAwsEksCluster,
-    clusterAuth: dataAwsEksClusterAuth.DataAwsEksClusterAuth
+    cluster: DataAwsEksCluster,
+    clusterAuth: DataAwsEksClusterAuth
   ) {
     super(scope, id);
 
-    new k8s.KubernetesProvider(this, "cluster", {
+    new KubernetesProvider(this, "cluster", {
       host: cluster.endpoint,
       clusterCaCertificate: Fn.base64decode(
         cluster.certificateAuthority.get(0).data
@@ -194,7 +177,7 @@ class KubernetesApplicationStack extends TerraformStack {
     });
 
     const app = "nginx-example";
-    const nginx = new deployment.Deployment(this, "nginx-deployment", {
+    const nginx = new Deployment(this, "nginx-deployment", {
       metadata: {
         name: app,
         namespace: exampleNamespace.metadata.name,
@@ -232,7 +215,7 @@ class KubernetesApplicationStack extends TerraformStack {
       },
     });
 
-    new service.Service(this, "nginx-service", {
+    new Service(this, "nginx-service", {
       metadata: {
         namespace: nginx.metadata.namespace,
         name: "nginx-service",
