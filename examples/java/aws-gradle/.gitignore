@@ -11,3 +11,5 @@ src/main/resources/imports/
 .vscode
 *.iml
 target/
+.gradle
+build/
