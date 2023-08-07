@@ -5,7 +5,7 @@ plugins {
 }
 apply plugin : "java" 
 ext {
-   javaMainClass = "com.mycompany.app.google-gradle"
+   javaMainClass = "com.mycompany.app.Main"
 }
 
 application {
