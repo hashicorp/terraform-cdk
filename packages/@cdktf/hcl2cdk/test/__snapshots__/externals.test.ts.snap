@@ -6,7 +6,7 @@ import {
   VariableType,
   TerraformVariable,
   TerraformOutput,
-  propertyAccess,
+  Fn,
   TerraformStack,
 } from "cdktf";
 /*
@@ -29,7 +29,7 @@ class MyConvertedCode extends TerraformStack {
       program: ["\${path.module}/oidc_thumbprint.sh", fargateRegion.value],
     });
     new TerraformOutput(this, "foo", {
-      value: propertyAccess(dataExternalThumbprint, ["result", "thumbprint"]),
+      value: Fn.lookupNested(dataExternalThumbprint, ["result", "thumbprint"]),
     });
   }
 }

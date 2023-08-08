@@ -513,7 +513,7 @@ describe("expressions", () => {
 
     it("should convert iterator value deep accessor", async () => {
       expect(await run('"${each.value.list.map.name}"')).toMatchInlineSnapshot(
-        `"propertyAccess(myIterator.value, ["list", "map", "name"]);"`
+        `"Fn.lookupNested(myIterator.value, ["list", "map", "name"]);"`
       );
     });
 
@@ -521,7 +521,7 @@ describe("expressions", () => {
       expect(
         await run('"${each.value[0]["map"]["name"]}"')
       ).toMatchInlineSnapshot(
-        `"propertyAccess(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
+        `"Fn.lookupNested(myIterator.value, ["[0]", "[\\"map\\"]", "[\\"name\\"]"]);"`
       );
     });
   });

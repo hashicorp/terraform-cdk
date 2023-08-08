@@ -420,7 +420,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(foo, ["*", "id"]))"`
+      `"Token.asString(Fn.lookupNested(foo, ["*", "id"]))"`
     );
   });
 
@@ -434,7 +434,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -448,7 +448,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -462,7 +462,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket.networkInterface, ["0", "access_config", "0", "assigned_nat_ip"]))"`
     );
   });
 
@@ -475,7 +475,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.toset(propertyAccess(examplebucket, ["*"])))"`
+      `"Token.asString(Fn.toset(Fn.lookupNested(examplebucket, ["*"])))"`
     );
   });
 
@@ -502,7 +502,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(Fn.element(examplebucket, 0), ["id"]))"`
+      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`
     );
   });
 
@@ -515,7 +515,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.element(propertyAccess(examplebucket, ["*", "id"]), 0))"`
+      `"Token.asString(Fn.element(Fn.lookupNested(examplebucket, ["*", "id"]), 0))"`
     );
   });
 
@@ -584,7 +584,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(examplebucket, ["0", "id"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket, ["0", "id"]))"`
     );
   });
 
@@ -646,7 +646,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.element(propertyAccess(test2.value, ["\\"val1\\""]), 0))"`
+      `"Token.asString(Fn.element(Fn.lookupNested(test2.value, ["\\"val1\\""]), 0))"`
     );
   });
 
@@ -659,7 +659,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.flatten(propertyAccess(vnets.value, ["*", "subnets", "*", "name"])))"`
+      `"Token.asString(Fn.flatten(Fn.lookupNested(vnets.value, ["*", "subnets", "*", "name"])))"`
     );
   });
 
@@ -677,7 +677,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `""\${{ for vnet in \${" + propertyAccess(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
+      `""\${{ for vnet in \${" + Fn.lookupNested(vnets.value, ["*"]) + "} : (vnet.vnet_name) => vnet.subnets[*].name}}""`
     );
   });
 
@@ -779,7 +779,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.join("-", Token.asList([propertyAccess(tags.value, ["app"]), propertyAccess(tags.value, ["env"])])))"`
+      `"Token.asString(Fn.join("-", Token.asList([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"])])))"`
     );
   });
 
@@ -793,7 +793,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.join("-", Token.asList(Fn.concat([propertyAccess(tags.value, ["app"]), propertyAccess(tags.value, ["env"]), propertyAccess(tags.value, ["other"])]))))"`
+      `"Token.asString(Fn.join("-", Token.asList(Fn.concat([Fn.lookupNested(tags.value, ["app"]), Fn.lookupNested(tags.value, ["env"]), Fn.lookupNested(tags.value, ["other"])]))))"`
     );
   });
 
@@ -845,7 +845,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(myIterator.value, ["name"]))"`
+      `"Token.asString(Fn.lookupNested(myIterator.value, ["name"]))"`
     );
   });
 
@@ -858,7 +858,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(Fn.element(examplebucket, 0), ["id"]))"`
+      `"Token.asString(Fn.lookupNested(Fn.element(examplebucket, 0), ["id"]))"`
     );
   });
 
@@ -873,7 +873,7 @@ describe("expressionToTs", () => {
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(Fn.concat([propertyAccess(privateSubnets.value, ["*", "id"]), propertyAccess(publicSubnets.value, ["*", "id"])]))"`
+      `"Token.asString(Fn.concat([Fn.lookupNested(privateSubnets.value, ["*", "id"]), Fn.lookupNested(publicSubnets.value, ["*", "id"])]))"`
     );
   });
 
@@ -1003,7 +1003,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(changemeAzListEbsSnapshot.names, ["0"]))"`
+      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot.names, ["0"]))"`
     );
   });
 
@@ -1019,7 +1019,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(changemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
+      `"Token.asString(Fn.lookupNested(changemeAzListEbsSnapshot, ["testing_map", "foo"]))"`
     );
   });
 
@@ -1053,7 +1053,7 @@ EOF`;
       () => ["map", "string"]
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asStringMap(propertyAccess(changemeExternalThumbprintData, ["result", "thumbprint"]))"`
+      `"Token.asStringMap(Fn.lookupNested(changemeExternalThumbprintData, ["result", "thumbprint"]))"`
     );
   });
 
@@ -1069,7 +1069,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(examplebucket, ["foo", "bar"]))"`
+      `"Token.asString(Fn.lookupNested(examplebucket, ["foo", "bar"]))"`
     );
   });
 
@@ -1086,7 +1086,7 @@ EOF`;
       () => "string"
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(defaultTags.value, ["project"])) + "-client-tg""`
+      `"Token.asString(Fn.lookupNested(defaultTags.value, ["project"])) + "-client-tg""`
     );
   });
 
@@ -1115,7 +1115,7 @@ EOF`;
       getType
     );
     expect(code(result)).toMatchInlineSnapshot(
-      `"Token.asString(propertyAccess(available.names, ["\${count.index}"]))"`
+      `"Token.asString(Fn.lookupNested(available.names, ["\${count.index}"]))"`
     );
   });
 
