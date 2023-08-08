@@ -31,7 +31,7 @@ exports[`variables complex type and default snapshot typescript 1`] = `
 import {
   VariableType,
   TerraformVariable,
-  propertyAccess,
+  Fn,
   Token,
   TerraformStack,
 } from "cdktf";
@@ -66,7 +66,7 @@ class MyConvertedCode extends TerraformStack {
     new DataLocalFile(this, "foo", {
       filename:
         "./" +
-        Token.asString(propertyAccess(dockerPorts.value, ["0", "protocol"])) +
+        Token.asString(Fn.lookupNested(dockerPorts.value, ["0", "protocol"])) +
         ".img",
     });
   }
@@ -79,7 +79,7 @@ exports[`variables sensitive and required snapshot typescript 1`] = `
 import {
   VariableType,
   TerraformVariable,
-  propertyAccess,
+  Fn,
   Token,
   TerraformStack,
 } from "cdktf";
@@ -106,7 +106,7 @@ class MyConvertedCode extends TerraformStack {
     new DataLocalFile(this, "foo", {
       filename:
         "./" +
-        Token.asString(propertyAccess(userInformation.value, ["name"])) +
+        Token.asString(Fn.lookupNested(userInformation.value, ["name"])) +
         ".img",
     });
   }
