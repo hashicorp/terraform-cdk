@@ -131,6 +131,7 @@ async function generateBindings(
   binding: ProviderDefinition
 ): Promise<AbsolutePath> {
   const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
+  const cacheDir = await fs.mkdtemp(path.join(os.tmpdir(), "terraform-cache-"));
   await fs.writeFile(
     path.resolve(tempDir, "cdktf.json"),
     JSON.stringify({
@@ -142,7 +143,10 @@ async function generateBindings(
         binding.type === ProviderType.module ? [binding.fqn] : [],
     })
   );
-  await execa(cdktfBin, ["get"], { cwd: tempDir });
+  await execa(cdktfBin, ["get"], {
+    cwd: tempDir,
+    env: { TF_PLUGIN_CACHE_DIR: cacheDir },
+  });
 
   return path.resolve(tempDir, ".gen", binding.path);
 }
