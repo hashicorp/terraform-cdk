@@ -260,10 +260,14 @@ function convertScopeTraversalExpressionToTs(
 
     if (segments.length > 2) {
       scope.importables.push({
-        constructName: "propertyAccess",
+        constructName: "Fn",
         provider: "cdktf",
       });
-      return t.callExpression(t.identifier("propertyAccess"), [
+      const callee = t.memberExpression(
+        t.identifier("Fn"),
+        t.identifier("lookupNested")
+      );
+      return t.callExpression(callee, [
         variableAccessor,
         t.arrayExpression(
           segments.slice(2).map((s) => t.stringLiteral(s.segment))
@@ -340,10 +344,14 @@ function convertScopeTraversalExpressionToTs(
   }
 
   scope.importables.push({
-    constructName: "propertyAccess",
+    constructName: "Fn",
     provider: "cdktf",
   });
-  return t.callExpression(t.identifier("propertyAccess"), [
+  const callee = t.memberExpression(
+    t.identifier("Fn"),
+    t.identifier("lookupNested")
+  );
+  return t.callExpression(callee, [
     ref,
     t.arrayExpression(nonRefSegments.map((s) => t.stringLiteral(s.segment))),
   ]);
@@ -598,11 +606,14 @@ function convertIndexExpressionToTs(
   const keyExpression = convertTFExpressionAstToTs(scope, keyExpressionChild!);
 
   scope.importables.push({
-    constructName: "propertyAccess",
+    constructName: "Fn",
     provider: "cdktf",
   });
-
-  return t.callExpression(t.identifier("propertyAccess"), [
+  const callee = t.memberExpression(
+    t.identifier("Fn"),
+    t.identifier("lookupNested")
+  );
+  return t.callExpression(callee, [
     collectionExpression,
     t.arrayExpression([keyExpression]),
   ]);
@@ -631,11 +642,15 @@ function convertSplatExpressionToTs(
 
   const segments = relativeExpression.split(/\.|\[|\]/).filter((s) => s);
   scope.importables.push({
-    constructName: "propertyAccess",
+    constructName: "Fn",
     provider: "cdktf",
   });
+  const callee = t.memberExpression(
+    t.identifier("Fn"),
+    t.identifier("lookupNested")
+  );
 
-  return t.callExpression(t.identifier("propertyAccess"), [
+  return t.callExpression(callee, [
     sourceExpression,
     t.arrayExpression([
       // we don't need to use the anonSymbolExpression here because
@@ -708,11 +723,15 @@ function convertRelativeTraversalExpressionToTs(
   );
 
   scope.importables.push({
-    constructName: "propertyAccess",
+    constructName: "Fn",
     provider: "cdktf",
   });
+  const callee = t.memberExpression(
+    t.identifier("Fn"),
+    t.identifier("lookupNested")
+  );
 
-  return t.callExpression(t.identifier("propertyAccess"), [
+  return t.callExpression(callee, [
     source,
     t.arrayExpression(segments.map((s) => t.stringLiteral(s.segment))),
   ]);
@@ -922,10 +941,14 @@ export function dynamicVariableToAst(
   ) {
     const segmentsAfterEachValue = segments.slice(2);
     scope.importables.push({
+      constructName: "Fn",
       provider: "cdktf",
-      constructName: "propertyAccess",
     });
-    return t.callExpression(t.identifier("propertyAccess"), [
+    const callee = t.memberExpression(
+      t.identifier("Fn"),
+      t.identifier("lookupNested")
+    );
+    return t.callExpression(callee, [
       t.memberExpression(t.identifier(iteratorName), t.identifier("value")),
       t.arrayExpression(
         segmentsAfterEachValue.map((part) => {
