@@ -259,6 +259,32 @@ ITEM
   );
 
   testCase.test(
+    "property access in maps works",
+    `
+    variable "default_tags" {
+      type        = map(string)
+      description = "Map of default tags to apply to resources"
+      default = {
+        project = "Learning Live with AWS & HashiCorp"
+      }
+    }
+    
+    resource "aws_eip" "nat" {
+      vpc = true
+      tags = {
+        "Name" = "\${var.default_tags.project}-nat-eip"
+      }
+    }
+      `,
+    [binding.aws],
+    Snapshot.yes_all_languages,
+    Synth.yes_but_only_typescript_right_now_because_it_breaks,
+    {
+      resources: [],
+    }
+  );
+
+  testCase.test(
     "strings containing single outer quotes are supported",
     `
       output "hash" {
