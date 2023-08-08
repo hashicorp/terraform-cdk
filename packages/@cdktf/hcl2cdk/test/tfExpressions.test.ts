@@ -239,7 +239,7 @@ ITEM
     }
   );
 
-  testCase.only(
+  testCase.test(
     "escaping dollar-curly in template strings works",
     `
     resource "aws_ssoadmin_instance_access_control_attributes" "example" {
