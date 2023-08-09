@@ -121,41 +121,45 @@ export const binding = {
 };
 
 type AbsolutePath = string;
-const providerBindingCache: Record<
-  ProviderFqn,
-  Promise<AbsolutePath> | undefined
-> = {};
 const providerSchemaCache: Record<ProviderFqn, SchemaPromise | undefined> = {};
+const providerBindings: Promise<
+  Record<ProviderFqn, Promise<AbsolutePath> | undefined>
+> = new Promise(async (resolve) => {
+  if (includeSynthTests) {
+    // Populate provider binding cache
+    const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
+    await fs.writeFile(
+      path.resolve(tempDir, "cdktf.json"),
+      JSON.stringify({
+        language: "typescript",
+        app: "npx ts-node main.ts",
+        terraformProviders: Object.values(binding)
+          .filter((b) => b.type === ProviderType.provider)
+          .map((b) => b.fqn),
+        terraformModules: Object.values(binding)
+          .filter((b) => b.type === ProviderType.module)
+          .map((b) => b.fqn),
+      })
+    );
+    await execa(cdktfBin, ["get"], { cwd: tempDir });
 
-async function generateBindings(
-  binding: ProviderDefinition
-): Promise<AbsolutePath> {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
-  await fs.writeFile(
-    path.resolve(tempDir, "cdktf.json"),
-    JSON.stringify({
-      language: "typescript",
-      app: "npx ts-node main.ts",
-      terraformProviders:
-        binding.type === ProviderType.provider ? [binding.fqn] : [],
-      terraformModules:
-        binding.type === ProviderType.module ? [binding.fqn] : [],
-    })
-  );
-  await execa(cdktfBin, ["get"], { cwd: tempDir });
-
-  return path.resolve(tempDir, ".gen", binding.path);
-}
+    resolve(
+      Object.values(binding).reduce(
+        (acc, b) => ({
+          ...acc,
+          [b.fqn]: path.resolve(tempDir, ".gen", b.path),
+        }),
+        {}
+      )
+    );
+  }
+});
 
 async function copyBindingsForProvider(
   binding: ProviderDefinition,
   targetDirectory: AbsolutePath
 ) {
-  const absoluteBindingPathPromise = providerBindingCache[binding.fqn]
-    ? providerBindingCache[binding.fqn]
-    : generateBindings(binding);
-
-  providerBindingCache[binding.fqn] = absoluteBindingPathPromise;
+  const absoluteBindingPathPromise = (await providerBindings)[binding.fqn];
 
   const target = path.resolve(targetDirectory, ".gen", binding.path);
   await fs.mkdirp(target);
