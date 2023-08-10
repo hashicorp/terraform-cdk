@@ -108,20 +108,20 @@ describe.skip("full integration test", () => {
 
       // Direct access is not supported, we have to go through terraform functions
       expect(item.bool).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
+        "${element(list_block_resource.list.req, 0).reqbool}"
       );
       expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
       expect(item.num).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
+        "${element(list_block_resource.list.req, 0).reqnum}"
       );
       expect(item.boolList).toEqual([
-        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+        "${element(list_block_resource.list.req, 0).reqbool}",
       ]);
       expect(item.strList).toEqual([
         "${list_block_resource.list.req[0].reqstr}",
       ]);
       expect(item.numList).toEqual([
-        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+        "${element(list_block_resource.list.req, 0).reqnum)}",
       ]);
     });
 
