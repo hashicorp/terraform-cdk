@@ -94,15 +94,11 @@ export class TerraformStack extends Construct {
 
       if (!node.scope) {
         let hint = "";
-        if (
-          construct.node.scope === c &&
-          App.isApp(c) &&
-          TerraformBackend.isBackend(construct)
-        ) {
+        if (construct.node.scope === c && App.isApp(c)) {
           // the scope of the originally passed construct equals the construct c
           // which has no scope (i.e. has no parent construct) and c is an App
           // and our construct is a Backend
-          hint = `. You seem to have passed your root App as scope to a TerraformBackend construct. Pass a stack as scope to your backend instead.`;
+          hint = `. You seem to have passed your root App as scope to a construct. Pass a stack (inheriting from TerraformStack) as scope to your construct instead.`;
         }
 
         throw new Error(
