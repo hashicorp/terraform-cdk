@@ -119,7 +119,6 @@ describe("csharp full integration test synth", () => {
     it("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
-      // Direct access is not supported, we have to go through terraform functions
       expect(item.bool).toEqual(
         '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
       );
