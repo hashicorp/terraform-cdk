@@ -252,6 +252,11 @@
       "source":"/docs-in-the-registry",
       "destination": "https://www.hashicorp.com/blog/new-multi-language-docs-simplify-cdk-for-terraform-adoption",
       "permanent": false
+    }, 
+    {
+      "source":"/performance",
+      "destination": "https://developer.hashicorp.com/terraform/cdktf/create-and-deploy/performance",
+      "permanent": false
     }
   ]
 }
