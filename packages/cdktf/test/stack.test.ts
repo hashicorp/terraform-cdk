@@ -117,12 +117,12 @@ test("stack validation returns no error when provider is not set", () => {
   expect(errors).toEqual([]);
 });
 
-test("getting Stack for TerraformBackend which was added to root app returns friendly error", () => {
+test("getting Stack for construct which was added to root app returns friendly error", () => {
   const app = Testing.stubVersion(new App({ stackTraces: false }));
   new TerraformStack(app, "MyStack");
 
   expect(() => new LocalBackend(app, {})).toThrowErrorMatchingInlineSnapshot(
-    `"No stack could be identified for the construct at path 'backend'. You seem to have passed your root App as scope to a TerraformBackend construct. Pass a stack as scope to your backend instead."`
+    `"No stack could be identified for the construct at path 'backend'. You seem to have passed your root App as scope to a construct. Pass a stack (inheriting from TerraformStack) as scope to your construct instead."`
   );
 });
 
