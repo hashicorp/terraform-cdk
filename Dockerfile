@@ -14,6 +14,7 @@ RUN curl https://raw.githubusercontent.com/pypa/pipenv/master/get-pipenv.py | py
 RUN pip install pipenv
 RUN npm install -g @sentry/cli --unsafe-perm
 # From the official gradle Dockerfile (https://github.com/keeganwitt/docker-gradle/blob/2ba84220e311de7a55f3731509dd772a885b86f8/jdk8/Dockerfile)
+ENV GRADLE_HOME /opt/gradle
 ENV GRADLE_VERSION 8.2.1
 ARG GRADLE_DOWNLOAD_SHA256=03ec176d388f2aa99defcadc3ac6adf8dd2bce5145a129659537c0874dea5ad1
 RUN set -o errexit -o nounset \
