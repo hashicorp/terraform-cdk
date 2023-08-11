@@ -176,6 +176,22 @@ export class TerraformProviderGenerator {
     }
 
     this.emitIndexFile(name, files);
+    this.code.openFile(`providers/${name}/package.json`);
+    this.code.line(
+      JSON.stringify(
+        {
+          name: `@cdktf/provider-${name}`,
+          description: `Terraform CDK Provider for ${name}`,
+          version: "0.0.0",
+          main: "index.ts",
+          dependencies: {},
+          devDependencies: {},
+        },
+        null,
+        2
+      )
+    );
+    this.code.closeFile(`providers/${name}/package.json`);
   }
 
   private emitResourceReadme(resource: ResourceModel): void {

@@ -13,7 +13,7 @@ import * as path from "path";
 import * as glob from "glob";
 import * as fs from "fs";
 import { DirectedGraph } from "graphology";
-import * as rosetta from "jsii-rosetta";
+import * as rosetta from "/Users/danielschmidt/work/jsii-rosetta";
 import * as z from "zod";
 
 import { schema } from "./schema";
@@ -517,8 +517,8 @@ export async function convert(
       { fileName, contents: tsCode.all },
       throwOnTranslationError
     ),
-    imports: translater({ fileName, contents: tsCode.imports }, false),
-    code: translater({ fileName, contents: tsCode.code }, false),
+    // imports: translater({ fileName, contents: tsCode.imports }, false),
+    // code: translater({ fileName, contents: tsCode.code }, false),
     stats: { ...tsCode.stats, language },
   };
 }

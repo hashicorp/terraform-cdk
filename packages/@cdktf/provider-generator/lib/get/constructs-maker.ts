@@ -513,12 +513,15 @@ export class ConstructsMaker {
         path.dirname(require.resolve(`${dep}/package.json`))
       ),
       moduleKey: target.moduleKey,
+      jsii: {
+        path: "./.jsii",
+      },
     };
 
     // used for testing.
-    if (this.options.outputJsii) {
-      opts.jsii = { path: this.options.outputJsii };
-    }
+    // if (this.options.outputJsii) {
+    //   opts.jsii = { path: this.options.outputJsii };
+    // }
 
     if (this.isPythonTarget) {
       opts.python = {
@@ -593,28 +596,26 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       await this.save();
     }
 
-    if (!this.isJavascriptTarget || this.options.outputJsii) {
-      const numberOfWorkers = Math.max(
-        1,
-        this.options.jsiiParallelism === -1
-          ? targets.length
-          : this.options.jsiiParallelism || 1
-      );
+    const numberOfWorkers = Math.max(
+      1,
+      this.options.jsiiParallelism === -1
+        ? targets.length
+        : this.options.jsiiParallelism || 1
+    );
 
-      const work = [...targets];
-      const workers = new Array(numberOfWorkers).fill(async () => {
-        let target: ConstructsMakerTarget | undefined;
-        while ((target = work.pop())) {
-          const endJsiiTarget = logTimespan(
-            `Generating JSII bindings for ${target.name}`
-          );
-          await this.generateJsiiLanguage(target);
-          endJsiiTarget();
-        }
-      });
+    const work = [...targets];
+    const workers = new Array(numberOfWorkers).fill(async () => {
+      let target: ConstructsMakerTarget | undefined;
+      while ((target = work.pop())) {
+        const endJsiiTarget = logTimespan(
+          `Generating JSII bindings for ${target.name}`
+        );
+        await this.generateJsiiLanguage(target);
+        endJsiiTarget();
+      }
+    });
 
-      await Promise.all(workers.map((fn) => fn()));
-    }
+    await Promise.all(workers.map((fn) => fn()));
 
     for (const target of targets) {
       await this.reportTelemetry({
