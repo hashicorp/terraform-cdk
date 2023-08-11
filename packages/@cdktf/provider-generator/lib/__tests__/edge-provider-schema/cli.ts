@@ -21,8 +21,7 @@ fs.emptyDirSync(targetPath);
 const deps = ["@types/node", "constructs", "cdktf"];
 
 (async () => {
-  await generateProviderBindingsFromSchema(targetPath, edgeSchema, {
-    entrypoint: path.join("providers", "edge", "index.ts"),
+  await generateProviderBindingsFromSchema(targetPath, edgeSchema, "edge", {
     deps: deps.map((dep) =>
       path.dirname(require.resolve(`${dep}/package.json`))
     ),

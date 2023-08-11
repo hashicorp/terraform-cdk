@@ -9,7 +9,7 @@ import { edgeSchema } from "./edge-provider-schema";
 describe("Edge Provider Schema", () => {
   it("compiles to Typescript", async () => {
     return mkdtemp(async (dir) => {
-      await generateProviderBindingsFromSchema(dir, edgeSchema);
+      await generateProviderBindingsFromSchema(dir, edgeSchema, "edge");
 
       fs.readdirSync(path.join(dir, "providers", "edge")).forEach((file) => {
         if (!file.endsWith(".ts")) {

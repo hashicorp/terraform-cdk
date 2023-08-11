@@ -40,6 +40,7 @@ export { TerraformProviderGenerator, CodeMaker };
 export async function generateProviderBindingsFromSchema(
   targetPath: string,
   schemaJSON: ProviderSchema,
+  targetName: string,
   options?: srcmak.Options
 ): Promise<void> {
   const code = new CodeMaker();
@@ -49,7 +50,7 @@ export async function generateProviderBindingsFromSchema(
   await code.save(targetPath);
 
   if (options) {
-    await generateJsiiLanguage(code, options, targetPath);
+    await generateJsiiLanguage(code, options, targetPath, targetName);
   }
 }
 

@@ -26,7 +26,7 @@ export async function generateJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options,
   outputPath: string,
-  disallowedFileGlobs: string[] = []
+  provider: string
 ) {
   await mkdtemp(async (staging) => {
     // this is not typescript, so we generate in a staging directory and
@@ -34,16 +34,7 @@ export async function generateJsiiLanguage(
     // into our project.
     await code.save(staging);
 
-    // as the above generated the Typescript code for all providers and modules,
-    // we need to filter out the ones we don't need so they don't end up in the JSII bundle over and over again.
-    const filesToDelete = disallowedFileGlobs.flatMap((pattern) =>
-      glob.sync(pattern, { cwd: staging })
-    );
-    await Promise.all(
-      filesToDelete.map((file) => fs.remove(path.join(staging, file)))
-    );
-
-    await srcmak.srcmak(staging, opts);
+    await srcmak.srcmak(`${staging}/providers/${provider}`, opts);
     ["versions.json", "constraints.json"].forEach((file) => {
       try {
         fs.copySync(
@@ -520,7 +511,6 @@ export class ConstructsMaker {
     // these are the module dependencies we compile against
     const deps = ["@types/node", "constructs", "cdktf"];
     const opts: srcmak.Options = {
-      entrypoint: target.fileName,
       deps: deps.map((dep) =>
         path.dirname(require.resolve(`${dep}/package.json`))
       ),
@@ -528,16 +518,23 @@ export class ConstructsMaker {
       exports: target.isProvider // Modules are small enough that we don't need this optimization
         ? {
             ".": {
-              import: `./providers/${target.name}/index.js`,
-              require: `./providers/${target.name}/lazy-index.js`,
+              import: `./index.js`,
+              require: `./lazy-index.js`,
             },
           }
         : undefined,
     };
 
     // used for testing.
-    if (this.options.outputJsii) {
-      opts.jsii = { path: this.options.outputJsii };
+    if (this.options.outputJsii || this.isJavascriptTarget) {
+      const jsiiOutdir = path.join(
+        this.codeMakerOutdir,
+        path.dirname(target.fileName),
+        ".jsii"
+      );
+      opts.jsii = {
+        path: this.options.outputJsii || jsiiOutdir,
+      };
     }
 
     if (this.isPythonTarget) {
@@ -591,9 +588,12 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     }
 
     const jsiiTimer = logTimespan("JSII");
-    await generateJsiiLanguage(this.code, opts, this.codeMakerOutdir, [
-      target.isModule ? "providers/**" : "modules/**",
-    ]);
+    await generateJsiiLanguage(
+      this.code,
+      opts,
+      this.codeMakerOutdir,
+      target.name
+    );
     jsiiTimer();
   }
 
@@ -615,28 +615,26 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       await this.save();
     }
 
-    if (!this.isJavascriptTarget || this.options.outputJsii) {
-      const numberOfWorkers = Math.max(
-        1,
-        this.options.jsiiParallelism === -1
-          ? targets.length
-          : this.options.jsiiParallelism || 1
-      );
+    const numberOfWorkers = Math.max(
+      1,
+      this.options.jsiiParallelism === -1
+        ? targets.length
+        : this.options.jsiiParallelism || 1
+    );
 
-      const work = [...targets];
-      const workers = new Array(numberOfWorkers).fill(async () => {
-        let target: ConstructsMakerTarget | undefined;
-        while ((target = work.pop())) {
-          const endJsiiTarget = logTimespan(
-            `Generating JSII bindings for ${target.name}`
-          );
-          await this.generateJsiiLanguage(target);
-          endJsiiTarget();
-        }
-      });
+    const work = [...targets];
+    const workers = new Array(numberOfWorkers).fill(async () => {
+      let target: ConstructsMakerTarget | undefined;
+      while ((target = work.pop())) {
+        const endJsiiTarget = logTimespan(
+          `Generating JSII bindings for ${target.name}`
+        );
+        await this.generateJsiiLanguage(target);
+        endJsiiTarget();
+      }
+    });
 
-      await Promise.all(workers.map((fn) => fn()));
-    }
+    await Promise.all(workers.map((fn) => fn()));
 
     for (const target of targets) {
       await this.reportTelemetry({

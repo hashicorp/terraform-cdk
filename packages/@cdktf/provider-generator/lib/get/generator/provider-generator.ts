@@ -176,6 +176,7 @@ export class TerraformProviderGenerator {
     }
 
     this.emitIndexFile(name, files);
+    this.emitPackageJson(name);
     this.emitLazyIndexFile(name, files);
   }
 
@@ -190,6 +191,23 @@ export class TerraformProviderGenerator {
     this.code.line(
       `Refer to the Terraform Registory for docs: [\`${type}\`](${resource.linkToDocs}).`
     );
+    this.code.closeFile(filePath);
+  }
+
+  private emitPackageJson(provider: ProviderName): void {
+    const folder = `providers/${provider}`;
+    const filePath = `${folder}/package.json`;
+    this.code.openFile(filePath);
+    const packageJson = {
+      name: `@cdktf/provider-${provider}`,
+      version: "0.0.0",
+      description: `Terraform CDK Provider for ${provider}`,
+      main: "./index.ts",
+      dependencies: {},
+      peerDependencies: {},
+      devDependencies: {},
+    };
+    this.code.line(JSON.stringify(packageJson, null, 2));
     this.code.closeFile(filePath);
   }
 
