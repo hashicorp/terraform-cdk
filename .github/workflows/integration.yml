@@ -41,12 +41,10 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
-      - name: Generate Prime Numbers
-        if: steps.global-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}
       - name: install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ${{ steps.global-cache-dir-path.outputs.dir }}
       - name: set version
         if: ${{ !inputs.skip_setup }}
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
