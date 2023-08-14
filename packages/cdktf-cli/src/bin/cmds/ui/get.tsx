@@ -31,7 +31,7 @@ export const Get = ({
   constraints,
   parallelism,
   force,
-  outputJsiiAssembly,
+  outputJsiiAssembly = false,
   silent = false,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
