@@ -64,7 +64,7 @@
     "ink-testing-library": "^2.1.0",
     "ink-use-stdout-dimensions": "^1.0.5",
     "jsii": "^5.1.10",
-    "jsii-pacmak": "^1.86.1",
+    "jsii-pacmak": "^1.87.0",
     "jsii-srcmak": "^0.1.950",
     "lodash.isequal": "^4.5.0",
     "log4js": "^6.7.0",
