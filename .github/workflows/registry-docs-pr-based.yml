@@ -205,3 +205,5 @@ jobs:
             --head d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} \
             --repo ${{ inputs.repository }} \
             -f
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_PR_TOKEN }}
