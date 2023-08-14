@@ -210,7 +210,7 @@ jobs:
           TITLE="cdktf: update documentation"
           # Close existing PRs with the same title
           for i in $(gh pr list --state open --search "$TITLE" --json number | jq -r '.[].number'); do
-            gh pr close $i -s
+            gh pr close $i -d -c='Superseded by newer PR.'
           done
 
           gh pr create \
