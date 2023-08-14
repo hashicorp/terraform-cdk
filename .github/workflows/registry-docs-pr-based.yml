@@ -190,13 +190,14 @@ jobs:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
           repository: ${{ inputs.repository }}
-          ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           fetch-depth: 0 # complete checkout
 
       - name: Create Pull Request
         run: |
           git config --global user.email "${{ inputs.gitEmail }}"
           git config --global user.name "${{ inputs.gitUser }}"
+          git fetch
+          git checkout d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
           git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
 
           HAS_COMMITS=$(git log --oneline origin/main..HEAD | wc -l)
