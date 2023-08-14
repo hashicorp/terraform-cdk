@@ -1,5 +1,5 @@
 name: CDKTF Provider Docs Rollout
-# You can find all open PRs under https://github.com/search?q=is%3Aopen+is%3Apr+user%3Ateam-tf-cdk+%22cdktf%3A+update+cdktf+docs%22&type=pullrequests
+# You can find all open PRs under https://github.com/search?q=%22cdktf%3A+update+documentation%22++author%3Ateam-tf-cdk&type=pullrequests&state=open
 
 on:
   workflow_dispatch: {}
