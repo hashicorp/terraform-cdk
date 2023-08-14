@@ -215,7 +215,7 @@ jobs:
           done
 
           gh pr create \
-            --title $TITLE \
+            --title="$TITLE" \
             --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)." \
             --base main \
             --repo ${{ inputs.repository }} \
