@@ -431,7 +431,7 @@ test("incompatible resource names", async () => {
   await code.save(workdir);
 
   const files = fs.readdirSync(path.join(workdir, "providers/test"));
-  const topLevelFiles = ["index.ts", "lazy-index.ts"];
+  const topLevelFiles = ["index.ts", "lazy-index.ts", "package.json"];
   expect(files).toMatchInlineSnapshot(`
     [
       "function-resource",
@@ -439,6 +439,7 @@ test("incompatible resource names", async () => {
       "lazy-index.ts",
       "license-resource",
       "object-resource",
+      "package.json",
       "provider-resource",
       "static-resource",
       "string-resource",

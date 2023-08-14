@@ -2093,6 +2093,19 @@ export class ObjectResource extends cdktf.TerraformResource {
 "
 `;
 
+exports[`incompatible resource names: package.json 1`] = `
+"{
+  "name": "@cdktf/provider-test",
+  "version": "0.0.0",
+  "description": "Terraform CDK Provider for test",
+  "main": "./index.ts",
+  "dependencies": {},
+  "peerDependencies": {},
+  "devDependencies": {}
+}
+"
+`;
+
 exports[`incompatible resource names: provider-resource 1`] = `
 "// https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/provider
 // generated from terraform resource schema
