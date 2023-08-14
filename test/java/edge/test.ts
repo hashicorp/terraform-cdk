@@ -141,23 +141,17 @@ describe("java full integration", () => {
     it("item references required values from multi-item lists", () => {
       const item = stack.byId("from_list");
 
-      // Direct access is not supported, we have to go through terraform functions
-      expect(item.bool).toEqual(
-        "${element(list_block_resource.list.req, 0).reqbool}"
+      // Expands map references
+      expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
       );
-      expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
-      expect(item.num).toEqual(
-        "${element(list_block_resource.list.req, 0.reqnum}"
-      );
-      expect(item.boolList).toEqual([
-        "${element(list_block_resource.list.req, 0).reqbool}",
-      ]);
+      expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
+      expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
       expect(item.strList).toEqual([
-        "${list_block_resource.list.req[0].reqstr}",
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
       ]);
-      expect(item.numList).toEqual([
-        "${element(list_block_resource.list.req, 0).reqnum}",
-      ]);
+      expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
     // Not supported at this time
@@ -188,24 +182,12 @@ describe("java full integration", () => {
       const item = stack.byId("from_map");
 
       // Expands map references
-      expect(item.bool).toEqual(
-        '${lookup(map_resource.map.reqMap, "key1", false)}'
-      );
-      expect(item.str).toEqual(
-        '${lookup(map_resource.map.optMap, "key1", "missing")}'
-      );
-      expect(item.num).toEqual(
-        '${lookup(map_resource.map.computedMap, "key1", 0)}'
-      );
-      expect(item.boolList).toEqual([
-        '${lookup(map_resource.map.reqMap, "key1", false)}',
-      ]);
-      expect(item.strList).toEqual([
-        '${lookup(map_resource.map.optMap, "key1", "missing")}',
-      ]);
-      expect(item.numList).toEqual([
-        '${lookup(map_resource.map.computedMap, "key1", 0)}',
-      ]);
+      expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
+      expect(item.str).toEqual("${map_resource.map.optMap.key1)}");
+      expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
+      expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
+      expect(item.strList).toEqual(["${map_resource.map.optMap.key1)}"]);
+      expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
     it("item references a full map", () => {
