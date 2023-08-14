@@ -174,7 +174,9 @@ describe("Golang edge provider test", () => {
       );
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
-      expect(item.strList).toEqual(["${map_resource.map.optMap.key1}"]);
+      expect(item.strList).toEqual([
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+      ]);
       expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
