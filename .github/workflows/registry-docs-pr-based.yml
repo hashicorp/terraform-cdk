@@ -194,6 +194,8 @@ jobs:
 
       - name: Create Pull Request
         run: |
+          set -ex
+
           git config --global user.email "${{ inputs.gitEmail }}"
           git config --global user.name "${{ inputs.gitUser }}"
           git fetch
@@ -201,7 +203,6 @@ jobs:
           git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
 
           HAS_COMMITS=$(git log --oneline origin/main..HEAD | wc -l)
-
           if [ $HAS_COMMITS -eq 0 ]; then
             echo "No changes to commit"
             exit 0
