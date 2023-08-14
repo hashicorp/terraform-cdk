@@ -186,8 +186,6 @@ jobs:
     needs:
       - cdktfDocsConvert
     runs-on: ubuntu-latest
-    outputs:
-      prUrl: ${{ steps.cpr.outputs.pull-request-url }}
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
         with:
@@ -195,12 +193,15 @@ jobs:
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
 
       - name: Create Pull Request
-        id: cpr
-        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
-        with:
-          token: ${{ secrets.GH_PR_TOKEN }}
-          base: main
-          branch: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
-          commit-message: "cdktf: update cdktf docs"
-          title: "cdktf: update cdktf docs"
-          body: "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)."
+        run: |
+          git config --global user.email "${{ inputs.gitEmail }}"
+          git config --global user.name "${{ inputs.gitUser }}"
+          git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
+
+          gh pr create \
+            --title "cdktf: update documentation" \
+            --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)." \
+            --base main \
+            --head d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} \
+            --repo ${{ inputs.repository }} \
+            -f
