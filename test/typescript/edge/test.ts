@@ -166,16 +166,12 @@ describe("edge provider test", () => {
       expect(item.str).toEqual(
         '${lookup(map_resource.map.optMap, "key1", "missing")}'
       );
-      expect(item.num).toEqual(
-        '${lookup(map_resource.map.computedMap, "key1", 0)}'
-      );
+      expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
       expect(item.strList).toEqual([
         '${lookup(map_resource.map.optMap, "key1", "missing")}',
       ]);
-      expect(item.numList).toEqual([
-        '${lookup(map_resource.map.computedMap, "key1", 0)}',
-      ]);
+      expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
     it("item references a full map", () => {
