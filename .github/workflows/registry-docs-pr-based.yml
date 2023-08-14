@@ -199,6 +199,13 @@ jobs:
           git config --global user.name "${{ inputs.gitUser }}"
           git pull origin d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} --rebase
 
+          HAS_COMMITS=$(git log --oneline origin/main..HEAD | wc -l)
+
+          if [ $HAS_COMMITS -eq 0 ]; then
+            echo "No changes to commit"
+            exit 0
+          fi
+
           gh pr create \
             --title "cdktf: update documentation" \
             --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)." \
