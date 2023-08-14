@@ -72,6 +72,8 @@ jobs:
       - name: installing test dependencies
         run: |
           cd test && yarn install --frozen-lockfile --prefer-offline
+        env:
+          YARN_CACHE_FOLDER: ${{ steps.global-cache-dir-path.outputs.dir }}
       - id: build-test-matrix
         run: |
           ./tools/build-test-matrix.sh
