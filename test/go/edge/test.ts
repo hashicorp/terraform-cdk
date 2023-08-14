@@ -169,7 +169,9 @@ describe("Golang edge provider test", () => {
 
       // Expands map references
       expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
-      expect(item.str).toEqual("${map_resource.map.optMap.key1}");
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+      );
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
       expect(item.strList).toEqual(["${map_resource.map.optMap.key1}"]);
