@@ -191,6 +191,7 @@ jobs:
         with:
           repository: ${{ inputs.repository }}
           ref: d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }}
+          fetch-depth: 0 # complete checkout
 
       - name: Create Pull Request
         run: |
@@ -202,7 +203,6 @@ jobs:
             --title "cdktf: update documentation" \
             --body "This PR was automatically created by the [cdktf-docs-conversion workflow](https://github.com/hashicorp/terraform-cdk/blob/main/.github/workflows/cdktf-provider-docs-rollout.yml)." \
             --base main \
-            --head d-cdktf-docs-${{ github.run_id }}-${{ github.run_number }} \
             --repo ${{ inputs.repository }} \
             -f
         env:
