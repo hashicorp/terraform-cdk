@@ -51,7 +51,8 @@ describe("Provider", () => {
       const jsiiPath = path.join(workdir, ".jsii");
       const maker = new ConstructsMaker({
         codeMakerOutput: workdir,
-        outputJsii: jsiiPath,
+        outputJsii: true,
+        jsiiAssemblyPath: jsiiPath,
         targetLanguage: Language.TYPESCRIPT,
       });
       await maker.generate([constraint]);

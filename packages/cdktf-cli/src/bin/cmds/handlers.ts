@@ -131,6 +131,7 @@ export async function convert({ language, provider, stack }: any) {
       dist: pkg.version === "0.0.0" ? dist : undefined,
       cdktfVersion: pkg.version,
       silent: true,
+      outputJsiiAssembly: true,
     });
     logger.useDefaultLevel();
   }
@@ -283,6 +284,7 @@ export async function get(argv: {
   force?: boolean;
   showPerformanceInfo?: boolean;
   silent?: boolean;
+  outputJsiiAssembly?: boolean;
 }) {
   const printPerformanceInfo = argv.showPerformanceInfo
     ? startPerformanceMonitoring()
@@ -319,6 +321,7 @@ export async function get(argv: {
         parallelism,
         force,
         silent: argv.silent,
+        outputJsiiAssembly: argv.outputJsiiAssembly,
       })
     );
   } finally {
@@ -354,6 +357,7 @@ export async function init(argv: any) {
       output: codeMakerOutput,
       parallelism: 1,
       silent: argv.silent,
+      outputJsiiAssembly: argv.outputJsiiAssembly,
     });
   }
 }

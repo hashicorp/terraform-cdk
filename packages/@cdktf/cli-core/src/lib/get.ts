@@ -31,6 +31,7 @@ interface GetConfig {
   constraintsToGenerate?: ParsedDependencyConstraint[];
   constructsOptions: GetOptions;
   cleanDirectory?: boolean;
+  outputJsiiAssembly?: boolean;
   onUpdate?: (payload: GetStatus) => void;
   reportTelemetry?: (telemetry: {
     targetLanguage: string;

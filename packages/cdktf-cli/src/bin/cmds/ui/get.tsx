@@ -22,6 +22,7 @@ interface GetConfig {
   parallelism: number;
   force?: boolean;
   silent?: boolean;
+  outputJsiiAssembly?: boolean;
 }
 
 export const Get = ({
@@ -30,6 +31,7 @@ export const Get = ({
   constraints,
   parallelism,
   force,
+  outputJsiiAssembly,
   silent = false,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
@@ -41,6 +43,7 @@ export const Get = ({
     codeMakerOutput: codeMakerOutput,
     targetLanguage: language,
     jsiiParallelism: parallelism,
+    outputJsii: outputJsiiAssembly,
   };
 
   React.useEffect(() => {

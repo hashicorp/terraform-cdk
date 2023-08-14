@@ -55,10 +55,16 @@ export interface GetOptions {
   readonly codeMakerOutput: string;
   readonly jsiiParallelism?: number;
   /**
-   * Path to copy the output .jsii file.
+   * Whether JSII outputs a JSII assembly
    * @default - jsii file is not emitted
    */
-  readonly outputJsii?: string;
+  readonly outputJsii?: boolean;
+
+  /**
+   * Path to the JSII assembly file to be output. Only used when `outputJsii` is true.
+   * @default - .jsii within the provider directory
+   */
+  readonly jsiiAssemblyPath?: string;
 }
 
 export abstract class ConstructsMakerTarget {
@@ -525,15 +531,14 @@ export class ConstructsMaker {
         : undefined,
     };
 
-    // used for testing.
-    if (this.options.outputJsii || this.isJavascriptTarget) {
-      const jsiiOutdir = path.join(
+    if (this.options.outputJsii) {
+      const defaultJsiiOutdir = path.join(
         this.codeMakerOutdir,
         path.dirname(target.fileName),
         ".jsii"
       );
       opts.jsii = {
-        path: this.options.outputJsii || jsiiOutdir,
+        path: this.options.jsiiAssemblyPath || defaultJsiiOutdir,
       };
     }
 
@@ -615,26 +620,28 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
       await this.save();
     }
 
-    const numberOfWorkers = Math.max(
-      1,
-      this.options.jsiiParallelism === -1
-        ? targets.length
-        : this.options.jsiiParallelism || 1
-    );
+    if (!this.isJavascriptTarget || this.options.outputJsii) {
+      const numberOfWorkers = Math.max(
+        1,
+        this.options.jsiiParallelism === -1
+          ? targets.length
+          : this.options.jsiiParallelism || 1
+      );
 
-    const work = [...targets];
-    const workers = new Array(numberOfWorkers).fill(async () => {
-      let target: ConstructsMakerTarget | undefined;
-      while ((target = work.pop())) {
-        const endJsiiTarget = logTimespan(
-          `Generating JSII bindings for ${target.name}`
-        );
-        await this.generateJsiiLanguage(target);
-        endJsiiTarget();
-      }
-    });
+      const work = [...targets];
+      const workers = new Array(numberOfWorkers).fill(async () => {
+        let target: ConstructsMakerTarget | undefined;
+        while ((target = work.pop())) {
+          const endJsiiTarget = logTimespan(
+            `Generating JSII bindings for ${target.name}`
+          );
+          await this.generateJsiiLanguage(target);
+          endJsiiTarget();
+        }
+      });
 
-    await Promise.all(workers.map((fn) => fn()));
+      await Promise.all(workers.map((fn) => fn()));
+    }
 
     for (const target of targets) {
       await this.reportTelemetry({
