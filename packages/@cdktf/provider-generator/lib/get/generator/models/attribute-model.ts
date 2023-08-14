@@ -153,9 +153,7 @@ export class AttributeModel {
   }
 
   public get description(): string | undefined {
-    return this._description
-      ?.replace(/(\*\/)/gi, `*\\/`)
-      .replace(/'''/gi, "```");
+    return this._description?.replace(/'''/gi, "```");
   }
 
   public getReferencedTypes(isConfigStruct: boolean): string[] | undefined {
