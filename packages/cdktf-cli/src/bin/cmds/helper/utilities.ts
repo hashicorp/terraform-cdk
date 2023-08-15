@@ -23,20 +23,16 @@ export const projectRootPath = () => {
 };
 
 // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
-export const requireHandlers = () => {
+export const requireHandlers = async () => {
   // if file exists relative to this file return its file path
   // otherwise return the file path relative to the project root
   const filePath = path.join(__dirname, "..", "handlers.js");
   if (fs.existsSync(filePath)) {
-    return require(filePath);
+    return import(filePath);
   }
-  return require(path.join(
-    projectRootPath(),
-    "bundle",
-    "bin",
-    "cmds",
-    "handlers.js"
-  ));
+  return import(
+    path.join(projectRootPath(), "bundle", "bin", "cmds", "handlers.js")
+  );
 };
 
 export function readStreamAsString(

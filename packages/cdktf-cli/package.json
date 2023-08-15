@@ -10,7 +10,7 @@
     "prebuild": "yarn compile-build-config",
     "build": "tsc --noEmit",
     "postbuild": "node build.js",
-    "watch": "yarn compile-build-config && node build.js --watch",
+    "watch": "yarn compile-build-config && node build.js --watch --enable-source-maps",
     "watch-preserve-output": "yarn watch",
     "lint": "eslint . --ext .ts,.tsx",
     "lint:fix": "eslint . --ext .ts,.tsx --fix",

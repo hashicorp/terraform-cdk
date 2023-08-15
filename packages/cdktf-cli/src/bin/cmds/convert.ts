@@ -55,7 +55,7 @@ class Command extends BaseCommand {
   public async handleCommand(argv: any) {
     Errors.setScope("convert");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
-    const api = requireHandlers();
+    const api = await requireHandlers();
     if (argv.withProject !== undefined) {
       if (argv.language === "typescript") {
         argv.withProject = false;

@@ -82,7 +82,7 @@ class Command extends BaseCommand {
   public async handleCommand(argv: any) {
     Errors.setScope("diff");
     // deferred require to keep cdktf-cli main entrypoint small (e.g. for fast shell completions)
-    const api = requireHandlers();
+    const api = await requireHandlers();
     await api.diff(argv);
   }
 }
