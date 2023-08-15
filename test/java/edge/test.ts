@@ -146,14 +146,18 @@ describe("java full integration", () => {
         "${element(list_block_resource.list.req, 0).reqbool}"
       );
       expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
-      expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
+      expect(item.num).toEqual(
+        "${element(list_block_resource.list.req, 0).reqnum}"
+      );
       expect(item.boolList).toEqual([
         "${element(list_block_resource.list.req, 0).reqbool}",
       ]);
       expect(item.strList).toEqual([
         '${lookup(map_resource.map.optMap, "key1", "missing")}',
       ]);
-      expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
+      expect(item.numList).toEqual([
+        "${element(list_block_resource.list.req, 0).reqnum}",
+      ]);
     });
 
     // Not supported at this time
