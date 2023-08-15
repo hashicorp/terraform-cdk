@@ -1,6 +1,12 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Language, exec, Errors, logger } from "@cdktf/commons";
+import {
+  Language,
+  exec,
+  Errors,
+  logger,
+  isGradleProject,
+} from "@cdktf/commons";
 import { existsSync } from "fs-extra";
 import path from "path";
 import { xml2js, js2xml, Element } from "xml-js";
@@ -636,14 +642,7 @@ class MavenPackageManager extends JavaPackageManager {
 
 class GradlePackageManager extends JavaPackageManager {
   public static isGradleProject(workingDirectory: string): boolean {
-    const buildGradlePath = path.join(workingDirectory, "build.gradle");
-
-    try {
-      fs.accessSync(buildGradlePath, fs.constants.R_OK | fs.constants.W_OK);
-      return true;
-    } catch {
-      return false;
-    }
+    return isGradleProject(workingDirectory);
   }
 
   public async addPackage(
