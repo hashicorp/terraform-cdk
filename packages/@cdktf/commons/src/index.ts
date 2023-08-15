@@ -15,3 +15,4 @@ export * from "./terraform-module";
 export * from "./terraform";
 export * from "./util";
 export * from "./version";
+export * from "./gradle";
