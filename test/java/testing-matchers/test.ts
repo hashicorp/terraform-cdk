@@ -16,7 +16,7 @@ describe("java testing assertions", () => {
 
   async function runTests() {
     console.log(driver.workingDirectory);
-    const out = await driver.exec('mvn test -Dtest="MainTest"');
+    const out = await driver.exec("./gradlew test");
     console.log(out.stdout);
     return out;
   }
