@@ -59,9 +59,9 @@ const nativeNodeModulesPlugin = {
     bundle: true,
     outdir: "./bundle",
     format: "cjs",
-    target: "node14",
+    target: "node16",
     minify: enableWatch ? false : true,
-    sourcemap: enableWatch ? false : true,
+    sourcemap: "inline",
     watch: enableWatch && {
       onRebuild(error: Error) {
         if (error) console.error("Watch build failed: ", error);

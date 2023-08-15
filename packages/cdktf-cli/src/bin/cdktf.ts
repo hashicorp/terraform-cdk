@@ -143,7 +143,7 @@ yargs
     }
 
     // set if e.g. an handler threw an error while being invoked
-    if (IsErrorType(error, "Usage")) {
+    if (IsErrorType(error, "Usage") || IsErrorType(error, "External")) {
       console.error(error.message);
     } else if (error) {
       console.error(error.stack);
