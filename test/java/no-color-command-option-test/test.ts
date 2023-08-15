@@ -4,7 +4,10 @@ import * as execa from "execa";
 import * as hasAnsi from "has-ansi";
 import { onPosix, TestDriver } from "../../test-helper";
 
-describe("no-color option for cdktf deploy, diff, destroy", () => {
+// No-Color in Gradle is either defined through command line options (--console=plain)
+// or through setting the org.gradle.console=plain key in the gradle.properties file
+// Both are on the project to configure, therefore we disable this test for now.
+describe.skip("no-color option for cdktf deploy, diff, destroy", () => {
   let driver: TestDriver;
   beforeAll(async () => {
     driver = new TestDriver(__dirname, {
