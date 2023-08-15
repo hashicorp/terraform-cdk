@@ -145,9 +145,7 @@ describe("java full integration", () => {
       expect(item.bool).toEqual(
         "${element(list_block_resource.list.req, 0).reqbool}"
       );
-      expect(item.str).toEqual(
-        '${lookup(map_resource.map.optMap, "key1", "missing")}'
-      );
+      expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual([
         "${element(list_block_resource.list.req, 0).reqbool}",
