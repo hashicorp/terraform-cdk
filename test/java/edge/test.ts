@@ -142,12 +142,16 @@ describe("java full integration", () => {
       const item = stack.byId("from_list");
 
       // Expands map references
-      expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
+      expect(item.bool).toEqual(
+        "${element(list_block_resource.list.req, 0).reqbool}"
+      );
       expect(item.str).toEqual(
         '${lookup(map_resource.map.optMap, "key1", "missing")}'
       );
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
-      expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
+      expect(item.boolList).toEqual([
+        "${element(list_block_resource.list.req, 0).reqbool}",
+      ]);
       expect(item.strList).toEqual([
         '${lookup(map_resource.map.optMap, "key1", "missing")}',
       ]);
@@ -183,10 +187,14 @@ describe("java full integration", () => {
 
       // Expands map references
       expect(item.bool).toEqual("${map_resource.map.reqMap.key1}");
-      expect(item.str).toEqual("${map_resource.map.optMap.key1)}");
+      expect(item.str).toEqual(
+        '${lookup(map_resource.map.optMap, "key1", "missing")}'
+      );
       expect(item.num).toEqual("${map_resource.map.computedMap.key1}");
       expect(item.boolList).toEqual(["${map_resource.map.reqMap.key1}"]);
-      expect(item.strList).toEqual(["${map_resource.map.optMap.key1)}"]);
+      expect(item.strList).toEqual([
+        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+      ]);
       expect(item.numList).toEqual(["${map_resource.map.computedMap.key1}"]);
     });
 
