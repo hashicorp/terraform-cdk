@@ -120,20 +120,20 @@ describe("csharp full integration test synth", () => {
       const item = stack.byId("from_list");
 
       expect(item.bool).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}'
+        "${element(list_block_resource.list.req, 0).reqbool}"
       );
       expect(item.str).toEqual("${list_block_resource.list.req[0].reqstr}");
       expect(item.num).toEqual(
-        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}'
+        "${element(list_block_resource.list.req, 0).reqnum}"
       );
       expect(item.boolList).toEqual([
-        '${lookup(element(list_block_resource.list.req, 0), "reqbool", false)}',
+        "${element(list_block_resource.list.req, 0).reqbool}",
       ]);
       expect(item.strList).toEqual([
         "${list_block_resource.list.req[0].reqstr}",
       ]);
       expect(item.numList).toEqual([
-        '${lookup(element(list_block_resource.list.req, 0), "reqnum", 0)}',
+        "${element(list_block_resource.list.req, 0).reqnum}",
       ]);
     });
 
