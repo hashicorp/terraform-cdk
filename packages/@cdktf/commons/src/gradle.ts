@@ -175,7 +175,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
   const line = buildLines[foundIndex];
 
   const colonSeparatedPackageNameRegex = new RegExp(
-    `([^:]+):${packageName}(?::([^\s]+))?`,
+    `([^:]+):${packageName}(?::([^\\s]+))?`,
     "i"
   );
 
@@ -189,7 +189,7 @@ export async function getGradlePackageVersionFromBuild(packageName: string) {
   }
 
   const fileSeparatedPackageNameRegex = new RegExp(
-    `java/(.*)/${packageName}/([^/]+)/.*\.jar`,
+    `java/(.*)/${packageName}/([^/]+)/.*\\.jar`,
     "i"
   );
 
