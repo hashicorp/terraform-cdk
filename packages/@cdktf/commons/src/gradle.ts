@@ -141,5 +141,66 @@ export async function getGradlePackageVersion(packageName: string) {
     }
   }
 
+  // Didn't find the right file, read the build.gradle file as a backup
+  const buildVersion = await getGradlePackageVersionFromBuild(packageName);
+  if (buildVersion) {
+    return buildVersion.version;
+  }
+
+  return undefined;
+}
+
+export async function getGradlePackageVersionFromBuild(packageName: string) {
+  const buildGradlePath = path.join(process.cwd(), "build.gradle");
+  const buildGradleContents = await fs.readFile(buildGradlePath, "utf-8");
+  const buildLines = buildGradleContents.split(/\r\n|\r|\n/);
+
+  const dependenciesRegex = /^\s*dependencies\s*\{/i;
+  const dependenciesStart = buildLines.findIndex((line) =>
+    dependenciesRegex.test(line)
+  );
+
+  if (dependenciesStart === -1) {
+    logger.debug(`Unable to find dependencies section in output build.gradle`);
+    return undefined;
+  }
+
+  const foundIndex = buildLines.findIndex((line) => line.includes(packageName));
+  if (foundIndex === -1) {
+    logger.debug(
+      `Unable to find package ${packageName} in output build.gradle`
+    );
+    return undefined;
+  }
+  const line = buildLines[foundIndex];
+
+  const colonSeparatedPackageNameRegex = new RegExp(
+    `([^:]+):${packageName}(?::([^\s]+))?`,
+    "i"
+  );
+
+  const colonMatch = colonSeparatedPackageNameRegex.exec(line);
+  if (colonMatch) {
+    return {
+      group: colonMatch[1],
+      name: packageName,
+      version: colonMatch[2] || "",
+    };
+  }
+
+  const fileSeparatedPackageNameRegex = new RegExp(
+    `java/(.*)/${packageName}/([^/]+)/.*\.jar`,
+    "i"
+  );
+
+  const fileMatch = fileSeparatedPackageNameRegex.exec(line);
+  if (fileMatch) {
+    return {
+      group: fileMatch[1].replace(/\//g, "."),
+      name: packageName,
+      version: fileMatch[2],
+    };
+  }
+
   return undefined;
 }
