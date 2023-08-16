@@ -7,7 +7,7 @@ import { exec } from "./util";
 import { terraformVersion } from "./terraform";
 import { DISPLAY_VERSION } from "./version";
 import { pathExists } from "fs-extra";
-import { isGradleProject } from "./gradle";
+import { getGradlePackageVersion, isGradleProject } from "./gradle";
 
 export function getLanguage(projectPath = process.cwd()): string | undefined {
   try {
@@ -334,67 +334,6 @@ async function getMavenPackageVersion(packageName: string) {
   const versionEndDelemiter = ":compile";
   const versionEnd = versionLine.indexOf(versionEndDelemiter);
   return versionLine.substring(versionStart, versionEnd);
-}
-
-/*
- * Example output:
-  implementation - Implementation dependencies for the 'main' feature. (n)
-  +--- com.hashicorp:cdktf:0.18.0 (n)
-  +--- software.constructs:constructs:10.0.25 (n)
-  +--- junit:junit:4.13.2 (n)
-  \--- org.junit.jupiter:junit-jupiter:5.8.0 (n)
-*/
-async function getGradlePackageVersion(packageName: string) {
-  const translationMap: Record<string, string> = {
-    jsii: "jsii-runtime",
-  };
-  const gradlePackageName = translationMap[packageName] || packageName;
-
-  let output;
-  try {
-    output = await exec("gradle", ["dependencies", "--console=plain"], {
-      env: process.env,
-    });
-  } catch (e) {
-    logger.debug(`Unable to run 'gradle dependencies': ${e}`);
-    return undefined;
-  }
-
-  const lines = output.split(/\r\n|\r|\n/);
-
-  // find the implementation section
-  const implementationSection = lines.findIndex((line) =>
-    line.includes("implementation - ")
-  );
-  if (implementationSection === -1) {
-    logger.debug(
-      `Unable to find implementation section in output of 'gradle dependencies': ${output}`
-    );
-    return undefined;
-  }
-
-  // loop through the subsequent lines to find the one starting with package name
-  for (let i = implementationSection + 1; i < lines.length; i++) {
-    const line = lines[i];
-    if (line.includes(`:${gradlePackageName}:`)) {
-      const packageNameRegex = /^.*\s+[^:]+:[^:]+:([^\s]+)/;
-      const matches = line.match(packageNameRegex);
-      if (!matches) {
-        logger.debug(
-          "Unexpected format for gradle build. Please file an issue at https://cdk.tf/bug"
-        );
-        return undefined;
-      }
-
-      return matches[1];
-    }
-
-    if (line.trim() === "") {
-      break;
-    }
-  }
-
-  return undefined;
 }
 
 async function getJavaPackageVersion(packageName: string) {
