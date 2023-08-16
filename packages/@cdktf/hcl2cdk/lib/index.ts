@@ -44,12 +44,6 @@ import { getProviderRequirements } from "./provider";
 import { logger } from "./utils";
 import { FQPN } from "@cdktf/provider-generator/lib/get/generator/provider-schema";
 import { attributeNameToCdktfName } from "./generation";
-import {
-  replaceCsharpImports,
-  replaceGoImports,
-  replaceJavaImports,
-  replacePythonImports,
-} from "./jsii-rosetta-workarounds";
 
 export const CODE_MARKER = "// define resources here";
 
@@ -429,25 +423,21 @@ type File = { contents: string; fileName: string };
 const translators = {
   python: {
     visitor: () => new rosetta.PythonVisitor(),
-    postTranslationMutation: replacePythonImports,
   },
   java: {
     visitor: () => new rosetta.JavaVisitor(),
-    postTranslationMutation: replaceJavaImports,
   },
   csharp: {
     visitor: () => new rosetta.CSharpVisitor(),
-    postTranslationMutation: replaceCsharpImports,
   },
   go: {
     visitor: () => new rosetta.GoVisitor(),
-    postTranslationMutation: replaceGoImports,
   },
 };
 
 function translatorForLanguage(language: keyof typeof translators) {
   return (file: File, throwOnTranslationError: boolean) => {
-    const { visitor, postTranslationMutation } = translators[language];
+    const { visitor } = translators[language];
     const { translation, diagnostics } = rosetta.translateTypeScript(
       file,
       visitor(),
@@ -466,7 +456,7 @@ function translatorForLanguage(language: keyof typeof translators) {
       );
     }
 
-    return postTranslationMutation(translation);
+    return translation;
   };
 }
 
