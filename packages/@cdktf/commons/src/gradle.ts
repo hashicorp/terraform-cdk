@@ -68,7 +68,7 @@ export async function getGradleDependencies() {
   const apiLines = apiSectionLines.slice(0, apiSectionEnd);
 
   const prefixRegex = /^\s*[+\\-]+\s*/;
-  const suffixRegex = /\s+\([nc\*]\)\s*$/;
+  const suffixRegex = /\s+\([nc*]\)\s*$/;
 
   return [...implementationLines, ...apiLines]
     .filter((line) => line !== "No dependencies")
