@@ -157,6 +157,7 @@ export class TerraformProviderGenerator {
         files.push(this.emitResource(resourceModel));
       }
       this.emitResourceReadme(resourceModel);
+      this.emitResourceRcFile(name, resourceModel);
     });
 
     if (provider.provider) {
@@ -191,6 +192,29 @@ export class TerraformProviderGenerator {
     this.code.line(
       `Refer to the Terraform Registory for docs: [\`${type}\`](${resource.linkToDocs}).`
     );
+    this.code.closeFile(filePath);
+  }
+
+  private emitResourceRcFile(
+    provider: ProviderName,
+    resourceModel: ResourceModel
+  ): void {
+    const filePath = `${resourceModel.namespaceFolderPath}/.jsiirc.json`;
+    this.code.openFile(filePath);
+    const packageJson = {
+      targets: {
+        python: {
+          module: `imports.${provider}.${resourceModel.baseName}`,
+        },
+        java: {
+          package: `imports.${provider}.${resourceModel.baseName}`,
+        },
+        dotnet: {
+          namespace: `Imports.${provider}.${resourceModel.baseName}`,
+        },
+      },
+    };
+    this.code.line(JSON.stringify(packageJson, null, 2));
     this.code.closeFile(filePath);
   }
 
