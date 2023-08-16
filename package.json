@@ -116,6 +116,7 @@
     ]
   },
   "resolutions": {
-    "@types/node": "16.18.23"
+    "@types/node": "16.18.23",
+    "jsii-pacmak": "1.87.0"
   }
 }
