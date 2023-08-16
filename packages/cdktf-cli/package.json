@@ -155,7 +155,7 @@
     "ink-testing-library": "^2.1.0",
     "ink-use-stdout-dimensions": "^1.0.5",
     "jest": "^29.5.0",
-    "jsii-srcmak": "^0.1.950",
+    "jsii-srcmak": "^0.1.951",
     "lodash.isequal": "^4.5.0",
     "log4js": "^6.7.0",
     "nock": "^13.2.9",

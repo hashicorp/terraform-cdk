@@ -36,7 +36,7 @@
     "codemaker": "^1.87.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",
-    "jsii-srcmak": "^0.1.950"
+    "jsii-srcmak": "^0.1.951"
   },
   "devDependencies": {
     "@types/deepmerge": "^2.2.0",
