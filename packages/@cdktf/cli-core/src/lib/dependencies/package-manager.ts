@@ -6,6 +6,8 @@ import {
   Errors,
   logger,
   isGradleProject,
+  getGradleDependencies,
+  getDependencyInformationFromLine,
 } from "@cdktf/commons";
 import { existsSync } from "fs-extra";
 import path from "path";
@@ -649,67 +651,42 @@ class GradlePackageManager extends JavaPackageManager {
     packageName: string,
     packageVersion = "latest.release"
   ): Promise<void> {
-    const dependencyRegex =
-      /dependencies {(\s*(implementation|api) ('|")(\S)*('|")\s*\n)*}/gm;
-
     const buildGradlePath = path.join(this.workingDirectory, "build.gradle");
     const buildGradle = await fs.readFile(buildGradlePath, "utf8");
+    const buildGradleLines = buildGradle.split(/\r?\n/);
 
-    const dependencies = dependencyRegex.exec(buildGradle);
-    if (!dependencies || !dependencies.index) {
+    const dependenciesRegex = /dependencies\s+\{/i;
+    const dependencyBlockStart = buildGradleLines.findIndex((line) =>
+      dependenciesRegex.test(line)
+    );
+    if (dependencyBlockStart === -1) {
       throw Errors.Usage(
         "Could not find dependencies section in the build.gradle"
       );
     }
 
-    // Find the index of the opening bracket of the dependencies section
-    const dependenciesStartIndex = buildGradle.indexOf("{", dependencies.index);
-    const newBuildGradle =
-      buildGradle.slice(0, dependenciesStartIndex + 1) +
-      `\n    implementation '${packageName}:${packageVersion}'` +
-      buildGradle.slice(dependenciesStartIndex + 1);
-    await fs.writeFile(buildGradlePath, newBuildGradle);
+    const newPackageDependency = `\timplementation '${packageName}:${packageVersion}'`;
+    buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
+    await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
   }
 
   public async listProviderPackages(): Promise<
     { name: string; version: string }[]
   > {
-    const dependencyRegex =
-      /dependencies {(\s*(implementation|api) ('|")(\S)*('|")\s*\n)*}/gm;
-
-    const buildGradlePath = path.join(this.workingDirectory, "build.gradle");
-    const buildGradle = await fs.readFile(buildGradlePath, "utf8");
-    const dependencies = buildGradle.match(dependencyRegex);
+    const dependencies = await getGradleDependencies();
     if (!dependencies) {
-      throw Errors.Usage(
-        "Could not find dependencies section in the build.gradle"
-      );
-    }
-    const dependencyBody = dependencies[0];
-    // e.g. implementation 'com.hashicorp:cdktf-provider-google:8.0.8'
-    // or api 'com.hashicorp:cdktf-provider-google:8.0.8'
-    // We need to get the name and version from this
-    const dependencyRegex2 = /(\S)*('|")/gm;
-    const dependencyLines = dependencyBody.match(dependencyRegex2);
-    if (!dependencyLines) {
-      throw Errors.Usage(
-        "Could not find dependencies section in the build.gradle"
-      );
+      throw Errors.Usage("Could not find any dependencies");
     }
 
-    function removeQuotes(str: string): string {
-      return str.replace(/['"]+/g, "");
-    }
-
-    const dependencyList = dependencyLines
-      .map((line) => {
-        const dependency = line.split(":");
-        return {
-          name: `${removeQuotes(dependency[0])}.${dependency[1]}`,
-          version: removeQuotes(dependency[2]),
-        };
+    const dependencyList = dependencies
+      .map((line) => getDependencyInformationFromLine(line))
+      .filter((dep) => {
+        if (!dep) {
+          return false;
+        }
+        return dep.name.includes("cdktf-provider-");
       })
-      .filter(({ name }) => name.startsWith("com.hashicorp.cdktf-provider-"));
+      .map((dep) => ({ name: dep!.name, version: dep!.version }));
 
     return dependencyList;
   }
