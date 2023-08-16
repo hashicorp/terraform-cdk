@@ -153,7 +153,7 @@ describe("java full integration", () => {
         "${element(list_block_resource.list.req, 0).reqbool}",
       ]);
       expect(item.strList).toEqual([
-        '${lookup(map_resource.map.optMap, "key1", "missing")}',
+        "${list_block_resource.list.req[0].reqstr}",
       ]);
       expect(item.numList).toEqual([
         "${element(list_block_resource.list.req, 0).reqnum}",
