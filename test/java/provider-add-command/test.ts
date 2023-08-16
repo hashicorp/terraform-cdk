@@ -21,7 +21,7 @@ describe("provider add command", () => {
       expect(res.stdout).toContain("cdktf: 0.10.4");
     });
 
-    test("installs pre-built provider using maven", async () => {
+    test("installs pre-built provider using gradle", async () => {
       const res = await driver.exec("cdktf", [
         "provider",
         "add",
@@ -36,18 +36,13 @@ describe("provider add command", () => {
 
 
         [<TIMESTAMP>] [INFO] default - Found pre-built provider.
-
-        Adding com.hashicorp.cdktf-provider-random @ 0.2.55 to pom.xml
-
-        Package installed.
         "
       `);
       expect(res.stderr).toBe("");
 
-      const proj = driver.readLocalFile("pom.xml");
+      const proj = driver.readLocalFile("build.gradle");
 
-      expect(proj).toContain("<artifactId>cdktf-provider-random</artifactId>");
-      expect(proj).toContain("<version>0.2.55</version>");
+      expect(proj).toContain("cdktf-provider-random:0.2.55");
     }, 500_000);
   });
 });
