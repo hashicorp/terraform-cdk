@@ -1,4 +1,48 @@
-## Unreleased
+## 0.18.0
+
+### chore
+
+- chore: Disable windows integration tests temporarily [\#3086](https://github.com/hashicorp/terraform-cdk/pull/3086)
+- chore: update jsii-srcmak [\#3081](https://github.com/hashicorp/terraform-cdk/pull/3081)
+- chore: fix assertion of java tests [\#3079](https://github.com/hashicorp/terraform-cdk/pull/3079)
+- chore: add wget [\#3075](https://github.com/hashicorp/terraform-cdk/pull/3075)
+- chore: use gh cli to create PRs [\#3074](https://github.com/hashicorp/terraform-cdk/pull/3074)
+- chore(deps): roll back trusted workflow updates [\#3073](https://github.com/hashicorp/terraform-cdk/pull/3073)
+- chore: add gradle as a dependency for our tests [\#3066](https://github.com/hashicorp/terraform-cdk/pull/3066)
+- chore: new lookup functionality changes assertion [\#3065](https://github.com/hashicorp/terraform-cdk/pull/3065)
+- chore: update terraform versions we test again [\#3064](https://github.com/hashicorp/terraform-cdk/pull/3064)
+- chore: add link to performance page [\#3060](https://github.com/hashicorp/terraform-cdk/pull/3060)
+- chore(examples): update TS examples to use explicit imports [\#3053](https://github.com/hashicorp/terraform-cdk/pull/3053)
+- chore: update tfe docs as well [\#3050](https://github.com/hashicorp/terraform-cdk/pull/3050)
+- chore: remove waiting-on-answer label on comments [\#3046](https://github.com/hashicorp/terraform-cdk/pull/3046)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3040](https://github.com/hashicorp/terraform-cdk/pull/3040)
+- chore: add workflow to rollout provider documentation [\#3039](https://github.com/hashicorp/terraform-cdk/pull/3039)
+- chore: clean up code a bit [\#3037](https://github.com/hashicorp/terraform-cdk/pull/3037)
+- chore: fix links in README [\#3016](https://github.com/hashicorp/terraform-cdk/pull/3016)
+
+### fix
+
+- fix: provider add java integration test failures due to test setup [\#3083](https://github.com/hashicorp/terraform-cdk/pull/3083)
+- fix: Gradle related provider add/list/upgrade [\#3080](https://github.com/hashicorp/terraform-cdk/pull/3080)
+- fix(cli): cdktf debug to read gradle package versions [\#3077](https://github.com/hashicorp/terraform-cdk/pull/3077)
+- fix(provider-generator): Handle \*/ in docstrings better, try 3 [\#3076](https://github.com/hashicorp/terraform-cdk/pull/3076)
+- fix(lib): improve error message for passing an app to a construct [\#3062](https://github.com/hashicorp/terraform-cdk/pull/3062)
+- fix(tests): remove only in test suite :sweat_smile: [\#3055](https://github.com/hashicorp/terraform-cdk/pull/3055)
+- fix: install pipenv in Docker [\#3052](https://github.com/hashicorp/terraform-cdk/pull/3052)
+- fix: install python3-venv and pin base image [\#3049](https://github.com/hashicorp/terraform-cdk/pull/3049)
+- fix: correctly handle if version constraint is defined as star [\#3045](https://github.com/hashicorp/terraform-cdk/pull/3045)
+- fix: fix single quote escaping [\#3018](https://github.com/hashicorp/terraform-cdk/pull/3018)
+- fix(hcl2cdk): correctly keep escape sequences for interpolations in template expressions [\#3017](https://github.com/hashicorp/terraform-cdk/pull/3017)
+- fix(examples): Properly set the Aspect on the stack instead of on the S3Bucket only [\#3003](https://github.com/hashicorp/terraform-cdk/pull/3003)
+
+### feat
+
+- feat(hcl2cdk): use Fn.lookupNested() instead of propertyAccess() [\#3056](https://github.com/hashicorp/terraform-cdk/pull/3056)
+- feat(cli): move java template to gradle [\#3048](https://github.com/hashicorp/terraform-cdk/pull/3048)
+- feat(cli): support gradle projects in provider add and list [\#3047](https://github.com/hashicorp/terraform-cdk/pull/3047)
+- feat(docs): Link Registry docs blog post [\#3043](https://github.com/hashicorp/terraform-cdk/pull/3043)
+- feat: remove root-level import of all modules in python [\#3030](https://github.com/hashicorp/terraform-cdk/pull/3030)
+- feat(provider-generator): handle 'tuple' type for variable [\#2964](https://github.com/hashicorp/terraform-cdk/pull/2964)
 
 **Breaking changes**
 
