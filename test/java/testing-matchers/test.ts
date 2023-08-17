@@ -23,7 +23,9 @@ describe("java testing assertions", () => {
 
   test("run java testing suite", async () => {
     const output = await runTests();
-    expect(output.stdout).toEqual(expect.stringContaining("Errors: 0"));
-    expect(output.stdout).toEqual(expect.stringContaining("Tests run: 11"));
+    // TODO: Currently Gradle doesn't give the number of tests run.
+    // We need to update that with a change to build.gradle
+    expect(output.stdout).toEqual(expect.stringContaining("BUILD SUCCESSFUL"));
+    expect(output.stdout).toEqual(expect.stringContaining("Task :test"));
   }, 6000000);
 });
