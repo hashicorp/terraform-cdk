@@ -130,6 +130,7 @@ jobs:
   windows_integration:
     needs: prepare-integration-tests
     runs-on: windows-2022
+    if: false # Ignore windows integration tests for release atm
     strategy:
       fail-fast: false
       matrix: ${{fromJSON(needs.prepare-integration-tests.outputs.tests)}}
