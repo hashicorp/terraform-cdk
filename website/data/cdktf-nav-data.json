@@ -68,11 +68,10 @@
         "title": "Stacks",
         "path": "concepts/stacks"
       }
-      
     ]
   },
-  { 
-    "title": "Examples and Guides", 
+  {
+    "title": "Examples and Guides",
     "routes": [
       {
         "title": "Examples",
@@ -82,7 +81,7 @@
         "title": "Refactoring Stacks",
         "path": "examples-and-guides/refactoring"
       }
-    ] 
+    ]
   },
   {
     "title": "Create and Deploy Applications",
@@ -125,7 +124,8 @@
       {
         "title": "Design",
         "path": "develop-custom-constructs/construct-design"
-      }, {
+      },
+      {
         "title": "Publishing and Distribution",
         "path": "develop-custom-constructs/publishing-and-distribution"
       }
@@ -188,15 +188,46 @@
         "title": "Overview",
         "path": "release"
       },
-      { "title": "Upgrading to Version 0.17", "path": "release/upgrade-guide-v0-17" },
-      { "title": "Upgrading to Version 0.15", "path": "release/upgrade-guide-v0-15" },
-      { "title": "Upgrading to Version 0.13", "path": "release/upgrade-guide-v0-13" },
-      { "title": "Upgrading to Version 0.12", "path": "release/upgrade-guide-v0-12" },
-      { "title": "Upgrading to Version 0.11", "path": "release/upgrade-guide-v0-11" },
-      { "title": "Upgrading to Version 0.10", "path": "release/upgrade-guide-v0-10" },
-      { "title": "Upgrading to Version 0.9", "path": "release/upgrade-guide-v0-9" },
-      { "title": "Upgrading to Version 0.7", "path": "release/upgrade-guide-v0-7" },
-      { "title": "Upgrading to Version 0.6", "path": "release/upgrade-guide-v0-6" }
+      {
+        "title": "Upgrading to Version 0.18",
+        "path": "release/upgrade-guide-v0-18"
+      },
+      {
+        "title": "Upgrading to Version 0.17",
+        "path": "release/upgrade-guide-v0-17"
+      },
+      {
+        "title": "Upgrading to Version 0.15",
+        "path": "release/upgrade-guide-v0-15"
+      },
+      {
+        "title": "Upgrading to Version 0.13",
+        "path": "release/upgrade-guide-v0-13"
+      },
+      {
+        "title": "Upgrading to Version 0.12",
+        "path": "release/upgrade-guide-v0-12"
+      },
+      {
+        "title": "Upgrading to Version 0.11",
+        "path": "release/upgrade-guide-v0-11"
+      },
+      {
+        "title": "Upgrading to Version 0.10",
+        "path": "release/upgrade-guide-v0-10"
+      },
+      {
+        "title": "Upgrading to Version 0.9",
+        "path": "release/upgrade-guide-v0-9"
+      },
+      {
+        "title": "Upgrading to Version 0.7",
+        "path": "release/upgrade-guide-v0-7"
+      },
+      {
+        "title": "Upgrading to Version 0.6",
+        "path": "release/upgrade-guide-v0-6"
+      }
     ]
   },
   { "title": "Community", "path": "community" },
