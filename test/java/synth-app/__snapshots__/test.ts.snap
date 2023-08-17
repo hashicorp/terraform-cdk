@@ -20,21 +20,21 @@ exports[`java full integration synth generates JSON 1`] = `
   },
   "resource": {
     "null_resource": {
-      "NullResource": {
+      "javasimple_NullResource_0DFEEB47": {
         "//": {
           "metadata": {
             "path": "java-simple/NullResource",
-            "uniqueId": "NullResource"
+            "uniqueId": "javasimple_NullResource_0DFEEB47"
           }
         }
       }
     },
     "random_string": {
-      "RandomString": {
+      "javasimple_RandomString_FB91A61A": {
         "//": {
           "metadata": {
             "path": "java-simple/RandomString",
-            "uniqueId": "RandomString"
+            "uniqueId": "javasimple_RandomString_FB91A61A"
           }
         },
         "length": 42

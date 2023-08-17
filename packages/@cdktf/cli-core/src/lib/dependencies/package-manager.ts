@@ -665,8 +665,16 @@ class GradlePackageManager extends JavaPackageManager {
       );
     }
 
+    const existingDependency = buildGradleLines.findIndex((line) =>
+      line.includes(packageName)
+    );
+    if (existingDependency !== -1) {
+      buildGradleLines.splice(existingDependency, 1);
+    }
+
     const newPackageDependency = `\timplementation '${packageName}:${packageVersion}'`;
     buildGradleLines.splice(dependencyBlockStart + 1, 0, newPackageDependency);
+
     await fs.writeFile(buildGradlePath, buildGradleLines.join("\n"));
   }
 
