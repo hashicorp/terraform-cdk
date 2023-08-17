@@ -23,11 +23,11 @@ export function isGradleProject(workingDirectory: string): boolean {
 export async function getGradleDependencies() {
   let output;
   try {
-    output = await exec("gradle", ["dependencies", "--console=plain"], {
+    output = await exec("gradlew", ["dependencies", "--console=plain"], {
       env: process.env,
     });
   } catch (e) {
-    logger.debug(`Unable to run 'gradle dependencies': ${e}`);
+    logger.debug(`Unable to run 'gradlew dependencies': ${e}`);
     return undefined;
   }
 
