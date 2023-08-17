@@ -15,40 +15,34 @@ jobs:
           # To onboard new providers, add a new entry to this matrix and make sure the team-tf-cdk github user has write permissions to the repository.
           - repo: hashicorp/terraform-provider-archive
             fqn: "hashicorp/archive"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-aws
             fqn: "hashicorp/aws"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-cloudinit
             fqn: "hashicorp/cloudinit"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-dns
             fqn: "hashicorp/dns"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-external
             fqn: "hashicorp/external"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-http
             fqn: "hashicorp/http"
-            additionalProviderFqns: ""
+            additionalProviderFqns: "hashicorp/random@~>3.5"
           - repo: hashicorp/terraform-provider-local
             fqn: "hashicorp/local"
-            additionalProviderFqns: ""
+            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-null
             fqn: "hashicorp/null"
-            additionalProviderFqns: ""
+            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-random
             fqn: "hashicorp/random"
             additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-tfe
             fqn: "hashicorp/tfe"
-            additionalProviderFqns: ""
           - repo: hashicorp/terraform-provider-time
             fqn: "hashicorp/time"
-            additionalProviderFqns: ""
+            additionalProviderFqns: "hashicorp/aws@~>5.12"
           - repo: hashicorp/terraform-provider-tls
             fqn: "hashicorp/tls"
-            additionalProviderFqns: ""
+            additionalProviderFqns: "hashicorp/aws@~>5.12"
     uses: ./.github/workflows/registry-docs-pr-based.yml
     secrets:
       # This token belongs to the team-tf-cdk github user. The user needs to have write permissions to the repository.
