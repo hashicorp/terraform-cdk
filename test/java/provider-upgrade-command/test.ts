@@ -16,7 +16,7 @@ describe("provider upgrade command", () => {
       });
     });
 
-    test("installs pre-built provider using maven", async () => {
+    test("installs pre-built provider using gradle", async () => {
       await driver.exec("cdktf", [
         "provider",
         "add",
@@ -25,11 +25,11 @@ describe("provider upgrade command", () => {
 
       await driver.exec("cdktf", ["provider", "upgrade", "random@=3.2.0"]);
 
-      expect(driver.readLocalFile("pom.xml")).not.toContain(
-        "<version>0.2.55</version>"
+      expect(driver.readLocalFile("build.gradle")).not.toContain(
+        "cdktf-provider-random:0.2.55"
       );
-      expect(driver.readLocalFile("pom.xml")).toContain(
-        "<version>0.2.64</version>"
+      expect(driver.readLocalFile("build.gradle")).toContain(
+        "cdktf-provider-random:0.2.64"
       );
     }, 500_000);
   });
