@@ -28937,6 +28937,7 @@ new Fn();
 | <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
 | <code><a href="#cdktf.Fn.join">join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.lookup">lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
+| <code><a href="#cdktf.Fn.lookupNested">lookupNested</a></code>         | returns a property access expression that accesses the property at the given path in the given inputMap.                                                                                                                                                                                                                                                              |
 | <code><a href="#cdktf.Fn.range">range</a></code>                       | {@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.rawString">rawString</a></code>               | Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string).                                                                                                                                                                                |
 
@@ -30981,7 +30982,7 @@ Fn.join(java.lang.String separator, java.util.List< java.lang.String > list)
 ```java
 import com.hashicorp.cdktf.Fn;
 
-Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defaultValue)
+Fn.lookup(java.lang.Object inputMap, java.lang.String key),Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defaultValue)
 ```
 
 {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
@@ -30998,9 +30999,33 @@ Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defa
 
 ---
 
-###### `defaultValue`<sup>Required</sup> <a name="defaultValue" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
+###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
 
 - _Type:_ java.lang.Object
+
+---
+
+##### `lookupNested` <a name="lookupNested" id="cdktf.Fn.lookupNested"></a>
+
+```java
+import com.hashicorp.cdktf.Fn;
+
+Fn.lookupNested(java.lang.Object inputMap, java.util.List< java.lang.Object > path)
+```
+
+returns a property access expression that accesses the property at the given path in the given inputMap.
+
+For example lookupNested(x, ["a", "b", "c"]) will return a Terraform expression like x["a"]["b"]["c"]
+
+###### `inputMap`<sup>Required</sup> <a name="inputMap" id="cdktf.Fn.lookupNested.parameter.inputMap"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.lookupNested.parameter.path"></a>
+
+- _Type:_ java.util.List< java.lang.Object >
 
 ---
 

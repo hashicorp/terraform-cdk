@@ -29926,6 +29926,7 @@ cdktf.Fn()
 | <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
 | <code><a href="#cdktf.Fn.join">join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.lookup">lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
+| <code><a href="#cdktf.Fn.lookupNested">lookup_nested</a></code>        | returns a property access expression that accesses the property at the given path in the given inputMap.                                                                                                                                                                                                                                                              |
 | <code><a href="#cdktf.Fn.range">range</a></code>                       | {@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.rawString">raw_string</a></code>              | Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string).                                                                                                                                                                                |
 
@@ -32236,7 +32237,7 @@ import cdktf
 cdktf.Fn.lookup(
   input_map: typing.Any,
   key: str,
-  default_value: typing.Any
+  default_value: typing.Any = None
 )
 ```
 
@@ -32254,9 +32255,36 @@ cdktf.Fn.lookup(
 
 ---
 
-###### `default_value`<sup>Required</sup> <a name="default_value" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
+###### `default_value`<sup>Optional</sup> <a name="default_value" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
 
 - _Type:_ typing.Any
+
+---
+
+##### `lookup_nested` <a name="lookup_nested" id="cdktf.Fn.lookupNested"></a>
+
+```python
+import cdktf
+
+cdktf.Fn.lookup_nested(
+  input_map: typing.Any,
+  path: typing.List[typing.Any]
+)
+```
+
+returns a property access expression that accesses the property at the given path in the given inputMap.
+
+For example lookupNested(x, ["a", "b", "c"]) will return a Terraform expression like x["a"]["b"]["c"]
+
+###### `input_map`<sup>Required</sup> <a name="input_map" id="cdktf.Fn.lookupNested.parameter.inputMap"></a>
+
+- _Type:_ typing.Any
+
+---
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.lookupNested.parameter.path"></a>
+
+- _Type:_ typing.List[typing.Any]
 
 ---
 
