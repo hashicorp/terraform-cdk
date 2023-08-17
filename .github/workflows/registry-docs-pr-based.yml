@@ -19,6 +19,7 @@ on:
         description: "Additional provider FQNs that are required to convert because they are used in examples, e.g. 'hashicorp/azurerm,hashicorp/google'"
         required: false
         type: string
+        default: ""
       maxRunners:
         description: "Maximum number of parallel runners to use"
         required: false
@@ -154,9 +155,8 @@ jobs:
       - name: Install cdktf-registry-docs
         run: npm install -g cdktf-registry-docs@${{ inputs.cdktfRegistryDocsVersion }}
 
-      - name: Run conversion
-        # It's a bit hacky with the additionalProviderFqns handling of optionally putting this flag in
-        # Maybe it's easier solved through duplication and an if statement
+      - name: Run conversion without additional providers
+        if: inputs.additionalProviderFqns == ''
         run: |
           cdktf-registry-docs convert \
             --files='${{ matrix.files }}' \
@@ -164,7 +164,23 @@ jobs:
             --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
             --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
             --provider-from-registry="${{ inputs.providerFqn }}" \
-            ${{ inputs.additionalProviderFqns == '' && '.' || format('--additional-providers-from-registry={0} .',inputs.additionalProviderFqns) }}
+            .
+        env:
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+
+      - name: Run conversion with additional providers
+        # It's a bit hacky with the additionalProviderFqns handling of optionally putting this flag in
+        # Maybe it's easier solved through duplication and an if statement
+        if: inputs.additionalProviderFqns != ''
+        run: |
+          cdktf-registry-docs convert \
+            --files='${{ matrix.files }}' \
+            --languages='${{inputs.languages}}' \
+            --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
+            --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
+            --provider-from-registry="${{ inputs.providerFqn }}" \
+            --additional-providers-from-registry="${{ inputs.additionalProviderFqns }}" \
+            .
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
 
