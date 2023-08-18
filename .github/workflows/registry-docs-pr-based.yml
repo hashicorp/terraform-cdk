@@ -179,7 +179,7 @@ jobs:
             --parallel-file-conversions=${{ inputs.parallelFileConversions }} \
             --parallel-conversions-per-document=${{ inputs.parallelConversionsPerDocument }}\
             --provider-from-registry="${{ inputs.providerFqn }}" \
-            --additional-providers-from-registry="${{ inputs.additionalProviderFqns }}" \
+            --additional-provider-requirements="${{ inputs.additionalProviderFqns }}" \
             .
         env:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
