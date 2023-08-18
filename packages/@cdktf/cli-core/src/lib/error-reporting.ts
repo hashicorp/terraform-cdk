@@ -10,7 +10,7 @@ import {
 import { logger } from "@cdktf/commons";
 import * as path from "path";
 import * as fs from "fs-extra";
-import ciDetect from "@npmcli/ci-detect";
+import ciInfo from "ci-info";
 
 export function shouldReportCrash(
   projectPath = process.cwd()
@@ -57,7 +57,7 @@ export async function initializErrorReporting(
   runConsentPrompt?: () => Promise<boolean>
 ) {
   let shouldReport = shouldReportCrash();
-  const ci: string | false = ciDetect();
+  const ci: string | false = ciInfo.isCI ? ciInfo.name! : false;
 
   // We have no info yet, so we need to ask the user
   if (shouldReport === undefined && runConsentPrompt) {

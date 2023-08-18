@@ -45,6 +45,7 @@
     "@inquirer/prompts": "^2.3.0",
     "@sentry/node": "^6.19.7",
     "cdktf": "0.0.0",
+    "ci-info": "^3.8.0",
     "codemaker": "^1.87.0",
     "constructs": "^10.0.25",
     "cross-spawn": "^7.0.3",
@@ -111,7 +112,6 @@
   "devDependencies": {
     "@cdktf/cli-core": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
-    "@npmcli/ci-detect": "^1.4.0",
     "@skorfmann/ink-confirm-input": "^3.0.0",
     "@skorfmann/terraform-cloud": "^1.15.0",
     "@types/archiver": "^5.3.1",
