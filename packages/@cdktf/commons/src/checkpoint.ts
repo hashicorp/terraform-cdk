@@ -170,7 +170,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     reportParams.os = os.platform();
   }
 
-  const ci: string | false = ciInfo.isCI ? ciInfo.name! : false;
+  const ci: string | false = ciInfo.isCI ? ciInfo.name || "unknown" : false;
   if (!reportParams.userId && !ci) {
     reportParams.userId = getUserId();
   }

@@ -57,7 +57,7 @@ export async function initializErrorReporting(
   runConsentPrompt?: () => Promise<boolean>
 ) {
   let shouldReport = shouldReportCrash();
-  const ci: string | false = ciInfo.isCI ? ciInfo.name! : false;
+  const ci: string | false = ciInfo.isCI ? ciInfo.name || "unknown" : false;
 
   // We have no info yet, so we need to ask the user
   if (shouldReport === undefined && runConsentPrompt) {
