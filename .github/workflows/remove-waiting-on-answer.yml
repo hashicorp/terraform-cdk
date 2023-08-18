@@ -17,6 +17,8 @@ jobs:
       github.event.comment.author_association != 'COLLABORATOR' && github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab # v3.3.0
       - name: Remove waiting-on-answer label
         run: gh issue edit $NUMBER --remove-label "waiting-on-answer"
         env:
