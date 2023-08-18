@@ -4,7 +4,7 @@ import https = require("https");
 import { format } from "url";
 import { v4 as uuidv4 } from "uuid";
 import * as os from "os";
-import ciDetect from "@npmcli/ci-detect";
+import ciInfo from "ci-info";
 import { logger, processLoggerError } from "./logging";
 import * as path from "path";
 import * as fs from "fs-extra";
@@ -170,7 +170,7 @@ export async function ReportRequest(reportParams: ReportParams): Promise<void> {
     reportParams.os = os.platform();
   }
 
-  const ci: string | false = ciDetect();
+  const ci: string | false = ciInfo.isCI ? ciInfo.name! : false;
   if (!reportParams.userId && !ci) {
     reportParams.userId = getUserId();
   }

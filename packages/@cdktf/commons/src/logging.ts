@@ -11,7 +11,7 @@ const logger = {
     cliLogger.trace(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Debug,
+      level: "debug",
     });
   },
 
@@ -19,7 +19,7 @@ const logger = {
     cliLogger.debug(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Debug,
+      level: "debug",
     });
   },
 
@@ -27,7 +27,7 @@ const logger = {
     cliLogger.info(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Info,
+      level: "info",
     });
   },
 
@@ -35,7 +35,7 @@ const logger = {
     cliLogger.warn(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Warning,
+      level: "warning",
     });
   },
 
@@ -43,7 +43,7 @@ const logger = {
     cliLogger.error(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Error,
+      level: "error",
     });
   },
 
@@ -51,7 +51,7 @@ const logger = {
     cliLogger.fatal(message, ...args);
     Sentry.addBreadcrumb({
       message,
-      level: Sentry.Severity.Critical,
+      level: "fatal",
     });
   },
 
