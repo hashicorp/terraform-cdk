@@ -1,31 +1,31 @@
 ---
 page_title: Performance - CDK for Terraform
-description: The faster you can synthesise your CDKTF code, the faster you can deploy it. Learn how to optimise your CDK for Terraform performance.
+description: The faster you can synthesize your CDKTF code, the faster you can deploy it. Learn how to optimize your CDK for Terraform performance.
 ---
 
-# Synthetisation Performance
+# Synthesization Performance
 
-The faster you can synthesise your CDKTF code, the faster you can deploy it.
-This page focusse on how to optimise your CDK for Terraform performance.
+The faster you can synthesize your CDKTF code, the faster you can deploy it.
+This page focuses on how to optimize your CDK for Terraform performance.
 
-## Typescript
+## TypeScript
 
-In Typescript the main bottleneck for synthetisation performance is the time it takes `ts-node` or `tsc` to compile your code.
+In TypeScript, the main bottleneck for synthesization performance is the time it takes `ts-node` or `tsc` to compile your code.
 The easiest way to improve this is using explicit resource imports like `import { MyResource } from '@cdktf/provider-my-provider/lib/my-resource'` instead of star imports like `import * as myProvider from '@cdktf/provider-my-provider'`.
 Another option is to use a bundler without typechecking like [`tsx`](https://github.com/esbuild-kit/tsx) or [`swc`](https://swc.rs/) to compile your code. These are typically a lot faster than `tsc` or `ts-node`, but you will get no typechecking.
 
 ## Python
 
-Python is out of the box optimized for synthetisation performance, there a no known steps to improve the synthetisation performance.
+Python is out of the box optimized for synthesization performance. There are no known steps to improve the synthesization performance.
 
 ## Java
 
-To improve the synthetisation performance of Java we recommend using [Gradle](https://gradle.org/) over [Maven](https://maven.apache.org/). We could observe an improvement for an example using the AWS provider from 3m 30s to 30s after the initial compilation. To migrate to Gradle we recommend creating a new CDKTF project and copying the code over.
+To improve the synthesization performance of Java, we recommend using [Gradle](https://gradle.org/) over [Maven](https://maven.apache.org/). In an example using the AWS provider, we observed an improvement from 3m 30s to 30s after the initial compilation. To migrate to Gradle, we recommend creating a new CDKTF project and copying the code over.
 
 ## C#
 
-C# is out of the box optimized for synthetisation performance, there a no known steps to improve the synthetisation performance.
+C# is out of the box optimized for synthesization performance. There are no known steps to improve the synthesization performance.
 
 ## Go
 
-Go is out of the box optimized for synthetisation performance, there a no known steps to improve the synthetisation performance.
+Go is out of the box optimized for synthesization performance. There are no known steps to improve the synthesization performance.
