@@ -344,6 +344,14 @@ function renderStaticMethod(
     `\`${name}\``,
     `{@link https://developer.hashicorp.com/terraform/language/functions/${name} ${name}}`
   );
+  // Bandaid solution for content check errors https://github.com/hashicorp/terraform-cdk/issues/2816
+  // it is the only relative link (content check requires fully qualified) that comes from the generation of terraform function bindings
+  if (name == "sensitive") {
+    descriptionWithLink.replace(
+      "/language/values/variables#suppressing-values-in-cli-output",
+      "https://developer.hashicorp.com/terraform/language/values/variables#suppressing-values-in-cli-output"
+    );
+  }
   t.addComment(
     method,
     "leading",

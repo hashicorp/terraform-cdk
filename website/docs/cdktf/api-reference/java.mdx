@@ -28827,13 +28827,13 @@ new Fn();
 | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.Fn.abs">abs</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/abs abs} returns the absolute value of the given number. In other words, if the number is zero or positive then it is returned as-is, but if it is negative then it is multiplied by -1 to make it positive before returning it.                                                                  |
 | <code><a href="#cdktf.Fn.abspath">abspath</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/abspath abspath} takes a string containing a filesystem path and converts it to an absolute path. That is, if the path is not absolute, it will be joined with the current working directory.                                                                                                     |
-| <code><a href="#cdktf.Fn.alltrue">alltrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.                                                                                                                                          |
-| <code><a href="#cdktf.Fn.anytrue">anytrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.                                                                                                                                           |
+| <code><a href="#cdktf.Fn.alltrue">alltrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `"true"`. It also returns `true` if the collection is empty.                                                                                                                                                  |
+| <code><a href="#cdktf.Fn.anytrue">anytrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `"true"`. It also returns `false` if the collection is empty.                                                                                                                                                   |
 | <code><a href="#cdktf.Fn.base64decode">base64decode</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64decode base64decode} takes a string containing a Base64 character sequence and returns the original string.                                                                                                                                                                                 |
 | <code><a href="#cdktf.Fn.base64encode">base64encode</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64encode base64encode} applies Base64 encoding to a string.                                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.Fn.base64gzip">base64gzip</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/base64gzip base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.                                                                                                                                                                                              |
-| <code><a href="#cdktf.Fn.base64sha256">base64sha256</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.                                                                           |
-| <code><a href="#cdktf.Fn.base64sha512">base64sha512</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.                                                                           |
+| <code><a href="#cdktf.Fn.base64sha256">base64sha256</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256("test"))` since `sha256()` returns hexadecimal representation.                                                                                   |
+| <code><a href="#cdktf.Fn.base64sha512">base64sha512</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512("test"))` since `sha512()` returns hexadecimal representation.                                                                                   |
 | <code><a href="#cdktf.Fn.basename">basename</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/basename basename} takes a string containing a filesystem path and removes all except the last portion from it.                                                                                                                                                                                   |
 | <code><a href="#cdktf.Fn.can">can</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/can can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.                                                                                                                                                       |
 | <code><a href="#cdktf.Fn.ceil">ceil</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/ceil ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.                                                                                                                                                                            |
@@ -28843,8 +28843,8 @@ new Fn();
 | <code><a href="#cdktf.Fn.cidrnetmask">cidrnetmask</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/cidrnetmask cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.                                                                                                                                                                                       |
 | <code><a href="#cdktf.Fn.cidrsubnet">cidrsubnet</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnet cidrsubnet} calculates a subnet address within given IP network address prefix.                                                                                                                                                                                                        |
 | <code><a href="#cdktf.Fn.cidrsubnets">cidrsubnets</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnets cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.                                                                                                                                                                                  |
-| <code><a href="#cdktf.Fn.coalesce">coalesce</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.                                                                                                                                                                                |
-| <code><a href="#cdktf.Fn.coalescelist">coalescelist</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.                                                                                                                                                                                     |
+| <code><a href="#cdktf.Fn.coalesce">coalesce</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.                                                                                                                                                                                    |
+| <code><a href="#cdktf.Fn.coalescelist">coalescelist</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn't empty.                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.compact">compact</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/compact compact} takes a list of strings and returns a new list with any empty string elements removed.                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.concat">concat</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/concat concat} takes two or more lists and combines them into a single list.                                                                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.contains">contains</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/contains contains} determines whether a given list or set contains a given single value as one of its elements.                                                                                                                                                                                   |
@@ -28884,7 +28884,8 @@ new Fn();
 | <code><a href="#cdktf.Fn.nonsensitive">nonsensitive</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/nonsensitive nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.                                                                                                                                     |
 | <code><a href="#cdktf.Fn.one">one</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/one one} takes a list, set, or tuple value with either zero or one elements. If the collection is empty, `one` returns `null`. Otherwise, `one` returns the first element. If there are two or more elements then `one` will return an error.                                                     |
 | <code><a href="#cdktf.Fn.parseint">parseint</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/parseint parseint} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.                                                                                                                 |
-| <code><a href="#cdktf.Fn.pathexpand">pathexpand</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.                                                                                                                           |
+| <code><a href="#cdktf.Fn.pathexpand">pathexpand</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user's home directory path.                                                                                                                               |
+| <code><a href="#cdktf.Fn.plantimestamp">plantimestamp</a></code>       | {@link https://developer.hashicorp.com/terraform/language/functions/plantimestamp plantimestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, fixed to a constant time representing the time of the plan.                                                                                                                |
 | <code><a href="#cdktf.Fn.pow">pow</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/pow pow} calculates an exponent, by raising its first argument to the power of the second argument.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.regex">regex</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/regex regex} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.                                                                                                                                                    |
 | <code><a href="#cdktf.Fn.regexall">regexall</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/regexall regexall} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.                                                                                                                                                |
@@ -28904,6 +28905,7 @@ new Fn();
 | <code><a href="#cdktf.Fn.sort">sort</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/sort sort} takes a list of strings and returns a new list with those strings sorted lexicographically.                                                                                                                                                                                            |
 | <code><a href="#cdktf.Fn.split">split</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/split split} produces a list by dividing a given string at all occurrences of a given separator.                                                                                                                                                                                                  |
 | <code><a href="#cdktf.Fn.startswith">startswith</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/startswith startswith} takes two values: a string to check and a prefix string. The function returns true if the string begins with that exact prefix.                                                                                                                                            |
+| <code><a href="#cdktf.Fn.strcontains">strcontains</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/strcontains strcontains} takes two values: a string to check and an expected substring. The function returns true if the string has the substring contained within it.                                                                                                                            |
 | <code><a href="#cdktf.Fn.strrev">strrev</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/strrev strrev} reverses the characters in a string. Note that the characters are treated as _Unicode characters_ (in technical terms, Unicode [grapheme cluster boundaries](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries) are respected).                                        |
 | <code><a href="#cdktf.Fn.substr">substr</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/substr substr} extracts a substring from a given string by offset and (maximum) length.                                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.sum">sum</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/sum sum} takes a list or set of numbers and returns the sum of those numbers.                                                                                                                                                                                                                     |
@@ -28929,7 +28931,7 @@ new Fn();
 | <code><a href="#cdktf.Fn.upper">upper</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/upper upper} converts all cased letters in the given string to uppercase.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.urlencode">urlencode</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/urlencode urlencode} applies URL encoding to a given string.                                                                                                                                                                                                                                      |
 | <code><a href="#cdktf.Fn.uuid">uuid</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/uuid uuid} generates a unique identifier string.                                                                                                                                                                                                                                                  |
-| <code><a href="#cdktf.Fn.uuidv5">uuidv5</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.                                                                                                                  |
+| <code><a href="#cdktf.Fn.uuidv5">uuidv5</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a "version 5" UUID.                                                                                                                          |
 | <code><a href="#cdktf.Fn.values">values</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/values values} takes a map and returns a list containing the values of the elements in that map.                                                                                                                                                                                                  |
 | <code><a href="#cdktf.Fn.yamldecode">yamldecode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamldecode yamldecode} parses a string as a subset of YAML, and produces a representation of its value.                                                                                                                                                                                           |
 | <code><a href="#cdktf.Fn.yamlencode">yamlencode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.                                                                                                                                                                      |
@@ -28937,6 +28939,7 @@ new Fn();
 | <code><a href="#cdktf.Fn.bcrypt">bcrypt</a></code>                     | {@link /terraform/docs/language/functions/bcrypt.html bcrypt} computes a hash of the given string using the Blowfish cipher, returning a string in [the _Modular Crypt Format_](https://passlib.readthedocs.io/en/stable/modular_crypt_format.html) usually expected in the shadow password file on many Unix systems.                                                |
 | <code><a href="#cdktf.Fn.join">join</a></code>                         | {@link /terraform/docs/language/functions/join.html join} produces a string by concatenating together all elements of a given list of strings with the given delimiter.                                                                                                                                                                                               |
 | <code><a href="#cdktf.Fn.lookup">lookup</a></code>                     | {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.                                                                                                                                                        |
+| <code><a href="#cdktf.Fn.lookupNested">lookupNested</a></code>         | returns a property access expression that accesses the property at the given path in the given inputMap.                                                                                                                                                                                                                                                              |
 | <code><a href="#cdktf.Fn.range">range</a></code>                       | {@link /terraform/docs/language/functions/range.html range} generates a list of numbers using a start value, a limit value, and a step value.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.Fn.rawString">rawString</a></code>               | Use this function to wrap a string and escape it properly for the use in Terraform This is only needed in certain scenarios (e.g., if you have unescaped double quotes in the string).                                                                                                                                                                                |
 
@@ -28982,7 +28985,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.alltrue(java.util.List< java.lang.Object > list)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `"true"`. It also returns `true` if the collection is empty.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.alltrue.parameter.list"></a>
 
@@ -28998,7 +29001,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.anytrue(java.util.List< java.lang.Object > list)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `"true"`. It also returns `false` if the collection is empty.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.Fn.anytrue.parameter.list"></a>
 
@@ -29062,7 +29065,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.base64sha256(java.lang.String str)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.
+{@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256("test"))` since `sha256()` returns hexadecimal representation.
 
 ###### `str`<sup>Required</sup> <a name="str" id="cdktf.Fn.base64sha256.parameter.str"></a>
 
@@ -29078,7 +29081,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.base64sha512(java.lang.String str)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.
+{@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512("test"))` since `sha512()` returns hexadecimal representation.
 
 ###### `str`<sup>Required</sup> <a name="str" id="cdktf.Fn.base64sha512.parameter.str"></a>
 
@@ -29268,7 +29271,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.coalesce(java.util.List< java.lang.Object > vals)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
+{@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.
 
 ###### `vals`<sup>Required</sup> <a name="vals" id="cdktf.Fn.coalesce.parameter.vals"></a>
 
@@ -29284,7 +29287,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.coalescelist(java.util.List< java.lang.Object > vals)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn't empty.
 
 ###### `vals`<sup>Required</sup> <a name="vals" id="cdktf.Fn.coalescelist.parameter.vals"></a>
 
@@ -30002,13 +30005,23 @@ import com.hashicorp.cdktf.Fn;
 Fn.pathexpand(java.lang.String path)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.
+{@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user's home directory path.
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.pathexpand.parameter.path"></a>
 
 - _Type:_ java.lang.String
 
 ---
+
+##### `plantimestamp` <a name="plantimestamp" id="cdktf.Fn.plantimestamp"></a>
+
+```java
+import com.hashicorp.cdktf.Fn;
+
+Fn.plantimestamp()
+```
+
+{@link https://developer.hashicorp.com/terraform/language/functions/plantimestamp plantimestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, fixed to a constant time representing the time of the plan.
 
 ##### `pow` <a name="pow" id="cdktf.Fn.pow"></a>
 
@@ -30387,6 +30400,28 @@ Fn.startswith(java.lang.String str, java.lang.String prefix)
 ---
 
 ###### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.Fn.startswith.parameter.prefix"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+##### `strcontains` <a name="strcontains" id="cdktf.Fn.strcontains"></a>
+
+```java
+import com.hashicorp.cdktf.Fn;
+
+Fn.strcontains(java.lang.String str, java.lang.String substr)
+```
+
+{@link https://developer.hashicorp.com/terraform/language/functions/strcontains strcontains} takes two values: a string to check and an expected substring. The function returns true if the string has the substring contained within it.
+
+###### `str`<sup>Required</sup> <a name="str" id="cdktf.Fn.strcontains.parameter.str"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `substr`<sup>Required</sup> <a name="substr" id="cdktf.Fn.strcontains.parameter.substr"></a>
 
 - _Type:_ java.lang.String
 
@@ -30848,7 +30883,7 @@ import com.hashicorp.cdktf.Fn;
 Fn.uuidv5(java.lang.String namespace, java.lang.String name)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.
+{@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a "version 5" UUID.
 
 ###### `namespace`<sup>Required</sup> <a name="namespace" id="cdktf.Fn.uuidv5.parameter.namespace"></a>
 
@@ -30981,7 +31016,7 @@ Fn.join(java.lang.String separator, java.util.List< java.lang.String > list)
 ```java
 import com.hashicorp.cdktf.Fn;
 
-Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defaultValue)
+Fn.lookup(java.lang.Object inputMap, java.lang.String key),Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defaultValue)
 ```
 
 {@link /terraform/docs/language/functions/lookup.html lookup} retrieves the value of a single element from a map, given its key. If the given key does not exist, the given default value is returned instead.
@@ -30998,9 +31033,33 @@ Fn.lookup(java.lang.Object inputMap, java.lang.String key, java.lang.Object defa
 
 ---
 
-###### `defaultValue`<sup>Required</sup> <a name="defaultValue" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
+###### `defaultValue`<sup>Optional</sup> <a name="defaultValue" id="cdktf.Fn.lookup.parameter.defaultValue"></a>
 
 - _Type:_ java.lang.Object
+
+---
+
+##### `lookupNested` <a name="lookupNested" id="cdktf.Fn.lookupNested"></a>
+
+```java
+import com.hashicorp.cdktf.Fn;
+
+Fn.lookupNested(java.lang.Object inputMap, java.util.List< java.lang.Object > path)
+```
+
+returns a property access expression that accesses the property at the given path in the given inputMap.
+
+For example lookupNested(x, ["a", "b", "c"]) will return a Terraform expression like x["a"]["b"]["c"]
+
+###### `inputMap`<sup>Required</sup> <a name="inputMap" id="cdktf.Fn.lookupNested.parameter.inputMap"></a>
+
+- _Type:_ java.lang.Object
+
+---
+
+###### `path`<sup>Required</sup> <a name="path" id="cdktf.Fn.lookupNested.parameter.path"></a>
+
+- _Type:_ java.util.List< java.lang.Object >
 
 ---
 
@@ -31069,13 +31128,13 @@ new FnGenerated();
 | ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | <code><a href="#cdktf.FnGenerated.abs">abs</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/abs abs} returns the absolute value of the given number. In other words, if the number is zero or positive then it is returned as-is, but if it is negative then it is multiplied by -1 to make it positive before returning it.                                                                  |
 | <code><a href="#cdktf.FnGenerated.abspath">abspath</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/abspath abspath} takes a string containing a filesystem path and converts it to an absolute path. That is, if the path is not absolute, it will be joined with the current working directory.                                                                                                     |
-| <code><a href="#cdktf.FnGenerated.alltrue">alltrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.                                                                                                                                          |
-| <code><a href="#cdktf.FnGenerated.anytrue">anytrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.                                                                                                                                           |
+| <code><a href="#cdktf.FnGenerated.alltrue">alltrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `"true"`. It also returns `true` if the collection is empty.                                                                                                                                                  |
+| <code><a href="#cdktf.FnGenerated.anytrue">anytrue</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `"true"`. It also returns `false` if the collection is empty.                                                                                                                                                   |
 | <code><a href="#cdktf.FnGenerated.base64decode">base64decode</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64decode base64decode} takes a string containing a Base64 character sequence and returns the original string.                                                                                                                                                                                 |
 | <code><a href="#cdktf.FnGenerated.base64encode">base64encode</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64encode base64encode} applies Base64 encoding to a string.                                                                                                                                                                                                                                   |
 | <code><a href="#cdktf.FnGenerated.base64gzip">base64gzip</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/base64gzip base64gzip} compresses a string with gzip and then encodes the result in Base64 encoding.                                                                                                                                                                                              |
-| <code><a href="#cdktf.FnGenerated.base64sha256">base64sha256</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.                                                                           |
-| <code><a href="#cdktf.FnGenerated.base64sha512">base64sha512</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.                                                                           |
+| <code><a href="#cdktf.FnGenerated.base64sha256">base64sha256</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256("test"))` since `sha256()` returns hexadecimal representation.                                                                                   |
+| <code><a href="#cdktf.FnGenerated.base64sha512">base64sha512</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512("test"))` since `sha512()` returns hexadecimal representation.                                                                                   |
 | <code><a href="#cdktf.FnGenerated.basename">basename</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/basename basename} takes a string containing a filesystem path and removes all except the last portion from it.                                                                                                                                                                                   |
 | <code><a href="#cdktf.FnGenerated.can">can</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/can can} evaluates the given expression and returns a boolean value indicating whether the expression produced a result without any errors.                                                                                                                                                       |
 | <code><a href="#cdktf.FnGenerated.ceil">ceil</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/ceil ceil} returns the closest whole number that is greater than or equal to the given value, which may be a fraction.                                                                                                                                                                            |
@@ -31085,8 +31144,8 @@ new FnGenerated();
 | <code><a href="#cdktf.FnGenerated.cidrnetmask">cidrnetmask</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/cidrnetmask cidrnetmask} converts an IPv4 address prefix given in CIDR notation into a subnet mask address.                                                                                                                                                                                       |
 | <code><a href="#cdktf.FnGenerated.cidrsubnet">cidrsubnet</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnet cidrsubnet} calculates a subnet address within given IP network address prefix.                                                                                                                                                                                                        |
 | <code><a href="#cdktf.FnGenerated.cidrsubnets">cidrsubnets</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/cidrsubnets cidrsubnets} calculates a sequence of consecutive IP address ranges within a particular CIDR prefix.                                                                                                                                                                                  |
-| <code><a href="#cdktf.FnGenerated.coalesce">coalesce</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.                                                                                                                                                                                |
-| <code><a href="#cdktf.FnGenerated.coalescelist">coalescelist</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.                                                                                                                                                                                     |
+| <code><a href="#cdktf.FnGenerated.coalesce">coalesce</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.                                                                                                                                                                                    |
+| <code><a href="#cdktf.FnGenerated.coalescelist">coalescelist</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn't empty.                                                                                                                                                                                         |
 | <code><a href="#cdktf.FnGenerated.compact">compact</a></code>                   | {@link https://developer.hashicorp.com/terraform/language/functions/compact compact} takes a list of strings and returns a new list with any empty string elements removed.                                                                                                                                                                                           |
 | <code><a href="#cdktf.FnGenerated.concat">concat</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/concat concat} takes two or more lists and combines them into a single list.                                                                                                                                                                                                                      |
 | <code><a href="#cdktf.FnGenerated.contains">contains</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/contains contains} determines whether a given list or set contains a given single value as one of its elements.                                                                                                                                                                                   |
@@ -31126,7 +31185,8 @@ new FnGenerated();
 | <code><a href="#cdktf.FnGenerated.nonsensitive">nonsensitive</a></code>         | {@link https://developer.hashicorp.com/terraform/language/functions/nonsensitive nonsensitive} takes a sensitive value and returns a copy of that value with the sensitive marking removed, thereby exposing the sensitive value.                                                                                                                                     |
 | <code><a href="#cdktf.FnGenerated.one">one</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/one one} takes a list, set, or tuple value with either zero or one elements. If the collection is empty, `one` returns `null`. Otherwise, `one` returns the first element. If there are two or more elements then `one` will return an error.                                                     |
 | <code><a href="#cdktf.FnGenerated.parseint">parseint</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/parseint parseint} parses the given string as a representation of an integer in the specified base and returns the resulting number. The base must be between 2 and 62 inclusive.                                                                                                                 |
-| <code><a href="#cdktf.FnGenerated.pathexpand">pathexpand</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.                                                                                                                           |
+| <code><a href="#cdktf.FnGenerated.pathexpand">pathexpand</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user's home directory path.                                                                                                                               |
+| <code><a href="#cdktf.FnGenerated.plantimestamp">plantimestamp</a></code>       | {@link https://developer.hashicorp.com/terraform/language/functions/plantimestamp plantimestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, fixed to a constant time representing the time of the plan.                                                                                                                |
 | <code><a href="#cdktf.FnGenerated.pow">pow</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/pow pow} calculates an exponent, by raising its first argument to the power of the second argument.                                                                                                                                                                                               |
 | <code><a href="#cdktf.FnGenerated.regex">regex</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/regex regex} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns the matching substrings.                                                                                                                                                    |
 | <code><a href="#cdktf.FnGenerated.regexall">regexall</a></code>                 | {@link https://developer.hashicorp.com/terraform/language/functions/regexall regexall} applies a [regular expression](https://en.wikipedia.org/wiki/Regular_expression) to a string and returns a list of all matches.                                                                                                                                                |
@@ -31146,6 +31206,7 @@ new FnGenerated();
 | <code><a href="#cdktf.FnGenerated.sort">sort</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/sort sort} takes a list of strings and returns a new list with those strings sorted lexicographically.                                                                                                                                                                                            |
 | <code><a href="#cdktf.FnGenerated.split">split</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/split split} produces a list by dividing a given string at all occurrences of a given separator.                                                                                                                                                                                                  |
 | <code><a href="#cdktf.FnGenerated.startswith">startswith</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/startswith startswith} takes two values: a string to check and a prefix string. The function returns true if the string begins with that exact prefix.                                                                                                                                            |
+| <code><a href="#cdktf.FnGenerated.strcontains">strcontains</a></code>           | {@link https://developer.hashicorp.com/terraform/language/functions/strcontains strcontains} takes two values: a string to check and an expected substring. The function returns true if the string has the substring contained within it.                                                                                                                            |
 | <code><a href="#cdktf.FnGenerated.strrev">strrev</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/strrev strrev} reverses the characters in a string. Note that the characters are treated as _Unicode characters_ (in technical terms, Unicode [grapheme cluster boundaries](https://unicode.org/reports/tr29/#Grapheme_Cluster_Boundaries) are respected).                                        |
 | <code><a href="#cdktf.FnGenerated.substr">substr</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/substr substr} extracts a substring from a given string by offset and (maximum) length.                                                                                                                                                                                                           |
 | <code><a href="#cdktf.FnGenerated.sum">sum</a></code>                           | {@link https://developer.hashicorp.com/terraform/language/functions/sum sum} takes a list or set of numbers and returns the sum of those numbers.                                                                                                                                                                                                                     |
@@ -31171,7 +31232,7 @@ new FnGenerated();
 | <code><a href="#cdktf.FnGenerated.upper">upper</a></code>                       | {@link https://developer.hashicorp.com/terraform/language/functions/upper upper} converts all cased letters in the given string to uppercase.                                                                                                                                                                                                                         |
 | <code><a href="#cdktf.FnGenerated.urlencode">urlencode</a></code>               | {@link https://developer.hashicorp.com/terraform/language/functions/urlencode urlencode} applies URL encoding to a given string.                                                                                                                                                                                                                                      |
 | <code><a href="#cdktf.FnGenerated.uuid">uuid</a></code>                         | {@link https://developer.hashicorp.com/terraform/language/functions/uuid uuid} generates a unique identifier string.                                                                                                                                                                                                                                                  |
-| <code><a href="#cdktf.FnGenerated.uuidv5">uuidv5</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.                                                                                                                  |
+| <code><a href="#cdktf.FnGenerated.uuidv5">uuidv5</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a "version 5" UUID.                                                                                                                          |
 | <code><a href="#cdktf.FnGenerated.values">values</a></code>                     | {@link https://developer.hashicorp.com/terraform/language/functions/values values} takes a map and returns a list containing the values of the elements in that map.                                                                                                                                                                                                  |
 | <code><a href="#cdktf.FnGenerated.yamldecode">yamldecode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamldecode yamldecode} parses a string as a subset of YAML, and produces a representation of its value.                                                                                                                                                                                           |
 | <code><a href="#cdktf.FnGenerated.yamlencode">yamlencode</a></code>             | {@link https://developer.hashicorp.com/terraform/language/functions/yamlencode yamlencode} encodes a given value to a string using [YAML 1.2](https://yaml.org/spec/1.2/spec.html) block syntax.                                                                                                                                                                      |
@@ -31219,7 +31280,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.alltrue(java.util.List< java.lang.Object > list)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `"true"`. It also returns `true` if the collection is empty.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.FnGenerated.alltrue.parameter.list"></a>
 
@@ -31235,7 +31296,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.anytrue(java.util.List< java.lang.Object > list)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `"true"`. It also returns `false` if the collection is empty.
 
 ###### `list`<sup>Required</sup> <a name="list" id="cdktf.FnGenerated.anytrue.parameter.list"></a>
 
@@ -31299,7 +31360,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.base64sha256(java.lang.String str)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.
+{@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256("test"))` since `sha256()` returns hexadecimal representation.
 
 ###### `str`<sup>Required</sup> <a name="str" id="cdktf.FnGenerated.base64sha256.parameter.str"></a>
 
@@ -31315,7 +31376,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.base64sha512(java.lang.String str)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.
+{@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512("test"))` since `sha512()` returns hexadecimal representation.
 
 ###### `str`<sup>Required</sup> <a name="str" id="cdktf.FnGenerated.base64sha512.parameter.str"></a>
 
@@ -31505,7 +31566,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.coalesce(java.util.List< java.lang.Object > vals)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
+{@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.
 
 ###### `vals`<sup>Required</sup> <a name="vals" id="cdktf.FnGenerated.coalesce.parameter.vals"></a>
 
@@ -31521,7 +31582,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.coalescelist(java.util.List< java.lang.Object > vals)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
+{@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn't empty.
 
 ###### `vals`<sup>Required</sup> <a name="vals" id="cdktf.FnGenerated.coalescelist.parameter.vals"></a>
 
@@ -32239,13 +32300,23 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.pathexpand(java.lang.String path)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.
+{@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user's home directory path.
 
 ###### `path`<sup>Required</sup> <a name="path" id="cdktf.FnGenerated.pathexpand.parameter.path"></a>
 
 - _Type:_ java.lang.String
 
 ---
+
+##### `plantimestamp` <a name="plantimestamp" id="cdktf.FnGenerated.plantimestamp"></a>
+
+```java
+import com.hashicorp.cdktf.FnGenerated;
+
+FnGenerated.plantimestamp()
+```
+
+{@link https://developer.hashicorp.com/terraform/language/functions/plantimestamp plantimestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, fixed to a constant time representing the time of the plan.
 
 ##### `pow` <a name="pow" id="cdktf.FnGenerated.pow"></a>
 
@@ -32624,6 +32695,28 @@ FnGenerated.startswith(java.lang.String str, java.lang.String prefix)
 ---
 
 ###### `prefix`<sup>Required</sup> <a name="prefix" id="cdktf.FnGenerated.startswith.parameter.prefix"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+##### `strcontains` <a name="strcontains" id="cdktf.FnGenerated.strcontains"></a>
+
+```java
+import com.hashicorp.cdktf.FnGenerated;
+
+FnGenerated.strcontains(java.lang.String str, java.lang.String substr)
+```
+
+{@link https://developer.hashicorp.com/terraform/language/functions/strcontains strcontains} takes two values: a string to check and an expected substring. The function returns true if the string has the substring contained within it.
+
+###### `str`<sup>Required</sup> <a name="str" id="cdktf.FnGenerated.strcontains.parameter.str"></a>
+
+- _Type:_ java.lang.String
+
+---
+
+###### `substr`<sup>Required</sup> <a name="substr" id="cdktf.FnGenerated.strcontains.parameter.substr"></a>
 
 - _Type:_ java.lang.String
 
@@ -33085,7 +33178,7 @@ import com.hashicorp.cdktf.FnGenerated;
 FnGenerated.uuidv5(java.lang.String namespace, java.lang.String name)
 ```
 
-{@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.
+{@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a "version 5" UUID.
 
 ###### `namespace`<sup>Required</sup> <a name="namespace" id="cdktf.FnGenerated.uuidv5.parameter.namespace"></a>
 
