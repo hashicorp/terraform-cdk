@@ -639,7 +639,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](https://developer.hashicorp.com/terraform/language/values/variables#suppressing-values-in-cli-output).
    * @param {any} value
    */
   static sensitive(value: any) {
