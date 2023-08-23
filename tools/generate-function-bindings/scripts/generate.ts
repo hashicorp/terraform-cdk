@@ -349,7 +349,7 @@ function renderStaticMethod(
   if (name == "sensitive") {
     descriptionWithLink = descriptionWithLink.replace(
       "/language/values/variables#suppressing-values-in-cli-output",
-      "/{productSlug}/language/values/variables#suppressing-values-in-cli-output"
+      "https://www.terraform.io/%7BproductSlug%7D/language/values/variables#suppressing-values-in-cli-output"
     );
     console.log("descriptionWithLink ", "sensitive");
     console.log(descriptionWithLink);
