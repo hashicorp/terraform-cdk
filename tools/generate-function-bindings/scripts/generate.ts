@@ -348,8 +348,8 @@ function renderStaticMethod(
   // it is the only relative link (content check requires fully qualified) that comes from the generation of terraform function bindings
   if (name == "sensitive") {
     descriptionWithLink = descriptionWithLink.replace(
-      "/language/values/variables#suppressing-values-in-cli-output",
-      "https://www.terraform.io/%7BproductSlug%7D/language/values/variables#suppressing-values-in-cli-output"
+      "[sensitive input variables](/language/values/variables#suppressing-values-in-cli-output)",
+      "{@link https://developer.hashicorp.com/terraform/language/values/variables#suppressing-values-in-cli-output sensitive input variables}"
     );
     console.log("descriptionWithLink ", "sensitive");
     console.log(descriptionWithLink);
