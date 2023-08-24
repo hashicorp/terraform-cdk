@@ -1,3 +1,9 @@
+## Unreleased
+
+### Minimum required Node version updated to 18.17
+
+Since the long-term support for Node 16 is ending, we updated our minimum compatible node version to 18.17.
+
 ## 0.18.0
 
 ### chore
