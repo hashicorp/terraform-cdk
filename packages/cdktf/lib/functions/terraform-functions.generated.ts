@@ -35,14 +35,14 @@ export class FnGenerated {
     return asString(terraformFunction("abspath", [stringValue])(path));
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `&#34;true&#34;`. It also returns `true` if the collection is empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/alltrue alltrue} returns `true` if all elements in a given collection are `true` or `"true"`. It also returns `true` if the collection is empty.
    * @param {Array<any>} list
    */
   static alltrue(list: any[]) {
     return asBoolean(terraformFunction("alltrue", [listOf(anyValue)])(list));
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `&#34;true&#34;`. It also returns `false` if the collection is empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/anytrue anytrue} returns `true` if any element in a given collection is `true` or `"true"`. It also returns `false` if the collection is empty.
    * @param {Array<any>} list
    */
   static anytrue(list: any[]) {
@@ -70,14 +70,14 @@ export class FnGenerated {
     return asString(terraformFunction("base64gzip", [stringValue])(str));
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256(&#34;test&#34;))` since `sha256()` returns hexadecimal representation.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha256 base64sha256} computes the SHA256 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha256("test"))` since `sha256()` returns hexadecimal representation.
    * @param {string} str
    */
   static base64sha256(str: string) {
     return asString(terraformFunction("base64sha256", [stringValue])(str));
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512(&#34;test&#34;))` since `sha512()` returns hexadecimal representation.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/base64sha512 base64sha512} computes the SHA512 hash of a given string and encodes it with Base64. This is not equivalent to `base64encode(sha512("test"))` since `sha512()` returns hexadecimal representation.
    * @param {string} str
    */
   static base64sha512(str: string) {
@@ -187,14 +187,14 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn&#39;t null or an empty string.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/coalesce coalesce} takes any number of arguments and returns the first one that isn't null or an empty string.
    * @param {Array<any>} vals
    */
   static coalesce(vals: any[]) {
     return asAny(terraformFunction("coalesce", [variadic(anyValue)])(vals));
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn&#39;t empty.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/coalescelist coalescelist} takes any number of list arguments and returns the first one that isn't empty.
    * @param {Array<any>} vals
    */
   static coalescelist(vals: any[]) {
@@ -553,11 +553,17 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user&#39;s home directory path.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/pathexpand pathexpand} takes a filesystem path that might begin with a `~` segment, and if so it replaces that segment with the current user's home directory path.
    * @param {string} path
    */
   static pathexpand(path: string) {
     return asString(terraformFunction("pathexpand", [stringValue])(path));
+  }
+  /**
+   * {@link https://developer.hashicorp.com/terraform/language/functions/plantimestamp plantimestamp} returns a UTC timestamp string in [RFC 3339](https://tools.ietf.org/html/rfc3339) format, fixed to a constant time representing the time of the plan.
+   */
+  static plantimestamp() {
+    return asString(terraformFunction("plantimestamp", [])());
   }
   /**
    * {@link https://developer.hashicorp.com/terraform/language/functions/pow pow} calculates an exponent, by raising its first argument to the power of the second argument.
@@ -633,7 +639,7 @@ export class FnGenerated {
     );
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/language/values/variables#suppressing-values-in-cli-output).
+   * {@link https://developer.hashicorp.com/terraform/language/functions/sensitive sensitive} takes any value and returns a copy of it marked so that Terraform will treat it as sensitive, with the same meaning and behavior as for [sensitive input variables](/terraform/language/values/variables#suppressing-values-in-cli-output).
    * @param {any} value
    */
   static sensitive(value: any) {
@@ -753,6 +759,16 @@ export class FnGenerated {
   static startswith(str: string, prefix: string) {
     return asBoolean(
       terraformFunction("startswith", [stringValue, stringValue])(str, prefix)
+    );
+  }
+  /**
+   * {@link https://developer.hashicorp.com/terraform/language/functions/strcontains strcontains} takes two values: a string to check and an expected substring. The function returns true if the string has the substring contained within it.
+   * @param {string} str
+   * @param {string} substr
+   */
+  static strcontains(str: string, substr: string) {
+    return asBoolean(
+      terraformFunction("strcontains", [stringValue, stringValue])(str, substr)
     );
   }
   /**
@@ -973,7 +989,7 @@ export class FnGenerated {
     return asString(terraformFunction("uuid", [])());
   }
   /**
-   * {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a &#34;version 5&#34; UUID.
+   * {@link https://developer.hashicorp.com/terraform/language/functions/uuidv5 uuidv5} generates a _name-based_ UUID, as described in [RFC 4122 section 4.3](https://tools.ietf.org/html/rfc4122#section-4.3), also known as a "version 5" UUID.
    * @param {string} namespace
    * @param {string} name
    */

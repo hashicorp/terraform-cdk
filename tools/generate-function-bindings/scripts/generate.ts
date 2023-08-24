@@ -87,8 +87,8 @@ async function generateFunctionBindings() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
     .function_signatures as {
-    [name: string]: FunctionSignature;
-  };
+      [name: string]: FunctionSignature;
+    };
 
   const staticMethods = Object.entries(json).map(([name, signature]) =>
     renderStaticMethod(name, signature)
@@ -128,8 +128,8 @@ async function generateFunctionsMap() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
     .function_signatures as {
-    [name: string]: FunctionSignature;
-  };
+      [name: string]: FunctionSignature;
+    };
 
   const properties: t.ObjectProperty[] = [];
 
@@ -273,8 +273,7 @@ function mapParameter(p: Parameter) {
       };
     }
     throw new Error(
-      `Function ${name} has parameter ${
-        p.name
+      `Function ${name} has parameter ${p.name
       } with unsupported type ${JSON.stringify(p.type)}`
     );
   };
@@ -340,10 +339,18 @@ function renderStaticMethod(
   );
 
   // comment with docstring for method
-  const descriptionWithLink = signature.description.replace(
+  let descriptionWithLink = signature.description.replace(
     `\`${name}\``,
     `{@link https://developer.hashicorp.com/terraform/language/functions/${name} ${name}}`
   );
+  // Bandaid solution for content check errors https://github.com/hashicorp/terraform-cdk/issues/2816
+  // Must include product in link– unfortunately it comes with it from the generation of terraform function bindings
+  if (name == "sensitive") {
+    descriptionWithLink = descriptionWithLink.replace(
+      "/language/values/variables#suppressing-values-in-cli-output",
+      "/terraform/language/values/variables#suppressing-values-in-cli-output"
+    );
+  }
   t.addComment(
     method,
     "leading",
