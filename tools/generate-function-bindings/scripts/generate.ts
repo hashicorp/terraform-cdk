@@ -87,8 +87,8 @@ async function generateFunctionBindings() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
     .function_signatures as {
-      [name: string]: FunctionSignature;
-    };
+    [name: string]: FunctionSignature;
+  };
 
   const staticMethods = Object.entries(json).map(([name, signature]) =>
     renderStaticMethod(name, signature)
@@ -128,8 +128,8 @@ async function generateFunctionsMap() {
   const file = path.join(__dirname, FUNCTIONS_METADATA_FILE);
   const json = JSON.parse((await fs.readFile(file)).toString())
     .function_signatures as {
-      [name: string]: FunctionSignature;
-    };
+    [name: string]: FunctionSignature;
+  };
 
   const properties: t.ObjectProperty[] = [];
 
@@ -273,7 +273,8 @@ function mapParameter(p: Parameter) {
       };
     }
     throw new Error(
-      `Function ${name} has parameter ${p.name
+      `Function ${name} has parameter ${
+        p.name
       } with unsupported type ${JSON.stringify(p.type)}`
     );
   };
