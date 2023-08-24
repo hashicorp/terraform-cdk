@@ -107,7 +107,7 @@
     "@types/jest": "^29.5.0",
     "@types/json-stable-stringify": "^1.0.34",
     "@types/minimatch": "^5.1.2",
-    "@types/node": "16.18.23",
+    "@types/node": "18.15.3",
     "@types/semver": "^7.3.13",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",

@@ -32,7 +32,7 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
-    "@types/node": "16.18.23",
+    "@types/node": "18.15.3",
     "codemaker": "^1.87.0",
     "deepmerge": "^4.2.2",
     "fs-extra": "^8.1.0",

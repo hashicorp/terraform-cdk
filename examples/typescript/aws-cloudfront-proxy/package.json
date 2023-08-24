@@ -21,7 +21,7 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.23",
+    "@types/node": "18.15.3",
     "cdktf-cli": "0.0.0",
     "jest": "^27.5.1",
     "ts-node": "^10.9.1",

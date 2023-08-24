@@ -143,7 +143,7 @@
     "@types/json-schema": "^7.0.11",
     "@types/lodash.isequal": "^4.5.6",
     "@types/nock": "^11.1.0",
-    "@types/node": "16.18.23",
+    "@types/node": "18.15.3",
     "@types/node-fetch": "2.6.3",
     "@types/parse-gitignore": "^1.0.0",
     "@types/react": "18.0.25",
