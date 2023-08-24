@@ -1,7 +1,7 @@
 # Copyright (c) HashiCorp, Inc.
 # SPDX-License-Identifier: MPL-2.0
 
-FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node16@sha256:deaad1d7f285cd104255ab7bd0edd6de0f51b6562973a384c776ca4cceb81d00
+FROM docker.mirror.hashicorp.services/jsii/superchain:1-buster-slim-node18@sha256:785bbd7e8fbb7b3c7ef1142d325c08ce337cafc5e6ee76fbb557c1d2d8aa81cc
 
 USER root
 
