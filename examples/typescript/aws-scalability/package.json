@@ -1,0 +1,30 @@
+{
+  "name": "@examples/typescript-aws-scalability",
+  "version": "0.0.0",
+  "main": "main.js",
+  "types": "main.ts",
+  "license": "MPL-2.0",
+  "scripts": {
+    "get": "cdktf get",
+    "build": "yarn get && tsc",
+    "synth": "cdktf synth",
+    "compile": "tsc --pretty",
+    "watch": "tsc -w",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "upgrade": "npm i cdktf@latest cdktf-cli@latest",
+    "upgrade:next": "npm i cdktf@next cdktf-cli@next"
+  },
+  "dependencies": {
+    "cdktf": "0.0.0",
+    "constructs": "^10.0.25"
+  },
+  "devDependencies": {
+    "@types/jest": "27.5.2",
+    "@types/node": "16.18.23",
+    "cdktf-cli": "0.0.0",
+    "jest": "^27.5.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.2"
+  }
+}

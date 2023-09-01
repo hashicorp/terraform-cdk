@@ -30,6 +30,9 @@ import {
   getStackWithNoUnmetDependencies,
 } from "./helpers/stack-helpers";
 import { CdktfProjectIOHandler } from "./cdktf-project-io-handler";
+import * as fs from "fs-extra";
+import * as path from "path";
+import * as os from "os";
 
 type MultiStackApprovalUpdate = {
   type: "waiting for approval";
@@ -439,6 +442,9 @@ export class CdktfProject {
       !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
+    const providersFolderPath =
+      await this.generateProvidersFolderForAllStacks();
+    await this.copyProvidersFolderToAllStacks(providersFolderPath);
     await this.initializeStacksToRunInSerial(opts.noColor);
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
@@ -669,4 +675,118 @@ export class CdktfProject {
       await stack.initalizeTerraform(noColor);
     }
   }
+
+  private async copyProvidersFolderToAllStacks(
+    providerFolder: string
+  ): Promise<void> {
+    await Promise.all(
+      this.stacksToRun.map((stack) => stack.copyProvidersFolder(providerFolder))
+    );
+  }
+
+  private async generateProvidersFolderForAllStacks(): Promise<string> {
+    const tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf."));
+    const providerJsons = await Promise.all(
+      this.stacksToRun.map((stack) => stack.getProviderJson())
+    );
+    const synthesizedStackPath = path.resolve(tmpDir, "cdk.tf.json");
+    const combinedProviders = deepMerge({}, ...providerJsons);
+
+    const content = JSON.stringify({
+      "//": { stackName: "provider-loader", version: "0.0.0", backend: "none" },
+      terraform: {
+        required_providers: combinedProviders,
+      },
+    });
+
+    await fs.writeFile(synthesizedStackPath, content);
+
+    // A fack stack to download the providers with
+    const stack: SynthesizedStack = {
+      name: "provider-loader",
+      constructPath: tmpDir,
+      synthesizedStackPath,
+      workingDirectory: tmpDir,
+      annotations: [],
+      dependencies: [],
+      content,
+    };
+    const enhanceLogMessage = createEnhanceLogMessage(stack);
+    const onLog = this.ioHandler.bufferWhileAwaitingUserInput(this.onLog);
+    const executableStack = new CdktfStack({
+      stack,
+      abortSignal: this.abortSignal,
+      onUpdate: this.handleUserInputProcess(this.onUpdate),
+      onLog: onLog
+        ? ({ message }) =>
+            onLog({
+              stackName: stack.name,
+              message,
+              messageWithConstructPath: enhanceLogMessage(message),
+            })
+        : undefined,
+    });
+    const tf = await executableStack.initalizeTerraform();
+    await tf.init({
+      needsLockfileUpdate: false,
+      needsUpgrade: false,
+      migrateState: false,
+    });
+
+    return path.resolve(tmpDir, ".terraform", "providers");
+  }
+}
+
+// TODO: move into commons
+/**
+ * Merges `source` into `target`, overriding any existing values.
+ * `undefined` will cause a value to be deleted.
+ */
+export function deepMerge(target: any, ...sources: any[]) {
+  for (const source of sources) {
+    if (typeof source !== "object" || typeof target !== "object") {
+      throw new Error(
+        `Invalid usage. Both source (${JSON.stringify(
+          source
+        )}) and target (${JSON.stringify(target)}) must be objects`
+      );
+    }
+
+    for (const key of Object.keys(source)) {
+      const value = source[key];
+      if (typeof value === "object" && value != null && !Array.isArray(value)) {
+        // if the value at the target is not an object, override it with an
+        // object so we can continue the recursion
+        if (typeof target[key] !== "object") {
+          target[key] = {};
+        }
+
+        deepMerge(target[key], value);
+
+        // if the result of the merge is an empty object, it's because the
+        // eventual value we assigned is `undefined`, and there are no
+        // sibling concrete values alongside, so we can delete this tree.
+        const output = target[key];
+        if (typeof output === "object" && Object.keys(output).length === 0) {
+          delete target[key];
+        }
+      } else if (
+        typeof value === "object" &&
+        value != null &&
+        Array.isArray(value)
+      ) {
+        if (Array.isArray(target[key])) {
+          target[key] = [...target[key], ...value];
+        } else {
+          target[key] = value;
+        }
+      } else if (value === undefined) {
+        delete target[key];
+      } else {
+        target[key] = value;
+      }
+    }
+  }
+
+  return target;
 }

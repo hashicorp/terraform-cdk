@@ -9,6 +9,8 @@ import { TerraformCli, OutputFilter } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
 import { TerraformProviderLock } from "./terraform-provider-lock";
+import * as fs from "fs-extra";
+import * as path from "path";
 
 export type StackUpdate =
   | {
@@ -549,5 +551,25 @@ export class CdktfStack {
 
   public async stop() {
     this.stopped = true;
+  }
+
+  public async copyProvidersFolder(providersFolder: string): Promise<void> {
+    const target = path.resolve(
+      this.stack.workingDirectory,
+      ".terraform",
+      "providers"
+    );
+    await fs.mkdirp(target);
+    await fs.copy(providersFolder, target);
+    await fs.copy(
+      path.resolve(providersFolder, ".terraform.lock.hcl"),
+      path.resolve(this.stack.workingDirectory, ".terraform.lock.hcl")
+    );
+  }
+
+  public async getProviderJson(): Promise<
+    Record<string, { source: string; version: string }>
+  > {
+    return this.parsedContent.terraform?.required_providers || {};
   }
 }
