@@ -112,7 +112,7 @@ export async function determineDeps(
   dist?: string
 ): Promise<Deps> {
   // TS: cdktf-0.10.1-dev.2160938258
-  // Py: cdktf-0.10.1.dev1658821493.tar.gz
+  // Py: cdktf-0.10.1.dev1658821493.whl
   const pythonVersion = version
     .replace(/-pre\./g, ".dev")
     .replace(/-dev\./g, ".dev");
@@ -121,7 +121,11 @@ export async function determineDeps(
     const ret = {
       npm_cdktf: path.resolve(dist, "js", `cdktf@${version}.jsii.tgz`),
       npm_cdktf_cli: path.resolve(dist, "js", `cdktf-cli-${version}.tgz`),
-      pypi_cdktf: path.resolve(dist, "python", `cdktf-${pythonVersion}.tar.gz`),
+      pypi_cdktf: path.resolve(
+        dist,
+        "python",
+        `cdktf-${pythonVersion}-py3-none-any.whl`
+      ),
       mvn_cdktf: path.resolve(
         dist,
         "java",
