@@ -52,7 +52,7 @@ jobs:
           yarn install --frozen-lockfile --prefer-offline
       - name: compile
         run: |
-          tools/align-version.sh "-dev.$GITHUB_RUN_ID"
+          tools/align-version.sh
           yarn build
           yarn package
         env:
