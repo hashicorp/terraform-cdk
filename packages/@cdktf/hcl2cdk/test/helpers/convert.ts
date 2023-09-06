@@ -187,7 +187,7 @@ const prepareBaseProject = (language: string) =>
       JSON.stringify({ ...cdktfJson, ...obj }, null, 2)
     );
 
-    await execa(cdktfBin, ["get"], {
+    await execa(cdktfBin, ["get", "--parallelism=1"], {
       cwd: projectDir,
       env: process.env,
     });
