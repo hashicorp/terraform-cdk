@@ -300,12 +300,18 @@ export async function readProviderSchema(
 
   let providerSchema: ProviderSchema = { format_version: "0.1" };
 
+  const initSave = path.join(process.cwd(), `initSave-${target.fqn}`);
   await withTempDir("fetchProviderSchema", async () => {
     const outdir = process.cwd();
     const filePath = path.join(outdir, "main.tf.json");
     await fs.writeFile(filePath, JSON.stringify(config));
-
-    await exec(terraformBinaryName, ["init"], { cwd: outdir });
+    try {
+      await exec(terraformBinaryName, ["init"], { cwd: outdir });
+    } catch (e) {
+      fs.mkdirpSync(initSave);
+      fs.copySync(outdir, initSave);
+      throw e;
+    }
     providerSchema = JSON.parse(
       await exec(terraformBinaryName, ["providers", "schema", "-json"], {
         cwd: outdir,

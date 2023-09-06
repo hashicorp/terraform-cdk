@@ -16,6 +16,7 @@ import {
   readSchema,
 } from "@cdktf/provider-generator";
 import deepmerge from "deepmerge";
+import { glob } from "glob";
 
 const includeSynthTests = Boolean(process.env.CI);
 
@@ -187,11 +188,16 @@ const prepareBaseProject = (language: string) =>
       path.join(projectDir, "cdktf.json"),
       JSON.stringify({ ...cdktfJson, ...obj }, null, 2)
     );
-
-    await execa(cdktfBin, ["get", "--parallelism=1"], {
-      cwd: projectDir,
-      env: process.env,
-    });
+    try {
+      await execa(cdktfBin, ["get", "--parallelism=1"], {
+        cwd: projectDir,
+        env: process.env,
+      });
+    } catch (e) {
+      console.error(e);
+      const save = path.join(process.cwd(), "dump");
+      fs.copySync(projectDir, save);
+    }
 
     resolve(projectDir);
   });
