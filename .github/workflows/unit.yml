@@ -70,6 +70,7 @@ jobs:
         run: |
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
+          CDKTF_LOG_LEVEL: "all"
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: /__w/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
