@@ -43,6 +43,13 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.dir }}
           key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
+      - name: Create terraform plugin cache directory
+        run: mkdir -p /__w/terraform-plugins
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        id: terraform-plugin-cache
+        with:
+          path: /__w/terraform-plugins
+          key: ${{ runner.os }}-terraform-plugins-${{ inputs.terraform_version }}-${{ inputs.package }}
       - name: ensure all plugin directories exist
         run: |
           mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
@@ -57,12 +64,12 @@ jobs:
           yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: /__w/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - name: test
         run: |
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
+          TF_PLUGIN_CACHE_DIR: /__w/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
