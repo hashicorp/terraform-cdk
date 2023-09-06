@@ -16,7 +16,6 @@ import {
   readSchema,
 } from "@cdktf/provider-generator";
 import deepmerge from "deepmerge";
-import { glob } from "glob";
 
 const includeSynthTests = Boolean(process.env.CI);
 
