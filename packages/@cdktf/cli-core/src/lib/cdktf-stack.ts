@@ -200,7 +200,7 @@ export class CdktfStack {
     phase: string,
     filters?: OutputFilter[]
   ): (message: string, isError?: boolean) => void {
-    logger.debug("creating terraform log hanlder", phase);
+    logger.debug("Creating terraform log handler", phase);
 
     const onLog = this.options.onLog;
     return (msg: string, isError = false) => {
