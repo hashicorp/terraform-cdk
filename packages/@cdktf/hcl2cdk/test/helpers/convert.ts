@@ -121,47 +121,20 @@ export const binding = {
 };
 
 type AbsolutePath = string;
-const providerBindingCache: Record<
-  ProviderFqn,
-  Promise<AbsolutePath> | undefined
-> = {};
 const providerSchemaCache: Record<ProviderFqn, SchemaPromise | undefined> = {};
-
-async function generateBindings(
-  binding: ProviderDefinition
-): Promise<AbsolutePath> {
-  const tempDir = await fs.mkdtemp(path.join(os.tmpdir(), "cdktf-provider-"));
-  await fs.writeFile(
-    path.resolve(tempDir, "cdktf.json"),
-    JSON.stringify({
-      language: "typescript",
-      app: "npx ts-node main.ts",
-      terraformProviders:
-        binding.type === ProviderType.provider ? [binding.fqn] : [],
-      terraformModules:
-        binding.type === ProviderType.module ? [binding.fqn] : [],
-    })
-  );
-  await execa(cdktfBin, ["get"], { cwd: tempDir });
-
-  return path.resolve(tempDir, ".gen", binding.path);
-}
 
 async function copyBindingsForProvider(
   binding: ProviderDefinition,
   targetDirectory: AbsolutePath
 ) {
-  const absoluteBindingPathPromise = providerBindingCache[binding.fqn]
-    ? providerBindingCache[binding.fqn]
-    : generateBindings(binding);
-
-  providerBindingCache[binding.fqn] = absoluteBindingPathPromise;
-
+  const source = path.resolve(
+    await baseProjectPromisePerLanguage.typescript,
+    binding.path
+  );
   const target = path.resolve(targetDirectory, ".gen", binding.path);
   await fs.mkdirp(target);
-  const absolutePath = await absoluteBindingPathPromise;
 
-  await fs.copy(absolutePath!, target);
+  await fs.copy(source, target);
 }
 
 // Prepare for tests / warm up cache
@@ -183,8 +156,41 @@ const prepareBaseProject = (language: string) =>
       ],
       {
         cwd: projectDir,
+        env: process.env,
       }
     );
+
+    // Generate all provider bindings at once
+    const cdktfJson = JSON.parse(
+      await fs.readFile(path.join(projectDir, "cdktf.json"), "utf8")
+    );
+    const obj = Object.values(binding).reduce(
+      (carry, binding) => ({
+        ...carry,
+        terraformProviders:
+          binding.type === ProviderType.provider
+            ? [...carry.terraformProviders, binding.fqn]
+            : carry.terraformProviders,
+        terraformModules:
+          binding.type === ProviderType.module
+            ? [...carry.terraformModules, binding.fqn]
+            : carry.terraformModules,
+      }),
+      {
+        terraformProviders: [] as string[],
+        terraformModules: [] as string[],
+      }
+    );
+
+    await fs.writeFile(
+      path.join(projectDir, "cdktf.json"),
+      JSON.stringify({ ...cdktfJson, ...obj }, null, 2)
+    );
+
+    await execa(cdktfBin, ["get"], {
+      cwd: projectDir,
+      env: process.env,
+    });
 
     resolve(projectDir);
   });
