@@ -129,6 +129,7 @@ async function copyBindingsForProvider(
 ) {
   const source = path.resolve(
     await baseProjectPromisePerLanguage.typescript,
+    ".gen",
     binding.path
   );
   const target = path.resolve(targetDirectory, ".gen", binding.path);
