@@ -10,29 +10,16 @@ export {
 export {
   readProviderSchema,
   readModuleSchema,
-  ProviderSchema,
-  Schema,
-  BlockType,
-  AttributeType,
-  Block,
-  Attribute,
 } from "./get/generator/provider-schema";
 export { sanitizeClassOrNamespaceName } from "./get/generator/resource-parser";
 
 import { CodeMaker } from "codemaker";
 import * as srcmak from "jsii-srcmak";
-import deepmerge from "deepmerge";
-import {
-  generateJsiiLanguage,
-  ConstructsMakerTarget,
-} from "./get/constructs-maker";
+
+import { generateJsiiLanguage } from "./get/constructs-maker";
 export { escapeAttributeName } from "./get/generator/models";
 import { TerraformProviderGenerator } from "./get/generator/provider-generator";
-import {
-  ProviderSchema,
-  readModuleSchema,
-  readProviderSchema,
-} from "./get/generator/provider-schema";
+import { ProviderSchema } from "@cdktf/commons";
 
 export { TerraformProviderGenerator, CodeMaker };
 
@@ -53,35 +40,4 @@ export async function generateProviderBindingsFromSchema(
   }
 }
 
-type Await<T> = T extends Promise<infer U> ? U : T;
-
-type Schema = {
-  providerSchema?: Await<ReturnType<typeof readProviderSchema>>;
-  moduleSchema?: Await<ReturnType<typeof readModuleSchema>>;
-};
 // Used for convert
-export async function readSchema(
-  targets: ConstructsMakerTarget[]
-): Promise<Schema> {
-  const schemas = await Promise.all(
-    targets.map((t) =>
-      t.isModule
-        ? readModuleSchema(t as any).then(
-            (s) => ({ moduleSchema: s } as Schema)
-          )
-        : readProviderSchema(t as any).then(
-            (s) => ({ providerSchema: s } as Schema)
-          )
-    )
-  );
-
-  // ensure we have a schema for each target type
-  schemas.unshift({
-    providerSchema: {
-      format_version: "0.1",
-    },
-    moduleSchema: {},
-  });
-
-  return deepmerge.all(schemas);
-}

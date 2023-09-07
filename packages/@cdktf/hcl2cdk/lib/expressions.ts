@@ -15,7 +15,7 @@ import {
 } from "@cdktf/hcl2json";
 import { functionsMap } from "./function-bindings/functions";
 import { coerceType, findExpressionType } from "./coerceType";
-import { AttributeType } from "@cdktf/provider-generator";
+import { AttributeType } from "@cdktf/commons";
 import { getTypeAtPath } from "./terraformSchema";
 import { containsReference } from "./references";
 import { variableName } from "./variables";

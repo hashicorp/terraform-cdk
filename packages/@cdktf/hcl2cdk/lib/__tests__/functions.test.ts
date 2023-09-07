@@ -5,7 +5,7 @@
 
 import * as t from "@babel/types";
 import generate from "@babel/generator";
-import { AttributeType } from "@cdktf/provider-generator";
+import { AttributeType } from "@cdktf/commons";
 import { coerceType } from "../coerceType";
 import { functionsMap } from "../function-bindings/functions";
 import { ProgramScope } from "../types";

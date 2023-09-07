@@ -6,12 +6,10 @@ import {
   readModuleSchema,
 } from "../generator/provider-schema";
 import {
-  ConstructsMakerModuleTarget,
-  ConstructsMakerProviderTarget,
-} from "../constructs-maker";
-import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
+  ConstructsMakerModuleTarget,
+  ConstructsMakerProviderTarget,
   Language,
 } from "@cdktf/commons";
 

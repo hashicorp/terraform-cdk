@@ -25,10 +25,7 @@ import {
 import { isLocalModule } from "@cdktf/provider-generator";
 import { ExecSyncOptions, execSync } from "child_process";
 import { v4 as uuid } from "uuid";
-import {
-  readSchema,
-  ConstructsMakerProviderTarget,
-} from "@cdktf/provider-generator";
+import { readSchema } from "@cdktf/provider-schema";
 import {
   LANGUAGES,
   TerraformProviderConstraint,
@@ -38,6 +35,7 @@ import {
   logger,
   Errors,
   sendTelemetry,
+  ConstructsMakerProviderTarget,
 } from "@cdktf/commons";
 import { templates, templatesDir } from "@cdktf/cli-core";
 import ciDetect from "@npmcli/ci-detect";

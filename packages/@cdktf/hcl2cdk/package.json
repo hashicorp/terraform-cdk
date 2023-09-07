@@ -40,6 +40,7 @@
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-generator": "0.0.0",
+    "@cdktf/provider-schema": "0.0.0",
     "camelcase": "^6.3.0",
     "deep-equal": "^2.2.0",
     "glob": "^10.3.3",

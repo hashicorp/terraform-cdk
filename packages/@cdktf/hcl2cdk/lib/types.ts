@@ -1,9 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import {
-  ProviderSchema,
-  TerraformProviderGenerator,
-} from "@cdktf/provider-generator";
+import { TerraformProviderGenerator } from "@cdktf/provider-generator";
+import { ProviderSchema } from "@cdktf/commons";
 
 export type TerraformResourceBlock = unknown;
 export type AttributePath = string;

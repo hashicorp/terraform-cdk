@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { ProviderSchema, Schema, AttributeType, Block } from "../../";
+import { ProviderSchema, Schema, AttributeType, Block } from "@cdktf/commons";
 
 type ResourceSchema = { [type: string]: Schema };
 export function schema({

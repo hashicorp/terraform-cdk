@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
     "alwaysStrict": true,
+    "baseUrl": ".",
     "declaration": true,
+    "declarationMap": true,
     "experimentalDecorators": true,
     "inlineSourceMap": true,
     "inlineSources": true,
@@ -21,21 +23,22 @@
     "strict": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "stripInternal": true,
     "skipLibCheck": true,
+    "stripInternal": true,
     "target": "ES2018",
-    "incremental": true,
+    "incremental": false,
     "esModuleInterop": true
   },
   "files": [
     "ambient.d.ts"
   ],
   "include": [
-    "lib/**/*.ts"
-, "../commons/src/module-schema.ts"  ],
+    "src/**/*.ts"
+  ],
   "exclude": [
     "node_modules",
+    "../../node_modules/**",
     "**/*.d.ts",
-    "edge-provider-bindings/**",
+    "**/*.test.tsx"
   ],
 }

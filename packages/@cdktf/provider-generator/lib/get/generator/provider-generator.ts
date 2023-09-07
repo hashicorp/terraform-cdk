@@ -1,20 +1,18 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { CodeMaker, toCamelCase } from "codemaker";
-import { LANGUAGES, logger, TerraformProviderConstraint } from "@cdktf/commons";
-import {
-  FQPN,
-  parseFQPN,
-  ProviderName,
-  ProviderSchema,
-} from "./provider-schema";
-import { ResourceModel } from "./models";
-import { ResourceParser } from "./resource-parser";
-import { ResourceEmitter, StructEmitter } from "./emitter";
 import {
   ConstructsMakerProviderTarget,
   ConstructsMakerTarget,
-} from "../constructs-maker";
+  LANGUAGES,
+  logger,
+  ProviderSchema,
+  TerraformProviderConstraint,
+} from "@cdktf/commons";
+import { FQPN, parseFQPN, ProviderName } from "./provider-schema";
+import { ResourceModel } from "./models";
+import { ResourceParser } from "./resource-parser";
+import { ResourceEmitter, StructEmitter } from "./emitter";
 
 interface ProviderData {
   name: string;

@@ -1,11 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as z from "zod";
-import {
-  ProviderSchema,
-  BlockType,
-  Attribute,
-} from "@cdktf/provider-generator";
+import { ProviderSchema, BlockType, Attribute } from "@cdktf/commons";
 import { schema } from "./schema";
 
 export { BlockType, Attribute };

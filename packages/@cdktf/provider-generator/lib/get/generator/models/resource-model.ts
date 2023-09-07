@@ -2,9 +2,10 @@
 // SPDX-License-Identifier: MPL-2.0
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { FQPN, parseFQPN, ProviderName, Schema } from "../provider-schema";
+import { FQPN, parseFQPN, ProviderName } from "../provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
+import { Schema } from "@cdktf/commons";
 
 // Limit is 1200 to prevent stack size error.
 // Could increase now that calculation is more accurate;

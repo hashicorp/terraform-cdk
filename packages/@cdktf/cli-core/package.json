@@ -40,6 +40,7 @@
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
     "@cdktf/hcl2json": "0.0.0",
+    "@cdktf/provider-schema": "0.0.0",
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.10",
     "@sentry/node": "^6.19.7",
     "archiver": "^5.3.1",

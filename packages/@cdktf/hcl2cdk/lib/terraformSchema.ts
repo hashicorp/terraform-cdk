@@ -5,7 +5,7 @@ import {
   BlockType,
   AttributeType,
   Schema,
-} from "@cdktf/provider-generator";
+} from "@cdktf/commons";
 import { getFullProviderName } from "./provider";
 import { ProgramScope } from "./types";
 

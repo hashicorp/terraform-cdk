@@ -3,10 +3,10 @@
 import { parse } from "@cdktf/hcl2json";
 import {
   isRegistryModule,
-  ProviderSchema,
   TerraformProviderGenerator,
   CodeMaker,
 } from "@cdktf/provider-generator";
+
 import * as t from "@babel/types";
 import prettier from "prettier";
 import * as path from "path";
@@ -50,6 +50,7 @@ import {
   replaceJavaImports,
   replacePythonImports,
 } from "./jsii-rosetta-workarounds";
+import { ProviderSchema } from "@cdktf/commons";
 
 export const CODE_MARKER = "// define resources here";
 

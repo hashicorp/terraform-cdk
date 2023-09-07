@@ -1,6 +1,6 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { ProviderSchema } from "../../";
+import { ProviderSchema } from "@cdktf/commons";
 import { schema, SchemaBuilder as S } from "./builder";
 
 const required_attribute_resource = new S()

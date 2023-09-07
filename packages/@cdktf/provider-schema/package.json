@@ -1,0 +1,89 @@
+{
+  "name": "@cdktf/provider-schema",
+  "version": "0.0.0",
+  "publishConfig": {
+    "access": "public"
+  },
+  "description": "CDK for Terraform utilities to work with provider schemas",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "watch-preserve-output": "tsc -w --preserveWatchOutput",
+    "lint": "eslint . --ext .ts,.tsx",
+    "lint:fix": "eslint . --ext .ts,.tsx --fix",
+    "pretest": "yarn build",
+    "pretest:ci": "yarn build",
+    "test": "yarn lint && jest",
+    "test:ci": "yarn lint && jest --ci",
+    "jest-watch": "jest --watch",
+    "package": "./package.sh",
+    "dist-clean": "rm -rf dist"
+  },
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hashicorp/terraform-cdk.git",
+    "directory": "packages/@cdktf/commons"
+  },
+  "author": {
+    "name": "HashiCorp",
+    "url": "https://hashicorp.com"
+  },
+  "keywords": ["cdk", "cdktf", "terraform"],
+  "license": "MPL-2.0",
+  "dependencies": {
+    "@cdktf/commons": "0.0.0",
+    "fs-extra": "^11.1.1"
+  },
+  "devDependencies": {
+    "@types/follow-redirects": "^1.14.1",
+    "@types/fs-extra": "^11.0.1",
+    "@types/uuid": "^9.0.2",
+    "jest": "^29.6.2",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.1.6"
+  },
+  "eslintConfig": {
+    "parser": "@typescript-eslint/parser",
+    "plugins": [
+      "@typescript-eslint"
+    ],
+    "settings": {
+      "react": {
+        "version": "detect"
+      }
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:@typescript-eslint/eslint-recommended",
+      "plugin:@typescript-eslint/recommended",
+      "plugin:react/recommended",
+      "plugin:react-hooks/recommended",
+      "prettier"
+    ],
+    "rules": {
+      "@typescript-eslint/no-explicit-any": 0,
+      "@typescript-eslint/explicit-function-return-type": 0,
+      "@typescript-eslint/no-use-before-define": 0,
+      "@typescript-eslint/explicit-module-boundary-types": 0,
+      "@typescript-eslint/no-var-requires": 0,
+      "react/no-unescaped-entities": 0,
+      "no-sequences": "error",
+      "no-irregular-whitespace": [
+        "error",
+        {
+          "skipTemplates": true
+        }
+      ]
+    },
+    "ignorePatterns": [
+      "node_modules",
+      "dist",
+      "coverage"
+    ]
+  },
+  "lint-staged": {
+    "src/**/*.{ts,tsx}": "tsc-files ambient.d.ts --noEmit"
+  }
+}

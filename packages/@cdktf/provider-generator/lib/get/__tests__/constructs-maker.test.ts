@@ -3,12 +3,12 @@
 import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
-import { Language } from "@cdktf/commons";
 import {
+  Language,
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
-  determineGoModuleName,
-} from "../constructs-maker";
+} from "@cdktf/commons";
+import { determineGoModuleName } from "../constructs-maker";
 
 describe("constructsMaker", () => {
   describe("determineGoModuleName", () => {

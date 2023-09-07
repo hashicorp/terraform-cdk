@@ -10,10 +10,8 @@ import {
   isAttributeNestedType,
   isNestedTypeAttribute,
   Schema,
-  ProviderName,
-  FQPN,
-  parseFQPN,
-} from "./provider-schema";
+} from "@cdktf/commons";
+import { ProviderName, FQPN, parseFQPN } from "./provider-schema";
 import {
   ResourceModel,
   AttributeTypeModel,
