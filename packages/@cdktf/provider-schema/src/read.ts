@@ -12,6 +12,7 @@ export {
 import { ConstructsMakerTarget } from "@cdktf/commons";
 import deepmerge from "deepmerge";
 import { readModuleSchema, readProviderSchema } from "./provider-schema";
+import { cachedAccess } from "./cache";
 
 type Await<T> = T extends Promise<infer U> ? U : T;
 export type Schema = {
@@ -19,6 +20,7 @@ export type Schema = {
   moduleSchema?: Await<ReturnType<typeof readModuleSchema>>;
 };
 
+const cachedReadProviderSchema = cachedAccess(readProviderSchema);
 export async function readSchema(
   targets: ConstructsMakerTarget[]
 ): Promise<Schema> {
@@ -28,7 +30,7 @@ export async function readSchema(
         ? readModuleSchema(t as any).then(
             (s) => ({ moduleSchema: s } as Schema)
           )
-        : readProviderSchema(t as any).then(
+        : cachedReadProviderSchema(t as any).then(
             (s) => ({ providerSchema: s } as Schema)
           )
     )
