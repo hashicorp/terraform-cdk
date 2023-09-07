@@ -7,14 +7,12 @@ import * as os from "os";
 import { execSync } from "child_process";
 import execa from "execa";
 import {
+  ConstructsMakerProviderTarget,
   LANGUAGES,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
 } from "@cdktf/commons";
-import {
-  ConstructsMakerProviderTarget,
-  readSchema,
-} from "@cdktf/provider-generator";
+import { readSchema } from "@cdktf/provider-schema";
 import deepmerge from "deepmerge";
 
 const includeSynthTests = Boolean(process.env.CI);

@@ -4,11 +4,12 @@ import * as fs from "fs";
 import * as path from "path";
 import * as os from "os";
 import { execSync } from "child_process";
-import { LANGUAGES, TerraformProviderConstraint } from "@cdktf/commons";
 import {
-  readSchema,
+  LANGUAGES,
+  TerraformProviderConstraint,
   ConstructsMakerProviderTarget,
-} from "@cdktf/provider-generator";
+} from "@cdktf/commons";
+import { readSchema } from "@cdktf/provider-schema";
 import { convertProject, getTerraformConfigFromDir } from "../lib";
 
 const providerRequirements = ["kreuzwerker/docker@ ~>2.15.0"];

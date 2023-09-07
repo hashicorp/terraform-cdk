@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { ProviderSchema } from "@cdktf/provider-generator";
+import { ProviderSchema } from "@cdktf/commons";
 import { getTypeAtPath } from "../terraformSchema";
 
 describe("getTypeAtPath", () => {

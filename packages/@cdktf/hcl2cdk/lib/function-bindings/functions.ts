@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { AttributeType } from "@cdktf/provider-generator";
+import { AttributeType } from "@cdktf/commons";
 import { functionsMapGenerated } from "./functions.generated";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 

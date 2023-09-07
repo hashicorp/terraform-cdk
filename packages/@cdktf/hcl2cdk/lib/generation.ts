@@ -28,16 +28,13 @@ import { findUsedReferences } from "./references";
 import {
   TerraformModuleConstraint,
   escapeAttributeName,
-  AttributeType,
-  BlockType,
-  Schema,
 } from "@cdktf/provider-generator";
 import {
   getTypeAtPath,
   isMapAttribute,
   getDesiredType,
 } from "./terraformSchema";
-import { Errors } from "@cdktf/commons";
+import { Errors, AttributeType, BlockType, Schema } from "@cdktf/commons";
 import { TFExpressionSyntaxTree as tex } from "@cdktf/hcl2json";
 import { extractDynamicBlocks, isNestedDynamicBlock } from "./dynamic-blocks";
 import {

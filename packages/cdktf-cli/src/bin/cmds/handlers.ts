@@ -5,8 +5,6 @@ import * as fs from "fs-extra";
 import React from "react";
 import { convert as hcl2cdkConvert } from "@cdktf/hcl2cdk";
 import {
-  readSchema,
-  ConstructsMakerProviderTarget,
   GetOptions,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
@@ -23,6 +21,7 @@ import {
   collectDebugInformation,
   getPackageVersion,
   TerraformDependencyConstraint,
+  ConstructsMakerProviderTarget,
 } from "@cdktf/commons";
 
 import { checkForEmptyDirectory, runInit } from "./helper/init";
@@ -65,6 +64,7 @@ import { startPerformanceMonitoring } from "./helper/performance";
 import path from "path";
 import os from "os";
 import { readPackageJson, projectRootPath } from "./helper/utilities";
+import { readSchema } from "@cdktf/provider-schema";
 
 const chalkColour = new chalk.Instance();
 const config = readConfigSync();

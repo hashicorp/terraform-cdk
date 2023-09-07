@@ -2,8 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import template from "@babel/template";
 import * as t from "@babel/types";
-import { logger } from "@cdktf/commons";
-import { AttributeType } from "@cdktf/provider-generator";
+import { logger, AttributeType } from "@cdktf/commons";
 import { ProgramScope } from "./types";
 import deepEqual from "deep-equal";
 import { tsFunctionsMap } from "./function-bindings/functions";

@@ -7,7 +7,7 @@ import { convertTerraformExpressionToTs } from "../expressions";
 import generate from "@babel/generator";
 import * as t from "@babel/types";
 import { ResourceScope } from "../types";
-import { AttributeType } from "@cdktf/provider-generator";
+import { AttributeType } from "@cdktf/commons";
 
 function code(e: t.Expression): string {
   return generate(e).code;
