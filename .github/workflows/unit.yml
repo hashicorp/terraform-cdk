@@ -75,7 +75,7 @@ jobs:
           TF_PLUGIN_CACHE_DIR: /__w/terraform-plugins
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
       - uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
-        if: inputs.package == '@cdktf/hcl2cdk' && failure()
+        if: always()
         with:
-          name: hcl2cdk
+          name: hcl2cdk-${{ inputs.package }}-${{ inputs.terraform_version }}
           path: packages/@cdktf/hcl2cdk/
