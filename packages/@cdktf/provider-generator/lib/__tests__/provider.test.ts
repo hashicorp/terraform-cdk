@@ -59,7 +59,7 @@ describe("Provider", () => {
       expect(snapshot).toMatchSnapshot();
     });
   }, 600_000),
-    it("generated provider include static import functions", async () => {
+    it.only("has generated provider that includes static import functions", async () => {
       const constraint = new TerraformProviderConstraint(
         "DataDog/datadog@= 3.12.0"
       );
@@ -74,27 +74,30 @@ describe("Provider", () => {
         const snapshot = directorySnapshot(workdir);
 
         const terraformResourceTypesPresent: string[] = [];
-        const lines = snapshot.split("\n");
-        for (const line of lines) {
-          if (line.includes("terraformResourceType")) {
-            // matches the resource type that's in single quotes
-            terraformResourceTypesPresent.push(line.match(/'([^']+)'/));
+        const files = Object.keys(snapshot);
+        for (const file of files) {
+          const match = file.match(/providers\/datadog\/(.*?)\/index\.ts/);
+          // avoids any not resources from being pushed
+          if (
+            match &&
+            !match[1].includes("/") &&
+            !match[1].includes("data-") &&
+            !match[1].includes("provider")
+          ) {
+            terraformResourceTypesPresent.push(match[1]);
           }
         }
-
-        const staticImportMethodStrings: string[] = [];
-        for (const resourceType of terraformResourceTypesPresent) {
-          staticImportMethodStrings.push(`public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
-            return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${resourceType}", importId: id, provider });
-          }`);
-        }
-        console.log(
-          "terraformResourceTypesPresent",
-          terraformResourceTypesPresent
-        );
-        console.log("staticImportMethodStrings", staticImportMethodStrings);
-        staticImportMethodStrings.forEach((staticImport) => {
-          expect(snapshot).toContain(staticImport);
+        terraformResourceTypesPresent.forEach((resource) => {
+          let terraformResourceType = resource.replace(/-/g, "_");
+          if (!terraformResourceType.includes("datadog")) {
+            terraformResourceType = `datadog_${terraformResourceType}`;
+          }
+          expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
+            `public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider)`
+          );
+          expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
+            `return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${terraformResourceType}", importId: id, provider });`
+          );
         });
       });
     }, 600_000);
