@@ -9,7 +9,7 @@ import {
   ProviderSchema,
   TerraformProviderConstraint,
 } from "@cdktf/commons";
-import { FQPN, parseFQPN, ProviderName } from "./provider-schema";
+import { FQPN, parseFQPN, ProviderName } from "@cdktf/provider-schema";
 import { ResourceModel } from "./models";
 import { ResourceParser } from "./resource-parser";
 import { ResourceEmitter, StructEmitter } from "./emitter";

@@ -4,3 +4,4 @@
  */
 
 export { readSchema } from "./read";
+export { FQPN, parseFQPN, ProviderName } from "./provider-schema";

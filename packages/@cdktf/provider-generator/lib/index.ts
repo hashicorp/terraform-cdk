@@ -7,10 +7,6 @@ export {
   TerraformProviderConstraint,
   isLocalModule,
 } from "@cdktf/commons";
-export {
-  readProviderSchema,
-  readModuleSchema,
-} from "./get/generator/provider-schema";
 export { sanitizeClassOrNamespaceName } from "./get/generator/resource-parser";
 
 import { CodeMaker } from "codemaker";

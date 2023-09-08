@@ -1,10 +1,7 @@
-import * as path from "path";
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import {
-  readProviderSchema,
-  readModuleSchema,
-} from "../generator/provider-schema";
+
+import * as path from "path";
 import {
   TerraformModuleConstraint,
   TerraformProviderConstraint,
@@ -12,6 +9,7 @@ import {
   ConstructsMakerProviderTarget,
   Language,
 } from "@cdktf/commons";
+import { readModuleSchema, readProviderSchema } from "../provider-schema";
 
 expect.addSnapshotSerializer({
   test: (value) => {

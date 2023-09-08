@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import { toSnakeCase } from "codemaker";
 import path from "path";
-import { FQPN, parseFQPN, ProviderName } from "../provider-schema";
+import { FQPN, parseFQPN, ProviderName } from "@cdktf/provider-schema";
 import { AttributeModel } from "./attribute-model";
 import { Struct, ConfigStruct } from "./struct";
 import { Schema } from "@cdktf/commons";
