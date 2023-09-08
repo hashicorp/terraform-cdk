@@ -211,6 +211,13 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // =================
   public static readonly tfResourceType = "aws_acm_certificate";
 
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_acm_certificate", importId: id, provider });
+      }
+
   // ===========
   // INITIALIZER
   // ===========
