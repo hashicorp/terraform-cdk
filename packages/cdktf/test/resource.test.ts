@@ -320,3 +320,27 @@ it("maintains the same order of provisioner", () => {
 
   expect(Testing.synth(stack)).toMatchSnapshot();
 });
+
+test("includes import block when import is present", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "test", {
+    name: "foo",
+  }).importFrom("testId");
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+test("includes import block when import is present, provider given", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  const provider = new TestProvider(stack, "provider", {
+    alias: "foo",
+  });
+  new TestResource(stack, "test", {
+    name: "foo",
+  }).importFrom("testId", provider);
+  console.log("stack with provider", Testing.synth(stack));
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

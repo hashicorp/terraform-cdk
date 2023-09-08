@@ -91,6 +91,70 @@ exports[`do not change capitalization of tags 1`] = `
 }"
 `;
 
+exports[`includes import block when import is present 1`] = `
+"{
+  "import": [
+    {
+      "id": "testId",
+      "to": "test_resource.test"
+    }
+  ],
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`includes import block when import is present, provider given 1`] = `
+"{
+  "import": [
+    {
+      "id": "testId",
+      "provider": "test.foo",
+      "to": "test_resource.test"
+    }
+  ],
+  "provider": {
+    "test": [
+      {
+        "alias": "foo"
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "test": {
+        "name": "foo"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
 exports[`maintains the same order of provisioner 1`] = `
 "{
   "provider": {

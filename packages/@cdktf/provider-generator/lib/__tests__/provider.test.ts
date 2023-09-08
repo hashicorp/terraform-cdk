@@ -58,5 +58,44 @@ describe("Provider", () => {
       const snapshot = directorySnapshot(workdir);
       expect(snapshot).toMatchSnapshot();
     });
-  }, 600_000);
+  }, 600_000),
+    it("generated provider include static import functions", async () => {
+      const constraint = new TerraformProviderConstraint(
+        "DataDog/datadog@= 3.12.0"
+      );
+      return await mkdtemp(async (workdir) => {
+        const jsiiPath = path.join(workdir, ".jsii");
+        const maker = new ConstructsMaker({
+          codeMakerOutput: workdir,
+          outputJsii: jsiiPath,
+          targetLanguage: Language.TYPESCRIPT,
+        });
+        await maker.generate([constraint]);
+        const snapshot = directorySnapshot(workdir);
+
+        const terraformResourceTypesPresent: string[] = [];
+        const lines = snapshot.split("\n");
+        for (const line of lines) {
+          if (line.includes("terraformResourceType")) {
+            // matches the resource type that's in single quotes
+            terraformResourceTypesPresent.push(line.match(/'([^']+)'/));
+          }
+        }
+
+        const staticImportMethodStrings: string[] = [];
+        for (const resourceType of terraformResourceTypesPresent) {
+          staticImportMethodStrings.push(`public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+            return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${resourceType}", importId: id, provider });
+          }`);
+        }
+        console.log(
+          "terraformResourceTypesPresent",
+          terraformResourceTypesPresent
+        );
+        console.log("staticImportMethodStrings", staticImportMethodStrings);
+        staticImportMethodStrings.forEach((staticImport) => {
+          expect(snapshot).toContain(staticImport);
+        });
+      });
+    }, 600_000);
 });
