@@ -4,8 +4,6 @@ import * as fs from "fs-extra";
 import * as os from "os";
 import * as path from "path";
 import { Language, TerraformDependencyConstraint } from "@cdktf/commons";
-// Only imported for mocking purposes
-import "../../generator/provider-schema";
 import { ConstructsMaker, GetOptions } from "../../constructs-maker";
 
 jest.setTimeout(600_000);
