@@ -16,15 +16,12 @@ import * as path from "path";
 describe("read", () => {
   describe("disabled cache", () => {
     it("can generate a provider schema", async () => {
-      const schema = await readSchema(
-        [
-          new ConstructsMakerProviderTarget(
-            new TerraformProviderConstraint("kreuzwerker/docker@=3.0.2"),
-            Language.TYPESCRIPT
-          ),
-        ],
-        null
-      );
+      const schema = await readSchema([
+        new ConstructsMakerProviderTarget(
+          new TerraformProviderConstraint("kreuzwerker/docker@=3.0.2"),
+          Language.TYPESCRIPT
+        ),
+      ]);
       expect(schema).toHaveProperty([
         "providerSchema",
         "provider_schemas",
