@@ -386,31 +386,19 @@ async function getProjectDirectory(
 }
 
 async function getProviderSchema(providers: ProviderDefinition[]) {
-  const providerSchemaPromises = providers.map((provider) => {
-    if (providerSchemaCache[provider.fqn]) {
-      return providerSchemaCache[provider.fqn];
-    }
+  const constraints = providers.map((provider) =>
+    ConstructsMakerProviderTarget.from(
+      ProviderType.provider === provider.type
+        ? new TerraformProviderConstraint(provider.fqn)
+        : new TerraformModuleConstraint(provider.fqn),
+      LANGUAGES[0]
+    )
+  );
 
-    const providerSchema = readSchema([
-      ConstructsMakerProviderTarget.from(
-        ProviderType.provider === provider.type
-          ? new TerraformProviderConstraint(provider.fqn)
-          : new TerraformModuleConstraint(provider.fqn),
-        LANGUAGES[0]
-      ),
-    ]);
-
-    providerSchemaCache[provider.fqn] = providerSchema;
-
-    return providerSchema;
-  });
-
-  const subSchemas = await Promise.all(providerSchemaPromises);
-
-  return deepmerge.all([
-    { providerSchema: { provider_schemas: {} }, moduleSchema: {} },
-    ...(subSchemas.filter((s) => s !== undefined) as Awaited<SchemaPromise>[]),
-  ]) as any;
+  return await readSchema(
+    constraints,
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+  );
 }
 
 function filterSchema(
@@ -477,7 +465,9 @@ const createTestCase =
       }
       return await convert(hcl, {
         language: language as any,
-        providerSchema,
+        providerSchema: providerSchema || {
+          format_version: "0.1",
+        },
         codeContainer: "cdktf.TerraformStack",
       });
     }

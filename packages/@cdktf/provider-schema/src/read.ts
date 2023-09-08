@@ -23,14 +23,9 @@ export type Schema = {
 // TODO: Maybe this can be refactored to take Constraints instead of Targets
 export async function readSchema(
   targets: ConstructsMakerTarget[],
-  cacheDir?: string | null
+  cacheDir?: string
 ): Promise<Schema> {
-  const cacheDirWithDefault =
-    cacheDir === null ? null : cacheDir || process.env.CDKTF_CACHE_DIR;
-  const cachedReadProviderSchema = cachedAccess(
-    readProviderSchema,
-    cacheDirWithDefault
-  );
+  const cachedReadProviderSchema = cachedAccess(readProviderSchema, cacheDir);
   const schemas = await Promise.all(
     targets.map((t) =>
       t.isModule

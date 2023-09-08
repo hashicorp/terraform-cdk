@@ -12,15 +12,17 @@ import {
   ConstructsMakerProviderTarget,
   ConstructsMakerModuleTarget,
   ConstructsMakerTarget,
+  ProviderSchema,
+  ModuleSchema,
+  Errors,
 } from "@cdktf/commons";
 import { DISPLAY_VERSION, Language } from "@cdktf/commons";
-import {
-  readProviderSchema,
-  readModuleSchema,
-} from "./generator/provider-schema";
 import { TerraformProviderGenerator } from "./generator/provider-generator";
 import { ModuleGenerator } from "./generator/module-generator";
 import { glob } from "glob";
+import { readSchema } from "@cdktf/provider-schema";
+
+type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
 
 export async function generateJsiiLanguage(
   code: CodeMaker,
@@ -88,12 +90,9 @@ export class ConstructsMaker {
     this.versions = {};
   }
   private async generateTypescriptProvider(
-    target: ConstructsMakerProviderTarget
+    target: ConstructsMakerProviderTarget,
+    schema: ProviderSchema
   ) {
-    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
-    const schema = await readProviderSchema(target);
-    endSchemaReadTimer();
-
     const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
     const generator = new TerraformProviderGenerator(this.code, schema);
     generator.generate(target);
@@ -202,25 +201,41 @@ export class ConstructsMaker {
     return constraintsToGenerate;
   }
 
-  private async generateTypescriptModule(target: ConstructsMakerModuleTarget) {
-    const endSchemaReadTimer = logTimespan(`Reading Schema for ${target.name}`);
-    const schema = await readModuleSchema(target);
-    endSchemaReadTimer();
-
+  private async generateTypescriptModule(
+    target: ConstructsMakerModuleTarget,
+    schema: ModuleSchema
+  ) {
     const endTSTimer = logTimespan(`Generate Typescript for ${target.name}`);
-    target.spec = schema[target.moduleKey];
+    target.spec = schema;
     new ModuleGenerator(this.code, [target]);
     endTSTimer();
   }
 
-  private async generateTypescript(target: ConstructsMakerTarget) {
+  private async generateTypescript(
+    target: ConstructsMakerTarget,
+    schemas: Awaited<ReturnType<typeof readSchema>>
+  ) {
+    // TODO: maybe accessing should go into the provider schema package
     if (target.isModule) {
+      const schema = schemas.moduleSchema?.[target.moduleKey];
+      if (!schema) {
+        throw Errors.Internal(
+          `Could not generate schema for module ${target.moduleKey}`
+        );
+      }
+
       await this.generateTypescriptModule(
-        target as ConstructsMakerModuleTarget
+        target as ConstructsMakerModuleTarget,
+        schema
       );
     } else if (target.isProvider) {
+      if (!schemas.providerSchema) {
+        throw Errors.Internal(`Could not generate schema for providers`);
+      }
+
       await this.generateTypescriptProvider(
-        target as ConstructsMakerProviderTarget
+        target as ConstructsMakerProviderTarget,
+        schemas.providerSchema
       );
     } else {
       throw new Error(
@@ -453,8 +468,18 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     const targets = constraintsToGenerate.map((constraint) =>
       ConstructsMakerTarget.from(constraint, this.options.targetLanguage)
     );
+
+    const endSchemaTimer = logTimespan("Gathering schema");
+    const schemas = await readSchema(
+      targets,
+      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    );
+    endSchemaTimer();
+
     const endGenerateTimer = logTimespan("Generate TS");
-    await Promise.all(targets.map((target) => this.generateTypescript(target)));
+    await Promise.all(
+      targets.map((target) => this.generateTypescript(target, schemas))
+    );
     endGenerateTimer();
 
     this.updateVersionsFile(allConstraints);
