@@ -213,7 +213,7 @@ export class TerraformResource
       import: this.imported
         ? [
             {
-              provider: this.imported.provider,
+              provider: this.imported.provider?.fqn,
               id: this.imported.id,
               to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
             },
