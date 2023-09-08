@@ -4020,6 +4020,13 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // =================
   public static readonly tfResourceType = "aws_cloudfront_distribution";
 
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_cloudfront_distribution", importId: id, provider });
+      }
+
   // ===========
   // INITIALIZER
   // ===========
@@ -4504,6 +4511,13 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   // STATIC PROPERTIES
   // =================
   public static readonly tfResourceType = "aws_fms_admin_account";
+
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_fms_admin_account", importId: id, provider });
+      }
 
   // ===========
   // INITIALIZER
@@ -7519,6 +7533,13 @@ export class S3Bucket extends cdktf.TerraformResource {
   // =================
   public static readonly tfResourceType = "aws_s3_bucket";
 
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_s3_bucket", importId: id, provider });
+      }
+
   // ===========
   // INITIALIZER
   // ===========
@@ -8780,6 +8801,13 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // STATIC PROPERTIES
   // =================
   public static readonly tfResourceType = "aws_security_group";
+
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_security_group", importId: id, provider });
+      }
 
   // ===========
   // INITIALIZER
