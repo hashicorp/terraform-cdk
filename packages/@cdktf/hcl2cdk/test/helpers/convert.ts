@@ -13,13 +13,9 @@ import {
   TerraformProviderConstraint,
 } from "@cdktf/commons";
 import { readSchema } from "@cdktf/provider-schema";
-import deepmerge from "deepmerge";
 
 const includeSynthTests = Boolean(process.env.CI);
 
-// Polyfill for older TS versions
-type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
-type SchemaPromise = ReturnType<typeof readSchema>;
 export enum Synth {
   yes_all_languages, // Synth and snapshot all languages
   yes,
@@ -125,7 +121,6 @@ const providerBindingCache: Record<
   ProviderFqn,
   Promise<AbsolutePath> | undefined
 > = {};
-const providerSchemaCache: Record<ProviderFqn, SchemaPromise | undefined> = {};
 
 async function generateBindings(
   binding: ProviderDefinition
