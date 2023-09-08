@@ -300,6 +300,13 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   // =================
   public static readonly tfResourceType = "nested_types_resource";
 
+  // ==============
+  // STATIC Methods
+  // ==============
+  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "nested_types_resource", importId: id, provider });
+      }
+
   // ===========
   // INITIALIZER
   // ===========
