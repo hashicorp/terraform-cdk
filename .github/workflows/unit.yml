@@ -35,18 +35,32 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
-      - name: Get yarn cache directory path
+
+      # Setup caches for yarn, terraform, go, and provider schema
+      - name: Get cache directory paths
         id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
-        with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}-${{ inputs.terraform_version }}-${{ inputs.package }}
-      - name: ensure all plugin directories exist
         run: |
-          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          mkdir -p ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          echo "terraform=$(mktemp -d)" >> $GITHUB_OUTPUT
+          echo "go=$(mktemp -d)" >> $GITHUB_OUTPUT
+          echo "providerSchema=$(mktemp -d)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          key: go-${{ runner.os }}
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.providerSchema }}
+          key: providerSchema-${{ runner.os }}-${{ inputs.terraform_version }}
+
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile --prefer-offline
@@ -57,12 +71,13 @@ jobs:
           yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: test
         run: |
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
+          CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH: ${{ steps.global-cache-dir-path.outputs.providerSchema }}
