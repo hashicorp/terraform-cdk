@@ -8,24 +8,6 @@ import { Language, TerraformDependencyConstraint } from "@cdktf/commons";
 import "../../generator/provider-schema";
 import { ConstructsMaker, GetOptions } from "../../constructs-maker";
 
-jest.mock("../../generator/provider-schema", () => {
-  const schema = JSON.parse(
-    fs.readFileSync(
-      path.join(__dirname, "fixtures", "versions-file.test.fixture.json"),
-      "utf8"
-    )
-  );
-
-  const originalModule = jest.requireActual("../../generator/provider-schema");
-  return {
-    __esmodule: true,
-    ...originalModule,
-    readProviderSchema: jest.fn().mockImplementation(async (_target) => {
-      return schema;
-    }),
-  };
-});
-
 jest.setTimeout(600_000);
 global.setImmediate =
   global.setImmediate ||
@@ -72,6 +54,14 @@ describe("versions.json file generation", () => {
       // Ignore warnings to pop up from the generate function
       process.env.NODE_OPTIONS = "--max-old-space-size=16384";
       const constructMaker = new ConstructsMaker(options);
+      constructMaker.getSchemas = jest.fn().mockImplementation(async () => {
+        return JSON.parse(
+          fs.readFileSync(
+            path.join(__dirname, "fixtures", "versions-file.test.fixture.json"),
+            "utf8"
+          )
+        );
+      });
       await constructMaker.generate(constraints);
 
       const output = fs.readFileSync(

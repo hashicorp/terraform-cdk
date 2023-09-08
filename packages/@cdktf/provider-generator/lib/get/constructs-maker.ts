@@ -461,6 +461,15 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     jsiiTimer();
   }
 
+  public async getSchemas(targets: ConstructsMakerTarget[]) {
+    const schemas = await readSchema(
+      targets,
+      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+    );
+
+    return schemas;
+  }
+
   public async generate(
     allConstraints: TerraformDependencyConstraint[],
     constraintsToGenerate = allConstraints
@@ -470,10 +479,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     );
 
     const endSchemaTimer = logTimespan("Gathering schema");
-    const schemas = await readSchema(
-      targets,
-      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
-    );
+    const schemas = await this.getSchemas(targets);
     endSchemaTimer();
 
     const endGenerateTimer = logTimespan("Generate TS");
