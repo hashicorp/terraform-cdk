@@ -35,12 +35,12 @@
     "@types/node": "16.18.23",
     "codemaker": "^1.87.0",
     "deepmerge": "^4.2.2",
-    "fs-extra": "^8.1.0",
+    "fs-extra": "11.1.1",
     "jsii-srcmak": "^0.1.951"
   },
   "devDependencies": {
     "@types/deepmerge": "^2.2.0",
-    "@types/fs-extra": "^8.1.2",
+    "@types/fs-extra": "^11.0.1",
     "@types/glob": "^7.2.0",
     "@types/jest": "^29.5.0",
     "@types/reserved-words": "^0.1.0",

@@ -228,7 +228,7 @@ export class CdktfStack {
     };
   }
 
-  private async terraformClient() {
+  public async terraformClient() {
     return await getTerraformClient(
       this.options.abortSignal,
       this.options.stack,
@@ -553,16 +553,21 @@ export class CdktfStack {
     this.stopped = true;
   }
 
-  public async copyProvidersFolder(providersFolder: string): Promise<void> {
+  public async copyProvidersFolder(loaderStackPath: string): Promise<void> {
+    const source = path.resolve(loaderStackPath, ".terraform", "providers");
     const target = path.resolve(
       this.stack.workingDirectory,
       ".terraform",
       "providers"
     );
+    logger.debug(
+      `Copying provider folder for ${this.stack.name} from ${source} to ${target}`
+    );
     await fs.mkdirp(target);
-    await fs.copy(providersFolder, target);
+
+    await fs.copy(source, target);
     await fs.copy(
-      path.resolve(providersFolder, ".terraform.lock.hcl"),
+      path.resolve(loaderStackPath, ".terraform.lock.hcl"),
       path.resolve(this.stack.workingDirectory, ".terraform.lock.hcl")
     );
   }

@@ -434,18 +434,44 @@ export class CdktfProject {
     next: () => Promise<CdktfStack | undefined>,
     opts: MutationOptions
   ) {
+    const parallelOptimizationThreshold = 50;
+    const maxParallelRuns =
+      !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
+
+    // TODO: Add flag to disable this behavior
+    const optimizeForSpeed =
+      maxParallelRuns >= parallelOptimizationThreshold &&
+      this.stacksToRun.length >= parallelOptimizationThreshold;
+
+    logger.debug(
+      `Starting ${method} with max parallel runs of ${maxParallelRuns}.${
+        optimizeForSpeed
+          ? "Optimizing the apply speed by downloading all providers at once since this run involves a high number of stacks"
+          : ""
+      }`
+    );
     // We only support refresh only on deploy, a bit of a leaky abstraction here
     if (opts.refreshOnly && method !== "deploy") {
       throw Errors.Internal(`Refresh only is only supported on deploy`);
     }
-    const maxParallelRuns =
-      !opts.parallelism || opts.parallelism < 0 ? Infinity : opts.parallelism;
     const allExecutions = [];
 
-    const providersFolderPath =
-      await this.generateProvidersFolderForAllStacks();
-    await this.copyProvidersFolderToAllStacks(providersFolderPath);
-    await this.initializeStacksToRunInSerial(opts.noColor);
+    logger.debug(`Generating folder with all providers`);
+    if (optimizeForSpeed) {
+      const loaderStackPath = await this.generateProvidersFolderForAllStacks();
+      logger.debug(`Generated folder with all providers: ${loaderStackPath}`);
+      logger.debug(`Copying providers folder to all stacks`);
+      await this.copyProvidersFolderToAllStacks(loaderStackPath);
+      logger.debug(`Initializing all stacks in parallel`);
+      const oldCacheDir = process.env.TF_PLUGIN_CACHE_DIR;
+      process.env.TF_PLUGIN_CACHE_DIR = undefined;
+      await this.initializeStacksToRunInParallel();
+      process.env.TF_PLUGIN_CACHE_DIR = oldCacheDir;
+    } else {
+      logger.debug(`Initializing all stacks in serial`);
+      await this.initializeStacksToRunInSerial(opts.noColor);
+    }
+
     while (this.stacksToRun.filter((stack) => stack.isPending).length > 0) {
       const runningStacks = this.stacksToRun.filter((stack) => stack.isRunning);
       if (runningStacks.length >= maxParallelRuns) {
@@ -676,11 +702,21 @@ export class CdktfProject {
     }
   }
 
-  private async copyProvidersFolderToAllStacks(
-    providerFolder: string
+  private async initializeStacksToRunInParallel(
+    noColor?: boolean
   ): Promise<void> {
     await Promise.all(
-      this.stacksToRun.map((stack) => stack.copyProvidersFolder(providerFolder))
+      this.stacksToRun.map((stack) => stack.initalizeTerraform(noColor))
+    );
+  }
+
+  private async copyProvidersFolderToAllStacks(
+    loaderStackPath: string
+  ): Promise<void> {
+    await Promise.all(
+      this.stacksToRun.map((stack) =>
+        stack.copyProvidersFolder(loaderStackPath)
+      )
     );
   }
 
@@ -699,6 +735,13 @@ export class CdktfProject {
       },
     });
 
+    logger.debug(
+      `Using a synthetic cdk.tf.json to download all used providers: ${JSON.stringify(
+        content,
+        null,
+        2
+      )}`
+    );
     await fs.writeFile(synthesizedStackPath, content);
 
     // A fack stack to download the providers with
@@ -726,14 +769,20 @@ export class CdktfProject {
             })
         : undefined,
     });
-    const tf = await executableStack.initalizeTerraform();
+
+    logger.debug(`Initializing terraform in ${tmpDir}`);
+    const tf = await executableStack.terraformClient();
+    logger.debug(`Running terraform init in ${tmpDir}`);
+    logger.debug(
+      `TF: ${tf}, init: ${tf.init}, version: ${(tf as any).version}`
+    );
     await tf.init({
       needsLockfileUpdate: false,
       needsUpgrade: false,
       migrateState: false,
     });
 
-    return path.resolve(tmpDir, ".terraform", "providers");
+    return tmpDir;
   }
 }
 

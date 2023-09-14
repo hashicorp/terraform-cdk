@@ -120,13 +120,21 @@ export const exec = async (
 
 export async function readCDKTFVersion(outputDir: string): Promise<string> {
   const outputFile = path.join(outputDir, "cdk.tf.json");
-  if (fs.existsSync(outputFile)) {
-    const outputJSON = fs.readFileSync(outputFile, "utf8");
-    const data = JSON.parse(outputJSON);
-    return data["//"].metadata.version;
+  if (!fs.existsSync(outputFile)) {
+    return "";
+  }
+  const outputJSON = fs.readFileSync(outputFile, "utf8");
+  const data = JSON.parse(outputJSON);
+  if (
+    !data ||
+    !data["//"] ||
+    !data["//"].metadata ||
+    !data["//"].metadata.version
+  ) {
+    return "";
   }
 
-  return "";
+  return data["//"].metadata.version;
 }
 
 export async function readCDKTFManifest(): Promise<IManifest> {
