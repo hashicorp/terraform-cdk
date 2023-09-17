@@ -7987,28 +7987,25 @@ export interface VpcEndpointsConfig extends TerraformModuleUserConfig {
   readonly create?: boolean;
   /**
   * A map of interface and/or gateway endpoints containing their properties and configurations
-  * [object Object]
   */
   readonly endpoints?: any;
   /**
   * Default security group IDs to associate with the VPC endpoints
-  * 
+  *
   */
   readonly securityGroupIds?: string[];
   /**
   * Default subnets IDs to associate with the VPC endpoints
-  * 
+  *
   */
   readonly subnetIds?: string[];
   /**
   * A map of tags to use on all resources
-  * [object Object]
   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
   */
   readonly tags?: { [key: string]: string };
   /**
   * Define maximum timeout for creating, updating, and deleting VPC endpoint resources
-  * [object Object]
   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
   */
   readonly timeouts?: { [key: string]: string };
@@ -8123,7 +8120,7 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly clusterDeleteTimeout?: string;
   /**
   * A list of the desired control plane logging to enable. For more information, see Amazon EKS Control Plane Logging documentation (https://docs.aws.amazon.com/eks/latest/userguide/control-plane-logs.html)
-  * 
+  *
   */
   readonly clusterEnabledLogTypes?: string[];
   /**
@@ -8173,7 +8170,7 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly iamPath?: string;
   /**
   * Any additional arguments to pass to the authenticator such as the role to assume. e.g. ["-r", "MyEksRole"].
-  * 
+  *
   */
   readonly kubeconfigAwsAuthenticatorAdditionalArgs?: string[];
   /**
@@ -8183,12 +8180,11 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly kubeconfigAwsAuthenticatorCommand?: string;
   /**
   * Default arguments passed to the authenticator command. Defaults to [token -i $cluster_name].
-  * 
+  *
   */
   readonly kubeconfigAwsAuthenticatorCommandArgs?: string[];
   /**
   * Environment variables that should be used when executing the authenticator. e.g. { AWS_PROFILE = "eks"}.
-  * [object Object]
   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
   */
   readonly kubeconfigAwsAuthenticatorEnvVariables?: { [key: string]: string };
@@ -8198,7 +8194,8 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly kubeconfigName?: string;
   /**
   * Command to run for local-exec resources. Must be a shell-style interpreter. If you are on Windows Git Bash is a good choice.
-  * /bin/sh,-c
+  * /bin/sh
+  * -c
   */
   readonly localExecInterpreter?: string[];
   /**
@@ -8223,17 +8220,17 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly manageWorkerIamResources?: boolean;
   /**
   * Additional AWS account numbers to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-  * 
+  *
   */
   readonly mapAccounts?: string[];
   /**
   * Additional IAM roles to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-  * 
+  *
   */
   readonly mapRoles?: any;
   /**
   * Additional IAM users to add to the aws-auth configmap. See examples/basic/variables.tf for example format.
-  * 
+  *
   */
   readonly mapUsers?: any;
   /**
@@ -8246,7 +8243,6 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly subnets: string[];
   /**
   * A map of tags to add to all resources.
-  * [object Object]
   * The property type contains a map, they have special handling, please see {@link cdk.tf/module-map-inputs the docs}
   */
   readonly tags?: { [key: string]: string };
@@ -8256,7 +8252,7 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly vpcId: string;
   /**
   * A list of additional security group ids to attach to worker instances
-  * 
+  *
   */
   readonly workerAdditionalSecurityGroupIds?: string[];
   /**
@@ -8288,12 +8284,12 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly workerCreateSecurityGroup?: boolean;
   /**
   * A list of maps defining worker group configurations to be defined using AWS Launch Configurations. See workers_group_defaults for valid keys.
-  * 
+  *
   */
   readonly workerGroups?: any;
   /**
   * A list of maps defining worker group configurations to be defined using AWS Launch Templates. See workers_group_defaults for valid keys.
-  * 
+  *
   */
   readonly workerGroupsLaunchTemplate?: any;
   /**
@@ -8302,17 +8298,16 @@ export interface EksConfig extends TerraformModuleUserConfig {
   readonly workerSecurityGroupId?: string;
   /**
   * Minimum port number from which pods will accept communication. Must be changed to a lower value if some pods in your cluster will expose a port lower than 1025 (e.g. 22, 80, or 443).
-  * 1025
+  * 1,025
   */
   readonly workerSgIngressFromPort?: number;
   /**
   * Additional policies to be added to workers
-  * 
+  *
   */
   readonly workersAdditionalPolicies?: string[];
   /**
   * Override default values for target groups. See workers_group_defaults_defaults in local.tf for valid keys.
-  * [object Object]
   */
   readonly workersGroupDefaults?: any;
   /**
