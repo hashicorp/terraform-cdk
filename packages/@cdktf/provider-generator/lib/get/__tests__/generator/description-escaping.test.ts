@@ -61,3 +61,28 @@ test("malformed code blocks which break in python rst", async () => {
   );
   expect(output).toMatchSnapshot();
 });
+
+test("comment ending sequence in comment", async () => {
+  const code = new CodeMaker();
+  const workdir = fs.mkdtempSync(
+    path.join(os.tmpdir(), "comment-ending-sequence.test")
+  );
+  const spec = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        __dirname,
+        "fixtures",
+        "comment-ending-sequence.test.fixture.json"
+      ),
+      "utf-8"
+    )
+  );
+  new TerraformProviderGenerator(code, spec).generateAll();
+  await code.save(workdir);
+
+  const output = fs.readFileSync(
+    path.join(workdir, "providers/aws/code-blocks/index.ts"),
+    "utf-8"
+  );
+  expect(output).toMatchSnapshot();
+});
