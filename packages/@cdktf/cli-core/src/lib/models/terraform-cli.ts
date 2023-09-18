@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import stripAnsi from "strip-ansi";
 import {
+  Errors,
   exec,
   logger,
   readCDKTFVersion,
@@ -434,7 +435,14 @@ export class TerraformCli implements Terraform {
       () => {}, // eslint-disable-line @typescript-eslint/no-empty-function
       this.onStderr("output")
     );
-    return JSON.parse(output);
+
+    try {
+      return JSON.parse(output);
+    } catch (e) {
+      throw Errors.External(
+        `Failed to parse terraform output: ${e}. The output was '${output}'`
+      );
+    }
   }
 
   public async setUserAgent(): Promise<void> {
