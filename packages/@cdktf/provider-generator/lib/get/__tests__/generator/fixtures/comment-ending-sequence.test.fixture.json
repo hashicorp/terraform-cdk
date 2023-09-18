@@ -1,0 +1,21 @@
+{
+	"provider_schemas": {
+		"registry.terraform.io/hashicorp/aws": {
+			"resource_schemas": {
+				"code_blocks": {
+					"version": 1,
+					"block": {
+						"attributes": {
+							"with_code_block": {
+                "type": "bool",
+								"description": "Ending a comment early by including a */ is a problem.",
+                "required": true
+							}
+						}
+					},
+          "block_types": {}
+				}
+			}
+		}
+	}
+}
