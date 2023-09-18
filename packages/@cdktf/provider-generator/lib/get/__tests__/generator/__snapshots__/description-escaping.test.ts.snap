@@ -92,6 +92,94 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
 "
 `;
 
+exports[`comment ending sequence in comment 1`] = `
+"// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks
+// generated from terraform resource schema
+
+import { Construct } from 'constructs';
+import * as cdktf from 'cdktf';
+
+// Configuration
+
+export interface CodeBlocksConfig extends cdktf.TerraformMetaArguments {
+  /**
+  * Ending a comment early by including a * / is a problem.
+  *
+  * Docs at Terraform Registry: {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks#with_code_block CodeBlocks#with_code_block}
+   *
+  * Note: The above comment contained a comment block ending sequence (* followed by /). We have introduced a space between to prevent syntax errors. Please ignore the space.
+  */
+  readonly withCodeBlock: boolean | cdktf.IResolvable;
+}
+
+/**
+* Represents a {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks code_blocks}
+*/
+export class CodeBlocks extends cdktf.TerraformResource {
+
+  // =================
+  // STATIC PROPERTIES
+  // =================
+  public static readonly tfResourceType = "code_blocks";
+
+  // ===========
+  // INITIALIZER
+  // ===========
+
+  /**
+  * Create a new {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks code_blocks} Resource
+  *
+  * @param scope The scope in which to define this construct
+  * @param id The scoped construct ID. Must be unique amongst siblings in the same scope
+  * @param options CodeBlocksConfig
+  */
+  public constructor(scope: Construct, id: string, config: CodeBlocksConfig) {
+    super(scope, id, {
+      terraformResourceType: 'code_blocks',
+      terraformGeneratorMetadata: {
+        providerName: 'aws'
+      },
+      provider: config.provider,
+      dependsOn: config.dependsOn,
+      count: config.count,
+      lifecycle: config.lifecycle,
+      provisioners: config.provisioners,
+      connection: config.connection,
+      forEach: config.forEach
+    });
+    this._withCodeBlock = config.withCodeBlock;
+  }
+
+  // ==========
+  // ATTRIBUTES
+  // ==========
+
+  // with_code_block - computed: false, optional: false, required: true
+  private _withCodeBlock?: boolean | cdktf.IResolvable; 
+  public get withCodeBlock() {
+    return this.getBooleanAttribute('with_code_block');
+  }
+  public set withCodeBlock(value: boolean | cdktf.IResolvable) {
+    this._withCodeBlock = value;
+  }
+  // Temporarily expose input value. Use with caution.
+  public get withCodeBlockInput() {
+    return this._withCodeBlock;
+  }
+
+  // =========
+  // SYNTHESIS
+  // =========
+
+  protected synthesizeAttributes(): { [name: string]: any } {
+    return {
+      with_code_block: cdktf.booleanToTerraform(this._withCodeBlock),
+    };
+  }
+}
+"
+`;
+
 exports[`malformed code blocks which break in python rst 1`] = `
 "// https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks
 // generated from terraform resource schema
