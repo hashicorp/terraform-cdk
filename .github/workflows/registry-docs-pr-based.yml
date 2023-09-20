@@ -169,8 +169,6 @@ jobs:
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
 
       - name: Run conversion with additional providers
-        # It's a bit hacky with the additionalProviderFqns handling of optionally putting this flag in
-        # Maybe it's easier solved through duplication and an if statement
         if: inputs.additionalProviderFqns != ''
         run: |
           cdktf-registry-docs convert \
