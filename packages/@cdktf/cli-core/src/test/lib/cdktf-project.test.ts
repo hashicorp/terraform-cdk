@@ -75,6 +75,8 @@ describe("CdktfProject", () => {
         codeMakerOutput: path.resolve(workingDirectory, ".gen"),
         targetLanguage: Language.TYPESCRIPT,
       },
+      providerSchemaCachePath:
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
     });
 
     inNewWorkingDirectory = function inNewWorkspace() {

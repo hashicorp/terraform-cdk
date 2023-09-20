@@ -317,7 +317,7 @@ async function synthForLanguage(
     await runBeforeSynth(stackName, projectDir, providers);
   }
 
-  const { stdout } = await execa(
+  const { all } = await execa(
     cdktfBin,
     [
       "synth",
@@ -326,10 +326,10 @@ async function synthForLanguage(
       "-o",
       `./${stackName}-output`,
     ],
-    { cwd: projectDir }
+    { cwd: projectDir, all: true, shell: true }
   );
 
-  expect(stdout).toEqual(
+  expect(all!).toEqual(
     expect.stringContaining(`Generated Terraform code for the stacks`)
   );
 }
