@@ -55,14 +55,7 @@ describe("versions.json file generation", () => {
         options,
         process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
       );
-      constructMaker.getSchemas = jest.fn().mockImplementation(async () => {
-        return JSON.parse(
-          fs.readFileSync(
-            path.join(__dirname, "fixtures", "versions-file.test.fixture.json"),
-            "utf8"
-          )
-        );
-      });
+
       await constructMaker.generate(constraints);
 
       const output = fs.readFileSync(
