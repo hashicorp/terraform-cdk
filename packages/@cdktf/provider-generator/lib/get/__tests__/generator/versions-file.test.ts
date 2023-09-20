@@ -51,7 +51,10 @@ describe("versions.json file generation", () => {
 
       // Ignore warnings to pop up from the generate function
       process.env.NODE_OPTIONS = "--max-old-space-size=16384";
-      const constructMaker = new ConstructsMaker(options);
+      const constructMaker = new ConstructsMaker(
+        options,
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+      );
       constructMaker.getSchemas = jest.fn().mockImplementation(async () => {
         return JSON.parse(
           fs.readFileSync(

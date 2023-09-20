@@ -32,10 +32,13 @@ export function expectModuleToMatchSnapshot(
       fs.mkdirSync("work");
       const workdir = path.join(curdir, "work");
 
-      const maker = new ConstructsMaker({
-        codeMakerOutput: workdir,
-        targetLanguage: Language.TYPESCRIPT,
-      });
+      const maker = new ConstructsMaker(
+        {
+          codeMakerOutput: workdir,
+          targetLanguage: Language.TYPESCRIPT,
+        },
+        process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+      );
       await maker.generate([constraint]);
 
       const output = fs.readFileSync(

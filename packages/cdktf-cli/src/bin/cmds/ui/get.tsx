@@ -22,6 +22,7 @@ interface GetConfig {
   parallelism: number;
   force?: boolean;
   silent?: boolean;
+  providerSchemaCachePath?: string;
 }
 
 export const Get = ({
@@ -31,6 +32,7 @@ export const Get = ({
   parallelism,
   force,
   silent = false,
+  providerSchemaCachePath,
 }: GetConfig): React.ReactElement => {
   const [currentStatus, setCurrentStatus] = React.useState<Status>(
     Status.STARTING
@@ -51,6 +53,7 @@ export const Get = ({
           constructsOptions,
           cleanDirectory: force,
           onUpdate: setCurrentStatus,
+          providerSchemaCachePath,
           reportTelemetry: async (payload) =>
             await sendTelemetry("get", {
               language: payload.targetLanguage,

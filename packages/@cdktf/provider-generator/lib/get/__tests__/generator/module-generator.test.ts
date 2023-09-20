@@ -15,10 +15,13 @@ test("generate some modules", async () => {
     "terraform-aws-modules/eks/aws@7.0.1"
   );
 
-  const maker = new ConstructsMaker({
-    codeMakerOutput: workdir,
-    targetLanguage: Language.TYPESCRIPT,
-  });
+  const maker = new ConstructsMaker(
+    {
+      codeMakerOutput: workdir,
+      targetLanguage: Language.TYPESCRIPT,
+    },
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+  );
   await maker.generate([constraint]);
 
   const output = fs.readFileSync(
@@ -52,10 +55,13 @@ test("generate multiple aws modules", async () => {
     new TerraformModuleConstraint("terraform-aws-modules/rds-aurora/aws@4.1.0"),
   ];
 
-  const maker = new ConstructsMaker({
-    codeMakerOutput: workdir,
-    targetLanguage: Language.TYPESCRIPT,
-  });
+  const maker = new ConstructsMaker(
+    {
+      codeMakerOutput: workdir,
+      targetLanguage: Language.TYPESCRIPT,
+    },
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+  );
   await maker.generate(constraints);
 
   const vpcOutput = fs.readFileSync(
@@ -81,10 +87,13 @@ test("generate nested module", async () => {
     "terraform-aws-modules/vpc/aws//modules/vpc-endpoints@3.19.0"
   );
 
-  const maker = new ConstructsMaker({
-    codeMakerOutput: workdir,
-    targetLanguage: Language.TYPESCRIPT,
-  });
+  const maker = new ConstructsMaker(
+    {
+      codeMakerOutput: workdir,
+      targetLanguage: Language.TYPESCRIPT,
+    },
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+  );
   await maker.generate([constraint]);
 
   const output = fs.readFileSync(
@@ -117,10 +126,13 @@ test("generate module that can't be initialized", async () => {
     "milliHQ/next-js/aws@1.0.0-canary.5"
   );
 
-  const maker = new ConstructsMaker({
-    codeMakerOutput: workdir,
-    targetLanguage: Language.TYPESCRIPT,
-  });
+  const maker = new ConstructsMaker(
+    {
+      codeMakerOutput: workdir,
+      targetLanguage: Language.TYPESCRIPT,
+    },
+    process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
+  );
   await maker.generate([constraint]);
 
   const output = fs.readFileSync(

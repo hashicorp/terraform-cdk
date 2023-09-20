@@ -85,7 +85,12 @@ async function getProviderRequirements(provider: string[]) {
   return [...provider, ...providersFromConfig];
 }
 
-export async function convert({ language, provider, stack }: any) {
+export async function convert({
+  language,
+  provider,
+  stack,
+  experimentalProviderSchemaCachePath,
+}: any) {
   await initializErrorReporting();
   await displayVersionMessage();
 
@@ -100,7 +105,8 @@ export async function convert({ language, provider, stack }: any) {
         new TerraformProviderConstraint(spec),
         LANGUAGES[0]
       )
-    )
+    ),
+    experimentalProviderSchemaCachePath
   );
 
   const input = await readStreamAsString(
@@ -283,6 +289,7 @@ export async function get(argv: {
   force?: boolean;
   showPerformanceInfo?: boolean;
   silent?: boolean;
+  experimentalProviderSchemaCachePath?: string;
 }) {
   const printPerformanceInfo = argv.showPerformanceInfo
     ? startPerformanceMonitoring()
@@ -319,6 +326,7 @@ export async function get(argv: {
         parallelism,
         force,
         silent: argv.silent,
+        providerSchemaCachePath: argv.experimentalProviderSchemaCachePath,
       })
     );
   } finally {

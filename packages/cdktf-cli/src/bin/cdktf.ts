@@ -94,6 +94,12 @@ yargs
   )
   .help()
   .alias("h", "help")
+  .option("experimental-provider-schema-cache-path", {
+    type: "string",
+    default: false,
+    required: false,
+    desc: "An experimental schema cache that can be used to improve the speed of cdktf get and convert. Supported using the env CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH.",
+  })
   .option("disable-plugin-cache-env", {
     type: "boolean",
     default: false,

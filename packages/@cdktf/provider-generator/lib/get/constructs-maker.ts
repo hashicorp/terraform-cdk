@@ -79,6 +79,7 @@ export class ConstructsMaker {
 
   constructor(
     private readonly options: GetOptions,
+    private readonly schemaCachePath?: string,
     private readonly reportTelemetry: (payload: {
       targetLanguage: string;
       trackingPayload: Record<string, any>;
@@ -462,10 +463,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
   }
 
   public async getSchemas(targets: ConstructsMakerTarget[]) {
-    const schemas = await readSchema(
-      targets,
-      process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH
-    );
+    const schemas = await readSchema(targets, this.schemaCachePath);
 
     return schemas;
   }
