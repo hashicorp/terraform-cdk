@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs-extra";
 import * as path from "path";
-import { exec, withTempDir } from "./util";
+
 import { convertFiles } from "@cdktf/hcl2json";
 import {
   ConstructsMakerModuleTarget,
@@ -12,6 +12,8 @@ import {
   ModuleSchema,
   ProviderSchema,
   VersionSchema,
+  exec,
+  withTempDir
 } from "@cdktf/commons";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
