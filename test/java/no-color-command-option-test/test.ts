@@ -25,6 +25,8 @@ describe.skip("no-color option for cdktf deploy, diff, destroy", () => {
         cwd: driver.workingDirectory,
       }
     );
+    // These tests are sometimes flaky, therefore we log the result here to ensure we can debug it properly
+    console.log(result.stdout);
     expect(hasAnsi(result.stdout)).toBe(false);
   });
   onPosix("contains no color formatting in cdktf diff", async () => {
@@ -32,6 +34,8 @@ describe.skip("no-color option for cdktf deploy, diff, destroy", () => {
       env: driver.env,
       cwd: driver.workingDirectory,
     });
+    // These tests are sometimes flaky, therefore we log the result here to ensure we can debug it properly
+    console.log(result.stdout);
     expect(hasAnsi(result.stdout)).toBe(false);
   });
   onPosix("contains no color formatting in cdktf destroy", async () => {
@@ -43,6 +47,8 @@ describe.skip("no-color option for cdktf deploy, diff, destroy", () => {
         cwd: driver.workingDirectory,
       }
     );
+    // These tests are sometimes flaky, therefore we log the result here to ensure we can debug it properly
+    console.log(result.stdout);
     expect(hasAnsi(result.stdout)).toBe(false);
   });
 });
