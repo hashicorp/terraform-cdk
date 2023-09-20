@@ -348,7 +348,7 @@ export class CdktfProject {
     );
   }
 
-  public async synth() {
+  public async synth(noColor?: boolean) {
     this.onUpdate({
       type: "synthesizing",
     });
@@ -358,6 +358,7 @@ export class CdktfProject {
       this.outDir,
       this.workingDirectory,
       false,
+      noColor,
       this.synthOrigin
     );
 
@@ -386,7 +387,7 @@ export class CdktfProject {
   public async diff(opts: DiffOptions = {}) {
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
-      : await this.synth();
+      : await this.synth(opts.noColor);
     const stack = this.getStackExecutor(
       getSingleStack(stacks, opts?.stackName, "diff")
     );

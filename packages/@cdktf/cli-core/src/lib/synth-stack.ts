@@ -70,6 +70,7 @@ export class SynthStack {
     outdir: string,
     workingDirectory = process.cwd(),
     graceful = false, // will not exit the process but rethrow the error instead
+    noColor = false,
     synthOrigin?: SynthOrigin
   ): Promise<SynthesizedStack[]> {
     // start performance timer
@@ -120,6 +121,7 @@ might fail while synthesizing with an out of memory error.`);
         },
         cwd: workingDirectory,
         signal: abortSignal,
+        noColor: noColor,
       });
     } catch (e: any) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}

@@ -9,11 +9,12 @@ import * as path from "path";
 import { processLoggerError, processLoggerDebug } from "./logging";
 import { IManifest, Manifest } from "cdktf";
 import * as config from "./config";
+import stripAnsi from "strip-ansi";
 
 export async function shell(
   program: string,
   args: string[] = [],
-  options: SpawnOptions = {}
+  options: SpawnOptions & { noColor?: boolean } = {}
 ) {
   const stderr = new Array<string | Uint8Array>();
   const stdout = new Array<string>();
@@ -22,9 +23,9 @@ export async function shell(
       program,
       args,
       options,
-      (chunk: Buffer) => {
-        stdout.push(chunk.toString());
-        console.log(chunk.toString());
+      (chunk: string) => {
+        stdout.push(chunk);
+        console.log(chunk);
       },
       (chunk: string | Uint8Array) => stderr.push(chunk)
     );
@@ -68,42 +69,54 @@ export async function mkdtemp(closure: (dir: string) => Promise<void>) {
 export const exec = async (
   command: string,
   args: string[],
-  options: SpawnOptions,
-  stdout?: (chunk: Buffer) => any,
+  options: SpawnOptions & { noColor?: boolean },
+  stdout?: (chunk: string) => any,
   stderr?: (chunk: string | Uint8Array) => any,
   sendToStderr = true
 ): Promise<string> => {
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
-    const out = new Array<Buffer>();
-    const err = new Array<string | Uint8Array>();
+    const out = new Array<string>();
+    const err = new Array<string>();
     if (stdout !== undefined) {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLoggerDebug(chunk);
-        out.push(chunk);
-        stdout(chunk);
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        processLoggerDebug(sanitizedChunk);
+        out.push(sanitizedChunk);
+        stdout(sanitizedChunk);
       });
     } else {
       child.stdout?.on("data", (chunk: Buffer) => {
-        processLoggerDebug(chunk);
-        out.push(chunk);
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        processLoggerDebug(sanitizedChunk);
+        out.push(sanitizedChunk);
       });
     }
     if (stderr !== undefined) {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLoggerError(chunk);
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        processLoggerError(sanitizedChunk);
         if (sendToStderr) {
-          stderr(chunk);
+          stderr(sanitizedChunk);
         }
-        err.push(chunk);
+        err.push(sanitizedChunk);
       });
     } else {
       child.stderr?.on("data", (chunk: string | Uint8Array) => {
-        processLoggerError(chunk);
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        processLoggerError(sanitizedChunk);
         if (sendToStderr) {
-          process.stderr.write(chunk);
+          process.stderr.write(sanitizedChunk);
         }
-        err.push(chunk);
+        err.push(sanitizedChunk);
       });
     }
     child.once("error", (err: any) => ko(err));
@@ -113,7 +126,7 @@ export const exec = async (
         (error as any).stderr = err.map((chunk) => chunk.toString()).join("");
         return ko(error);
       }
-      return ok(Buffer.concat(out).toString("utf-8"));
+      return ok(out.join(""));
     });
   });
 };
