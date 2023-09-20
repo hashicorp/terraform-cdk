@@ -4,7 +4,6 @@ import { convert } from "../../lib/index";
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as os from "os";
-import { exec } from "child_process";
 import execa from "execa";
 import {
   ConstructsMakerProviderTarget,
@@ -318,13 +317,19 @@ async function synthForLanguage(
     await runBeforeSynth(stackName, projectDir, providers);
   }
 
-  const cp = await exec(
-    `${cdktfBin} synth -a '${getAppCommand[language](
-      stackName
-    )}' -o ./${stackName}-output`,
+  const { stdout } = await execa(
+    cdktfBin,
+    [
+      "synth",
+      "-a",
+      `'${getAppCommand[language](stackName)}'`,
+      "-o",
+      `./${stackName}-output`,
+    ],
     { cwd: projectDir }
   );
-  expect(cp.stdout?.toString()).toEqual(
+
+  expect(stdout).toEqual(
     expect.stringContaining(`Generated Terraform code for the stacks`)
   );
 }
