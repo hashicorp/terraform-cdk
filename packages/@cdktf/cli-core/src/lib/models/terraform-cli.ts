@@ -200,6 +200,14 @@ export class TerraformCli implements Terraform {
     );
   }
 
+  private get hasImports(): boolean {
+    const parsedStack = terraformJsonSchema.parse(
+      JSON.parse(this.stack.content)
+    );
+
+    return Boolean(parsedStack.import);
+  }
+
   public async plan(opts: {
     destroy: boolean;
     refreshOnly?: boolean;
@@ -216,11 +224,7 @@ export class TerraformCli implements Terraform {
       varFiles = [],
       noColor = false,
     } = opts;
-    const options = [
-      "plan",
-      "-input=false",
-      "-generate-config-out=generated_resources.tf",
-    ];
+    const options = ["plan", "-input=false"];
 
     const generatedConfigFile = path.join(
       this.workdir,
@@ -229,7 +233,9 @@ export class TerraformCli implements Terraform {
     if (fs.existsSync(generatedConfigFile)) {
       fs.remove(generatedConfigFile);
     }
-
+    if (this.hasImports) {
+      options.push("-generate-config-out=generated_resources.tf");
+    }
     if (!this.isCloudStack) {
       const planFile = "plan";
       options.push("-out", planFile);
