@@ -31,6 +31,7 @@ interface GetConfig {
   constraintsToGenerate?: ParsedDependencyConstraint[];
   constructsOptions: GetOptions;
   cleanDirectory?: boolean;
+  providerSchemaCachePath?: string;
   onUpdate?: (payload: GetStatus) => void;
   reportTelemetry?: (telemetry: {
     targetLanguage: string;
@@ -43,12 +44,14 @@ export async function get({
   constraints,
   constraintsToGenerate,
   cleanDirectory,
+  providerSchemaCachePath,
   onUpdate = () => undefined,
   reportTelemetry = async () => undefined,
 }: GetConfig) {
   logger.debug(`Starting get with outdir ${constructsOptions.codeMakerOutput}`);
   const constructsMaker = new ConstructsMaker(
     constructsOptions,
+    providerSchemaCachePath,
     reportTelemetry
   );
 
