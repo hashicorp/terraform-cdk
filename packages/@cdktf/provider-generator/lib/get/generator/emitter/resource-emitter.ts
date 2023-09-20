@@ -56,7 +56,7 @@ export class ResourceEmitter {
 
   private emitStaticMethods(resource: ResourceModel) {
     this.code.line(
-      `public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+      `public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${resource.terraformResourceType}", importId: id, provider });
       }`
     );
