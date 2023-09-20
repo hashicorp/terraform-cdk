@@ -463,9 +463,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
   }
 
   public async getSchemas(targets: ConstructsMakerTarget[]) {
-    const schemas = await readSchema(targets, this.schemaCachePath);
-
-    return schemas;
+    return await readSchema(targets, this.schemaCachePath);
   }
 
   public async generate(
