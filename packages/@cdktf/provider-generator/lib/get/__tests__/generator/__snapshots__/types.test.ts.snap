@@ -33,7 +33,7 @@ export class BooleanList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_boolean_list", importId: id, provider });
       }
 
@@ -152,7 +152,7 @@ export class BooleanMap extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_boolean_map", importId: id, provider });
       }
 
@@ -370,7 +370,7 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_computed_complex", importId: id, provider });
       }
 
@@ -582,7 +582,7 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_computed_complex_nested", importId: id, provider });
       }
 
@@ -840,7 +840,7 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_block_type_nested_computed_list", importId: id, provider });
       }
 
@@ -1247,7 +1247,7 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_computed_optional_complex", importId: id, provider });
       }
 
@@ -1534,7 +1534,7 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_deeply_nested_block_types", importId: id, provider });
       }
 
@@ -1631,7 +1631,7 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_ignored_attributes", importId: id, provider });
       }
 
@@ -1746,7 +1746,7 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_incompatible_attribute_names", importId: id, provider });
       }
 
@@ -1900,7 +1900,7 @@ export class FunctionResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_function", importId: id, provider });
       }
 
@@ -2018,7 +2018,7 @@ export class LicenseResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_license", importId: id, provider });
       }
 
@@ -2112,7 +2112,7 @@ export class ObjectResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_object", importId: id, provider });
       }
 
@@ -2206,7 +2206,7 @@ export class ProviderResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_provider", importId: id, provider });
       }
 
@@ -2300,7 +2300,7 @@ export class StaticResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_static", importId: id, provider });
       }
 
@@ -2394,7 +2394,7 @@ export class StringResource extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_string", importId: id, provider });
       }
 
@@ -2836,7 +2836,7 @@ export class Complex extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "test_complex", importId: id, provider });
       }
 
@@ -3047,7 +3047,7 @@ export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "airbyte_source_schema_catalog", importId: id, provider });
       }
 
@@ -3149,7 +3149,7 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_list_of_string_map", importId: id, provider });
       }
 
@@ -3251,7 +3251,7 @@ export class MapOfStringList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_map_of_string_list", importId: id, provider });
       }
 
@@ -3355,7 +3355,7 @@ export class NumberList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_number_list", importId: id, provider });
       }
 
@@ -3468,7 +3468,7 @@ export class NumberMap extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_number_map", importId: id, provider });
       }
 
@@ -3594,7 +3594,7 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_primitive_boolean", importId: id, provider });
       }
 
@@ -3734,7 +3734,7 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_primitive_dynamic", importId: id, provider });
       }
 
@@ -3875,7 +3875,7 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_primitive_number", importId: id, provider });
       }
 
@@ -4015,7 +4015,7 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_primitive_string", importId: id, provider });
       }
 
@@ -4159,7 +4159,7 @@ export class NameConflict extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_name_conflict", importId: id, provider });
       }
 
@@ -4509,7 +4509,7 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_block_type_set_list", importId: id, provider });
       }
 
@@ -4698,7 +4698,7 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_single_block_type", importId: id, provider });
       }
 
@@ -4800,7 +4800,7 @@ export class StringList extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_string_list", importId: id, provider });
       }
 
@@ -4940,7 +4940,7 @@ export class StringMap extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_string_map", importId: id, provider });
       }
 

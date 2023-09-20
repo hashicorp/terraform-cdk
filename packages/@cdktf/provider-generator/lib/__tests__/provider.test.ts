@@ -96,7 +96,7 @@ describe("Provider", () => {
             terraformResourceType = `datadog_${terraformResourceType}`;
           }
           expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-            `public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider)`
+            `public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider)`
           );
           expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
             `return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${terraformResourceType}", importId: id, provider });`

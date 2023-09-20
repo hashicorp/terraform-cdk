@@ -691,7 +691,7 @@ export class QuicksightTemplate extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static import(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_quicksight_template", importId: id, provider });
       }
 
