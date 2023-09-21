@@ -24,10 +24,18 @@ export async function shell(
       args,
       options,
       (chunk: string) => {
-        stdout.push(chunk);
-        console.log(chunk);
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        stdout.push(sanitizedChunk);
+        console.log(sanitizedChunk);
       },
-      (chunk: string | Uint8Array) => stderr.push(chunk)
+      (chunk: string | Uint8Array) => {
+        const sanitizedChunk = options.noColor
+          ? stripAnsi(chunk.toLocaleString())
+          : chunk.toLocaleString();
+        stderr.push(sanitizedChunk);
+      }
     );
   } catch (e: any) {
     if (stderr.length > 0) {
