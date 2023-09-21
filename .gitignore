@@ -13,7 +13,6 @@ node_modules
 .cdk.staging
 cdktf.out
 
-tsconfig.json
 
 **/.DS_Store
 **/.gen
