@@ -485,6 +485,7 @@ export class CdktfProject {
   }
 
   public async deploy(opts: MutationOptions = {}) {
+    console.log("project deploy", opts);
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
       : await this.synth();
