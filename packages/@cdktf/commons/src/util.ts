@@ -74,6 +74,11 @@ export const exec = async (
   stderr?: (chunk: string | Uint8Array) => any,
   sendToStderr = true
 ): Promise<string> => {
+  console.log(
+    `Running: ${command} ${args.join(" ")} with no color being ${
+      options.noColor ? "enabled" : "disabled"
+    }`
+  );
   return new Promise((ok, ko) => {
     const child = spawn(command, args, options);
     const out = new Array<string>();
