@@ -40,9 +40,15 @@ export async function shell(
   } catch (e: any) {
     if (stderr.length > 0) {
       e.stderr = stderr.map((chunk) => chunk.toString()).join("");
+      if (options.noColor) {
+        e.stderr = stripAnsi(e.stderr);
+      }
     }
     if (stdout.length > 0) {
       e.stdout = stdout.join("");
+      if (options.noColor) {
+        e.stdout = stripAnsi(e.stdout);
+      }
     }
     throw e;
   }
