@@ -24,10 +24,10 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.hashicorp:cdktf:0.0.0'
-    implementation 'software.constructs:constructs:10.0.25'
-    implementation 'junit:junit:4.13.2'
-    implementation 'org.junit.jupiter:junit-jupiter:5.8.0'
+    implementation "com.hashicorp:cdktf:0.0.0"
+    implementation "software.constructs:constructs:10.0.25"
+    implementation "junit:junit:4.13.2"
+    implementation "org.junit.jupiter:junit-jupiter:5.8.0"
 }
 
 group = 'com.mycompany.app'
