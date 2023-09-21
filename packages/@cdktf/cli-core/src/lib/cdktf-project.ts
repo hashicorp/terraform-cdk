@@ -488,7 +488,7 @@ export class CdktfProject {
     console.log("project deploy", opts);
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
-      : await this.synth();
+      : await this.synth(opts.noColor);
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "deploy");
     if (!opts.ignoreMissingStackDependencies) {
       checkIfAllDependenciesAreIncluded(stacksToRun);
@@ -546,7 +546,7 @@ export class CdktfProject {
   public async destroy(opts: MutationOptions = {}) {
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
-      : await this.synth();
+      : await this.synth(opts.noColor);
     const stacksToRun = getMultipleStacks(stacks, opts.stackNames, "destroy");
 
     if (!opts.ignoreMissingStackDependencies) {
