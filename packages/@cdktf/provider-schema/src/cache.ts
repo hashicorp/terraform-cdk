@@ -9,7 +9,9 @@ import * as fs from "fs-extra";
 // We keep this very simple since the caching feature is experimental
 // we might need to do housekeeping / include terraform / cdktf version in the future
 function cacheKey(input: ConstructsMakerTarget): string {
-  return `${encodeURIComponent(input.fqn)}@${input.version}`;
+  return `${encodeURIComponent(input.fqn)}@${encodeURIComponent(
+    input.version || ""
+  )}`;
 }
 
 export function cachedAccess<I extends ConstructsMakerTarget, O>(

@@ -112,8 +112,6 @@ export const binding = {
   },
 };
 
-// TODO: check if we even need all this provider binding caching anymore
-
 type AbsolutePath = string;
 const providerBindingCache: Record<
   ProviderFqn,
