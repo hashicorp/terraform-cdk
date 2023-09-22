@@ -9,23 +9,28 @@ export {
   TerraformProviderConstraint,
   isLocalModule,
 } from "@cdktf/commons";
-import { ConstructsMakerTarget } from "@cdktf/commons";
+import {
+  TerraformDependencyConstraint,
+  LANGUAGES,
+  ConstructsMakerProviderTarget,
+} from "@cdktf/commons";
 import deepmerge from "deepmerge";
 import { readModuleSchema, readProviderSchema } from "./provider-schema";
 import { cachedAccess } from "./cache";
 
-type Await<T> = T extends Promise<infer U> ? U : T;
 export type Schema = {
-  providerSchema?: Await<ReturnType<typeof readProviderSchema>>;
-  moduleSchema?: Await<ReturnType<typeof readModuleSchema>>;
+  providerSchema?: Awaited<ReturnType<typeof readProviderSchema>>;
+  moduleSchema?: Awaited<ReturnType<typeof readModuleSchema>>;
 };
 
-// TODO: Maybe this can be refactored to take Constraints instead of Targets
 export async function readSchema(
-  targets: ConstructsMakerTarget[],
+  constraints: TerraformDependencyConstraint[],
   cacheDir?: string
 ): Promise<Schema> {
   const cachedReadProviderSchema = cachedAccess(readProviderSchema, cacheDir);
+  const targets = constraints.map((constraint) =>
+    ConstructsMakerProviderTarget.from(constraint, LANGUAGES[0])
+  );
   const schemas = await Promise.all(
     targets.map((t) =>
       t.isModule
