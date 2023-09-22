@@ -21,7 +21,7 @@ export function cachedAccess<I extends ConstructsMakerTarget, O>(
 ): (input: I) => Promise<O> {
   const cacheEnabled = typeof cacheDir === "string" && cacheDir.length > 0;
 
-  if (!fs.lstatSync(cacheDir as string).isDirectory()) {
+  if (cacheEnabled && !fs.lstatSync(cacheDir as string).isDirectory()) {
     throw Errors.Usage(
       `Provider Schema Cache directory '${cacheDir}' is not a directory`
     );
