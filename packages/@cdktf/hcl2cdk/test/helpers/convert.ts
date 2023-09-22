@@ -6,7 +6,6 @@ import * as path from "path";
 import * as os from "os";
 import execa from "execa";
 import {
-  ConstructsMakerProviderTarget,
   LANGUAGES,
   TerraformModuleConstraint,
   TerraformProviderConstraint,
@@ -385,13 +384,12 @@ async function getProjectDirectory(
 }
 
 async function getProviderSchema(providers: ProviderDefinition[]) {
-  const constraints = providers.map((provider) =>
-    ConstructsMakerProviderTarget.from(
+  const constraints = providers.map(
+    (provider) =>
       ProviderType.provider === provider.type
         ? new TerraformProviderConstraint(provider.fqn)
         : new TerraformModuleConstraint(provider.fqn),
-      LANGUAGES[0]
-    )
+    LANGUAGES[0]
   );
 
   return await readSchema(

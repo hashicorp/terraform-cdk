@@ -462,7 +462,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     jsiiTimer();
   }
 
-  public async getSchemas(targets: ConstructsMakerTarget[]) {
+  public async getSchemas(targets: TerraformDependencyConstraint[]) {
     return await readSchema(targets, this.schemaCachePath);
   }
 
@@ -475,7 +475,7 @@ a NODE_OPTIONS variable, we won't override it. Hence, the provider generation mi
     );
 
     const endSchemaTimer = logTimespan("Gathering schema");
-    const schemas = await this.getSchemas(targets);
+    const schemas = await this.getSchemas(constraintsToGenerate);
     endSchemaTimer();
 
     const endGenerateTimer = logTimespan("Generate TS");
