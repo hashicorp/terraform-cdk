@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { ConstructsMakerTarget, logger } from "@cdktf/commons";
+import { ConstructsMakerTarget, logger, Errors } from "@cdktf/commons";
 import * as fs from "fs-extra";
 
 // We keep this very simple since the caching feature is experimental
@@ -18,9 +18,13 @@ export function cachedAccess<I extends ConstructsMakerTarget, O>(
   producer: (input: I) => Promise<O>,
   cacheDir?: string | null
 ): (input: I) => Promise<O> {
-  const cacheEnabled = Boolean(
-    cacheDir && fs.lstatSync(cacheDir).isDirectory()
-  );
+  const cacheEnabled = typeof cacheDir === "string" && cacheDir.length > 0;
+
+  if (!fs.lstatSync(cacheDir as string).isDirectory()) {
+    throw Errors.Usage(
+      `Provider Schema Cache directory '${cacheDir}' is not a directory`
+    );
+  }
 
   if (!cacheEnabled) {
     logger.debug(`Provider Schema Cache disabled`);
