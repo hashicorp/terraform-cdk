@@ -1,5 +1,7 @@
 {
+  "//": "This example test is disabled via the 'private' attribute since Terraform 1.5 is required for proper synth, and as of writing CI has a lesser version",
   "name": "@examples/typescript-aws-import",
+  "private": true,
   "version": "0.0.0",
   "main": "main.js",
   "types": "main.ts",
