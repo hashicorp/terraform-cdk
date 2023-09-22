@@ -22,8 +22,6 @@ import { ModuleGenerator } from "./generator/module-generator";
 import { glob } from "glob";
 import { readSchema } from "@cdktf/provider-schema";
 
-type Awaited<T> = T extends PromiseLike<infer U> ? U : T;
-
 export async function generateJsiiLanguage(
   code: CodeMaker,
   opts: srcmak.Options,
@@ -216,7 +214,6 @@ export class ConstructsMaker {
     target: ConstructsMakerTarget,
     schemas: Awaited<ReturnType<typeof readSchema>>
   ) {
-    // TODO: maybe accessing should go into the provider schema package
     if (target.isModule) {
       const schema = schemas.moduleSchema?.[target.moduleKey];
       if (!schema) {
