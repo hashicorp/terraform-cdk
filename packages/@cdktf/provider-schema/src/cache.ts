@@ -5,6 +5,7 @@
 
 import { ConstructsMakerTarget, logger, Errors } from "@cdktf/commons";
 import * as fs from "fs-extra";
+import * as path from "path";
 
 // We keep this very simple since the caching feature is experimental
 // we might need to do housekeeping / include terraform / cdktf version in the future
@@ -36,7 +37,7 @@ export function cachedAccess<I extends ConstructsMakerTarget, O>(
   logger.debug(`Provider Schema Cache enabled, caching at ${cacheDir}`);
   return async (input) => {
     const key = cacheKey(input);
-    const cachePath = `${cacheDir}/${key}.json`;
+    const cachePath = path.join(cacheDir, `${key}.json`);
     if (fs.existsSync(cachePath)) {
       logger.debug(`Cache hit for ${key}`);
       return JSON.parse(await fs.readFile(cachePath, "utf-8")) as O;
