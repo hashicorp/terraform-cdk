@@ -5,12 +5,13 @@
 
 import * as hcl2cdk from "@cdktf/hcl2cdk";
 import { CdktfConfig } from "./cdktf-config";
+import { TerraformProviderConstraint } from "@cdktf/provider-generator";
+import { readSchema } from "@cdktf/provider-schema";
 import {
+  Errors,
+  LANGUAGES,
   ConstructsMakerProviderTarget,
-  TerraformProviderConstraint,
-  readSchema,
-} from "@cdktf/provider-generator";
-import { Errors, LANGUAGES } from "@cdktf/commons";
+} from "@cdktf/commons";
 
 export async function convertConfigurationFile(configuration: string) {
   const cfg = CdktfConfig.read(process.cwd()); // TODO: make this the project directory instead of cwd

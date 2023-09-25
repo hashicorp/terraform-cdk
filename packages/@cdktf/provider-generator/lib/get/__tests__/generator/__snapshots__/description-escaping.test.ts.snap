@@ -37,7 +37,7 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "description_escaping", importId: id, provider });
       }
 
@@ -132,7 +132,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "code_blocks", importId: id, provider });
       }
 
@@ -225,7 +225,7 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "code_blocks", importId: id, provider });
       }
 

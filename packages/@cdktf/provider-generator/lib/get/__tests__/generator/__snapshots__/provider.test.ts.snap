@@ -1173,7 +1173,7 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws", importId: id, provider });
       }
 
@@ -1697,7 +1697,7 @@ export class ElasticstackProvider extends cdktf.TerraformProvider {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "elasticstack", importId: id, provider });
       }
 

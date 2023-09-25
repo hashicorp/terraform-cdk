@@ -4023,7 +4023,7 @@ export class CloudfrontDistribution extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_cloudfront_distribution", importId: id, provider });
       }
 
@@ -4515,7 +4515,7 @@ export class FmsAdminAccount extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_fms_admin_account", importId: id, provider });
       }
 
@@ -7536,7 +7536,7 @@ export class S3Bucket extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_s3_bucket", importId: id, provider });
       }
 
@@ -8805,7 +8805,7 @@ export class SecurityGroup extends cdktf.TerraformResource {
   // ==============
   // STATIC Methods
   // ==============
-  public static importOf(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
+  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws_security_group", importId: id, provider });
       }
 
