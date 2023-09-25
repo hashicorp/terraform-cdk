@@ -47,6 +47,8 @@ export function escapeAttributeName(name: string) {
   if (name === "system") return "systemAttribute";
   // `tfResourceType` is already used by resources to distinguish between different resource types
   if (name === "tfResourceType") return `${name}Attribute`;
+  // `importFrom` has potential for common name collision with providers
+  if (name === "importFrom") return `${name}Provider`;
   return name;
 }
 
