@@ -383,18 +383,19 @@ To add one configure the `lifecycle` key on your resource with an object contain
 
 ## Importing Resources
 
-If you have existing resources that you want to manage with CDKTF, you can import them into your CDKTF application. The best way to do this is using the [`import` block feature](/terraform/language/import) of Terraform >= 1.5. You can do this in CDKTF either with a specified configuration or without, which will trigger the configuration generation.
+If you have existing resources that you want to manage with CDKTF, you can import them into your CDKTF application. The best way to do this is using the [`import` block feature](/terraform/language/import) of Terraform >= 1.5. You can do this in CDKTF either with a specified configuration or without.
 
-### Importing with Configuration
+### How To Import
 
-To import a resource with configuration, you write your resource configuration as you would normally. Then you call the `importFrom` method on the resulting resource object. This method takes the resource ID as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
+To import a resource, first instantiate an instance of the resource type you wish to import– in our case we'll be using a S3Bucket. No configuration is expilictly needed. You then call the `importFrom` method on the resource object. This method takes the ID of the resource to be imported as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
 
 ```typescript
 new S3Bucket(this, "bucket", {}).importFrom(bucketId);
 ```
 
-When running plan / apply you will get the information that one resource is going to be imported. Once you ran apply you can remove the `importFrom` call and the resource will be managed by CDKTF.
-The output might look like this:
+When running plan / apply you will get the information that your resource is going to be imported. Once you have ran apply, you can remove the `importFrom` call and the resource will become managed by CDKTF.
+
+Your output might look as follows:
 
 ```
 ts-import  Initializing the backend...
@@ -471,16 +472,17 @@ ts-import    # aws_s3_bucket.bucket (bucket) will be updated in-place
                terraform apply "plan"
 ```
 
-### Importing without Configuration
+### Generate Configuration For Import
 
-If you want to import a resource without specifying the configuration you can use the instance method `import` on the class of the resource you want to import. This method takes the scope as the first argument, the construct name within the CDKTF program as the second, resource ID as the third argument and the provider as an optional fourth. The provider is only required if you have multiple providers of the same type in your configuration.
+If you want to specify the configuration of your imported resource you can use the static method `generateConfigForImport` on the class of the resource you want to import. This method takes the scope as the first argument, the resource ID of the resource to import to (as will be given in the generated config returned), the resource ID of the resource to be imported, and the provider as an optional fourth. The provider is only required if you have multiple providers of the same type in your configuration.
 
 ```typescript
-S3Bucket.import(this, "bucket", bucketId);
+S3Bucket.generateConfigForImport(this, "bucket", bucketId);
 ```
 
-When running plan / apply you will get the information that one resource is going to be imported. Once you ran plan / apply, CDKTF CLI will return the CDKTF construct. You can use this in your CDKTF application after the the apply and therefore the import is done and replace the `S3Bucket.import` call.
-The output might look like this:
+When running `cdktf plan <stack-name>` you will get the information that resource(s) is/are going to be imported, followed by the configuration of your import(s) in CDKTF specific terms.
+
+Your output might look as follows:
 
 ```
 ts-import-with-configuration  Initializing the backend...
@@ -610,6 +612,8 @@ ts-import-with-configuration  Import without configuration detected. Terraform h
                               Please review the code and make any necessary changes before adding it to your codebase.
                               Make sure to only copy the code within the construct's constructor.
 ```
+
+Though at this point, your resource(s) has/have not been imported. To import, first add the new generated configuration to your project, then remove the initial call of `generateConfigForImport`. Finally, add the call `importFrom` as it is done in the section "How To Import" above. On apply, your resource(s) will be imported, then becoming managed by CDKTF.
 
 ## Escape Hatch
 

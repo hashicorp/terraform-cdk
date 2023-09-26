@@ -32,9 +32,6 @@ export class ImportableResource extends TerraformElement {
     );
   }
 
-  /**
-   * Adds this resource to the terraform JSON output.
-   */
   public toTerraform(): any {
     const expectedResourceAddress = `${this.config.terraformResourceType}.${this.friendlyUniqueId}`;
     return {

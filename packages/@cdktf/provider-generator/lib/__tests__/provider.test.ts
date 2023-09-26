@@ -62,7 +62,7 @@ describe("Provider", () => {
       expect(snapshot).toMatchSnapshot();
     });
   }, 600_000),
-    it.only("has generated provider that includes static import functions", async () => {
+    it("has generated provider that includes static import functions", async () => {
       const constraint = new TerraformProviderConstraint(
         "DataDog/datadog@= 3.12.0"
       );
@@ -96,10 +96,10 @@ describe("Provider", () => {
             terraformResourceType = `datadog_${terraformResourceType}`;
           }
           expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-            `public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider)`
+            `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {`
           );
           expect(snapshot[`providers/datadog/${resource}/index.ts`]).toContain(
-            `return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${terraformResourceType}", importId: id, provider });`
+            `return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${terraformResourceType}", importId: importFromId, provider });`
           );
         });
       });

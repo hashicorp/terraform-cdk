@@ -8,7 +8,8 @@ import { extractJsonLogIfPresent } from "./server/terraform-logs";
 import {
   TerraformCli,
   OutputFilter,
-  findGeneratedConfigurationFile,
+  tryReadGeneratedConfigurationFile,
+  tryRemoveGeneratedConfigurationFile,
 } from "./models/terraform-cli";
 import { ProviderConstraint } from "./dependencies/dependency-manager";
 import { terraformJsonSchema, TerraformStack } from "./terraform-json";
@@ -379,7 +380,7 @@ export class CdktfStack {
       this.updateState({ type: "planned", stackName: this.stack.name });
 
       // Find generated file
-      const configFile = await findGeneratedConfigurationFile(
+      const configFile = await tryReadGeneratedConfigurationFile(
         this.stack.workingDirectory
       );
       if (configFile) {
@@ -389,7 +390,10 @@ export class CdktfStack {
           configuration: configFile,
         });
 
-        const convertedCode = await convertConfigurationFile(configFile);
+        const convertedCode = await convertConfigurationFile(
+          configFile,
+          this.stack.workingDirectory
+        );
         this.updateState({
           type: "import with configuration converted",
           stackName: this.stack.name,
@@ -406,10 +410,15 @@ CDKTF has translated the code to the following:
 ${convertedCode}
 
 Please review the code and make any necessary changes before adding it to your codebase.
-Make sure to only copy the code within the construct's constructor.`,
+Make sure to only copy the code within the construct's constructor.
+
+NOTE: Your resource has not yet become managed by CDKTF. 
+To finish the import remove the call "generateConfigForImport", add the above code within the construct's constructor, and then append the call importFrom({resource_id_to_import_from}) to the generated code. 
+`,
             isError: false,
           });
         }
+        await tryRemoveGeneratedConfigurationFile(this.stack.workingDirectory);
       }
     });
   }

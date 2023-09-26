@@ -341,6 +341,5 @@ test("includes import block when import is present, provider given", () => {
   new TestResource(stack, "test", {
     name: "foo",
   }).importFrom("testId", provider);
-  console.log("stack with provider", Testing.synth(stack));
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

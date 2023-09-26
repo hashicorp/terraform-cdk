@@ -81,6 +81,7 @@ class VariableRequiredFilter extends AbstractOutputFilter {
 
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
+  static readonly generatedImportConfigFile: string = "generated_resources.tf";
   private readonly onStdout: (
     stateName: string,
     filter?: OutputFilter[]
@@ -228,13 +229,15 @@ export class TerraformCli implements Terraform {
 
     const generatedConfigFile = path.join(
       this.workdir,
-      "generated_resources.tf"
+      TerraformCli.generatedImportConfigFile
     );
     if (fs.existsSync(generatedConfigFile)) {
       fs.remove(generatedConfigFile);
     }
     if (this.hasImports) {
-      options.push("-generate-config-out=generated_resources.tf");
+      options.push(
+        `-generate-config-out=${TerraformCli.generatedImportConfigFile}`
+      );
     }
     if (!this.isCloudStack) {
       const planFile = "plan";
@@ -485,12 +488,25 @@ export class TerraformCli implements Terraform {
   }
 }
 
-export async function findGeneratedConfigurationFile(
+export async function tryReadGeneratedConfigurationFile(
   workingDir: string
 ): Promise<string | null> {
-  const generatedConfigPath = path.join(workingDir, "generated_resources.tf");
+  const generatedConfigPath = path.join(
+    workingDir,
+    TerraformCli.generatedImportConfigFile
+  );
   if (!fs.existsSync(generatedConfigPath)) {
     return null;
   }
   return fs.readFileSync(generatedConfigPath, "utf-8");
+}
+
+export async function tryRemoveGeneratedConfigurationFile(workingDir: string) {
+  const generatedConfigPath = path.join(
+    workingDir,
+    TerraformCli.generatedImportConfigFile
+  );
+  if (fs.existsSync(generatedConfigPath)) {
+    fs.unlinkSync(generatedConfigPath);
+  }
 }

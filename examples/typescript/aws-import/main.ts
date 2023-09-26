@@ -38,7 +38,7 @@ class StackWithImportAndConfigurationGeneration extends TerraformStack {
     });
 
     // Step 2: Create import block
-    S3Bucket.importGenerateConfig(this, "bucket", bucketId);
+    S3Bucket.generateConfigForImport(this, "bucket", bucketId);
 
     // Step 3: Run `cdktf plan` and get the configuration to put in below
     // Step 4: Remove the `import` call, the resource is now imported
