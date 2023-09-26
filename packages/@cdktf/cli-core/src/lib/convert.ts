@@ -13,8 +13,11 @@ import {
   ConstructsMakerProviderTarget,
 } from "@cdktf/commons";
 
-export async function convertConfigurationFile(configuration: string) {
-  const cfg = CdktfConfig.read(process.cwd()); // TODO: make this the project directory instead of cwd
+export async function convertConfigurationFile(
+  configuration: string,
+  stackWorkingDirectory: string
+) {
+  const cfg = CdktfConfig.read(stackWorkingDirectory); // TODO: make this the project directory instead of cwd
   const targets = cfg.terraformProviders.map((constraint) =>
     ConstructsMakerProviderTarget.from(
       new TerraformProviderConstraint(constraint),

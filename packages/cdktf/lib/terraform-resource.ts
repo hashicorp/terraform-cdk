@@ -96,7 +96,7 @@ export class TerraformResource
   public provisioners?: Array<
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
-  public imported?: TerraformResourceImport;
+  private _imported?: TerraformResourceImport;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -210,11 +210,11 @@ export class TerraformResource
     };
 
     return {
-      import: this.imported
+      import: this._imported
         ? [
             {
-              provider: this.imported.provider?.fqn,
-              id: this.imported.id,
+              provider: this._imported.provider?.fqn,
+              id: this._imported.id,
               to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
             },
           ]
@@ -234,7 +234,7 @@ export class TerraformResource
             [this.terraformResourceType]: Object.keys(this.rawOverrides),
           }
         : undefined,
-      imports: this.imported
+      imports: this._imported
         ? {
             [this.terraformResourceType]: [this.friendlyUniqueId],
           }
@@ -252,7 +252,7 @@ export class TerraformResource
   }
 
   public importFrom(id: string, provider?: TerraformProvider) {
-    this.imported = { id, provider };
+    this._imported = { id, provider };
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
@@ -261,6 +261,6 @@ export class TerraformResource
     );
   }
   public resetImport() {
-    this.imported = undefined;
+    this._imported = undefined;
   }
 }

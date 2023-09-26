@@ -1173,8 +1173,15 @@ export class AwsProvider extends cdktf.TerraformProvider {
   // ==============
   // STATIC Methods
   // ==============
-  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
-        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "aws", importId: id, provider });
+  /**
+  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * @param scope The scope in which to define this construct
+  * @param importToId The id of the aws to import to, as it appears in generated config
+  * @param importFormId The id of the aws in the cloud provider to generate config of
+  * @param provider? Instance of the provider where aws to import is found
+  */
+  public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws", importId: importFromId, provider });
       }
 
   // ===========
@@ -1697,8 +1704,15 @@ export class ElasticstackProvider extends cdktf.TerraformProvider {
   // ==============
   // STATIC Methods
   // ==============
-  public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
-        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "elasticstack", importId: id, provider });
+  /**
+  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * @param scope The scope in which to define this construct
+  * @param importToId The id of the elasticstack to import to, as it appears in generated config
+  * @param importFormId The id of the elasticstack in the cloud provider to generate config of
+  * @param provider? Instance of the provider where elasticstack to import is found
+  */
+  public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "elasticstack", importId: importFromId, provider });
       }
 
   // ===========

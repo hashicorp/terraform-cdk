@@ -56,9 +56,24 @@ export class ResourceEmitter {
   }
 
   private emitStaticMethods(resource: ResourceModel) {
+    const comment = sanitizedComment(this.code);
+    comment.line(
+      `For generation of configuration for import, run "cdktf plan <stack-name>"`
+    );
+    comment.line(`@param scope The scope in which to define this construct`);
+    comment.line(
+      `@param importToId The id of the ${resource.terraformResourceType} to import to, as it appears in generated config`
+    );
+    comment.line(
+      `@param importFormId The id of the ${resource.terraformResourceType} in the cloud provider to generate config of`
+    );
+    comment.line(
+      `@param provider? Instance of the provider where ${resource.terraformResourceType} to import is found`
+    );
+    comment.end();
     this.code.line(
-      `public static importGenerateConfig(scope: Construct, name: string, id: string, provider?: cdktf.TerraformProvider) {
-        return new cdktf.ImportableResource(scope, name, { terraformResourceType: "${resource.terraformResourceType}", importId: id, provider });
+      `public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
+        return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${resource.terraformResourceType}", importId: importFromId, provider });
       }`
     );
   }
