@@ -304,11 +304,11 @@ export class NestedTypesResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a NestedTypesResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the nested_types_resource to import to, as it appears in generated config
-  * @param importFormId The id of the nested_types_resource in the cloud provider to generate config of
-  * @param provider? Instance of the provider where nested_types_resource to import is found
+  * @param importToId The construct id used in the generated config for the NestedTypesResource to import
+  * @param importFromId The id of the existing NestedTypesResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/nested_types_resource#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the NestedTypesResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "nested_types_resource", importId: importFromId, provider });

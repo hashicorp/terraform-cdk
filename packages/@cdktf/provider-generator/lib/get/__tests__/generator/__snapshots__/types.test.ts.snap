@@ -34,11 +34,11 @@ export class BooleanList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a BooleanList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_boolean_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_boolean_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_boolean_list to import is found
+  * @param importToId The construct id used in the generated config for the BooleanList to import
+  * @param importFromId The id of the existing BooleanList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/boolean_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the BooleanList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_boolean_list", importId: importFromId, provider });
@@ -160,11 +160,11 @@ export class BooleanMap extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a BooleanMap resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_boolean_map to import to, as it appears in generated config
-  * @param importFormId The id of the aws_boolean_map in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_boolean_map to import is found
+  * @param importToId The construct id used in the generated config for the BooleanMap to import
+  * @param importFromId The id of the existing BooleanMap that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/boolean_map#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the BooleanMap to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_boolean_map", importId: importFromId, provider });
@@ -385,11 +385,11 @@ export class ComputedComplex extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ComputedComplex resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_computed_complex to import to, as it appears in generated config
-  * @param importFormId The id of the aws_computed_complex in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_computed_complex to import is found
+  * @param importToId The construct id used in the generated config for the ComputedComplex to import
+  * @param importFromId The id of the existing ComputedComplex that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/computed_complex#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ComputedComplex to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_computed_complex", importId: importFromId, provider });
@@ -604,11 +604,11 @@ export class ComputedComplexNested extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ComputedComplexNested resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_computed_complex_nested to import to, as it appears in generated config
-  * @param importFormId The id of the aws_computed_complex_nested in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_computed_complex_nested to import is found
+  * @param importToId The construct id used in the generated config for the ComputedComplexNested to import
+  * @param importFromId The id of the existing ComputedComplexNested that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/computed_complex_nested#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ComputedComplexNested to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_computed_complex_nested", importId: importFromId, provider });
@@ -869,11 +869,11 @@ export class BlockTypeNestedComputedList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a BlockTypeNestedComputedList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_block_type_nested_computed_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_block_type_nested_computed_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_block_type_nested_computed_list to import is found
+  * @param importToId The construct id used in the generated config for the BlockTypeNestedComputedList to import
+  * @param importFromId The id of the existing BlockTypeNestedComputedList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_nested_computed_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the BlockTypeNestedComputedList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_block_type_nested_computed_list", importId: importFromId, provider });
@@ -1283,11 +1283,11 @@ export class ComputedOptionalComplex extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ComputedOptionalComplex resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_computed_optional_complex to import to, as it appears in generated config
-  * @param importFormId The id of the aws_computed_optional_complex in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_computed_optional_complex to import is found
+  * @param importToId The construct id used in the generated config for the ComputedOptionalComplex to import
+  * @param importFromId The id of the existing ComputedOptionalComplex that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/computed_optional_complex#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ComputedOptionalComplex to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_computed_optional_complex", importId: importFromId, provider });
@@ -1577,11 +1577,11 @@ export class DeeplyNestedBlockTypes extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a DeeplyNestedBlockTypes resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_deeply_nested_block_types to import to, as it appears in generated config
-  * @param importFormId The id of the aws_deeply_nested_block_types in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_deeply_nested_block_types to import is found
+  * @param importToId The construct id used in the generated config for the DeeplyNestedBlockTypes to import
+  * @param importFromId The id of the existing DeeplyNestedBlockTypes that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/deeply_nested_block_types#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the DeeplyNestedBlockTypes to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_deeply_nested_block_types", importId: importFromId, provider });
@@ -1681,11 +1681,11 @@ export class IgnoredAttributes extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a IgnoredAttributes resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_ignored_attributes to import to, as it appears in generated config
-  * @param importFormId The id of the aws_ignored_attributes in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_ignored_attributes to import is found
+  * @param importToId The construct id used in the generated config for the IgnoredAttributes to import
+  * @param importFromId The id of the existing IgnoredAttributes that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ignored_attributes#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the IgnoredAttributes to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_ignored_attributes", importId: importFromId, provider });
@@ -1803,11 +1803,11 @@ export class IncompatibleAttributeNames extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a IncompatibleAttributeNames resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_incompatible_attribute_names to import to, as it appears in generated config
-  * @param importFormId The id of the aws_incompatible_attribute_names in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_incompatible_attribute_names to import is found
+  * @param importToId The construct id used in the generated config for the IncompatibleAttributeNames to import
+  * @param importFromId The id of the existing IncompatibleAttributeNames that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/incompatible_attribute_names#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the IncompatibleAttributeNames to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_incompatible_attribute_names", importId: importFromId, provider });
@@ -1964,11 +1964,11 @@ export class FunctionResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a FunctionResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_function to import to, as it appears in generated config
-  * @param importFormId The id of the test_function in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_function to import is found
+  * @param importToId The construct id used in the generated config for the FunctionResource to import
+  * @param importFromId The id of the existing FunctionResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/function#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the FunctionResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_function", importId: importFromId, provider });
@@ -2089,11 +2089,11 @@ export class LicenseResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a LicenseResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_license to import to, as it appears in generated config
-  * @param importFormId The id of the test_license in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_license to import is found
+  * @param importToId The construct id used in the generated config for the LicenseResource to import
+  * @param importFromId The id of the existing LicenseResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/license#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the LicenseResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_license", importId: importFromId, provider });
@@ -2190,11 +2190,11 @@ export class ObjectResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ObjectResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_object to import to, as it appears in generated config
-  * @param importFormId The id of the test_object in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_object to import is found
+  * @param importToId The construct id used in the generated config for the ObjectResource to import
+  * @param importFromId The id of the existing ObjectResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/object#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ObjectResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_object", importId: importFromId, provider });
@@ -2291,11 +2291,11 @@ export class ProviderResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ProviderResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_provider to import to, as it appears in generated config
-  * @param importFormId The id of the test_provider in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_provider to import is found
+  * @param importToId The construct id used in the generated config for the ProviderResource to import
+  * @param importFromId The id of the existing ProviderResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/provider#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ProviderResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_provider", importId: importFromId, provider });
@@ -2392,11 +2392,11 @@ export class StaticResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a StaticResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_static to import to, as it appears in generated config
-  * @param importFormId The id of the test_static in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_static to import is found
+  * @param importToId The construct id used in the generated config for the StaticResource to import
+  * @param importFromId The id of the existing StaticResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/static#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the StaticResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_static", importId: importFromId, provider });
@@ -2493,11 +2493,11 @@ export class StringResource extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a StringResource resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_string to import to, as it appears in generated config
-  * @param importFormId The id of the test_string in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_string to import is found
+  * @param importToId The construct id used in the generated config for the StringResource to import
+  * @param importFromId The id of the existing StringResource that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/string#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the StringResource to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_string", importId: importFromId, provider });
@@ -2942,11 +2942,11 @@ export class Complex extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a Complex resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the test_complex to import to, as it appears in generated config
-  * @param importFormId The id of the test_complex in the cloud provider to generate config of
-  * @param provider? Instance of the provider where test_complex to import is found
+  * @param importToId The construct id used in the generated config for the Complex to import
+  * @param importFromId The id of the existing Complex that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/resources/complex#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the Complex to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "test_complex", importId: importFromId, provider });
@@ -3160,11 +3160,11 @@ export class DataAirbyteSourceSchemaCatalog extends cdktf.TerraformDataSource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a DataAirbyteSourceSchemaCatalog resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the airbyte_source_schema_catalog to import to, as it appears in generated config
-  * @param importFormId The id of the airbyte_source_schema_catalog in the cloud provider to generate config of
-  * @param provider? Instance of the provider where airbyte_source_schema_catalog to import is found
+  * @param importToId The construct id used in the generated config for the DataAirbyteSourceSchemaCatalog to import
+  * @param importFromId The id of the existing DataAirbyteSourceSchemaCatalog that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/test/latest/docs/data-sources/airbyte_source_schema_catalog#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the DataAirbyteSourceSchemaCatalog to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "airbyte_source_schema_catalog", importId: importFromId, provider });
@@ -3269,11 +3269,11 @@ export class ListOfStringMap extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a ListOfStringMap resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_list_of_string_map to import to, as it appears in generated config
-  * @param importFormId The id of the aws_list_of_string_map in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_list_of_string_map to import is found
+  * @param importToId The construct id used in the generated config for the ListOfStringMap to import
+  * @param importFromId The id of the existing ListOfStringMap that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/list_of_string_map#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the ListOfStringMap to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_list_of_string_map", importId: importFromId, provider });
@@ -3378,11 +3378,11 @@ export class MapOfStringList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a MapOfStringList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_map_of_string_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_map_of_string_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_map_of_string_list to import is found
+  * @param importToId The construct id used in the generated config for the MapOfStringList to import
+  * @param importFromId The id of the existing MapOfStringList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/map_of_string_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the MapOfStringList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_map_of_string_list", importId: importFromId, provider });
@@ -3489,11 +3489,11 @@ export class NumberList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a NumberList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_number_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_number_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_number_list to import is found
+  * @param importToId The construct id used in the generated config for the NumberList to import
+  * @param importFromId The id of the existing NumberList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/number_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the NumberList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_number_list", importId: importFromId, provider });
@@ -3609,11 +3609,11 @@ export class NumberMap extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a NumberMap resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_number_map to import to, as it appears in generated config
-  * @param importFormId The id of the aws_number_map in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_number_map to import is found
+  * @param importToId The construct id used in the generated config for the NumberMap to import
+  * @param importFromId The id of the existing NumberMap that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/number_map#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the NumberMap to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_number_map", importId: importFromId, provider });
@@ -3742,11 +3742,11 @@ export class PrimitiveBoolean extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a PrimitiveBoolean resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_primitive_boolean to import to, as it appears in generated config
-  * @param importFormId The id of the aws_primitive_boolean in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_primitive_boolean to import is found
+  * @param importToId The construct id used in the generated config for the PrimitiveBoolean to import
+  * @param importFromId The id of the existing PrimitiveBoolean that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/primitive_boolean#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the PrimitiveBoolean to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_primitive_boolean", importId: importFromId, provider });
@@ -3889,11 +3889,11 @@ export class PrimitiveDynamic extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a PrimitiveDynamic resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_primitive_dynamic to import to, as it appears in generated config
-  * @param importFormId The id of the aws_primitive_dynamic in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_primitive_dynamic to import is found
+  * @param importToId The construct id used in the generated config for the PrimitiveDynamic to import
+  * @param importFromId The id of the existing PrimitiveDynamic that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/primitive_dynamic#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the PrimitiveDynamic to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_primitive_dynamic", importId: importFromId, provider });
@@ -4037,11 +4037,11 @@ export class PrimitiveNumber extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a PrimitiveNumber resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_primitive_number to import to, as it appears in generated config
-  * @param importFormId The id of the aws_primitive_number in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_primitive_number to import is found
+  * @param importToId The construct id used in the generated config for the PrimitiveNumber to import
+  * @param importFromId The id of the existing PrimitiveNumber that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/primitive_number#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the PrimitiveNumber to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_primitive_number", importId: importFromId, provider });
@@ -4184,11 +4184,11 @@ export class PrimitiveString extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a PrimitiveString resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_primitive_string to import to, as it appears in generated config
-  * @param importFormId The id of the aws_primitive_string in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_primitive_string to import is found
+  * @param importToId The construct id used in the generated config for the PrimitiveString to import
+  * @param importFromId The id of the existing PrimitiveString that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/primitive_string#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the PrimitiveString to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_primitive_string", importId: importFromId, provider });
@@ -4335,11 +4335,11 @@ export class NameConflict extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a NameConflict resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_name_conflict to import to, as it appears in generated config
-  * @param importFormId The id of the aws_name_conflict in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_name_conflict to import is found
+  * @param importToId The construct id used in the generated config for the NameConflict to import
+  * @param importFromId The id of the existing NameConflict that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/name_conflict#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the NameConflict to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_name_conflict", importId: importFromId, provider });
@@ -4692,11 +4692,11 @@ export class BlockTypeSetList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a BlockTypeSetList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_block_type_set_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_block_type_set_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_block_type_set_list to import is found
+  * @param importToId The construct id used in the generated config for the BlockTypeSetList to import
+  * @param importFromId The id of the existing BlockTypeSetList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/block_type_set_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the BlockTypeSetList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_block_type_set_list", importId: importFromId, provider });
@@ -4888,11 +4888,11 @@ export class SingleBlockType extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a SingleBlockType resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_single_block_type to import to, as it appears in generated config
-  * @param importFormId The id of the aws_single_block_type in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_single_block_type to import is found
+  * @param importToId The construct id used in the generated config for the SingleBlockType to import
+  * @param importFromId The id of the existing SingleBlockType that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/single_block_type#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the SingleBlockType to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_single_block_type", importId: importFromId, provider });
@@ -4997,11 +4997,11 @@ export class StringList extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a StringList resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_string_list to import to, as it appears in generated config
-  * @param importFormId The id of the aws_string_list in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_string_list to import is found
+  * @param importToId The construct id used in the generated config for the StringList to import
+  * @param importFromId The id of the existing StringList that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/string_list#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the StringList to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_string_list", importId: importFromId, provider });
@@ -5144,11 +5144,11 @@ export class StringMap extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a StringMap resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_string_map to import to, as it appears in generated config
-  * @param importFormId The id of the aws_string_map in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_string_map to import is found
+  * @param importToId The construct id used in the generated config for the StringMap to import
+  * @param importFromId The id of the existing StringMap that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/string_map#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the StringMap to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_string_map", importId: importFromId, provider });

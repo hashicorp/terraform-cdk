@@ -38,11 +38,11 @@ export class DescriptionEscaping extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a DescriptionEscaping resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the description_escaping to import to, as it appears in generated config
-  * @param importFormId The id of the description_escaping in the cloud provider to generate config of
-  * @param provider? Instance of the provider where description_escaping to import is found
+  * @param importToId The construct id used in the generated config for the DescriptionEscaping to import
+  * @param importFromId The id of the existing DescriptionEscaping that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/description_escaping#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the DescriptionEscaping to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "description_escaping", importId: importFromId, provider });
@@ -140,11 +140,11 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a CodeBlocks resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the code_blocks to import to, as it appears in generated config
-  * @param importFormId The id of the code_blocks in the cloud provider to generate config of
-  * @param provider? Instance of the provider where code_blocks to import is found
+  * @param importToId The construct id used in the generated config for the CodeBlocks to import
+  * @param importFromId The id of the existing CodeBlocks that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the CodeBlocks to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "code_blocks", importId: importFromId, provider });
@@ -240,11 +240,11 @@ export class CodeBlocks extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a CodeBlocks resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the code_blocks to import to, as it appears in generated config
-  * @param importFormId The id of the code_blocks in the cloud provider to generate config of
-  * @param provider? Instance of the provider where code_blocks to import is found
+  * @param importToId The construct id used in the generated config for the CodeBlocks to import
+  * @param importFromId The id of the existing CodeBlocks that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/code_blocks#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the CodeBlocks to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "code_blocks", importId: importFromId, provider });
