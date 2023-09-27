@@ -79,7 +79,9 @@ export class TerraformProviderGenerator {
         )}`
       );
       throw new Error(
-        `Could not find provider with constraint ${providerConstraint}`
+        `Could not find provider with constraint ${JSON.stringify(
+          providerConstraint
+        )}`
       );
     }
 
