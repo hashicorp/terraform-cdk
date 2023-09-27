@@ -215,11 +215,11 @@ export class AcmCertificate extends cdktf.TerraformResource {
   // STATIC Methods
   // ==============
   /**
-  * For generation of configuration for import, run "cdktf plan <stack-name>"
+  * Generates CDKTF code for importing a AcmCertificate resource upon running "cdktf plan <stack-name>"
   * @param scope The scope in which to define this construct
-  * @param importToId The id of the aws_acm_certificate to import to, as it appears in generated config
-  * @param importFormId The id of the aws_acm_certificate in the cloud provider to generate config of
-  * @param provider? Instance of the provider where aws_acm_certificate to import is found
+  * @param importToId The construct id used in the generated config for the AcmCertificate to import
+  * @param importFromId The id of the existing AcmCertificate that should be imported. Refer to the {@link https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/acm_certificate#import import section} in the documentation of this resource for the id to use
+  * @param provider? Optional instance of the provider where the AcmCertificate to import is found
   */
   public static generateConfigForImport(scope: Construct, importToId: string, importFromId: string, provider?: cdktf.TerraformProvider) {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "aws_acm_certificate", importId: importFromId, provider });
