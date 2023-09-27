@@ -387,7 +387,7 @@ If you have existing resources that you want to manage with CDKTF, you can impor
 
 ### How To Import
 
-To import a resource, first instantiate an instance of the resource type you wish to import– in our case we'll be using an S3Bucket. No configuration is explicitly needed. You then call the `importFrom` method on the resource object. This method takes the ID of the resource to be imported as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
+To import a resource, first instantiate an instance of the resource type you wish to import – in our case we'll be using an S3Bucket. No configuration is explicitly needed. You then call the `importFrom` method on the resource object. This method takes the ID of the resource to be imported as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
 
 ```typescript
 new S3Bucket(this, "bucket", {}).importFrom(bucketId);
