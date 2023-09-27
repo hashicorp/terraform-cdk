@@ -1,8 +1,11 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import * as fs from "fs";
-import { withTempDir } from "../../util";
-import { Language, TerraformModuleConstraint } from "@cdktf/commons";
+import {
+  Language,
+  TerraformModuleConstraint,
+  withTempDir,
+} from "@cdktf/commons";
 import { ConstructsMaker } from "../constructs-maker";
 import * as path from "path";
 

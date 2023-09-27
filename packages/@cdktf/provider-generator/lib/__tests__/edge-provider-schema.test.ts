@@ -3,7 +3,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 import { generateProviderBindingsFromSchema } from "..";
-import { mkdtemp } from "../util";
+import { mkdtemp } from "@cdktf/commons";
 import { edgeSchema } from "./edge-provider-schema";
 
 describe("Edge Provider Schema", () => {
