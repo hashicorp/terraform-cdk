@@ -58,17 +58,17 @@ export class ResourceEmitter {
   private emitStaticMethods(resource: ResourceModel) {
     const comment = sanitizedComment(this.code);
     comment.line(
-      `For generation of configuration for import, run "cdktf plan <stack-name>"`
+      `Generates CDKTF code for importing a ${resource.className} resource upon running "cdktf plan <stack-name>"`
     );
     comment.line(`@param scope The scope in which to define this construct`);
     comment.line(
-      `@param importToId The id of the ${resource.terraformResourceType} to import to, as it appears in generated config`
+      `@param importToId The construct id used in the generated config for the ${resource.className} to import`
     );
     comment.line(
-      `@param importFormId The id of the ${resource.terraformResourceType} in the cloud provider to generate config of`
+      `@param importFromId The id of the existing ${resource.className} that should be imported. Refer to the {@link ${resource.linkToDocs}#import import section} in the documentation of this resource for the id to use`
     );
     comment.line(
-      `@param provider? Instance of the provider where ${resource.terraformResourceType} to import is found`
+      `@param provider? Optional instance of the provider where the ${resource.className} to import is found`
     );
     comment.end();
     this.code.line(

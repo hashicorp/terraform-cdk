@@ -260,7 +260,4 @@ export class TerraformResource
       )
     );
   }
-  public resetImport() {
-    this._imported = undefined;
-  }
 }

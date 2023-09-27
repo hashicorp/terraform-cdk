@@ -387,13 +387,15 @@ If you have existing resources that you want to manage with CDKTF, you can impor
 
 ### How To Import
 
-To import a resource, first instantiate an instance of the resource type you wish to import– in our case we'll be using a S3Bucket. No configuration is expilictly needed. You then call the `importFrom` method on the resource object. This method takes the ID of the resource to be imported as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
+To import a resource, first instantiate an instance of the resource type you wish to import– in our case we'll be using an S3Bucket. No configuration is explicitly needed. You then call the `importFrom` method on the resource object. This method takes the ID of the resource to be imported as the first argument and the provider as an optional second. The provider is only required if you have multiple providers of the same type in your configuration.
 
 ```typescript
 new S3Bucket(this, "bucket", {}).importFrom(bucketId);
 ```
 
 When running plan / apply you will get the information that your resource is going to be imported. Once you have ran apply, you can remove the `importFrom` call and the resource will become managed by CDKTF.
+
+Please note that Terraform is going to update existing fields on the imported resource to match your configuration as it puts it under management. In our case we did not define any specific properties on the `S3Bucket` which causes Terraform e.g. to remove the tags currently defined on the resource (as can be seen on the plan below). If you want to keep existing settings, you can run a plan first, add everything that Terraform would change to your resource config, and only then apply the changes.
 
 Your output might look as follows:
 
@@ -474,13 +476,13 @@ ts-import    # aws_s3_bucket.bucket (bucket) will be updated in-place
 
 ### Generate Configuration For Import
 
-If you want to specify the configuration of your imported resource you can use the static method `generateConfigForImport` on the class of the resource you want to import. This method takes the scope as the first argument, the resource ID of the resource to import to (as will be given in the generated config returned), the resource ID of the resource to be imported, and the provider as an optional fourth. The provider is only required if you have multiple providers of the same type in your configuration.
+If you don't want to specify the configuration of your imported resource yourself you can use the static method `generateConfigForImport` on the class of the resource you want to import. This method takes the scope as the first argument, the construct id of the resource to import to (as will be given in the generated config returned), the resource id of the resource to be imported, and the provider as an optional fourth. The provider is only required if you have multiple providers of the same type in your configuration.
 
 ```typescript
 S3Bucket.generateConfigForImport(this, "bucket", bucketId);
 ```
 
-When running `cdktf plan <stack-name>` you will get the information that resource(s) is/are going to be imported, followed by the configuration of your import(s) in CDKTF specific terms.
+When running `cdktf plan <stack-name>` Terraform will generate code for the resource you are importing and CDKTF will convert it to the language you are using.
 
 Your output might look as follows:
 
@@ -488,9 +490,10 @@ Your output might look as follows:
 ts-import-with-configuration  Initializing the backend...
 ts-import-with-configuration  Initializing provider plugins...
                               - Reusing previous version of hashicorp/aws from the dependency lock file
-ts-import-with-configuration  - Using previously-installed hashicorp/aws v5.5.0
-ts-import-with-configuration  Terraform has been successfully initialized!
+ts-import-with-configuration  - Using previously-installed hashicorp/aws v5.18.1
 
+                              Terraform has been successfully initialized!
+ts-import-with-configuration
                               You may now begin working with Terraform. Try running "terraform plan" to see
                               any changes that are required for your infrastructure. All Terraform commands
                               should now work.
@@ -508,20 +511,16 @@ ts-import-with-configuration    # aws_s3_bucket.bucket will be imported
                                       bucket                      = "best-bucket-in-the-world"
                                       bucket_domain_name          = "best-bucket-in-the-world.s3.amazonaws.com"
                                       bucket_regional_domain_name = "best-bucket-in-the-world.s3.us-east-1.amazonaws.com"
-                                      hosted_zone_id              = "XXXXXXXXXXXXX"
+                                      hosted_zone_id              = "Z3AQBSTGFYJSTF"
                                       id                          = "best-bucket-in-the-world"
                                       object_lock_enabled         = false
                                       region                      = "us-east-1"
                                       request_payer               = "BucketOwner"
-                                      tags                        = {
-                                          "foo" = "bar"
-                                      }
-                                      tags_all                    = {
-                                          "foo" = "bar"
-                                      }
+                                      tags                        = {}
+                                      tags_all                    = {}
 
                                       grant {
-                                          id          = "XXXXXXXXXXXXX"
+                                          id          = "554912fda2704333d162d216be50aefb05562e0bf1709997f1d9417cf46087d5"
                                           permissions = [
                                               "FULL_CONTROL",
                                           ]
@@ -539,14 +538,13 @@ ts-import-with-configuration    # aws_s3_bucket.bucket will be imported
                                       }
 
                                       versioning {
-                                          enabled    = true
+                                          enabled    = false
                                           mfa_delete = false
                                       }
                                   }
 
                               Plan: 1 to import, 0 to add, 0 to change, 0 to destroy.
-
-ts-import-with-configuration  ╷
+                              ╷
                               │ Warning: Config generation is experimental
                               │
                               │ Generating configuration during import is currently experimental, and the
@@ -573,12 +571,8 @@ ts-import-with-configuration  Import without configuration detected. Terraform h
                                 bucket_prefix       = null
                                 force_destroy       = null
                                 object_lock_enabled = false
-                                tags = {
-                                  foo = "bar"
-                                }
-                                tags_all = {
-                                  foo = "bar"
-                                }
+                                tags                = {}
+                                tags_all            = {}
                               }
 
 
@@ -598,12 +592,8 @@ ts-import-with-configuration  Import without configuration detected. Terraform h
                                     bucketPrefix: [null],
                                     forceDestroy: [null],
                                     objectLockEnabled: false,
-                                    tags: {
-                                      foo: "bar",
-                                    },
-                                    tagsAll: {
-                                      foo: "bar",
-                                    },
+                                    tags: {},
+                                    tagsAll: {},
                                   });
                                 }
                               }
@@ -611,9 +601,14 @@ ts-import-with-configuration  Import without configuration detected. Terraform h
 
                               Please review the code and make any necessary changes before adding it to your codebase.
                               Make sure to only copy the code within the construct's constructor.
+
+                              NOTE: Your resource has not yet become managed by CDKTF.
+                              To finish the import remove the call "generateConfigForImport", add the above code within the construct's constructor, and then append the call importFrom(<resource_id_to_import_from>) to the generated code:
+
+                              new SomeResource(...).importFrom("some_id")
 ```
 
-Though at this point, your resource(s) has/have not been imported. To import, first add the new generated configuration to your project, then remove the initial call of `generateConfigForImport`. Finally, add the call `importFrom` as it is done in the section "How To Import" above. On apply, your resource(s) will be imported, then becoming managed by CDKTF.
+Though at this point, your resource has not been imported. To import, first add the new generated configuration to your project, then remove the initial call of `generateConfigForImport`. Finally, follow the steps outlined in the section "How To Import" above. On apply, your resource will be imported, then becoming managed by CDKTF.
 
 ## Escape Hatch
 

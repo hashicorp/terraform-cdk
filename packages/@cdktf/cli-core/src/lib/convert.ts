@@ -17,7 +17,7 @@ export async function convertConfigurationFile(
   configuration: string,
   stackWorkingDirectory: string
 ) {
-  const cfg = CdktfConfig.read(stackWorkingDirectory); // TODO: make this the project directory instead of cwd
+  const cfg = CdktfConfig.read(stackWorkingDirectory);
   const targets = cfg.terraformProviders.map((constraint) =>
     ConstructsMakerProviderTarget.from(
       new TerraformProviderConstraint(constraint),

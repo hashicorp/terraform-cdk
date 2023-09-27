@@ -413,7 +413,9 @@ Please review the code and make any necessary changes before adding it to your c
 Make sure to only copy the code within the construct's constructor.
 
 NOTE: Your resource has not yet become managed by CDKTF. 
-To finish the import remove the call "generateConfigForImport", add the above code within the construct's constructor, and then append the call importFrom({resource_id_to_import_from}) to the generated code. 
+To finish the import remove the call "generateConfigForImport", add the above code within the construct's constructor, and then append the call importFrom(<resource_id_to_import_from>) to the generated code: 
+
+new SomeResource(...).importFrom("some_id")
 `,
             isError: false,
           });
