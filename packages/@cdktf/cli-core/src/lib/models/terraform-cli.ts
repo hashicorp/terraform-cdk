@@ -29,6 +29,8 @@ import { spawnPty } from "./pty-process";
 import path from "path";
 import * as fs from "fs-extra";
 
+const GENERATE_CONFIG_OUT_FILE = "generated_resources.tf";
+
 export class TerraformCliPlan
   extends AbstractTerraformPlan
   implements TerraformPlan
@@ -81,7 +83,6 @@ class VariableRequiredFilter extends AbstractOutputFilter {
 
 export class TerraformCli implements Terraform {
   public readonly workdir: string;
-  static readonly generatedImportConfigFile: string = "generated_resources.tf";
   private readonly onStdout: (
     stateName: string,
     filter?: OutputFilter[]
@@ -229,15 +230,13 @@ export class TerraformCli implements Terraform {
 
     const generatedConfigFile = path.join(
       this.workdir,
-      TerraformCli.generatedImportConfigFile
+      GENERATE_CONFIG_OUT_FILE
     );
     if (fs.existsSync(generatedConfigFile)) {
       fs.remove(generatedConfigFile);
     }
     if (this.hasImports) {
-      options.push(
-        `-generate-config-out=${TerraformCli.generatedImportConfigFile}`
-      );
+      options.push(`-generate-config-out=${GENERATE_CONFIG_OUT_FILE}`);
     }
     if (!this.isCloudStack) {
       const planFile = "plan";
@@ -491,10 +490,7 @@ export class TerraformCli implements Terraform {
 export async function tryReadGeneratedConfigurationFile(
   workingDir: string
 ): Promise<string | null> {
-  const generatedConfigPath = path.join(
-    workingDir,
-    TerraformCli.generatedImportConfigFile
-  );
+  const generatedConfigPath = path.join(workingDir, GENERATE_CONFIG_OUT_FILE);
   if (!fs.existsSync(generatedConfigPath)) {
     return null;
   }
@@ -502,10 +498,7 @@ export async function tryReadGeneratedConfigurationFile(
 }
 
 export async function tryRemoveGeneratedConfigurationFile(workingDir: string) {
-  const generatedConfigPath = path.join(
-    workingDir,
-    TerraformCli.generatedImportConfigFile
-  );
+  const generatedConfigPath = path.join(workingDir, GENERATE_CONFIG_OUT_FILE);
   if (fs.existsSync(generatedConfigPath)) {
     fs.unlinkSync(generatedConfigPath);
   }
