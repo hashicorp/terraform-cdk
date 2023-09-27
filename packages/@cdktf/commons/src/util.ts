@@ -88,6 +88,12 @@ export const exec = async (
   stderr?: (chunk: string | Uint8Array) => any,
   sendToStderr = true
 ): Promise<string> => {
+  // if options.noColor is not set, checking the flags & environment if it should be set
+  // This is required for collectDebugInformation() which does not have knowledge about flags
+  if (typeof options.noColor !== "boolean" && hasNoColorFlagOrEnv()) {
+    options.noColor = true;
+  }
+
   console.log(
     `Running: ${command} ${args.join(" ")} with no color being ${
       options.noColor ? "enabled" : "disabled"
@@ -242,4 +248,27 @@ export async function ensureAllSettledBeforeThrowing(
     await Promise.allSettled(promises);
     throw e;
   }
+}
+
+/**
+ * returns true if --no-color is passed as CLI flag or the env var FORCE_COLOR is set to "0"
+ * Used for cases where we can't pass down the noColor flag (e.g. when collecting debug information from the environment)
+ * This is the same behavior as the `chalk` lib we use for coloring output
+ */
+function hasNoColorFlagOrEnv(): boolean {
+  return hasFlag("no-color") || process.env.FORCE_COLOR === "0"
+}
+
+// From: https://github.com/sindresorhus/has-flag/blob/main/index.js
+// as used in https://github.com/chalk/chalk
+function hasFlag(
+  flag: string
+) {
+  const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
+  const position = process.argv.indexOf(prefix + flag);
+  const terminatorPosition = process.argv.indexOf("--");
+  return (
+    position !== -1 &&
+    (terminatorPosition === -1 || position < terminatorPosition)
+  );
 }
