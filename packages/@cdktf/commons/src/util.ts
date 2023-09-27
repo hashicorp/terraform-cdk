@@ -256,14 +256,12 @@ export async function ensureAllSettledBeforeThrowing(
  * This is the same behavior as the `chalk` lib we use for coloring output
  */
 function hasNoColorFlagOrEnv(): boolean {
-  return hasFlag("no-color") || process.env.FORCE_COLOR === "0"
+  return hasFlag("no-color") || process.env.FORCE_COLOR === "0";
 }
 
 // From: https://github.com/sindresorhus/has-flag/blob/main/index.js
 // as used in https://github.com/chalk/chalk
-function hasFlag(
-  flag: string
-) {
+function hasFlag(flag: string) {
   const prefix = flag.startsWith("-") ? "" : flag.length === 1 ? "-" : "--";
   const position = process.argv.indexOf(prefix + flag);
   const terminatorPosition = process.argv.indexOf("--");

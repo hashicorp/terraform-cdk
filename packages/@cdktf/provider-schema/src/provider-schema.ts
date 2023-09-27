@@ -13,7 +13,7 @@ import {
   ProviderSchema,
   VersionSchema,
   exec,
-  withTempDir
+  withTempDir,
 } from "@cdktf/commons";
 
 const terraformBinaryName = process.env.TERRAFORM_BINARY_NAME || "terraform";
