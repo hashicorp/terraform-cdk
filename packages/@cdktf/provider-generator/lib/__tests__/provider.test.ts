@@ -3,7 +3,7 @@
 import * as path from "path";
 import * as fs from "fs-extra";
 import { glob } from "glob";
-import { mkdtemp } from "../util";
+import { mkdtemp } from "@cdktf/commons";
 import { ConstructsMaker } from "../get/constructs-maker";
 import { Language, TerraformProviderConstraint } from "@cdktf/commons";
 
