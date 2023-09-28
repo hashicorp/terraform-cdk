@@ -10,16 +10,20 @@ import { CdktfProject, init, get } from "../../lib/index";
 import { spawn } from "@cdktf/node-pty-prebuilt-multiarch";
 import { exec, Language } from "@cdktf/commons";
 
+// this is required for the get() call in beforeAll() to work
+let execMockActive = false;
+
 jest.mock("@cdktf/commons", () => {
   const originalModule = jest.requireActual("@cdktf/commons");
 
   return {
     __esmodule: true,
     ...originalModule,
-    // exec: jest.fn().mockImplementation(originalModule.exec),
-    exec: jest.fn().mockImplementation(async (_binary, _args) => {
+    exec: jest.fn().mockImplementation(async (...args: any[]) => {
       // Fake all commands that we invoke
-      return Promise.resolve(JSON.stringify({}));
+
+      if (execMockActive) return Promise.resolve(JSON.stringify({}));
+      return originalModule.exec(...args);
     }),
   };
 });
@@ -126,6 +130,8 @@ describe("terraform parallelism", () => {
       providerSchemaCachePath:
         process.env.CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH,
     });
+
+    execMockActive = true;
 
     inNewWorkingDirectory = function inNewWorkingDirectory() {
       const wd = fs.mkdtempSync(path.join(os.tmpdir(), "cdktf."));
