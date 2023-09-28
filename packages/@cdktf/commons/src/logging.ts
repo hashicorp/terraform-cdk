@@ -4,6 +4,7 @@ import { configure, getLogger } from "log4js";
 import * as fs from "fs-extra";
 import * as path from "path";
 import * as Sentry from "@sentry/node";
+import { hasNoColorFlagOrEnv } from "./util";
 
 const cliLogger = getLogger();
 const logger = {
@@ -80,6 +81,13 @@ if (
       },
     },
     categories: { default: { appenders: ["cdktf"], level: "debug" } },
+  });
+} else {
+  const layoutType = hasNoColorFlagOrEnv() ? "basic" : "colored";
+
+  configure({
+    appenders: { out: { type: "stdout", layout: { type: layoutType } } },
+    categories: { default: { appenders: ["out"], level: "info" } },
   });
 }
 
