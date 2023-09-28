@@ -391,7 +391,9 @@ export async function collectDebugInformation() {
   switch (language) {
     case "python":
       {
+        console.log("about to get python version")
         const python = getPythonVersion();
+        console.log("got python version")
         const pip = getPipVersion();
         const pipenv = getPipenvVersion();
         debugOutput["python"] = (await python) ?? null;
