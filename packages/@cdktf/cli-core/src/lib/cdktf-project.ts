@@ -349,7 +349,6 @@ export class CdktfProject {
   }
 
   public async synth(noColor?: boolean) {
-    console.log("project synth", { noColor });
     this.onUpdate({
       type: "synthesizing",
     });
@@ -386,7 +385,6 @@ export class CdktfProject {
   }
 
   public async diff(opts: DiffOptions = {}) {
-    console.log("project diff", opts);
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
       : await this.synth(opts.noColor);
@@ -485,7 +483,6 @@ export class CdktfProject {
   }
 
   public async deploy(opts: MutationOptions = {}) {
-    console.log("project deploy", opts);
     const stacks = opts.skipSynth
       ? await this.readSynthesizedStacks()
       : await this.synth(opts.noColor);
