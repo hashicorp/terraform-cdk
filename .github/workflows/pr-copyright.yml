@@ -28,8 +28,6 @@ jobs:
           git config user.email "110428419+hashicorp-copywrite[bot]@users.noreply.github.com"
       - name: Setup Copywrite tool
         uses: hashicorp/setup-copywrite@867a1a2a064a0626db322392806428f7dc59cb3e # v1.1.2
-        with:
-          version: v0.16.4 # pinned as there's a bug causing 0.16.5 to have a different binary name which can't be loaded
       - name: Add headers using Copywrite tool
         run: copywrite headers
       - name: Check if there are any changes
