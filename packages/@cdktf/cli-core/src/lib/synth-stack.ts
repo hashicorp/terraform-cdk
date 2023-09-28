@@ -112,7 +112,6 @@ might fail while synthesizing with an out of memory error.`);
     }
 
     try {
-      console.log("Synth started", noColor);
       await shell(command, [], {
         shell: true,
         env: {
@@ -124,7 +123,6 @@ might fail while synthesizing with an out of memory error.`);
         signal: abortSignal,
         noColor: noColor,
       });
-      console.log("Synth finished");
     } catch (e: any) {
       const errorOutput = chalkColour`{redBright cdktf encountered an error while synthesizing}
 
