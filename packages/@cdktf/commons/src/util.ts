@@ -254,7 +254,7 @@ export async function ensureAllSettledBeforeThrowing(
  * Used for cases where we can't pass down the noColor flag (e.g. when collecting debug information from the environment)
  * This is the same behavior as the `chalk` lib we use for coloring output
  */
-function hasNoColorFlagOrEnv(): boolean {
+export function hasNoColorFlagOrEnv(): boolean {
   return hasFlag("no-color") || process.env.FORCE_COLOR === "0";
 }
 
