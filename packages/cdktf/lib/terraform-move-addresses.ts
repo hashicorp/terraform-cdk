@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Construct } from "constructs";
 import { TerraformResource } from "./terraform-resource";
 import { TerraformStack } from "./terraform-stack";
