@@ -90,10 +90,6 @@ export const exec = async (
 ): Promise<string> => {
   // if options.noColor is not set, checking the flags & environment if it should be set
   // This is required for collectDebugInformation() which does not have knowledge about flags
-  if (typeof options.noColor !== "boolean") {
-    console.log("no nocolor set", "setting it to", hasNoColorFlagOrEnv(), "args", process.argv);
-  }
-  
   if (typeof options.noColor !== "boolean" && hasNoColorFlagOrEnv()) {
     options.noColor = true;
   }
