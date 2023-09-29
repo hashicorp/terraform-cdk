@@ -33,18 +33,28 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
-      - name: Get yarn cache directory path
+      # Setup caches for yarn, and go
+      - name: Get cache directory paths
         id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: |
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          key: go-${{ runner.os }}-integration
+          restore-keys: |
+            go-${{ runner.os }}-
       - name: install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ${{ steps.global-cache-dir-path.outputs.dir }}
       - name: set version
         if: ${{ !inputs.skip_setup }}
         run: tools/align-version.sh "-dev.$GITHUB_RUN_ID"
@@ -55,8 +65,7 @@ jobs:
           yarn package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: Upload dist
         uses: actions/upload-artifact@0b7f8abb1508181956e8e162db84b466c27e18ce
         if: ${{ !inputs.skip_setup }}
@@ -72,8 +81,6 @@ jobs:
       - name: installing test dependencies
         run: |
           cd test && yarn install --frozen-lockfile --prefer-offline
-        env:
-          YARN_CACHE_FOLDER: ${{ steps.global-cache-dir-path.outputs.dir }}
       - id: build-test-matrix
         run: |
           ./tools/build-test-matrix.sh
@@ -95,16 +102,41 @@ jobs:
 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-      - name: Get yarn cache directory path
-        id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
+      # Setup caches for yarn, terraform, and go
+      - name: Get cache directory paths
+        id: global-cache-dir-path
+        run: |
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/terraform
+          echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: terraform-${{ runner.os }}-${{ matrix.terraform }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            terraform-${{ runner.os }}-${{ matrix.terraform }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: go-${{ runner.os }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            go-${{ runner.os }}-integration
+            go-${{ runner.os }}-
       - name: Download dist
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
         with:
@@ -124,8 +156,8 @@ jobs:
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
 
   windows_integration:
     needs: prepare-integration-tests
@@ -143,15 +175,40 @@ jobs:
 
     steps:
       - uses: actions/checkout@8e5e7e5ab8b370d6c329ec480221332ada57f0ab
-      - name: Get yarn cache directory path
+      # Setup caches for yarn, terraform, and go
+      - name: Get cache directory paths
         id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
         shell: bash
+        run: |
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/terraform
+          echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-integration-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: terraform-${{ runner.os }}-${{ matrix.terraform }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            terraform-${{ runner.os }}-${{ matrix.terraform }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          # put matrix before integration to not restore caches from other sibling matrix jobs
+          key: go-${{ runner.os }}-matrix-integration-${{ matrix.target }}
+          restore-keys: |
+            go-${{ runner.os }}-integration
+            go-${{ runner.os }}-
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
         with:
@@ -185,5 +242,5 @@ jobs:
           TEST_TARGET: ${{ matrix.target }}
           TERRAFORM_CLOUD_TOKEN: ${{ secrets.TERRAFORM_CLOUD_TOKEN }}
           NODE_OPTIONS: "--max-old-space-size=7168"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
