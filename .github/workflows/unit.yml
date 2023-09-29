@@ -48,10 +48,10 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
           key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        with:
-          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
-          key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}
+      # - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+      #   with:
+      #     path: ${{ steps.global-cache-dir-path.outputs.terraform }}
+      #     key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
@@ -80,4 +80,3 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
-          CDKTF_LOG_LEVEL: all # TODO: remove
