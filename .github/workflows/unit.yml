@@ -80,3 +80,4 @@ jobs:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
           TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
+          CDKTF_LOG_LEVEL: all # TODO: remove
