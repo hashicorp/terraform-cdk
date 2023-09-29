@@ -50,16 +50,34 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
-      - name: Get yarn cache directory path
+      # Setup caches for yarn, terraform, and go
+      - name: Get cache directory paths
         id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: |
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/terraform
+          echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-examples-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-examples
           restore-keys: |
-            ${{ runner.os }}-examples-yarn-
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          key: terraform-${{ runner.os }}-${{ matrix.terraform }}-examples
+          restore-keys: |
+            terraform-${{ runner.os }}-${{ matrix.terraform }}
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          key: go-${{ runner.os }}-examples
+          restore-keys: |
+            go-${{ runner.os }}-
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile --prefer-offline
@@ -72,8 +90,8 @@ jobs:
         run: yarn build
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: create bundle
         run: yarn package
       - name: examples integration tests
@@ -83,5 +101,5 @@ jobs:
           TEST_TARGET: "${{ matrix.target }}"
           TERRAFORM_BINARY_NAME: "terraform${{ matrix.terraform }}"
           MAVEN_OPTS: "-Xmx3G"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}

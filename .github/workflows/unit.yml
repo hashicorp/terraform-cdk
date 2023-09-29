@@ -41,25 +41,35 @@ jobs:
         id: global-cache-dir-path
         run: |
           echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          echo "terraform=$(mktemp -d)" >> $GITHUB_OUTPUT
-          echo "go=$(mktemp -d)" >> $GITHUB_OUTPUT
-          echo "providerSchema=$(mktemp -d)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/terraform
+          echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/providerSchema
+          echo "providerSchema=/usr/local/share/.cache/providerSchema" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
-          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-unit
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.terraform }}
-          key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}
+          key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}-unit
+          restore-keys: |
+            terraform-${{ runner.os }}-${{ inputs.terraform_version }}
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
-          key: go-${{ runner.os }}
+          key: go-${{ runner.os }}-unit
+          restore-keys: |
+            go-${{ runner.os }}-
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.providerSchema }}
-          key: providerSchema-${{ runner.os }}-${{ inputs.terraform_version }}
+          key: providerSchema-${{ runner.os }}-${{ inputs.terraform_version }}-unit
 
       - name: installing dependencies
         run: |

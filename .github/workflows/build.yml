@@ -27,14 +27,26 @@ jobs:
         run: git config --global --add safe.directory /__w/terraform-cdk/terraform-cdk
       - name: ensure correct user
         run: chown -R root /__w/terraform-cdk
-      - name: Get yarn cache directory path
+      # Setup caches for yarn, and go
+      - name: Get cache directory paths
         id: global-cache-dir-path
-        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+        run: |
+          echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
+          mkdir -p /usr/local/share/.cache/go
+          echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        id: global-cache # use this to check for `cache-hit` (`steps.global-cache.outputs.cache-hit != 'true'`)
         with:
-          path: ${{ steps.global-cache-dir-path.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          path: ${{ steps.global-cache-dir-path.outputs.yarn }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-build
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.go }}
+          key: go-${{ runner.os }}-build
+          restore-keys: |
+            go-${{ runner.os }}-
       - name: install dependencies
         run: yarn install
       - name: build and package
@@ -43,5 +55,4 @@ jobs:
           yarn package
         env:
           SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.dir }}/terraform-plugins
-          GOCACHE: ${{ steps.global-cache-dir-path.outputs.dir }}/go-cache
+          GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
