@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Construct } from "constructs";
 import { S3Bucket } from "../.gen/providers/aws/s3-bucket";
 //import { TerraformMoveAddresses } from "cdktf";
