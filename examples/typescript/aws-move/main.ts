@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) HashiCorp, Inc.
+ * SPDX-License-Identifier: MPL-2.0
+ */
+
 import { Construct } from "constructs";
 //import { App, TerraformStack } from "cdktf";
 import { App, TerraformStack, TerraformIterator } from "cdktf";
