@@ -75,13 +75,12 @@ jobs:
           yarn package
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
       - name: test
         run: |
+          unset TF_PLUGIN_CACHE_DIR
           npx lerna run --scope '${{ inputs.package }}' test:ci
         env:
           TERRAFORM_BINARY_NAME: "terraform${{ inputs.terraform_version }}"
-          TF_PLUGIN_CACHE_DIR: ${{ steps.global-cache-dir-path.outputs.terraform }}
           GOCACHE: ${{ steps.global-cache-dir-path.outputs.go }}
           CDKTF_EXPERIMENTAL_PROVIDER_SCHEMA_CACHE_PATH: ${{ steps.global-cache-dir-path.outputs.providerSchema }}
