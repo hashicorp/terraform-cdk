@@ -50,8 +50,9 @@ jobs:
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
-          key: go-${{ runner.os }}-integration
+          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-integration
           restore-keys: |
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
             go-${{ runner.os }}-
       - name: install dependencies
         run: yarn install --frozen-lockfile --prefer-offline
@@ -133,9 +134,10 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
           # put matrix before integration to not restore caches from other sibling matrix jobs
-          key: go-${{ runner.os }}-matrix-integration-${{ matrix.target }}
+          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-matrix-integration-${{ matrix.target }}
           restore-keys: |
-            go-${{ runner.os }}-integration
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-integration
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}
             go-${{ runner.os }}-
       - name: Download dist
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a
@@ -205,9 +207,10 @@ jobs:
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
           # put matrix before integration to not restore caches from other sibling matrix jobs
-          key: go-${{ runner.os }}-matrix-integration-${{ matrix.target }}
+          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-matrix-integration-${{ matrix.target }}
           restore-keys: |
-            go-${{ runner.os }}-integration
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-integration
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
             go-${{ runner.os }}-
       - name: HashiCorp - Setup Terraform
         uses: hashicorp/setup-terraform@633666f66e0061ca3b725c73b2ec20cd13a8fdd1
