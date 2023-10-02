@@ -41,8 +41,6 @@ jobs:
         id: global-cache-dir-path
         run: |
           echo "yarn=$(yarn cache dir)" >> $GITHUB_OUTPUT
-          mkdir -p /usr/local/share/.cache/terraform
-          echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/providerSchema
@@ -55,12 +53,6 @@ jobs:
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-unit-
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
             yarn-${{ runner.os }}-
-      - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
-        with:
-          path: ${{ steps.global-cache-dir-path.outputs.terraform }}
-          key: terraform-${{ runner.os }}-${{ inputs.terraform_version }}-unit-${{ inputs.package }}
-          # Note: we are not using restore-keys here as they cause unit tests to fail with Terraform checksum errors
-          # coming from restored sibling caches somehow
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
