@@ -64,8 +64,9 @@ jobs:
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
           path: ${{ steps.global-cache-dir-path.outputs.go }}
-          key: go-${{ runner.os }}-unit
+          key: go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-unit
           restore-keys: |
+            go-${{ runner.os }}-${{ hashFiles('**/go.sum') }}-
             go-${{ runner.os }}-
       - uses: actions/cache@88522ab9f39a2ea568f7027eddc7d8d8bc9d59c8
         with:
