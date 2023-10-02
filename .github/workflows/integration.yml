@@ -114,13 +114,12 @@ jobs:
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
+      # only restore as an individual cache as per matrix explodes our cache usage
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
-          # put matrix before integration to not restore caches from other sibling matrix jobs
-          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-matrix-integration-${{ matrix.target }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
           restore-keys: |
-            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
             yarn-${{ runner.os }}-
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
@@ -187,13 +186,12 @@ jobs:
           echo "terraform=/usr/local/share/.cache/terraform" >> $GITHUB_OUTPUT
           mkdir -p /usr/local/share/.cache/go
           echo "go=/usr/local/share/.cache/go" >> $GITHUB_OUTPUT
+      # only restore as an individual cache as per matrix explodes our cache usage
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
         with:
           path: ${{ steps.global-cache-dir-path.outputs.yarn }}
-          # put matrix before integration to not restore caches from other sibling matrix jobs
-          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-matrix-integration-${{ matrix.target }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
           restore-keys: |
-            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-integration
             yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
             yarn-${{ runner.os }}-
       - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
