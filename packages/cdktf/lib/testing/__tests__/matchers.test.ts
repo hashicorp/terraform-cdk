@@ -298,7 +298,10 @@ describe("matchers", () => {
         expect.stringContaining(
           `Expected subject to be a valid terraform stack: Error: Command failed: terraform1.5.5 init
           Terraform encountered problems during initialisation, including problems`
-        )
+        ) ||
+          expect.stringContaining(
+            "Expected subject to be a valid terraform stack: Error: Command failed: terraform1.3.4 init"
+          )
       );
       expect(res.message).toEqual(
         expect.stringContaining(
