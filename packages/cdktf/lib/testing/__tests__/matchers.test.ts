@@ -296,11 +296,9 @@ describe("matchers", () => {
       );
       expect(res.message).toEqual(
         expect.stringContaining(
-          "There are some problems with the configuration, described below."
-        ) ||
-          expect.stringContaining(
-            "Terraform encountered problems during initialisation, including problems with the configuration, described below."
-          )
+          `The Terraform configuration must be valid before initialization so that
+          Terraform can determine which modules and providers need to be installed.`
+        )
       );
       expect(res.message).toEqual(
         expect.stringContaining(
