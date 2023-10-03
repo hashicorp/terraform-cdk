@@ -296,8 +296,8 @@ describe("matchers", () => {
       );
       expect(res.message).toEqual(
         expect.stringContaining(
-          `The Terraform configuration must be valid before initialization so that
-          Terraform can determine which modules and providers need to be installed.`
+          `Expected subject to be a valid terraform stack: Error: Command failed: terraform1.5.5 init
+          Terraform encountered problems during initialisation, including problems`
         )
       );
       expect(res.message).toEqual(
