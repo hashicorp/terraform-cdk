@@ -297,7 +297,10 @@ describe("matchers", () => {
       expect(res.message).toEqual(
         expect.stringContaining(
           "There are some problems with the configuration, described below."
-        )
+        ) ||
+          expect.stringContaining(
+            "Terraform encountered problems during initialisation, including problems with the configuration, described below."
+          )
       );
       expect(res.message).toEqual(
         expect.stringContaining(
