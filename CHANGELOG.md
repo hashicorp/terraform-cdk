@@ -1,3 +1,37 @@
+## 0.18.1
+
+### fix
+
+- fix(docs): Fix typo in example of using TF*VAR* to set TerraformVariable [\#3116](https://github.com/hashicorp/terraform-cdk/pull/3116)
+- fix(provider-generator): make sanitize comments function robust against diverse inputs [\#3131](https://github.com/hashicorp/terraform-cdk/pull/3131)
+- fix(cli): fix help template spelling [\#3146](https://github.com/hashicorp/terraform-cdk/pull/3146)
+- fix(cli): ensure terraform output fails with a proper error [\#3135](https://github.com/hashicorp/terraform-cdk/pull/3135)
+- fix: make sure noColor option is honored [\#3138](https://github.com/hashicorp/terraform-cdk/pull/3138)
+- fix(hcl2cdk): Try to fix TF checksum errors in tests by running them in band [\#3163](https://github.com/hashicorp/terraform-cdk/pull/3163)
+- fix: use whl to install local python [\#3119](https://github.com/hashicorp/terraform-cdk/pull/3119)
+- fix: fix Github workflow caches to restore successfully more often [\#3154](https://github.com/hashicorp/terraform-cdk/pull/3154)
+- fix: set specific copywrite tool version to fix CI [\#3150](https://github.com/hashicorp/terraform-cdk/pull/3150)
+- fix: unpin version of copywrite [\#3151](https://github.com/hashicorp/terraform-cdk/pull/3151)
+
+### chore
+
+- chore: Upgrade docker image to use Node 18 [\#3107](https://github.com/hashicorp/terraform-cdk/pull/3107)
+- chore: fix passing additional providers [\#3092](https://github.com/hashicorp/terraform-cdk/pull/3092)
+- chore(docs): fix grammar and spelling on Performance page [\#3098](https://github.com/hashicorp/terraform-cdk/pull/3098)
+- chore: fix typo [\#3091](https://github.com/hashicorp/terraform-cdk/pull/3091)
+- chore(cli): fixes typo (#3120) [\#3121](https://github.com/hashicorp/terraform-cdk/pull/3121)
+- chore: fix typo in registry workflow [\#3100](https://github.com/hashicorp/terraform-cdk/pull/3100)
+- chore: fix remove-waiting-on-answer workflow [\#3097](https://github.com/hashicorp/terraform-cdk/pull/3097)
+- chore: ensure GitHub treats us as a TypeScript project [\#3099](https://github.com/hashicorp/terraform-cdk/pull/3099)
+- chore: update registry tool [\#3101](https://github.com/hashicorp/terraform-cdk/pull/3101)
+- chore: update dependencies for @cdktf/commons [\#3096](https://github.com/hashicorp/terraform-cdk/pull/3096)
+- chore: update cdktf version [\#3090](https://github.com/hashicorp/terraform-cdk/pull/3090)
+- chore: remove obsolete comment [\#3137](https://github.com/hashicorp/terraform-cdk/pull/3137)
+
+### refactor
+
+- refactor: move schema reading logic into package [\#3124](https://github.com/hashicorp/terraform-cdk/pull/3124)
+
 ## 0.18.0
 
 ### chore
