@@ -370,6 +370,84 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 
 </CodeTabs>
 
+## Refactoring & Renaming Resources
+
+By default moving and/or renaming resource will be regarded with the intent to destroy the resource and re-create it. If such behavior must be avoided, but there is need to refactor your infrastructure definitions and/or rename resources in it, the function `moveTo` can serve your purpose.
+
+### Performing Resource Moves
+
+The function `moveTo` is present on all resources and takes a string `moveTarget` that denotes the location of the move. To set the `moveTarget`, use the function `addMoveTarget` that is present on the resource you desire to move to and provide its string target.
+
+Note that the `moveTarget` must be set prior to the call of `moveTo`.
+
+```ts
+new S3Bucket(this, "test-bucket-move-to", {
+  bucket: "move-bucket-name",
+}).addMoveTarget("move-s3");
+
+new S3Bucket(this, "test-bucket-move-from", {
+  bucket: "move-bucket-name",
+}).moveTo("move-s3");
+```
+
+After deployment, both the resource being moved, and the move target on the resource being moved to can be removed.
+
+#### Move Targets
+
+A `moveTarget` is accessible anywhere in the context of the stack it is created.
+
+For instance, a `moveTarget` set at the root of the stack can be accessed within a nested construct. Conversely, a `moveTarget` set in a nested construct can be accessed at the root of the stack.
+
+Note that the `moveTarget` must be set prior to the call of `moveTo`. For example, in the instance where you are moving a resource into a nested construct, the nested construct must be instantiated prior to the call of `moveTo` on the resource being moved.
+
+```ts
+// Contains resource with moveTarget "move"
+new NestedConstructToMoveTo(this, "construct-to-move-to");
+
+new S3Bucket(this, "test-bucket-1", {
+  bucket: "test-move-bucket-name-1",
+}).moveTo("move");
+```
+
+### Renaming a Resource
+
+To rename a resource, all that is needed is to call the `renameResourceId` function that is present on the resource.
+
+```ts
+new S3Bucket(this, "bucket-id", {
+  bucket: "bucket-rename",
+}).renameResourceId("bucket-new-id");
+```
+
+Once the resource has been deployed, the original id can be changed to use the desired renamed resource id, and the call `renameResourceId` can be removed.
+
+### Enabling `foreach` on a Resource
+
+If you desire to move a deployed resource to be in composition of a resource using `foreach`, the index argument of `moveTo` can place the deployed resource in a `foreach` composition without its destruction.
+
+Here the index `website-static-files` is provided, corresponding to the key that appears in the TerraformIterator `iterator`.
+
+```ts
+const iterator = TerraformIterator.fromMap({
+  "website-static-files": {
+    name: "website-static-files",
+    tags: { app: "website" },
+  },
+  images: { name: "images", tags: { app: "image-converter" } },
+});
+
+new S3Bucket(this, "iterator-bucket", {
+  forEach: iterator,
+  bucket: iterator.getString("name"),
+  tags: iterator.getStringMap("tags"),
+}).addMoveTarget("resourceWithIterator");
+
+new S3Bucket(this, "moved-bucket", {
+  bucket: "website-static-files",
+  tags: { app: "website" },
+}).moveTo("resourceWithIterator", "website-static-files");
+```
+
 ## Provisioners
 
 Provisioners can be used to model specific actions on the local machine or on a remote machine in order to prepare servers or other infrastructure objects for service. You can find more information on the concept of provisioners in the [Terraform docs](/terraform/language/resources/provisioners/syntax). You can pass the `provisioners` key to define a list of provisioners, connections can be configured with the `connection` key. A working example can be found at [examples/typescript/provisioner](https://github.com/hashicorp/terraform-cdk/blob/main/examples/typescript/provisioner/main.ts).

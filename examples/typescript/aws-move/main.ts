@@ -52,7 +52,7 @@ export class UnNestingMoveStack extends TerraformStack {
     });
     new S3Bucket(this, "test-bucket-1", {
       bucket: "test-move-bucket-name-1",
-    }).addResourceTag("move");
+    }).addMoveTarget("move");
     new UnNestingConstructToMoveTo(this, "construct-to-move-to");
   }
 }
@@ -140,7 +140,7 @@ export class NestingNestedConstructToMoveTo extends Construct {
 
     new S3Bucket(this, "test-bucket-3", {
       bucket: "test-move-bucket-name-3",
-    }).addResourceTag("move");
+    }).addMoveTarget("move");
   }
 }
 // NESTING RESOURCE
@@ -180,7 +180,7 @@ export class ListIteratorMoveStack extends TerraformStack {
     new S3Bucket(this, "complex-iterator-bucket", {
       forEach: iterator,
       bucket: iterator.value,
-    }).addResourceTag("moveToResourceWithListIterator");
+    }).addMoveTarget("moveToResourceWithListIterator");
 
     new S3Bucket(this, "moved-bucket-complex-iterator", {
       bucket: "website-static-file-list-iterator-one",
@@ -221,8 +221,8 @@ export class ComplexIteratorMoveStack extends TerraformStack {
     });
 
     const complexIterator = TerraformIterator.fromMap({
-      "website-static-file-complex-iterator": {
-        name: "website-static-file-complex-iterator",
+      "website-static-files": {
+        name: "website-static-files",
         tags: { app: "website" },
       },
       images: { name: "images", tags: { app: "image-converter" } },
@@ -232,21 +232,18 @@ export class ComplexIteratorMoveStack extends TerraformStack {
       forEach: complexIterator,
       bucket: complexIterator.getString("name"),
       tags: complexIterator.getStringMap("tags"),
-    }).addResourceTag("moveToResourceWithComplexIterator");
+    }).addMoveTarget("resourceWithComplexIterator");
 
-    new S3Bucket(this, "moved-bucket-complex-iterator", {
-      bucket: "website-static-file-complex-iterator",
+    new S3Bucket(this, "moved-bucket", {
+      bucket: "website-static-files",
       tags: { app: "website" },
-    }).moveTo(
-      "moveToResourceWithComplexIterator",
-      "website-static-file-complex-iterator"
-    );
+    }).moveTo("resourceWithComplexIterator", "website-static-files");
   }
 }
 // MOVE INTO RESOURCE USING COMPLEX ITERATOR
 
 // MOVE INTO RESOURCE USING COUNT
-export class countMoveStack extends TerraformStack {
+export class CountMoveStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
 
@@ -263,6 +260,20 @@ export class countMoveStack extends TerraformStack {
   }
 }
 // MOVE INTO RESOURCE USING COUNT
+
+export class RenameResourceStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+
+    new S3Bucket(this, "test-bucket", {
+      bucket: "test-bucket-rename",
+    }).renameResourceId("test-bucket-rename");
+  }
+}
 
 const app = new App();
 new UnNestingMoveStack(app, "un-nesting-move-stack");
