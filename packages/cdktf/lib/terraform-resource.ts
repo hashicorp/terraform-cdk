@@ -287,9 +287,9 @@ export class TerraformResource
   }
 
   /**
-   *
-   * @param moveTarget
-   * @param index
+   * Moves this resource to the location denoted by moveTarget.
+   * @param moveTarget The previously set string moveTarget denoting the location of the move
+   * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
     const stackMoveTargets = this.parentStackResourceTargets();
@@ -297,7 +297,7 @@ export class TerraformResource
       stackMoveTargets.getResourceAddressByTarget(moveTarget);
     if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
       throw new Error(
-        `The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from resource being of type ${this.terraformResourceType} being moved from`
+        `The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from`
       );
     }
     const movedToId = index
@@ -311,8 +311,8 @@ export class TerraformResource
   }
 
   /**
-   *
-   * @param moveTarget
+   * Adds a string moveTarget to this resource
+   * @param moveTarget The string move target that corresponds to the address of this resource
    */
   public addMoveTarget(moveTarget: string) {
     const stackMoveTargets = this.parentStackResourceTargets();
@@ -320,8 +320,8 @@ export class TerraformResource
   }
 
   /**
-   *
-   * @param newId
+   * Renames the id of this resource to newId
+   * @param newId The new id to replace the current id
    */
   public renameResourceId(newId: string) {
     const oldUniqueId = this.friendlyUniqueId;
