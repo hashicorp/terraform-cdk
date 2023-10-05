@@ -257,7 +257,7 @@ export class TerraformResource
         : undefined,
       moved: this._moved
         ? {
-            [this.terraformResourceType]: [this.friendlyUniqueId], // TODO: anything more we need here?
+            [this.terraformResourceType]: [this.friendlyUniqueId],
           }
         : undefined,
     };
@@ -287,8 +287,8 @@ export class TerraformResource
   }
 
   /**
-   * Moves this resource to the location denoted by moveTarget.
-   * @param moveTarget The previously set string moveTarget denoting the location of the move
+   * Moves this resource to the target resource given by moveTarget.
+   * @param moveTarget The previously set user defined string set by .addMoveTarget() corresponding to the resource to move to.
    * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
@@ -297,7 +297,10 @@ export class TerraformResource
       stackMoveTargets.getResourceAddressByTarget(moveTarget);
     if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
       throw new Error(
-        `The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from`
+        `You have tried to move a resource to a different type:
+
+        The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from
+        `
       );
     }
     const movedToId = index
@@ -316,8 +319,8 @@ export class TerraformResource
   }
 
   /**
-   * Adds a string moveTarget to this resource
-   * @param moveTarget The string move target that corresponds to the address of this resource
+   * Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
+   * @param moveTarget The string move target that will correspond to this resource
    */
   public addMoveTarget(moveTarget: string) {
     const stackMoveTargets = this.parentStackResourceTargets();
