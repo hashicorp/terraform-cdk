@@ -24,7 +24,7 @@ export class TerraformResourceTargets {
   public addResourceTarget(resource: TerraformResource, target: string): void {
     if (this._resourceTargetMap.has(target)) {
       throw new Error(
-        `Tag "${target}" has already been set at ${
+        `Target "${target}" has already been set at ${
           this._resourceTargetMap.get(target)?.friendlyUniqueId
         }`
       );
@@ -35,11 +35,13 @@ export class TerraformResourceTargets {
   public getResourceAddressByTarget(target: string): TerraformResource {
     const result = this._resourceTargetMap.get(target);
     if (!result) {
-      throw new Error(`Tag "${target}" has not been set:
+      throw new Error(`Target "${target}" has not been set:
       
-            Current Tag Entries:\n ${this.prettyPrintEntries()}
-      
-            Make sure the resource being moved to has been tagged before .movedTo() has been called
+            Current Target Entries:\n ${this.prettyPrintEntries()}
+
+            To add this target, call .addMoveTarget("${target}") on the instance of the resource to move to.
+
+            Make sure the resource being moved to has been given a moveTarget before .movedTo() has been called //TODO: add aspect that avoids this pain point and remove
             `);
     }
     return result;
