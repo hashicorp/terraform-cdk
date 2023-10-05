@@ -1,3 +1,11 @@
+## 0.18.2
+
+Fixes a bug in 0.18.1 that broke crash reporting due to a partial dependency upgrade.
+
+### fix
+
+- fix: Fix partial dependency update for Sentry [\#3172](https://github.com/hashicorp/terraform-cdk/pull/3172)
+
 ## 0.18.1
 
 ### fix
