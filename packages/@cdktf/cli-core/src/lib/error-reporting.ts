@@ -96,8 +96,9 @@ export async function initializErrorReporting(
         | Error
         | string
         | null
-        | undefined = hint.originalException;
-      let error: Error | string | null | undefined;
+        | undefined
+        | unknown = hint.originalException;
+      let error: Error | string | null | undefined | unknown;
       if (isPromise(originalException)) {
         (originalException as unknown as Promise<Error>).catch(
           (e) => (error = e)
