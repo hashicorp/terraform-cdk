@@ -307,7 +307,12 @@ export class TerraformResource
       : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}`;
     const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
     this._moved = { to: movedToId, from: movedFromId, renamed: false };
-    // TODO: add validation of correct Terraform Version
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
   }
 
   /**
@@ -340,5 +345,9 @@ export class TerraformResource
       from: `${this.terraformResourceType}.${oldUniqueId}`,
       renamed: true,
     };
+    new ValidateTerraformVersion(
+      ">=1.5",
+      `Resource rename functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+    );
   }
 }
