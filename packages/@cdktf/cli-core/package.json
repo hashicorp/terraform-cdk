@@ -42,7 +42,7 @@
     "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.10",
-    "@sentry/node": "^6.19.7",
+    "@sentry/node": "^7.64.0",
     "archiver": "^5.3.1",
     "cdktf": "0.0.0",
     "chalk": "^4.1.2",
