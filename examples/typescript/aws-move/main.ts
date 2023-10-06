@@ -280,4 +280,5 @@ new UnNestingMoveStack(app, "un-nesting-move-stack");
 new NestingMoveStack(app, "nesting-move-stack");
 new ListIteratorMoveStack(app, "list-iterator-move-stack");
 new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
+new RenameResourceStack(app, "rename-stack");
 app.synth();

@@ -372,11 +372,11 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 
 ## Refactoring & Renaming Resources
 
-By default moving and/or renaming resource will be regarded with the intent to destroy the resource and re-create it. If such behavior must be avoided, but there is need to refactor your infrastructure definitions and/or rename resources in it, the function `moveTo` can serve your purpose.
+When working with your infrastructure definitions and the need arises to refactor or rename resources without destroying and recreating them, you can leverage the `moveTo` function. This section outlines how to perform resource moves, rename resources, and enable foreach on existing resources in your CDKTF project.
 
 ### Performing Resource Moves
 
-The function `moveTo` is present on all resources and takes a string `moveTarget` that denotes the location of the move. To set the `moveTarget`, use the function `addMoveTarget` that is present on the resource you desire to move to and provide its string target.
+The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set the `moveTarget` for a resource, utilize the `addMoveTarget` function that is present on the resource to move to.
 
 Note that the `moveTarget` must be set prior to the call of `moveTo`.
 
@@ -390,15 +390,11 @@ new S3Bucket(this, "test-bucket-move-from", {
 }).moveTo("move-s3");
 ```
 
-After deployment, both the resource being moved, and the move target on the resource being moved to can be removed.
+After deployment, both the resource being moved and the move target on the destination resource can be removed.
 
 #### Move Targets
 
-A `moveTarget` is accessible anywhere in the context of the stack it is created.
-
-For instance, a `moveTarget` set at the root of the stack can be accessed within a nested construct. Conversely, a `moveTarget` set in a nested construct can be accessed at the root of the stack.
-
-Note that the `moveTarget` must be set prior to the call of `moveTo`. For example, in the instance where you are moving a resource into a nested construct, the nested construct must be instantiated prior to the call of `moveTo` on the resource being moved.
+A `moveTarget` is accessible within the context of the stack where it is created. Whether it's set at the root of the stack or within a nested construct, you can access it accordingly. However, it's crucial to ensure that the `moveTarget` is configured before invoking the `moveTo` function. For example, when moving a resource into a nested construct, make sure the nested construct is instantiated prior to calling `moveTo` on the resource being moved.
 
 ```ts
 // Contains resource with moveTarget "move"
@@ -411,7 +407,7 @@ new S3Bucket(this, "test-bucket-1", {
 
 ### Renaming a Resource
 
-To rename a resource, all that is needed is to call the `renameResourceId` function that is present on the resource.
+To rename a resource, you can simply use the `renameResourceId` function available on the resource.
 
 ```ts
 new S3Bucket(this, "bucket-id", {
@@ -419,13 +415,11 @@ new S3Bucket(this, "bucket-id", {
 }).renameResourceId("bucket-new-id");
 ```
 
-Once the resource has been deployed, the original id can be changed to use the desired renamed resource id, and the call `renameResourceId` can be removed.
+After deploying the resource, you can update your resource to use the newly assigned resource ID, and the `renameResourceId` call can be safely removed.
 
 ### Enabling `foreach` on a Resource
 
-If you desire to move a deployed resource to be in composition of a resource using `foreach`, the index argument of `moveTo` can place the deployed resource in a `foreach` composition without its destruction.
-
-Here the index `website-static-files` is provided, corresponding to the key that appears in the TerraformIterator `iterator`.
+If you wish to incorporate a deployed resource into a composition using `foreach`, you can achieve this without destroying the resource by specifying the desired index using the `moveTo` function. The index should correspond to the key found in the `TerraformIterator` named iterator
 
 ```ts
 const iterator = TerraformIterator.fromMap({
@@ -447,6 +441,8 @@ new S3Bucket(this, "moved-bucket", {
   tags: { app: "website" },
 }).moveTo("resourceWithIterator", "website-static-files");
 ```
+
+This allows you to efficiently integrate existing resources into a `foreach` composition without the need for resource destruction.
 
 ## Provisioners
 
