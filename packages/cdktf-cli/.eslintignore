@@ -1,2 +1,3 @@
 # ignore build output
 *.d.ts
+bundle
