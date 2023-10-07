@@ -1,6 +1,6 @@
 {
   "language": "typescript",
-  "app": "npx ts-node main.ts",
+  "app": "npx ts-node bin/{{$base}}.ts",
   "projectId": "{{projectId}}",
   "sendCrashReports": "{{sendCrashReports}}",
   "terraformProviders": [],
