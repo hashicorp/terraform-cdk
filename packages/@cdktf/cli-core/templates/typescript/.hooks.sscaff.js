@@ -5,6 +5,11 @@
 
 const { execSync } = require("child_process");
 const { readFileSync, writeFileSync } = require("fs");
+const { toPascalCase } = require("codemaker");
+
+exports.pre = (variables) => {
+  variables.basePascal = toPascalCase(variables.$base);
+}
 
 exports.post = (ctx) => {
   const silent = ctx.silent === "true" || ctx.silent === true;
