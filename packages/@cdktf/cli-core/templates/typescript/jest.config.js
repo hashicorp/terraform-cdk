@@ -5,7 +5,7 @@
  */
 
 module.exports = {
-  
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -123,7 +123,7 @@ module.exports = {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  setupFilesAfterEnv: ["<rootDir>/setup.js"],
+  setupFilesAfterEnv: ["<rootDir>/test/setup.js"],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,
@@ -142,7 +142,7 @@ module.exports = {
 
   // The glob patterns Jest uses to detect test files
   testMatch: [
-    "**/__tests__/**/*.ts",
+    "**/test/**/*.ts",
     "**/?(*.)+(spec|test).ts"
   ],
 
