@@ -22,6 +22,7 @@ exports.post = (ctx) => {
     }
     terraformCloudConfig(
       ctx.$base,
+      ctx.basePascal,
       ctx.OrganizationName,
       ctx.WorkspaceName,
       ctx.TerraformRemoteHostname
@@ -59,19 +60,20 @@ function installDeps(deps, isDev, silent) {
 
 function terraformCloudConfig(
   baseName,
+  basePascal,
   organizationName,
   workspaceName,
   terraformRemoteHostname
 ) {
-  template = readFileSync("./main.ts", "utf-8");
+  template = readFileSync(`./bin/${baseName}.ts`, "utf-8");
 
   result = template.replace(
-    `import { App, TerraformStack } from "cdktf";`,
-    `import { App, TerraformStack, CloudBackend, NamedCloudWorkspace } from "cdktf";`
+    `import { App } from "cdktf";`,
+    `import { App, CloudBackend, NamedCloudWorkspace } from "cdktf";`
   );
   result = result.replace(
-    `new MyStack(app, "${baseName}");`,
-    `const stack = new MyStack(app, "${baseName}");
+    `new ${basePascal}Stack(app, "${basePascal}");`,
+    `const stack = new ${basePascal}Stack(app, "${basePascal}");
 new CloudBackend(stack, {
   hostname: "${terraformRemoteHostname}",
   organization: "${organizationName}",
@@ -79,5 +81,5 @@ new CloudBackend(stack, {
 });`
   );
 
-  writeFileSync("./main.ts", result, "utf-8");
+  writeFileSync(`./bin/${baseName}.ts`, result, "utf-8");
 }
