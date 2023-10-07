@@ -1,2 +1,5 @@
 # ignore build output
 *.d.ts
+
+# ignore templates, since they're not valid TypeScript
+templates
