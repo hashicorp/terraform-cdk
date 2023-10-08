@@ -1,4 +1,6 @@
 packages/cdktf-cli/templates/*/cdktf.json
+packages/cdktf-cli/bundle/templates/typescript/**/*.ts
+packages/@cdktf/cli-core/templates/typescript/**/*.ts
 **/.gen
 **/cdktf.out
 *.js
