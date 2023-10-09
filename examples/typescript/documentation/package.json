@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@cdktf/provider-dnsimple": "^0.1.8",
-    "@cdktf/provider-github": "^6.0.2",
+    "@cdktf/provider-github": "^6.0.8",
     "@cdktf/provider-kubernetes": "^4.0.2",
     "@cdktf/provider-random": "^4.0.0",
     "cdktf": "0.0.0",
@@ -26,10 +26,10 @@
   },
   "devDependencies": {
     "@types/jest": "27.5.2",
-    "@types/node": "16.18.23",
+    "@types/node": "16.18.58",
     "cdktf-cli": "0.0.0",
     "jest": "^27.5.1",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2"
+    "typescript": "^5.0.4"
   }
 }

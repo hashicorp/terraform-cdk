@@ -104,28 +104,28 @@
   },
   "license": "MPL-2.0",
   "devDependencies": {
-    "@types/jest": "^29.5.0",
+    "@types/jest": "^29.5.5",
     "@types/json-stable-stringify": "^1.0.34",
     "@types/minimatch": "^5.1.2",
-    "@types/node": "16.18.23",
-    "@types/semver": "^7.3.13",
+    "@types/node": "16.18.58",
+    "@types/semver": "^7.5.3",
     "@typescript-eslint/eslint-plugin": "^4.33.0",
     "@typescript-eslint/parser": "^4.33.0",
     "constructs": "^10.0.25",
     "eslint": "^7.32.0",
-    "eslint-plugin-jsdoc": "^39.6.2",
+    "eslint-plugin-jsdoc": "^39.9.1",
     "eslint-plugin-no-instanceof": "1.0.1",
-    "jest": "^29.5.0",
-    "jsii": "^5.1.10",
-    "jsii-docgen": "^9.1.2",
-    "jsii-pacmak": "^1.87.0",
-    "ts-jest": "^29.0.5",
-    "typescript": "^5.0.2"
+    "jest": "^29.7.0",
+    "jsii": "^5.2.14",
+    "jsii-docgen": "^9.2.2",
+    "jsii-pacmak": "^1.90.0",
+    "ts-jest": "^29.1.1",
+    "typescript": "^5.0.4"
   },
   "dependencies": {
-    "archiver": "5.3.1",
+    "archiver": "5.3.2",
     "json-stable-stringify": "^1.0.2",
-    "semver": "^7.5.3"
+    "semver": "^7.5.4"
   },
   "bundledDependencies": [
     "archiver",
