@@ -227,7 +227,7 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
-    const movedBlock = this._buildMoveBlock();
+    const movedBlock = this._buildMovedBlock();
     return {
       resource:
         movedBlock && !movedBlock.renamed
@@ -309,7 +309,7 @@ export class TerraformResource
     );
   }
 
-  private _buildMoveBlock() {
+  private _buildMovedBlock() {
     // eslint-disable-next-line jsdoc/require-jsdoc
     function buildResourceMove({
       resourceType,
