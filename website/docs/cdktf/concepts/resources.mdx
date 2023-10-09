@@ -378,8 +378,6 @@ When working with your infrastructure definitions and the need arises to refacto
 
 The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set the `moveTarget` for a resource, utilize the `addMoveTarget` function that is present on the resource to move to.
 
-Note that the `moveTarget` must be set prior to the call of `moveTo`.
-
 ```ts
 new S3Bucket(this, "test-bucket-move-to", {
   bucket: "move-bucket-name",
@@ -394,15 +392,15 @@ After deployment, both the resource being moved and the move target on the desti
 
 #### Move Targets
 
-A `moveTarget` is accessible within the context of the stack where it is created. Whether it's set at the root of the stack or within a nested construct, you can access it accordingly. However, it's crucial to ensure that the `moveTarget` is configured before invoking the `moveTo` function. For example, when moving a resource into a nested construct, make sure the nested construct is instantiated prior to calling `moveTo` on the resource being moved.
+A `moveTarget` is accessible anywhere within the context of the stack where it is created. Whether it's set at the root of the stack or within a nested construct, you can access it accordingly.
 
 ```ts
-// Contains resource with moveTarget "move"
-new NestedConstructToMoveTo(this, "construct-to-move-to");
-
 new S3Bucket(this, "test-bucket-1", {
   bucket: "test-move-bucket-name-1",
 }).moveTo("move");
+
+// Contains resource with moveTarget "move"
+new NestedConstructToMoveTo(this, "construct-to-move-to");
 ```
 
 ### Renaming a Resource
@@ -442,7 +440,7 @@ new S3Bucket(this, "moved-bucket", {
 }).moveTo("resourceWithIterator", "website-static-files");
 ```
 
-This allows you to efficiently integrate existing resources into a `foreach` composition without the need for resource destruction.
+This allows you to efficiently integrate existing resources into a `foreach` composition without destroying the existing deployed resource.
 
 ## Provisioners
 
