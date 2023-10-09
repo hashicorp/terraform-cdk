@@ -376,7 +376,7 @@ When working with your infrastructure definitions and the need arises to refacto
 
 ### Performing Resource Moves
 
-The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set the `moveTarget` for a resource, utilize the `addMoveTarget` function that is present on the resource to move to.
+The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set a resource's `moveTarget`, use the `addMoveTarget` function that is present on the resource to move to. You can specify an arbitrary string for the `moveTarget`, but it must be unique within your stack.
 
 ```ts
 new S3Bucket(this, "test-bucket-move-to", {
@@ -392,7 +392,7 @@ After deployment, both the resource being moved and the move target on the desti
 
 #### Move Targets
 
-A `moveTarget` is accessible anywhere within the context of the stack where it is created. Whether it's set at the root of the stack or within a nested construct, you can access it accordingly.
+A `moveTarget` is accessible anywhere within the context of the stack where it is created, including the root of the stack and within a nested construct. Moving resources to a different stack is not supported.
 
 ```ts
 new S3Bucket(this, "test-bucket-1", {
@@ -417,7 +417,7 @@ After deploying the resource, you can update your resource to use the newly assi
 
 ### Enabling `foreach` on a Resource
 
-If you wish to incorporate a deployed resource into a composition using `foreach`, you can achieve this without destroying the resource by specifying the desired index using the `moveTo` function. The index should correspond to the key found in the `TerraformIterator` named iterator
+To incorporate a deployed resource into a `foreach` composition without destroying the resource, specify an index as a second argument in the `moveTo` function. The index should correspond to the key in the `TerraformIterator` named `iterator`.
 
 ```ts
 const iterator = TerraformIterator.fromMap({
