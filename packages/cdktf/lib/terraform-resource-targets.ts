@@ -32,7 +32,7 @@ export class TerraformResourceTargets {
     this._resourceTargetMap.set(target, resource);
   }
 
-  public getResourceAddressByTarget(target: string): TerraformResource {
+  public getResourceByTarget(target: string): TerraformResource {
     const result = this._resourceTargetMap.get(target);
     if (!result) {
       throw new Error(`Target "${target}" has not been set:
