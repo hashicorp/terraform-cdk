@@ -5,14 +5,14 @@ import { AttributeTypeModel } from "./attribute-type-model";
 export type GetterType =
   | { _type: "plain" }
   | {
-      _type: "args";
-      args: string;
-      returnType?: string;
-      returnStatement: string;
-    }
+    _type: "args";
+    args: string;
+    returnType?: string;
+    returnStatement: string;
+  }
   | {
-      _type: "stored_class";
-    };
+    _type: "stored_class";
+  };
 
 export type SetterType =
   | { _type: "none" }
@@ -51,6 +51,8 @@ export function escapeAttributeName(name: string) {
   if (name === "importFrom") return `${name}Attribute`;
   // `move` could have common name collision with providers
   if (name === "move") return `${name}Attribute`;
+  // `software` attribute can be confused with the JSII Java runtime package (see #3115)
+  if (name === "software") return `${name}Attribute`;
   return name;
 }
 
@@ -142,9 +144,8 @@ export class AttributeModel {
 
     return {
       _type: "set",
-      type: `${this.type.inputTypeDefinition}${
-        this.isProvider ? " | undefined" : ""
-      }`,
+      type: `${this.type.inputTypeDefinition}${this.isProvider ? " | undefined" : ""
+        }`,
     };
   }
 

@@ -1,0 +1,11 @@
+{
+  "//": "This example is used to verify that the akamai provider generates correctly.",
+  "name": "@examples/java-akamai-gradle",
+  "version": "0.0.0",
+  "license": "MPL-2.0",
+  "scripts": {
+    "reinstall": "./reinstall.sh",
+    "build": "cdktf get --parallelism 1 --show-performance-info",
+    "synth": "cdktf synth --show-performance-info"
+  }
+}
