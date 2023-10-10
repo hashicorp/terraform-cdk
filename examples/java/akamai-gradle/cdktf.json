@@ -1,0 +1,11 @@
+{
+  "language": "java",
+  "app": "./gradlew run",
+  "sendCrashReports": "false",
+  "codeMakerOutput": "src/main/java/imports",
+  "terraformProviders": [
+    "akamai/akamai@~> 5.3"
+  ],
+  "terraformModules": [],
+  "context": {}
+}
