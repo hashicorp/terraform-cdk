@@ -1,3 +1,11 @@
+## Unreleased
+
+**Breaking changes**
+
+### Minimum required Node.js version updated to 18.12
+
+Since the long-term support for Node.js 16 ended on 2023-09-11, we updated our minimum compatible Node.js version to 18.12.
+
 ## 0.18.2
 
 Fixes a bug in 0.18.1 that broke crash reporting due to a partial dependency upgrade.
