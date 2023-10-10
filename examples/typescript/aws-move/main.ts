@@ -10,7 +10,7 @@ import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
 /**
  * To properly see the move functionality in action, the resource being moved needs to be deployed
- * First run "deploy" with the DEPLOY env flag set, then "plan" with the PLAN env flag set
+ * First run "deploy" with the STEP_1 env flag set, then "plan" with the STEP_2 env flag set
  */
 
 // UN-NESTING RESOURCE -> resource currently in nested construct, want to move it to higher layer
@@ -21,13 +21,13 @@ export class UnNestingMoveStack extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-west-2",
     });
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       new S3Bucket(this, "test-bucket-1", {
         bucket: "test-move-bucket-name-1",
       }).addMoveTarget("move");
       new UnNestingConstructToMoveTo(this, "construct-to-move-to");
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
       new UnNestingConstructToMoveTo(this, "construct-to-move-to");
     }
   }
@@ -43,12 +43,12 @@ export class UnNestingConstructToMoveTo extends Construct {
 export class UnNestingNestedConstructToMoveTo extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       new S3Bucket(this, "test-bucket-2", {
         bucket: "test-move-bucket-name-1",
       }).moveTo("move");
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
       new S3Bucket(this, "test-bucket-2", {
         bucket: "test-move-bucket-name-1",
       });
@@ -66,12 +66,12 @@ export class NestingMoveStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       new S3Bucket(this, "test-bucket-3", {
         bucket: "test-move-bucket-name-3",
       }).moveTo("move");
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
       new S3Bucket(this, "test-bucket-3", {
         bucket: "test-move-bucket-name-3",
       });
@@ -92,12 +92,12 @@ export class NestingConstructToMoveTo extends Construct {
 export class NestingNestedConstructToMoveTo extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       new S3Bucket(this, "test-bucket-3", {
         bucket: "test-move-bucket-name-3",
       }).addMoveTarget("move");
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
     }
   }
 }
@@ -111,7 +111,7 @@ export class ListIteratorMoveStack extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-west-2",
     });
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       const iterator = TerraformIterator.fromList([
         "website-static-file-list-iterator-one",
         "website-static-file-list-iterator-two",
@@ -129,7 +129,7 @@ export class ListIteratorMoveStack extends TerraformStack {
         "website-static-file-list-iterator-one"
       );
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
       new S3Bucket(this, "moved-bucket-complex-iterator", {
         bucket: "website-static-file-list-iterator-one",
       });
@@ -146,7 +146,7 @@ export class ComplexIteratorMoveStack extends TerraformStack {
     new AwsProvider(this, "aws", {
       region: "us-west-2",
     });
-    if (process.env.PLAN) {
+    if (process.env.STEP_2) {
       const complexIterator = TerraformIterator.fromMap({
         "website-static-files": {
           name: "website-static-files",
@@ -166,7 +166,7 @@ export class ComplexIteratorMoveStack extends TerraformStack {
         tags: { app: "website" },
       }).moveTo("resourceWithComplexIterator", "website-static-files");
     }
-    if (process.env.DEPLOY) {
+    if (process.env.STEP_1) {
       new S3Bucket(this, "moved-bucket", {
         bucket: "website-static-files",
         tags: { app: "website" },
@@ -176,31 +176,9 @@ export class ComplexIteratorMoveStack extends TerraformStack {
 }
 // MOVE INTO RESOURCE USING COMPLEX ITERATOR
 
-// MOVE INTO RESOURCE USING COUNT
-export class RenameResourceStack extends TerraformStack {
-  constructor(scope: Construct, id: string) {
-    super(scope, id);
-
-    new AwsProvider(this, "aws", {
-      region: "us-west-2",
-    });
-    if (process.env.PLAN) {
-      new S3Bucket(this, "test-bucket", {
-        bucket: "test-bucket-rename",
-      }).renameResourceId("test-bucket-rename");
-    }
-    if (process.env.DEPLOY) {
-      new S3Bucket(this, "test-bucket", {
-        bucket: "test-bucket-rename",
-      });
-    }
-  }
-}
-
 const app = new App();
 new UnNestingMoveStack(app, "un-nesting-move-stack");
 new NestingMoveStack(app, "nesting-move-stack");
 new ListIteratorMoveStack(app, "list-iterator-move-stack");
 new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
-new RenameResourceStack(app, "rename-stack");
 app.synth();

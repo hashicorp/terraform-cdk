@@ -515,33 +515,6 @@ it("moves resource to be in composition with foreach using complex iterator", ()
   );
 });
 
-it("moves resource to resource with rename", () => {
-  const app = Testing.app();
-  const stack = new TerraformStack(app, "test");
-  new TestProvider(stack, "provider", {});
-
-  new TestResource(stack, "simple", {
-    name: "foo",
-    provisioners: [
-      { type: "local-exec", command: "echo 'hello' > world.txt" },
-      { type: "local-exec", command: "echo 'hello' > world1.txt" },
-      { type: "local-exec", command: "echo 'hello' > world2.txt" },
-    ],
-  }).renameResourceId("simple-rename");
-
-  const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
-  expect(synthedStack.moved[0].to).toEqual("test_resource.simple-rename");
-  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
-    "simple-rename"
-  );
-  // Must not include old resource being moved from
-  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
-    "simple"
-  );
-});
-
-// TODO: Add resource test for multiple move blocks and out of order tags and moves
 it("moves multiple resources", () => {
   const app = Testing.app();
   const stack = new TerraformStack(app, "test");
@@ -585,8 +558,29 @@ it("moves multiple resources", () => {
       { type: "local-exec", command: "echo 'hello' > world2.txt" },
     ],
   }).moveTo("test-2");
-
-  expect(Testing.synth(stack)).toMatchSnapshot();
+  //console.log(Testing.synth(stack))
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual(
+    "test_resource.construct_nested-construct_simple_2C3755B0"
+  );
+  expect(synthedStack.moved[1].from).toEqual("test_resource.simple-2");
+  expect(synthedStack.moved[1].to).toEqual(
+    "test_resource.construct_nested-construct_simple-2_078CE0AF"
+  );
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
+    "construct_nested-construct_simple-2_078CE0AF"
+  );
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
+    "construct_nested-construct_simple_2C3755B0"
+  );
+  // Must not include old resources being moved from
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "simple"
+  );
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "simple-2"
+  );
 });
 
 it("moves correctly when target set after call to moveTo", () => {

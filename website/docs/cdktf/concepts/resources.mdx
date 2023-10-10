@@ -372,7 +372,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 
 ## Refactoring & Renaming Resources
 
-When working with your infrastructure definitions and the need arises to refactor or rename resources without destroying and recreating them, you can leverage the `moveTo` function. This section outlines how to perform resource moves, rename resources, and enable foreach on existing resources in your CDKTF project.
+When working with your infrastructure definitions and the need arises to refactor or rename resources without destroying and recreating them, you can leverage the `moveTo` function. This section outlines how to perform resource moves and enable foreach on existing resources in your CDKTF project.
 
 ### Performing Resource Moves
 
@@ -402,18 +402,6 @@ new S3Bucket(this, "test-bucket-1", {
 // Contains resource with moveTarget "move"
 new NestedConstructToMoveTo(this, "construct-to-move-to");
 ```
-
-### Renaming a Resource
-
-To rename a resource, you can simply use the `renameResourceId` function available on the resource.
-
-```ts
-new S3Bucket(this, "bucket-id", {
-  bucket: "bucket-rename",
-}).renameResourceId("bucket-new-id");
-```
-
-After deploying the resource, you can update your resource to use the newly assigned resource ID, and the `renameResourceId` call can be safely removed.
 
 ### Enabling `foreach` on a Resource
 
