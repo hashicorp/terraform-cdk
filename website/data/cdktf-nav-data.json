@@ -1,6 +1,11 @@
 [
-  { "heading": "CDK for Terraform" },
-  { "title": "Overview", "path": "" },
+  {
+    "heading": "CDK for Terraform"
+  },
+  {
+    "title": "Overview",
+    "path": ""
+  },
   {
     "title": "Get Started",
     "href": "https://learn.hashicorp.com/tutorials/terraform/cdktf-install?in=terraform/cdktf"
@@ -86,12 +91,18 @@
   {
     "title": "Create and Deploy Applications",
     "routes": [
-      { "title": "Project Setup", "path": "create-and-deploy/project-setup" },
+      {
+        "title": "Project Setup",
+        "path": "create-and-deploy/project-setup"
+      },
       {
         "title": "Configuration File",
         "path": "create-and-deploy/configuration-file"
       },
-      { "title": "Best Practices", "path": "create-and-deploy/best-practices" },
+      {
+        "title": "Best Practices",
+        "path": "create-and-deploy/best-practices"
+      },
       {
         "title": "Environment Variables",
         "path": "create-and-deploy/environment-variables"
@@ -134,8 +145,14 @@
   {
     "title": "Test and Debug",
     "routes": [
-      { "title": "Unit Tests", "path": "test/unit-tests" },
-      { "title": "Debugging", "path": "test/debugging" }
+      {
+        "title": "Unit Tests",
+        "path": "test/unit-tests"
+      },
+      {
+        "title": "Debugging",
+        "path": "test/debugging"
+      }
     ]
   },
   {
@@ -145,7 +162,10 @@
         "title": "CLI Configuration",
         "path": "cli-reference/cli-configuration"
       },
-      { "title": "Commands", "path": "cli-reference/commands" }
+      {
+        "title": "Commands",
+        "path": "cli-reference/commands"
+      }
     ]
   },
   {
@@ -189,6 +209,10 @@
         "path": "release"
       },
       {
+        "title": "Upgrading to Version 0.19",
+        "path": "release/upgrade-guide-v0-19"
+      },
+      {
         "title": "Upgrading to Version 0.18",
         "path": "release/upgrade-guide-v0-18"
       },
@@ -230,6 +254,12 @@
       }
     ]
   },
-  { "title": "Community", "path": "community" },
-  { "title": "Telemetry", "path": "telemetry" }
+  {
+    "title": "Community",
+    "path": "community"
+  },
+  {
+    "title": "Telemetry",
+    "path": "telemetry"
+  }
 ]
