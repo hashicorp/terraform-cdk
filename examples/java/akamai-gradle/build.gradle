@@ -20,7 +20,7 @@ repositories {
 }
 
 dependencies {
-    implementation files("/Users/mark.decrane/terraform-cdk/dist/java/com/hashicorp/cdktf/0.0.0/cdktf-0.0.0.jar")
+    implementation "com.hashicorp:cdktf:0.0.0"
     implementation "software.constructs:constructs:10.0.25"
     testImplementation "junit:junit:4.13.2"
     testImplementation "org.junit.jupiter:junit-jupiter:5.8.0"
@@ -28,7 +28,7 @@ dependencies {
 
 group = "com.mycompany.app"
 version = "0.1"
-description = "akamai-gradle"
+description = "akamai"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
 
