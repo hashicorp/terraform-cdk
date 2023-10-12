@@ -33,7 +33,7 @@ class MyStack extends TerraformStack {
       machineType: "f1-micro",
       bootDisk: {
         initializeParams: {
-          image: "debian-cloud/debian-9",
+          image: "debian-cloud/debian-12",
         },
       },
 
