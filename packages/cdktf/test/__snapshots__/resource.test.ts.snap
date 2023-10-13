@@ -222,6 +222,78 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`moves multiple resources 1`] = `
+"{
+  "moved": [
+    {
+      "from": "test_resource.simple",
+      "to": "test_resource.construct_nested-construct_simple_2C3755B0"
+    },
+    {
+      "from": "test_resource.simple-2",
+      "to": "test_resource.construct_nested-construct_simple-2_078CE0AF"
+    }
+  ],
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "construct_nested-construct_simple-2_078CE0AF": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      },
+      "construct_nested-construct_simple_2C3755B0": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
 exports[`number[] attributes 1`] = `
 "{
   "output": {

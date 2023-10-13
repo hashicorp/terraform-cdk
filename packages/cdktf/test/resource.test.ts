@@ -378,8 +378,8 @@ it("moves resource to greater nesting in contained construct", () => {
   }).moveTo("test");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved.from).toEqual("test_resource.simple");
-  expect(synthedStack.moved.to).toEqual(
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual(
     "test_resource.construct_nested-construct_simple_2C3755B0"
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
@@ -417,10 +417,10 @@ it("moves resource to a lesser nesting from contained construct", () => {
   }).moveTo("test");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved.from).toEqual(
+  expect(synthedStack.moved[0].from).toEqual(
     "test_resource.construct_nested-construct_simple_2C3755B0"
   );
-  expect(synthedStack.moved.to).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual("test_resource.simple");
   expect(Object.keys(synthedStack.resource.test_resource)).toContain("simple");
   // Must not include old resource being moved from
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
@@ -455,8 +455,8 @@ it("moves resource to be in composition with foreach using list iterator", () =>
   }).moveTo("test", "foo-one");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved.from).toEqual("test_resource.simple");
-  expect(synthedStack.moved.to).toEqual(
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual(
     `test_resource.simple-foreach[\"foo-one\"]`
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
@@ -502,8 +502,8 @@ it("moves resource to be in composition with foreach using complex iterator", ()
   }).moveTo("test", "simple-foreach-one");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved.from).toEqual("test_resource.simple");
-  expect(synthedStack.moved.to).toEqual(
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual(
     `test_resource.simple-foreach[\"simple-foreach-one\"]`
   );
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
@@ -530,8 +530,8 @@ it("moves resource to resource with rename", () => {
   }).renameResourceId("simple-rename");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack.moved.from).toEqual("test_resource.simple");
-  expect(synthedStack.moved.to).toEqual("test_resource.simple-rename");
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual("test_resource.simple-rename");
   expect(Object.keys(synthedStack.resource.test_resource)).toContain(
     "simple-rename"
   );
@@ -587,4 +587,44 @@ it("moves multiple resources", () => {
   }).moveTo("test-2");
 
   expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves correctly when target set after call to moveTo", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addMoveTarget("test");
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual(
+    "test_resource.construct_nested-construct_simple_2C3755B0"
+  );
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
+    "construct_nested-construct_simple_2C3755B0"
+  );
+  // Must not include old resource being moved from
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "simple"
+  );
 });
