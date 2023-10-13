@@ -372,11 +372,7 @@ import imports.kubernetes.namespace.NamespaceMetadata;
 
 ## Refactoring & Renaming Resources
 
-When working with your infrastructure definitions and the need arises to refactor or rename resources without destroying and recreating them, you can leverage the `moveTo` function. This section outlines how to perform resource moves and enable foreach on existing resources in your CDKTF project.
-
-### Performing Resource Moves
-
-The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set a resource's `moveTarget`, use the `addMoveTarget` function that is present on the resource to move to. You can specify an arbitrary string for the `moveTarget`, but it must be unique within your stack.
+When working with your infrastructure definitions and the need arises to refactor or rename resources without destroying and recreating them, you can leverage the `moveTo` function like so:
 
 ```ts
 new S3Bucket(this, "test-bucket-move-to", {
@@ -388,47 +384,7 @@ new S3Bucket(this, "test-bucket-move-from", {
 }).moveTo("move-s3");
 ```
 
-After deployment, both the resource being moved and the move target on the destination resource can be removed.
-
-#### Move Targets
-
-A `moveTarget` is accessible anywhere within the context of the stack where it is created, including the root of the stack and within a nested construct. Moving resources to a different stack is not supported.
-
-```ts
-new S3Bucket(this, "test-bucket-1", {
-  bucket: "test-move-bucket-name-1",
-}).moveTo("move");
-
-// Contains resource with moveTarget "move"
-new NestedConstructToMoveTo(this, "construct-to-move-to");
-```
-
-### Enabling `foreach` on a Resource
-
-To incorporate a deployed resource into a `foreach` composition without destroying the resource, specify an index as a second argument in the `moveTo` function. The index should correspond to the key in the `TerraformIterator` named `iterator`.
-
-```ts
-const iterator = TerraformIterator.fromMap({
-  "website-static-files": {
-    name: "website-static-files",
-    tags: { app: "website" },
-  },
-  images: { name: "images", tags: { app: "image-converter" } },
-});
-
-new S3Bucket(this, "iterator-bucket", {
-  forEach: iterator,
-  bucket: iterator.getString("name"),
-  tags: iterator.getStringMap("tags"),
-}).addMoveTarget("resourceWithIterator");
-
-new S3Bucket(this, "moved-bucket", {
-  bucket: "website-static-files",
-  tags: { app: "website" },
-}).moveTo("resourceWithIterator", "website-static-files");
-```
-
-This allows you to efficiently integrate existing resources into a `foreach` composition without destroying the existing deployed resource.
+Refer to our [Refactoring Guide](/terraform/cdktf/examples-and-guides/#moving-&-renaming-resources-within-a-stack) for more information
 
 ## Provisioners
 
