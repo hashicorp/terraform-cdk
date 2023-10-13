@@ -18,6 +18,7 @@ const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
+import { TerraformMoveAddresses } from "./terraform-move-addresses";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
@@ -62,6 +63,7 @@ export class TerraformStack extends Construct {
     {};
   public synthesizer: IStackSynthesizer;
   public dependencies: TerraformStack[] = [];
+  public moveAddresses: TerraformMoveAddresses = new TerraformMoveAddresses();
 
   constructor(scope: Construct, id: string) {
     super(scope, id);

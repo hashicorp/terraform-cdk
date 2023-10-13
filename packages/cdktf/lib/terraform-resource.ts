@@ -23,6 +23,7 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
+import { TerraformStack } from "./terraform-stack";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -77,6 +78,11 @@ export interface TerraformResourceImport {
   readonly provider?: TerraformProvider;
 }
 
+export interface TerraformResourceMove {
+  readonly from: string;
+  readonly to: string;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export class TerraformResource
   extends TerraformElement
@@ -97,6 +103,8 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
+  private _moved?: TerraformResourceMove;
+  private _scope: Construct;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -115,6 +123,7 @@ export class TerraformResource
     this.forEach = config.forEach;
     this.provisioners = config.provisioners;
     this.connection = config.connection;
+    this._scope = scope;
   }
 
   public static isTerraformResource(x: any): x is TerraformResource {
@@ -208,7 +217,6 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
-
     return {
       import: this._imported
         ? [
@@ -219,11 +227,19 @@ export class TerraformResource
             },
           ]
         : undefined,
-      resource: {
-        [this.terraformResourceType]: {
-          [this.friendlyUniqueId]: attributes,
-        },
-      },
+      resource: this._moved
+        ? undefined
+        : {
+            [this.terraformResourceType]: {
+              [this.friendlyUniqueId]: attributes,
+            },
+          },
+      moved: this._moved
+        ? {
+            to: this._moved.to,
+            from: this._moved.from,
+          }
+        : undefined,
     };
   }
 
@@ -237,6 +253,11 @@ export class TerraformResource
       imports: this._imported
         ? {
             [this.terraformResourceType]: [this.friendlyUniqueId],
+          }
+        : undefined,
+      moved: this._moved
+        ? {
+            [this.terraformResourceType]: [this.friendlyUniqueId], // TODO: anything more we need here?
           }
         : undefined,
     };
@@ -260,4 +281,46 @@ export class TerraformResource
       )
     );
   }
+
+  public move(
+    resource: TerraformResource | undefined,
+    index?: string | number
+  ) {
+    if (resource === undefined) {
+      throw new Error("tag not set"); // TODO: make better error message
+    }
+    const movedToId = index // TODO: make it work with complex types too
+      ? typeof index === "string"
+        ? `${this.terraformResourceType}.${resource.friendlyUniqueId}["${index}"]`
+        : `${this.terraformResourceType}.${resource.friendlyUniqueId}[${index}]`
+      : `${this.terraformResourceType}.${resource.friendlyUniqueId}`;
+    const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
+    this._moved = { to: movedToId, from: movedFromId };
+    // TODO: add validation of correct Terraform Version
+  }
+
+  public addTag(tag: string) {
+    // get parent stack address map
+    const stackMoveAddresses = (
+      this._scope.node.root.node.children[0] as unknown as TerraformStack
+    ).moveAddresses;
+    stackMoveAddresses.add(this, tag);
+  }
+  /** 
+  public moveFrom(resource: TerraformResource, index?: string | number) {
+    const movedFromId = index
+      ? typeof index === "string"
+        ? (`${this.terraformResourceType}.${resource.friendlyUniqueId}["${index}"]`)
+        : (`${this.terraformResourceType}.${resource.friendlyUniqueId}[${index}]`)
+      : `${this.terraformResourceType}.${resource.friendlyUniqueId}`
+    const movedToId = `${this.terraformResourceType}.${this.friendlyUniqueId}`
+    this._moved = { to: movedToId, from: movedFromId }
+    // TODO: add validation of correct Terraform Version
+  }
+*/
+  /** 
+    public hasMoved() {
+      this._hasMoved = true;
+    }
+  */
 }

@@ -49,6 +49,8 @@ export function escapeAttributeName(name: string) {
   if (name === "tfResourceType") return `${name}Attribute`;
   // `importFrom` has potential for common name collision with providers
   if (name === "importFrom") return `${name}Attribute`;
+  // `move` could have common name collision with providers
+  if (name === "move") return `${name}Attribute`;
   return name;
 }
 
