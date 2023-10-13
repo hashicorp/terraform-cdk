@@ -73,14 +73,13 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
-export interface TerraformResourceMove {
+export interface TerraformResourceRefactor {
   readonly moveTarget: string;
   readonly index?: string | number;
 }
 
 export interface TerraformResourceRename {
   readonly newId: string;
-  readonly oldId: string;
 }
 
 export interface TerraformResourceImport {
@@ -108,7 +107,7 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
-  private _moved?: TerraformResourceMove | TerraformResourceRename;
+  private _moved?: TerraformResourceRefactor | TerraformResourceRename;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -133,6 +132,14 @@ export class TerraformResource
     return (
       x !== null && typeof x === "object" && TERRAFORM_RESOURCE_SYMBOL in x
     );
+  }
+
+  private isResourceRefactor(move: any): move is TerraformResourceRefactor {
+    return move !== undefined && "moveTarget" in move && `index` in move;
+  }
+
+  private isResourceRename(move: any): move is TerraformResourceRename {
+    return this._moved !== undefined && "newId" in move;
   }
 
   public getStringAttribute(terraformAttribute: string) {
@@ -220,7 +227,7 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
-    const movedBlock = this.buildMoveBlocks();
+    const movedBlock = this._buildMoveBlock();
     return {
       resource:
         movedBlock && !movedBlock.renamed
@@ -289,28 +296,63 @@ export class TerraformResource
     );
   }
 
-  private parentStackResourceTargets() {
-    return TerraformStack.of(this).moveTargets;
+  private _getResourceTarget(moveTarget: string) {
+    return TerraformStack.of(this).moveTargets.getResourceAddressByTarget(
+      moveTarget
+    );
   }
 
-  private instanceOfTerraformResourceMove(
-    move: any
-  ): move is TerraformResourceMove {
-    return "moveTarget" in move && `index` in move;
+  private _addResourceTarget(moveTarget: string) {
+    return TerraformStack.of(this).moveTargets.addResourceTarget(
+      this,
+      moveTarget
+    );
   }
 
-  private instanceOfTerraformResourceRename(
-    move: any
-  ): move is TerraformResourceRename {
-    return "newId" in move && `oldId` in move;
-  }
+  private _buildMoveBlock() {
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    function buildResourceMove({
+      resourceType,
+      moveToId,
+      moveFromId,
+      index,
+    }: {
+      resourceType: string;
+      moveToId: string;
+      moveFromId: string;
+      index: string | number | undefined;
+    }): { to: string; from: string } {
+      const to = index
+        ? typeof index === "string"
+          ? `${resourceType}.${moveToId}["${index}"]`
+          : `${resourceType}.${moveToId}[${index}]`
+        : `${resourceType}.${moveToId}`;
+      const from = `${resourceType}.${moveFromId}`;
+      return { to, from };
+    }
+    // eslint-disable-next-line jsdoc/require-jsdoc
+    function buildResourceRename({
+      newResourceId,
+      moveFromId,
+    }: {
+      newResourceId: string;
+      moveFromId: string;
+    }): { newUniqueId: string; oldUniqueId: string } {
+      const oldUniqueId = moveFromId;
+      const idParts = oldUniqueId.split(".");
+      idParts[idParts.length - 1] = newResourceId;
+      const intialValue = idParts[0];
+      idParts.shift();
+      const newUniqueId = idParts.reduce(
+        (accum, curr) => accum + "." + curr,
+        intialValue
+      );
+      return { newUniqueId, oldUniqueId };
+    }
 
-  private buildMoveBlocks() {
-    if (this.instanceOfTerraformResourceMove(this._moved)) {
+    if (this.isResourceRefactor(this._moved)) {
       const { moveTarget, index } = this._moved;
-      const stackMoveTargets = this.parentStackResourceTargets();
-      const resourceToMoveTo =
-        stackMoveTargets.getResourceAddressByTarget(moveTarget);
+      const resourceToMoveTo = this._getResourceTarget(moveTarget);
       if (
         this.terraformResourceType !== resourceToMoveTo.terraformResourceType
       ) {
@@ -321,16 +363,25 @@ export class TerraformResource
         `
         );
       }
-      const movedToId = index
-        ? typeof index === "string"
-          ? `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}["${index}"]`
-          : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}[${index}]`
-        : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}`;
-      const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
-      return { to: movedToId, from: movedFromId, renamed: false };
-    } else if (this.instanceOfTerraformResourceRename(this._moved)) {
-      const { newId, oldId } = this._moved;
-      return { to: newId, from: oldId, renamed: true };
+      const { to, from } = buildResourceMove({
+        resourceType: this.terraformResourceType,
+        moveToId: resourceToMoveTo.friendlyUniqueId,
+        moveFromId: this.friendlyUniqueId,
+        index,
+      });
+      return { to, from, renamed: false };
+    } else if (this.isResourceRename(this._moved)) {
+      const { newId } = this._moved;
+      const { newUniqueId, oldUniqueId } = buildResourceRename({
+        newResourceId: newId,
+        moveFromId: this.friendlyUniqueId,
+      });
+      this.overrideLogicalId(newUniqueId);
+      return {
+        to: `${this.terraformResourceType}.${newUniqueId}`,
+        from: `${this.terraformResourceType}.${oldUniqueId}`,
+        renamed: true,
+      };
     } else {
       return undefined;
     }
@@ -342,6 +393,20 @@ export class TerraformResource
    * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
+    if (this._moved) {
+      if (this.isResourceRefactor(this._moved)) {
+        throw new Error(`The resource ${this.friendlyUniqueId} has been given two moveTargets: "${this._moved.moveTarget}" and "${moveTarget}"
+
+        Resources can only be moved once per plan/apply
+        `);
+      }
+      if (this.isResourceRename(this._moved)) {
+        throw new Error(`The resource ${this.friendlyUniqueId} has been renamed to "${this._moved.newId}" and given the moveTarget "${moveTarget}"
+
+        If you wish to rename and move the resource, specify the change in ID in the instantiation of the targeted resource.
+        `);
+      }
+    }
     this._moved = { moveTarget, index };
     this.node.addValidation(
       new ValidateTerraformVersion(
@@ -352,38 +417,36 @@ export class TerraformResource
   }
 
   /**
+   * Renames the id of this resource to newId
+   * @param newId The new id to replace the current id
+   */
+  public renameResourceId(newId: string) {
+    if (this.isResourceRefactor(this._moved)) {
+      throw new Error(`The resource ${this.friendlyUniqueId} has been renamed to "${newId}" and given the moveTarget "${this._moved.moveTarget}"
+
+        If you wish to rename and move the resource, specify the change in ID in the instantiation of the targeted resource.
+        `);
+    }
+    if (this.isResourceRename(this._moved)) {
+      throw new Error(`The resource ${this.friendlyUniqueId} has been given two renames: "${this._moved.newId}" and "${newId}"
+
+        Resources can only be renamed once per plan/apply
+        `);
+    }
+    this._moved = { newId };
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Resource rename functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
+  }
+
+  /**
    * Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
    * @param moveTarget The string move target that will correspond to this resource
    */
   public addMoveTarget(moveTarget: string) {
-    const stackMoveTargets = this.parentStackResourceTargets();
-    stackMoveTargets.addResourceTarget(this, moveTarget);
-  }
-
-  /**
-   * Renames the id of this resource to newId
-   * @param newId The new id to replace the current id
-   */
-
-  public renameResourceId(newId: string) {
-    const oldUniqueId = this.friendlyUniqueId;
-    const idParts = oldUniqueId.split(".");
-    idParts[idParts.length - 1] = newId;
-
-    const intialValue = idParts[0];
-    idParts.shift();
-    const newUniqueId = idParts.reduce(
-      (accum, curr) => accum + "." + curr,
-      intialValue
-    );
-    this.overrideLogicalId(newUniqueId);
-    this._moved = {
-      newId: `${this.terraformResourceType}.${newUniqueId}`,
-      oldId: `${this.terraformResourceType}.${oldUniqueId}`,
-    };
-    new ValidateTerraformVersion(
-      ">=1.5",
-      `Resource rename functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
-    );
+    this._addResourceTarget(moveTarget);
   }
 }

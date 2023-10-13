@@ -40,8 +40,6 @@ export class TerraformResourceTargets {
             Current Target Entries:\n ${this.prettyPrintEntries()}
 
             To add this target, call .addMoveTarget("${target}") on the instance of the resource to move to.
-
-            Make sure the resource being moved to has been given a moveTarget before .movedTo() has been called //TODO: add aspect that avoids this pain point and remove
             `);
     }
     return result;
