@@ -415,7 +415,7 @@ export class ConstructsMaker {
         this.options.codeMakerOutput.includes("\\")
       ) {
         throw Errors.Usage(
-          `When using Java the "codeMakerOutput" option in the cdktf.json must be the organization identifier for your project (e.g. com.my-company), not a path. The generated Java code will be placed in a subdirectory of the given directory.`
+          `When using Java the "codeMakerOutput" option in the cdktf.json must be the organization identifier for your project (e.g. com.my-company), not a path. The generated Java code will be placed in a subdirectory of the given directory. If you are migrating from a < 0.19 version of cdktf you want to change the codemakerOutput to "imports".`
         );
       }
 
