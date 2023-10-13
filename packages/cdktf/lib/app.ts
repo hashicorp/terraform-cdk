@@ -43,6 +43,15 @@ export interface AppConfig {
    * @default - false
    */
   readonly skipBackendValidation?: boolean;
+
+  /**
+   * Whether to run in live mode, which means that the code will not
+   * generate a cdktf output json, which will then be executed by terraform
+   * instead, it will plan and apply each resource as it is created.
+   *
+   * @default - false
+   */
+  readonly liveMode?: boolean;
 }
 
 /**
@@ -72,6 +81,11 @@ export class App extends Construct {
   public readonly skipBackendValidation: boolean;
 
   /**
+   * Whether to run in live mode
+   */
+  public readonly liveMode: boolean;
+
+  /**
    * Defines an app
    * @param config configuration
    */
@@ -83,6 +97,7 @@ export class App extends Construct {
     this.targetStackId = process.env.CDKTF_TARGET_STACK_ID;
     this.skipValidation = config.skipValidation || false;
     this.skipBackendValidation = config.skipBackendValidation || false;
+    this.liveMode = config.liveMode || false;
 
     this.loadContext(config.context);
 
@@ -122,6 +137,19 @@ export class App extends Construct {
 
       return _lookup(node.scope);
     }
+  }
+
+  public run(stack: TerraformStack): void {
+    if (!this.liveMode) {
+      console.warn("App is not in live mode, so defaulting to synth");
+      return this.synth();
+    }
+
+    if (stack === undefined) {
+      throw new Error("No stack specified");
+    }
+
+    stack.runner.run();
   }
 
   /**

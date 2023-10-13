@@ -13,6 +13,8 @@ import { TerraformRemoteState } from "./terraform-remote-state";
 import { makeUniqueId } from "./private/unique";
 import { IStackSynthesizer } from "./synthesize/types";
 import { StackSynthesizer } from "./synthesize/synthesizer";
+import { IStackRunner } from "./run";
+import { StackRunner } from "./run/runner";
 
 const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
@@ -61,6 +63,7 @@ export class TerraformStack extends Construct {
   private crossStackDataSources: Record<StackIdentifier, TerraformRemoteState> =
     {};
   public synthesizer: IStackSynthesizer;
+  public runner: IStackRunner;
   public dependencies: TerraformStack[] = [];
 
   constructor(scope: Construct, id: string) {
@@ -73,6 +76,7 @@ export class TerraformStack extends Construct {
       this,
       process.env.CDKTF_CONTINUE_SYNTH_ON_ERROR_ANNOTATIONS !== undefined
     );
+    this.runner = new StackRunner(this);
     Object.defineProperty(this, STACK_SYMBOL, { value: true });
     this.node.addValidation(new ValidateProviderPresence(this));
   }

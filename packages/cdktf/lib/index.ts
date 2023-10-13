@@ -4,6 +4,7 @@ import { validateEnvironment } from "./validateEnvironment";
 validateEnvironment();
 
 export * from "./tokens";
+export * from "./run";
 export * from "./terraform-stack";
 export * from "./terraform-element";
 export * from "./terraform-module";
