@@ -23,7 +23,7 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
-import { TerraformMoveAddresses } from "./terraform-move-addresses";
+import { TerraformResourceAddressMap } from "./terraform-move-addresses";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -282,19 +282,12 @@ export class TerraformResource
     );
   }
 
-  public move(tag: string, index?: string | number) {
-    /** 
-    if (resource === undefined) {
-      throw new Error("tag not set"); // TODO: make better error message
-    }*/
-    /** 
-    const stackMoveAddresses = (
-      this._scope.node.root.node.children[0] as unknown as TerraformStack
-    ).moveAddresses;*/
-    const stackMoveAddresses = TerraformMoveAddresses.addresses(this._scope);
-    const moveToFriendlyUniqueId = stackMoveAddresses.getPath(tag);
+  public moveTo(tag: string, index?: string | number) {
+    const stackMoveAddresses =
+      TerraformResourceAddressMap.parentStackAddressMap(this._scope);
+    const moveToFriendlyUniqueId = stackMoveAddresses.getResourceAddress(tag);
     if (!moveToFriendlyUniqueId) {
-      throw new Error("tag not set"); // TODO: make better error message
+      throw new Error("tag not set"); // TODO: make better error message, maybe add list of current tags, add note about making sure that you add the tag before a construct you are moving to is instantiated (and vice versa)
     }
     const movedToId = index // TODO: make it work with complex types too
       ? typeof index === "string"
@@ -307,8 +300,9 @@ export class TerraformResource
   }
 
   public addTag(tag: string) {
-    // get parent stack address map
-    const stackMoveAddresses = TerraformMoveAddresses.addresses(this._scope);
+    console.log(this.terraformResourceType, this.friendlyUniqueId);
+    const stackMoveAddresses =
+      TerraformResourceAddressMap.parentStackAddressMap(this._scope);
     stackMoveAddresses.add(this, tag);
   }
 }
