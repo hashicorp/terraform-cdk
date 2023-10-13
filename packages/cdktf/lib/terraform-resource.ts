@@ -105,7 +105,6 @@ export class TerraformResource
   >;
   private _imported?: TerraformResourceImport;
   private _moved?: TerraformResourceMove;
-  private _scope: Construct;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -124,7 +123,6 @@ export class TerraformResource
     this.forEach = config.forEach;
     this.provisioners = config.provisioners;
     this.connection = config.connection;
-    this._scope = scope;
   }
 
   public static isTerraformResource(x: any): x is TerraformResource {
@@ -284,8 +282,8 @@ export class TerraformResource
     );
   }
 
-  public parentStackAddressMap() {
-    return TerraformStack.of(this._scope).resourceAddresses;
+  private parentStackResourceAddressMap() {
+    return TerraformStack.of(this).resourceAddresses;
   }
 
   /**
@@ -294,11 +292,8 @@ export class TerraformResource
    * @param index
    */
   public moveTo(tag: string, index?: string | number) {
-    const stackMoveAddresses = this.parentStackAddressMap();
-    const moveToFriendlyUniqueId = stackMoveAddresses.getResourceAddress(tag);
-    if (!moveToFriendlyUniqueId) {
-      throw new Error("tag not set"); // TODO: make better error message, maybe add list of current tags, add note about making sure that you add the tag before a construct you are moving to is instantiated (and vice versa)
-    }
+    const stackMoveAddresses = this.parentStackResourceAddressMap();
+    const moveToFriendlyUniqueId = stackMoveAddresses.getResourceByTag(tag);
     const movedToId = index
       ? typeof index === "string"
         ? `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}["${index}"]`
@@ -313,9 +308,9 @@ export class TerraformResource
    *
    * @param tag
    */
-  public addTag(tag: string) {
-    const stackMoveAddresses = this.parentStackAddressMap();
-    stackMoveAddresses.add(this, tag);
+  public addResourceTag(tag: string) {
+    const stackMoveAddresses = this.parentStackResourceAddressMap();
+    stackMoveAddresses.addResourceTag(this, tag);
   }
 
   /**
@@ -324,12 +319,12 @@ export class TerraformResource
    */
   public renameResourceId(name: string) {
     const oldId = this.friendlyUniqueId;
-    const oldIdParts = oldId.split(".");
-    oldIdParts[oldIdParts.length - 1] = name;
+    const idParts = oldId.split(".");
+    idParts[idParts.length - 1] = name;
 
-    const intialValue = oldIdParts[0];
-    oldIdParts.shift();
-    const newId = oldIdParts.reduce(
+    const intialValue = idParts[0];
+    idParts.shift();
+    const newId = idParts.reduce(
       (accum, curr) => accum + "." + curr,
       intialValue
     );
