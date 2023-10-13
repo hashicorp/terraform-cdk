@@ -118,11 +118,17 @@ export class NestingMoveStack extends TerraformStack {
       region: "us-west-2",
     });
 
-    new NestingConstructToMoveTo(this, "construct-to-move-to");
-
     new S3Bucket(this, "test-bucket-3", {
       bucket: "test-move-bucket-name-3",
-    }).moveTo("move"); //
+    }).moveTo("move");
+
+    new S3Bucket(this, "test-bucket-4", {
+      bucket: "test-move-bucket-name-4",
+    }).moveTo("move");
+
+    new NestingConstructToMoveTo(this, "construct-to-move-to");
+
+    //
   }
 }
 
@@ -141,6 +147,9 @@ export class NestingNestedConstructToMoveTo extends Construct {
     new S3Bucket(this, "test-bucket-3", {
       bucket: "test-move-bucket-name-3",
     }).addMoveTarget("move");
+    new S3Bucket(this, "test-bucket-4", {
+      bucket: "test-move-bucket-name-4",
+    }).addMoveTarget("moveTo");
   }
 }
 // NESTING RESOURCE
@@ -260,7 +269,7 @@ export class CountMoveStack extends TerraformStack {
   }
 }
 // MOVE INTO RESOURCE USING COUNT
-
+/** 
 export class RenameResourceStack extends TerraformStack {
   constructor(scope: Construct, id: string) {
     super(scope, id);
@@ -274,11 +283,12 @@ export class RenameResourceStack extends TerraformStack {
     }).renameResourceId("test-bucket-rename");
   }
 }
+*/
 
 const app = new App();
 new UnNestingMoveStack(app, "un-nesting-move-stack");
 new NestingMoveStack(app, "nesting-move-stack");
 new ListIteratorMoveStack(app, "list-iterator-move-stack");
 new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
-new RenameResourceStack(app, "rename-stack");
+//new RenameResourceStack(app, "rename-stack");
 app.synth();
