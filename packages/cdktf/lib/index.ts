@@ -38,7 +38,7 @@ export * from "./terraform-provisioner";
 export * from "./terraform-conditions";
 export * from "./terraform-count";
 export * from "./importable-resource";
-export * from "./terraform-resource-tags";
+export * from "./terraform-resource-targets";
 
 // required for JSII because Fn extends from it
 export * from "./functions/terraform-functions.generated";

@@ -282,23 +282,29 @@ export class TerraformResource
     );
   }
 
-  private parentStackResourceTags() {
-    return TerraformStack.of(this).resourceTags;
+  private parentStackResourceTargets() {
+    return TerraformStack.of(this).moveTargets;
   }
 
   /**
    *
-   * @param tag
+   * @param moveTarget
    * @param index
    */
-  public moveTo(tag: string, index?: string | number) {
-    const stackMoveAddresses = this.parentStackResourceTags();
-    const moveToFriendlyUniqueId = stackMoveAddresses.getResourceByTag(tag);
+  public moveTo(moveTarget: string, index?: string | number) {
+    const stackMoveTargets = this.parentStackResourceTargets();
+    const resourceToMoveTo =
+      stackMoveTargets.getResourceAddressByTarget(moveTarget);
+    if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
+      throw new Error(
+        `The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from resource being of type ${this.terraformResourceType} being moved from`
+      );
+    }
     const movedToId = index
       ? typeof index === "string"
-        ? `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}["${index}"]`
-        : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}[${index}]`
-      : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}`;
+        ? `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}["${index}"]`
+        : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}[${index}]`
+      : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}`;
     const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
     this._moved = { to: movedToId, from: movedFromId, renamed: false };
     // TODO: add validation of correct Terraform Version
@@ -306,32 +312,32 @@ export class TerraformResource
 
   /**
    *
-   * @param tag
+   * @param moveTarget
    */
-  public addResourceTag(tag: string) {
-    const stackMoveAddresses = this.parentStackResourceTags();
-    stackMoveAddresses.addResourceTag(this, tag);
+  public addMoveTarget(moveTarget: string) {
+    const stackMoveTargets = this.parentStackResourceTargets();
+    stackMoveTargets.addResourceTarget(this, moveTarget);
   }
 
   /**
    *
-   * @param name
+   * @param newId
    */
-  public renameResourceId(name: string) {
-    const oldId = this.friendlyUniqueId;
-    const idParts = oldId.split(".");
-    idParts[idParts.length - 1] = name;
+  public renameResourceId(newId: string) {
+    const oldUniqueId = this.friendlyUniqueId;
+    const idParts = oldUniqueId.split(".");
+    idParts[idParts.length - 1] = newId;
 
     const intialValue = idParts[0];
     idParts.shift();
-    const newId = idParts.reduce(
+    const newUniqueId = idParts.reduce(
       (accum, curr) => accum + "." + curr,
       intialValue
     );
-    this.overrideLogicalId(newId);
+    this.overrideLogicalId(newUniqueId);
     this._moved = {
-      to: `${this.terraformResourceType}.${newId}`,
-      from: `${this.terraformResourceType}.${oldId}`,
+      to: `${this.terraformResourceType}.${newUniqueId}`,
+      from: `${this.terraformResourceType}.${oldUniqueId}`,
       renamed: true,
     };
   }

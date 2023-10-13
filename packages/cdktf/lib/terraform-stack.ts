@@ -18,7 +18,7 @@ const STACK_SYMBOL = Symbol.for("cdktf/TerraformStack");
 import { ValidateProviderPresence } from "./validations";
 import { App } from "./app";
 import { TerraformBackend } from "./terraform-backend";
-import { TerraformResourceTags } from "./terraform-resource-tags";
+import { TerraformResourceTargets } from "./terraform-resource-targets";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 type StackIdentifier = string;
@@ -63,7 +63,7 @@ export class TerraformStack extends Construct {
     {};
   public synthesizer: IStackSynthesizer;
   public dependencies: TerraformStack[] = [];
-  public resourceTags: TerraformResourceTags = new TerraformResourceTags();
+  public moveTargets: TerraformResourceTargets = new TerraformResourceTargets();
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
