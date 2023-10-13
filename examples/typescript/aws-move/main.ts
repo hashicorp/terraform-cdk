@@ -52,24 +52,14 @@ export class UnNestingMoveStack extends TerraformStack {
     });
     new S3Bucket(this, "test-bucket-1", {
       bucket: "test-move-bucket-name-1",
-    }).addTag("move");
-    console.log("hits tagging");
+    }).addResourceTag("move");
     new UnNestingConstructToMoveTo(this, "construct-to-move-to");
-    /** 
-    console.log("AT ROOT")
-    console.log("scope", scope)
-    */
   }
 }
 
 export class UnNestingConstructToMoveTo extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    /** 
-    console.log("AT 1st NESTED CONSTRUCT")
-    console.log("scope", scope)
-    console.log("scope node", scope.node)
-*/
     new UnNestingNestedConstructToMoveTo(this, "nested-construct");
   }
 }
@@ -77,18 +67,10 @@ export class UnNestingConstructToMoveTo extends Construct {
 export class UnNestingNestedConstructToMoveTo extends Construct {
   constructor(scope: Construct, id: string) {
     super(scope, id);
-    /** 
-    console.log("AT  2nd NESTED CONSTRUCT")
-    console.log("this", this)
-    console.log("this", scope)
-    console.log("scope node", scope.node)
-    console.log("scope node scope node", scope.node.scope?.node)
-*/
 
     new S3Bucket(this, "test-bucket-2", {
       bucket: "test-move-bucket-name-1",
     }).moveTo("move");
-    console.log("hits move");
   }
 }
 // UN-NESTING RESOURCE
@@ -136,12 +118,11 @@ export class NestingMoveStack extends TerraformStack {
       region: "us-west-2",
     });
 
+    new NestingConstructToMoveTo(this, "construct-to-move-to");
+
     new S3Bucket(this, "test-bucket-3", {
       bucket: "test-move-bucket-name-3",
     }).moveTo("move"); //
-
-    // TODO make new construct for this use case
-    new NestingConstructToMoveTo(this, "construct-to-move-to");
   }
 }
 
@@ -159,7 +140,7 @@ export class NestingNestedConstructToMoveTo extends Construct {
 
     new S3Bucket(this, "test-bucket-3", {
       bucket: "test-move-bucket-name-3",
-    }).addTag("move");
+    }).addResourceTag("move");
   }
 }
 // NESTING RESOURCE
@@ -199,7 +180,7 @@ export class ListIteratorMoveStack extends TerraformStack {
     new S3Bucket(this, "complex-iterator-bucket", {
       forEach: iterator,
       bucket: iterator.value,
-    }).addTag("moveToResourceWithListIterator");
+    }).addResourceTag("moveToResourceWithListIterator");
 
     new S3Bucket(this, "moved-bucket-complex-iterator", {
       bucket: "website-static-file-list-iterator-one",
@@ -251,7 +232,7 @@ export class ComplexIteratorMoveStack extends TerraformStack {
       forEach: complexIterator,
       bucket: complexIterator.getString("name"),
       tags: complexIterator.getStringMap("tags"),
-    }).addTag("moveToResourceWithComplexIterator");
+    }).addResourceTag("moveToResourceWithComplexIterator");
 
     new S3Bucket(this, "moved-bucket-complex-iterator", {
       bucket: "website-static-file-complex-iterator",
