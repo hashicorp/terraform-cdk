@@ -366,7 +366,7 @@ it("moves resource to greater nesting in contained construct", () => {
       { type: "local-exec", command: "echo 'hello' > world1.txt" },
       { type: "local-exec", command: "echo 'hello' > world2.txt" },
     ],
-  }).addResourceTag("test");
+  }).addMoveTarget("test");
 
   new TestResource(stack, "simple", {
     name: "foo",
@@ -392,7 +392,7 @@ it("moves resource to a lesser nesting from contained construct", () => {
       { type: "local-exec", command: "echo 'hello' > world1.txt" },
       { type: "local-exec", command: "echo 'hello' > world2.txt" },
     ],
-  }).addResourceTag("test");
+  }).addMoveTarget("test");
   const construct = new Construct(stack, "construct");
   const nestedContruct = new Construct(construct, "nested-construct");
 
@@ -423,7 +423,7 @@ it("moves resource to be in composition with foreach using list iterator", () =>
       { type: "local-exec", command: "echo 'hello' > world1.txt" },
       { type: "local-exec", command: "echo 'hello' > world2.txt" },
     ],
-  }).addResourceTag("test");
+  }).addMoveTarget("test");
 
   new TestResource(stack, "simple", {
     name: "foo-one",
@@ -461,7 +461,7 @@ it("moves resource to be in composition with foreach using complex iterator", ()
     forEach: complexIterator,
     name: complexIterator.getString("name"),
     tags: complexIterator.getMap("tags"),
-  }).addResourceTag("test");
+  }).addMoveTarget("test");
 
   new TestResource(stack, "simple", {
     name: "foo-one",
