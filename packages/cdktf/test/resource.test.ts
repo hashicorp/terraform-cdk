@@ -540,3 +540,51 @@ it("moves resource to resource with rename", () => {
     "simple"
   );
 });
+
+// TODO: Add resource test for multiple move blocks and out of order tags and moves
+it("moves multiple resources", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addMoveTarget("test-1");
+
+  new TestResource(nestedContruct, "simple-2", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addMoveTarget("test-2");
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test-1");
+
+  new TestResource(stack, "simple-2", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test-2");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});

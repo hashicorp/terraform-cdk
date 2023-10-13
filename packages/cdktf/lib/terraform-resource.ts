@@ -73,15 +73,19 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
+export interface TerraformResourceMove {
+  readonly moveTarget: string;
+  readonly index?: string | number;
+}
+
+export interface TerraformResourceRename {
+  readonly newId: string;
+  readonly oldId: string;
+}
+
 export interface TerraformResourceImport {
   readonly id: string;
   readonly provider?: TerraformProvider;
-}
-
-export interface TerraformResourceMove {
-  readonly from: string;
-  readonly to: string;
-  readonly renamed: boolean;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -104,7 +108,7 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
-  private _moved?: TerraformResourceMove;
+  private _moved?: TerraformResourceMove | TerraformResourceRename;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -216,7 +220,24 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
+    const movedBlock = this.buildMoveBlocks();
     return {
+      resource:
+        movedBlock && !movedBlock.renamed
+          ? undefined
+          : {
+              [this.terraformResourceType]: {
+                [this.friendlyUniqueId]: attributes,
+              },
+            },
+      moved: movedBlock
+        ? [
+            {
+              to: movedBlock.to,
+              from: movedBlock.from,
+            },
+          ]
+        : undefined,
       import: this._imported
         ? [
             {
@@ -225,20 +246,6 @@ export class TerraformResource
               to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
             },
           ]
-        : undefined,
-      resource:
-        this._moved && !this._moved.renamed
-          ? undefined
-          : {
-              [this.terraformResourceType]: {
-                [this.friendlyUniqueId]: attributes,
-              },
-            },
-      moved: this._moved
-        ? {
-            to: this._moved.to,
-            from: this._moved.from,
-          }
         : undefined,
     };
   }
@@ -286,30 +293,56 @@ export class TerraformResource
     return TerraformStack.of(this).moveTargets;
   }
 
+  private instanceOfTerraformResourceMove(
+    move: any
+  ): move is TerraformResourceMove {
+    return "moveTarget" in move && `index` in move;
+  }
+
+  private instanceOfTerraformResourceRename(
+    move: any
+  ): move is TerraformResourceRename {
+    return "newId" in move && `oldId` in move;
+  }
+
+  private buildMoveBlocks() {
+    if (this.instanceOfTerraformResourceMove(this._moved)) {
+      const { moveTarget, index } = this._moved;
+      const stackMoveTargets = this.parentStackResourceTargets();
+      const resourceToMoveTo =
+        stackMoveTargets.getResourceAddressByTarget(moveTarget);
+      if (
+        this.terraformResourceType !== resourceToMoveTo.terraformResourceType
+      ) {
+        throw new Error(
+          `You have tried to move a resource to a different type:
+
+        The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from
+        `
+        );
+      }
+      const movedToId = index
+        ? typeof index === "string"
+          ? `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}["${index}"]`
+          : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}[${index}]`
+        : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}`;
+      const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
+      return { to: movedToId, from: movedFromId, renamed: false };
+    } else if (this.instanceOfTerraformResourceRename(this._moved)) {
+      const { newId, oldId } = this._moved;
+      return { to: newId, from: oldId, renamed: true };
+    } else {
+      return undefined;
+    }
+  }
+
   /**
    * Moves this resource to the target resource given by moveTarget.
    * @param moveTarget The previously set user defined string set by .addMoveTarget() corresponding to the resource to move to.
    * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
-    const stackMoveTargets = this.parentStackResourceTargets();
-    const resourceToMoveTo =
-      stackMoveTargets.getResourceAddressByTarget(moveTarget);
-    if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
-      throw new Error(
-        `You have tried to move a resource to a different type:
-
-        The move target "${moveTarget}" corresponding to the resource of type ${resourceToMoveTo.terraformResourceType} to move to differs from the resource of type ${this.terraformResourceType} being moved from
-        `
-      );
-    }
-    const movedToId = index
-      ? typeof index === "string"
-        ? `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}["${index}"]`
-        : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}[${index}]`
-      : `${this.terraformResourceType}.${resourceToMoveTo.friendlyUniqueId}`;
-    const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
-    this._moved = { to: movedToId, from: movedFromId, renamed: false };
+    this._moved = { moveTarget, index };
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
@@ -331,6 +364,7 @@ export class TerraformResource
    * Renames the id of this resource to newId
    * @param newId The new id to replace the current id
    */
+
   public renameResourceId(newId: string) {
     const oldUniqueId = this.friendlyUniqueId;
     const idParts = oldUniqueId.split(".");
@@ -344,9 +378,8 @@ export class TerraformResource
     );
     this.overrideLogicalId(newUniqueId);
     this._moved = {
-      to: `${this.terraformResourceType}.${newUniqueId}`,
-      from: `${this.terraformResourceType}.${oldUniqueId}`,
-      renamed: true,
+      newId: `${this.terraformResourceType}.${newUniqueId}`,
+      oldId: `${this.terraformResourceType}.${oldUniqueId}`,
     };
     new ValidateTerraformVersion(
       ">=1.5",
