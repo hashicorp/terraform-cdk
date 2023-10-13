@@ -8,9 +8,9 @@ description: >-
 
 You may need to move resources between stacks as your CDK for Terraform (CDKTF) application grows in size and complexity. This guide demonstrates how to refactor your stacks. In general you can change the names of stacks freely without an effect on the synthesized code. If you change the name of a resource this might lead to a re-creation of the resource, especially if you move the resource from one stack to another.
 
-## Moving Resources Inside a Stack
+## Moving & Renaming Resources Within a Stack
 
-You may want to rename a stack deployed with an aws `S3Bucket` resource, like the following example.
+You may want to rename a deployed resource in a stack, like the `S3Bucket` in the following example.
 
 ```typescript
 import { Construct } from "constructs";
@@ -26,14 +26,14 @@ class MyStack extends TerraformStack {
       region: "us-east-1",
     });
 
-    // Old S3Bucket definition
+    // old S3Bucket definition
     // new S3Bucket(this, "my-bucket", {
-    //   bucketPrefix: "my-bucket",
+    //   bucketprefix: "my-bucket",
     // });
 
-    // New S3Bucket definition
+    // new S3Bucket definition
     new S3Bucket(this, "new-bucket", {
-      bucketPrefix: "my-bucket",
+      bucketprefix: "my-bucket",
     });
   }
 }
@@ -56,69 +56,90 @@ refactoring-example    # aws_s3_bucket.new-bucket (new-bucket) will be created
 
 Terraform plans to destroy the old bucket and create a new one to replace it. The replacement can be harmful if there is already state in the resource, such as files in the bucket or data in the database.
 
-To avoid the recreation of the resource, use the [`terraform state mv`](/terraform/cli/commands/state/mv) command to move the state before the next apply. Before we can make the change, we need to find the Terraform name of the Resource. The name can be different from the one we have in the constructor, see the information below.
+To avoid the recreation of the resource, use the `moveTo` function.
 
-```shell-session
-$ cat cdktf.out/stacks/refactoring-example/cdk.tf.json | jq '.resource.aws_s3_bucket'
-{
-  "my-bucket": {
-    "//": {
-      "metadata": {
-        "path": "refactoring-example/my-bucket",
-        "uniqueId": "my-bucket"
-      }
-    },
-    "bucket_prefix": "my-bucket"
+```typescript
+import { Construct } from "constructs";
+import { App, TerraformStack } from "cdktf";
+import { AwsProvider } from "@cdktf/provider-aws/lib/provider";
+import { S3Bucket } from "@cdktf/provider-aws/lib/s3-bucket";
+
+class MyStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-east-1",
+    });
+
+    // old S3Bucket definition
+    new S3Bucket(this, "my-bucket", {
+      bucketprefix: "my-bucket",
+    }).moveTo("new-s3-bucket");
+
+    // new S3Bucket definition
+    new S3Bucket(this, "new-bucket", {
+      bucketprefix: "my-bucket",
+    }).addMoveTarget("new-s3-bucket");
   }
 }
 ```
 
-The id is the key of the object, in this case it is "new-bucket". If you have multiple resources of the same type, you can use the path to find the right one. Now change your code and synthesize it, so you can get the new name of the resource.
+### Performing Resource Moves
 
-```shell-session
-$ cdktf synth
-$ cat cdktf.out/stacks/refactoring-example/cdk.tf.json | jq '.resource.aws_s3_bucket'
-{
-  "my-bucket": {
-    "//": {
-      "metadata": {
-        "path": "refactoring-example/new-bucket",
-        "uniqueId": "new-bucket"
-      }
-    },
-    "bucket_prefix": "new-bucket"
-  }
-}
+The `moveTo` function is available on all resources and is used for relocating a resource to the location specified by the string target `moveTarget`. To set a resource's `moveTarget`, use the `addMoveTarget` function that is present on the resource to move to. You can specify an arbitrary string for the `moveTarget`, but it must be unique within your stack.
+
+```ts
+new S3Bucket(this, "test-bucket-move-to", {
+  bucket: "move-bucket-name",
+}).addMoveTarget("move-s3");
+
+new S3Bucket(this, "test-bucket-move-from", {
+  bucket: "move-bucket-name",
+}).moveTo("move-s3");
 ```
 
-Now that we know the old name is "my-bucket" and the new name is "new-bucket" we can move the state.
+After deployment, both the resource being moved and the move target on the destination resource can be removed.
 
-```shell-session
-# We need to run the next steps in the synthesized folder for the stack.
-$ cd cdktf.out/stacks/refactoring-example
-$ terraform init
-# move the state
-$ terraform state mv aws_s3_bucket.my-bucket aws_s3_bucket.new-bucket
-Move "aws_s3_bucket.my-bucket" to "aws_s3_bucket.new-bucket"
-Successfully moved 1 object(s).
-$ cd ../../.. # back to our root directory
+#### Move Targets
+
+A `moveTarget` is accessible anywhere within the context of the stack where it is created, including the root of the stack and within a nested construct. This workflow does not support moving resources to a different stack.
+
+```ts
+new S3Bucket(this, "test-bucket-1", {
+  bucket: "test-move-bucket-name-1",
+}).moveTo("move");
+
+// Contains resource with moveTarget "move"
+new NestedConstructToMoveTo(this, "construct-to-move-to");
 ```
 
-Now you can apply the changes.
+### Enabling `foreach` on a Resource
 
-```shell-session
-$ cdktf deploy
-....
-refactoring-example  aws_s3_bucket.new-bucket (new-bucket): Refreshing state... [id=my-bucket20221208132144348300000001]
-refactoring-example  No changes. Your infrastructure matches the configuration.
-...
+To incorporate a deployed resource into a `foreach` composition without destroying the resource, specify an index as a second argument in the `moveTo` function. The index should correspond to the key in the `TerraformIterator` named `iterator`.
+
+```ts
+const iterator = TerraformIterator.fromMap({
+  "website-static-files": {
+    name: "website-static-files",
+    tags: { app: "website" },
+  },
+  images: { name: "images", tags: { app: "image-converter" } },
+});
+
+new S3Bucket(this, "iterator-bucket", {
+  forEach: iterator,
+  bucket: iterator.getString("name"),
+  tags: iterator.getStringMap("tags"),
+}).addMoveTarget("resourceWithIterator");
+
+new S3Bucket(this, "moved-bucket", {
+  bucket: "website-static-files",
+  tags: { app: "website" },
+}).moveTo("resourceWithIterator", "website-static-files");
 ```
 
-### Why Do I Need To Find The Terraform Name Of The Resource?
-
-If you use Constructs to organize your code, you might have a level between the generated provider constructs and the `TerraformStack` construct to organize your code.
-
-This extra level adds a prefix to the name of the resource to ensure uniqueness. Refer to [Constructs](/terraform/cdktf/concepts/constructs#scope) for more details.
+This allows you to efficiently integrate existing resources into a `foreach` composition without destroying the existing deployed resource.
 
 ## Moving Resources From One Stack To Another
 
@@ -270,3 +291,9 @@ $ cd ../../.. # Back to the root of the project
 # The next deploy should show no changes
 $ cdktf deploy '*'
 ```
+
+### Why Do I Need To Find The Terraform Name Of The Resource?
+
+If you use Constructs to organize your code, you might have a level between the generated provider constructs and the `TerraformStack` construct to organize your code.
+
+This extra level adds a prefix to the name of the resource to ensure uniqueness. Refer to [Constructs](/terraform/cdktf/concepts/constructs#scope) for more details.

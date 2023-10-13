@@ -10,7 +10,7 @@ import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
 
 /**
  * To properly see the move functionality in action, the resource being moved needs to be deployed
- * First run "deploy" with the STEP_1 env flag set, then "plan" with the STEP_2 env flag set
+ * First run "deploy" with the STEP_1 env flag set, then "plan" or "deploy" with the STEP_2 env flag set
  */
 
 // UN-NESTING RESOURCE -> resource currently in nested construct, want to move it to higher layer

@@ -1,0 +1,131 @@
+{
+  "_meta": {
+    "hash": {
+      "sha256": "4d795221fae1915a3c9346d1137bbd6adb709356a0278af165e98d47c32e6ded"
+    },
+    "pipfile-spec": 6,
+    "requires": {
+      "python_version": "3.7"
+    },
+    "sources": [
+      {
+        "name": "pypi",
+        "url": "https://pypi.org/simple",
+        "verify_ssl": true
+      }
+    ]
+  },
+  "default": {
+    "attrs": {
+      "hashes": [
+        "sha256:1f28b4522cdc2fb4256ac1a020c78acf9cba2c6b461ccd2c126f3aa8e8335d04",
+        "sha256:6279836d581513a26f1bf235f9acd333bc9115683f14f7e8fae46c98fc50e015"
+      ],
+      "markers": "python_version >= '3.7'",
+      "version": "==23.1.0"
+    },
+    "cattrs": {
+      "hashes": [
+        "sha256:b2bb14311ac17bed0d58785e5a60f022e5431aca3932e3fc5cc8ed8639de50a4",
+        "sha256:db1c821b8c537382b2c7c66678c3790091ca0275ac486c76f3c8f3920e83c657"
+      ],
+      "markers": "python_version >= '3.7'",
+      "version": "==23.1.2"
+    },
+    "cdktf": {
+      "hashes": [
+        "sha256:3883587406f408b46c77f9d3e179b8b2ba52506d3fbebc023e6cbda2d300958c"
+      ],
+      "path": "./../../../dist/python/cdktf-0.0.0-py3-none-any.whl",
+      "version": "==0.0.0"
+    },
+    "constructs": {
+      "hashes": [
+        "sha256:2972f514837565ff5b09171cfba50c0159dfa75ee86a42921ea8c86f2941b3d2",
+        "sha256:518551135ec236f9cc6b86500f4fbbe83b803ccdc6c2cb7684e0b7c4d234e7b1"
+      ],
+      "markers": "python_version ~= '3.7'",
+      "version": "==10.3.0"
+    },
+    "exceptiongroup": {
+      "hashes": [
+        "sha256:097acd85d473d75af5bb98e41b61ff7fe35efe6675e4f9370ec6ec5126d160e9",
+        "sha256:343280667a4585d195ca1cf9cef84a4e178c4b6cf2274caef9859782b567d5e3"
+      ],
+      "markers": "python_version < '3.11'",
+      "version": "==1.1.3"
+    },
+    "importlib-metadata": {
+      "hashes": [
+        "sha256:1aaf550d4f73e5d6783e7acb77aec43d49da8017410afae93822cc9cca98c4d4",
+        "sha256:cb52082e659e97afc5dac71e79de97d8681de3aa07ff18578330904a9d18e5b5"
+      ],
+      "markers": "python_version < '3.8'",
+      "version": "==6.7.0"
+    },
+    "importlib-resources": {
+      "hashes": [
+        "sha256:4be82589bf5c1d7999aedf2a45159d10cb3ca4f19b2271f8792bc8e6da7b22f6",
+        "sha256:7b1deeebbf351c7578e09bf2f63fa2ce8b5ffec296e0d349139d43cca061a81a"
+      ],
+      "markers": "python_version >= '3.7'",
+      "version": "==5.12.0"
+    },
+    "jsii": {
+      "hashes": [
+        "sha256:2fcc68d8cf88260bc8e502789d43ab46e7672b6f82d498ed62a52a4366fbccc5",
+        "sha256:e8a9a94c5116da96f11e79f16d4a290e1e7e1652b4addb8cce5c56f8ef570479"
+      ],
+      "markers": "python_version ~= '3.7'",
+      "version": "==1.90.0"
+    },
+    "publication": {
+      "hashes": [
+        "sha256:0248885351febc11d8a1098d5c8e3ab2dabcf3e8c0c96db1e17ecd12b53afbe6",
+        "sha256:68416a0de76dddcdd2930d1c8ef853a743cc96c82416c4e4d3b5d901c6276dc4"
+      ],
+      "version": "==0.0.3"
+    },
+    "python-dateutil": {
+      "hashes": [
+        "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86",
+        "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"
+      ],
+      "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+      "version": "==2.8.2"
+    },
+    "six": {
+      "hashes": [
+        "sha256:1e61c37477a1626458e36f7b1d82aa5c9b094fa4802892072e49de9c60c4c926",
+        "sha256:8abb2f1d86890a2dfb989f9a77cfcfd3e47c2a354b01111771326f8aa26e0254"
+      ],
+      "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2'",
+      "version": "==1.16.0"
+    },
+    "typeguard": {
+      "hashes": [
+        "sha256:00edaa8da3a133674796cf5ea87d9f4b4c367d77476e185e80251cc13dfbb8c4",
+        "sha256:5e3e3be01e887e7eafae5af63d1f36c849aaa94e3a0112097312aabfa16284f1"
+      ],
+      "markers": "python_full_version >= '3.5.3'",
+      "version": "==2.13.3"
+    },
+    "typing-extensions": {
+      "hashes": [
+        "sha256:440d5dd3af93b060174bf433bccd69b0babc3b15b1a8dca43789fd7f61514b36",
+        "sha256:b75ddc264f0ba5615db7ba217daeb99701ad295353c45f9e95963337ceeeffb2"
+      ],
+      "markers": "python_version >= '3.7'",
+      "version": "==4.7.1"
+    },
+    "zipp": {
+      "hashes": [
+        "sha256:112929ad649da941c23de50f356a2b5570c954b65150642bccdd66bf194d224b",
+        "sha256:48904fc76a60e542af151aded95726c1a5c34ed43ab4134b597665c86d7ad556"
+      ],
+      "markers": "python_version < '3.10'",
+      "version": "==3.15.0"
+    }
+  },
+  "develop": {}
+}

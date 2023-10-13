@@ -6,6 +6,10 @@
 
 Since the long-term support for Node.js 16 ended on 2023-09-11, we updated our minimum compatible Node.js version to 18.12.
 
+### Potential provider naming collision with instance function `moveTo` on `TerraformResource`
+
+We have added support for resource refactoring and renaming with the addition of the instance function `moveTo` on `TerraformResource`. We forsee the potential for naming collision with providers using `moveTo` as an attribute. In instances where provider bindings fail to compile due to the collision, regenerate your provider bindings and replace the provider related usage of `moveTo` to `moveToAttribute` in your configuration if applicable.
+
 ## 0.18.2
 
 Fixes a bug in 0.18.1 that broke crash reporting due to a partial dependency upgrade.
