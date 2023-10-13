@@ -23,7 +23,7 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
-import { TerraformStack } from "./terraform-stack";
+import { TerraformMoveAddresses } from "./terraform-move-addresses";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -282,18 +282,25 @@ export class TerraformResource
     );
   }
 
-  public move(
-    resource: TerraformResource | undefined,
-    index?: string | number
-  ) {
+  public move(tag: string, index?: string | number) {
+    /** 
     if (resource === undefined) {
+      throw new Error("tag not set"); // TODO: make better error message
+    }*/
+    /** 
+    const stackMoveAddresses = (
+      this._scope.node.root.node.children[0] as unknown as TerraformStack
+    ).moveAddresses;*/
+    const stackMoveAddresses = TerraformMoveAddresses.addresses(this._scope);
+    const moveToFriendlyUniqueId = stackMoveAddresses.getPath(tag);
+    if (!moveToFriendlyUniqueId) {
       throw new Error("tag not set"); // TODO: make better error message
     }
     const movedToId = index // TODO: make it work with complex types too
       ? typeof index === "string"
-        ? `${this.terraformResourceType}.${resource.friendlyUniqueId}["${index}"]`
-        : `${this.terraformResourceType}.${resource.friendlyUniqueId}[${index}]`
-      : `${this.terraformResourceType}.${resource.friendlyUniqueId}`;
+        ? `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}["${index}"]`
+        : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}[${index}]`
+      : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}`;
     const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
     this._moved = { to: movedToId, from: movedFromId };
     // TODO: add validation of correct Terraform Version
@@ -301,26 +308,7 @@ export class TerraformResource
 
   public addTag(tag: string) {
     // get parent stack address map
-    const stackMoveAddresses = (
-      this._scope.node.root.node.children[0] as unknown as TerraformStack
-    ).moveAddresses;
+    const stackMoveAddresses = TerraformMoveAddresses.addresses(this._scope);
     stackMoveAddresses.add(this, tag);
   }
-  /** 
-  public moveFrom(resource: TerraformResource, index?: string | number) {
-    const movedFromId = index
-      ? typeof index === "string"
-        ? (`${this.terraformResourceType}.${resource.friendlyUniqueId}["${index}"]`)
-        : (`${this.terraformResourceType}.${resource.friendlyUniqueId}[${index}]`)
-      : `${this.terraformResourceType}.${resource.friendlyUniqueId}`
-    const movedToId = `${this.terraformResourceType}.${this.friendlyUniqueId}`
-    this._moved = { to: movedToId, from: movedFromId }
-    // TODO: add validation of correct Terraform Version
-  }
-*/
-  /** 
-    public hasMoved() {
-      this._hasMoved = true;
-    }
-  */
 }
