@@ -76,12 +76,10 @@ export class TerraformElement extends Construct {
   private _friendlyUniqueId?: string;
 
   public get friendlyUniqueId() {
-    if (!this._friendlyUniqueId) {
-      if (this._logicalIdOverride) {
-        this._friendlyUniqueId = this._logicalIdOverride;
-      } else {
-        this._friendlyUniqueId = this.cdktfStack.getLogicalId(this);
-      }
+    if (this._logicalIdOverride) {
+      this._friendlyUniqueId = this._logicalIdOverride;
+    } else if (!this._friendlyUniqueId) {
+      this._friendlyUniqueId = this.cdktfStack.getLogicalId(this);
     }
     return this._friendlyUniqueId;
   }

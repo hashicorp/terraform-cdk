@@ -23,7 +23,7 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
-import { TerraformResourceAddressMap } from "./terraform-move-addresses";
+import { TerraformStack } from "./terraform-stack";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -81,6 +81,7 @@ export interface TerraformResourceImport {
 export interface TerraformResourceMove {
   readonly from: string;
   readonly to: string;
+  readonly renamed: boolean;
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
@@ -227,13 +228,14 @@ export class TerraformResource
             },
           ]
         : undefined,
-      resource: this._moved
-        ? undefined
-        : {
-            [this.terraformResourceType]: {
-              [this.friendlyUniqueId]: attributes,
+      resource:
+        this._moved && !this._moved.renamed
+          ? undefined
+          : {
+              [this.terraformResourceType]: {
+                [this.friendlyUniqueId]: attributes,
+              },
             },
-          },
       moved: this._moved
         ? {
             to: this._moved.to,
@@ -282,27 +284,60 @@ export class TerraformResource
     );
   }
 
+  public parentStackAddressMap() {
+    return TerraformStack.of(this._scope).resourceAddresses;
+  }
+
+  /**
+   *
+   * @param tag
+   * @param index
+   */
   public moveTo(tag: string, index?: string | number) {
-    const stackMoveAddresses =
-      TerraformResourceAddressMap.parentStackAddressMap(this._scope);
+    const stackMoveAddresses = this.parentStackAddressMap();
     const moveToFriendlyUniqueId = stackMoveAddresses.getResourceAddress(tag);
     if (!moveToFriendlyUniqueId) {
       throw new Error("tag not set"); // TODO: make better error message, maybe add list of current tags, add note about making sure that you add the tag before a construct you are moving to is instantiated (and vice versa)
     }
-    const movedToId = index // TODO: make it work with complex types too
+    const movedToId = index
       ? typeof index === "string"
         ? `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}["${index}"]`
         : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}[${index}]`
       : `${this.terraformResourceType}.${moveToFriendlyUniqueId.friendlyUniqueId}`;
     const movedFromId = `${this.terraformResourceType}.${this.friendlyUniqueId}`;
-    this._moved = { to: movedToId, from: movedFromId };
+    this._moved = { to: movedToId, from: movedFromId, renamed: false };
     // TODO: add validation of correct Terraform Version
   }
 
+  /**
+   *
+   * @param tag
+   */
   public addTag(tag: string) {
-    console.log(this.terraformResourceType, this.friendlyUniqueId);
-    const stackMoveAddresses =
-      TerraformResourceAddressMap.parentStackAddressMap(this._scope);
+    const stackMoveAddresses = this.parentStackAddressMap();
     stackMoveAddresses.add(this, tag);
+  }
+
+  /**
+   *
+   * @param name
+   */
+  public renameResourceId(name: string) {
+    const oldId = this.friendlyUniqueId;
+    const oldIdParts = oldId.split(".");
+    oldIdParts[oldIdParts.length - 1] = name;
+
+    const intialValue = oldIdParts[0];
+    oldIdParts.shift();
+    const newId = oldIdParts.reduce(
+      (accum, curr) => accum + "." + curr,
+      intialValue
+    );
+    this.overrideLogicalId(newId);
+    this._moved = {
+      to: `${this.terraformResourceType}.${newId}`,
+      from: `${this.terraformResourceType}.${oldId}`,
+      renamed: true,
+    };
   }
 }
