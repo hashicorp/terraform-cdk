@@ -222,6 +222,235 @@ exports[`minimal configuration 1`] = `
 }"
 `;
 
+exports[`moves resource to a lesser nesting from contained construct 1`] = `
+"{
+  "moved": {
+    "from": "test_resource.construct_nested-construct_simple_2C3755B0",
+    "to": "test_resource.simple"
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "simple": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`moves resource to be in composition with foreach using complex iterator 1`] = `
+"{
+  "moved": {
+    "from": "test_resource.simple",
+    "to": "test_resource.simple-foreach[\\"simple-foreach-one\\"]"
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "simple-foreach": {
+        "for_each": {
+          "simple-foreach-one": {
+            "name": "foo-one",
+            "tags": {
+              "tag1": "tag1"
+            }
+          },
+          "simple-foreach-two": {
+            "name": "foo-two",
+            "tags": {
+              "tag2": "tag2"
+            }
+          }
+        },
+        "name": "\${each.value.name}",
+        "tags": "\${each.value.tags}"
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`moves resource to be in composition with foreach using list iterator 1`] = `
+"{
+  "moved": {
+    "from": "test_resource.simple",
+    "to": "test_resource.simple-foreach[\\"foo-one\\"]"
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "simple-foreach": {
+        "for_each": "\${toset([\\"foo-one\\", \\"foo-two\\"])}",
+        "name": "\${each.value}",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`moves resource to greater nesting in contained construct 1`] = `
+"{
+  "moved": {
+    "from": "test_resource.simple",
+    "to": "test_resource.construct_nested-construct_simple_2C3755B0"
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "construct_nested-construct_simple_2C3755B0": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
+exports[`moves resource to resource with rename 1`] = `
+"{
+  "moved": {
+    "from": "test_resource.simple",
+    "to": "test_resource.simple-rename"
+  },
+  "provider": {
+    "test": [
+      {
+      }
+    ]
+  },
+  "resource": {
+    "test_resource": {
+      "simple-rename": {
+        "name": "foo",
+        "provisioner": [
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world1.txt"
+            }
+          },
+          {
+            "local-exec": {
+              "command": "echo 'hello' > world2.txt"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "terraform": {
+    "required_providers": {
+      "test": {
+        "version": "~> 2.0"
+      }
+    }
+  }
+}"
+`;
+
 exports[`number[] attributes 1`] = `
 "{
   "output": {
