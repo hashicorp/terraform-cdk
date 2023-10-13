@@ -282,8 +282,8 @@ export class TerraformResource
     );
   }
 
-  private parentStackResourceAddressMap() {
-    return TerraformStack.of(this).resourceAddresses;
+  private parentStackResourceTags() {
+    return TerraformStack.of(this).resourceTags;
   }
 
   /**
@@ -292,7 +292,7 @@ export class TerraformResource
    * @param index
    */
   public moveTo(tag: string, index?: string | number) {
-    const stackMoveAddresses = this.parentStackResourceAddressMap();
+    const stackMoveAddresses = this.parentStackResourceTags();
     const moveToFriendlyUniqueId = stackMoveAddresses.getResourceByTag(tag);
     const movedToId = index
       ? typeof index === "string"
@@ -309,7 +309,7 @@ export class TerraformResource
    * @param tag
    */
   public addResourceTag(tag: string) {
-    const stackMoveAddresses = this.parentStackResourceAddressMap();
+    const stackMoveAddresses = this.parentStackResourceTags();
     stackMoveAddresses.addResourceTag(this, tag);
   }
 

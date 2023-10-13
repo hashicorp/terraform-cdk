@@ -1,9 +1,16 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
-import { Testing, TerraformStack, TerraformElement, Fn } from "../lib";
+import {
+  Testing,
+  TerraformStack,
+  TerraformElement,
+  Fn,
+  TerraformIterator,
+} from "../lib";
 import { TestProvider, TestResource, OtherTestResource } from "./helper";
 import { TestDataSource } from "./helper/data-source";
 import { TerraformOutput } from "../lib/terraform-output";
+import { Construct } from "constructs";
 
 test("minimal configuration", () => {
   const app = Testing.app();
@@ -341,5 +348,144 @@ test("includes import block when import is present, provider given", () => {
   new TestResource(stack, "test", {
     name: "foo",
   }).importFrom("testId", provider);
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves resource to greater nesting in contained construct", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addResourceTag("test");
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves resource to a lesser nesting from contained construct", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addResourceTag("test");
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves resource to be in composition with foreach using list iterator", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const iterator = TerraformIterator.fromList(["foo-one", "foo-two"]);
+
+  new TestResource(stack, "simple-foreach", {
+    forEach: iterator,
+    name: iterator.value,
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).addResourceTag("test");
+
+  new TestResource(stack, "simple", {
+    name: "foo-one",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).moveTo("test", "foo-one");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves resource to be in composition with foreach using complex iterator", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const complexIterator = TerraformIterator.fromMap({
+    "simple-foreach-one": {
+      name: "foo-one",
+      tags: {
+        tag1: "tag1",
+      },
+    },
+    "simple-foreach-two": {
+      name: "foo-two",
+      tags: {
+        tag2: "tag2",
+      },
+    },
+  });
+
+  new TestResource(stack, "simple-foreach", {
+    forEach: complexIterator,
+    name: complexIterator.getString("name"),
+    tags: complexIterator.getMap("tags"),
+  }).addResourceTag("test");
+
+  new TestResource(stack, "simple", {
+    name: "foo-one",
+    tags: {
+      tag1: "tag1",
+    },
+  }).moveTo("test", "simple-foreach-one");
+
+  expect(Testing.synth(stack)).toMatchSnapshot();
+});
+
+it("moves resource to resource with rename", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).renameResourceId("simple-rename");
+
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

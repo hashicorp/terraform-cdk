@@ -63,7 +63,7 @@ export class TerraformStack extends Construct {
     {};
   public synthesizer: IStackSynthesizer;
   public dependencies: TerraformStack[] = [];
-  public resourceAddresses: TerraformResourceTags = new TerraformResourceTags();
+  public resourceTags: TerraformResourceTags = new TerraformResourceTags();
 
   constructor(scope: Construct, id: string) {
     super(scope, id);
