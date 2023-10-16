@@ -1,4 +1,4 @@
-## Unreleased
+## 0.19.0
 
 **Breaking changes**
 
@@ -9,11 +9,29 @@ Since the long-term support for Node.js 16 ended on 2023-09-11, we updated our m
 ### Potential provider naming collision with instance function `moveTo` on `TerraformResource`
 
 We have added support for resource refactoring and renaming with the addition of the instance function `moveTo` on `TerraformResource`. We forsee the potential for naming collision with providers using `moveTo` as an attribute. In instances where provider bindings fail to compile due to the collision, regenerate your provider bindings and replace the provider related usage of `moveTo` to `moveToAttribute` in your configuration if applicable.
+
 ### Java: `codeMakerOutput` needs to be set to a company identifier
 
 We did not honor the `codeMakerOutput` setting in the `cdktf.json` previously, this is fixed now.
 To have no changes in the generated code you can set `codeMakerOutput: "imports"`.
-If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` generated. Omitting the `codeMakerOutput` will lead to the default value `.gen` being used and results in an error.
+If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` namespace for example. Omitting the `codeMakerOutput` will lead to the default value `.gen` being used and results in an error.
+
+### feat
+
+- feat(lib): add resource move functionality [\#3152](https://github.com/hashicorp/terraform-cdk/pull/3152)
+- feat: add import capabilities to cdktf [\#2972](https://github.com/hashicorp/terraform-cdk/pull/2972)
+- feat!: update minimum required Node.js version to 18.12 (LTS) [\#3181](https://github.com/hashicorp/terraform-cdk/pull/3181)
+
+### fix
+
+- fix(provider-generator): java akamai provider generation [\#3185](https://github.com/hashicorp/terraform-cdk/pull/3185)
+- fix: use codemaker output in java [\#3000](https://github.com/hashicorp/terraform-cdk/pull/3000)
+
+### chore
+
+- chore(examples): change debian image version in gcp example [\#3186](https://github.com/hashicorp/terraform-cdk/pull/3186)
+- chore: upgrade node-pty dependency to add support for Node.js 20 [\#3182](https://github.com/hashicorp/terraform-cdk/pull/3182)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3180](https://github.com/hashicorp/terraform-cdk/pull/3180)
 
 ## 0.18.2
 
