@@ -1,5 +1,6 @@
 {
   "language": "java",
   "app": "./gradlew run",
+  "codeMakerOutput": "imports",
   "terraformProviders": ["ucloud/ucloud@~> 1.29.0"]
 }

@@ -1,5 +1,6 @@
 {
   "language": "java",
   "app": "./gradlew run",
+  "codeMakerOutput": "imports",
   "terraformProviders": ["azurerm@~> 2.0.0"]
 }
