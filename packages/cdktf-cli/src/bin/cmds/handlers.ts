@@ -520,17 +520,70 @@ export async function output(argv: any) {
 }
 
 export async function debug(argv: any) {
-  const jsonOutput = argv.json;
-  const debugOutput = await collectDebugInformation();
+  const config = CdktfConfig.read();
+  const language = config.language;
+  const cdktfVersion = await getPackageVersion(language, "cdktf");
+  if (!cdktfVersion)
+    throw Errors.External(
+      "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
+    );
 
-  if (jsonOutput) {
-    console.log(JSON.stringify(debugOutput, null, 2));
+  const manager = new DependencyManager(
+    language,
+    cdktfVersion,
+    config.projectDirectory
+  );
+  const allProviders = await manager.allProviders();
+  const debugOutput = await collectDebugInformation();
+  if (argv.json) {
+    console.log(
+      JSON.stringify(
+        {
+          ...debugOutput,
+          providers: {
+            local: allProviders.local.map((provider) => {
+              return {
+                provider: `${provider.providerName}@${provider.providerConstraint}`,
+                terraformProviderVersion: provider.providerVersion,
+              };
+            }),
+            prebuilt: allProviders.prebuilt.map((provider) => {
+              return {
+                provider: provider.packageName,
+                terraformProviderVersion: provider.providerVersion,
+                prebuiltProviderVersion: provider.packageVersion,
+                cdktfVersion: provider.cdktfVersion,
+              };
+            }),
+          },
+        },
+        null,
+        2
+      )
+    );
   } else {
     console.log(chalkColour`{bold {greenBright cdktf debug}}`);
 
     Object.entries(debugOutput).forEach(([key, value]) => {
       console.log(`${key}: ${value === null ? "null" : value}`);
     });
+
+    console.log(chalkColour`{bold {yellowBright providers}}`);
+
+    for (const provider of allProviders.local) {
+      console.log(
+        `${provider.providerName}@${provider.providerConstraint} (LOCAL)
+        terraform provider version: ${provider.providerVersion}`
+      );
+    }
+    for (const provider of allProviders.prebuilt) {
+      console.log(
+        `${provider.packageName} (PREBUILT)
+        terraform provider version: ${provider.providerVersion} 
+        prebuilt provider version: ${provider.packageVersion}
+        cdktf version: ${provider.cdktfVersion}`
+      );
+    }
   }
 }
 
@@ -628,7 +681,6 @@ export async function providerList(argv: any) {
   const config = CdktfConfig.read();
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
-
   if (!cdktfVersion)
     throw Errors.External(
       "Could not determine cdktf version. Please make sure you are in a directory containing a cdktf project and have all dependencies installed."
@@ -639,9 +691,7 @@ export async function providerList(argv: any) {
     cdktfVersion,
     config.projectDirectory
   );
-
   const allProviders = await manager.allProviders();
-
   if (argv.json) {
     console.log(JSON.stringify(allProviders));
     return;
