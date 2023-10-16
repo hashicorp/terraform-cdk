@@ -1,5 +1,6 @@
 {
   "language": "java",
   "app": "./gradlew run",
+  "codeMakerOutput": "imports",
   "terraformProviders": ["aws@~> 3.0"]
 }

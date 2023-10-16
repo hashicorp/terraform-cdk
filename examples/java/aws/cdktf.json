@@ -1,5 +1,6 @@
 {
   "language": "java",
   "app": "mvn -e -q compile exec:java",
+  "codeMakerOutput": "imports",
   "terraformProviders": ["aws@~> 3.0"]
 }
