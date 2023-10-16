@@ -1,4 +1,4 @@
-## Unreleased
+## 0.19.0
 
 **Breaking changes**
 
@@ -14,7 +14,24 @@ We have added support for resource refactoring and renaming with the addition of
 
 We did not honor the `codeMakerOutput` setting in the `cdktf.json` previously, this is fixed now.
 To have no changes in the generated code you can set `codeMakerOutput: "imports"`.
-If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` generated. Omitting the `codeMakerOutput` will lead to the default value `.gen` being used and results in an error.
+If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` namespace for example. Omitting the `codeMakerOutput` will lead to the default value `.gen` being used and results in an error.
+
+### feat
+
+- feat(lib): add resource move functionality [\#3152](https://github.com/hashicorp/terraform-cdk/pull/3152)
+- feat: add import capabilities to cdktf [\#2972](https://github.com/hashicorp/terraform-cdk/pull/2972)
+- feat!: update minimum required Node.js version to 18.12 (LTS) [\#3181](https://github.com/hashicorp/terraform-cdk/pull/3181)
+
+### fix
+
+- fix(provider-generator): java akamai provider generation [\#3185](https://github.com/hashicorp/terraform-cdk/pull/3185)
+- fix: use codemaker output in java [\#3000](https://github.com/hashicorp/terraform-cdk/pull/3000)
+
+### chore
+
+- chore(examples): change debian image version in gcp example [\#3186](https://github.com/hashicorp/terraform-cdk/pull/3186)
+- chore: upgrade node-pty dependency to add support for Node.js 20 [\#3182](https://github.com/hashicorp/terraform-cdk/pull/3182)
+- chore(deps): pin trusted workflows based on HashiCorp TSCCR [\#3180](https://github.com/hashicorp/terraform-cdk/pull/3180)
 
 ## 0.18.2
 
