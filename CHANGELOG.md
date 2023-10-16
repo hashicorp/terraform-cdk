@@ -13,7 +13,7 @@ We have added support for resource refactoring and renaming with the addition of
 
 We did not honor the `codeMakerOutput` setting in the `cdktf.json` previously, this is fixed now.
 To have no changes in the generated code you can set `codeMakerOutput: "imports"`.
-If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` generated.
+If you like, you can now set it to your company name, e.g. `codeMakerOutput: "com.hashicorp"` so that the provider is generated under the `com.hashicorp.aws` generated. Omitting the `codeMakerOutput` will lead to the default value `.gen` being used and results in an error.
 
 ## 0.18.2
 
