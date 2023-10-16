@@ -1,6 +1,7 @@
 {
   "language": "java",
   "app": "./gradlew run",
+  "codeMakerOutput": "imports",
   "terraformProviders": ["hashicorp/null@~> 3.1.0", "hashicorp/random@= 3.1.3"],
   "context": {}
 }
