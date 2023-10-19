@@ -97,6 +97,7 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
+  private stateUpdatedAttributes: { [name: string]: any };
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -115,6 +116,7 @@ export class TerraformResource
     this.forEach = config.forEach;
     this.provisioners = config.provisioners;
     this.connection = config.connection;
+    this.stateUpdatedAttributes = {};
   }
 
   public static isTerraformResource(x: any): x is TerraformResource {
@@ -124,18 +126,30 @@ export class TerraformResource
   }
 
   public getStringAttribute(terraformAttribute: string) {
+    if (this.stateUpdatedAttributes[terraformAttribute]) {
+      return this.stateUpdatedAttributes[terraformAttribute];
+    }
     return Token.asString(this.interpolationForAttribute(terraformAttribute));
   }
 
   public getNumberAttribute(terraformAttribute: string) {
+    if (this.stateUpdatedAttributes[terraformAttribute]) {
+      return this.stateUpdatedAttributes[terraformAttribute];
+    }
     return Token.asNumber(this.interpolationForAttribute(terraformAttribute));
   }
 
   public getListAttribute(terraformAttribute: string) {
+    if (this.stateUpdatedAttributes[terraformAttribute]) {
+      return this.stateUpdatedAttributes[terraformAttribute];
+    }
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
+    if (this.stateUpdatedAttributes[terraformAttribute]) {
+      return this.stateUpdatedAttributes[terraformAttribute];
+    }
     return this.interpolationForAttribute(terraformAttribute);
   }
 
@@ -165,6 +179,10 @@ export class TerraformResource
 
   public getAnyMapAttribute(terraformAttribute: string) {
     return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
+  }
+
+  public updateAttributesFromState(attrs: { [name: string]: any }) {
+    this.stateUpdatedAttributes = attrs;
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {
