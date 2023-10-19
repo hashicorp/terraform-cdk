@@ -139,7 +139,7 @@ export class App extends Construct {
     }
   }
 
-  public run(stack: TerraformStack): void {
+  public async run(stack: TerraformStack): Promise<any> {
     if (!this.liveMode) {
       console.warn("App is not in live mode, so defaulting to synth");
       return this.synth();
@@ -149,7 +149,7 @@ export class App extends Construct {
       throw new Error("No stack specified");
     }
 
-    stack.runner.run();
+    return stack.runner.run();
   }
 
   /**

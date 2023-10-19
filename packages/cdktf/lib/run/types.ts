@@ -1,3 +1,3 @@
 export interface IStackRunner {
-  run(): void;
+  run(): Promise<any>;
 }

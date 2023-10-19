@@ -39,6 +39,13 @@ export class ResourceEmitter {
     this.emitHeader("SYNTHESIS");
     this.emitResourceSynthesis(resource);
 
+    this.emitHeader("LIVE MODE");
+    if (resource.isProvider) {
+      this.emitLiveProviderUse(resource);
+    } else {
+      this.emitLiveInitializer(resource);
+    }
+
     this.code.closeBlock(); // construct
   }
 
@@ -136,6 +143,68 @@ export class ResourceEmitter {
         this.code.line(`this.${att.storageName} = config.${att.name};`);
       }
     }
+
+    this.code.closeBlock();
+  }
+
+  private emitLiveProviderUse(resource: ResourceModel) {
+    this.code.line();
+    const comment = sanitizedComment(this.code);
+    comment.line(
+      `Create a new {@link ${resource.linkToDocs} ${resource.terraformResourceType}} Provider`
+    );
+    comment.line(``);
+    comment.line(`@param scope The scope in which to define this construct`);
+    comment.line(
+      `@param id The scoped construct ID. Must be unique amongst siblings in the same scope`
+    );
+    comment.line(`@param config ${resource.configStruct.attributeType}`);
+    comment.end();
+    this.code.openBlock(
+      `public static async use(scope: Construct, config: ${resource.configStruct.attributeType})`
+    );
+
+    this.code.line(`const randomId = Math.random().toString(36).substring(7);`);
+
+    this.code.line(
+      `const provider = new ${resource.className}(scope, "${resource.terraformResourceType}-"+randomId, config);`
+    );
+    this.code.line(
+      `return cdktf.LiveRunner.session.useProvider(provider, scope)`
+    );
+
+    this.code.closeBlock();
+  }
+
+  private emitLiveInitializer(resource: ResourceModel) {
+    this.code.line();
+    const comment = sanitizedComment(this.code);
+    comment.line(
+      `Create a new {@link ${resource.linkToDocs} ${
+        resource.terraformResourceType
+      }} ${resource.isDataSource ? "Data Source" : "Resource"}`
+    );
+    comment.line(``);
+    comment.line(`@param scope The scope in which to define this construct`);
+    comment.line(
+      `@param id The scoped construct ID. Must be unique amongst siblings in the same scope`
+    );
+    comment.line(`@param config ${resource.configStruct.attributeType}`);
+    comment.end();
+    this.code.openBlock(
+      `public static async create(scope: Construct, id: string, config: ${resource.configStruct.attributeType})`
+    );
+
+    this.code.line(
+      `const instance = new ${resource.className}(scope, id, config);`
+    );
+    const method = resource.isDataSource
+      ? "createDataSource"
+      : "createResource";
+
+    this.code.line(
+      `return cdktf.LiveRunner.session.${method}(instance, scope)`
+    );
 
     this.code.closeBlock();
   }

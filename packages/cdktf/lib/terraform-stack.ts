@@ -330,6 +330,10 @@ export class TerraformStack extends Construct {
       );
     }
   }
+
+  public async run(): Promise<any> {
+    throw new Error("Override this method to run your stack");
+  }
 }
 
 // eslint-disable-next-line jsdoc/require-jsdoc
