@@ -99,6 +99,7 @@ jobs:
             "@cdktf/hcl2cdk",
             "@cdktf/hcl2json",
             "@cdktf/provider-generator",
+            "@cdktf/provider-schema",
             "@cdktf/commons",
             "@cdktf/cli-core",
           ]
