@@ -84,7 +84,7 @@
     "xstate": "^4.34.0",
     "yargs": "^17.6",
     "yoga-layout-prebuilt": "^1.10.0",
-    "zod": "^1.11.17"
+    "zod": "^3.22.4"
   },
   "eslintConfig": {
     "parser": "@typescript-eslint/parser",
