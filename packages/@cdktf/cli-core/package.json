@@ -39,7 +39,6 @@
   "dependencies": {
     "@cdktf/commons": "0.0.0",
     "@cdktf/hcl2cdk": "0.0.0",
-    "@cdktf/hcl2json": "0.0.0",
     "@cdktf/provider-schema": "0.0.0",
     "@cdktf/node-pty-prebuilt-multiarch": "0.10.1-pre.11",
     "@sentry/node": "^7.80.0",
@@ -76,10 +75,7 @@
     "pkg-up": "^3.1.0",
     "semver": "^7.5.4",
     "sscaff": "^1.2.274",
-    "stream-buffers": "^3.0.2",
     "strip-ansi": "^6.0.1",
-    "tunnel-agent": "^0.6.0",
-    "uuid": "^8.3.2",
     "xml-js": "^1.6.11",
     "xstate": "^4.38.3",
     "yargs": "^17.7",
