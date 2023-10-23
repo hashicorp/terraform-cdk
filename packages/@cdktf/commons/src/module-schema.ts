@@ -10,6 +10,7 @@ export interface ModuleSchema {
 export interface Output {
   name: string;
   type: string;
+  ast?: string;
 }
 
 export interface Input {

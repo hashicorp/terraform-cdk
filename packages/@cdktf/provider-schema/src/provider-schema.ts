@@ -3,7 +3,13 @@
 import * as fs from "fs-extra";
 import * as path from "path";
 
-import { convertFiles } from "@cdktf/hcl2json";
+import {
+  convertFiles,
+  getExpressionAst,
+  wrapTerraformExpression,
+  TFExpressionSyntaxTree as tex,
+} from "@cdktf/hcl2json";
+
 import {
   ConstructsMakerModuleTarget,
   ConstructsMakerProviderTarget,
@@ -90,16 +96,21 @@ const transformVariables = (variables: any) => {
   return result;
 };
 
-const transformOutputs = (outputs: any) => {
+const transformOutputs = async (outputs: any) => {
   const result = [];
 
   if (outputs) {
     for (const name of Object.keys(outputs)) {
       const output = unwrapIfArray(outputs[name]);
 
+      const stringValue = output["value"] as string;
+      const ast = await expressionAst(stringValue);
+
       const item: any = {
         name,
+        value: output["value"],
         description: output["description"],
+        ast,
       };
 
       result.push(item);
@@ -148,7 +159,7 @@ const harvestModuleSchema = async (
 
     const schema: ModuleSchema = {
       inputs: transformVariables(parsed.variable),
-      outputs: transformOutputs(parsed.output),
+      outputs: await transformOutputs(parsed.output),
       name: mod,
     };
 
@@ -208,6 +219,23 @@ export async function readProviderSchema(
   });
 
   return providerSchema;
+}
+
+export async function expressionAst(
+  input: string
+): Promise<tex.ExpressionType> {
+  const { wrap, wrapOffset } = wrapTerraformExpression(input);
+  const ast = await getExpressionAst("main.tf", wrap);
+
+  if (!ast) {
+    throw new Error(`Unable to parse terraform expression: ${input}`);
+  }
+
+  if (wrapOffset != 0 && tex.isTemplateWrapExpression(ast)) {
+    return ast.children[0];
+  }
+
+  return ast;
 }
 
 export async function readModuleSchema(target: ConstructsMakerModuleTarget) {

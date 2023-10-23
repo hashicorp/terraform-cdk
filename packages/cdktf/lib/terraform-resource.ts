@@ -23,6 +23,7 @@ import {
   RemoteExecProvisioner,
 } from "./terraform-provisioner";
 import { ValidateTerraformVersion } from "./validations/validate-terraform-version";
+import { LiveRunner } from "./live-runner";
 
 const TERRAFORM_RESOURCE_SYMBOL = Symbol.for("cdktf/TerraformResource");
 
@@ -98,6 +99,7 @@ export class TerraformResource
   >;
   private _imported?: TerraformResourceImport;
   private stateUpdatedAttributes: { [name: string]: any };
+  private awaitingUpdate = false;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -126,6 +128,11 @@ export class TerraformResource
   }
 
   public getStringAttribute(terraformAttribute: string) {
+    if (this.awaitingUpdate) {
+      return LiveRunner.session
+        .triggerUpdate()
+        .then(() => this.stateUpdatedAttributes[terraformAttribute]);
+    }
     if (this.stateUpdatedAttributes[terraformAttribute]) {
       return this.stateUpdatedAttributes[terraformAttribute];
     }
@@ -133,6 +140,11 @@ export class TerraformResource
   }
 
   public getNumberAttribute(terraformAttribute: string) {
+    if (this.awaitingUpdate) {
+      return LiveRunner.session
+        .triggerUpdate()
+        .then(() => this.stateUpdatedAttributes[terraformAttribute]);
+    }
     if (this.stateUpdatedAttributes[terraformAttribute]) {
       return this.stateUpdatedAttributes[terraformAttribute];
     }
@@ -140,13 +152,15 @@ export class TerraformResource
   }
 
   public getListAttribute(terraformAttribute: string) {
-    if (this.stateUpdatedAttributes[terraformAttribute]) {
-      return this.stateUpdatedAttributes[terraformAttribute];
-    }
     return Token.asList(this.interpolationForAttribute(terraformAttribute));
   }
 
   public getBooleanAttribute(terraformAttribute: string) {
+    if (this.awaitingUpdate) {
+      return LiveRunner.session
+        .triggerUpdate()
+        .then(() => this.stateUpdatedAttributes[terraformAttribute]);
+    }
     if (this.stateUpdatedAttributes[terraformAttribute]) {
       return this.stateUpdatedAttributes[terraformAttribute];
     }
@@ -181,8 +195,13 @@ export class TerraformResource
     return Token.asAnyMap(this.interpolationForAttribute(terraformAttribute));
   }
 
+  public markAwaitingUpdate() {
+    this.awaitingUpdate = true;
+  }
+
   public updateAttributesFromState(attrs: { [name: string]: any }) {
     this.stateUpdatedAttributes = attrs;
+    this.awaitingUpdate = false;
   }
 
   public get terraformMetaArguments(): { [name: string]: any } {

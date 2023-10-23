@@ -9,6 +9,8 @@ import { Token } from "./tokens";
 import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
+import { LiveRunner } from "./live-runner";
+import { valueFromExpression } from "./expression-value";
 
 export interface TerraformModuleUserConfig {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
@@ -27,6 +29,22 @@ export interface TerraformModuleProvider {
   readonly moduleAlias: string;
 }
 
+export interface ResourceState {
+  readonly module: string;
+  readonly type: string;
+  readonly name: string;
+  readonly provider: string;
+  readonly instances: ResourceInstance[];
+}
+
+export interface ResourceInstance {
+  readonly schemaVersion: number;
+  readonly attributes: { [name: string]: any };
+  readonly private: any;
+  readonly dependencies: string[];
+  readonly indexKey?: number;
+}
+
 // eslint-disable-next-line jsdoc/require-jsdoc
 export abstract class TerraformModule
   extends TerraformElement
@@ -38,6 +56,8 @@ export abstract class TerraformModule
   public dependsOn?: string[];
   public forEach?: ITerraformIterator;
   public readonly skipAssetCreationFromLocalModules?: boolean;
+  private resourcesForModule: ResourceState[];
+  private awaitingUpdate = false;
 
   constructor(scope: Construct, id: string, options: TerraformModuleConfig) {
     super(scope, id, "module");
@@ -64,6 +84,7 @@ export abstract class TerraformModule
       );
     }
     this.forEach = options.forEach;
+    this.resourcesForModule = [];
   }
 
   // jsii can't handle abstract classes?
@@ -80,7 +101,18 @@ export abstract class TerraformModule
     );
   }
 
-  public getString(output: string): string {
+  public getString(output: string, astJson?: string): string | Promise<string> {
+    const ast = astJson ? JSON.parse(astJson) : undefined;
+
+    if (this.awaitingUpdate) {
+      return LiveRunner.session
+        .triggerUpdate()
+        .then(() => valueFromExpression(ast, this.resourcesForModule));
+    }
+    if (this.resourcesForModule) {
+      return valueFromExpression(ast, this.resourcesForModule);
+    }
+
     return Token.asString(this.interpolationForOutput(output));
   }
 
@@ -126,6 +158,15 @@ export abstract class TerraformModule
         [this.friendlyUniqueId]: attributes,
       },
     };
+  }
+
+  public markAwaitingUpdate() {
+    this.awaitingUpdate = true;
+  }
+
+  public updateResourcesForModule(resources: ResourceState[]) {
+    this.resourcesForModule = resources;
+    this.awaitingUpdate = false;
   }
 
   public toMetadata(): any {

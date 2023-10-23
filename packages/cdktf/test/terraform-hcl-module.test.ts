@@ -129,7 +129,7 @@ test("reference module", () => {
   });
 
   new TestResource(stack, "resource", {
-    name: module.getString("name"),
+    name: module.getString("name") as string,
   });
   expect(Testing.synth(stack)).toMatchSnapshot();
 });

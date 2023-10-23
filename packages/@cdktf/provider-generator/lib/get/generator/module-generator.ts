@@ -30,7 +30,7 @@ export class ModuleGenerator {
     this.code.line(`// ${target.source}`);
 
     this.code.line(
-      `import { TerraformModule, TerraformModuleUserConfig } from 'cdktf';`
+      `import { TerraformModule, TerraformModuleUserConfig, LiveRunner } from 'cdktf';`
     );
     this.code.line(`import { Construct } from 'constructs';`);
 
@@ -126,6 +126,18 @@ export class ModuleGenerator {
 
     this.code.close(`}`); // ctor
 
+    // Live Mode Create
+    this.code.openBlock(
+      `public static async create(scope: Construct, id: string, config: ${configType}${allOptional})`
+    );
+
+    this.code.line(`const instance = new ${baseName}(scope, id, config);`);
+
+    this.code.line(`return LiveRunner.session.createModule(instance, scope)`);
+
+    this.code.closeBlock();
+    // End Live Mode Create
+
     for (const input of spec.inputs) {
       const inputName = AttributeModel.escapeName(toCamelCase(input.name));
       const inputType =
@@ -143,7 +155,10 @@ export class ModuleGenerator {
     for (const output of spec.outputs) {
       const outputName = toCamelCase(output.name);
       this.code.openBlock(`public get ${outputName}Output()`);
-      this.code.line(`return this.getString('${output.name}')`);
+
+      const astJson = output.ast ? JSON.stringify(output.ast) : "";
+
+      this.code.line(`return this.getString('${output.name}', '${astJson}')`);
       this.code.closeBlock();
     }
 

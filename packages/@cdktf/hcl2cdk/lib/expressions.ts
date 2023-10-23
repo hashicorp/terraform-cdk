@@ -866,6 +866,14 @@ export async function expressionAst(
   return ast;
 }
 
+export async function convertTerraformExpressionToStateReference(
+  input: string
+): Promise<any> {
+  const ast = await expressionAst(input);
+
+  return ast;
+}
+
 export async function convertTerraformExpressionToTs(
   scope: ResourceScope,
   input: string,
