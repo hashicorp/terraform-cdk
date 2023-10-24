@@ -27,3 +27,20 @@ export class ApiGatewayL1 extends Construct {
     super(scope, ns);
   }
 }
+export class KubernetesClusterL1 extends Construct {
+  constructor(scope: Construct, ns: string, _config: any) {
+    super(scope, ns);
+  }
+}
+
+export class KubernetesDeploymentL1 extends Construct {
+  constructor(scope: Construct, ns: string, _config: any) {
+    super(scope, ns);
+  }
+}
+
+export class TfcProjectSecret extends Construct {
+  constructor(scope: Construct, ns: string, _config: string) {
+    super(scope, ns);
+  }
+}

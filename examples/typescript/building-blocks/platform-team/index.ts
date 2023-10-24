@@ -8,6 +8,8 @@ import {
 } from "../cdktf";
 import * as path from "path";
 import * as l1 from "../l1";
+import { CentralResource } from "../cdktf/centralResources";
+import { TerraformVariable } from "cdktf";
 
 export class LambdaFunctionDirectory extends Construct {
   constructor(
@@ -78,5 +80,44 @@ export class AwsDatabaseUser extends DatabaseUser {
     const config = super.connect(db);
     // Add permissions
     return config;
+  }
+}
+
+// TODO: Is there a way to abstract this pattern?
+export class KubernetesAccess extends Construct {
+  constructor(
+    scope: Construct,
+    name: string,
+    config: { kubernetesHost: string; kubernetesApiToken: string }
+  ) {
+    super(scope, name);
+
+    new l1.TfcProjectSecret(this, "kubernetesHost", config.kubernetesHost);
+    new l1.TfcProjectSecret(
+      this,
+      "kubernetesApiToken",
+      config.kubernetesApiToken
+    );
+  }
+
+  public static loadFromVariables(scope: Construct): {
+    kubernetesHost: string;
+    kubernetesApiToken: string;
+  } {
+    return {
+      kubernetesHost: new TerraformVariable(scope, "kubernetesHost", {})
+        .stringValue,
+      kubernetesApiToken: new TerraformVariable(scope, "kubernetesApiToken", {})
+        .stringValue,
+    };
+  }
+}
+
+export class KubernetesDeployment extends Construct {
+  constructor(scope: Construct, ns: string, config: any) {
+    super(scope, ns);
+
+    const access = KubernetesAccess.loadFromVariables(scope);
+    new l1.KubernetesDeploymentL1(this, ns, { ...config, ...access });
   }
 }
