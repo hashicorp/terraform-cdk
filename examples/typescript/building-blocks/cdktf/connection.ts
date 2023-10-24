@@ -128,20 +128,3 @@ export class ForwardingDatabaseProvider extends AwsDatabaseProvider {
     return this.subject.password;
   }
 }
-
-export abstract class ScaleableAwsDatabaseProvider extends AwsDatabaseProvider {
-  constructor(scope: Construct) {
-    super(scope);
-  }
-  connect(subjectPlug: DatabaseUser): DatbaseConfig {
-    // Scale the database by adding pg-boucer
-    const pgBouncer = new l1.PgBouncer(this.scope, "pg-bouncer", {});
-    const bouncerDbProvider = new ForwardingDatabaseProvider(pgBouncer);
-    const externalDbConfig = subjectPlug.connect(bouncerDbProvider);
-
-    const databaseConnectionConfig = super.connect(bouncerDbProvider.plug);
-    pgBouncer.config.dbConnection = databaseConnectionConfig;
-
-    return externalDbConfig;
-  }
-}
