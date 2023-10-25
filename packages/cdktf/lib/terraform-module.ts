@@ -10,7 +10,6 @@ import { ref, dependable } from "./tfExpression";
 import { TerraformAsset } from "./terraform-asset";
 import { ITerraformIterator } from "./terraform-iterator";
 import { LiveRunner } from "./live-runner";
-import { valueFromExpression } from "./expression-value";
 
 export interface TerraformModuleUserConfig {
   readonly providers?: (TerraformProvider | TerraformModuleProvider)[];
@@ -56,7 +55,7 @@ export abstract class TerraformModule
   public dependsOn?: string[];
   public forEach?: ITerraformIterator;
   public readonly skipAssetCreationFromLocalModules?: boolean;
-  private resourcesForModule: ResourceState[];
+  private outputValues: { [name: string]: any };
   private awaitingUpdate = false;
 
   constructor(scope: Construct, id: string, options: TerraformModuleConfig) {
@@ -84,12 +83,16 @@ export abstract class TerraformModule
       );
     }
     this.forEach = options.forEach;
-    this.resourcesForModule = [];
+    this.outputValues = {};
   }
 
   // jsii can't handle abstract classes?
   protected synthesizeAttributes(): { [name: string]: any } {
     return {};
+  }
+
+  public get outputs(): { [name: string]: string }[] {
+    return [];
   }
 
   public interpolationForOutput(moduleOutput: string) {
@@ -101,16 +104,14 @@ export abstract class TerraformModule
     );
   }
 
-  public getString(output: string, astJson?: string): string | Promise<string> {
-    const ast = astJson ? JSON.parse(astJson) : undefined;
-
+  public getString(output: string): string | Promise<string> {
     if (this.awaitingUpdate) {
       return LiveRunner.session
         .triggerUpdate()
-        .then(() => valueFromExpression(ast, this.resourcesForModule));
+        .then(() => this.outputValues[output]);
     }
-    if (this.resourcesForModule) {
-      return valueFromExpression(ast, this.resourcesForModule);
+    if (this.outputValues[output]) {
+      return this.outputValues[output];
     }
 
     return Token.asString(this.interpolationForOutput(output));
@@ -164,8 +165,8 @@ export abstract class TerraformModule
     this.awaitingUpdate = true;
   }
 
-  public updateResourcesForModule(resources: ResourceState[]) {
-    this.resourcesForModule = resources;
+  public updateOutputValues(outputValues: { [name: string]: any }) {
+    this.outputValues = outputValues;
     this.awaitingUpdate = false;
   }
 

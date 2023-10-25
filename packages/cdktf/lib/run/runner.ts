@@ -15,6 +15,7 @@ export class StackRunner implements IStackRunner {
     const result = await this.stack.run();
 
     if (result && typeof result === "object") {
+      await LiveRunner.session.clearTemporaryOutputs(this.stack);
       await LiveRunner.session.createOutputs(result, this.stack);
 
       console.log("Stack outputs:");

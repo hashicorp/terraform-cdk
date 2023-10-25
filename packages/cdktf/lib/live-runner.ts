@@ -32,6 +32,7 @@ export class LiveRunner {
   private needsInit = true;
   private currentConfig: any;
   private awaitingUpdate: any[] = [];
+  private temporaryOutputs: TerraformOutput[] = [];
 
   static get session() {
     if (!LiveRunner.instance) {
@@ -71,16 +72,50 @@ export class LiveRunner {
 
   public async createModule(
     instance: TerraformModule,
-    _scope: Construct
+    scope: Construct
   ): Promise<any> {
+    this.needsInit = true;
     const tf = this.getCurrentTerraformConfig();
 
     deepMerge(tf, instance.toTerraform());
+
+    // if we have modules here, we need to ensure we move all their outputs
+    // to the root level
+    const outputNames = instance.outputs;
+    const outputPrefix = `temp_module_output_${instance.node.id}`;
+
+    for (const output of outputNames) {
+      let out: TerraformOutput;
+      // if value is object
+      out = new TerraformOutput(scope, `${outputPrefix}_${output.original}`, {
+        value: `\${module.${instance.node.id}.${output.original}}`,
+      });
+
+      if (out) {
+        deepMerge(tf, out.toTerraform());
+        this.temporaryOutputs.push(out);
+      }
+    }
+
     this.awaitingUpdate.push(instance);
     instance.markAwaitingUpdate();
 
     this.currentConfig = tf;
     return instance;
+  }
+
+  public async clearTemporaryOutputs(_stack: TerraformStack) {
+    const tf = this.getCurrentTerraformConfig();
+
+    for (const output of this.temporaryOutputs) {
+      delete tf.output[output.node.id];
+    }
+
+    if (Object.keys(tf.output).length === 0) {
+      delete tf.output;
+    }
+
+    this.currentConfig = tf;
   }
 
   public async createOutputs(
@@ -148,6 +183,7 @@ export class LiveRunner {
 
   private async serializeAndApplyTerraform() {
     const tf = this.getCurrentTerraformConfig();
+
     const json = JSON.stringify(tf, null, 2);
     const rootDir = this.rootTempDir;
     const filename = join(rootDir, `main.tf.json`);
@@ -195,12 +231,22 @@ export class LiveRunner {
       return;
     }
 
-    // We're now looking for all resources that belong to this module
-    const allResources = resources.filter(
-      (r: any) => r.module == `module.${instance.node.id}`
-    );
+    // collect all outputs we've generated from this module
+    const outputs = stateJson.outputs;
+    const outputPrefix = `temp_module_output_${instance.node.id}_`;
 
-    instance.updateResourcesForModule(allResources);
+    // select the outputs with the prefix of the module
+    const moduleOutputs = Object.entries(outputs).filter(([key, _value]) => {
+      return key.startsWith(outputPrefix);
+    });
+
+    // convert outputs to be just the name and the value of the output
+    const outputValues = moduleOutputs.reduce((a, [key, value]) => {
+      const name = key.replace(outputPrefix, "");
+      return { ...a, [name]: (value as any).value }; // TODO: Fix type
+    });
+
+    instance.updateOutputValues(outputValues);
   }
 
   private async loadState() {
@@ -271,6 +317,8 @@ export class LiveRunner {
           return;
         }
 
+        if (SHOW_TERRAFORM_OUTPUT)
+          console.log("Complted: ", `terraform ${command}`);
         resolve(code);
       });
     });

@@ -152,6 +152,15 @@ export class ModuleGenerator {
       this.code.closeBlock();
     }
 
+    // Get a list of all outputs
+    this.code.openBlock(`public get outputs(): { [name: string]: any }`);
+    const outputs = spec.outputs.map((x) => ({
+      original: x.name,
+      camelized: toCamelCase(x.name),
+    }));
+    this.code.line(`return ${JSON.stringify(outputs)};`);
+    this.code.closeBlock();
+
     for (const output of spec.outputs) {
       const outputName = toCamelCase(output.name);
       this.code.openBlock(`public get ${outputName}Output()`);
