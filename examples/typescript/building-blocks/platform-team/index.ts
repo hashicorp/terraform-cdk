@@ -1,16 +1,7 @@
 import { Construct } from "constructs";
-import {
-  TemplateFile,
-  AwsDatabaseProvider,
-  DatabaseUser,
-  DatabaseProvider,
-  DatbaseConfig,
-  ForwardingDatabaseProvider,
-  CliCommand,
-} from "../cdktf";
+import * as cdktf from "../cdktf/index";
 import * as path from "path";
 import * as l1 from "../l1";
-import { TerraformVariable } from "cdktf";
 
 export class LambdaFunctionDirectory extends Construct {
   constructor(
@@ -24,30 +15,35 @@ export class LambdaFunctionDirectory extends Construct {
     super(scope, ns);
 
     if (this.config.language === "nodejs") {
-      new TemplateFile(this, "index", {
+      new cdktf.TemplateFile(this, "index", {
         filename: path.join(this.config.directory, "index.js"),
-        content: `exports.handler = async function (event, context) {
-          console.log("EVENT: \n" + JSON.stringify(event, null, 2));
-          return context.logStreamName;
-        };`,
+        content: `// Example Lambda function
+exports.handler = async function (event, context) {
+  console.log("EVENT: " + JSON.stringify(event, null, 2));
+  return context.logStreamName;
+};`,
       });
-      new TemplateFile(this, "package.json", {
+      new cdktf.TemplateFile(this, "package.json", {
         filename: path.join(this.config.directory, "package.json"),
-        content: JSON.stringify({
-          name: ns,
-          version: "0.0.0",
-          scripts: {
-            build:
-              "rm -rf dist && esbuild ./src/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node16.14 --outdir=dist",
-            package:
-              'cd dist && for f in * ; do ([ -d "$f" ] && cd $f && zip ../$f.zip *) ; done',
+        content: JSON.stringify(
+          {
+            name: ns,
+            version: "0.0.0",
+            scripts: {
+              build:
+                "rm -rf dist && esbuild ./src/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node16.14 --outdir=dist",
+              package:
+                'cd dist && for f in * ; do ([ -d "$f" ] && cd $f && zip ../$f.zip *) ; done',
+            },
+            dependencies: {},
+            devDependencies: { esbuild: "0.14.42" },
           },
-          dependencies: {},
-          devDependencies: { esbuild: "0.14.42" },
-        }),
+          null,
+          1
+        ),
       });
 
-      new CliCommand(
+      new cdktf.CliCommand(
         this,
         "run-request-against-" + ns,
         (parameters) =>
@@ -61,19 +57,19 @@ export class LambdaFunctionDirectory extends Construct {
         ]
       );
 
-      new CliCommand(
+      new cdktf.CliCommand(
         this,
         "logs-for-" + ns,
         () => `echo "Getting logs for ${ns}"`
       );
 
-      new CliCommand(
+      new cdktf.CliCommand(
         this,
         "open-dashboard-" + ns,
         () => `echo "Opening dashboard for ${ns}"`
       );
 
-      new CliCommand(
+      new cdktf.CliCommand(
         this,
         "get-metrics-" + ns,
         () => `echo "Getting metrics for ${ns}"`
@@ -85,16 +81,16 @@ export class LambdaFunctionDirectory extends Construct {
 }
 
 // L2 Constructs
-export class Database extends AwsDatabaseProvider {
+export class Database extends Construct {
   constructor(scope: Construct, ns: string) {
-    super(new l1.RdsL1(scope, ns, {}));
+    super(scope, ns);
 
-    // const _rdsInstance = ColorfulTerraformStack.of(scope).colors[pricing];
-    new CliCommand(
-      this.scope,
+    const db = new l1.RdsL1(this, "db", {});
+    new cdktf.CliCommand(
+      this,
       "db-backup-" + ns,
       (parameters, flags) =>
-        `echo "Creating backup of ${ns} in ${parameters[0]} with compression set to ${flags["compression-level"]}"`,
+        `echo "Creating backup of ${db.arn} in ${parameters[0]} with compression set to ${flags["compression-level"]}"`,
       [
         {
           name: "backup-name",
@@ -121,88 +117,85 @@ export class Database extends AwsDatabaseProvider {
   }
 }
 
+export interface LambdaConfig extends l1.LambdaL1Config {
+  directory: string;
+  language: "nodejs" | "python";
+}
+export class Lambda extends l1.LambdaL1 {
+  constructor(scope: Construct, name: string, config: LambdaConfig) {
+    super(scope, name, config);
+
+    const dir = path.resolve(__dirname, config.directory);
+    new LambdaFunctionDirectory(this, name, {
+      directory: dir,
+      language: config.language,
+    });
+    // this.dbPlug = new AwsDatabaseUser(this);
+  }
+
+  public attachDatabase(_db: Database) {
+    // Connect to the db, create required resources e.g. for permissions
+    // const { host, port, user, password } = this.dbPlug.connect(db);
+    // // Mutate the lambda's env
+    // this.config.env.DB_HOST = host;
+    // this.config.env.DB_PORT = Token.asString(port);
+    // this.config.env.DB_USER = user;
+    // this.config.env.DB_PASSWORD = password;
+  }
+}
+
 // TODO: Maybe one can use a pipe like syntax for this as well?
-export abstract class ScaleableAwsDatabaseProvider extends AwsDatabaseProvider {
-  constructor(scope: Construct) {
-    super(scope);
-  }
-  connect(subjectPlug: DatabaseUser): DatbaseConfig {
-    // Scale the database by adding pg-boucer
-    const pgBouncer = new l1.PgBouncer(this.scope, "pg-bouncer", {});
-    const bouncerDbProvider = new ForwardingDatabaseProvider(pgBouncer);
-    const externalDbConfig = subjectPlug.connect(bouncerDbProvider);
+// export abstract class ScaleableAwsDatabaseProvider extends AwsDatabaseProvider {
+//   constructor(scope: Construct) {
+//     super(scope);
+//   }
+//   connect(subjectPlug: DatabaseUser): DatbaseConfig {
+//     // Scale the database by adding pg-boucer
+//     const pgBouncer = new l1.PgBouncer(this.scope, "pg-bouncer", {});
+//     const bouncerDbProvider = new ForwardingDatabaseProvider(pgBouncer);
+//     const externalDbConfig = subjectPlug.connect(bouncerDbProvider);
 
-    const databaseConnectionConfig = super.connect(bouncerDbProvider.plug);
-    pgBouncer.config.dbConnection = databaseConnectionConfig;
+//     const databaseConnectionConfig = super.connect(bouncerDbProvider.plug);
+//     pgBouncer.config.dbConnection = databaseConnectionConfig;
 
-    return externalDbConfig;
-  }
-}
+//     return externalDbConfig;
+//   }
+// }
 
-export class ScalableDatabase extends AwsDatabaseProvider {
-  constructor(scope: Construct, ns: string) {
-    super(new l1.RdsL1(scope, ns, {}));
+// export class ScalableDatabase extends AwsDatabaseProvider {
+//   constructor(scope: Construct, ns: string) {
+//     super(new l1.RdsL1(scope, ns, {}));
 
-    // const _rdsInstance = ColorfulTerraformStack.of(scope).colors[pricing];
-  }
+//     // const _rdsInstance = ColorfulTerraformStack.of(scope).colors[pricing];
+//   }
 
-  get host(): string {
-    return "localhost";
-  }
-  get port(): number {
-    return 5432;
-  }
-  get user(): string {
-    return "postgres";
-  }
-  get password(): string {
-    return "postgres";
-  }
-}
+//   get host(): string {
+//     return "localhost";
+//   }
+//   get port(): number {
+//     return 5432;
+//   }
+//   get user(): string {
+//     return "postgres";
+//   }
+//   get password(): string {
+//     return "postgres";
+//   }
+// }
 
-export class AwsDatabaseUser extends DatabaseUser {
-  connect(db: DatabaseProvider): DatbaseConfig {
-    const config = super.connect(db);
-    // Add permissions
-    return config;
-  }
-}
+// export class AwsDatabaseUser extends DatabaseUser {
+//   connect(db: DatabaseProvider): DatbaseConfig {
+//     const config = super.connect(db);
+//     // Add permissions
+//     return config;
+//   }
+// }
 
-// TODO: Is there a way to abstract this pattern?
-export class KubernetesAccess extends Construct {
-  constructor(
-    scope: Construct,
-    name: string,
-    config: { kubernetesHost: string; kubernetesApiToken: string }
-  ) {
-    super(scope, name);
+// export class KubernetesDeployment extends Construct {
+//   constructor(scope: Construct, ns: string, config: any) {
+//     super(scope, ns);
 
-    new l1.TfcProjectSecret(this, "kubernetesHost", config.kubernetesHost);
-    new l1.TfcProjectSecret(
-      this,
-      "kubernetesApiToken",
-      config.kubernetesApiToken
-    );
-  }
-
-  public static loadFromVariables(scope: Construct): {
-    kubernetesHost: string;
-    kubernetesApiToken: string;
-  } {
-    return {
-      kubernetesHost: new TerraformVariable(scope, "kubernetesHost", {})
-        .stringValue,
-      kubernetesApiToken: new TerraformVariable(scope, "kubernetesApiToken", {})
-        .stringValue,
-    };
-  }
-}
-
-export class KubernetesDeployment extends Construct {
-  constructor(scope: Construct, ns: string, config: any) {
-    super(scope, ns);
-
-    const access = KubernetesAccess.loadFromVariables(scope);
-    new l1.KubernetesDeploymentL1(this, ns, { ...config, ...access });
-  }
-}
+//     const access = KubernetesAccess.loadFromVariables(scope);
+//     new l1.KubernetesDeploymentL1(this, ns, { ...config, ...access });
+//   }
+// }

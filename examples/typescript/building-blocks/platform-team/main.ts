@@ -1,7 +1,7 @@
 import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import * as l1 from "../l1";
-import { KubernetesAccess } from "../platform-team";
+import { KubernetesAccess } from "../cdktf";
 
 class CentralInfrastructure extends TerraformStack {
   constructor(scope: Construct, ns: string) {

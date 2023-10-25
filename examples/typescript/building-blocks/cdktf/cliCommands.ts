@@ -17,7 +17,7 @@ export class CliCommand extends Construct {
     }[] = [],
     private flags: Record<string, string> = {}
   ) {
-    super(scope, filename);
+    super(scope, `cli-command-${filename}`);
   }
 
   // TODO: Hack to add an extra construct, refactor lifecycle methods to be part of stack

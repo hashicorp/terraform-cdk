@@ -1,130 +1,82 @@
-import { Construct } from "constructs";
-import { Token } from "cdktf";
-import * as l1 from "../l1";
+import {
+  Aspects,
+  IAspect,
+  TerraformModule,
+  TerraformResource,
+  TerraformStack,
+} from "cdktf";
+import { Construct, IConstruct } from "constructs";
 
-// Cloud-Agnostic Building Blocks
-/**
- * Service connecting to the "hosting" service, e.g. Lambda connecting to DB
- */
-export abstract class Plug {}
-/**
- * Service being connected to, e.g. DB
- */
-export abstract class Socket {}
-/**
- * Connector connecting one or many Plugs to a Socket
- */
-export abstract class Connector {
-  constructor(protected serviceProvider: Socket) {}
-  abstract get plug(): Plug;
-}
+type Constructor<T> = new (...args: any[]) => T;
 
-export interface DatbaseConfig {
-  host: string;
-  port: number;
-  user: string;
-  password: string;
-}
+export class CdktfAutoConnect implements IAspect {
+  private constructor(private scope: Construct) {}
 
-export class DatabaseUser extends Plug {
-  constructor(public subject: { arn: string }) {
-    super();
-  }
-  connect(db: DatabaseProvider): DatbaseConfig {
-    db.connect(this);
-
-    return {
-      host: db.host,
-      port: db.port,
-      user: db.user,
-      password: db.password,
-    };
+  public static init(scope: Construct) {
+    Aspects.of(scope).add(new CdktfAutoConnect(scope));
   }
 
-  get arn(): string {
-    return this.subject.arn;
-  }
-}
-export abstract class DatabaseProvider extends Socket {
-  abstract get host(): string;
-  abstract get port(): number;
-  abstract get user(): string;
-  abstract get password(): string;
-  abstract connect(subjectPlug: DatabaseUser): DatbaseConfig;
-
-  get dbArn(): string {
-    return "arn:aws:rds:us-east-1:123456789012:db:mysql-db";
-  }
-}
-/**
- * Generic database connector connecting one or many services to a database
- */
-export abstract class DatabaseConnector extends Connector {
-  constructor(serviceProvider: DatabaseProvider) {
-    super(serviceProvider);
-  }
-  abstract get plug(): DatabaseUser;
-}
-
-export class EnvironmentDatabasePlug extends Plug {
-  constructor(private database: DatabaseProvider) {
-    super();
+  visit(node: IConstruct): void {
+    if (
+      (node instanceof TerraformModule && connections[node.source]) ||
+      (node instanceof TerraformResource &&
+        connections[node.terraformResourceType])
+    ) {
+      const connection = connections[getConstructId(node)];
+      const a = node;
+      const b = this.find(connection[0]);
+      if (b) {
+        connection[1](a, b);
+      }
+    }
   }
 
-  get env(): Record<string, string> {
-    return {
-      DB_HOST: this.database.host,
-      DB_PORT: Token.asString(this.database.port),
-      DB_USER: this.database.user,
-      DB_PASSWORD: this.database.password,
-    };
+  private find(connectableId: ConnectableId): Connectable | undefined {
+    return TerraformStack.of(this.scope)
+      .node.findAll()
+      .find(
+        (c) =>
+          (c instanceof TerraformModule && c.source === connectableId) ||
+          (c instanceof TerraformResource &&
+            c.terraformResourceType === connectableId)
+      ) as TerraformModule | undefined;
   }
 }
 
-export abstract class AwsDatabaseProvider extends DatabaseProvider {
-  constructor(public scope: Construct) {
-    super();
-  }
-  connect(subjectPlug: DatabaseUser): DatbaseConfig {
-    const role = new l1.ServiceRole(this.scope, "db-role", {});
-    new l1.AccessPolicy(this.scope, "db-access-policy", {
-      role: role,
-      from: subjectPlug.arn,
-      to: this.dbArn,
-    });
+type ConnectableId =
+  | TerraformModule["source"]
+  | TerraformResource["terraformResourceType"];
+type Connectable = TerraformModule | TerraformResource;
 
-    return {
-      host: this.host,
-      port: this.port,
-      user: this.user,
-      password: this.password,
-    };
-  }
+type ConnectFn<F extends Connectable, T extends Connectable> = (
+  a: F,
+  b: T
+) => void;
+
+const connections: Record<
+  ConnectableId,
+  [ConnectableId, ConnectFn<Connectable, Connectable>]
+> = {};
+
+export function registerConnection<
+  F extends Connectable,
+  T extends Connectable
+>(from: Constructor<F>, to: Constructor<T>, connect: ConnectFn<F, T>) {
+  connections[getId(from)] = [getId(to), connect as any];
 }
 
-export class ForwardingDatabaseProvider extends AwsDatabaseProvider {
-  constructor(public subject: l1.AwsDbResource) {
-    super(subject.node.scope!);
+function getConstructId(o: Connectable): ConnectableId {
+  if (o instanceof TerraformModule) {
+    return o.source;
+  } else if (o instanceof TerraformResource) {
+    return o.terraformResourceType;
   }
+  throw new Error(
+    `Invalid Connectable ${o}. Only Resources and Modules are supported at this time`
+  );
+}
 
-  connect(subjectPlug: DatabaseUser): DatbaseConfig {
-    return super.connect(subjectPlug);
-  }
-
-  get plug(): DatabaseUser {
-    return new DatabaseUser(this.subject);
-  }
-
-  get host(): string {
-    return this.subject.host;
-  }
-  get port(): number {
-    return this.subject.port;
-  }
-  get user(): string {
-    return this.subject.user;
-  }
-  get password(): string {
-    return this.subject.password;
-  }
+function getId(c: Constructor<Connectable>): ConnectableId {
+  const o = new c();
+  return getConstructId(o);
 }
