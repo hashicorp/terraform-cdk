@@ -38,3 +38,4 @@ terraform-cdk.github-issues
 tsconfig.tsbuildinfo
 examples/java/gradle-shared-module/.gradle/
 tweets-lambda/
+lambdas

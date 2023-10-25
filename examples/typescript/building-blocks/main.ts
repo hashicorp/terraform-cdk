@@ -11,22 +11,21 @@ class MainApplication extends platform.WithDatabase {
     super(scope, name);
 
     const tweetsLambda = new platform.Lambda(this, "tweets", {
-      name: "my-lambda",
+      name: "tweets-lambda",
       env: {
         FOO: "bar",
       },
-      directory: path.resolve("./tweets-lambda"),
+      directory: path.resolve("./lambdas/tweets"),
       language: "nodejs",
     });
 
-    // TODO: Maybe use sth like a cable instead of both ends :D
-    // const lambdaDbPlug = new cdktf.EnvironmentDatabasePlug(db);
-    const loginLambda = new l1.LambdaL1(this, "login", {
-      name: "my-lambda",
+    const loginLambda = new platform.Lambda(this, "login", {
+      name: "login-lambda",
       env: {
-        // ...lambdaDbPlug.env,
         FOO: "bar",
       },
+      directory: path.resolve("./lambdas/login"),
+      language: "python",
     });
 
     // TODO: Move this into a auto-connecting construct / scope as well

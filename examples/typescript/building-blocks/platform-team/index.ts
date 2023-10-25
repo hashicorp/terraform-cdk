@@ -42,41 +42,66 @@ exports.handler = async function (event, context) {
           1
         ),
       });
+    } else if (this.config.language === "python") {
+      new cdktf.TemplateFile(this, "index", {
+        filename: path.join(this.config.directory, "index.js"),
+        content: `// Example Lambda function
+def lambda_handler(event, context):
+  message = 'Hello {} {}!'.format(event['first_name'], event['last_name'])  
+  return { 
+      'message' : message
+  }
+`,
+      });
 
+      new cdktf.TemplateFile(this, "requirements.txt", {
+        filename: path.join(this.config.directory, "requirements.txt"),
+        content: `boto3==1.18.52`,
+      });
       new cdktf.CliCommand(
         this,
-        "run-request-against-" + ns,
-        (parameters) =>
-          `echo "Sending request to ${ns} with request ${parameters[0]}"`,
-        [
-          {
-            name: "payload",
-            description: "File url to payload",
-            required: true,
-          },
-        ]
-      );
-
-      new cdktf.CliCommand(
-        this,
-        "logs-for-" + ns,
-        () => `echo "Getting logs for ${ns}"`
-      );
-
-      new cdktf.CliCommand(
-        this,
-        "open-dashboard-" + ns,
-        () => `echo "Opening dashboard for ${ns}"`
-      );
-
-      new cdktf.CliCommand(
-        this,
-        "get-metrics-" + ns,
-        () => `echo "Getting metrics for ${ns}"`
+        "install-dependencies-for-" + ns,
+        () =>
+          `pip install -r ${path.join(
+            this.config.directory,
+            "requirements.txt"
+          )} --target ${path.join(this.config.directory, "package")}`
       );
     } else {
       throw new Error("Language not supported");
     }
+
+    new cdktf.CliCommand(
+      this,
+      "run-request-against-" + ns,
+      (parameters) =>
+        `echo "Sending request to ${ns} with request ${parameters[0]}"`,
+      [
+        {
+          name: "payload",
+          description: "File url to payload",
+          required: true,
+        },
+      ]
+    );
+
+    new cdktf.CliCommand(
+      this,
+      "logs-for-" + ns,
+      () => `echo "Getting logs for ${ns}"`
+    );
+
+    new cdktf.CliCommand(
+      this,
+      "open-dashboard-" + ns,
+      () => `echo "Opening dashboard for ${ns}"`
+    );
+
+    new cdktf.CliCommand(
+      this,
+      "get-metrics-" + ns,
+      () => `echo "Getting metrics for ${ns}"`
+    );
   }
 }
 
