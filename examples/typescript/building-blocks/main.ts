@@ -12,7 +12,7 @@ interface LambdaConfig extends l1.LambdaL1Config {
   language: "nodejs" | "python";
 }
 class Lambda extends l1.LambdaL1 {
-  dbPlug: cdktf.DatabaseUser = new platform.AwsDatabaseUser(); // Maybe there is a better way to mixin functionality
+  dbPlug: cdktf.DatabaseUser;
   constructor(scope: Construct, name: string, config: LambdaConfig) {
     super(scope, name, config);
 
@@ -21,6 +21,7 @@ class Lambda extends l1.LambdaL1 {
       directory: dir,
       language: config.language,
     });
+    this.dbPlug = new platform.AwsDatabaseUser(this);
   }
 
   public attachDatabase(db: platform.Database) {

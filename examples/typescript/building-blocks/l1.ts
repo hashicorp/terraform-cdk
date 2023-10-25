@@ -52,6 +52,12 @@ export class KubernetesClusterL1 extends AwsResource {
   constructor(scope: Construct, ns: string, _config: any) {
     super(scope, ns);
   }
+  public get access() {
+    return {
+      kubernetesHost: "foo",
+      kubernetesApiToken: "bar",
+    };
+  }
 }
 
 export class KubernetesDeploymentL1 extends AwsResource {
