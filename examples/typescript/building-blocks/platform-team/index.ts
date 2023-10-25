@@ -82,15 +82,16 @@ exports.handler = async function (event, context) {
 
 // L2 Constructs
 export class Database extends Construct {
+  db: l1.RdsL1;
   constructor(scope: Construct, ns: string) {
     super(scope, ns);
 
-    const db = new l1.RdsL1(this, "db", {});
+    this.db = new l1.RdsL1(this, "db", {});
     new cdktf.CliCommand(
       this,
       "db-backup-" + ns,
       (parameters, flags) =>
-        `echo "Creating backup of ${db.arn} in ${parameters[0]} with compression set to ${flags["compression-level"]}"`,
+        `echo "Creating backup of ${this.db.arn} in ${parameters[0]} with compression set to ${flags["compression-level"]}"`,
       [
         {
           name: "backupName",
@@ -130,72 +131,14 @@ export class Lambda extends l1.LambdaL1 {
       directory: dir,
       language: config.language,
     });
-    // this.dbPlug = new AwsDatabaseUser(this);
-  }
-
-  public attachDatabase(_db: Database) {
-    // Connect to the db, create required resources e.g. for permissions
-    // const { host, port, user, password } = this.dbPlug.connect(db);
-    // // Mutate the lambda's env
-    // this.config.env.DB_HOST = host;
-    // this.config.env.DB_PORT = Token.asString(port);
-    // this.config.env.DB_USER = user;
-    // this.config.env.DB_PASSWORD = password;
   }
 }
 
-// TODO: Maybe one can use a pipe like syntax for this as well?
-// export abstract class ScaleableAwsDatabaseProvider extends AwsDatabaseProvider {
-//   constructor(scope: Construct) {
-//     super(scope);
-//   }
-//   connect(subjectPlug: DatabaseUser): DatbaseConfig {
-//     // Scale the database by adding pg-boucer
-//     const pgBouncer = new l1.PgBouncer(this.scope, "pg-bouncer", {});
-//     const bouncerDbProvider = new ForwardingDatabaseProvider(pgBouncer);
-//     const externalDbConfig = subjectPlug.connect(bouncerDbProvider);
-
-//     const databaseConnectionConfig = super.connect(bouncerDbProvider.plug);
-//     pgBouncer.config.dbConnection = databaseConnectionConfig;
-
-//     return externalDbConfig;
-//   }
-// }
-
-// export class ScalableDatabase extends AwsDatabaseProvider {
-//   constructor(scope: Construct, ns: string) {
-//     super(new l1.RdsL1(scope, ns, {}));
-
-//     // const _rdsInstance = ColorfulTerraformStack.of(scope).colors[pricing];
-//   }
-
-//   get host(): string {
-//     return "localhost";
-//   }
-//   get port(): number {
-//     return 5432;
-//   }
-//   get user(): string {
-//     return "postgres";
-//   }
-//   get password(): string {
-//     return "postgres";
-//   }
-// }
-
-// export class AwsDatabaseUser extends DatabaseUser {
-//   connect(db: DatabaseProvider): DatbaseConfig {
-//     const config = super.connect(db);
-//     // Add permissions
-//     return config;
-//   }
-// }
-
-// export class KubernetesDeployment extends Construct {
-//   constructor(scope: Construct, ns: string, config: any) {
-//     super(scope, ns);
-
-//     const access = KubernetesAccess.loadFromVariables(scope);
-//     new l1.KubernetesDeploymentL1(this, ns, { ...config, ...access });
-//   }
-// }
+// TODO: Refactor this to another way of mixing the funcitionality in while not relying on inheritance
+export class WithDatabase extends cdktf.ConnectionScope {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
+    const database = new Database(this, "db-for-" + name);
+    cdktf.pinForConnection(database.db);
+  }
+}

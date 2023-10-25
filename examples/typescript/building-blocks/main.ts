@@ -6,16 +6,9 @@ import * as l1 from "./l1";
 import * as platform from "./platform-team";
 import * as path from "path";
 
-class MyStack extends TerraformStack {
-  constructor(
-    scope: Construct,
-    ns: string,
-    // TODO: Think more about coloring
-    _colors: { pricing: "cheap" | "expensive"; redundancy: "single" | "multi" }
-  ) {
-    super(scope, ns);
-
-    const db = new platform.Database(this, "rds");
+class MainApplication extends platform.WithDatabase {
+  constructor(scope: Construct, name: string) {
+    super(scope, name);
 
     const tweetsLambda = new platform.Lambda(this, "tweets", {
       name: "my-lambda",
@@ -25,7 +18,6 @@ class MyStack extends TerraformStack {
       directory: path.resolve("./tweets-lambda"),
       language: "nodejs",
     });
-    tweetsLambda.attachDatabase(db);
 
     // TODO: Maybe use sth like a cable instead of both ends :D
     // const lambdaDbPlug = new cdktf.EnvironmentDatabasePlug(db);
@@ -37,12 +29,24 @@ class MyStack extends TerraformStack {
       },
     });
 
+    // TODO: Move this into a auto-connecting construct / scope as well
     new l1.ApiGatewayL1(this, "api-gateway", {
       paths: {
         "/tweets": tweetsLambda,
         "/login": loginLambda,
       },
     });
+  }
+}
+class MyStack extends TerraformStack {
+  constructor(
+    scope: Construct,
+    ns: string,
+    // TODO: Think more about coloring
+    _colors: { pricing: "cheap" | "expensive"; redundancy: "single" | "multi" }
+  ) {
+    super(scope, ns);
+    new MainApplication(this, "main-application");
   }
 }
 

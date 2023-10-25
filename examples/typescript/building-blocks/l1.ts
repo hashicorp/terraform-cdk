@@ -1,6 +1,7 @@
 import { Construct } from "constructs";
 
 export class AwsResource extends Construct {
+  public terraformResourceType: string = "aws_resource";
   get arn() {
     return "arn:aws:resource";
   }
@@ -24,6 +25,7 @@ export class AwsDbResource extends AwsResource {
 // L1 Constructs
 export interface RDSL1Config {}
 export class RdsL1 extends AwsResource {
+  public terraformResourceType: string = "aws_rds_instance";
   constructor(scope: Construct, ns: string, _config: RDSL1Config) {
     super(scope, ns);
   }
