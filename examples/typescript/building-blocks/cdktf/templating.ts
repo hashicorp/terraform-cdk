@@ -7,6 +7,7 @@ export interface FileConfig {
   filename: string;
   content: string;
   overwrite: boolean;
+  executable?: boolean;
 }
 
 export class File extends Construct {
@@ -25,6 +26,10 @@ export class File extends Construct {
 
     fs.mkdirSync(path.dirname(this.config.filename), { recursive: true });
     fs.writeFileSync(this.config.filename, this.config.content);
+
+    if (this.config.executable) {
+      fs.chmodSync(this.config.filename, "755");
+    }
   }
 }
 

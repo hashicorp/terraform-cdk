@@ -93,13 +93,13 @@ export class Database extends Construct {
         `echo "Creating backup of ${db.arn} in ${parameters[0]} with compression set to ${flags["compression-level"]}"`,
       [
         {
-          name: "backup-name",
+          name: "backupName",
           description: "The name of the backup",
           required: true,
         },
       ],
 
-      { "compression-level": "Level of compression being used" }
+      { compression: "Level of compression being used" }
     );
   }
 
