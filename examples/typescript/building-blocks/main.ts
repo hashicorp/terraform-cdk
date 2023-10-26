@@ -5,6 +5,7 @@ import { App, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { DatabaseTable, Lambda } from "./platform-team";
 import * as path from "path";
+import { connect } from "./cdktf/index";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -25,7 +26,7 @@ class MyStack extends TerraformStack {
       { name: "created_at", type: "S", rangeKey: true },
     ]);
 
-    new Lambda(this, "list-tweets", {
+    const listTweetsFn = new Lambda(this, "list-tweets", {
       functionName: "list-tweets",
       directory: path.resolve("lambdas/list-tweets"),
       language: "nodejs",
@@ -36,6 +37,8 @@ class MyStack extends TerraformStack {
         },
       },
     });
+    connect(listTweetsFn.lambda, tweetsTable.table);
+    connect(listTweetsFn.lambda, userTable.table);
   }
 }
 

@@ -1,54 +1,73 @@
 import {
-  Aspects,
-  IAspect,
+  // Aspects,
+  // IAspect,
   TerraformModule,
   TerraformResource,
-  TerraformStack,
+  // TerraformStack,
 } from "cdktf";
 import { Construct, IConstruct } from "constructs";
 
 type Constructor<T> = new (...args: any[]) => T;
 
-export class CdktfAutoConnect implements IAspect {
-  private constructor(private scope: Construct) {}
+// export class CdktfAutoConnect implements IAspect {
+//   private constructor(private scope: Construct) {}
 
-  public static init(scope: Construct) {
-    Aspects.of(scope).add(new CdktfAutoConnect(scope));
+//   public static init(scope: Construct) {
+//     Aspects.of(scope).add(new CdktfAutoConnect(scope));
+//   }
+
+//   visit(node: IConstruct): void {
+//     if (!isConnectable(node)) {
+//       return;
+//     }
+//     const nodeId = getTypeIdFromConstruct(node);
+//     const connectionScope = ConnectionScope.of(node);
+//     if (connectionScope) {
+//       const pinnedConstruct = connectionScope.pinnedInstances[nodeId];
+//       const [socketType, connectionFn] =
+//         connectionScope.connections[getTypeIdFromConstruct(node)];
+//       const a = node;
+//       const b = pinnedConstruct || this.find(socketType);
+
+//       connectionFn(a, b as Connectable);
+//     } else {
+//       const [socketType, connectionFn] =
+//         connections[getTypeIdFromConstruct(node)];
+//       const a = node;
+//       const b = this.find(socketType);
+
+//       if (b) {
+//         connectionFn(a, b);
+//       }
+//     }
+//   }
+
+//   private find(connectableId: ConnectableTypeId): Connectable | undefined {
+//     return TerraformStack.of(this.scope)
+//       .node.findAll()
+//       .find(
+//         (c) => isConnectable(c) && getTypeIdFromConstruct(c) === connectableId
+//       ) as TerraformModule | undefined;
+//   }
+// }
+
+export function connect(a: Connectable, b: Connectable) {
+  const possibleConnections = connections[getTypeIdFromConstruct(a)];
+  if (!possibleConnections) {
+    throw new Error(`No connections for ${getTypeIdFromConstruct(a)}`);
+  }
+  const connection = possibleConnections.find(
+    ([id]) => id === getTypeIdFromConstruct(b)
+  );
+  if (!connection) {
+    throw new Error(
+      `No connection from ${getTypeIdFromConstruct(
+        a
+      )} to ${getTypeIdFromConstruct(b)}`
+    );
   }
 
-  visit(node: IConstruct): void {
-    if (!isConnectable(node)) {
-      return;
-    }
-    const nodeId = getTypeIdFromConstruct(node);
-    const connectionScope = ConnectionScope.of(node);
-    if (connectionScope) {
-      const pinnedConstruct = connectionScope.pinnedInstances[nodeId];
-      const [socketType, connectionFn] =
-        connectionScope.connections[getTypeIdFromConstruct(node)];
-      const a = node;
-      const b = pinnedConstruct || this.find(socketType);
-
-      connectionFn(a, b as Connectable);
-    } else {
-      const [socketType, connectionFn] =
-        connections[getTypeIdFromConstruct(node)];
-      const a = node;
-      const b = this.find(socketType);
-
-      if (b) {
-        connectionFn(a, b);
-      }
-    }
-  }
-
-  private find(connectableId: ConnectableTypeId): Connectable | undefined {
-    return TerraformStack.of(this.scope)
-      .node.findAll()
-      .find(
-        (c) => isConnectable(c) && getTypeIdFromConstruct(c) === connectableId
-      ) as TerraformModule | undefined;
-  }
+  connection[1](a, b);
 }
 
 type ConnectableTypeId =
@@ -56,9 +75,9 @@ type ConnectableTypeId =
   | TerraformResource["terraformResourceType"];
 type Connectable = ({ source: string } | { terraformResourceType: string }) &
   Construct;
-function isConnectable(x: Construct): x is Connectable {
-  return "source" in x || "terraformResourceType" in x;
-}
+// function isConnectable(x: Construct): x is Connectable {
+//   return "source" in x || "terraformResourceType" in x;
+// }
 
 type ConnectFn<F extends Connectable, T extends Connectable> = (
   a: F,
@@ -67,7 +86,7 @@ type ConnectFn<F extends Connectable, T extends Connectable> = (
 
 type ConnectionRecord = Record<
   ConnectableTypeId,
-  [ConnectableTypeId, ConnectFn<Connectable, Connectable>]
+  [ConnectableTypeId, ConnectFn<Connectable, Connectable>][]
 >;
 const connections: ConnectionRecord = {};
 
@@ -75,7 +94,11 @@ export function registerConnection<
   F extends Connectable,
   T extends Connectable
 >(from: Constructor<F>, to: Constructor<T>, connect: ConnectFn<F, T>) {
-  connections[getTypeId(from)] = [getTypeId(to), connect as any];
+  connections[getTypeId(from)] = connections[getTypeId(from)] || [];
+  if (connections[getTypeId(from)].some(([id]) => id === getTypeId(to))) {
+    throw new Error(`Connection from ${from} to ${to} already registered.`);
+  }
+  connections[getTypeId(from)].push([getTypeId(to), connect as any]);
 }
 
 function getTypeIdFromConstruct(o: Connectable): ConnectableTypeId {
@@ -90,8 +113,9 @@ function getTypeIdFromConstruct(o: Connectable): ConnectableTypeId {
 }
 
 function getTypeId(c: Constructor<Connectable>): ConnectableTypeId {
-  const o = new c();
-  return getTypeIdFromConstruct(o);
+  return (c as any).tfResourceType; // We need sth similar on modules
+  // const o = new c();
+  // return getTypeIdFromConstruct(o);
 }
 
 // TODO: Add in a scoping mechanism to allow different connection implementations
