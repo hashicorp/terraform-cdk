@@ -123,10 +123,12 @@ export class Lambda extends Construct {
     });
 
     this.lambda = new LambdaFunction(this, "fn", {
-      ...config,
       filename: code.path,
       sourceCodeHash: code.assetHash,
-      role: this.role.name,
+      runtime: language === "nodejs" ? "nodejs18.x" : "python3.9",
+      handler: "index.handler",
+      role: this.role.arn,
+      ...config,
     });
 
     if (language === "python") {
