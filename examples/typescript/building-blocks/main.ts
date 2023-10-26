@@ -27,6 +27,18 @@ class MyStack extends TerraformStack {
       { name: "created_at", type: "S", rangeKey: true },
     ]);
 
+    const loginFn = new Lambda(this, "login", {
+      functionName: "login",
+      directory: path.resolve("lambdas/login"),
+      language: "nodejs",
+      environment: {
+        variables: {
+          USER_TABLE: userTable.name,
+        },
+      },
+    });
+    connect(loginFn.lambda, userTable.table);
+
     const listTweetsFn = new Lambda(this, "list-tweets", {
       functionName: "list-tweets",
       directory: path.resolve("lambdas/list-tweets"),
@@ -42,13 +54,12 @@ class MyStack extends TerraformStack {
     connect(listTweetsFn.lambda, userTable.table);
 
     const createTweetFn = new Lambda(this, "create-tweet", {
-      functionName: "create-tweets",
-      directory: path.resolve("lambdas/list-tweets"),
+      functionName: "create-tweet",
+      directory: path.resolve("lambdas/create-tweet"),
       language: "nodejs",
       environment: {
         variables: {
           TWEETS_TABLE: tweetsTable.name,
-          USER_TABLE: userTable.name,
         },
       },
     });
@@ -75,6 +86,7 @@ class MyStack extends TerraformStack {
       name: "twitter-api",
       protocolType: "HTTP",
     });
+    api.connect(loginFn.lambda, "/login");
     api.connect(listTweetsFn.lambda, "/tweets");
     api.connect(createTweetFn.lambda, "/create-tweet");
 
