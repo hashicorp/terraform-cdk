@@ -73,5 +73,3 @@ class MyStack extends TerraformStack {
 const app = new App();
 new MyStack(app, "development-building-blocks");
 app.synth();
-
-// IAM Policies: https://github.com/udondan/iam-floyd
