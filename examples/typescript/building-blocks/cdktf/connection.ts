@@ -73,7 +73,10 @@ export function connect(a: Connectable, b: Connectable) {
 type ConnectableTypeId =
   | TerraformModule["source"]
   | TerraformResource["terraformResourceType"];
-type Connectable = ({ source: string } | { terraformResourceType: string }) &
+export type Connectable = (
+  | { source: string }
+  | { terraformResourceType: string }
+) &
   Construct;
 // function isConnectable(x: Construct): x is Connectable {
 //   return "source" in x || "terraformResourceType" in x;

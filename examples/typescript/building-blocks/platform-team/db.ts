@@ -13,7 +13,7 @@ function getRoleNameFromArn(arn: string) {
 registerConnection(LambdaFunction, DynamodbTable, (lambda, table) => {
   const connectionPolicy = new IamPolicy(
     lambda,
-    `connect-${table.nameInput}-to-${lambda.functionNameInput}-policy`,
+    `connect-${lambda.functionNameInput}-to-${table.nameInput}-policy`,
     {
       namePrefix: `connect-${table.name}-to-${lambda.functionName}`,
       policy: JSON.stringify({
@@ -36,7 +36,7 @@ registerConnection(LambdaFunction, DynamodbTable, (lambda, table) => {
   );
   new IamRolePolicyAttachment(
     lambda,
-    `connect-${table.nameInput}-to-${lambda.functionNameInput}-attachement`,
+    `connect-${lambda.functionNameInput}-to-${table.nameInput}--attachement`,
     {
       policyArn: connectionPolicy.arn,
       role: getRoleNameFromArn(lambda.role),
@@ -45,9 +45,49 @@ registerConnection(LambdaFunction, DynamodbTable, (lambda, table) => {
 });
 
 registerConnection(DynamodbTable, LambdaFunction, (table, lambda) => {
+  table.streamEnabled = true;
+  table.streamViewType = "NEW_AND_OLD_IMAGES";
+
+  const connectionPolicy = new IamPolicy(
+    lambda,
+    `connect-${table.nameInput}-to-${lambda.functionNameInput}-policy`,
+    {
+      namePrefix: `connect-${table.name}-to-${lambda.functionName}`,
+      policy: JSON.stringify({
+        Version: "2012-10-17",
+        Statement: [
+          {
+            Sid: "AllowLambdaFunctionInvocation",
+            Effect: "Allow",
+            Action: ["lambda:InvokeFunction"],
+            Resource: `${table.arn}/stream/*`,
+          },
+          {
+            Sid: "APIAccessForDynamoDBStreams",
+            Effect: "Allow",
+            Action: [
+              "dynamodb:GetRecords",
+              "dynamodb:GetShardIterator",
+              "dynamodb:DescribeStream",
+              "dynamodb:ListStreams",
+            ],
+            Resource: `${table.arn}/stream/*`,
+          },
+        ],
+      }),
+    }
+  );
+  new IamRolePolicyAttachment(
+    lambda,
+    `connect-${table.nameInput}-to-${lambda.functionNameInput}-attachement`,
+    {
+      policyArn: connectionPolicy.arn,
+      role: getRoleNameFromArn(lambda.role),
+    }
+  );
   new LambdaEventSourceMapping(lambda, "dynamodb-event-source", {
-    eventSourceArn: table.arn,
-    functionName: lambda.functionName,
+    eventSourceArn: table.streamArn,
+    functionName: lambda.arn,
     startingPosition: "LATEST",
   });
 });

@@ -6,6 +6,7 @@ import { AwsProvider } from "./.gen/providers/aws/provider";
 import { DatabaseTable, Lambda } from "./platform-team";
 import * as path from "path";
 import { connect } from "./cdktf/index";
+import { ApiGateway } from "./platform-team/apiGateway";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -39,6 +40,29 @@ class MyStack extends TerraformStack {
     });
     connect(listTweetsFn.lambda, tweetsTable.table);
     connect(listTweetsFn.lambda, userTable.table);
+
+    const notifyAboutNewUsersOnSlack = new Lambda(
+      this,
+      "notify-about-new-users-on-slack",
+      {
+        functionName: "notify-about-new-users-on-slack",
+        directory: path.resolve("lambdas/notify"),
+        language: "nodejs",
+        environment: {
+          variables: {
+            USER_TABLE: userTable.name,
+          },
+        },
+      }
+    );
+    connect(notifyAboutNewUsersOnSlack.lambda, userTable.table);
+    connect(userTable.table, notifyAboutNewUsersOnSlack.lambda);
+
+    const api = new ApiGateway(this, "api-gateway", {
+      name: "twitter-api",
+      protocolType: "HTTP",
+    });
+    api.connect(listTweetsFn.lambda, "/tweets");
   }
 }
 
