@@ -88,9 +88,12 @@ export interface LambdaConfig extends Omit<LambdaFunctionConfig, "role"> {
   language: "nodejs" | "python";
 }
 
-export class Lambda extends Construct {
+export class Lambda extends cdktf.ConnectableConstruct {
   public lambda: LambdaFunction;
   public role: IamRole;
+
+  public type = "custom_lambda";
+  public static type = "custom_lambda";
 
   constructor(
     scope: Construct,

@@ -76,8 +76,14 @@ type ConnectableTypeId =
 export type Connectable = (
   | { source: string }
   | { terraformResourceType: string }
+  | { type: string }
 ) &
   Construct;
+
+export abstract class ConnectableConstruct extends Construct {
+  public abstract type: string;
+}
+
 // function isConnectable(x: Construct): x is Connectable {
 //   return "source" in x || "terraformResourceType" in x;
 // }
@@ -99,7 +105,11 @@ export function registerConnection<
 >(from: Constructor<F>, to: Constructor<T>, connect: ConnectFn<F, T>) {
   connections[getTypeId(from)] = connections[getTypeId(from)] || [];
   if (connections[getTypeId(from)].some(([id]) => id === getTypeId(to))) {
-    throw new Error(`Connection from ${from} to ${to} already registered.`);
+    throw new Error(
+      `Connection from ${from} to ${to} already registered: ${connections[
+        getTypeId(from)
+      ].filter(([id]) => id === getTypeId(to))}`
+    );
   }
   connections[getTypeId(from)].push([getTypeId(to), connect as any]);
 }
@@ -109,16 +119,17 @@ function getTypeIdFromConstruct(o: Connectable): ConnectableTypeId {
     return o.source;
   } else if ("terraformResourceType" in o) {
     return o.terraformResourceType;
+  } else if ("type" in o) {
+    return o.type;
   }
+
   throw new Error(
     `Invalid Connectable ${o}. Neither source nor terraformResourceType present`
   );
 }
 
 function getTypeId(c: Constructor<Connectable>): ConnectableTypeId {
-  return (c as any).tfResourceType; // We need sth similar on modules
-  // const o = new c();
-  // return getTypeIdFromConstruct(o);
+  return (c as any).tfResourceType || (c as any).type; // We need sth similar on modules and custom constructs?
 }
 
 // TODO: Add in a scoping mechanism to allow different connection implementations

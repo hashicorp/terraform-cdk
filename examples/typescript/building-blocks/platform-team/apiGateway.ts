@@ -1,31 +1,25 @@
 import { Construct } from "constructs";
+import * as cdktf from "../cdktf/index";
 import {
   Apigatewayv2Api,
   Apigatewayv2ApiConfig,
 } from "../.gen/providers/aws/apigatewayv2-api/index";
 import { Apigatewayv2Integration } from "../.gen/providers/aws/apigatewayv2-integration/index";
 import { Apigatewayv2Route } from "../.gen/providers/aws/apigatewayv2-route/index";
-import { Connectable, connect, registerConnection } from "../cdktf/index";
-import { LambdaFunction } from "../.gen/providers/aws/lambda-function";
-import { LambdaPermission } from "../.gen/providers/aws/lambda-permission";
 import { Apigatewayv2Stage } from "../.gen/providers/aws/apigatewayv2-stage/index";
 
-type Invokable = Connectable & {
+type Invokable = cdktf.Connectable & {
   functionNameInput?: string;
   invokeArn: string;
 };
+type ConnectableWithInvokable = cdktf.Connectable & {
+  lambda: Invokable;
+};
 
-registerConnection(LambdaFunction, Apigatewayv2Api, (lambda, api) => {
-  new LambdaPermission(lambda, `permission-api-${api.nameInput}`, {
-    functionName: lambda.functionName,
-    action: "lambda:InvokeFunction",
-    principal: "apigateway.amazonaws.com",
-    sourceArn: `${api.executionArn}/*/*`,
-  });
-});
-
-export class ApiGateway extends Construct {
+export class ApiGateway extends cdktf.ConnectableConstruct {
   public api: Apigatewayv2Api;
+  public type = "custom_api_gateway";
+  public static type = "custom_api_gateway";
   constructor(scope: Construct, ns: string, config: Apigatewayv2ApiConfig) {
     super(scope, ns);
 
@@ -46,23 +40,23 @@ export class ApiGateway extends Construct {
     });
   }
 
-  public connect(invokable: Invokable, route = "/") {
-    connect(invokable, this.api);
+  public connect(invokable: ConnectableWithInvokable, route = "/") {
+    cdktf.connect(invokable, this);
     const integration = new Apigatewayv2Integration(
       this,
-      `${invokable.functionNameInput}-integration`,
+      `${invokable.lambda.functionNameInput}-integration`,
       {
         apiId: this.api.id,
         integrationType: "AWS_PROXY",
 
         connectionType: "INTERNET",
         integrationMethod: "POST",
-        integrationUri: invokable.invokeArn,
+        integrationUri: invokable.lambda.invokeArn,
         passthroughBehavior: "WHEN_NO_MATCH",
       }
     );
 
-    new Apigatewayv2Route(this, `${invokable.functionNameInput}-route`, {
+    new Apigatewayv2Route(this, `${invokable.lambda.functionNameInput}-route`, {
       apiId: this.api.id,
       routeKey: `POST ${route}`,
       target: `integrations/${integration.id}`,

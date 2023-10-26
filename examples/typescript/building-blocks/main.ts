@@ -3,11 +3,16 @@
 import { Construct } from "constructs";
 import { App, TerraformOutput, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
-import { DatabaseTable, Lambda } from "./platform-team";
+import {
+  DatabaseTable,
+  Lambda,
+  ApiGateway,
+  registerConnections,
+} from "./platform-team";
 import * as path from "path";
 import { connect } from "./cdktf/index";
-import { ApiGateway } from "./platform-team/apiGateway";
 
+registerConnections();
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
     super(scope, ns);
@@ -37,7 +42,7 @@ class MyStack extends TerraformStack {
         },
       },
     });
-    connect(loginFn.lambda, userTable.table);
+    connect(loginFn, userTable);
 
     const listTweetsFn = new Lambda(this, "list-tweets", {
       functionName: "list-tweets",
@@ -50,8 +55,8 @@ class MyStack extends TerraformStack {
         },
       },
     });
-    connect(listTweetsFn.lambda, tweetsTable.table);
-    connect(listTweetsFn.lambda, userTable.table);
+    connect(listTweetsFn, tweetsTable);
+    connect(listTweetsFn, userTable);
 
     const createTweetFn = new Lambda(this, "create-tweet", {
       functionName: "create-tweet",
@@ -63,7 +68,7 @@ class MyStack extends TerraformStack {
         },
       },
     });
-    connect(createTweetFn.lambda, tweetsTable.table);
+    connect(createTweetFn, tweetsTable);
 
     const notifyAboutNewUsersOnSlack = new Lambda(
       this,
@@ -79,16 +84,16 @@ class MyStack extends TerraformStack {
         },
       }
     );
-    connect(notifyAboutNewUsersOnSlack.lambda, userTable.table);
-    connect(userTable.table, notifyAboutNewUsersOnSlack.lambda);
+    connect(notifyAboutNewUsersOnSlack, userTable);
+    connect(userTable, notifyAboutNewUsersOnSlack);
 
     const api = new ApiGateway(this, "api-gateway", {
       name: "twitter-api",
       protocolType: "HTTP",
     });
-    api.connect(loginFn.lambda, "/login");
-    api.connect(listTweetsFn.lambda, "/tweets");
-    api.connect(createTweetFn.lambda, "/create-tweet");
+    api.connect(loginFn, "/login");
+    api.connect(listTweetsFn, "/tweets");
+    api.connect(createTweetFn, "/create-tweet");
 
     new TerraformOutput(this, "api-url", {
       value: api.api.apiEndpoint,
