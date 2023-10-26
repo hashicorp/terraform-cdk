@@ -41,6 +41,19 @@ class MyStack extends TerraformStack {
     connect(listTweetsFn.lambda, tweetsTable.table);
     connect(listTweetsFn.lambda, userTable.table);
 
+    const createTweetFn = new Lambda(this, "create-tweet", {
+      functionName: "create-tweets",
+      directory: path.resolve("lambdas/list-tweets"),
+      language: "nodejs",
+      environment: {
+        variables: {
+          TWEETS_TABLE: tweetsTable.name,
+          USER_TABLE: userTable.name,
+        },
+      },
+    });
+    connect(createTweetFn.lambda, tweetsTable.table);
+
     const notifyAboutNewUsersOnSlack = new Lambda(
       this,
       "notify-about-new-users-on-slack",
@@ -63,6 +76,7 @@ class MyStack extends TerraformStack {
       protocolType: "HTTP",
     });
     api.connect(listTweetsFn.lambda, "/tweets");
+    api.connect(createTweetFn.lambda, "/create-tweet");
 
     new TerraformOutput(this, "api-url", {
       value: api.api.apiEndpoint,
