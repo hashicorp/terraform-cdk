@@ -54,7 +54,7 @@ ${this.command(
             }. parameter: ${description}";
       exit 1
     fi
-    $${name}=$${index + 1}
+    ${name}=$${index + 1}
       `
           : `${name}=$${index + 1}`
       )

@@ -4,6 +4,7 @@ import { Construct } from "constructs";
 import { App, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { Lambda } from "./platform-team";
+import * as path from "path";
 
 class MyStack extends TerraformStack {
   constructor(scope: Construct, ns: string) {
@@ -12,7 +13,7 @@ class MyStack extends TerraformStack {
 
     new Lambda(this, "list-tweets", {
       functionName: "list-tweets",
-      directory: "./lambdas/list-tweets",
+      directory: path.resolve("lambdas/list-tweets"),
       language: "nodejs",
     });
   }
