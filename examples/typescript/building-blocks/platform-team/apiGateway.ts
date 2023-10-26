@@ -8,6 +8,7 @@ import { Apigatewayv2Route } from "../.gen/providers/aws/apigatewayv2-route/inde
 import { Connectable, connect, registerConnection } from "../cdktf/index";
 import { LambdaFunction } from "../.gen/providers/aws/lambda-function";
 import { LambdaPermission } from "../.gen/providers/aws/lambda-permission";
+import { Apigatewayv2Stage } from "../.gen/providers/aws/apigatewayv2-stage/index";
 
 type Invokable = Connectable & {
   functionNameInput?: string;
@@ -37,6 +38,12 @@ export class ApiGateway extends Construct {
         allowHeaders: ["content-type"],
       },
     });
+
+    new Apigatewayv2Stage(this, "stage", {
+      apiId: this.api.id,
+      name: "prod",
+      autoDeploy: true,
+    });
   }
 
   public connect(invokable: Invokable, route = "/") {
@@ -60,5 +67,9 @@ export class ApiGateway extends Construct {
       routeKey: `POST ${route}`,
       target: `integrations/${integration.id}`,
     });
+  }
+
+  public get endpoint() {
+    return this.api.apiEndpoint;
   }
 }

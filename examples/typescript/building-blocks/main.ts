@@ -1,7 +1,7 @@
 // Copyright (c) HashiCorp, Inc
 // SPDX-License-Identifier: MPL-2.0
 import { Construct } from "constructs";
-import { App, TerraformStack } from "cdktf";
+import { App, TerraformOutput, TerraformStack } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { DatabaseTable, Lambda } from "./platform-team";
 import * as path from "path";
@@ -63,6 +63,10 @@ class MyStack extends TerraformStack {
       protocolType: "HTTP",
     });
     api.connect(listTweetsFn.lambda, "/tweets");
+
+    new TerraformOutput(this, "api-url", {
+      value: api.api.apiEndpoint,
+    });
   }
 }
 
