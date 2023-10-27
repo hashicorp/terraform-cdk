@@ -1,6 +1,5 @@
 import { Construct } from "constructs";
 import * as path from "path";
-import { addCustomSynthesis } from "cdktf/lib/synthesize/synthesizer";
 import * as fs from "fs";
 
 export interface FileConfig {
@@ -13,13 +12,9 @@ export interface FileConfig {
 export class File extends Construct {
   constructor(scope: Construct, ns: string, private config: FileConfig) {
     super(scope, ns);
-
-    addCustomSynthesis(this, {
-      onSynthesize: this._onSynthesize.bind(this),
-    });
   }
 
-  private _onSynthesize() {
+  public setup() {
     if (!this.config.overwrite && fs.existsSync(this.config.filename)) {
       return;
     }

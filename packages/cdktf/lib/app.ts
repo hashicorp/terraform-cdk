@@ -140,6 +140,7 @@ export class App extends Construct {
 
     stacks.forEach((stack) => stack.prepareStack());
     stacks.forEach((stack) => stack.synthesizer.synthesize(session));
+    stacks.forEach((stack) => stack.postStackSynthesis());
 
     if (!this.skipValidation) {
       const validations = this.node.validate();

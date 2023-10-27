@@ -135,9 +135,24 @@ export class TerraformStack extends Construct {
   public prepareStack() {
     // Ensure we have a backend configured
     this.ensureBackendExists();
+
+    // Run setup phase
+    allNodesWithAttribute("setup", this).forEach((e) => (e as any).setup());
+
+    // Run pre-synth phase
+    allNodesWithAttribute("preSynthesize", this).forEach((e) =>
+      (e as any).preSynthesize()
+    );
+
     // A preparing resolve run might add new resources to the stack, e.g. for cross stack references.
     terraformElements(this).forEach((e) =>
       resolve(this, e.toTerraform(), true)
+    );
+  }
+
+  public postStackSynthesis() {
+    allNodesWithAttribute("postSynthesize", this).forEach((e) =>
+      (e as any).postSynthesize()
     );
   }
 
@@ -346,6 +361,28 @@ function terraformElements(
     }
 
     terraformElements(child, into);
+  }
+
+  return into;
+}
+
+// eslint-disable-next-line jsdoc/require-jsdoc
+function allNodesWithAttribute<T extends IConstruct>(
+  attr: string,
+  node: IConstruct,
+  into: T[] = []
+): T[] {
+  if (attr in node) {
+    into.push(node as any);
+  }
+
+  for (const child of node.node.children) {
+    // Don't recurse into a substack
+    if (TerraformStack.isStack(child)) {
+      continue;
+    }
+
+    allNodesWithAttribute(attr, child, into);
   }
 
   return into;

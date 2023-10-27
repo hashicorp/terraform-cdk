@@ -4,6 +4,7 @@ import * as cdktf from "../cdktf/index";
 import * as path from "path";
 import { IamRole } from "../.gen/providers/aws/iam-role/index";
 import { IamRolePolicyAttachment } from "../.gen/providers/aws/iam-role-policy-attachment/index";
+import { execSync } from "child_process";
 import {
   LambdaFunction,
   LambdaFunctionConfig,
@@ -95,12 +96,15 @@ export class Lambda extends cdktf.ConnectableConstruct {
   public type = "custom_lambda";
   public static type = "custom_lambda";
 
+  public directory: string;
+
   constructor(
     scope: Construct,
     name: string,
     { directory, language, ...config }: LambdaConfig
   ) {
     super(scope, name);
+    this.directory = directory;
 
     const dir = path.resolve(__dirname, directory);
     new LambdaFunctionDirectory(this, name, {
@@ -109,7 +113,7 @@ export class Lambda extends cdktf.ConnectableConstruct {
     });
 
     const code = new TerraformAsset(this, "lambda-asset", {
-      path: directory,
+      path: path.join(directory, "dist"),
       type: AssetType.ARCHIVE,
     });
 
@@ -177,5 +181,9 @@ export class Lambda extends cdktf.ConnectableConstruct {
       "get-metrics-" + name,
       () => `echo "Getting metrics for ${name}"`
     );
+  }
+
+  public preSynthesize() {
+    execSync(`cd ${this.directory} && npm install && npm run build`);
   }
 }

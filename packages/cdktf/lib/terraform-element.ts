@@ -61,6 +61,16 @@ export class TerraformElement extends Construct {
     return {};
   }
 
+  public setup(): void {
+    return;
+  }
+  public preSynthesize(): void {
+    return;
+  }
+  public postSynthesize(): void {
+    return;
+  }
+
   private _fqnToken?: string;
 
   public get fqn() {
