@@ -136,6 +136,7 @@ export class TerraformStack extends Construct {
     // Ensure we have a backend configured
     this.ensureBackendExists();
 
+    // TODO This should probably all be promise based :D
     // Run setup phase
     allNodesWithAttribute("setup", this).forEach((e) => (e as any).setup());
 

@@ -72,22 +72,15 @@ export class TerraformAsset extends Construct {
       }
     }
 
-    const stat = fs.statSync(this.sourcePath);
-    const inferredType = stat.isFile() ? AssetType.FILE : AssetType.DIRECTORY;
-    this.type = config.type ?? inferredType;
-    this.assetHash = config.assetHash || hashPath(this.sourcePath);
-
-    if (stat.isFile() && this.type !== AssetType.FILE) {
-      throw new Error(
-        `TerraformAsset ${id} expects path to be a directory, a file was passed: '${config.path}'`
-      );
+    if (config.type === undefined) {
+      this.type = fs.statSync(this.sourcePath).isFile()
+        ? AssetType.FILE
+        : AssetType.DIRECTORY;
+    } else {
+      this.type = config.type;
     }
 
-    if (!stat.isFile() && this.type === AssetType.FILE) {
-      throw new Error(
-        `TerraformAsset ${id} expects path to be a file, a directory was passed: '${config.path}'`
-      );
-    }
+    this.assetHash = "";
 
     addCustomSynthesis(this, {
       onSynthesize: this._onSynthesize.bind(this),
@@ -126,6 +119,8 @@ export class TerraformAsset extends Construct {
   }
 
   private _onSynthesize(session: ISynthesisSession) {
+    this.assetHash =
+      this.assetHash !== "" ? this.assetHash : hashPath(this.sourcePath);
     const stackManifest = session.manifest.forStack(this.stack);
     const basePath = path.join(
       session.manifest.outdir,

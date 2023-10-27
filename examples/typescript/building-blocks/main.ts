@@ -58,6 +58,17 @@ class MyStack extends TerraformStack {
     connect(listTweetsFn, tweetsTable);
     connect(listTweetsFn, userTable);
 
+    new Lambda(this, "image-upload", {
+      functionName: "image-upload",
+      directory: path.resolve("lambdas/image-upload"),
+      language: "nodejs",
+      environment: {
+        variables: {
+          S3_BUCKET: "TODO",
+        },
+      },
+    });
+
     const createTweetFn = new Lambda(this, "create-tweet", {
       functionName: "create-tweet",
       directory: path.resolve("lambdas/create-tweet"),
@@ -65,6 +76,7 @@ class MyStack extends TerraformStack {
       environment: {
         variables: {
           TWEETS_TABLE: tweetsTable.name,
+          SNS_TOPIC: "TODO",
         },
       },
     });

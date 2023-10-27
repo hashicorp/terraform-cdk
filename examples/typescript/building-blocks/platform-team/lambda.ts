@@ -38,7 +38,7 @@ export class LambdaFunctionDirectory extends Construct {
             version: "0.0.0",
             scripts: {
               build:
-                "rm -rf dist && esbuild ./src/* --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node16.14 --outdir=dist",
+                "rm -rf dist && esbuild ./index.js --entry-names=[dir]/[name]/index --bundle --minify --sourcemap --platform=node --target=node16.14 --outdir=dist",
               package:
                 'cd dist && for f in * ; do ([ -d "$f" ] && cd $f && zip ../$f.zip *) ; done',
             },
@@ -113,7 +113,7 @@ export class Lambda extends cdktf.ConnectableConstruct {
     });
 
     const code = new TerraformAsset(this, "lambda-asset", {
-      path: path.join(directory, "dist"),
+      path: path.join(directory, "dist", "index"),
       type: AssetType.ARCHIVE,
     });
 
