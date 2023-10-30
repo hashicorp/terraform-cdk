@@ -26,7 +26,7 @@ jobs:
     env:
       CHECKPOINT_DISABLE: "1"
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
         with:
           fetch-depth: 0 # gives sentry access to all previous commits
       - name: "Add Git safe.directory" # Go 1.18+ started embedding repo info in the build and e.g. building @cdktf/hcl2json fails without this
@@ -154,7 +154,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: installing dependencies
         run: |
           yarn install --frozen-lockfile
@@ -308,7 +308,7 @@ jobs:
     container:
       image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: version
         id: get_version
         run: |
@@ -337,7 +337,7 @@ jobs:
     if: needs.prepare-release.outputs.release_status == 'unreleased'
     steps:
       # extract version number from package.json
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4.1.1
       - name: version
         id: get_version
         run: |
