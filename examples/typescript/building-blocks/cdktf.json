@@ -1,0 +1,19 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "terraformProviders": [
+    "aws@~> 5.0"
+  ],
+  "terraformModules": [
+    {
+      "name": "aurora",
+      "source": "terraform-aws-modules/rds-aurora/aws",
+      "version": "~> 8.0"
+    },
+    {
+      "name": "vpc",
+      "source": "terraform-aws-modules/vpc/aws",
+      "version": "~> 5.1.1"
+    }
+  ]
+}

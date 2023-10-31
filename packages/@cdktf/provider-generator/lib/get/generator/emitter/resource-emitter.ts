@@ -76,6 +76,11 @@ export class ResourceEmitter {
         return new cdktf.ImportableResource(scope, importToId, { terraformResourceType: "${resource.terraformResourceType}", importId: importFromId, provider });
       }`
     );
+    this.code.line(
+      `public static createResource(scope: Construct, id: string, config: ${resource.configStruct.attributeType}) {
+        return new this(scope, id, config);
+      }`
+    );
   }
 
   private emitResourceSynthesis(resource: ResourceModel) {

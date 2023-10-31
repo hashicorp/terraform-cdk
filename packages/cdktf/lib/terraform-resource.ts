@@ -273,6 +273,14 @@ export class TerraformResource
     );
   }
 
+  public static resourceFactory(
+    scope: Construct,
+    id: string,
+    config: TerraformResourceConfig
+  ) {
+    return new this(scope, id, config);
+  }
+
   public importFrom(id: string, provider?: TerraformProvider) {
     this._imported = { id, provider };
     this.node.addValidation(
