@@ -520,6 +520,7 @@ export async function output(argv: any) {
 }
 
 export async function debug(argv: any) {
+  // Ideally the provider info gathering happens in `collectDebugInformation()` but the inclusion of `CdktfConfig.read()` in @cdktf/commons causes the build to fail with "error TS5055"
   const config = CdktfConfig.read();
   const language = config.language;
   const cdktfVersion = await getPackageVersion(language, "cdktf");
