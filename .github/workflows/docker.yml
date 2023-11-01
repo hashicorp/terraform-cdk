@@ -9,6 +9,7 @@ on:
       - "website/**"
       - "cdk.tf/**"
       - "tools/update-github-project-board/**"
+  workflow_dispatch: {}
 
 jobs:
   build-docker-image:
@@ -36,12 +37,20 @@ jobs:
           AVAILABLE_TERRAFORM_VERSIONS=$(cat .terraform.versions.json | jq -r '.available | join(" ")')
           echo "default=$DEFAULT_TERRAFORM_VERSION" >> $GITHUB_OUTPUT
           echo "available=$AVAILABLE_TERRAFORM_VERSIONS" >> $GITHUB_OUTPUT
+      - id: cdktf-version
+        run: |
+          CDKTF_VERSION=$(cat package.json | jq -r '.version')
+          echo "cdktf=$CDKTF_VERSION" >> $GITHUB_OUTPUT
+      - id: git-sha
+        run: |
+          GIT_SHA=$(git rev-parse HEAD)
+          echo "git-sha=$GIT_SHA" >> $GITHUB_OUTPUT
       - name: Build and push
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           pull: true
           push: true
-          tags: hashicorp/jsii-terraform:latest
+          tags: hashicorp/jsii-terraform:latest,hashicorp/jsii-terraform:${{ steps.cdktf-version.outputs.cdktf }},hashicorp/jsii-terraform:${{ steps.cdktf-version.outputs.cdktf }}-${{ steps.git-sha.outputs.git-sha }}
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
           build-args: |
