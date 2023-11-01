@@ -374,7 +374,7 @@ async function gatherInfo(
 
     if (organizationIds.length == 0) {
       throw Errors.Usage(
-        `You must be part of an organization in Terraform Cloud in order to use it as a RemoteBackend.\n`
+        `You must be part of an organization in Terraform Cloud in order to use it as a RemoteBackend or CloudBackend.\n`
       );
     };
 
