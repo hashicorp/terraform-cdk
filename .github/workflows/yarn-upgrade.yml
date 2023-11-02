@@ -172,12 +172,12 @@ jobs:
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           # Git commit details
-          branch: automation/yarn-upgrade-${{ matrix.package.name }}
+          branch: automation/yarn-upgrade-${{ matrix.package }}
           commit-message: |-
-            chore(${{matrix.package.name}}): npm-check-updates && yarn upgrade
+            chore(${{matrix.package}}): npm-check-updates && yarn upgrade
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
-          title: "chore(${{matrix.package.name}}): npm-check-updates && yarn upgrade"
+          title: "chore(${{matrix.package}}): npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           labels: dependencies,auto-approve
