@@ -81,12 +81,12 @@
     "@typescript-eslint/parser": "^4.33.0",
     "changelog-parser": "^2.8.1",
     "eslint": "^7.32.0",
-    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-monorepo": "^0.3.2",
     "husky": ">=6",
     "lerna": "^6.6.1",
     "lint-staged": ">=10",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.8",
     "standard-version": "^9.5.0"
   },
   "lint-staged": {
