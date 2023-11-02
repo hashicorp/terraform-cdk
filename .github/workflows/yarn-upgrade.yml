@@ -6,8 +6,16 @@ on:
     - cron: 37 13 * * 1
   workflow_dispatch: {}
 
+# We special-case @types/node because we want to stay on the current major (minimum supported node release)
+# We special-case @types/fs-extra because the current major (9.x) is broken with @types/node >= 10
+# We special-case typescript because it's not semantically versioned
+# We special-case constructs because we want to stay in control of the minimum compatible version
+# We special-case lerna because we have a patch on it that stops applying if Lerna upgrades. Remove this once https://github.com/lerna/lerna/pull/2874 releases.
+# We special-case graphology-types because the newer version has type definitions that are not compatible with our typescript version.
+# We special-case @types/prettier because the underlying TS types aren't supported by our TS version anymore since prettier v2.6.1
+
 jobs:
-  upgrade:
+  upgradeRoot:
     name: Yarn Upgrade
     permissions:
       contents: read
@@ -38,22 +46,12 @@ jobs:
         run: |-
           echo "list=$(node -p "$(lerna ls --all --json 2>/dev/null).map(item => item.name).join(',')")" >> $GITHUB_OUTPUT
       - name: Run "ncu -u"
-        # We special-case @types/node because we want to stay on the current major (minimum supported node release)
-        # We special-case @types/fs-extra because the current major (9.x) is broken with @types/node >= 10
-        # We special-case typescript because it's not semantically versioned
-        # We special-case constructs because we want to stay in control of the minimum compatible version
-        # We special-case lerna because we have a patch on it that stops applying if Lerna upgrades. Remove this once https://github.com/lerna/lerna/pull/2874 releases.
-        # We special-case graphology-types because the newer version has type definitions that are not compatible with our typescript version.
-        # We special-case @types/prettier because the underlying TS types aren't supported by our TS version anymore since prettier v2.6.1
         run: |-
           # Upgrade dependencies at repository root
           ncu --upgrade --filter=@types/node,@types/fs-extra --target=minor
           ncu --upgrade --filter=typescript --target=patch
           ncu --upgrade --reject=@types/node,@types/fs-extra,constructs,typescript,lerna,@types/prettier --target=minor
-          # Upgrade all the packages
-          lerna exec --parallel ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
-          lerna exec --parallel ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --parallel ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
@@ -73,9 +71,9 @@ jobs:
           name: upgrade.patch
           path: ./upgrade.patch
 
-  pr:
-    name: Create Pull Request
-    needs: upgrade
+  prRoot:
+    name: Create Pull Request Root
+    needs: upgradeRoot
     runs-on: ubuntu-latest
     steps:
       - name: Check Out
@@ -102,6 +100,113 @@ jobs:
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
           title: "chore: npm-check-updates && yarn upgrade"
+          body: |-
+            Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
+          labels: dependencies,auto-approve,ci/run-all
+          team-reviewers: cdktf
+          token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
+
+  upgradePackage:
+    name: Yarn Upgrade
+    permissions:
+      contents: read
+    runs-on: ubuntu-latest
+    container:
+      image: docker.mirror.hashicorp.services/hashicorp/jsii-terraform
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          [
+            cdktf,
+            cdktf-cli,
+            "@cdktf/hcl2cdk",
+            "@cdktf/hcl2json",
+            "@cdktf/provider-schema",
+            "@cdktf/provider-generator",
+            "@cdktf/commons",
+            "@cdktf/cli-core",
+          ]
+    outputs:
+      package: ${{matrix.package}}
+    steps:
+      - name: Check Out
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+      - name: Get yarn cache directory path
+        id: global-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@704facf57e6136b1bc63b828d79edcd491f0ee84 # v3.3.2
+        with:
+          path: ${{ steps.global-cache-dir-path.outputs.dir }}
+          key: yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-upgrade
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ hashFiles('**/yarn.lock') }}-
+            yarn-${{ runner.os }}-
+      - name: ensure correct user
+        run: chown -R root /__w/terraform-cdk
+      - name: Install Tools
+        run: |-
+          npm -g install lerna npm-check-updates@^9.0.0
+      - name: List Mono-Repo Packages
+        id: list-packages
+        # These need to be ignored from the `ncu` runs!
+        run: |-
+          echo "list=$(node -p "$(lerna ls --all --json 2>/dev/null).map(item => item.name).join(',')")" >> $GITHUB_OUTPUT
+      - name: Run "ncu -u"
+        run: |-
+          # Upgrade all the packages
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=typescript --target=patch
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+      # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
+      - name: Run "yarn install"
+        run: yarn install --prefer-offline
+
+      - name: Run "yarn upgrade"
+        run: yarn upgrade
+
+      # Next, create and upload the changes as a patch file. This will later be downloaded to create a pull request
+      # Creating a pull request requires write permissions and it's best to keep write privileges isolated.
+      - name: Create Patch
+        run: |-
+          git add .
+          git diff --patch --staged > ./upgrade.patch
+      - name: Upload Patch
+        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
+        id: patch
+        with:
+          name: upgrade-${{ matrix.package }}.patch
+          path: ./upgrade.patch
+
+  prPackage:
+    name: Create Pull Request Root
+    needs: upgradePackage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Out
+        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
+
+      - name: Download patch
+        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
+        with:
+          name: upgrade-${{needs.upgradePackage.outputs.package}}.patch
+
+      - name: Apply patch
+        run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
+
+      - name: Remove patch file
+        run: '[ -s ./upgrade.patch ] && rm ./upgrade.patch || echo "Empty patch. Skipping."'
+
+      - name: Make Pull Request
+        uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
+        with:
+          # Git commit details
+          branch: automation/yarn-upgrade
+          commit-message: |-
+            chore(${{needs.upgradePackage.outputs.package}}): npm-check-updates && yarn upgrade
+            Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
+          # Pull Request details
+          title: "chore(${{needs.upgradePackage.outputs.package}}): npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           labels: dependencies,auto-approve,ci/run-all
