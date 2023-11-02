@@ -16,7 +16,7 @@ on:
 
 jobs:
   upgradeRoot:
-    name: Yarn Upgrade
+    name: Yarn Upgrade Root
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -107,7 +107,7 @@ jobs:
           token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
 
   upgradePackage:
-    name: Yarn Upgrade
+    name: Yarn Upgrade Package
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -117,18 +117,26 @@ jobs:
       fail-fast: false
       matrix:
         package:
-          [
-            cdktf,
-            cdktf-cli,
-            "@cdktf/hcl2cdk",
-            "@cdktf/hcl2json",
-            "@cdktf/provider-schema",
-            "@cdktf/provider-generator",
-            "@cdktf/commons",
-            "@cdktf/cli-core",
-          ]
+          - name: cdktf
+            patchName: cdktf
+          - name: cdktf-cli
+            patchName: cdktf-cli
+          - name: "@cdktf/hcl2cdk"
+            patchName: "hcl2cdk"
+          - name: "@cdktf/hcl2json"
+            patchName: "hcl2json"
+          - name: "@cdktf/provider-schema"
+            patchName: "provider-schema"
+          - name: "@cdktf/provider-generator"
+            patchName: "provider-generator"
+          - name: "@cdktf/commons"
+            patchName: "commons"
+          - name: "@cdktf/cli-core"
+            patchName: "cli-core"
+
     outputs:
-      package: ${{matrix.package}}
+      packageName: ${{matrix.package.name}}
+      packagePatchName: ${{matrix.package.patchName}}
     steps:
       - name: Check Out
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
@@ -155,9 +163,9 @@ jobs:
       - name: Run "ncu -u"
         run: |-
           # Upgrade all the packages
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
+          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --filter=typescript --target=patch
+          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
@@ -175,11 +183,11 @@ jobs:
         uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
         id: patch
         with:
-          name: upgrade-${{ matrix.package }}.patch
+          name: upgrade-${{ matrix.package.patchName }}.patch
           path: ./upgrade.patch
 
   prPackage:
-    name: Create Pull Request Root
+    name: Create Pull Request Package
     needs: upgradePackage
     runs-on: ubuntu-latest
     steps:
@@ -189,7 +197,7 @@ jobs:
       - name: Download patch
         uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
         with:
-          name: upgrade-${{needs.upgradePackage.outputs.package}}.patch
+          name: upgrade-${{needs.upgradePackage.outputs.packagePatchName}}.patch
 
       - name: Apply patch
         run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
@@ -203,12 +211,12 @@ jobs:
           # Git commit details
           branch: automation/yarn-upgrade
           commit-message: |-
-            chore(${{needs.upgradePackage.outputs.package}}): npm-check-updates && yarn upgrade
+            chore(${{needs.upgradePackage.outputs.packageName}}): npm-check-updates && yarn upgrade
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
-          title: "chore(${{needs.upgradePackage.outputs.package}}): npm-check-updates && yarn upgrade"
+          title: "chore(${{needs.upgradePackage.outputs.packageName}}): npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
-          labels: dependencies,auto-approve,ci/run-all
+          labels: dependencies,auto-approve
           team-reviewers: cdktf
           token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
