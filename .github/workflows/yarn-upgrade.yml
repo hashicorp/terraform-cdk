@@ -178,3 +178,4 @@ jobs:
           labels: dependencies,auto-approve
           team-reviewers: cdktf
           token: ${{ secrets.TERRAFORM_CDK_PUSH_GITHUB_TOKEN }}
+          author: team-tf-cdk <github-team-tf-cdk@hashicorp.com>
