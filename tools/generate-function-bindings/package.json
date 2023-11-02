@@ -33,13 +33,13 @@
   "license": "MPL-2.0",
   "dependencies": {
     "cdktf": "0.0.0",
-    "log4js": "^6.7.0"
+    "log4js": "^6.9.1"
   },
   "devDependencies": {
     "@cdktf/provider-generator": "0.0.0",
-    "@babel/generator": "^7.20.4",
-    "@babel/template": "^7.18.10",
-    "@babel/types": "^7.20.2",
+    "@babel/generator": "^7.23.0",
+    "@babel/template": "^7.22.15",
+    "@babel/types": "^7.23.0",
     "ts-node": "^10.9.1"
   },
   "eslintConfig": {
