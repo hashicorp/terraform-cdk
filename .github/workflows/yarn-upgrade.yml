@@ -153,9 +153,9 @@ jobs:
       - name: Run "ncu -u"
         run: |-
           # Upgrade all the packages
-          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
-          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --filter=typescript --target=patch
-          lerna exec --scope '${{ matrix.package.name }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=@types/node,@types/fs-extra --target=minor
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --filter=typescript --target=patch
+          lerna exec --scope '${{ matrix.package }}' ncu -- --upgrade --reject='@types/node,@types/fs-extra,constructs,typescript,graphology-types,${{ steps.list-packages.outputs.list }}'  --target=minor
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
