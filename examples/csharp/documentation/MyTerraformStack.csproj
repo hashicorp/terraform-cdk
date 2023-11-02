@@ -43,3 +43,4 @@
   <ItemGroup>
     <ProjectReference Include=".gen\eks\eks.csproj" />
   </ItemGroup>
+</Project>
