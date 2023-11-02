@@ -117,26 +117,16 @@ jobs:
       fail-fast: false
       matrix:
         package:
-          - name: cdktf
-            patchName: cdktf
-          - name: cdktf-cli
-            patchName: cdktf-cli
-          - name: "@cdktf/hcl2cdk"
-            patchName: "hcl2cdk"
-          - name: "@cdktf/hcl2json"
-            patchName: "hcl2json"
-          - name: "@cdktf/provider-schema"
-            patchName: "provider-schema"
-          - name: "@cdktf/provider-generator"
-            patchName: "provider-generator"
-          - name: "@cdktf/commons"
-            patchName: "commons"
-          - name: "@cdktf/cli-core"
-            patchName: "cli-core"
-
-    outputs:
-      packageName: ${{matrix.package.name}}
-      packagePatchName: ${{matrix.package.patchName}}
+          [
+            cdktf,
+            cdktf-cli,
+            "@cdktf/hcl2cdk",
+            "@cdktf/hcl2json",
+            "@cdktf/provider-schema",
+            "@cdktf/provider-generator",
+            "@cdktf/commons",
+            "@cdktf/cli-core",
+          ]
     steps:
       - name: Check Out
         uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
@@ -173,48 +163,16 @@ jobs:
       - name: Run "yarn upgrade"
         run: yarn upgrade
 
-      # Next, create and upload the changes as a patch file. This will later be downloaded to create a pull request
-      # Creating a pull request requires write permissions and it's best to keep write privileges isolated.
-      - name: Create Patch
-        run: |-
-          git add .
-          git diff --patch --staged > ./upgrade.patch
-      - name: Upload Patch
-        uses: actions/upload-artifact@a8a3f3ad30e3422c9c7b888a15615d19a852ae32 # v3.1.3
-        id: patch
-        with:
-          name: upgrade-${{ matrix.package.patchName }}.patch
-          path: ./upgrade.patch
-
-  prPackage:
-    name: Create Pull Request Package
-    needs: upgradePackage
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Out
-        uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.0
-
-      - name: Download patch
-        uses: actions/download-artifact@9bc31d5ccc31df68ecc42ccf4149144866c47d8a # v3.0.2
-        with:
-          name: upgrade-${{needs.upgradePackage.outputs.packagePatchName}}.patch
-
-      - name: Apply patch
-        run: '[ -s ./upgrade.patch ] && git apply ./upgrade.patch || echo "Empty patch. Skipping."'
-
-      - name: Remove patch file
-        run: '[ -s ./upgrade.patch ] && rm ./upgrade.patch || echo "Empty patch. Skipping."'
-
       - name: Make Pull Request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
           # Git commit details
           branch: automation/yarn-upgrade
           commit-message: |-
-            chore(${{needs.upgradePackage.outputs.packageName}}): npm-check-updates && yarn upgrade
+            chore(${{matrix.package.name}}): npm-check-updates && yarn upgrade
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
-          title: "chore(${{needs.upgradePackage.outputs.packageName}}): npm-check-updates && yarn upgrade"
+          title: "chore(${{matrix.package.name}}): npm-check-updates && yarn upgrade"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           labels: dependencies,auto-approve
