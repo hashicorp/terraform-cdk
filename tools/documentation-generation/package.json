@@ -9,6 +9,6 @@
         "constructs": "10.1.45"
     },
     "devDependencies": {
-        "jsii-docgen": "^9.1.2"
+        "jsii-docgen": "^9.2.2"
     }
 }
