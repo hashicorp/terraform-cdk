@@ -163,6 +163,11 @@ jobs:
       - name: Run "yarn upgrade"
         run: yarn upgrade
 
+      - name: Set git identity
+        run: |-
+          git config --global user.email "github-team-tf-cdk@hashicorp.com"
+          git config --global user.name "team-tf-cdk"
+
       - name: Make Pull Request
         uses: peter-evans/create-pull-request@153407881ec5c347639a548ade7d8ad1d6740e38 # v5.0.2
         with:
