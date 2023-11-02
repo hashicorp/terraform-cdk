@@ -600,14 +600,15 @@ it("moves correctly when target set after call to moveTo", () => {
     ],
   }).moveTo("test");
 
-  new TestResource(nestedContruct, "simple", {
+  const resource = new TestResource(nestedContruct, "simple", {
     name: "foo",
     provisioners: [
       { type: "local-exec", command: "echo 'hello' > world.txt" },
       { type: "local-exec", command: "echo 'hello' > world1.txt" },
       { type: "local-exec", command: "echo 'hello' > world2.txt" },
     ],
-  }).addMoveTarget("test");
+  });
+  resource.addMoveTarget("test");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
   expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
@@ -621,4 +622,160 @@ it("moves correctly when target set after call to moveTo", () => {
   expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
     "simple"
   );
+});
+
+it.only("override logical ID - before moveTo", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const resource = new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  });
+  resource.overrideLogicalId("old_logical_id");
+  resource.moveToId("test_resource.construct_nested-construct_simple_2C3755B0");
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  });
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  console.log(synthedStack);
+  expect(synthedStack).toMatchInlineSnapshot(`
+    {
+      "moved": [
+        {
+          "from": "test_resource.old_logical_id",
+          "to": "test_resource.construct_nested-construct_simple_2C3755B0",
+        },
+      ],
+      "provider": {
+        "test": [
+          {},
+        ],
+      },
+      "resource": {
+        "test_resource": {
+          "construct_nested-construct_simple_2C3755B0": {
+            "name": "foo",
+            "provisioner": [
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world.txt",
+                },
+              },
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world1.txt",
+                },
+              },
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world2.txt",
+                },
+              },
+            ],
+          },
+        },
+      },
+      "terraform": {
+        "required_providers": {
+          "test": {
+            "version": "~> 2.0",
+          },
+        },
+      },
+    }
+  `);
+});
+
+it.only("override logical ID - before addTarget", () => {
+  const app = Testing.app();
+  const stack = new TerraformStack(app, "test");
+  new TestProvider(stack, "provider", {});
+
+  const construct = new Construct(stack, "construct");
+  const nestedContruct = new Construct(construct, "nested-construct");
+
+  new TestResource(stack, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  }).hasMoved();
+
+  const resource = new TestResource(nestedContruct, "simple", {
+    name: "foo",
+    provisioners: [
+      { type: "local-exec", command: "echo 'hello' > world.txt" },
+      { type: "local-exec", command: "echo 'hello' > world1.txt" },
+      { type: "local-exec", command: "echo 'hello' > world2.txt" },
+    ],
+  });
+
+  resource.overrideLogicalId("old_logical_id");
+  resource.moveFromId("test_resource.simple");
+
+  const synthedStack = JSON.parse(Testing.synth(stack));
+  expect(synthedStack).toMatchInlineSnapshot(`
+    {
+      "moved": [
+        {
+          "from": "test_resource.simple",
+          "to": "test_resource.old_logical_id",
+        },
+      ],
+      "provider": {
+        "test": [
+          {},
+        ],
+      },
+      "resource": {
+        "test_resource": {
+          "old_logical_id": {
+            "name": "foo",
+            "provisioner": [
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world.txt",
+                },
+              },
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world1.txt",
+                },
+              },
+              {
+                "local-exec": {
+                  "command": "echo 'hello' > world2.txt",
+                },
+              },
+            ],
+          },
+        },
+      },
+      "terraform": {
+        "required_providers": {
+          "test": {
+            "version": "~> 2.0",
+          },
+        },
+      },
+    }
+  `);
 });

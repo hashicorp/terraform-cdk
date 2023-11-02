@@ -176,9 +176,59 @@ export class ComplexIteratorMoveStack extends TerraformStack {
 }
 // MOVE INTO RESOURCE USING COMPLEX ITERATOR
 
+export class MoveToIDStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+    if (process.env.STEP_2) {
+      new S3Bucket(this, "test-bucket-move-by", {
+        bucket: "test-move-bucket-move-to-id",
+      }).moveToId("aws_s3_bucket.test-bucket-1");
+
+      new S3Bucket(this, "test-bucket-1", {
+        bucket: "test-move-bucket-move-to-id",
+      });
+    }
+    if (process.env.STEP_1) {
+      new S3Bucket(this, "test-bucket-move-by", {
+        bucket: "test-move-bucket-move-to-id",
+      });
+    }
+  }
+}
+
+export class MoveFromIDStack extends TerraformStack {
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
+
+    new AwsProvider(this, "aws", {
+      region: "us-west-2",
+    });
+    if (process.env.STEP_2) {
+      new S3Bucket(this, "test-bucket-move-by", {
+        bucket: "test-move-bucket-move-from-id",
+      }).hasMoved();
+
+      new S3Bucket(this, "test-bucket-1", {
+        bucket: "test-move-bucket-move-from-id",
+      }).moveFromId("aws_s3_bucket.test-bucket-move-by");
+    }
+    if (process.env.STEP_1) {
+      new S3Bucket(this, "test-bucket-move-by", {
+        bucket: "test-move-bucket-move-from-id",
+      });
+    }
+  }
+}
+
 const app = new App();
-new UnNestingMoveStack(app, "un-nesting-move-stack");
-new NestingMoveStack(app, "nesting-move-stack");
-new ListIteratorMoveStack(app, "list-iterator-move-stack");
-new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
+new MoveToIDStack(app, "move-to-id-stack");
+new MoveFromIDStack(app, "move-from-id-stack");
+//new UnNestingMoveStack(app, "un-nesting-move-stack");
+//new NestingMoveStack(app, "nesting-move-stack");
+//new ListIteratorMoveStack(app, "list-iterator-move-stack");
+//new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
 app.synth();
