@@ -73,9 +73,14 @@ export interface TerraformResourceConfig extends TerraformMetaArguments {
   readonly terraformGeneratorMetadata?: TerraformProviderGeneratorMetadata;
 }
 
-export interface TerraformResourceMove {
+export interface TerraformResourceMoveByTarget {
   readonly moveTarget: string;
   readonly index?: string | number;
+}
+
+export interface TerraformResourceMoveById {
+  readonly to: string;
+  readonly from: string;
 }
 
 export interface TerraformResourceImport {
@@ -103,7 +108,9 @@ export class TerraformResource
     FileProvisioner | LocalExecProvisioner | RemoteExecProvisioner
   >;
   private _imported?: TerraformResourceImport;
-  private _moved?: TerraformResourceMove;
+  private _movedByTarget?: TerraformResourceMoveByTarget;
+  private _movedById?: TerraformResourceMoveById;
+  private _hasMoved = false;
 
   constructor(scope: Construct, id: string, config: TerraformResourceConfig) {
     super(scope, id, config.terraformResourceType);
@@ -215,15 +222,16 @@ export class TerraformResource
       ...(attributes["//"] ?? {}),
       ...this.constructNodeMetadata,
     };
+
     const movedBlock = this._buildMovedBlock();
     return {
-      resource: movedBlock
-        ? undefined
-        : {
+      resource: !this._hasMoved
+        ? {
             [this.terraformResourceType]: {
               [this.friendlyUniqueId]: attributes,
             },
-          },
+          }
+        : undefined,
       moved: movedBlock
         ? [
             {
@@ -256,7 +264,7 @@ export class TerraformResource
             [this.terraformResourceType]: [this.friendlyUniqueId],
           }
         : undefined,
-      moved: this._moved
+      moved: this._movedByTarget
         ? {
             [this.terraformResourceType]: [this.friendlyUniqueId],
           }
@@ -294,11 +302,8 @@ export class TerraformResource
     );
   }
 
-  private _buildMovedBlock() {
-    if (!this._moved) {
-      return undefined;
-    }
-    const { moveTarget, index } = this._moved;
+  private _buildMovedBlockByTarget(movedTarget: TerraformResourceMoveByTarget) {
+    const { moveTarget, index } = movedTarget;
     const resourceToMoveTo = this._getResourceTarget(moveTarget);
     if (this.terraformResourceType !== resourceToMoveTo.terraformResourceType) {
       throw new Error(
@@ -317,21 +322,38 @@ export class TerraformResource
     return { to, from };
   }
 
+  private _buildMovedBlock() {
+    let movedBlock: { to: string; from: string } | undefined;
+    if (this._movedByTarget && this._movedById) {
+      throw new Error("can't do both"); // TODO: add real error message
+    } else if (this._movedByTarget) {
+      const movedBlockByTarget = this._buildMovedBlockByTarget(
+        this._movedByTarget
+      );
+      movedBlock = { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
+    } else if (this._movedById) {
+      movedBlock = this._movedById;
+    } else {
+      movedBlock = undefined;
+    }
+    return movedBlock;
+  }
+
   /**
    * Moves this resource to the target resource given by moveTarget.
    * @param moveTarget The previously set user defined string set by .addMoveTarget() corresponding to the resource to move to.
    * @param index Optional The index corresponding to the key the resource is to appear in the foreach of a resource to move to
    */
   public moveTo(moveTarget: string, index?: string | number) {
-    if (this._moved) {
+    if (this._movedByTarget) {
       throw new Error(
-        `The resource ${this.friendlyUniqueId} has been given two moveTargets: "${this._moved.moveTarget}" and "${moveTarget}"
+        `The resource ${this.friendlyUniqueId} has been given two moveTargets: "${this._movedByTarget.moveTarget}" and "${moveTarget}"
 
         A resource can only be moved once per plan/apply
         `
       );
     }
-    this._moved = { moveTarget, index };
+    this._movedByTarget = { moveTarget, index };
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
@@ -340,6 +362,32 @@ export class TerraformResource
     );
   }
 
+  public moveToId(id: string) {
+    /**
+     * moving this resource to the resource corresponding to id
+     * this resource must NOT appear in rendered json
+     */
+    this._movedById = {
+      to: id,
+      from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+    };
+    this._hasMoved = true;
+  }
+
+  public moveFromId(id: string) {
+    /**
+     * moving this resource to the resource corresponding to id
+     * this resource must NOT appear in rendered json
+     */
+    this._movedById = {
+      to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+      from: id,
+    };
+  }
+
+  public hasMoved() {
+    this._hasMoved = true;
+  }
   /**
    * Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
    * @param moveTarget The string move target that will correspond to this resource
