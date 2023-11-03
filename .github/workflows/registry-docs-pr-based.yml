@@ -58,7 +58,7 @@ on:
       cdktfRegistryDocsVersion:
         description: "Version of cdktf-registry-docs to use"
         required: false
-        default: "1.16.1"
+        default: "1.16.2"
         type: string
     secrets:
       GH_PR_TOKEN:
