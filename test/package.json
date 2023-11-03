@@ -27,6 +27,6 @@
     "jsii-rosetta": "^5.1.9",
     "strip-ansi": "^6.0.0",
     "ts-jest": "^29.0.5",
-    "typescript": "^5.0.2"
+    "typescript": "^5.2.2"
   }
 }

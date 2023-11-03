@@ -22,7 +22,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "18.11.19",
     "ts-node": "^10.9.1",
-    "typescript": "^5.0.2",
+    "typescript": "^5.2.2",
     "jest": "^27.5.1"
   }
 }
