@@ -225,13 +225,13 @@ export class TerraformResource
 
     const movedBlock = this._buildMovedBlock();
     return {
-      resource: !this._hasMoved
-        ? {
+      resource: this._hasMoved
+        ? undefined
+        : {
             [this.terraformResourceType]: {
               [this.friendlyUniqueId]: attributes,
             },
-          }
-        : undefined,
+          },
       moved: movedBlock
         ? [
             {
@@ -325,14 +325,24 @@ export class TerraformResource
   private _buildMovedBlock() {
     let movedBlock: { to: string; from: string } | undefined;
     if (this._movedByTarget && this._movedById) {
-      throw new Error("can't do both"); // TODO: add real error message
+      throw new Error(`
+      ${this.node.id} has been given two separate moved operations.
+
+      Move target: "${this._movedByTarget.moveTarget}"
+      Move by id: {
+        from: ${this._movedById.from}
+        to: ${this._movedById.to}
+      }
+
+      Only one move operation can occur at a time. Remove one of the operations.
+      `);
     } else if (this._movedByTarget) {
       const movedBlockByTarget = this._buildMovedBlockByTarget(
         this._movedByTarget
       );
       movedBlock = { to: movedBlockByTarget.to, from: movedBlockByTarget.from };
     } else if (this._movedById) {
-      movedBlock = this._movedById;
+      movedBlock = { to: this._movedById.to, from: this._movedById.from };
     } else {
       movedBlock = undefined;
     }
@@ -354,6 +364,7 @@ export class TerraformResource
       );
     }
     this._movedByTarget = { moveTarget, index };
+    this._hasMoved = true;
     this.node.addValidation(
       new ValidateTerraformVersion(
         ">=1.5",
@@ -362,37 +373,59 @@ export class TerraformResource
     );
   }
 
-  public moveToId(id: string) {
-    /**
-     * moving this resource to the resource corresponding to id
-     * this resource must NOT appear in rendered json
-     */
-    this._movedById = {
-      to: id,
-      from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
-    };
-    this._hasMoved = true;
-  }
-
-  public moveFromId(id: string) {
-    /**
-     * moving this resource to the resource corresponding to id
-     * this resource must NOT appear in rendered json
-     */
-    this._movedById = {
-      to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
-      from: id,
-    };
-  }
-
-  public hasMoved() {
-    this._hasMoved = true;
-  }
   /**
    * Adds a user defined moveTarget string to this resource to be later used in .moveTo(moveTarget) to resolve the location of the move.
    * @param moveTarget The string move target that will correspond to this resource
    */
   public addMoveTarget(moveTarget: string) {
     this._addResourceTarget(moveTarget);
+  }
+
+  /**
+   * Moves this resource to the resource corresponding to "id"
+   * @param id Full id of resource to move to
+   */
+  public moveToId(id: string) {
+    this._movedById = {
+      to: id,
+      from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+    };
+    this._hasMoved = true;
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
+  }
+
+  /**
+   * Move the resource corresponding to "id" to this resource. Note that the resource being moved from must be marked as moved using it's instance function.
+   * @param id Full id of resource being moved from
+   */
+  public moveFromId(id: string) {
+    this._movedById = {
+      to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
+      from: id,
+    };
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
+  }
+
+  /**
+   * Marks this resource as moved. Required to be present on a resource being moved from.
+   */
+  public hasMoved() {
+    this._hasMoved = true;
+    this.node.addValidation(
+      new ValidateTerraformVersion(
+        ">=1.5",
+        `Resource move functionality is only supported for Terraform >=1.5. Please upgrade your Terraform version.`
+      )
+    );
   }
 }

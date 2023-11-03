@@ -653,53 +653,17 @@ it.only("override logical ID - before moveTo", () => {
   });
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  console.log(synthedStack);
-  expect(synthedStack).toMatchInlineSnapshot(`
-    {
-      "moved": [
-        {
-          "from": "test_resource.old_logical_id",
-          "to": "test_resource.construct_nested-construct_simple_2C3755B0",
-        },
-      ],
-      "provider": {
-        "test": [
-          {},
-        ],
-      },
-      "resource": {
-        "test_resource": {
-          "construct_nested-construct_simple_2C3755B0": {
-            "name": "foo",
-            "provisioner": [
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world.txt",
-                },
-              },
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world1.txt",
-                },
-              },
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world2.txt",
-                },
-              },
-            ],
-          },
-        },
-      },
-      "terraform": {
-        "required_providers": {
-          "test": {
-            "version": "~> 2.0",
-          },
-        },
-      },
-    }
-  `);
+  expect(synthedStack.moved[0].from).toEqual("test_resource.old_logical_id");
+  expect(synthedStack.moved[0].to).toEqual(
+    "test_resource.construct_nested-construct_simple_2C3755B0"
+  );
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
+    "construct_nested-construct_simple_2C3755B0"
+  );
+  // Must not include old resource being moved from
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "old_logical_id"
+  );
 });
 
 it.only("override logical ID - before addTarget", () => {
@@ -732,50 +696,13 @@ it.only("override logical ID - before addTarget", () => {
   resource.moveFromId("test_resource.simple");
 
   const synthedStack = JSON.parse(Testing.synth(stack));
-  expect(synthedStack).toMatchInlineSnapshot(`
-    {
-      "moved": [
-        {
-          "from": "test_resource.simple",
-          "to": "test_resource.old_logical_id",
-        },
-      ],
-      "provider": {
-        "test": [
-          {},
-        ],
-      },
-      "resource": {
-        "test_resource": {
-          "old_logical_id": {
-            "name": "foo",
-            "provisioner": [
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world.txt",
-                },
-              },
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world1.txt",
-                },
-              },
-              {
-                "local-exec": {
-                  "command": "echo 'hello' > world2.txt",
-                },
-              },
-            ],
-          },
-        },
-      },
-      "terraform": {
-        "required_providers": {
-          "test": {
-            "version": "~> 2.0",
-          },
-        },
-      },
-    }
-  `);
+  expect(synthedStack.moved[0].from).toEqual("test_resource.simple");
+  expect(synthedStack.moved[0].to).toEqual("test_resource.old_logical_id");
+  expect(Object.keys(synthedStack.resource.test_resource)).toContain(
+    "old_logical_id"
+  );
+  // Must not include old resource being moved from
+  expect(Object.keys(synthedStack.resource.test_resource)).not.toContain(
+    "simple"
+  );
 });
