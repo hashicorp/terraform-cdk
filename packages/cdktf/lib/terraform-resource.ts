@@ -386,6 +386,22 @@ export class TerraformResource
    * @param id Full id of resource to move to
    */
   public moveToId(id: string) {
+    if (this._movedById) {
+      throw new Error(`
+      ${this.node.id} has been given two separate moved operations.
+
+      {
+        from: ${this._movedById.from}
+        to: ${this._movedById.to}
+      }
+      {
+        from: ${id}
+        to: ${this.terraformResourceType}.${this.friendlyUniqueId} (Resource calling the move to operation)
+      }
+
+      Only one move operation can occur at a time. Remove one of the operations.
+      `);
+    }
     this._movedById = {
       to: id,
       from: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
@@ -404,6 +420,22 @@ export class TerraformResource
    * @param id Full id of resource being moved from
    */
   public moveFromId(id: string) {
+    if (this._movedById) {
+      throw new Error(`
+      ${this.node.id} has been given two separate moved operations.
+
+      {
+        from: ${this._movedById.from}
+        to: ${this._movedById.to}
+      }
+      {
+        from: ${this.terraformResourceType}.${this.friendlyUniqueId} (Resource calling the move from operation)
+        to: ${id}
+      }
+
+      Only one move operation can occur at a time. Remove one of the operations.
+      `);
+    }
     this._movedById = {
       to: `${this.terraformResourceType}.${this.friendlyUniqueId}`,
       from: id,
