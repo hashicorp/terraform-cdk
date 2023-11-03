@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MPL-2.0
  */
 
-import { Construct } from "constructs";
+import { Construct, IConstruct } from "constructs";
 import { App, TerraformStack, TerraformIterator } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 import { S3Bucket } from "./.gen/providers/aws/s3-bucket";
@@ -231,4 +231,5 @@ new UnNestingMoveStack(app, "un-nesting-move-stack");
 new NestingMoveStack(app, "nesting-move-stack");
 new ListIteratorMoveStack(app, "list-iterator-move-stack");
 new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
+
 app.synth();

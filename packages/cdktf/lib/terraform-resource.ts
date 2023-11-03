@@ -264,11 +264,12 @@ export class TerraformResource
             [this.terraformResourceType]: [this.friendlyUniqueId],
           }
         : undefined,
-      moved: this._movedByTarget
-        ? {
-            [this.terraformResourceType]: [this.friendlyUniqueId],
-          }
-        : undefined,
+      moved:
+        this._movedByTarget || this._movedById
+          ? {
+              [this.terraformResourceType]: [this.friendlyUniqueId],
+            }
+          : undefined,
     };
   }
 
