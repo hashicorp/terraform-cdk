@@ -34,7 +34,7 @@ namespace Examples
             });
 
             ListTerraformIterator iterator = ListTerraformIterator.FromList(list.ListValue);
-            S3Bucket s3Bucket = new S3Bucket(this, "bucket", new S3BucketConfig
+            S3Bucket s3Bucket = new S3Bucket(this, "value-bucket", new S3BucketConfig
             {
                 ForEach = iterator,
                 Bucket = Token.AsString(iterator.Value)
@@ -65,7 +65,7 @@ namespace Examples
                 }
             });
             MapTerraformIterator mapIterator = MapTerraformIterator.FromMap(complexLocal.AsAnyMap);
-            new S3Bucket(this, "bucket", new S3BucketConfig
+            new S3Bucket(this, "tag-bucket", new S3BucketConfig
             {
                 ForEach = mapIterator,
                 Bucket = mapIterator.GetString("name"),
