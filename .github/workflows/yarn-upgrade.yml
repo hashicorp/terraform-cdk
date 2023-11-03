@@ -56,9 +56,6 @@ jobs:
       - name: Run "yarn install"
         run: yarn install --prefer-offline
 
-      - name: Run "yarn upgrade"
-        run: yarn upgrade
-
       # Next, create and upload the changes as a patch file. This will later be downloaded to create a pull request
       # Creating a pull request requires write permissions and it's best to keep write privileges isolated.
       - name: Create Patch
@@ -159,9 +156,6 @@ jobs:
       # This will ensure the current lockfile is up-to-date with the dependency specifications (necessary for "yarn upgrade" to run)
       - name: Run "yarn install"
         run: yarn install --prefer-offline
-
-      - name: Run "yarn upgrade"
-        run: yarn upgrade
 
       - name: Set git identity
         run: |-
