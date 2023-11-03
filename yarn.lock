@@ -2229,6 +2229,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/fs-extra@^8.1.4":
+  version "8.1.4"
+  resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-8.1.4.tgz#8171df1d16a80d69fc9c3aab07d7961349a5cb8b"
+  integrity sha512-OMcQKnlrkrOI0TaZ/MgVDA8LYFl7CykzFsjMj9l5x3un2nFxCY20ZFlnqrM0lcqlbs0Yro2HbnZlmopyRaoJ5w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/glob@*":
   version "8.0.0"
   resolved "https://registry.yarnpkg.com/@types/glob/-/glob-8.0.0.tgz#321607e9cbaec54f687a0792b2d1d370739455d2"
@@ -2456,6 +2463,11 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@types/reserved-words/-/reserved-words-0.1.0.tgz#a9d5318bb4ac4466862b93fc702542b75d2cd3ac"
   integrity sha512-ls6lSkkhEFm8XSVQjHj47pJoCL9sVK91mwIONw0Iwjqkmy98ForMFYa5+/vb6sytTaK0HSwkzKKYzREPTUhhhg==
+
+"@types/reserved-words@^0.1.3":
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/@types/reserved-words/-/reserved-words-0.1.3.tgz#b13a952e0094649d74dd2048310cad377c3644d8"
+  integrity sha512-K3DjwDhQzD/Ab+DoZ3KEltaiFKMQdrMZLzrMnYHWrRHneaN0wB/fCzVmcTaQ6Imzu5Dm6u6I9U0Kt+gOsAX9Bw==
 
 "@types/scheduler@*":
   version "0.16.2"
@@ -8158,6 +8170,17 @@ jsii-srcmak@^0.1.951:
     ncp "^2.0.0"
     yargs "^15.4.1"
 
+jsii-srcmak@^0.1.954:
+  version "0.1.954"
+  resolved "https://registry.yarnpkg.com/jsii-srcmak/-/jsii-srcmak-0.1.954.tgz#05958577b527a4f04a65f55fa23d1a242c3bcffc"
+  integrity sha512-5OP3m/9VWoRZsB1iFasosv5QBVWQTcyWk7Di5yRJd8alWZzrLBMQ7MgQR3JYahBB5FGw4VD/BO76DtwF2smw8A==
+  dependencies:
+    fs-extra "^9.1.0"
+    jsii "~5.2.23"
+    jsii-pacmak "^1.91.0"
+    ncp "^2.0.0"
+    yargs "^15.4.1"
+
 jsii@1.87.0:
   version "1.87.0"
   resolved "https://registry.yarnpkg.com/jsii/-/jsii-1.87.0.tgz#a57c6b286a82ca032bf4d3ff48d92c0161a8666c"
@@ -8215,7 +8238,7 @@ jsii@^5.1.10, jsii@~5.1.10, jsii@~5.1.5:
     typescript "~5.1.6"
     yargs "^17.7.2"
 
-jsii@^5.2.23:
+jsii@^5.2.23, jsii@~5.2.23:
   version "5.2.23"
   resolved "https://registry.yarnpkg.com/jsii/-/jsii-5.2.23.tgz#29e9e08cc38c642e1f915b094c1552b93e9db5e2"
   integrity sha512-OrQU4r4187z93ORCgjtMYKTomygNmIE8zMFqGohBjD4sCLqgzSB70O2KBTas8Hplz5iZULdxP3+6a8P3kr1MnQ==
