@@ -227,8 +227,8 @@ export class MoveFromIDStack extends TerraformStack {
 const app = new App();
 new MoveToIDStack(app, "move-to-id-stack");
 new MoveFromIDStack(app, "move-from-id-stack");
-//new UnNestingMoveStack(app, "un-nesting-move-stack");
-//new NestingMoveStack(app, "nesting-move-stack");
-//new ListIteratorMoveStack(app, "list-iterator-move-stack");
-//new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
+new UnNestingMoveStack(app, "un-nesting-move-stack");
+new NestingMoveStack(app, "nesting-move-stack");
+new ListIteratorMoveStack(app, "list-iterator-move-stack");
+new ComplexIteratorMoveStack(app, "complex-iterator-move-stack");
 app.synth();
