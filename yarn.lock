@@ -2352,6 +2352,13 @@
   dependencies:
     "@types/node" "*"
 
+"@types/follow-redirects@^1.14.3":
+  version "1.14.3"
+  resolved "https://registry.yarnpkg.com/@types/follow-redirects/-/follow-redirects-1.14.3.tgz#1be9803ef23578e05daae9b25cc4119e2c79c6b1"
+  integrity sha512-VN4w0rKWI4DVySabR5/9P65nwcVEAr1taWFyYW3YR7rHYO/bOgG+LHpWfSzthPmCEfmawuXsMd4huQeSoc7jpg==
+  dependencies:
+    "@types/node" "*"
+
 "@types/fs-extra@^11.0.1":
   version "11.0.1"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-11.0.1.tgz#f542ec47810532a8a252127e6e105f487e0a6ea5"
@@ -2634,6 +2641,11 @@
   version "9.0.2"
   resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.2.tgz#ede1d1b1e451548d44919dc226253e32a6952c4b"
   integrity sha512-kNnC1GFBLuhImSnV7w4njQkUiJi0ZXUycu1rUaouPqiKlXkh77JKgdRnTAp1x5eBwcIwbtI+3otwzuIDEuDoxQ==
+
+"@types/uuid@^9.0.6":
+  version "9.0.6"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.6.tgz#c91ae743d8344a54b2b0c691195f5ff5265f6dfb"
+  integrity sha512-BT2Krtx4xaO6iwzwMFUYvWBWkV2pr37zD68Vmp1CDV196MzczBRxuEpD6Pr395HAgebC/co7hOphs53r8V7jew==
 
 "@types/yargs-parser@*":
   version "21.0.0"
