@@ -13,4 +13,8 @@ module.exports = {
     "ts",
     "tsx"
   ],
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true
+  },
 }

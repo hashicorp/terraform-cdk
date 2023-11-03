@@ -12,5 +12,9 @@ module.exports = {
     clearMocks: true,
     coverageProvider: "v8",
     setupFilesAfterEnv: ["./setup.js"],
-  };
+    snapshotFormat: {
+      escapeString: true,
+      printBasicPrototype: true
+    }
+};
   

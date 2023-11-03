@@ -28,7 +28,7 @@
     "@types/jest": "27.5.2",
     "@types/node": "16.18.23",
     "cdktf-cli": "0.0.0",
-    "jest": "^27.5.1",
+    "jest": "^29.7.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.2.2"
   }

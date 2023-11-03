@@ -16,5 +16,9 @@ module.exports = {
     "js",
     "ts"
   ],
+  snapshotFormat: {
+    escapeString: true,
+    printBasicPrototype: true
+  },
   testTimeout: 300000
 }
