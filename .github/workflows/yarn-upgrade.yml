@@ -168,10 +168,10 @@ jobs:
           # Git commit details
           branch: automation/yarn-upgrade-${{ matrix.package }}
           commit-message: |-
-            chore(${{matrix.package}}): npm-check-updates && yarn upgrade
+            chore: Upgrade dependencies for ${{matrix.package}}
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           # Pull Request details
-          title: "chore(${{matrix.package}}): npm-check-updates && yarn upgrade"
+          title: "chore: Upgrade dependencies for ${{matrix.package}}"
           body: |-
             Ran npm-check-updates and yarn upgrade to keep the `yarn.lock` file up-to-date.
           labels: dependencies,auto-approve
