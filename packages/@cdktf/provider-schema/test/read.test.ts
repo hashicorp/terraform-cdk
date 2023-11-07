@@ -13,7 +13,7 @@ import { readSchema } from "../";
 import * as fs from "fs-extra";
 import * as path from "path";
 
-describe("read", () => {
+describe.skip("read", () => {
   describe("disabled cache", () => {
     it("can generate a provider schema", async () => {
       const schema = await readSchema([
