@@ -53,7 +53,7 @@ jobs:
       languages: "typescript,python"
       parallelFileConversions: 1
       maxRunners: 20
-      cdktfRegistryDocsVersion: "1.16.1"
+      cdktfRegistryDocsVersion: "1.17.0"
       additionalProviderFqns: ${{ matrix.provider.additionalProviderFqns }}
 
   reportFailureToSlack:
