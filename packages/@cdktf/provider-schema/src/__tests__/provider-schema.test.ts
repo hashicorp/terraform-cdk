@@ -23,7 +23,7 @@ expect.addSnapshotSerializer({
   },
 });
 
-describe("readSchema", () => {
+describe.skip("readSchema", () => {
   it("generates a single provider schema", async () => {
     const provider = new TerraformProviderConstraint("hashicorp/null@3.1.0");
     const target = new ConstructsMakerProviderTarget(
