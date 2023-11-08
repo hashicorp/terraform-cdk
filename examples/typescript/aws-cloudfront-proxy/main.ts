@@ -7,6 +7,7 @@ import {
   TerraformIterator,
   TerraformVariable,
   Token,
+  ref,
 } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 
@@ -18,6 +19,40 @@ import {
   S3BucketObject as OriginalS3BucketObject,
   S3BucketObjectConfig,
 } from "./.gen/providers/aws/s3-bucket-object";
+
+class ResourceTerraformIterator extends TerraformIterator {
+  constructor(private readonly list: any) {
+    super();
+  }
+
+  /**
+   * Returns the currenty entry in the list or set that is being iterated over.
+   * For lists this is the same as `iterator.value`. If you need the index,
+   * use count using the escape hatch:
+   * https://developer.hashicorp.com/terraform/cdktf/concepts/resources#escape-hatch
+   */
+  public get key(): any {
+    return this._getKey();
+  }
+
+  /**
+   * Returns the value of the current item iterated over.
+   */
+  public get value(): any {
+    return this._getValue();
+  }
+
+  /**
+   * @internal used by TerraformResource to set the for_each expression
+   */
+  public _getForEachExpression(): any {
+    return this.list; // no wrapping as that is not working for resources
+  }
+}
+
+interface Iteratable {
+  iterator: TerraformIterator;
+}
 
 class S3BucketList {
   private subject: S3Bucket;
@@ -36,7 +71,22 @@ class S3BucketList {
   get id() {
     // This only works since we "cheat" the type system beforehand by returning
     // a reference to a list of strings instead of the string that is returned type wise
-    return TerraformIterator.fromList(Token.asList(this.subject.id));
+    return this.iterator.getString("id");
+  }
+
+  // This would live in terraform-element.ts
+  get subjectListFqn() {
+    const elementType = "aws_s3_bucket"; // this.subject._elementType
+    return Token.asList(
+      ref(
+        `${elementType}.${this.subject.friendlyUniqueId}`,
+        TerraformStack.of(this.subject)
+      )
+    );
+  }
+
+  get iterator() {
+    return new ResourceTerraformIterator(this.subjectListFqn);
   }
 }
 class S3Bucket extends OriginalS3Bucket {
@@ -63,12 +113,17 @@ class S3BucketObjectList extends OriginalS3BucketObject {
 
 class S3BucketObject extends OriginalS3BucketObject {
   static forEach(
-    it: TerraformIterator,
+    it: TerraformIterator | Iteratable,
     scope: Construct,
     name: string,
     config: S3BucketObjectConfig
   ): S3BucketObjectList {
-    return new S3BucketObjectList(it, scope, name, config);
+    return new S3BucketObjectList(
+      "iterator" in it ? it.iterator : it,
+      scope,
+      name,
+      config
+    );
   }
 }
 
@@ -93,9 +148,8 @@ class MyStack extends TerraformStack {
       acl: "private",
     });
 
-    const bucketNameReferencesIterator = bucketList.id;
-    S3BucketObject.forEach(bucketNameReferencesIterator, this, "s3_object", {
-      bucket: bucketNameReferencesIterator.value,
+    S3BucketObject.forEach(bucketList, this, "s3_object", {
+      bucket: bucketList.id,
       key: "index.html",
       source: "index.html",
       acl: "private",
