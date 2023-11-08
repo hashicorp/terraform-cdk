@@ -10,13 +10,16 @@ import {
 } from "cdktf";
 import { AwsProvider } from "./.gen/providers/aws/provider";
 
-import { S3Bucket, S3BucketConfig } from "./.gen/providers/aws/s3-bucket";
 import {
-  S3BucketObject,
+  S3Bucket as OriginalS3Bucket,
+  S3BucketConfig,
+} from "./.gen/providers/aws/s3-bucket";
+import {
+  S3BucketObject as OriginalS3BucketObject,
   S3BucketObjectConfig,
 } from "./.gen/providers/aws/s3-bucket-object";
 
-class EnhancedS3BucketList {
+class S3BucketList {
   private subject: S3Bucket;
   constructor(
     it: TerraformIterator,
@@ -24,7 +27,10 @@ class EnhancedS3BucketList {
     name: string,
     config: S3BucketConfig
   ) {
-    this.subject = new S3Bucket(scope, name, { ...config, forEach: it });
+    this.subject = new S3Bucket(scope, name, {
+      ...config,
+      forEach: it,
+    });
   }
 
   get id() {
@@ -33,18 +39,18 @@ class EnhancedS3BucketList {
     return TerraformIterator.fromList(Token.asList(this.subject.id));
   }
 }
-class EnhancedS3Bucket extends S3Bucket {
+class S3Bucket extends OriginalS3Bucket {
   static forEach(
     it: TerraformIterator,
     scope: Construct,
     name: string,
     config: S3BucketConfig
-  ): EnhancedS3BucketList {
-    return new EnhancedS3BucketList(it, scope, name, config);
+  ): S3BucketList {
+    return new S3BucketList(it, scope, name, config);
   }
 }
 
-class EnhancedS3BucketObjectList extends S3BucketObject {
+class S3BucketObjectList extends OriginalS3BucketObject {
   constructor(
     it: TerraformIterator,
     scope: Construct,
@@ -55,14 +61,14 @@ class EnhancedS3BucketObjectList extends S3BucketObject {
   }
 }
 
-class EnhancedS3BucketObject extends S3BucketObject {
+class S3BucketObject extends OriginalS3BucketObject {
   static forEach(
     it: TerraformIterator,
     scope: Construct,
     name: string,
     config: S3BucketObjectConfig
-  ): EnhancedS3BucketObjectList {
-    return new EnhancedS3BucketObjectList(it, scope, name, config);
+  ): S3BucketObjectList {
+    return new S3BucketObjectList(it, scope, name, config);
   }
 }
 
@@ -82,28 +88,18 @@ class MyStack extends TerraformStack {
     const bucketNameIterator = TerraformIterator.fromList(
       bucketNames.listValue
     );
-    const bucketList = EnhancedS3Bucket.forEach(
-      bucketNameIterator,
-      this,
-      "s3_bucket",
-      {
-        bucketPrefix: bucketNameIterator.value,
-        acl: "private",
-      }
-    );
+    const bucketList = S3Bucket.forEach(bucketNameIterator, this, "s3_bucket", {
+      bucketPrefix: bucketNameIterator.value,
+      acl: "private",
+    });
 
     const bucketNameReferencesIterator = bucketList.id;
-    EnhancedS3BucketObject.forEach(
-      bucketNameReferencesIterator,
-      this,
-      "s3_object",
-      {
-        bucket: bucketNameReferencesIterator.value,
-        key: "index.html",
-        source: "index.html",
-        acl: "private",
-      }
-    );
+    S3BucketObject.forEach(bucketNameReferencesIterator, this, "s3_object", {
+      bucket: bucketNameReferencesIterator.value,
+      key: "index.html",
+      source: "index.html",
+      acl: "private",
+    });
   }
 }
 
