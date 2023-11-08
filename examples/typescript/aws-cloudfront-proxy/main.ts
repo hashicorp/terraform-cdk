@@ -90,6 +90,16 @@ class MyStack extends TerraformStack {
     new TerraformOutput(this, "first_bucket", {
       value: s3Buckets[0].id,
     });
+
+    // The problem with this solution is that conditionals are not supported
+    // I am not aware of any way to make them work or even detect them in the first place
+    // They aren't supported right now, but since the proposed solution is quite
+    // ergonomic people could think they are
+    if (s3Buckets.length > 1) {
+      new TerraformOutput(this, "last_bucket", {
+        value: s3Buckets[s3Buckets.length - 1].id,
+      });
+    }
   }
 }
 
